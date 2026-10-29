@@ -115,7 +115,7 @@ def test_unpublished_pair_and_mismatched_open_paper(monkeypatch):
     setup(monkeypatch,conn,None)
     assert C.post('/api/writing/exam',json={'mode':'full','fullTest':'A01'}).status_code==401
 
-def test_private_graph_transport_keeps_auth_owner_lookup_ranges_and_r2(monkeypatch):
+def test_private_graph_transport_keeps_auth_owner_lookup_ranges_and_r2(monkeypatch,tmp_path):
     conn=ExamConn();setup(monkeypatch,conn)
     key=next(iter(source.GRAPHS));data=source.graph_bytes(key);checks=[]
     async def authority(req):return {'user':{'id':UID,'role':'student','account_status':'active'},'expiresAt':2100000000}
@@ -134,9 +134,10 @@ def test_private_graph_transport_keeps_auth_owner_lookup_ranges_and_r2(monkeypat
     async def missing(*args):return 'not_found'
     monkeypatch.setattr(media,'allow_resource',missing);assert C.get(path).status_code==404
     monkeypatch.setattr(media,'allow_resource',allow);monkeypatch.setattr(media,'media_conf',lambda:None)
-    async def head(k):return {'size':5,'contentType':'image/png'}
-    async def read(k,*args):return b'other'
-    monkeypatch.setattr(media,'head_object',head);monkeypatch.setattr(media,'read_object',read)
+    monkeypatch.setenv('STORAGE_PROVIDER','local');monkeypatch.setenv('STORAGE_LOCAL_DIR',str(tmp_path))
+    (tmp_path/'another').mkdir();(tmp_path/'another/original.png').write_bytes(b'other')
+    async def mime(conn,key):return 'image/png'
+    monkeypatch.setattr(media,'stored_mime',mime)
     assert C.get('/api/resources/another/original.png').content==b'other'
     async def no_authority(req):return None
     monkeypatch.setattr(core,'current_authority',no_authority)
