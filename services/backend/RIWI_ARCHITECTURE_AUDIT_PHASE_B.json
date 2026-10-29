@@ -1,0 +1,72 @@
+{
+  "phase": "Phase B \u2014 Current Architecture Audit",
+  "timestamp_utc": "2026-10-29T17:32:00Z",
+  "branch": "feature/riwi-fastapi-integration-20261029",
+  "remote_verified_head": "bf7319a3418e918a84d50fd2c451e32e4b687015",
+  "local_checkpoint_head": "2cf735c6781af8742a9adad9c3f27aceae2f9b2f",
+  "summary_verdict": "HYBRID_GATEWAY_AND_HEURISTIC_BASELINE_ONLY_PRIOR_TO_PHASE_F",
+  "honest_finding": "Prior to Phase F, RIWI consisted of (1) a production-grade FastAPI Gateway, RBAC, Provider Router, Tool Broker, Knowledge Store, Learning/Security Signal governance layer, and 105 contract schemas, plus (2) a purely static, uncalibrated regex/surface-heuristic fallback in step31_riwi_evaluators.py and step32_writing_riwi.py. It did NOT contain a trained/calibrated local statistical or neural language evaluation model, prompt-relevance semantic scorer, General Training Task 1 letter evaluator, or local WAV/PCM acoustic fluency analyzer.",
+  "component_inventory": {
+    "gateway_and_routing": {
+      "files": [
+        "riwi_port.py",
+        "riwi_gateway.py",
+        "riwi_provider_router.py",
+        "riwi_tool_broker.py",
+        "riwi_tools_domain.py"
+      ],
+      "status": "implemented_and_verified",
+      "capabilities": "31 HTTP endpoints, RBAC, bounded concurrency (Semaphore(4)), in-flight request deduplication, SSRF/outbound guard, 6 domain tools."
+    },
+    "knowledge_and_governance": {
+      "files": [
+        "riwi_knowledge.py",
+        "riwi_learning_signals.py",
+        "riwi_security_signals.py",
+        "riwi_assessment_contracts.py",
+        "riwi_portability.py",
+        "riwi_retention.py"
+      ],
+      "status": "implemented_and_verified",
+      "capabilities": "PostgreSQL FTS knowledge retrieval, conflict detection, candidate->approved->active lifecycle, 105 contract definitions, AES-256-GCM portability Modes A/B/C."
+    },
+    "existing_local_writing_evaluator": {
+      "file": "step32_writing_riwi.py",
+      "function": "wval(taskType, prompt, content, targetWordCount)",
+      "audit_classification": "STATIC_SURFACE_HEURISTIC_ONLY",
+      "identified_limitations": [
+        "Ignores the prompt text when scoring Task Achievement / Task Response (cannot detect off-topic essays or copied prompts).",
+        "Uses hardcoded 6.0 starting scores and uncalibrated fixed step adjustments.",
+        "Does not distinguish Academic Task 1 (data/process/map) from General Training Task 1 (formal/semi-formal/informal letters).",
+        "Only checks 28 surface regex patterns from step31_riwi_text.py.",
+        "Confidence formula depends only on word count and sentence count, never flagging off-topic or gibberish text."
+      ]
+    },
+    "existing_local_speaking_evaluator": {
+      "file": "step31_riwi_evaluators.py",
+      "function": "sval(transcript, part, durationMs, promptText, origin, pronunciationAvailable)",
+      "audit_classification": "TRANSCRIPT_SURFACE_HEURISTIC_ONLY",
+      "identified_limitations": [
+        "Operates on transcript text + durationMs only; has no local WAV/PCM acoustic signal analyzer for pause count, silence ratio, or articulation rate.",
+        "Does not evaluate semantic relevance of the transcript to promptText.",
+        "Correctly leaves pronunciation band as None (limited=True), which must be preserved whenever phoneme-level audio evidence is absent."
+      ]
+    },
+    "existing_local_grammar_and_vocab_evaluators": {
+      "files": [
+        "step31_riwi_evaluators.py",
+        "step32_grammar_practice.py",
+        "step31_riwi_text.py"
+      ],
+      "functions": [
+        "gval",
+        "vval",
+        "check_structures"
+      ],
+      "audit_classification": "DETERMINISTIC_PATTERN_AND_STRUCTURE_MATCHER",
+      "identified_limitations": [
+        "Works well for objective structure matching and target-word inflection checks, but covers only 28 grammar/preposition/tense error patterns."
+      ]
+    }
+  }
+}

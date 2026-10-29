@@ -11,1825 +11,3953 @@
       "method": "GET",
       "path": "/api/version",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "version",
+        "start_line": 162,
+        "handler_sha256_16": "4125920a189ab45b"
+      },
+      "nextjs_metadata_provenance_review": "verified_seed_route"
     },
     {
       "method": "POST",
       "path": "/api/locale",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "locale",
+        "start_line": 174,
+        "handler_sha256_16": "3341f8f4b26a2799"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/theme",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "theme",
+        "start_line": 185,
+        "handler_sha256_16": "e0d7435adbd7c33e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/login",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "login",
+        "start_line": 250,
+        "handler_sha256_16": "041d41d8cbe7bc2c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/recovery/login",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "recovery_login",
+        "start_line": 255,
+        "handler_sha256_16": "6231d85b5a022f17"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/register",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "register",
+        "start_line": 278,
+        "handler_sha256_16": "4fec162114eaa6a6"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/logout",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "logout",
+        "start_line": 317,
+        "handler_sha256_16": "c434490f71e0828c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/auth/state",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "auth_state",
+        "start_line": 339,
+        "handler_sha256_16": "0d915c713e7a5f19"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/profile",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "profile_patch",
+        "start_line": 348,
+        "handler_sha256_16": "31b2ad76bf388daa"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admission/request",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "admission_request",
+        "start_line": 364,
+        "handler_sha256_16": "feb5772e3501d3f0"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/notifications",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "get_notifications",
+        "start_line": 384,
+        "handler_sha256_16": "6d5927d35149058e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/notifications",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "post_notifications",
+        "start_line": 408,
+        "handler_sha256_16": "14a3c1d0860e568e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/presence",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "presence",
+        "start_line": 432,
+        "handler_sha256_16": "eef999e54f0a6949"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/profile/photo/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "get_profile_photo",
+        "start_line": 460,
+        "handler_sha256_16": "88218373f8aa8c24"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/profile/photo",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "post_profile_photo",
+        "start_line": 482,
+        "handler_sha256_16": "367e75b47cc608e9"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/profile/photo",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.main",
+        "handler_name": "delete_profile_photo",
+        "start_line": 519,
+        "handler_sha256_16": "004328622ae31b07"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/profile/study",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "study_patch",
+        "start_line": 79,
+        "handler_sha256_16": "5299d20d91d2687e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/summary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_summary",
+        "start_line": 102,
+        "handler_sha256_16": "cfbac487b66828ab"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/due",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_due",
+        "start_line": 153,
+        "handler_sha256_16": "80b6f3ce75360315"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/{id}/contexts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_contexts",
+        "start_line": 185,
+        "handler_sha256_16": "862ec8d89b95734b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/dictionary/recent",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "dictionary_recent_clear",
+        "start_line": 213,
+        "handler_sha256_16": "d5c15431b98f7f06"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/retention/summary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "retention_summary",
+        "start_line": 240,
+        "handler_sha256_16": "110eab586d27b571"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/retention/history",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "retention_history",
+        "start_line": 269,
+        "handler_sha256_16": "24b46e60b3f7e2d3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/search",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_search",
+        "start_line": 319,
+        "handler_sha256_16": "51ed438706c397fc"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/folders",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_folders",
+        "start_line": 348,
+        "handler_sha256_16": "14ee7eebbd2d841c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/vocabulary/folders",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_folders_post",
+        "start_line": 366,
+        "handler_sha256_16": "ed50ec36c7a6d117"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/sentences",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "vocabulary_sentences",
+        "start_line": 401,
+        "handler_sha256_16": "fb94f81ae0b65add"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/auth/telegram/intent/status",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "telegram_intent_status",
+        "start_line": 451,
+        "handler_sha256_16": "b39d45ba14c35dae"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/telegram/intent/cancel",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "telegram_intent_cancel",
+        "start_line": 474,
+        "handler_sha256_16": "a0047e1ff2de3358"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/telegram/intent",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "telegram_intent_create",
+        "start_line": 503,
+        "handler_sha256_16": "d7063e6b5aa9c070"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/reset/request",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "auth_reset_request",
+        "start_line": 537,
+        "handler_sha256_16": "a242e06a1990e1e1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/reset/confirm",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "auth_reset_confirm",
+        "start_line": 565,
+        "handler_sha256_16": "2445a518375effd8"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/items",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "admin_content_items",
+        "start_line": 591,
+        "handler_sha256_16": "c32754a5fdf54581"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/grammar/topics",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "admin_grammar_topics",
+        "start_line": 620,
+        "handler_sha256_16": "3b4ce778ea114fc7"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/reading/passages",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.migration_phase2",
+        "handler_name": "admin_reading_passages",
+        "start_line": 636,
+        "handler_sha256_16": "9184caad7fb550d4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/grammar/topics/{id}/exercises",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.admin_authoring_port",
+        "handler_name": "grammar_exercise",
+        "start_line": 41,
+        "handler_sha256_16": "ebdafe0ff42021d2"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/reading/passages/{id}/questions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.admin_authoring_port",
+        "handler_name": "reading_question",
+        "start_line": 77,
+        "handler_sha256_16": "1781534f1f750a17"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/listening/tests/{id}/questions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.admin_authoring_port",
+        "handler_name": "listening_question",
+        "start_line": 102,
+        "handler_sha256_16": "baab4f8e1c1f69a3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/listening/tests",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.admin_authoring_port",
+        "handler_name": "listening_test_create",
+        "start_line": 132,
+        "handler_sha256_16": "afa48be5e83c5587"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.learner_admin_port",
+        "handler_name": "content_item_versions",
+        "start_line": 18,
+        "handler_sha256_16": "e107a6b022f72007"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/support/reports/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.learner_admin_port",
+        "handler_name": "resolve_problem_report",
+        "start_line": 40,
+        "handler_sha256_16": "a18dfea92e4da771"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/writing/activation/items",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.learner_admin_port",
+        "handler_name": "activation_random",
+        "start_line": 87,
+        "handler_sha256_16": "d389c661f7053d4f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/activation/items",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.learner_admin_port",
+        "handler_name": "activation_resolve",
+        "start_line": 105,
+        "handler_sha256_16": "bde7e7ddf0574d76"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/support/reports",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.support_reports_port",
+        "handler_name": "submit_problem_report",
+        "start_line": 12,
+        "handler_sha256_16": "d7a7ef4591204f25"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/support/reports",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.support_reports_port",
+        "handler_name": "list_problem_reports",
+        "start_line": 41,
+        "handler_sha256_16": "b0307e296d80f0d3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/lessons/{id}/notes",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.lesson_writing_port",
+        "handler_name": "lesson_note_read",
+        "start_line": 47,
+        "handler_sha256_16": "da8fcea5795da926"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/lessons/{id}/notes",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.lesson_writing_port",
+        "handler_name": "lesson_note_save",
+        "start_line": 65,
+        "handler_sha256_16": "fb93b03949c7396d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/writing/patterns/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.lesson_writing_port",
+        "handler_name": "writing_pattern_save",
+        "start_line": 108,
+        "handler_sha256_16": "900c5a5652762b30"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/lessons/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.lesson_writing_port",
+        "handler_name": "writing_lesson_completed",
+        "start_line": 132,
+        "handler_sha256_16": "24893680ef895dd9"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/writing/typing",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.lesson_writing_port",
+        "handler_name": "writing_typing_history",
+        "start_line": 160,
+        "handler_sha256_16": "e8bd9f931dfef07c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/writing/exam/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_exam_read_port",
+        "handler_name": "writing_exam_read",
+        "start_line": 22,
+        "handler_sha256_16": "03a7b368df5f97b4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/prompts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_catalog_port",
+        "handler_name": "speaking_prompts",
+        "start_line": 152,
+        "handler_sha256_16": "4bda246e56ff4002"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/practice/questions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_catalog_port",
+        "handler_name": "speaking_questions",
+        "start_line": 172,
+        "handler_sha256_16": "82a21ec2e759a9ff"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/live-partner/questions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_catalog_port",
+        "handler_name": "live_partner_questions",
+        "start_line": 190,
+        "handler_sha256_16": "8fb969ba61a5adb7"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/practice/facets",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_catalog_port",
+        "handler_name": "speaking_facets",
+        "start_line": 207,
+        "handler_sha256_16": "50c96bf30c18dd46"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/prompts/{id}/support",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_catalog_port",
+        "handler_name": "speaking_prompt_support",
+        "start_line": 279,
+        "handler_sha256_16": "ffaa4abae275d10e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/packs",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.vocabulary_packs_port",
+        "handler_name": "list_vocabulary_packs",
+        "start_line": 21,
+        "handler_sha256_16": "7dda4a82d6988c43"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/exam",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.exam_lifecycle_port",
+        "handler_name": "exam_start",
+        "start_line": 53,
+        "handler_sha256_16": "d9ff58e137a4a4ba"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/writing/exam/{id}/draft",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.exam_lifecycle_port",
+        "handler_name": "exam_draft",
+        "start_line": 120,
+        "handler_sha256_16": "ada1aa718bbaebf3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/exam/{id}/finalize",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.exam_lifecycle_port",
+        "handler_name": "exam_finalize",
+        "start_line": 151,
+        "handler_sha256_16": "4ef068cd756dc873"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/submissions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_submissions_port",
+        "handler_name": "create_submission",
+        "start_line": 9,
+        "handler_sha256_16": "5b1c26a295426e4e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/writing/submissions/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_submissions_port",
+        "handler_name": "update_submission",
+        "start_line": 32,
+        "handler_sha256_16": "c03f6ae882035304"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/owner/ai-control",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.owner_ai_control_port",
+        "handler_name": "owner_get",
+        "start_line": 90,
+        "handler_sha256_16": "d2a3c611993623ad"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/owner/ai-control",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.owner_ai_control_port",
+        "handler_name": "owner_post",
+        "start_line": 96,
+        "handler_sha256_16": "6b135aafaabbcf2d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/auth/google/start",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.auth_google_start_port",
+        "handler_name": "google_start",
+        "start_line": 22,
+        "handler_sha256_16": "3f3ae4104d313691"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/ready",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.internal_bot_ready_port",
+        "handler_name": "telegram_ready",
+        "start_line": 18,
+        "handler_sha256_16": "3a0ddfbcc524b79a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/previews",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.content_capabilities_port",
+        "handler_name": "preview_inventory",
+        "start_line": 46,
+        "handler_sha256_16": "bb2d8a157259b76a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/authoring-capabilities",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.content_capabilities_port",
+        "handler_name": "content_capabilities",
+        "start_line": 55,
+        "handler_sha256_16": "e3a0e45098ff3434"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/updates",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.bot_operations_port",
+        "handler_name": "webhook_update",
+        "start_line": 12,
+        "handler_sha256_16": "c206808acd8329d0"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/contacts/phone",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.bot_operations_port",
+        "handler_name": "bot_contact_phone",
+        "start_line": 28,
+        "handler_sha256_16": "e0bf25e270708e79"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/notifications",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_preferences_port",
+        "handler_name": "get_notifications",
+        "start_line": 46,
+        "handler_sha256_16": "03b598aabac4900d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/internal/telegram/notifications",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_preferences_port",
+        "handler_name": "put_notifications",
+        "start_line": 58,
+        "handler_sha256_16": "42ad310b27fc58b6"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/contacts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_preferences_port",
+        "handler_name": "post_contacts",
+        "start_line": 81,
+        "handler_sha256_16": "d1c753f971fd488b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/owner",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_preferences_port",
+        "handler_name": "get_owner",
+        "start_line": 115,
+        "handler_sha256_16": "182affc72be9b0ab"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/required-channels",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_settings_port",
+        "handler_name": "get_required_channels",
+        "start_line": 58,
+        "handler_sha256_16": "3785b6e3e803285d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/required-channels",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_settings_port",
+        "handler_name": "post_required_channels",
+        "start_line": 71,
+        "handler_sha256_16": "a9c4592da731e666"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/contacts/{telegramUserId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_settings_port",
+        "handler_name": "get_telegram_contact",
+        "start_line": 113,
+        "handler_sha256_16": "522e936a0b476d7c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/notifications",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_notification_queue_port",
+        "handler_name": "queue_notifications",
+        "start_line": 15,
+        "handler_sha256_16": "b97ecc0f6f18d236"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/ops",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_ops_port",
+        "handler_name": "get_ops",
+        "start_line": 23,
+        "handler_sha256_16": "e0d3adeda655197a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/internal/telegram/ops",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_ops_port",
+        "handler_name": "patch_ops",
+        "start_line": 63,
+        "handler_sha256_16": "96a4848c7c8c019e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/admins",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_admins_port",
+        "handler_name": "list_admins",
+        "start_line": 68,
+        "handler_sha256_16": "7b0771e15f4bab0b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/admins",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_admins_port",
+        "handler_name": "add_admin",
+        "start_line": 86,
+        "handler_sha256_16": "fcb1c8ab3658448c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/internal/telegram/admins/{telegramUserId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_admins_port",
+        "handler_name": "patch_admin",
+        "start_line": 123,
+        "handler_sha256_16": "14a5010236416113"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/internal/telegram/admins/{telegramUserId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_admins_port",
+        "handler_name": "delete_admin",
+        "start_line": 135,
+        "handler_sha256_16": "100f9e23ee0dcc58"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/broadcasts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_broadcast_port",
+        "handler_name": "broadcasts",
+        "start_line": 35,
+        "handler_sha256_16": "aed2e5a8a3d53802"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/broadcasts/claim",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_broadcast_port",
+        "handler_name": "claim",
+        "start_line": 78,
+        "handler_sha256_16": "e1d2d7b91e97b8c8"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/broadcasts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_broadcast_port",
+        "handler_name": "status",
+        "start_line": 139,
+        "handler_sha256_16": "75b201f454df1fd0"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/broadcasts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_broadcast_port",
+        "handler_name": "cancel",
+        "start_line": 156,
+        "handler_sha256_16": "40934df1ef62ea91"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/directory",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_directory_port",
+        "handler_name": "search_directory",
+        "start_line": 41,
+        "handler_sha256_16": "431fccc88deaf2ff"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/directory/{userId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_directory_port",
+        "handler_name": "directory_detail",
+        "start_line": 103,
+        "handler_sha256_16": "9c8c8040bf0200e5"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/directory/{userId}/unlink",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_directory_port",
+        "handler_name": "directory_unlink",
+        "start_line": 128,
+        "handler_sha256_16": "ece87745d21bab70"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/directory/{userId}/remove",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_directory_port",
+        "handler_name": "directory_remove",
+        "start_line": 149,
+        "handler_sha256_16": "6be94884293f9488"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/directory/{userId}/message",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_directory_port",
+        "handler_name": "directory_message",
+        "start_line": 172,
+        "handler_sha256_16": "5615df01da085b4f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/directory/{userId}/status",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_directory_port",
+        "handler_name": "directory_status",
+        "start_line": 210,
+        "handler_sha256_16": "0dc097ff07ef2e78"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/support/threads",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_support_drafts_port",
+        "handler_name": "support_list",
+        "start_line": 40,
+        "handler_sha256_16": "18a0de96a2107a91"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/support/threads",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_support_drafts_port",
+        "handler_name": "support_create",
+        "start_line": 68,
+        "handler_sha256_16": "5f9cff99a03e960c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/support/threads/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_support_drafts_port",
+        "handler_name": "support_detail",
+        "start_line": 117,
+        "handler_sha256_16": "4e124ba0084653b1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/support/threads/{id}/messages",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_support_drafts_port",
+        "handler_name": "support_reply",
+        "start_line": 153,
+        "handler_sha256_16": "6d84d87acf04b18a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/support/threads/{id}/actions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_support_drafts_port",
+        "handler_name": "support_action",
+        "start_line": 190,
+        "handler_sha256_16": "3ab5f138ccc668e7"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/drafts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_support_drafts_port",
+        "handler_name": "flow_drafts",
+        "start_line": 232,
+        "handler_sha256_16": "6c677d2a304e4aff"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/teacher/live-classes",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.center_admin_port",
+        "handler_name": "create_live_class",
+        "start_line": 33,
+        "handler_sha256_16": "38171ebcb31c5f49"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/teacher/live-classes/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.center_admin_port",
+        "handler_name": "update_live_class",
+        "start_line": 61,
+        "handler_sha256_16": "ac9b831ec377721d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/roster",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.center_admin_port",
+        "handler_name": "roster",
+        "start_line": 87,
+        "handler_sha256_16": "30a2a8f1b065f64b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/admin/content/{type}/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.center_admin_port",
+        "handler_name": "delete_content",
+        "start_line": 145,
+        "handler_sha256_16": "7cf22aaac82ed689"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/admin/listening/tests/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.center_admin_port",
+        "handler_name": "rename_listening_test",
+        "start_line": 160,
+        "handler_sha256_16": "6286ef53fe990c71"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/admin/listening/tests/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.center_admin_port",
+        "handler_name": "delete_listening_test",
+        "start_line": 179,
+        "handler_sha256_16": "682c9013f02e3d3d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/admission/pending",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_extra_port",
+        "handler_name": "telegram_pending_admissions",
+        "start_line": 17,
+        "handler_sha256_16": "2432b11ba4de94b1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/people/refresh-telegram",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.telegram_extra_port",
+        "handler_name": "refresh_people",
+        "start_line": 48,
+        "handler_sha256_16": "0a8c6259407e0b31"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/admin/users/{id}/role",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.accounts_extra_port",
+        "handler_name": "change_role",
+        "start_line": 19,
+        "handler_sha256_16": "381f94527a02215d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/users/{id}/status",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.accounts_extra_port",
+        "handler_name": "change_account_status",
+        "start_line": 42,
+        "handler_sha256_16": "33e3e246a1cce238"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/onboarding",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.accounts_extra_port",
+        "handler_name": "onboarding",
+        "start_line": 76,
+        "handler_sha256_16": "84be0c3fd7848aca"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/video-lessons/{id}/progress",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.video_progress_port",
+        "handler_name": "get_progress",
+        "start_line": 24,
+        "handler_sha256_16": "8e7a2df95d2c342d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/video-lessons/{id}/progress",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.video_progress_port",
+        "handler_name": "watched_progress",
+        "start_line": 49,
+        "handler_sha256_16": "4a3bb4ac1e480192"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/template",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.content_import_catalog_port",
+        "handler_name": "content_template",
+        "start_line": 23,
+        "handler_sha256_16": "d0270e0e48bb462e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/import",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.content_import_catalog_port",
+        "handler_name": "import_capabilities",
+        "start_line": 42,
+        "handler_sha256_16": "1899edfcedc2aece"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/retention/texts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_admin_port",
+        "handler_name": "list_texts",
+        "start_line": 36,
+        "handler_sha256_16": "b6897543ff25fe9f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/retention/texts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_admin_port",
+        "handler_name": "detail",
+        "start_line": 86,
+        "handler_sha256_16": "250e85ebe135e712"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/admin/retention/texts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_admin_port",
+        "handler_name": "active",
+        "start_line": 115,
+        "handler_sha256_16": "4f9403df073b3564"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/admin/retention/texts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_admin_port",
+        "handler_name": "delete",
+        "start_line": 135,
+        "handler_sha256_16": "bb88d6068134741f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/grammar/import",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.grammar_bundle_import_port",
+        "handler_name": "grammar_import",
+        "start_line": 44,
+        "handler_sha256_16": "761c06ab29461391"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/assignments/assignable",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.assignable_content_port",
+        "handler_name": "assignable",
+        "start_line": 12,
+        "handler_sha256_16": "aec30a1f1fcee392"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/admission/{id}/decide",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.admission_decision_port",
+        "handler_name": "decide",
+        "start_line": 13,
+        "handler_sha256_16": "2084761efd820f90"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/video-lessons/{id}/answers",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.video_answers_join_port",
+        "handler_name": "submit_video_answers",
+        "start_line": 107,
+        "handler_sha256_16": "279769d6295c7876"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/video-lessons/{id}/response",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.video_answers_join_port",
+        "handler_name": "submit_video_response",
+        "start_line": 150,
+        "handler_sha256_16": "599aa50af160e5f3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/live-classes/{id}/join",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.video_answers_join_port",
+        "handler_name": "join_live_class",
+        "start_line": 188,
+        "handler_sha256_16": "4261a323ae52f004"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/ai/script",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_workflow_port",
+        "handler_name": "examiner_script",
+        "start_line": 31,
+        "handler_sha256_16": "f0fe3578136c7779"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/attempts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_workflow_port",
+        "handler_name": "attempts",
+        "start_line": 68,
+        "handler_sha256_16": "6b79365de1519599"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/speaking/attempts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_workflow_port",
+        "handler_name": "attempt_detail",
+        "start_line": 98,
+        "handler_sha256_16": "4a13714fc8fdc2e1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/attempts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.speaking_workflow_port",
+        "handler_name": "start_attempt",
+        "start_line": 121,
+        "handler_sha256_16": "ac8ad93431741125"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/teacher/feedback",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.reading_feedback_port",
+        "handler_name": "teacher_feedback",
+        "start_line": 16,
+        "handler_sha256_16": "8cb330e9ecaaf3c3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/reading/attempts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.reading_feedback_port",
+        "handler_name": "start_reading",
+        "start_line": 62,
+        "handler_sha256_16": "f36ff4f45895157c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/reading/attempts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.reading_feedback_port",
+        "handler_name": "save_reading_draft",
+        "start_line": 95,
+        "handler_sha256_16": "31866d2d706627e2"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/writing-prompts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_admin_content_port",
+        "handler_name": "legacy_prompt",
+        "start_line": 168,
+        "handler_sha256_16": "46b6572491873de1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/writing/{kind}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_admin_content_port",
+        "handler_name": "create_writing",
+        "start_line": 177,
+        "handler_sha256_16": "f22a2d142817f9fe"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/admin/writing/{kind}/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_admin_content_port",
+        "handler_name": "update_writing",
+        "start_line": 187,
+        "handler_sha256_16": "b8acc688ba26bf35"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/grammar/topics/{id}/submit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step15_basic_port",
+        "handler_name": "submit_grammar_topic",
+        "start_line": 24,
+        "handler_sha256_16": "5dddbb74e23505a1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/retention/validate",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_authoring_port",
+        "handler_name": "retention_validate",
+        "start_line": 123,
+        "handler_sha256_16": "1bd1d159f5abe18f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/retention/texts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_authoring_port",
+        "handler_name": "retention_create",
+        "start_line": 135,
+        "handler_sha256_16": "3042627800a5bbac"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/retention/texts/{id}/versions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.retention_authoring_port",
+        "handler_name": "retention_version",
+        "start_line": 160,
+        "handler_sha256_16": "d1707a46f0b96a65"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/translation",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_translation_port",
+        "handler_name": "begin_translation",
+        "start_line": 18,
+        "handler_sha256_16": "daa7b8a9d4fed6d2"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/writing/translation/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_translation_port",
+        "handler_name": "translation_view",
+        "start_line": 77,
+        "handler_sha256_16": "b28fe804d0606e75"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/video-lessons",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_lessons_port",
+        "handler_name": "staff_video_lessons",
+        "start_line": 14,
+        "handler_sha256_16": "2d83ab1cbca90fde"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/lessons/{id}/state",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_lessons_port",
+        "handler_name": "set_lesson_state",
+        "start_line": 34,
+        "handler_sha256_16": "4380d7dda3ac143c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/bank",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_bank_port",
+        "handler_name": "content_bank",
+        "start_line": 77,
+        "handler_sha256_16": "101f34881ef813f9"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/internal/telegram/users/{telegramUserId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_telegram_user_port",
+        "handler_name": "telegram_user",
+        "start_line": 10,
+        "handler_sha256_16": "0bc677ccc0c6b3e9"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/writing/stealing/practice",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_stealing_port",
+        "handler_name": "start_pattern_practice",
+        "start_line": 15,
+        "handler_sha256_16": "50050d52c6fd28b1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/stealing/sessions",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_stealing_port",
+        "handler_name": "start_stealing_session",
+        "start_line": 41,
+        "handler_sha256_16": "ef4249709bd19226"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/lessons/units",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_units_prompts_port",
+        "handler_name": "unit_options",
+        "start_line": 42,
+        "handler_sha256_16": "81148d1145f05681"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/leaderboard",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_leaderboard_port",
+        "handler_name": "vocab_leaderboard",
+        "start_line": 67,
+        "handler_sha256_16": "e91e5c25b994f8c1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step16_vocab_library_port",
+        "handler_name": "vocabulary_library",
+        "start_line": 24,
+        "handler_sha256_16": "6d4ec057e98ac47b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/owner/transfer",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_admin_safe_port",
+        "handler_name": "transfer_owner",
+        "start_line": 14,
+        "handler_sha256_16": "5f983a13d50ecd0f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/auth/changes",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_access_events_port",
+        "handler_name": "changes",
+        "start_line": 14,
+        "handler_sha256_16": "1a2a3ab693f5ce82"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/dictionary/recent",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_dictionary_read_port",
+        "handler_name": "get_recent",
+        "start_line": 122,
+        "handler_sha256_16": "a44c7c27da882faf"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/dictionary/search",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_dictionary_read_port",
+        "handler_name": "dictionary_search",
+        "start_line": 152,
+        "handler_sha256_16": "c55a7562d9bc943d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/dictionary/entries/{lexemeId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_dictionary_read_port",
+        "handler_name": "remember",
+        "start_line": 203,
+        "handler_sha256_16": "116c393a9a042d56"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/stealing/sessions/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_stealing_workflow_port",
+        "handler_name": "advance_session",
+        "start_line": 111,
+        "handler_sha256_16": "ef053f45a8a6b860"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/mcq",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_mcq_port",
+        "handler_name": "start",
+        "start_line": 125,
+        "handler_sha256_16": "1c964241542e42be"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/listening/mcq/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_mcq_port",
+        "handler_name": "get",
+        "start_line": 144,
+        "handler_sha256_16": "64b45a24cd322a5e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/listening/mcq/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_mcq_port",
+        "handler_name": "advance",
+        "start_line": 158,
+        "handler_sha256_16": "5d78cf801751413a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/prompts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_speaking_write_port",
+        "handler_name": "prompt_post",
+        "start_line": 91,
+        "handler_sha256_16": "e00253ca4630c5f9"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/topics",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_speaking_write_port",
+        "handler_name": "topic_post",
+        "start_line": 103,
+        "handler_sha256_16": "ebe88ceb2c323875"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/speaking/topics",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_speaking_write_port",
+        "handler_name": "topic_delete",
+        "start_line": 136,
+        "handler_sha256_16": "cfdb0af23636dd3a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/attempts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_start_port",
+        "handler_name": "start_attempt",
+        "start_line": 34,
+        "handler_sha256_16": "8094009e1ca10cc5"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/full/{id}/start",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_start_port",
+        "handler_name": "start_full",
+        "start_line": 49,
+        "handler_sha256_16": "291914cc9367a821"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/listening/full/{id}/sandbox",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_start_port",
+        "handler_name": "sandbox",
+        "start_line": 64,
+        "handler_sha256_16": "6af6d3d00c6b05bf"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/listening/full/{id}/progress",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_course_port",
+        "handler_name": "progress_get",
+        "start_line": 62,
+        "handler_sha256_16": "d40d513159b35f88"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/full/{id}/progress",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_course_port",
+        "handler_name": "progress_post",
+        "start_line": 77,
+        "handler_sha256_16": "a8af8da3b3ca5492"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/full/{id}/study",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_work_port",
+        "handler_name": "study",
+        "start_line": 42,
+        "handler_sha256_16": "50f242d6ef3eab9b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/full/{id}/practice",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_work_port",
+        "handler_name": "practice",
+        "start_line": 71,
+        "handler_sha256_16": "f934b7ab9d377bfa"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/full/{id}/activity",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step17_listening_work_port",
+        "handler_name": "activity",
+        "start_line": 114,
+        "handler_sha256_16": "4a95f981775f8cd2"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/auth/telegram/callback",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step18_telegram_auth_port",
+        "handler_name": "telegram_callback",
+        "start_line": 33,
+        "handler_sha256_16": "381dbdcf9b1afaff"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/auth/confirm",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step18_telegram_auth_port",
+        "handler_name": "telegram_auth_confirm",
+        "start_line": 56,
+        "handler_sha256_16": "1875fcad9da936c8"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/auth/preflight",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step18_telegram_auth_port",
+        "handler_name": "telegram_auth_preflight",
+        "start_line": 96,
+        "handler_sha256_16": "a289862a5282b19a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/admission/request",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step18_telegram_admission_port",
+        "handler_name": "bot_admission_request",
+        "start_line": 43,
+        "handler_sha256_16": "77397ed76abc2149"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/admission/decide",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step18_telegram_admission_port",
+        "handler_name": "bot_admission_decide",
+        "start_line": 94,
+        "handler_sha256_16": "e5a8704514ac15ce"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/directory/{userId}/delete",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_bot_delete_port",
+        "handler_name": "delete_from_bot",
+        "start_line": 22,
+        "handler_sha256_16": "d3e5353a1e811da6"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/vocabulary/{id}/review",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_vocab_srs_port",
+        "handler_name": "review",
+        "start_line": 22,
+        "handler_sha256_16": "66c32ebd2d9e73c7"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/auth/telegram/intent/exchange",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_telegram_exchange_port",
+        "handler_name": "intent_exchange",
+        "start_line": 32,
+        "handler_sha256_16": "ec3bf63a9007cf77"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/uploads/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_uploads_speaking_port",
+        "handler_name": "abort_upload",
+        "start_line": 11,
+        "handler_sha256_16": "8399b1a3a7c8e8af"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/uploads/cleanup",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_uploads_speaking_port",
+        "handler_name": "cleanup_uploads",
+        "start_line": 27,
+        "handler_sha256_16": "b964960a36174b27"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/speaking/attempts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_uploads_speaking_port",
+        "handler_name": "delete_attempt",
+        "start_line": 49,
+        "handler_sha256_16": "58a02a06caecab87"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/speaking/attempts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_uploads_speaking_port",
+        "handler_name": "attach_attempt",
+        "start_line": 68,
+        "handler_sha256_16": "b5fff572c1fb0eda"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/games",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_vocab_games_port",
+        "handler_name": "get_games",
+        "start_line": 48,
+        "handler_sha256_16": "7df7d5240593e836"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/vocabulary/games",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step19_vocab_games_port",
+        "handler_name": "answer_game",
+        "start_line": 134,
+        "handler_sha256_16": "5c82bd0b1afe47a6"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/lessons/{id}/edit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_lesson_editor_port",
+        "handler_name": "lesson_editor",
+        "start_line": 44,
+        "handler_sha256_16": "6d1c9358f572baea"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/resources/{key:path}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_media_port",
+        "handler_name": "resource_get",
+        "start_line": 230,
+        "handler_sha256_16": "6b7aad6007066e86"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "HEAD",
       "path": "/api/resources/{key:path}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_media_port",
+        "handler_name": "resource_head",
+        "start_line": 232,
+        "handler_sha256_16": "f4b402154ca5e870"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/media/authorize",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_media_port",
+        "handler_name": "authorize",
+        "start_line": 235,
+        "handler_sha256_16": "5fe98b812a54d1eb"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/uploads/finalize",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_upload_finalize_port",
+        "handler_name": "finalize",
+        "start_line": 53,
+        "handler_sha256_16": "60ef6cc21d06fb01"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/retention/attempts/{id}/draft",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_retention_transitions_port",
+        "handler_name": "draft",
+        "start_line": 56,
+        "handler_sha256_16": "7fe5c615ce59abeb"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/retention/attempts/{id}/finish-reading",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step20_retention_transitions_port",
+        "handler_name": "finish_reading",
+        "start_line": 74,
+        "handler_sha256_16": "fdcf7e5d3b661566"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/lessons/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_lesson_reads_port",
+        "handler_name": "read_lesson",
+        "start_line": 52,
+        "handler_sha256_16": "77bf6eb7477c70e1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/lessons/blocks/{blockId}/answer",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_lesson_reads_port",
+        "handler_name": "answer_lesson",
+        "start_line": 94,
+        "handler_sha256_16": "d328ff2bbf98f5db"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/vocabulary/packs",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_packs_port",
+        "handler_name": "add_pack",
+        "start_line": 10,
+        "handler_sha256_16": "d0abd5ce287c2db6"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/vocabulary/packs/{pack_id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_packs_port",
+        "handler_name": "remove_pack",
+        "start_line": 52,
+        "handler_sha256_16": "b33a6cc399e86ef3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/reading/general/progress",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_reading_port",
+        "handler_name": "general_progress",
+        "start_line": 97,
+        "handler_sha256_16": "db471e8fd98350ee"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/reading/attempts/{id}/submit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_reading_port",
+        "handler_name": "reading_submit",
+        "start_line": 131,
+        "handler_sha256_16": "63ec2b3f8cac4e8b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/prompts/vocabulary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_sourced_vocab",
+        "handler_name": "prompt_vocabulary",
+        "start_line": 15,
+        "handler_sha256_16": "d2a4b6437e3bcaf4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/video-lessons/{id}/vocabulary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_sourced_vocab",
+        "handler_name": "video_vocabulary",
+        "start_line": 54,
+        "handler_sha256_16": "bacf30c13c376fbd"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/retention/attempts/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_retention_reads",
+        "handler_name": "retention_attempt_detail",
+        "start_line": 23,
+        "handler_sha256_16": "1c01572ca467be26"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/retention/attempts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_retention_reads",
+        "handler_name": "retention_live",
+        "start_line": 36,
+        "handler_sha256_16": "d8e1c27682cee215"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/materials/{type}/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_safe_reads_port",
+        "handler_name": "get_materials",
+        "start_line": 34,
+        "handler_sha256_16": "52000ae67a814a34"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/assignments",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_safe_reads_port",
+        "handler_name": "get_assignments",
+        "start_line": 49,
+        "handler_sha256_16": "26bda794b4845608"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/reading/academic",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_academic_start_port",
+        "handler_name": "start",
+        "start_line": 35,
+        "handler_sha256_16": "521d226af52945fa"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/meaning",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_meaning_access",
+        "handler_name": "meaning",
+        "start_line": 67,
+        "handler_sha256_16": "1a66dffe875a2810"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/dictionary/entries/{lexemeId}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_dictionary_entry_save",
+        "handler_name": "dictionary_entry",
+        "start_line": 14,
+        "handler_sha256_16": "31e91ce6b9257533"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/dictionary/save",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_dictionary_entry_save",
+        "handler_name": "save_sense",
+        "start_line": 35,
+        "handler_sha256_16": "b54b3dbf962c50fe"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/history",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_history_port",
+        "handler_name": "history",
+        "start_line": 83,
+        "handler_sha256_16": "1668ecddf3687a44"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/assignments",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_assignments_create",
+        "handler_name": "assignments_create",
+        "start_line": 32,
+        "handler_sha256_16": "ccade68c4d456de5"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/vocabulary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_vocabulary_create",
+        "handler_name": "create_vocabulary",
+        "start_line": 97,
+        "handler_sha256_16": "341e117cb0c73612"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/vocabulary/{entry_id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_vocabulary_create",
+        "handler_name": "edit_saved_vocabulary",
+        "start_line": 166,
+        "handler_sha256_16": "e18afe2dd7ae29ad"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/vocabulary",
       "status": "ported_verified",
-      "origin": "post_step40_main_additive"
+      "origin": "post_step40_main_additive",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_vocabulary_create",
+        "handler_name": "remove_saved_vocabulary",
+        "start_line": 203,
+        "handler_sha256_16": "f016ae5defaf1a9b"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/listening/full/{id}/authored",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_listening_authored_reads",
+        "handler_name": "authored",
+        "start_line": 56,
+        "handler_sha256_16": "21e0e2da8c6074ed"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/listening/full/{id}/authored-state",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step21_listening_authored_reads",
+        "handler_name": "authored_state",
+        "start_line": 117,
+        "handler_sha256_16": "2eec33e0eb3d5cc4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/listening/attempts/{id}/draft",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_study_writes",
+        "handler_name": "save_listening_draft",
+        "start_line": 12,
+        "handler_sha256_16": "8fe4542bcf242759"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/materials/{type}/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_resources_port",
+        "handler_name": "put_materials",
+        "start_line": 46,
+        "handler_sha256_16": "bf6d1c277d3b11c1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/listening/attempts/{id}/submit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_listening_submit",
+        "handler_name": "submit",
+        "start_line": 41,
+        "handler_sha256_16": "61d42cf6d2490327"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/uploads/intent",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_upload_port",
+        "handler_name": "upload_intent",
+        "start_line": 55,
+        "handler_sha256_16": "673d98da4045c40c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/uploads",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_upload_port",
+        "handler_name": "upload_bytes",
+        "start_line": 100,
+        "handler_sha256_16": "23732133ddf68310"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/speaking/materials/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_speaking_deletion",
+        "handler_name": "remove_speaking_material",
+        "start_line": 10,
+        "handler_sha256_16": "027fc392d9931c39"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/speaking/materials/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step22_speaking_patch",
+        "handler_name": "patch_material",
+        "start_line": 59,
+        "handler_sha256_16": "62cc44578d308445"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/vocabulary/lookup",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_vocab_lookup",
+        "handler_name": "lookup",
+        "start_line": 18,
+        "handler_sha256_16": "0ddc8f3b38829fdb"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/content/versions/{id}/preview",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_version_preview",
+        "handler_name": "preview",
+        "start_line": 133,
+        "handler_sha256_16": "1f99483b2bf869b3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/typing/prepare",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_typing",
+        "handler_name": "prepare",
+        "start_line": 75,
+        "handler_sha256_16": "547379b2696ba3aa"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/typing/start",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_typing",
+        "handler_name": "start",
+        "start_line": 95,
+        "handler_sha256_16": "c4fc1119b7d9f0c4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/typing/pause",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_typing",
+        "handler_name": "pause",
+        "start_line": 137,
+        "handler_sha256_16": "1c9806d3d33c5146"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/typing/resume",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_typing",
+        "handler_name": "resume",
+        "start_line": 139,
+        "handler_sha256_16": "1e7fbe7a7c454731"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/typing/finish",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_typing",
+        "handler_name": "finish",
+        "start_line": 294,
+        "handler_sha256_16": "8c2e27f806386576"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/typing",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_typing_legacy",
+        "handler_name": "submit_legacy",
+        "start_line": 32,
+        "handler_sha256_16": "f7dc0a4e06e98269"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/grade",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_grade",
+        "handler_name": "new_grade",
+        "start_line": 75,
+        "handler_sha256_16": "b3afb70f9e2c5b7a"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/grade/{id}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_grade",
+        "handler_name": "retry_grade",
+        "start_line": 106,
+        "handler_sha256_16": "dea901b53042e90b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/translation/{id}/answer",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_translation_answer",
+        "handler_name": "submit",
+        "start_line": 22,
+        "handler_sha256_16": "62ed7e6136fc40cc"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/stealing/practice",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_stealing_practice",
+        "handler_name": "post",
+        "start_line": 39,
+        "handler_sha256_16": "5a95ddc7123dad26"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/activation/check",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step23_activation_check",
+        "handler_name": "check_activation",
+        "start_line": 69,
+        "handler_sha256_16": "84e0827142dbce62"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/live-partner",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step24_live_partner",
+        "handler_name": "get_partner",
+        "start_line": 224,
+        "handler_sha256_16": "43764e7e8d8a1065"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/live-partner",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step24_live_partner",
+        "handler_name": "post_partner",
+        "start_line": 235,
+        "handler_sha256_16": "401f3553ffe4a05e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/auth/google/callback",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step25_google_callback",
+        "handler_name": "callback",
+        "start_line": 66,
+        "handler_sha256_16": "b5ddc1fed51bbc27"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/materials",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step25_speaking_material_create",
+        "handler_name": "create",
+        "start_line": 24,
+        "handler_sha256_16": "c3a97dd1972af40f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/owner/handover",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step26_owner_handover",
+        "handler_name": "handover",
+        "start_line": 36,
+        "handler_sha256_16": "471a00bb4313efc5"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/internal/telegram/owner/transfer",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step26_owner_transfer",
+        "handler_name": "owner_transfer_callback",
+        "start_line": 18,
+        "handler_sha256_16": "701451c89e061266"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/admin/listening/tests/{id}/convert",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step26_listening_convert",
+        "handler_name": "get_converter",
+        "start_line": 41,
+        "handler_sha256_16": "95c24c450969bf1f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/owner/dictionary/{action:path}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step26_dictionary_owner_read",
+        "handler_name": "dictionary_owner_read",
+        "start_line": 78,
+        "handler_sha256_16": "907758851be6c975"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "DELETE",
       "path": "/api/owner/dictionary/{action:path}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step26_dictionary_discard",
+        "handler_name": "discard_dictionary_draft",
+        "start_line": 15,
+        "handler_sha256_16": "3ab0baf20f2c8d0e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PATCH",
       "path": "/api/owner/dictionary/{action:path}",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step27_dictionary_edit",
+        "handler_name": "edit_dictionary_draft",
+        "start_line": 73,
+        "handler_sha256_16": "ee7868b033d8939d"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/listening/full/{id}/authored-state",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step27_listening_authored_write",
+        "handler_name": "authored_write",
+        "start_line": 113,
+        "handler_sha256_16": "77bd28a613a2c217"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/content/versions/{id}/publication",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step31_version_publication",
+        "handler_name": "version_publication",
+        "start_line": 167,
+        "handler_sha256_16": "ad4cb9efab28efdc"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/content/{type}/{id}/publication",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step27_publication",
+        "handler_name": "publication",
+        "start_line": 126,
+        "handler_sha256_16": "60fb943171ca58e4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/owner/retention",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step27_retention_policy",
+        "handler_name": "retention_policy",
+        "start_line": 201,
+        "handler_sha256_16": "148c7f6fa24fbcb3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/search",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step28_search",
+        "handler_name": "global_search",
+        "start_line": 210,
+        "handler_sha256_16": "f168b8da3210fda1"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/content/lessons/{id}/revision",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step29_lesson_revision",
+        "handler_name": "revise",
+        "start_line": 128,
+        "handler_sha256_16": "a381fb21f214d09c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/video-lessons",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step30_admin_video_lessons",
+        "handler_name": "admin_video_create",
+        "start_line": 139,
+        "handler_sha256_16": "59593a3f565adddb"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/grammar/exercises/{id}/produce",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step31_learning_production",
+        "handler_name": "grammar_produce",
+        "start_line": 56,
+        "handler_sha256_16": "2719d2a385a1cebf"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/attempts/{id}/transcript",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step31_learning_production",
+        "handler_name": "speaking_transcript",
+        "start_line": 95,
+        "handler_sha256_16": "07ba879c6c69c686"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/vocabulary/{id}/use",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step31_learning_production",
+        "handler_name": "vocab_use",
+        "start_line": 156,
+        "handler_sha256_16": "e94ba965fc35f3e8"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/grammar/exercises/{id}/practice",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step32_grammar_practice",
+        "handler_name": "grammar_practice",
+        "start_line": 34,
+        "handler_sha256_16": "d1c24a626d7ab95c"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/submissions/{id}/submit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step32_writing_submit",
+        "handler_name": "writing_submit",
+        "start_line": 12,
+        "handler_sha256_16": "90204ffb55bc8b91"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/speaking/attempts/{id}/submit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step32_speaking_submit",
+        "handler_name": "speaking_submit",
+        "start_line": 42,
+        "handler_sha256_16": "a24d2d17d0446deb"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/assignments/{id}/evaluate",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step33_assignment",
+        "handler_name": "assignment_evaluate",
+        "start_line": 57,
+        "handler_sha256_16": "39a4ab79cd00cef3"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/reading/import",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step34_reading_import",
+        "handler_name": "reading_import",
+        "start_line": 173,
+        "handler_sha256_16": "9d20c378ab263867"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/retention/attempts",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step35_retention_attempts",
+        "handler_name": "start",
+        "start_line": 66,
+        "handler_sha256_16": "0c7bcc81292ccbd8"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/retention/attempts/{id}/submit",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step35_retention_attempts",
+        "handler_name": "submit",
+        "start_line": 105,
+        "handler_sha256_16": "020d7da3a16d0ea0"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/owner/student-export",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step36_student_export",
+        "handler_name": "student_export",
+        "start_line": 117,
+        "handler_sha256_16": "014216ff0e580f91"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/reports",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step37_reports",
+        "handler_name": "reports",
+        "start_line": 137,
+        "handler_sha256_16": "9646bc7b61ac4597"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/content/validate",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step38_content_validate",
+        "handler_name": "content_validate",
+        "start_line": 84,
+        "handler_sha256_16": "3dc64083b73d707e"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/listening/tests/{id}/convert",
       "status": "ported_code_parity_unverified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step39_listening_conversion",
+        "handler_name": "convert_listening",
+        "start_line": 95,
+        "handler_sha256_16": "b5176696b2fb0dc4"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/content/import",
       "status": "ported_code_parity_unverified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step39_content_import",
+        "handler_name": "generic_import",
+        "start_line": 277,
+        "handler_sha256_16": "97a2573015e94334"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/listening/import",
       "status": "ported_code_parity_unverified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step39_content_import",
+        "handler_name": "listening_import",
+        "start_line": 368,
+        "handler_sha256_16": "5686d8967566a23b"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/owner/dictionary/{action:path}",
       "status": "ported_code_parity_unverified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step39_dictionary_publish",
+        "handler_name": "dictionary_post",
+        "start_line": 341,
+        "handler_sha256_16": "a8e655380c80714f"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/admin/content/drafts",
       "status": "ported_code_parity_unverified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.step40_content_drafts",
+        "handler_name": "content_drafts",
+        "start_line": 406,
+        "handler_sha256_16": "b3e07f86db9d8e98"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "GET",
       "path": "/api/writing/stealing/sessions/{id}/study",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_study_port",
+        "handler_name": "study_get",
+        "start_line": 34,
+        "handler_sha256_16": "19aa38f1cf5709bc"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "PUT",
       "path": "/api/writing/stealing/sessions/{id}/study",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_study_port",
+        "handler_name": "study_put",
+        "start_line": 47,
+        "handler_sha256_16": "93074b827637bcf5"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/stealing/sessions/{id}/patterns",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_study_port",
+        "handler_name": "personal_create",
+        "start_line": 70,
+        "handler_sha256_16": "642ab5307a27e3a0"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/writing/stealing/patterns/{id}/vocabulary",
       "status": "ported_verified",
-      "origin": "historical_step40_port"
+      "origin": "historical_step40_port",
+      "fastapi_provenance": {
+        "fastapi_module": "app.writing_study_port",
+        "handler_name": "pattern_vocabulary",
+        "start_line": 95,
+        "handler_sha256_16": "591cb526afab3bad"
+      },
+      "nextjs_metadata_provenance_review": "preserved_pending_owner_verification"
     },
     {
       "method": "POST",
       "path": "/api/riwi/chat",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_chat",
+        "start_line": 394,
+        "handler_sha256_16": "920519d33a9d2647"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/conversations/{conversation_id}",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_conversation",
+        "start_line": 409,
+        "handler_sha256_16": "cb8cbb5e65689983"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "DELETE",
       "path": "/api/riwi/conversations/{conversation_id}",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_delete_riwi_conversation",
+        "start_line": 423,
+        "handler_sha256_16": "cf521f36ea174ec8"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/targets",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_targets",
+        "start_line": 437,
+        "handler_sha256_16": "6fa216e694f6119b"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/presence",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_presence",
+        "start_line": 453,
+        "handler_sha256_16": "beb7c7bfe2a18081"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/feedback",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_feedback",
+        "start_line": 467,
+        "handler_sha256_16": "dbb5fa3c6a51339c"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/objective-explanation",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_objective_explanation",
+        "start_line": 484,
+        "handler_sha256_16": "def870e19aaf2a2f"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/learning-signals",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_learning_signals",
+        "start_line": 501,
+        "handler_sha256_16": "d0d5f3f539273cc5"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/learning-signals",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_learning_signal",
+        "start_line": 516,
+        "handler_sha256_16": "2bed8d6b183a0290"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/learning-signals/{signal_id}",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_learning_signal_detail",
+        "start_line": 533,
+        "handler_sha256_16": "ae003459aeb08fa9"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/learning-signals/{signal_id}/review",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_learning_signal_review",
+        "start_line": 550,
+        "handler_sha256_16": "166d0b37103de30f"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/learning-signals/{signal_id}/knowledge",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_learning_signal_knowledge",
+        "start_line": 567,
+        "handler_sha256_16": "8b7c1c18d95f1bbe"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/audit",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_audit",
+        "start_line": 581,
+        "handler_sha256_16": "ab4151e82a73d816"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/diagnostics",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_diagnostics",
+        "start_line": 597,
+        "handler_sha256_16": "820ac61aa94114b9"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/knowledge",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_knowledge",
+        "start_line": 611,
+        "handler_sha256_16": "469b737b7cbc894c"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/knowledge",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_knowledge",
+        "start_line": 626,
+        "handler_sha256_16": "ac2f09e4b393ab6f"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/knowledge/conflicts",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_knowledge_conflicts",
+        "start_line": 643,
+        "handler_sha256_16": "552c67e1733acc70"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/knowledge/{source_id}",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_knowledge_detail",
+        "start_line": 658,
+        "handler_sha256_16": "53c6fd4593e0fe6c"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/knowledge/{source_id}/approve",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_knowledge_approve",
+        "start_line": 675,
+        "handler_sha256_16": "edc4369de2e7c7b3"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/knowledge/{source_id}/reject",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_knowledge_reject",
+        "start_line": 689,
+        "handler_sha256_16": "ebf569760ca577d1"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/knowledge/{source_id}/promote",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_knowledge_promote",
+        "start_line": 704,
+        "handler_sha256_16": "0cb1cc77cf6f67c0"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/provider-lab",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_provider_lab",
+        "start_line": 721,
+        "handler_sha256_16": "7e049a7add661d4f"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/provider-lab",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_provider_lab",
+        "start_line": 736,
+        "handler_sha256_16": "42dbe79d66be14ae"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/security-signals",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_security_signals",
+        "start_line": 753,
+        "handler_sha256_16": "22463cc2e0c8edde"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/security-signals/{signal_id}/review",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_security_signal_review",
+        "start_line": 767,
+        "handler_sha256_16": "9ece3874d21ef27d"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "GET",
       "path": "/api/riwi/owner/assessment-policies",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_get_riwi_owner_assessment_policies",
+        "start_line": 784,
+        "handler_sha256_16": "dfd812a94ee48ac4"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/assessment-policies/preview",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_assessment_policy_preview",
+        "start_line": 799,
+        "handler_sha256_16": "3b144f626fd6b5b5"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/assessment-policies",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_assessment_policy_create",
+        "start_line": 816,
+        "handler_sha256_16": "d7b7b7f630eecb07"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/assessment-policies/{version_id}/approve",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_assessment_policy_approve",
+        "start_line": 833,
+        "handler_sha256_16": "6e84c1b9b0d10b14"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/assessment-policies/{version_id}/reject",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_assessment_policy_reject",
+        "start_line": 852,
+        "handler_sha256_16": "ffb163bc4f1d2ad3"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     },
     {
       "method": "POST",
       "path": "/api/riwi/owner/assessment-policies/{version_id}/rollback",
       "status": "ported_verified",
-      "origin": "riwi_phase5_gateway"
+      "origin": "riwi_phase5_gateway",
+      "fastapi_provenance": {
+        "fastapi_module": "app.riwi_port",
+        "handler_name": "_http_post_riwi_owner_assessment_policy_rollback",
+        "start_line": 870,
+        "handler_sha256_16": "b9904a3873b5d036"
+      },
+      "nextjs_metadata_provenance_review": "native_fastapi_additive_route"
     }
   ],
   "historical_endpoints": [
@@ -3659,5 +5787,12 @@
       "status": "ported_verified",
       "origin": "riwi_phase5_gateway"
     }
-  ]
+  ],
+  "provenance_audit": {
+    "status": "in_review_not_marked_resolved",
+    "historical_endpoints_total": 272,
+    "preserved_metadata_differences_pending_review": 271,
+    "fastapi_handler_provenance_extracted": 304,
+    "note": "271 historical Next.js endpoint metadata differences are preserved for provenance review and explicitly not marked resolved without verification against the original Next.js source tree."
+  }
 }

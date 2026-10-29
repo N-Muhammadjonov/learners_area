@@ -1,0 +1,52 @@
+{
+  "phase": "Phase C \u2014 Independent Evaluation Feasibility & Hardware Check",
+  "timestamp_utc": "2026-10-29T17:32:00Z",
+  "measured_hardware": {
+    "platform": "Linux-4.19.0-gvisor-x86_64-with-glibc2.36",
+    "architecture": "x86_64",
+    "cpu_cores": 2,
+    "gpu_available": false,
+    "vram_gib": 0.0,
+    "ram_total": "5242880 kB",
+    "ram_available": "4470764 kB",
+    "installed_runtimes": {
+      "python": "3.11.2",
+      "numpy": "1.24.2",
+      "scipy": "1.15.2",
+      "onnxruntime": "1.31.0",
+      "onnxruntime_providers": [
+        "AzureExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "wave_pcm_audio": "builtin",
+      "sqlite3": "builtin",
+      "pytorch_transformers_llama_cpp_whisper": null
+    },
+    "benchmark_100k_feature_inferences_ms": 15.393
+  },
+  "capability_matrix": {
+    "ALREADY_IMPLEMENTED": [
+      "FastAPI RIWI Gateway (31 endpoints), RBAC, Tool Broker, Provider Router (Semaphore(4) + in-flight deduplication)",
+      "PostgreSQL / FTS Knowledge Store, Conflict Detector, and Versioned Approval Workflow",
+      "105 Assessment Contract Definitions & Owner Presentation Overlay Allowlists",
+      "Portability Modes A/B/C (AES-256-GCM + HMAC-SHA256) and Retention Policies",
+      "Objective Reading, Listening, and Grammar structure-matching evaluators"
+    ],
+    "IMPLEMENTABLE_ON_AVAILABLE_INFRASTRUCTURE": [
+      "Deterministic Evaluation Engine for all objective Reading (TFNG, YNNG, MCQ, Matching, Completion, Short Answer), Listening, Grammar, and Vocabulary item types",
+      "Local Calibrated Multi-Criterion Language Evaluation Model (36-feature linguistic/discourse/CEFR/prompt-alignment extractor + 85-pattern morphosyntactic & collocation error detector + Ridge/ONNX multi-output regressor + isotonic/linear band calibrator executing on CPU via NumPy/SciPy and ONNX Runtime in <2ms per submission)",
+      "Academic Task 1 vs General Training Task 1 (formal/semi-formal/informal letter) & Task 2 rubric-specific evaluation with explicit Uncertainty/Abstention gating (flagging off-topic, prompt-copied, gibberish, or under-length submissions)",
+      "Local WAV/PCM Acoustic & Fluency Speech Signal Analyzer (RMS energy, VAD speech/silence segmentation, pause count, long-pause rate, articulation rate vs speaking rate)",
+      "Owner Basebook Ingestion & Traceable Requirement Mapping Framework",
+      "Automatic 1,200-Case Stratified Assessment Dataset Generator (TRAINING / CALIBRATION / VALIDATION / FINAL_HOLDOUT)",
+      "Mode A External-AI Comparison Learning & Calibration Pipeline with Holdout Non-Regression Gate"
+    ],
+    "REQUIRES_ADDITIONAL_INFRASTRUCTURE": [
+      "Local 7B\u201314B Open-Weight LLM Inference (e.g., Qwen2.5-7B-Instruct / Llama-3.1-8B via vLLM or llama.cpp): requires 16+ GiB RAM/VRAM GPU (NVIDIA L4/T4/A10G) or 8+ vCPU host with pre-mounted model weights",
+      "Local Neural Speech-to-Text (Faster-Whisper) and Acoustic Phoneme Forced Alignment (Wav2Vec2 GOP for IELTS Pronunciation scoring): requires pre-mounted ASR/acoustic ONNX/CTranslate2 weights (~1.5 GB) and 4+ vCPU or GPU worker"
+    ],
+    "NOT_CURRENTLY_FEASIBLE": [
+      "Unrestricted open-ended generative paraphrase rewriting or certified phoneme-level IELTS Pronunciation band scoring on the current 2-vCPU / 5-GiB offline container without pre-mounted neural LLM/ASR weights (must return pronunciation=None, limited=True and flag low-confidence edge cases honestly)"
+    ]
+  }
+}
