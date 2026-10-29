@@ -1,10 +1,47 @@
 # Task 12: platform recovery package
 
-**Source and isolated recovery: verified. Production backup activation: pending.**
-Do not begin Task 13 until a real production recovery set has been created,
-verified and stored separately from the application. The owner confirmed that no
-separate full database/media backup currently exists. This package does not turn
-that missing backup into a PASS merely by documenting it.
+**Task 12 automated acceptance: PASS. One-off encrypted production set verified on
+the owner's Mac, separate from the application. Scheduled backups are not active.**
+The owner approved the temporary read-only two-bucket token and encrypted backup.
+The token was revoked and verified absent after copying; its local credentials
+were removed. The separate encryption key and authenticated archive catalog remain
+private on the owner's Mac. They must be retained together through a controlled
+recovery procedure, with the key protected separately from archive storage.
+
+## Accepted production set
+
+- Actual `public`/`drizzle` custom dump: **59,517,738 encrypted bytes**, ciphertext
+  SHA-256 `052c07c1653faf30365eea0e868fe7a3227ab15c7f2831b557652731539ff0cb`.
+  Verified TLS and an explicit serializable READ ONLY snapshot were used.
+- Restored offline into a temporary network-isolated PostgreSQL container with
+  no host ports or persistent data volumes: **141 tables / 378,153 rows / 468
+  constraints / 141 RLS tables**. Table ACL/RLS and all seven public functions'
+  ACL/security flags match the source fingerprints. Restore plus row counting
+  took 60.246 seconds; this is not a full-service recovery-time promise.
+- R2: **8,116 media objects / 1,305,326,365 bytes** plus **5 Dictionary objects /
+  28,824,814 bytes**, across 17 authenticated shards. Every object was hashed after
+  decryption. A final source inventory found zero missing/changed/extra objects.
+- The database reference scan covered 49 candidate tables / 338,412 rows / 718
+  references. It found 194 distinct R2 objects and one old local-upload audio
+  reference belonging to an inactive Listening item. R2 did not contain that
+  object. Two local originals match the database-recorded filename and 16,450,918
+  byte size and have identical SHA-256. One was archived as an explicitly separate
+  local-original supplement and its local extraction/content hash verified.
+  The historical server checksum was not recorded; the owner retains manual audio
+  identity acceptance. Production data/R2 was not changed to conceal this gap.
+- The accepted catalog covers 38 payload/manifest archives plus its own encrypted
+  catalog. Referenced backup objects total 195; no unresolved reference remains
+  after including the documented local-original supplement. The plaintext
+  production restore was removed with its temporary container.
+- A temporary-CLI export path stopped with `PQgetCopyData() failed` / `SSL
+  connection has been closed unexpectedly`. Failed/unfinished exports were not
+  accepted. The verified existing service connection completed the accepted
+  export. Temporary/operational connections and stale partials were cleaned up;
+  source database configuration was unchanged.
+
+No daily scheduler, off-device key-vault copy, whole Supabase-cluster restore or
+production recovery was performed. Those are distinct from this verified one-off
+application recovery set. RPO is not promised until a scheduled policy is active.
 
 ## Current receipts
 
@@ -25,7 +62,7 @@ that missing backup into a PASS merely by documenting it.
   constraints**, RLS flags and the AI function ACL matched after encrypted custom
   dump and restore. **151 checks passed**. This is a full application schema drill,
   not a copy or certification of the current production dataset.
-- Thirteen targeted tests pass: production/nonempty restore rejection, interrupted
+- Fourteen targeted tests pass: production/nonempty restore rejection, interrupted
   export, corruption/wrong-key rejection, key isolation, tar traversal and CLI
   secret redaction, exact flat-key preservation, interrupted-stream retries and
   disjoint shard coverage. After reconciling current main's retired Writing
@@ -47,8 +84,15 @@ arguments, Git, screenshots or chat.
 The tool streams custom `pg_dump` output directly into AES-256-GCM encryption.
 Only a complete, authenticated archive is published; existing archives are never
 overwritten. The key must be a private 32-byte file outside the backup directory.
-Read-only DB sessions, exact source host, verified TLS/CA for remote sources,
-connection/statement/overall deadlines and one backup connection are enforced.
+Explicit READ ONLY serializable snapshots, exact source host, verified TLS/CA for remote sources,
+connection/lock/overall deadlines and one backup connection are enforced.
+The default overall dump deadline is 900 seconds. For a reviewed slow one-off
+export, `--overall-timeout` can raise it to at most 3,600 seconds; the 300-second
+statement timeout is requested at connection startup, but native pg_dump resets
+statement/transaction timeouts internally. It must not be reported as an enforced
+per-query bound during dump. The external deadline, 10-second lock/connect limits,
+verified TLS, read-only startup, size ceiling and atomic publication remain.
+See the [PostgreSQL implementation](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/bin/pg_dump/pg_dump.c).
 R2 objects are streamed into an encrypted tar, using `If-Match` against the listed
 ETag so changed/missing files fail the export. Object paths and MIME metadata stay
 inside the encrypted archive. No cloud-delete or pruning command is implemented.
@@ -125,7 +169,7 @@ of objects created/deleted during the copy. A successful DB dump alone does not
 certify media consistency. Test credentials must never contact real Telegram,
 email or paid AI services.
 
-## Proposed activation, not yet enabled
+## Proposed recurring activation, not yet enabled
 
 Start with an initial verified encrypted recovery set, then one off-peak daily
 run and seven retained daily sets. This targets an RPO of at most 24 hours **only
@@ -161,13 +205,13 @@ backup destination only.
    Check public SHA and private access before allowing normal traffic. Manual
    learner/device acceptance remains with the owner.
 
-Railway currently marks the Task 11 deployment
-`f3a19285-3cd6-4747-9219-f438e222dad7` / SHA
-`3ab3808e45ba70188bc6feea384601a8a2a5c1ff` as rollback/redeploy capable. Record fresh
+Railway marks the Task 12 follow-up deployment
+`e3509bad-c02d-4f6a-b8df-73aa4b2d1f0f` / SHA
+`7cab6ad233ab5557f0323ba2c4de943ef1bbd4ec` as rollback/redeploy capable. Record fresh
 IDs immediately before an incident: provider image-retention limits apply.
 Railway rollback restores image **and custom variables**, so verify both; it does
 not restore PostgreSQL or R2. The next source-only operations release can fall
-back to Task 11 without removing its security fixes.
+back to that release, retaining its security and owner-authored UI changes.
 
 For migrations, prefer a reviewed forward repair and retain additive schema when
 rolling back compatible application code. Do not drop 0071/0072 while runtime or

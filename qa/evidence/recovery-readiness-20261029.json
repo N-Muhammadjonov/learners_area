@@ -3,8 +3,8 @@
   "name": "Failure recovery and backup readiness",
   "source_status": "PASS",
   "isolated_recovery": "PASS",
-  "production_backup_status": "APPROVED ONE-OFF EXPORT IN PROGRESS",
-  "status": "PENDING_PRODUCTION_SET",
+  "production_backup_status": "ONE-OFF ENCRYPTED SET VERIFIED ON OWNER MAC",
+  "status": "PASS",
   "baseline_commit": "3ab3808e45ba70188bc6feea384601a8a2a5c1ff",
   "database_drill": {
     "result": "passed",
@@ -49,7 +49,7 @@
     ],
     "temporary_keys_archives_removed_on_exit": true
   },
-  "targeted_tests": 13,
+  "targeted_tests": 14,
   "runtime_tests_reused": null,
   "production_backup_inventory": {
     "backups": null,
@@ -77,15 +77,9 @@
   "next_stage": {
     "task": 13,
     "started": false,
-    "reason": "requires accepted Tasks 1-12; production recovery set not yet created"
+    "reason": "Task 12 automated acceptance complete; proceed after source follow-up release"
   },
-  "activation_requires": [
-    "secure read-only production DB backup connection and CA",
-    "source R2 read-only credentials",
-    "owner-controlled encryption-key recovery storage",
-    "separate archive destination with approved storage/compute policy",
-    "first accepted consistent DB/media/dictionary set and monitoring"
-  ],
+  "activation_requires": [],
   "created_at": "2026-10-29T14:47:11.138038+00:00",
   "static_checks": {
     "compile": "PASS",
@@ -120,7 +114,133 @@
     "source_buckets": 2,
     "read_only": true,
     "expiry_utc": "2026-10-30T15:17:48Z",
-    "revocation": "required after source reads complete; pending"
+    "revocation": "verified revoked; private credentials removed"
   },
-  "updated_at": "2026-10-29T17:38:33.899893+00:00"
+  "updated_at": "2026-10-29T18:22:29.742151+00:00",
+  "actual_production_set": {
+    "database": {
+      "state": "passed",
+      "result": "passed",
+      "pid": 75478,
+      "project_ref": "tuoeabrrnsiuxpjmslxp",
+      "tls_verify_full": true,
+      "explicit_read_only_serializable_snapshot": true,
+      "scope": "actual production public/drizzle",
+      "at": "2026-10-29T18:09:45.487214+00:00",
+      "kind": "postgres-custom",
+      "sha256": "052c07c1653faf30365eea0e868fe7a3227ab15c7f2831b557652731539ff0cb",
+      "encrypted_bytes": 59517738,
+      "schemas": [
+        "public",
+        "drizzle"
+      ],
+      "overall_timeout_seconds": 3600,
+      "source_host_sha256": "06eb5f60fd044994f216e734cc4afacbd51759f7560f0d54b6c0aca0719dc51f"
+    },
+    "restore": {
+      "state": "passed",
+      "result": "passed",
+      "pid": 75575,
+      "actual_production_archive": true,
+      "network": "none",
+      "host_ports": 0,
+      "persistent_data_volumes": 0,
+      "public_tables": 141,
+      "public_rows": 378153,
+      "rls_tables": 141,
+      "constraints": 468,
+      "authenticated_archive": true,
+      "archive_sha256": "052c07c1653faf30365eea0e868fe7a3227ab15c7f2831b557652731539ff0cb",
+      "restore_and_count_seconds": 60.246,
+      "at": "2026-10-29T18:10:49.876073+00:00"
+    },
+    "reconciliation": {
+      "state": "passed",
+      "result": "passed",
+      "schema_security": {
+        "public_tables": 141,
+        "table_security_md5": "bdc84dba8c7b19286400b3b4f931107f",
+        "public_functions": 7,
+        "function_security_md5": "c8fbfbb706b8f50cf94a7d6d76d00da1",
+        "constraints": 468
+      },
+      "source_security_matches": true,
+      "reference_candidate_tables": 49,
+      "rows_scanned": 338412,
+      "references_checked": 718,
+      "distinct_referenced_objects_found": 195,
+      "distinct_missing_references": 0,
+      "pending_or_aborted_uploads_excluded": 3,
+      "encrypted_detail_sha256": "5f476eec4c6d66cd82b2b97f996b077d70f69ace00c763dd3acf2a0e2d566706",
+      "at": "2026-10-29T18:11:28.747050+00:00",
+      "initial_missing_current_R2_references": 1,
+      "resolved_by_local_original_supplement": 1,
+      "evidence_limit": "Original filename and size match DB; two local copies match each other. Historical server checksum absent; owner handles manual audio identity check. Current production R2 absence is preserved, not silently repaired.",
+      "local_supplement": {
+        "state": "passed",
+        "kind": "local original media supplement",
+        "objects": 1,
+        "bytes": 16450918,
+        "archive": "local-original-media-supplement-20261029.labak",
+        "sha256": "1cd51ef69dc39416951d2aef99a1bb1d2b67b9100a0fefe508a920a7bf1cacd2",
+        "manifest_sha256": "07353e60e1448c5e30d455abab34d7815009f901d3374c206960eb55e3f8f328",
+        "local_extract_and_content_hash_verified": true,
+        "recorded_original_name_and_size_match": true,
+        "identical_source_copies": 2,
+        "historical_server_checksum_available": false,
+        "source_listening_item_active": false,
+        "production_R2_file_missing_preexisting": true,
+        "production_upload_or_data_change": false,
+        "at": "2026-10-29T18:18:41.566030+00:00"
+      }
+    },
+    "R2": {
+      "state": "passed",
+      "result": "passed",
+      "buckets": [
+        {
+          "bucket": "learners-area-dictionary",
+          "shards": 1,
+          "archived_objects": 5,
+          "archived_bytes": 28824814,
+          "current_objects": 5,
+          "missing_current_objects": 0,
+          "changed_current_objects": 0,
+          "archived_not_current": 0,
+          "all_shards_authenticated_and_checksums_verified": true
+        },
+        {
+          "bucket": "learners-area",
+          "shards": 16,
+          "archived_objects": 8116,
+          "archived_bytes": 1305326365,
+          "current_objects": 8116,
+          "missing_current_objects": 0,
+          "changed_current_objects": 0,
+          "archived_not_current": 0,
+          "all_shards_authenticated_and_checksums_verified": true
+        }
+      ],
+      "at": "2026-10-29T17:54:58.942537+00:00"
+    },
+    "temporary_key": {
+      "revoked": true,
+      "id": "679f6e01f72d34d6c023b8b51c729f53",
+      "api_delete_status": 200,
+      "verified_absent_in_account_token_list": true,
+      "local_credentials_removed": true,
+      "at": "2026-10-29T17:57:23.735143+00:00"
+    },
+    "payload_archives": 38,
+    "encrypted_catalog": true,
+    "plain_production_clone_removed": true
+  },
+  "remaining_operational_actions": [
+    "owner protects a separate recovery-key copy",
+    "scheduled backup/retention destination and monitoring not activated; no RPO promise",
+    "manual identity check for the documented inactive Listening local-original supplement belongs to owner",
+    "full Supabase cluster/Auth/vault/global role secrets are outside public/drizzle scope"
+  ],
+  "permanent_production_configuration_changes": 0,
+  "temporary_access_tokens_created_and_revoked": 1
 }
