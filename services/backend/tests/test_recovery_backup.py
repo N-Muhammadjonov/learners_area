@@ -98,3 +98,48 @@ def test_legal_flat_r2_keys_preserved_without_filesystem_traversal(files,tmp_pat
     assert {r['key'] for r in metadata}==set(contents)
     assert all((target/r['file']).read_bytes()==contents[r['key']] for r in metadata)
     assert not (tmp_path/'legacy.bin').exists()
+
+
+@pytest.mark.parametrize('permanent',[False,True])
+def test_interrupted_stream_retries_exact_object_without_partial_publish(files,monkeypatch,permanent):
+    from botocore.exceptions import ResponseStreamingError
+    key,archive=files;attempts=[];bodies=[]
+    class Body(io.BytesIO):
+        def read(self,n=-1):
+            if permanent or len(attempts)==1:raise ResponseStreamingError(error=ConnectionResetError())
+            return super().read(n)
+    class Client:
+        def get_paginator(self,name):return self
+        def paginate(self,**kwargs):yield {'Contents':[{'Key':'fixed/key','Size':5,'ETag':'exact-etag'}]}
+        def get_object(self,**kwargs):
+            attempts.append(kwargs);body=Body(b'hello');bodies.append(body)
+            return {'Body':body,'ContentLength':5}
+    monkeypatch.setattr(recovery,'media_client',lambda endpoint:Client())
+    monkeypatch.setattr(recovery.time,'sleep',lambda seconds:None)
+    if permanent:
+        with pytest.raises(ResponseStreamingError):recovery.backup_media('unused','fixture','fixture',archive,key,apply=True)
+        assert not archive.exists() and list(archive.parent.iterdir())==[]
+    else:
+        result=recovery.backup_media('unused','fixture','fixture',archive,key,apply=True)
+        assert result['objects']==1
+        with recovery.authenticated_plaintext(archive,key) as plain:
+            with tarfile.open(fileobj=plain,mode='r|') as tar:
+                info=next(iter(tar));assert tar.extractfile(info).read()==b'hello'
+    assert len(attempts)==(3 if permanent else 2)
+    assert all(x['Key']=='fixed/key' and x['IfMatch']=='exact-etag' for x in attempts)
+    assert all(x.closed for x in bodies)
+
+
+def test_shards_are_disjoint_and_cover_all_legal_keys(files,monkeypatch):
+    key,archive=files;seen=[];keys=['a/','a//b','../c']+[str(i) for i in range(30)]
+    class Client:
+        def get_paginator(self,name):return self
+        def paginate(self,**kwargs):yield {'Contents':[{'Key':k,'Size':1,'ETag':k} for k in keys]}
+        def get_object(self,**kwargs):
+            seen.append(kwargs['Key']);return {'Body':io.BytesIO(b'x'),'ContentLength':1}
+    monkeypatch.setattr(recovery,'media_client',lambda endpoint:Client())
+    for index in range(4):
+        result=recovery.backup_media('unused','fixture','fixture',archive.with_name(str(index)+'.labak'),key,apply=True,shard_count=4,shard_index=index)
+        assert result['inventory_objects']==len(keys)
+    assert sorted(seen)==sorted(keys)
+    with pytest.raises(ValueError):recovery.backup_media('unused','fixture','fixture',archive,key,shard_count=4,shard_index=4)

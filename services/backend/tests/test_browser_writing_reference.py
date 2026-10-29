@@ -45,7 +45,8 @@ def test_exam_resume_uses_owned_server_deadline_and_ignores_expired_papers(monke
             if 'count(*)' in sql:
                 return [{'task_type': 'task1', 'n': 2}, {'task_type': 'task2', 'n': 3}]
             if 'FROM writing_prompts p' in sql:
-                assert len(args[0]) == 110
+                # Bundled Real Exam catalogue was retired; persisted owned papers still resume.
+                assert args == ([],)
                 return []
             assert args == ('authorised-user',)
             return [{'id': 'expired', 'mode': 'task1', 'started_at': now, 'expires_at': now-timedelta(seconds=1), 'finalized_at': None, 'finalize_reason': None},

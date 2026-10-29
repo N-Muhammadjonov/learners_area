@@ -21,6 +21,7 @@ import subprocess
 import tarfile
 import tempfile
 import threading
+import time
 from urllib.parse import urlsplit, unquote
 
 import asyncpg
@@ -183,8 +184,9 @@ def media_client(endpoint):
         config=Config(connect_timeout=5,read_timeout=30,retries={'max_attempts':2,'mode':'standard'}))
 
 
-def backup_media(endpoint,bucket,expected_bucket,path,key_file,*,apply=False,max_objects=10000,prefix=''):
+def backup_media(endpoint,bucket,expected_bucket,path,key_file,*,apply=False,max_objects=10000,prefix='',shard_count=1,shard_index=0):
     if bucket!=expected_bucket:raise ValueError('media bucket identity mismatch')
+    if not 1<=shard_count<=64 or not 0<=shard_index<shard_count:raise ValueError('invalid media shard')
     client=media_client(endpoint);objects=[]
     for page in client.get_paginator('list_objects_v2').paginate(Bucket=bucket,**({'Prefix':prefix} if prefix else {})):
         for row in page.get('Contents',[]):
@@ -193,27 +195,40 @@ def backup_media(endpoint,bucket,expected_bucket,path,key_file,*,apply=False,max
                 raise ValueError('invalid object key; export stopped')
             objects.append(row)
             if len(objects)>max_objects:raise ValueError('object ceiling exceeded; review the inventory before increasing it')
-    report={'kind':'r2-encrypted-tar','objects':len(objects),'source_bytes':sum(r['Size'] for r in objects),'applied':apply,'scope':'prefix' if prefix else 'whole bucket'}
+    inventory_count=len(objects)
+    # Stable, disjoint shards allow an interrupted large export to retain completed
+    # authenticated archives. Each shard still inventories the entire source scope.
+    objects=[r for r in objects if int.from_bytes(hashlib.sha256(r['Key'].encode()).digest(),'big')%shard_count==shard_index]
+    report={'kind':'r2-encrypted-tar','objects':len(objects),'source_bytes':sum(r['Size'] for r in objects),'applied':apply,'scope':'prefix' if prefix else 'whole bucket',
+            'inventory_objects':inventory_count,'shard_count':shard_count,'shard_index':shard_index}
     if not apply:return report
     parent=Path(path).resolve().parent;parent.mkdir(parents=True,exist_ok=True)
     reserve=sum(sorted((r['Size'] for r in objects),reverse=True)[:4])+512*1024**2
     if shutil.disk_usage(parent).free<report['source_bytes']+reserve:
         raise ValueError('insufficient free space for the archive and bounded temporary downloads')
     def download(row):
-        result=client.get_object(Bucket=bucket,Key=row['Key'],IfMatch=row['ETag'])
-        body=result['Body'];plain=tempfile.TemporaryFile(dir=parent)
-        try:
-            if result['ContentLength']!=row['Size']:raise ValueError('object changed during export')
-            size=0
-            while part:=body.read(CHUNK):
-                size+=len(part)
-                if size>row['Size']:raise ValueError('object exceeded its declared size')
-                plain.write(part)
-            if size!=row['Size']:raise ValueError('object truncated during export')
-            plain.seek(0);return plain,result.get('ContentType','application/octet-stream')
-        except BaseException:
-            plain.close();raise
-        finally:body.close()
+        from botocore.exceptions import ResponseStreamingError, ReadTimeoutError, IncompleteReadError
+        # SDK request retries do not cover a response that disconnects while read.
+        # Retry the whole object only, retaining the original If-Match on every try.
+        for attempt in range(3):
+            result=client.get_object(Bucket=bucket,Key=row['Key'],IfMatch=row['ETag'])
+            body=result['Body'];plain=tempfile.TemporaryFile(dir=parent)
+            try:
+                if result['ContentLength']!=row['Size']:raise ValueError('object changed during export')
+                size=0
+                while part:=body.read(CHUNK):
+                    size+=len(part)
+                    if size>row['Size']:raise ValueError('object exceeded its declared size')
+                    plain.write(part)
+                if size!=row['Size']:raise ValueError('object truncated during export')
+                plain.seek(0);return plain,result.get('ContentType','application/octet-stream')
+            except (ResponseStreamingError,ReadTimeoutError,IncompleteReadError):
+                plain.close()
+                if attempt==2:raise
+                time.sleep(2**attempt)
+            except BaseException:
+                plain.close();raise
+            finally:body.close()
     with encrypted_output(path,key_file) as out:
         with tarfile.open(mode='w|',fileobj=out) as archive:
             executor=ThreadPoolExecutor(max_workers=4);pending=deque();rows=iter(objects)
@@ -283,6 +298,7 @@ def main():
     backup=sub.add_parser('backup-db');backup.add_argument('--expected-host',required=True);backup.add_argument('--pg-dump',default='pg_dump')
     restore=sub.add_parser('restore-db');restore.add_argument('--sha256',required=True);restore.add_argument('--pg-restore',default='pg_restore')
     media=sub.add_parser('backup-media');media.add_argument('--bucket',required=True);media.add_argument('--expected-bucket',required=True);media.add_argument('--apply',action='store_true');media.add_argument('--max-objects',type=int,default=10000);media.add_argument('--prefix',default='')
+    media.add_argument('--shard-count',type=int,default=1);media.add_argument('--shard-index',type=int,default=0)
     extract=sub.add_parser('extract-media');extract.add_argument('--target',required=True);extract.add_argument('--sha256',required=True)
     for p in (backup,restore,media,extract):p.add_argument('--archive',required=True);p.add_argument('--key-file',required=True)
     args=parser.parse_args()
@@ -293,7 +309,7 @@ def main():
     elif args.action=='backup-db':report=backup_db(os.environ['BACKUP_DATABASE_URL'],args.expected_host,args.archive,args.key_file,args.pg_dump)
     elif args.action=='restore-db':report=restore_db(os.environ['RESTORE_DATABASE_URL'],args.archive,args.key_file,args.sha256,args.pg_restore)
     elif args.action=='extract-media':report=extract_media(args.archive,args.key_file,args.target,args.sha256)
-    else:report=backup_media(os.environ['BACKUP_R2_ENDPOINT'],args.bucket,args.expected_bucket,args.archive,args.key_file,apply=args.apply,max_objects=args.max_objects,prefix=args.prefix)
+    else:report=backup_media(os.environ['BACKUP_R2_ENDPOINT'],args.bucket,args.expected_bucket,args.archive,args.key_file,apply=args.apply,max_objects=args.max_objects,prefix=args.prefix,shard_count=args.shard_count,shard_index=args.shard_index)
     print(json.dumps(report))
 
 
