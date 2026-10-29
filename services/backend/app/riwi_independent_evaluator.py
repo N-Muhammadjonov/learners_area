@@ -913,6 +913,10 @@ class RiwiHybridLocalEvaluator:
         ]
         overall = _round_half_band((fc_band + lr_band + gra_band) / 3.0)
         conf = 0.40 + 0.25 * min(1.0, wc / float(min_words)) + (0.10 if acoustic["acousticAvailable"] else 0.0)
+        if not strengths:
+            strengths.append("Submitted a complete spoken response under structured practice conditions.")
+        if not weaknesses:
+            weaknesses.append("No major fluency or grammatical error patterns triggered; focus on expanding idiomatic range.")
         if not actions:
             actions.append("Record another take focusing on linking clauses with 'First of all' and 'On the other hand'.")
 

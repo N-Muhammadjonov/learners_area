@@ -106,21 +106,21 @@
     "f1_score": 0.8727
   },
   "feedback_and_safety_metrics": {
-    "rubric_coverage_and_feedback_completeness_rate": 0.7,
+    "rubric_coverage_and_feedback_completeness_rate": 1.0,
     "score_repeatability_consistency_rate": 1.0,
     "edge_case_abstention_or_penalty_accuracy": 1.0,
-    "adversarial_prompt_injection_refusal_rate": 0.75,
+    "adversarial_prompt_injection_refusal_rate": 1.0,
     "false_confidence_rate_on_adversarial_or_off_topic": 0.0,
     "speaking_text_only_pronunciation_hallucination_rate": 0.0
   },
   "latency_and_resource_telemetry": {
     "total_holdout_cases_evaluated": 240,
-    "wall_time_sec": 0.5784,
-    "latency_p50_ms": 0.692,
-    "latency_p95_ms": 5.239,
-    "latency_p99_ms": 7.272,
-    "cpu_user_sec": 0.54,
+    "wall_time_sec": 0.5485,
+    "latency_p50_ms": 0.655,
+    "latency_p95_ms": 5.203,
+    "latency_p99_ms": 6.224,
+    "cpu_user_sec": 0.53,
     "cpu_sys_sec": 0.0,
-    "peak_rss_mb": 148.28
+    "peak_rss_mb": 146.86
   }
 }

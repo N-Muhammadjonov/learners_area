@@ -55,7 +55,7 @@ SECRET_EXTRACTION_RE: Final[re.Pattern[str]] = re.compile(
 
 ROLE_SPOOF_RE: Final[re.Pattern[str]] = re.compile(
     r"(?:\b(?:i\s+am\s+(?:the\s+)?owner|act\s+as\s+owner|grant\s+me\s+owner|elevate\s+my\s+role|switch\s+role\s+to\s+owner)\b|"
-    r"\b(?:sudo\s+owner|role\s*[:=]\s*['\"]?owner)\b)",
+    r"\b(?:sudo\s+owner|you\s+are\s+now\s+owner|system\s+override|role\s*[:=]\s*['\"]?owner)\b)",
     re.IGNORECASE,
 )
 
