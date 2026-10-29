@@ -6,7 +6,7 @@
   "repository": "N-Muhammadjonov/learners_area",
   "branch": "arena/api-performance-20261029",
   "baseline": "e6d617fc1146f4f48f7e553e771a78f39229f1c5",
-  "integrated_main": "f92a597bff72e20417b35a9eaa8cf1344f250df5",
+  "integrated_main": "d3099fc365402e91481a3507232220335dced6a8",
   "schema_changes": [],
   "production_variable_changes": [],
   "implementation": {
@@ -360,13 +360,18 @@
       "files": 497,
       "routes": 122,
       "nodeRequired": false,
-      "revision": "bcbfead7a841c1863fe2",
-      "inputBytes": 15938838,
-      "transferBytes": 12936480,
+      "revision": "ec125d1762d61cc24fcc",
+      "inputBytes": 15944561,
+      "transferBytes": 12936697,
       "minifiedFiles": 175
     },
     "backend_check": "PASS",
-    "diff_check": "PASS"
+    "diff_check": "PASS",
+    "latest_upstream_css_checks": {
+      "passed": 61,
+      "failed": 0,
+      "scope": "Six affected theme/contrast/layout unit test files after the CSS-only d3099fc merge."
+    }
   },
   "manual_checks": "Delegated to the owner per explicit instruction; no additional browser/manual acceptance performed.",
   "limitations": [
