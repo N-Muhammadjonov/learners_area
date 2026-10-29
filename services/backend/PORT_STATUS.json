@@ -1,7 +1,7 @@
 {
   "total_route_files": 221,
-  "total_methods": 271,
-  "ported_methods": 271,
+  "total_methods": 272,
+  "ported_methods": 272,
   "unported_methods": 0,
   "endpoints": [
     {
@@ -1629,6 +1629,12 @@
       "path": "/api/internal/telegram/auth/preflight",
       "source": "services/backend/app/step18_telegram_auth_port.py",
       "status": "ported_native"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/vocabulary",
+      "source": "services/backend/app/step21_vocabulary_create.py",
+      "status": "ported_code_no_db_integration_test"
     }
   ]
 }

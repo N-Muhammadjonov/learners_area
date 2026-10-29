@@ -13,6 +13,7 @@ for(const part of ['part1','part2','part3'])test(`${part}: each support tab requ
  globalThis.DOMParser=window.DOMParser;
  try{
   h.stub({'/api/speaking/practice/questions':{prompts:[{id,part,promptText:'Describe a place.'}]},
+   '/api/vocabulary/folders':{folders:[]},
    ['/api/speaking/prompts/'+id+'/support']:{promptId:id,support:{vocabulary:[{term:'free time',definitionEn:'free time',translationUz:'bo‘sh vaqt'}],modelAnswerHtml:'<p>Source answer</p>',ideasHtml:'<p>Source ideas</p>'}},
    '/api/speaking/prompts/vocabulary':{ok:true,added:1,duplicates:0,ids:[ID(402)],folder:{id:ID(403),name:'Describe a place.'}}});
   mount(h.ctx);await tick(6);t.mock.timers.enable({apis:['setTimeout']});
@@ -25,6 +26,7 @@ for(const part of ['part1','part2','part3'])test(`${part}: each support tab requ
   assert(h.q('[role=tabpanel]').textContent.includes('Source answer'));
   h.click(h.q('[data-practice-support-tab=vocabulary]'));assert.equal(h.q('[data-practice-reveal]'),null);
   h.click(h.q('[data-practice-save=all]'));await flush();
+  h.click(h.q('[data-practice-save-confirm]'));await flush();
   const save=h.calls.find(c=>c.method==='POST');assert.deepEqual(save.body,{promptId:id,indices:[0]});
   assert(h.q('[role=tabpanel]').textContent.includes('Describe a place.'));
  }finally{t.mock.timers.reset();h.dispose();globalThis.DOMParser=parser;}
