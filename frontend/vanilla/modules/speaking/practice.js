@@ -110,9 +110,9 @@ export function mount(context){
   const support=state.support,t=study;
   const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':''});
   const tabs=el('div',{role:'tablist','aria-label':t.supportLabel,class:'flex flex-wrap gap-2'}),content=el('div',{role:'tabpanel',class:'space-y-4'});
-  let tab='vocabulary';const revealed=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
+  let tab='vocabulary';const revealed=new Set(),activated=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
   supportSignal.addEventListener('abort',()=>renderController?.abort(),{once:true});
-  function show(){renderController?.abort();if(signal.aborted||supportSignal.aborted)return;renderController=new window.AbortController();const events=renderController.signal;tabs.replaceChildren();for(const [name,label] of [['vocabulary',t.vocabulary],['modelAnswer',t.modelAnswer],['ideas',t.ideas]])tabs.append(button(label,()=>{tab=name;show();},{class:tab===name?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'data-practice-support-tab':name}));
+  function show(){renderController?.abort();if(signal.aborted||supportSignal.aborted)return;renderController=new window.AbortController();const events=renderController.signal;tabs.replaceChildren();for(const [name,label] of [['vocabulary',t.vocabulary],['modelAnswer',t.modelAnswer],['ideas',t.ideas]])tabs.append(button(label,()=>{tab=name;activated.add(name);show();},{class:tab===name&&(activated.has(name)||revealed.has(name))?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'data-practice-support-tab':name}));
    content.replaceChildren();
    if(!revealed.has(tab)){const trigger=button('',()=>{}, {class:'situation-reveal rounded-3xl border-2 border-accent-500 bg-paper p-8 text-center text-xl font-semibold select-none','data-practice-reveal':tab});
     trigger.append(el('span',{class:'block text-sm uppercase tracking-widest'},t.answerFirst),el('span',{class:'mt-3 block'},t.hold));
