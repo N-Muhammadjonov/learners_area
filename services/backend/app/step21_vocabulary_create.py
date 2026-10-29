@@ -171,7 +171,7 @@ async def edit_saved_vocabulary(req:Request,entry_id:str):
     entry=core.uuid_value(entry_id)
     body=await core.payload(req)
     limits={'term':120,'definitionEn':500,'translationUz':500,'exampleSentence':500}
-    if (not entry or not isinstance(body,dict) or not body or set(body)-limits or
+    if (not entry or not isinstance(body,dict) or not body or set(body)-set(limits) or
         any(not isinstance(value,str) or len(value.strip())>limits[key] or
             (key in ('term','definitionEn') and not value.strip()) for key,value in body.items())):
         return core.j({'error':'invalid_input'},400,PRIVATE)

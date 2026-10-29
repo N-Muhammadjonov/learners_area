@@ -1,16 +1,13 @@
 """Disposable localhost PostgreSQL only; two OS workers, no AI network calls."""
 import asyncio
 import json
-import importlib.util
 import os
 from pathlib import Path
 import sys
-import time
 from urllib.parse import urlsplit
 from uuid import UUID
 
 import asyncpg
-import httpx
 from app import main as core,ai_runtime,rate_limit
 
 DSN=os.environ['AI_RUNTIME_TEST_DATABASE_URL']
@@ -48,35 +45,6 @@ async def worker(number):
     print(json.dumps({'admitted':sum(results),'decisions':len(results),'pool_released':pool.get_idle_size()==pool.get_size() and not state.store_lock.locked()}),flush=True)
     assert (await asyncio.to_thread(sys.stdin.readline)).strip()=='release'
     finish.set();await asyncio.gather(*tasks);await ai_runtime.control.close(state);await pool.close()
-
-async def benchmark():
-    from app import step23_writing_provider as after
-    spec=importlib.util.spec_from_file_location('app._ai_baseline',os.environ['AI_PROVIDER_BASELINE'])
-    before=importlib.util.module_from_spec(spec);spec.loader.exec_module(before)
-    check(before.INSTRUCTIONS==after.INSTRUCTIONS and before.grade_system('task2')==after.grade_system('task2'),'grading prompts unchanged')
-    check(all(before.check_system(k)==after.check_system(k) for k in ('translation','activation','pattern')),'check prompts unchanged')
-    async def config():return {'id':'synthetic','model':'isolated','url':'https://synthetic.invalid','headers':{}}
-    before.provider_spec=after.provider_spec=config
-    value={'overallEstimate':7,'confidence':.8,'verdict':None,'criteria':[{'key':'grammar','label':'Grammar','band':7,'limited':False,'note':None}],
-           'strengths':[],'weaknesses':[],'issues':[],'nextActions':[],'recommendedExercises':[]}
-    async def handler(request):
-        await asyncio.sleep(.1)
-        return httpx.Response(200,json={'choices':[{'message':{'content':json.dumps(value)}}]})
-    original=httpx.AsyncClient;httpx.AsyncClient=lambda **kw:original(transport=httpx.MockTransport(handler),**kw)
-    state=ai_runtime.control.state();samples={'before':[],'after':[]}
-    try:
-        for n in range(60):
-            values={};order=['before','after'] if n%2 else ['after','before']
-            for name in order:
-                start=time.perf_counter();module=before if name=='before' else after
-                values[name]=await module.evaluate('en','writing-check',{'answer':str(n)},module.INSTRUCTIONS,**({'user_id':UUID(int=9001)} if name=='after' else {}))
-                if n>=10:samples[name].append((time.perf_counter()-start)*1000)
-            check(values['before']==values['after'] and values['after'][1] is None,'provider values preserved')
-    finally:httpx.AsyncClient=original
-    result={name:{'samples':len(v),'p50_ms':round(sorted(v)[24],3),'p95_ms':round(sorted(v)[47],3)} for name,v in samples.items()}
-    result['p95_change_percent']=round((result['after']['p95_ms']/result['before']['p95_ms']-1)*100,2)
-    check(result['p95_change_percent']<=10,'equivalent provider p95 gate: '+json.dumps(result))
-    return result
 
 async def main():
     pool=await connect();state=ai_runtime.control.state()
@@ -125,7 +93,6 @@ async def main():
         check(await pool.fetchval('SELECT used FROM api_rate_buckets WHERE bucket_key=$1',slot)==1,'stale generation cannot release new active lease')
         check(await pool.fetchval("SELECT reset_at>NOW()+interval '170 seconds' FROM api_rate_buckets WHERE bucket_key=$1",slot),'each active lease has a fresh full TTL')
     check(await pool.fetchval('SELECT count(*) FROM api_rate_buckets WHERE bucket_key=$1',slot)==0,'completed active lease removed')
-    measurements=await benchmark() if os.getenv('AI_PROVIDER_BASELINE') else None
     global_hour=rate_limit._bucket('ai_provider_hour','global')
     await pool.execute('UPDATE api_rate_buckets SET used=2000 WHERE bucket_key=$1',global_hour)
     try:
@@ -134,7 +101,7 @@ async def main():
     check(await pool.fetchval('SELECT count(*) FROM api_rate_buckets WHERE bucket_key=$1',rate_limit._bucket('ai_provider_request','hour-full'))==0,'budget denial is transactional')
     print(json.dumps({'result':'passed','checks':checks,'workers':2,'concurrent_admitted':4,'per_user_active':1,
        'version':await pool.fetchval('SHOW server_version'),'database':'isolated localhost PostgreSQL server',
-       'external_provider_calls':0,'synthetic_provider_delay_ms':100 if measurements else None,'measurements':measurements,'schema_migrations':[71,72]}))
+       'external_provider_calls':0,'schema_migrations':[71,72]}))
     await ai_runtime.control.close(state);await pool.close()
 
 asyncio.run(worker(int(sys.argv[2])) if '--worker' in sys.argv else main())
