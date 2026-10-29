@@ -20,6 +20,7 @@ import math
 from pathlib import Path
 import resource
 import socket
+import sys
 import time
 from typing import Any, Iterator
 
@@ -318,7 +319,9 @@ def run_mode_b_offline_qa_benchmark(save_path: Path | None = QA_REPORT_PATH) -> 
     ru_end = resource.getrusage(resource.RUSAGE_SELF)
     cpu_user_sec = round(ru_end.ru_utime - ru_start.ru_utime, 4)
     cpu_sys_sec = round(ru_end.ru_stime - ru_start.ru_stime, 4)
-    max_rss_mb = round(ru_end.ru_maxrss / 1024.0, 2)
+    # macOS reports ru_maxrss in bytes; Linux reports KiB.
+    rss_divisor = 1024.0 ** 2 if sys.platform == "darwin" else 1024.0
+    max_rss_mb = round(ru_end.ru_maxrss / rss_divisor, 2)
 
     report = {
         "phase": "Phase H — Independent Offline Evaluation (Mode B) & QA Metrics Report",
