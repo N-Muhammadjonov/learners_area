@@ -63,16 +63,19 @@ async def telegram_auth_confirm(req:Request):
         token=b.get('token') if isinstance(b.get('token'),str) else ''
         tg=b.get('telegramUserId') if isinstance(b.get('telegramUserId'),str) else ''
         from .telegram_preferences_port import valid_actor
-        if not token or len(token)>200 or not valid_actor(tg):return core.j({'error':'invalid_input'},400)
+        if len(token)>200 or not valid_actor(tg) or (not token and not core.uuid_value(b.get('intentId'))):return core.j({'error':'invalid_input'},400)
         name=b.get('displayName','')
         name=(name.strip()[:200] if isinstance(name,str) else '')
         lang=b.get('languageCode') if b.get('languageCode') in ('en','uz') else None
-        hashed=hashlib.sha256(token.encode()).hexdigest()
         db=await core.pool()
         async with db.acquire() as con:
+            from .telegram_auth_state import token_digest
+            hashed=await token_digest(con,tg,token)
+            if not hashed:return core.j({'error':'intent_invalid'},404)
             pending=await con.fetchrow('''SELECT id,user_id,telegram_user_id FROM telegram_login_intents
               WHERE token_hash=$1 AND status='pending' AND expires_at>NOW() LIMIT 1''',hashed)
             if not pending:return core.j({'error':'intent_invalid'},404)
+            if not token and str(pending['id'])!=b['intentId']:return core.j({'error':'intent_invalid'},409)
             if pending.get('telegram_user_id') not in (None,tg):return core.j({'error':'intent_invalid'},409)
         from .step18_telegram_admission_port import gates
         gated=await gates(PooledReads(db),tg)
@@ -111,9 +114,20 @@ async def telegram_auth_preflight(req:Request):
     if delay:return too_many(delay)
     db=await core.pool()
     reads=PooledReads(db)
-    if token:
-        hashed=hashlib.sha256(token.encode()).hexdigest()
-        pending=await reads.fetchrow('''SELECT purpose,telegram_user_id FROM telegram_login_intents
+    from .telegram_auth_state import remember,forget,token_digest
+    action=b.get('action')
+    if action not in (None,'begin','cancel'):return core.j({'error':'invalid_input'},400)
+    if action in ('begin','cancel'):
+        async with db.acquire() as con:
+            if action=='cancel' or not token:
+                await forget(con,tg)
+            elif not await remember(con,tg,token):
+                return core.j({'error':'intent_invalid'},404)
+        return core.j({'ok':True})
+    hashed=await token_digest(reads,tg,token)
+    pending=None
+    if hashed:
+        pending=await reads.fetchrow('''SELECT purpose,telegram_user_id,id FROM telegram_login_intents
           WHERE token_hash=$1 AND status='pending' AND expires_at>NOW() LIMIT 1''',hashed)
         if not pending:return core.j({'error':'intent_invalid'},404)
         if pending.get('telegram_user_id') not in (None,tg):return core.j({'error':'intent_invalid'},409)
@@ -121,7 +135,7 @@ async def telegram_auth_preflight(req:Request):
     gated=await gates(reads,tg)
     # Retain the verified Telegram actor while membership is pending so the
     # nonce-bound browser can show the gate instead of waiting silently.
-    if token and (not gated or gated['error']!='phone_required'):
+    if hashed and (not gated or gated['error']!='phone_required'):
         async with db.acquire() as con:
             bound=await con.fetchval('''UPDATE telegram_login_intents SET telegram_user_id=$2
               WHERE token_hash=$1 AND status='pending' AND expires_at>NOW()
@@ -130,7 +144,7 @@ async def telegram_auth_preflight(req:Request):
     if gated:
         code=gated['error']
         return core.j(gated,403 if code in ('phone_required','not_subscribed') else 503)
-    return core.j({'ok':True})
+    return core.j({'ok':True,**({'intentId':str(pending['id'])} if pending and pending.get('id') else {})})
 
 def install():core.app.include_router(router)
 
