@@ -36,11 +36,11 @@ def test_original_sql_migration_bytes_are_unchanged():
     import hashlib
     hashes=json.loads((ROOT/'MIGRATION_AUDIT_265.json').read_text())['sql_sha256_by_filename']
     found={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'migrations').glob('*.sql')}
-    assert len(found)==71
+    assert len(found)==72
     assert {name:found[name] for name in hashes}==hashes
     for name in set(found)-set(hashes):
         assert (ROOT/'migrations'/name).read_bytes()==(ROOT.parents[1]/'drizzle'/name).read_bytes()
-    assert len(set(found)-set(hashes))==5
+    assert len(set(found)-set(hashes))==6
 
 @pytest.mark.parametrize('method,url,expect',[
  ('POST','/api/admin/content/drafts',401),('POST','/api/admin/content/import',401),

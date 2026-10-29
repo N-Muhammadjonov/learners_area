@@ -3,11 +3,12 @@ Port of coach/service.ts, resolver.ts, riwi evaluators, evaluations.ts.
 No network call is performed with a DB transaction held open.
 """
 from __future__ import annotations
-import asyncio,json,os,re,time,uuid
+import json,os,re,time,uuid
 import httpx
 from . import main as core
 from .owner_ai_control_port import status,registry
 from .step31_riwi_evaluators import gval,vval,sval
+from .ai_runtime import request_json
 
 PUBLIC='RIWI'
 INSTRUCTIONS='''You evaluate English learning work. Return one JSON object, without markdown.
@@ -43,8 +44,10 @@ def valid(p):
         if not isinstance(i,dict) or not {'key','label','band'}<=set(i) or set(i)-{'key','label','band','limited','note'} or not isinstance(i['key'],str) or not 1<=len(i['key'])<=40 or not isinstance(i['label'],str) or not 1<=len(i['label'])<=120:return False
         if i['band'] is not None and (type(i['band']) not in (int,float) or not 0<=i['band']<=9):return False
         if 'limited' in i and type(i['limited']) is not bool:return False
+        if i.get('note') is not None and (not isinstance(i['note'],str) or len(i['note'])>1000):return False
     for i in p['issues']:
         if not isinstance(i,dict) or not {'category','message','severity'}<=set(i) or set(i)-{'category','message','severity','excerpt','suggestion'} or i['category'] not in CATEGORIES or i['severity'] not in ('low','medium','high') or not isinstance(i['message'],str) or not 1<=len(i['message'])<=400:return False
+        if any(i.get(k) is not None and (not isinstance(i[k],str) or len(i[k])>2000) for k in ('excerpt','suggestion')):return False
     if any(not isinstance(i,str) or len(i)>400 for k in ('strengths','weaknesses','nextActions') for i in p[k]):return False
     return True
 
@@ -60,18 +63,17 @@ def internal(kind,data):
     if kind=='speaking':return sval(data['transcript'],data['part'],data.get('durationMs'),data.get('promptText'),data.get('transcriptOrigin'),data.get('pronunciationAvailable',False))
     raise ValueError('not_supported')
 
-async def vendor(kind,params,language,provider,model):
+async def vendor(kind,params,language,provider,model,*,user_id=None):
     pid=provider['id'];key=None
     if pid=='openai':
         key=os.getenv('OPENAI_API_KEY');url='https://api.openai.com/v1/responses';headers={'Authorization':f'Bearer {key}'}
     elif pid=='anthropic':
         key=os.getenv('ANTHROPIC_API_KEY');url='https://api.anthropic.com/v1/messages';headers={'x-api-key':key or '', 'anthropic-version':'2023-06-01'}
     else:
-        try:entries=json.loads(os.getenv('AI_COMPATIBLE_PROVIDERS','[]'))
-        except ValueError:entries=[]
-        choice=next((x for x in entries if isinstance(x,dict) and x.get('id')==pid),None)
+        entries,_=registry()
+        choice=next((x for x in entries if x.get('id')==pid and x.get('_endpoint')),None)
         if not choice:return None
-        key=os.getenv(choice.get('secretRef',''));url=choice.get('baseURL','').rstrip('/')+'/chat/completions';headers={'Authorization':f'Bearer {key}'}
+        key=os.getenv(choice['_secret_ref']);url=choice['_endpoint'];headers={'Authorization':f'Bearer {key}'}
     if not key or not model:return None
     raw=json.dumps({'task':kind,'language':language,'input':params},ensure_ascii=False,separators=(',',':'))
     if len(raw)>60000:return None
@@ -79,10 +81,8 @@ async def vendor(kind,params,language,provider,model):
     elif pid=='anthropic':body={'model':model,'max_tokens':2500,'system':INSTRUCTIONS,'messages':[{'role':'user','content':raw}]}
     else:body={'model':model,'messages':[{'role':'system','content':INSTRUCTIONS},{'role':'user','content':raw}],'response_format':{'type':'json_object'},'max_tokens':2500}
     try:
-        async with httpx.AsyncClient(timeout=20,follow_redirects=False) as client:
-            resp=await client.post(url,json=body,headers={'content-type':'application/json',**headers})
-        if resp.status_code!=200 or len(resp.content)>200000:return None
-        obj=resp.json()
+        obj=await request_json(user_id,url,{'content-type':'application/json',**headers},payload=body)
+        if not isinstance(obj,dict):return None
         if pid=='openai':
             if obj.get('status')!='completed':return None
             answer=''.join(item.get('text','') for entry in obj.get('output',[]) for item in entry.get('content',[]) if item.get('type')=='output_text')
@@ -109,16 +109,15 @@ def meta(kind,provider=None,model=None,fallback=False,from_provider=None):
     return {'providerId':provider['id'],'providerDisplayName':provider['displayName'],'providerType':'external','providerVersion':'1.0.0','model':model,
             'promptVersion':'external-adapter-v1','rubricVersion':'ielts-public-criteria-v1','fallbackUsed':False,'fallbackFrom':None}
 
-async def resolve(kind,input,language):
+async def resolve(kind,input,language,*,user_id=None):
     conf=await status();effective=conf['effective'];registered={x['id']:x for x in conf['providers']};pid=effective['providerId'];own=conf['owner'];fallback=effective['fallback']
     if pid!='riwi' and pid in registered:
         p=registered[pid]
         if effective['externalEnabled'] and p['type']=='external' and p['secretsPresent']:
-            maximum=max(1,min(5,int(os.getenv('AI_PROVIDER_MAX_ATTEMPTS','2'))))
-            for n in range(maximum):
-                result=await vendor(kind,input,language,p,effective['model'])
-                if result:return result,meta(kind,p,effective['model'])
-                if n+1<maximum:await asyncio.sleep(max(0,min(10000,int(os.getenv('AI_PROVIDER_RETRY_BACKOFF_MS','200'))))*(n+1)/1000)
+            # A provider may have processed a timed-out or malformed response.
+            # Never automatically submit a second billable request.
+            result=await vendor(kind,input,language,p,effective['model'],user_id=user_id)
+            if result:return result,meta(kind,p,effective['model'])
         if fallback=='none':return None,'evaluation_unavailable'
     elif fallback=='none' and pid=='riwi':return None,'external_required'
     if fallback=='none' and pid not in registered:return None,'external_required'
@@ -157,7 +156,7 @@ async def persist(user_id,kind,source_type,source_id,data,info):
     async with db.acquire() as con:
         async with con.transaction():
             prior=await existing(con,source_type,source_id)
-            if prior:return prior,False
+            if prior:return (prior,False) if prior['userId']==str(user_id) else (None,False)
             vals=[user_id,kind,source_type,source_id,*[info[k] for k in ('providerId','providerDisplayName','providerType','providerVersion','model','promptVersion','rubricVersion','fallbackUsed','fallbackFrom')],PUBLIC,
                   data['overallEstimate'],data['confidence'],data['verdict'],*[json.dumps(data[k],ensure_ascii=False) for k in ('criteria','strengths','weaknesses','issues','nextActions','recommendedExercises')],info.get('processedInMs',0)]
             row=await con.fetchrow('''INSERT INTO evaluations(user_id,evaluation_type,source_type,source_id,provider_id,provider_display_name,provider_type,
@@ -165,7 +164,9 @@ async def persist(user_id,kind,source_type,source_id,data,info):
                verdict,criteria,strengths,weaknesses,issues,next_actions,recommended_exercises,processed_in_ms)
                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18::jsonb,$19::jsonb,$20::jsonb,
                $21::jsonb,$22::jsonb,$23::jsonb,$24) ON CONFLICT(source_type,source_id) DO NOTHING RETURNING *''',*vals)
-            if not row:return await existing(con,source_type,source_id),False
+            if not row:
+                prior=await existing(con,source_type,source_id)
+                return (prior,False) if prior and prior['userId']==str(user_id) else (None,False)
             bycat={}
             for issue in data['issues']:
                 if issue['category'] in CATEGORIES:bycat.setdefault(issue['category'],[]).append(issue)
@@ -192,10 +193,13 @@ async def persist(user_id,kind,source_type,source_id,data,info):
 async def evaluate(user_id,kind,source_type,source_id,params,language='en'):
     db=await core.pool()
     async with db.acquire() as con:found=await existing(con,source_type,source_id)
-    if found:return {'ok':True,'evaluation':found,'reused':True}
+    if found:
+        if found['userId']!=str(user_id):return {'ok':False,'error':'not_found'}
+        return {'ok':True,'evaluation':found,'reused':True}
     start=time.monotonic()
-    resolved,metadata=await resolve(kind,params,language)
+    resolved,metadata=await resolve(kind,params,language,user_id=user_id)
     if not resolved:return {'ok':False,'error':metadata}
     metadata['processedInMs']=max(0,min(600000,int((time.monotonic()-start)*1000)))
     row,created=await persist(user_id,kind,source_type,source_id,resolved,metadata)
+    if not row:return {'ok':False,'error':'not_found'}
     return {'ok':True,'evaluation':row,'reused':not created}

@@ -61,7 +61,7 @@ async def post(req:Request):
     if not text:return core.j(err('empty','Could not check this sentence.',False),400)
     copy=near_copy(text,pattern['example'],pattern['pattern']);r=None;verdict='needs_revision'
     if not copy['nearCopy']:
-        r,e=await ai.check(user.get('locale','en'),'pattern',{'kind':'pattern','pattern':pattern['pattern'],'sourceExample':pattern['example'],'sourceTopic':pattern['topic'] or '', 'newTopic':topic,'answer':text})
+        r,e=await ai.check(user.get('locale','en'),'pattern',{'kind':'pattern','pattern':pattern['pattern'],'sourceExample':pattern['example'],'sourceTopic':pattern['topic'] or '', 'newTopic':topic,'answer':text},user_id=user['id'])
         if e:return core.j(err('unavailable' if e=='unavailable' else 'failed','Could not check this sentence.',e=='failed'),503)
         verdict=r['verdict'] if (r['bands']['adaptation'] or 0)>=5 else 'needs_revision'
     async with db.acquire() as con:

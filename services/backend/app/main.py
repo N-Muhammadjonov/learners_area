@@ -28,6 +28,8 @@ LOG = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app):
     worker_state = control.start()
+    from .ai_runtime import control as ai_control
+    ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.
     try:
         yield
     finally:
@@ -36,11 +38,14 @@ async def lifespan(app):
             await control.drain(state=worker_state)
         finally:
             try:
-                await asyncio.wait_for(bus.close(), timeout=5)
-            except (TimeoutError, OSError):
-                LOG.warning('Access-event shutdown grace expired')
+                await ai_control.close(state=ai_state)
             finally:
-                await close_pool()
+                try:
+                    await asyncio.wait_for(bus.close(), timeout=5)
+                except (TimeoutError, OSError):
+                    LOG.warning('Access-event shutdown grace expired')
+                finally:
+                    await close_pool()
 
 app = FastAPI(title='Learners Area FastAPI', docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 

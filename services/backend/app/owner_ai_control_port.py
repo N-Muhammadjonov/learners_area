@@ -5,7 +5,7 @@ Registered compatible providers are deployment-defined; invalid config entries a
 not promoted to active providers.
 """
 from __future__ import annotations
-import os,re,json
+import os,re,json,ipaddress
 from datetime import datetime,timezone
 from urllib.parse import urlsplit
 from fastapi import APIRouter,Request
@@ -36,15 +36,27 @@ def registry():
                 or not isinstance(e.get('secretRef'),str) or not re.fullmatch(r'AI_[A-Z0-9_]{2,60}',e['secretRef'])
                 or not isinstance(e.get('displayName'),str) or not 1<=len(e['displayName'].strip())<=60
                 or not isinstance(e.get('model'),str) or not 1<=len(e['model'].strip())<=120
-                or not isinstance(e.get('baseURL'),str)):
+                or not isinstance(e.get('baseURL'),str)
+                or not isinstance(e.get('capabilities',CAPS),list)
+                or any(not isinstance(c,str) for c in e.get('capabilities',CAPS))):
                 issues.append({'index':i,'reason':'invalid entry (entry)'});continue
-            u=urlsplit(e['baseURL']);allowed=os.getenv('AI_COMPATIBLE_ALLOWED_HOSTS','')
-            hosts={x.strip() for x in allowed.split(',') if x.strip()}
-            if (u.scheme!='https' or not u.hostname or u.username or u.password or (hosts and u.hostname not in hosts)
-                or u.hostname in ('localhost','127.0.0.1') or u.hostname.endswith('.local')):
+            try:u=urlsplit(e['baseURL'])
+            except ValueError:
+                issues.append({'index':i,'reason':'baseURL refused: invalid_url'});continue
+            allowed=os.getenv('AI_COMPATIBLE_ALLOWED_HOSTS','')
+            hosts={x.strip().lower() for x in allowed.split(',') if x.strip()}
+            host=(u.hostname or '').lower()
+            try:literal=ipaddress.ip_address(host) is not None
+            except ValueError:literal=bool(re.fullmatch(r'[0-9.]+',host))
+            try:port_ok=u.port in (None,443)
+            except ValueError:port_ok=False
+            if (u.scheme!='https' or not host or u.username or u.password or u.query or u.fragment or not port_ok
+                or (hosts and host not in hosts) or literal or '.' not in host
+                or host.endswith(('.local','.localhost','.internal','.lan'))):
                 issues.append({'index':i,'reason':'baseURL refused: invalid_url'});continue
             items.append({'id':e['id'],'displayName':e['displayName'].strip(),'type':'external','model':e['model'].strip(),
-                          'capabilities':[x for x in e.get('capabilities',CAPS) if x in CAPS], 'requiredSecrets':[e['secretRef']]})
+                          'capabilities':[x for x in e.get('capabilities',CAPS) if x in CAPS], 'requiredSecrets':[e['secretRef']],
+                          '_endpoint':e['baseURL'].rstrip('/')+'/chat/completions','_secret_ref':e['secretRef']})
     return items,issues
 
 async def control():

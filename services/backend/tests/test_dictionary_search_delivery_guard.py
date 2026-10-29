@@ -155,7 +155,8 @@ def test_retention_passes_word_and_existing_candidates_to_context_selection(monk
     original={'lexeme_id':ident,'display_lemma':'fair','part_of_speech':'noun','senses':[sense]}
     async def worker(body):return {'release_id':body['release'],'results':[{'lexeme_id':ident,'match_type':'exact_lemma'}]}
     async def entry(*args):return original
-    async def choose(sentence,word,candidates):
+    async def choose(sentence,word,candidates,*,user_id):
+        assert user_id is not None
         assert sentence=='[[fair]]' and word=='fair'
         assert candidates==[{'entry':original,'sense':sense}]
         return candidates[0]

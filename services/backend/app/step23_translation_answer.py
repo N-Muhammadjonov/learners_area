@@ -44,7 +44,7 @@ async def submit(req:Request,id:str):
         needs_ai=not norm(text) or not any(norm(t)==norm(text) for t in eqs)
         doc=await con.fetchrow('SELECT target_band FROM writing_translation_sets WHERE id=$1',attempt['set_id']) if needs_ai else None
     if needs_ai:
-        r,error=await ai.check(user.get('locale','en'),'translation',{'kind':'translation','uzbekSource':current['uzbek_source'],'referenceEnglish':current['model_english'],'acceptedAlternatives':current['accepted_alternatives'] or [],'targetBand':doc['target_band'],'answer':text})
+        r,error=await ai.check(user.get('locale','en'),'translation',{'kind':'translation','uzbekSource':current['uzbek_source'],'referenceEnglish':current['model_english'],'acceptedAlternatives':current['accepted_alternatives'] or [],'targetBand':doc['target_band'],'answer':text},user_id=user['id'])
         if error:
             rec.update(evaluation_status='unavailable',verdict=None,meaning=None)
         else:
