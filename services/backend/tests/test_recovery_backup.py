@@ -34,6 +34,13 @@ def test_failed_dump_never_publishes_a_backup(files):
     assert not archive.exists() and list(archive.parent.iterdir())==[]
 
 
+def test_database_deadline_remains_bounded_before_connecting(files):
+    key,archive=files
+    for seconds in (0,3601):
+        with pytest.raises(ValueError):recovery.backup_db('unused','unused',archive,key,overall_timeout=seconds)
+    assert not archive.exists()
+
+
 @pytest.mark.parametrize('failure',['changed','wrong_key'])
 def test_authentication_precedes_plaintext_use(files,failure):
     key,archive=files;content=b'isolated backup bytes'*(1024*64)

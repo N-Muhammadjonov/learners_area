@@ -130,12 +130,15 @@ def stop_process(process):
         except subprocess.TimeoutExpired:process.kill();process.wait(timeout=5)
 
 
-def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump'):
+def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump',*,overall_timeout=900):
+    if not 1<=overall_timeout<=3600:raise ValueError('database backup deadline must be 1–3600 seconds')
     env=connection_env(dsn,expected_host)
     # ACLs/RLS/functions are preserved; do not use --no-acl or data-only export.
-    process=subprocess.Popen([pg_dump,'--format=custom','--no-owner','--schema=public','--schema=drizzle',
+    # Explicit READ ONLY transaction also protects pooled sources that discard
+    # startup options; the deferrable snapshot is bounded by the outer deadline.
+    process=subprocess.Popen([pg_dump,'--format=custom','--serializable-deferrable','--no-owner','--schema=public','--schema=drizzle',
                               '--lock-wait-timeout=10s'],env=env,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
-    deadline=threading.Timer(900,lambda:stop_process(process));deadline.start()
+    deadline=threading.Timer(overall_timeout,lambda:stop_process(process));deadline.start()
     try:
         with encrypted_output(path,key_file) as out:
             while part:=process.stdout.read(CHUNK):out.write(part)
@@ -143,7 +146,8 @@ def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump'):
     finally:
         deadline.cancel();stop_process(process);process.stdout.close()
     return {'kind':'postgres-custom','sha256':digest_file(path),'encrypted_bytes':Path(path).stat().st_size,
-            'schemas':['public','drizzle'],'source_host_sha256':hashlib.sha256(expected_host.encode()).hexdigest()}
+            'schemas':['public','drizzle'],'overall_timeout_seconds':overall_timeout,
+            'source_host_sha256':hashlib.sha256(expected_host.encode()).hexdigest()}
 
 
 async def empty_restore_target(dsn,*,prepare=False):
@@ -296,6 +300,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='action',required=True)
     key=sub.add_parser('init-key');key.add_argument('--key-file',required=True)
     backup=sub.add_parser('backup-db');backup.add_argument('--expected-host',required=True);backup.add_argument('--pg-dump',default='pg_dump')
+    backup.add_argument('--overall-timeout',type=int,default=900)
     restore=sub.add_parser('restore-db');restore.add_argument('--sha256',required=True);restore.add_argument('--pg-restore',default='pg_restore')
     media=sub.add_parser('backup-media');media.add_argument('--bucket',required=True);media.add_argument('--expected-bucket',required=True);media.add_argument('--apply',action='store_true');media.add_argument('--max-objects',type=int,default=10000);media.add_argument('--prefix',default='')
     media.add_argument('--shard-count',type=int,default=1);media.add_argument('--shard-index',type=int,default=0)
@@ -306,7 +311,7 @@ def main():
         fd=os.open(args.key_file,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
         with os.fdopen(fd,'wb') as out:out.write(os.urandom(32));out.flush();os.fsync(out.fileno())
         report={'result':'key created; keep separately in owner-controlled recovery storage'}
-    elif args.action=='backup-db':report=backup_db(os.environ['BACKUP_DATABASE_URL'],args.expected_host,args.archive,args.key_file,args.pg_dump)
+    elif args.action=='backup-db':report=backup_db(os.environ['BACKUP_DATABASE_URL'],args.expected_host,args.archive,args.key_file,args.pg_dump,overall_timeout=args.overall_timeout)
     elif args.action=='restore-db':report=restore_db(os.environ['RESTORE_DATABASE_URL'],args.archive,args.key_file,args.sha256,args.pg_restore)
     elif args.action=='extract-media':report=extract_media(args.archive,args.key_file,args.target,args.sha256)
     else:report=backup_media(os.environ['BACKUP_R2_ENDPOINT'],args.bucket,args.expected_bucket,args.archive,args.key_file,apply=args.apply,max_objects=args.max_objects,prefix=args.prefix,shard_count=args.shard_count,shard_index=args.shard_index)
