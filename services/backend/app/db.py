@@ -130,11 +130,23 @@ def connection_settings(dsn):
     return dsn,tls
 
 
-async def close_pool():
-    global _pool
+async def close_pool(timeout=10):
+    global _pool, _pool_lock
     if _pool:
-        await _pool.close()
-        _pool = None
+        closing = _pool
+        try:
+            await asyncio.wait_for(closing.close(), timeout=timeout)
+        except asyncio.CancelledError:
+            closing.terminate()
+            raise
+        except Exception:
+            # asyncpg also terminates on a cancelled close; make the resource
+            # bound explicit for adapters and log no connection credentials.
+            closing.terminate()
+            LOG.warning('Database pool shutdown required termination')
+        finally:
+            _pool = None
+            _pool_lock = None
 
 
 def db_failure(exc: Exception) -> JSONResponse:

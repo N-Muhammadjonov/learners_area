@@ -149,7 +149,11 @@ async def reports(req:Request):
         fmt=p['format'];lang=p.get('lang','uz')
         # The source intentionally handles snapshot construction errors, but rendering
         # is deterministic and should never be replaced by a stub/mock response.
-        try:data=render(s,fmt,lang)
+        try:data=await core.run_blocking(render,s,fmt,lang)
+        except core.WorkBusy:
+            response=failure('generation_failed',503)
+            response.headers['Retry-After']='1'
+            return response
         except Exception:return failure('generation_failed',503)
         common={'reportId':s['reportId'],'scope':access['kind'],'period':period['kind'],'from':period['from'],'to':period['to'],'timezone':s['timezone']}
         target=access['subjectId'] if access['kind']=='student' else access['kind']

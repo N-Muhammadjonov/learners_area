@@ -553,7 +553,7 @@ html[data-theme] #root [data-campus-shell] :is(
   background: var(--dashboard-action-gradient) !important;
   color: #000000 !important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span:not(:first-child) {
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span {
   color: #000000 !important;
 }
 

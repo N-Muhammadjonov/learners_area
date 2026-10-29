@@ -6,6 +6,7 @@ from .frontend_static import StaticFrontend
 from fastapi import HTTPException
 from .seo import IndexingPolicy
 from .origin_boundary import OriginBoundary
+from .request_lifecycle import RequestBudget
 
 browser = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 browser.include_router(browser_router)
@@ -32,4 +33,4 @@ async def dispatch(scope, receive, send):
     await target(scope, receive, send)
 
 
-application = IndexingPolicy(OriginBoundary(dispatch))
+application = IndexingPolicy(OriginBoundary(RequestBudget(dispatch)))

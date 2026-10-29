@@ -39,7 +39,7 @@ for(const locale of ['en','uz'])test(`${locale}: SHOPPING keeps every story sele
    assert(h.q(`[data-local-recorder="${s.id}"]`));
    assert.deepEqual(h.qa('[data-situation-tab]').map(b=>b.dataset.situationTab),['vocabulary','sample']);
    assert(h.q('[data-situation-reveal]'));
-   assert.equal(h.q('[data-situation-vocabulary],[data-situation-sample]'),null);
+   assert.equal(h.q('[data-speaking-vocabulary-saver],[data-situation-sample]'),null);
   }
   assert.equal(h.calls.length,0,'static owner-provided topic needs no question-bank or write API');
   h.click(h.q('[data-situation-back=topics]'));assert.equal(h.nav.at(-1).path,'/app/speaking/practice?part=situations');
@@ -50,8 +50,9 @@ test('each section needs its own continuous three-second hold; cancellation and 
  t.mock.timers.enable({apis:['setTimeout']});
  const event=(node,type,attrs={})=>node.dispatchEvent(new window.MouseEvent(type,{bubbles:true,button:0,...attrs}));
  try{
-  const panel=createSituationSupport({story:s,dict:h.ctx.dict,locale:'en',signal:h.ctx.signal});h.ctx.root.append(panel.node);
-  let trigger=h.q('[data-situation-reveal]');event(trigger,'pointerdown');t.mock.timers.tick(2999);assert.equal(h.q('[data-situation-vocabulary]'),null);
+  h.stub({'/api/vocabulary/folders':{folders:[]}});
+  const panel=createSituationSupport({story:s,dict:h.ctx.dict,locale:'en',signal:h.ctx.signal,context:h.ctx});h.ctx.root.append(panel.node);
+  let trigger=h.q('[data-situation-reveal]');event(trigger,'pointerdown');t.mock.timers.tick(2999);assert.equal(h.q('[data-speaking-vocabulary-saver]'),null);
   event(trigger,'pointerup');t.mock.timers.tick(100);assert(h.q('[data-situation-reveal]'));
   event(trigger,'pointerdown');t.mock.timers.tick(1500);h.click(h.q('[data-situation-tab=sample]'));t.mock.timers.tick(1500);assert.equal(h.q('[data-situation-sample]'),null);
   trigger=h.q('[data-situation-reveal]');event(trigger,'pointerdown');t.mock.timers.tick(2999);assert.equal(h.q('[data-situation-sample]'),null);t.mock.timers.tick(1);
@@ -59,18 +60,19 @@ test('each section needs its own continuous three-second hold; cancellation and 
   h.click(h.q('[data-situation-tab=vocabulary]'));
   assert(h.q('[data-situation-reveal]'),'revealing sample does not reveal vocabulary');
   event(h.q('[data-situation-reveal]'),'pointerdown');t.mock.timers.tick(3000);
-  assert.deepEqual(h.qa('dt').map(n=>n.textContent),s.vocabulary.map(w=>w.term));
-  assert.deepEqual(h.qa('dd').map(n=>n.textContent),s.vocabulary.map(w=>w.translationUz));
+  const words=h.qa('[data-speaking-vocabulary-saver] article');
+  assert.deepEqual(words.map(n=>n.querySelector('strong').textContent),s.vocabulary.map(w=>w.term));
+  for(const [i,word] of s.vocabulary.entries())assert(words[i].textContent.includes(word.translationUz));
  }finally{h.dispose();t.mock.timers.reset();}
 });
 test('keyboard holds cancel on release, page hide and route exit',t=>{
  const h=setup();t.mock.timers.enable({apis:['setTimeout']});
  try{
-  h.ctx.root.append(createSituationSupport({story:shopping.stories[1],dict:h.ctx.dict,locale:'uz',signal:h.ctx.signal}).node);
+  h.ctx.root.append(createSituationSupport({story:shopping.stories[1],dict:h.ctx.dict,locale:'uz',signal:h.ctx.signal,context:h.ctx}).node);
   const trigger=h.q('[data-situation-reveal]'),key=type=>trigger.dispatchEvent(new window.KeyboardEvent(type,{key:' ',bubbles:true,cancelable:true}));
   key('keydown');t.mock.timers.tick(2000);key('keyup');t.mock.timers.tick(2000);assert(h.q('[data-situation-reveal]'));
   key('keydown');Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new window.Event('visibilitychange'));t.mock.timers.tick(3000);assert(h.q('[data-situation-reveal]'));
-  key('keydown');h.controller.abort();t.mock.timers.tick(3000);assert.equal(h.q('[data-situation-vocabulary]'),null);
+  key('keydown');h.controller.abort();t.mock.timers.tick(3000);assert.equal(h.q('[data-speaking-vocabulary-saver]'),null);
  }finally{h.dispose();t.mock.timers.reset();}
 });
 test('topic selection and unknown topic preserve a usable path back',async()=>{

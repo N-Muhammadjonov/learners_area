@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse, Response
 
 from .db import db_failure, pool, row_to_dict, close_pool
 from .auth_validation import validate as validate_auth
+from .request_lifecycle import control, run_blocking, WorkBusy, unavailable
 from .rate_limit import client_key, async_counter as counter, too_many, async_reset as reset, reserve, release
 from .security import (SESSION_COOKIE, SESSION_TTL, add_security_headers,
                        check_origin, clear_session_cookie, issue_token, normalize_origin,
@@ -26,10 +27,20 @@ LOG = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app):
-    yield
-    from .access_events import bus
-    await bus.close()
-    await close_pool()
+    worker_state = control.start()
+    try:
+        yield
+    finally:
+        from .access_events import bus
+        try:
+            await control.drain(state=worker_state)
+        finally:
+            try:
+                await asyncio.wait_for(bus.close(), timeout=5)
+            except (TimeoutError, OSError):
+                LOG.warning('Access-event shutdown grace expired')
+            finally:
+                await close_pool()
 
 app = FastAPI(title='Learners Area FastAPI', docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 
@@ -137,7 +148,9 @@ async def secure_transport(request: Request, call_next):
         # credentials / connection strings from any pooled asyncpg exception.
         code = getattr(exc, 'sqlstate', None)
         from .db import is_database_unavailable
-        if isinstance(exc, (OSError, ConnectionError, TimeoutError)) or is_database_unavailable(exc):
+        if isinstance(exc, WorkBusy):
+            response = unavailable()
+        elif isinstance(exc, (OSError, ConnectionError, TimeoutError)) or is_database_unavailable(exc):
             response = db_failure(exc)
         else:
             LOG.exception('Unhandled API exception')
@@ -213,7 +226,7 @@ async def _authenticate(req: Request, recovery_only: bool = False):
         decoy = '$2a$12$NpanVw6DUsaA2WX2Obipc.94Av8DHYf.iT6gFPkLre9PfSqKIuYLe'
         stored = user['password_hash'] if user else None
         try:
-            valid = await asyncio.to_thread(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
+            valid = await run_blocking(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
         except ValueError:
             valid = False
     except Exception:
@@ -275,8 +288,9 @@ async def register(req: Request):
     async with conn_pool.acquire() as conn:
         existing = await conn.fetchval('SELECT 1 FROM users WHERE email=$1', email)
         if existing: return j({'error': 'email_taken'}, 409)
-        import bcrypt
-        pw_hash = (await asyncio.to_thread(bcrypt.hashpw, password.encode(), bcrypt.gensalt(rounds=12))).decode()
+    import bcrypt
+    pw_hash = (await run_blocking(bcrypt.hashpw, password.encode(), bcrypt.gensalt(rounds=12))).decode()
+    async with conn_pool.acquire() as conn:
         locale = req.cookies.get('la_locale')
         locale = locale if locale in ('uz', 'en') else 'uz'
         try:

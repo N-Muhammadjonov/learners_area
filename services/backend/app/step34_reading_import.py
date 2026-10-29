@@ -181,7 +181,7 @@ async def reading_import(req:Request):
             ready=await con.fetchval("SELECT to_regclass('public.general_reading_sets') IS NOT NULL")
             if not ready:return core.j({'error':'schema_not_ready'},503)
         body=await core.payload(req)
-        try:bundle=validate_bundle(body.get('bundle') if isinstance(body,dict) else None)
+        try:bundle=await core.run_blocking(validate_bundle,body.get('bundle') if isinstance(body,dict) else None)
         except InvalidBundle as e:
             detail=(e.path+': '+e.msg)[:200]
             return core.j({'error':'invalid_bundle','detail':detail},400)

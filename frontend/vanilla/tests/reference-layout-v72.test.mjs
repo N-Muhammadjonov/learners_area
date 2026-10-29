@@ -60,3 +60,15 @@ for(const theme of ['day','night'])for(const focus of ['off','on'])test(`${theme
 test('Reading intro remains white and readable beside the shared header in all four palette combinations',()=>{
  const reading=fs.readFileSync(new URL('../modules/reading/reading-workspace.css',import.meta.url),'utf8');for(const theme of ['day','night'])for(const focus of ['off','on']){const h=env('/app/reading/academic/'+ID(1));try{h.stub({});document.documentElement.dataset.theme=theme;document.documentElement.dataset.focus=focus;h.ctx.root.innerHTML='<main class="reading-focus" data-reading-full-focus><section class="reading-exam-intro"><p class="body-text" data-check>Read three passages</p><article class="card"><span class="meta-text" data-check>Passage 1</span><h2 class="card-title" data-check>Reading</h2></article><button class="btn-primary" data-check>Full Reading</button></section></main>';const frame=focusFrame(h.ctx,h.ctx.root);h.ctx.root.replaceChildren(frame);const cascade=colorCascade(document,[...styles,reading]);for(const node of h.ctx.root.querySelectorAll('[data-check],[data-locale-switcher] button')){const s=cascade.get(node);assert(contrastRatio(s.color,s.background)>=4.5,`${theme}/${focus} ${node.textContent}`);}assert.deepEqual(cascade.get(h.q('.reading-exam-intro .card')).background,[255,255,255,1]);}finally{h.dispose();}}
 });
+
+test('gradient contrast uses the least readable paint for each foreground',()=>{
+ const h=env('/app/dashboard');try{
+  h.ctx.root.innerHTML='<div id="gradient-probe">Black<span>White</span></div>';
+  const c=colorCascade(document,['#gradient-probe{background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);color:#000}#gradient-probe span{color:#fff}']);
+  const black=c.get(h.q('#gradient-probe')),white=c.get(h.q('#gradient-probe span'));
+  assert(contrastRatio(black.color,black.background)>=4.5);
+  assert(contrastRatio(white.color,white.background)<4.5);
+  assert.notDeepEqual(black.background,white.background);
+  assert.equal(c.unknown.size,0);
+ }finally{h.dispose();}
+});
