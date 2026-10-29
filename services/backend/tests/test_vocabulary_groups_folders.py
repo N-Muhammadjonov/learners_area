@@ -1,4 +1,4 @@
-"""Source completeness, sequential group gates and non-destructive owned folders."""
+"""Source completeness, sequential group gates and owned folder deletion."""
 import asyncio
 import json
 from uuid import UUID
@@ -35,7 +35,7 @@ class FolderConnection(Context):
     async def fetchval(self,sql,*args):
         self.calls.append((sql,args));assert args==(USER,'Meals',FOLDER)
         return UUID(int=902) if self.duplicate else None
-    async def execute(self,sql,*args):self.calls.append((sql,args));return 'UPDATE 144'
+    async def execute(self,sql,*args):self.calls.append((sql,args));return 'DELETE 144' if sql.startswith('DELETE') else 'UPDATE 144'
 
 def run_folder(monkeypatch,body,owned=True,duplicate=False):
     con=FolderConnection(owned,duplicate)
@@ -58,13 +58,14 @@ def test_duplicate_name_returns_conflict_without_overwriting_either_folder(monke
     assert r.status_code==409
     assert not any(sql.startswith(('UPDATE','DELETE')) for sql,_ in c.calls)
 
-def test_delete_only_unfiles_owned_words_and_never_deletes_words_senses_or_srs(monkeypatch):
+def test_delete_folder_removes_only_its_owners_words_before_deleting_folder(monkeypatch):
     r,c=run_folder(monkeypatch,{'action':'delete','folderId':str(FOLDER)})
-    assert r.status_code==200 and json.loads(r.body)['wordsPreserved'] is True
+    assert r.status_code==200 and json.loads(r.body)['deletedWords']==144
     writes=[(sql,args) for sql,args in c.calls if sql.startswith(('UPDATE','DELETE'))]
     assert writes==[
-        ('UPDATE user_vocabulary SET folder_id=NULL WHERE user_id=$1 AND folder_id=$2',(USER,FOLDER)),
+        ('DELETE FROM user_vocabulary WHERE user_id=$1 AND folder_id=$2',(USER,FOLDER)),
         ('DELETE FROM vocab_folders WHERE id=$1 AND user_id=$2',(FOLDER,USER))]
+    assert all('lexemes' not in sql and 'topic_pack' not in sql for sql,_ in writes)
 
 def test_invalid_folder_mutation_never_opens_database(monkeypatch):
     pool=AsyncMock(side_effect=AssertionError('no database'))
