@@ -499,3 +499,39 @@ html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){color:va
 html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,.btn-ghost){color:#fff!important}
 .vocabulary-dictionary .dictionary-entry-collocations{margin-top:28px}
 .vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}
+
+
+/* Main background and public-entry accent colours — requested 2026-10-29. */
+html[data-theme] body,
+html[data-theme] #root { background-color: #0A0F24; }
+html[data-theme] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
+  background-color: #0A0F24 !important;
+}
+html[data-theme] #root [data-auth-shell] { background-color: #0A0F24 !important; }
+html[data-theme]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
+  background-color: #0A0F24 !important;
+}
+#root [data-root-entry] .la-welcome-cta,
+#root [data-auth-shell] .auth-telegram-pill {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+}
+/* Gradient border only: keep each auth panel / route link's existing fill, size and radius. */
+#root [data-auth-shell] :is(.card, .auth-switch-pill) {
+  position: relative;
+  border-color: transparent !important;
+}
+#root [data-auth-shell] :is(.card, .auth-switch-pill)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+#root [data-auth-shell] .card::before { padding: 1px; }
+#root [data-auth-shell] .auth-switch-pill::before { padding: 2px; }
