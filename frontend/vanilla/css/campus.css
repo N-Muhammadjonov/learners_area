@@ -709,3 +709,76 @@ html[data-theme] #root [data-campus-shell] :is(
   mask-composite: exclude;
   pointer-events: none;
 }
+
+
+/* Reading / Listening section tabs and Retention actions — 2026-10-29. */
+/* Only the shared module selector, not lesson/test/material content. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"]) {
+  position: relative;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Retention only, including its active reading / recall controls and history.
+   Keep the existing control geometry and all handlers. */
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-primary, .btn-gold-solid,
+  .retention-level-option[aria-pressed="true"]
+) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+  :is(.btn-primary, .btn-gold-solid, .retention-level-option[aria-pressed="true"])
+  :is(span, strong, small) {
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+) {
+  position: relative;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
