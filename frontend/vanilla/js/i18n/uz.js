@@ -3873,5 +3873,12 @@ export default {
         "review": "Qayta ko'rish",
         "library": "Passage kutubxonasi"
     }
+,
+    "riwi": {
+        "title": "RIWI AI Murabbiy va O'quv Yordamchisi",
+        "ownerTitle": "Owner RIWI Boshqaruv va Provayder Laboratoriyasi",
+        "send": "Yuborish",
+        "clear": "Suhbatni O'chirish",
+        "explainOfficialAnswer": "Rasmiy Javobni Tushuntirish"
+    }
 };
-

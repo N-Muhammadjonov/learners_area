@@ -498,6 +498,27 @@
       "when": 1793241854800,
       "tag": "0071_shared_abuse_limits",
       "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "7",
+      "when": 1793271900000,
+      "tag": "0072_riwi_core_and_governance",
+      "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "7",
+      "when": 1793271901000,
+      "tag": "0073_riwi_assessments_and_security_signals",
+      "breakpoints": true
+    },
+    {
+      "idx": 73,
+      "version": "7",
+      "when": 1793271902000,
+      "tag": "0074_riwi_speaking_sessions_and_activity_indexes",
+      "breakpoints": true
     }
   ]
 }

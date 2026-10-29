@@ -837,3 +837,6 @@ _install_step40_content_drafts()
 
 from .writing_study_port import install as _install_writing_study
 _install_writing_study()
+
+from .riwi_port import install as _install_riwi_port
+_install_riwi_port()

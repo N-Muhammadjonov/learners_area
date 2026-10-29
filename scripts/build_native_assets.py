@@ -12,7 +12,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / 'frontend/vanilla'
 ALLOWED = ('index.html', 'js', 'modules', 'css/global.css', 'css/fonts.css',
-           'css/campus.css', 'fonts', 'brand', 'images', 'campus')
+           'css/campus.css', 'css/riwi.css', 'fonts', 'brand', 'images', 'campus')
 EXTENSIONS = {'.html','.js','.mjs','.css','.json','.woff','.woff2','.ttf','.png','.jpg',
               '.jpeg','.webp','.svg','.avif','.ico','.mp4','.webm','.mp3','.ogg','.wav','.m4a'}
 FORBIDDEN = {'package.json','package-lock.json','node_modules','scripts','tests','docs'}

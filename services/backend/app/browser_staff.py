@@ -124,4 +124,9 @@ async def read_staff(req, user, kind):
             from .step27_retention_policy import config
             return {'config':config()}
         if kind == 'owner-transfer': return {'ownerEmail':user['email'] or ''}
+        if kind == 'owner-riwi':
+            from .riwi_capabilities import RiwiActor
+            from .riwi_provider_router import get_riwi_owner_diagnostics
+            actor = RiwiActor(id=str(user['id']), role=str(user['role']), account_status=str(user['account_status']), locale=str(user.get('locale') or 'uz'))
+            return await get_riwi_owner_diagnostics(con, actor)
     raise HTTPException(404,'not_found')
