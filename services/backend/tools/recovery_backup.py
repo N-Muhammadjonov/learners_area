@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 import hashlib
 import json
@@ -187,23 +189,56 @@ def backup_media(endpoint,bucket,expected_bucket,path,key_file,*,apply=False,max
     for page in client.get_paginator('list_objects_v2').paginate(Bucket=bucket,**({'Prefix':prefix} if prefix else {})):
         for row in page.get('Contents',[]):
             key=row['Key']
-            if key.startswith('/') or '\\' in key or any(p in ('','..','.') for p in key.split('/')):
-                raise ValueError('unsafe object key; export stopped')
+            if not isinstance(key,str) or not key or '\x00' in key:
+                raise ValueError('invalid object key; export stopped')
             objects.append(row)
             if len(objects)>max_objects:raise ValueError('object ceiling exceeded; review the inventory before increasing it')
     report={'kind':'r2-encrypted-tar','objects':len(objects),'source_bytes':sum(r['Size'] for r in objects),'applied':apply,'scope':'prefix' if prefix else 'whole bucket'}
     if not apply:return report
+    parent=Path(path).resolve().parent;parent.mkdir(parents=True,exist_ok=True)
+    reserve=sum(sorted((r['Size'] for r in objects),reverse=True)[:4])+512*1024**2
+    if shutil.disk_usage(parent).free<report['source_bytes']+reserve:
+        raise ValueError('insufficient free space for the archive and bounded temporary downloads')
+    def download(row):
+        result=client.get_object(Bucket=bucket,Key=row['Key'],IfMatch=row['ETag'])
+        body=result['Body'];plain=tempfile.TemporaryFile(dir=parent)
+        try:
+            if result['ContentLength']!=row['Size']:raise ValueError('object changed during export')
+            size=0
+            while part:=body.read(CHUNK):
+                size+=len(part)
+                if size>row['Size']:raise ValueError('object exceeded its declared size')
+                plain.write(part)
+            if size!=row['Size']:raise ValueError('object truncated during export')
+            plain.seek(0);return plain,result.get('ContentType','application/octet-stream')
+        except BaseException:
+            plain.close();raise
+        finally:body.close()
     with encrypted_output(path,key_file) as out:
         with tarfile.open(mode='w|',fileobj=out) as archive:
-            for row in objects:
-                result=client.get_object(Bucket=bucket,Key=row['Key'],IfMatch=row['ETag'])
-                body=result['Body']
-                try:
-                    if result['ContentLength']!=row['Size']:raise ValueError('object changed during export')
-                    info=tarfile.TarInfo(row['Key']);info.size=row['Size'];info.mode=0o600
-                    info.pax_headers={'la.content-type':result.get('ContentType','application/octet-stream'),'la.etag':row['ETag']}
-                    archive.addfile(info,body)
-                finally:body.close()
+            executor=ThreadPoolExecutor(max_workers=4);pending=deque();rows=iter(objects)
+            def enqueue():
+                row=next(rows,None)
+                if row is not None:pending.append((row,executor.submit(download,row)))
+            try:
+                for _ in range(4):enqueue()
+                while pending:
+                    row,future=pending.popleft();plain,content_type=future.result()
+                    # R2 is a flat namespace: folder markers and repeated slashes
+                    # are legal keys. Preserve the exact key in encrypted metadata,
+                    # with a safe opaque local filename instead of normalizing it.
+                    name='objects/'+hashlib.sha256(row['Key'].encode()).hexdigest()
+                    info=tarfile.TarInfo(name);info.size=row['Size'];info.mode=0o600
+                    info.pax_headers={'la.object-key':row['Key'],'la.content-type':content_type,'la.etag':row['ETag']}
+                    try:archive.addfile(info,plain)
+                    finally:plain.close()
+                    enqueue()
+            finally:
+                executor.shutdown(wait=True,cancel_futures=True)
+                for _,future in pending:
+                    if not future.cancelled():
+                        try:future.result()[0].close()
+                        except Exception:pass
     report.update(sha256=digest_file(path),encrypted_bytes=Path(path).stat().st_size)
     return report
 
@@ -230,7 +265,7 @@ def extract_media(path,key_file,target,expected_sha256):
                     with os.fdopen(fd,'wb') as out,archive.extractfile(info) as source:
                         shutil.copyfileobj(source,out,CHUNK)
                     count+=1;size+=info.size
-                    metadata.append({'key':key,'size':info.size,'contentType':info.pax_headers.get('la.content-type'),
+                    metadata.append({'key':info.pax_headers.get('la.object-key',key),'file':key,'size':info.size,'contentType':info.pax_headers.get('la.content-type'),
                                      'sourceEtag':info.pax_headers.get('la.etag')})
             fd=os.open(metadata_path,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600);metadata_created=True
             with os.fdopen(fd,'w') as out:

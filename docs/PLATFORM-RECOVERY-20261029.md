@@ -46,6 +46,9 @@ connection/statement/overall deadlines and one backup connection are enforced.
 R2 objects are streamed into an encrypted tar, using `If-Match` against the listed
 ETag so changed/missing files fail the export. Object paths and MIME metadata stay
 inside the encrypted archive. No cloud-delete or pruning command is implemented.
+At most four downloads run concurrently. Their private unnamed temporary files
+are closed on success/failure; free space is checked for the archive, the four
+largest objects and a reserve before copying. Tar/encryption writes remain serial.
 
 Restores are restricted to a fresh local `learners_recovery_` database or a new
 `learners_recovery_media_` directory. Authentication completes before plaintext
@@ -57,6 +60,9 @@ triggers or strip permissions. Media restore only extracts locally, never upload
 over production objects.
 An extracted media set has a separate private `.metadata.json` sibling recording
 original keys, content types, sizes and source ETags for the controlled upload.
+Media archive filenames are opaque SHA-256 names; the encrypted metadata retains
+the exact original R2 key, including legal folder markers/repeated slashes. Restore
+uses the metadata mapping without interpreting an object key as a filesystem path.
 
 Limits: 32 GiB plaintext per encrypted archive, 10,000 media objects by default.
 For larger media, use reviewed disjoint `--prefix` shards and retain a complete
