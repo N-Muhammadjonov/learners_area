@@ -25,9 +25,9 @@ def test_exact_status_and_no_extra_routes():
     d=json.loads(Path('PORT_STATUS.json').read_text())
     deployed=[(m,r.path) for r in core.app.routes for m in r.methods if r.path.startswith('/api/')]
     marked={(r['method'],r['path']) for r in d['endpoints'] if r['status'].startswith('ported_')}
-    assert len(deployed)==len(set(deployed))==272
+    assert len(deployed)==len(set(deployed))==273
     assert set(deployed)==marked
-    assert len(d['endpoints'])==272 and d['ported_methods']==272 and d['unported_methods']==0
+    assert len(d['endpoints'])==273 and d['ported_methods']==273 and d['unported_methods']==0
     assert NEW <= marked
 
 @pytest.mark.parametrize('method,path',sorted(NEW))

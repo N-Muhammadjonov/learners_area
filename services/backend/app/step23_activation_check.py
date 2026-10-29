@@ -98,7 +98,7 @@ async def check_activation(req:Request):
             item={'entryId':None,'term':item_term,'definitionEn':None,'translationUz':None}
     missing=not contains(answer,item['term']);r=None;verdict='needs_revision'
     if not missing:
-        r,error=await ai.check(user.get('locale','en'),'activation',{'kind':'activation','item':item['term'],'meaningHint':item['definitionEn'],'mode':b['mode'],'targetLevel':b['targetLevel'],'uzbekPrompt':item['translationUz'] if b['uzbekPrompt'] else None,'upgradeFrom':(b.get('upgradeFrom') or '').strip() or None,'answer':answer},b['mode'])
+        r,error=await ai.check(user.get('locale','en'),'activation',{'kind':'activation','item':item['term'],'meaningHint':item['definitionEn'],'mode':b['mode'],'targetLevel':b['targetLevel'],'uzbekPrompt':item['translationUz'] if b['uzbekPrompt'] else None,'upgradeFrom':(b.get('upgradeFrom') or '').strip() or None,'answer':answer},b['mode'],user_id=user['id'])
         if error:return core.j(err('unavailable' if error=='unavailable' else 'failed','Could not check this sentence.',error=='failed'),503)
         verdict=r['verdict']
     activation_score=score(r['bands'] if r else None);used=False

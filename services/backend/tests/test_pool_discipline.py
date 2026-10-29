@@ -73,7 +73,8 @@ async def test_grade_route_releases_pool_before_external_wait_and_keeps_saved_re
         async def execute(self,sql,*args):calls.append(sql)
     raw=OneConnection(Connection());pool=db.BoundedPool(raw,.05)
     started=asyncio.Event();finish=asyncio.Event()
-    async def provider(*args):
+    async def provider(*args,**kwargs):
+        assert kwargs['user_id']==uid
         assert raw.active==0,'provider waited while holding a pool slot'
         started.set();await finish.wait();return None,'unavailable'
     monkeypatch.setattr(core,'pool',AsyncMock(return_value=pool))

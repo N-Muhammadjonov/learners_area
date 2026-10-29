@@ -1,7 +1,7 @@
 {
   "total_route_files": 221,
-  "total_methods": 272,
-  "ported_methods": 272,
+  "total_methods": 273,
+  "ported_methods": 273,
   "unported_methods": 0,
   "endpoints": [
     {
@@ -1633,6 +1633,12 @@
     {
       "method": "DELETE",
       "path": "/api/vocabulary",
+      "source": "services/backend/app/step21_vocabulary_create.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/vocabulary/{entry_id}",
       "source": "services/backend/app/step21_vocabulary_create.py",
       "status": "ported_code_no_db_integration_test"
     }

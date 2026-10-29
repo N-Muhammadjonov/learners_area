@@ -48,7 +48,7 @@ async def run_grade(db,req_id,user_id,language):
                     await con.execute('''UPDATE writing_grade_requests SET status='evaluated',claimed_at=NULL,evaluated_at=NOW() WHERE id=$1''',req_id)
                     return {'ok':True}
                 raise ValueError('invalid_evaluation')
-        task=row['task_type'];p,err=await ai.evaluate(language,'writing',{'taskType':task,'question':row['question_text'],'essay':row['essay_text'],'wordCount':row['word_count']},ai.grade_system(task),5000)
+        task=row['task_type'];p,err=await ai.evaluate(language,'writing',{'taskType':task,'question':row['question_text'],'essay':row['essay_text'],'wordCount':row['word_count']},ai.grade_system(task),5000,user_id=user_id)
         if err:return await failure(db,req_id,'external_required' if err=='unavailable' else 'evaluation_unavailable')
         norm=criteria(task,p['data']['criteria'])
         if not norm:return await failure(db,req_id,'invalid_evaluation')

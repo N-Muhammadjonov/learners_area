@@ -15,6 +15,10 @@ RULES = {
     'admission_request': (10, 3600), 'presence': (8, 60),
     'upload_intent': (120, 900),
     'ai_evaluation': (60, 900), 'text_evaluation': (180, 60),
+    # Four independently leased global slots use this one-slot rule.
+    'ai_provider_active': (1, 180), 'ai_provider_user_active': (1, 180),
+    'ai_provider_request': (1, 180),
+    'ai_provider_hour': (2000, 3600), 'ai_provider_user_hour': (120, 3600),
 }
 BUCKETS: dict[tuple[str, str], tuple[int, float]] = {}
 
@@ -50,6 +54,7 @@ def counter(name, key, consume=False):
     limit, window = RULES[name]
     try: limit = max(1, int(os.environ.get(f'RATE_LIMIT_{name.upper()}', limit)))
     except ValueError: pass
+    if name.startswith('ai_provider_'):limit=min(limit,RULES[name][0])
     now = time.monotonic()
     k = (name, key)
     # Node.js bucketsFor() prunes every expired key of the accessed action.
@@ -100,6 +105,7 @@ def _limits(name):
     limit,window=RULES[name]
     try:limit=max(1,min(1000000,int(os.environ.get('RATE_LIMIT_'+name.upper(),limit))))
     except ValueError:pass
+    if name.startswith('ai_provider_'):limit=min(limit,RULES[name][0])
     if not 1<=window<=86400:raise RateLimitUnavailable('invalid_rate_window')
     return limit,window
 
@@ -192,6 +198,8 @@ async def ready(con):
     if backend()=='postgres':
         _bucket('readiness','schema')
         await con.fetchval('SELECT bucket_key FROM api_rate_buckets LIMIT 0')
+        if not await con.fetchval("SELECT has_function_privilege('public.la_claim_ai_provider_v1(text[],integer[],integer[])','EXECUTE')"):
+            raise RateLimitUnavailable('provider_admission_migration_required')
 
 
 async def evaluation_limit(user_id,*,lightweight=False,connection=None):
