@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import quote, urlencode
 from fastapi import APIRouter, Request
 from . import main as core
-from .rate_limit import RULES, counter
+from .rate_limit import RULES, async_counter as counter
 from .step17_dictionary_read_port import pinned
 from .step26_dictionary_owner_read import search as search_dict
 
@@ -211,7 +211,7 @@ async def dictionary_search_hits(query):
 async def global_search(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401,PRIVATE)
-    retry=counter('global_search','global-search:'+str(user['id']),consume=True)
+    retry=await counter('global_search','global-search:'+str(user['id']),consume=True)
     if retry:return core.j({'error':'rate_limited'},429,{**PRIVATE,'Retry-After':str(retry)})
     q=(req.query_params.get('q') or '').strip()[:64]
     if len(q)<2:return core.j({'query':q,'results':[],'tooShort':True},headers=PRIVATE)

@@ -30,32 +30,41 @@ try {
     typedTables++;
   }
   const types = new Map((await db.query('SELECT oid,typname FROM pg_type')).rows.map(r => [r.oid, r.typname]));
-  const child = spawn(python, ['tests/pglite_http_probe.py'], { cwd: join(root, 'services/backend'), env: { ...process.env, PYTHONPATH: '.' }, stdio: ['pipe', 'pipe', 'pipe'] });
-  let report;
-  let errors = '';
-  child.stderr.on('data', chunk => { errors += chunk.toString(); });
-  const lines = createInterface({ input: child.stdout });
-  lines.on('line', async line => {
-    let message;
-    try {
-      message = JSON.parse(line);
-      if (message.event === 'done') { report = message; return; }
-      let result;
-      if (message.mode === 'describe') {
-        const info = await db.describeQuery(message.sql);
-        result = { params: info.queryParams.map(p => ({ name: types.get(p.dataTypeID) })), fields: info.resultFields.map(f => ({ name: f.name, dataTypeID: f.dataTypeID, typeName: types.get(f.dataTypeID) })) };
-      } else if (message.mode === 'exec') {
-        const output = await db.exec(message.sql);
-        result = output[0] || { rows: [], fields: [] };
-      } else result = await db.query(message.sql, message.values);
-      child.stdin.write(JSON.stringify(result, (_key, value) => typeof value === 'bigint' ? value.toString() : value) + '\n');
-    } catch (error) {
-      child.stdin.write(JSON.stringify({ error: error.message, code: error.code }) + '\n');
-    }
-  });
-  const code = await new Promise((resolve, reject) => { child.once('error', reject); child.once('close', resolve); });
-  if (code !== 0 || !report) throw new Error(errors || 'Python PostgreSQL probe failed');
-  console.log(JSON.stringify({ migrations: applied, typedTables, httpChecks: report.checks, database: 'embedded PostgreSQL', result: 'passed' }));
+  const probe=process.env.POSTGRES_PROBE || 'tests/pglite_http_probe.py';
+  if(!/^tests\/[a-z0-9_]+\.py$/.test(probe))throw Error('Invalid probe path');
+  const runProbe=async()=>{
+    const child = spawn(python, [probe], { cwd: join(root, 'services/backend'), env: { ...process.env, PYTHONPATH: '.' }, stdio: ['pipe', 'pipe', 'pipe'] });
+    let report;
+    let errors = '';
+    child.stderr.on('data', chunk => { errors += chunk.toString(); });
+    const lines = createInterface({ input: child.stdout });
+    lines.on('line', async line => {
+      let message;
+      try {
+        message = JSON.parse(line);
+        if (message.event === 'done') { report = message; return; }
+        let result;
+        if (message.mode === 'describe') {
+          const info = await db.describeQuery(message.sql);
+          result = { params: info.queryParams.map(p => ({ name: types.get(p.dataTypeID) })), fields: info.resultFields.map(f => ({ name: f.name, dataTypeID: f.dataTypeID, typeName: types.get(f.dataTypeID) })) };
+        } else if (message.mode === 'exec') {
+          const output = await db.exec(message.sql);
+          result = output[0] || { rows: [], fields: [] };
+        } else result = await db.query(message.sql, message.values);
+        child.stdin.write(JSON.stringify(result, (_key, value) => typeof value === 'bigint' ? value.toString() : value) + '\n');
+      } catch (error) {
+        child.stdin.write(JSON.stringify({ error: error.message, code: error.code }) + '\n');
+      }
+    });
+    const code = await new Promise((resolve, reject) => { child.once('error', reject); child.once('close', resolve); });
+    if (code !== 0 || !report) throw new Error(errors || 'Python PostgreSQL probe failed');
+    return report;
+  };
+  const replicas=process.env.POSTGRES_PROBE_REPLICAS==='2'?2:1;
+  const reports=await Promise.all(Array.from({length:replicas},()=>runProbe()));
+  const report=reports[0];
+  if(replicas===2 && reports.reduce((n,r)=>n+(r.allowed??0),0)!==8)throw Error('Replica counters diverged');
+  console.log(JSON.stringify({ migrations: applied, typedTables, httpChecks: reports.reduce((n,r)=>n+r.checks,0), replicas, admitted:replicas===2?reports.reduce((n,r)=>n+r.allowed,0):undefined, measurements:report.measurements, database: 'embedded PostgreSQL', result: 'passed' }));
   if (process.env.FASTAPI_WIRE_FIXTURE) {
     const { writeFileSync } = await import('node:fs');
     writeFileSync(process.env.FASTAPI_WIRE_FIXTURE, JSON.stringify(report.wire));

@@ -3183,3 +3183,12 @@ export const telegramOwnerHandovers = pgTable("telegram_owner_handovers", {
 }, (table) => ({
   fromIdx: index("telegram_owner_handovers_from_idx").on(table.fromTelegramId, table.status),
 }));
+
+/** Shared server-only abuse counters. Keys are HMAC digests, never raw identities. */
+export const apiRateBuckets = pgTable("api_rate_buckets", {
+  bucketKey: varchar("bucket_key", { length: 64 }).primaryKey(),
+  used: integer("used").notNull(),
+  resetAt: timestamp("reset_at", { withTimezone: true }).notNull(),
+}, table => [index("api_rate_buckets_expiry_idx").on(table.resetAt),
+  check("api_rate_buckets_used_check", sql`${table.used} >= 0`),
+  check("api_rate_buckets_bucket_key_check", sql`${table.bucketKey} ~ '^[a-f0-9]{64}$'`)]);

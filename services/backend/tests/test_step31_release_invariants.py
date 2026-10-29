@@ -19,11 +19,12 @@ def test_sql_migrations_unchanged_from_original_sha256():
     manifest=json.loads((ROOT/'MIGRATION_AUDIT_260.json').read_text())
     expected=manifest['sql_sha256_by_filename']
     actual={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'migrations').glob('*.sql')}
-    assert len(actual)==70
+    assert len(actual)==71
     assert {name:actual[name] for name in expected}==expected
     assert set(actual)-set(expected)=={
         '0066_notification_event_idempotency.sql','0067_assignment_deadline_indexes.sql',
-        '0068_writing_model_pattern_capacity.sql','0069_video_progress_playback_duration.sql'}
+        '0068_writing_model_pattern_capacity.sql','0069_video_progress_playback_duration.sql',
+        '0071_shared_abuse_limits.sql'}
 
 def test_port_status_no_duplicates():
     status=json.loads((ROOT/'PORT_STATUS.json').read_text())

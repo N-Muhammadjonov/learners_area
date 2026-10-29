@@ -56,6 +56,8 @@ class StaticFrontend:
                 db = await core.pool()
                 async with db.acquire() as con:
                     await con.fetchval('SELECT 1')
+                    from .rate_limit import ready as rate_ready
+                    await rate_ready(con)
                 response = core.j({'ok': True, 'frontend': self.build() is not None}, headers=core.PRIVATE)
                 if not self.build():
                     response.status_code = 503

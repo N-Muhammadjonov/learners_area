@@ -17,7 +17,7 @@ from fastapi.responses import JSONResponse, Response
 
 from .db import db_failure, pool, row_to_dict, close_pool
 from .auth_validation import validate as validate_auth
-from .rate_limit import client_key, counter, too_many, reset
+from .rate_limit import client_key, async_counter as counter, too_many, async_reset as reset, reserve, release
 from .security import (SESSION_COOKIE, SESSION_TTL, add_security_headers,
                        check_origin, clear_session_cookie, issue_token, normalize_origin,
                        verify_token, write_cookie)
@@ -189,31 +189,43 @@ async def _authenticate(req: Request, recovery_only: bool = False):
     password = body['password']
     k = email
     ip = client_key(req)
-    delay = counter('login_account', k) or counter('login_ip', ip)
-    if delay: return too_many(delay)
-    conn_pool = await pool()
-    async with conn_pool.acquire() as conn:
-        user = await conn.fetchrow('''
-          SELECT id, email, password_hash, role, name, locale,
-                 onboarding_completed_at, account_status, auth_version
-          FROM users WHERE email=$1 LIMIT 1''', email)
-    # Same bcrypt decoy hash as the source: nonexistent email performs bcrypt.
+    # Reserve before password hashing so concurrent replicas cannot all pass a
+    # read-only pre-check. Successful logins release their own IP reservation.
+    ip_slot = await reserve('login_ip', ip)
+    if ip_slot.retry_after:return too_many(ip_slot.retry_after)
     try:
+        account_slot = await reserve('login_account', k)
+    except Exception:
+        await asyncio.gather(release(ip_slot), return_exceptions=True)
+        raise
+    if account_slot.retry_after:
+        await release(ip_slot)
+        return too_many(account_slot.retry_after)
+    try:
+        conn_pool = await pool()
+        async with conn_pool.acquire() as conn:
+            user = await conn.fetchrow('''
+              SELECT id, email, password_hash, role, name, locale,
+                     onboarding_completed_at, account_status, auth_version
+              FROM users WHERE email=$1 LIMIT 1''', email)
+        # Same bcrypt decoy hash as the source: nonexistent email performs bcrypt.
         import bcrypt
-    except ImportError:
-        raise RuntimeError('bcrypt dependency missing')
-    decoy = '$2a$12$NpanVw6DUsaA2WX2Obipc.94Av8DHYf.iT6gFPkLre9PfSqKIuYLe'
-    stored = user['password_hash'] if user else None
-    try:
-        valid = await asyncio.to_thread(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
-    except ValueError:
-        valid = False
+        decoy = '$2a$12$NpanVw6DUsaA2WX2Obipc.94Av8DHYf.iT6gFPkLre9PfSqKIuYLe'
+        stored = user['password_hash'] if user else None
+        try:
+            valid = await asyncio.to_thread(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
+        except ValueError:
+            valid = False
+    except Exception:
+        # A server/storage failure must not use up the learner's failed-login
+        # allowance. Release only our slots and retain the original error.
+        await asyncio.gather(release(ip_slot), release(account_slot), return_exceptions=True)
+        raise
     valid = bool(valid and stored)
     if not valid or not user or (recovery_only and not (user['account_status'] == 'active' and user['role'] in ('admin', 'owner'))):
-        counter('login_account', k, consume=True)
-        counter('login_ip', ip, consume=True)
         return j({'error': 'invalid_credentials'}, 401)
-    reset('login_account', k)
+    await reset('login_account', k, window=account_slot.window)
+    await release(ip_slot)
     token = issue_token(dict(user))
     response = j({'ok': True, 'onboarded': bool(user['onboarding_completed_at']),
                   'accountStatus': user['account_status']}, headers={'Cache-Control': 'no-store'})
@@ -254,7 +266,7 @@ async def create_access_request(user_id, message=None):
 async def register(req: Request):
     if not auth_policy()['passwordEnabled']:
         return auth_disabled()
-    delay = counter('register', client_key(req), consume=True)
+    delay = await counter('register', client_key(req), consume=True)
     if delay: return too_many(delay)
     body, error = validate_auth(await payload(req), 'register')
     if error: return j({'error': error}, 400)
@@ -337,7 +349,7 @@ async def profile_patch(req: Request):
 
 @app.post('/api/admission/request')
 async def admission_request(req: Request):
-    delay = counter('admission_request', client_key(req), consume=True)
+    delay = await counter('admission_request', client_key(req), consume=True)
     if delay: return too_many(delay)
     user = await current_user(req)
     if not user: return auth_error()
@@ -407,11 +419,10 @@ async def post_notifications(req: Request):
 async def presence(req: Request):
     user = await current_user(req, active=True)
     if not user: return auth_error()
-    delay = counter('presence', 'presence:' + str(user['id']), consume=False)
-    if delay: return too_many(delay)
-    counter('presence', 'presence:' + str(user['id']), consume=True)
     conn_pool = await pool()
     async with conn_pool.acquire() as conn:
+        delay = await counter('presence', 'presence:' + str(user['id']), consume=True, connection=conn)
+        if delay: return too_many(delay)
         await conn.execute('''
           INSERT INTO activity_events(id,user_id,type,payload,created_at)
           VALUES(md5('site-presence:'||$1::text)::uuid,$1::uuid,'SITE_PRESENCE',
@@ -459,7 +470,7 @@ async def post_profile_photo(req: Request):
     if not user: return auth_error()
     from .rate_limit import RULES
     RULES.setdefault('profile_photo', (12, 60))
-    delay = counter('profile_photo', str(user['id']), consume=True)
+    delay = await counter('profile_photo', str(user['id']), consume=True)
     if delay: return too_many(delay)
     content_length = req.headers.get('content-length', '')
     if content_length and content_length.isdigit() and int(content_length) > 320000:

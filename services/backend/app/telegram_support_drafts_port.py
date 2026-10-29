@@ -9,7 +9,7 @@ from . import main as core
 from .internal_bot_ready_port import verify_bot
 from .telegram_admins_port import actor_for,denied_response,audit,effective_owner_id,grantable
 from .telegram_preferences_port import valid_actor,clip,jsonb
-from .rate_limit import RULES,counter,too_many
+from .rate_limit import RULES,async_counter as counter,too_many
 router=APIRouter()
 RULES.setdefault('telegram_support',(40,900))
 OPEN=('open','waiting_for_user','waiting_for_staff')
@@ -71,7 +71,7 @@ async def support_create(req:Request):
     if denied is not None:return denied
     body=body_obj(await core.payload(req));tg=body.get('telegramUserId') if isinstance(body.get('telegramUserId'),str) else ''
     if not valid_actor(tg):return core.j({'error':'invalid_actor'},400)
-    delay=counter('telegram_support','support:'+tg,consume=True)
+    delay=await counter('telegram_support','support:'+tg,consume=True)
     if delay:return too_many(delay)
     db=await core.pool()
     async with db.acquire() as conn:

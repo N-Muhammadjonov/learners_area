@@ -1,0 +1,191 @@
+{
+  "stage": 4,
+  "name": "Shared atomic abuse protection",
+  "verified_at_utc": "2026-10-29 03:34:46 UTC",
+  "status": "SOURCE_VERIFIED_PRODUCTION_APPROVAL_PENDING",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/shared-rate-limits-20261029",
+  "source_base_commit": "11650a7d08f8d7763255c0e0d515bfb969dbbd8b",
+  "main_and_live_commit_last_verified": "11650a7d08f8d7763255c0e0d515bfb969dbbd8b",
+  "production_changed_by_task4": false,
+  "implementation": {
+    "store": "Existing PostgreSQL; atomic INSERT ON CONFLICT; no Redis or new paid service",
+    "identities": "HMAC-SHA256 of endpoint category and server-verified identity; no raw IP/email/token in counter table",
+    "client_ip": "CF-Connecting-IP only after OriginBoundary validates its configured edge secret; otherwise transport peer. Forwarded headers do not attest identity. Uvicorn proxy_headers remains false.",
+    "login": "Reserve IP/account before bcrypt, release own IP on success/account refusal, release own slots on storage failure. Failed attempts persist across processes.",
+    "coverage": "Existing limited actions converted to async shared storage; learner-scoped AI, video answers, uploads, archive, search and presence; Telegram identity limits including verified legacy callback.",
+    "ai_limits": {
+      "expensive": "60 / 900 seconds per learner",
+      "short_text": "180 / 60 seconds per learner",
+      "retention_context": "Existing shared vocabulary_search quota applies before dictionary/context work"
+    },
+    "failure_mode": "No in-memory fallback in production. Counter store failure returns 503. Missing schema/signing key fails readiness.",
+    "cleanup": "At most 8 old buckets removed on a newly used window; SKIP LOCKED; no idle polling job",
+    "normal_navigation": "No blanket limiter middleware or additional rate-store query on ordinary session/navigation paths"
+  },
+  "migration": {
+    "name": "0071_shared_abuse_limits.sql",
+    "table": "public.api_rate_buckets",
+    "changes": [
+      "Operational HMAC bucket key, usage, reset time",
+      "Expiry index",
+      "RLS enabled",
+      "PUBLIC, anon and authenticated privileges revoked"
+    ],
+    "academic_tables_changed": false,
+    "applied_to_production": false,
+    "preserved_checkpoint": "0070 belongs to the preserved unmerged student-learning branch; later integration must reconcile migration ordering."
+  },
+  "tests": {
+    "initial_full_pytest": {
+      "passed": 3000,
+      "failed": 3
+    },
+    "initial_failed_cases": [
+      {
+        "case": "tests/test_migration_phase2.py::test_password_reset_dev_only_not_account_leak",
+        "cause": "Disabled reset endpoint queried the new rate store before returning its established response",
+        "repair": "Keep validation, then reject disabled reset before database/rate work"
+      },
+      {
+        "case": "tests/test_step31_release_invariants.py::test_sql_migrations_unchanged_from_original_sha256",
+        "cause": "Expected 70 files; the additive migration is file 71",
+        "repair": "Explicitly allow only 0071; retain original migration hash assertions"
+      },
+      {
+        "case": "tests/test_step40_265_methods.py::test_original_sql_migration_bytes_are_unchanged",
+        "cause": "Expected 70 files",
+        "repair": "Expect the additive file; retain original hashes and identical mirrored SQL checks"
+      }
+    ],
+    "same_three_cases_on_read_only_main_snapshot": {
+      "commit": "11650a7d08f8d7763255c0e0d515bfb969dbbd8b",
+      "passed": 3,
+      "failed": 0
+    },
+    "final_full_pytest": {
+      "passed": 3006,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": "One upstream Starlette/AnyIO deprecation warning"
+    },
+    "npm_test": {
+      "passed": 1166,
+      "failed": 0,
+      "skipped": 11
+    },
+    "integration_default": {
+      "migrations": 71,
+      "typed_tables": 127,
+      "http_checks": 426,
+      "native_decoder_checks": 151,
+      "native_dom_checks": 118,
+      "academic_migration_replay_checks": 8,
+      "result": "passed"
+    },
+    "integration_explicit_postgres_limiter": {
+      "http_checks": 426,
+      "result": "passed"
+    },
+    "integration_timing_fixture": "Offline timestamp now compares to a fresh database cutoff. An initial test used phase-start host time and failed under concurrent test load; main baseline passed without that load. Product presence logic was not changed.",
+    "shared_postgres_probe": {
+      "checks": 254,
+      "result": "passed",
+      "includes": [
+        "40 concurrent reservations: 8 admitted, 32 denied",
+        "Parallel login: 3 password checks, 9 rate rejections",
+        "Expiry and stale completion protection",
+        "Shared-NAT successful login slot release",
+        "Bounded cleanup",
+        "Replay preserves counter and learner records",
+        "Browser role privilege denial",
+        "Quota 429 with Retry-After",
+        "Store outage fails closed",
+        "No limiter query for ordinary navigation"
+      ]
+    },
+    "independent_backend_process_probe": {
+      "processes": 2,
+      "attempts": 16,
+      "admitted_total": 8,
+      "result": "passed",
+      "limitation": "Independent local Python processes sharing embedded PostgreSQL; not a production replica/load test"
+    },
+    "native_build": {
+      "files": 497,
+      "routes": 122,
+      "revision": "86b8866df5f6d987ebb7",
+      "result": "passed"
+    },
+    "backend_check": "passed",
+    "python_compile": "passed",
+    "schema_typescript_check": "passed using repository alias configuration",
+    "static_limiter_call_audit": {
+      "awaited_calls": 51,
+      "sync_production_imports": 0,
+      "issues": 0
+    },
+    "diff_whitespace_check": "passed",
+    "default_postgres_probe": {
+      "checks": 9,
+      "result": "passed",
+      "mode": "explicit PostgreSQL limiter"
+    },
+    "default_postgres_probe_baseline": {
+      "commit": "11650a7d08f8d7763255c0e0d515bfb969dbbd8b",
+      "result": "failed",
+      "case": "pglite_http_probe.py:112 old /_frontend/session expected 200, received 404",
+      "repair": "Fixture now uses /api/frontend/session, tests PostgreSQL-to-DTO types directly, verifies the legacy SQL bridge rejects POST with 405 and legacy session remains 404. No closed endpoint reopened."
+    }
+  },
+  "normal_session_measurement": {
+    "environment": "Isolated embedded PostgreSQL + real ASGI; alternating memory/PostgreSQL mechanism modes; 10 warmups per mode",
+    "samples_per_mode": 100,
+    "memory": {
+      "p50_ms": 2.584,
+      "p95_ms": 3.707
+    },
+    "postgres": {
+      "p50_ms": 2.454,
+      "p95_ms": 3.629
+    },
+    "extra_rate_queries": {
+      "memory": 0,
+      "postgres": 0
+    },
+    "interpretation": "No additional rate-store work on this path. Small local timing differences are not a production speedup or capacity claim."
+  },
+  "pending_release": {
+    "requires_separate_user_approval": true,
+    "order": [
+      "Apply the additive operational migration to production and verify privileges/index/schema",
+      "Merge verified Task 4 branch and confirm Railway deployment/readiness/version",
+      "Add one narrowly scoped Cloudflare Free rate rule after rechecking for concurrent configuration changes",
+      "Run safe normal-traffic smoke checks and record release evidence"
+    ],
+    "cloudflare_before": "Free Website plan; http_ratelimit entrypoint returned 404 (not configured)",
+    "cloudflare_rule": {
+      "ref": "learners_area_auth_burst",
+      "description": "Coarse authentication burst protection, leaving learner navigation/saves and Telegram polling outside the rule",
+      "action": "block",
+      "enabled": true,
+      "expression": "(http.host eq \"learnersarea.uz\" and ((http.request.method eq \"POST\" and http.request.uri.path in {\"/api/auth/login\" \"/api/auth/recovery/login\" \"/api/auth/register\" \"/api/auth/reset/request\" \"/api/auth/reset/confirm\" \"/api/auth/telegram/intent\"}) or (http.request.method eq \"GET\" and http.request.uri.path eq \"/api/auth/google/start\")))",
+      "ratelimit": {
+        "characteristics": [
+          "cf.colo.id",
+          "ip.src"
+        ],
+        "period": 10,
+        "requests_per_period": 1000,
+        "mitigation_timeout": 10
+      }
+    },
+    "edge_limit_scope": "Coarse per-IP/data-center edge reduction; PostgreSQL is the cross-instance authority. No CAPTCHA or custom response entitlement assumed.",
+    "rollback": "Revert app to 11650a7; leave additive operational table intact. Disable/delete only this new rate rule if necessary. Existing origin secret, DNS, WAF and bot are preserved.",
+    "docs": [
+      "https://developers.cloudflare.com/waf/rate-limiting-rules/parameters/",
+      "https://developers.cloudflare.com/use-cases/solutions/stop-account-takeover-attacks/"
+    ]
+  },
+  "remaining": "Task 4 production acceptance is pending approval. Task 5 is not started. 200/500/1000 concurrency and overall readiness remain unverified until Task 13."
+}

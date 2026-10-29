@@ -16,7 +16,7 @@ from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
-from .rate_limit import counter,RULES
+from .rate_limit import async_counter as counter,RULES
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
 CASEFOLD=json.loads(Path(__file__).with_name('dictionary_frozen_casefold.json').read_text())
@@ -154,7 +154,7 @@ async def dictionary_search(req:Request):
     u=await core.current_user(req,active=True)
     if not u:return core.j({'error':'unauthenticated'},401,PRIVATE)
     key='dictionary:'+str(u['id'])
-    delay=counter('vocabulary_search',key,consume=True)
+    delay=await counter('vocabulary_search',key,consume=True)
     if delay:return core.j({'error':'rate_limited'},429,{**PRIVATE,'Retry-After':str(delay)})
     q=req.query_params.get('q','');direction=req.query_params.get('direction','EN')
     if len(q)>80 or direction not in ('EN','UZ'):return core.j({'error':'invalid_input'},400,PRIVATE)

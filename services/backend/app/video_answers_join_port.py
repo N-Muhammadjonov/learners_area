@@ -14,7 +14,7 @@ from fastapi import APIRouter, Request
 from . import main as core
 from .lesson_writing_port import is_js_uuid, js_length, lesson_live
 from .video_progress_port import _video, _progress
-from .rate_limit import RULES, client_key, counter, too_many
+from .rate_limit import RULES, async_counter as counter, too_many
 
 router = APIRouter()
 RULES.setdefault('evaluation', (60, 900))
@@ -111,7 +111,7 @@ async def submit_video_answers(req: Request, id: str):
     user = await core.current_user(req,active=True)
     if not user:
         return core.auth_error()
-    delay=counter('evaluation',client_key(req),consume=True)
+    delay=await counter('evaluation',str(user['id']),consume=True)
     if delay:
         return too_many(delay)
     body=await core.payload(req)
@@ -154,7 +154,7 @@ async def submit_video_response(req: Request, id: str):
     user=await core.current_user(req,active=True)
     if not user:
         return core.auth_error()
-    delay=counter('evaluation',client_key(req),consume=True)
+    delay=await counter('evaluation',str(user['id']),consume=True)
     if delay:
         return too_many(delay)
     body=await core.payload(req)

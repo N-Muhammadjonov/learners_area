@@ -6,6 +6,7 @@ import json,math,re,unicodedata
 from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
+from .rate_limit import evaluation_limit
 from .step16_stealing_port import FALLBACK
 from .step23_typing_legacy import levenshtein
 router=APIRouter()
@@ -39,6 +40,8 @@ def err(code,msg,retry=None):return {'error':{'code':code,'message':msg,**({'ret
 async def post(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.j(err('unauthenticated','Sign in again.'),401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     b=await core.payload(req)
     if not isinstance(b,dict) or set(b)!={'patternId','newTopic','answer'} or core.uuid_value(b.get('patternId')) is None or any(not isinstance(b.get(k),str) or not 1<=len(b[k])<=lim for k,lim in [('newTopic',120),('answer',800)]):
         return core.j(err('invalid_input','Write your adapted sentence.','answer'),400)

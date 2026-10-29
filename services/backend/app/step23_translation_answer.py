@@ -7,6 +7,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
 from .writing_translation_port import done,translation_view
+from .rate_limit import evaluation_limit
 router=APIRouter()
 
 def norm(s):
@@ -22,6 +23,8 @@ def problem(code):
 async def submit(req:Request,id:str):
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':{'code':'unauthenticated','message':'Sign in again.'}},401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     b=await core.payload(req)
     if not core.uuid_value(id) or not isinstance(b,dict) or set(b)!={'position','answer'} or type(b.get('position')) is not int or not 1<=b['position']<=40 or not isinstance(b.get('answer'),str) or len(b['answer'])>1200:return invalid()
     text=b['answer'].strip()

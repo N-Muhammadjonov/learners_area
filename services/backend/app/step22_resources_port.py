@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 from fastapi import APIRouter, Request
 from . import main as core
 from .step21_safe_reads_port import OWNER, get_owner
-from .rate_limit import counter, RULES
+from .rate_limit import async_counter as counter, RULES
 
 router=APIRouter()
 RULES.setdefault('upload_intent',(120,900))
@@ -54,7 +54,7 @@ async def put_materials(req:Request,type:str,id:str):
         owner=await get_owner(con,type,id)
         if not owner:return core.j({'error':'not_found'},404)
         if owner['creatorId'] and u['role']=='teacher' and str(owner['creatorId'])!=str(u['id']):return core.j({'error':'forbidden'},403)
-        limited=counter('upload_intent',f'resources:{u["id"]}',consume=True)
+        limited=await counter('upload_intent',f'resources:{u["id"]}',consume=True, connection=con)
         if limited:return core.j({'error':'rate_limited'},429,{'Retry-After':str(limited)})
         b=await core.payload(req)
         if not validate(b):return core.j({'error':'invalid_input'},400)

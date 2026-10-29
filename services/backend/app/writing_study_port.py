@@ -4,7 +4,7 @@ from uuid import UUID,uuid5,NAMESPACE_URL
 from fastapi import APIRouter,Request
 from . import main as core
 from .writing_study_data import STUDY,PERSONAL,decoded,study_id,source_hash,session_source,personal_patterns,usage_uz
-from .rate_limit import counter,RULES
+from .rate_limit import async_counter as counter,RULES
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
 RULES.setdefault('writing_study',(180,60))
@@ -48,7 +48,9 @@ async def study_get(req:Request,id:str):
 async def study_put(req:Request,id:str):
     user,error=await authority(req,id)
     if error is not None:return error
-    if counter('writing_study',str(user['id']),consume=True):return fail('rate_limited',429)
+    delay=await counter('writing_study',str(user['id']),consume=True)
+    if delay:
+        response=fail('rate_limited',429);response.headers['Retry-After']=str(delay);return response
     body=await core.payload(req);db=await core.pool()
     async with db.acquire() as con:
         async with con.transaction():
@@ -71,7 +73,9 @@ async def personal_create(req:Request,id:str):
     if error is not None:return error
     b=await core.payload(req)
     if not isinstance(b,dict) or set(b)!={'pattern','example','usageNote'} or any(not isinstance(b[k],str) or len(b[k])>n for k,n in [('pattern',200),('example',800),('usageNote',2000)]) or len(b['pattern'].strip())<2:return fail('invalid_input')
-    if counter('writing_study',str(user['id']),consume=True):return fail('rate_limited',429)
+    delay=await counter('writing_study',str(user['id']),consume=True)
+    if delay:
+        response=fail('rate_limited',429);response.headers['Retry-After']=str(delay);return response
     db=await core.pool()
     async with db.acquire() as con:
         async with con.transaction():
