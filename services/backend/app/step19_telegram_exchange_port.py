@@ -8,7 +8,7 @@ import hashlib,re
 from datetime import datetime,timezone
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import RULES,counter,too_many,client_key
+from .rate_limit import RULES,async_counter as counter,too_many,client_key
 from .telegram_preferences_port import valid_actor
 from .step18_telegram_admission_port import gates
 router=APIRouter()
@@ -23,7 +23,7 @@ def fail(code):
 @router.post('/api/auth/telegram/intent/exchange')
 async def intent_exchange(req:Request):
     RULES.setdefault('telegram_auth',(20,900))
-    retry=counter('telegram_auth',client_key(req),consume=True)
+    retry=await counter('telegram_auth',client_key(req),consume=True)
     if retry:return too_many(retry)
     b=await core.payload(req)
     b=b if isinstance(b,dict) else {}

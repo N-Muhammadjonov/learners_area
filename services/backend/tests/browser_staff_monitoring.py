@@ -232,9 +232,10 @@ def run(con, learner_id, password):
     assert len(online_roster)==1 and online_roster[0]['id']==learner_id and online_roster[0]['online'] is True
     assert online_roster[0]['lastSeenAt'] is not None and online_roster[0]['currentVisitSeconds']==65 and online_roster[0]['totalWebsiteSeconds']==3665
     sql("UPDATE activity_events SET created_at=now()-interval '91 seconds' WHERE id=md5('site-presence:'||$1::text)::uuid AND user_id=$1::uuid",learner_id)
+    offline_cutoff=fetchval("SELECT now()-interval '90 seconds'")
     offline_roster=data(teacher,'teacher-students')['students']
     offline_seen=datetime.fromisoformat(offline_roster[0]['lastSeenAt'].replace('Z','+00:00'))
-    assert offline_roster[0]['online'] is False and offline_seen<now-timedelta(seconds=90)
+    assert offline_roster[0]['online'] is False and offline_seen<offline_cutoff
     assert offline_roster[0]['totalWebsiteSeconds']==3665
     checks += 6
     own_attempt = learner.get('/api/frontend/view?' + urlencode({'route': '/app/reading/attempts/' + attempt_id}))

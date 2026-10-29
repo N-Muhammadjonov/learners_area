@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime,timezone
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import counter,RULES
+from .rate_limit import async_counter as counter,RULES
 from .step17_mcq_port import live,staff
 from .step20_retention_transitions_port import phase
 router=APIRouter()
@@ -71,7 +71,7 @@ async def meaning(req:Request):
     term=req.query_params.get('q','').strip()
     if not core.uuid_value(id) or source not in ('reading','listening','retention') or not term or len(term)>80:
         return core.j({'error':'invalid_input'},400,PRIVATE)
-    delay=counter('vocabulary_search','text-dictionary:'+str(user['id']),consume=True)
+    delay=await counter('vocabulary_search','text-dictionary:'+str(user['id']),consume=True)
     if delay:return core.j({'error':'rate_limited'},429,{**PRIVATE,'Retry-After':str(delay)})
     try:
         db=await core.pool()

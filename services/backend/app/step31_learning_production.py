@@ -8,6 +8,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from . import step31_coach as coach
 
+from .rate_limit import evaluation_limit
 router=APIRouter()
 
 async def _query(sql,*params):
@@ -58,6 +59,8 @@ async def grammar_produce(req:Request,id:str):
     if not eid:return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     ex,topic=await _exercise_and_topic(eid,user['id'])
     if not ex:return core.j({'error':'not_found'},404)
     body=await core.payload(req)
@@ -95,6 +98,8 @@ async def speaking_transcript(req:Request,id:str):
     if not aid:return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401)
+    limited=await evaluation_limit(user['id'],lightweight=False)
+    if limited is not None:return limited
     attempt=await _query('SELECT * FROM speaking_attempts WHERE id=$1',aid)
     if not attempt:return core.j({'error':'not_found'},404)
     if attempt['user_id']!=user['id']:return core.j({'error':'forbidden'},403)
@@ -154,6 +159,8 @@ async def vocab_use(req:Request,id:str):
     if not entry_id:return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     db=await core.pool()
     async with db.acquire() as con:
         entry=await con.fetchrow('SELECT * FROM user_vocabulary WHERE id=$1 AND user_id=$2',entry_id,user['id'])

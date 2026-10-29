@@ -1,3 +1,4 @@
+from unittest.mock import AsyncMock
 import asyncio
 from uuid import UUID
 from fastapi import FastAPI
@@ -51,7 +52,7 @@ def client(monkeypatch, con):
     monkeypatch.setattr(read.core, 'current_user', user)
     monkeypatch.setattr(read.core, 'pool', pool)
     monkeypatch.setattr(read, 'pinned', pinned)
-    monkeypatch.setattr(read, 'counter', lambda *a, **k: 0)
+    monkeypatch.setattr(read, 'counter', AsyncMock(return_value=0))
     app = FastAPI()
     app.include_router(read.router)
     return TestClient(app)

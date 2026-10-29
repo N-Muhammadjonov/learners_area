@@ -6,6 +6,7 @@ from . import main as core
 from . import step31_coach as coach
 from .step31_learning_production import _language
 from .notification_events import notify_writing_review_required
+from .rate_limit import evaluation_limit
 router=APIRouter()
 
 @router.post('/api/writing/submissions/{id}/submit')
@@ -14,6 +15,8 @@ async def writing_submit(req:Request,id:str):
     if not sid:return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401)
+    limited=await evaluation_limit(user['id'],lightweight=False)
+    if limited is not None:return limited
     db=await core.pool()
     async with db.acquire() as con:
         submission=await con.fetchrow('SELECT * FROM writing_submissions WHERE id=$1 AND user_id=$2',sid,user['id'])

@@ -108,22 +108,24 @@ response = client.post('/api/auth/login', json={'email': 'probe@example.test', '
 assert response.status_code == 200, response.text
 assert response.json()['accountStatus'] == 'active'
 checks += 1
-response = client.get('/_frontend/session', headers=headers)
-assert response.status_code == 200 and response.json()['user']['id'] == UID, response.text
+response = client.get('/api/frontend/session')
+assert response.status_code == 200 and response.json()['session']['user']['id'] == UID, response.text
 checks += 1
 asyncio.run(con.execute("UPDATE users SET name='Updated learner' WHERE id=$1", UID))
-assert client.get('/_frontend/session', headers=headers).json()['user']['name'] == 'Updated learner'
+assert client.get('/api/frontend/session').json()['session']['user']['name'] == 'Updated learner'
 checks += 1
 
 sql = 'SELECT $1::uuid AS id,$2::timestamptz AS at,$3::jsonb AS payload,$4::text[] AS tags,$5::numeric AS number'
-response = client.post('/_frontend/query', headers=headers, json={'sql': sql, 'params': [UID, '2026-10-24T00:00:00.000Z', {'text': 'o‘rganish', 'nested': [1, None, True]}, '{"a,b",NULL,"NULL"}', '6.50']})
-assert response.status_code == 200, response.text
-wire = response.json()
-assert wire['rows'][0][0] == UID
-assert json.loads(wire['rows'][0][2])['nested'] == [1, None, True]
+# Exercise PostgreSQL/DTO types directly. The old arbitrary-SQL HTTP bridge is
+# deliberately closed in the native browser architecture, even for an owner.
+row = asyncio.run(con.fetchrow(sql, UID, '2026-10-24T00:00:00.000Z', {'text': 'o‘rganish', 'nested': [1, None, True]}, '{"a,b",NULL,"NULL"}', '6.50'))
+wire = core.row_to_dict(row)
+assert wire['id'] == UID and wire['payload']['nested'] == [1, None, True]
+assert wire['at'] == '2026-10-24T00:00:00.000Z' and wire['tags'] == ['a,b',None,'NULL'] and wire['number'] == 6.5
 checks += 1
 response = client.post('/_frontend/query', headers=headers, json={'sql': 'WITH removed AS (DELETE FROM users RETURNING id) SELECT * FROM removed', 'params': []})
-assert response.status_code == 503 and response.json()['code'] == '25006', response.text
+assert response.status_code == 405 and response.headers['allow'] == 'GET, HEAD', response.text
+assert client.get('/_frontend/session', headers=headers).status_code == 404
 assert asyncio.run(con.fetchval('SELECT count(*)::int FROM users')) == 1
 checks += 1
 
@@ -147,6 +149,6 @@ checks += 1
 response = client.post('/api/auth/logout')
 assert response.status_code == 200, response.text
 assert asyncio.run(con.fetchval('SELECT count(*)::int FROM auth_session_revocations')) == 1
-assert client.get('/_frontend/session', headers=headers).json()['user'] is None
+assert client.get('/api/frontend/session').status_code == 401
 checks += 1
 print(json.dumps({'event': 'done', 'checks': checks, 'wire': wire}), flush=True)

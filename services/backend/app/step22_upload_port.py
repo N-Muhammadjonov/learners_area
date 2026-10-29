@@ -6,7 +6,7 @@ import os,re,uuid,math,asyncio
 from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import counter,client_key,RULES
+from .rate_limit import async_counter as counter,client_key,RULES
 RULES.setdefault('upload_intent',(120,900))
 from .step19_storage import provider,_client,valid_key
 from .step20_upload_finalize_port import problem
@@ -55,7 +55,7 @@ def friendly_error(code,status):return problem(code,status)
 async def upload_intent(req:Request):
     u=await core.current_user(req,active=True)
     if not u:return friendly_error('unauthenticated',401)
-    delay=counter('upload_intent',client_key(req),consume=True)
+    delay=await counter('upload_intent',str(u['id']),consume=True)
     if delay:return core.j({'error':'rate_limited'},429,{'Retry-After':str(delay)})
     b=await core.payload(req)
     if not isinstance(b,dict) or not all(isinstance(b.get(x),str) for x in ('purpose','filename','contentType')):return friendly_error('invalid_input',400)

@@ -7,6 +7,7 @@ from uuid import UUID
 from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
+from .rate_limit import evaluation_limit
 router=APIRouter()
 LABELS={'task_achievement':'Task Achievement','task_response':'Task Response','coherence_cohesion':'Coherence & Cohesion','lexical_resource':'Lexical Resource','grammatical_range_accuracy':'Grammatical Range & Accuracy'}
 
@@ -70,6 +71,8 @@ async def failure(con,req_id,err):
 async def new_grade(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.j(error('unauthenticated','Sign in again.'),401)
+    limited=await evaluation_limit(user['id'],lightweight=False)
+    if limited is not None:return limited
     b=await core.payload(req)
     allowed={'taskType','question','essay','idempotencyKey','promptId'}
     issue=next((k for k in ['taskType','question','essay','idempotencyKey','promptId'] if isinstance(b,dict) and k in b and (
@@ -100,6 +103,8 @@ async def retry_grade(req:Request,id:str):
     if not valid_uuid(id):return core.j(error('not_found','Not found.'),404)
     user=await core.current_user(req,active=True)
     if not user:return core.j(error('unauthenticated','Sign in again.'),401)
+    limited=await evaluation_limit(user['id'],lightweight=False)
+    if limited is not None:return limited
     db=await core.pool()
     async with db.acquire() as con:r=await run_grade(con,core.uuid_value(id),user['id'],user.get('locale','en'))
     if r['ok']:return core.j({'ok':True,'id':id,'status':'evaluated'})

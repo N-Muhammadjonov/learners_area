@@ -11,6 +11,7 @@ from .speaking_workflow_port import ATTEMPT_COLUMNS
 from .step19_storage import valid_key,head_object,read_object
 from .step31_learning_production import _language
 from . import step31_coach as coach
+from .rate_limit import evaluation_limit
 router=APIRouter()
 
 async def transcribe(object_key,mime,duration,language):
@@ -44,6 +45,8 @@ async def speaking_submit(req:Request,id:str):
     if not aid:return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401)
+    limited=await evaluation_limit(user['id'],lightweight=False)
+    if limited is not None:return limited
     db=await core.pool()
     async with db.acquire() as con:
         attempt=await con.fetchrow('SELECT * FROM speaking_attempts WHERE id=$1',aid)

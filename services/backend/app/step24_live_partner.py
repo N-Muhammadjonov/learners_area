@@ -239,13 +239,13 @@ async def post_partner(req:Request):
     b=await core.payload(req)
     if not valid_input(b):return core.j({'error':'invalid_input'},400)
     # The source imposes three distinct rate limits; use the existing limiter.
-    from .rate_limit import RULES,counter,too_many
+    from .rate_limit import RULES,async_counter as counter,too_many
     RULES.update({'live_partner_action':(120,60),'live_partner_invite':(20,600),'live_partner_token':(30,600)})
     checks=['live_partner_action']
     if b['action']=='invite':checks.append('live_partner_invite')
     if b['action']=='signal_token':checks.append('live_partner_token')
     for key in checks:
-        delay=counter(key,str(u['id']),consume=True)
+        delay=await counter(key,str(u['id']),consume=True)
         if delay:return too_many(delay)
     if b['action'] in ('go_online','invite','accept'):
         ready=await readiness()

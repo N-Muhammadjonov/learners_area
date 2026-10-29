@@ -10,7 +10,7 @@ from .internal_bot_ready_port import verify_bot
 from .telegram_admins_port import actor_for,denied_response
 from .telegram_preferences_port import valid_actor
 from .telegram_settings_port import list_channels
-from .rate_limit import RULES,counter,too_many
+from .rate_limit import RULES,async_counter as counter,too_many
 router=APIRouter()
 
 
@@ -46,7 +46,7 @@ async def bot_admission_request(req:Request):
     b=await core.payload(req);b=b if isinstance(b,dict) else {}
     tg=b.get('telegramUserId') if isinstance(b.get('telegramUserId'),str) else ''
     RULES.setdefault('admission_request',(10,900))
-    delay=counter('admission_request','tg:'+ (tg or 'unknown'),consume=True)
+    delay=await counter('admission_request','tg:'+ (tg or 'unknown'),consume=True)
     if delay:return too_many(delay)
     if not valid_actor(tg):return core.j({'error':'invalid_actor'},400)
     db=await core.pool()

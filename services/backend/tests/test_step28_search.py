@@ -1,4 +1,5 @@
 """Source-shaped global-search regression without a live database/Dictionary Worker."""
+from unittest.mock import AsyncMock
 import pytest
 from uuid import UUID
 from fastapi.testclient import TestClient
@@ -33,7 +34,7 @@ def test_auth_and_too_short(monkeypatch):
     assert r.status_code==401 and r.json()=={'error':'unauthenticated'}
     async def active(*a,**kw):return {'id':UID,'role':'student'}
     monkeypatch.setattr(core,'current_user',active)
-    monkeypatch.setattr(s,'counter',lambda *a,**kw: None)
+    monkeypatch.setattr(s,'counter',AsyncMock(return_value=None))
     r=TestClient(core.app).get('/api/search?q=x')
     assert r.status_code==200 and r.json()=={'query':'x','results':[],'tooShort':True}
     assert r.headers['cache-control']=='private, no-store'
@@ -42,7 +43,7 @@ def test_auth_and_too_short(monkeypatch):
 def test_rate_limit_before_content(monkeypatch):
     async def active(*a,**kw):return {'id':UID,'role':'student'}
     monkeypatch.setattr(core,'current_user',active)
-    monkeypatch.setattr(s,'counter',lambda *a,**kw: 42)
+    monkeypatch.setattr(s,'counter',AsyncMock(return_value=42))
     r=TestClient(core.app).get('/api/search?q=grammar')
     assert r.status_code==429 and r.json()=={'error':'rate_limited'} and r.headers['retry-after']=='42'
 
@@ -54,7 +55,7 @@ def test_partial_failures_preserve_navigation(monkeypatch):
     monkeypatch.setattr(core,'current_user',active)
     monkeypatch.setattr(s,'content_search',failed)
     monkeypatch.setattr(s,'dictionary_search_hits',dictionary)
-    monkeypatch.setattr(s,'counter',lambda *a,**kw: None)
+    monkeypatch.setattr(s,'counter',AsyncMock(return_value=None))
     r=TestClient(core.app).get('/api/search?q=grammar')
     assert r.status_code==200 and r.json()['partial'] is True
     assert any(h['href']=='/app/grammar' for h in r.json()['results'])

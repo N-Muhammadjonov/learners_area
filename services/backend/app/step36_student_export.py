@@ -8,7 +8,7 @@ from datetime import datetime,timezone,date
 from fastapi import APIRouter,Request
 from fastapi.responses import Response
 from . import main as core
-from .rate_limit import counter,too_many
+from .rate_limit import async_counter as counter,too_many
 from .db import row_to_dict
 router=APIRouter()
 MEDIA={'pdf':'application/pdf','docx':'application/vnd.openxmlformats-officedocument.wordprocessingml.document','zip':'application/zip'}
@@ -119,7 +119,7 @@ async def student_export(req:Request):
     user=await core.current_user(req,active=True)
     if not user or user['role']!='owner':return core.j({'error':'forbidden'},403)
     # Same per-owner 4/minute fixed-window throttle, before validating format.
-    key=str(user['id']);limited=counter('student_archive',key,consume=True)
+    key=str(user['id']);limited=await counter('student_archive',key,consume=True)
     if limited:return too_many(limited)
     fmt=req.query_params.get('format')
     if fmt not in MEDIA:return core.j({'error':'invalid_format'},400)

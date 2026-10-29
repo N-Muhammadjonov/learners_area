@@ -29,6 +29,7 @@ class OriginBoundary:
             return await self.app(scope, receive, send)
         values = [v for k, v in scope.get('headers', ()) if k.lower() == HEADER]
         allowed = valid and len(values) == 1 and compare_digest(values[0], secret.encode('ascii'))
+        edge_verified = allowed
         # The existing bot credential keeps internal Telegram calls working even
         # when they use Railway's origin URL. It cannot open any learner route.
         if valid and not allowed and scope['type'] == 'http' and path.startswith('/api/internal/telegram/'):
@@ -37,6 +38,7 @@ class OriginBoundary:
             allowed = bool(bot_secret and len(auth) == 1 and
                            compare_digest(auth[0], ('Bearer ' + bot_secret).encode('utf-8')))
         if allowed:
+            scope.setdefault('state', {})['cloudflare_origin_verified'] = edge_verified
             return await self.app(scope, receive, send)
         # Reject before reading uploads, querying authority, or opening a stream.
         if scope['type'] == 'websocket':

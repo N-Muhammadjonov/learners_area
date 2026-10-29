@@ -5,7 +5,7 @@ from urllib.parse import urlencode,urlparse
 from fastapi import APIRouter,Request
 from fastapi.responses import RedirectResponse
 from . import main as core
-from .rate_limit import counter,client_key,too_many
+from .rate_limit import async_counter as counter,client_key,too_many
 router=APIRouter()
 
 def b64url(b):return base64.urlsafe_b64encode(b).decode().rstrip('=')
@@ -23,7 +23,7 @@ def google_config():
 async def google_start(req:Request):
     if not core.auth_policy()['googleEnabled']:
         return core.auth_disabled()
-    delay=counter('login_ip',client_key(req),consume=True)
+    delay=await counter('login_ip',client_key(req),consume=True)
     if delay:return too_many(delay)
     config=google_config()
     if not config:

@@ -7,6 +7,7 @@ import regex as uregex
 from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
+from .rate_limit import evaluation_limit
 router=APIRouter()
 LEVELS={'5.5','6.0','6.5','7.0','7.5+'};KEYS=('meaning','form','collocation','naturalness','grammar')
 PLACEHOLDERS={'sb','sth','someone','something','somebody',"one's",'x','y'}
@@ -69,6 +70,8 @@ def err(code,msg,retry=None):return {'error':{'code':code,'message':msg,**({'ret
 async def check_activation(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.j(err('unauthenticated','Sign in again.'),401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     b=await core.payload(req)
     allowed={'sessionId','entryId','customTerm','mode','targetLevel','uzbekPrompt','upgradeFrom','answer'}
     if (not isinstance(b,dict) or set(b)-allowed or not {'sessionId','mode','targetLevel','uzbekPrompt','answer'}<=set(b)

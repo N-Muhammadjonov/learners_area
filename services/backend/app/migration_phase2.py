@@ -473,9 +473,9 @@ async def telegram_intent_status(req: Request):
 
 @router.post('/api/auth/telegram/intent/cancel')
 async def telegram_intent_cancel(req: Request):
-    from .rate_limit import RULES, counter, client_key, too_many
+    from .rate_limit import RULES, async_counter as counter, client_key, too_many
     RULES.setdefault('telegram_intent',(10,900))
-    exceeded = counter('telegram_intent',client_key(req),consume=True)
+    exceeded = await counter('telegram_intent',client_key(req),consume=True)
     if exceeded:return too_many(exceeded)
     body = await core.payload(req)
     intent_id = body.get('intentId') if isinstance(body,dict) else None
@@ -505,10 +505,10 @@ async def telegram_intent_create(req: Request):
     import os
     import secrets
     from datetime import timedelta
-    from .rate_limit import RULES,counter,client_key,too_many
+    from .rate_limit import RULES,async_counter as counter,client_key,too_many
     if not _telegram_enabled():return core.j({'error':'telegram_not_configured'},400)
     RULES.setdefault('telegram_intent',(10,900))
-    exceeded = counter('telegram_intent',client_key(req),consume=True)
+    exceeded = await counter('telegram_intent',client_key(req),consume=True)
     if exceeded:return too_many(exceeded)
     body = await core.payload(req)
     requested = body.get('purpose') if isinstance(body,dict) else None
@@ -539,18 +539,18 @@ async def auth_reset_request(req: Request):
     import os
     import secrets
     from datetime import timedelta
-    from .rate_limit import RULES,counter,client_key,too_many
+    from .rate_limit import RULES,async_counter as counter,client_key,too_many
     if not core.auth_policy()['passwordEnabled']:return core.auth_disabled()
     body, error = core.validate_auth(await core.payload(req), 'request')
     if error:return core.j({'error': error},400)
     email=body['email']
-    RULES.setdefault('password_reset',(5,900))
-    ip_limit=counter('password_reset',client_key(req),consume=True)
-    if ip_limit:return too_many(ip_limit)
-    email_limit=counter('password_reset','acct:'+email,consume=True)
-    if email_limit:return too_many(email_limit)
     if os.environ.get('APP_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
         return core.j({'error':'reset_unavailable'},503)
+    RULES.setdefault('password_reset',(5,900))
+    ip_limit=await counter('password_reset',client_key(req),consume=True)
+    if ip_limit:return too_many(ip_limit)
+    email_limit=await counter('password_reset','acct:'+email,consume=True)
+    if email_limit:return too_many(email_limit)
     db=await core.pool()
     async with db.acquire() as conn:
         user=await conn.fetchrow('SELECT id FROM users WHERE email=$1 LIMIT 1',email)
