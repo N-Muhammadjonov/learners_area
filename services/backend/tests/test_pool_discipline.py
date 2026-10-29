@@ -276,7 +276,9 @@ async def test_real_membership_check_borrows_no_connection_while_calling_telegra
     import httpx
     from app import step18_telegram_auth_port as auth,step18_telegram_admission_port as admission,rate_limit
     class Connection:
-        async def fetchrow(self,query,*args):return {'phone_number':'+000000000','phone_verified_at':datetime.now(timezone.utc)}
+        async def fetchrow(self,query,*args):
+            if 'SELECT payload FROM telegram_flow_drafts' in query:return None
+            return {'phone_number':'+000000000','phone_verified_at':datetime.now(timezone.utc)}
     raw=OneConnection(Connection());pool=db.BoundedPool(raw,.05);calls=[]
     async def handler(request):
         assert raw.active==0
