@@ -1156,3 +1156,58 @@ html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staf
   background-size: 100% 2px !important;
   border-color: transparent !important;
 }
+
+
+/* Scoped dictionary, profile and utilities gradient palette — 2026-10-29. */
+/* Learner Dictionary: saved-sense + / CEFR = fill; POS and related links = outline. */
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-add-meaning,
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-level {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos,
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-related-items button {
+  background: linear-gradient(var(--dictionary-surface),var(--dictionary-surface)) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border: 1px solid transparent !important;
+  color: var(--dictionary-accent) !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos { border-radius: 8px; }
+
+/* Owner's Dictionary has its own staff view and existing actions. */
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important; color: #000 !important; border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color: inherit !important; }
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative; background: rgb(var(--workspace-raised)) !important; color: rgb(var(--workspace-ink)) !important; border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-pos] {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border:1px solid transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-cefr] {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;
+}
+
+/* Only profile editor actions, including the study form and photo upload label. */
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color:inherit !important; }
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+
+/* Floating ⏏ menu actions: AI Coach, Report a problem, and Report submission. */
+html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([data-coach-fab],[data-report-toggle],[data-report-send]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([data-coach-fab],[data-report-toggle],[data-report-send]) :is(span,strong,small,svg) { color:inherit !important; }
