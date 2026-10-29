@@ -110,7 +110,7 @@ export function mount(context){
   const support=state.support,t=study;
   const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':''});
   const tabs=el('div',{role:'tablist','aria-label':t.supportLabel,class:'flex flex-wrap gap-2'}),content=el('div',{role:'tabpanel',class:'space-y-4'});
-  const savedKey=state.selected;let confirmed=savedVocabulary.get(savedKey);if(!confirmed){confirmed=new Set();savedVocabulary.set(savedKey,confirmed);}
+  const savedKey=state.selected;let saved=savedVocabulary.get(savedKey);if(!saved){saved={confirmed:new Set(),savedIds:new Map()};savedVocabulary.set(savedKey,saved);}const {confirmed,savedIds}=saved;
   let tab='vocabulary';const revealed=new Set(),activated=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
   supportSignal.addEventListener('abort',()=>renderController?.abort(),{once:true});
   function startTabHold(control,name,events){
@@ -143,7 +143,7 @@ export function mount(context){
    const html=tab==='vocabulary'?support.vocabularyHtml:tab==='modelAnswer'?support.modelAnswerHtml:support.ideasHtml;
    if(html)content.append(studyRich(html));
    if(tab==='vocabulary'&&Array.isArray(support.vocabulary)&&support.vocabulary.length){
-    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t,confirmed}));
+    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t,confirmed,savedIds}));
    }
   }
   panel.append(tabs,content);target.replaceChildren(panel);show();
