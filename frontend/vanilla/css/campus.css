@@ -617,3 +617,95 @@ html[data-theme] #root :is(
   outline: 0 !important;
   box-shadow: none !important;
 }
+
+
+/* Listening / Reading catalogue button palette only — 2026-10-29. */
+/* Module catalogue/selection buttons only. Never targets lesson material,
+   test/exam/attempt content or Reading retention exercises. CSS-only update. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(.btn-primary, .btn-gold-solid, a.chip-active) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(.btn-primary, .btn-gold-solid, a.chip-active) :is(span, strong, small) {
+  color: inherit !important;
+}
+/* Gradient border is drawn inside the original element bounds to preserve
+   all widths, heights, border widths, positioning and corner radii. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
