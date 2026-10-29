@@ -574,7 +574,7 @@ async def auth_reset_confirm(req: Request):
           WHERE token_hash=$1 AND used_at IS NULL AND expires_at>now() LIMIT 1''',_telegram_hash(token))
         if not record:return core.j({'error':'invalid_or_expired_token'},400)
         import bcrypt
-        pw_hash=(await asyncio.to_thread(bcrypt.hashpw,password.encode('utf-8'),bcrypt.gensalt(rounds=12))).decode('utf-8')
+        pw_hash=(await core.run_blocking(bcrypt.hashpw,password.encode('utf-8'),bcrypt.gensalt(rounds=12))).decode('utf-8')
         async with conn.transaction():
             claimed=await conn.fetchrow('''UPDATE password_reset_tokens SET used_at=now()
               WHERE id=$1 AND used_at IS NULL AND expires_at>now() RETURNING id''',record['id'])

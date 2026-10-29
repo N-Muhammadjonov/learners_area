@@ -4,8 +4,9 @@ Python port of src/lib/dictionary/{shards,object-store,offload}.ts.
 No object is replaced on retry and no stored object key is accepted from a user.
 """
 from __future__ import annotations
-import asyncio,gzip,hashlib,json,os,re,uuid,zlib
+import gzip,hashlib,json,os,re,uuid,zlib
 from .step19_storage import _client
+from .request_lifecycle import run_io,run_blocking
 
 SHARD_LIMIT=2*1024*1024
 RAW_LIMIT=8*1024*1024
@@ -39,7 +40,7 @@ async def read_immutable(key,max_bytes):
         finally:body.close()
         if len(result)>max_bytes:raise ValueError('dictionary_object_limit')
         return result
-    return await asyncio.to_thread(task)
+    return await run_io(task)
 
 async def put_immutable(key,payload):
     ensure_key(key)
@@ -57,7 +58,7 @@ async def put_immutable(key,payload):
             try:old=content.read(len(payload)+1)
             finally:content.close()
             if checksum(old)!=checksum(payload):raise ValueError('immutable_dictionary_object_conflict')
-    await asyncio.to_thread(task)
+    await run_io(task)
     actual=await read_immutable(key,len(payload))
     if checksum(actual)!=checksum(payload):raise ValueError('dictionary_upload_verification_failed')
 
@@ -230,7 +231,7 @@ def decode_shard(release,descriptor,data):
 
 async def read_shard(release,descriptor):
     data=await read_immutable(shard_key(release,descriptor['shard']),descriptor['compressed_bytes'])
-    return decode_shard(release,descriptor,data)
+    return await run_blocking(decode_shard,release,descriptor,data)
 
 def _prepared_remote_shard(release,entries,data,packed):
     """Reuse approved immutable compressed bytes, even if zlib versions differ.

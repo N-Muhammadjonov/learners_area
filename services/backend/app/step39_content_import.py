@@ -258,7 +258,7 @@ async def _route_import(req,user,body):
     if pkg is None or pkg is False or (type(pkg) in (int,float) and pkg==0) or pkg=='':
         raise ImportFailure('invalid_input','Missing `package`.')
     if not pkg:raise ImportFailure('invalid_input','Missing `package`.')
-    try:parsed,warnings=parse_package(pkg)
+    try:parsed,warnings=await core.run_blocking(parse_package,pkg)
     except InvalidPackage as ex:return failure(ex)
     if not allowed(user['role'],parsed['module']):
         raise ImportFailure('forbidden',f'Your role cannot import {parsed["module"]} content.',4,'module')
@@ -406,7 +406,7 @@ async def listening_import(req:Request):
     if bool(p.get('imagePath'))!=bool(body.get('imageUploadId')):return core.j({'error':'missing_map'},400)
     if p.get('authoredRuntime'):
         issues=[]
-        parsed=parse(p,legacy_v1_schema,issues=issues)
+        parsed=await core.run_blocking(parse,p,legacy_v1_schema,issues=issues)
         if issues:return core.j({'error':'invalid_package','detail':issues[0]['message'][:200]},400)
         if audio==core.uuid_value(body.get('imageUploadId')):return core.j({'error':'duplicate_asset'},400)
         try:

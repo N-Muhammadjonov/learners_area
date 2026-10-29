@@ -23,7 +23,7 @@ for(const theme of ['day','night'])for(const focus of ['off','on']){
  test(`${theme}/${focus}: seven game initial and answer states remain readable`,async()=>{
   for(const variant of ['cards','choice','match','gap','translation','builder','race','race-wrong']){const id=variant==='race-wrong'?'race':variant;const h=setup({path:'/app/vocabulary/games/'+id});try{
    document.documentElement.dataset.theme=theme;document.documentElement.dataset.focus=focus;
-   const outer=h.ctx.root;outer.innerHTML='<div data-shell><main data-shell-main></main></div>';h.ctx.root=outer.querySelector('main');let serial=0;h.ctx.gameSetTimeout=()=>++serial;h.ctx.gameClearTimeout=()=>{};
+   const outer=h.ctx.root;outer.innerHTML='<div data-shell data-campus-shell><main data-shell-main></main></div>';h.ctx.root=outer.querySelector('main');let serial=0;h.ctx.gameSetTimeout=()=>++serial;h.ctx.gameClearTimeout=()=>{};
    const args={id,words,source:'My words',answer:async()=>({verified:true,correct:variant!=='race-wrong',awarded:0})};
    if(id==='cards')flashcards(h.ctx,h.ctx.root,args);else if(id==='race')typingRace(h.ctx,h.ctx.root,args);else if(id==='match')matchingGame(h.ctx,h.ctx.root,args);else classicGame(h.ctx,h.ctx.root,args);
    check(h,id+' initial');
