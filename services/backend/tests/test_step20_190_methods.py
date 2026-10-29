@@ -3,7 +3,7 @@
 No live PostgreSQL/S3/Telegram/Worker tests run here; they remain a parity gap.
 """
 from __future__ import annotations
-import json, hashlib, hmac, time
+import json, hashlib, hmac, time, sys
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
 from uuid import UUID
@@ -54,6 +54,8 @@ class Pool:
 
 @pytest.fixture
 def env(monkeypatch):
+    # Collection and unrelated tests can outlast the 45-second recall fixture.
+    monkeypatch.setattr(sys.modules[__name__],'now',datetime.now(timezone.utc))
     db=DB()
     async def pool():return Pool(db)
     async def user(req,active=False):return {'id':ID,'role':'student','account_status':'active'}
@@ -72,7 +74,7 @@ def test_inventory_reconciled_and_no_undeclared_route():
     declared={(v['method'],v['path']) for v in d['endpoints'] if v['status'].startswith('ported_')}
     assert len(registered)==len(set(registered))>=210
     assert declared==set(registered)
-    assert len(d['endpoints'])==271 and d['ported_methods']==len(registered) and d['unported_methods']==271-len(registered)
+    assert len(d['endpoints'])==272 and d['ported_methods']==len(registered) and d['unported_methods']==272-len(registered)
 
 @pytest.mark.parametrize('method,path',[
   ('GET','/api/admin/content/lessons/'+str(RID)+'/edit'),

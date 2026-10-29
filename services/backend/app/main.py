@@ -439,8 +439,10 @@ async def presence(req: Request):
         if delay: return too_many(delay)
         await conn.execute('''
           INSERT INTO activity_events(id,user_id,type,payload,created_at)
-          VALUES(md5('site-presence:'||$1::text)::uuid,$1::uuid,'SITE_PRESENCE',
-            jsonb_build_object('since',NOW(),'visitStartedAt',NOW(),'visitSeconds',0,'totalSeconds',0),NOW())
+          SELECT md5('site-presence:'||$1::text)::uuid,$1::uuid,'SITE_PRESENCE',
+            jsonb_build_object('since',NOW(),'visitStartedAt',NOW(),'visitSeconds',0,'totalSeconds',0),NOW()
+          WHERE NOT EXISTS(SELECT 1 FROM activity_events fresh
+            WHERE fresh.id=md5('site-presence:'||$1::text)::uuid AND fresh.created_at>NOW()-interval '15 seconds')
           ON CONFLICT(id) DO UPDATE SET created_at=NOW(),payload=jsonb_build_object(
             'since',activity_events.payload->>'since',
             'visitStartedAt',CASE WHEN NOW()-activity_events.created_at>interval '90 seconds' THEN NOW()::text

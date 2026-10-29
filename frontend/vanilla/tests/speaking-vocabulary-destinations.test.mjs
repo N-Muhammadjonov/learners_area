@@ -14,24 +14,25 @@ function fixture(locale='en',save){
  h.ctx.root.append(vocabularySaver(h.ctx,{promptId,words,copy:h.ctx.dict.speakingStudy}));return h;
 }
 for(const locale of ['en','uz'])for(const mode of ['all','0'])test(`${locale}: ${mode} saves the exact source selection into the chosen folder`,async()=>{
- const h=fixture(locale);try{await tick();h.change(h.q('[data-practice-folder]'),folderId);h.click(h.q(`[data-practice-save="${mode}"]`));await tick();
+ const h=fixture(locale);try{h.click(h.q(`[data-practice-save="${mode}"]`));await tick();h.change(h.q('[data-practice-folder]'),folderId);h.click(h.q('[data-practice-save-confirm]'));await tick();
   const post=h.calls.find(c=>c.method==='POST');assert.deepEqual(post.body,{promptId,indices:mode==='all'?[0,1]:[0],folderId});
-  assert(h.q('[data-practice-save-status]').textContent.includes('My words'));
+  assert(h.q(mode==='all'?'[data-practice-save-status]':'[data-practice-word-save-status="0"]').textContent.includes('My words'));
   assert.equal(h.q('[data-practice-save="all"]').disabled,false);
  }finally{h.dispose();}
 });
 
 test('new folders require a name and preserve the trimmed name in the source save',async()=>{
- const h=fixture();try{await tick();h.change(h.q('[data-practice-folder]'),'new');
-  h.click(h.q('[data-practice-save="0"]'));await tick();assert(!h.calls.some(c=>c.method==='POST'));
-  h.input(h.q('[data-practice-folder-name]'),'  New practice  ');h.click(h.q('[data-practice-save="0"]'));await tick();
+ const h=fixture();try{h.click(h.q('[data-practice-save="0"]'));await tick();h.change(h.q('[data-practice-folder]'),'new');
+  h.click(h.q('[data-practice-save-confirm]'));await tick();assert(!h.calls.some(c=>c.method==='POST'));
+  h.input(h.q('[data-practice-folder-name]'),'  New practice  ');h.click(h.q('[data-practice-save-confirm]'));await tick();
   assert.deepEqual(h.calls.find(c=>c.method==='POST').body,{promptId,indices:[0],folderName:'New practice'});
  }finally{h.dispose();}
 });
 
 test('double click sends one mutation and blocks destination changes while saving',async()=>{
  let resolve;const h=fixture('en',()=>new Promise(r=>resolve=r));try{await tick();
-  h.click(h.q('[data-practice-save="all"]'));h.click(h.q('[data-practice-save="0"]'));
+  h.click(h.q('[data-practice-save="all"]'));await tick();
+  h.click(h.q('[data-practice-save-confirm]'));h.click(h.q('[data-practice-save-confirm]'));h.click(h.q('[data-practice-save="0"]'));
   assert.equal(h.calls.filter(c=>c.method==='POST').length,1);assert(h.q('[data-practice-folder]').disabled);
   resolve({ok:true,added:2,duplicates:0,ids:[ID(611),ID(612)],folder:{id:folderId,name:'Saved'}});await tick();
   assert(!h.q('[data-practice-folder]').disabled);
@@ -39,15 +40,15 @@ test('double click sends one mutation and blocks destination changes while savin
 });
 
 test('incomplete server confirmation is shown as failure and can be retried',async()=>{
- const h=fixture('en',()=>({ok:true,added:2,duplicates:0,ids:[]}));try{await tick();h.click(h.q('[data-practice-save="all"]'));await tick();
+ const h=fixture('en',()=>({ok:true,added:2,duplicates:0,ids:[]}));try{h.click(h.q('[data-practice-save="all"]'));await tick();h.click(h.q('[data-practice-save-confirm]'));await tick();
   assert.equal(h.q('[data-practice-save-status]').textContent,h.ctx.dict.speakingStudy.saveFailed);
   assert(!h.q('[data-practice-save="all"]').disabled);
  }finally{h.dispose();}
 });
 
 test('an aborted source panel never announces a late save as success',async()=>{
- let resolve;const h=fixture('en',()=>new Promise(r=>resolve=r));try{await tick();h.click(h.q('[data-practice-save="0"]'));h.controller.abort();
+ let resolve;const h=fixture('en',()=>new Promise(r=>resolve=r));try{h.click(h.q('[data-practice-save="0"]'));await tick();h.click(h.q('[data-practice-save-confirm]'));h.controller.abort();
   resolve({ok:true,added:1,duplicates:0,ids:[ID(611)],folder:{id:folderId,name:'Late success'}});await tick();
-  assert(!h.q('[data-practice-save-status]').textContent.includes('Late success'));
+  assert(!h.q('[data-practice-word-save-status="0"]').textContent.includes('Late success'));
  }finally{h.dispose();}
 });

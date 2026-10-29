@@ -18,6 +18,13 @@ async def evaluation(con, uid, source, id, external=False):
     return evaluation_result(row, external)
 
 
+async def evaluations(con, uid, source, ids, external=False):
+    if not ids:return {}
+    rows=await con.fetch('SELECT * FROM evaluations WHERE user_id=$1 AND source_type=$2 AND source_id=ANY($3::uuid[])',
+                         uid,source,list(ids))
+    return {str(row['source_id']):evaluation_result(row,external) for row in rows}
+
+
 def evaluation_result(row, external=False):
     if not row or external and (row['provider_type'] != 'external' or row['fallback_used']):
         return None
@@ -32,12 +39,14 @@ async def packs(con):
     rows = await con.fetch("SELECT id,slug,label_en,label_uz FROM vocabulary_topic_packs WHERE publication_state='published' ORDER BY position,label_en")
     if not rows:
         return json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
-    result = []
-    for p in rows:
-        words = [camel(r) for r in await con.fetch('''SELECT l.term,l.part_of_speech,l.definition_en,l.translation_uz,l.example_sentence AS example,l.collocations
-          FROM vocabulary_topic_pack_words w JOIN lexemes l ON l.id=w.lexeme_id WHERE w.pack_id=$1 ORDER BY w.position''', p['id'])]
-        result.append({'id': p['slug'], 'label': {'en': p['label_en'], 'uz': p['label_uz'] or p['label_en']}, 'words': words})
-    return result
+    words=await con.fetch('''SELECT w.pack_id,l.term,l.part_of_speech,l.definition_en,l.translation_uz,l.example_sentence AS example,l.collocations
+      FROM vocabulary_topic_pack_words w JOIN lexemes l ON l.id=w.lexeme_id WHERE w.pack_id=ANY($1::uuid[]) ORDER BY w.position''',
+      [p['id'] for p in rows])
+    grouped={str(p['id']):[] for p in rows}
+    for row in words:
+        item=camel(row);grouped[item.pop('packId')].append(item)
+    return [{'id':p['slug'],'label':{'en':p['label_en'],'uz':p['label_uz'] or p['label_en']},
+             'words':grouped[str(p['id'])]} for p in rows]
 
 
 def slug(s):
@@ -132,12 +141,17 @@ async def read(req, user, path, q, region):
         async with db.acquire() as con:
             grades = {}
             prompt_blocks = await prompt_materials(con, [e['promptId'] for e in paper['paper']['entries']])
+            requests=await con.fetch('''SELECT id,status,idempotency_key FROM writing_grade_requests
+              WHERE user_id=$1 AND idempotency_key=ANY($2::text[])''',uid,
+              [f'exam_{id}_{entry["position"]}' for entry in paper['paper']['entries']])
+            by_key={row['idempotency_key']:row for row in requests}
+            checked=await evaluations(con,uid,'writing_grade',[row['id'] for row in requests],True)
             materials = {}
             for entry in paper['paper']['entries']:
                 materials[str(entry['position'])] = prompt_blocks.get(entry['promptId'], [])
-                row = await con.fetchrow('SELECT id,status FROM writing_grade_requests WHERE user_id=$1 AND idempotency_key=$2', uid, f'exam_{id}_{entry["position"]}')
+                row = by_key.get(f'exam_{id}_{entry["position"]}')
                 if row:
-                    ev = await evaluation(con,uid,'writing_grade',row['id'],True)
+                    ev = checked.get(str(row['id']))
                     grades[str(entry['position'])] = {'requestId':str(row['id']),'status':row['status'],'overall':ev['overallEstimate'] if ev else None}
         return {**paper,'grades':grades,'materials':materials,'aiReady':await ai_ready()}
     grade_ready = await ai_ready() if path.rstrip('/') == '/app/writing' and q.get('tab') == 'grade' else None
@@ -174,7 +188,8 @@ async def read(req, user, path, q, region):
             return {'submission':camel(row),'prompt':{**camel(prompt),'materials':blocks.get(str(row['prompt_id']),[]),'practice':metadata_for_prompt(prompt)},'feedback':camel(feedback),'evaluation':await evaluation(con,uid,'writing_submission',id)}
         if kind == 'history':
             rows = await con.fetch('SELECT s.id,s.prompt_id,s.status,s.word_count,s.submitted_at,p.task_type,p.category FROM writing_submissions s JOIN writing_prompts p ON p.id=s.prompt_id WHERE s.user_id=$1 ORDER BY s.updated_at DESC',uid)
-            return {'rows':[{'submission':camel({k:r[k] for k in ('id','status','word_count','submitted_at')}),'prompt':camel({k:r[k] for k in ('task_type','category')}),'evaluation':await evaluation(con,uid,'writing_submission',r['id'])} for r in rows]}
+            checked=await evaluations(con,uid,'writing_submission',[r['id'] for r in rows])
+            return {'rows':[{'submission':camel({k:r[k] for k in ('id','status','word_count','submitted_at')}),'prompt':camel({k:r[k] for k in ('task_type','category')}),'evaluation':checked.get(str(r['id']))} for r in rows]}
         if kind is not None: raise HTTPException(404,'not_found')
         tab = q.get('tab','lessons')
         if tab == 'lessons':
@@ -184,9 +199,10 @@ async def read(req, user, path, q, region):
             return {'sets':[camel(r) for r in await con.fetch(f'SELECT s.id,s.title,s.topic,s.question_type,s.target_band,(SELECT count(*)::int FROM writing_translation_sentences ts WHERE ts.set_id=s.id) sentences FROM writing_translation_sets s WHERE {live()} ORDER BY title')]}
         if tab == 'grade':
             rows = await con.fetch('SELECT id,task_type,left(question_text,160) question_text,word_count,status,created_at FROM writing_grade_requests WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50',uid)
+            checked=await evaluations(con,uid,'writing_grade',[r['id'] for r in rows if r['status']=='evaluated'],True)
             essays = []
             for r in rows:
-                ev = await evaluation(con,uid,'writing_grade',r['id'],True) if r['status']=='evaluated' else None
+                ev = checked.get(str(r['id'])) if r['status']=='evaluated' else None
                 essays.append({**camel(r),'overall':ev['overallEstimate'] if ev else None})
             prompts = [camel(r) for r in await con.fetch(f"SELECT id,category,prompt FROM writing_prompts WHERE task_type='task1' AND {live()} ORDER BY created_at DESC")]
             blocks = await prompt_materials(con, [p['id'] for p in prompts])
