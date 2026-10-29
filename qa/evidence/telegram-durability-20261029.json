@@ -1,0 +1,42 @@
+{
+  "task": 10,
+  "name": "Telegram durability and authentication",
+  "source_status": "PASS",
+  "rollout_status": "backend deployed; bot pending",
+  "baseline_commit": "5525cf33784c19b10ebbf672c73caed45047cf1b",
+  "backend_source": "69d905231c505270809a278144cc3d437452ada4",
+  "backend_merge": "d5eabb2d7b5cd866f99d2c18eaf9d3d42c931606",
+  "backend_deployment": "877501f6-0a20-47db-8298-7b3e4c994ad0",
+  "bot_implementation": "32e271f73f831b6aa6946be9c75489e5479f6a17",
+  "tests": {
+    "bot_before": 48,
+    "bot_after": 59,
+    "backend": 3100,
+    "postgres_checks": 24,
+    "concurrent_duplicate_deliveries": 32,
+    "postgres_reconnects": 2,
+    "integration": {
+      "http": 426,
+      "decoder": 151,
+      "dom": 118,
+      "replay": 8
+    },
+    "backend_check": "PASS",
+    "diff_check": "PASS"
+  },
+  "frontend": "unchanged; Task 8 npm 1167 passed / 11 skipped reused, not rerun",
+  "migrations_added": 0,
+  "production_config_changes": 0,
+  "external_test_telegram_calls": 0,
+  "manual_acceptance": "owner",
+  "limits": [
+    "At-most-once handler admission; a process crash after admission requires a new command/update ID.",
+    "Ambiguous Telegram outbound delivery is not claimed exactly-once.",
+    "No production login or device acceptance performed."
+  ],
+  "references": [
+    "https://core.telegram.org/bots/api#setwebhook",
+    "https://docs.aiogram.dev/en/latest/dispatcher/webhook.html"
+  ],
+  "created_at": "2026-10-29T13:54:52.262415+00:00"
+}
