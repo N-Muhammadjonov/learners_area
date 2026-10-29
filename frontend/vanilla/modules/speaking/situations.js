@@ -29,7 +29,7 @@ export function createSituationSupport({story,dict,locale,signal,context}){
  const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':'','data-situation-support':story.id});
  const tabs=el('div',{role:'tablist','aria-label':study.supportLabel,class:'flex flex-wrap gap-2'});
  const content=el('div',{role:'tabpanel',class:'space-y-4',id:`${story.id}-support-content`});
- let tab='vocabulary',renderController=null,timer=null;const revealed=new Set(),activated=new Set(),confirmed=new Set();
+ let tab='vocabulary',renderController=null,timer=null;const revealed=new Set(),activated=new Set(),confirmed=new Set(),savedIds=new Map();
  const clearHold=()=>{clearTimeout(timer);timer=null;};
  function tabHold(control,name,events){let pending=null;const clear=()=>{clearTimeout(pending);pending=null;};const start=()=>{if(revealed.has(name)||signal.aborted)return;clear();pending=setTimeout(()=>{pending=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);};listen(control,'pointerdown',e=>{if(e.button===0)start();},events);for(const ev of ['pointerup','pointercancel','pointerleave','keyup'])listen(control,ev,clear,events);listen(control,'keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat)start();},events);events.addEventListener('abort',clear,{once:true});}
  const destroy=()=>{clearHold();renderController?.abort();};
@@ -48,7 +48,7 @@ export function createSituationSupport({story,dict,locale,signal,context}){
    content.append(button(locale==='uz'?'Yopish':'Close',()=>{revealed.delete(tab);show();},{class:'btn-secondary','data-situation-close':tab,'aria-label':locale==='uz'?'Bo‘limni yopish':'Close section'}));
    if(tab==='vocabulary'){
     content.append(vocabularySaver({...context,signal:events},{
-     words:story.vocabulary,copy:study,pictureStory:{id:story.id,title:story.title},confirmed
+     words:story.vocabulary,copy:study,pictureStory:{id:story.id,title:story.title},confirmed,savedIds
     }));
    }else for(const paragraph of story.sampleAnswer)content.append(el('p',{class:'text-base leading-relaxed','data-situation-sample':''},paragraph));
    return;
