@@ -980,14 +980,14 @@ html[data-theme] #root [data-campus-shell] :is(
    their original behaviour, text, size and placement are not modified. */
 html[data-theme] #root [data-campus-shell]
   #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
-  button[aria-pressed="true"] {
+  button[aria-pressed="true"]:not([data-pick]) {
   background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
   color: #000000 !important;
   border-color: transparent !important;
 }
 html[data-theme] #root [data-campus-shell]
   #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
-  button[aria-pressed="false"] {
+  button[aria-pressed="false"]:not([data-pick]) {
   position: relative;
   background: rgb(var(--workspace-raised)) !important;
   color: rgb(var(--workspace-ink)) !important;
@@ -995,7 +995,7 @@ html[data-theme] #root [data-campus-shell]
 }
 html[data-theme] #root [data-campus-shell]
   #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
-  button[aria-pressed="false"]::before {
+  button[aria-pressed="false"]:not([data-pick])::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1007,4 +1007,105 @@ html[data-theme] #root [data-campus-shell]
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
+}
+
+
+/* Speaking AI, progress/writing/mocks palette and vocabulary token correction — 2026-10-29. */
+/* AI interviewer buttons were omitted from the original speaking-only list.
+   In this screen primary, ghost and secondary are all existing solid-blue actions. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+/* Only the AI recording-preview's redundant green rectangle, not its player geometry. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  [data-recording-preview] [role="group"] {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Vocabulary folder's individual word-selection chips keep the original
+   green outline; exclude them from the new generic pressed-state styling. */
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[data-pick] {
+  border-color: rgb(var(--band-good)) !important;
+  box-shadow: none !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[data-pick]::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* My Progress, Writing and Mock Tests: existing action classes only. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Writing section tabs: unselected only an underline; selected a filled pill. */
+html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+  [role="tab"][aria-selected="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+  [role="tab"][aria-selected="false"] {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-position: left bottom !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
 }
