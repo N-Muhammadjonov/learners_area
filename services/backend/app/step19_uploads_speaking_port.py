@@ -57,13 +57,18 @@ async def delete_attempt(req:Request,id:str):
         if not attempt:return core.j({'error':'not_found'},404)
         if attempt['user_id']!=user['id']:return core.j({'error':'forbidden'},403)
         if attempt['status']!='recording':return core.j({'error':'attempt_already_submitted'},409)
-        # Evaluation source ids are polymorphic: no FK cascade.
-        await con.execute("DELETE FROM evaluations WHERE source_type='speaking_attempt' AND source_id=$1",id)
-        await con.execute('DELETE FROM speaking_attempts WHERE id=$1',id)
-        if attempt['recording_object_key']:
-            try:await delete_object(attempt['recording_object_key'])
-            except Exception:pass
-        return core.j({'ok':True})
+        async with con.transaction():
+            # Submission can win after the preview read. Recheck the state in
+            # the mutation before deleting any saved evaluation or media.
+            deleted=await con.fetchrow('''DELETE FROM speaking_attempts
+              WHERE id=$1 AND user_id=$2 AND status='recording' RETURNING recording_object_key''',id,user['id'])
+            if not deleted:return core.j({'error':'attempt_already_submitted'},409)
+            # Evaluation source ids are polymorphic: no FK cascade.
+            await con.execute("DELETE FROM evaluations WHERE source_type='speaking_attempt' AND source_id=$1 AND user_id=$2",id,user['id'])
+    if deleted['recording_object_key']:
+        try:await delete_object(deleted['recording_object_key'])
+        except Exception:pass
+    return core.j({'ok':True})
 
 @router.patch('/api/speaking/attempts/{id}')
 async def attach_attempt(req:Request,id:str):
