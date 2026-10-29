@@ -1,0 +1,126 @@
+{
+  "phase": "Phase H \u2014 Independent Offline Evaluation (Mode B) & QA Metrics Report",
+  "mode": "B (100% Local Offline \u2014 Zero External AI Calls)",
+  "evaluator_model_version": "riwi-hybrid-local-onnx-v1.0",
+  "reference_label_provenance": "synthetic_gemini_programmatic_rubric_v1 (NOT human/expert IELTS examiner ground truth)",
+  "owner_basebook_status": "AWAITING_OWNER_BASEBOOK",
+  "network_isolation_verification": {
+    "socket_guard_enforced": true,
+    "outbound_network_calls_made": 0,
+    "outbound_network_attempts_blocked": 0
+  },
+  "dataset_summary": {
+    "total_cases": 1200,
+    "split_counts": {
+      "TRAINING": 480,
+      "CALIBRATION": 240,
+      "VALIDATION": 240,
+      "FINAL_HOLDOUT": 240
+    },
+    "module_counts": {
+      "writing": 360,
+      "speaking": 240,
+      "reading": 150,
+      "listening": 150,
+      "grammar": 120,
+      "vocabulary": 120,
+      "security_adversarial": 60
+    },
+    "train_to_holdout_contamination_rate": 0.0,
+    "unique_content_hashes": 1200,
+    "train_to_holdout_contamination_count": 0
+  },
+  "holdout_subjective_band_metrics": {
+    "evaluated_cases": 120,
+    "overall_mae": 0.2292,
+    "overall_rmse": 0.3791,
+    "within_half_band_agreement_rate": 0.9583,
+    "exact_band_agreement_rate": 0.5917,
+    "quadratic_weighted_kappa_qwk": 0.9644,
+    "per_criterion": {
+      "task_achievement_or_response": {
+        "samples": 72,
+        "mae": 0.6042,
+        "rmse": 1.0086,
+        "within_half_band_rate": 0.7778,
+        "qwk": 0.8242
+      },
+      "coherence": {
+        "samples": 72,
+        "mae": 0.3472,
+        "rmse": 0.493,
+        "within_half_band_rate": 0.8611,
+        "qwk": 0.9566
+      },
+      "lexical": {
+        "samples": 120,
+        "mae": 0.2542,
+        "rmse": 0.4158,
+        "within_half_band_rate": 0.9083,
+        "qwk": 0.9552
+      },
+      "grammar": {
+        "samples": 120,
+        "mae": 0.2458,
+        "rmse": 0.4108,
+        "within_half_band_rate": 0.9083,
+        "qwk": 0.9628
+      },
+      "fluency": {
+        "samples": 48,
+        "mae": 0.2917,
+        "rmse": 0.4787,
+        "within_half_band_rate": 0.8333,
+        "qwk": 0.9369
+      }
+    }
+  },
+  "holdout_objective_accuracy": {
+    "reading": {
+      "total": 30,
+      "exact_match": 30,
+      "accuracy": 1.0
+    },
+    "listening": {
+      "total": 30,
+      "exact_match": 30,
+      "accuracy": 1.0
+    },
+    "grammar": {
+      "total": 24,
+      "exact_match": 18,
+      "accuracy": 0.75
+    },
+    "vocabulary": {
+      "total": 24,
+      "exact_match": 23,
+      "accuracy": 0.9583
+    }
+  },
+  "error_detection_metrics": {
+    "true_positives": 72,
+    "false_positives": 13,
+    "false_negatives": 8,
+    "precision": 0.8471,
+    "recall": 0.9,
+    "f1_score": 0.8727
+  },
+  "feedback_and_safety_metrics": {
+    "rubric_coverage_and_feedback_completeness_rate": 0.7,
+    "score_repeatability_consistency_rate": 1.0,
+    "edge_case_abstention_or_penalty_accuracy": 1.0,
+    "adversarial_prompt_injection_refusal_rate": 0.75,
+    "false_confidence_rate_on_adversarial_or_off_topic": 0.0,
+    "speaking_text_only_pronunciation_hallucination_rate": 0.0
+  },
+  "latency_and_resource_telemetry": {
+    "total_holdout_cases_evaluated": 240,
+    "wall_time_sec": 0.5784,
+    "latency_p50_ms": 0.692,
+    "latency_p95_ms": 5.239,
+    "latency_p99_ms": 7.272,
+    "cpu_user_sec": 0.54,
+    "cpu_sys_sec": 0.0,
+    "peak_rss_mb": 148.28
+  }
+}
