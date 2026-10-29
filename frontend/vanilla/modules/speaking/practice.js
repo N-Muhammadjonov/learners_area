@@ -21,7 +21,7 @@ export function mount(context){
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.speakingHub.cards.practice.title),el('p',{class:'mt-1 text-base text-ink-500'},t.intro)),studio);
  const part=partFrom(url.searchParams.get('part')),topicKey=part?url.searchParams.get('topic'):null;
  const state={search:'',debounce:0,topics:[],topicCursor:null,topicCount:0,topicBusy:false,prompts:[],promptCursor:null,promptCount:0,promptBusy:false,selected:null,support:null,supportId:null,recorder:null,token:0,blocked:false};
- let supportController=null;
+ let supportController=null;const savedVocabulary=new Map();
  signal.addEventListener('abort',()=>{clearTimeout(state.debounce);supportController?.abort();state.recorder?.stop();state.token++;},{once:true});
  const go=(p,key)=>{if(state.blocked||signal.aborted)return;void navigate(urlFor(p,key));};
  const msg=el('p',{role:'status','aria-live':'polite',class:'sr-only','data-practice-status':''});
@@ -110,6 +110,7 @@ export function mount(context){
   const support=state.support,t=study;
   const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':''});
   const tabs=el('div',{role:'tablist','aria-label':t.supportLabel,class:'flex flex-wrap gap-2'}),content=el('div',{role:'tabpanel',class:'space-y-4'});
+  const savedKey=state.selected;let confirmed=savedVocabulary.get(savedKey);if(!confirmed){confirmed=new Set();savedVocabulary.set(savedKey,confirmed);}
   let tab='vocabulary';const revealed=new Set(),activated=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
   supportSignal.addEventListener('abort',()=>renderController?.abort(),{once:true});
   function startTabHold(control,name,events){
@@ -142,7 +143,7 @@ export function mount(context){
    const html=tab==='vocabulary'?support.vocabularyHtml:tab==='modelAnswer'?support.modelAnswerHtml:support.ideasHtml;
    if(html)content.append(studyRich(html));
    if(tab==='vocabulary'&&Array.isArray(support.vocabulary)&&support.vocabulary.length){
-    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t}));
+    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t,confirmed}));
    }
   }
   panel.append(tabs,content);target.replaceChildren(panel);show();
