@@ -12,6 +12,7 @@ from fastapi.responses import Response,RedirectResponse
 from . import main as core
 from .step19_storage import valid_key,head_object,read_object
 from .writing_source_materials import graph_bytes,GRAPHS
+from .writing_exam_bank import graph_bytes as exam_graph_bytes, GRAPHS as EXAM_GRAPHS
 from .media_streaming import upstream_response,object_response,if_range_matches
 
 router=APIRouter()
@@ -159,15 +160,16 @@ async def deliver(req,key,head):
         async with db.acquire() as con:
             allowed=await allow_resource(con,authority['user'],key)
             if allowed!='allowed':return core.j({'error':allowed},403 if allowed=='forbidden' else 404,PRIVATE)
-        graph=graph_bytes(key)
+        graph=exam_graph_bytes(key) if key in EXAM_GRAPHS else graph_bytes(key)
         if graph is not None:
             if req.query_params.get('capability')=='1':
                 from urllib.parse import urlsplit,urlunsplit
                 u=urlsplit(str(req.url))
                 url=urlunsplit((u.scheme,u.netloc,u.path,'stream=1',''))
                 return core.j({'url':url,'expiresAt':min(int(time.time()*1000)+120000,int(authority['expiresAt'])*1000),'key':key},headers=PRIVATE)
-            size=len(graph);etag='"'+GRAPHS[key]['sha256']+'"'
-            h={**PRIVATE,'Content-Type':'image/png','Accept-Ranges':'bytes','ETag':etag,'Content-Disposition':'inline; filename="'+GRAPHS[key]['originalName']+'"'}
+            image=(EXAM_GRAPHS if key in EXAM_GRAPHS else GRAPHS)[key]
+            size=len(graph);etag='"'+image['sha256']+'"'
+            h={**PRIVATE,'Content-Type':'image/png','Accept-Ranges':'bytes','ETag':etag,'Content-Disposition':'inline; filename="'+image.get('fileName',image['originalName'])+'"'}
             header=None if head else req.headers.get('range')
             if req.headers.get('if-range') not in (None,etag):header=None
             span=media_range(header,size) if header else None
