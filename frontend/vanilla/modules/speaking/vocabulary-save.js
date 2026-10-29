@@ -14,17 +14,19 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
  const result=el('p',{role:'status','data-practice-save-status':''});
  const retry=el('button',{type:'button',class:'btn-secondary',hidden:true,'data-practice-folders-retry':''},dict.errorPage.retry);
  const buttons=[];let saving=false,loading=false,destination='',folderName='',folderRows=[];
+ // Explicit inline hiding is needed because the button/block CSS overrides [hidden].
+ nameLabel.style.display='none';retry.style.display='none';
  function lock(){picker.disabled=saving||loading;name.disabled=saving;retry.disabled=saving||loading;for(const b of buttons)b.disabled=saving;}
  function options(rows=[]){folderRows=rows;picker.replaceChildren(el('option',{value:''},automatic),...rows.map(r=>el('option',{value:r.id},r.name)),el('option',{value:'new'},f.create));picker.value=destination;}
  options();
- listen(picker,'change',()=>{destination=picker.value;nameLabel.hidden=destination!=='new';if(destination==='new')name.focus();},signal);
+ listen(picker,'change',()=>{destination=picker.value;nameLabel.hidden=destination!=='new';nameLabel.style.display=destination==='new'?'block':'none';if(destination==='new')name.focus();},signal);
  listen(name,'input',()=>{folderName=name.value;},signal);
  async function loadFolders(){
-  if(loading||signal.aborted)return;loading=true;retry.hidden=true;folderStatus.textContent=dict.common.loading;lock();
+  if(loading||signal.aborted)return;loading=true;retry.hidden=true;retry.style.display='none';folderStatus.textContent=dict.common.loading;lock();
   try{const d=await api.request('/api/vocabulary/folders',{signal,fresh:true});if(signal.aborted)return;
    if(!Array.isArray(d.folders)||d.folders.some(r=>typeof r.id!=='string'||typeof r.name!=='string'))throw Error('invalid_folders');
    options(d.folders);folderStatus.textContent='';
-  }catch{if(!signal.aborted){folderStatus.textContent=dict.errors.unknown;retry.hidden=false;}}
+  }catch{if(!signal.aborted){folderStatus.textContent=dict.errors.unknown;retry.hidden=false;retry.style.display='inline-flex';}}
   finally{loading=false;if(!signal.aborted)lock();}
  }
  listen(retry,'click',()=>void loadFolders(),signal);
@@ -39,6 +41,7 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
     // Reuse the existing Vocabulary/folder API; keep the server-verified IELTS prompt path unchanged.
     const desired=destination==='new'?folderName.trim():pictureStory.title.slice(0,80);
     let folder=destination&&destination!=='new'?folderRows.find(r=>r.id===destination):folderRows.find(r=>r.name===desired);
+    if(destination&&destination!=='new'&&!folder)throw Error('folder_not_found');
     if(!folder){
      const made=await api.request('/api/vocabulary/folders',{method:'POST',body:{name:desired},signal});
      if(!made.folder?.id)throw Error('folder_not_created');
@@ -46,6 +49,11 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
     }
     const items=indices.map(i=>({term:words[i].term,definitionEn:words[i].definitionEn||words[i].term,translationUz:words[i].translationUz}));
     d=await api.request('/api/vocabulary',{method:'POST',body:{items,folderId:folder.id,sourceType:'manual'},signal});
+    // Existing senses are deduplicated by the API and are not moved on a manual save.
+    // Place every returned owned entry in the selected folder before confirming success.
+    if(d.ok!==true||!Array.isArray(d.ids)||!d.ids.length)throw Error('save_not_confirmed');
+    const moved=await api.request('/api/vocabulary/folders',{method:'POST',body:{entryIds:d.ids,folderId:folder.id},signal});
+    if(moved.ok!==true||moved.moved!==d.ids.length)throw Error('folder_move_not_confirmed');
     d={...d,folder};
    }else d=await api.request('/api/speaking/prompts/vocabulary',{method:'POST',body,signal});
    if(signal.aborted)return;
