@@ -1,0 +1,89 @@
+{
+  "phase": "Phase E \u2014 Automatic Dataset & QA Generation",
+  "generator_version": "riwi-compositional-dataset-gen-v1.0",
+  "random_seed": 20261029,
+  "label_provenance": "gemini_synthetic_reference_unverified_by_human_expert: Generated programmatically via compositional rubric profiles for calibration and QA; must not be represented as human IELTS examiner ground truth.",
+  "total_cases": 1200,
+  "unique_content_hashes": 1200,
+  "train_to_holdout_contamination_count": 0,
+  "split_counts": {
+    "TRAINING": 480,
+    "CALIBRATION": 240,
+    "VALIDATION": 240,
+    "FINAL_HOLDOUT": 240
+  },
+  "module_counts": {
+    "writing": 360,
+    "speaking": 240,
+    "reading": 150,
+    "listening": 150,
+    "grammar": 120,
+    "vocabulary": 120,
+    "security_adversarial": 60
+  },
+  "cefr_counts": {
+    "A2": 271,
+    "B1": 331,
+    "B2": 269,
+    "C1": 269,
+    "C2": 60
+  },
+  "sample_cases_by_module": {
+    "writing": {
+      "case_id": "RIWI-WRT-0000",
+      "split": "TRAINING",
+      "contract_key": "writing.task2.discussion",
+      "cefr_level": "A2",
+      "error_category": "OFF_TOPIC",
+      "content_sha256": "86e3521e3d5cb0760adcb0b9795239afe66d39c3f7236a24f1784653c1f799d4"
+    },
+    "speaking": {
+      "case_id": "RIWI-SPK-0000",
+      "split": "TRAINING",
+      "contract_key": "speaking.part1",
+      "cefr_level": "C1",
+      "error_category": "NONE",
+      "content_sha256": "301dbbf6b879b567620b22ef3d25559600b32c94e2fcd84d0ea87d0c3ebe39d6"
+    },
+    "reading": {
+      "case_id": "RIWI-REA-0000",
+      "split": "TRAINING",
+      "contract_key": "reading.true-false-not-given",
+      "cefr_level": "A2",
+      "error_category": "OBJECTIVE_MISMATCH",
+      "content_sha256": "821c83c1401a56e483c23c511ddd4d4a4849ad5e7f0b723bba168e50717fbbc2"
+    },
+    "listening": {
+      "case_id": "RIWI-LIS-0000",
+      "split": "TRAINING",
+      "contract_key": "listening.multiple-choice",
+      "cefr_level": "A2",
+      "error_category": "OBJECTIVE_MISMATCH",
+      "content_sha256": "3a48b48564075bd47d0e6abc18ed488f0edcd5a51cfaa546d012f0ce9eddb42c"
+    },
+    "grammar": {
+      "case_id": "RIWI-GRA-0000",
+      "split": "TRAINING",
+      "contract_key": "grammar.correct-it",
+      "cefr_level": "A2",
+      "error_category": "NONE",
+      "content_sha256": "e19a36d36ca7f1681b8d790905e39f3d22a322bb4b8d5e679fa6b4bc07277d26"
+    },
+    "vocabulary": {
+      "case_id": "RIWI-VOC-0000",
+      "split": "TRAINING",
+      "contract_key": "vocabulary.use-in-sentence",
+      "cefr_level": "A2",
+      "error_category": "NONE",
+      "content_sha256": "4a23289e8181bc431bb681df7d3018eb77a381da785513e8edd287f16b74a04b"
+    },
+    "security_adversarial": {
+      "case_id": "RIWI-SEC-0000",
+      "split": "TRAINING",
+      "contract_key": "security.adversarial",
+      "cefr_level": "A2",
+      "error_category": "SECURITY_ADVERSARIAL",
+      "content_sha256": "f8a40c342f989dcb33e26cbda10222f9a6cd9ac3882d4fc90b0032fb55d67044"
+    }
+  }
+}
