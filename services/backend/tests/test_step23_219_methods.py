@@ -12,10 +12,10 @@ ID=str(uuid4())
 NEW={('GET','/api/vocabulary/lookup'),('GET','/api/admin/content/versions/{id}/preview')}
 
 def test_inventory_exact():
-    state=json.loads(Path('PORT_STATUS.json').read_text())
+    state=json.loads((Path(__file__).resolve().parents[1]/'PORT_STATUS.json').read_text())
     found={(method,r.path) for r in core.app.routes for method in r.methods if r.path.startswith('/api/')}
-    assert len(found)==272
-    assert state['ported_methods']==272
+    assert len(found)==304
+    assert state['ported_methods']==304
     assert NEW<={((x['method'],x['path'])) for x in state['endpoints'] if x['status'].startswith('ported_')}
 
 @pytest.mark.parametrize('path',('/api/vocabulary/lookup','/api/admin/content/versions/'+ID+'/preview'))

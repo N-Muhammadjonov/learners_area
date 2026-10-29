@@ -45,13 +45,13 @@ def mock_db(monkeypatch):
 
 
 def test_inventory_exact_190_and_route_uniqueness():
-    status=json.loads(Path('PORT_STATUS.json').read_text())
+    status=json.loads((Path(__file__).resolve().parents[1]/'PORT_STATUS.json').read_text())
     listed={(r['method'],r['path']) for r in status['endpoints'] if r['status']!='not_ported'}
     actual=[(method,r.path) for r in core.app.routes for method in getattr(r,'methods',[]) if r.path.startswith('/api')]
     assert len(actual)==len(set(actual))>=210
     assert listed==set(actual)
-    assert status['total_methods']==272
-    assert status['ported_methods']==len(actual) and status['unported_methods']==272-len(actual)
+    assert status['total_methods']==304
+    assert status['ported_methods']==len(actual) and status['unported_methods']==304-len(actual)
 
 @pytest.mark.parametrize('method,path',[
  ('POST','/api/owner/transfer'),('POST','/api/speaking/prompts'),

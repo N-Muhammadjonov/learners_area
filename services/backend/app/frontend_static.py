@@ -119,10 +119,37 @@ class StaticFrontend:
                             compressed=None
                         etag='"'+(row.get('gzipSha256',row['sha256']+'-gzip') if compressed else row['sha256'])+'"'
                         headers={'Cache-Control':cache,'ETag':etag,'Vary':'Accept-Encoding','X-Learners-Asset-Version':manifest.get('revision','')}
+                        media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream'
+                        range_hdr=req.headers.get('range','')
                         if etag in [value.strip() for value in req.headers.get('if-none-match','').split(',')]:
                             response=Response(status_code=304,headers=headers)
                         elif compressed:
-                            response=FileResponse(compressed,media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream',headers={**headers,'Content-Encoding':'gzip'})
+                            response=FileResponse(compressed,media_type=media_type,headers={**headers,'Content-Encoding':'gzip'})
+                        elif range_hdr.startswith('bytes='):
+                            raw_bytes=target.read_bytes()
+                            total_len=len(raw_bytes)
+                            m_rng=re.fullmatch(r'bytes=(\d+)-(\d*)',range_hdr.strip())
+                            if m_rng:
+                                start_b=int(m_rng.group(1))
+                                end_b=int(m_rng.group(2)) if m_rng.group(2) else total_len-1
+                                end_b=min(end_b,total_len-1)
+                                if 0<=start_b<=end_b<total_len:
+                                    chunk=b'' if req.method=='HEAD' else raw_bytes[start_b:end_b+1]
+                                    response=Response(
+                                        chunk,
+                                        status_code=206,
+                                        media_type=media_type,
+                                        headers={
+                                            **headers,
+                                            'Accept-Ranges':'bytes',
+                                            'Content-Range':f'bytes {start_b}-{end_b}/{total_len}',
+                                            'Content-Length':str(end_b-start_b+1),
+                                        },
+                                    )
+                                else:
+                                    response=Response(status_code=416,headers={**headers,'Content-Range':f'bytes */{total_len}'})
+                            else:
+                                response=FileResponse(target,headers=headers)
                         else:
                             response=FileResponse(target,headers=headers)
                 else:

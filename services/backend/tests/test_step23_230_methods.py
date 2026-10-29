@@ -19,10 +19,10 @@ NEW={('GET','/api/vocabulary/lookup'),('GET','/api/admin/content/versions/{id}/p
 ('POST','/api/writing/stealing/practice'),('POST','/api/writing/activation/check')}
 
 def test_inventory_exact():
-    state=json.loads(Path('PORT_STATUS.json').read_text())
+    state=json.loads((Path(__file__).resolve().parents[1]/'PORT_STATUS.json').read_text())
     found={(m,r.path) for r in core.app.routes for m in r.methods if r.path.startswith('/api/')}
-    assert len(found)==272 and len(set(found))==272
-    assert state['ported_methods']==272 and state['unported_methods']==0
+    assert len(found)==304 and len(set(found))==304
+    assert state['ported_methods']==304 and state['unported_methods']==0
     ported={(r['method'],r['path']) for r in state['endpoints'] if r['status'].startswith('ported_')}
     assert ported==found and NEW<=ported
 

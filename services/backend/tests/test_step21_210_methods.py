@@ -40,13 +40,13 @@ NEW=[
 ]
 
 def test_route_manifest_strictly_matches_fastapi():
-    report=json.loads(Path('PORT_STATUS.json').read_text())
+    report=json.loads((Path(__file__).resolve().parents[1]/'PORT_STATUS.json').read_text())
     entries=report['endpoints']
     ported={(e['method'],e['path']) for e in entries if e['status'].startswith('ported_')}
     routes=[(method,route.path) for route in core.app.routes for method in route.methods if route.path.startswith('/api/')]
     assert len(ported)==len(routes)==len(set(routes)) and len(ported)>=210
     assert ported==set(routes)
-    assert len(entries)==report['total_methods']==272 and report['unported_methods']==len(entries)-len(ported)
+    assert len(entries)==report['total_methods']==304 and report['unported_methods']==len(entries)-len(ported)
     assert len(NEW)==len(set(NEW))==20
     for method,path in NEW:
         template=path.replace(ID,'{id}')
