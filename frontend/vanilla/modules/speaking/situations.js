@@ -31,6 +31,7 @@ export function createSituationSupport({story,dict,locale,signal,context}){
  const content=el('div',{role:'tabpanel',class:'space-y-4',id:`${story.id}-support-content`});
  let tab='vocabulary',renderController=null,timer=null;const revealed=new Set(),activated=new Set();
  const clearHold=()=>{clearTimeout(timer);timer=null;};
+ function tabHold(control,name,events){let pending=null;const clear=()=>{clearTimeout(pending);pending=null;};const start=()=>{if(revealed.has(name)||signal.aborted)return;clear();pending=setTimeout(()=>{pending=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);};listen(control,'pointerdown',e=>{if(e.button===0)start();},events);for(const ev of ['pointerup','pointercancel','pointerleave','keyup'])listen(control,ev,clear,events);listen(control,'keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat)start();},events);events.addEventListener('abort',clear,{once:true});}
  const destroy=()=>{clearHold();renderController?.abort();};
  signal.addEventListener('abort',destroy,{once:true});
  function show(){
@@ -40,10 +41,11 @@ export function createSituationSupport({story,dict,locale,signal,context}){
    const id=`${story.id}-support-${name}`;
    const b=button(label,()=>{tab=name;activated.add(name);show();},{id,class:tab===name&&(activated.has(name)||revealed.has(name))?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'aria-controls':content.id,'data-situation-tab':name});
    listen(b,'keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();tab=e.key==='Home'?'vocabulary':e.key==='End'?'sample':tab==='vocabulary'?'sample':'vocabulary';activated.add(tab);show();tabs.querySelector('[aria-selected="true"]').focus();},events);
-   b.tabIndex=tab===name?0:-1;tabs.append(b);
+   b.tabIndex=tab===name?0:-1;tabHold(b,name,events);tabs.append(b);
   }
   content.setAttribute('aria-labelledby',`${story.id}-support-${tab}`);content.replaceChildren();
   if(revealed.has(tab)){
+   content.append(button(locale==='uz'?'Yopish':'Close',()=>{revealed.delete(tab);show();},{class:'btn-secondary','data-situation-close':tab,'aria-label':locale==='uz'?'Bo‘limni yopish':'Close section'}));
    if(tab==='vocabulary'){
     content.append(vocabularySaver({...context,signal:events},{
      words:story.vocabulary,copy:study,pictureStory:{id:story.id,title:story.title}
