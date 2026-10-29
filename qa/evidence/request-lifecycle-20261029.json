@@ -1,0 +1,243 @@
+{
+  "stage": 6,
+  "name": "FastAPI concurrency and request lifecycle",
+  "status": "SOURCE_VERIFIED_RELEASE_APPROVAL_PENDING",
+  "verified_at_utc": "2026-10-29T08:21:52.864219+00:00",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/request-lifecycle-20261029",
+  "original_base": "901b6a7fb0330b7fd171378f57630642ab8ac1ce",
+  "integrated_main": "353e91d4c19e5c7d5045dd99838d783ea208b57f",
+  "production_changed_by_task6": false,
+  "schema_changes": [],
+  "production_variable_changes": [],
+  "preflight": {
+    "railway_cpu_limit": 8,
+    "railway_memory_limit_gb": 8,
+    "observed_cpu_average": 0.0050510909836065584,
+    "observed_cpu_max": 0.03777478333333333,
+    "observed_memory_average_gb": 0.07779324642622955,
+    "observed_memory_max_gb": 0.095363072,
+    "scope": "One-hour metrics snapshot during Task 6 preflight. Limits are not guaranteed dedicated capacity.",
+    "replicas": 1,
+    "workers": 1,
+    "pool_max": 5,
+    "db_budget": "Task 5 budget retained: 6 sockets steady state, 12 during two-worker deployment overlap; application allocation 40 out of 60 after reserve 20."
+  },
+  "implementation": {
+    "admission": "64 ordinary in-flight requests per worker; bulk uploads/imports/reports have a sub-limit of 4; SSE has a separate limit of 256. No application admission queue; excess receives private 503 with Retry-After=1. These are conservative limits, not measured learner capacity.",
+    "blocking_work": "At most two submitted CPU jobs and four storage jobs per worker; waiting for a work slot is bounded to one second. Jobs retain their slot until the underlying thread actually completes, including after an HTTP waiter is cancelled.",
+    "off_loop": [
+      "Password hashing/checking",
+      "Report rendering",
+      "Content package and Reading bundle validation",
+      "Dictionary shard decoding",
+      "Storage client initialization and object operations"
+    ],
+    "request_timeouts": "Body receipt has a total 30-second bound. Ordinary safe reads have a 30-second response-start bound, removed once streaming begins. Authentication callbacks and the frequent session handshake retain their provider/database bounds instead of a duplicate request timer. Mutations are not arbitrarily cancelled after body receipt; database/provider and admission limits remain active.",
+    "storage_socket_bounds": "Connect 5 seconds, read idle 10 seconds, standard retries with two total attempts. A socket idle timeout is not a total large-transfer deadline; media work remains Task 9.",
+    "probes": "Liveness remains available. Readiness fails during drain or ordinary admission exhaustion, has at most two concurrent probes and a five-second deadline, and retains existing database/rate-table/frontend checks.",
+    "shutdown": "Uvicorn request grace 30 seconds; blocking-work drain 5 seconds; listener close 5 seconds; pool close 10 seconds with termination on failure/cancellation. One explicit worker prevents WEB_CONCURRENCY from multiplying the database budget.",
+    "interface": "Latest upstream Day/Night backgrounds and gradients preserved. Only the profile placeholder initial inherits the existing black gradient-label colour. No layout/navigation/learning/module-name changes."
+  },
+  "validation": {
+    "backend_pytest": {
+      "passed": 3048,
+      "failed": 0,
+      "skipped": 0,
+      "new_cases": 20,
+      "warning": "One upstream Starlette/AnyIO deprecation warning"
+    },
+    "npm": {
+      "passed": 1167,
+      "failed": 0,
+      "skipped": 11,
+      "new_cases": 1
+    },
+    "integration": {
+      "migrations": 71,
+      "typedTables": 127,
+      "httpChecks": 426,
+      "nativeDecoderChecks": 151,
+      "nativeDomChecks": 118,
+      "migrationReplayChecks": 8,
+      "database": "embedded PostgreSQL",
+      "result": "passed",
+      "failures": []
+    },
+    "native_build": {
+      "files": 497,
+      "routes": 122,
+      "revision": "56a15470a7eb01f58f27",
+      "result": "passed"
+    },
+    "backend_check": "passed",
+    "python_compile": "passed",
+    "diff_check": "passed",
+    "shutdown_wire_probe": {
+      "result": "passed",
+      "wire_requests_admitted": 64,
+      "overload_status": 503,
+      "liveness_while_saturated": 200,
+      "readiness_while_saturated": 503,
+      "completed_once_after_sigterm": 64,
+      "process_exit": -15,
+      "launcher": {
+        "workers": 1,
+        "backlog": 128,
+        "timeout_keep_alive": 5,
+        "timeout_graceful_shutdown": 30,
+        "proxy_headers": false
+      },
+      "scope": "Synthetic local in-flight work over real TCP and the actual launcher; no academic/database or capacity claim."
+    }
+  },
+  "frontend_baselines": {
+    "901b6a7": {
+      "full_suite_passed": 1163,
+      "failed": 3,
+      "skipped": 11,
+      "cause": "Navy canvas applied to Day while text styles retained Day ink. Exact three cases failed on the isolated main snapshot.",
+      "resolution": "The owner added upstream white Day-background fixes while this stage was in progress. Those commits were merged into this working branch; temporary overlapping colour changes were dropped."
+    },
+    "353e91d": {
+      "full_suite_passed": 1159,
+      "failed": 7,
+      "skipped": 11,
+      "same_seven_cases_on_main_snapshot": {
+        "passed": 0,
+        "failed": 7
+      },
+      "cases": [
+        "reference-layout-v72: real topbar contrast in four Day/Night and focus combinations",
+        "reference-layout-v72: Reading intro and shared header palette combinations",
+        "theme-navigation-v71: night/on and night/off Main contrast"
+      ],
+      "cause": "The CSS cascade probe ignored linear-gradient paint. Modelling gradient segments also exposed the white profile initial on the bright gradient.",
+      "repair": "Conservative gradient samples are checked against each foreground; a negative case still rejects white text. The profile initial uses black, like the other gradient labels. The game fixture now has the real campus-shell marker. No assertions or contrast thresholds were removed."
+    }
+  },
+  "performance": {
+    "final_gate": "passed",
+    "method": "One current ASGI application and embedded PostgreSQL fixture, one persistent TestClient lifespan/event loop, alternating requests with and without RequestBudget; four isolated learners, 90 warmup pairs and 500 retained pairs per scenario. Actual per-user Dictionary quota is retained.",
+    "measurements": {
+      "session": {
+        "without_budget": {
+          "samples": 500,
+          "p50_ms": 1.526,
+          "p95_ms": 1.951,
+          "queries_per_request": [
+            3
+          ]
+        },
+        "with_budget": {
+          "samples": 500,
+          "p50_ms": 1.539,
+          "p95_ms": 1.965,
+          "queries_per_request": [
+            3
+          ]
+        }
+      },
+      "reading_catalogue": {
+        "without_budget": {
+          "samples": 500,
+          "p50_ms": 2.945,
+          "p95_ms": 3.684,
+          "queries_per_request": [
+            3
+          ]
+        },
+        "with_budget": {
+          "samples": 500,
+          "p50_ms": 2.97,
+          "p95_ms": 3.729,
+          "queries_per_request": [
+            3
+          ]
+        }
+      },
+      "dictionary_search_empty": {
+        "without_budget": {
+          "samples": 500,
+          "p50_ms": 3.096,
+          "p95_ms": 4.682,
+          "queries_per_request": [
+            6
+          ]
+        },
+        "with_budget": {
+          "samples": 500,
+          "p50_ms": 3.117,
+          "p95_ms": 4.328,
+          "queries_per_request": [
+            6
+          ]
+        }
+      }
+    },
+    "p95_change_percent": {
+      "session": 0.72,
+      "reading_catalogue": 1.22,
+      "dictionary_search_empty": -7.56
+    },
+    "queries_unchanged": true,
+    "scope": "Incremental ordinary request-admission overhead. Local sequential measurements do not establish production latency, throughput or 200/500/1000-user readiness.",
+    "retained_diagnostics": [
+      "Separate-process main/current samples and earlier smaller paired samples exceeded the 10% p95 threshold; they are retained in work logs, not reported as passing.",
+      "The context-free TestClient created a new portal for every request. The final paired fixture uses one persistent lifespan, matching the server model.",
+      "A previous paired fixture exceeded the real Dictionary quota; sample identity rotation preserves the quota without disabling limits.",
+      "The session handshake now uses its existing database bounds without a duplicate request timer; bodyless GET/HEAD does not allocate a body-receipt timer."
+    ]
+  },
+  "changed_files": [
+    "frontend/vanilla/css/campus.css",
+    "frontend/vanilla/tests/helpers/css-contrast.mjs",
+    "frontend/vanilla/tests/reference-layout-v72.test.mjs",
+    "frontend/vanilla/tests/theme-interactive-v71.test.mjs",
+    "scripts/serve.py",
+    "services/backend/app/asgi.py",
+    "services/backend/app/db.py",
+    "services/backend/app/main.py",
+    "services/backend/app/migration_phase2.py",
+    "services/backend/app/request_lifecycle.py",
+    "services/backend/app/step17_admin_safe_port.py",
+    "services/backend/app/step19_storage.py",
+    "services/backend/app/step22_upload_port.py",
+    "services/backend/app/step34_reading_import.py",
+    "services/backend/app/step37_reports.py",
+    "services/backend/app/step39_content_import.py",
+    "services/backend/app/step40_dictionary_storage.py",
+    "services/backend/tests/pool_discipline_probe.py",
+    "services/backend/tests/request_lifecycle_shutdown_probe.py",
+    "services/backend/tests/test_request_lifecycle.py"
+  ],
+  "manual_checks": "Delegated to the owner per the latest instruction. No additional Task 6 manual/browser acceptance was performed.",
+  "pending_release": {
+    "explicit_approval_required": [
+      "Main-targeting PR creation",
+      "Merge and Railway production deployment"
+    ],
+    "migration_required": false,
+    "variable_change_required": false,
+    "automatic_after_release": [
+      "Exact deployed SHA",
+      "Readiness and runtime budget startup flags"
+    ],
+    "manual_after_release": "Owner performs manual UI and learning journeys.",
+    "rollback": "Previous compatible approved application release, preserving subsequent owner changes; no schema rollback."
+  },
+  "progress": {
+    "completed_stages": 5,
+    "total_stages": 14,
+    "percent_by_stage_count": 35.71,
+    "note": "Task 6 source is verified but release is pending; Task 7 has not started."
+  },
+  "sources": [
+    "https://uvicorn.dev/settings/",
+    "https://uvicorn.dev/server-behavior/",
+    "https://starlette.dev/lifespan/",
+    "https://docs.python.org/3.14/library/asyncio-task.html",
+    "https://docs.aws.amazon.com/botocore/latest/reference/config.html",
+    "Installed Uvicorn 0.54 signal handling and Starlette TestClient portal source inspected"
+  ]
+}

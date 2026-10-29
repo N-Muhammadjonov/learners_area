@@ -137,7 +137,9 @@ class RequestBudget:
         # Do not impose an arbitrary cancellation deadline on a mutating route:
         # its database/provider operations have their own bounds. Safe view reads
         # have a response-start deadline; an established file/SSE stream is intact.
-        safe_read = method in ('GET', 'HEAD') and not path.startswith('/api/auth/')
+        # The frequent session handshake has only bounded database operations;
+        # retain those bounds without allocating a request timer for each poll.
+        safe_read = method in ('GET', 'HEAD') and not path.startswith('/api/auth/') and path != '/api/frontend/session'
         timeout = self.probe_timeout if probe else self.read_timeout if safe_read and not stream else None
 
         async def bounded_receive():
@@ -152,15 +154,25 @@ class RequestBudget:
                 body_done = True
             return message
 
+        deadline = None
+        async def guarded_send(message):
+            nonlocal started
+            if message['type'] == 'http.response.start':
+                started = True
+                if deadline is not None:deadline.reschedule(None)
+            await send(message)
+
+        # HTTP framing gives a bodyless GET/HEAD no incoming payload to time.
+        bodyless = method in ('GET','HEAD') and not any(
+            k.lower()==b'transfer-encoding' or k.lower()==b'content-length' and v.strip()!=b'0'
+            for k,v in scope.get('headers',()))
+        incoming = receive if bodyless else bounded_receive
         try:
-            async with asyncio.timeout(timeout) as deadline:
-                async def guarded_send(message):
-                    nonlocal started
-                    if message['type'] == 'http.response.start':
-                        started = True
-                        deadline.reschedule(None)
-                    await send(message)
-                await self.app(scope, bounded_receive, guarded_send)
+            if timeout is None:
+                await self.app(scope, incoming, guarded_send)
+            else:
+                async with asyncio.timeout(timeout) as deadline:
+                    await self.app(scope, incoming, guarded_send)
         except (TimeoutError, WorkBusy) as exc:
             if started:
                 raise  # Never append a second response or claim a partial stream succeeded.
