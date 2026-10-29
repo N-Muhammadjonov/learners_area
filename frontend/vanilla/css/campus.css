@@ -1109,3 +1109,50 @@ html[data-theme] #root [data-campus-shell] [data-writing-tablist]
   background-size: 100% 2px !important;
   border-color: transparent !important;
 }
+
+
+/* Management-only button gradients — 2026-10-29. */
+/* Applies to existing Owner/Admin/Teacher action controls only.
+   Dictionary controls, management cards, routing, permissions and geometry stay intact. */
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) :is(span, strong, small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Staff statistics and student-results section selectors:
+   selected = filled, unselected = bottom underline, no rectangular outline. */
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) a.chip.chip-active {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) a.chip:not(.chip-active) {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+}
