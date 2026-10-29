@@ -1,12 +1,12 @@
 {
   "stage": 6,
   "name": "FastAPI concurrency and request lifecycle",
-  "status": "SOURCE_VERIFIED_RELEASE_APPROVAL_PENDING",
-  "verified_at_utc": "2026-10-29T08:21:52.864219+00:00",
+  "status": "SOURCE_VERIFIED_RELEASE_APPROVED",
+  "verified_at_utc": "2026-10-29T08:32:05.215974+00:00",
   "repository": "N-Muhammadjonov/learners_area",
   "branch": "arena/request-lifecycle-20261029",
   "original_base": "901b6a7fb0330b7fd171378f57630642ab8ac1ce",
-  "integrated_main": "353e91d4c19e5c7d5045dd99838d783ea208b57f",
+  "integrated_main": "c2d3c87fa475fa3a66f25249055a64377860763a",
   "production_changed_by_task6": false,
   "schema_changes": [],
   "production_variable_changes": [],
@@ -51,7 +51,8 @@
       "passed": 1167,
       "failed": 0,
       "skipped": 11,
-      "new_cases": 1
+      "new_cases": 1,
+      "includes_latest_speaking_changes": true
     },
     "integration": {
       "migrations": 71,
@@ -67,7 +68,7 @@
     "native_build": {
       "files": 497,
       "routes": 122,
-      "revision": "56a15470a7eb01f58f27",
+      "revision": "f9684de38802a96ba74d",
       "result": "passed"
     },
     "backend_check": "passed",
@@ -114,6 +115,16 @@
       ],
       "cause": "The CSS cascade probe ignored linear-gradient paint. Modelling gradient segments also exposed the white profile initial on the bright gradient.",
       "repair": "Conservative gradient samples are checked against each foreground; a negative case still rejects white text. The profile initial uses black, like the other gradient labels. The game fixture now has the real campus-shell marker. No assertions or contrast thresholds were removed."
+    },
+    "c2d3c87": {
+      "upstream_changes_preserved": "Six owner Speaking commits across five product files, merged without modifying their product behavior.",
+      "initial_focused_suite": {
+        "passed": 30,
+        "failed": 1
+      },
+      "case": "speaking-situations: continuous three-second hold",
+      "cause": "The upstream vocabulary saver now requires full context; the standalone test still supplied the former signature and old dt/dd selectors.",
+      "repair": "Supply the real context, use the new saver marker, retain timed cancellation and exact per-word translation assertions. Final full npm suite passed."
     }
   },
   "performance": {
@@ -193,7 +204,9 @@
     "frontend/vanilla/css/campus.css",
     "frontend/vanilla/tests/helpers/css-contrast.mjs",
     "frontend/vanilla/tests/reference-layout-v72.test.mjs",
+    "frontend/vanilla/tests/speaking-situations.test.mjs",
     "frontend/vanilla/tests/theme-interactive-v71.test.mjs",
+    "qa/evidence/request-lifecycle-20261029.json",
     "scripts/serve.py",
     "services/backend/app/asgi.py",
     "services/backend/app/db.py",
@@ -213,10 +226,7 @@
   ],
   "manual_checks": "Delegated to the owner per the latest instruction. No additional Task 6 manual/browser acceptance was performed.",
   "pending_release": {
-    "explicit_approval_required": [
-      "Main-targeting PR creation",
-      "Merge and Railway production deployment"
-    ],
+    "explicit_approval_required": [],
     "migration_required": false,
     "variable_change_required": false,
     "automatic_after_release": [
@@ -224,7 +234,8 @@
       "Readiness and runtime budget startup flags"
     ],
     "manual_after_release": "Owner performs manual UI and learning journeys.",
-    "rollback": "Previous compatible approved application release, preserving subsequent owner changes; no schema rollback."
+    "rollback": "Previous compatible approved application release, preserving subsequent owner changes; no schema rollback.",
+    "authorization_received": true
   },
   "progress": {
     "completed_stages": 5,
@@ -239,5 +250,6 @@
     "https://docs.python.org/3.14/library/asyncio-task.html",
     "https://docs.aws.amazon.com/botocore/latest/reference/config.html",
     "Installed Uvicorn 0.54 signal handling and Starlette TestClient portal source inspected"
-  ]
+  ],
+  "authorization": "Owner explicitly approved Task 6 PR/merge/deploy and authorized main merges for the remaining eight stages without asking again. Manual checks remain with the owner."
 }
