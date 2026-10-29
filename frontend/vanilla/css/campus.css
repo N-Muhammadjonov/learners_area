@@ -535,3 +535,63 @@ html[data-theme]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data
 }
 #root [data-auth-shell] .card::before { padding: 1px; }
 #root [data-auth-shell] .auth-switch-pill::before { padding: 2px; }
+
+
+/* Dashboard-only gradient controls — 2026-10-29.
+   Preserve the current dimensions, radius, positions and action handlers. */
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) {
+  --dashboard-action-gradient: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
+
+/* Main, dashboard action links/buttons, and the profile trigger. */
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) :is(
+  [data-campus-return-link],
+  [data-route-usable="dashboard"] .btn-primary,
+  [data-route-usable="dashboard"] .btn-secondary,
+  [data-shell-topbar] [data-profile-menu-trigger]
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) [data-shell-topbar] [data-profile-menu-trigger] > span:not(:first-child) {
+  color: #000000 !important;
+}
+
+/* Vocabulary review alone retains an outlined surface, with a gradient edge. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[href="/app/vocabulary"] > .btn-secondary {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)), rgb(var(--workspace-raised))) padding-box,
+    var(--dashboard-action-gradient) border-box !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+}
+
+/* Keep both switches' existing sizes and selection/event semantics. */
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn-active,
+  [data-locale-switcher] button[aria-pressed="true"]
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn:not(.theme-btn-active),
+  [data-locale-switcher] button[aria-pressed="false"]
+) {
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: rgb(var(--workspace-line)) !important;
+}
+
+/* Existing circular utilities launcher, colour-only treatment. */
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) [data-utilities-launcher] {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) [data-utilities-launcher] .module-emoji {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #000000 !important;
+}
