@@ -1,4 +1,4 @@
-"""Document inventory, source pair identity and original private graph bytes.
+"""Optional legacy source inventory. Real Exam test content and graph bytes have been removed.
 
 Content must also be currently published in PostgreSQL. This inventory is not
 an alternate publication or authorization mechanism.
