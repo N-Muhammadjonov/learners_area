@@ -44,7 +44,7 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
      if(!made.folder?.id)throw Error('folder_not_created');
      folder=made.folder;folderRows=[...folderRows,folder];options(folderRows);
     }
-    const items=indices.map(i=>({term:words[i].term,translationUz:words[i].translationUz}));
+    const items=indices.map(i=>({term:words[i].term,definitionEn:words[i].definitionEn||words[i].term,translationUz:words[i].translationUz}));
     d=await api.request('/api/vocabulary',{method:'POST',body:{items,folderId:folder.id,sourceType:'manual'},signal});
     d={...d,folder};
    }else d=await api.request('/api/speaking/prompts/vocabulary',{method:'POST',body,signal});
