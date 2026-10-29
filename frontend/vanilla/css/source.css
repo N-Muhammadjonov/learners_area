@@ -2495,3 +2495,34 @@ dialog {
 [data-theme="night"][data-focus="on"] .focus-surface {
   background-color: #141734;
 }
+
+/* Keep Management's two academic search fields visible against their panel. */
+html[data-theme] #root [data-owner-academic-filters] input[type="search"] {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #16c94c !important;
+  border-radius: 8px;
+  background-color: var(--owner-search-background, #f1f6ff) !important;
+  color: var(--owner-search-text, #102740) !important;
+  caret-color: var(--owner-search-text, #102740);
+  color-scheme: light;
+}
+html[data-theme] #root [data-owner-academic-filters] input[type="search"]::placeholder {
+  color: var(--owner-search-placeholder, #536780) !important;
+  opacity: 1;
+}
+html[data-theme] #root [data-owner-academic-filters] input[type="search"]:focus-visible {
+  outline: 2px solid #3d50fa !important;
+  outline-offset: 2px;
+}
+[data-theme="night"] [data-owner-academic-filters] {
+  --owner-search-background: #0d1830;
+  --owner-search-text: #f3eef5;
+  --owner-search-placeholder: #b6c4d9;
+}
+html[data-theme="night"] #root [data-owner-academic-filters] input[type="search"] {
+  color-scheme: dark;
+}

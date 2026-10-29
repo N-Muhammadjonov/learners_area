@@ -1090,25 +1090,6 @@
       "publicationState": "published"
     },
     {
-      "id": "9c316eaa-098a-54f0-a3d8-a23a7abb2dc0",
-      "sourceKey": "w24-t46-1",
-      "code": "W24-T46",
-      "taskType": "task1",
-      "category": "mixed-charts",
-      "sourceType": "Mixed charts",
-      "prompt": "The source refers to a line graph and a bar chart about heavy transport on US roads.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
-      "title": "The source refers to a line graph and a bar chart about heavy transport on US roads.",
-      "sourceRef": "writing-exam-html-20261029:w24-t46-1",
-      "isNew": true,
-      "addedDate": "2026-10-29",
-      "sourceDate": null,
-      "dateDetail": "Source: 2024 PDF archive, page 126 · Exam sitting: unknown · Added to this file: 29 Oct 2026",
-      "sourceOrder": 40,
-      "image": null,
-      "publicationState": "draft",
-      "holdReason": "Exact original diagram unavailable"
-    },
-    {
       "id": "6270581b-ea78-5172-93ab-965b5903f63d",
       "sourceKey": "a05-2",
       "code": "A05",

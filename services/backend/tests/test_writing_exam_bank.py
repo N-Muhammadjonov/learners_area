@@ -9,10 +9,11 @@ from test_exam_lifecycle_port import Conn,setup
 C=TestClient(core.app)
 
 def test_bank_has_exact_source_inventory_and_only_complete_published_visuals():
-    assert len(bank.DATA['prompts'])==145
-    assert len(bank.PROMPTS)==145
-    assert sum(p['taskType']=='task1' for p in bank.PROMPTS.values())==67
+    assert len(bank.DATA['prompts'])==144
+    assert len(bank.PROMPTS)==144
+    assert sum(p['taskType']=='task1' for p in bank.PROMPTS.values())==66
     assert sum(p['taskType']=='task2' for p in bank.PROMPTS.values())==78
+    assert all(p['publicationState']=='published' for p in bank.PROMPTS.values())
     for p in bank.PROMPTS.values():
         assert p['category'] in {t['id'] for t in bank.DATA['types'][p['taskType']]}
         if p['taskType']=='task1' and p['publicationState']=='published':
