@@ -115,12 +115,12 @@
   },
   "latency_and_resource_telemetry": {
     "total_holdout_cases_evaluated": 240,
-    "wall_time_sec": 0.5485,
-    "latency_p50_ms": 0.655,
-    "latency_p95_ms": 5.203,
-    "latency_p99_ms": 6.224,
-    "cpu_user_sec": 0.53,
+    "wall_time_sec": 0.5199,
+    "latency_p50_ms": 0.661,
+    "latency_p95_ms": 4.969,
+    "latency_p99_ms": 5.795,
+    "cpu_user_sec": 0.5,
     "cpu_sys_sec": 0.0,
-    "peak_rss_mb": 146.86
+    "peak_rss_mb": 233.46
   }
 }
