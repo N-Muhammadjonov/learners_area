@@ -51,7 +51,7 @@ async def add_pack(req:Request):
 
 @router.delete('/api/vocabulary/packs/{pack_id}')
 async def remove_pack(req:Request,pack_id:str):
-    """Remove the imported folder arrangement, keeping words and all progress."""
+    """Remove the learner's imported pack words and any now-empty owned folders."""
     u=await core.current_user(req,active=True)
     if not u:return core.auth_error()
     if not pack_id or len(pack_id)>60:return core.j({'error':'unknown_pack'},400)
@@ -61,12 +61,12 @@ async def remove_pack(req:Request,pack_id:str):
             await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',u['id'])
             folders=await con.fetch('''SELECT DISTINCT folder_id FROM user_vocabulary
                 WHERE user_id=$1 AND topic_pack=$2 AND folder_id IS NOT NULL''',u['id'],pack_id)
-            await con.execute('''UPDATE user_vocabulary SET folder_id=NULL
+            removed=await con.execute('''DELETE FROM user_vocabulary
                 WHERE user_id=$1 AND topic_pack=$2''',u['id'],pack_id)
             # Only empty owned folders are removed; unrelated words keep their folder.
             for row in folders:
                 await con.execute('''DELETE FROM vocab_folders f WHERE f.id=$1 AND f.user_id=$2
                     AND NOT EXISTS(SELECT 1 FROM user_vocabulary v WHERE v.folder_id=f.id)''',row['folder_id'],u['id'])
-    return core.j({'ok':True,'wordsPreserved':True},headers={'Cache-Control':'private, no-store'})
+    return core.j({'ok':True,'deletedWords':int(removed.rsplit(' ',1)[-1])},headers={'Cache-Control':'private, no-store'})
 
 def install():core.app.include_router(router)

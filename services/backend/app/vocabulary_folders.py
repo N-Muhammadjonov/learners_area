@@ -1,4 +1,4 @@
-"""Owned folder management. Removing a folder never removes vocabulary or SRS."""
+"""Owned folder management. Deleting a folder removes its learner-owned vocabulary."""
 from . import main as core
 
 PRIVATE={'Cache-Control':'private, no-store'}
@@ -28,9 +28,9 @@ async def manage_folder(user,body):
                     row=await con.fetchrow('UPDATE vocab_folders SET name=$3 WHERE id=$1 AND user_id=$2 RETURNING id,name',folder,user['id'],name)
                     result={'ok':True,'folder':{'id':str(row['id']),'name':row['name']}}
                 else:
-                    await con.execute('UPDATE user_vocabulary SET folder_id=NULL WHERE user_id=$1 AND folder_id=$2',user['id'],folder)
+                    removed=await con.execute('DELETE FROM user_vocabulary WHERE user_id=$1 AND folder_id=$2',user['id'],folder)
                     await con.execute('DELETE FROM vocab_folders WHERE id=$1 AND user_id=$2',folder,user['id'])
-                    result={'ok':True,'deletedFolderId':str(folder),'wordsPreserved':True}
+                    result={'ok':True,'deletedFolderId':str(folder),'deletedWords':int(removed.rsplit(' ',1)[-1])}
         return core.j(result,headers=PRIVATE)
     except Exception as exc:
         if getattr(exc,'sqlstate',None)=='23505':return core.j({'error':'folder_exists'},409,PRIVATE)
