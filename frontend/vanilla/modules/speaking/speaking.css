@@ -70,3 +70,21 @@ html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-practice
  background:linear-gradient(90deg,#3EE6D0,#3B6CFF) !important;
  color:#000 !important;
 }
+
+/* Speaking AI only: wider desktop reading area and no nested green outlines. */
+@media (min-width:1024px) {
+ [data-route-usable="speaking-ai"] { max-width:1100px; width:100%; }
+ [data-route-usable="speaking-ai"] header h1 { font-size:2rem; line-height:1.25; }
+ [data-route-usable="speaking-ai"] header p,
+ [data-route-usable="speaking-ai"] [data-ai-progress],
+ [data-route-usable="speaking-ai"] [data-ai-readiness] { font-size:1.125rem; line-height:1.6; }
+ [data-route-usable="speaking-ai"] [data-question-recorder] { padding:1.75rem; }
+ [data-route-usable="speaking-ai"] [data-question-recorder] > div:first-child > p { font-size:1.5rem; line-height:1.5; }
+ [data-route-usable="speaking-ai"] [data-speak-cue-card] p { font-size:1.125rem; line-height:1.6; }
+}
+html[data-theme] #root [data-route-usable="speaking-ai"] [data-question-recorder] :is(.badge,[data-speak-cue-card]) {
+ border:0!important; box-shadow:none!important;
+}
+html[data-theme] #root [data-route-usable="speaking-ai"] [data-speak-cue-card] {
+ background:transparent!important; padding:0!important;
+}

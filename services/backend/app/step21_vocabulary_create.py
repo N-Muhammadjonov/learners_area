@@ -163,6 +163,43 @@ async def create_vocabulary(req:Request):
     if sense or occurrence:return core.j(result,200)
     return core.j({**result,'needsDefinition':unresolved},200)
 
+@router.patch('/api/vocabulary/{entry_id}')
+async def edit_saved_vocabulary(req:Request,entry_id:str):
+    """Edit one learner's vocabulary copy without modifying a shared dictionary sense."""
+    user=await core.current_user(req,active=True)
+    if not user:return core.j({'error':'unauthenticated'},401,PRIVATE)
+    entry=core.uuid_value(entry_id)
+    body=await core.payload(req)
+    limits={'term':120,'definitionEn':500,'translationUz':500,'exampleSentence':500}
+    if (not entry or not isinstance(body,dict) or not body or set(body)-limits or
+        any(not isinstance(value,str) or len(value.strip())>limits[key] or
+            (key in ('term','definitionEn') and not value.strip()) for key,value in body.items())):
+        return core.j({'error':'invalid_input'},400,PRIVATE)
+    import hashlib
+    db=await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user['id'])
+            row=await con.fetchrow('''SELECT uv.lexeme_id,l.term,l.definition_en,l.translation_uz,l.example_sentence,
+                  l.part_of_speech FROM user_vocabulary uv JOIN lexemes l ON l.id=uv.lexeme_id
+                  WHERE uv.id=$1 AND uv.user_id=$2 FOR UPDATE OF uv''',entry,user['id'])
+            if not row:return core.j({'error':'not_found'},404,PRIVATE)
+            term=body.get('term',row['term']).strip()
+            definition=body.get('definitionEn',row['definition_en']).strip()
+            translation=body.get('translationUz',row['translation_uz'] or '').strip() or None
+            example=body.get('exampleSentence',row['example_sentence'] or '').strip() or None
+            # Unique learner-specific sense. Shared lexemes and other users are unchanged.
+            signature='edit:'+hashlib.sha256((str(user['id'])+':'+str(entry)+':'+term+':'+definition+':'+str(translation)+':'+str(example)).encode()).hexdigest()
+            lex=await con.fetchrow('''INSERT INTO lexemes(term,part_of_speech,definition_en,translation_uz,
+                   example_sentence,sense_key,provenance,verification_status)
+                   VALUES($1,$2,$3,$4,$5,$6,'user_provided','unverified')
+                   ON CONFLICT (sense_key) DO UPDATE SET sense_key=excluded.sense_key RETURNING id''',
+                   term,row['part_of_speech'],definition,translation,example,signature)
+            await con.execute('''UPDATE user_vocabulary SET lexeme_id=$3,sense_key=$4
+                 WHERE id=$1 AND user_id=$2''',entry,user['id'],lex['id'],signature)
+    return core.j({'ok':True,'id':str(entry)},headers=PRIVATE)
+
+
 @router.delete('/api/vocabulary')
 async def remove_saved_vocabulary(req:Request):
     """Remove only the authenticated learner's selected vocabulary entries."""

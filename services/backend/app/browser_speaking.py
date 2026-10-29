@@ -33,14 +33,14 @@ async def read(req, user, path, q):
         effective = (await status())['effective']
         return {'kind':'speaking_ai','matching':data['matching'],'readiness':{'transcription':bool(os.getenv('STT_PRIMARY_PROVIDER','none').lower() == 'openai' and effective['externalEnabled']),'aiEvaluation':bool(effective['externalEnabled'] and effective['providerIsExternal'] and effective['ready'])}}
     if path == '/app/speaking/live-partner':
-        questions = await existing(req,'/api/speaking/live-partner/questions')
+        # Partner questions are fetched per topic rather than capped at the first 500.
         db = await core.pool()
         async with db.acquire() as con:
             from .step24_live_partner import scores, photos
             gender = await con.fetchval('SELECT gender FROM users WHERE id=$1',user['id'])
             score = await scores(con,[user['id']])
             photo = await photos(con,[user['id']])
-        return {'kind':'speaking_live_partner','questions':questions['questions'],'me':{'userId':str(user['id']),'name':user['name'],'avatar':'b' if gender=='female' else 'a','hasGender':bool(gender),'speakingScore':score.get(str(user['id'])),'hasPhoto':str(user['id']) in photo}}
+        return {'kind':'speaking_live_partner','questions':[],'me':{'userId':str(user['id']),'name':user['name'],'avatar':'b' if gender=='female' else 'a','hasGender':bool(gender),'speakingScore':score.get(str(user['id'])),'hasPhoto':str(user['id']) in photo}}
     db = await core.pool()
     async with db.acquire() as con:
         if path == '/app/speaking/lessons':
