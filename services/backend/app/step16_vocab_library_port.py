@@ -4,7 +4,7 @@ Page membership, canonical lexeme joins, ordering and response shape mirror the
 Next.js vocabulary engine's listLibrary() for its GET endpoint.
 """
 from __future__ import annotations
-import math
+import math,re
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
@@ -36,7 +36,7 @@ async def vocabulary_library(req:Request):
     study_filter=req.query_params.get('filter','all')
     if ((folder not in ('all','none') and not core.uuid_value(folder))
         or mastery not in ('all','new','learning','known','active','mastered')
-        or source not in ('all','manual','speaking','writing','reading','listening','video','retention','dictionary','assignment','topic')
+        or not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]{0,39}',source)
         or study_filter not in ('all','due','weak')):
         return core.j({'error':'invalid_input'},400,PRIVATE)
     conditions=['uv.user_id=$1']
