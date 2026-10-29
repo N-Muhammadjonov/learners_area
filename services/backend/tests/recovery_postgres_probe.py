@@ -105,9 +105,9 @@ def main():
             saved=recovery.backup_media('unused','isolated-fixture','isolated-fixture',media,key,apply=True)
         extracted=temp/'learners_recovery_media_fixture'
         restored=recovery.extract_media(media,key,extracted,saved['sha256'])
-        assert all((extracted/k).read_bytes()==v for k,v in contents.items())
         metadata=json.loads(Path(str(extracted)+'.metadata.json').read_text())
         assert {r['key'] for r in metadata}==set(contents)
+        assert all((extracted/r['file']).read_bytes()==contents[r['key']] for r in metadata)
         assert all(r['contentType']=='application/octet-stream' for r in metadata)
         checks+=4
         report={'result':'passed','checks':checks,'scope':'synthetic full application schema/data; native PostgreSQL dump+restore; no production copy',

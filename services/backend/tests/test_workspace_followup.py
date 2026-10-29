@@ -71,8 +71,11 @@ def test_listening_visit_or_completed_exam_cannot_complete_unfinished_course():
 
 
 def test_original_writing_graph_get_and_head_keep_private_authorization():
+    import hashlib
     owner=UUID(int=42)
-    key='writing/source-materials/5e275e608f51a026b50a/A01.png'
+    # Storage fixture is independent of retired bundled exam images.
+    key='writing/source-materials/fixture/graph.png'
+    graph=b'\x89PNG\r\n\x1a\nprivate fixture graph bytes'
     class Con:
         async def __aenter__(self):return self
         async def __aexit__(self,*args):pass
@@ -87,14 +90,14 @@ def test_original_writing_graph_get_and_head_keep_private_authorization():
         def acquire(self):return Con()
     req=Request({'type':'http','method':'GET','path':'/api/resources/'+key,'query_string':b'','headers':[], 'scheme':'https','server':('learnersarea.uz',443)})
     authority={'user':{'id':UUID(int=1),'role':'student','account_status':'active'}}
-    with patch.object(media.core,'current_authority',AsyncMock(return_value=authority)), patch.object(media.core,'pool',AsyncMock(return_value=Pool())):
+    with patch.object(media.core,'current_authority',AsyncMock(return_value=authority)), patch.object(media.core,'pool',AsyncMock(return_value=Pool())), patch.object(media,'graph_bytes',return_value=graph), patch.dict(media.GRAPHS,{key:{'sha256':hashlib.sha256(graph).hexdigest(),'originalName':'graph.png'}}):
         response=asyncio.run(media.deliver(req,key,False))
         assert response.status_code==200
-        assert len(response.body)==53549 and response.body.startswith(b'\x89PNG')
+        assert response.body==graph and response.body.startswith(b'\x89PNG')
         assert response.headers['content-type']=='image/png'
         assert response.headers['cache-control']=='private, no-store'
         head=asyncio.run(media.deliver(req,key,True))
         assert head.status_code==200 and head.body==b''
-        assert head.headers['content-length']=='53549'
+        assert head.headers['content-length']==str(len(graph))
     with patch.object(media.core,'current_authority',AsyncMock(return_value=None)):
         assert asyncio.run(media.deliver(req,key,False)).status_code==401

@@ -38,3 +38,16 @@ test('Delete cancel and server mismatch preserve words and selection',async()=>{
  assert(h.q('[data-pick="'+ID(1)+'"]').getAttribute('aria-pressed')==='true');
  }finally{h.dispose();}
 });
+test('A delayed library response preserves a failed folder request and retry',async()=>{
+ const h=setup({path:'/app/vocabulary',role:'student'});let resolveLibrary;
+ try{
+ const library=new Promise(resolve=>{resolveLibrary=resolve;});
+ h.stub({'/api/vocabulary/summary':{summary},'/api/vocabulary/folders':new Error('synthetic folder failure'),'/api/vocabulary/packs':{packs:[]},'/api/vocabulary':()=>library});
+ mountWords(h.ctx,h.ctx.root);await tick(5);
+ const folders=h.q('[data-vocabulary-secondary="folders"]'),before=folders.textContent;
+ assert(folders.querySelector('button'));assert.equal(h.q('[data-word-delete]'),null);
+ resolveLibrary({words:[item(1)],hasMore:false});await tick(5);
+ assert.equal(folders.textContent,before);assert(folders.querySelector('button'));
+ assert.equal(h.q('[data-word-delete]'),null);
+ }finally{h.dispose();}
+});

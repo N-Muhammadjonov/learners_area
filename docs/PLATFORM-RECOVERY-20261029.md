@@ -25,10 +25,16 @@ that missing backup into a PASS merely by documenting it.
   constraints**, RLS flags and the AI function ACL matched after encrypted custom
   dump and restore. **151 checks passed**. This is a full application schema drill,
   not a copy or certification of the current production dataset.
-- Nine targeted tests pass: production/nonempty restore rejection, interrupted
+- Thirteen targeted tests pass: production/nonempty restore rejection, interrupted
   export, corruption/wrong-key rejection, key isolation, tar traversal and CLI
-  secret redaction. Existing Task 11 runtime suite is 3,100 passed; runtime source
-  is unchanged and was not needlessly retested.
+  secret redaction, exact flat-key preservation, interrupted-stream retries and
+  disjoint shard coverage. After reconciling current main's retired Writing
+  fixtures and missing Vocabulary route manifest, the current backend suite is
+  **3,057 passed**. Frontend: **1,168 passed / 11 skipped**; native build and backend
+  check pass. The 13 backend failures and one Vocabulary UI failure were reproduced
+  against exact read-only main `f46da15d1e38512bba49c05b5245234fc355cd6f` before repair.
+  A 12-check PostgreSQL HTTP probe verifies the selected-delete alias's ownership,
+  mixed-ID atomic refusal, authentication, CSRF and acknowledged deletion.
 
 ## Executable tooling
 
@@ -46,6 +52,14 @@ connection/statement/overall deadlines and one backup connection are enforced.
 R2 objects are streamed into an encrypted tar, using `If-Match` against the listed
 ETag so changed/missing files fail the export. Object paths and MIME metadata stay
 inside the encrypted archive. No cloud-delete or pruning command is implemented.
+At most four downloads run concurrently. Their private unnamed temporary files
+are closed on success/failure; free space is checked for the archive, the four
+largest objects and a reserve before copying. Tar/encryption writes remain serial.
+Disconnected response streams retry the same object at most three times using
+the original ETag; integrity/permission failures still stop the export. Optional
+`--shard-count N --shard-index I` partitions keys by SHA-256 modulo N (1–64 shards).
+Retain every shard's receipt and encrypted manifest. Resume only completed archives
+whose ciphertext checksums match; never overwrite or accept an unfinished shard.
 
 Restores are restricted to a fresh local `learners_recovery_` database or a new
 `learners_recovery_media_` directory. Authentication completes before plaintext
@@ -57,10 +71,15 @@ triggers or strip permissions. Media restore only extracts locally, never upload
 over production objects.
 An extracted media set has a separate private `.metadata.json` sibling recording
 original keys, content types, sizes and source ETags for the controlled upload.
+Media archive filenames are opaque SHA-256 names; the encrypted metadata retains
+the exact original R2 key, including legal folder markers/repeated slashes. Restore
+uses the metadata mapping without interpreting an object key as a filesystem path.
 
 Limits: 32 GiB plaintext per encrypted archive, 10,000 media objects by default.
-For larger media, use reviewed disjoint `--prefix` shards and retain a complete
-inventory; a prefix archive is explicitly reported as partial scope. A database
+For larger media, use the deterministic shard options or reviewed disjoint
+`--prefix` shards and retain a complete inventory. A single shard/prefix archive
+does not represent the complete bucket. Reconcile their union against a fresh
+source inventory before acceptance. A database
 larger than this bound needs a reviewed sharded/physical backup solution. Do not
 raise limits blindly.
 

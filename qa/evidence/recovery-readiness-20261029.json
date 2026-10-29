@@ -3,8 +3,8 @@
   "name": "Failure recovery and backup readiness",
   "source_status": "PASS",
   "isolated_recovery": "PASS",
-  "production_backup_status": "NOT ACTIVE",
-  "status": "PENDING_ACTIVATION",
+  "production_backup_status": "APPROVED ONE-OFF EXPORT IN PROGRESS",
+  "status": "PENDING_PRODUCTION_SET",
   "baseline_commit": "3ab3808e45ba70188bc6feea384601a8a2a5c1ff",
   "database_drill": {
     "result": "passed",
@@ -49,8 +49,8 @@
     ],
     "temporary_keys_archives_removed_on_exit": true
   },
-  "targeted_tests": 9,
-  "runtime_tests_reused": 3100,
+  "targeted_tests": 13,
+  "runtime_tests_reused": null,
   "production_backup_inventory": {
     "backups": null,
     "physical_backup_data": {},
@@ -90,6 +90,37 @@
   "static_checks": {
     "compile": "PASS",
     "diff": "PASS",
-    "web_bot_frontend_runtime_source_unchanged": true
-  }
+    "web_bot_frontend_runtime_source_unchanged": false,
+    "frontend_change": "Vocabulary renders selected-word controls after a successful empty folders response, regardless of library response order; folder failures retain retry"
+  },
+  "current_validation": {
+    "main_baseline": "f46da15d1e38512bba49c05b5245234fc355cd6f",
+    "exact_backend_failures_reproduced_on_main": 13,
+    "exact_backend_failures_after_repair": 0,
+    "backend_passed": 3057,
+    "frontend_passed": 1168,
+    "frontend_skipped": 11,
+    "frontend_failures_before": 1,
+    "frontend_failures_after": 0,
+    "postgres_vocabulary_http_checks": 12,
+    "integration_reused_after_main_merge": {
+      "http": 426,
+      "dto": 151,
+      "dom": 118,
+      "replay": 8,
+      "migrations": 72,
+      "typed_tables": 127
+    },
+    "native_build_revision": "e6284dc30bd619ed9b0a",
+    "backend_check": "PASS",
+    "manual_checks": "owner handles; not performed"
+  },
+  "temporary_r2_access": {
+    "approved": true,
+    "source_buckets": 2,
+    "read_only": true,
+    "expiry_utc": "2026-10-30T15:17:48Z",
+    "revocation": "required after source reads complete; pending"
+  },
+  "updated_at": "2026-10-29T17:38:33.899893+00:00"
 }

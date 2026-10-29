@@ -26,9 +26,9 @@ LAST_FIVE={
 def test_exact_265_manifest_without_unimplemented_http_methods():
     expected=json.loads((ROOT/'PORT_STATUS.json').read_text())
     actual=[(method,route.path) for route in core.app.routes if route.path.startswith('/api/') for method in route.methods]
-    assert len(actual)==len(set(actual))==len(expected['endpoints'])==273
+    assert len(actual)==len(set(actual))==len(expected['endpoints'])==274
     assert {(e['method'],e['path']) for e in expected['endpoints']}==set(actual)
-    assert expected['ported_methods']==273 and expected['unported_methods']==0
+    assert expected['ported_methods']==274 and expected['unported_methods']==0
     for e in expected['endpoints']:
         if (e['method'],e['path']) in LAST_FIVE:assert e['status']=='ported_code_parity_unverified'
 
