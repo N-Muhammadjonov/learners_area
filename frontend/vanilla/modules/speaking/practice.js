@@ -112,7 +112,15 @@ export function mount(context){
   const tabs=el('div',{role:'tablist','aria-label':t.supportLabel,class:'flex flex-wrap gap-2'}),content=el('div',{role:'tabpanel',class:'space-y-4'});
   let tab='vocabulary';const revealed=new Set(),activated=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
   supportSignal.addEventListener('abort',()=>renderController?.abort(),{once:true});
-  function show(){renderController?.abort();if(signal.aborted||supportSignal.aborted)return;renderController=new window.AbortController();const events=renderController.signal;tabs.replaceChildren();for(const [name,label] of [['vocabulary',t.vocabulary],['modelAnswer',t.modelAnswer],['ideas',t.ideas]])tabs.append(button(label,()=>{tab=name;activated.add(name);show();},{class:tab===name&&(activated.has(name)||revealed.has(name))?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'data-practice-support-tab':name}));
+  function startTabHold(control,name,events){
+   let holdTimer=null;
+   const clear=()=>{clearTimeout(holdTimer);holdTimer=null;};
+   control.addEventListener('pointerdown',e=>{if(e.button!==0||revealed.has(name))return;clear();holdTimer=setTimeout(()=>{holdTimer=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);},{signal:events});
+   for(const event of ['pointerup','pointercancel','pointerleave'])control.addEventListener(event,clear,{signal:events});
+   control.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat&&!revealed.has(name)){clear();holdTimer=setTimeout(()=>{holdTimer=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);}},{signal:events});
+   control.addEventListener('keyup',clear,{signal:events});events.addEventListener('abort',clear,{once:true});
+  }
+  function show(){renderController?.abort();if(signal.aborted||supportSignal.aborted)return;renderController=new window.AbortController();const events=renderController.signal;tabs.replaceChildren();for(const [name,label] of [['vocabulary',t.vocabulary],['modelAnswer',t.modelAnswer],['ideas',t.ideas]]){const control=button(label,()=>{tab=name;activated.add(name);show();},{class:tab===name&&(activated.has(name)||revealed.has(name))?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'data-practice-support-tab':name});startTabHold(control,name,events);tabs.append(control);}
    content.replaceChildren();
    if(!revealed.has(tab)){const trigger=button('',()=>{}, {class:'situation-reveal rounded-3xl border-2 border-accent-500 bg-paper p-8 text-center text-xl font-semibold select-none','data-practice-reveal':tab});
     trigger.append(el('span',{class:'block text-sm uppercase tracking-widest'},t.answerFirst),el('span',{class:'mt-3 block'},t.hold));
@@ -130,6 +138,7 @@ export function mount(context){
     events.addEventListener('abort',clear,{once:true});
     content.append(el('div',{class:'flex min-h-72 items-center justify-center'},trigger));return;
    }
+   content.append(button(context.locale==='uz'?'Yopish':'Close',()=>{revealed.delete(tab);show();},{class:'btn-secondary','data-practice-support-close':tab,'aria-label':context.locale==='uz'?'Bo‘limni yopish':'Close section'}));
    const html=tab==='vocabulary'?support.vocabularyHtml:tab==='modelAnswer'?support.modelAnswerHtml:support.ideasHtml;
    if(html)content.append(studyRich(html));
    if(tab==='vocabulary'&&Array.isArray(support.vocabulary)&&support.vocabulary.length){
