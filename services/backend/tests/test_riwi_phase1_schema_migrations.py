@@ -3,6 +3,8 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import re
+import sqlite3
 import unittest
 
 
@@ -12,6 +14,7 @@ DRIZZLE_DIR = REPO_ROOT / "drizzle"
 BACKEND_MIGRATIONS_DIR = REPO_ROOT / "services" / "backend" / "migrations"
 JOURNAL_PATH = DRIZZLE_DIR / "meta" / "_journal.json"
 SCHEMA_TS_PATH = REPO_ROOT / "src" / "db" / "schema.ts"
+BACKEND_DIR = REPO_ROOT / "services" / "backend"
 
 
 class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
@@ -112,6 +115,136 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
             "teachingFeedback",
         ]:
             self.assertIn(ts_symbol, schema_ts, f"Missing symbol {ts_symbol} in src/db/schema.ts")
+
+    def test_postgresql_ddl_catalog_fk_and_reconciled_audit_inventories(self) -> None:
+        # 1. Verify reconciled PORT_STATUS.json and MIGRATION_AUDIT_*.json preserve historical evidence
+        port_status = json.loads((BACKEND_DIR / "PORT_STATUS.json").read_text(encoding="utf-8"))
+        self.assertEqual(port_status["total_methods"], 304)
+        self.assertEqual(port_status["historical_step40_ported_methods"], 272)
+        self.assertEqual(port_status["post_step40_main_additive_methods"], 1)
+        self.assertEqual(port_status["riwi_methods"], 31)
+        self.assertEqual(len(port_status["historical_endpoints"]), 272)
+        self.assertEqual(len(port_status["post_port_additive_endpoints"]), 32)
+
+        for audit_name in ("MIGRATION_AUDIT_260.json", "MIGRATION_AUDIT_265.json"):
+            audit = json.loads((BACKEND_DIR / audit_name).read_text(encoding="utf-8"))
+            self.assertEqual(audit["historical_sql_count"], 66)
+            self.assertEqual(len(audit["sql_sha256_by_filename"]), 66)
+            self.assertEqual(len(audit["post_audit_main_additive_sql_sha256_by_filename"]), 5)
+            self.assertEqual(len(audit["riwi_additive_sql_sha256_by_filename"]), 3)
+            self.assertEqual(audit["current_total_sql_count"], 74)
+
+        # 2. Build relational catalog across all 74 migrations (0000..0074) and validate FKs, ALTERs, and indexes
+        all_sql_files = sorted(DRIZZLE_DIR.glob("*.sql"))
+        self.assertEqual(len(all_sql_files), 74)
+        known_tables: set[str] = set()
+        for sql_file in all_sql_files:
+            content = sql_file.read_text(encoding="utf-8")
+            for m in re.finditer(r'CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?"?([a-zA-Z0-9_]+)"?', content, re.I):
+                known_tables.add(m.group(1))
+
+        active_indexes: set[str] = set()
+        for name in (
+            "0072_riwi_core_and_governance.sql",
+            "0073_riwi_assessments_and_security_signals.sql",
+            "0074_riwi_speaking_sessions_and_activity_indexes.sql",
+        ):
+            sql = (DRIZZLE_DIR / name).read_text(encoding="utf-8")
+            for line in sql.splitlines():
+                drop_idx = re.search(r'DROP\s+INDEX\s+(?:IF\s+EXISTS\s+)?"?([a-zA-Z0-9_]+)"?', line, re.I)
+                if drop_idx:
+                    active_indexes.discard(drop_idx.group(1))
+                create_idx = re.search(
+                    r'CREATE\s+(?:UNIQUE\s+)?INDEX\s+(?:IF\s+NOT\s+EXISTS\s+)?"?([a-zA-Z0-9_]+)"?\s+ON\s+"?([a-zA-Z0-9_]+)"?',
+                    line,
+                    re.I,
+                )
+                if create_idx:
+                    idx_name, tbl_name = create_idx.group(1), create_idx.group(2)
+                    self.assertNotIn(idx_name, active_indexes, f"Duplicate un-dropped index {idx_name} in {name}")
+                    self.assertIn(tbl_name, known_tables, f"Index {idx_name} on unknown table {tbl_name} in {name}")
+                    active_indexes.add(idx_name)
+
+            for m in re.finditer(
+                r'REFERENCES\s+(?:"?public"?\.)?"?([a-zA-Z0-9_]+)"?\s*\(\s*"?([a-zA-Z0-9_]+)"?\s*\)',
+                sql,
+                re.I,
+            ):
+                ref_table = m.group(1)
+                self.assertIn(ref_table, known_tables, f"Unknown FK target table {ref_table} in {name}")
+            for m in re.finditer(r'ALTER\s+TABLE\s+"?([a-zA-Z0-9_]+)"?', sql, re.I):
+                target_table = m.group(1)
+                self.assertIn(target_table, known_tables, f"Unknown ALTER TABLE target {target_table} in {name}")
+
+        # 3. Execute relational DDL & FK integrity check in in-memory SQLite engine
+        conn = sqlite3.connect(":memory:")
+        conn.execute("PRAGMA foreign_keys = ON;")
+        conn.executescript(
+            """
+            CREATE TABLE users (id TEXT PRIMARY KEY, name TEXT, role TEXT, account_status TEXT, last_active_at TEXT);
+            CREATE TABLE audit_log (id TEXT PRIMARY KEY, created_at TEXT);
+            CREATE TABLE evaluations (id TEXT PRIMARY KEY);
+            CREATE TABLE writing_grade_requests (id TEXT PRIMARY KEY);
+            CREATE TABLE speaking_prompts (id TEXT PRIMARY KEY);
+            CREATE TABLE speaking_attempts (id TEXT PRIMARY KEY, transcript_origin TEXT);
+            """
+        )
+        for name in (
+            "0072_riwi_core_and_governance.sql",
+            "0073_riwi_assessments_and_security_signals.sql",
+            "0074_riwi_speaking_sessions_and_activity_indexes.sql",
+        ):
+            sql = (DRIZZLE_DIR / name).read_text(encoding="utf-8")
+            for m in re.finditer(
+                r'CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?"([a-zA-Z0-9_]+)"\s*\(([\s\S]*?)^\);',
+                sql,
+                re.M,
+            ):
+                tbl = m.group(1)
+                body = m.group(2)
+                cols = []
+                for raw_line in body.splitlines():
+                    line = raw_line.strip().rstrip(",")
+                    if not line or line.upper().startswith("CONSTRAINT"):
+                        continue
+                    col_m = re.match(
+                        r'^"([a-zA-Z0-9_]+)"\s+(?:uuid|varchar|text|integer|smallint|boolean|jsonb|timestamp|"riwi_|"role"|"speaking_)',
+                        line,
+                        re.I,
+                    )
+                    if col_m:
+                        col_name = col_m.group(1)
+                        pk = "PRIMARY KEY" if "PRIMARY KEY" in line.upper() else ""
+                        not_null = "NOT NULL" if "NOT NULL" in line.upper() and not pk else ""
+                        cols.append(f'"{col_name}" TEXT {pk} {not_null}'.strip())
+                conn.execute(f'CREATE TABLE "{tbl}" ({", ".join(cols)});')
+
+        created_riwi_tables = {
+            row[0]
+            for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+        }
+        self.assertTrue(
+            {
+                "riwi_knowledge_sources",
+                "riwi_knowledge_units",
+                "riwi_knowledge_conflicts",
+                "riwi_learning_signals",
+                "riwi_learning_reviews",
+                "riwi_conversations",
+                "riwi_conversation_messages",
+                "riwi_action_confirmations",
+                "riwi_provider_experiments",
+                "riwi_provider_experiment_results",
+                "riwi_usage_metrics",
+                "riwi_assessment_policies",
+                "riwi_assessment_policy_versions",
+                "riwi_security_signals",
+                "speaking_ai_sessions",
+                "speaking_ai_session_items",
+            }
+            <= created_riwi_tables
+        )
+        conn.close()
 
 
 if __name__ == "__main__":

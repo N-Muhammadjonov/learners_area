@@ -3,12 +3,13 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {spawnSync} from 'node:child_process';
+import {setup, tick, ID} from './staff-final30/harness.mjs';
 import en from '../js/i18n/en.js';
 import uz from '../js/i18n/uz.js';
 import routes from '../js/routes.js';
 import {breadcrumbsFor} from '../js/generated/nav-routes.js';
-import {createRiwiWorkspaceController, escapeHtml, RIWI_WORKSPACE_ROUTE} from '../modules/riwi/index.js';
-import {createOwnerRiwiControlRoom, OWNER_RIWI_ROUTE} from '../modules/staff-final30/owner-riwi.js';
+import {createRiwiWorkspaceController, escapeHtml, RIWI_WORKSPACE_ROUTE, mount as mountRiwiWorkspace} from '../modules/riwi/index.js';
+import {createOwnerRiwiControlRoom, OWNER_RIWI_ROUTE, mount as mountOwnerRiwi} from '../modules/staff-final30/owner-riwi.js';
 import {renderObjectiveExplanationWidget, loadObjectiveExplanation} from '../modules/riwi/objective-explanation.js';
 
 test('en.js and uz.js retain identical key shapes including RIWI copy', () => {
@@ -154,6 +155,64 @@ test('Teacher and Owner role surfaces support target learner selection, cursor p
   assert.equal(sigs.length, 1);
   const aud = await ownerRoom.refreshAudit();
   assert.equal(aud.nextCursor, 'aud-cur-2');
+});
+
+test('jsdom mount of /app/riwi and /app/owner/riwi renders interactive DOM controls and enforces RBAC', async () => {
+  const h = setup({path: '/app/riwi', role: 'student', locale: 'en'});
+  try {
+    h.stub({
+      '/api/riwi/presence': {ok: true, recorded: true},
+      '/api/riwi/chat': (_path, opts) => ({
+        ok: true,
+        conversationId: ID(10),
+        answer: `DOM echo: ${opts.body?.message}`,
+        provenance: 'canonical_grammar',
+        citations: ['K-DOM']
+      }),
+      '/api/riwi/conversations': {ok: true, deleted: true}
+    });
+    await mountRiwiWorkspace(h.ctx);
+    await tick(4);
+    assert(h.q('[data-route-usable="riwi"]'));
+    const input = h.q('textarea');
+    assert(input);
+    h.input(input, 'Test DOM query');
+    h.submit(h.q('form'));
+    await tick(6);
+    assert(h.ctx.root.textContent.includes('DOM echo: Test DOM query'));
+    const articles = h.qa('[data-riwi-role]');
+    assert.equal(articles.length, 2);
+  } finally {
+    h.dispose();
+  }
+
+  const hOwner = setup({path: '/app/owner/riwi', role: 'owner', locale: 'en'});
+  try {
+    hOwner.stub({
+      '/api/riwi/owner/diagnostics': {
+        ok: true,
+        rollout: {enabled: true, externalAi: false},
+        providers: [{id: 'riwi', displayName: 'RIWI Deterministic Engine', secretsPresent: true}]
+      }
+    });
+    await mountOwnerRiwi(hOwner.ctx);
+    await tick(6);
+    assert(hOwner.q('[data-owner-riwi]'));
+    assert(hOwner.q('[data-provider-id="riwi"]').textContent.includes('RIWI Deterministic Engine'));
+  } finally {
+    hOwner.dispose();
+  }
+
+  const hStudentDenied = setup({path: '/app/owner/riwi', role: 'student', locale: 'en'});
+  try {
+    hStudentDenied.stub({});
+    await mountOwnerRiwi(hStudentDenied.ctx);
+    await tick(4);
+    assert.equal(hStudentDenied.nav[0]?.path, '/app');
+    assert.equal(hStudentDenied.q('[data-owner-riwi]'), null);
+  } finally {
+    hStudentDenied.dispose();
+  }
 });
 
 test('All RIWI Vanilla JS modules pass strict ESM syntax verification', () => {

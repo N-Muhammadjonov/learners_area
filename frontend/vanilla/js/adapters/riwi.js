@@ -1,25 +1,19 @@
-const DEFAULT_HEADERS = {
-  "Content-Type": "application/json",
-  "X-Requested-With": "XMLHttpRequest"
-};
+import { api } from "../api-client.js";
 
 async function requestJson(url, options = {}) {
-  const response = await fetch(url, {
-    credentials: "same-origin",
-    ...options,
-    headers: {
-      ...DEFAULT_HEADERS,
-      ...(options.headers || {})
-    }
+  const method = options.method || "GET";
+  const rawBody = options.body;
+  const body =
+    rawBody === undefined
+      ? undefined
+      : typeof rawBody === "string"
+        ? JSON.parse(rawBody)
+        : rawBody;
+  return api.request(url, {
+    method,
+    body,
+    signal: options.signal
   });
-  const data = await response.json().catch(() => ({ ok: false, error: "invalid_json" }));
-  if (!response.ok) {
-    const err = new Error(data.error || `http_${response.status}`);
-    err.status = response.status;
-    err.payload = data;
-    throw err;
-  }
-  return data;
 }
 
 export const RiwiClientAdapter = {
