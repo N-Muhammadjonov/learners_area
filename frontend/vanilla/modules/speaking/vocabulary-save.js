@@ -13,13 +13,15 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
  const folderStatus=el('p',{role:'status','data-practice-folder-status':''});
  const result=el('p',{role:'status','data-practice-save-status':''});
  const retry=el('button',{type:'button',class:'btn-secondary',hidden:true,'data-practice-folders-retry':''},dict.errorPage.retry);
- const buttons=[];let saving=false,loading=false,destination='',folderName='',folderRows=[];
+ const buttons=[],wordStatuses=new Map();let saving=false,loading=false,destination='',folderName='',folderRows=[];
+ const savedLabel=locale==='uz'?'✓ Saqlandi':'✓ Saved';
+ function resetConfirmation(){result.textContent='';buttons.forEach((b,i)=>{b.textContent=i===0?copy.saveAll:copy.addWord;});for(const status of wordStatuses.values())status.textContent='';}
  // Explicit inline hiding is needed because the button/block CSS overrides [hidden].
  nameLabel.style.display='none';retry.style.display='none';
  function lock(){picker.disabled=saving||loading;name.disabled=saving;retry.disabled=saving||loading;for(const b of buttons)b.disabled=saving;}
  function options(rows=[]){folderRows=rows;picker.replaceChildren(el('option',{value:''},automatic),...rows.map(r=>el('option',{value:r.id},r.name)),el('option',{value:'new'},f.create));picker.value=destination;}
  options();
- listen(picker,'change',()=>{destination=picker.value;nameLabel.hidden=destination!=='new';nameLabel.style.display=destination==='new'?'block':'none';if(destination==='new')name.focus();},signal);
+ listen(picker,'change',()=>{destination=picker.value;resetConfirmation();nameLabel.hidden=destination!=='new';nameLabel.style.display=destination==='new'?'block':'none';if(destination==='new')name.focus();},signal);
  listen(name,'input',()=>{folderName=name.value;},signal);
  async function loadFolders(){
   if(loading||signal.aborted)return;loading=true;retry.hidden=true;retry.style.display='none';folderStatus.textContent=dict.common.loading;lock();
@@ -30,11 +32,12 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
   finally{loading=false;if(!signal.aborted)lock();}
  }
  listen(retry,'click',()=>void loadFolders(),signal);
- async function save(indices){
+ async function save(indices,isAll=false){
   if(saving||signal.aborted)return;
   if(destination==='new'&&!folderName.trim()){name.focus();return;}
   const body={promptId,indices,...(destination==='new'?{folderName:folderName.trim()}:destination?{folderId:destination}:{})};
-  saving=true;result.textContent=dict.common.loading;lock();
+  saving=true;const localStatus=isAll?result:wordStatuses.get(indices[0]);
+  result.textContent=dict.common.loading;if(localStatus)localStatus.textContent=dict.common.loading;lock();
   try{
    let d;
    if(pictureStory){
@@ -60,14 +63,18 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null})
    if(d.ok!==true||!Array.isArray(d.ids)||!d.ids.length||d.ids.length>indices.length||!Number.isInteger(d.added)||!Number.isInteger(d.duplicates)||d.added<0||d.duplicates<0||d.added+d.duplicates!==indices.length||!d.folder?.id||typeof d.folder.name!=='string'||(body.folderId&&d.folder.id!==body.folderId))throw Error('save_not_confirmed');
    notifyLedger();result.textContent=copy.savedWords.replace('{added}',String(d.added)).replace('{duplicates}',String(d.duplicates)).replace('{folder}',d.folder.name);
    if(d.moved>0)result.textContent+=locale==='uz'?` · ${d.moved} ta so'z papkaga o'tkazildi`:` · ${d.moved} words moved to the folder`;
-  }catch{if(!signal.aborted)result.textContent=copy.saveFailed;}
+   if(localStatus)localStatus.textContent=result.textContent;
+   if(isAll)buttons[0].textContent=savedLabel;
+   for(const i of indices)if(buttons[i+1])buttons[i+1].textContent=savedLabel;
+  }catch{if(!signal.aborted){result.textContent=copy.saveFailed;if(localStatus)localStatus.textContent=copy.saveFailed;}}
   finally{saving=false;if(!signal.aborted)lock();}
  }
- const all=el('button',{type:'button',class:'btn-primary','data-practice-save':'all'},copy.saveAll);buttons.push(all);listen(all,'click',()=>void save(words.map((_,i)=>i)),signal);
- host.append(el('label',{class:'block space-y-1'},el('span',{},f.title),picker),nameLabel,folderStatus,retry,all);
+ const all=el('button',{type:'button',class:'btn-primary','data-practice-save':'all'},copy.saveAll);buttons.push(all);listen(all,'click',()=>void save(words.map((_,i)=>i),true),signal);
+ host.append(el('label',{class:'block space-y-1'},el('span',{},f.title),picker),nameLabel,folderStatus,retry,all,result);
  for(const [i,w] of words.entries()){
   const add=el('button',{type:'button',class:'btn-secondary mt-2','data-practice-save':i},copy.addWord);buttons.push(add);listen(add,'click',()=>void save([i]),signal);
-  host.append(el('article',{class:'rounded-xl border border-ink-100 p-3'},el('strong',{},w.term),w.definitionEn!==w.term?el('p',{},w.definitionEn):null,el('p',{},w.translationUz??''),el('p',{class:'text-ink-500'},w.exampleSentence??''),add));
+  const status=el('p',{role:'status',class:'mt-2 text-sm','data-practice-word-save-status':i});wordStatuses.set(i,status);
+  host.append(el('article',{class:'rounded-xl border border-ink-100 p-3'},el('strong',{},w.term),w.definitionEn!==w.term?el('p',{},w.definitionEn):null,el('p',{},w.translationUz??''),el('p',{class:'text-ink-500'},w.exampleSentence??''),add,status));
  }
- host.append(result);void loadFolders();return host;
+ void loadFolders();return host;
 }
