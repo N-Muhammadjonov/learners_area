@@ -59,6 +59,27 @@ export const RiwiClientAdapter = {
       body: JSON.stringify({ module, attemptId, questionId, locale })
     });
   },
+  getLearningSignals() {
+    return requestJson("/api/riwi/learning-signals", { method: "GET" });
+  },
+  createLearningSignal(payload) {
+    return requestJson("/api/riwi/learning-signals", {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  },
+  reviewLearningSignal(signalId, payload) {
+    return requestJson(`/api/riwi/learning-signals/${encodeURIComponent(signalId)}/review`, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  },
+  promoteLearningSignalToKnowledge(signalId) {
+    return requestJson(`/api/riwi/learning-signals/${encodeURIComponent(signalId)}/knowledge`, {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+  },
   getOwnerDiagnostics() {
     return requestJson("/api/riwi/owner/diagnostics", { method: "GET" });
   },
@@ -66,6 +87,12 @@ export const RiwiClientAdapter = {
     const params = new URLSearchParams({ limit: String(limit) });
     if (cursor) params.set("cursor", cursor);
     return requestJson(`/api/riwi/owner/audit?${params.toString()}`, { method: "GET" });
+  },
+  getOwnerKnowledge() {
+    return requestJson("/api/riwi/owner/knowledge", { method: "GET" });
+  },
+  getOwnerKnowledgeConflicts() {
+    return requestJson("/api/riwi/owner/knowledge/conflicts", { method: "GET" });
   },
   createKnowledgeCandidate(payload) {
     return requestJson("/api/riwi/owner/knowledge", {
@@ -79,11 +106,20 @@ export const RiwiClientAdapter = {
       body: JSON.stringify({})
     });
   },
+  rejectKnowledgeCandidate(sourceId) {
+    return requestJson(`/api/riwi/owner/knowledge/${encodeURIComponent(sourceId)}/reject`, {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+  },
   promoteKnowledgeCandidate(sourceId, regressionFixtureId) {
     return requestJson(`/api/riwi/owner/knowledge/${encodeURIComponent(sourceId)}/promote`, {
       method: "POST",
       body: JSON.stringify({ regressionFixtureId })
     });
+  },
+  getProviderLabExperiments() {
+    return requestJson("/api/riwi/owner/provider-lab", { method: "GET" });
   },
   runProviderLabExperiment({ fixtureId, providerIds, idempotencyKey }) {
     return requestJson("/api/riwi/owner/provider-lab", {
@@ -100,6 +136,9 @@ export const RiwiClientAdapter = {
       body: JSON.stringify({ state, regressionFixtureId })
     });
   },
+  getAssessmentPolicies() {
+    return requestJson("/api/riwi/owner/assessment-policies", { method: "GET" });
+  },
   previewAssessmentPolicy({ scope, overlay }) {
     return requestJson("/api/riwi/owner/assessment-policies/preview", {
       method: "POST",
@@ -110,6 +149,24 @@ export const RiwiClientAdapter = {
     return requestJson("/api/riwi/owner/assessment-policies", {
       method: "POST",
       body: JSON.stringify({ scope, overlay })
+    });
+  },
+  approveAssessmentPolicy(versionId) {
+    return requestJson(`/api/riwi/owner/assessment-policies/${encodeURIComponent(versionId)}/approve`, {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+  },
+  rejectAssessmentPolicy(versionId) {
+    return requestJson(`/api/riwi/owner/assessment-policies/${encodeURIComponent(versionId)}/reject`, {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+  },
+  rollbackAssessmentPolicy(versionId) {
+    return requestJson(`/api/riwi/owner/assessment-policies/${encodeURIComponent(versionId)}/rollback`, {
+      method: "POST",
+      body: JSON.stringify({})
     });
   }
 };

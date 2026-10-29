@@ -19,9 +19,22 @@ export function createOwnerRiwiControlRoom({
     locale: locale === "en" ? "en" : "uz",
     theme: theme === "night" ? "night" : "day",
     diagnostics: null,
+    knowledgeItems: [],
+    learningSignals: [],
     securitySignals: [],
-    auditItems: []
+    providerExperiments: [],
+    assessmentPolicies: [],
+    auditItems: [],
+    auditNextCursor: null
   };
+
+  function setTab(tabId) {
+    const valid = new Set(["diagnostics", "knowledge", "policies", "signals", "providerLab", "audit"]);
+    if (valid.has(tabId)) {
+      state.activeTab = tabId;
+    }
+    return state.activeTab;
+  }
 
   function renderHtml() {
     const tabs = [
@@ -53,10 +66,26 @@ export function createOwnerRiwiControlRoom({
     return state.diagnostics;
   }
 
+  async function refreshSecuritySignals() {
+    const res = await adapter.getOwnerSecuritySignals();
+    state.securitySignals = Array.isArray(res?.items) ? res.items : [];
+    return state.securitySignals;
+  }
+
+  async function refreshAudit(cursor = null) {
+    const res = await adapter.getOwnerAudit(cursor);
+    state.auditItems = Array.isArray(res?.items) ? res.items : [];
+    state.auditNextCursor = res?.nextCursor || null;
+    return res;
+  }
+
   return {
     state,
+    setTab,
     renderHtml,
-    refreshDiagnostics
+    refreshDiagnostics,
+    refreshSecuritySignals,
+    refreshAudit
   };
 }
 
@@ -66,11 +95,20 @@ export const mount = mountStaff({
   load: async () => RiwiClientAdapter.getOwnerDiagnostics(),
   render(ctx, data) {
     const locale = ctx.locale === 'en' ? 'en' : 'uz';
+    const providers = Array.isArray(data?.providers) ? data.providers : [];
     return el('div', {class: 'mx-auto flex max-w-4xl flex-col gap-6', 'data-owner-riwi': ''},
       heading(tRiwi('riwi.owner.title', locale), tRiwi('riwi.subtitle.owner', locale)),
-      el('section', {class: 'card p-5'},
+      el('section', {class: 'card p-5 flex flex-col gap-3'},
         el('h2', {class: 'font-display text-lg text-ink-900'}, tRiwi('riwi.owner.tab.diagnostics', locale)),
-        el('p', {class: 'text-sm text-ink-500'}, `Rollout enabled: ${Boolean(data?.rollout?.enabled)}`)
+        el('p', {class: 'text-sm text-ink-500'}, `Rollout enabled: ${Boolean(data?.rollout?.enabled)}`),
+        el('div', {class: 'grid gap-2'},
+          ...providers.map((p) =>
+            el('div', {class: 'flex items-center justify-between text-sm text-ink-900', 'data-provider-id': p.id},
+              el('span', {class: 'font-medium'}, p.displayName || p.id),
+              el('span', {class: 'text-ink-500'}, p.secretsPresent ? 'Ready' : 'Unconfigured')
+            )
+          )
+        )
       )
     );
   }
