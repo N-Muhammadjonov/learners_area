@@ -3,7 +3,7 @@ import {api} from '../../js/api-client.js';
 import {notifyLedger} from '../vocabulary/shared.js';
 
 /** A source-verified save: new words and existing words share the chosen folder. */
-export function vocabularySaver(context,{promptId,words,copy,pictureStory=null,confirmed=new Set()}){
+export function vocabularySaver(context,{promptId,words,copy,pictureStory=null,confirmed=new Set(),savedIds=new Map()}){
  const {dict,signal,locale}=context,f=dict.vocabulary.folders;
  const automatic=locale==='uz'?'Bu savol uchun alohida papka':'A separate folder for this question';
  const host=el('div',{class:'space-y-3','data-speaking-vocabulary-saver':''});
@@ -54,6 +54,21 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null,c
   }finally{loading=false;if(!signal.aborted)lock();}
  }
  listen(retry,'click',()=>void loadFolders(),signal);
+ async function remove(indices,isAll=false){
+  if(saving||signal.aborted)return;
+  const ids=[...new Set(indices.map(i=>savedIds.get(i)).filter(Boolean))];
+  const feedback=isAll?result:wordStatuses.get(indices[0]);
+  if(!ids.length){if(feedback)feedback.textContent=locale==='uz'?'Saqlangan so‘z ID topilmadi. Qayta qo‘shib ko‘ring.':'Saved entry ID unavailable. Save again to refresh.';return;}
+  saving=true;lock();
+  try{
+   const d=await api.request('/api/vocabulary',{method:'DELETE',body:{ids},signal});
+   if(d.ok!==true||d.deleted!==ids.length)throw Error('delete_not_confirmed');
+   for(const [i,id] of [...savedIds])if(ids.includes(id)){savedIds.delete(i);confirmed.delete(i);}
+   refreshLabels();notifyLedger();
+   if(feedback)feedback.textContent=locale==='uz'?'O‘rganish ro‘yxatidan o‘chirildi':'Removed from learning list';
+  }catch{if(!signal.aborted&&feedback)feedback.textContent=copy.saveFailed;}
+  finally{saving=false;if(!signal.aborted)lock();}
+ }
  function choose(indices,isAll,anchor){
   if(saving||signal.aborted)return;
   pending={indices,isAll};
@@ -101,14 +116,14 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null,c
    notifyLedger();let message=copy.savedWords.replace('{added}',String(d.added)).replace('{duplicates}',String(d.duplicates)).replace('{folder}',d.folder.name);
    if(d.moved>0)message+=locale==='uz'?` · ${d.moved} ta so'z papkaga o'tkazildi`:` · ${d.moved} words moved to the folder`;
    if(localStatus)localStatus.textContent=message;
-   for(const i of indices)confirmed.add(i);
+   for(const [position,i] of indices.entries()){confirmed.add(i);savedIds.set(i,d.ids[position]??d.ids[0]);}
    refreshLabels();chooser.style.display='none';pending=null;
   }catch{if(!signal.aborted&&localStatus)localStatus.textContent=copy.saveFailed;}
   finally{saving=false;if(!signal.aborted)lock();}
  }
  const all=el('button',{type:'button',class:'btn-primary','data-practice-save':'all'},copy.saveAll);
  const allGroup=el('div',{class:'space-y-3'},all,result);
- buttons.push(all);listen(all,'click',()=>choose(words.map((_,i)=>i),true,allGroup),signal);
+ buttons.push(all);listen(all,'click',()=>{const indices=words.map((_,i)=>i);if(indices.length&&indices.every(i=>confirmed.has(i)))void remove(indices,true);else choose(indices,true,allGroup);},signal);
  host.append(allGroup);
  for(const [i,w] of words.entries()){
   const add=el('button',{type:'button',class:'btn-secondary mt-2','data-practice-save':i},copy.addWord);
@@ -116,7 +131,7 @@ export function vocabularySaver(context,{promptId,words,copy,pictureStory=null,c
   const status=el('p',{role:'status',class:'mt-2 text-sm','data-practice-word-save-status':i});
   wordStatuses.set(i,status);
   const action=el('div',{class:'space-y-2'},add,status);
-  listen(add,'click',()=>choose([i],false,action),signal);
+  listen(add,'click',()=>{if(confirmed.has(i))void remove([i]);else choose([i],false,action);},signal);
   host.append(el('article',{class:'rounded-xl border border-ink-100 p-3'},
    el('strong',{},w.term),w.definitionEn!==w.term?el('p',{},w.definitionEn):null,
    el('p',{},w.translationUz??''),el('p',{class:'text-ink-500'},w.exampleSentence??''),action));
