@@ -501,14 +501,15 @@ html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,
 .vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}
 
 
-/* Main background and public-entry accent colours — requested 2026-10-29. */
-html[data-theme] body,
-html[data-theme] #root { background-color: #0A0F24; }
-html[data-theme] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
+/* Main background and public-entry accent colours — requested 2026-10-29.
+   The deep navy override is night-only; day keeps its original white palette. */
+html[data-theme="night"] body,
+html[data-theme="night"] #root { background-color: #0A0F24; }
+html[data-theme="night"] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
   background-color: #0A0F24 !important;
 }
-html[data-theme] #root [data-auth-shell] { background-color: #0A0F24 !important; }
-html[data-theme]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
+html[data-theme="night"] #root [data-auth-shell] { background-color: #0A0F24 !important; }
+html[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
   background-color: #0A0F24 !important;
 }
 #root [data-root-entry] .la-welcome-cta,
@@ -535,3 +536,84 @@ html[data-theme]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data
 }
 #root [data-auth-shell] .card::before { padding: 1px; }
 #root [data-auth-shell] .auth-switch-pill::before { padding: 2px; }
+
+
+/* Shared header and dashboard action colours — keep geometry and SPA actions intact. */
+html[data-theme] #root [data-campus-shell] {
+  --dashboard-action-gradient: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
+
+/* Header controls match Dashboard on the campus map and every module. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-campus-return-link],
+  [data-shell-topbar] [data-profile-menu-trigger],
+  [data-route-usable="dashboard"] .btn-primary,
+  [data-route-usable="dashboard"] .btn-secondary
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span:not(:first-child) {
+  color: #000000 !important;
+}
+
+/* Only the dashboard vocabulary review action remains an outline. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[href="/app/vocabulary"] > .btn-secondary {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)), rgb(var(--workspace-raised))) padding-box,
+    var(--dashboard-action-gradient) border-box !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+}
+
+/* Existing Day/Night and UZ/EN state controls retain their click handlers. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn-active,
+  [data-locale-switcher] button[aria-pressed="true"]
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn:not(.theme-btn-active),
+  [data-locale-switcher] button[aria-pressed="false"]
+) {
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: rgb(var(--workspace-line)) !important;
+}
+
+/* Keep the original circular utilities button; only its palette changes. */
+html[data-theme] #root [data-campus-shell] [data-utilities-launcher] {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-utilities-launcher] .module-emoji {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #000000 !important;
+}
+
+/* Search text fields only: remove inner green rectangle and focus ring.
+   Search containers, layout, dropdowns, other form controls remain untouched. */
+html[data-theme] #root :is(
+  [data-global-search-field] input,
+  .dictionary-search input,
+  [data-dictionary-search],
+  [data-practice-search],
+  input[type="search"],
+  input[role="searchbox"],
+  input[id*="search" i],
+  input[name*="search" i],
+  input[placeholder*="search" i],
+  input[placeholder*="qidir" i],
+  input[placeholder*="izla" i],
+  input[aria-label*="search" i],
+  input[aria-label*="qidir" i]
+) {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
