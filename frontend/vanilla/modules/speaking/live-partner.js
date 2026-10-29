@@ -18,7 +18,7 @@ export function mount(context){
  const header=el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},t.title),el('p',{class:'text-sm text-ink-500'},t.intro));
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),header,workspace);root.append(host);
  const remoteAudio=el('audio',{autoplay:'',class:'hidden','aria-hidden':'true'});host.append(remoteAudio);
- let me=null,questions=[],data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open='part1',selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
+ let me=null,questions=[],data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open=null,selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
  let inFlight=false,heartbeat=false,destroyed=false;
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
