@@ -300,10 +300,12 @@ def test_inactive_speaking_file_read_follows_original_content_ownership(env,monk
         return {'user':{'id':ID,'role':role,'account_status':'active'},
                 'sessionKey':'a'*64,'authVersion':0,'expiresAt':int(time.time())+300}
     async def local_head(key):return {'size':5,'contentType':'audio/mpeg'}
-    async def local_read(key,start,end):return b'hello'
+    async def local_stream(req,key,info,headers,span,head):
+        from starlette.responses import Response
+        return Response(b'hello',headers=headers)
     monkeypatch.setattr(core,'current_authority',authority)
     monkeypatch.setattr(media_port,'head_object',local_head)
-    monkeypatch.setattr(media_port,'read_object',local_read)
+    monkeypatch.setattr(media_port,'object_response',local_stream)
     env.data['material_block']={'material_id':RID}
     env.data['material']={'id':RID,'is_active':False,'created_by_user_id':creator}
     response=C.get('/api/resources/speaking/lecture.mp3')

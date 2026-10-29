@@ -8,11 +8,27 @@ from .request_lifecycle import run_io
 
 def client_options():
     from botocore.config import Config
-    return Config(connect_timeout=5,read_timeout=10,retries={'mode':'standard','total_max_attempts':2})
+    return Config(signature_version='s3v4',connect_timeout=5,read_timeout=10,retries={'mode':'standard','total_max_attempts':2})
 
 SAFE=re.compile(r'^[A-Za-z0-9][A-Za-z0-9._/-]*$')
 def valid_key(key):
     return isinstance(key,str) and 0<len(key)<=400 and bool(SAFE.fullmatch(key)) and '..' not in key and all(segment and segment!='.' for segment in key.split('/'))
+
+def local_object_path(key):
+    if not valid_key(key):raise ValueError('unsafe storage key')
+    root=Path(os.getenv('STORAGE_LOCAL_DIR') or '.data/uploads').resolve()
+    path=root.joinpath(*key.split('/')).resolve()
+    path.relative_to(root)
+    return path
+
+async def presigned_read_url(key,etag=None):
+    """Internal-only GET signing; resource authorization has already happened."""
+    if not valid_key(key):raise ValueError('unsafe storage key')
+    def task():
+        s3,bucket=_client();params={'Bucket':bucket,'Key':key}
+        if etag:params['IfMatch']=etag
+        return s3.generate_presigned_url('get_object',Params=params,ExpiresIn=300,HttpMethod='GET')
+    return await run_io(task)
 
 def provider():
     selected=(os.getenv('STORAGE_PROVIDER') or ('' if os.getenv('APP_ENV')=='production' else 'local')).lower().strip()
@@ -46,11 +62,15 @@ async def head_object(key):
     """Storage HEAD metadata (local or S3-compatible), without exposing the bytes."""
     if not valid_key(key):raise ValueError('unsafe storage key')
     if provider()=='local':
-        root=Path(os.getenv('STORAGE_LOCAL_DIR') or '.data/uploads').resolve()
-        file=root.joinpath(*key.split('/'))
+        file=local_object_path(key)
         try:
             st=await run_io(file.stat)
-            return {'size':st.st_size,'contentType':None} if file.is_file() else None
+            if not file.is_file():return None
+            import hashlib
+            from datetime import datetime,timezone
+            tag=hashlib.md5((str(st.st_mtime)+'-'+str(st.st_size)).encode(),usedforsecurity=False).hexdigest()
+            return {'size':st.st_size,'contentType':None,'etag':'"'+tag+'"',
+                    'lastModified':datetime.fromtimestamp(st.st_mtime,timezone.utc)}
         except OSError:return None
     def task():
         s3,bucket=_client()
@@ -79,8 +99,7 @@ async def read_object(key,start=None,end=None):
     """Bounded byte range. In production S3 read is confined to the requested bytes."""
     if not valid_key(key):raise ValueError('unsafe storage key')
     if provider()=='local':
-        root=Path(os.getenv('STORAGE_LOCAL_DIR') or '.data/uploads').resolve()
-        file=root.joinpath(*key.split('/'))
+        file=local_object_path(key)
         def task():
             try:
                 with file.open('rb') as f:

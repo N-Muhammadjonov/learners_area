@@ -5,6 +5,7 @@ import weakref
 from dataclasses import dataclass, field
 
 from starlette.responses import JSONResponse
+from starlette.datastructures import QueryParams
 
 LOG = logging.getLogger('uvicorn.error')
 
@@ -24,6 +25,7 @@ class WorkerState:
     active: int = 0
     bulk: int = 0
     streams: int = 0
+    media: int = 0
     probes: int = 0
     draining: bool = False
     work_slots: asyncio.Semaphore = field(default_factory=lambda: asyncio.Semaphore(2))
@@ -47,7 +49,7 @@ class WorkerControl:
     def start(self):
         state = self.state()
         state.draining = False
-        LOG.info('Request budgets ready: ordinary=64 bulk=4 streams=256 blocking=2 storage=4 workers=1')
+        LOG.info('Request budgets ready: ordinary=64 bulk=4 streams=256 media=64 blocking=2 storage=4 workers=1')
         return state
 
     async def run_blocking(self, func, *args, **kwargs):
@@ -97,13 +99,14 @@ run_io = control.run_io
 
 
 class RequestBudget:
-    def __init__(self, app, *, controller=control, ordinary=64, bulk=4, streams=256,
+    def __init__(self, app, *, controller=control, ordinary=64, bulk=4, streams=256,media=64,
                  read_timeout=30, body_timeout=30, probe_timeout=5):
         self.app = app
         self.control = controller
         self.ordinary = ordinary
         self.bulk = bulk
         self.streams = streams
+        self.media = media
         self.read_timeout = read_timeout
         self.body_timeout = body_timeout
         self.probe_timeout = probe_timeout
@@ -115,12 +118,13 @@ class RequestBudget:
         path, method = scope.get('path', ''), scope.get('method', 'GET')
         probe = path in ('/healthz', '/readyz')
         stream = path == '/api/auth/changes' and method == 'GET'
+        media = path.startswith('/api/resources/') and method=='GET' and QueryParams(scope.get('query_string',b'')).get('capability')!='1'
         bulk = path == '/api/reports' or path.startswith('/api/uploads') or path.endswith('/import')
         if path == '/healthz':
             return await self.app(scope, receive, send)
         rejected = state.draining or (probe and (state.probes >= 2 or state.active >= self.ordinary))
         if not probe:
-            rejected |= state.streams >= self.streams if stream else (
+            rejected |= state.streams >= self.streams if stream else state.media >= self.media if media else (
                 state.active >= self.ordinary or bulk and state.bulk >= self.bulk)
         if rejected:
             return await unavailable('draining' if state.draining else 'busy')(scope, receive, send)
@@ -128,6 +132,8 @@ class RequestBudget:
             state.probes += 1
         elif stream:
             state.streams += 1
+        elif media:
+            state.media += 1
         else:
             state.active += 1
             state.bulk += int(bulk)
@@ -182,6 +188,8 @@ class RequestBudget:
                 state.probes -= 1
             elif stream:
                 state.streams -= 1
+            elif media:
+                state.media -= 1
             else:
                 state.active -= 1
                 state.bulk -= int(bulk)
