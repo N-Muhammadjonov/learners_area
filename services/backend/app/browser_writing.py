@@ -11,6 +11,7 @@ from .step31_coach import decoded
 from .writing_source_materials import catalogue,live_inventory,metadata_for_prompt
 from .writing_stealing_collection import metadata_for_model,collection_info
 from .writing_study_data import personal_patterns,usage_uz
+from .writing_exam_bank import catalogue as exam_catalogue
 
 
 async def evaluation(con, uid, source, id, external=False):
@@ -208,12 +209,19 @@ async def read(req, user, path, q, region):
             blocks = await prompt_materials(con, [p['id'] for p in prompts])
             return {'aiReady':grade_ready,'essays':essays,'task1Prompts':[{**p, 'materials':blocks.get(p['id'], [])} for p in prompts]}
         if tab == 'exam':
-            counts = {r['task_type']:r['n'] for r in await con.fetch(f'SELECT task_type,count(*)::int n FROM writing_prompts WHERE {live()} GROUP BY task_type')}
+            prompt_rows = await con.fetch(f'''SELECT p.id,p.task_type,p.category,p.prompt,p.source_ref FROM writing_prompts p
+              WHERE p.is_active AND {live('p')} AND NOT EXISTS (SELECT 1 FROM activity_events e
+              WHERE e.id=md5('deleted-content:' || p.id::text)::uuid AND e.type='CONTENT_DELETED')
+              ORDER BY p.created_at DESC,p.id''')
+            bank = exam_catalogue(prompt_rows)
+            counts = {task:sum(p['taskType']==task for p in bank['questions']) for task in ('task1','task2')}
             papers = [camel(r) for r in await con.fetch('SELECT id,mode,started_at,expires_at,finalized_at,finalize_reason FROM writing_exam_papers WHERE user_id=$1 ORDER BY started_at DESC LIMIT 20',uid)]
             opened = next((p for p in papers if not p['finalizedAt'] and datetime.fromisoformat(p['expiresAt'].replace('Z','+00:00'))>=datetime.now(timezone.utc)),None)
             if opened:
                 opened = {**opened, 'remainingSeconds': max(0, int((datetime.fromisoformat(opened['expiresAt'].replace('Z','+00:00')) - datetime.now(timezone.utc)).total_seconds()))}
-            return {'exam':{'availability':{'task1':counts.get('task1',0),'task2':counts.get('task2',0)},'open':opened,'recent':papers,'sourceMaterials':catalogue(await live_inventory(con))}}
+            legacy = catalogue(await live_inventory(con))
+            legacy['fullTests'] = bank['fullTests'] + legacy['fullTests']
+            return {'exam':{'availability':{'task1':counts.get('task1',0),'task2':counts.get('task2',0)},'open':opened,'recent':papers,'sourceMaterials':legacy,**bank}}
         if tab == 'topic-vocabulary':
             canonical = await packs(con)
             rows = await patterns(con,uid,q)
