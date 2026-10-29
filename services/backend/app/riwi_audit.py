@@ -143,7 +143,7 @@ async def list_riwi_audit_page(
     page_limit = owner_history_page_limit(limit, default=20, maximum=50)
     after = decode_owner_history_cursor(cursor, actor, "audit_events")
     if conn is None or not hasattr(conn, "fetch"):
-        return {"events": [], "nextCursor": None, "totalCount": 0}
+        return {"ok": True, "events": [], "nextCursor": None, "totalCount": 0}
 
     count_row = await conn.fetchrow(
         "SELECT count(*)::int AS total FROM audit_log WHERE action LIKE 'riwi.%' OR action = 'ai.control.set'"
@@ -210,4 +210,4 @@ async def list_riwi_audit_page(
         )
     for item in events:
         item.pop("_sortAt", None)
-    return {"events": events, "nextCursor": next_cursor, "totalCount": total_count}
+    return {"ok": True, "events": events, "nextCursor": next_cursor, "totalCount": total_count}

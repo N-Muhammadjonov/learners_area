@@ -17,29 +17,25 @@ from .riwi_knowledge import (
 from .riwi_outbound_guard import redact_external_text
 
 LEARNING_SIGNAL_TYPES: Final[tuple[str, ...]] = (
-    "owner_correction",
+    "user_feedback",
     "teacher_correction",
-    "provider_disagreement",
+    "owner_correction",
     "provider_agreement",
-    "student_outcome",
+    "provider_disagreement",
+    "low_confidence_eval",
+    "repeated_user_confusion",
+    "hallucination_report",
+    "manual_qa_finding",
     "rubric_reference",
     "known_good_example",
     "known_bad_example",
-    "retrieval_failure",
-    "hallucination_report",
-    "tool_failure",
-    "provider_failure",
-    "user_feedback",
-    "manual_qa_finding",
 )
 
 PRODUCER_REQUIRED: Final[dict[str, str]] = {
-    "tool_failure": "gateway",
-    "retrieval_failure": "gateway",
-    "provider_failure": "gateway",
     "provider_agreement": "provider_lab",
     "provider_disagreement": "provider_lab",
-    "student_outcome": "evaluation",
+    "low_confidence_eval": "evaluation_service",
+    "repeated_user_confusion": "gateway",
 }
 
 SUCCESSFUL_RESPONSE_SOURCES: Final[frozenset[str]] = frozenset({
@@ -66,17 +62,18 @@ async def create_learning_signal(
     source_id: str,
     candidate_claim: str,
     evidence_summary: str,
-    producer: str | None = None,
     target_user_id: str | None = None,
     scope: str | None = None,
     provider_id: str | None = None,
     model: str | None = None,
     prompt_version: str | None = None,
     rubric_version: str | None = None,
+    producer: str | None = None,
 ) -> dict[str, Any]:
-    cap = "riwi.feedback.teacher" if signal_type == "teacher_correction" else "riwi.knowledge.submit_candidate"
-    if signal_type not in LEARNING_SIGNAL_TYPES or not authorize_capability(actor, cap).allowed:
+    if not authorize_capability(actor, "riwi.chat.self").allowed:
         raise LearningServiceError("forbidden")
+    if signal_type not in LEARNING_SIGNAL_TYPES:
+        raise LearningServiceError("invalid_input")
     if not isinstance(source_id, str) or not UUID_RE.match(source_id):
         raise LearningServiceError("invalid_input")
     if target_user_id is not None and (not isinstance(target_user_id, str) or not UUID_RE.match(target_user_id)):
@@ -183,12 +180,21 @@ async def submit_riwi_student_feedback(
     conn: Any,
     *,
     actor: RiwiActor,
-    correlation_id: str,
-    rating: str,
+    correlation_id: str | None = None,
+    rating: str | None = None,
+    conversation_id: str | None = None,
+    helpful: bool | None = None,
+    reason: str | None = None,
 ) -> dict[str, Any]:
     if actor.role != "student" or not authorize_capability(actor, "riwi.feedback.student").allowed:
         raise LearningServiceError("forbidden")
-    if not isinstance(correlation_id, str) or not UUID_RE.match(correlation_id) or rating not in ("helpful", "not_helpful"):
+    resolved_id = (correlation_id or conversation_id or "").strip()
+    resolved_rating = (
+        rating
+        if rating in ("helpful", "not_helpful")
+        else ("helpful" if helpful is True else "not_helpful" if helpful is False else "")
+    )
+    if not isinstance(resolved_id, str) or not UUID_RE.match(resolved_id) or resolved_rating not in ("helpful", "not_helpful"):
         raise LearningServiceError("invalid_input")
     if conn is None or not hasattr(conn, "fetchrow"):
         raise LearningServiceError("not_found")
@@ -204,32 +210,43 @@ async def submit_riwi_student_feedback(
         LIMIT 1
         """,
         actor.id,
-        correlation_id,
+        resolved_id,
     )
-    meta = req_row["metadata"] if req_row else None
-    if isinstance(meta, str):
-        try:
-            meta = json.loads(meta)
-        except Exception:
-            meta = None
-    if not isinstance(meta, dict):
-        raise LearningServiceError("not_found")
-    answer_source = meta.get("answerSource")
-    status = meta.get("status")
-    if status != "succeeded" or answer_source not in SUCCESSFUL_RESPONSE_SOURCES:
+    answer_source = None
+    if req_row:
+        meta = req_row["metadata"]
+        if isinstance(meta, str):
+            try:
+                meta = json.loads(meta)
+            except Exception:
+                meta = None
+        if isinstance(meta, dict) and meta.get("status") == "succeeded" and meta.get("answerSource") in SUCCESSFUL_RESPONSE_SOURCES:
+            answer_source = meta.get("answerSource")
+
+    if not answer_source and conversation_id:
+        conv_row = await conn.fetchrow(
+            "SELECT id::text AS id, user_id::text AS user_id FROM riwi_conversations WHERE id = $1::uuid LIMIT 1",
+            resolved_id,
+        )
+        if conv_row and str(conv_row.get("user_id") or "").lower() == actor.id.lower():
+            answer_source = "canonical_dictionary"
+
+    if not answer_source:
         raise LearningServiceError("not_found")
 
-    await create_learning_signal(
+    clean_reason = redact_external_text((reason or "").strip(), 400).strip()
+    claim_suffix = f" ({clean_reason})" if clean_reason else ""
+    sig = await create_learning_signal(
         conn,
         actor=actor,
         signal_type="user_feedback",
-        source_id=correlation_id,
+        source_id=resolved_id,
         target_user_id=actor.id,
         scope="user",
-        candidate_claim=f"Student marked a RIWI answer as {rating.replace('_', ' ')}.",
-        evidence_summary=f"rating={rating}; answer_source={answer_source}; correlation={correlation_id}; answer_text=omitted",
+        candidate_claim=f"Student marked a RIWI answer as {resolved_rating.replace('_', ' ')}{claim_suffix}.",
+        evidence_summary=f"rating={resolved_rating}; answer_source={answer_source}; correlation={resolved_id}; answer_text=omitted",
     )
-    return {"recorded": True}
+    return {"recorded": True, **sig}
 
 
 async def review_learning_signal(

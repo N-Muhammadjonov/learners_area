@@ -119,9 +119,11 @@ async def post_riwi_feedback(conn: Any, actor: RiwiActor, payload: dict[str, Any
     sig = await submit_riwi_student_feedback(
         conn,
         actor=actor,
-        conversation_id=str(payload.get("conversationId") or ""),
-        helpful=bool(payload.get("helpful")),
-        reason=str(payload.get("reason") or ""),
+        correlation_id=str(payload.get("correlationId") or "") or None,
+        rating=str(payload.get("rating") or "") or None,
+        conversation_id=str(payload.get("conversationId") or "") or None,
+        helpful=payload.get("helpful") if isinstance(payload.get("helpful"), bool) else None,
+        reason=str(payload.get("reason") or "") or None,
     )
     return {"ok": True, "signal": sig}
 
@@ -257,7 +259,7 @@ async def post_riwi_owner_security_signal_review(
         conn,
         actor=actor,
         signal_id=signal_id,
-        next_state=str(payload.get("state") or ""),
+        state=str(payload.get("state") or ""),
         regression_fixture_id=payload.get("regressionFixtureId"),
     )
     return {"ok": True, "signal": reviewed}
@@ -336,7 +338,7 @@ from fastapi import APIRouter, Request
 def _core():
     from . import main as _m
     return _m
-from .riwi_contracts import RiwiContractError
+from .riwi_contracts import RiwiContractError, UUID_RE
 from .riwi_conversations import RiwiConversationError
 from .riwi_gateway import RiwiGatewayError
 from .riwi_knowledge import KnowledgeServiceError
