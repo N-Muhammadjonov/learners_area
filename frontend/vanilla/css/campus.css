@@ -1396,3 +1396,32 @@ html[data-theme] #root [data-campus-shell] [data-translation-setup]
   border-color:transparent !important;
   color:rgb(var(--workspace-ink)) !important;
 }
+
+
+/* Retention reading/recall isolation and history result gradient — 2026-10-30. */
+/* Match only the live reading/writing phases, even when a session was started
+   from the entry screen and the earlier overview/history nodes remain mounted. */
+html[data-theme] #root [data-retention-page] [data-retention-workspace]:is(
+  :has([data-retention-phase="reading"]),
+  :has([data-retention-phase="recall"])
+) .retention-hub-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+html[data-theme] #root [data-retention-page] [data-retention-workspace]:is(
+  :has([data-retention-phase="reading"]),
+  :has([data-retention-phase="recall"])
+) :is(.retention-hub-grid > aside, [data-retention-history-section]) {
+  display: none !important;
+}
+
+/* Only Retention history's Open result action gets the filled accent palette.
+   Keep the original anchor element, click handling, dimensions and radius. */
+html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retention-history-open] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retention-history-open]::before {
+  content: none !important;
+  display: none !important;
+}
