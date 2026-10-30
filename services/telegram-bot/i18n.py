@@ -9,7 +9,8 @@ STRINGS = {
         "phone_invalid": "❌ Faqat o'zingizning Telegram kontaktingizni yuboring. Tugmani bosing.",
         "phone_saved": "✅ Telefon raqamingiz tasdiqlandi.",
         "phone_required": "📱 Ariza yuborishdan oldin /start orqali telefon raqamingizni tasdiqlang.",
-        "channels_required": "📢 Ariza yuborish uchun barcha majburiy kanallarga obuna bo'ling.",
+        "channels_required": "Iltimos, oldin kanalga obuna bo'ling. So'ng «Tekshirish» tugmasini bosing.",
+        "channels_still_required": "Hali obuna bo‘lmadingiz. Iltimos, barcha majburiy kanallarga obuna bo‘lgach qayta urinib ko‘ring.",
         "channels_error": "⏳ Kanal obunalarini hozir tekshirib bo'lmadi. Birozdan so'ng urinib ko'ring.",
         "channels_title": "📢 Majburiy kanallar",
         "channels_add": "➕ Kanal qo'shish",
@@ -19,7 +20,8 @@ STRINGS = {
         "channels_full": "❌ Maksimal 4 ta kanal qo'shish mumkin.",
         "channels_invalid": "❌ Kanal topilmadi yoki bot admin emas. Botni kanalga admin qiling.",
         "channels_empty": "Hozircha majburiy kanal yo'q.",
-        "channels_retry": "🔄 Obunani tekshirish",
+        "channels_join": "Obuna bo'lish",
+        "channels_retry": "Tekshirish",
         "welcome_new": "Assalomu alaykum. Learners Area botiga xush kelibsiz.\n\nSaytga kirish yoki ariza qoldirish uchun menyudan foydalaning. Parol so'ralmaydi.",
         "confirmed": "Tasdiqlandi. Brauzerdagi sahifaga qayting.",
         "confirm_failed": "Havola eskirgan yoki yaroqsiz. Saytdan qayta urinib ko'ring.",
@@ -129,7 +131,8 @@ STRINGS = {
         "phone_invalid": "❌ Only your own Telegram account contact is accepted. Use the button.",
         "phone_saved": "✅ Your phone number has been verified.",
         "phone_required": "📱 Verify your phone number via /start before requesting access.",
-        "channels_required": "📢 Join every mandatory channel before requesting access.",
+        "channels_required": "📢 Join every required Telegram channel, then check your membership to continue.",
+        "channels_still_required": "You have not joined all required channels yet. Please subscribe, then try again.",
         "channels_error": "⏳ We cannot check subscriptions right now. Please try again later.",
         "channels_title": "📢 Required channels",
         "channels_add": "➕ Add channel",
@@ -139,7 +142,8 @@ STRINGS = {
         "channels_full": "❌ At most four channels are allowed.",
         "channels_invalid": "❌ Channel not found or bot lacks administrator rights.",
         "channels_empty": "No mandatory channels configured.",
-        "channels_retry": "🔄 Check membership",
+        "channels_join": "Subscribe",
+        "channels_retry": "Check membership",
         "welcome_new": "Welcome to the Learners Area bot.\n\nUse the menu to sign in or request access. A password is never requested here.",
         "confirmed": "Confirmed. Return to the browser page.",
         "confirm_failed": "That link is expired or invalid. Start again from the website.",
@@ -248,3 +252,4 @@ def t(lang: str | None, key: str, **kwargs: object) -> str:
     table = STRINGS.get(lang or "uz", STRINGS["uz"])
     template = table.get(key) or STRINGS["uz"].get(key) or key
     return template.format(**kwargs)
+

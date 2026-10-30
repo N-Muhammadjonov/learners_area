@@ -120,14 +120,3 @@ test("H5 nothing about highlight reads an answer or a key", async () => {
   // The stored range is exactly three numbers/strings about the VISIBLE text.
   assert.ok(component.includes("onHighlightRange?: (range: { start: number; end: number }) => void"));
 });
-
-test('selection toolbar dismisses on the first outside press and never leaves a persistent mark',async()=>{
- const root=await render(<ClickableText dict={en} text="The museum opens." sourceType="reading" sourceId="a" onHighlightRange={()=>assert.fail('outside press is not highlighting')}/>);
- try{
-  const text=document.querySelector('[data-word="museum"]')!.firstChild!,range=document.createRange();range.setStart(text,0);range.setEnd(text,6);window.getSelection()!.addRange(range);
-  await act(async()=>document.querySelector('[data-clickable-text]')!.dispatchEvent(new dom.window.MouseEvent('mouseup',{bubbles:true})));
-  assert.ok(document.querySelector('[data-highlight-control]'));
-  await act(async()=>document.body.dispatchEvent(new dom.window.MouseEvent('pointerdown',{bubbles:true})));
-  assert.equal(document.querySelector('[data-highlight-control]'),null);assert.equal(window.getSelection()!.rangeCount,0);assert.equal(document.querySelector('mark'),null);
- }finally{await act(async()=>root.unmount());}
-});

@@ -1,0 +1,36 @@
+<!doctype html><html lang="en" data-theme="day" data-focus="off"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Learners Area navigation benchmark</title><link rel="stylesheet" href="../css/global.css"><link rel="stylesheet" href="../css/campus.css"><body><aside style="padding:12px"><h1>Isolated navigation benchmark</h1><p>Synthetic student records, 150 ms simulated API latency. No production data.</p><button id="run">Run navigation benchmark</button><pre id="report">Ready</pre></aside><main id="root"></main><script type="module">
+const params=new URL(location.href).searchParams,baseline=params.has('baseline'),base=params.has('built')?'/assets/'+params.get('built'):params.get('base')??new URL('..',location.href).pathname.replace(/\/$/,'');
+if(params.has('built')){for(const link of document.querySelectorAll('link[rel=stylesheet]'))link.href=base+'/css/'+link.getAttribute('href').split('/').at(-1);const meta=document.createElement('meta');meta.name='la-build';meta.content=params.get('built');document.head.append(meta);}
+
+const selectedScenario=params.get('scenario'),iterations=Math.min(200,Math.max(25,Math.floor(Number(params.get('iterations'))||25)));
+const actualNow=Date.now;let offset=0,reads=0;Date.now=()=>actualNow()+offset;
+const originalFetch=window.fetch.bind(window),wait=ms=>new Promise(r=>setTimeout(r,ms));
+const mock={tests:[],attempts:[],finishedCount:0,attemptsUnavailable:false,attemptTitlesUnavailable:false,catalogueUnavailable:false};
+const progress={reading:{attempts:2,submitted:2,score:15,total:20,accuracy:75},listening:null,speaking:null,writing:{submissions:0,latestBand:null,latestEvaluationAt:null,lastSubmittedAt:null,evaluationUnavailable:false},vocabulary:{total:0,due:0,byState:{new:0,learning:0,review:0,known:0,mastered:0,activated:0}},lessons:{total:100,open:100,inProgress:0,completed:0},assignments:null,mocks:null,unavailableRegions:[]};
+let actor='student-A';const data=(route,region)=>{
+ if(route==='/app/progress')return {[region]:region==='progressSummary'?progress:region==='progressStreak'?{streak:3}:region==='progressMocks'?mock:{reading:[],listening:[],writing:[],speaking:[],heatmap:[],retention:[]}};
+ if(route==='/app/dashboard')return {[region==='openLessons'?'openLessonsResult':region]:region==='mock'?mock:region==='openLessons'?{ok:true,lessons:[]}:{unavailable:{},profile:null,streak:3,writingAttempts:0,vocabDueCount:0,lastActivity:null,skillCounts:{reading:2,listening:0,writing:0,speaking:0},latestEvaluation:null,nextLiveClass:null,openAssignments:[]}};
+ return {library:{rows:Array.from({length:50},(_,i)=>({id:'00000000-0000-4000-8000-'+String(i+1).padStart(12,'0'),title:actor+' lesson '+i,summary:'Isolated catalogue row',estimatedMinutes:5,hasTeacherNotes:false,hasMedia:false})),hasMore:false}};
+};
+window.fetch=async(input,options={})=>{const raw=typeof input==='string'?input:input.url;if(!raw.startsWith('/api/'))return originalFetch(input,options);const url=new URL(raw,location.origin);reads++;await wait(150);if(options.signal?.aborted)throw new DOMException('Aborted','AbortError');let body={ok:true};if(url.pathname==='/api/frontend/view'){const route=url.searchParams.get('route'),region=url.searchParams.get('region');body={version:1,route,...(region?{region}:{}),data:data(route,region)};}return new Response(JSON.stringify(body),{headers:{'content-type':'application/json'}});};
+const {createRouter,compilePattern}=await import(base+'/js/router.js'),{privateScope}=await import(base+'/js/private-scope.js'),{dictionary}=await import(base+'/js/preferences.js'),{api}=await import(base+'/js/api-client.js'),{workspaceTransition}=await import(base+'/modules/shell/transition.js');
+const dict=await dictionary('en'),root=document.querySelector('#root'),shellController=new AbortController();privateScope.setScope(actor);
+const ctx={dict,locale:'en',session:{user:{id:actor,name:actor,role:'student',accountStatus:'active',photoPresent:false}},signal:shellController.signal,refresh:()=>{}};
+const transition=workspaceTransition(ctx);root.append(transition.node);
+const definitions=[['/app/reading/lessons','/modules/reading/lessons.js','mountLessons'],['/app/listening/lessons','/modules/listening/lessons.js','mount'],['/app/grammar/lessons','/modules/grammar/lessons.js','mount'],['/app/dashboard','/modules/dashboard.js','mount'],['/app/progress','/modules/progress/page.js','mount']];
+const routes=definitions.map(([pattern,file,name])=>({pattern,protected:true,match:compilePattern(pattern),load:async()=>{const m=await import(base+file);return {...m,mount:m[name]};}}));
+let router;const errors=[];const reuse=baseline?undefined:(await import(base+'/js/route-reuse.js')).createRouteReuse();router=createRouter({reuse,root,routes,prepare:async c=>({...ctx,signal:c.signal}),onStart:(url,{signal})=>transition.begin(url,signal),commit:(staging)=>{transition.end();transition.content.replaceChildren(...staging.childNodes);},onError:e=>{errors.push(e.message);throw e;},window});
+const quantile=(xs,q)=>[...xs].sort((a,b)=>a-b)[Math.min(xs.length-1,Math.ceil(xs.length*q)-1)];
+async function settled(route){const started=performance.now();while(performance.now()-started<8000){const n=transition.content;const failures=[...n.querySelectorAll('[role=alert]')].filter(n=>n.textContent.trim());if(failures.length)throw Error('Rendered failure: '+failures[0].textContent);let ok=!n.querySelector('[aria-busy=true],[data-async-loading],.animate-pulse,[data-speaking-materials-skeleton]')&&n.textContent.trim().length>0;if(route==='/app/dashboard')ok=ok&&!!n.querySelector('[data-dashboard-content]');if(ok){await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));return;}await wait(5);}throw Error('Data did not settle: '+route+' '+transition.content.textContent.slice(0,100));}
+document.querySelector('#run').onclick=async()=>{document.querySelector('#run').disabled=true;const result={kind:baseline?'baseline':'optimized',apiLatencyMs:150,browser:navigator.userAgent,samples:[],errors};try{
+ for(const [route] of definitions){await router.navigate(route);await settled(route);}
+ for(const scenario of ['warm','after-presence','after-45-seconds','back-revisit'].filter(s=>!selectedScenario||s===selectedScenario)){
+  if(scenario==='after-45-seconds')offset+=45000;
+  const samples=[],calls=reads;
+  for(let i=0;i<iterations;i++){if(scenario==='after-presence')await api.request('/api/presence',{method:'POST'});const route=definitions[i%(scenario==='back-revisit'?2:definitions.length)][0],t=performance.now();const flight=router.navigate(route);const response=performance.now()-t;await flight;const committed=performance.now()-t;await settled(route);samples.push({response,committed,ready:performance.now()-t});}
+  result.samples.push({scenario,count:samples.length,reads:reads-calls,p50:Object.fromEntries(['response','committed','ready'].map(k=>[k,quantile(samples.map(x=>x[k]),.5)])),p95:Object.fromEntries(['response','committed','ready'].map(k=>[k,quantile(samples.map(x=>x[k]),.95)]))});
+ }
+ result.ok=true;
+}catch(e){result.error=e.stack;}document.querySelector('#report').textContent=JSON.stringify(result,null,2);document.querySelector('#run').disabled=false;};
+document.querySelector('#report').textContent='Ready ('+(baseline?'baseline':'optimized')+')';
+</script>

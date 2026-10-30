@@ -1,0 +1,101 @@
+[
+  {
+    "name": "case_and_punctuation",
+    "value": {
+      "x_y": 1,
+      "x-y": 2,
+      "A": 3,
+      "a": 4
+    },
+    "dictionary": "{\"a\":4,\"A\":3,\"x_y\":1,\"x-y\":2}",
+    "canonical_sha256": "2669bd5bcbe868e5927f61ee5e8bc219794c42659bf17c4cd2897a147a05140b",
+    "canonical_json": "{\"A\":3,\"a\":4,\"x-y\":2,\"x_y\":1}"
+  },
+  {
+    "name": "accent_keys",
+    "value": {
+      "É": 1,
+      "e": 2,
+      "ë": 3,
+      "é": 4
+    },
+    "dictionary": "{\"e\":2,\"é\":4,\"É\":1,\"ë\":3}",
+    "canonical_sha256": "3bb5df0986e8a0c8c69458821de3573c465ce87af01466effd6b882fbe23c5c7",
+    "canonical_json": "{\"e\":2,\"é\":4,\"É\":1,\"ë\":3}"
+  },
+  {
+    "name": "numeric_keys",
+    "value": {
+      "2": 2,
+      "10": 10,
+      "a": 3
+    },
+    "dictionary": "{\"10\":10,\"2\":2,\"a\":3}",
+    "canonical_sha256": "ae7b25f7f6dd0e2c9c73ae333deae3ad6b8a8c795df56b893ef2da1fc93d7c40",
+    "canonical_json": "{\"2\":2,\"10\":10,\"a\":3}"
+  },
+  {
+    "name": "nonbmp_keys",
+    "value": {
+      "💭": "emoji",
+      "": "private",
+      "𝄞": "music"
+    },
+    "dictionary": "{\"𝄞\":\"music\",\"💭\":\"emoji\",\"\":\"private\"}",
+    "canonical_sha256": "5f327664a53e18e37dab951c8b7ba472128a9c64a74bebb4698ad160450c9e43",
+    "canonical_json": "{\"𝄞\":\"music\",\"💭\":\"emoji\",\"\":\"private\"}"
+  },
+  {
+    "name": "nested",
+    "value": {
+      "nested": {
+        "ten": 10,
+        "two": 2,
+        "X": 1,
+        "x": 2
+      },
+      "title": "é"
+    },
+    "dictionary": "{\"nested\":{\"ten\":10,\"two\":2,\"x\":2,\"X\":1},\"title\":\"é\"}",
+    "canonical_sha256": "5a070acfeeb59c3eeee7005b3ef14c8096d0419f531bea5554dcf655f1177c2d",
+    "canonical_json": "{\"nested\":{\"X\":1,\"ten\":10,\"two\":2,\"x\":2},\"title\":\"é\"}"
+  },
+  {
+    "name": "trim_bom",
+    "value": {
+      "title": "﻿  wording ﻿",
+      "body": [
+        "﻿first  ",
+        "   last﻿"
+      ]
+    },
+    "dictionary": "{\"body\":[\"﻿first  \",\"   last﻿\"],\"title\":\"﻿  wording ﻿\"}",
+    "canonical_sha256": "5448be85eccb765be8443036214e7fb10676746ffa14ea42e6bad81c2a8b123f",
+    "canonical_json": "{\"body\":[\"first\",\"last\"],\"title\":\"wording\"}"
+  },
+  {
+    "name": "ecma_control_trim",
+    "value": {
+      "x": "\u001c text\u001c",
+      "y": " note "
+    },
+    "dictionary": "{\"x\":\"\\u001c text\\u001c\",\"y\":\" note \"}",
+    "canonical_sha256": "7f093bd8981d81501b921b4154415cc2e5855737e268b92761f29a197731944c",
+    "canonical_json": "{\"x\":\"\\u001c text\\u001c\",\"y\":\"note\"}"
+  },
+  {
+    "name": "nested_numeric",
+    "value": {
+      "outer": {
+        "3": "three",
+        "20": "twenty",
+        "00": "zeros",
+        "X": "upper",
+        "x": "lower"
+      }
+    },
+    "dictionary": "{\"outer\":{\"00\":\"zeros\",\"20\":\"twenty\",\"3\":\"three\",\"x\":\"lower\",\"X\":\"upper\"}}",
+    "canonical_sha256": "0bee804e3f04068e004eacc49f37842a446af07d7ddb3cf1b422bd50becbcfdc",
+    "canonical_json": "{\"outer\":{\"3\":\"three\",\"20\":\"twenty\",\"00\":\"zeros\",\"X\":\"upper\",\"x\":\"lower\"}}"
+  }
+]

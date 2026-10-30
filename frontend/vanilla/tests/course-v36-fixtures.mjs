@@ -1,0 +1,3 @@
+/** Synthetic lesson UI metadata/private-note strings only; no curriculum/questions/recordings. */
+export const id='00000000-0000-4000-8000-000000000036';export const other='00000000-0000-4000-8000-000000000037';
+export function lesson(state='available',ownerId='isolated-fixture-user',lessonId=id){return {detail:{ownerId,lesson:{id:lessonId,title:'Fixture course lesson <plain>',summary:'Fixture summary',recordingUrl:null},unitTitle:'Fixture unit',state,notes:['available','assigned','in_progress'].includes(state)?'Initial private fixture':null,completedAt:state==='completed'?'2026-10-22T08:00:00Z':null,videoAvailable:false,materialBlocks:[]}};}

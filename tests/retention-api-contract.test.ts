@@ -85,23 +85,6 @@ test("every admin Retention route is behind the administrator gate", () => {
   assert.match(gate, /isAdministrator\(user\.role\)/);
 });
 
-test("permanent Retention deletion is owner-only and demands the selected label", () => {
-  const route = read("src/app/api/admin/retention/texts/[id]/route.ts");
-  const hardDelete = route.slice(route.indexOf("export async function DELETE"));
-  assert.match(hardDelete, /requireRetentionAdmin\(\)/);
-  assert.match(hardDelete, /gate\.user\.role !== "owner"/);
-  assert.match(hardDelete, /typeof expectedLabel !== "string"/);
-  assert.match(hardDelete, /permanentlyDeleteRetentionText\(\{ textId: id, expectedLabel, actorUserId: gate\.user\.id \}/);
-  const data = read("src/lib/data/retention-bank.ts");
-  assert.match(data, /text\.internalLabel !== input\.expectedLabel/);
-  assert.match(data, /inArray\(retentionAttempts\.status, \["reading", "recall"\]\)/);
-  const panel = read("src/components/admin/RetentionBankPanel.tsx");
-  assert.match(panel, /canPermanentlyDelete \? \[/);
-  assert.match(panel, /data-retention-delete/);
-  assert.match(panel, /method: "DELETE"/);
-  assert.match(panel, /expectedLabel: row\.internalLabel/);
-});
-
 test("Change always posts a new version and carries the stale-editor guard", () => {
   const route = read("src/app/api/admin/retention/texts/[id]/versions/route.ts");
   assert.match(route, /createRetentionTextVersion\(/);
@@ -120,7 +103,7 @@ test("the old passage-driven drill is gone: the route ignores any passage parame
 test("the Reading hub no longer carries the TED / PODCAST tab (Part 1 override)", () => {
   const hub = read("src/app/app/(shell)/reading/page.tsx");
   const destinations = read("src/lib/reading/destinations.ts");
-  assert.match(destinations,/READING_DESTINATIONS = \["lessons", "academic", "general", "retention"\]/);
+  assert.match(destinations,/READING_DESTINATIONS = \["lessons", "academic", "general", "question-types", "retention"\]/);
   assert.ok(!destinations.includes("videos"));
   assert.ok(!hub.includes("data-reading-videos"));
 });
@@ -137,7 +120,7 @@ test("the Management page links to the Retention bank one step below Reading", (
   assert.ok(retentionIndex > -1 && readingIndex > -1 && retentionIndex < readingIndex, "the nested route must be matched before its parent");
 });
 
-test("the Retention bank panel offers Add, Change, Archive, Restore and owner Delete", () => {
+test("the Retention bank panel offers Add, Change, Delete-as-archive and Restore", () => {
   const panel = read("src/components/admin/RetentionBankPanel.tsx");
   for (const marker of ["data-retention-add", "data-retention-change", "data-retention-archive", "data-retention-restore", "data-retention-editor"]) {
     assert.ok(panel.includes(marker), `the panel is missing ${marker}`);

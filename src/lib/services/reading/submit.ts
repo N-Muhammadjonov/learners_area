@@ -37,9 +37,8 @@ export async function submitReadingAttempt(id:string,userId:string,entries:{ques
     const scope = await assessmentScope(id, attempt.passageId, tx);
     const submittedAt = new Date();
     const questions = await tx.query.readingQuestions.findMany({
-      where: and(inArray(readingQuestions.passageId, scope.passageIds),scope.questionIds ? inArray(readingQuestions.id,scope.questionIds) : undefined),
+      where: inArray(readingQuestions.passageId, scope.passageIds),
     });
-    if (scope.questionIds && questions.length !== 40) return {ok:false as const,status:409 as const,error:"not_found" as const};
     const timedOut = readingAttemptExpired(attempt.startedAt, scope.durationMinutes ?? attempt.suggestedMinutes, submittedAt.getTime());
     const savedDrafts = timedOut
       ? await tx

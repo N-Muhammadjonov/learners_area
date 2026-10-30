@@ -142,16 +142,14 @@ export async function generalListeningCards(
     }),
   );
 
-  // Count and page are independent SELECTs over the same published-only
-  // membership predicate; run them concurrently instead of paying two
-  // sequential DB round trips for every General Listening section switch.
-  const countQuery = exec
+  const [counted] = await exec
     .select({ total: sql<number>`count(*)::integer` })
     .from(listeningTests)
     .leftJoin(listeningPackages, eq(listeningPackages.testId, listeningTests.id))
     .where(membership);
+  const total = Number(counted?.total ?? 0);
 
-  const rowsQuery = exec
+  const rows = await exec
     .select({
       testId: listeningTests.id,
       title: listeningTests.title,
@@ -172,9 +170,6 @@ export async function generalListeningCards(
     .orderBy(asc(listeningTests.createdAt), asc(listeningTests.sourceRef), asc(listeningTests.id))
     .limit(GENERAL_LISTENING_PAGE_SIZE)
     .offset((safePage - 1) * GENERAL_LISTENING_PAGE_SIZE);
-
-  const [[counted], rows] = await Promise.all([countQuery, rowsQuery]);
-  const total = Number(counted?.total ?? 0);
 
   const cards: GeneralListeningCard[] = rows.map((row) => ({
     testId: row.testId,

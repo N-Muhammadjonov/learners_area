@@ -1,15 +1,13 @@
 # dependencies
 node_modules/
 
-# next.js build output
-.next/
+# build output
 out/
 build/
 dist/
 
 # typescript incremental build metadata
 *.tsbuildinfo
-next-env.d.ts
 
 # env / secrets — NEVER commit these
 .env
@@ -47,5 +45,8 @@ coverage/
 .ruff_cache/
 .pytest_cache/
 
-# isolated browser QA build output
-.next-study-qa/
+# Python backend runtime artifacts
+__pycache__/
+*.py[cod]
+.venv/
+!services/backend/app/supabase_root_ca.pem

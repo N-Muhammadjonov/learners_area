@@ -5,7 +5,7 @@ const read = (path: string) => readFileSync(path,"utf8");
 test("READ-LESSON uses the same generic Content OS and private notes, explicit area only", () => {
   const index = read("src/app/app/(shell)/reading/lessons/page.tsx");
   assert.match(index, /listLessonLibrary\(\{ area: "reading"/);
-  assert.doesNotMatch(index, /lessons\/author|data-reading-history-entry/);
+  assert.match(index, /isStaff\(user.role\)/);
   const detail = read("src/app/app/(shell)/reading/lessons/[lessonId]/page.tsx");
   assert.match(detail, /loadLessonLibraryDetail\(lessonId, user.id, "reading"\)/);
   assert.match(detail, /\["description", "teacher-notes", "xulosangiz"\]/);

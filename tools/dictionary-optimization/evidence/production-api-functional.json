@@ -1,0 +1,156 @@
+{
+  "start": "2026-10-26T19:44:50.021Z",
+  "end": "2026-10-26T19:46:57.872Z",
+  "requests": 112,
+  "failures": 0,
+  "queryCases": 14,
+  "repetitions": 8,
+  "responseVariantsPerCase": 1,
+  "concurrent": {
+    "start": "2026-10-26T19:47:51.083Z",
+    "end": "2026-10-26T19:47:58.965Z",
+    "concurrency": 2,
+    "requests": 28,
+    "failures": 0,
+    "responseParityWithSequential": true
+  },
+  "status": "PASS_FOR_SCOPED_SEARCH_COHORT",
+  "release": "rel-v1-977bce7f8dab7e773955238e",
+  "identity": "existing_authenticated_active_student_browser_session",
+  "rawCookiesExported": false,
+  "unverified": [
+    "second-user isolation",
+    "complete module workflow matrix",
+    "real mobile device"
+  ],
+  "checks": {
+    "englishUzbek": true,
+    "exact": true,
+    "prefix": true,
+    "case": true,
+    "phrasalVerb": true,
+    "idiom": true,
+    "collocation": true,
+    "commonRare": true,
+    "missingEmpty": true,
+    "stableOrderingAndContent": true
+  },
+  "caseSignatures": [
+    {
+      "direction": "EN",
+      "query": "quality time",
+      "resultCount": 1,
+      "responseSha": "c24635527574e33e37f96fa406126370f1e919e22cdb3f3834da8a00bb2c1fd8",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "QUALITY TIME",
+      "resultCount": 1,
+      "responseSha": "c24635527574e33e37f96fa406126370f1e919e22cdb3f3834da8a00bb2c1fd8",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "qual",
+      "resultCount": 18,
+      "responseSha": "619c1fe852200b15a11c4e2e91b027320e877290f6e42f0cb6ea283a3a1b093b",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "UZ",
+      "query": "taqdiri noaniq bo‘lmoq",
+      "resultCount": 1,
+      "responseSha": "3401acca25325dd2b5609ad09a85c3301f3e98f5608f2049dbf6479e6e31d26a",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "UZ",
+      "query": "yangi ko‘nikmani o‘zlashtirish jarayoni",
+      "resultCount": 1,
+      "responseSha": "8b4c235031f0544e7d927e7c196bd0d4dfefe590351907eedef3055353770f8c",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "UZ",
+      "query": "yangi ko‘nik",
+      "resultCount": 3,
+      "responseSha": "4aa4852eb436578236465fdb9a77386cc8246185901232a5c70df388b820cbb1",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "freeze up",
+      "resultCount": 1,
+      "responseSha": "487db4450886f02c9fcc9530c86af6d77c129ee6b179290977748f9963a649bc",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "put your feet up",
+      "resultCount": 1,
+      "responseSha": "59417127e56306b942e169ea7d6477cef1d0115fe806c83aabc96d552a322514",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "bank",
+      "resultCount": 20,
+      "responseSha": "f076cb0b25ca1d0f8274e088e1c290f1042beee6def4087ed62a9639fdec7ee3",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "bank account",
+      "resultCount": 1,
+      "responseSha": "23870769978257c7225c4fe998ce4c57b74e1858228c0ef7bed1da1703dc567f",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "book",
+      "resultCount": 20,
+      "responseSha": "182bddfbbcc1a3ea7f2c4938553f76d530bb3a107601a73c39c7dd7cf7f6da6d",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "serendipity",
+      "resultCount": 1,
+      "responseSha": "ee1cfe6a85cad6efe874281b154fc69339e730d11e7375d4e813e28c609a50de",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "UZ",
+      "query": "zzzxqv271828",
+      "resultCount": 0,
+      "responseSha": "28e43394c525563d11d77befaddb7c0af2aefd99aa3a0a557fef0e13b422a428",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    },
+    {
+      "direction": "EN",
+      "query": "",
+      "resultCount": 0,
+      "responseSha": "28e43394c525563d11d77befaddb7c0af2aefd99aa3a0a557fef0e13b422a428",
+      "repetitions": 8,
+      "uniqueResponses": 1
+    }
+  ],
+  "sessionRoleVerified": {
+    "role": "student",
+    "accountStatus": "active"
+  }
+}

@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray, isNull, or } from "drizzle-orm";
+import { and, asc, eq, isNull, or } from "drizzle-orm";
 import { db } from "@/db/client";
 import { timed } from "@/lib/observability/timing";
 import { grammarTopics, grammarExercises, grammarAttempts } from "@/db/schema";
@@ -27,10 +27,10 @@ export function getGrammarExerciseForUser(id: string, userId: string) {
  * would need a column they do not have), so "published" is the whole rule — an
  * authored draft topic stays out of the learner's list (§41).
  */
-export function listTopics(area?: "writing" | "speaking") {
+export function listTopics() {
   return db.select({ id: grammarTopics.id, title: grammarTopics.title, skillArea: grammarTopics.skillArea, order: grammarTopics.order })
     .from(grammarTopics)
-    .where(and(eq(grammarTopics.publicationState, "published"), area ? eq(grammarTopics.skillArea, area) : undefined))
+    .where(eq(grammarTopics.publicationState, "published"))
     .orderBy(asc(grammarTopics.order));
 }
 
@@ -55,14 +55,12 @@ export async function getTopicWithExercises(topicId: string, userId: string) {
  * secondary mastery panel: an unavailable history must not hide the topics or
  * practice links, and is represented as unavailable rather than a false zero.
  */
-export async function getTopicMastery(userId: string, area?: "writing" | "speaking") {
-  const selectedTopics = db.select({ id: grammarTopics.id }).from(grammarTopics)
-    .where(and(eq(grammarTopics.publicationState, "published"), area ? eq(grammarTopics.skillArea, area) : undefined));
+export async function getTopicMastery(userId: string) {
   const [topicsResult, exercisesResult, attemptsResult] = await Promise.allSettled([
-    timed("grammar.topics", () => listTopics(area)),
+    timed("grammar.topics", () => listTopics()),
     timed("grammar.exercises", () => db.select({ id: grammarExercises.id, topicId: grammarExercises.topicId })
       .from(grammarExercises)
-      .where(and(grammarVisibleTo(userId), inArray(grammarExercises.topicId, selectedTopics)))),
+      .where(grammarVisibleTo(userId))),
     timed("grammar.attempts", () => db
       .select({
         exerciseId: grammarAttempts.exerciseId,
@@ -72,7 +70,7 @@ export async function getTopicMastery(userId: string, area?: "writing" | "speaki
       })
       .from(grammarAttempts)
       .innerJoin(grammarExercises, eq(grammarExercises.id, grammarAttempts.exerciseId))
-      .where(and(eq(grammarAttempts.userId, userId), grammarVisibleTo(userId), inArray(grammarExercises.topicId, selectedTopics)))),
+      .where(and(eq(grammarAttempts.userId, userId), grammarVisibleTo(userId)))),
   ]);
 
   // Topic/exercise data defines the usable Grammar catalogue; preserve a local
@@ -84,25 +82,22 @@ export async function getTopicMastery(userId: string, area?: "writing" | "speaki
   const exercises = exercisesResult.value;
   const attempts = attemptsResult.status === "fulfilled" ? attemptsResult.value : [];
   const exercisesByTopic = new Map<string, string[]>();
-  const topicByExercise = new Map<string, string>();
   for (const exercise of exercises) {
-    topicByExercise.set(exercise.id, exercise.topicId);
     const list = exercisesByTopic.get(exercise.topicId) ?? [];
     list.push(exercise.id);
     exercisesByTopic.set(exercise.topicId, list);
   }
-  const attemptsByTopic = new Map<string, AttemptRow[]>();
-  for (const attempt of attempts) {
-    const topicId = topicByExercise.get(attempt.exerciseId);
-    if (!topicId) continue;
-    const rows = attemptsByTopic.get(topicId) ?? [];
-    rows.push({ ...attempt, activity: attempt.activity as GrammarActivity });
-    attemptsByTopic.set(topicId, rows);
-  }
 
   return topics.map((topic) => {
     const ids = new Set(exercisesByTopic.get(topic.id) ?? []);
-    const rows = attemptsByTopic.get(topic.id) ?? [];
+    const rows: AttemptRow[] = attempts
+      .filter((attempt) => ids.has(attempt.exerciseId))
+      .map((attempt) => ({
+        exerciseId: attempt.exerciseId,
+        activity: attempt.activity as GrammarActivity,
+        isCorrect: attempt.isCorrect,
+        attemptedAt: attempt.attemptedAt,
+      }));
 
     return {
       topic,

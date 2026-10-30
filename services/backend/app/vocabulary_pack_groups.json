@@ -1,0 +1,438 @@
+{
+  "health": [
+    {
+      "label": "Everyday symptoms",
+      "start": 0,
+      "end": 15
+    },
+    {
+      "label": "Describing discomfort",
+      "start": 15,
+      "end": 30
+    },
+    {
+      "label": "Healthcare essentials",
+      "start": 30,
+      "end": 45
+    },
+    {
+      "label": "Common illnesses and injuries",
+      "start": 45,
+      "end": 60
+    },
+    {
+      "label": "Treatment and recovery",
+      "start": 60,
+      "end": 75
+    },
+    {
+      "label": "Healthy eating",
+      "start": 75,
+      "end": 90
+    },
+    {
+      "label": "Exercise and lifestyle",
+      "start": 90,
+      "end": 105
+    },
+    {
+      "label": "Health and prevention phrases",
+      "start": 105,
+      "end": 120
+    },
+    {
+      "label": "Healthcare services",
+      "start": 120,
+      "end": 135
+    },
+    {
+      "label": "Medical technology",
+      "start": 135,
+      "end": 150
+    },
+    {
+      "label": "Precise medical language",
+      "start": 150,
+      "end": 165
+    },
+    {
+      "label": "Medical specialists",
+      "start": 165,
+      "end": 180
+    },
+    {
+      "label": "Illness idioms",
+      "start": 180,
+      "end": 195
+    },
+    {
+      "label": "Nuanced descriptions",
+      "start": 195,
+      "end": 210
+    },
+    {
+      "label": "Systems, research and health trends",
+      "start": 210,
+      "end": 225
+    }
+  ],
+  "work": [
+    {
+      "label": "People at work",
+      "start": 0,
+      "end": 15
+    },
+    {
+      "label": "People at work",
+      "start": 15,
+      "end": 30
+    },
+    {
+      "label": "Trades and professions",
+      "start": 30,
+      "end": 45
+    },
+    {
+      "label": "Industries and sectors",
+      "start": 45,
+      "end": 60
+    },
+    {
+      "label": "Applications",
+      "start": 60,
+      "end": 75
+    },
+    {
+      "label": "Applications",
+      "start": 75,
+      "end": 90
+    },
+    {
+      "label": "Interviews",
+      "start": 90,
+      "end": 105
+    },
+    {
+      "label": "Skills and development",
+      "start": 105,
+      "end": 120
+    },
+    {
+      "label": "Skills and development",
+      "start": 120,
+      "end": 135
+    },
+    {
+      "label": "Hours and arrangements",
+      "start": 135,
+      "end": 150
+    },
+    {
+      "label": "Pay and benefits",
+      "start": 150,
+      "end": 165
+    },
+    {
+      "label": "Pay and benefits",
+      "start": 165,
+      "end": 180
+    },
+    {
+      "label": "Leave and employment changes",
+      "start": 180,
+      "end": 195
+    },
+    {
+      "label": "Workload and conditions",
+      "start": 195,
+      "end": 210
+    },
+    {
+      "label": "Career progress",
+      "start": 210,
+      "end": 225
+    },
+    {
+      "label": "Workplace relationships",
+      "start": 225,
+      "end": 240
+    },
+    {
+      "label": "Sales and customers",
+      "start": 240,
+      "end": 255
+    },
+    {
+      "label": "Sales and customers",
+      "start": 255,
+      "end": 270
+    },
+    {
+      "label": "Business and negotiation",
+      "start": 270,
+      "end": 285
+    },
+    {
+      "label": "Advanced workplace phrases",
+      "start": 285,
+      "end": 300
+    },
+    {
+      "label": "Business idioms and distinctions",
+      "start": 300,
+      "end": 308
+    }
+  ],
+  "technology": [
+    {
+      "label": "Devices and hardware",
+      "start": 0,
+      "end": 15
+    },
+    {
+      "label": "Devices and hardware",
+      "start": 15,
+      "end": 30
+    },
+    {
+      "label": "Programs and digital information",
+      "start": 30,
+      "end": 45
+    },
+    {
+      "label": "Programs and digital information",
+      "start": 45,
+      "end": 60
+    },
+    {
+      "label": "Using computers",
+      "start": 60,
+      "end": 75
+    },
+    {
+      "label": "Internet access and websites",
+      "start": 75,
+      "end": 90
+    },
+    {
+      "label": "Internet access and websites",
+      "start": 90,
+      "end": 105
+    },
+    {
+      "label": "Online communication",
+      "start": 105,
+      "end": 120
+    },
+    {
+      "label": "Social media actions",
+      "start": 120,
+      "end": 135
+    },
+    {
+      "label": "Online privacy",
+      "start": 135,
+      "end": 150
+    },
+    {
+      "label": "Digital systems and design",
+      "start": 150,
+      "end": 165
+    },
+    {
+      "label": "Digital systems and design",
+      "start": 165,
+      "end": 180
+    },
+    {
+      "label": "Scientific research and biotechnology",
+      "start": 180,
+      "end": 195
+    },
+    {
+      "label": "Scientific and technical actions",
+      "start": 195,
+      "end": 210
+    },
+    {
+      "label": "Industry and production",
+      "start": 210,
+      "end": 225
+    },
+    {
+      "label": "Industry and production",
+      "start": 225,
+      "end": 240
+    },
+    {
+      "label": "Future technology and its impact",
+      "start": 240,
+      "end": 255
+    },
+    {
+      "label": "Future technology and its impact",
+      "start": 255,
+      "end": 266
+    }
+  ],
+  "shopping": [
+    {
+      "label": "Shopping actions",
+      "start": 0,
+      "end": 15
+    },
+    {
+      "label": "People and service",
+      "start": 15,
+      "end": 30
+    },
+    {
+      "label": "Shops and specialist retailers",
+      "start": 30,
+      "end": 45
+    },
+    {
+      "label": "Payments and purchase records",
+      "start": 45,
+      "end": 60
+    },
+    {
+      "label": "Prices and value",
+      "start": 60,
+      "end": 75
+    },
+    {
+      "label": "Brands, consumption and idioms",
+      "start": 75,
+      "end": 90
+    },
+    {
+      "label": "Brands, consumption and idioms",
+      "start": 90,
+      "end": 97
+    }
+  ],
+  "sports": [
+    {
+      "label": "Play, do and go",
+      "start": 0,
+      "end": 15
+    },
+    {
+      "label": "Play, do and go",
+      "start": 15,
+      "end": 30
+    },
+    {
+      "label": "Games, results and progress",
+      "start": 30,
+      "end": 45
+    },
+    {
+      "label": "Games, results and progress",
+      "start": 45,
+      "end": 60
+    },
+    {
+      "label": "People and achievements",
+      "start": 60,
+      "end": 75
+    },
+    {
+      "label": "Sports and athletics events",
+      "start": 75,
+      "end": 90
+    },
+    {
+      "label": "Equipment and facilities",
+      "start": 90,
+      "end": 105
+    },
+    {
+      "label": "Performance, records and setbacks",
+      "start": 105,
+      "end": 120
+    },
+    {
+      "label": "Performance, records and setbacks",
+      "start": 120,
+      "end": 125
+    }
+  ],
+  "food": [
+    {
+      "label": "FOOD, ENERGY & NUTRITION",
+      "start": 0,
+      "end": 25
+    },
+    {
+      "label": "FOOD SAFETY",
+      "start": 25,
+      "end": 45
+    },
+    {
+      "label": "FOOD LABELLING",
+      "start": 45,
+      "end": 65
+    },
+    {
+      "label": "ORGANIC FOOD",
+      "start": 65,
+      "end": 93
+    },
+    {
+      "label": "FOOD PROCESSING & FLAVOUR",
+      "start": 93,
+      "end": 144
+    }
+  ],
+  "fashion": [
+    {
+      "label": "KIYIM VA AKSESSUARLAR / Clothes and accessories",
+      "start": 0,
+      "end": 34
+    },
+    {
+      "label": "KIYINISH VA XARID / Wearing clothes and shopping",
+      "start": 34,
+      "end": 68
+    },
+    {
+      "label": "USLUB VA MODA YO‘NALISHLARI / Style and fashion trends",
+      "start": 68,
+      "end": 108
+    },
+    {
+      "label": "BUYUMLARNI SAQLASH, FOYDALANISH VA CHIQARISH / Keeping, using and disposing of goods",
+      "start": 108,
+      "end": 127
+    },
+    {
+      "label": "ISTE’MOLCHILIK, SARF-XARAJAT VA BRENDING / Consumerism, spending and branding",
+      "start": 127,
+      "end": 152
+    }
+  ],
+  "housing": [
+    {
+      "label": "Houses & the backyard",
+      "start": 0,
+      "end": 49
+    },
+    {
+      "label": "The living room",
+      "start": 49,
+      "end": 88
+    },
+    {
+      "label": "The dining room",
+      "start": 88,
+      "end": 129
+    },
+    {
+      "label": "The kitchen",
+      "start": 129,
+      "end": 181
+    }
+  ]
+}

@@ -1,5 +1,4 @@
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
 import { cookiePolicyForRequest, serializeCookieClear, type RequestLike } from "./cookie-policy";
 import { isRole, type Role } from "./roles";
 
@@ -24,14 +23,6 @@ export type SessionPayload = {
   name: string;
   locale: string;
   onboarded: boolean;
-  authVersion?: number;
-};
-
-export type VerifiedSessionPayload = SessionPayload & {
-  authVersion: number;
-  expiresAt: number;
-  /** Opaque digest, never the token or a signing secret. */
-  sessionKey: string;
 };
 
 function secretKey() {
@@ -45,30 +36,22 @@ function secretKey() {
 }
 
 export async function createSessionToken(payload: SessionPayload): Promise<string> {
-  const authVersion = payload.authVersion ?? 0;
-  if (!Number.isSafeInteger(authVersion) || authVersion < 0) throw new Error("invalid_auth_version");
-  return new SignJWT({ ...payload, authVersion })
+  return new SignJWT({ ...payload })
     .setProtectedHeader({ alg: "HS256" })
-    .setJti(crypto.randomUUID())
     .setIssuedAt()
     .setExpirationTime(`${SESSION_TTL_SECONDS}s`)
     .sign(secretKey());
 }
 
-export async function verifySessionToken(token: string): Promise<VerifiedSessionPayload | null> {
+export async function verifySessionToken(token: string): Promise<SessionPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, secretKey(), { algorithms: ["HS256"] });
-    // Existing issued cookies predate epochs; they remain valid only while the
-    // authoritative row is still at zero. Any subsequent revocation is final.
-    const authVersion = payload.authVersion ?? 0;
+    const { payload } = await jwtVerify(token, secretKey());
     if (
       typeof payload.sub === "string" &&
       isRole(payload.role) &&
       typeof payload.name === "string" &&
       typeof payload.locale === "string" &&
-      typeof payload.onboarded === "boolean" &&
-      Number.isSafeInteger(authVersion) && Number(authVersion) >= 0 &&
-      typeof payload.exp === "number" && Number.isSafeInteger(payload.exp)
+      typeof payload.onboarded === "boolean"
     ) {
       return {
         sub: payload.sub,
@@ -76,22 +59,12 @@ export async function verifySessionToken(token: string): Promise<VerifiedSession
         name: payload.name,
         locale: payload.locale,
         onboarded: payload.onboarded,
-        authVersion: Number(authVersion),
-        expiresAt: payload.exp,
-        sessionKey: Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token))), (byte) => byte.toString(16).padStart(2, "0")).join(""),
       };
     }
     return null;
   } catch {
     return null;
   }
-}
-
-/** Read + verify the session cookie. Safe to call from Server Components. */
-export async function getSession(): Promise<VerifiedSessionPayload | null> {
-  const token = (await cookies()).get(SESSION_COOKIE)?.value;
-  if (!token) return null;
-  return verifySessionToken(token);
 }
 
 /**

@@ -29,7 +29,9 @@ def message_with_contact(sender_id=12345, contact_user_id=12345, phone="99890123
 async def test_start_requests_native_contact_immediately():
     message = message_with_contact()
     state = AsyncMock()
-    await cmd_start(message, CommandObject(command="start", args=None), state=state)
+    with patch("handlers.auth.api_client") as api:
+        api.auth_context = AsyncMock(return_value=(200, {"ok": True}))
+        await cmd_start(message, CommandObject(command="start", args=None), state=state)
     state.set_state.assert_awaited_once()
     keyboard = message.answer.await_args.kwargs["reply_markup"]
     assert keyboard.keyboard[0][0].request_contact is True
@@ -43,7 +45,9 @@ async def test_only_own_native_contact_persists():
     state.get_data.return_value = {}
     with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
         api.save_verified_phone = AsyncMock(return_value=True)
+        api.preflight_intent = AsyncMock(return_value=(200, {"ok": True}))
         await receive_own_contact(message, state=state)
+        api.preflight_intent.assert_awaited_once_with("", "100")
         api.save_verified_phone.assert_awaited_once_with("100", "100", "998901234567")
         home.assert_awaited_once()
 
@@ -73,9 +77,11 @@ async def test_web_login_intent_waits_for_contact():
     message = message_with_contact()
     state = AsyncMock()
     with patch("handlers.auth.api_client") as api:
+        api.auth_context = AsyncMock(return_value=(200, {"ok": True}))
         await cmd_start(message, CommandObject(command="start", args="safe-deeplink"), state=state)
         api.confirm_intent.assert_not_called()
-        state.update_data.assert_awaited_once_with(pending_token="safe-deeplink")
+        api.auth_context.assert_awaited_once_with("12345", "safe-deeplink")
+        state.update_data.assert_not_awaited()
 
 
 def test_only_primary_owner_can_manage_channels():
@@ -83,3 +89,102 @@ def test_only_primary_owner_can_manage_channels():
     assert _is_owner({"isPrimaryOwner": False, "permissions": ["BOT_SETTINGS"]}) is False
     assert _is_owner({"isPrimaryOwner": False, "permissions": ["VIEW_USERS"]}) is False
     assert _is_owner(None) is False
+
+
+@pytest.mark.asyncio
+async def test_registration_missing_channel_retains_intent_and_shows_join_retry():
+    message = message_with_contact()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": "token-private"}
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.save_verified_phone = AsyncMock(return_value=True)
+        api.preflight_intent = AsyncMock(return_value=(403, {
+            "error": "not_subscribed",
+            "requiredChannels": [{"id": "-1001234567890", "title": "English Club", "url": "https://t.me/englishclub"}],
+        }))
+        await receive_own_contact(message, state=state)
+        api.confirm_intent.assert_not_called()
+        state.clear.assert_not_awaited()
+        home.assert_not_awaited()
+        markup = message.answer.await_args.kwargs["reply_markup"]
+        assert markup.inline_keyboard[0][0].url == "https://t.me/englishclub"
+        assert markup.inline_keyboard[-1][0].callback_data == "auth:retry_channels"
+        assert [row[0].text for row in markup.inline_keyboard] == ["Obuna bo'lish", "Tekshirish"]
+
+
+@pytest.mark.asyncio
+async def test_retry_after_join_confirms_and_clears_token():
+    from handlers.auth import retry_required_channels
+    callback = MagicMock()
+    callback.from_user = User(id=12345, is_bot=False, first_name="Test", language_code="uz")
+    callback.message = message_with_contact()
+    callback.answer = AsyncMock()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": "token-private"}
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.preflight_intent = AsyncMock(return_value=(200, {"ok": True}))
+        api.confirm_intent = AsyncMock(return_value=True)
+        await retry_required_channels(callback, state)
+        api.confirm_intent.assert_awaited_once()
+        state.clear.assert_awaited_once()
+        home.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_expired_intent_clears_pending_token():
+    from handlers.auth import _complete_pending_intent
+    message = message_with_contact()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": "expired"}
+    with patch("handlers.auth.api_client") as api:
+        api.preflight_intent = AsyncMock(return_value=(404, {"error": "intent_invalid"}))
+        assert not await _complete_pending_intent(message, state, "12345", "Test User", "uz")
+        api.confirm_intent.assert_not_called()
+        state.clear.assert_awaited_once()
+
+
+def test_only_telegram_channel_join_links_allowed():
+    from handlers.auth import _channel_keyboard
+    markup = _channel_keyboard("uz", [
+        {"title": "Bad link", "url": "https://evil.example/join"},
+        {"title": "Good", "url": "https://t.me/joinchat/test_code"},
+    ])
+    assert len(markup.inline_keyboard) == 2
+    assert markup.inline_keyboard[0][0].url == "https://t.me/joinchat/test_code"
+
+
+
+@pytest.mark.asyncio
+async def test_direct_bot_start_also_blocks_home_until_membership_passes():
+    message = message_with_contact()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": ""}
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.save_verified_phone = AsyncMock(return_value=True)
+        api.preflight_intent = AsyncMock(return_value=(403, {"error": "not_subscribed", "requiredChannels": [{"title": "Club", "url": "https://t.me/learners_area"}]}))
+        await receive_own_contact(message, state=state)
+        home.assert_not_awaited()
+        api.confirm_intent.assert_not_called()
+        state.clear.assert_not_awaited()
+        assert message.answer.await_args.kwargs["reply_markup"].inline_keyboard[0][0].url == "https://t.me/learners_area"
+
+
+@pytest.mark.asyncio
+async def test_retry_without_join_keeps_join_and_check_buttons_and_does_not_confirm():
+    from handlers.auth import retry_required_channels
+    callback = MagicMock()
+    callback.from_user = User(id=12345, is_bot=False, first_name="Test", language_code="uz")
+    callback.message = message_with_contact()
+    callback.answer = AsyncMock()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": "token-private"}
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.preflight_intent = AsyncMock(return_value=(403, {"error": "not_subscribed", "requiredChannels": [{"title": "Club", "url": "https://t.me/learners_area"}]}))
+        await retry_required_channels(callback, state)
+        assert "Hali obuna" in callback.message.answer.await_args.args[0]
+        rows = callback.message.answer.await_args.kwargs["reply_markup"].inline_keyboard
+        assert rows[0][0].url == "https://t.me/learners_area"
+        assert rows[-1][0].callback_data == "auth:retry_channels"
+        api.confirm_intent.assert_not_called()
+        state.clear.assert_not_awaited()
+        home.assert_not_awaited()

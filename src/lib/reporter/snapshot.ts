@@ -12,9 +12,10 @@ export const REPORT_SCHEMA_VERSION = "riwi-report/1";
 
 export type ReportScope =
   | { kind: "owner" }
-  /** teacherId null = all-students cohort (owner/admin); a uuid = that teacher's explicit roster. */
+  /** teacherId null = all-students cohort (owner); a uuid = that teacher's explicit roster. */
   | { kind: "teacher"; teacherId: string | null }
-  | { kind: "student"; subjectId: string; subjectName: string };
+  | { kind: "student"; subjectId: string; subjectName: string }
+  | { kind: "operations" };
 
 export type MetricUnit = "count" | "ratio" | "band" | "score";
 export type MetricSection = "learning" | "results" | "people" | "operations";
@@ -56,7 +57,7 @@ type Spec = {
 };
 
 // The learner population of a scope. The owner scope and the all-students cohort
-// (owner/admin) cover every student account; a teacher's scope covers ONLY the
+// (owner only) cover every student account; a teacher's scope covers ONLY the
 // students explicitly linked to them in teacher_student_links (0035), as of
 // generation time; the student scope covers exactly one account.
 const COHORT = "user_id in (select id from users where role = 'student')";
@@ -113,6 +114,9 @@ const OWNER_SPECS: Spec[] = [
     sql: "select count(*)::int as v from users where role in ('teacher', 'admin', 'owner') and account_status = 'active' and created_at < :to" },
   { key: "people.pending", section: "people", unit: "count", basis: "as_of_end", label: { en: "Accounts awaiting approval (current status)", uz: "Tasdiq kutayotgan hisoblar (joriy holat)" },
     sql: "select count(*)::int as v from users where account_status = 'pending' and created_at < :to" },
+ ];
+
+const OPERATIONS_SPECS: Spec[] = [
   { key: "operations.problemReports", section: "operations", unit: "count", label: { en: "Problem reports received", uz: "Qabul qilingan muammo xabarlari" },
     sql: "select count(*)::int as v from problem_reports where created_at >= :from and created_at < :to" },
   { key: "operations.checksExternal", section: "operations", unit: "count", label: { en: "Checks by an external AI provider", uz: "Tashqi AI provayderi tekshiruvlari" },
@@ -124,6 +128,7 @@ const OWNER_SPECS: Spec[] = [
 ];
 
 export function specsFor(scope: ReportScope): Array<Spec & { compiledText: string }> {
+  if (scope.kind === "operations") return OPERATIONS_SPECS.map((s) => ({ ...s, compiledText: s.sql }));
   const roster = scope.kind === "teacher" && scope.teacherId !== null;
   const learners = scope.kind === "student" ? SELF : roster ? ROSTER : COHORT;
   const learnerSpecs = LEARNER_SPECS.map((s) => ({ ...s, compiledText: s.sql.replaceAll("{{LEARNERS}}", learners) }));
@@ -131,7 +136,7 @@ export function specsFor(scope: ReportScope): Array<Spec & { compiledText: strin
   if (roster) return [...ROSTER_SPECS.map((s) => ({ ...s, compiledText: s.sql })), ...learnerSpecs];
   const cohort = COHORT_SPECS.map((s) => ({ ...s, compiledText: s.sql }));
   if (scope.kind === "teacher") return [...cohort, ...learnerSpecs];
-  return [...cohort, ...OWNER_SPECS.map((s) => ({ ...s, compiledText: s.sql })), ...learnerSpecs];
+  return [...cohort, ...OWNER_SPECS.map((s) => ({ ...s, compiledText: s.sql })), ...OPERATIONS_SPECS.map((s) => ({ ...s, compiledText: s.sql })), ...learnerSpecs];
 }
 
 /** Binds :from/:to/:subject/:teacher as real parameters; the remaining text is used verbatim. */
@@ -156,7 +161,9 @@ export function compileMetricSql(text: string, params: { from: Date; to: Date; s
 type Executor = { execute: (query: SQL) => Promise<unknown> };
 
 export function scopeLabel(scope: ReportScope): string {
-  return scope.kind === "student" ? `student:${scope.subjectId}` : scope.kind === "teacher" ? (scope.teacherId ? `teacher:${scope.teacherId}:assigned` : "teacher:all-students") : "owner:centre";
+  if (scope.kind === "student") return `student:${scope.subjectId}`;
+  if (scope.kind === "teacher") return scope.teacherId ? `teacher:${scope.teacherId}:assigned` : "teacher:all-students";
+  return scope.kind === "operations" ? "operations:centre" : "owner:centre";
 }
 
 export async function buildReportSnapshot(
@@ -224,6 +231,10 @@ function deterministicNarrative(snapshot: ReportSnapshot): ReportSnapshot["narra
   line("writing.submitted", (v) => `${v} Writing essay(s) were submitted.`, (v) => `${v} ta Writing inshosi topshirildi.`);
   line("speaking.submitted", (v) => `${v} Speaking recording(s) were submitted.`, (v) => `${v} ta Speaking yozuvi topshirildi.`);
   line("retention.completed", (v) => `${v} Retention text(s) were completed.`, (v) => `${v} ta Retention matni yakunlandi.`);
+  if (snapshot.scope.kind === "operations") {
+    en.push("This report contains centre-operation aggregates only; it does not include learner-level academic records.");
+    uz.push("Bu hisobotda faqat markaz operatsiyalarining jamlanma ko'rsatkichlari bor; talaba darajasidagi o'quv yozuvlari kiritilmagan.");
+  }
   if (en.length === 0) {
     en.push("No recorded activity in this period.");
     uz.push("Bu davrda qayd etilgan faollik yo'q.");

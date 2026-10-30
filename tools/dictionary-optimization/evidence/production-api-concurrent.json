@@ -1,0 +1,214 @@
+{
+  "scope": "Railway edge totalDuration, milliseconds; browser last-mile excluded",
+  "samples": [
+    {
+      "timestamp": "2026-10-26T19:47:51.448963318Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 71,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:51.452800718Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 86,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:52.005314142Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 80,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:52.033264625Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 100,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:52.576039737Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 104,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:52.576323872Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 105,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:53.087724372Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 96,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:53.105486997Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 107,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:53.570006096Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 76,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:54.102226901Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 77,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:54.582091473Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 91,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:54.623700735Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 133,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:55.030514575Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 28,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:55.081825169Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 90,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:55.537365608Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 67,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:55.555968953Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 79,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:56.016858199Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 88,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:56.017703773Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 94,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:56.498184851Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 86,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:56.523909790Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 115,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:56.991899744Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 90,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:57.006779833Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 105,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:57.468441050Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 65,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:57.514284201Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 111,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:58.069808548Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 76,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:58.130744986Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 142,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:58.525368542Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 23,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:47:58.748218270Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 247,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    }
+  ],
+  "summary": {
+    "requests": 28,
+    "p50Ms": 90,
+    "p95Ms": 142,
+    "p99Ms": 247,
+    "errors": 0,
+    "http5xx": 0,
+    "errorRate": 0
+  },
+  "runtimeCommit": "4c3a3f632b962361d322636304a046a4add94f2e",
+  "stage": "current_baseline_after_correctness_fix",
+  "notPairedBeforeAfter": true,
+  "cohortAssignment": "Time window and exact observed request count match the browser cohort; raw request identifiers/IPs omitted."
+}

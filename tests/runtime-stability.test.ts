@@ -7,7 +7,6 @@ import {
   PrivateReadError,
   setPrivateResourceDiagnostics,
 } from "../src/lib/client/private-resource";
-import { eligibleIntentTarget } from "../src/lib/interaction/intent-prefetch";
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -217,13 +216,8 @@ test("vocabulary mutations invalidate only vocabulary resources, never a global 
 });
 
 test("Retention links never prefetch and the hub reads run concurrently without allocation", () => {
-  assert.match(read("src/lib/nav/module-sections.ts"), /href: `\/app\/reading\/\$\{key\}`/);
-  assert.match(read("src/components/navigation/ModuleSectionNav.tsx"), /<InstantLink key=\{link.key\} href=\{href\} scroll=\{false\} intentPrefetch/,
-    "tabs stay real, authorized links with no eager viewport fetch");
-  assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? false\}/,
-    "the shared link keeps automatic viewport prefetch disabled");
-  assert.equal(eligibleIntentTarget("/app/reading/retention", "https://learnersarea.uz", "https://learnersarea.uz/app/reading/general"), null,
-    "a Retention page may depend on a time-sensitive attempt and is NEVER warmed");
+  assert.match(read("src/components/navigation/ModuleNavigation.tsx"), /href: `\/app\/reading\/\$\{key\}`/);
+  assert.match(read("src/components/navigation/ModuleSectionNav.tsx"), /href=\{href\} scroll=\{false\} prefetch=\{false\}/);
   assert.match(read("src/app/app/(shell)/page.tsx"), /href="\/app\/reading\/retention" prefetch=\{false\}/);
   const page = read("src/app/app/(shell)/reading/retention/page.tsx");
   assert.match(page, /Promise\.all\(\[/);

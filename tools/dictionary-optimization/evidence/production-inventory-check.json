@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "scope": "captured_metadata_only",
+  "r2BytesVerified": false,
+  "channel": {
+    "name": "stable",
+    "updated_at": "2026-10-26T15:57:02.185233+00:00",
+    "active_release_id": "rel-v1-977bce7f8dab7e773955238e",
+    "previous_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+  },
+  "releases": [
+    {
+      "release": "rel-v1-977bce7f8dab7e773955238e",
+      "lexemes": 65056,
+      "shards": 256,
+      "indexObjects": 1655,
+      "routes": 93,
+      "logicalTerms": 1226256,
+      "manifestSha": "3e2f1638bc4127da5fb359093ea97aeacdeebdc2d4d293dc161e174be4ad845c",
+      "compressedBytes": 138084186
+    },
+    {
+      "release": "rel-v1-cfadf47e87701f627f3270ce",
+      "lexemes": 64938,
+      "shards": 256,
+      "indexObjects": 1652,
+      "routes": 93,
+      "logicalTerms": 1224846,
+      "manifestSha": "756134d493381bae1bbf66f3c910f3590da1ef0ad2a8b1b92fcede2229eedfdf",
+      "compressedBytes": 137259613
+    }
+  ]
+}

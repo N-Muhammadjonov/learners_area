@@ -110,8 +110,7 @@ test("EN5 the two paths are no longer distinguishable by an order of magnitude",
 });
 
 test("EN6 the login handler cannot silently go back to the leaking call", () => {
-  const route = readFileSync("src/lib/auth/password-sign-in.ts", "utf8");
-  assert.match(readFileSync("src/app/api/auth/login/route.ts", "utf8"), /return authenticatePassword\(req\)/);
+  const route = readFileSync("src/app/api/auth/login/route.ts", "utf8");
   // Behaviour is pinned by EN1–EN5; this pins the WIRING, so a future edit that swaps the
   // equalised call back for the raw one fails here rather than only in production timing.
   assert.ok(

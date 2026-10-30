@@ -132,6 +132,12 @@ async def _install_webhook(bot: Bot) -> None:
     )
 
 
+def webhook_handler(dispatcher: Dispatcher, bot: Bot) -> SimpleRequestHandler:
+    secret = config.WEBHOOK_SECRET.get_secret_value() if config.WEBHOOK_SECRET else None
+    return SimpleRequestHandler(dispatcher=dispatcher, bot=bot, secret_token=secret,
+                                handle_in_background=False)
+
+
 async def main() -> None:
     config.validate_startup()
     bot = Bot(token=config.TELEGRAM_BOT_TOKEN.get_secret_value(), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -160,8 +166,7 @@ async def main() -> None:
         app.router.add_get("/health", health)
         app.router.add_get("/ready", ready)
         if config.BOT_MODE == "webhook":
-            secret = config.WEBHOOK_SECRET.get_secret_value() if config.WEBHOOK_SECRET else None
-            SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=secret).register(app, path=config.WEBHOOK_PATH)
+            webhook_handler(dp, bot).register(app, path=config.WEBHOOK_PATH)
             setup_application(app, dp, bot=bot)
         runner = web.AppRunner(app)
         await runner.setup()

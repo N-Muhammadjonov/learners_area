@@ -4,17 +4,6 @@ import { countWords, gradeForType, questionType, resolveQuestionType } from "@/l
 export function readingQuestionType(code:string) {
   return questionType(code,"reading") ?? resolveQuestionType(code,"reading");
 }
-/** Legacy source labels can conflict with the choices actually authored in HTML. */
-export function readingQuestionDescriptor(q:{type:string;typeCode?:string|null;answerConstraint?:Record<string,unknown>|null}) {
-  const descriptor=readingQuestionType(q.typeCode??q.type);
-  if(descriptor?.answerModel.kind!=='ternary')return descriptor;
-  const authored=q.answerConstraint?.allowed_values;
-  if(!Array.isArray(authored)||authored.some(v=>typeof v!=='string'))return descriptor;
-  const values=[...new Set(authored.map(v=>String(v).trim().toUpperCase().replace(/\s+/g,'_')))].sort().join(',');
-  if(values==='NO,NOT_GIVEN,YES')return readingQuestionType('yes_no_not_given');
-  if(values==='FALSE,NOT_GIVEN,TRUE')return readingQuestionType('true_false_not_given');
-  return descriptor;
-}
 export function readingStorageType(code:string):"true_false_not_given"|"yes_no_not_given"|"multiple_choice"|"short_answer" {
   const descriptor=readingQuestionType(code);
   if(!descriptor) throw Error("unknown_reading_question_type");
@@ -30,7 +19,7 @@ export function readingOption(choice:string,index:number) {
 /** One registry grader, with Reading's exact authored selection/word constraints.
  * The extra-selection guard is Reading-local; frozen Listening rules are untouched. */
 export function gradeReadingQuestion(answer:string,q:{type:string;typeCode?:string|null;correctAnswer:string;acceptedAnswers?:string[];options?:string[]|null;answerConstraint?:Record<string,unknown>|null},sharedChoices:string[]=[]):boolean {
-  const descriptor=readingQuestionDescriptor(q);
+  const descriptor=readingQuestionType(q.typeCode??q.type);
   if(!descriptor)return false;
   const constraint=q.answerConstraint??{};
   const limit=constraint.max_words??constraint.maxWords;

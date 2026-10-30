@@ -4,24 +4,26 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "node scripts/build-dictionary-worker.mjs && next build",
-    "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
-    "typecheck": "tsc --noEmit",
+    "dev": "python3 scripts/serve.py --reload",
+    "build": "python3 scripts/build_native_assets.py",
+    "start": "python3 scripts/serve.py",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:seed": "node --conditions=react-server --env-file=.env --import tsx src/db/seed.ts",
-    "test": "node --conditions=react-server --import tsx --test tests/*.test.ts",
+    "db:seed": "TSX_TSCONFIG_PATH=tsconfig.tooling.json node --conditions=react-server --env-file=.env --import tsx src/db/seed.ts",
+    "test": "cd frontend/vanilla && node --test tests/*.test.mjs tests/staff-final30/*.test.mjs",
     "db:migrate": "drizzle-kit migrate",
-    "reading:import": "node --import tsx --env-file=.env scripts/import-reading-105.mjs",
-    "test:ui": "TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/*.test.tsx",
+    "reading:import": "TSX_TSCONFIG_PATH=tsconfig.tooling.json node --import tsx --env-file=.env scripts/import-reading-105.mjs",
     "qa:pg": "bash scripts/qa2-local-postgres.sh",
     "qa:gate": "bash scripts/qa-forensic-gate.sh",
-    "test:qa2": "node --conditions=react-server --import tsx --test --test-concurrency=1 tests/*.test.ts",
-    "build:dictionary-worker": "node scripts/build-dictionary-worker.mjs"
+    "backend:setup": "python3 -m venv services/backend/.venv && services/backend/.venv/bin/python -m pip install -r services/backend/requirements-dev.txt",
+    "backend:check": "python3 scripts/serve.py --check",
+    "backend:test": "cd services/backend && .venv/bin/python -m pytest",
+    "backend:test:postgres": "node --import tsx scripts/verify-fastapi-postgres.mjs",
+    "backend:test:main": "cd services/backend && .venv/bin/python -m pytest tests/test_public_seo.py tests/test_http_contracts.py tests/test_python_native_build.py tests/test_static_asset_performance.py",
+    "test:frontend": "cd frontend/vanilla && node --test tests/*.test.mjs tests/staff-final30/*.test.mjs",
+    "test:integration": "node --import tsx scripts/verify-vanilla-fastapi.mjs"
   },
-  "dependencies": {
+  "devDependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",
     "@aws-sdk/s3-request-presigner": "^3.1137.0",
     "@pdf-lib/fontkit": "^1.1.1",
@@ -30,37 +32,25 @@
     "fflate": "0.8.2",
     "jose": "5.9.6",
     "nanoid": "6.0.1",
-    "next": "^15.5.26",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "6.3.289",
     "pg": "8.13.1",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
     "sanitize-html": "^2.18.0",
     "server-only": "^0.0.1",
-    "zod": "3.23.8"
-  },
-  "devDependencies": {
+    "zod": "3.23.8",
     "@electric-sql/pglite": "^0.5.8",
     "@types/bcryptjs": "2.4.6",
     "@types/jsdom": "^30.0.0",
     "@types/node": "20.16.11",
     "@types/pg": "8.11.10",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
     "@types/sanitize-html": "^2.16.2",
     "autoprefixer": "10.4.20",
     "drizzle-kit": "^0.31.11",
     "eslint": "8.57.1",
-    "eslint-config-next": "^15.5.26",
     "jsdom": "^30.1.1",
     "postcss": "8.5.28",
     "tailwindcss": "3.4.14",
     "tsx": "^4.23.15",
-    "typescript": "5.6.3",
-    "esbuild": "0.25.12"
-  },
-  "engines": {
-    "node": "24.x"
+    "typescript": "5.6.3"
   }
 }

@@ -1,0 +1,24 @@
+{
+  "unit": "bytes",
+  "guardBytes": 500000000,
+  "before": {
+    "databaseBytes": 467643539,
+    "dictionaryEntries": 256986,
+    "activeEntries": 65056,
+    "legacyTermRows": 1201156,
+    "legacyTermBytes": 282279936,
+    "legacyIndexBytes": 160636928,
+    "guardHeadroomBytes": 32356461
+  },
+  "after": {
+    "databaseBytes": 467676307,
+    "dictionaryEntries": 256986,
+    "activeEntries": 65056,
+    "legacyTermRows": 1201156,
+    "legacyTermBytes": 282279936,
+    "legacyIndexBytes": 160636928,
+    "guardHeadroomBytes": 32323693
+  },
+  "cleanupBytesReclaimed": 0,
+  "capacityNote": "Application 500,000,000-byte guard; not a measurement of WAL or physical disk quota"
+}

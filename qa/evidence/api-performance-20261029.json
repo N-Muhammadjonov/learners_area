@@ -1,0 +1,385 @@
+{
+  "stage": 7,
+  "name": "API and database query performance",
+  "status": "SOURCE_VERIFIED_RELEASE_AUTHORIZED",
+  "verified_at_utc": "2026-10-29T09:31:57.131604+00:00",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/api-performance-20261029",
+  "baseline": "e6d617fc1146f4f48f7e553e771a78f39229f1c5",
+  "integrated_main": "d3099fc365402e91481a3507232220335dced6a8",
+  "schema_changes": [],
+  "production_variable_changes": [],
+  "implementation": {
+    "writing": "Batch evaluation reads for grade/history/exam. Exam request keys remain user-scoped; existing 50-item grade limit, full history contract, DTOs and external/fallback filtering retained.",
+    "packs": "One published-pack query and one ordered word query across only selected packs. Empty and built-in pack behavior retained.",
+    "reports": "Trusted scalar metrics are bound into one SQL statement with one database snapshot. Existing scope/parameters/provenance/narrative remain unchanged. Bulk request sub-limit of four and DB query timeout remain active.",
+    "presence": "Skip a known fresh heartbeat before the INSERT conflict row lock. Existing ownership/type guards, 15-second coalescing, 90-second visit boundary and duration cap are retained. Presence is not study time.",
+    "other_audited_paths": "Session authority remains fresh and request-deduplicated; summaries already use aggregate SQL; staff rosters/actions remain bounded and permission-scoped; existing Reading/Listening/Vocabulary/notification pagination is preserved."
+  },
+  "index_decision": {
+    "new_indexes": 0,
+    "reason": "Production read-only index/statistics inspection and isolated plans did not justify another index for these changes. Existing grade user/idempotency, evaluation source and pack position indexes cover batch paths. 137 unindexed-FK INFO advisories are not an instruction to add 137 indexes."
+  },
+  "measurement_scope": "Disposable embedded PostgreSQL read-model/SQL comparison, not HTTP latency, live Supabase or learner capacity. 20 warmup plus 125 retained alternating before/after pairs per case. Before module source archived at the exact baseline SHA. All returned values match except generated reportId.",
+  "latency": {
+    "writing_grade": {
+      "before": {
+        "samples": 125,
+        "p50_ms": 22.31,
+        "p95_ms": 30.002,
+        "queries_per_call": [
+          52
+        ]
+      },
+      "after": {
+        "samples": 125,
+        "p50_ms": 4.073,
+        "p95_ms": 5.113,
+        "queries_per_call": [
+          3
+        ]
+      },
+      "p95_change_percent": -82.96,
+      "gate": "PASS"
+    },
+    "writing_history": {
+      "before": {
+        "samples": 125,
+        "p50_ms": 4.642,
+        "p95_ms": 5.3,
+        "queries_per_call": [
+          11
+        ]
+      },
+      "after": {
+        "samples": 125,
+        "p50_ms": 1.373,
+        "p95_ms": 1.75,
+        "queries_per_call": [
+          2
+        ]
+      },
+      "p95_change_percent": -66.98,
+      "gate": "PASS"
+    },
+    "vocabulary_packs": {
+      "before": {
+        "samples": 125,
+        "p50_ms": 4.473,
+        "p95_ms": 7.523,
+        "queries_per_call": [
+          13
+        ]
+      },
+      "after": {
+        "samples": 125,
+        "p50_ms": 0.897,
+        "p95_ms": 1.218,
+        "queries_per_call": [
+          2
+        ]
+      },
+      "p95_change_percent": -83.81,
+      "gate": "PASS"
+    },
+    "student_report": {
+      "before": {
+        "samples": 125,
+        "p50_ms": 4.247,
+        "p95_ms": 6.035,
+        "queries_per_call": [
+          15
+        ]
+      },
+      "after": {
+        "samples": 125,
+        "p50_ms": 1.196,
+        "p95_ms": 1.702,
+        "queries_per_call": [
+          1
+        ]
+      },
+      "p95_change_percent": -71.8,
+      "gate": "PASS"
+    }
+  },
+  "presence_plan": {
+    "fresh_conflicting_tuples": {
+      "before": 1,
+      "after": 0
+    },
+    "isolated_plans": {
+      "before": {
+        "Plan": {
+          "Node Type": "ModifyTable",
+          "Operation": "Insert",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "activity_events",
+          "Alias": "activity_events",
+          "Startup Cost": 0,
+          "Total Cost": 0.02,
+          "Plan Rows": 0,
+          "Plan Width": 0,
+          "Actual Startup Time": 0.039,
+          "Actual Total Time": 0.044,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Disabled": false,
+          "Conflict Resolution": "UPDATE",
+          "Conflict Arbiter Indexes": [
+            "activity_events_pkey"
+          ],
+          "Conflict Filter": "((activity_events.user_id = '11111111-1111-4111-8111-000000000001'::uuid) AND ((activity_events.type)::text = 'SITE_PRESENCE'::text) AND (activity_events.created_at <= (now() - '00:00:15'::interval)))",
+          "Rows Removed by Conflict Filter": 1,
+          "Tuples Inserted": 0,
+          "Conflicting Tuples": 1,
+          "Shared Hit Blocks": 3,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Result",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0,
+              "Total Cost": 0.02,
+              "Plan Rows": 1,
+              "Plan Width": 210,
+              "Actual Startup Time": 0.022,
+              "Actual Total Time": 0.024,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Disabled": false,
+              "Shared Hit Blocks": 0,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.053,
+        "Triggers": [],
+        "Execution Time": 0.117
+      },
+      "after": {
+        "Plan": {
+          "Node Type": "ModifyTable",
+          "Operation": "Insert",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Relation Name": "activity_events",
+          "Alias": "activity_events",
+          "Startup Cost": 8.17,
+          "Total Cost": 8.19,
+          "Plan Rows": 0,
+          "Plan Width": 0,
+          "Actual Startup Time": 0.007,
+          "Actual Total Time": 0.009,
+          "Actual Rows": 0,
+          "Actual Loops": 1,
+          "Disabled": false,
+          "Conflict Resolution": "UPDATE",
+          "Conflict Arbiter Indexes": [
+            "activity_events_pkey"
+          ],
+          "Conflict Filter": "((activity_events.user_id = '11111111-1111-4111-8111-000000000001'::uuid) AND ((activity_events.type)::text = 'SITE_PRESENCE'::text) AND (activity_events.created_at <= (now() - '00:00:15'::interval)))",
+          "Rows Removed by Conflict Filter": 0,
+          "Tuples Inserted": 0,
+          "Conflicting Tuples": 0,
+          "Shared Hit Blocks": 2,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Index Scan",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 1",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Scan Direction": "Forward",
+              "Index Name": "activity_events_pkey",
+              "Relation Name": "activity_events",
+              "Alias": "fresh",
+              "Startup Cost": 0.15,
+              "Total Cost": 8.17,
+              "Plan Rows": 1,
+              "Plan Width": 0,
+              "Actual Startup Time": 0.005,
+              "Actual Total Time": 0.005,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Disabled": false,
+              "Index Cond": "(id = '0fc02b92-ea48-f31e-8bcf-5d6d87e37d6f'::uuid)",
+              "Rows Removed by Index Recheck": 0,
+              "Filter": "(created_at > (now() - '00:00:15'::interval))",
+              "Rows Removed by Filter": 0,
+              "Index Searches": 1,
+              "Shared Hit Blocks": 2,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            },
+            {
+              "Node Type": "Result",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0,
+              "Total Cost": 0.02,
+              "Plan Rows": 1,
+              "Plan Width": 210,
+              "Actual Startup Time": 0.006,
+              "Actual Total Time": 0.006,
+              "Actual Rows": 0,
+              "Actual Loops": 1,
+              "Disabled": false,
+              "One-Time Filter": "(NOT (InitPlan 1).col1)",
+              "Shared Hit Blocks": 2,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.082,
+        "Triggers": [],
+        "Execution Time": 0.027
+      }
+    },
+    "presence_is_study_time": false
+  },
+  "read_model_checks": 1175,
+  "authorization_checks": [
+    "Foreign-user evaluation ID returns no value",
+    "Student peer report denied 404",
+    "Teacher unlinked report denied 404",
+    "Admin academic report denied 403",
+    "Teacher assigned learner allowed",
+    "Owner/teacher/student/operations report metric and provenance equality"
+  ],
+  "upstream_reconciliation": {
+    "baseline": "f92a597bff72e20417b35a9eaa8cf1344f250df5",
+    "backend_exact_failed_cases": {
+      "cases": 13,
+      "failed_on_main": 11,
+      "passed_on_main": 2,
+      "cause": "11 route-manifest mismatches caused by upstream DELETE /api/vocabulary. Two Retention tests depend on an import-time deadline of 45 seconds; they pass alone, and failed after a slow full collection/run."
+    },
+    "frontend_exact_files": {
+      "passed_on_main": 7,
+      "failed_on_main": 11,
+      "cause": "Old tests assume save before the new folder chooser confirmation and expect word feedback in the global status."
+    },
+    "repairs": "Declared existing route and updated exact route counts, retained all inventory equality checks. Refreshed per-test Retention clock. Exercised the actual Speaking chooser and confirmation while retaining duplicate-save, failure, abort, source, folder and hold assertions. Added four authenticated removal ownership/atomicity cases. No owner product code reverted."
+  },
+  "validation": {
+    "backend_pytest": {
+      "before": 3048,
+      "passed": 3058,
+      "failed": 0,
+      "new_cases": 10,
+      "warning": "One upstream Starlette anyio deprecation"
+    },
+    "npm_test": {
+      "passed": 1167,
+      "failed": 0,
+      "skipped": 11
+    },
+    "integration": {
+      "migrations": 71,
+      "typedTables": 127,
+      "httpChecks": 426,
+      "nativeDecoderChecks": 151,
+      "nativeDomChecks": 118,
+      "migrationReplayChecks": 8,
+      "database": "embedded PostgreSQL",
+      "result": "passed",
+      "failures": []
+    },
+    "native_build": {
+      "staticBuild": true,
+      "runtime": "Python FastAPI",
+      "files": 497,
+      "routes": 122,
+      "nodeRequired": false,
+      "revision": "ec125d1762d61cc24fcc",
+      "inputBytes": 15944561,
+      "transferBytes": 12936697,
+      "minifiedFiles": 175
+    },
+    "backend_check": "PASS",
+    "diff_check": "PASS",
+    "latest_upstream_css_checks": {
+      "passed": 61,
+      "failed": 0,
+      "scope": "Six affected theme/contrast/layout unit test files after the CSS-only d3099fc merge."
+    }
+  },
+  "manual_checks": "Delegated to the owner per explicit instruction; no additional browser/manual acceptance performed.",
+  "limitations": [
+    "Local measurements are not production speed or 200/500/1000-user capacity claims.",
+    "The unmerged student-learning checkpoint remains preserved separately; this task does not certify it."
+  ],
+  "reproduction": {
+    "prepare_baseline": "Archive services/backend/app from e6d617fc1146f4f48f7e553e771a78f39229f1c5 into ../task7-main-baseline (or set API_QUERY_BASELINE to its app directory).",
+    "probe": "BACKEND_PYTHON=<python> POSTGRES_PROBE=tests/query_batches_probe.py node --import tsx scripts/verify-fastapi-postgres.mjs"
+  }
+}

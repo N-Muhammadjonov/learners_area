@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { isRetentionError } from "@/lib/retention/errors";
 import { safeErrorLabel } from "@/lib/observability/errors";
 
@@ -17,30 +16,30 @@ export type RetentionErrorBody = {
 };
 
 /** Wraps a route body so no implementation detail can escape as JSON. */
-export async function retentionJson<T>(run: () => Promise<T>): Promise<NextResponse> {
+export async function retentionJson<T>(run: () => Promise<T>): Promise<Response> {
   try {
     const result = await run();
-    return NextResponse.json(result as Record<string, unknown>);
+    return Response.json(result as Record<string, unknown>);
   } catch (error) {
     if (isRetentionError(error)) {
-      return NextResponse.json({ error: error.code, details: error.details } satisfies RetentionErrorBody, {
+      return Response.json({ error: error.code, details: error.details } satisfies RetentionErrorBody, {
         status: error.status,
       });
     }
     // Anything else is a real fault: the log gets a class, the client gets a code.
     console.error(`[retention] route failed: ${safeErrorLabel(error)}`);
-    return NextResponse.json({ error: "retention_unavailable" } satisfies RetentionErrorBody, { status: 500 });
+    return Response.json({ error: "retention_unavailable" } satisfies RetentionErrorBody, { status: 500 });
   }
 }
 
-export function invalidJson(): NextResponse {
-  return NextResponse.json({ error: "retention_invalid_input" } satisfies RetentionErrorBody, { status: 400 });
+export function invalidJson(): Response {
+  return Response.json({ error: "retention_invalid_input" } satisfies RetentionErrorBody, { status: 400 });
 }
 
-export function forbidden(): NextResponse {
-  return NextResponse.json({ error: "retention_forbidden" } satisfies RetentionErrorBody, { status: 403 });
+export function forbidden(): Response {
+  return Response.json({ error: "retention_forbidden" } satisfies RetentionErrorBody, { status: 403 });
 }
 
-export function unauthenticated(): NextResponse {
-  return NextResponse.json({ error: "unauthenticated" } satisfies RetentionErrorBody, { status: 401 });
+export function unauthenticated(): Response {
+  return Response.json({ error: "unauthenticated" } satisfies RetentionErrorBody, { status: 401 });
 }

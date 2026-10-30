@@ -1,7 +1,5 @@
 import { mkdir, open, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
-import {createReadStream} from 'node:fs';
-import {Readable} from 'node:stream';
 import type { ObjectHead, ObjectKey, PresignedPut, PutInput, ReadResult, StorageService } from "./types";
 import { isSafeObjectKey } from "./types";
 
@@ -108,13 +106,6 @@ export class LocalDiskStorageProvider implements StorageService {
     } finally {
       await handle.close();
     }
-  }
-
-  async stream(key:ObjectKey,range?:{start:number;end:number}) {
-    const filePath=this.resolve(key);
-    try {if(!(await stat(filePath)).isFile())return null;}
-    catch(error){if((error as NodeJS.ErrnoException).code==='ENOENT')return null;throw error;}
-    return {body:Readable.toWeb(createReadStream(filePath,range)) as ReadableStream<Uint8Array>,contentType:inferContentType(key)};
   }
 
   async delete(key: ObjectKey): Promise<void> {

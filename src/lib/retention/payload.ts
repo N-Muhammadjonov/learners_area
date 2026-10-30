@@ -1,5 +1,4 @@
 import "server-only";
-import { retentionOccurrenceSpans } from "@/lib/services/lexical/retention-occurrences";
 import { countWords } from "@/lib/retention/word-count";
 import { RetentionError } from "@/lib/retention/errors";
 import { resolvePhase } from "@/lib/retention/phase";
@@ -85,8 +84,8 @@ export async function buildAttemptPayload(
   now: Date,
   connection: RetentionBankDatabase
 ): Promise<RetentionAttemptPayload> {
-  const labels = await labelsForTexts(attempt.retentionTextId ? [attempt.retentionTextId] : [], connection);
-  const label = attempt.retentionLabelSnapshot ?? (attempt.retentionTextId ? labels.get(attempt.retentionTextId)?.label : null) ?? "";
+  const labels = await labelsForTexts([attempt.retentionTextId], connection);
+  const label = labels.get(attempt.retentionTextId)?.label ?? "";
   const meta = metaOf(attempt, label);
   const serverNow = now.toISOString();
   const phase = resolvePhase(attempt, now);
@@ -103,7 +102,6 @@ export async function buildAttemptPayload(
       serverNow,
       wordCount: source.wordCount,
       bodyText: source.bodyText,
-      occurrences: attempt.retentionTextVersionId ? await retentionOccurrenceSpans(connection, attempt.retentionTextVersionId) : [],
     };
     return payload;
   }

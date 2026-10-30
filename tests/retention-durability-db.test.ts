@@ -62,10 +62,10 @@ test("W01: three full cycles consume every active text once per cycle and persis
       const attempt = await runSession(userId, "B1");
       assert.equal(attempt.rotationCycle, cycle, "assigned cycle");
       assert.equal(await stateCycle(userId, "B1"), cycle, "persisted state equals assigned cycle");
-      assert.ok(!seen.has(attempt.retentionTextId!), "no repeat inside a cycle");
+      assert.ok(!seen.has(attempt.retentionTextId), "no repeat inside a cycle");
       assert.notEqual(attempt.retentionTextId, last, "no immediate back-to-back repeat");
-      seen.add(attempt.retentionTextId!);
-      last = attempt.retentionTextId!;
+      seen.add(attempt.retentionTextId);
+      last = attempt.retentionTextId;
     }
     assert.equal(seen.size, 3);
   }

@@ -1,4 +1,4 @@
-import { and, asc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
 import { lexemes, vocabularyTopicPackWords, vocabularyTopicPacks } from "@/db/schema";
 import { pinVersion } from "@/lib/content/versions";
@@ -154,22 +154,6 @@ export async function saveTopicPack(
 
 /** A pack as a learner may see it: labels plus the canonical senses it contains. */
 export type LearnerPack = { id: string; slug: string; label: string; labelUz: string | null; words: PackWord[] };
-export type LearnerPackSummary = Omit<LearnerPack, "words"> & { wordCount: number };
-
-/** List labels/counts without reading the definitions/examples of every pack. */
-export async function listTopicPackSummariesForLearner(locale: "en" | "uz" = "en", executor: { select: typeof db.select } = db): Promise<LearnerPackSummary[]> {
-  const rows = await executor.select({
-    slug: vocabularyTopicPacks.slug,
-    labelEn: vocabularyTopicPacks.labelEn,
-    labelUz: vocabularyTopicPacks.labelUz,
-    wordCount: sql<number>`(select count(*)::integer from vocabulary_topic_pack_words w
-      inner join lexemes l on l.id=w.lexeme_id where w.pack_id=vocabulary_topic_packs.id)`,
-  }).from(vocabularyTopicPacks)
-    .where(eq(vocabularyTopicPacks.publicationState, "published"))
-    .orderBy(asc(vocabularyTopicPacks.position), asc(vocabularyTopicPacks.labelEn));
-  if (!rows.length) return builtInPacks(locale).map(({ words, ...pack }) => ({ ...pack, wordCount: words.length }));
-  return rows.map(pack => ({ id: pack.slug, slug: pack.slug, label: locale === "uz" ? pack.labelUz ?? pack.labelEn : pack.labelEn, labelUz: pack.labelUz, wordCount: Number(pack.wordCount) }));
-}
 
 export async function listTopicPacksForLearner(locale: "en" | "uz" = "en", executor: { select: typeof db.select } = db): Promise<LearnerPack[]> {
   const packs = await executor
@@ -217,21 +201,8 @@ export async function listTopicPacksForLearner(locale: "en" | "uz" = "en", execu
 
 /** Read one pack by its slug, falling back to the built-in packs by id. */
 export async function findTopicPackForLearner(slugOrId: string, executor: { select: typeof db.select } = db): Promise<LearnerPack | null> {
-  const [pack] = await executor.select({ id: vocabularyTopicPacks.id, slug: vocabularyTopicPacks.slug, labelEn: vocabularyTopicPacks.labelEn, labelUz: vocabularyTopicPacks.labelUz })
-    .from(vocabularyTopicPacks).where(and(eq(vocabularyTopicPacks.publicationState, "published"), eq(vocabularyTopicPacks.slug, slugOrId))).limit(1);
-  if (!pack) {
-    // Built-ins are a GLOBAL compatibility fallback, never mixed into an
-    // authored catalogue merely because the requested slug is missing.
-    const [live] = await executor.select({ id: vocabularyTopicPacks.id }).from(vocabularyTopicPacks)
-      .where(eq(vocabularyTopicPacks.publicationState, "published")).limit(1);
-    return live ? null : builtInPacks("en").find(entry => entry.id === slugOrId) ?? null;
-  }
-  const words = await executor.select({ term: lexemes.term, partOfSpeech: lexemes.partOfSpeech, definitionEn: lexemes.definitionEn, translationUz: lexemes.translationUz, exampleSentence: lexemes.exampleSentence, collocations: lexemes.collocations })
-    .from(vocabularyTopicPackWords).innerJoin(lexemes, eq(lexemes.id, vocabularyTopicPackWords.lexemeId))
-    .where(eq(vocabularyTopicPackWords.packId, pack.id)).orderBy(asc(vocabularyTopicPackWords.position));
-  return { id: pack.slug, slug: pack.slug, label: pack.labelEn, labelUz: pack.labelUz,
-    words: words.map(word => ({ term: word.term, partOfSpeech: word.partOfSpeech ?? "", definitionEn: word.definitionEn, translationUz: word.translationUz ?? "", example: word.exampleSentence ?? "", collocations: word.collocations ?? undefined })),
-  };
+  const packs = await listTopicPacksForLearner("en", executor);
+  return packs.find((pack) => pack.slug === slugOrId || pack.id === slugOrId) ?? null;
 }
 
 /** The built-in packs, in the shape the database returns. COMPATIBILITY ONLY. */

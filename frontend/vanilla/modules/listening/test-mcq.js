@@ -1,0 +1,3 @@
+import {h} from '../../js/native.js';import {testMcqDTO} from '../../js/adapters/listening-activity-v8.js';import {mcqMastery} from './mcq.js';
+/** Exact original focus-page composition; existing MCQ controller remains authoritative. */
+export function testMcq(context,input){const p=testMcqDTO(input,input.id),{dict}=context;return h('div',{className:'listening-workspace space-y-6'},h('a',{className:'btn-secondary',href:`/app/listening/tests/${p.id}`},dict.fullListeningHub.examStart.back),h('h1',{className:'font-display text-3xl'},p.title,' · ',dict.fullListeningHub.research.mcq),mcqMastery(context,{dict,audioUrl:p.audioUrl,questions:p.questions}));}

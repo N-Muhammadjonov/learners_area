@@ -1,0 +1,446 @@
+{
+  "baseline": {
+    "jobs": [
+      {
+        "id": "392432e0-332c-505d-b3b4-41ce5dc947d5",
+        "base": "rel-v1-cfadf47e87701f627f3270ce",
+        "error": null,
+        "phase": "complete",
+        "updated": "2026-10-26T15:57:02.185233+00:00",
+        "candidate": "rel-v1-977bce7f8dab7e773955238e"
+      }
+    ],
+    "time": "2026-10-26T16:13:55.485655+00:00",
+    "channels": [
+      {
+        "name": "stable",
+        "updated_at": "2026-10-26T15:57:02.185233+00:00",
+        "active_release_id": "rel-v1-977bce7f8dab7e773955238e",
+        "previous_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+      }
+    ],
+    "releases": [
+      {
+        "id": "rel-v1-a834010a6ccc72c8b3cd8db9",
+        "base": null,
+        "state": "validated",
+        "shards": 256,
+        "created": "2026-10-19T19:21:01.23832+00:00",
+        "lexemes": 62376,
+        "delivery": "legacy",
+        "validated": "2026-10-19T19:29:27.85487+00:00",
+        "searchTerms": 1201156
+      },
+      {
+        "id": "rel-v1-e7fa84dde5eec2f502957489",
+        "base": null,
+        "state": "validated",
+        "shards": 256,
+        "created": "2026-10-20T15:44:52.559917+00:00",
+        "lexemes": 64616,
+        "delivery": "r2-worker-v1",
+        "validated": "2026-10-20T16:11:29.895784+00:00",
+        "searchTerms": 1223003
+      },
+      {
+        "id": "rel-v1-cfadf47e87701f627f3270ce",
+        "base": null,
+        "state": "validated",
+        "shards": 256,
+        "created": "2026-10-25T22:36:21.028292+00:00",
+        "lexemes": 64938,
+        "delivery": "r2-worker-v1",
+        "validated": "2026-10-25T23:10:30.087101+00:00",
+        "searchTerms": 1224846
+      },
+      {
+        "id": "rel-v1-977bce7f8dab7e773955238e",
+        "base": "rel-v1-cfadf47e87701f627f3270ce",
+        "state": "validated",
+        "shards": 256,
+        "created": "2026-10-26T14:56:23.351384+00:00",
+        "lexemes": 65056,
+        "delivery": "r2-worker-v1",
+        "validated": "2026-10-26T15:57:02.185233+00:00",
+        "searchTerms": 1226256
+      }
+    ],
+    "relations": [
+      {
+        "name": "dictionary_releases",
+        "heapBytes": 8192,
+        "indexBytes": 16384,
+        "totalBytes": 1187840,
+        "lastAnalyze": null,
+        "deadEstimate": 4,
+        "liveEstimate": 4,
+        "lastAutoAnalyze": null
+      },
+      {
+        "name": "dictionary_channels",
+        "heapBytes": 8192,
+        "indexBytes": 16384,
+        "totalBytes": 32768,
+        "lastAnalyze": null,
+        "deadEstimate": 2,
+        "liveEstimate": 1,
+        "lastAutoAnalyze": null
+      },
+      {
+        "name": "dictionary_entries",
+        "heapBytes": 93954048,
+        "indexBytes": 46702592,
+        "totalBytes": 140730368,
+        "lastAnalyze": null,
+        "deadEstimate": 255,
+        "liveEstimate": 256510,
+        "lastAutoAnalyze": "2026-10-26T15:05:54.599994+00:00"
+      },
+      {
+        "name": "dictionary_search_terms",
+        "heapBytes": 121577472,
+        "indexBytes": 160636928,
+        "totalBytes": 282279936,
+        "lastAnalyze": null,
+        "deadEstimate": 0,
+        "liveEstimate": 1180914,
+        "lastAutoAnalyze": "2026-10-19T19:28:35.598229+00:00"
+      },
+      {
+        "name": "dictionary_sense_mappings",
+        "heapBytes": 393216,
+        "indexBytes": 278528,
+        "totalBytes": 712704,
+        "lastAnalyze": null,
+        "deadEstimate": 0,
+        "liveEstimate": 3851,
+        "lastAutoAnalyze": "2026-10-20T16:11:47.577844+00:00"
+      },
+      {
+        "name": "dictionary_recent_searches",
+        "heapBytes": 8192,
+        "indexBytes": 32768,
+        "totalBytes": 49152,
+        "lastAnalyze": null,
+        "deadEstimate": 20,
+        "liveEstimate": 2,
+        "lastAutoAnalyze": null
+      },
+      {
+        "name": "dictionary_drafts",
+        "heapBytes": 163840,
+        "indexBytes": 16384,
+        "totalBytes": 221184,
+        "lastAnalyze": null,
+        "deadEstimate": 0,
+        "liveEstimate": 118,
+        "lastAutoAnalyze": "2026-10-26T15:57:48.75189+00:00"
+      },
+      {
+        "name": "dictionary_owner_events",
+        "heapBytes": 139264,
+        "indexBytes": 16384,
+        "totalBytes": 188416,
+        "lastAnalyze": null,
+        "deadEstimate": 0,
+        "liveEstimate": 124,
+        "lastAutoAnalyze": "2026-10-26T14:22:46.956705+00:00"
+      },
+      {
+        "name": "dictionary_publish_jobs",
+        "heapBytes": 401408,
+        "indexBytes": 32768,
+        "totalBytes": 475136,
+        "lastAnalyze": null,
+        "deadEstimate": 23,
+        "liveEstimate": 1,
+        "lastAutoAnalyze": "2026-10-26T15:51:48.603807+00:00"
+      },
+      {
+        "name": "dictionary_r2_shards",
+        "heapBytes": 393216,
+        "indexBytes": 114688,
+        "totalBytes": 540672,
+        "lastAnalyze": null,
+        "deadEstimate": 0,
+        "liveEstimate": 1025,
+        "lastAutoAnalyze": "2026-10-26T15:18:47.991096+00:00"
+      },
+      {
+        "name": "dictionary_search_indexes",
+        "heapBytes": 8192,
+        "indexBytes": 16384,
+        "totalBytes": 1015808,
+        "lastAnalyze": null,
+        "deadEstimate": 0,
+        "liveEstimate": 3,
+        "lastAutoAnalyze": null
+      }
+    ],
+    "databaseBytes": 467504275
+  },
+  "termAudit": {
+    "terms": [
+      {
+        "terms": 65669,
+        "direction": "EN",
+        "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9"
+      },
+      {
+        "terms": 1135487,
+        "direction": "UZ",
+        "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9"
+      }
+    ],
+    "indexes": [
+      {
+        "name": "dictionary_search_terms_pkey",
+        "bytes": 111058944,
+        "scans": 1201156,
+        "tuplesRead": 0,
+        "tuplesFetched": 0
+      },
+      {
+        "name": "dictionary_terms_entry_idx",
+        "bytes": 12533760,
+        "scans": 15,
+        "tuplesRead": 11869033,
+        "tuplesFetched": 1377105
+      },
+      {
+        "name": "dictionary_search_prefix_idx",
+        "bytes": 37044224,
+        "scans": 23,
+        "tuplesRead": 2369610,
+        "tuplesFetched": 253436
+      }
+    ],
+    "triggers": [
+      {
+        "name": "dictionary_terms_immutable",
+        "table": "dictionary_search_terms",
+        "enabled": "O",
+        "function": "dictionary_immutable_release",
+        "definition": "CREATE TRIGGER dictionary_terms_immutable BEFORE INSERT OR DELETE OR UPDATE ON public.dictionary_search_terms FOR EACH ROW EXECUTE FUNCTION dictionary_immutable_release()",
+        "functionBody": "CREATE OR REPLACE FUNCTION public.dictionary_immutable_release()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nBEGIN\n IF EXISTS(SELECT 1 FROM dictionary_releases WHERE id IN (OLD.release_id,NEW.release_id)\n  AND (state='validated' OR (state='retired' AND TG_OP<>'DELETE')))\n THEN RAISE EXCEPTION 'immutable_dictionary_release'; END IF;\n RETURN CASE WHEN TG_OP='DELETE' THEN OLD ELSE NEW END;\nEND $function$\n"
+      }
+    ],
+    "statsReset": "2026-08-25T20:33:23.891825+00:00",
+    "constraints": [
+      {
+        "name": "dictionary_search_terms_direction_check",
+        "type": "c",
+        "table": "dictionary_search_terms",
+        "definition": "CHECK ((direction = ANY (ARRAY['EN'::text, 'UZ'::text])))",
+        "referenced": null
+      },
+      {
+        "name": "dictionary_search_terms_rank_check",
+        "type": "c",
+        "table": "dictionary_search_terms",
+        "definition": "CHECK (((rank >= 0) AND (rank <= 2)))",
+        "referenced": null
+      },
+      {
+        "name": "dictionary_search_terms_pkey",
+        "type": "p",
+        "table": "dictionary_search_terms",
+        "definition": "PRIMARY KEY (release_id, lexeme_id, direction, term)",
+        "referenced": null
+      },
+      {
+        "name": "dictionary_search_terms_release_id_lexeme_id_fkey",
+        "type": "f",
+        "table": "dictionary_search_terms",
+        "definition": "FOREIGN KEY (release_id, lexeme_id) REFERENCES dictionary_entries(release_id, lexeme_id)",
+        "referenced": "dictionary_entries"
+      }
+    ],
+    "databaseVersion": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit"
+  },
+  "dependencyAudit": {
+    "rls": [
+      {
+        "table": "dictionary_channels",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_drafts",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_entries",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_owner_events",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_publish_jobs",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_r2_shards",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_recent_searches",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_releases",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_search_indexes",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_search_terms",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_sense_mappings",
+        "forced": false,
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      }
+    ],
+    "drafts": [
+      {
+        "state": "published",
+        "records": 118,
+        "base_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+      }
+    ],
+    "pgStatements": [
+      {
+        "rows": 1201156,
+        "calls": 256,
+        "query": "insert into dictionary_search_terms select * from jsonb_to_recordset($1::jsonb) as x(release_id text,lexeme_id uuid,direction text,term text,rank integer) on conflict(release_id,lexeme_id,direction,term) do update set rank=least(dictionary_search_terms.rank,excluded.rank) where dictionary_search_terms.rank>excluded.rank",
+        "mean_exec_time": 284.179547386719
+      },
+      {
+        "rows": 8,
+        "calls": 8,
+        "query": "select count(*)::text as count from dictionary_search_terms where release_id=$1",
+        "mean_exec_time": 280.743108375
+      },
+      {
+        "rows": 111,
+        "calls": 7,
+        "query": "with hits as (select lexeme_id,min(case when term=$1 then rank else $9 end) as score\n from dictionary_search_terms where release_id=$2 and direction=$3 and term like $4 escape $10 group by lexeme_id), picked as (\n select e.lexeme_id,e.payload,e.search_preview,e.part_of_speech,h.score from hits h join dictionary_entries e on e.release_id=$5 and e.lexeme_id=h.lexeme_id\n order by h.score,e.lemma_norm,e.lexeme_id limit $11)\n select lexeme_id,coalesce(search_preview->>$12,payload->>$13) as display_lemma,part_of_speech,\n coalesce(case when $6=$14 then (select t->>$15 from jsonb_array_elements(search_preview->$16) t where t->>$17 like $7 escape $18 order by case when t->>$19=$8 then $20 else $21 end,t->>$22 limit $23) end,search_preview->>$24,payload#>>$25) as translation_uz,\n case score when $26 then $27 when $28 then $29 when $30 then $31 else $32 end as match_type from picked",
+        "mean_exec_time": 62.9041047142857
+      },
+      {
+        "rows": 0,
+        "calls": 4,
+        "query": "explain (format json,analyze,buffers) select lexeme_id from dictionary_search_terms where release_id=$1 and direction=$2 and term like $3 limit $4",
+        "mean_exec_time": 13.72152675
+      },
+      {
+        "rows": 4,
+        "calls": 4,
+        "query": "select (select count(*)::int from dictionary_entries) entries,(select count(*)::int from dictionary_search_terms) terms,(select count(*)::int from dictionary_sense_mappings) mappings,(select count(*)::int from user_vocabulary) saved_words",
+        "mean_exec_time": 535.360179
+      },
+      {
+        "rows": 2,
+        "calls": 2,
+        "query": "select jsonb_build_object(\n$1,now(),\n$2,(select to_jsonb(c) from dictionary_channels c where name=$3),\n$4,(select jsonb_build_object($5,id,$6,state,$7,manifest_sha,$8,validated_at,$9,jsonb_build_object($10,manifest->$11,$12,manifest->$13,$14,manifest->$15,$16,manifest->$17,$18,jsonb_array_length(manifest#>$19))) from dictionary_releases where id=$20),\n$21,(select metadata from audit_log where id=$22),\n$23,(select jsonb_build_object($24,phase,$25,error,$26,updated_at,$27,worker_lease_until) from dictionary_publish_jobs where id=$28),\n$29,(select count(*) from dictionary_drafts where result_release_id=$30 and state=$31),\n$32,(select jsonb_build_object($33,jsonb_array_length(descriptor->$34),$35,descriptor->$36,$37,(select count(*) from jsonb_object_keys(descriptor->$38))) from dictionary_search_indexes where release_id=$39),\n$40,(select count(*) from dictionary_search_terms),\n$41,(select count(*) from dictionary_sense_mappings),\n$42,pg_database_size(current_database())) verification",
+        "mean_exec_time": 1625.6699725
+      },
+      {
+        "rows": 1,
+        "calls": 1,
+        "query": "SELECT jsonb_build_object($1,pg_database_size(current_database()),$2,pg_total_relation_size($3),$4,pg_total_relation_size($5),$6,(select count(*) from dictionary_entries),$7,(select count(*) from dictionary_search_terms),$8,(select active_release_id from dictionary_channels where name=$9)) compacted",
+        "mean_exec_time": 3483.157158
+      },
+      {
+        "rows": 0,
+        "calls": 1,
+        "query": "CREATE INDEX dictionary_terms_entry_idx ON dictionary_search_terms(release_id,lexeme_id)",
+        "mean_exec_time": 0.688025
+      },
+      {
+        "rows": 4,
+        "calls": 1,
+        "query": "SELECT $1 as tbl,COUNT(*)::int n FROM dictionary_entries UNION ALL SELECT $2,COUNT(*)::int FROM dictionary_search_terms UNION ALL SELECT $3,COUNT(*)::int FROM lexical_units UNION ALL SELECT $4,COUNT(*)::int FROM lexemes\n\n-- source: POST /mcp\n-- user: oauth:a3ff2237-4e0a-41de-982f-079176f54599\n-- date: 2026-10-21T17:04:19.889Z",
+        "mean_exec_time": 3448.495603
+      },
+      {
+        "rows": 2,
+        "calls": 1,
+        "query": "SELECT release_id,direction,COUNT(*)::bigint AS terms,COUNT(DISTINCT term)::bigint AS unique_terms,COUNT(DISTINCT lexeme_id)::bigint AS matched_lexemes FROM public.dictionary_search_terms GROUP BY release_id,direction ORDER BY release_id,direction",
+        "mean_exec_time": 9316.618198
+      },
+      {
+        "rows": 0,
+        "calls": 1,
+        "query": "select * from public.\"dictionary_search_terms\"",
+        "mean_exec_time": 0.008473
+      },
+      {
+        "rows": 124,
+        "calls": 1,
+        "query": "WITH target(term) AS (SELECT unnest(ARRAY[$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55,$56,$57,$58,$59,$60,$61,$62,$63,$64,$65,$66,$67,$68,$69,$70,$71,$72,$73,$74,$75,$76,$77,$78,$79,$80,$81,$82,$83,$84,$85,$86,$87,$88,$89,$90,$91,$92,$93,$94,$95,$96,$97,$98,$99,$100,$101,$102,$103,$104,$105,$106,$107,$108,$109,$110,$111,$112,$113,$114,$115,$116,$117,$118,$119,$120,$121,$122,$123,$124]::text[])),\nmatches AS (SELECT t.term, count(distinct e.lexeme_id) AS lemma_n FROM target t LEFT JOIN public.dictionary_entries e ON e.lemma_norm=t.term AND e.release_id=$125 GROUP BY t.term),\nform_matches AS (SELECT t.term,count(distinct d.lexeme_id) AS form_n FROM target t LEFT JOIN public.dictionary_search_terms d ON d.term=t.term AND d.direction=$126 AND d.release_id=$127 GROUP BY t.term)\nSELECT m.term,m.lemma_n,f.form_n FROM matches m JOIN form_matches f USING(term) ORDER BY m.term\n\n-- source: POST /mcp\n-- user: oauth:a3ff2237-4e0a-41de-982f-079176f54599\n-- date: 2026-10-21T17:05:29.827Z",
+        "mean_exec_time": 96.805136
+      }
+    ],
+    "replicationSlots": null,
+    "legacyReferencedByJobs": 0,
+    "legacyReferencedByChannels": 0
+  },
+  "refs": [
+    {
+      "name": "arena/learners-area-next",
+      "commit": {
+        "sha": "ba1671c724da389ba373e494d71241230500afb9",
+        "url": "https://api.github.com/repos/N-Muhammadjonov/learners_area/commits/ba1671c724da389ba373e494d71241230500afb9"
+      },
+      "protected": false
+    },
+    {
+      "name": "main",
+      "commit": {
+        "sha": "adb66249b36517d401d57c5987b9d14e4f9e329f",
+        "url": "https://api.github.com/repos/N-Muhammadjonov/learners_area/commits/adb66249b36517d401d57c5987b9d14e4f9e329f"
+      },
+      "protected": false
+    }
+  ],
+  "productionProject": "tuoeabrrnsiuxpjmslxp",
+  "qaProject": "bpexpsugmuhwmztacbqd"
+}

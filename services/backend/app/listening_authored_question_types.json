@@ -1,0 +1,132 @@
+[
+  {
+    "id": "mcq_single",
+    "aliases": [
+      "mcq",
+      "multiple_choice",
+      "MCQ"
+    ],
+    "storageType": "multiple_choice"
+  },
+  {
+    "id": "mcq_multi",
+    "aliases": [
+      "mcq_multi",
+      "MCQ_MULTI",
+      "choose_two",
+      "choose_three"
+    ],
+    "storageType": "multiple_choice"
+  },
+  {
+    "id": "matching",
+    "aliases": [
+      "matching",
+      "MATCHING"
+    ],
+    "storageType": "multiple_choice"
+  },
+  {
+    "id": "classification",
+    "aliases": [
+      "classification",
+      "CLASSIFICATION"
+    ],
+    "storageType": "multiple_choice"
+  },
+  {
+    "id": "form_completion",
+    "aliases": [
+      "form",
+      "form_completion",
+      "FORM"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "note_completion",
+    "aliases": [
+      "note",
+      "NOTE",
+      "notes_completion",
+      "note_completion"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "table_completion",
+    "aliases": [
+      "table",
+      "TABLE",
+      "table_completion"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "flow_chart_completion",
+    "aliases": [
+      "flow",
+      "flowchart",
+      "FLOW",
+      "flow_chart_completion"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "summary_completion",
+    "aliases": [
+      "summary",
+      "SUMMARY",
+      "summary_completion"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "sentence_completion",
+    "aliases": [
+      "sentence",
+      "SC",
+      "sentence_completion"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "short_answer",
+    "aliases": [
+      "short_answer",
+      "saq",
+      "SAQ"
+    ],
+    "storageType": "short_answer"
+  },
+  {
+    "id": "plan_labeling",
+    "aliases": [
+      "plan",
+      "PLAN",
+      "plan_labeling",
+      "plan_labelling"
+    ],
+    "storageType": "multiple_choice"
+  },
+  {
+    "id": "map_labeling",
+    "aliases": [
+      "map",
+      "MAP",
+      "map_labeling",
+      "map_labelling"
+    ],
+    "storageType": "multiple_choice"
+  },
+  {
+    "id": "diagram_labeling",
+    "aliases": [
+      "diagram",
+      "DIAG",
+      "diagram_labeling",
+      "diagram_labelling"
+    ],
+    "storageType": "multiple_choice"
+  }
+]

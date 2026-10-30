@@ -1,0 +1,358 @@
+{
+  "version": 1,
+  "routes": [
+    "/app/dashboard",
+    "/app/admin/statistics",
+    "/app/admin/reading/retention/staged",
+    "/app/listening/lessons/author",
+    "/app/admin/content/workspace",
+    "/app/admin/reading/retention",
+    "/app/admin/listening/import",
+    "/app/grammar/lessons/author",
+    "/app/reading/lessons/author",
+    "/app/reading/question-types",
+    "/app/admin/writing-prompts",
+    "/app/speaking/live-partner",
+    "/app/admin/reading/import",
+    "/app/teacher/live-classes",
+    "/app/admin/video-lessons",
+    "/app/listening/academic",
+    "/app/owner/integrations",
+    "/app/speaking/shadowing",
+    "/reset-password/confirm",
+    "/app/listening/general",
+    "/app/listening/history",
+    "/app/listening/lessons",
+    "/app/reading/retention",
+    "/app/speaking/practice",
+    "/app/vocabulary/review",
+    "/app/admin/admissions",
+    "/app/listening/import",
+    "/app/owner/dictionary",
+    "/app/reading/academic",
+    "/app/speaking/history",
+    "/app/speaking/lessons",
+    "/app/teacher/speaking",
+    "/app/teacher/students",
+    "/app/vocabulary/games",
+    "/app/admin/listening",
+    "/app/admin/materials",
+    "/app/grammar/lessons",
+    "/app/owner/retention",
+    "/app/reading/general",
+    "/app/reading/history",
+    "/app/reading/lessons",
+    "/app/teacher/support",
+    "/app/writing/history",
+    "/app/owner/transfer",
+    "/app/admin/content",
+    "/app/admin/grammar",
+    "/app/admin/reading",
+    "/app/admin/writing",
+    "/app/courses/ielts",
+    "/app/listening/mcq",
+    "/app/notifications",
+    "/app/video-lessons",
+    "/app/admin/people",
+    "/app/admin/roster",
+    "/app/live-classes",
+    "/app/admin/users",
+    "/app/assignments",
+    "/app/owner/audit",
+    "/app/speaking/ai",
+    "/app/management",
+    "/app/vocabulary",
+    "/reset-password",
+    "/app/listening",
+    "/auth/recovery",
+    "/app/progress",
+    "/app/speaking",
+    "/app/grammar",
+    "/app/profile",
+    "/app/reading",
+    "/app/reports",
+    "/app/support",
+    "/app/writing",
+    "/onboarding",
+    "/app/coach",
+    "/app/mocks",
+    "/app/owner",
+    "/register",
+    "/pending",
+    "/login",
+    "/app",
+    "/",
+    "/app/reading/retention/results/[^/]+",
+    "/app/listening/attempts/[^/]+/revision",
+    "/app/courses/ielts/lessons/[^/]+",
+    "/app/writing/language-stealing/[^/]+",
+    "/app/listening/general/[^/]+",
+    "/app/listening/lessons/[^/]+",
+    "/app/listening/academic/[^/]+",
+    "/app/listening/tests/[^/]+/study",
+    "/app/grammar/lessons/[^/]+",
+    "/app/reading/lessons/[^/]+",
+    "/app/teacher/live-classes/[^/]+",
+    "/app/vocabulary/games/[^/]+",
+    "/app/listening/tests/[^/]+/mcq",
+    "/app/admin/writing/[^/]+/new",
+    "/app/reading/academic/[^/]+",
+    "/app/writing/submissions/[^/]+",
+    "/app/writing/translation/[^/]+",
+    "/app/listening/attempts/[^/]+",
+    "/app/listening/mcq/day/[^/]+",
+    "/app/reading/general/[^/]+",
+    "/app/admin/materials/[^/]+",
+    "/app/reading/attempts/[^/]+",
+    "/app/teacher/assessments/[^/]+/[^/]+/[^/]+",
+    "/app/teacher/homework",
+    "/app/teacher/students/[^/]+/assignments/[^/]+",
+    "/app/teacher/students/[^/]+",
+    "/app/listening/tests",
+    "/app/listening/tests/[^/]+",
+    "/app/admin/listening/[^/]+",
+    "/app/writing/lessons/[^/]+",
+    "/app/admin/grammar/[^/]+",
+    "/app/admin/reading/[^/]+",
+    "/app/video-lessons/[^/]+",
+    "/app/writing/grade/[^/]+",
+    "/app/admin/people/[^/]+",
+    "/app/grammar/[^/]+",
+    "/app/writing/exam/[^/]+",
+    "/app/listening/tests/[^/]+/[^/]+",
+    "/app/admin/materials/[^/]+/[^/]+",
+    "/app/admin/writing/[^/]+/[^/]+",
+    "/app/writing/prompts/[^/]+"
+  ],
+  "redirects": [
+    {
+      "source": "/dashboard",
+      "destination": "/app/dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/dashboard/:path*",
+      "destination": "/app/dashboard/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/courses",
+      "destination": "/app/courses",
+      "permanent": false
+    },
+    {
+      "source": "/courses/:path*",
+      "destination": "/app/courses/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/writing",
+      "destination": "/app/writing",
+      "permanent": false
+    },
+    {
+      "source": "/writing/:path*",
+      "destination": "/app/writing/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/vocabulary",
+      "destination": "/app/vocabulary",
+      "permanent": false
+    },
+    {
+      "source": "/vocabulary/:path*",
+      "destination": "/app/vocabulary/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/listening",
+      "destination": "/app/listening",
+      "permanent": false
+    },
+    {
+      "source": "/listening/:path*",
+      "destination": "/app/listening/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/reading",
+      "destination": "/app/reading",
+      "permanent": false
+    },
+    {
+      "source": "/reading/:path*",
+      "destination": "/app/reading/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/speaking",
+      "destination": "/app/speaking",
+      "permanent": false
+    },
+    {
+      "source": "/speaking/:path*",
+      "destination": "/app/speaking/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/grammar",
+      "destination": "/app/grammar",
+      "permanent": false
+    },
+    {
+      "source": "/grammar/:path*",
+      "destination": "/app/grammar/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/mocks",
+      "destination": "/app/mocks",
+      "permanent": false
+    },
+    {
+      "source": "/mocks/:path*",
+      "destination": "/app/mocks/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/coach",
+      "destination": "/app/coach",
+      "permanent": false
+    },
+    {
+      "source": "/coach/:path*",
+      "destination": "/app/coach/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/assignments",
+      "destination": "/app/assignments",
+      "permanent": false
+    },
+    {
+      "source": "/assignments/:path*",
+      "destination": "/app/assignments/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/progress",
+      "destination": "/app/progress",
+      "permanent": false
+    },
+    {
+      "source": "/progress/:path*",
+      "destination": "/app/progress/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/live-classes",
+      "destination": "/app/live-classes",
+      "permanent": false
+    },
+    {
+      "source": "/live-classes/:path*",
+      "destination": "/app/live-classes/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/video-lessons",
+      "destination": "/app/video-lessons",
+      "permanent": false
+    },
+    {
+      "source": "/video-lessons/:path*",
+      "destination": "/app/video-lessons/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/teacher",
+      "destination": "/app/teacher",
+      "permanent": false
+    },
+    {
+      "source": "/teacher/:path*",
+      "destination": "/app/teacher/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "destination": "/app/admin",
+      "permanent": false
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/app/admin/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/owner",
+      "destination": "/app/owner",
+      "permanent": false
+    },
+    {
+      "source": "/owner/:path*",
+      "destination": "/app/owner/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/profile",
+      "destination": "/app/profile",
+      "permanent": false
+    },
+    {
+      "source": "/profile/:path*",
+      "destination": "/app/profile/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/notifications",
+      "destination": "/app/notifications",
+      "permanent": false
+    },
+    {
+      "source": "/notifications/:path*",
+      "destination": "/app/notifications/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/reports",
+      "destination": "/app/reports",
+      "permanent": false
+    },
+    {
+      "source": "/reports/:path*",
+      "destination": "/app/reports/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/support",
+      "destination": "/app/support",
+      "permanent": false
+    },
+    {
+      "source": "/support/:path*",
+      "destination": "/app/support/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/management",
+      "destination": "/app/management",
+      "permanent": false
+    },
+    {
+      "source": "/management/:path*",
+      "destination": "/app/management/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/app/vocabulary/review",
+      "destination": "/app/vocabulary?tab=revision",
+      "permanent": false
+    },
+    {
+      "source": "/app/courses",
+      "destination": "/app/courses/ielts"
+    }
+  ]
+}

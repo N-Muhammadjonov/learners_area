@@ -1,0 +1,36 @@
+{
+  "status": "BYTES_VERIFIED_RECHECK_PENDING",
+  "scope": "protected_r2_bytes_and_captured_database_identity",
+  "startedAt": "2026-10-26T19:18:19Z",
+  "databaseRecheckRequired": true,
+  "r2Writes": 0,
+  "logicalReadCalls": 3821,
+  "compressedBytes": 276319746,
+  "releases": [
+    {
+      "release": "rel-v1-977bce7f8dab7e773955238e",
+      "manifestSha": "3e2f1638bc4127da5fb359093ea97aeacdeebdc2d4d293dc161e174be4ad845c",
+      "shards": 256,
+      "searchObjects": 1655,
+      "entries": 65056,
+      "senses": 109927,
+      "examples": 81539,
+      "entry_inventory_sha256": "13595e585f34e52651bd45528a61e18e3fea5e34f5c8297dfa07c7f2ba2cb80c",
+      "sense_set_sha256": "79ac46f0e3b912a3f94dfa7bc9400e6be50cb7a4623b13f83808e1894be3127d",
+      "example_set_sha256": "64e828618f36307044a63c6d3f405805ba1744c875989d2cd2d0a01c3ccd38a1"
+    },
+    {
+      "release": "rel-v1-cfadf47e87701f627f3270ce",
+      "manifestSha": "756134d493381bae1bbf66f3c910f3590da1ef0ad2a8b1b92fcede2229eedfdf",
+      "shards": 256,
+      "searchObjects": 1652,
+      "entries": 64938,
+      "senses": 109809,
+      "examples": 81421,
+      "entry_inventory_sha256": "298a372fd3d3f9420fd2c44177634fd5c3abdd56f2b695ca4ae3ac3e9411de16",
+      "sense_set_sha256": "ad9f36b40f379e2a494826ff195ef1ae16c5c8e2eacad42fde9d857c8d54b909",
+      "example_set_sha256": "2bee366e2519983f25c487eaa7eb5487d53fc645725ce46fb3b61a31e54405ca"
+    }
+  ],
+  "completedAt": "2026-10-26T19:25:11Z"
+}

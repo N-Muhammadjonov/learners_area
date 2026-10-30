@@ -1,14 +1,11 @@
-import { notDeleted } from "@/lib/content/deletion-filter";
 import "server-only";
-import {sequentialLocks} from "@/lib/listening/course-progress";
 import { and, asc, count, eq, inArray, sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
-import { listeningMcqSessions, listeningTests, listeningPackages } from "@/db/schema";
-import { originalMcqAudioUrl } from "@/lib/listening/original-mcq";
+import { listeningMcqSessions, listeningTests } from "@/db/schema";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
-import { listeningQuestionsForLiveTest,listeningQuestionIdsForLiveTest } from "@/lib/listening/question-set";
+import { listeningQuestionsForLiveTest } from "@/lib/listening/question-set";
 import {
   MCQ_PROGRAM_REF,
   mcqDayStates,
@@ -31,8 +28,17 @@ import {
  * to keep in step and no history to migrate.
  */
 
-/** Legacy page metadata stays compatible; all lightweight day summaries now share one page. */
+/**
+ * REAL pagination, not a runaway guard.
+ *
+ * The programme has no maximum number of days: a centre may publish a hundred or a thousand. A
+ * fixed read ceiling would therefore silently HIDE honest content (day 201 of 1000 would simply
+ * not exist for the learner), so one bounded page of days is read per request, ordered by the
+ * authored ordinal, with the real total counted in SQL.
+ */
 const MCQ_DAY_PAGE_SIZE = 24;
+/** A hostile `?page=` cannot ask the database to seek past this many pages. */
+const MCQ_DAY_MAX_PAGE = 10_000;
 
 /**
  * Is migration 0052's programme relation present?
@@ -58,7 +64,6 @@ export type McqDayCard = {
   status: McqDayStatus;
   /** Not live: only staff previewing the programme see this card, and it says so. */
   draft: boolean;
-  locked: boolean;
 };
 
 export type McqProgramPage = {
@@ -93,7 +98,7 @@ export async function mcqProgramDays(
   options: { includeDrafts?: boolean; page?: number } = {},
   database: typeof db = db,
 ): Promise<McqProgramPage> {
-  const page = 1;
+  const page = Math.max(1, Math.min(MCQ_DAY_MAX_PAGE, Math.floor(options.page ?? 1) || 1));
   const empty: McqProgramPage = {
     days: [],
     progress: mcqProgramProgress({ publishedDays: 0, completedDays: 0, completedQuestions: 0 }),
@@ -119,18 +124,21 @@ export async function mcqProgramDays(
         publishAt: listeningTests.publishAt,
       })
       .from(listeningTests)
-      .where(and(notDeleted(listeningTests.id), visibleWhere))
+      .where(visibleWhere)
       // The AUTHORED day order: the stored ordinal, ascending. Not created_at, not a title.
       .orderBy(asc(listeningTests.programOrdinal))
-      ,
+      // One bounded page, plus a single lookahead row that answers "is there a next page?"
+      // without a second count query.
+      .limit(MCQ_DAY_PAGE_SIZE + 1)
+      .offset((page - 1) * MCQ_DAY_PAGE_SIZE),
     // How many days are really published — the headline number, counted in SQL so it can never be
     // an artefact of what this page happened to read or of a draft a member of staff previewed.
-    database.select({ total: count() }).from(listeningTests).where(and(programMembership(), notDeleted(listeningTests.id), live) as SQL),
-    database.select({ total: count() }).from(listeningTests).where(and(notDeleted(listeningTests.id), visibleWhere)),
+    database.select({ total: count() }).from(listeningTests).where(and(programMembership(), live) as SQL),
+    database.select({ total: count() }).from(listeningTests).where(visibleWhere),
   ]);
 
-  const hasNextPage = false;
-  const days = rows.filter((row) => row.day !== null);
+  const hasNextPage = rows.length > MCQ_DAY_PAGE_SIZE;
+  const days = rows.slice(0, MCQ_DAY_PAGE_SIZE).filter((row) => row.day !== null);
   const visibleDays = Number(visibleCount?.total ?? 0);
   if (!days.length)
     return {
@@ -143,7 +151,7 @@ export async function mcqProgramDays(
   // One resolver, the same one the drill uses: the LIVE set of each day, so a card can never state
   // questions a learner would not be given.
   const [questionSets, sessionRows] = await Promise.all([
-    Promise.all(days.map((row) => listeningQuestionIdsForLiveTest(row.testId, database))),
+    Promise.all(days.map((row) => listeningQuestionsForLiveTest(row.testId, database))),
     database
       .select({
         testId: listeningMcqSessions.testId,
@@ -181,12 +189,9 @@ export async function mcqProgramDays(
       questionCount: questions.length,
       status,
       draft: !isLive(row),
-      locked: false,
     };
   });
 
-  const locks=sequentialLocks(cards.filter(card=>!card.draft).map(card=>({complete:card.status.state==="completed"})));
-  let liveIndex=0;for(const card of cards)if(!card.draft)card.locked=!isStaff(user.role)&&locks[liveIndex++]!;
   return {
     days: cards,
     progress: mcqProgramProgress({
@@ -195,7 +200,7 @@ export async function mcqProgramDays(
       completedQuestions,
     }),
     page,
-    pageSize: Math.max(1,cards.length),
+    pageSize: MCQ_DAY_PAGE_SIZE,
     hasNextPage,
     visibleDays,
   };
@@ -208,7 +213,6 @@ export type McqDayQuestionView = {
   questionText: string;
   /** The learner's persisted stage, or null when they have never opened this question. */
   stage: string | null;
-  audioUrl: string | null;
 };
 
 export type McqDayView = {
@@ -236,7 +240,6 @@ export async function mcqDayFor(
   database: typeof db = db,
 ): Promise<McqDayView | null> {
   if (!Number.isInteger(ordinal) || ordinal < 1) return null;
-  if(!isStaff(user.role)){const catalogue=await mcqProgramDays(user,{},database);if(!catalogue.days.some(day=>day.day===ordinal&&!day.locked))return null;}
   if (!(await listeningSchemaReady(database))) return null;
   if (!(await mcqProgramReady(database))) return null;
 
@@ -245,14 +248,12 @@ export async function mcqDayFor(
       testId: listeningTests.id,
       title: listeningTests.title,
       audioUrl: listeningTests.audioUrl,
-      sourceId: listeningPackages.sourceId,
       day: listeningTests.programOrdinal,
       publicationState: listeningTests.publicationState,
       publishAt: listeningTests.publishAt,
     })
     .from(listeningTests)
-    .leftJoin(listeningPackages, eq(listeningPackages.testId, listeningTests.id))
-    .where(and(notDeleted(listeningTests.id),programMembership(), eq(listeningTests.programOrdinal, ordinal)))
+    .where(and(programMembership(), eq(listeningTests.programOrdinal, ordinal)))
     .limit(1);
   if (!row || row.day === null) return null;
 
@@ -281,7 +282,6 @@ export async function mcqDayFor(
       order: question.order,
       questionText: question.questionText,
       stage: states[index]?.stage ?? null,
-      audioUrl: originalMcqAudioUrl(row.sourceId, Number(row.day), question.order),
     })),
     status: mcqDayStatus(states),
     draft,

@@ -128,7 +128,6 @@ test("a malformed id is detected, and a well-formed one is left alone", async ()
   // Malformed.
   assert.equal(isMalformedIdPath("/app/reading/attempts/zzz"), true);
   assert.equal(isMalformedIdPath("/app/writing/submissions/zzz"), true);
-  assert.equal(isMalformedIdPath("/app/writing/prompts/zzz"), true);
   assert.equal(isMalformedIdPath("/app/grammar/not-a-uuid"), true);
   assert.equal(isMalformedIdPath("/app/listening/tests/zzz/mcq"), true);
   assert.equal(isMalformedIdPath("/app/admin/materials/reading/zzz"), true);
@@ -136,7 +135,6 @@ test("a malformed id is detected, and a well-formed one is left alone", async ()
 
   // Well formed, or legitimately not a uuid at all.
   assert.equal(isMalformedIdPath(`/app/reading/attempts/${uuid}`), false);
-  assert.equal(isMalformedIdPath(`/app/writing/prompts/${uuid}`), false);
   assert.equal(isMalformedIdPath(`/app/listening/tests/${uuid}/mcq`), false);
   assert.equal(isMalformedIdPath(`/app/listening/tests/${uuid}/3`), false, "[activity] is an ordinal");
   assert.equal(isMalformedIdPath(`/app/admin/materials/reading/${uuid}`), false, "[type] is an enum");

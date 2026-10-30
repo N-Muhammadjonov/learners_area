@@ -91,17 +91,15 @@ export async function listeningQuestionsForAttempt(
  * legacy set, else everything. Used by catalogue counts and by previews, never by an attempt
  * that already recorded its binding.
  */
-async function resolveLiveSet<T>(testId:string,database:typeof db,read:(versionId:string|null|undefined)=>Promise<T[]>):Promise<T[]>{
-  const published=await publishedVersionForTarget("listening_test",testId,database);
-  if(published){const bound=await read(published.id);if(bound.length)return bound;}
-  const legacy=await read(null);return legacy.length?legacy:read(undefined);
-}
 export async function listeningQuestionsForLiveTest(testId: string, database: typeof db = db): Promise<ListeningQuestionRow[]> {
-  return resolveLiveSet(testId,database,version=>version===undefined?listeningQuestionsOfItem(testId,database):version===null?listeningQuestionsWithoutRevision(testId,database):listeningQuestionsForRevision(testId,version,database));
-}
-/** Catalogue/access metadata: the same revision resolver, with no prompts, options or keys. */
-export async function listeningQuestionIdsForLiveTest(testId:string,database:typeof db=db){
- return resolveLiveSet(testId,database,async version=>database.select({id:listeningQuestions.id,order:listeningQuestions.order}).from(listeningQuestions).where(and(eq(listeningQuestions.testId,testId),version===undefined?undefined:version===null?sql`${listeningQuestions.contentVersionId} is null`:eq(listeningQuestions.contentVersionId,version))).orderBy(asc(listeningQuestions.order)));
+  const published = await publishedVersionForTarget("listening_test", testId, database);
+  if (published) {
+    const bound = await listeningQuestionsForRevision(testId, published.id, database);
+    if (bound.length) return bound;
+  }
+  const legacy = await listeningQuestionsWithoutRevision(testId, database);
+  if (legacy.length) return legacy;
+  return listeningQuestionsOfItem(testId, database);
 }
 
 /** How many questions the LIVE set holds (a card must state this set's size, not every set's). */

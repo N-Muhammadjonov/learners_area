@@ -1,4 +1,3 @@
-import {listeningSequenceAccess} from "./listening-sequence";
 import { and, eq, gt, inArray, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -19,7 +18,7 @@ import {
   loadResourceOwner,
   mayReadResources,
 } from "@/lib/services/resources/owners";
-import { PROXY_UPLOAD_MAX_BYTES, canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
+import { canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 import { buildObjectKey } from "@/lib/uploads/keys";
 import { verifySignature } from "@/lib/uploads/signature";
 import type { StorageService } from "@/lib/services/storage/types";
@@ -152,12 +151,6 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
 
   const storage = getStorageService();
   const direct = storage.supportsDirectUpload;
-  // Fail before creating any intent for a local proxy upload that could exceed
-  // the Next.js 61 MiB multipart request buffer. Direct R2/S3 uploads retain
-  // the existing category-specific ceilings without using this server buffer.
-  if (!direct && input.size > PROXY_UPLOAD_MAX_BYTES) {
-    return { ok: false, status: 413, error: "file_too_large" };
-  }
 
   // The stored label comes from the extension, not the browser claim: Safari
   // sends "" / octet-stream for ordinary files, and markup must stay inert.
@@ -572,7 +565,6 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     const owner = await loadResourceOwner("listening", listeningPackage.testId);
     if (!owner) return { allowed: false, reason: "not_found" };
     if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
-    if(!await listeningSequenceAccess(caller,listeningPackage.testId))return {allowed:false,reason:"forbidden"};
     return { allowed: true, objectKey, ownerId: owner.creatorId ?? owner.id, materialId: owner.id };
   }
 
@@ -588,7 +580,6 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     const owner = await loadResourceOwner(resourceBlock.ownerType, resourceBlock.ownerId);
     if (!owner) return { allowed: false, reason: "not_found" };
     if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
-    if(resourceBlock.ownerType==="listening"&&!await listeningSequenceAccess(caller,resourceBlock.ownerId))return {allowed:false,reason:"forbidden"};
     return { allowed: true, objectKey, ownerId: resourceBlock.createdByUserId, materialId: owner.id };
   }
 

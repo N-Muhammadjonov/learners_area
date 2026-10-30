@@ -1,6 +1,5 @@
 const en = {
   globalDictionary: {
-    capacityExceeded: "There is not enough database space for a new release. Your drafts are saved. Check database capacity before publishing.",
     duplicateWord: "This word and part of speech already exist. Add a meaning to the existing word.",
     duplicateSense: "This meaning already exists.",
     lexemes: "Published words",
@@ -28,9 +27,6 @@ const en = {
     moreExamples: "More examples",
     collocations: "Collocations",
     synonyms: "Synonyms",
-    noSynonyms: "No synonyms found.",
-    noCollocations: "No word combinations found.",
-    pronunciationUnavailable: "Pronunciation is not available in this browser.",
     relations: "Related words",
     attribution: "Sources and attribution",
     forms: "Word forms",
@@ -76,7 +72,7 @@ const en = {
     deleteRecording: "Delete recording",
     "topicUploadHelp": "All questions and their materials are saved together as one topic.",
     "archived": "Archived",
-    "confirmArchive": "Delete topic",
+    "confirmArchive": "Remove from publication",
     "archiveHelp": "Remove all questions in this topic from Practice and Partner? They remain available here to restore.",
     "removeTopic": "Remove topic",
     "newTopic": "New topic",
@@ -171,7 +167,6 @@ const en = {
   },
 
   shell: {
-    telegramBrand: "Open Learners Area Telegram channel",
     searchShortcut: "Ctrl K",
     learningNav: "Learning sections",
     managementNav: "Management sections",
@@ -223,7 +218,6 @@ const en = {
     notFound: "This General Reading set is not available.",
   },
   readingV4: {
-    unstatedEvidence: 'The passage does not state this detail. Review the complete passage: a related sentence alone cannot prove Not Given.',
     evidenceMissing: "No evidence was supplied by the author.",
     explanationMissing: "No explanation was supplied by the author.",
     review: "Review",
@@ -240,9 +234,7 @@ const en = {
     },
   },
   readingHub: {
-    lockedHint: 'Complete the previous Academic Reading test to unlock this test.',
     academicExamHint: "Three passages · 60 minutes · one exam. Dictionary and vocabulary assistance are unavailable in Academic Reading.",
-    academicEmpty: "No complete 40-question Academic Reading tests have been published yet.",
     title: "Reading",
     subtitle: "Academic and General reading, practice by question type, and the Retention mode.",
     subtitleAcademic: "Academic Reading: guided reading sets you work through text by text, with your progress saved.",
@@ -334,11 +326,6 @@ const en = {
     auditBody: "The security and administration journal.",
   },
 
-  managementStats: {
-    title:"Statistics", results:"All learning results", history:"Result history", started:"Started", completed:"Completed", learners:"Learners", accuracy:"Average accuracy", band:"Average band", rate:"Completion", activity:"Last 14 days", levels:"Retention levels", average:"Average", best:"Best", empty:"No recorded results yet.", date:"Date", result:"Result", state:"Status", ongoing:"In progress", all:"All", retention:"Retention results", scope:"Persisted results only. Bands and percentages are calculated separately.", top:"100 most active learners", notGraded:"Not graded", source:"Activity", tracking:"Telegram usernames refresh on the next interaction with the bot.",
-    modules:{reading:"Reading",listening:"Listening",writing:"Writing",speaking:"Speaking",retention:"Retention",vocabulary:"Vocabulary",grammar:"Grammar",video:"TED / PODCAST",lessons:"Lessons",assignments:"Assignments",mocks:"Mock tests"},
-    activities:{patternPractice:"Pattern practice",games:"Games",revision:"Revision",activation:"Activation Lab",academic:"Academic test",general:"General passage",activities:"Listening activities",mcq:"MCQ mastery",essays:"Essay",typing:"Typing",translation:"Translation",patterns:"Language patterns",speaking:"Speaking",retention:"Retention",grammar:"Grammar",video:"TED / PODCAST",words:"Saved word",practice:"Vocabulary practice",lessons:"Lesson",assignments:"Assignment",mocks:"Mock test"},
-  },
   studentResults: {
     title: "Mock results",
     taken: "Mocks taken",
@@ -389,6 +376,16 @@ const en = {
     empty: "Nothing new yet.",
     markRead: "Mark all as read",
     admissions: "Access requests",
+    assignmentAssignedTitle: "New homework assignment",
+    assignmentAssignedBody: "A new assignment is ready: {title}",
+    assignmentDeadlineTitle: "Assignment deadline approaching",
+    assignmentDeadlineBody: "Due within 24 hours: {title}",
+    assignmentOverdueTitle: "Assignment overdue",
+    assignmentOverdueBody: "This assignment is overdue: {title}",
+    writingReviewTitle: "Writing submission needs review",
+    writingReviewBody: "{student} submitted a Writing response for review.",
+    teacherFeedbackTitle: "Teacher feedback is available",
+    teacherFeedbackBody: "Your Writing submission has teacher feedback.",
     all: "All notifications",
   },
   support: {
@@ -456,7 +453,6 @@ const en = {
     bottom: "Help",
     management: "Management",
     backToLearning: "Back to learning",
-    statistics: "Statistics",
     people: "People",
     teaching: "Teaching",
     content: "Content",
@@ -489,20 +485,6 @@ const en = {
     trialNote: "Demo course content — full catalogue opens as it's published.",
   },
   auth: {
-    telegramLink: "Link your existing account to Telegram",
-    continueWithTelegramRegister: "Request access with Telegram",
-    telegramWaiting: "Confirm in Telegram, then this page will sign you in.",
-    telegramRegisterWaiting: "Confirm in Telegram. This creates a pending access request. It does not sign in to an existing account.",
-    telegramOpen: "Open Telegram",
-    telegramCancel: "Cancel",
-    telegramExpired: "That confirmation expired. Start again.",
-    telegramConflict: "This Telegram account is already linked to a different Learners Area account.",
-    telegramNoAccount: "No Learners Area account is linked to this Telegram user. Create an account on the registration page.",
-    telegramRegisterPending: "Your access request is pending. The centre still has to approve it.",
-    telegramAlreadyActive: "This Telegram account is already active. You are signed in.",
-    telegramAlreadyPending: "An access request for this Telegram account is already waiting.",
-    telegramSuspended: "This account is suspended. Signing in does not restore access.",
-    telegramAlreadySignedIn: "You are already signed in. Registration cannot start a second account.",
     or: "or",
     loginTitle: "Welcome back",
     loginSubtitle: "Log in to continue your study plan.",
@@ -552,7 +534,7 @@ const en = {
     courseHeading: "From your roadmap",
     title: "TED / PODCAST",
     intro:
-      "Watch or listen, open the transcript and teacher's notes, learn vocabulary, then write or record your own summary.",
+      "A short talk, then the lesson around it: predict before you watch, answer the centre's own questions, and write what you took from it. Published standalone talks open here. Videos linked to a roadmap lesson follow that lesson's access.",
     none: "No video lesson is open right now.",
     open: "Open the lesson",
     minutes: "{n} min",
@@ -590,7 +572,7 @@ const en = {
       gap: "Script gap fill",
       opinion: "Your opinion",
       summary: "Summary",
-      notes: "Teacher's notes",
+      notes: "Notes",
     },
     providerNote:
       "This video plays in YouTube's own embedded player. YouTube's controls, branding and captions menu are shown as YouTube provides them; Learners Area does not cover or alter them.",
@@ -623,7 +605,7 @@ const en = {
   },
   videoLessonAdmin: {
     vocabulary: "Authored vocabulary (optional)",
-    vocabularyHelp: "One per line: word || POS || English meaning || Uzbek || optional example. Words may be outside the transcript.",
+    vocabularyHelp: "One per line: word || POS || English meaning || Uzbek || exact sentence from your transcript or notes.",
     vocabularyContextRequired: "Every vocabulary example must occur in the authored transcript or notes.",
     sourceAuthored: "Authored", sourceLicensed: "Licensed", sourcePermitted: "Permitted",
 
@@ -636,7 +618,7 @@ const en = {
     transcriptDetectedPlain: "Plain transcript: {n} paragraph(s).",
     transcriptDetectedTimed: "Timed transcript: {n} line(s).",
     openStandalone: "Open",
-    notes: "Teacher's notes (optional)",
+    notes: "Notes (optional)",
     notesHelp: "Study notes the learner can reveal on the lesson page. Leave empty and no notes control appears.",
     notesPresent: "added",
     notesAbsent: "none",
@@ -674,7 +656,7 @@ const en = {
     subtitle: "Six questions so your dashboard and plan make sense from day one.",
     preferredLanguage: "Preferred language",
     currentLevel: "Current English level",
-    currentBand: "Most recent IELTS band (if you have taken the exam)",
+    currentBand: "Current IELTS band (if known)",
     targetBand: "Target IELTS band",
     examDate: "Planned exam date",
     dailyStudyMinutes: "Daily study time (minutes)",
@@ -887,12 +869,6 @@ const en = {
    * The practice screen. Its own block because these strings describe one
    * workspace — the split view, the timer, autosave — and nothing else uses them.
    */
-  readingWorkspace: {
-    elapsed: "Time spent",
-    passage: "Passage", questions: "Questions", resize: "Resize passage and question panes",
-    smaller: "Smaller text", larger: "Larger text", passageHeading: "READING PASSAGE {n}",
-    questionRange: "Questions {from}–{to}", review: "Review", library: "Passage library",
-  },
   readingPractice: {
     passageTab: "Passage",
     questionsTab: "Questions",
@@ -963,12 +939,9 @@ const en = {
      * hub. Every string here is shared by the catalogue page and the hub page.
      */
     academic: {
-      locked: "Locked",
-      lockedHint: "Complete every activity in the previous test to unlock this test.",
-
-      title: "Listening Tests",
-      subtitle: "The centre's published Listening Tests. Open a test to see the activities it genuinely supports.",
-      emptyTitle: "No Listening Tests have been published yet.",
+      title: "Academic Listening",
+      subtitle: "The centre's published Academic Listening tests. Open a test to see the activities it genuinely supports.",
+      emptyTitle: "No Academic Listening test has been published yet.",
       emptyHint: "Nothing is shown here until the centre authors and publishes a canonical Listening test — there are no sample tests on this page.",
       catalogueCount: "{n} published tests",
       openTest: "Open the test",
@@ -978,13 +951,13 @@ const en = {
       activitiesLabel: "{done} / {total} activities completed",
       noProgress: "Not started",
       examResult: "Last exam: {score} / {total}",
-      hubBack: "All Listening Tests",
+      hubBack: "All Academic Listening tests",
       hubSubtitle: "Choose an activity below. Only what this test genuinely supports appears here.",
       progressLabel: "Activities completed: {done} / {total}",
       examScore: "Exam result: {score} / {total}",
       draftNotice: "This test is a draft: only staff can see it, and learners cannot open it yet.",
       notFoundTitle: "This test is not available.",
-      notFoundHint: "It may be unpublished or removed. Return to the Listening Tests catalogue.",
+      notFoundHint: "It may be unpublished or removed. Return to the Academic Listening catalogue.",
       transcriptYes: "Full transcript available",
       transcriptNo: "No transcript for this recording",
       activity: {
@@ -1016,7 +989,7 @@ const en = {
       previousPage: "Previous tests",
       nextPage: "Next tests",
       pageLabel: "Page {page}",
-      paginationLabel: "Listening Tests pages",
+      paginationLabel: "Academic Listening pages",
       complete: "Completed",
       latestScore: "Last: {score} / {total}",
       open: "Open",
@@ -1059,7 +1032,7 @@ const en = {
      */
     hub: {
       title: "Listening",
-      subtitle: "Three destinations: Lessons, Listening Tests and MCQ mastery.",
+      subtitle: "Four separate destinations: authored lessons, Academic tests, General sections, and the MCQ day programme. Nothing is mixed between them.",
       open: "Open",
     },
 
@@ -1068,8 +1041,7 @@ const en = {
      * themselves are the owner's authored content and are never translated (or generated).
      */
     mcqProgram: {
-      lockedHint: "Finish every question in the previous day through its final stage to unlock this day.",
-      title: "MCQ mastery",
+      title: "Listening MCQ",
       subtitle: "A day-by-day multiple-choice programme, five questions a day. Every question is staged: listen, note, commit, then answer.",
       daysPublished: "{published} days published",
       daysCompleted: "Days completed: {done} of {available}",
@@ -1107,7 +1079,7 @@ const en = {
      * the learner's own private Xulosangiz — see src/lib/listening/lessons.ts.
      */
     lessons: {
-      title: "Lessons",
+      title: "Listening lessons",
       subtitle: "Lessons the centre has authored, with the listening material first and the centre's notes beside them.",
       open: "Open the lesson",
       minutes: "min",
@@ -1379,17 +1351,12 @@ const en = {
     wordsFromTestHint: "Save the words you had to guess — they come back in your revision queue.",
   },
   vocabulary: {
-    dictionaryChoice: 'Choose the meaning used in this text.',
-    dictionaryMissing: 'This word is not in the dictionary yet.',
-    contextMissing: 'The meaning for this place in the text has not been linked yet.',
-
     contextVerified: "Verified source meaning",
     contextUnverified: "Source meaning - not editorially verified",
     meaningUnchecked: "Meaning not checked yet",
     meaningUncheckedHint: "This word's meaning in this text has not been checked. You can save it with your own meaning.",
     lexicalTypeLabel: { word: "word", noun_phrase: "noun phrase", verb_phrase: "verb phrase", collocation: "collocation", phrasal_verb: "phrasal verb", idiom: "idiom", fixed_expression: "fixed expression", compound: "compound", technical_term: "technical term", phrase: "phrase" },
     textLookup: 'Look up words in this text',
-    textLookupDoubleHint: 'Double-click a word or phrase, or hold it for 3 seconds, to look it up. Keyboard: choose a word with the arrow keys, then press Enter. Escape closes the popup.',
     textLookupHint: 'Click a word to look it up, or select text to copy it. Keyboard: use Left and Right to choose a word, Home or End to move to the first or last word, and Enter to look it up. Escape closes the popup.',
     title: "Vocabulary",
     addWord: "Add a word",
@@ -2121,7 +2088,6 @@ const en = {
     noAdmins: "No administrator accounts yet.",
   },
   people: {
-    activity: "Last activity", visitTime: "Last visit", totalTime: "Total active time", notTracked: "Not recorded yet", presenceNote: "Online: active tab within 90 seconds. Time is recorded from tracking activation onward.",
     title: "People",
     subtitle: "Roles, admission state and suspensions. Every change is audited.",
     name: "Name",
@@ -2142,7 +2108,7 @@ const en = {
     confirmStatusTitle: "Confirm account status change",
     confirmStatusBody: "This changes private access for the account. The server will still verify your authority.",
     searchLabel: "Search people",
-    searchPlaceholder: "Name, @username or phone number",
+    searchPlaceholder: "Name or email",
     searchAction: "Search",
     clearFilters: "Clear filters",
     allRoles: "All roles",
@@ -2155,10 +2121,9 @@ const en = {
     nextPage: "Next",
   },
   profile: {
-    studyTitle:"Study profile", saveStudy:"Save study profile", studySaved:"Study profile saved.", day:"Day", month:"Month", year:"Year", telegramAccount:"Linked Telegram account", telegramChange:"Change Telegram account", telegramChangeHint:"Verify the new account with the bot. Your results stay with this Learners Area account.", telegramStaffChange:"Management Telegram identities use the separate verified account handover flow.", firstName:"First name", lastName:"Last name", fullNameRequired:"Enter your first and last name.",
     photo: {"title": "Profile photograph", "upload": "Upload photograph", "remove": "Remove photograph", "saved": "Profile photograph saved.", "failed": "The photograph could not be saved. Choose a smaller image and retry."},
     title: "Your profile",
-    subtitle: "Manage your name, study profile and linked account.",
+    subtitle: "Change only the name shown across your Learners Area account.",
     displayName: "Display name",
     saveName: "Save name",
     editName: "Edit name",
@@ -2236,7 +2201,6 @@ const en = {
     assignmentInstructions: "Instructions the student sees",
   },
   admin: {
-    materialDeletion: { confirm: "Delete this material? It will disappear from materials and the course. Existing learner results will remain.", failed: "Could not delete the material. Try again." },
     usersTitle: "Users",
     changeRole: "Change role",
     promptsTitle: "Writing prompts",
@@ -2558,7 +2522,6 @@ const en = {
       unauthenticated: "Sign in again to continue.",
     },
     admin: {
-    materialDeletion: { confirm: "Delete this material? It will disappear from materials and the course. Existing learner results will remain.", failed: "Could not delete the material. Try again." },
       title: "Retention",
       subtitle: "The memory bank: 15 texts per level is the target, not a limit.",
       backToReading: "Reading",
@@ -2631,17 +2594,12 @@ const en = {
       cancel: "Cancel",
       change: "Change",
       archive: "Delete",
-      archiveAction: "Archive",
       restore: "Restore",
       archivedBadge: "Archived",
       versionBadge: "v{n}",
       versionCount: "{n} version(s)",
       conflict: "Another admin saved a new version while you were editing. Reload the current version — your text is still in the editor only if you copy it now.",
-      confirmArchive: "Archive this text? You can restore it later.",
-      confirmPermanentDelete: "Permanently delete {label} and all its authored versions? Learners' completed answers, scores and results remain, but the source cannot be restored.",
-      confirmDeleteLabel: "Type {label} to confirm permanent deletion:",
-      deleteFailed: "Could not permanently delete the text. Learner history was not intentionally changed.",
-      deleteBlocked: "A learner is still using this text. Finish the active session before permanent deletion.",
+      confirmArchive: "Delete this text? It is archived: it leaves future rotation for every learner, while its versions and every existing result and history entry stay. You can restore it later.",
       saved: "Saved.",
       preview: "Preview",
       usageCurrent: "current version",
@@ -3335,9 +3293,6 @@ const en = {
     },
   },
   fullListeningHub: {
-    savedWork: "Saved work on this device",
-    checkpointRecovered: "Your latest saved test was restored after an update in another tab. A copy of your unsent work is kept on this device.",
-    downloadUnsentWork: "Download unsent work",
     research: {
       matching: "Matching Mastery", completion: "Form & Note Completion", map: "Map / Plan Mastery", retry: "Retry Weak Areas", yourLocation: "Your location", examLocked: "Submit your current exam before opening study help.", weakEmpty: "No missed questions in your latest submitted test. Complete a test first, or review all questions.", prediction: "Predict the answer before listening", previous: "Previous question", next: "Next question", finish: "Save completed practice",
 
@@ -3362,7 +3317,7 @@ const en = {
     library: {
       collections: "Listening collections",
       essential: "▶ Essential Recordings",
-      academic: "🎧 Listening Tests",
+      academic: "🎧 Academic Listening",
       general: "🎙️ General Listening",
       question_types: "📚 Question types",
       mcq: "🔑 MCQ Mastery",
@@ -3372,7 +3327,6 @@ const en = {
       fullListening: "🎧 Full Listening",
       sectionN: "🎙️ Section {n}",
       search: "Search listening tests",
-      archivedTestHint: "Archived. Use Delete to permanently remove this unused test.",
       badgeSection: "10 questions · controlled review",
       badgeFull: "40 questions",
       sectionOf: "Section {n} of the full recording",
@@ -3572,6 +3526,7 @@ const en = {
     scopeOwner: "Whole centre",
     scopeTeacher: "All students",
     scopeStudent: "One student",
+    scopeOperations: "Centre operations only",
     scopeSelf: "Me",
     student: "Student",
     studentHint: "Only used when \"One student\" is selected.",

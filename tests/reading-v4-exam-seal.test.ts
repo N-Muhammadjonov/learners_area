@@ -2,8 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createTestDatabase } from "./support/pglite";
 import { saveContentDraft, publishContentVersion } from "../src/lib/content/authoring";
-import { startAcademicSet, activeAcademicAttemptForPassages } from "../src/lib/data/reading-assessments";
-import { saveGeneralProgress } from "../src/lib/data/general-reading";
+import { startAcademicSet } from "../src/lib/data/reading-assessments";
 import { getAttemptDetail } from "../src/lib/data/reading";
 import { submitReadingAttempt } from "../src/lib/services/reading/submit";
 import { resolveOccurrence, readingSourceAccess } from "../src/lib/services/lexical/context";
@@ -11,7 +10,7 @@ import { resolveOccurrence, readingSourceAccess } from "../src/lib/services/lexi
 /**
  * SEC-12: an EARLIER submitted attempt must never unlock Dictionary help for a
  * currently open assessment that contains the same canonical passage — at any of
- * the three passage positions, when accessed by the Academic attempt id. Published General remains independent.
+ * the three passage positions, and whichever source id the caller sends.
  *
  * An Academic attempt row stores only its FIRST passage; positions two and three
  * are reachable solely through `reading_assessment_passages`. A policy that looks
@@ -107,16 +106,7 @@ test("SEC-12 an older submitted attempt cannot unlock an overlapping active exam
     assert.equal(scope.sections.length, 3);
     assert.equal(scope.attempt.status, "in_progress");
 
-    const [other] = await env.query<{id:string}>("insert into users(name) values('Other student') returning id");
-    for (const slot of passages) {
-      const input={userId:a!.id,role:'student' as const,passageId:slot.passage_id,answers:{},check:true};
-      assert.equal(await activeAcademicAttemptForPassages(a!.id,[slot.passage_id],env.db),active);
-      assert.ok((await saveGeneralProgress(input,env.db))?.result,`General Check stays independent for passage ${slot.passage_no}`);
-      assert.ok(await saveGeneralProgress({...input,check:false},env.db),'General autosave is independent');
-      assert.ok((await saveGeneralProgress({...input,userId:other!.id},env.db))?.result,'another learner is not locked by this user’s exam');
-    }
-
-    // Academic attempt sources remain sealed; explicit General passage sources stay usable.
+    // Every route into the Dictionary must now be sealed, at every position.
     for (const occurrence of occurrences) {
       assert.equal(
         (await resolveOccurrence(user, "reading", active!, occurrence.id, env.db))?.status,
@@ -125,13 +115,13 @@ test("SEC-12 an older submitted attempt cannot unlock an overlapping active exam
       );
       assert.equal(
         (await resolveOccurrence(user, "reading", occurrence.passageId, occurrence.id, env.db))?.status,
-        "unresolved",
-        `General passage source ${occurrence.passageNo} is authorized independently`,
+        "locked",
+        `SEC-12 bare passage id, passage ${occurrence.passageNo}: an old submission must not unlock the open exam`,
       );
       assert.equal(
         await readingSourceAccess(user, occurrence.passageId, env.db),
-        "allowed",
-        `General save gate, passage ${occurrence.passageNo}`,
+        "locked",
+        `SEC-04 save gate, bare passage id, passage ${occurrence.passageNo}`,
       );
     }
     for (const no of [2, 3]) {
@@ -149,8 +139,6 @@ test("SEC-12 an older submitted attempt cannot unlock an overlapping active exam
     for (const occurrence of occurrences) {
       assert.equal((await resolveOccurrence(user, "reading", active!, occurrence.id, env.db))?.status, "unresolved", "own submitted review is authorized again");
       assert.equal(await readingSourceAccess(user, occurrence.passageId, env.db), "allowed");
-      assert.equal(await activeAcademicAttemptForPassages(a!.id,[occurrence.passageId],env.db),null);
-      assert.ok((await saveGeneralProgress({userId:a!.id,role:'student',passageId:occurrence.passageId,answers:{},check:true},env.db))?.result,'General Check opens after submission');
     }
   } finally {
     await env.close();

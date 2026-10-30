@@ -1,0 +1,129 @@
+/* Writing-only CSS3. Preserve shell theme variables; do not change css/global.css. */
+[data-writing-native] { min-width:0; }
+[data-writing-native] textarea, [data-writing-native] input, [data-writing-native] select { max-width:100%; }
+[data-writing-native] textarea { resize:vertical; line-height:1.7; }
+[data-writing-native] .writing-tabs { display:flex; gap:.25rem; overflow-x:auto; scrollbar-width:thin; border-bottom:1px solid rgb(var(--ink-100)/1); }
+[data-writing-native] .writing-tabs button { flex:0 0 auto; padding:.8rem .75rem; border-bottom:2px solid transparent; font:inherit; font-size:.875rem; white-space:nowrap; }
+[data-writing-native] .writing-tabs button[aria-selected="true"] { color:rgb(var(--ink-900)/1); border-color:rgb(var(--signal-600)/1); font-weight:600; }
+[data-writing-native] .writing-two-column { display:grid; grid-template-columns:minmax(0,1fr); align-items:start; gap:1.25rem; }
+[data-writing-native] .writing-sticky { position:relative; }
+[data-writing-native] .writing-editor { min-height:20rem; width:100%; tab-size:4; }
+[data-writing-native] .writing-progress { width:100%; height:.45rem; background:rgb(var(--ink-100)/1); overflow:hidden; border-radius:9999px; }
+[data-writing-native] .writing-progress > span { display:block; background:rgb(var(--signal-600)/1); height:100%; transition:width .2s; }
+[data-writing-native] .writing-criterion { display:flex; flex-direction:column; align-items:center; text-align:center; padding:1rem; border:1px solid rgb(var(--ink-100)/1); border-radius:.75rem; gap:.5rem; }
+[data-writing-native] .writing-help { font-size:.85rem; color:rgb(var(--ink-500)/1); line-height:1.6; }
+[data-writing-native] .writing-error { color:rgb(var(--band-bad)/1); }
+[data-writing-native] [data-exam-timer] { font-variant-numeric:tabular-nums; font-size:1.25rem; font-weight:650; }
+[data-writing-native] .writing-groups { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr)); gap:1rem; }
+[data-writing-native] .writing-groups > * { min-width:0; }
+.writing-question-picker{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.exam-type-buttons{display:flex;flex-wrap:wrap;gap:.6rem}
+.exam-type-buttons button{min-height:44px;white-space:normal;text-align:center}
+.exam-question-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;list-style:none;padding:0;margin:0}
+.exam-question-list li{min-width:0}
+.exam-question-choice{display:flex;flex-direction:column;gap:.5rem;text-align:left;width:100%;height:100%;padding:1rem;cursor:pointer;color:inherit;font:inherit}
+.exam-question-choice[aria-pressed="true"]{outline:2px solid rgb(var(--signal-600)/1);outline-offset:2px}
+.exam-question-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-size:.8rem}
+.exam-question-title{font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+.exam-question-date{font-size:.75rem;line-height:1.5;color:rgb(var(--ink-500)/1)}
+.exam-new-badge{padding:.15rem .45rem;background:rgb(var(--signal-600)/1);color:white;border-radius:.3rem;font-size:.7rem;font-weight:750}
+.exam-question-preview{display:flex;flex-direction:column;align-items:start;gap:1rem}
+.exam-question-preview[hidden]{display:none!important}
+.exam-preview-image{max-width:100%;overflow:auto;background:white}
+.exam-preview-image img{display:block;width:auto;max-width:100%;height:auto;max-height:32rem;object-fit:contain}
+.exam-writing-workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;min-width:0}
+[data-exam-runner] [hidden]{display:none!important}
+.exam-question-pane,.exam-answer-pane{display:flex;flex-direction:column;gap:.75rem;padding:1.25rem;min-width:0;height:calc(100dvh - 15rem);min-height:28rem}
+.exam-question-pane{overflow:auto;overscroll-behavior:contain}
+.exam-answer-pane textarea{width:100%;flex:1;min-height:18rem;resize:none!important;padding:1rem;font:18px/1.75 Arial,sans-serif;overflow:auto}
+[data-exam-materials] .card{border:0;box-shadow:none;padding:0;background:transparent}
+[data-exam-materials] .card-title{display:none}
+[data-exam-materials] .writing-original-image{width:auto;max-width:100%;height:auto;max-height:none;filter:none!important}
+[data-exam-materials] .writing-image-frame{background:#fff}
+.exam-image-dialog{box-sizing:border-box;width:min(96vw,1500px);max-width:96vw;height:92dvh;max-height:92dvh;padding:1rem;border:1px solid #94a3b8;border-radius:1rem;background:#fff;color:#102740}
+.exam-image-dialog::backdrop{background:#061326d9}
+.exam-image-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:.5rem;margin-bottom:.75rem}
+.exam-image-stage{height:calc(100% - 4rem);overflow:auto;overscroll-behavior:contain;background:#fff}
+.exam-image-stage img{display:block;width:100%;height:auto;margin:auto;object-fit:contain}
+@media(max-width:800px){.exam-question-list,.exam-writing-workspace{grid-template-columns:minmax(0,1fr)}.exam-question-pane,.exam-answer-pane{height:auto;min-height:0}.exam-question-pane{max-height:65dvh}.exam-answer-pane textarea{min-height:24rem}.exam-question-pane,.exam-answer-pane{padding:1rem}}
+@media (min-width:1024px){ [data-writing-native] .writing-two-column {grid-template-columns:repeat(2,minmax(0,1fr))} [data-writing-native] .writing-sticky {position:sticky;top:1rem} }
+@media(prefers-reduced-motion:reduce){[data-writing-native] *,[data-writing-native] *::before,[data-writing-native] *::after{transition-duration:0s!important;animation-duration:0s!important}}
+
+.writing-image-frame{max-width:100%;overflow:auto;overscroll-behavior:contain;border-radius:.25rem}
+.writing-original-image{display:block;width:auto;height:auto;max-width:none;max-height:none!important;background:#fff;object-fit:contain;filter:none!important;opacity:1!important}
+[data-stealing-model-study]{position:relative;min-width:0}
+.stealing-study-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.stealing-essay-text{white-space:pre-wrap;font-size:clamp(1.05rem,1rem + .2vw,1.25rem);line-height:1.9;overflow-wrap:anywhere}
+.stealing-essay-text mark{color:#102740!important;padding:.08em 0;cursor:pointer}
+.stealing-essay-text mark[data-color="yellow"]{background:#fef08a!important}
+.stealing-essay-text mark[data-color="blue"]{background:#bae6fd!important}
+.stealing-essay-text mark[data-color="orange"]{background:#fed7aa!important}
+.stealing-notes{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem}
+.stealing-notes[hidden]{display:none!important}
+.stealing-notes textarea{width:100%;min-height:14rem}
+
+.stealing-study-layout{display:flex;flex-direction:column;gap:1rem}
+.stealing-notes{order:-1;margin-top:0}
+[data-study-color]::before{content:'';width:.85rem;height:.85rem;border-radius:50%;display:inline-block;flex:none}
+[data-study-color="yellow"]::before{background:#fef08a}
+[data-study-color="blue"]::before{background:#bae6fd}
+[data-study-color="orange"]::before{background:#fed7aa}
+@media(min-width:1024px){[data-stealing-model-study][data-notes-open="true"] .stealing-study-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(16rem,.65fr);align-items:start}.stealing-notes{order:0;position:sticky;top:1rem}}
+#root [data-stealing-model-study] [hidden]{display:none!important}
+
+/* Essay tools are private, route-scoped portals below the profile. */
+.stealing-study-tools{position:fixed;z-index:55;display:flex;align-items:flex-end;flex-direction:column;color:#102740}
+.stealing-study-tools button{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #22c55e;border-radius:50%;background:#3d50fa;color:#fff;font-size:24px}
+.stealing-study-tools .stealing-notes{position:absolute;top:52px;right:0;order:0;box-sizing:border-box;width:min(340px,calc(100vw - 32px));padding:16px;overflow:auto;border:1px solid #22c55e;border-radius:16px;background:#fff;box-shadow:0 8px 32px #0003}
+.stealing-study-tools .stealing-notes label{display:block;font-size:16px;padding-right:24px}
+.stealing-study-tools .stealing-notes textarea{box-sizing:border-box;width:100%;margin-top:12px;min-height:220px;padding:10px;background:#fff;color:#102740;border:1px solid #22c55e;border-radius:10px;font:inherit}
+.stealing-study-tools .stealing-note-close{position:absolute;right:10px;top:8px;width:32px;height:32px;font-size:22px}
+.stealing-study-tools :is(label,p){color:inherit}
+html[data-theme="night"] .stealing-study-tools{color:#f3eef5}
+html[data-theme="night"] .stealing-study-tools .stealing-notes,html[data-theme="night"] .stealing-study-tools .stealing-notes textarea{background:#1a1625;color:#f3eef5}
+body .stealing-study-tools [hidden],body .stealing-color-palette[hidden]{display:none!important}
+.stealing-color-palette{position:fixed;z-index:65;display:flex;gap:12px;align-items:center;width:max-content;box-sizing:border-box;padding:10px;border-radius:999px;background:#fff;box-shadow:0 3px 20px #0004}
+html[data-theme="night"] .stealing-color-palette{background:#1a1625}
+body .stealing-color-palette button[data-study-color]{display:block;flex:none;width:28px;height:28px;min-width:28px;min-height:28px;padding:0;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1px #64748b}
+body .stealing-color-palette button[data-study-color]::before{display:none}
+body .stealing-color-palette [data-study-color="yellow"]{background:#fef08a!important}
+body .stealing-color-palette [data-study-color="blue"]{background:#bae6fd!important}
+body .stealing-color-palette [data-study-color="orange"]{background:#fed7aa!important}
+body .stealing-color-palette button:focus-visible{outline:3px solid #3d50fa;outline-offset:3px}
+/* Writing Exam Mode question picker (Task 1 + Task 2 only). */
+.writing-question-picker .exam-preview-row{grid-column:1/-1;list-style:none;min-width:0}
+.writing-question-picker .exam-preview-controls{display:flex;flex-wrap:wrap;gap:.75rem}
+/* Writing Task 1/2 exam-picker search: override the shell-wide search border reset.
+   Scope strictly to this input; preserve its search logic and other controls. */
+html[data-theme] #root .writing-question-picker input[data-exam-search] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: .7rem .9rem;
+  background-color: #eef5ff !important;
+  color: #102740 !important;
+  border: 2px solid #3b6cff !important;
+  border-radius: .75rem;
+  caret-color: #0b56a8;
+  box-shadow: 0 2px 8px rgb(25 56 104 / 12%) !important;
+  color-scheme: light;
+}
+html[data-theme] #root .writing-question-picker input[data-exam-search]::placeholder {
+  color: #526780;
+  opacity: 1;
+}
+html[data-theme] #root .writing-question-picker input[data-exam-search]:focus-visible {
+  outline: 2px solid #2e68e8 !important;
+  outline-offset: 2px;
+}
+html[data-theme="night"] #root .writing-question-picker input[data-exam-search] {
+  background-color: #132843 !important;
+  color: #f5f9ff !important;
+  border-color: #80b8ff !important;
+  caret-color: #93d5ff;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 20%) !important;
+  color-scheme: dark;
+}
+html[data-theme="night"] #root .writing-question-picker input[data-exam-search]::placeholder {
+  color: #c5d7ee;
+}

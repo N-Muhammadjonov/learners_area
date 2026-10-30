@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import bcrypt from "bcryptjs";
 import { eq, inArray } from "drizzle-orm";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { users, readingPassages, readingAttempts, lexicalOccurrences, lexemes, userVocabulary, vocabFolders } from "../src/db/schema";
 const base = new URL(process.env.BASE_URL ?? "http://127.0.0.1:3108");
 const database = new URL(process.env.DATABASE_URL!);

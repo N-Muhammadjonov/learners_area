@@ -1,0 +1,802 @@
+{
+  "scope": "Railway edge totalDuration, milliseconds; browser last-mile excluded",
+  "samples": [
+    {
+      "timestamp": "2026-10-26T19:44:50.567612257Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 170,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:51.258265844Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 137,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:51.807662224Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 149,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:52.807182593Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 610,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:53.581074906Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 409,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:54.075913522Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 112,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:54.585517786Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 100,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:55.267524766Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 330,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:55.758574025Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 116,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:56.312738397Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 165,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:57.020836849Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 340,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:57.534124593Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 131,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:58.210215302Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 298,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:44:58.713360367Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 23,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:55.046420229Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 93,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:55.636949168Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 177,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:56.233585833Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 230,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:56.812765330Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 127,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:57.301952942Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 110,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:57.950318989Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 139,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:58.452319582Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 129,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:59.158568438Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 129,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:45:59.794531884Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 99,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:00.504668947Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 111,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:01.222916193Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 120,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:01.711613528Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 120,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:02.193393151Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 100,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:02.629923912Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 24,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:03.187237975Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 180,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:03.734444932Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 122,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:04.296096488Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 130,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:04.820169818Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 128,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:05.358996800Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 148,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:05.854010960Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 98,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:06.330118541Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 98,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:06.926000348Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 204,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:07.411180234Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 83,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:07.856081447Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 84,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:08.356228115Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 110,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:08.937438601Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 132,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:09.404417463Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 82,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:09.911185271Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 24,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:23.682233038Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 68,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:24.126551945Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 59,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:24.664581237Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 145,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:25.190782585Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 143,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:25.652718919Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 87,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:26.112947009Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 76,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:26.573283953Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 91,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:27.060267001Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 118,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:27.651442601Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 156,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:28.134620783Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 102,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:28.663342028Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 130,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:29.150756763Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 102,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:29.647867034Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 109,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:30.061847008Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 25,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:30.553701078Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 94,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:31.093145210Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 71,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:31.549481702Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 76,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:32.056608665Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 109,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:32.573502087Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 70,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:33.112004462Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 161,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:33.579911364Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 80,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:34.031262558Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 71,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:34.492007020Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 100,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:34.949089541Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 77,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:35.439980658Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 72,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:35.914571885Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 91,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:36.407347684Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 80,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:36.804750962Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 22,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:37.255625527Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 73,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:37.729751736Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 99,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:38.275546976Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 72,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:38.958384354Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 164,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:39.429327090Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 102,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:39.887827956Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 95,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:40.388956238Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 116,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:40.837324530Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 75,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:41.311027965Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 93,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:41.783062603Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 81,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:42.346668604Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 81,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:42.821557172Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 88,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:43.340897798Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 87,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:43.783006666Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 24,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:44.321318411Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 124,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:44.797523144Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 94,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:45.250515187Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 74,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:45.763980005Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 99,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:46.219456744Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 78,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:46.713505571Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 110,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:47.166431456Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 79,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:47.700652377Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 89,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:48.174158704Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 55,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:48.678767523Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 88,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:49.266091248Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 93,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:49.744467388Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 92,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:50.217805197Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 77,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:50.767870252Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 24,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:51.236097932Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 88,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:51.688724212Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 87,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:52.158946403Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 80,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:52.617279678Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 95,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:53.102270443Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 115,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:53.612919640Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 122,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:54.189137326Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 136,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:54.638040690Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 73,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:55.186659843Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 87,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:55.671640369Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 86,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:56.166542863Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 113,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:56.728810961Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 138,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:57.232411087Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 99,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    },
+    {
+      "timestamp": "2026-10-26T19:46:57.655151025Z",
+      "path": "/api/dictionary/search",
+      "httpStatus": 200,
+      "totalDuration": 25,
+      "edgeRegion": "asia-southeast1-eqsg3a"
+    }
+  ],
+  "summary": {
+    "requests": 112,
+    "p50Ms": 99,
+    "p95Ms": 230,
+    "p99Ms": 409,
+    "errors": 0,
+    "http5xx": 0,
+    "errorRate": 0
+  },
+  "runtimeCommit": "4c3a3f632b962361d322636304a046a4add94f2e",
+  "stage": "current_baseline_after_correctness_fix",
+  "notPairedBeforeAfter": true,
+  "cohortAssignment": "Time window and exact observed request count match the browser cohort; raw request identifiers/IPs omitted."
+}

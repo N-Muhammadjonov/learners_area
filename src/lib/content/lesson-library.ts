@@ -91,18 +91,14 @@ export async function listLessonLibrary(query: LessonLibraryQuery, executor?: { 
   if (page.length === 0) return { rows: [] as LessonLibraryCard[], hasMore, area };
   const ids = page.map((row) => row.id);
 
-  // These two decoration reads depend only on the already bounded published
-  // lesson IDs, not on one another. Parallelizing saves one DB round trip for
-  // Listening, Reading and Grammar lesson catalogues without broadening scope.
-  const [legacyNotes, blocks] = await Promise.all([
-    exec.select({ lessonId: videoLessons.lessonId, notes: videoLessons.notes })
-      .from(videoLessons)
-      .where(and(inArray(videoLessons.lessonId, ids), isNotNull(videoLessons.notes))),
-    exec.select({ lessonId: lessonBlocks.lessonId, type: lessonBlocks.type })
-      .from(lessonBlocks)
-      .where(inArray(lessonBlocks.lessonId, ids)),
-  ]);
+  const legacyNotes = await exec.select({ lessonId: videoLessons.lessonId, notes: videoLessons.notes })
+    .from(videoLessons)
+    .where(and(inArray(videoLessons.lessonId, ids), isNotNull(videoLessons.notes)));
   const withLegacyNotes = new Set(legacyNotes.filter((row) => (row.notes ?? "").trim().length > 0).map((row) => row.lessonId!));
+
+  const blocks = await exec.select({ lessonId: lessonBlocks.lessonId, type: lessonBlocks.type })
+    .from(lessonBlocks)
+    .where(inArray(lessonBlocks.lessonId, ids));
   const withMedia = new Set(blocks.filter((row) => ["audio", "video", "image", "file"].includes(row.type)).map((row) => row.lessonId));
 
   return {

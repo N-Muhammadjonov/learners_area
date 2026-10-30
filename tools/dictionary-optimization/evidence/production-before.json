@@ -1,0 +1,361 @@
+{
+  "rls": [
+    {
+      "name": "dictionary_channels",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_drafts",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_entries",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_owner_events",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_publish_jobs",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_r2_shards",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_recent_searches",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_releases",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_search_indexes",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_search_terms",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    },
+    {
+      "name": "dictionary_sense_mappings",
+      "enabled": true,
+      "anon_select": false,
+      "authenticated_select": false
+    }
+  ],
+  "terms": [
+    {
+      "count": 65669,
+      "direction": "EN",
+      "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9"
+    },
+    {
+      "count": 1135487,
+      "direction": "UZ",
+      "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9"
+    }
+  ],
+  "entries": [
+    {
+      "count": 65056,
+      "release_id": "rel-v1-977bce7f8dab7e773955238e",
+      "storage_release": "rel-v1-977bce7f8dab7e773955238e"
+    },
+    {
+      "count": 62376,
+      "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9",
+      "storage_release": "rel-v1-a834010a6ccc72c8b3cd8db9"
+    },
+    {
+      "count": 64938,
+      "release_id": "rel-v1-cfadf47e87701f627f3270ce",
+      "storage_release": "rel-v1-cfadf47e87701f627f3270ce"
+    },
+    {
+      "count": 64616,
+      "release_id": "rel-v1-e7fa84dde5eec2f502957489",
+      "storage_release": "rel-v1-e7fa84dde5eec2f502957489"
+    }
+  ],
+  "indexes": [
+    {
+      "name": "dictionary_channels_pkey",
+      "bytes": 16384,
+      "scans": 16418,
+      "tuples_read": 16402
+    },
+    {
+      "name": "dictionary_drafts_pkey",
+      "bytes": 16384,
+      "scans": 0,
+      "tuples_read": 0
+    },
+    {
+      "name": "dictionary_entries_pkey",
+      "bytes": 21110784,
+      "scans": 1476902,
+      "tuples_read": 12254854
+    },
+    {
+      "name": "dictionary_entries_release_id_lemma_norm_part_of_speech_lex_key",
+      "bytes": 25591808,
+      "scans": 6896,
+      "tuples_read": 131994
+    },
+    {
+      "name": "dictionary_owner_events_pkey",
+      "bytes": 16384,
+      "scans": 0,
+      "tuples_read": 0
+    },
+    {
+      "name": "dictionary_publish_jobs_pkey",
+      "bytes": 16384,
+      "scans": 244,
+      "tuples_read": 280
+    },
+    {
+      "name": "dictionary_one_publish_job_idx",
+      "bytes": 16384,
+      "scans": 15878,
+      "tuples_read": 15939
+    },
+    {
+      "name": "dictionary_r2_shards_pkey",
+      "bytes": 114688,
+      "scans": 2524,
+      "tuples_read": 7072
+    },
+    {
+      "name": "dictionary_recent_searches_pkey",
+      "bytes": 16384,
+      "scans": 23,
+      "tuples_read": 4
+    },
+    {
+      "name": "dictionary_recent_user_idx",
+      "bytes": 16384,
+      "scans": 83,
+      "tuples_read": 448
+    },
+    {
+      "name": "dictionary_releases_pkey",
+      "bytes": 16384,
+      "scans": 1992810,
+      "tuples_read": 1992803
+    },
+    {
+      "name": "dictionary_search_indexes_pkey",
+      "bytes": 16384,
+      "scans": 289,
+      "tuples_read": 269
+    },
+    {
+      "name": "dictionary_search_terms_pkey",
+      "bytes": 111058944,
+      "scans": 1201156,
+      "tuples_read": 0
+    },
+    {
+      "name": "dictionary_terms_entry_idx",
+      "bytes": 12533760,
+      "scans": 18,
+      "tuples_read": 15472501
+    },
+    {
+      "name": "dictionary_search_prefix_idx",
+      "bytes": 37044224,
+      "scans": 27,
+      "tuples_read": 7174503
+    },
+    {
+      "name": "dictionary_sense_mappings_pkey",
+      "bytes": 139264,
+      "scans": 107259,
+      "tuples_read": 4220
+    },
+    {
+      "name": "dictionary_sense_app_identity_idx",
+      "bytes": 139264,
+      "scans": 4016,
+      "tuples_read": 19415
+    }
+  ],
+  "channels": [
+    {
+      "name": "stable",
+      "updated_at": "2026-10-26T15:57:02.185233+00:00",
+      "active_release_id": "rel-v1-977bce7f8dab7e773955238e",
+      "previous_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+    }
+  ],
+  "releases": [
+    {
+      "id": "rel-v1-a834010a6ccc72c8b3cd8db9",
+      "state": "validated",
+      "lexemes": "62376",
+      "delivery": "legacy",
+      "manifest_sha": "6bbe69bc42093426c6fd65801add56ffe42bf9c5a6bd13ccc458879b3314a2b8",
+      "search_terms": "1201156",
+      "validated_at": "2026-10-19T19:29:27.85487+00:00",
+      "base_release_id": null
+    },
+    {
+      "id": "rel-v1-e7fa84dde5eec2f502957489",
+      "state": "validated",
+      "lexemes": "64616",
+      "delivery": "r2-worker-v1",
+      "manifest_sha": "213b32888693cdc6d90868e5b23e3a5771e233052b42423e588e89b1aaa77189",
+      "search_terms": "1223003",
+      "validated_at": "2026-10-20T16:11:29.895784+00:00",
+      "base_release_id": null
+    },
+    {
+      "id": "rel-v1-cfadf47e87701f627f3270ce",
+      "state": "validated",
+      "lexemes": "64938",
+      "delivery": "r2-worker-v1",
+      "manifest_sha": "756134d493381bae1bbf66f3c910f3590da1ef0ad2a8b1b92fcede2229eedfdf",
+      "search_terms": "1224846",
+      "validated_at": "2026-10-25T23:10:30.087101+00:00",
+      "base_release_id": null
+    },
+    {
+      "id": "rel-v1-977bce7f8dab7e773955238e",
+      "state": "validated",
+      "lexemes": "65056",
+      "delivery": "r2-worker-v1",
+      "manifest_sha": "3e2f1638bc4127da5fb359093ea97aeacdeebdc2d4d293dc161e174be4ad845c",
+      "search_terms": "1226256",
+      "validated_at": "2026-10-26T15:57:02.185233+00:00",
+      "base_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+    }
+  ],
+  "captured_at": "2026-10-26T18:58:39.813883+00:00",
+  "publish_jobs": [
+    {
+      "id": "392432e0-332c-505d-b3b4-41ce5dc947d5",
+      "phase": "complete",
+      "updated_at": "2026-10-26T15:57:02.185233+00:00",
+      "base_release_id": "rel-v1-cfadf47e87701f627f3270ce",
+      "worker_lease_until": null,
+      "candidate_release_id": "rel-v1-977bce7f8dab7e773955238e"
+    }
+  ],
+  "database_bytes": 467643539,
+  "server_version": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+  "dictionary_relations": [
+    {
+      "name": "dictionary_releases",
+      "heap_bytes": 8192,
+      "index_bytes": 16384,
+      "total_bytes": 1187840,
+      "dead_estimate": 4,
+      "live_estimate": 4
+    },
+    {
+      "name": "dictionary_channels",
+      "heap_bytes": 8192,
+      "index_bytes": 16384,
+      "total_bytes": 32768,
+      "dead_estimate": 2,
+      "live_estimate": 1
+    },
+    {
+      "name": "dictionary_entries",
+      "heap_bytes": 93954048,
+      "index_bytes": 46702592,
+      "total_bytes": 140730368,
+      "dead_estimate": 255,
+      "live_estimate": 256510
+    },
+    {
+      "name": "dictionary_search_terms",
+      "heap_bytes": 121577472,
+      "index_bytes": 160636928,
+      "total_bytes": 282279936,
+      "dead_estimate": 0,
+      "live_estimate": 1180914
+    },
+    {
+      "name": "dictionary_sense_mappings",
+      "heap_bytes": 393216,
+      "index_bytes": 278528,
+      "total_bytes": 712704,
+      "dead_estimate": 0,
+      "live_estimate": 3851
+    },
+    {
+      "name": "dictionary_recent_searches",
+      "heap_bytes": 8192,
+      "index_bytes": 32768,
+      "total_bytes": 49152,
+      "dead_estimate": 23,
+      "live_estimate": 0
+    },
+    {
+      "name": "dictionary_drafts",
+      "heap_bytes": 163840,
+      "index_bytes": 16384,
+      "total_bytes": 221184,
+      "dead_estimate": 0,
+      "live_estimate": 118
+    },
+    {
+      "name": "dictionary_owner_events",
+      "heap_bytes": 139264,
+      "index_bytes": 16384,
+      "total_bytes": 188416,
+      "dead_estimate": 0,
+      "live_estimate": 124
+    },
+    {
+      "name": "dictionary_publish_jobs",
+      "heap_bytes": 401408,
+      "index_bytes": 32768,
+      "total_bytes": 475136,
+      "dead_estimate": 23,
+      "live_estimate": 1
+    },
+    {
+      "name": "dictionary_r2_shards",
+      "heap_bytes": 393216,
+      "index_bytes": 114688,
+      "total_bytes": 540672,
+      "dead_estimate": 0,
+      "live_estimate": 1025
+    },
+    {
+      "name": "dictionary_search_indexes",
+      "heap_bytes": 8192,
+      "index_bytes": 16384,
+      "total_bytes": 1015808,
+      "dead_estimate": 0,
+      "live_estimate": 3
+    }
+  ]
+}

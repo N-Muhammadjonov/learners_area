@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "protected R2 object bytes and PostgreSQL identities only",
+  "workerAdminConfigurationVerified": false,
+  "postReadChannelAndPublisherRecheck": "PASS",
+  "entries": 129994,
+  "objects": 3821,
+  "compressedBytes": 276319746,
+  "measuredAt": "2026-10-26 19:31:18.940144+00",
+  "artifacts": {
+    "production-r2-byte-check.json": "f84e985d0e2180d92be88e422de60c99efed4cb7e7d5623ec0d125fff0a903e1",
+    "production-r2-recheck.json": "08baa71e3491c01ad4ec379ef971d65f183cee9f57f88d41e707339018d12a29",
+    "production-projection.json": "3bca05b9cc445b58e6616e4a966f2dd3dd3a8c630e8020c03c9d9a7c7a6e2dc9"
+  }
+}

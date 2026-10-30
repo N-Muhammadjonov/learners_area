@@ -1,0 +1,21 @@
+{
+  "terms": 1201156,
+  "entries": 256986,
+  "channels": [
+    {
+      "name": "stable",
+      "updated_at": "2026-10-26T15:57:02.185233+00:00",
+      "active_release_id": "rel-v1-977bce7f8dab7e773955238e",
+      "previous_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+    }
+  ],
+  "term_bytes": 282279936,
+  "captured_at": "2026-10-26T19:53:40.627743+00:00",
+  "entries_bytes": 140730368,
+  "active_entries": 65056,
+  "database_bytes": 467676307,
+  "term_index_bytes": 160636928,
+  "legacy_search_calls": 7,
+  "running_publish_jobs": 0,
+  "immutable_triggers_enabled": true
+}

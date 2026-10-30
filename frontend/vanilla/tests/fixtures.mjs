@@ -1,0 +1,11 @@
+/** ISOLATED SYNTHETIC FIXTURES. Not shipped, not source curriculum, not integration. */
+export const testId='00000000-0000-4000-8000-000000000001';
+export function fixtureSession(role='student',extra={}){return {version:1,session:{expiresAt:Math.floor(Date.now()/1000)+3600,accessEventsEnabled:false,user:{id:'isolated-fixture-user',name:'Isolated fixture',email:'fixture@example.invalid',role,accountStatus:'active',photoPresent:false},...extra}};}
+export const publicPolicy={version:1,public:{auth:{passwordEnabled:true,telegramOnly:false,telegramConfigured:false,telegramIntentEnabled:true,googleConfigured:true}}};
+export const mock={tests:[],attempts:[],attemptsUnavailable:false,attemptTitlesUnavailable:false,catalogueUnavailable:false};
+export function viewFixture(path){const base={library:{rows:[],hasMore:false},cards:[],total:0,hasMore:false,days:[],rows:[],sets:[],counts:[],inventory:Object.fromEntries(['reading','listening','writing','video','grammar'].map(k=>[k,{total:0,live:0}])),writingOther:{total:0,live:0}};
+ if(path==='/app')return {dashboard:{unavailable:{},profile:null,streak:null,writingAttempts:null,vocabDueCount:null,lastActivity:null,skillCounts:{listening:0,reading:0,writing:0,speaking:0},latestEvaluation:null,nextLiveClass:null,openAssignments:[]},openLessonsResult:{ok:true,lessons:[]},mock};
+ if(path==='/app/mocks')return {mock};if(path.startsWith('/app/listening/tests/'))return {kind:'authored'};
+ if(path.startsWith('/app/listening/mcq/day/'))return {day:{day:8,title:'Isolated synthetic day',draft:false,audioUrl:null,status:{state:'not_started',completed:0,total:5},questions:Array.from({length:5},(_,i)=>({id:'isolated-question-'+i,questionText:'Synthetic question '+(i+1),stage:null}))}};
+ if(path==='/pending')return {openRequest:null};return base;}
+export const authoredFixture={nativePersistence:true,storageKey:'isolated-fixture-runtime',runtime:{entryPath:'index.html',files:{'index.html':'<!doctype html><html><body><section id="hub"><h1>Isolated sandbox fixture</h1><button type="button">Synthetic activity</button></section><script>window.laHydrateOriginal=()=>{};<\/script></body></html>'}},audioUrl:'/api/resources/fixture/audio',audioPath:'audio.mp3',imageUrl:null,imagePath:null,vocabulary:[]};

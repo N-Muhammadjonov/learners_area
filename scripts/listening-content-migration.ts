@@ -22,7 +22,7 @@
 import { JSDOM } from "jsdom";
 import { writeFileSync } from "node:fs";
 import { sql } from "drizzle-orm";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { listeningPackages } from "../src/db/schema";
 import { listeningPackageSchema, type ListeningPackage } from "../src/lib/listening/package";
 import {

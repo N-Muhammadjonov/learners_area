@@ -1,0 +1,112 @@
+{
+  "status": "PASS",
+  "reference": "fresh original-source comparison and V9 immutable pins",
+  "assets": 25,
+  "sourceCssExact": true,
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "compiledCssDeterministic": true,
+  "compiledCssSha256": "e11338961f86c4005ede71c6eb8ee20aacaab76792dcac7e07d6120564963324",
+  "checks": [
+    {
+      "path": "fonts/PROVENANCE.md",
+      "sha256": "2a0ff5dee314de3a23c00d297e5474b71be447f5a80382b09d325dd6c8d2d6bd"
+    },
+    {
+      "path": "fonts/geist-latin-wght-normal.woff2",
+      "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1"
+    },
+    {
+      "path": "fonts/itim-latin-400-normal.woff2",
+      "sha256": "733235cab0000b011f318ba1028f1867ddc16e506ec8231f4134e9c0755d5ca6"
+    },
+    {
+      "path": "fonts/kanit-latin-600-normal.woff2",
+      "sha256": "c3c4f89f25c7c8343a8b8ce0a120fe2c419809a1e92cc9313cbb5a36fb10a411"
+    },
+    {
+      "path": "fonts/kanit-latin-700-normal.woff2",
+      "sha256": "a44817a3dcd26f5c659cd92c241f7c9e96414a74c0de249407064364573cd6b5"
+    },
+    {
+      "path": "fonts/licenses/geist-OFL.txt",
+      "sha256": "71609cbb5c78b5870d712eab73a31d76622635c6ed034ab5cee3b9ecbda8685f"
+    },
+    {
+      "path": "fonts/licenses/itim-OFL.txt",
+      "sha256": "a30d9716e7d743774d5e84a94674b4f7d62aaf101d59c833b4799a4327d5b275"
+    },
+    {
+      "path": "fonts/licenses/kanit-OFL.txt",
+      "sha256": "0c796c259354fbbc1a5041e468085d219519b3fd93f4e882bcb21ed602dbcca8"
+    },
+    {
+      "path": "fonts/licenses/roboto-mono-OFL.txt",
+      "sha256": "b489132782690f2cc1ed23ab56d7057bbb08c42573603e8e704ae2e2ea9c8216"
+    },
+    {
+      "path": "fonts/licenses/sora-OFL.txt",
+      "sha256": "1ec9623d38c445eb4dfe5fcc783e0f0ee728cc97ca157ce1f8cb2b3bf9d9b0d9"
+    },
+    {
+      "path": "fonts/roboto-mono-latin-wght-normal.woff2",
+      "sha256": "b81cd55177300649be8f95b3b747d721ce607e8ed2856e25bd0c630cfd631faf"
+    },
+    {
+      "path": "fonts/sora-latin-wght-normal.woff2",
+      "sha256": "fa26406eeda9a3c6ec3d9ea8813c3045d6dc755e30c716d5c094e8ef43be5a7f"
+    },
+    {
+      "path": "brand/Learners_Area_intro_optimized_v17.mp4",
+      "sha256": "406546b23a0ddaaacd94d4a8f04811d8cc2422bb12284dcdc87c79d8a55b94d0"
+    },
+    {
+      "path": "brand/derived/favicon-32.png",
+      "sha256": "92f5fc3d7e54fb2f88e8993bb7097bd8ff3eb6caff8267d12bffd787ebc3512f"
+    },
+    {
+      "path": "brand/derived/favicon.ico",
+      "sha256": "50c93126ac7684396e765454a8c8b2a9d40d5bf6b8c7c84fc864632be25808a6"
+    },
+    {
+      "path": "brand/derived/owner-neon-day-192.png",
+      "sha256": "1918ab16777d82fa28bf2ed365dc6146a33b918ae55db5c6424b0b88bd938598"
+    },
+    {
+      "path": "brand/derived/owner-neon-day-96.png",
+      "sha256": "3e5686f5cc0e16178fc4fd7740a8cbde0f3cdf6ecb8b3b8ca1f876e1cf642e03"
+    },
+    {
+      "path": "brand/derived/owner-v11-night-192.png",
+      "sha256": "9d66e3b0217a4700216220ad4aab87540d8c07e7fb5998540e454f1b8227bd77"
+    },
+    {
+      "path": "brand/derived/owner-v11-night-96.png",
+      "sha256": "631cc3c6732725a5fbbd6546ef65301dab1c1fe6068447bd8b5acbe3603b01c7"
+    },
+    {
+      "path": "images/day/LA_DAY_DESKTOP_BACKGROUND.61b34a5a3a32.webp",
+      "sha256": "61b34a5a3a329a29d061d818cf41f5d725127537ffa900277d5ea87371108104"
+    },
+    {
+      "path": "images/day/LA_DAY_LANDSCAPE_BACKGROUND.2c17bc511a25.webp",
+      "sha256": "2c17bc511a254d15787d0323a911679f770de08965c54da5ed2a0441d6de2687"
+    },
+    {
+      "path": "images/day/LA_DAY_PORTRAIT_BACKGROUND.322ba8eda1f7.webp",
+      "sha256": "322ba8eda1f73d5b15194b0dd889f97ff36de37535f057c142cc1bc95cea6732"
+    },
+    {
+      "path": "images/night/LA_NIGHT_DESKTOP_BACKGROUND.8458b14681fa.webp",
+      "sha256": "8458b14681faa7e4fc802a085c3df7bc7b72ba58126b9311549cc0f973dd392f"
+    },
+    {
+      "path": "images/night/LA_NIGHT_MOBILE_BACKGROUND.05afe51af964.webp",
+      "sha256": "05afe51af9643bdabf4098a810dd4eef590f7d7dee211b087d2a7ae4b8b2b803"
+    },
+    {
+      "path": "images/night/LA_NIGHT_TABLET_BACKGROUND.eb7a5b8ca300.webp",
+      "sha256": "eb7a5b8ca300ccd9526fa9fd5fb6cf9ab38a560111bf92956c9d42b3d5778dc3"
+    }
+  ],
+  "renderedVisualComparison": false
+}

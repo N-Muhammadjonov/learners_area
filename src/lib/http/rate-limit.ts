@@ -1,4 +1,3 @@
-import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * A small, dependency-free abuse limiter.
@@ -50,9 +49,6 @@ export const RULES = {
   passwordReset: { name: "password_reset", limit: 5, windowMs: 15 * 60_000 },
   admissionRequest: { name: "admission_request", limit: 10, windowMs: 60 * 60_000 },
   telegramAuth: { name: "telegram_auth", limit: 20, windowMs: 15 * 60_000 },
-  telegramIntent: { name: "telegram_intent", limit: 10, windowMs: 15 * 60_000 },
-  telegramSupport: { name: "telegram_support", limit: 40, windowMs: 15 * 60_000 },
-  telegramBroadcast: { name: "telegram_broadcast", limit: 6, windowMs: 60 * 60_000 },
   evaluation: { name: "evaluation", limit: 60, windowMs: 15 * 60_000 },
   uploadIntent: { name: "upload_intent", limit: 120, windowMs: 15 * 60_000 },
   vocabularySearch: { name: "vocabulary_search", limit: 300, windowMs: 60_000 },
@@ -156,7 +152,7 @@ function asIpAddress(value: string | undefined | null): string | null {
  * move to the edge. Per-ACCOUNT limits (`loginByAccount`, keyed on the email) do not
  * depend on any of this and remain effective regardless.
  */
-export function clientKey(req: NextRequest): string {
+export function clientKey(req: Request): string {
   const vercel = asIpAddress(req.headers.get("x-vercel-forwarded-for"));
   if (vercel) return vercel;
 
@@ -192,15 +188,15 @@ export function isBlocked(rule: RateLimitRule, key: string): RateLimitResult {
   return { ok: true, remaining: limit - bucket.count, retryAfterSeconds: 0 };
 }
 
-function tooMany(result: RateLimitResult): NextResponse {
-  return NextResponse.json(
+function tooMany(result: RateLimitResult): Response {
+  return Response.json(
     { error: "rate_limited", retryAfterSeconds: result.retryAfterSeconds },
     { status: 429, headers: { "Retry-After": String(result.retryAfterSeconds) } }
   );
 }
 
 /** Refuses when the key is already blocked (no attempt is counted). */
-export function blockIfOver(rule: RateLimitRule, key: string): NextResponse | null {
+export function blockIfOver(rule: RateLimitRule, key: string): Response | null {
   const state = isBlocked(rule, key);
   return state.ok ? null : tooMany(state);
 }
@@ -211,7 +207,7 @@ export function blockIfOver(rule: RateLimitRule, key: string): NextResponse | nu
  * request, upload intent); for sign-in use `blockIfOver` + `consume` on failure,
  * so a correct password is never counted.
  */
-export function enforce(rule: RateLimitRule, key: string): NextResponse | null {
+export function enforce(rule: RateLimitRule, key: string): Response | null {
   const result = consume(rule, key);
   return result.ok ? null : tooMany(result);
 }

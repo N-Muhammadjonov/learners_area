@@ -1,0 +1,142 @@
+{
+  "format": 1,
+  "branch": "arena/learners-area-next",
+  "source_commit": "b62b78f469e4f73aa80f441f630b012dc422af39",
+  "previous_migration_commit": "32be6fedbb5a376a4bdd8a6a08d70fbbd111a2fe",
+  "source_verification": {
+    "api_files": 218,
+    "shared_backend_files": 466,
+    "total_git_blobs_verified": 684,
+    "sql_migrations_identical": 66,
+    "listening_native_runtimes": 32,
+    "dictionary_presentation_shards": 256
+  },
+  "entrypoint": "app.asgi:application",
+  "preview_behavior_overrides_removed": true,
+  "runtime": {
+    "public_api": "Python/FastAPI",
+    "postgresql_connections": "Python/asyncpg",
+    "frontend_api_routes": "streaming transport",
+    "ssr_selectors": "TypeScript view definitions executed read-only by Python",
+    "maintenance_typescript": "CLI only"
+  },
+  "verification": {
+    "python_tests_passed": 2556,
+    "captured_main_function_fixtures": 1531,
+    "public_methods": 265,
+    "http_guard_cases": {
+      "total": 2120,
+      "matched": 2120,
+      "stateChecks": 0,
+      "matchedStateChecks": 0,
+      "differences": 0
+    },
+    "workflow_cases_and_database_checks": {
+      "total": 119,
+      "matched": 119,
+      "stateChecks": 29,
+      "matchedStateChecks": 29,
+      "differences": 0
+    },
+    "postgres_schema_http_probe": {
+      "migrations": 66,
+      "typed_tables": 126,
+      "http_checks": 9,
+      "result": "passed"
+    },
+    "node_transport_tests_passed": 8,
+    "ui_tests_passed": 337,
+    "typecheck": "passed",
+    "lint": "passed",
+    "backend_runtime_check": "passed",
+    "production_build": "passed"
+  },
+  "performance": {
+    "case": "GET Listening authored vocabulary, 100 resolved words",
+    "measurement": "Same host, isolated PGlite databases; real main handlers and Python ASGI via different test transports. Informational local samples, not deployed latency or a general Python-vs-Node benchmark.",
+    "samples": [
+      {
+        "queries": {
+          "main": 307,
+          "python": 5
+        },
+        "elapsedMs": {
+          "main": 98.22641600000043,
+          "python": 13.161083999999391
+        }
+      },
+      {
+        "queries": {
+          "main": 307,
+          "python": 5
+        },
+        "elapsedMs": {
+          "main": 98.38441700000021,
+          "python": 14.150666000000456
+        }
+      },
+      {
+        "queries": {
+          "main": 307,
+          "python": 5
+        },
+        "elapsedMs": {
+          "main": 93.65250000000015,
+          "python": 13.121167000000241
+        }
+      },
+      {
+        "queries": {
+          "main": 307,
+          "python": 5
+        },
+        "elapsedMs": {
+          "main": 91.33379200000036,
+          "python": 14.080040999999255
+        }
+      },
+      {
+        "queries": {
+          "main": 307,
+          "python": 5
+        },
+        "elapsedMs": {
+          "main": 93.4197920000006,
+          "python": 16.088582999999744
+        }
+      }
+    ],
+    "median_ms": {
+      "main": 93.65250000000015,
+      "python": 14.080040999999255
+    },
+    "optimizations": [
+      "One batched metadata query instead of per-word lookups",
+      "bcrypt outside the event loop",
+      "One shared bounded LISTEN bus per worker",
+      "Bounded checksum-verified immutable asset caches"
+    ]
+  },
+  "normalization": {
+    "generated_uuids": "Bijection across independent databases; seeded IDs remain exact",
+    "timestamps": "Normalized in HTTP/state snapshots; time calculations have captured main function fixtures",
+    "reading_content_hash": "Independent canonical target IDs differ; each real stored hash is verified against main hash functions before comparing snapshots"
+  },
+  "reports": {
+    "main-http-parity.json": "be8536a728265a802469ce8441a6b7deb0b155bbd6ab6c50c2e6161ebe3bba3f",
+    "main-workflow-parity.json": "6af62b07978ed082c63998aa060364ced523e12c3eca88de3ed3d05af3a16857"
+  },
+  "production_parity_certified": false,
+  "live_database_changed": false,
+  "deployed": false,
+  "unverified": [
+    "Live asyncpg network and Supabase TLS roundtrip",
+    "Live R2/S3 and dictionary Worker roundtrips",
+    "Telegram and Google provider roundtrips",
+    "External AI providers",
+    "Authenticated deployed browser workflow",
+    "Docker image build",
+    "Production load and latency"
+  ],
+  "scope": "All identified differences in this comparison are corrected. Complete behavioral equivalence for every possible input and live provider is not asserted by finite tests."
+}

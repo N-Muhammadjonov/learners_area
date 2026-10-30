@@ -1,0 +1,3020 @@
+{
+  "status": "BASELINE_CAPTURED",
+  "scope": "service_authenticated_worker_only",
+  "stage": "baseline_no_dictionary_runtime_change",
+  "measuredAt": "2026-10-26T19:22:15Z",
+  "release": "rel-v1-977bce7f8dab7e773955238e",
+  "apiBase": "https://learnersarea-dictionary.owneruchunla.workers.dev",
+  "querySetSha": "a414ef31cd7da601dae89a0e7472efc3e0c9d096cbf26fd437af190f0c569272",
+  "coldCache": "NOT_FORCED_OR_PROVEN",
+  "userApiLatency": "NOT_MEASURED",
+  "samples": [
+    {
+      "case": 0,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=213.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 5532.657207921147
+    },
+    {
+      "case": 1,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=323.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 524.5758749078959
+    },
+    {
+      "case": 2,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=187.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 503.4178749192506
+    },
+    {
+      "case": 3,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=177.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 433.19399980828166
+    },
+    {
+      "case": 4,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=83.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 249.90487494505942
+    },
+    {
+      "case": 5,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=167.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 399.69079196453094
+    },
+    {
+      "case": 6,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=176.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 541.7202920652926
+    },
+    {
+      "case": 7,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=170.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 519.7727910708636
+    },
+    {
+      "case": 8,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=185.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 449.0585408639163
+    },
+    {
+      "case": 9,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=181.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 455.17679187469184
+    },
+    {
+      "case": 10,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=94.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 345.38854099810123
+    },
+    {
+      "case": 11,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=178.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 446.674375096336
+    },
+    {
+      "case": 12,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=163.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 407.722458941862
+    },
+    {
+      "case": 13,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=164.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 417.46416594833136
+    },
+    {
+      "case": 14,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=182.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 415.5413331463933
+    },
+    {
+      "case": 15,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 223.79125002771616
+    },
+    {
+      "case": 16,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 305.362582905218
+    },
+    {
+      "case": 17,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 396.8893331475556
+    },
+    {
+      "case": 18,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=78.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 460.1315420586616
+    },
+    {
+      "case": 19,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=204.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 460.97937505692244
+    },
+    {
+      "case": 20,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=206.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 492.97433299943805
+    },
+    {
+      "case": 21,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=125.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 360.9592078719288
+    },
+    {
+      "case": 22,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "b77d8e3ff268c31d5bb91e96d4bb54f88af05d708ec63e18e50dee219f38069e",
+      "serverTiming": "dictionary;dur=194.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "9471f16c-8000-507d-abfb-d65a97210f57"
+      ],
+      "ms": 441.55587488785386
+    },
+    {
+      "case": 23,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "590804b3b832440d61517a4e468b33489d1321cb7d86df866443205acaadda2f",
+      "serverTiming": "dictionary;dur=235.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+        "715e1df0-9c95-5c03-9b81-459c6b946d5d",
+        "ce396d50-f9d7-574e-92d5-b01574d9ea2b"
+      ],
+      "ms": 515.799457905814
+    },
+    {
+      "case": 24,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "03aebbda784bd62153c76d9160c763f5f576d94974d26d6649ac2f0d7e447b87",
+      "serverTiming": "dictionary;dur=178.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ebec01a9-cab2-5629-b966-2728b86e59cf"
+      ],
+      "ms": 453.7656249012798
+    },
+    {
+      "case": 25,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "907961a7c89dcc2ca28ca304d446c34393bb88b2b2b53a936f84275e7fa161bf",
+      "serverTiming": "dictionary;dur=84.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "769926ee-c0f2-57ea-8df7-0cddbe425a78",
+        "93b039bd-3c73-5c27-a20c-4c297b7ea253",
+        "e75af7e4-de1a-5e7c-b2c9-3d0bbec895ee"
+      ],
+      "ms": 405.28862504288554
+    },
+    {
+      "case": 0,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 151.82504104450345
+    },
+    {
+      "case": 1,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 263.6005829554051
+    },
+    {
+      "case": 2,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 264.8412080015987
+    },
+    {
+      "case": 3,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 295.2238339930773
+    },
+    {
+      "case": 4,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 278.8992919959128
+    },
+    {
+      "case": 5,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 316.3894577883184
+    },
+    {
+      "case": 6,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 499.05162514187396
+    },
+    {
+      "case": 7,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 350.39341705851257
+    },
+    {
+      "case": 8,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 284.2063750140369
+    },
+    {
+      "case": 9,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 266.5997080039233
+    },
+    {
+      "case": 10,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 294.05529191717505
+    },
+    {
+      "case": 11,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 266.90899999812245
+    },
+    {
+      "case": 12,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 267.44312490336597
+    },
+    {
+      "case": 13,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 265.4428749810904
+    },
+    {
+      "case": 14,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 298.0693751014769
+    },
+    {
+      "case": 15,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 262.5035420060158
+    },
+    {
+      "case": 16,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 271.09891711734235
+    },
+    {
+      "case": 17,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 284.98429199680686
+    },
+    {
+      "case": 18,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 274.26666719838977
+    },
+    {
+      "case": 19,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 285.36012512631714
+    },
+    {
+      "case": 20,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 285.2771251928061
+    },
+    {
+      "case": 21,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 285.58291704393923
+    },
+    {
+      "case": 22,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "b77d8e3ff268c31d5bb91e96d4bb54f88af05d708ec63e18e50dee219f38069e",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "9471f16c-8000-507d-abfb-d65a97210f57"
+      ],
+      "ms": 273.44091702252626
+    },
+    {
+      "case": 23,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "590804b3b832440d61517a4e468b33489d1321cb7d86df866443205acaadda2f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+        "715e1df0-9c95-5c03-9b81-459c6b946d5d",
+        "ce396d50-f9d7-574e-92d5-b01574d9ea2b"
+      ],
+      "ms": 284.3601668719202
+    },
+    {
+      "case": 24,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "03aebbda784bd62153c76d9160c763f5f576d94974d26d6649ac2f0d7e447b87",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ebec01a9-cab2-5629-b966-2728b86e59cf"
+      ],
+      "ms": 295.6985828932375
+    },
+    {
+      "case": 25,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "907961a7c89dcc2ca28ca304d446c34393bb88b2b2b53a936f84275e7fa161bf",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "769926ee-c0f2-57ea-8df7-0cddbe425a78",
+        "93b039bd-3c73-5c27-a20c-4c297b7ea253",
+        "e75af7e4-de1a-5e7c-b2c9-3d0bbec895ee"
+      ],
+      "ms": 310.44541695155203
+    },
+    {
+      "case": 0,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 285.5442091822624
+    },
+    {
+      "case": 1,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 357.4976669624448
+    },
+    {
+      "case": 2,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 268.09312496334314
+    },
+    {
+      "case": 3,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 271.7117920983583
+    },
+    {
+      "case": 4,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 285.51933309063315
+    },
+    {
+      "case": 5,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 296.4052089955658
+    },
+    {
+      "case": 6,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 292.49604186043143
+    },
+    {
+      "case": 7,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 319.794625043869
+    },
+    {
+      "case": 8,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 270.4701661132276
+    },
+    {
+      "case": 9,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 310.6807500589639
+    },
+    {
+      "case": 10,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 293.64687483757734
+    },
+    {
+      "case": 11,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 278.3580410759896
+    },
+    {
+      "case": 12,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 305.6443331297487
+    },
+    {
+      "case": 13,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 254.5044170692563
+    },
+    {
+      "case": 14,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 280.8826251421124
+    },
+    {
+      "case": 15,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 251.93062494508922
+    },
+    {
+      "case": 16,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 280.1936250180006
+    },
+    {
+      "case": 17,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 288.72583294287324
+    },
+    {
+      "case": 18,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 329.38479189760983
+    },
+    {
+      "case": 19,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 269.49924998916686
+    },
+    {
+      "case": 20,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 261.8044998962432
+    },
+    {
+      "case": 21,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 295.8092500921339
+    },
+    {
+      "case": 22,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "b77d8e3ff268c31d5bb91e96d4bb54f88af05d708ec63e18e50dee219f38069e",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "9471f16c-8000-507d-abfb-d65a97210f57"
+      ],
+      "ms": 267.7475002128631
+    },
+    {
+      "case": 23,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "590804b3b832440d61517a4e468b33489d1321cb7d86df866443205acaadda2f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+        "715e1df0-9c95-5c03-9b81-459c6b946d5d",
+        "ce396d50-f9d7-574e-92d5-b01574d9ea2b"
+      ],
+      "ms": 120.1543330680579
+    },
+    {
+      "case": 24,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "03aebbda784bd62153c76d9160c763f5f576d94974d26d6649ac2f0d7e447b87",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ebec01a9-cab2-5629-b966-2728b86e59cf"
+      ],
+      "ms": 254.5683749485761
+    },
+    {
+      "case": 25,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "907961a7c89dcc2ca28ca304d446c34393bb88b2b2b53a936f84275e7fa161bf",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "769926ee-c0f2-57ea-8df7-0cddbe425a78",
+        "93b039bd-3c73-5c27-a20c-4c297b7ea253",
+        "e75af7e4-de1a-5e7c-b2c9-3d0bbec895ee"
+      ],
+      "ms": 266.7164159938693
+    },
+    {
+      "case": 0,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 279.0232920087874
+    },
+    {
+      "case": 1,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 292.32129105366766
+    },
+    {
+      "case": 2,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 268.6749577987939
+    },
+    {
+      "case": 3,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 296.54075019061565
+    },
+    {
+      "case": 4,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 296.36824992485344
+    },
+    {
+      "case": 5,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 288.6253329925239
+    },
+    {
+      "case": 6,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 271.79445791989565
+    },
+    {
+      "case": 7,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 260.76579187065363
+    },
+    {
+      "case": 8,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 314.4047078676522
+    },
+    {
+      "case": 9,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 261.95287494920194
+    },
+    {
+      "case": 10,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 263.44191702082753
+    },
+    {
+      "case": 11,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 310.26933318935335
+    },
+    {
+      "case": 12,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 375.6444158498198
+    },
+    {
+      "case": 13,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 276.18541684933007
+    },
+    {
+      "case": 14,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 265.94600011594594
+    },
+    {
+      "case": 15,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 250.83995889872313
+    },
+    {
+      "case": 16,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 330.09525015950203
+    },
+    {
+      "case": 17,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 262.9744161386043
+    },
+    {
+      "case": 18,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 330.5328330025077
+    },
+    {
+      "case": 19,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 301.6201250720769
+    },
+    {
+      "case": 20,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 309.34570799581707
+    },
+    {
+      "case": 21,
+      "temperature": "observed_first_pass",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 297.94874996878207
+    },
+    {
+      "case": 0,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 294.83379190787673
+    },
+    {
+      "case": 1,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 290.1237918995321
+    },
+    {
+      "case": 2,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 298.2932908926159
+    },
+    {
+      "case": 3,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 325.23487508296967
+    },
+    {
+      "case": 4,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 304.8609171528369
+    },
+    {
+      "case": 5,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 313.77441599033773
+    },
+    {
+      "case": 6,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 286.67337517254055
+    },
+    {
+      "case": 7,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 278.0552920885384
+    },
+    {
+      "case": 8,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 273.77062500454485
+    },
+    {
+      "case": 9,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 308.49266587756574
+    },
+    {
+      "case": 10,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 251.95591594092548
+    },
+    {
+      "case": 11,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 268.1255000643432
+    },
+    {
+      "case": 12,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 278.8316251244396
+    },
+    {
+      "case": 13,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 313.4192500729114
+    },
+    {
+      "case": 14,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 266.48408314213157
+    },
+    {
+      "case": 15,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 287.636041874066
+    },
+    {
+      "case": 16,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 288.61341695301235
+    },
+    {
+      "case": 17,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 297.63470916077495
+    },
+    {
+      "case": 18,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 302.4143329821527
+    },
+    {
+      "case": 19,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 291.5336249861866
+    },
+    {
+      "case": 20,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 281.4082079567015
+    },
+    {
+      "case": 21,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 301.4633341226727
+    },
+    {
+      "case": 22,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "b77d8e3ff268c31d5bb91e96d4bb54f88af05d708ec63e18e50dee219f38069e",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "9471f16c-8000-507d-abfb-d65a97210f57"
+      ],
+      "ms": 258.87895887717605
+    },
+    {
+      "case": 23,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "590804b3b832440d61517a4e468b33489d1321cb7d86df866443205acaadda2f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+        "715e1df0-9c95-5c03-9b81-459c6b946d5d",
+        "ce396d50-f9d7-574e-92d5-b01574d9ea2b"
+      ],
+      "ms": 288.2326249964535
+    },
+    {
+      "case": 24,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "03aebbda784bd62153c76d9160c763f5f576d94974d26d6649ac2f0d7e447b87",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ebec01a9-cab2-5629-b966-2728b86e59cf"
+      ],
+      "ms": 254.00412501767278
+    },
+    {
+      "case": 25,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "907961a7c89dcc2ca28ca304d446c34393bb88b2b2b53a936f84275e7fa161bf",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "769926ee-c0f2-57ea-8df7-0cddbe425a78",
+        "93b039bd-3c73-5c27-a20c-4c297b7ea253",
+        "e75af7e4-de1a-5e7c-b2c9-3d0bbec895ee"
+      ],
+      "ms": 262.8847500309348
+    },
+    {
+      "case": 0,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 504.56316699273884
+    },
+    {
+      "case": 1,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 394.16825002990663
+    },
+    {
+      "case": 2,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 365.5077079311013
+    },
+    {
+      "case": 3,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 289.37929193489254
+    },
+    {
+      "case": 4,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 279.1872499510646
+    },
+    {
+      "case": 5,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 262.21837499178946
+    },
+    {
+      "case": 6,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 283.8509581051767
+    },
+    {
+      "case": 7,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 320.7220840267837
+    },
+    {
+      "case": 8,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 258.7539579253644
+    },
+    {
+      "case": 9,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 301.97391705587506
+    },
+    {
+      "case": 10,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 340.22270888090134
+    },
+    {
+      "case": 11,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 271.818625042215
+    },
+    {
+      "case": 12,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 270.7696659490466
+    },
+    {
+      "case": 13,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 297.989958897233
+    },
+    {
+      "case": 14,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 343.3334999717772
+    },
+    {
+      "case": 15,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 283.15975004807115
+    },
+    {
+      "case": 16,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 267.4860421102494
+    },
+    {
+      "case": 17,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 267.73579115979373
+    },
+    {
+      "case": 18,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 315.9858339931816
+    },
+    {
+      "case": 19,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 325.42683300562203
+    },
+    {
+      "case": 20,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 255.88008388876915
+    },
+    {
+      "case": 21,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 269.918582867831
+    },
+    {
+      "case": 22,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "b77d8e3ff268c31d5bb91e96d4bb54f88af05d708ec63e18e50dee219f38069e",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "9471f16c-8000-507d-abfb-d65a97210f57"
+      ],
+      "ms": 291.65054205805063
+    },
+    {
+      "case": 23,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "590804b3b832440d61517a4e468b33489d1321cb7d86df866443205acaadda2f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+        "715e1df0-9c95-5c03-9b81-459c6b946d5d",
+        "ce396d50-f9d7-574e-92d5-b01574d9ea2b"
+      ],
+      "ms": 275.5127919372171
+    },
+    {
+      "case": 24,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "03aebbda784bd62153c76d9160c763f5f576d94974d26d6649ac2f0d7e447b87",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ebec01a9-cab2-5629-b966-2728b86e59cf"
+      ],
+      "ms": 304.39208284951746
+    },
+    {
+      "case": 25,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "907961a7c89dcc2ca28ca304d446c34393bb88b2b2b53a936f84275e7fa161bf",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "769926ee-c0f2-57ea-8df7-0cddbe425a78",
+        "93b039bd-3c73-5c27-a20c-4c297b7ea253",
+        "e75af7e4-de1a-5e7c-b2c9-3d0bbec895ee"
+      ],
+      "ms": 344.3169998936355
+    },
+    {
+      "case": 0,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 312.18933314085007
+    },
+    {
+      "case": 1,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 254.98533295467496
+    },
+    {
+      "case": 2,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 271.2591669987887
+    },
+    {
+      "case": 3,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 308.3343750331551
+    },
+    {
+      "case": 4,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 323.7108748871833
+    },
+    {
+      "case": 5,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 298.46054199151695
+    },
+    {
+      "case": 6,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 261.0121248289943
+    },
+    {
+      "case": 7,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 297.3172499332577
+    },
+    {
+      "case": 8,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 285.95216595567763
+    },
+    {
+      "case": 9,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 270.3303329180926
+    },
+    {
+      "case": 10,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 351.1353749781847
+    },
+    {
+      "case": 11,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 291.0860418342054
+    },
+    {
+      "case": 12,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 315.1415840256959
+    },
+    {
+      "case": 13,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 270.5728749278933
+    },
+    {
+      "case": 14,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 316.44487497396767
+    },
+    {
+      "case": 15,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 291.99604084715247
+    },
+    {
+      "case": 16,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 282.43966586887836
+    },
+    {
+      "case": 17,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 264.0364170074463
+    },
+    {
+      "case": 18,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 277.50562503933907
+    },
+    {
+      "case": 19,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 289.3072080332786
+    },
+    {
+      "case": 20,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 292.01345797628164
+    },
+    {
+      "case": 21,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 347.4226670805365
+    },
+    {
+      "case": 22,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "b77d8e3ff268c31d5bb91e96d4bb54f88af05d708ec63e18e50dee219f38069e",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "9471f16c-8000-507d-abfb-d65a97210f57"
+      ],
+      "ms": 273.16183294169605
+    },
+    {
+      "case": 23,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "590804b3b832440d61517a4e468b33489d1321cb7d86df866443205acaadda2f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+        "715e1df0-9c95-5c03-9b81-459c6b946d5d",
+        "ce396d50-f9d7-574e-92d5-b01574d9ea2b"
+      ],
+      "ms": 446.6312911827117
+    },
+    {
+      "case": 24,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "03aebbda784bd62153c76d9160c763f5f576d94974d26d6649ac2f0d7e447b87",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ebec01a9-cab2-5629-b966-2728b86e59cf"
+      ],
+      "ms": 261.4975410979241
+    },
+    {
+      "case": 25,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "907961a7c89dcc2ca28ca304d446c34393bb88b2b2b53a936f84275e7fa161bf",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 20,
+      "topIds": [
+        "769926ee-c0f2-57ea-8df7-0cddbe425a78",
+        "93b039bd-3c73-5c27-a20c-4c297b7ea253",
+        "e75af7e4-de1a-5e7c-b2c9-3d0bbec895ee"
+      ],
+      "ms": 298.56974980793893
+    },
+    {
+      "case": 0,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "80166ce1455e6c02319406cf23edecba38b2eb201ccdd1c9fe9cb6baea487595",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+      ],
+      "ms": 328.90670793130994
+    },
+    {
+      "case": 1,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 296.56116594560444
+    },
+    {
+      "case": 2,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 297.006499953568
+    },
+    {
+      "case": 3,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 279.8484161030501
+    },
+    {
+      "case": 4,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 248.52516688406467
+    },
+    {
+      "case": 5,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 273.81179202347994
+    },
+    {
+      "case": 6,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 289.3465419765562
+    },
+    {
+      "case": 7,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 296.8807499855757
+    },
+    {
+      "case": 8,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "3464283171737b3dea026f5e133838c4c1a4f2a02440a587cd437ccc0fbd0b14",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "6e12117a-6400-555f-933b-fabd8c222101"
+      ],
+      "ms": 269.07204184681177
+    },
+    {
+      "case": 9,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 361.55600007623434
+    },
+    {
+      "case": 10,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "4ac7a8f9c0c2a2cfd188eb198546f110b7575d07054da6203df0fc1a3d1ec19c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+      ],
+      "ms": 265.4598751105368
+    },
+    {
+      "case": 11,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "06def2600d4757698f501d0d019ede8326aea5b7355ec26156d8378dd8fb0701",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+      ],
+      "ms": 269.2670829128474
+    },
+    {
+      "case": 12,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "f019462ec4183eed6f92d9abf622f588b19835d195a8952142291510b3931284",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+      ],
+      "ms": 275.7740418892354
+    },
+    {
+      "case": 13,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "a79b6f50293a8c8ff50e8ac5618391948b24e71edc5a2db59d1ea239ccd65d8a",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+      ],
+      "ms": 388.5158330667764
+    },
+    {
+      "case": 14,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "069152ab9935a2e8fec5371cb5d3688dd25e4f5477325ee9a827e807f02fd03f",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+      ],
+      "ms": 291.2596669048071
+    },
+    {
+      "case": 15,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "491d826db8d4c79a8df7e6b5a4b72231e8fa534ebd9023512386848dd182f855",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "5561cf13-87b5-59b6-863b-3016face65e5"
+      ],
+      "ms": 347.4864577874541
+    },
+    {
+      "case": 16,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "c6b5a3a2bd2ca0b8890cf54c4239db72898545d366f1b9482fd1ced3f9eb4f68",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 18,
+      "topIds": [
+        "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+        "f7ad189d-036e-5f05-a9f5-5281fe6e1b33",
+        "13f8df97-4a94-4982-b485-a3d8ab9ef7ca"
+      ],
+      "ms": 280.1422078628093
+    },
+    {
+      "case": 17,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e441280d626f87e209705f74541e87a586b942ca2e9a38a50a5ee24311fd4354",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 3,
+      "topIds": [
+        "52e3bf2a-3653-5285-bc0a-ca800806c6ed",
+        "e09e9421-f3b6-5773-a6ee-f17e39f5c92b",
+        "31bff1ce-3db2-5880-b60d-7e06288b8c81"
+      ],
+      "ms": 287.8340419847518
+    },
+    {
+      "case": 18,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e93d1da8c9bc963c52641e1fce059369bc5bbd4b97f98d793a65b699b954f8df",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 0,
+      "topIds": [],
+      "ms": 322.2314999438822
+    },
+    {
+      "case": 19,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "e3ff67b5a00a685accd322ed808f4027d6720bb7c23513223fcf63e1b162a79c",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "8a0df895-3a38-5e4b-a75f-8c4c0f13e1d6"
+      ],
+      "ms": 257.3989999946207
+    },
+    {
+      "case": 20,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "229d9b7549601ba5a8d46195f19d6c720c52360a36043e217ee5312247b7b6c7",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "b7702b40-bedc-5cd6-9703-6a5e0410995d"
+      ],
+      "ms": 274.72541690804064
+    },
+    {
+      "case": 21,
+      "temperature": "warm",
+      "status": 200,
+      "pass": true,
+      "responseSha": "dfb6549feab334feaf85921b9ae72da2aab8bc583ba56bac9acba0e1472f6700",
+      "serverTiming": "dictionary;dur=0.00",
+      "cacheControl": "private, no-store",
+      "resultCount": 1,
+      "topIds": [
+        "4bb3e163-5d3f-5425-8717-1fc591d309f3"
+      ],
+      "ms": 276.493625016883
+    }
+  ],
+  "cohorts": {
+    "observed_first_pass": {
+      "requests": 100,
+      "p50Ms": 292.49604186043143,
+      "p95Ms": 503.4178749192506,
+      "p99Ms": 541.7202920652926,
+      "failures": 0,
+      "http5xx": 0
+    },
+    "warm": {
+      "requests": 100,
+      "p50Ms": 289.3072080332786,
+      "p95Ms": 361.55600007623434,
+      "p99Ms": 446.6312911827117,
+      "failures": 0,
+      "http5xx": 0
+    }
+  },
+  "cases": [
+    {
+      "category": "idiom",
+      "direction": "EN",
+      "query": "put your feet up",
+      "expectedId": "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+    },
+    {
+      "category": "idiom",
+      "direction": "EN",
+      "query": "hang in the balance",
+      "expectedId": "6e12117a-6400-555f-933b-fabd8c222101"
+    },
+    {
+      "category": "noun_phrase",
+      "direction": "EN",
+      "query": "quality time",
+      "expectedId": "5561cf13-87b5-59b6-863b-3016face65e5"
+    },
+    {
+      "category": "noun_phrase",
+      "direction": "EN",
+      "query": "learning curve",
+      "expectedId": "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+    },
+    {
+      "category": "idiom",
+      "direction": "EN",
+      "query": "pay it forward",
+      "expectedId": "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+    },
+    {
+      "category": "idiom",
+      "direction": "EN",
+      "query": "make matters worse",
+      "expectedId": "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+    },
+    {
+      "category": "idiom",
+      "direction": "EN",
+      "query": "come face to face with",
+      "expectedId": "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+    },
+    {
+      "category": "idiom",
+      "direction": "EN",
+      "query": "ring true",
+      "expectedId": "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "taqdiri noaniq bo‘lmoq",
+      "expectedId": "6e12117a-6400-555f-933b-fabd8c222101"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "yaqinlarga to‘liq e’tibor qaratilgan vaqt",
+      "expectedId": "5561cf13-87b5-59b6-863b-3016face65e5"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "yangi ko‘nikmani o‘zlashtirish jarayoni",
+      "expectedId": "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "ko‘rilgan yaxshilikni boshqalarga o‘tkazmoq",
+      "expectedId": "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "vaziyatni yanada yomonlashtirmoq",
+      "expectedId": "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "bevosita duch kelmoq",
+      "expectedId": "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+    },
+    {
+      "category": "UZ exact",
+      "direction": "UZ",
+      "query": "haqiqatdek tuyulmoq",
+      "expectedId": "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+    },
+    {
+      "category": "case",
+      "direction": "EN",
+      "query": "QUALITY TIME",
+      "expectedId": "5561cf13-87b5-59b6-863b-3016face65e5"
+    },
+    {
+      "category": "EN prefix",
+      "direction": "EN",
+      "query": "qual"
+    },
+    {
+      "category": "UZ prefix",
+      "direction": "UZ",
+      "query": "yangi ko‘nik"
+    },
+    {
+      "category": "absent",
+      "direction": "UZ",
+      "query": "zzzxqv271828",
+      "empty": true
+    },
+    {
+      "category": "phrasal verb",
+      "direction": "EN",
+      "query": "freeze up"
+    },
+    {
+      "category": "Unicode apostrophe",
+      "direction": "EN",
+      "query": "get on someone’s nerves"
+    },
+    {
+      "category": "spelling form",
+      "direction": "EN",
+      "query": "power bank"
+    },
+    {
+      "category": "Unicode hyphen",
+      "direction": "EN",
+      "query": "noise‑cancelling"
+    },
+    {
+      "category": "common multiple meanings",
+      "direction": "EN",
+      "query": "bank"
+    },
+    {
+      "category": "rare",
+      "direction": "EN",
+      "query": "serendipity"
+    },
+    {
+      "category": "exact",
+      "direction": "EN",
+      "query": "book"
+    }
+  ]
+}

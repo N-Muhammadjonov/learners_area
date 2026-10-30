@@ -1,0 +1,32 @@
+# V20 — resumable PARTIAL frontend checkpoint
+
+## Scope and baseline
+Exact V19 continuation: c1518f513fc1ab3a5d267ee653db27ed309161a5; V19 archive SHA256 e078ad508a0fd916461012875ec62dda2f89baddc87671fedbe1e1853328be6e. All work stays on arena/96836bcf-learners-area, inside migration/vanilla-frontend. Original educational material already exists and is not a migration target. No reconstruction, import, content identity/publication change, backend/DB/cloud/staff/deploy edits. Stale initial workspace was preserved in two external hash-verified copies before same-branch fast-forward; evidence/stale-preservation.json records reconciliation.
+
+## Delivered delta
+Bounded event-driven continuous authority revalidation for standing native Review, including no-pending-write other-tab retake. Conceal and pause first; metadata-only fresh authority decides same-frame resume versus stale-frame disposal. Preserve pending own revisions, existing single-flight writer/recovery architecture, MSE/Range256KiB/8MiBLRU/two transports/Blob nonprogressive fallback. No educational engine changes. Existing opaque sandbox/CSP unchanged. Unchanged authorized resumption does not autoplay and synchronizes the media snapshot.
+
+## Validation and failures
+New actual-source matrix: 25 cases (five hints × unchanged/replacement/exam =15, nine errors/policy failures, one actual two-tab retake with transcript/audio). 14 new unit cases. All preserved 485 unit, 499 Chromium, 245 actual-source and14 separate timing assertions remain. Final exact counts/hashes and independent archive validation are in deliverables/V20_VERIFICATION.json and V20_VALIDATION.txt; do not substitute expected counts for executed counts.
+Initial focused source19PASS6FAIL retained under docs/evidence/v20/first-focused-source*. Five caught genuine self-generated focus revalidation (four reads instead of two); fixed reentrancy and added a regression proving waiting writer promise resolves. One test incorrectly required a Review notice after401; corrected to require the existing login redirect, no protected frame/popover or completion POST. Assertions for concealment, bounded reads and unchanged frame/transcript were not weakened. Repaired focused source25PASS0FAIL0SKIP; unit499PASS0FAIL0SKIP. Initial full integration failures are retained; recovery storage hints are now distinct from canonical ACK hints, internal frame-to-parent focus no longer cancels ordinary lexical UI, and a recovery fixture now holds only the intended first progress request (not every concurrent authority read). The replacement-attempt case is strengthened to require stale frame disposal and outer explicit Retry instead of an obsolete iframe retry control; exact retained bytes, zero confirmation and no duplicate POST assertions remain. A transient earlier Chromium DOM-counter failure is also retained; no threshold was changed. Repaired V19 focused49PASS0FAIL0SKIP. Final exact archive reruns, not preliminary mixed-build runs, are authoritative.
+
+## Gate status / remaining work
+- Continuous authority: focused supported native Review behavior verified against actual read-only source and isolated APIs; not live or universal catalogue closure.
+- Recovery: preserved; no exactly-once, atomic CAS, cross-device or abort rollback claim. Foreign originals retained.
+- Navigation: PARTIAL; comprehensive direct part URL/hash/BackForward/reload/previous-attempt/sequence/publication still OPEN.
+- Held material/lexical, media, lifecycle/accessibility: PARTIAL; preserved and focused assertions are not exhaustive acceptance.
+- Performance: target NOT ESTABLISHED; retain synthetic diagnostic and unmet historical target. No original/live speed claim.
+- Visual/live: UNVERIFIED. Asset/CSS identity and screenshots are not matched rendered acceptance; Chromium synthetic encoded silence is not real recording/Safari/hardware coverage. 1440×900,768×1024,390×844 ×EN/UZ×day/night preserved fixture tests are not comprehensive original comparison.
+- Security: sandbox allow-scripts ONLY and fail-closed supported cases preserved. Direct authored?vocabulary=1 exam/held/revoked/current+other-tab/lookup/save policy needs separate authorized GPT Work. No backend probe/edit or false PASS.
+- Educational preservation: mandatory scripts/content-preservation-v20.py report checks all original tracked outside-migration bytes, prior24 ZIP pins and newly added content-like files. Manual delta review confirms adapters/tests/docs only.
+
+Review remains PARTIAL. Full/Retry COMPLETE; Script NOT ADVANCED; remaining activities sequentially gated; Reading NOT STARTED/gated. Activity frontend2/9 COMPLETE,7/9 PARTIAL; comprehensive original0/9, live0/9. Overall implementation%, functional/security%, visual/live% all UNDETERMINED (no complete objective denominators). Global route22/15/71 of108; components62/17/127 of206. Listening routes9/6/1 of16; components9/10/5 of24. Staff35 reserved. No production replacement approval or deployment implied.
+
+## Resume order
+1. Test authority with held existing writer/lexical/material/media callbacks and sustained hints across canonical changes; preserve all assertions/failures.
+2. Close actual supported URL/part/hash/history/reload/retake/previous-attempt/availability/sequence/publication navigation.
+3. Complete held DTO/lexical and media lifecycle error/seek/decoder/reentry matrix, focus/keyboard/scroll and listener/objectURL cleanup; obtain matched original comparisons.
+4. Promote Review only after genuine frontend gates. Then Script, MCQ, Map, Choose TWO, Completion, Vocabulary. No source material recreation. Owner one-existing-HTML/privateR2/register/preview/explicit publish remains external GPT Work.
+
+### Execution chronology before source freeze
+Preliminary complete source run264PASS6FAIL0SKIP is retained verbatim (initial-full-source.*). It ran across iterative builds and is not final acceptance. Five recovery/authority integration failures and one cross-DOM lexical cancellation drove the fixes above. V19 focused49PASS and the strengthened automatic two-tab test1PASS then passed; the latter proves audio had actually started and stale scope is invalidated by another tab's canonical storage ACK, without a synthetic focus trigger. One preliminary Chromium DOM bound failure is preserved without changing its threshold. Final independent extracted ZIP execution is mandatory, reported separately under deliverables; no failure is removed or counted as PASS here.

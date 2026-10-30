@@ -8,7 +8,7 @@
  * --dry-run runs everything inside a transaction and rolls it back, printing counts.
  * Never point this at Production without the guarded procedure used for migrations.
  */
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { listeningPackages } from "../src/db/schema";
 import { backfillLexicalForms } from "../src/lib/services/lexical/units";
 import { ingestListeningOccurrences } from "../src/lib/services/lexical/listening-occurrences";

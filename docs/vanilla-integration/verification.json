@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-24",
+  "scope": "Local Python ASGI, disposable embedded PostgreSQL, native decoders and DOM; no live data or providers",
+  "backendPytest": {
+    "passed": 2561,
+    "failed": 0,
+    "skipped": 0,
+    "includesStagedRetentionLevels": 5
+  },
+  "frontendNodeTests": {
+    "total": 949,
+    "passed": 938,
+    "failed": 0,
+    "skipped": 11,
+    "cancelled": 0
+  },
+  "nativeIntegration": {
+    "migrations": 66,
+    "typedTables": 126,
+    "httpChecksPassed": 295,
+    "nativeDecoderChecksPassed": 146,
+    "nativeDomChecksPassed": 96,
+    "failed": 0
+  },
+  "existingPostgresProbe": {
+    "migrations": 66,
+    "typedTables": 126,
+    "httpChecksPassed": 9,
+    "failed": 0
+  },
+  "staticBuild": {
+    "runtimeFiles": 441,
+    "registeredRoutes": 119,
+    "nextServerRequired": false,
+    "result": "passed"
+  },
+  "pythonStartupImport": "passed",
+  "originalCoreApiInventory": {
+    "expected": 265,
+    "present": 265,
+    "removed": 0
+  },
+  "preservation": {
+    "originalFiles": 2423,
+    "unchanged": 2414,
+    "intentionalExistingChanges": 9,
+    "unexpected": 0,
+    "originalBackendFiles": 601,
+    "unchangedBackendFiles": 598,
+    "unchangedMigrations": 66,
+    "campusV2ByteIdentical": true
+  },
+  "securityCoverage": [
+    "anonymous and pending access",
+    "student/teacher/owner guards",
+    "teacher roster scope",
+    "cross-account Reading/Listening/Writing/note isolation",
+    "CSRF/origin refusal",
+    "role-change and logout invalidation",
+    "answer-key staging",
+    "Writing source masking and ordered progression",
+    "CSP nonce rotation",
+    "SPA reserved paths and traversal",
+    "database outage redaction",
+    "truthful partial-widget failure"
+  ],
+  "functionalCoverage": [
+    "real write/read/resume/submit chains",
+    "Listening MCQ stage sequence and global paginated totals",
+    "Reading immutable 40-question assessment and reviewed 41-question source",
+    "stale Reading Check invalidation",
+    "lesson area filtering and 60/24 paging",
+    "Writing revision-safe drafts and finalize",
+    "translation reveal",
+    "321-pattern cursor and saved-bank filtering",
+    "external grading unavailable without fabricated band",
+    "native EN/UZ mounts",
+    "staff-only campus fallback"
+  ],
+  "blockedOrUnverified": [
+    "Chrome/Chromium visual/layout/WebGL checks",
+    "Safari and physical devices",
+    "live Supabase/PostgreSQL",
+    "R2 upload/download integration",
+    "Google and Telegram configured flows",
+    "external AI/STT providers",
+    "performance and load measurements",
+    "actual Vercel/Docker build and deployment"
+  ],
+  "limits": [
+    "DOM tests do not measure pixels, CSS layout, real theme appearance, WebGL or device behavior",
+    "PGlite is an isolated PostgreSQL engine, not live Supabase",
+    "No deployment occurred",
+    "Retention staging remains QA_HOLD_DO_NOT_PUBLISH with its existing 49 calibration anomalies"
+  ],
+  "retainedHistoricalEvidence": {
+    "mainHttpGuardComparisons": 2120,
+    "mainWorkflowChecks": 119,
+    "reExecutedThisFinalGate": false,
+    "note": "Original target parity artifacts are unchanged; these historical counts are not added to current test totals."
+  },
+  "gitDiffCheck": {
+    "result": "passed",
+    "command": "git diff --cached -C --find-copies-harder --check",
+    "note": "Recognizes unchanged copies of the original campus and vendored Three.js instead of treating upstream whitespace as newly edited code."
+  },
+  "publicRuntimeSecretDependencyScan": "passed"
+}

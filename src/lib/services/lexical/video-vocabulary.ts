@@ -11,7 +11,7 @@ export async function videoVocabulary(id: string) {
     const rows = await db.selectDistinctOn([lexicalOccurrences.lexemeId], { occurrenceId: lexicalOccurrences.id, id: lexemes.id, term: lexemes.term,
       partOfSpeech: lexemes.partOfSpeech, definitionEn: lexemes.definitionEn, translationUz: lexemes.translationUz,
       exampleSentence: lexicalOccurrences.sentenceText, startChar: lexicalOccurrences.startChar,
-      endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm, segmentKey: lexicalOccurrences.segmentKey,
+      endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm,
     }).from(lexicalOccurrences).innerJoin(lexemes, eq(lexemes.id, lexicalOccurrences.lexemeId))
       .where(and(eq(lexicalOccurrences.videoLessonId, id), eq(lexicalOccurrences.sourceType, "video"), eq(lexicalOccurrences.resolutionStatus, "resolved")))
       .orderBy(asc(lexicalOccurrences.lexemeId), asc(lexicalOccurrences.startChar));

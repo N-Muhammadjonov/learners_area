@@ -1,0 +1,138 @@
+{
+  "stage": 8,
+  "name": "AI evaluation concurrency, deduplication and bounded cost",
+  "status": "SOURCE_VERIFIED_RELEASE_AUTHORIZED",
+  "verified_at_utc": "2026-10-29T12:37:09.864381+00:00",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/ai-evaluation-20261029",
+  "baseline": "d1f24f129e6f792d480cd11752960911fc61a065",
+  "integrated_main": "1415ceee45a3fc18583a3b780fffd5cd6c519ae4",
+  "provider_baseline_blob": "6c2c35527c082b201c1d6f7f0e3280a623de4bcf",
+  "authorization": "User explicitly approved Tasks 7-14 main merges/automatic deploys, and separately approved 0072 source, tests and production function. No additional production variables are changed.",
+  "production_changed_by_task8": false,
+  "migration": {
+    "file": "0072_ai_provider_admission.sql",
+    "sha256": "69115873db05746128e5885fc3101d916d3307e9d9b0b2aa6f35706c72525e8e",
+    "change": "Invoker-only atomic admission function over the existing 0071 operational counter table. No learner table/column/data changes. PUBLIC, anon and authenticated execution revoked; fixed search_path. Apply before new code becomes ready.",
+    "production_applied": false
+  },
+  "implementation": {
+    "covered_paths": [
+      "Writing Grade My Work",
+      "Writing translation, pattern and activation checks",
+      "Coach Grammar, Vocabulary, Writing, Speaking and assignment evaluations",
+      "Speaking transcription",
+      "Retention dictionary sense selection"
+    ],
+    "admission": "Four independent global active leases and one active call per owned/authenticated learner across workers; no admission queue. Hour ceilings 2000 globally and 120 per user; deployment overrides may lower ceilings only.",
+    "deduplication": "Private identical requests share the inline owner, with at most 16 followers. Cancelling a follower does not cancel its owner. A bounded 128-entry / 2 MiB cache and HMAC shared request lease last three minutes. Different users never share results. Existing durable grade/evaluation uniqueness prevents regrading completed work.",
+    "cost": "One provider attempt. No native automatic retry of timeouts, malformed outputs or other errors, even if legacy AI_PROVIDER_MAX_ATTEMPTS requests more. Existing input ceiling 60000 serialized characters and output ceiling 5000 tokens/call retained; no dollar-price claim.",
+    "io": "Total provider deadlines 20s text, 60s STT and 12s sense selection; streamed response byte caps 200000/100000/50000. Existing 24 MiB transcription recording cap retained.",
+    "database": "One dedicated operational connection uses the same strict Supabase TLS verification and statement_cache_size=0. No ordinary academic pool client or operational lock is held during provider I/O. Ordinary pool 5 + event listener 1 + AI budget 1 = 7 sockets per worker, 14 during two-worker deployment overlap, below allocation 40 out of 60 after reserve 20. Connection shutdown is bounded.",
+    "integrity": "Prompts and scoring contracts preserved; invalid output objects rejected. Existing evaluations are checked against their owner, including the persistence race. Speaking finalization is conditional on owner, recording status and the same object key. No DB/file/tool capabilities are sent to the provider.",
+    "provider_configuration": "Both native bridges use validated registry entries, preventing rejected raw entries from shadowing a valid provider ID. HTTPS, credentials/port/query/fragment and IP/local-host checks apply. Request payloads cannot supply provider URLs or secrets."
+  },
+  "validation": {
+    "backend_pytest": {
+      "before_passed": 3058,
+      "passed": 3086,
+      "failed": 0,
+      "new_cases": 28,
+      "upstream_warnings": 1
+    },
+    "npm_test": {
+      "passed": 1167,
+      "failed": 0,
+      "skipped": 11
+    },
+    "integration": {
+      "migrations": 72,
+      "typedTables": 127,
+      "httpChecks": 426,
+      "nativeDecoderChecks": 151,
+      "nativeDomChecks": 118,
+      "migrationReplayChecks": 8,
+      "database": "embedded PostgreSQL",
+      "result": "passed",
+      "failures": []
+    },
+    "real_postgresql_concurrency": {
+      "result": "passed",
+      "checks": 18,
+      "workers": 2,
+      "concurrent_admitted": 4,
+      "per_user_active": 1,
+      "version": "17.6 (Debian 17.6-2.pgdg13+1)",
+      "database": "isolated localhost PostgreSQL server",
+      "external_provider_calls": 0,
+      "synthetic_provider_delay_ms": null,
+      "measurements": null,
+      "schema_migrations": [
+        71,
+        72
+      ]
+    },
+    "actual_grade_api": {
+      "result": "passed",
+      "scope": "actual authenticated ASGI grade API, local PostgreSQL, synthetic provider 100ms",
+      "http_checks": 180,
+      "provider_calls": 120,
+      "external_provider_calls": 0,
+      "measurement": {
+        "before": {
+          "samples": 50,
+          "p50_ms": 128.127,
+          "p95_ms": 140.395
+        },
+        "after": {
+          "samples": 50,
+          "p50_ms": 134.618,
+          "p95_ms": 152.834
+        },
+        "p95_change_percent": 8.86
+      },
+      "users": 4,
+      "warmup_pairs": 10,
+      "retained_pairs": 50
+    },
+    "native_build": {
+      "staticBuild": true,
+      "runtime": "Python FastAPI",
+      "files": 497,
+      "routes": 122,
+      "nodeRequired": false,
+      "revision": "c43e40cc8d82505913a3",
+      "inputBytes": 15970687,
+      "transferBytes": 12939072,
+      "minifiedFiles": 175
+    },
+    "backend_check": "PASS",
+    "diff_and_migration_mirror": "PASS"
+  },
+  "performance_limits": {
+    "actual_api_gate": "PASS: actual authenticated ASGI grade p95 increased 8.86%, below the 10% gate; same provider delay, four real users, live database authority, abuse quotas, persistence and scoring.",
+    "failed_diagnostics_retained": [
+      "Initial multi-round-trip provider-bridge diagnostic exceeded 10%.",
+      "A batched provider-bridge diagnostic measured +14.60%; another isolated run had +75.59% p95 with high variance.",
+      "The final dedicated-connection provider-only diagnostic measured +14.42%. It excludes normal API auth/save/persist work and is not the final API acceptance metric.",
+      "A deferred cleanup prototype interfered with immediate sequential same-user work and was reverted. Final code awaits resource release and creates no background evaluation or cleanup jobs."
+    ],
+    "scope": "Local PostgreSQL 17.6 and synthetic transport only. These are not production latency, billing-exactly-once or 200/500/1000-user capacity claims. No external paid provider calls were made."
+  },
+  "upstream_reconciliation": {
+    "baseline": "1415ceee45a3fc18583a3b780fffd5cd6c519ae4",
+    "backend_exact_failures": {
+      "count": 11,
+      "same_failed_on_main": 11,
+      "cause": "New PATCH /api/vocabulary/{entry_id} missing from the exact inventory; manifest/counts updated to 273 without removing equality/uniqueness checks."
+    },
+    "product_repair": "Reproduced TypeError in the new Vocabulary edit validator (set minus dict), changed to set minus set, and added four own/foreign/invalid/unauthenticated tests. Shared lexemes are preserved.",
+    "frontend_repair": "One unchanged Listening cancellation test exceeded a real 60ms timeout under parallel load. Test now controls that timer and advances past it after cancellation, retaining all listener/error/response assertions. Product media logic is unchanged."
+  },
+  "manual_checks": "Owner performs manual checks per explicit instruction; no additional browser/manual acceptance run.",
+  "rollback": "Deploy the prior main code; the additive 0072 function may remain unused. No learner content rollback or deletion required.",
+  "outstanding_scope": [
+    "Tasks 9-14 remain pending until this task is released.",
+    "Original arena/student-learning-checkpoint-20261028 remains preserved separately and is not certified by this task."
+  ]
+}

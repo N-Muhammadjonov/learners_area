@@ -8,7 +8,7 @@
  * Never run against Production without owner approval.
  */
 import { readFileSync } from "node:fs";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { generalReadingBundle, importGeneralReadingSet } from "../src/lib/services/reading/general-import";
 import { generalReadingSchemaReady } from "../src/lib/data/general-reading";
 

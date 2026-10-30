@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { eq,inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { listeningMcqSessions, listeningQuestions, listeningTests } from "../src/db/schema";
 import { mcqDayFor, mcqProgramDays } from "../src/lib/data/listening-mcq";
 import { MCQ_DAY_QUESTION_COUNT, MCQ_FINAL_STAGE, MCQ_PROGRAM_REF } from "../src/lib/listening/mcq-program";
@@ -106,7 +106,7 @@ test("GOLDEN-04 a hundred published days are all reachable, in authored order, w
       Array.from({ length: TOTAL_DAYS }, (_, index) => index + 1),
       "days are returned in the authored ordinal order, with no gap and no duplicate",
     );
-    assert.equal(pages,1,"all day summaries share one scrolling catalogue");
+    assert.ok(pages > 1, "a hundred days really are paginated rather than streamed in one page");
 
     // G4b the headline numbers are the real ones, and no target is divided by.
     assert.equal(last.progress.daysPublished, TOTAL_DAYS);
@@ -114,8 +114,7 @@ test("GOLDEN-04 a hundred published days are all reachable, in authored order, w
     assert.ok(!("dayTarget" in last.progress), "no fabricated day target is reported");
 
     // Day 100 is a real, openable day — not a number on a card.
-    assert.equal(await mcqDayFor(100,{id:LEARNER,role:"student"},{},database.db),null,"a later day stays locked until previous days finish");
-    const day100 = await mcqDayFor(100, { id: OWNER, role: "owner" }, {}, database.db);
+    const day100 = await mcqDayFor(100, { id: LEARNER, role: "student" }, {}, database.db);
     assert.equal(day100?.day, 100, "day 100 opens");
     assert.equal(day100?.questions.length, MCQ_DAY_QUESTION_COUNT, "and holds exactly five questions");
     assert.deepEqual(
@@ -126,7 +125,7 @@ test("GOLDEN-04 a hundred published days are all reachable, in authored order, w
 
     // G4c nothing beyond the end is invented.
     const beyond = await mcqProgramDays({ id: LEARNER, role: "student" }, { page: 99 }, database.db);
-    assert.equal(beyond.days.length, TOTAL_DAYS, "old page URLs return the complete single catalogue");
+    assert.equal(beyond.days.length, 0, "a page past the end is empty");
     assert.equal(beyond.hasNextPage, false);
     assert.equal(await mcqDayFor(101, { id: LEARNER, role: "student" }, {}, database.db), null, "there is no Day 101");
 
@@ -159,8 +158,7 @@ test("GOLDEN-04b content past the OLD fixed read ceiling is reachable — the de
       assert.ok(ordinals.includes(ordinal), `day ${ordinal} is reachable past the old fixed ceiling`);
     assert.equal(last.progress.daysPublished, beyondCeiling, "the headline count is the real one");
 
-    assert.equal(await mcqDayFor(beyondCeiling,{id:LEARNER,role:"student"},{},database.db),null,"later learner days stay locked");
-    const final = await mcqDayFor(beyondCeiling, { id: OWNER, role: "owner" }, {}, database.db);
+    const final = await mcqDayFor(beyondCeiling, { id: LEARNER, role: "student" }, {}, database.db);
     assert.equal(final?.questions.length, MCQ_DAY_QUESTION_COUNT, "and it opens with its five real questions");
   } finally {
     await database.close();
@@ -174,9 +172,6 @@ test("GOLDEN-05 archiving a day keeps learner history and leaves the ordinals no
     const ids: Record<number, string> = {};
     for (let ordinal = 1; ordinal <= 10; ordinal += 1) ids[ordinal] = await insertDay(database, ordinal);
 
-    // The learner follows the sequence through days 1–7 before finishing day 8.
-    const prerequisites=await database.db.select({id:listeningQuestions.id,testId:listeningQuestions.testId}).from(listeningQuestions).where(inArray(listeningQuestions.testId,Array.from({length:7},(_,i)=>ids[i+1]!)));
-    await database.db.insert(listeningMcqSessions).values(prerequisites.map(q=>({userId:LEARNER,testId:q.testId,questionId:q.id,stage:MCQ_FINAL_STAGE as "reasoned"})));
     // The learner FINISHES day 8: five sessions at the terminal stage.
     const day8Questions = await database.db
       .select({ id: listeningQuestions.id })

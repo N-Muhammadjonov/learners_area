@@ -1,38 +1,11 @@
-// A bounded allowlist of canonical, static learning INDEX routes only.
-// Important: do not prefetch exam starts, attempts, answers, reports, admin
-// views, teacher actions, arbitrary IDs, or parameterized personal searches.
-// These are read-only learner catalogue/section landing pages under the
-// existing server-authoritative /app access gate. No blanket Next prefetch.
-const SAFE_INDEX_ROUTES = new Set([
-  "/app",
-  "/app/listening/lessons",
-  "/app/listening/tests",
-  "/app/listening/general",
-  "/app/listening/mcq",
-  "/app/reading/lessons",
-  "/app/reading/academic",
-  "/app/reading/general",
-  // Retention is deliberately excluded: even a read of its active session is
-  // time-sensitive. Never warm that route until a learner intentionally opens it.
-  "/app/writing",
-  "/app/speaking",
-  "/app/speaking/lessons",
-  "/app/speaking/practice",
-  "/app/grammar/lessons",
-  "/app/vocabulary",
-  "/app/vocabulary/games",
-  "/app/video-lessons",
-  "/app/progress",
-]);
-// Warm only the two most-used learning entry routes while the browser is idle.
-// Routes remain guarded by middleware, the authoritative DB-backed /app layout
-// and the individual API authorizers. No attempts or authored answers are warmed.
-export const IDLE_SHELL_PREFETCH_ROUTES = ["/app/reading/lessons", "/app/listening/lessons"] as const;
+// Only module landing routes. Never prefetch attempts, answers, admin records,
+// evaluations or arbitrary private identifiers through this policy.
+const LANDINGS = new Set(["/app", "/app/reading", "/app/listening", "/app/writing", "/app/speaking", "/app/grammar", "/app/vocabulary", "/app/video-lessons", "/app/progress"]);
 export function eligibleIntentTarget(raw: string, origin: string, current: string): string | null {
   try {
     const destination = new URL(raw, origin);
     const here = new URL(current, origin);
-    if (destination.origin !== origin || destination.search || destination.hash || !SAFE_INDEX_ROUTES.has(destination.pathname)) return null;
+    if (destination.origin !== origin || destination.search || destination.hash || !LANDINGS.has(destination.pathname)) return null;
     if (destination.pathname === here.pathname && destination.search === here.search) return null;
     return destination.pathname;
   } catch { return null; }
@@ -51,6 +24,3 @@ export class IntentPrefetchBudget {
     this.targets.add(target); this.last = now; return true;
   }
 }
-
-/** One bounded client budget shared by intent links and the idle shell warmer. */
-export const sharedIntentPrefetchBudget = new IntentPrefetchBudget();

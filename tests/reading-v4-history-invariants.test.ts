@@ -229,9 +229,6 @@ test("RV-HIST-12 publishing a revision leaves unrelated Reading sources and Gene
     assert.ok(saved, "the learner's General progress is stored");
     const progressBefore = await generalProgress(b, other.targetId!, env.db);
 
-    const prerequisite = await startAcademicSet(a, other.targetId!, env.db);
-    assert.ok(prerequisite);
-    await env.query("update reading_attempts set status='completed',submitted_at=now() where id=$1",[prerequisite]);
     const attempt = await startAcademicSet(a, target.targetId!, env.db);
     assert.ok(attempt);
 

@@ -46,9 +46,8 @@ const HISTORY_PAGE_SIZE = 10;
 export type RetentionAttemptRecord = {
   id: string;
   userId: string;
-  retentionTextId: string | null;
-  retentionTextVersionId: string | null;
-  retentionLabelSnapshot: string | null;
+  retentionTextId: string;
+  retentionTextVersionId: string;
   level: RetentionLevel;
   rotationCycle: number;
   status: RetentionAttemptStatus;
@@ -69,7 +68,6 @@ const ATTEMPT_COLUMNS = {
   userId: retentionAttempts.userId,
   retentionTextId: retentionAttempts.retentionTextId,
   retentionTextVersionId: retentionAttempts.retentionTextVersionId,
-  retentionLabelSnapshot: retentionAttempts.retentionLabelSnapshot,
   level: retentionAttempts.level,
   rotationCycle: retentionAttempts.rotationCycle,
   status: retentionAttempts.status,
@@ -155,7 +153,6 @@ export async function startOrResumeAttempt(
       // selection runs again. Archive-first → never assigned; allocation-first →
       // the archive waits, and the assigned immutable version stays finishable.
       let decision: ReturnType<typeof selectNextText> = null;
-      let assignedLabel = "";
       for (let round = 0; round < 3 && !decision; round += 1) {
         const candidates = await listActiveCandidates(level, database);
         const proposed = selectNextText({
@@ -167,15 +164,12 @@ export async function startOrResumeAttempt(
         });
         if (!proposed) break;
         const [locked] = await database
-          .select({ active: retentionTexts.active, currentVersionId: retentionTexts.currentVersionId, internalLabel: retentionTexts.internalLabel })
+          .select({ active: retentionTexts.active, currentVersionId: retentionTexts.currentVersionId })
           .from(retentionTexts)
           .where(eq(retentionTexts.id, proposed.textId))
           .for("share")
           .limit(1);
-        if (locked?.active && locked.currentVersionId === proposed.versionId) {
-          decision = proposed;
-          assignedLabel = locked.internalLabel;
-        }
+        if (locked?.active && locked.currentVersionId === proposed.versionId) decision = proposed;
       }
 
       if (!decision) throw new RetentionError("retention_no_content", "no active retention text for this level");
@@ -187,7 +181,6 @@ export async function startOrResumeAttempt(
           userId: input.userId,
           retentionTextId: decision.textId,
           retentionTextVersionId: decision.versionId,
-          retentionLabelSnapshot: assignedLabel,
           level,
           rotationCycle: decision.cycleNumber,
           status: "reading",
@@ -355,7 +348,6 @@ export async function loadReadingBody(
   attempt: RetentionAttemptRecord,
   connection: RetentionBankDatabase = db
 ): Promise<{ bodyText: string; wordCount: number }> {
-  if (!attempt.retentionTextVersionId) throw new RetentionError("retention_attempt_not_found", "assigned version was deleted");
   const version = await loadAssignedVersion(attempt.retentionTextVersionId, connection);
   if (!version) throw new RetentionError("retention_attempt_not_found", "assigned version is missing");
   return { bodyText: version.bodyText, wordCount: version.wordCount };
@@ -470,7 +462,6 @@ async function scoreAttempt(
   database: RetentionBankDatabase,
   record: RetentionAttemptRecord
 ): Promise<{ score: number; breakdown: RetentionBreakdown }> {
-  if (!record.retentionTextVersionId) throw new RetentionError("retention_scoring_failed", "assigned version was deleted");
   const version = await loadAssignedVersion(record.retentionTextVersionId, database);
   if (!version) throw new RetentionError("retention_scoring_failed", "assigned version is missing");
   let structure;
@@ -518,7 +509,6 @@ async function finalizeOn(
   }
 
   const finalized = toRecord(updated);
-  if (!finalized.retentionTextId) throw new RetentionError("retention_scoring_failed", "live attempt lost its source");
   // Rotation consumes the logical text: a timed-out attempt has been used, and a
   // low score never brings the same text straight back (§98, §99).
   await database
@@ -660,7 +650,7 @@ export async function listRetentionHistory(
       completedAt: retentionAttempts.completedAt,
       createdAt: retentionAttempts.createdAt,
       rotationCycle: retentionAttempts.rotationCycle,
-      label: sql<string>`coalesce(${retentionAttempts.retentionLabelSnapshot}, (select t.internal_label from retention_texts t where t.id = ${retentionAttempts.retentionTextId}), '')`,
+      label: sql<string>`coalesce((select t.internal_label from retention_texts t where t.id = ${retentionAttempts.retentionTextId}), '')`,
       total: sql<number>`count(*) over ()::int`,
     })
     .from(retentionAttempts)
@@ -697,7 +687,7 @@ export async function getRetentionHistoryRow(
   const record = await findAttemptForUser(input, connection);
   if (!isTerminalStatus(record.status)) return null;
   const [label] = await connection
-    .select({ label: sql<string>`coalesce(${retentionAttempts.retentionLabelSnapshot}, (select t.internal_label from retention_texts t where t.id = ${retentionAttempts.retentionTextId}), '')` })
+    .select({ label: sql<string>`coalesce((select t.internal_label from retention_texts t where t.id = ${record.retentionTextId}), '')` })
     .from(retentionAttempts)
     .where(eq(retentionAttempts.id, record.id))
     .limit(1);
@@ -772,7 +762,7 @@ export async function getRetentionSummary(
     inArray(retentionAttempts.status, ["completed", "timed_out"]),
     isNotNull(retentionAttempts.score)
   );
-  const [grouped, recent] = await Promise.all([connection
+  const grouped = await connection
     .select({
       level: retentionAttempts.level,
       attempts: sql<number>`count(*)::int`,
@@ -781,15 +771,14 @@ export async function getRetentionSummary(
     })
     .from(retentionAttempts)
     .where(scoredTerminal)
-    .groupBy(retentionAttempts.level),
+    .groupBy(retentionAttempts.level);
   // The rolling average uses only the latest ten scored attempts.
-  connection
+  const recent = await connection
     .select({ score: retentionAttempts.score })
     .from(retentionAttempts)
     .where(scoredTerminal)
     .orderBy(desc(retentionAttempts.createdAt), desc(retentionAttempts.id))
-    .limit(10),
-  ]);
+    .limit(10);
 
   const levels: RetentionLevel[] = ["A2", "B1", "B2", "C1", "C2"];
   const byLevel = new Map(grouped.map((row) => [row.level, row]));

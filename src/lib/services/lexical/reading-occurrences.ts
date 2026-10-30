@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import type { db } from "@/db/client";
 import { lexemes, lexicalOccurrences } from "@/db/schema";
 import { senseKeyOf } from "@/lib/services/vocabulary/dedupe";
@@ -40,27 +40,10 @@ export type AuthoredVocabulary = {
 export function ingestReadingPassageOccurrences(tx: Tx, passageId: string, body: string, vocabulary: AuthoredVocabulary[], provenance = "general_reading") {
   return ingestTextOccurrences(tx, {sourceType: "reading", passageId}, body, vocabulary, provenance, passageId);
 }
-export async function ingestVideoOccurrences(tx: Tx, videoLessonId: string, body: string, vocabulary: AuthoredVocabulary[]) {
-  const result=await ingestTextOccurrences(tx, {sourceType: "video", videoLessonId}, body, vocabulary, "video_authoring", videoLessonId);
-  // A teacher's vocabulary list is independent of the transcript. Its dedicated
-  // segment is the authored word itself, never a fabricated transcript offset.
-  for(const entry of vocabulary){
-    const key=senseKeyOf({term:entry.word,partOfSpeech:entry.pos,meaning:entry.def});
-    let sense=await canonicalSenseFor(tx,entry);
-    if(!sense){await tx.insert(lexemes).values({term:entry.word.trim(),partOfSpeech:entry.pos.trim()||null,definitionEn:entry.def.trim(),translationUz:entry.uz.trim()||null,exampleSentence:entry.ex.trim()||null,senseKey:key,provenance:'video_authoring',verificationStatus:'unverified',importBatch:`video_authoring:${videoLessonId}`}).onConflictDoNothing({target:lexemes.senseKey});sense=await tx.query.lexemes.findFirst({where:eq(lexemes.senseKey,key)});}
-    if(!sense)throw Error('authored_video_sense_missing');
-    const existing=await tx.query.lexicalOccurrences.findFirst({where:and(eq(lexicalOccurrences.videoLessonId,videoLessonId),eq(lexicalOccurrences.lexemeId,sense.id),eq(lexicalOccurrences.resolutionStatus,'resolved'))});
-    if(existing)continue;
-    const unitId=await linkSenseToUnit(tx,sense,'video_authoring');
-    await tx.insert(lexicalOccurrences).values({sourceType:'video',videoLessonId,lexemeId:sense.id,lexicalUnitId:unitId,segmentKey:`v:${sense.id}`,surfaceForm:entry.word.trim(),startChar:0,endChar:entry.word.trim().length,sentenceText:entry.ex.trim()||null,occurrenceType:'authored_vocabulary',isTargetVocabulary:true,resolutionStatus:'resolved',resolutionSource:'video_authoring'});
-    result.resolved++;
-  }
-  return result;
+export function ingestVideoOccurrences(tx: Tx, videoLessonId: string, body: string, vocabulary: AuthoredVocabulary[]) {
+  return ingestTextOccurrences(tx, {sourceType: "video", videoLessonId}, body, vocabulary, "video_authoring", videoLessonId);
 }
-export function ingestRetentionOccurrences(tx: Tx, retentionTextVersionId: string, body: string, vocabulary: AuthoredVocabulary[]) {
-  return ingestTextOccurrences(tx, {sourceType: "retention", retentionTextVersionId}, body, vocabulary, "retention_ai_draft", retentionTextVersionId);
-}
-async function ingestTextOccurrences(tx: Tx, source: {sourceType: "reading"; passageId: string} | {sourceType: "video"; videoLessonId: string} | {sourceType: "retention"; retentionTextVersionId: string}, body: string, vocabulary: AuthoredVocabulary[], provenance: string, sourceId: string) {
+async function ingestTextOccurrences(tx: Tx, source: {sourceType: "reading"; passageId: string} | {sourceType: "video"; videoLessonId: string}, body: string, vocabulary: AuthoredVocabulary[], provenance: string, sourceId: string) {
   const senses = new Map<string, { lexemeId: string; unitId: string; example: string }>();
   const candidates: SpanCandidate[] = [];
   let skippedFunctionWords = 0;

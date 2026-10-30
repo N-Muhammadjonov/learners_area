@@ -1,0 +1,48 @@
+{
+  "current_r2_object_checks": {
+    "status": "PASS",
+    "artifact": "production-r2-verification.json",
+    "sha256": "797e6d20b10cf00b3ea8bc3f32f5a2a0e0005d66038f2203c2ef8cc2242ed9dd",
+    "measuredAt": "2026-10-26T19:31:18Z"
+  },
+  "functional_en_uz": {
+    "status": "PARTIAL",
+    "reason": "140 authenticated search requests pass; examples/synonyms/Reading/Retention smoke pass. Listening, Speaking, Writing and full Vocabulary workflows are not fully live verified."
+  },
+  "authenticated_api_parity": {
+    "status": "PARTIAL",
+    "reason": "Active student browser session verified with stable response hashes. A second authorized identity is not available for complete isolation proof."
+  },
+  "comparable_performance": {
+    "status": "PARTIAL",
+    "reason": "Current API and Worker baselines measured. No paired before/after performance cutover, real mobile network, or forced/proven cold cache."
+  },
+  "actual_cold_start": {
+    "status": "BLOCKED",
+    "reason": "No cold isolate/cache state was forced or proven."
+  },
+  "worker_error_rate": {
+    "status": "PARTIAL",
+    "reason": "0 failures in 200 signed Worker searches and 140 authenticated API searches; account-wide Worker telemetry is unavailable."
+  },
+  "private_backup_restore": {
+    "status": "PARTIAL",
+    "reason": "Complete private database/roles archive captured and fully decompressed. Isolated restoration remains unverified."
+  },
+  "worker_version_config_snapshot": {
+    "status": "BLOCKED",
+    "reason": "Authenticated Cloudflare browser account differs from production R2 account. No production Worker admin token/session is available."
+  },
+  "legacy_reader_decommission": {
+    "status": "PARTIAL",
+    "reason": "Current active release uses R2; all three read adapters now guard fallback. Validated legacy compatibility branches remain; historical legacy search count stayed at 7."
+  },
+  "maintenance_rehearsal": {
+    "status": "BLOCKED",
+    "reason": "No verified compatible isolated restore environment. Existing QA contents were preserved; Docker socket access denied."
+  },
+  "explicit_cleanup_approval": {
+    "status": "BLOCKED",
+    "reason": "No explicit approval for the concrete destructive transaction; all prerequisite gates must pass first."
+  }
+}

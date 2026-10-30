@@ -2,7 +2,6 @@ import type { Dictionary } from "./en";
 
 const uz: Dictionary = {
   globalDictionary: {
-    capacityExceeded: "Yangi nashr uchun bazada joy yetarli emas. Qoralamalaringiz saqlangan. Nashr qilishdan oldin baza sig'imini tekshiring.",
     duplicateWord: "Bu so'z va so'z turkumi mavjud. Mavjud so'zga yangi ma'no qo'shing.",
     duplicateSense: "Bu ma'no mavjud.",
     lexemes: "Nashr qilingan so'zlar",
@@ -28,11 +27,8 @@ const uz: Dictionary = {
     expandAll: "Barcha ma'nolarni ochish",
     collapseAll: "Barcha ma'nolarni yopish",
     moreExamples: "Ko'proq namunalar",
-    collocations: "So'z birikmalari",
+    collocations: "Birikma so'zlar",
     synonyms: "Sinonimlar",
-    noSynonyms: "Sinonim topilmadi.",
-    noCollocations: "So'z birikmalari topilmadi.",
-    pronunciationUnavailable: "Bu brauzerda talaffuzni eshittirib bo'lmaydi.",
     relations: "Bog'liq so'zlar",
     attribution: "Manbalar va mualliflik",
     forms: "So'z shakllari",
@@ -78,7 +74,7 @@ const uz: Dictionary = {
     deleteRecording: "Yozuvni o'chirish",
     "topicUploadHelp": "Barcha savollar va materiallari bitta topic sifatida birga saqlanadi.",
     "archived": "Arxivlangan",
-    "confirmArchive": "Topicni o'chirish",
+    "confirmArchive": "Nashrdan olib tashlash",
     "archiveHelp": "Shu topicdagi barcha savollar Practice va Partnerdan olib tashlansinmi? Ularni shu yerdan qayta tiklashingiz mumkin.",
     "removeTopic": "Topicni olib tashlash",
     "newTopic": "Yangi topic",
@@ -173,7 +169,6 @@ const uz: Dictionary = {
   },
 
   shell: {
-    telegramBrand: "Learners Area Telegram kanalini ochish",
     searchShortcut: "Ctrl K",
     learningNav: "O'qish bo'limlari",
     managementNav: "Boshqaruv bo'limlari",
@@ -225,7 +220,6 @@ const uz: Dictionary = {
     notFound: "Bu General Reading to'plami mavjud emas.",
   },
   readingV4: {
-    unstatedEvidence: "Matnda bu tafsilot aytilmagan. Butun passageni tekshiring: alohida o'xshash jumla Not Given javobini isbotlamaydi.",
     evidenceMissing: "Muallif dalil keltirmagan.",
     explanationMissing: "Muallif izoh keltirmagan.",
     review: "Natijani ko'rish",
@@ -242,9 +236,7 @@ const uz: Dictionary = {
     },
   },
   readingHub: {
-    lockedHint: 'Bu testni ochish uchun oldingi Academic Reading testini tugating.',
     academicExamHint: "Uchta passage · 60 daqiqa · bitta imtihon. Academic Reading'da lug'at va vocabulary yordami ishlamaydi.",
-    academicEmpty: "Hozircha to'liq 40 savollik Academic Reading testlari e'lon qilinmagan.",
     title: "Reading",
     subtitle: "Academic va General reading, savol turi bo'yicha mashq va Retention rejimi.",
     subtitleAcademic: "Academic Reading: matnma-matn ishlanadigan yo'naltirilgan o'qish to'plamlari, natijangiz saqlanadi.",
@@ -336,11 +328,6 @@ const uz: Dictionary = {
     auditBody: "Xavfsizlik va boshqaruv jurnali.",
   },
 
-  managementStats: {
-    title:"Statistika", results:"Barcha mashqlar natijalari", history:"Natijalar tarixi", started:"Boshlangan", completed:"Tugallangan", learners:"O'quvchilar", accuracy:"O'rtacha aniqlik", band:"O'rtacha band", rate:"Tugallanish", activity:"So'nggi 14 kun", levels:"Retention darajalari", average:"O'rtacha", best:"Eng yaxshi", empty:"Hali qayd etilgan natija yo'q.", date:"Sana", result:"Natija", state:"Holat", ongoing:"Jarayonda", all:"Barchasi", retention:"Retention natijalari", scope:"Faqat saqlangan haqiqiy natijalar. Band va foiz alohida hisoblanadi.", top:"Eng faol 100 ta o'quvchi", notGraded:"Baholanmagan", source:"Mashq", tracking:"Telegram username bot bilan keyingi aloqada yangilanadi.",
-    modules:{reading:"Reading",listening:"Listening",writing:"Writing",speaking:"Speaking",retention:"Retention",vocabulary:"Lug'at",grammar:"Grammatika",video:"TED / PODCAST",lessons:"Darslar",assignments:"Topshiriqlar",mocks:"Mock testlar"},
-    activities:{patternPractice:"Birikma mashqi",games:"O'yinlar",revision:"Takrorlash",activation:"Activation Lab",academic:"Academic test",general:"General passage",activities:"Listening mashqlari",mcq:"MCQ mastery",essays:"Yozma ish",typing:"Typing",translation:"Tarjima",patterns:"Til birikmalari",speaking:"Speaking",retention:"Retention",grammar:"Grammatika",video:"TED / PODCAST",words:"Saqlangan so'z",practice:"Vocabulary mashqi",lessons:"Dars",assignments:"Topshiriq",mocks:"Mock test"},
-  },
   studentResults: {
     title: "Mock natijalari",
     taken: "Topshirilgan mocklar",
@@ -391,6 +378,16 @@ const uz: Dictionary = {
     empty: "Hozircha yangi xabar yo'q.",
     markRead: "Hammasini o'qilgan deb belgilash",
     admissions: "Kirish so'rovlari",
+    assignmentAssignedTitle: "Yangi uy vazifasi",
+    assignmentAssignedBody: "Yangi topshiriq tayyor: {title}",
+    assignmentDeadlineTitle: "Topshiriq muddati yaqin",
+    assignmentDeadlineBody: "24 soat ichida muddati tugaydi: {title}",
+    assignmentOverdueTitle: "Topshiriq muddati o‘tgan",
+    assignmentOverdueBody: "Bu topshiriqning muddati o‘tgan: {title}",
+    writingReviewTitle: "Writing topshirig'ini tekshirish kerak",
+    writingReviewBody: "{student} Writing javobini yubordi.",
+    teacherFeedbackTitle: "O'qituvchi fikri tayyor",
+    teacherFeedbackBody: "Writing javobingizga o'qituvchi fikr bildirdi.",
     all: "Barcha bildirishnomalar",
   },
   support: {
@@ -458,7 +455,6 @@ const uz: Dictionary = {
     bottom: "Yordam",
     management: "Boshqaruv",
     backToLearning: "O'qishga qaytish",
-    statistics: "Statistika",
     people: "Odamlar",
     teaching: "Darslar",
     content: "Kontent",
@@ -491,20 +487,6 @@ const uz: Dictionary = {
     trialNote: "Demo kurs kontenti — to'liq katalog bosqichma-bosqich ochiladi.",
   },
   auth: {
-    telegramLink: "Mavjud hisobingizni Telegramga ulash",
-    continueWithTelegramRegister: "Telegram orqali ariza qoldirish",
-    telegramWaiting: "Telegramda tasdiqlang, shu sahifa sizni tizimga kiritadi.",
-    telegramRegisterWaiting: "Telegramda tasdiqlang. Bu kutilayotgan ariza yaratadi. Mavjud hisobga kirmaydi.",
-    telegramOpen: "Telegramni ochish",
-    telegramCancel: "Bekor qilish",
-    telegramExpired: "Tasdiqlash muddati tugadi. Qaytadan boshlang.",
-    telegramConflict: "Bu Telegram hisobi boshqa Learners Area hisobiga ulangan.",
-    telegramNoAccount: "Bu Telegram foydalanuvchisiga hisob ulanmagan. Ro'yxat sahifasida hisob yarating.",
-    telegramRegisterPending: "Arizangiz ko'rib chiqilmoqda. Markaz hali tasdiqlamagan.",
-    telegramAlreadyActive: "Bu Telegram hisobi allaqachon faol. Siz tizimga kirdingiz.",
-    telegramAlreadyPending: "Bu Telegram hisobi uchun ariza allaqachon kutilmoqda.",
-    telegramSuspended: "Hisob to'xtatilgan. Kirish ruxsatni qaytarmaydi.",
-    telegramAlreadySignedIn: "Siz allaqachon tizimdasiz. Ro'yxat ikkinchi hisob ochmaydi.",
     or: "yoki",
     loginTitle: "Xush kelibsiz",
     loginSubtitle: "O'quv rejangizni davom ettirish uchun tizimga kiring.",
@@ -554,7 +536,7 @@ const uz: Dictionary = {
     courseHeading: "Yo'l xaritangizdan",
     title: "TED / PODCAST",
     intro:
-      "Videoni ko'ring yoki tinglang, transkript va o'qituvchi qaydlarini oching, so'zlarni o'rganing hamda xulosangizni yozing yoki ovozga yozib oling.",
+      "Qisqa nutq, so'ng uning atrofidagi dars: ko'rishdan oldin taxmin qiling, markazning o'z savollariga javob bering va undan nima olganingizni yozing. Nashr etilgan mustaqil video darslar shu yerda ochiladi. Yo'l xaritasiga bog'langan videolar tegishli dars ochilganda ochiladi.",
     none: "Hozircha ochiq video dars yo'q.",
     open: "Darsni ochish",
     minutes: "{n} daqiqa",
@@ -625,7 +607,7 @@ const uz: Dictionary = {
   },
   videoLessonAdmin: {
     vocabulary: "Muallif kiritgan lug'at (ixtiyoriy)",
-    vocabularyHelp: "Har qatorda: so'z || turkum || inglizcha ma'no || o'zbekcha || ixtiyoriy misol. So'z transkriptda bo'lishi shart emas.",
+    vocabularyHelp: "Har qatorda: so'z || turkum || inglizcha ma'no || o'zbekcha || transkript yoki qayddagi aynan gap.",
     vocabularyContextRequired: "Har bir lug'at misoli muallif transkripti yoki qaydlarida bo'lishi kerak.",
     sourceAuthored: "Muallifniki", sourceLicensed: "Litsenziyalangan", sourcePermitted: "Ruxsat olingan",
 
@@ -676,7 +658,7 @@ const uz: Dictionary = {
     subtitle: "Boshqaruv paneli va rejangiz birinchi kundanoq mos bo'lishi uchun oltita savol.",
     preferredLanguage: "Afzal ko'rgan til",
     currentLevel: "Hozirgi ingliz tili darajasi",
-    currentBand: "So'nggi IELTS natijangiz (imtihon topshirgan bo'lsangiz)",
+    currentBand: "Hozirgi IELTS band (agar bilsangiz)",
     targetBand: "Maqsad IELTS band",
     examDate: "Rejalashtirilgan imtihon sanasi",
     dailyStudyMinutes: "Kunlik o'qish vaqti (daqiqa)",
@@ -889,12 +871,6 @@ const uz: Dictionary = {
    * Mashq ekrani. Alohida blok, chunki bu matnlar faqat bitta ish maydonini
    * tasvirlaydi — bo'lingan ko'rinish, taymer, avtomatik saqlash.
    */
-  readingWorkspace: {
-    elapsed: "Sarflangan vaqt",
-    passage: "Matn", questions: "Savollar", resize: "Matn va savollar kengligini o'zgartirish",
-    smaller: "Matnni kichraytirish", larger: "Matnni kattalashtirish", passageHeading: "READING PASSAGE {n}",
-    questionRange: "Savollar {from}–{to}", review: "Qayta ko'rish", library: "Passage kutubxonasi",
-  },
   readingPractice: {
     passageTab: "Matn",
     questionsTab: "Savollar",
@@ -965,12 +941,9 @@ const uz: Dictionary = {
      * har bir test uchun faoliyat markazi. Matnlar ikki sahifada umumiy.
      */
     academic: {
-      locked: "Qulflangan",
-      lockedHint: "Bu testni ochish uchun oldingi testning barcha mashqlarini tugating.",
-
-      title: "Listening Tests",
-      subtitle: "Markazning e'lon qilingan Listening Tests testlari. Testni ochib, u haqiqatan qo'llab-quvvatlaydigan faoliyatlarni ko'ring.",
-      emptyTitle: "Hozircha birorta Listening Tests testi chop etilmagan.",
+      title: "Academic Listening",
+      subtitle: "Markazning e'lon qilingan Academic Listening testlari. Testni ochib, u haqiqatan qo'llab-quvvatlaydigan faoliyatlarni ko'ring.",
+      emptyTitle: "Hozircha birorta Academic Listening testi chop etilmagan.",
       emptyHint: "Markaz kanonik Listening testini tayyorlab, e'lon qilmaguncha bu sahifada hech narsa ko'rinmaydi — bu yerda namunaviy testlar yo'q.",
       catalogueCount: "{n} ta e'lon qilingan test",
       openTest: "Testni ochish",
@@ -980,13 +953,13 @@ const uz: Dictionary = {
       activitiesLabel: "{done} / {total} faoliyat bajarildi",
       noProgress: "Boshlanmagan",
       examResult: "Oxirgi imtihon: {score} / {total}",
-      hubBack: "Barcha Listening Tests",
+      hubBack: "Barcha Academic Listening testlari",
       hubSubtitle: "Quyidan faoliyatni tanlang. Bu yerda faqat shu test haqiqatan qo'llab-quvvatlaydiganlari ko'rinadi.",
       progressLabel: "Bajarilgan faoliyatlar: {done} / {total}",
       examScore: "Imtihon natijasi: {score} / {total}",
       draftNotice: "Bu test qoralama: uni faqat xodimlar ko'radi, o'quvchilar hozircha ocholmaydi.",
       notFoundTitle: "Bu test mavjud emas.",
-      notFoundHint: "U e'lon qilinmagan yoki olib tashlangan bo'lishi mumkin. Listening Tests katalogiga qayting.",
+      notFoundHint: "U e'lon qilinmagan yoki olib tashlangan bo'lishi mumkin. Academic Listening katalogiga qayting.",
       transcriptYes: "To'liq transkript mavjud",
       transcriptNo: "Bu yozuv uchun transkript yo'q",
       activity: {
@@ -1018,7 +991,7 @@ const uz: Dictionary = {
       previousPage: "Oldingi testlar",
       nextPage: "Keyingi testlar",
       pageLabel: "{page}-sahifa",
-      paginationLabel: "Listening Tests sahifalari",
+      paginationLabel: "Academic Listening sahifalari",
       complete: "Bajarildi",
       latestScore: "Oxirgi: {score} / {total}",
       open: "Ochish",
@@ -1058,14 +1031,13 @@ const uz: Dictionary = {
     /** Listening markazi — to'rt yo'nalish va ular aralashtirilmasligi haqidagi izoh. */
     hub: {
       title: "Listening",
-      subtitle: "Uchta bo'lim: Lessons, Listening Tests va MCQ mastery.",
+      subtitle: "To'rt alohida yo'nalish: darslar, Academic testlar, General bo'limlar va MCQ kunlik dasturi. Ular bir-biriga aralashtirilmaydi.",
       open: "Ochish",
     },
 
     /** Listening → MCQ: kunma-kun dastur uchun interfeys matnlari (kunlar soni cheklanmagan; kontent tarjima qilinmaydi). */
     mcqProgram: {
-      lockedHint: "Bu kunni ochish uchun oldingi kundagi barcha savollarni oxirgi bosqichgacha bajaring.",
-      title: "MCQ mastery",
+      title: "Listening MCQ",
       subtitle: "Kunma-kun test dasturi: har kuni beshta savol. Har bir savol bosqichma-bosqich: tinglash, izoh, qaror, keyin javob.",
       daysPublished: "{published} kun chop etilgan",
       daysCompleted: "Tugatilgan kunlar: {available} kundan {done}",
@@ -1099,7 +1071,7 @@ const uz: Dictionary = {
 
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */
     lessons: {
-      title: "Lessons",
+      title: "Listening darslari",
       subtitle: "Markaz tayyorlagan darslar: avval tinglash materiali, yonida markazning izohlari.",
       open: "Darsni ochish",
       minutes: "daq.",
@@ -1363,17 +1335,12 @@ const uz: Dictionary = {
     wordsFromTestHint: "Taxmin qilgan so'zlaringizni saqlang — ular takrorlash navbatiga qaytadi.",
   },
   vocabulary: {
-    dictionaryChoice: "Matnda ishlatilgan ma'noni tanlang.",
-    dictionaryMissing: "Bu so'z hozircha lug'atda yo'q.",
-    contextMissing: "Bu joydagi ma'no hali ulanmagan.",
-
     contextVerified: "Tekshirilgan manba ma'nosi",
     contextUnverified: "Manbadagi ma'no - muharrir tekshiruvidan o'tmagan",
     meaningUnchecked: "Ma'nosi hali tekshirilmagan",
     meaningUncheckedHint: "Bu so'zning ushbu matndagi ma'nosi hali tekshirilmagan. Uni o'zingiz yozgan ma'no bilan saqlashingiz mumkin.",
     lexicalTypeLabel: { word: "so'z", noun_phrase: "ot birikmasi", verb_phrase: "fe'l birikmasi", collocation: "kollokatsiya", phrasal_verb: "frazali fe'l", idiom: "idioma", fixed_expression: "turg'un ibora", compound: "qo'shma so'z", technical_term: "atama", phrase: "ibora" },
     textLookup: "Matndagi so'z ma'nosini ko'rish",
-    textLookupDoubleHint: "Lug'atni ochish uchun so'z yoki iboraga ikki marta bosing yoki 3 soniya bosib turing. Klaviatura: strelkalar bilan tanlang, Enter bilan oching. Escape oynani yopadi.",
     textLookupHint: "So'z ma'nosini ko'rish uchun uni bosing; nusxalash uchun matnni belgilang. Klaviatura: chap va o'ng strelka bilan so'z tanlang, Home yoki End bilan boshiga yoki oxiriga o'ting, Enter bilan ma'nosini oching. Escape oynani yopadi.",
     title: "Lug'at",
     addWord: "So'z qo'shish",
@@ -2109,7 +2076,6 @@ const uz: Dictionary = {
     noAdmins: "Hozircha administrator hisobi yo'q.",
   },
   people: {
-    activity: "So'nggi faollik", visitTime: "So'nggi tashrif", totalTime: "Jami faol vaqt", notTracked: "Hali qayd etilmagan", presenceNote: "Online: oxirgi 90 soniyadagi faol oyna. Vaqt hisoblagich yoqilganidan boshlab yig'iladi.",
     title: "Odamlar",
     subtitle: "Rollar, kirish holati va to'xtatishlar. Har bir o'zgarish auditga yoziladi.",
     name: "Ism",
@@ -2130,7 +2096,7 @@ const uz: Dictionary = {
     confirmStatusTitle: "Hisob holati o'zgarishini tasdiqlang",
     confirmStatusBody: "Bu hisobning shaxsiy materiallarga kirishini o'zgartiradi. Server vakolatingizni yana tekshiradi.",
     searchLabel: "Odamlarni qidirish",
-    searchPlaceholder: "Ism, @username yoki telefon raqami",
+    searchPlaceholder: "Ism yoki email",
     searchAction: "Qidirish",
     clearFilters: "Filtrlarni tozalash",
     allRoles: "Barcha rollar",
@@ -2143,10 +2109,9 @@ const uz: Dictionary = {
     nextPage: "Keyingi",
   },
   profile: {
-    studyTitle:"O'qish ma'lumotlari", saveStudy:"Ma'lumotlarni saqlash", studySaved:"Ma'lumotlar saqlandi.", day:"Kun", month:"Oy", year:"Yil", telegramAccount:"Ulangan Telegram hisobi", telegramChange:"Telegram hisobini almashtirish", telegramChangeHint:"Yangi hisobni botda tasdiqlang. Natijalaringiz shu Learners Area hisobida saqlanadi.", telegramStaffChange:"Boshqaruv Telegram hisobi alohida tasdiqlangan hisob o'tkazish tartibi orqali almashtiriladi.", firstName:"Ism", lastName:"Familiya", fullNameRequired:"Ism va familiyangizni kiriting.",
     photo: {"title": "Profil rasmi", "upload": "Rasm yuklash", "remove": "Rasmni olib tashlash", "saved": "Profil rasmi saqlandi.", "failed": "Rasm saqlanmadi. Kichikroq rasm tanlab, qayta urinib ko'ring."},
     title: "Profilingiz",
-    subtitle: "Ismingiz, o'qish ma'lumotlaringiz va ulangan hisobingizni boshqaring.",
+    subtitle: "Learners Area hisobingizda ko'rinadigan ismni o'zgartiring.",
     displayName: "Ko'rinadigan ism",
     saveName: "Ismni saqlash",
     editName: "Ismni tahrirlash",
@@ -2223,7 +2188,6 @@ const uz: Dictionary = {
     assignmentInstructions: "Talaba ko'radigan ko'rsatmalar",
   },
   admin: {
-    materialDeletion: { confirm: "Material o'chirilsinmi? U materiallar va kurs ro'yxatidan olib tashlanadi. O'quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o'chirib bo'lmadi. Qayta urinib ko'ring." },
     usersTitle: "Foydalanuvchilar",
     changeRole: "Rolni o'zgartirish",
     promptsTitle: "Writing mavzulari",
@@ -2538,7 +2502,6 @@ const uz: Dictionary = {
       unauthenticated: "Davom etish uchun qaytadan kiring.",
     },
     admin: {
-    materialDeletion: { confirm: "Material o'chirilsinmi? U materiallar va kurs ro'yxatidan olib tashlanadi. O'quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o'chirib bo'lmadi. Qayta urinib ko'ring." },
       title: "Retention",
       subtitle: "Xotira banki: har daraja uchun 15 ta matn — maqsad, chegara emas.",
       backToReading: "Reading",
@@ -2611,17 +2574,12 @@ const uz: Dictionary = {
       cancel: "Bekor qilish",
       change: "O'zgartirish",
       archive: "O'chirish",
-      archiveAction: "Arxivlash",
       restore: "Tiklash",
       archivedBadge: "Arxivlangan",
       versionBadge: "v{n}",
       versionCount: "{n} ta versiya",
       conflict: "Siz tahrirlayotganda boshqa admin yangi versiya saqladi. Joriy versiyani qayta yuklang.",
-      confirmArchive: "Matn arxivlansinmi? Keyin uni qayta tiklash mumkin.",
-      confirmPermanentDelete: "{label} va uning barcha matn versiyalari butunlay o'chirilsinmi? O'quvchilarning tugallangan javoblari, ballari va natijalari saqlanadi, lekin matnni tiklab bo'lmaydi.",
-      confirmDeleteLabel: "Butunlay o'chirishni tasdiqlash uchun {label} ni kiriting:",
-      deleteFailed: "Matnni butunlay o'chirib bo'lmadi. O'quvchi natijalarini o'chirishga urinilmadi.",
-      deleteBlocked: "O'quvchi shu matn bilan ishlayapti. Uning mashg'uloti tugamaguncha matnni butunlay o'chirib bo'lmaydi.",
+      confirmArchive: "Bu matn o'chirilsinmi? U arxivlanadi: keyingi aylanishlardan chiqadi, lekin versiyalari, mavjud natijalar va tarix saqlanib qoladi. Keyinroq tiklash mumkin.",
       saved: "Saqlandi.",
       preview: "Ko'rinish",
       usageCurrent: "joriy versiya",
@@ -3315,9 +3273,6 @@ const uz: Dictionary = {
     },
   },
   fullListeningHub: {
-    savedWork: "Shu qurilmada saqlangan ishlar",
-    checkpointRecovered: "Boshqa oynada yangilangan testning oxirgi saqlangan holati tiklandi. Yuborilmagan ishingiz nusxasi shu qurilmada saqlandi.",
-    downloadUnsentWork: "Yuborilmagan ishni yuklab olish",
     research: {
       matching: "Matching mashqi", completion: "Form va Note Completion", map: "Map / Plan mashqi", retry: "Xato savollarni qayta ishlash", yourLocation: "Siz tanlagan joy", examLocked: "Mashqlarga kirishdan oldin joriy imtihonni yakunlang.", weakEmpty: "Oxirgi yakunlangan testda xato savollar yo'q. Avval testni bajaring yoki barcha savollarni takrorlang.", prediction: "Tinglashdan oldin javobni taxmin qiling", previous: "Oldingi savol", next: "Keyingi savol", finish: "Bajarilgan mashqni saqlash",
 
@@ -3342,7 +3297,7 @@ const uz: Dictionary = {
     library: {
       collections: "Listening to'plamlari",
       essential: "▶ Asosiy yozuvlar",
-      academic: "🎧 Listening Tests",
+      academic: "🎧 Academic Listening",
       general: "🎙️ General Listening",
       question_types: "📚 Savol turlari",
       mcq: "🔑 MCQ Mastery",
@@ -3352,7 +3307,6 @@ const uz: Dictionary = {
       fullListening: "🎧 To'liq Listening",
       sectionN: "🎙️ {n}-bo'lim",
       search: "Listening testlarini qidirish",
-      archivedTestHint: "Arxivlangan. O'quvchi natijalari bo'lmasa, O'chirish orqali butunlay o'chirish mumkin.",
       badgeSection: "10 savol · nazoratli tahlil",
       badgeFull: "40 savol",
       sectionOf: "To'liq yozuvning {n}-bo'limi",
@@ -3552,6 +3506,7 @@ const uz: Dictionary = {
     scopeOwner: "Butun markaz",
     scopeTeacher: "Barcha talabalar",
     scopeStudent: "Bitta talaba",
+    scopeOperations: "Faqat markaz operatsiyalari",
     scopeSelf: "Men",
     student: "Talaba",
     studentHint: "Faqat \"Bitta talaba\" tanlanganda ishlatiladi.",

@@ -102,8 +102,7 @@ test("Progress streams the module destination before learner-owned summary queri
 
 test("Reading doorway does not await catalogues; General Reading streams facets and library independently", () => {
   const hub = read("src/app/app/(shell)/reading/page.tsx");
-  assert.match(hub, /redirect\(target \?\? "\/app\/reading\/lessons"\)/, "Reading doorway forwards to its first section");
-  assert.match(read("src/app/app/(shell)/reading/lessons/page.tsx"), /data-route-usable="reading-lessons"/);
+  assert.match(hub, /data-route-usable="reading"/);
   assert.doesNotMatch(hub, /listLearningLibrary|listLibraryFacets|readingHubCounts/);
   const page = read("src/app/app/(shell)/reading/general/page.tsx");
   assert.match(page, /<ReadingLearningLibrary userId=\{user.id\}/);
@@ -139,11 +138,9 @@ test("Writing streams the entry header before its learner-summary reads", () => 
 
 test("Listening doorway has no catalogue read; Speaking streams its material catalogue", () => {
   const listening = read("src/app/app/(shell)/listening/page.tsx");
-  assert.match(listening, /requireActiveUser\(\)/, "module door enforces active identity");
-  assert.match(listening, /redirect\("\/app\/listening\/lessons"\)/);
-  assert.match(read("src/app/app/(shell)/listening/lessons/page.tsx"), /data-route-usable="listening-lessons"/);
-  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
-  assert.doesNotMatch(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation/);
+  assert.match(listening, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
+  assert.match(listening, /data-route-usable="listening"/);
+  assert.match(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
   assert.doesNotMatch(listening, /from ["']@\/lib\/data\//, "doorway must not wait on a content catalogue");
   const speaking = read("src/app/app/(shell)/speaking/lessons/page.tsx");
   assert.match(speaking, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);

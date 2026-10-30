@@ -289,6 +289,9 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   userIdx: index("notifications_user_idx").on(table.userId, table.createdAt),
+  eventIdUniqueIdx: uniqueIndex("notifications_user_event_id_unique_idx")
+    .on(table.userId, sql`(${table.payload} ->> 'eventId')`)
+    .where(sql`${table.payload} ? 'eventId'`),
 }));
 
 export const auditLog = pgTable("audit_log", {
@@ -1633,6 +1636,7 @@ export const assignments = pgTable("assignments", {
 }, (table) => [
   index("assignments_content_idx").on(table.module, table.contentType, table.sourceRef),
   index("assignments_version_idx").on(table.contentVersionId),
+  index("assignments_target_due_idx").on(table.targetUserId, table.dueAt).where(sql`${table.targetUserId} is not null`),
 ]);
 
 /** One row per student an assignment is set for, with its own status. */
@@ -1655,6 +1659,7 @@ export const assignmentTargets = pgTable(
   (table) => [
     uniqueIndex("assignment_targets_pair_idx").on(table.assignmentId, table.studentUserId),
     index("assignment_targets_student_idx").on(table.studentUserId, table.status),
+    index("assignment_targets_student_due_idx").on(table.studentUserId, table.dueAt).where(sql`${table.status} <> 'completed'`),
   ],
 );
 
@@ -2154,6 +2159,8 @@ export const videoLessonProgress = pgTable(
      * duration so a client cannot claim more than the video has.
      */
     watchedSeconds: integer("watched_seconds").notNull().default(0),
+    /** Learner-reported provider duration for display only when authored duration is absent. */
+    playbackDurationSeconds: integer("playback_duration_seconds"),
     /** Graded authored answers: `{ [questionId]: { answer, correct } }`. */
     answers: jsonb("answers").$type<Record<string, { answer: string; correct: boolean }>>(),
     /** "Your opinion" — the student's own response, kept for teacher feedback. */
@@ -2691,8 +2698,13 @@ export const writingLanguagePatterns = pgTable("writing_language_patterns", {
   publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   sourceRef: varchar("source_ref", { length: 80 }),
+  // A linked essay can contain up to 70 reusable chunks.
+  modelSlot: smallint("model_slot"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("writing_language_patterns_model_slot_idx").on(table.sourceRef, table.modelSlot),
+  check("writing_language_patterns_model_slot_check", sql`(${table.sourceRef} IS NULL AND ${table.modelSlot} IS NULL) OR (${table.sourceRef} IS NOT NULL AND ${table.modelSlot} IS NOT NULL AND ${table.modelSlot} BETWEEN 1 AND 70)`),
+]);
 
 /** Language Stealing 7-step workflow (0032). One resumable row per learner per model text. */
 export const writingStealingSessions = pgTable("writing_stealing_sessions", {
@@ -3171,3 +3183,12 @@ export const telegramOwnerHandovers = pgTable("telegram_owner_handovers", {
 }, (table) => ({
   fromIdx: index("telegram_owner_handovers_from_idx").on(table.fromTelegramId, table.status),
 }));
+
+/** Shared server-only abuse counters. Keys are HMAC digests, never raw identities. */
+export const apiRateBuckets = pgTable("api_rate_buckets", {
+  bucketKey: varchar("bucket_key", { length: 64 }).primaryKey(),
+  used: integer("used").notNull(),
+  resetAt: timestamp("reset_at", { withTimezone: true }).notNull(),
+}, table => [index("api_rate_buckets_expiry_idx").on(table.resetAt),
+  check("api_rate_buckets_used_check", sql`${table.used} >= 0`),
+  check("api_rate_buckets_bucket_key_check", sql`${table.bucketKey} ~ '^[a-f0-9]{64}$'`)]);

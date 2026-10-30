@@ -1,0 +1,355 @@
+{
+  "task": 1,
+  "capturedAt": "2026-10-28T18:45:11Z",
+  "sourceCommit": "7e916a02ef7be3192f42bfd054fcf432318fbb47",
+  "protectedWork": {
+    "branch": "arena/student-learning-checkpoint-20261028",
+    "commit": "ef74e73269af7c398d76c8869b94acc8969fca58",
+    "pushed": true,
+    "verified": false,
+    "merged": false
+  },
+  "workingBranch": "arena/system-hardening-20261028",
+  "openPrsPreserved": [
+    14,
+    15,
+    18
+  ],
+  "architecture": "FastAPI + Vanilla JS + Supabase + Railway + existing Cloudflare Workers/R2",
+  "production": {
+    "commit": "7e916a02ef7be3192f42bfd054fcf432318fbb47",
+    "deployment": "c6a2510f-5d7a-4e84-ba99-35080ac5b071",
+    "status": "SUCCESS",
+    "replicas": 1,
+    "processesPerReplica": 1,
+    "poolDefaultMax": 5,
+    "poolUpperCap": 20,
+    "stagedChanges": false,
+    "health": 200,
+    "ready": 200,
+    "anonymousSession": 401,
+    "anonymousStaff": 401,
+    "changed": false
+  },
+  "database": {
+    "maxConnections": 60,
+    "totalConnections": 17,
+    "activeConnections": 1,
+    "bytes": 233393299,
+    "changes": false
+  },
+  "cloudflare": {
+    "zoneId": "29f39aa1e1fde776ee382443a9ba0d48",
+    "apexProxied": false,
+    "wwwProxied": false,
+    "ssl": "full",
+    "managedRulesListed": true,
+    "edgeEnforcementProven": false,
+    "changes": false
+  },
+  "observedLastHour": {
+    "apiLatency": {
+      "service": {
+        "id": "68f0cfac-8723-40e7-9c3c-52856dc06786",
+        "name": "learners_area"
+      },
+      "environment": {
+        "id": "e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a",
+        "name": "production"
+      },
+      "window": {
+        "hoursBack": 1,
+        "bucketCount": 5
+      },
+      "slowestBucket": {
+        "ts": 1793210400,
+        "p50": 12,
+        "p90": 17,
+        "p95": 28,
+        "p99": 237
+      },
+      "samples": [
+        {
+          "ts": 1793208600,
+          "p50": 11,
+          "p90": 15,
+          "p95": 18,
+          "p99": 32
+        },
+        {
+          "ts": 1793209500,
+          "p50": 11,
+          "p90": 14,
+          "p95": 20,
+          "p99": 41
+        },
+        {
+          "ts": 1793210400,
+          "p50": 12,
+          "p90": 17,
+          "p95": 28,
+          "p99": 237
+        },
+        {
+          "ts": 1793211300,
+          "p50": 12,
+          "p90": 16,
+          "p95": 23,
+          "p99": 65
+        },
+        {
+          "ts": 1793212200,
+          "p50": 12,
+          "p90": 16,
+          "p95": 28,
+          "p99": 63
+        }
+      ]
+    },
+    "resources": {
+      "service": {
+        "id": "68f0cfac-8723-40e7-9c3c-52856dc06786",
+        "name": "learners_area"
+      },
+      "environment": {
+        "id": "e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 0.0019326833333333333,
+          "average": 0.003293821857923498,
+          "min": 0,
+          "max": 0.00464195,
+          "sampleCount": 61
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0.112840704,
+          "average": 0.11032690150819674,
+          "min": 0,
+          "max": 0.113270784,
+          "sampleCount": 61
+        }
+      ]
+    },
+    "requests": {
+      "service": {
+        "id": "68f0cfac-8723-40e7-9c3c-52856dc06786",
+        "name": "learners_area"
+      },
+      "environment": {
+        "id": "e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a",
+        "name": "production"
+      },
+      "window": {
+        "hoursBack": 1,
+        "bucketCount": 5
+      },
+      "totals": {
+        "2xx": 2239,
+        "3xx": 2,
+        "4xx": 0,
+        "5xx": 0,
+        "total": 2241
+      },
+      "samples": [
+        {
+          "ts": 1793208600,
+          "2xx": 292,
+          "3xx": 0,
+          "4xx": 0,
+          "5xx": 0,
+          "total": 292
+        },
+        {
+          "ts": 1793209500,
+          "2xx": 523,
+          "3xx": 0,
+          "4xx": 0,
+          "5xx": 0,
+          "total": 523
+        },
+        {
+          "ts": 1793210400,
+          "2xx": 520,
+          "3xx": 0,
+          "4xx": 0,
+          "5xx": 0,
+          "total": 520
+        },
+        {
+          "ts": 1793211300,
+          "2xx": 524,
+          "3xx": 0,
+          "4xx": 0,
+          "5xx": 0,
+          "total": 524
+        },
+        {
+          "ts": 1793212200,
+          "2xx": 380,
+          "3xx": 2,
+          "4xx": 0,
+          "5xx": 0,
+          "total": 382
+        }
+      ]
+    },
+    "viewLatency": {
+      "service": {
+        "id": "68f0cfac-8723-40e7-9c3c-52856dc06786",
+        "name": "learners_area"
+      },
+      "environment": {
+        "id": "e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a",
+        "name": "production"
+      },
+      "window": {
+        "hoursBack": 1,
+        "bucketCount": 1
+      },
+      "slowestBucket": {
+        "ts": 1793212200,
+        "p50": 42,
+        "p90": 113,
+        "p95": 271,
+        "p99": 271
+      },
+      "samples": [
+        {
+          "ts": 1793212200,
+          "p50": 42,
+          "p90": 113,
+          "p95": 271,
+          "p99": 271
+        }
+      ]
+    },
+    "dictionaryLatency": {
+      "service": {
+        "id": "68f0cfac-8723-40e7-9c3c-52856dc06786",
+        "name": "learners_area"
+      },
+      "environment": {
+        "id": "e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a",
+        "name": "production"
+      },
+      "window": {
+        "hoursBack": 1,
+        "bucketCount": 1
+      },
+      "slowestBucket": {
+        "ts": 1793212200,
+        "p50": 1865,
+        "p90": 1865,
+        "p95": 1865,
+        "p99": 1865
+      },
+      "samples": [
+        {
+          "ts": 1793212200,
+          "p50": 1865,
+          "p90": 1865,
+          "p95": 1865,
+          "p99": 1865
+        }
+      ]
+    }
+  },
+  "cachePolicy": {
+    "passiveRoutes": 4,
+    "reuseTtlMs": 30000,
+    "domNodes": 8000,
+    "summaryFreshMs": 5000,
+    "summaryStaleAllowanceMs": 25000,
+    "catalogueTtlMs": 60000,
+    "foldersPacksTtlMs": 60000,
+    "vocabularySummaryTtlMs": 5000,
+    "prewarmInflightMax": 2
+  },
+  "browserBaseline": {
+    "source": "frontend/vanilla/tests/browser-instant-navigation.html at unchanged main",
+    "environment": "isolated IAB Chromium 156; synthetic records; fixed 150ms API response; not production navigation latency",
+    "viewport": {
+      "width": 638,
+      "height": 1046
+    },
+    "samples": [
+      {
+        "scenario": "warm",
+        "count": 25,
+        "apiReads": 5,
+        "responseP50": 0.4,
+        "responseP95": 1,
+        "commitP50": 9.8,
+        "commitP95": 18.4,
+        "readyP50": 34,
+        "readyP95": 50.4
+      },
+      {
+        "scenario": "after-presence",
+        "count": 25,
+        "apiReads": 33,
+        "responseP50": 0.6,
+        "responseP95": 1.3,
+        "commitP50": 10.4,
+        "commitP95": 30.1,
+        "readyP50": 18.7,
+        "readyP95": 38.8
+      },
+      {
+        "scenario": "after-45-seconds",
+        "count": 25,
+        "apiReads": 7,
+        "responseP50": 0.5,
+        "responseP95": 0.9,
+        "commitP50": 10.8,
+        "commitP95": 19,
+        "readyP50": 35.7,
+        "readyP95": 183.1
+      },
+      {
+        "scenario": "back-revisit",
+        "count": 25,
+        "apiReads": 0,
+        "responseP50": 0.5,
+        "responseP95": 1,
+        "commitP50": 2.4,
+        "commitP95": 5.5,
+        "readyP50": 33.8,
+        "readyP95": 50.6
+      }
+    ],
+    "errors": []
+  },
+  "functionalObservation": {
+    "productionAuthenticated": [
+      "3D campus controls",
+      "Dashboard",
+      "Reading lessons and Academic catalogue",
+      "Back to Reading lessons",
+      "Forward to Academic Reading",
+      "Listening catalogue",
+      "Writing lessons",
+      "Speaking hub",
+      "Dictionary sustainable search without opening or saving entries"
+    ],
+    "syntheticTargetedTests": {
+      "passed": 18,
+      "failed": 0
+    }
+  },
+  "observationLimits": [
+    "No scored AI evaluations with processed_in_ms recorded since this release; AI latency is unknown, not zero. No paid provider requests or synthetic student work were created in production.",
+    "Production SPA timing instrumentation is disabled; navigation p50/p95 above are from the existing isolated browser fixture, not production.",
+    "Dictionary latency bucket has only one observed query; 1865ms is an observation, not a stable percentile estimate.",
+    "No production uploads, exam submissions or media playback writes. Media playback/load acceptance remains for Task 9; this baseline confirms the static immutable-asset delivery headers."
+  ],
+  "recovery": {
+    "application": "Redeploy/roll back to known-good Railway build c6a2510f-5d7a-4e84-ba99-35080ac5b071 at 7e916a0 after explicit production approval.",
+    "database": "No migrations or data writes performed by baseline SQL; no database rollback needed.",
+    "dns": "No DNS edits. Preserve existing apex/www records and Railway target."
+  }
+}

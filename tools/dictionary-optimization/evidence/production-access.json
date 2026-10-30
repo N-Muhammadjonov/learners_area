@@ -1,0 +1,30 @@
+{
+  "supabase": {
+    "project": "tuoeabrrnsiuxpjmslxp",
+    "status": "ACTIVE_HEALTHY",
+    "databaseVersion": "17.6"
+  },
+  "railway": {
+    "existingCliAuthorization": "WORKING",
+    "productionEnvironment": "e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a"
+  },
+  "cloudflare": {
+    "workerUrl": "https://learnersarea-dictionary.owneruchunla.workers.dev",
+    "bucket": "learners-area",
+    "signedRuntimeRequests": "PASS",
+    "browserAccountMatchesProductionR2Account": false,
+    "workerAdminVersionBindingsAndAnalytics": "BLOCKED: production account authorization required"
+  },
+  "recovery": {
+    "localPostgresClients": "18.6 available",
+    "docker": "socket access denied",
+    "emptyIsolatedRestoreTarget": "not established",
+    "restoreIntoProductionPerformed": false
+  },
+  "backup": {
+    "privateArchiveSaved": true,
+    "repositoryContainsBackupPayload": false,
+    "archiveBytes": 57617248,
+    "archiveSha256": "8f17aa82579f5c6d18a6385d4d34ea7f06857a30ba49959f60b4e2b463742b08"
+  }
+}

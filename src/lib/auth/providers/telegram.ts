@@ -37,10 +37,6 @@ export function verifyTelegramPayload(payload: TelegramAuthPayload): boolean {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   if (!botToken) return false;
 
-  if (!Number.isSafeInteger(payload.id) || payload.id <= 0 ||
-      !Number.isSafeInteger(payload.auth_date) || payload.auth_date <= 0 ||
-      typeof payload.hash !== "string" || !/^[a-f0-9]{64}$/.test(payload.hash)) return false;
-
   const { hash, ...rest } = payload;
   const checkString = Object.keys(rest)
     .sort()
@@ -50,8 +46,7 @@ export function verifyTelegramPayload(payload: TelegramAuthPayload): boolean {
   const secretKey = createHash("sha256").update(botToken).digest();
   const computedHash = createHmac("sha256", secretKey).update(checkString).digest("hex");
 
-  const age = Date.now() / 1000 - payload.auth_date;
-  const isFresh = age >= -30 && age < MAX_AUTH_AGE_SECONDS;
+  const isFresh = Date.now() / 1000 - payload.auth_date < MAX_AUTH_AGE_SECONDS;
   if (!isFresh) return false;
 
   const a = Buffer.from(computedHash);

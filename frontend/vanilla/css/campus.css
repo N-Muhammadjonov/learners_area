@@ -1,0 +1,1474 @@
+/* A single row of native controls on every private workspace. */
+[data-campus-shell] [data-shell-topbar]{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;flex:none;min-height:68px;padding:6px 14px;position:relative;isolation:isolate;z-index:50;overflow:visible}
+[data-campus-shell] [data-shell-topbar][data-campus-home=true]{background:#09172d!important;background-image:none!important}
+[data-campus-topbar-brand],[data-campus-return-link]{flex:none;order:0}
+[data-campus-topbar-brand][hidden],[data-campus-return-link][hidden],[data-campus-module-name][hidden]{display:none!important}
+[data-campus-topbar-brand]{min-width:0;max-width:235px;text-decoration:none}
+[data-campus-topbar-brand] [data-sidebar-brand]{gap:8px}
+[data-campus-shell] [data-campus-topbar-brand] .brand-name{font-size:14px;color:#fff!important}
+[data-campus-shell] [data-campus-topbar-brand] .brand-tagline{display:block!important;max-width:170px;color:#fff!important;font-size:10px;line-height:1.3;text-shadow:none}
+[data-campus-return-link]{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:6px 12px;white-space:nowrap;width:auto!important}
+[data-campus-module-name]{order:0;min-width:0;max-width:220px;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:16px}
+[data-campus-header-search]{flex:1 1 clamp(140px,28vw,480px);min-width:70px;max-width:480px;order:1;margin-left:auto;container-type:inline-size}
+[data-campus-header-preferences]{display:flex;align-items:center;gap:5px;flex:none;order:2}
+[data-campus-header-profile]{display:flex;align-items:center;gap:5px;flex:none;order:3}
+[data-campus-shell] [data-global-search]{width:100%;max-width:none}
+[data-campus-shell] [data-global-search-trigger]{display:none!important}
+[data-campus-shell] [data-global-search-field]{display:flex!important;position:relative!important;inset:auto!important;width:100%!important;height:40px;gap:7px;padding-inline:10px}
+[data-campus-shell] [data-global-search-field] input{width:100%;min-width:0}
+[data-campus-shell] [data-global-search-field]>span{width:auto;flex:none}
+[data-campus-shell] [data-global-search-field]>span>button:last-of-type{display:none}
+[data-campus-shell] [data-global-search-dialog]{position:fixed;max-height:65dvh}
+@container(max-width:240px){[data-campus-shell] [data-global-search-field] kbd{display:none}}
+[data-campus-shell] [data-shell-topbar] :is([data-mobile-nav-toggle],[data-mobile-nav-overlay],[data-breadcrumbs]){display:none!important}
+/* Keep the entire header band above the map, including its WebGL labels. */
+[data-campus-shell] [data-shell-main]{position:relative;z-index:0}
+[data-campus-shell]:has([data-campus-world]) [data-shell-main]{overflow:hidden;background:#081528}
+[data-shell-main]:has([data-campus-world])>div{max-width:none!important;height:100%;padding:0!important;min-height:0}
+[data-shell-main]:has([data-campus-world]) :is([data-workspace-transition],[data-outgoing-workspace],[data-workspace-content]){height:100%;min-height:0}
+.la-campus{height:100%;min-height:0;isolation:isolate;position:relative;overflow:hidden;background:#08172c}
+.la-campus-canvas{position:absolute;inset:0;touch-action:none;min-height:0}
+.la-campus-canvas canvas{display:block;width:100%;height:100%;touch-action:none}
+.la-campus-caption{position:absolute;bottom:14px;left:18px;font-size:12px;color:#bdcde2;z-index:27;pointer-events:none}
+.la-campus-fallback{position:absolute;inset:70px 15px 40px;z-index:29;display:flex;align-content:center;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.la-campus-fallback a{color:#fff;background:#17375a;border:1px solid #3c7ab5;padding:8px 12px;border-radius:8px}
+.la-campus .campus-labels-overlay{position:absolute;inset:0;overflow:hidden;z-index:24;pointer-events:none}
+.la-campus .campus-module-label{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:7px;padding:6px 10px;color:#f9fcff;white-space:nowrap;font:600 clamp(10px,1.02vw,17px)/1.1 system-ui,sans-serif;cursor:pointer;width:max-content;box-sizing:border-box;border:2px solid var(--module-accent)!important;border-radius:13px!important;background:rgba(5,14,31,.96)!important;box-shadow:0 0 13px color-mix(in srgb,var(--module-accent) 55%,transparent),inset 0 0 6px color-mix(in srgb,var(--module-accent) 18%,transparent)!important}
+.la-campus .campus-module-label .module-icon{display:inline-flex;width:20px;height:20px;flex:none}
+.la-campus .campus-module-label svg{width:100%;height:100%}
+.la-campus .campus-module-label .module-text{font-size:inherit;line-height:inherit;white-space:nowrap}
+.la-campus .campus-module-label:is(:hover,:focus-visible){outline:2px solid var(--module-accent);outline-offset:2px;background:#10223c!important}
+[data-campus-shell]:has([data-campus-world]) [data-utilities-launcher]{transform:scale(.9);transform-origin:bottom right}
+@media(max-width:1000px){
+ [data-campus-shell] [data-shell-topbar]{gap:6px;padding-inline:8px}
+ [data-campus-topbar-brand]{max-width:200px}
+ [data-campus-topbar-brand] [data-sidebar-brand]{flex-direction:column;gap:2px;align-items:flex-start}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-name{display:none}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:8px;max-width:200px;white-space:nowrap}
+ [data-campus-shell] [data-global-search-field] kbd{display:none}
+ [data-campus-shell] [data-campus-header-profile] [data-profile-menu-trigger]>span:not(:first-child){display:none}
+ .la-campus .campus-module-label{font-size:10px;padding:4px 6px;gap:5px}
+ .la-campus .campus-module-label .module-icon{width:14px;height:14px}
+}
+@media(max-width:650px){
+ [data-campus-shell] [data-shell-topbar]{--icon-btn:36px;min-height:68px;gap:4px;padding-inline:6px}
+ [data-campus-topbar-brand]{max-width:180px;flex:0 1 180px}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{max-width:180px;white-space:normal}
+ [data-campus-module-name]{max-width:150px;font-size:14px}
+ [data-campus-header-search]{flex-basis:clamp(70px,24vw,155px)}
+ [data-campus-header-preferences],[data-campus-header-profile]{gap:3px}
+ [data-campus-shell] .theme-btn{width:36px;height:40px;min-width:36px}
+ [data-campus-shell] [data-locale-switcher] button{min-width:30px;min-height:36px;padding-inline:5px}
+ [data-campus-shell] [data-profile-menu-trigger]{width:36px!important;min-width:36px;height:40px!important;padding:3px!important}
+ [data-campus-return-link]{font-size:14px;min-height:40px;padding-inline:7px}
+ [data-campus-shell] [data-global-search-field]{gap:4px;padding-inline:6px}
+ [data-campus-shell] [data-global-search-field] input{font-size:12px}
+}
+@media(max-width:430px){
+ [data-campus-shell] [data-shell-topbar]{--icon-btn:28px;gap:3px;padding-inline:4px}
+ [data-campus-header-search]{min-width:45px}
+ [data-campus-module-name]{max-width:100px;font-size:12px}
+ [data-campus-topbar-brand]{max-width:76px}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:7px;max-width:76px}
+ [data-campus-shell] .theme-btn{width:28px;height:36px;min-width:28px}
+ [data-campus-shell] [data-locale-switcher] button{min-width:25px;min-height:32px;padding-inline:3px;font-size:11px}
+ [data-campus-shell] [data-profile-menu-trigger]{width:28px!important;min-width:28px;height:36px!important;padding:1px!important}
+ [data-campus-shell] [data-profile-menu-trigger] img,[data-campus-shell] [data-profile-menu-trigger]>span:first-child{width:24px;height:24px}
+ [data-campus-return-link]{gap:3px;font-size:12px;padding-inline:5px}
+ [data-campus-shell] [data-global-search-field]{padding-inline:4px}
+ [data-campus-shell] [data-global-search-field]>svg{width:12px}
+}
+
+/* Section headings and tabs share Main's pinned blue band below the controls. */
+[data-native-module-header]{flex:none;min-width:0;padding:0 20px;background:var(--la-surface-glass,#0b2347);border-bottom:1px solid rgb(var(--ink-100));color:#f3eee5;z-index:40}
+[data-native-module-header][hidden]{display:none}
+.native-module-title{display:block;padding:8px 0 12px;font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1.2;color:#f3eee5}
+[data-native-module-header] [data-module-sections]{margin-inline:-4px}
+[data-native-module-header] .writing-tabs{margin:0}
+[data-campus-shell] [data-vocabulary-workspace]>nav,[data-campus-shell] [data-vocabulary-workspace]>div:first-child:has(>h1){display:none}
+[data-campus-shell] [data-listening-section-heading]{display:none}
+@media(max-width:650px){[data-native-module-header]{padding-inline:12px}.native-module-title{font-size:24px}}
+
+[data-campus-shell] [data-shell-main]:focus{outline:none}
+
+[data-native-module-header]{--ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-300:205 223 237;--ink-100:58 105 151}
+
+.la-welcome-heading:focus{outline:none}
+
+/* Welcome stays visible at every size; only its background changes with the viewport. */
+[data-root-entry]{min-height:100dvh;background:#0e1a37}
+[data-root-entry] [data-touch-welcome]{display:block}
+.la-public-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0;background:#0e1a37}
+.la-blue-backdrop{position:absolute;inset:0;z-index:0;background:#0e1a37}
+/* Public artwork keeps its gold lines; workspace control borders stay green. */
+#root .la-public-background .la-welcome-ring{border-color:#e5bf5a30!important}
+#root [data-touch-welcome] .la-welcome-orbit .module-emoji{border-color:rgb(var(--gold)/.3)!important}
+.la-landscape{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#101010}
+.la-landscape img{position:absolute;left:50%;top:50%;width:100dvh;height:100vw;max-width:none;object-fit:cover;transform:translate(-50%,-50%) rotate(-90deg)}
+.la-landscape:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgb(0 0 0/.52),rgb(0 0 0/.22) 60%,rgb(0 0 0/.46))}
+@media (min-width:768px) and (min-height:600px) and (orientation:landscape),(min-width:1024px) and (orientation:landscape) and (hover:hover) and (pointer:fine){
+ .la-landscape{display:block}
+ .la-blue-backdrop{display:none}
+}
+.la-welcome{position:relative;isolation:isolate;background:transparent!important}
+.la-welcome>:not(.la-public-background),[data-auth-shell]>:not(.la-public-background){position:relative;z-index:1}
+.la-welcome-main{min-height:0}
+.la-welcome-heading{font-size:clamp(2.2rem,5.5vw,5.8rem);overflow-wrap:anywhere;text-shadow:0 2px 24px #000}
+.la-welcome-text-second{font-size:clamp(1.7rem,4.2vw,4.4rem)}
+[data-auth-shell]{isolation:isolate;--paper-raised:15 23 35;--paper-sunken:10 16 25;--ink-900:248 250 252;--ink-700:226 232 240;--ink-500:203 213 225;--ink-300:148 163 184;--band-good:119 213 154;--band-warn:240 204 116;--band-bad:255 133 122;color:#f8fafc;color-scheme:dark}
+[data-auth-shell] .btn-ghost{color:#c7d2fe}
+[data-auth-shell]>.w-full{width:min(100%,26rem);max-width:26rem}
+[data-auth-shell] .card{background:rgb(10 18 28/.88);backdrop-filter:blur(12px)}
+[data-auth-shell] [data-auth-controls]{position:absolute}
+
+/* The module identity, controls and tabs form one uninterrupted header. */
+[data-workspace-header]{position:relative;z-index:50;overflow:visible;flex:none;background:var(--la-surface-glass,#0b2347)}
+[data-workspace-header] [data-shell-topbar],[data-workspace-header] [data-native-module-header]{background:transparent!important;border:0!important;box-shadow:none}
+[data-workspace-header] [data-module-sections],[data-workspace-header] [data-writing-tablist]{border-bottom:0}
+[data-focus="on"] [data-workspace-header]{background:rgb(var(--paper-raised))}
+
+/* Catalogue capacity follows the available width, including five columns on wide laptops. */
+[data-native-mcq-index],[data-route-usable="listening-mcq"]{max-width:none;width:100%;min-width:0}
+[data-listening-mcq-grid]{grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr))!important;align-items:stretch}
+
+/* Retention owns focus only for the live reading/recall phases. */
+[data-retention-focus="on"]{--paper:247 249 248;--paper-raised:255 255 255;--paper-sunken:240 245 242;--ink-900:20 32 28;--ink-800:31 45 39;--ink-700:44 60 52;--ink-500:80 99 88;--ink-300:106 125 114}
+[data-theme="night"][data-retention-focus="on"]{--paper:20 23 52;--paper-raised:20 23 52;--paper-sunken:25 30 60;--ink-900:243 238 229;--ink-800:231 235 242;--ink-700:215 225 234;--ink-500:181 197 211;--ink-300:148 166 184}
+[data-retention-focus="on"] [data-workspace-header],[data-retention-focus="on"] [data-shell-utilities]{display:none!important}
+[data-retention-focus="on"] [data-shell-main]{background:rgb(var(--paper))!important}
+[data-retention-focus="on"] [data-retention-workspace]>div{display:block}
+[data-retention-focus="on"] [data-retention-workspace] aside,[data-retention-focus="on"] [data-retention-history-section]{display:none!important}
+[data-retention-focus="on"] [data-retention-page]{max-width:70rem}
+[data-retention-focus="on"] [data-retention-session-region]{border:0!important;background:transparent!important;box-shadow:none!important;padding:clamp(1rem,3vw,2rem)}
+.retention-source{padding-block:1rem;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:default}
+[data-retention-source] [data-word]{cursor:pointer}
+
+#root h1[tabindex="-1"]:focus{outline:none}
+
+/* Phones (including landscape) and portrait tablets keep an icon-only Back.
+   Main keeps its label; desktop and landscape tablets show the Back label. */
+@media(max-width:767px),(max-width:1024px) and (orientation:portrait),(max-width:950px) and (max-height:500px){
+ [data-campus-back-link] .native-return-label{display:none}
+ [data-campus-back-link]{width:40px!important;min-width:40px;padding-inline:0}
+}
+@media(max-width:430px){[data-campus-back-link]{width:32px!important;min-width:32px}}
+
+/* One route return in the pinned topbar. Local game controls, cancel/leave,
+   breadcrumbs and in-panel question navigation retain their own actions. */
+[data-campus-shell] [data-shell-main] [data-back-link]{display:none!important}
+[data-campus-shell] [data-vocabulary-title]{display:none}
+
+/* Match the border hue of this module's campus sign in every theme/Focus mode.
+   Keep answer verdicts and selected tabs distinguishable from ordinary controls. */
+[data-campus-shell]:not(:has([data-campus-world])) :is(.card,.panel,.lp-panel,.practice-part-card,.flashcard-face,.flashcard-queue,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,[role="dialog"],dialog,.dropdown-menu,[class~="border"][class*="rounded"],[class*="rounded"]:is([class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper"],[class~="bg-ink-950"])){
+ border:1px solid var(--workspace-accent,#00e5ff);
+ border-color:var(--workspace-accent,#00e5ff)!important;
+ box-shadow:0 0 10px color-mix(in srgb,var(--workspace-accent,#00e5ff) 14%,transparent);
+}
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.chip,.badge,.theme-btn,[data-locale-switcher] button,button:not([role="tab"]):not([role="radio"])):not([data-state="right"]):not([data-state="wrong"]){
+ border:1px solid var(--workspace-accent,#00e5ff);
+ border-color:var(--workspace-accent,#00e5ff)!important;
+ box-shadow:0 0 8px color-mix(in srgb,var(--workspace-accent,#00e5ff) 20%,transparent);
+}
+[data-campus-shell] [data-native-module-header] :is(a[aria-current="page"],[aria-selected="true"]){border-bottom-color:var(--workspace-accent,#00e5ff)!important}
+[data-campus-shell]:not(:has([data-campus-world])) :is(button,a,input,textarea,select):focus-visible{outline-color:var(--workspace-accent,#00e5ff)}
+
+/* Focus removes wallpaper/glass and uses Main's flat themed section band. */
+[data-theme][data-focus="on"] [data-native-module-header]{
+ background:rgb(var(--paper-raised));color:rgb(var(--ink-900));
+ --ink-900:inherit;--ink-700:inherit;--ink-500:inherit;--ink-300:inherit;--ink-100:inherit;
+}
+[data-theme][data-focus="on"] [data-native-module-header] .native-module-title{color:rgb(var(--ink-900))}
+
+[data-focus-workspace] [data-reading-full-focus]{height:100%;min-height:0}
+
+[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar]{
+ background:#0b2347!important;color:#f3eee5;
+ --ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-300:180 205 225;
+ --accent:126 211 255;--accent-strong:164 225 255;--accent-contrast:8 32 68;
+}
+[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar] [data-locale-switcher] .bg-signal-600.text-signal-contrast{background-color:#12345a!important;color:#f3eee5!important}
+
+/* Action controls follow the supplied Start reference; navigation tabs and
+   answer/state selectors keep their own selected/correct/incorrect states. */
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button){
+ border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;
+ font-weight:600;border-width:1px;box-shadow:0 5px 14px rgb(61 80 250 / .2);
+}
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button):hover:not(:disabled){background:#3042dc!important}
+[data-campus-shell] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button) :is(span,small,strong){color:inherit!important}
+[data-campus-shell] .typing-presets button{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:rgb(var(--ink-500))}
+[data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:var(--workspace-accent);text-underline-offset:8px;text-decoration-thickness:2px}
+/* Wallpaper workspaces are dark even when Day is selected. Native number/date
+   controls must use that surface's scheme rather than the document's scheme. */
+[data-theme]:not([data-focus="on"]) [data-campus-shell] :is(input,select,textarea){color-scheme:dark}
+[data-people-directory]{width:100%;max-width:none}
+[data-people-directory] [data-people-search-form]{display:grid;grid-template-columns:minmax(12rem,1fr) auto minmax(9rem,14rem) minmax(9rem,14rem) auto;align-items:end}
+[data-people-directory] [data-people-search-form]>div{min-width:0}
+[data-people-directory] td{padding-block:12px;vertical-align:middle}
+[data-people-directory] [data-people-name]{color:rgb(var(--ink-900));text-decoration:none}
+[data-people-directory] [data-people-name]:hover{text-decoration:underline}
+@media(max-width:1100px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr) auto}[data-people-directory] [data-people-search-form]>:first-child{grid-column:1/-1}}
+@media(max-width:600px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr)}[data-people-directory] [data-people-search-form]>*{width:100%}}
+/* Dialogs mounted on body share the same action style as workspace actions. */
+[data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,dialog.interaction-confirm-dialog,[data-global-search-dialog]) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold){border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;font-weight:600}
+
+
+/* Public login/register only: rounded Telegram CTA and outlined route switch.
+   Global auth flows, other modules, focus mode and Worker contracts stay unchanged. */
+[data-auth-shell] .auth-telegram-pill {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:54px;
+  padding:12px 22px;
+  border:2px solid #ff8ba5!important;
+  border-radius:999px!important;
+  background-color:#4051f5!important;
+  color:#ffffff!important;
+  font-size:clamp(1rem,1.8vw,1.125rem);
+  font-weight:650;
+  line-height:1.4;
+  text-align:center;
+  box-shadow:0 5px 16px rgba(36,52,189,.16);
+  transition:background-color .15s ease,box-shadow .15s ease;
+}
+[data-auth-shell] .auth-telegram-pill:not(:disabled):hover {
+  background-color:#3242df!important;
+  box-shadow:0 6px 18px rgba(36,52,189,.25);
+}
+[data-auth-shell] .auth-telegram-pill:disabled {cursor:not-allowed;box-shadow:none}
+[data-auth-shell] .auth-switch-pill {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:50px;
+  padding:10px 24px;
+  border:2px solid #b9f5d8!important;
+  border-radius:999px!important;
+  /* Intentionally preserve the existing btn-secondary background and text colour. */
+}
+[data-auth-shell] .auth-switch-pill:hover {border-color:#e7fff3!important}
+
+/* Shared controls: one green edge, readable wrapping, and content-driven height. */
+#root{--workspace-accent:#22c55e;--control-edge:#22c55e}
+#root *,[data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,.interaction-confirm-dialog,[data-global-search-dialog]) *{border-color:#22c55e!important}
+#root :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid){display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-width:0;max-width:100%;min-height:44px;height:auto;white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.4;padding:.65rem 1rem}
+#root :is(.card,.panel,fieldset,[role="dialog"]){min-width:0;max-width:100%;overflow-wrap:anywhere}
+#root :is(input,textarea,select){min-width:0;max-width:100%;box-sizing:border-box;line-height:1.5}
+#root :is(.btn,.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong,small){min-width:0;white-space:inherit;overflow-wrap:inherit}
+#root [data-global-dictionary] [data-dictionary-search]{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;outline:none;padding:.5rem .25rem}
+#root [data-global-dictionary] [data-dictionary-search]:focus-visible{outline:2px solid #22c55e;outline-offset:2px}
+#root [data-global-dictionary]>div:first-child>div{flex-wrap:wrap}
+#root [data-global-dictionary] [data-dictionary-search]{flex-basis:8rem}
+#root [data-game-back],#root [data-games-back-to-vocabulary]{display:inline-flex!important;align-self:flex-start}
+#root [data-workspace-header],[data-retention-focus="on"] #root [data-retention-session-region]{border:0!important}
+[data-retention-focus="on"] #root [data-shell-main]{background:rgb(var(--paper))!important;background-image:none!important;color:rgb(var(--ink-900))}
+
+/* Private workspaces use flat Day/Night surfaces at every viewport size. */
+html[data-theme="day"]:has([data-campus-shell]){
+ --workspace-paper:255 255 255;--workspace-raised:255 255 255;--workspace-sunken:239 246 255;
+ --workspace-ink:16 39 64;--workspace-muted:71 85 105;--workspace-line:203 213 225;
+ --workspace-good:20 110 75;--workspace-warn:134 85 8;--workspace-bad:185 28 28;--workspace-accent-strong:61 80 250;
+ color-scheme:light;
+}
+html[data-theme="night"]:has([data-campus-shell]){
+ --workspace-paper:26 22 37;--workspace-raised:26 22 37;--workspace-sunken:38 32 51;
+ --workspace-ink:243 238 245;--workspace-muted:199 191 210;--workspace-line:91 80 108;
+ --workspace-good:119 213 154;--workspace-warn:240 204 116;--workspace-bad:255 153 143;--workspace-accent-strong:164 225 255;
+ color-scheme:dark;
+}
+html[data-theme]:has([data-campus-shell]),
+html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,dialog,[role="dialog"],.dictionary-context-panel,.flashcard-face,.flashcard-queue,.revision-flip-face,[class~="bg-paper"],[class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper-50"],[class~="bg-signal-50"],[data-global-dictionary],[data-global-dictionary] *,.dictionary-folder-dialog *,.dictionary-context-panel *,[data-workspace-header],[data-native-module-header]){
+ --paper:var(--workspace-paper)!important;--paper-raised:var(--workspace-raised)!important;--paper-sunken:var(--workspace-sunken)!important;
+ --ink-950:var(--workspace-ink)!important;--ink-900:var(--workspace-ink)!important;--ink-800:var(--workspace-ink)!important;
+ --ink-700:var(--workspace-ink)!important;--ink-500:var(--workspace-muted)!important;--ink-300:var(--workspace-muted)!important;
+ --ink-100:var(--workspace-line)!important;--ink-50:var(--workspace-sunken)!important;
+ --accent:61 80 250!important;--accent-strong:var(--workspace-accent-strong)!important;--accent-soft:var(--workspace-sunken)!important;--accent-contrast:255 255 255!important;
+ --band-good:var(--workspace-good)!important;--band-warn:var(--workspace-warn)!important;--band-bad:var(--workspace-bad)!important;
+ --la-surface-glass:rgb(var(--workspace-raised))!important;--la-surface-border:rgb(var(--workspace-line))!important;
+}
+html[data-theme]:has([data-campus-shell]) :is([data-shell],[data-shell-main],[data-mobile-nav-overlay],#mobile-nav-drawer){
+ background:rgb(var(--workspace-paper))!important;background-image:none!important;color:rgb(var(--workspace-ink));
+}
+html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,dialog,[role="dialog"],.dictionary-context-panel,.flashcard-face,.flashcard-queue,.revision-flip-face,[class~="bg-paper"],[class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper-50"],[class~="bg-signal-50"],[data-global-dictionary]){
+ background-color:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important;
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important;
+}
+html[data-theme]:has([data-campus-shell]) :is(.dictionary-folder-dialog,.dictionary-context-panel) :is(select,option){background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important;color-scheme:inherit}
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [data-dictionary-search]{color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [data-dictionary-search]::placeholder{color:rgb(var(--workspace-muted))!important}
+html[data-theme]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html[data-theme="day"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:#eff6ff!important;color:#102740!important}
+html[data-theme="night"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:#1a1625!important;color:#f3eef5!important}
+html[data-theme="day"] [data-campus-shell] :is(.native-module-title,[data-campus-module-name]){color:#102740!important}
+html[data-theme="day"] [data-campus-shell] [data-shell-topbar] :is(.brand-name,.brand-tagline){color:#102740!important}
+html[data-theme="day"] [data-campus-shell] :is(input,select,textarea){color-scheme:light}
+html[data-theme="night"]:has([data-campus-shell]) .focus-surface{background-color:#1a1625}
+html[data-theme]:has([data-campus-shell]) :is(.bg-signal-100,.bg-signal-50){--accent-strong:var(--workspace-accent-strong)!important}
+html[data-theme]:has([data-campus-shell]) dialog.interaction-confirm-dialog :is(h2,p){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) [data-shell-topbar] :is([data-profile-menu-trigger],[data-locale-switcher] button){background:#3d50fa!important;color:#fff!important;backdrop-filter:none!important}
+html[data-theme]:has([data-campus-shell]) [data-shell-topbar] [data-profile-menu-trigger]>span{color:#fff!important;background:transparent!important}
+html[data-theme][data-focus="on"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:rgb(var(--workspace-raised))!important}
+
+/* Transcript stays below the description on small/portrait screens and beside the player on desktop. */
+.video-studio{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem;align-items:start}
+.video-player-column{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.video-transcript-region{min-width:0}
+.video-transcript-region[hidden]{display:none!important}
+.video-inline-transcript{padding:1rem;border:1px solid rgb(var(--ink-100));border-radius:.75rem;overflow-wrap:anywhere}
+.video-inline-transcript>h2{margin-bottom:1rem}
+@media(min-width:1100px) and (orientation:landscape){
+ .video-studio[data-transcript-open="true"]{grid-template-columns:minmax(0,1.8fr) minmax(20rem,1fr)}
+ .video-transcript-region{position:sticky;top:1rem;max-height:calc(100dvh - 2rem);overflow:auto;overscroll-behavior:contain}
+}
+.learning-progress{display:inline-flex;width:fit-content;max-width:100%;align-items:center;gap:.3rem;border:1px solid currentColor;border-radius:9999px;padding:.25rem .75rem;font-size:.8125rem;font-weight:600;line-height:1.35;color:rgb(var(--ink-700));font-variant-numeric:tabular-nums}
+.learning-progress-active{color:rgb(var(--band-good))}
+[data-retention-focus="on"] #root [data-retention-session-region],#root .retention-source{border:0!important;box-shadow:none!important}
+body :is(dialog,[role="dialog"],.dictionary-context-panel,.dictionary-folder-dialog){border-color:#22c55e!important}
+#root [data-auth-shell] [data-auth-brand]{--ink-900:248 250 252;--ink-500:203 213 225;--ink-300:203 213 225;color:#f8fafc;text-shadow:0 1px 10px #000}
+[data-auth-shell] .auth-contact-link {
+  color:#8de4ee!important;
+  font-weight:650;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+[data-auth-shell] .auth-contact-link:hover {color:#c5f6fa!important}
+[data-auth-shell] :is(.auth-telegram-pill,.auth-switch-pill,.auth-contact-link):focus-visible {
+  outline:3px solid #e5fff3;
+  outline-offset:3px;
+}
+
+
+
+/* Restore contrast where legacy module and portal palettes had their own pale text. */
+html[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is(a,button,[role="tab"]){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is([aria-current="page"],[aria-selected="true"]){color:#fff!important;background:#3d50fa!important;border-radius:.6rem}
+html[data-theme]:has([data-campus-shell]) .dictionary-folder-dialog :is(h2,p,label,legend,span,strong){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) .dictionary-folder-dialog button :is(span,strong){color:inherit!important}
+html[data-theme]:has([data-campus-shell]) .dictionary-context-panel{background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important;color-scheme:inherit}
+html[data-theme]:has([data-campus-shell]) .dictionary-context-panel :is(input,select,option){background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) :is([data-global-dictionary],.dictionary-folder-dialog,.dictionary-context-panel) [class*="bg-sky-50"]{background:rgb(var(--workspace-sunken))!important;color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) .retention-level-option{background:rgb(var(--workspace-sunken))!important;color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) .retention-level-option[aria-pressed="true"]{background:#3d50fa!important;color:#fff!important;box-shadow:inset 0 0 0 2px #3d50fa}
+html[data-theme]:has([data-campus-shell]) .retention-level-option[aria-pressed="true"] :is(strong,span){color:#fff!important}
+html[data-theme]:has([data-campus-shell]) [data-retention-page]{max-width:90rem;width:100%}
+html[data-theme]:has([data-campus-shell]) :is([data-retention-source],[data-retention-answer]){font-size:clamp(1.125rem,1rem + .5vw,1.5rem)!important;line-height:1.85!important;padding:clamp(1rem,2.5vw,2.5rem);border-radius:1rem}
+html[data-theme]:has([data-campus-shell]) [data-retention-source]{background:#eff6ff!important;color:#102740!important}
+html[data-theme="night"]:has([data-campus-shell]) [data-retention-source]{background:#172b48!important;color:#f3eef5!important}
+html[data-theme]:has([data-campus-shell]) [data-retention-answer]{min-height:clamp(20rem,55dvh,40rem);resize:vertical}
+/* Auth markup and layout stay fixed; only the requested brand/footer text changes. */
+html[data-theme] #root [data-auth-shell] [data-auth-brand] :is(.brand-name,.brand-tagline),
+html[data-theme] #root [data-auth-shell]:has([data-public-auth]) > .w-full > .text-center{color:#fff!important}
+
+/* Dictionary portals have an explicit palette even while a route is changing. */
+html[data-theme="day"] :is([data-word-popover],.dictionary-context-panel){--lookup-bg:#fff;--lookup-fg:#102740;--lookup-muted:#475569;color-scheme:light}
+html[data-theme="night"] :is([data-word-popover],.dictionary-context-panel){--lookup-bg:#1a1625;--lookup-fg:#f3eef5;--lookup-muted:#c7bfd2;color-scheme:dark}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel){background:var(--lookup-bg)!important;color:var(--lookup-fg)!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(p,span,strong,label,summary,li,h2,h3,h4,select,option,input){color:var(--lookup-fg)!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(select,option,input){background:var(--lookup-bg)!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost){background:#3d50fa!important;color:#fff!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong){color:#fff!important}
+html[data-theme="day"] [data-retention-result-permalink]{color:#263ac9!important}
+html[data-theme="night"] [data-retention-result-permalink]{color:#a4e1ff!important}
+[data-retention-result-permalink]{font-weight:650;text-decoration:underline;text-underline-offset:3px}
+#root [data-writing-back]{display:inline-flex!important;align-self:flex-start}
+html[data-theme] #root [data-stealing-filters] a[aria-current="true"],
+html[data-theme] #root [data-translation-setup] :is([aria-pressed="true"],[aria-checked="true"],[data-translation-selected="true"]){background:#3d50fa!important;color:#fff!important;border-color:#3d50fa!important}
+html[data-theme] #root [data-translation-setup] :is([aria-pressed="true"],[aria-checked="true"],[data-translation-selected="true"]) :is(span,strong){color:#fff!important}
+
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(h2,h3,h4,p,strong,span,summary,blockquote,label,li){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(.btn-primary,.btn-secondary,.btn-ghost,[aria-pressed="true"]) :is(span,strong),html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{color:#fff!important}
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{background:#3d50fa!important}
+
+@media(min-width:1280px){.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="1"]{grid-column:1}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="2"]{grid-column:2}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="3"]{grid-column:3}}
+
+/* Compact save control and the Typing result obey their actual state. */
+#root .dictionary-save-icon{width:44px;min-width:44px;height:44px;padding:0;font-size:24px}
+#root .typing-result[hidden]{display:none!important}
+
+/* Vocabulary owns its control edges; nested text buttons are not extra cards. */
+#root :is([data-vocabulary-workspace],[data-dedicated-game],[data-games-library]) *{border-color:rgb(var(--workspace-line,203 213 225))!important}
+#root [data-vocabulary-workspace] [hidden]{display:none!important}
+#root [data-vocabulary-workspace] #vocab-search{outline:0;box-shadow:none;border:1px solid #94b7db!important;border-radius:14px;padding:12px 16px}
+#root [data-vocabulary-workspace] #vocab-search:focus{border-color:#3d50fa!important;outline:2px solid #3d50fa;outline-offset:2px}
+.vocabulary-word-list{display:grid;gap:12px;list-style:none;padding:0;margin:0}
+#root [data-vocabulary-workspace] .vocabulary-word-card{min-width:0;padding:16px;border:1px solid rgb(var(--workspace-line))!important;border-radius:16px;background:rgb(var(--workspace-raised))}
+#root [data-vocabulary-workspace] .vocabulary-word-heading{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0;color:inherit}
+#root [data-vocabulary-workspace] .vocabulary-word-heading:focus-visible{outline:2px solid #3d50fa;outline-offset:6px}
+.vocabulary-folder-chip,.vocabulary-folder-actions{display:inline-flex;align-items:center;gap:4px;min-width:0}
+#root .vocabulary-folder-action{width:36px;min-width:36px;min-height:36px;padding:8px}
+.vocabulary-folder-action svg{width:18px;height:18px}
+html[data-theme] body .vocabulary-action-dialog{width:min(460px,calc(100vw - 32px));max-height:85dvh;overflow:auto;padding:24px;border:1px solid #94b7db!important;border-radius:20px;background:rgb(var(--workspace-raised,255 255 255))!important;color:rgb(var(--workspace-ink,16 39 64))!important}
+.vocabulary-action-dialog form{display:flex;flex-direction:column;gap:20px}
+html[data-theme] body .vocabulary-action-dialog :is(input,button){border-color:#94b7db!important}
+html[data-theme] body .vocabulary-action-dialog [hidden]{display:none!important}
+
+/* copymain reader geometry: one search pill, full-width history/results and
+   independent + / sense disclosure controls. The production API is unchanged. */
+html[data-theme] :is(.vocabulary-dictionary,.dictionary-folder-dialog){--dictionary-surface:#fff;--dictionary-ink:#15264a;--dictionary-muted:#435c7a;--dictionary-accent:#075c9b;--dictionary-hover:#eaf5ff;--dictionary-line:#9ac8e8;--dictionary-badge:#e1f1ff}
+html[data-theme=night] :is(.vocabulary-dictionary,.dictionary-folder-dialog){--dictionary-surface:#1a1625;--dictionary-ink:#fff;--dictionary-muted:#d8d2e4;--dictionary-accent:#8ddaff;--dictionary-hover:#312b43;--dictionary-line:#5b506c;--dictionary-badge:#243c56}
+html[data-theme] #root .vocabulary-dictionary *{background:transparent!important;color:inherit!important;border-color:var(--dictionary-line)!important}
+html[data-theme] #root [data-vocabulary-workspace] .vocabulary-dictionary{width:100%;max-width:1120px;margin-inline:auto;padding:clamp(12px,2.5vw,28px);border:1px solid var(--dictionary-line)!important;border-radius:24px;background:var(--dictionary-surface)!important;color:var(--dictionary-ink)!important;color-scheme:inherit}
+html[data-theme] #root .vocabulary-dictionary :is(h2,h3,h4,p,span,strong,em,button,input,summary,blockquote,li){color:inherit!important;text-shadow:none!important}
+html[data-theme] #root .vocabulary-dictionary button{font:inherit;cursor:pointer;box-shadow:none!important}
+html[data-theme] #root .vocabulary-dictionary button:disabled{cursor:default;opacity:.65}
+html[data-theme] #root .vocabulary-dictionary :is(button,summary):focus-visible{outline:2px solid #38bdf8;outline-offset:3px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-search{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-width:0;padding:6px 8px;border:2px solid var(--dictionary-line)!important;border-radius:999px;background:var(--dictionary-surface)!important}
+html[data-theme] #root .vocabulary-dictionary .dictionary-search:focus-within{border-color:#38bdf8!important}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-search]{width:0;min-width:0;min-height:44px;flex:1 1 0;border:0!important;border-radius:0!important;padding:0;background:transparent!important;outline:0!important;box-shadow:none!important;font-size:clamp(17px,2.2vw,22px);color:var(--dictionary-ink)!important}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-search]::placeholder{color:var(--dictionary-muted)!important}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-search-submit,.dictionary-clear){display:grid;place-items:center;flex-shrink:0;min-width:40px;min-height:44px;padding:0;border:0!important;border-radius:50%;background:transparent!important;color:var(--dictionary-accent)!important;font-size:28px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-clear[hidden]{display:none!important}
+html[data-theme] #root .vocabulary-dictionary .dictionary-directions{display:flex;flex-shrink:0;gap:2px;padding:3px;background:var(--dictionary-hover);border-radius:999px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-directions button{min-width:44px;min-height:42px;padding:0 10px;border:0!important;border-radius:999px;background:transparent!important;color:var(--dictionary-muted)!important;font-weight:700}
+html[data-theme] #root .vocabulary-dictionary .dictionary-directions button[aria-pressed=true]{background:#0ea5e9!important;color:#fff!important}
+.vocabulary-dictionary .dictionary-results-area{margin-top:24px}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-list-title,[data-dictionary-recent] h2){margin-bottom:16px;font-size:clamp(21px,2.6vw,28px);font-weight:700}
+.vocabulary-dictionary .dictionary-result-list{display:grid;gap:12px;list-style:none;padding:0}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row,[data-dictionary-recent-row]){display:block;width:100%;min-width:0;margin:0;padding:17px 22px;border:1px solid var(--dictionary-line)!important;border-radius:22px;background:var(--dictionary-surface)!important;text-align:left}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row:hover,.dictionary-result-row[data-active=true],[data-dictionary-recent-row]:hover){border-color:#38bdf8!important;background:var(--dictionary-hover)!important}
+.vocabulary-dictionary .dictionary-result-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px;font-size:21px}
+.vocabulary-dictionary .dictionary-result-heading strong{overflow-wrap:anywhere;font-weight:600}
+html[data-theme] #root .vocabulary-dictionary .dictionary-pos{color:var(--dictionary-accent)!important;font-size:.85em;font-weight:600}
+html[data-theme] #root .vocabulary-dictionary .dictionary-preview{display:block;overflow:hidden;margin-top:4px;color:var(--dictionary-muted)!important;font-size:18px;text-overflow:ellipsis;white-space:nowrap}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent]{padding:0;background:transparent!important}
+.vocabulary-dictionary [data-dictionary-recent]>div:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.vocabulary-dictionary [data-dictionary-recent]>button{margin-top:12px!important}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent] .dictionary-recent-clear{padding:4px;border:0!important;background:transparent!important;color:var(--dictionary-accent)!important;font-size:18px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-level{padding:3px 9px;border-radius:10px;background:var(--dictionary-badge)!important;color:var(--dictionary-accent)!important;font-size:15px;font-weight:700}
+.vocabulary-dictionary .dictionary-entry{margin-top:14px}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-entry-nav button,.dictionary-expand-all){min-height:40px;padding:8px 0;border:0!important;background:transparent!important;color:var(--dictionary-accent)!important;font-size:14px}
+.vocabulary-dictionary .dictionary-entry-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:12px 0 20px}
+.vocabulary-dictionary .dictionary-entry-heading h2{font-size:clamp(28px,4vw,38px);font-weight:700;overflow-wrap:anywhere}
+.vocabulary-dictionary .dictionary-word-heading,.vocabulary-dictionary .dictionary-pronunciation{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-pronounce{display:grid;place-items:center;flex-shrink:0;width:44px;min-height:44px;padding:10px;border:1px solid var(--dictionary-line)!important;border-radius:50%;background:var(--dictionary-badge)!important;color:var(--dictionary-accent)!important}
+.vocabulary-dictionary .dictionary-pronounce svg{width:24px;height:24px}
+.vocabulary-dictionary .dictionary-pronunciation [role=status]{font-size:13px}
+.vocabulary-dictionary .dictionary-entry-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:5px;font-size:17px}
+.vocabulary-dictionary .dictionary-meanings{display:grid;gap:14px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-meaning{overflow:hidden;border:1px solid var(--dictionary-line)!important;border-radius:20px;background:var(--dictionary-surface)!important}
+.vocabulary-dictionary .dictionary-meaning-header{display:flex;align-items:flex-start;gap:15px;padding:20px}
+.vocabulary-dictionary .dictionary-meaning-header h3{flex:1;min-width:0}
+html[data-theme] #root .vocabulary-dictionary .dictionary-add-meaning{display:grid;flex:0 0 44px;place-items:center;width:44px;min-height:44px;padding:0;border:1px solid #38bdf8!important;border-radius:50%;background:var(--dictionary-badge)!important;color:var(--dictionary-accent)!important;font-size:27px;font-weight:700}
+html[data-theme] #root .vocabulary-dictionary .dictionary-meaning-toggle{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px 12px;width:100%;min-height:44px;padding:5px 0;border:0!important;border-radius:0;background:transparent!important;text-align:left}
+.vocabulary-dictionary .dictionary-meaning-toggle strong{flex:1 1 160px;min-width:0;overflow-wrap:anywhere;font-size:20px;line-height:1.5;font-weight:600}
+.vocabulary-dictionary .dictionary-meaning-toggle .dictionary-pos{padding:2px 9px;border-radius:8px;background:var(--dictionary-badge)!important}
+.vocabulary-dictionary .dictionary-chevron{margin-left:auto;font-size:25px}
+.vocabulary-dictionary .dictionary-meaning-body{display:grid;gap:22px;padding:5px 25px 28px}
+.vocabulary-dictionary .dictionary-definition,.vocabulary-dictionary .dictionary-examples{font-size:18px;line-height:1.65}
+.vocabulary-dictionary .dictionary-definition h4{margin-bottom:5px;font-weight:700}
+.vocabulary-dictionary .dictionary-examples{display:grid;gap:18px}
+.vocabulary-dictionary .dictionary-examples blockquote{margin:0}
+.vocabulary-dictionary .dictionary-examples [lang=uz]{margin-top:4px;font-style:italic}
+html[data-theme] #root .vocabulary-dictionary .dictionary-translation-divider{margin-block:10px;border:0!important;border-top:1px solid var(--dictionary-line)!important}
+.vocabulary-dictionary .dictionary-disclosure summary{min-height:52px;padding:14px 0;cursor:pointer;font-size:20px;font-weight:700}
+.vocabulary-dictionary .dictionary-disclosure summary::marker{color:#0ea5e9}
+.vocabulary-dictionary :is(.dictionary-related-items,.dictionary-collocations){display:flex;flex-wrap:wrap;gap:10px;padding:4px 0 18px;font-size:17px;line-height:1.6}
+.vocabulary-dictionary .dictionary-collocations{flex-direction:column}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-related-items,.dictionary-collocations) button{padding:5px 10px;border:1px solid var(--dictionary-line)!important;border-radius:9px;background:var(--dictionary-surface)!important;color:var(--dictionary-accent)!important;text-align:left}
+.vocabulary-dictionary .dictionary-error{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:14px;padding:15px;border:1px solid #f0b4a8!important;border-radius:14px;background:#702114}
+.vocabulary-dictionary .dictionary-empty{padding:32px 12px;text-align:center;line-height:1.6}
+.vocabulary-dictionary .dictionary-empty h2{margin-bottom:8px;font-size:21px;font-weight:600}
+.vocabulary-dictionary .dictionary-loading{height:80px;margin-top:12px;border-radius:20px;background:var(--dictionary-hover);animation:pulse 2s infinite}
+html[data-theme] body .dictionary-folder-dialog{border-color:#3aace8!important;background:var(--dictionary-surface)!important;color:var(--dictionary-ink)!important;color-scheme:inherit}
+html[data-theme] body .dictionary-folder-dialog :is(h2,p,span,strong,label,legend,input,button){color:var(--dictionary-ink)!important;border-color:#3aace8!important}
+html[data-theme] body .dictionary-folder-dialog .btn-primary{background:#0ea5e9!important;color:#fff!important}
+html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){background:var(--dictionary-hover)!important;color:#fff!important}
+
+/* Stable source groups sit to the left of the remaining-card queue on desktop. */
+#root .vocabulary-cards-page{max-width:1440px}
+#root [data-dedicated-game=cards] .flashcard-layout{grid-template-columns:190px 250px minmax(0,1fr);align-items:start;gap:16px}
+#root [data-dedicated-game=cards] .flashcard-completion-layout{grid-template-columns:190px minmax(0,1fr)}
+.flashcard-batches{min-width:0;padding:16px;border:1px solid rgb(var(--workspace-line));border-radius:18px;background:rgb(var(--workspace-raised));max-height:75dvh;overflow-y:auto}
+.flashcard-batches h3{font-weight:650;margin-bottom:12px}
+.flashcard-batch-list{display:grid;gap:8px;list-style:none;padding:0;margin:0}
+.flashcard-batch-button{display:flex;width:100%;min-height:80px;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 12px;border:1px solid rgb(var(--workspace-line));border-radius:12px;text-align:left;background:rgb(var(--workspace-sunken));color:rgb(var(--workspace-ink))}
+.flashcard-batch-button span{font-size:12px}
+.flashcard-batch-button[aria-current=step]{background:#3d50fa;color:#fff}
+.flashcard-batch-button[aria-current=step] *{color:#fff!important}
+.flashcard-batch-button:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:1099px){#root [data-dedicated-game=cards] .flashcard-layout,#root [data-dedicated-game=cards] .flashcard-completion-layout{grid-template-columns:minmax(0,1fr)}.flashcard-batches{max-height:none}.flashcard-batch-list{display:flex;overflow-x:auto;padding-bottom:4px}.flashcard-batch-list>li{min-width:115px}.flashcard-study-stage{order:1}.flashcard-queue{order:2}}
+@media(max-width:600px){html[data-theme] #root .vocabulary-dictionary .dictionary-search{gap:3px;padding:5px}html[data-theme] #root .vocabulary-dictionary .dictionary-search-submit{min-width:32px}html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row,[data-dictionary-recent-row]){padding:14px 16px;border-radius:18px}.vocabulary-dictionary .dictionary-meaning-header{gap:10px;padding:16px 13px}.vocabulary-dictionary .dictionary-meaning-toggle strong{font-size:18px}.vocabulary-dictionary .dictionary-meaning-body{padding:0 16px 22px}.vocabulary-dictionary :is(.dictionary-definition,.dictionary-examples){font-size:16px}}
+
+
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent-row] :is(strong,span){color:var(--dictionary-ink)!important}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent-row]>span:last-child{color:var(--dictionary-muted)!important}
+html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){color:var(--dictionary-ink)!important}
+html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,.btn-ghost){color:#fff!important}
+.vocabulary-dictionary .dictionary-entry-collocations{margin-top:28px}
+.vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}
+
+
+/* Main background and public-entry accent colours — requested 2026-10-29.
+   The deep navy override is night-only; day keeps its original white palette. */
+html[data-theme="night"] body,
+html[data-theme="night"] #root { background-color: #0A0F24; }
+html[data-theme="night"] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
+  background-color: #0A0F24 !important;
+}
+html[data-theme="night"] #root [data-auth-shell] { background-color: #0A0F24 !important; }
+html[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
+  background-color: #0A0F24 !important;
+}
+#root [data-root-entry] .la-welcome-cta,
+#root [data-auth-shell] .auth-telegram-pill {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+}
+/* Gradient border only: keep each auth panel / route link's existing fill, size and radius. */
+#root [data-auth-shell] :is(.card, .auth-switch-pill) {
+  position: relative;
+  border-color: transparent !important;
+}
+#root [data-auth-shell] :is(.card, .auth-switch-pill)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+#root [data-auth-shell] .card::before { padding: 1px; }
+#root [data-auth-shell] .auth-switch-pill::before { padding: 2px; }
+
+
+/* Shared header and dashboard action colours — keep geometry and SPA actions intact. */
+html[data-theme] #root [data-campus-shell] {
+  --dashboard-action-gradient: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
+
+/* Header controls match Dashboard on the campus map and every module. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-campus-return-link],
+  [data-shell-topbar] [data-profile-menu-trigger],
+  [data-route-usable="dashboard"] .btn-primary,
+  [data-route-usable="dashboard"] .btn-secondary
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span {
+  color: #000000 !important;
+}
+
+/* Only the dashboard vocabulary review action remains an outline. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[href="/app/vocabulary"] > .btn-secondary {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)), rgb(var(--workspace-raised))) padding-box,
+    var(--dashboard-action-gradient) border-box !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+}
+
+/* Existing Day/Night and UZ/EN state controls retain their click handlers. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn-active,
+  [data-locale-switcher] button[aria-pressed="true"]
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn:not(.theme-btn-active),
+  [data-locale-switcher] button[aria-pressed="false"]
+) {
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: rgb(var(--workspace-line)) !important;
+}
+
+/* Keep the original circular utilities button; only its palette changes. */
+html[data-theme] #root [data-campus-shell] [data-utilities-launcher] {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-utilities-launcher] .module-emoji {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #000000 !important;
+}
+
+/* Search text fields only: remove inner green rectangle and focus ring.
+   Search containers, layout, dropdowns, other form controls remain untouched. */
+html[data-theme] #root :is(
+  [data-global-search-field] input,
+  .dictionary-search input,
+  [data-dictionary-search],
+  [data-practice-search],
+  input[type="search"],
+  input[role="searchbox"],
+  input[id*="search" i],
+  input[name*="search" i],
+  input[placeholder*="search" i],
+  input[placeholder*="qidir" i],
+  input[placeholder*="izla" i],
+  input[aria-label*="search" i],
+  input[aria-label*="qidir" i]
+) {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+
+/* Listening / Reading catalogue button palette only — 2026-10-29. */
+/* Module catalogue/selection buttons only. Never targets lesson material,
+   test/exam/attempt content or Reading retention exercises. CSS-only update. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(.btn-primary, .btn-gold-solid, a.chip-active) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(.btn-primary, .btn-gold-solid, a.chip-active) :is(span, strong, small) {
+  color: inherit !important;
+}
+/* Gradient border is drawn inside the original element bounds to preserve
+   all widths, heights, border widths, positioning and corner radii. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* Reading / Listening section tabs and Retention actions — 2026-10-29. */
+/* Only the shared module selector, not lesson/test/material content. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"]) {
+  position: relative;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Retention only, including its active reading / recall controls and history.
+   Keep the existing control geometry and all handlers. */
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-primary, .btn-gold-solid,
+  .retention-level-option[aria-pressed="true"]
+) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+  :is(.btn-primary, .btn-gold-solid, .retention-level-option[aria-pressed="true"])
+  :is(span, strong, small) {
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+) {
+  position: relative;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* Live Classes, Assignments, Grammar button palette and dynamic profile name — 2026-10-29. */
+/* Existing buttons only. Keep geometry, routes, handlers, and content unchanged. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-primary, .btn-gold-solid) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-primary, .btn-gold-solid) :is(span, strong, small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-secondary, .btn-ghost, .btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-secondary, .btn-ghost, .btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Grammar's shared header tabs: selected = filled, other = gradient outline. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"]) {
+  position: relative;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Only the topbar user-name text; dynamically supplied for any account. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar]
+  [data-profile-menu-trigger] > span.hidden {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+
+/* Section underlines and TED/Vocabulary palettes — 2026-10-29. */
+/* Only the Reading, Listening, Grammar and Vocabulary module-header sections.
+   Override the earlier outline pseudo-element; retain original box geometry
+   and show ONLY the two-pixel gradient underline on inactive sections. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"],[data-module-sections="listening"],
+      [data-module-sections="grammar"],[data-module-sections="vocabulary"])
+  a[data-module-section]:not([aria-current="page"]) {
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-position: left bottom !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"],[data-module-sections="listening"],
+      [data-module-sections="grammar"],[data-module-sections="vocabulary"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  content: none !important;
+  display: none !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="vocabulary"] a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+
+/* TED/Podcast studio section tabs. Inactive = underline, active = gradient. */
+html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab][aria-selected="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab][aria-selected="false"] {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: 100% 2px !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+
+/* Only TED/Podcast and Vocabulary actions; Dictionary is outside this scope.
+   Vocabulary panel explicitly excludes data-vocabulary-panel="dictionary". */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Vocabulary folder/filter/mode switches are styled by state; the rest of
+   their original behaviour, text, size and placement are not modified. */
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="true"]:not([data-pick]) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="false"]:not([data-pick]) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="false"]:not([data-pick])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* Speaking AI, progress/writing/mocks palette and vocabulary token correction — 2026-10-29. */
+/* AI interviewer buttons were omitted from the original speaking-only list.
+   In this screen primary, ghost and secondary are all existing solid-blue actions. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+/* Only the AI recording-preview's redundant green rectangle, not its player geometry. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  [data-recording-preview] [role="group"] {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Vocabulary folder's individual word-selection chips keep the original
+   green outline; exclude them from the new generic pressed-state styling. */
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[data-pick] {
+  border-color: rgb(var(--band-good)) !important;
+  box-shadow: none !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[data-pick]::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* My Progress, Writing and Mock Tests: existing action classes only. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Writing section tabs: unselected only an underline; selected a filled pill. */
+html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+  [role="tab"][aria-selected="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+  [role="tab"][aria-selected="false"] {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-position: left bottom !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+}
+
+
+/* Management-only button gradients — 2026-10-29. */
+/* Applies to existing Owner/Admin/Teacher action controls only.
+   Dictionary controls, management cards, routing, permissions and geometry stay intact. */
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) :is(span, strong, small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Staff statistics and student-results section selectors:
+   selected = filled, unselected = bottom underline, no rectangular outline. */
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) a.chip.chip-active {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) a.chip:not(.chip-active) {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+}
+
+
+/* Scoped dictionary, profile and utilities gradient palette — 2026-10-29. */
+/* Learner Dictionary: saved-sense + / CEFR = fill; POS and related links = outline. */
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-add-meaning,
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-level {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos,
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-related-items button {
+  background: linear-gradient(var(--dictionary-surface),var(--dictionary-surface)) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border: 1px solid transparent !important;
+  color: var(--dictionary-accent) !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos { border-radius: 8px; }
+
+/* Owner's Dictionary has its own staff view and existing actions. */
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important; color: #000 !important; border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color: inherit !important; }
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative; background: rgb(var(--workspace-raised)) !important; color: rgb(var(--workspace-ink)) !important; border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-pos] {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border:1px solid transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-cefr] {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;
+}
+
+/* Only profile editor actions, including the study form and photo upload label. */
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color:inherit !important; }
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+
+/* Floating ⏏ menu actions: AI Coach, Report a problem, and Report submission. */
+html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([data-coach-fab],[data-report-toggle],[data-report-send]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([data-coach-fab],[data-report-toggle],[data-report-send]) :is(span,strong,small,svg) { color:inherit !important; }
+
+
+/* Remaining requested control palette — 2026-10-29. */
+/* Reusable paint declarations are scoped below. The rules add no dimensions,
+   padding, radius or navigation handlers. Existing semantic quiz feedback stays. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] .btn-primary,
+  [data-course-roadmap] .btn-primary,
+  [data-course-lesson] .btn-primary,
+  [data-route-usable="notifications"] .btn-primary,
+  [data-reports-native] .btn-primary,
+  [data-support-page] .btn-primary,
+  [data-dedicated-game] .btn-primary,
+  [data-dedicated-game] button[aria-pressed="true"]:not([data-state="right"]):not([data-state="wrong"]),
+  [data-dedicated-game] button[aria-current="step"],
+  [data-dedicated-game] button[data-built-tile],
+  [data-staff-view] button[aria-pressed="true"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="true"]:not([data-global-dictionary] button)
+) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] .btn-primary,
+  [data-course-roadmap] .btn-primary,
+  [data-course-lesson] .btn-primary,
+  [data-route-usable="notifications"] .btn-primary,
+  [data-reports-native] .btn-primary,
+  [data-support-page] .btn-primary,
+  [data-dedicated-game] .btn-primary,
+  [data-dedicated-game] button[aria-pressed="true"],
+  [data-dedicated-game] button[aria-current="step"]
+) :is(span,strong,small,svg) {
+  color:inherit !important;
+}
+/* Existing secondary buttons and custom actionable controls: gradient edge,
+   existing radius/size, dark/light panel surface. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
+  [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
+  [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost,[data-notification-id] a),
+  [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
+  [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
+  [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
+  [data-staff-view] button[aria-pressed="false"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="false"]:not([data-global-dictionary] button),
+  [data-management-hub] [data-management-area]
+) {
+  position:relative;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
+  [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
+  [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost,[data-notification-id] a),
+  [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
+  [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
+  [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
+  [data-staff-view] button[aria-pressed="false"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="false"]:not([data-global-dictionary] button),
+  [data-management-hub] [data-management-area]
+)::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
+/* Game-specific colours preserve correct/incorrect and disabled feedback.
+   Neutral secondary blue fills become the existing workspace panel colour. */
+html[data-theme] #root [data-campus-shell] [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled) {
+  background:rgb(var(--workspace-raised)) !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* Global notification bell, without changing its clickable dimensions. */
+html[data-theme] #root [data-campus-shell] [data-campus-header-profile] > a[href="/app/notifications"] {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* The existing Support form is also used from the bottom-right utilities. */
+html[data-theme] #root [data-campus-shell] [data-report-form] :is([data-report-send],button[aria-label]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* Profile dropdown: menuitems and Log out use an inset gradient edge;
+   the drop-down panel and trigger remain unchanged. */
+html[data-theme] #root [data-campus-shell] [data-profile-menu] [role="menuitem"] {
+  position:relative;
+  color:rgb(var(--workspace-ink)) !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-profile-menu] [role="menuitem"]::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
+/* Vocabulary Dictionary: pronunciation and selected EN/UZ = filled gradient.
+   Unselected language, back, expand, search/clear controls = outlined. */
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary :is(.dictionary-pronounce,.dictionary-directions button[aria-pressed="true"]) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary :is(.dictionary-directions button[aria-pressed="false"],.dictionary-entry-nav button,.dictionary-expand-all,.dictionary-search-submit,.dictionary-clear:not([hidden])) {
+  position:relative;
+  background:linear-gradient(var(--dictionary-surface),var(--dictionary-surface)) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  color:var(--dictionary-accent) !important;
+  border:1px solid transparent !important;
+}
+/* Owner Dictionary: direction and special administrative controls.
+   Existing sense editing/adding primary buttons already have filled gradient. */
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-direction][aria-pressed="true"] {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-direction][aria-pressed="false"],
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is([data-dictionary-back],[data-dictionary-relation]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* Staff-specific nonstandard filter/toolbar/menu buttons.
+   Standard btn-* buttons are already covered by prior Management CSS. */
+html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
+  button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"]) {
+  position:relative;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
+  button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"])::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
+
+
+/* Writing Translation setup button colours only — 2026-10-29. */
+/* Path cards and the question-type/target-band pills only.
+   Keep all dimensions, layout, disabled state and click handlers unchanged. */
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  :is(button[role="radio"][aria-checked="true"],button[aria-pressed="true"]:not(:disabled)) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  button[role="radio"][aria-checked="true"] :is(span,strong,small) {
+  color:#000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  :is(button[role="radio"][aria-checked="false"],button[aria-pressed="false"]:not(:disabled)) {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,
+    linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+
+
+/* Retention reading/recall isolation and history result gradient — 2026-10-30. */
+/* Match only the live reading/writing phases, even when a session was started
+   from the entry screen and the earlier overview/history nodes remain mounted. */
+html[data-theme] #root [data-retention-page] [data-retention-workspace]:is(
+  :has([data-retention-phase="reading"]),
+  :has([data-retention-phase="recall"])
+) .retention-hub-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+html[data-theme] #root [data-retention-page] [data-retention-workspace]:is(
+  :has([data-retention-phase="reading"]),
+  :has([data-retention-phase="recall"])
+) :is(.retention-hub-grid > aside, [data-retention-history-section]) {
+  display: none !important;
+}
+
+/* Only Retention history's Open result action gets the filled accent palette.
+   Keep the original anchor element, click handling, dimensions and radius. */
+html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retention-history-open] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retention-history-open]::before {
+  content: none !important;
+  display: none !important;
+}
+
+
+/* Retention completed-result actions — 2026-10-30. */
+/* Scope to completed Retention results (both inline and permalink views).
+   Previously blue pill actions receive the same filled gradient as other
+   updated modules; original size, radius, links and events are unchanged. */
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result],
+  [data-retention-result-page]
+) :is(.btn-primary, .btn-secondary) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result],
+  [data-retention-result-page]
+) :is(.btn-primary, .btn-secondary)::before {
+  content: none !important;
+  display: none !important;
+}
+/* Link to this result and the standalone result page's Back control retain
+   their unfilled appearance, with the requested turquoise-to-blue edge. */
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result] [data-retention-result-permalink],
+  [data-retention-result-page] [data-back-link]
+) {
+  position: relative;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result] [data-retention-result-permalink],
+  [data-retention-result-page] [data-back-link]
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}

@@ -287,8 +287,7 @@ test("C2/C3 the day is read in its AUTHORED order with the learner's own stages,
     assert.notEqual(day.status.state, "completed", "a committed question is not a finished day");
 
     // A day nobody opened, and the day's real size.
-    assert.equal(await mcqDayFor(2,{id:LEARNER,role:"student"},{},database.db),null,"unfinished day 1 locks day 2");
-    const day2 = await mcqDayFor(2, { id: OTHER, role: "student" }, {}, database.db);
+    const day2 = await mcqDayFor(2, { id: LEARNER, role: "student" }, {}, database.db);
     assert.equal(day2?.status.state, "not_started");
     assert.equal(day2?.questions.length, 5);
 
@@ -345,7 +344,7 @@ test("C4 resuming lands on the first unfinished question, and a requested positi
     // A finished day opens at question 1 for review; an untouched day at question 1 to start.
     const finished = (await mcqDayFor(1, { id: OTHER, role: "student" }, {}, database.db))!;
     assert.equal(mcqActivePosition(finished.questions, null), 1);
-    const untouched = (await mcqDayFor(2, { id: OTHER, role: "student" }, {}, database.db))!;
+    const untouched = (await mcqDayFor(2, { id: LEARNER, role: "student" }, {}, database.db))!;
     assert.equal(mcqActivePosition(untouched.questions, null), 1);
     // Nothing to resume into when a day holds no questions: no position is invented.
     assert.equal(mcqActivePosition([], null), 0);
@@ -391,7 +390,7 @@ test("C6 before its stage, neither the options nor the key nor the explanation a
     const { database } = fixtures;
     const catalogue = await mcqProgramDays({ id: LEARNER, role: "student" }, {}, database.db);
     const day = (await mcqDayFor(1, { id: LEARNER, role: "student" }, {}, database.db))!;
-    const untouchedDay = (await mcqDayFor(2, { id: OTHER, role: "student" }, {}, database.db))!;
+    const untouchedDay = (await mcqDayFor(2, { id: LEARNER, role: "student" }, {}, database.db))!;
 
     for (const [surface, payload] of [
       ["the catalogue", catalogue],

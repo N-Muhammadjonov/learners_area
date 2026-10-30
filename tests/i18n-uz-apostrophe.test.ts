@@ -36,17 +36,6 @@ const INPUT_NORMALISERS = new Set([
   "src/lib/data/video-lessons.ts",
 ]);
 
-/**
- * Generated from the original owner-authored HTML under content/listening by
- * scripts/listening-course-spec.ts. Like that imported HTML (outside src), its
- * exact prompts are source content, not app copy. They also identify persisted
- * progress units, so normalising their punctuation would change their identity.
- * Keep this exclusion to the one generated manifest; all app copy stays scanned.
- */
-const IMPORTED_SOURCE_MANIFESTS = new Set([
-  "src/lib/listening/original-listening-course.json",
-]);
-
 const stripComments = (source: string) =>
   source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
 
@@ -64,7 +53,6 @@ test("no Learners Area-controlled source file emits a typographic apostrophe", (
   for (const file of walk("src")) {
     if (!/\.(ts|tsx|mjs|js|json|css)$/.test(file)) continue;
     if (INPUT_NORMALISERS.has(file)) continue;
-    if (IMPORTED_SOURCE_MANIFESTS.has(file)) continue;
     const source = readFileSync(file, "utf8");
     source.split("\n").forEach((line, index) => {
       if (TYPOGRAPHIC_MARKS.test(line)) {

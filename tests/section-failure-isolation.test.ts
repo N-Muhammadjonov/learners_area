@@ -179,25 +179,13 @@ test("Listening and Video entry reads are server-authorized, published, and limi
   const videoPage = read("src/app/app/(shell)/video-lessons/page.tsx");
   const videoData = read("src/lib/data/video-lessons.ts");
   assert.match(listeningPage, /requireActiveUser\(\)/);
-  assert.match(listeningPage, /redirect\("\/app\/listening\/lessons"\)/, "the module doorway redirects to its first real section");
-  const listeningLessonsPage = read("src/app/app/(shell)/listening/lessons/page.tsx");
-  assert.match(listeningLessonsPage, /requireActiveUser\(\)/, "destination remains server-authorized");
-  assert.match(listeningLessonsPage, /data-route-usable="listening-lessons"/);
-  assert.match(listeningLessonsPage, /listLessonLibrary\(\{ area: "listening" \}\)/, "the destination only reads classified lessons");
-  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
-  assert.doesNotMatch(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation/);
+  assert.match(listeningPage, /data-route-usable="listening"/);
+  assert.match(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
   assert.doesNotMatch(listeningPage, /from ["']@\/lib\/data\//, "a doorway has no catalogue request to fail");
-  for (const [route, reader] of [["tests", "academicListeningCards"], ["general", "generalListeningCards"]]) {
+  for (const [route, reader] of [["academic", "academicListeningCards"], ["general", "generalListeningCards"]]) {
     const page = read(`src/app/app/(shell)/listening/${route}/page.tsx`);
     assert.match(page, /requireActiveUser\(\)/);
-    const readCall = route === "tests"
-      ? `${reader}(user.id, 1, undefined, user.role)`
-      : `${reader}(user.id, page)`;
-    const guardIndex = page.indexOf("if (!user) return null");
-    const readIndex = page.indexOf(`const cataloguePromise = ${readCall}`);
-    assert.ok(guardIndex >= 0 && readIndex > guardIndex,
-      "a private catalogue request must start only after the authoritative user guard");
-    assert.match(page, /<Suspense fallback=/, "the authorized result streams without holding up navigation");
+    assert.ok(page.indexOf("if (!user) return null") < page.indexOf(`await ${reader}(user.id, page)`));
     assert.match(page, /Math\.min\(10000/);
   }
   assert.match(listeningData, /id: listeningTests\.id,[\s\S]*title: listeningTests\.title,[\s\S]*difficultyLevel: listeningTests\.difficultyLevel/);
