@@ -17,7 +17,7 @@ from typing import Any
 from fastapi import APIRouter, Request
 
 from . import main as core
-from .db import row_to_dict
+from .db import row_to_dict,PooledReads
 from .security import write_cookie
 
 router = APIRouter()
@@ -455,17 +455,17 @@ async def telegram_intent_status(req: Request):
     if not intent_id or not nonce or not _uuid(intent_id):return core.j({'error':'invalid_input'},400)
     try:
         db = await core.pool()
-        async with db.acquire() as conn:
-            row = await conn.fetchrow('''SELECT status,expires_at,purpose,telegram_user_id FROM telegram_login_intents
-              WHERE id=$1 AND browser_nonce_hash=$2 LIMIT 1''',_uuid(intent_id),_telegram_hash(nonce))
-            if not row:return core.j({'error':'not_found'},404)
-            expired = row['expires_at'] <= datetime.now(timezone.utc)
-            status = 'expired' if expired and row['status'] not in ('consumed','cancelled') else row['status']
-            result={'status':status,'expired':expired}
-            if status=='pending' and row.get('telegram_user_id'):
-                from .step18_telegram_admission_port import gates
-                gated=await gates(conn,row['telegram_user_id'])
-                if gated:result['gateError']=gated['error']
+        conn=PooledReads(db)
+        row = await conn.fetchrow('''SELECT status,expires_at,purpose,telegram_user_id FROM telegram_login_intents
+          WHERE id=$1 AND browser_nonce_hash=$2 LIMIT 1''',_uuid(intent_id),_telegram_hash(nonce))
+        if not row:return core.j({'error':'not_found'},404)
+        expired = row['expires_at'] <= datetime.now(timezone.utc)
+        status = 'expired' if expired and row['status'] not in ('consumed','cancelled') else row['status']
+        result={'status':status,'expired':expired}
+        if status=='pending' and row.get('telegram_user_id'):
+            from .step18_telegram_admission_port import gates
+            gated=await gates(conn,row['telegram_user_id'])
+            if gated:result['gateError']=gated['error']
         return core.j(result,headers=PRIVATE)
     except Exception:
         return core.j({'error':'internal_error'},500)
@@ -473,9 +473,9 @@ async def telegram_intent_status(req: Request):
 
 @router.post('/api/auth/telegram/intent/cancel')
 async def telegram_intent_cancel(req: Request):
-    from .rate_limit import RULES, counter, client_key, too_many
+    from .rate_limit import RULES, async_counter as counter, client_key, too_many
     RULES.setdefault('telegram_intent',(10,900))
-    exceeded = counter('telegram_intent',client_key(req),consume=True)
+    exceeded = await counter('telegram_intent',client_key(req),consume=True)
     if exceeded:return too_many(exceeded)
     body = await core.payload(req)
     intent_id = body.get('intentId') if isinstance(body,dict) else None
@@ -505,10 +505,10 @@ async def telegram_intent_create(req: Request):
     import os
     import secrets
     from datetime import timedelta
-    from .rate_limit import RULES,counter,client_key,too_many
+    from .rate_limit import RULES,async_counter as counter,client_key,too_many
     if not _telegram_enabled():return core.j({'error':'telegram_not_configured'},400)
     RULES.setdefault('telegram_intent',(10,900))
-    exceeded = counter('telegram_intent',client_key(req),consume=True)
+    exceeded = await counter('telegram_intent',client_key(req),consume=True)
     if exceeded:return too_many(exceeded)
     body = await core.payload(req)
     requested = body.get('purpose') if isinstance(body,dict) else None
@@ -539,18 +539,18 @@ async def auth_reset_request(req: Request):
     import os
     import secrets
     from datetime import timedelta
-    from .rate_limit import RULES,counter,client_key,too_many
+    from .rate_limit import RULES,async_counter as counter,client_key,too_many
     if not core.auth_policy()['passwordEnabled']:return core.auth_disabled()
     body, error = core.validate_auth(await core.payload(req), 'request')
     if error:return core.j({'error': error},400)
     email=body['email']
-    RULES.setdefault('password_reset',(5,900))
-    ip_limit=counter('password_reset',client_key(req),consume=True)
-    if ip_limit:return too_many(ip_limit)
-    email_limit=counter('password_reset','acct:'+email,consume=True)
-    if email_limit:return too_many(email_limit)
     if os.environ.get('APP_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
         return core.j({'error':'reset_unavailable'},503)
+    RULES.setdefault('password_reset',(5,900))
+    ip_limit=await counter('password_reset',client_key(req),consume=True)
+    if ip_limit:return too_many(ip_limit)
+    email_limit=await counter('password_reset','acct:'+email,consume=True)
+    if email_limit:return too_many(email_limit)
     db=await core.pool()
     async with db.acquire() as conn:
         user=await conn.fetchrow('SELECT id FROM users WHERE email=$1 LIMIT 1',email)
@@ -574,7 +574,7 @@ async def auth_reset_confirm(req: Request):
           WHERE token_hash=$1 AND used_at IS NULL AND expires_at>now() LIMIT 1''',_telegram_hash(token))
         if not record:return core.j({'error':'invalid_or_expired_token'},400)
         import bcrypt
-        pw_hash=(await asyncio.to_thread(bcrypt.hashpw,password.encode('utf-8'),bcrypt.gensalt(rounds=12))).decode('utf-8')
+        pw_hash=(await core.run_blocking(bcrypt.hashpw,password.encode('utf-8'),bcrypt.gensalt(rounds=12))).decode('utf-8')
         async with conn.transaction():
             claimed=await conn.fetchrow('''UPDATE password_reset_tokens SET used_at=now()
               WHERE id=$1 AND used_at IS NULL AND expires_at>now() RETURNING id''',record['id'])

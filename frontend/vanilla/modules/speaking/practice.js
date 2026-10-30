@@ -6,6 +6,7 @@ import {studyRich} from './study-rich.js';
 import {vocabularySaver} from './vocabulary-save.js';
 import {BackLink} from '../shared/presentation.js';
 import {mountSituations,situationTopics,situationLabels} from './situations.js';
+import {topicCategoryGroups,topicCategoryFor} from './topic-categories.js';
 /** Source: SpeakingPracticePage + PracticeStudio. Uses bounded original GET endpoints,
  * never loads or constructs the complete question bank in the browser. */
 const PARTS=['part1','part2','part3'];
@@ -21,7 +22,8 @@ export function mount(context){
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.speakingHub.cards.practice.title),el('p',{class:'mt-1 text-base text-ink-500'},t.intro)),studio);
  const part=partFrom(url.searchParams.get('part')),topicKey=part?url.searchParams.get('topic'):null;
  const state={search:'',debounce:0,topics:[],topicCursor:null,topicCount:0,topicBusy:false,prompts:[],promptCursor:null,promptCount:0,promptBusy:false,selected:null,support:null,supportId:null,recorder:null,token:0,blocked:false};
- let supportController=null;
+ let topicCategory='all';
+ let supportController=null;const savedVocabulary=new Map();
  signal.addEventListener('abort',()=>{clearTimeout(state.debounce);supportController?.abort();state.recorder?.stop();state.token++;},{once:true});
  const go=(p,key)=>{if(state.blocked||signal.aborted)return;void navigate(urlFor(p,key));};
  const msg=el('p',{role:'status','aria-live':'polite',class:'sr-only','data-practice-status':''});
@@ -63,10 +65,24 @@ export function mount(context){
    area.append(input,results);body.replaceChildren(area);
   }
   results.replaceChildren();
-  if(!state.topics.length)results.append(el('p',{class:'text-sm text-ink-500','data-practice-empty':'topics'},state.search.trim()?dict.shell.noResults:t.noQuestionsInPart));
+  const categories=topicCategoryGroups[part]??[];
+  const visible=state.topics.filter(g=>topicCategory==='all'||topicCategoryFor(part,g.key)===topicCategory);
+  const section=el('section',{class:'space-y-2','data-practice-topic-categories':''});
+  section.append(el('h2',{class:'font-semibold text-ink-900'},part==='part2'?'Cue card category':'Question type'));
+  const group=el('div',{class:'flex flex-wrap gap-2',role:'group','aria-label':part==='part2'?'Cue card category':'Question type'});
+  for(const item of [{id:'all',label:'Any type'},...categories]){
+   const matching=state.topics.filter(g=>item.id==='all'||topicCategoryFor(part,g.key)===item.id).length;
+   group.append(button(item.label+' · '+matching,()=>{
+    if(topicCategory===item.id)return;
+    topicCategory=item.id;drawTopics();
+   },{class:topicCategory===item.id?'btn-primary':'btn-secondary',
+     'data-practice-topic-category':item.id,'aria-pressed':String(topicCategory===item.id)}));
+  }
+  section.append(group);results.append(section);
+  if(!visible.length)results.append(el('p',{class:'text-sm text-ink-500','data-practice-empty':'topics'},state.search.trim()?dict.shell.noResults:t.noQuestionsInPart));
   const list=el('ul',{class:'grid gap-3 sm:grid-cols-2','data-practice-topics':''});
-  for(const g of state.topics)list.append(el('li',{},button('',()=>go(part,g.key),{class:'card flex min-h-16 w-full items-center justify-between gap-3 p-4 text-left hover:bg-paper-sunken','data-practice-topic':g.key})));
-  for(const li of list.children){const g=state.topics[[...list.children].indexOf(li)];li.firstChild.append(el('span',{class:'text-base text-ink-900'},g.title??t.untitledTopic),el('span',{class:'shrink-0 text-xs text-ink-500'},t.questionCount.replace('{n}',String(g.count))));}
+  for(const g of visible)list.append(el('li',{},button('',()=>go(part,g.key),{class:'card flex min-h-16 w-full items-center justify-between gap-3 p-4 text-left hover:bg-paper-sunken','data-practice-topic':g.key})));
+  for(const li of list.children){const g=visible[[...list.children].indexOf(li)];li.firstChild.append(el('span',{class:'text-base text-ink-900'},g.title??t.untitledTopic),el('span',{class:'shrink-0 text-xs text-ink-500'},t.questionCount.replace('{n}',String(g.count))));}
   results.append(list);
   if(state.topicCursor)results.append(button(`${dict.common.continue} · ${t.topicCount.replace('{n}',String(Math.max(state.topicCount-state.topics.length,0)))}`,()=>void topicsLoad(true),{class:'btn-secondary min-h-11','data-practice-more-topics':''}));
  }
@@ -110,9 +126,18 @@ export function mount(context){
   const support=state.support,t=study;
   const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':''});
   const tabs=el('div',{role:'tablist','aria-label':t.supportLabel,class:'flex flex-wrap gap-2'}),content=el('div',{role:'tabpanel',class:'space-y-4'});
-  let tab='vocabulary';const revealed=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
+  const savedKey=state.selected;let saved=savedVocabulary.get(savedKey);if(!saved){saved={confirmed:new Set(),savedIds:new Map()};savedVocabulary.set(savedKey,saved);}const {confirmed,savedIds}=saved;
+  let tab='vocabulary';const revealed=new Set(),activated=new Set();supportController?.abort();supportController=new window.AbortController();const supportSignal=supportController.signal;let renderController=null;
   supportSignal.addEventListener('abort',()=>renderController?.abort(),{once:true});
-  function show(){renderController?.abort();if(signal.aborted||supportSignal.aborted)return;renderController=new window.AbortController();const events=renderController.signal;tabs.replaceChildren();for(const [name,label] of [['vocabulary',t.vocabulary],['modelAnswer',t.modelAnswer],['ideas',t.ideas]])tabs.append(button(label,()=>{tab=name;show();},{class:tab===name?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'data-practice-support-tab':name}));
+  function startTabHold(control,name,events){
+   let holdTimer=null;
+   const clear=()=>{clearTimeout(holdTimer);holdTimer=null;};
+   control.addEventListener('pointerdown',e=>{if(e.button!==0||revealed.has(name))return;clear();holdTimer=setTimeout(()=>{holdTimer=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);},{signal:events});
+   for(const event of ['pointerup','pointercancel','pointerleave'])control.addEventListener(event,clear,{signal:events});
+   control.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat&&!revealed.has(name)){clear();holdTimer=setTimeout(()=>{holdTimer=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);}},{signal:events});
+   control.addEventListener('keyup',clear,{signal:events});events.addEventListener('abort',clear,{once:true});
+  }
+  function show(){renderController?.abort();if(signal.aborted||supportSignal.aborted)return;renderController=new window.AbortController();const events=renderController.signal;tabs.replaceChildren();for(const [name,label] of [['vocabulary',t.vocabulary],['modelAnswer',t.modelAnswer],['ideas',t.ideas]]){const control=button(label,()=>{tab=name;activated.add(name);show();},{class:tab===name&&(activated.has(name)||revealed.has(name))?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'data-practice-support-tab':name});startTabHold(control,name,events);tabs.append(control);}
    content.replaceChildren();
    if(!revealed.has(tab)){const trigger=button('',()=>{}, {class:'situation-reveal rounded-3xl border-2 border-accent-500 bg-paper p-8 text-center text-xl font-semibold select-none','data-practice-reveal':tab});
     trigger.append(el('span',{class:'block text-sm uppercase tracking-widest'},t.answerFirst),el('span',{class:'mt-3 block'},t.hold));
@@ -130,10 +155,11 @@ export function mount(context){
     events.addEventListener('abort',clear,{once:true});
     content.append(el('div',{class:'flex min-h-72 items-center justify-center'},trigger));return;
    }
+   content.append(button(context.locale==='uz'?'Yopish':'Close',()=>{revealed.delete(tab);show();},{class:'btn-secondary','data-practice-support-close':tab,'aria-label':context.locale==='uz'?'Bo‘limni yopish':'Close section'}));
    const html=tab==='vocabulary'?support.vocabularyHtml:tab==='modelAnswer'?support.modelAnswerHtml:support.ideasHtml;
    if(html)content.append(studyRich(html));
    if(tab==='vocabulary'&&Array.isArray(support.vocabulary)&&support.vocabulary.length){
-    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t}));
+    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t,confirmed,savedIds}));
    }
   }
   panel.append(tabs,content);target.replaceChildren(panel);show();

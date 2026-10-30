@@ -1,0 +1,77 @@
+{
+  "task": 10,
+  "name": "Telegram durability and authentication",
+  "source_status": "PASS",
+  "rollout_status": "PASS",
+  "baseline_commit": "5525cf33784c19b10ebbf672c73caed45047cf1b",
+  "backend_source": "69d905231c505270809a278144cc3d437452ada4",
+  "backend_merge": "d5eabb2d7b5cd866f99d2c18eaf9d3d42c931606",
+  "backend_deployment": "877501f6-0a20-47db-8298-7b3e4c994ad0",
+  "bot_implementation": "32e271f73f831b6aa6946be9c75489e5479f6a17",
+  "tests": {
+    "bot_before": 48,
+    "bot_after": 59,
+    "backend": 3100,
+    "postgres_checks": 24,
+    "concurrent_duplicate_deliveries": 32,
+    "postgres_reconnects": 2,
+    "integration": {
+      "http": 426,
+      "decoder": 151,
+      "dom": 118,
+      "replay": 8
+    },
+    "backend_check": "PASS",
+    "diff_check": "PASS"
+  },
+  "frontend": "unchanged; Task 8 npm 1167 passed / 11 skipped reused, not rerun",
+  "migrations_added": 0,
+  "production_config_changes": 0,
+  "external_test_telegram_calls": 0,
+  "manual_acceptance": "owner",
+  "limits": [
+    "At-most-once handler admission; a process crash after admission requires a new command/update ID.",
+    "Ambiguous Telegram outbound delivery is not claimed exactly-once.",
+    "No production login or device acceptance performed."
+  ],
+  "references": [
+    "https://core.telegram.org/bots/api#setwebhook",
+    "https://docs.aiogram.dev/en/latest/dispatcher/webhook.html"
+  ],
+  "created_at": "2026-10-29T13:54:52.262415+00:00",
+  "status": "PASS",
+  "bot_source": "993fed7cf2b446be2fb97b29b7827d8bee0500ab",
+  "final_merge": "c824d9c808adbe561edfed8c067f369a534d9ef2",
+  "web_deployment": "5e02ac8e-3ee9-4ad4-81b3-511f89f32552",
+  "bot_deployment": "57a2e3be-3ee0-46ea-9058-83c231d68344",
+  "production_http": [
+    {
+      "url": "https://learnersarea.uz/api/version",
+      "status": 200,
+      "body": {
+        "commit": "c824d9c808adbe561edfed8c067f369a534d9ef2",
+        "shortCommit": "c824d9c",
+        "region": null,
+        "environment": "production"
+      },
+      "at": "2026-10-29T13:58:29.096010+00:00"
+    },
+    {
+      "url": "https://learnersarea.uz/readyz",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "frontend": true
+      },
+      "at": "2026-10-29T13:58:29.694589+00:00"
+    },
+    {
+      "url": "https://learners-area-telegram-bot-production.up.railway.app/ready",
+      "status": 200,
+      "body": {
+        "ok": true
+      },
+      "at": "2026-10-29T13:58:30.616397+00:00"
+    }
+  ]
+}

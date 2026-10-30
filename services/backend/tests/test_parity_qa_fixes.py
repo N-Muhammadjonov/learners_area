@@ -32,10 +32,10 @@ def test_rate_limit_source_default_applies_after_all_router_imports():
     assert limiter.RULES['upload_intent'] == (120, 900)
 
 @pytest.mark.parametrize('header,ip',[('x-real-ip','203.0.113.8:443'),('x-vercel-forwarded-for','[2001:db8::1]:443'),('x-forwarded-for','junk, 198.51.100.2:80'),('x-real-ip','203.0.113.8')])
-def test_client_ip_match_node_transport_syntax(header, ip):
-    req = Request({'type':'http','headers':[(header.encode(),ip.encode())], 'path':'/'})
-    expected = '2001:db8::1' if '2001:' in ip else '198.51.100.2' if '198.' in ip else '203.0.113.8'
-    assert limiter.client_key(req)==expected
+def test_unverified_legacy_proxy_headers_cannot_override_peer(header, ip):
+    req = Request({'type':'http','headers':[(header.encode(),ip.encode())], 'path':'/', 'client':('192.0.2.44',7000)})
+    assert limiter.client_key(req)=='192.0.2.44'
+
 
 
 def test_expired_rate_buckets_of_same_action_pruned(monkeypatch):

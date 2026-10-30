@@ -10,7 +10,7 @@ from . import main as core
 from .internal_bot_ready_port import verify_bot
 from .telegram_admins_port import actor_for, denied_response, audit
 from .telegram_preferences_port import jsonb, clip
-from .rate_limit import RULES,counter,too_many
+from .rate_limit import RULES,async_counter as counter,too_many
 router=APIRouter()
 AUDIENCES={'all_bot_users','active_students','pending_applicants','teachers','admins'}
 RULES.setdefault('telegram_broadcast',(6,3600))
@@ -46,7 +46,7 @@ async def broadcasts(req:Request):
         if body.get('preview') is True:
             rows=await recipients(conn,audience)
             return core.j({'audience':audience,'recipientCount':len(rows)})
-        delay=counter('telegram_broadcast','broadcast:'+actor['telegramUserId'],consume=True)
+        delay=await counter('telegram_broadcast','broadcast:'+actor['telegramUserId'],consume=True, connection=conn)
         if delay:return too_many(delay)
         setting=await conn.fetchrow("SELECT value FROM telegram_bot_settings WHERE key='broadcasts_enabled'")
         if setting and jsonb(setting['value']) is False:return core.j({'error':'broadcasts_disabled'},403)

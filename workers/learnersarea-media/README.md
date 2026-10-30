@@ -63,10 +63,20 @@ at Worker cutover. Direct upload intent/PUT/finalize is unchanged.
 
 ## Validation and operating limits
 
-`tests/media-protocol.test.ts` compares WebCrypto signatures against Node crypto;
-`tests/media-worker.test.ts` covers streaming, HEAD, ranges, negative permission
-and outage cases. Session tests use isolated PostgreSQL fixtures. Native Safari
-and Chrome playback plus real R2/revocation checks remain deployment gates.
+`scripts/verify-existing-workers-fastapi.mjs` exercises this Worker against the
+actual FastAPI authorization handlers with synthetic authority/R2 fixtures,
+including HEAD, ranges, expiry, revocation and failure cases.
+`services/backend/tests/test_media_streaming.py` checks bounded fallback/proxy
+delivery and disconnect cleanup. These are automated checks, not live-bucket or
+device playback evidence; the owner performs manual playback acceptance.
+
+FastAPI's download proxy streams at 64 KiB per chunk, with a 300-second total
+transfer bound and 10-second upstream read-idle bound. The authenticated fallback
+uses asynchronous file delivery locally or an internally signed S3/R2 read;
+signed S3 URLs are never returned to the browser. Media bodies have a separate
+64-request admission budget so they do not occupy ordinary navigation slots.
+Capability creation remains within the ordinary request budget. Upload APIs,
+the short-lived Worker protocol and existing resource URLs are preserved.
 
 Bundle with the repository's installed esbuild:
 

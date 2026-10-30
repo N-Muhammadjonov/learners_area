@@ -63,7 +63,7 @@ def test_imported_status_is_private_and_survives_folder_renaming(monkeypatch):
     assert 'name=' not in sql
 
 
-def test_remove_pack_keeps_words_progress_and_other_users_folders(monkeypatch):
+def test_remove_pack_deletes_only_its_words_and_empty_owned_folders(monkeypatch):
     class RemoveConn(Conn):
         def transaction(self):return self
         async def fetchrow(self,sql,*args):
@@ -71,15 +71,15 @@ def test_remove_pack_keeps_words_progress_and_other_users_folders(monkeypatch):
         async def fetch(self,sql,*args):
             self.calls.append((sql,args));assert args==('aaa','food') and 'user_id=$1' in sql
             return [{'folder_id':'owned-folder'}]
-        async def execute(self,sql,*args):self.calls.append((sql,args));return 'UPDATE 144'
+        async def execute(self,sql,*args):self.calls.append((sql,args));return 'DELETE 144'
     db=RemoveConn();setup(monkeypatch,db)
     r=client.delete('/api/vocabulary/packs/food')
-    assert r.status_code==200 and r.json()=={'ok':True,'wordsPreserved':True}
+    assert r.status_code==200 and r.json()=={'ok':True,'deletedWords':144}
     writes=[(sql,args) for sql,args in db.calls if sql.startswith(('UPDATE','DELETE'))]
     assert len(writes)==2
-    assert writes[0][1]==('aaa','food') and 'SET folder_id=NULL' in writes[0][0]
+    assert writes[0][1]==('aaa','food') and 'DELETE FROM user_vocabulary' in writes[0][0] and 'topic_pack=$2' in writes[0][0]
     assert writes[1][1]==('owned-folder','aaa') and 'NOT EXISTS' in writes[1][0] and 'f.user_id=$2' in writes[1][0]
-    assert all('DELETE FROM user_vocabulary' not in sql and 'srs_stage' not in sql for sql,_ in writes)
+    assert all('SET folder_id=NULL' not in sql and 'DELETE FROM lexemes' not in sql for sql,_ in writes)
 
 
 def test_anonymous_remove_pack_never_accesses_the_database(monkeypatch):

@@ -12,6 +12,8 @@ from fastapi.responses import Response,RedirectResponse
 from . import main as core
 from .step19_storage import valid_key,head_object,read_object
 from .writing_source_materials import graph_bytes,GRAPHS
+from .writing_exam_bank import graph_bytes as exam_graph_bytes, GRAPHS as EXAM_GRAPHS
+from .media_streaming import upstream_response,object_response,if_range_matches
 
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}
@@ -81,6 +83,8 @@ def media_range(header,size):
     match=re.fullmatch(r'bytes=(\d*)-(\d*)',header.strip())
     if not match or not any(match.groups()):return None
     left,right=match.groups()
+    left,right=[(value.lstrip('0') or '0') if value else '' for value in (left,right)]
+    if len(left)>16 or len(right)>16:return None
     if not left:
         n=int(right)
         return (max(0,size-n),size-1) if n>0 and n<2**53 else None
@@ -156,15 +160,16 @@ async def deliver(req,key,head):
         async with db.acquire() as con:
             allowed=await allow_resource(con,authority['user'],key)
             if allowed!='allowed':return core.j({'error':allowed},403 if allowed=='forbidden' else 404,PRIVATE)
-        graph=graph_bytes(key)
+        graph=exam_graph_bytes(key) if key in EXAM_GRAPHS else graph_bytes(key)
         if graph is not None:
             if req.query_params.get('capability')=='1':
                 from urllib.parse import urlsplit,urlunsplit
                 u=urlsplit(str(req.url))
                 url=urlunsplit((u.scheme,u.netloc,u.path,'stream=1',''))
                 return core.j({'url':url,'expiresAt':min(int(time.time()*1000)+120000,int(authority['expiresAt'])*1000),'key':key},headers=PRIVATE)
-            size=len(graph);etag='"'+GRAPHS[key]['sha256']+'"'
-            h={**PRIVATE,'Content-Type':'image/png','Accept-Ranges':'bytes','ETag':etag,'Content-Disposition':'inline; filename="'+GRAPHS[key]['originalName']+'"'}
+            image=(EXAM_GRAPHS if key in EXAM_GRAPHS else GRAPHS)[key]
+            size=len(graph);etag='"'+image['sha256']+'"'
+            h={**PRIVATE,'Content-Type':'image/png','Accept-Ranges':'bytes','ETag':etag,'Content-Disposition':'inline; filename="'+image.get('fileName',image['originalName'])+'"'}
             header=None if head else req.headers.get('range')
             if req.headers.get('if-range') not in (None,etag):header=None
             span=media_range(header,size) if header else None
@@ -181,14 +186,8 @@ async def deliver(req,key,head):
             if want_cap:return core.j({'url':url,'expiresAt':claims['exp']*1000,'key':key},headers=PRIVATE)
             if req.query_params.get('download')!='1':
                 return RedirectResponse(url,status_code=302,headers=PRIVATE)
-            import httpx
             forwarded={k:req.headers[k] for k in ('range','if-range') if k in req.headers}
-            async with httpx.AsyncClient(timeout=20,follow_redirects=False) as client:
-                reply=await client.request('HEAD' if head else 'GET',url,headers=forwarded)
-            h=dict(PRIVATE)
-            for name in ('Content-Type','Content-Length','Content-Range','Accept-Ranges','ETag','Last-Modified','Content-Disposition'):
-                if name in reply.headers:h[name]=reply.headers[name]
-            return Response(None if head else reply.content,status_code=reply.status_code,headers=h)
+            return await upstream_response('HEAD' if head else 'GET',url,forwarded,PRIVATE)
         if want_cap:
             from urllib.parse import urlsplit,urlunsplit
             u=urlsplit(str(req.url))
@@ -213,7 +212,12 @@ async def deliver(req,key,head):
         ext=os.path.splitext(key)[-1].lower()
         content_type=info.get('contentType') or mime or local_types.get(ext,'application/octet-stream')
         h=dict(PRIVATE);h['Content-Type']=content_type;h['Accept-Ranges']='bytes'
+        if info.get('etag'):h['ETag']=info['etag']
+        if info.get('lastModified'):
+            from email.utils import formatdate
+            h['Last-Modified']=formatdate(info['lastModified'].timestamp(),usegmt=True)
         range_header=None if head else req.headers.get('range')
+        if not if_range_matches(req.headers.get('if-range'),info):range_header=None
         byte_range=media_range(range_header,size) if range_header else None
         if range_header and byte_range is None:
             h['Content-Range']=f'bytes */{size}'
@@ -222,9 +226,7 @@ async def deliver(req,key,head):
         inline=content_type.startswith(('image/','audio/','video/','text/plain'))
         h['Content-Disposition']=('inline' if inline else 'attachment')+'; filename="'+key.split('/')[-1]+'"'
         if byte_range:h['Content-Range']=f'bytes {byte_range[0]}-{byte_range[1]}/{size}'
-        if head:return Response(status_code=200,headers=h)
-        data=await read_object(key,*(byte_range or (None,None)))
-        return Response(data,status_code=206 if byte_range else 200,headers=h) if data is not None else core.j({'error':'not_found'},404,PRIVATE)
+        return await object_response(req,key,info,h,byte_range,head)
     except Exception:return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
 
 @router.get('/api/resources/{key:path}')

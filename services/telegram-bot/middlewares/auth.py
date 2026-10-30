@@ -3,9 +3,8 @@ from typing import Any, Awaitable, Callable
 
 from aiogram import BaseMiddleware
 from aiogram.types import CallbackQuery, Message, TelegramObject, Update
+from aiohttp.web import HTTPServiceUnavailable
 
-from i18n import t
-from security_policy import is_sensitive_update
 from services.api_client import api_client
 
 _SEEN: OrderedDict[int, None] = OrderedDict()
@@ -20,22 +19,6 @@ def _remember(update_id: int) -> bool:
     return True
 
 
-def _callback_data(event: TelegramObject) -> str | None:
-    if isinstance(event, Update) and event.callback_query:
-        return event.callback_query.data
-    if isinstance(event, CallbackQuery):
-        return event.data
-    return None
-
-
-def _text(event: TelegramObject) -> str | None:
-    if isinstance(event, Update) and event.message:
-        return event.message.text
-    if isinstance(event, Message):
-        return event.text
-    return None
-
-
 class DedupMiddleware(BaseMiddleware):
     async def __call__(
         self,
@@ -47,18 +30,15 @@ class DedupMiddleware(BaseMiddleware):
         if isinstance(event, Update):
             update_id = event.update_id
         if isinstance(update_id, int):
-            if not _remember(update_id):
+            if update_id in _SEEN:
                 return None
             fresh = await api_client.claim_update(update_id)
-            sensitive = is_sensitive_update(_callback_data(event), _text(event))
-            if fresh is False or (fresh is None and sensitive):
-                if fresh is None and isinstance(event, Update) and event.callback_query:
-                    try:
-                        code = event.callback_query.from_user.language_code if event.callback_query.from_user else "uz"
-                        lang = "en" if (code or "").startswith("en") else "uz"
-                        await event.callback_query.answer(t(lang, "temporary_error"), show_alert=True)
-                    except Exception:
-                        pass
+            if fresh is None:
+                # No local tombstone and no successful webhook acknowledgement:
+                # Telegram can retry once the durable inbox is available again.
+                raise HTTPServiceUnavailable(text="temporarily unavailable")
+            _remember(update_id)
+            if fresh is False:
                 return None
         return await handler(event, data)
 

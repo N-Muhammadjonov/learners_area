@@ -195,6 +195,8 @@ async def live_partner_questions(req: Request):
     try:
         async with db.acquire() as conn:
             data = await _read_page(conn, channel='practice_alone', live_partner=True,
+                                    part=req.query_params.get('part'),
+                                    topic=req.query_params.get('topic'),
                                     search=utf16_slice(req.query_params.get('q', ''), 120),
                                     cursor=req.query_params.get('cursor'))
     except InvalidCursor:

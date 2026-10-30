@@ -6,6 +6,7 @@ import json,math,re,unicodedata
 from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
+from .rate_limit import evaluation_limit
 from .step16_stealing_port import FALLBACK
 from .step23_typing_legacy import levenshtein
 router=APIRouter()
@@ -39,6 +40,8 @@ def err(code,msg,retry=None):return {'error':{'code':code,'message':msg,**({'ret
 async def post(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.j(err('unauthenticated','Sign in again.'),401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     b=await core.payload(req)
     if not isinstance(b,dict) or set(b)!={'patternId','newTopic','answer'} or core.uuid_value(b.get('patternId')) is None or any(not isinstance(b.get(k),str) or not 1<=len(b[k])<=lim for k,lim in [('newTopic',120),('answer',800)]):
         return core.j(err('invalid_input','Write your adapted sentence.','answer'),400)
@@ -54,13 +57,14 @@ async def post(req:Request):
         topics=(set(FALLBACK)|{s['topic'].strip().lower() for s in [*ptopics,*mtopics] if s['topic'] and s['topic'].strip()})-{(pattern['topic'] or '').strip().lower()}
         topic=b['newTopic'].strip().lower()
         if topic not in topics:return core.j(err('invalid_topic','Could not check this sentence.',False),400)
-        text=b['answer'].strip()
-        if not text:return core.j(err('empty','Could not check this sentence.',False),400)
-        copy=near_copy(text,pattern['example'],pattern['pattern']);r=None;verdict='needs_revision'
-        if not copy['nearCopy']:
-            r,e=await ai.check(user.get('locale','en'),'pattern',{'kind':'pattern','pattern':pattern['pattern'],'sourceExample':pattern['example'],'sourceTopic':pattern['topic'] or '', 'newTopic':topic,'answer':text})
-            if e:return core.j(err('unavailable' if e=='unavailable' else 'failed','Could not check this sentence.',e=='failed'),503)
-            verdict=r['verdict'] if (r['bands']['adaptation'] or 0)>=5 else 'needs_revision'
+    text=b['answer'].strip()
+    if not text:return core.j(err('empty','Could not check this sentence.',False),400)
+    copy=near_copy(text,pattern['example'],pattern['pattern']);r=None;verdict='needs_revision'
+    if not copy['nearCopy']:
+        r,e=await ai.check(user.get('locale','en'),'pattern',{'kind':'pattern','pattern':pattern['pattern'],'sourceExample':pattern['example'],'sourceTopic':pattern['topic'] or '', 'newTopic':topic,'answer':text},user_id=user['id'])
+        if e:return core.j(err('unavailable' if e=='unavailable' else 'failed','Could not check this sentence.',e=='failed'),503)
+        verdict=r['verdict'] if (r['bands']['adaptation'] or 0)>=5 else 'needs_revision'
+    async with db.acquire() as con:
         saved=bool(await con.fetchval('SELECT 1 FROM writing_pattern_bank WHERE user_id=$1 AND pattern_id=$2',user['id'],pattern['id']))
         await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'WRITING_PATTERN_PRACTICE',$2::jsonb)''',user['id'],json.dumps({'patternId':str(pattern['id']),'newTopic':topic,'verdict':verdict,'nearCopy':copy['reason'],'bands':r['bands'] if r else None}))
         return core.j({'ok':True,'verdict':verdict,'copy':copy,'result':r,'canSave':verdict!='needs_revision','saved':saved})

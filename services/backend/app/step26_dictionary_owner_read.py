@@ -5,7 +5,7 @@ from __future__ import annotations
 import json,re
 from fastapi import APIRouter,Request
 from . import main as core
-from .db import row_to_dict
+from .db import row_to_dict,PooledReads
 from .step17_dictionary_read_port import active_release,pinned,entry,error_response,normalize_search,worker
 from .step21_dictionary_entry_save import present
 router=APIRouter()
@@ -85,30 +85,30 @@ async def dictionary_owner_read(req:Request,action:str):
         return core.j({'error':'not_found'},404)
     try:
         db=await core.pool()
-        async with db.acquire() as con:
-            if parts==['summary']:result=await summary(con)
-            elif parts==['search']:
-                q=req.query_params.get('q','');direction=req.query_params.get('direction','EN')
-                if len(q)>80 or direction not in ('EN','UZ'):return core.j({'error':'invalid_input'},400)
-                release=await pinned(con)
-                result={'release_id':release,'results':await search(con,q,direction,release)}
-            elif len(parts)==2 and parts[0]=='entries' and core.uuid_value(parts[1]):
-                release=await pinned(con,req.query_params.get('release_id'))
-                value=await entry(con,core.uuid_value(parts[1]),release)
-                result={'entry':value,'presentation':present(value) if value else None}
-            elif parts==['drafts']:
-                rows=await con.fetch('''SELECT id,base_release_id,changes,state,created_at
-                    FROM dictionary_drafts WHERE owner_user_id=$1 AND state='draft' ORDER BY created_at DESC LIMIT 100''',user['id'])
-                result={'drafts':[row_to_dict(r) for r in rows]}
-            elif parts==['history']:
-                rows=await con.fetch('''SELECT id,operation,entity_id,base_release_id,candidate_release_id,result_release_id,
-                   validation_result,created_at FROM dictionary_owner_events ORDER BY created_at DESC LIMIT 50''')
-                result={'history':[row_to_dict(r) for r in rows]}
-            elif parts==['publish']:
-                job=await con.fetchrow('''SELECT id,phase,error,candidate_release_id FROM dictionary_publish_jobs
-                    WHERE owner_user_id=$1 ORDER BY updated_at DESC LIMIT 1''',user['id'])
-                result={'job':row_to_dict(job) if job else None}
-            else:return core.j({'error':'not_found'},404)
+        con=PooledReads(db)
+        if parts==['summary']:result=await summary(con)
+        elif parts==['search']:
+            q=req.query_params.get('q','');direction=req.query_params.get('direction','EN')
+            if len(q)>80 or direction not in ('EN','UZ'):return core.j({'error':'invalid_input'},400)
+            release=await pinned(con)
+            result={'release_id':release,'results':await search(con,q,direction,release)}
+        elif len(parts)==2 and parts[0]=='entries' and core.uuid_value(parts[1]):
+            release=await pinned(con,req.query_params.get('release_id'))
+            value=await entry(con,core.uuid_value(parts[1]),release)
+            result={'entry':value,'presentation':present(value) if value else None}
+        elif parts==['drafts']:
+            rows=await con.fetch('''SELECT id,base_release_id,changes,state,created_at
+                FROM dictionary_drafts WHERE owner_user_id=$1 AND state='draft' ORDER BY created_at DESC LIMIT 100''',user['id'])
+            result={'drafts':[row_to_dict(r) for r in rows]}
+        elif parts==['history']:
+            rows=await con.fetch('''SELECT id,operation,entity_id,base_release_id,candidate_release_id,result_release_id,
+               validation_result,created_at FROM dictionary_owner_events ORDER BY created_at DESC LIMIT 50''')
+            result={'history':[row_to_dict(r) for r in rows]}
+        elif parts==['publish']:
+            job=await con.fetchrow('''SELECT id,phase,error,candidate_release_id FROM dictionary_publish_jobs
+                WHERE owner_user_id=$1 ORDER BY updated_at DESC LIMIT 1''',user['id'])
+            result={'job':row_to_dict(job) if job else None}
+        else:return core.j({'error':'not_found'},404)
         return core.j(result,headers=HEAD)
     except Exception as exc:return error_response(exc)
 

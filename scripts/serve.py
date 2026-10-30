@@ -53,7 +53,9 @@ def main():
         return
     import uvicorn
     os.environ.setdefault('STORAGE_LOCAL_DIR',str(ROOT/'.data/uploads'))
-    uvicorn.run('app.asgi:application',app_dir=str(ROOT/'services/backend'),host=os.environ.get('HOST','127.0.0.1'),port=int(os.environ.get('PORT','8000')),reload=args.reload,access_log=False,proxy_headers=False,server_header=False)
+    # One worker preserves the measured database/replica budget even if a host
+    # supplies WEB_CONCURRENCY. Application admission reserves health capacity.
+    uvicorn.run('app.asgi:application',app_dir=str(ROOT/'services/backend'),host=os.environ.get('HOST','127.0.0.1'),port=int(os.environ.get('PORT','8000')),reload=args.reload,workers=1,backlog=128,timeout_keep_alive=5,timeout_graceful_shutdown=30,access_log=False,proxy_headers=False,server_header=False)
 
 
 if __name__=='__main__': main()

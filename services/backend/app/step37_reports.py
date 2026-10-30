@@ -81,21 +81,27 @@ def scope_label(s):
     if s['kind']=='teacher':return ('teacher:'+s['teacherId']+':assigned') if s['teacherId'] else 'teacher:all-students'
     if s['kind']=='operations':return 'operations:centre'
     return 'owner:centre'
-def compile_sql(sql,period,scope):
+def compile_sql(sql,period,scope,offset=0):
     # :from :to are bound as timestamptz; :subject :teacher are bound as uuid.
     args=[];values={'from':period['from'],'to':period['to'],'subject':scope.get('subjectId'),'teacher':scope.get('teacherId')}
     def repl(m):
         key=m.group()[1:]
         if key not in ('from','to') and not values[key]:raise ValueError('missing UUID parameter')
-        args.append(values[key]);return f'${len(args)}::'+('timestamptz' if key in ('from','to') else 'uuid')
+        args.append(values[key]);return f'${offset+len(args)}::'+('timestamptz' if key in ('from','to') else 'uuid')
     query=re.sub(r':(?:from|to|subject|teacher)\b',repl,sql)
     return query,args
 async def snapshot(con,scope,period,actor,now):
     generated=stamp(now);label=scope_label(scope);metrics=[]
-    for spec in specs_for(scope):
-        sql=spec['compiledText'];query,args=compile_sql(sql,period,scope)
-        row=await con.fetchrow(query,*args)
-        raw=row['v'] if row else None
+    selected=specs_for(scope);queries=[];bindings=[]
+    for i,spec in enumerate(selected):
+        query,args=compile_sql(spec['compiledText'],period,scope,offset=len(bindings))
+        queries.append(f'({query.rstrip().rstrip(";")}) AS metric_{i}')
+        bindings.extend(args)
+    # Each trusted metric is a scalar SELECT. One statement also gives all
+    # values the same database snapshot while retaining their provenance SQL.
+    row=await con.fetchrow('SELECT '+','.join(queries),*bindings) if queries else {}
+    for i,spec in enumerate(selected):
+        sql=spec['compiledText'];raw=row[f'metric_{i}'] if row else None
         try:value=float(raw) if raw is not None else None
         except (TypeError,ValueError):value=None
         if value is not None and not math.isfinite(value):value=None
@@ -149,7 +155,11 @@ async def reports(req:Request):
         fmt=p['format'];lang=p.get('lang','uz')
         # The source intentionally handles snapshot construction errors, but rendering
         # is deterministic and should never be replaced by a stub/mock response.
-        try:data=render(s,fmt,lang)
+        try:data=await core.run_blocking(render,s,fmt,lang)
+        except core.WorkBusy:
+            response=failure('generation_failed',503)
+            response.headers['Retry-After']='1'
+            return response
         except Exception:return failure('generation_failed',503)
         common={'reportId':s['reportId'],'scope':access['kind'],'period':period['kind'],'from':period['from'],'to':period['to'],'timezone':s['timezone']}
         target=access['subjectId'] if access['kind']=='student' else access['kind']

@@ -4,7 +4,7 @@ import json,re
 from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import counter,RULES
+from .rate_limit import async_counter as counter,RULES
 from .step17_listening_start_port import test_detail,PRIVATE
 router=APIRouter()
 SPEC=json.loads(Path(__file__).with_name('original_listening_course.json').read_text())
@@ -84,7 +84,7 @@ async def progress_post(req:Request,id:str):
         ctx,err=await context(con,req,id,user)
         if err:return err
         u,source=ctx
-        delay=counter('listening_course_work',str(u['id']),consume=True)
+        delay=await counter('listening_course_work',str(u['id']),consume=True, connection=con)
         if delay:return core.j({'error':'rate_limited'},429,{'Retry-After':str(delay)})
         b=await core.payload(req)
         act=b.get('activity') if isinstance(b,dict) else None;answers=b.get('answers') if isinstance(b,dict) else None

@@ -2,13 +2,14 @@
 Source: validation/uploads.ts, data/uploads.ts, uploads/{intent,route}.ts.
 """
 from __future__ import annotations
-import os,re,uuid,math,asyncio
+import os,re,uuid,math
 from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import counter,client_key,RULES
+from .rate_limit import async_counter as counter,client_key,RULES
 RULES.setdefault('upload_intent',(120,900))
 from .step19_storage import provider,_client,valid_key
+from .request_lifecycle import run_io
 from .step20_upload_finalize_port import problem
 router=APIRouter()
 MIB=1024*1024
@@ -55,7 +56,7 @@ def friendly_error(code,status):return problem(code,status)
 async def upload_intent(req:Request):
     u=await core.current_user(req,active=True)
     if not u:return friendly_error('unauthenticated',401)
-    delay=counter('upload_intent',client_key(req),consume=True)
+    delay=await counter('upload_intent',str(u['id']),consume=True)
     if delay:return core.j({'error':'rate_limited'},429,{'Retry-After':str(delay)})
     b=await core.payload(req)
     if not isinstance(b,dict) or not all(isinstance(b.get(x),str) for x in ('purpose','filename','contentType')):return friendly_error('invalid_input',400)
@@ -88,8 +89,10 @@ async def upload_intent(req:Request):
         canonical=canonical or DOC.get(extension(b['filename'])) or MEDIA.get(extension(b['filename'])) or 'application/octet-stream'
         url=None
         if direct:
-            s3,bucket=_client()
-            url=await asyncio.to_thread(s3.generate_presigned_url,'put_object',Params={'Bucket':bucket,'Key':obj_key,'ContentType':canonical},ExpiresIn=300)
+            def signed_url():
+                s3,bucket=_client()
+                return s3.generate_presigned_url('put_object',Params={'Bucket':bucket,'Key':obj_key,'ContentType':canonical},ExpiresIn=300)
+            url=await run_io(signed_url)
         await con.execute('''INSERT INTO upload_intents(id,user_id,material_id,speaking_attempt_id,purpose,block_kind,object_key,original_name,mime_type,size,status,direct_to_storage,expires_at)
             VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'pending',$11,NOW()+INTERVAL '15 minutes')''',new_id,u['id'],core.uuid_value(material),core.uuid_value(attempt),purpose,kind,obj_key,b['filename'][:255],canonical[:120],int(size),direct)
     return core.j({'ok':True,'uploadId':str(new_id),'objectKey':obj_key,'mode':'direct' if direct else 'proxy','uploadUrl':url,'contentType':canonical,'expiresInSeconds':300 if direct else 900})
@@ -121,7 +124,7 @@ async def upload_bytes(req:Request):
         def write():
             path.parent.mkdir(parents=True,exist_ok=True)
             path.write_bytes(data)
-        await asyncio.to_thread(write)
+        await run_io(write)
     return core.j({'ok':True,'uploadId':str(intent['id']),'objectKey':intent['object_key']})
 
 def install():core.app.include_router(router)

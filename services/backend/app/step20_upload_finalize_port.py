@@ -67,17 +67,21 @@ async def finalize(req:Request):
         if intent['status']!='pending':return problem('upload_not_active',409)
         from datetime import datetime,timezone
         if intent['expires_at']<datetime.now(timezone.utc):return problem('upload_expired',410)
-        meta=await head_object(intent['object_key'])
-        if not meta:return problem('upload_not_found_in_storage',409)
-        if meta.get('contentType') and not mime_match(meta['contentType'],intent['mime_type']):return problem('upload_type_mismatch',409)
-        if isinstance(meta.get('size'),int) and meta['size']>0 and meta['size']!=intent['size']:return problem('upload_size_mismatch',409)
-        prefix=await read_object(intent['object_key'],0,min(4096,meta['size'])-1) if meta['size'] else None
-        reason=signature(intent['original_name'],prefix or b'')
-        if reason:
-            await con.execute("UPDATE upload_intents SET status='aborted',error=$2 WHERE id=$1 AND status='pending'",intent['id'],'signature_'+reason)
-            try:await delete_object(intent['object_key'])
-            except Exception:pass
-            return problem('dangerous_type' if reason=='executable' else 'upload_type_mismatch',422)
+    meta=await head_object(intent['object_key'])
+    if not meta:return problem('upload_not_found_in_storage',409)
+    if meta.get('contentType') and not mime_match(meta['contentType'],intent['mime_type']):return problem('upload_type_mismatch',409)
+    if isinstance(meta.get('size'),int) and meta['size']!=intent['size']:return problem('upload_size_mismatch',409)
+    prefix=await read_object(intent['object_key'],0,min(4096,meta['size'])-1) if meta['size'] else None
+    if meta['size'] and prefix is None:return problem('storage_unavailable',503)
+    reason=signature(intent['original_name'],prefix or b'')
+    if reason:
+        async with db.acquire() as con:
+            aborted=await con.fetchrow("UPDATE upload_intents SET status='aborted',error=$2 WHERE id=$1 AND user_id=$3 AND status='pending' RETURNING id",intent['id'],'signature_'+reason,user['id'])
+        if not aborted:return problem('upload_not_active',409)
+        try:await delete_object(intent['object_key'])
+        except Exception:pass
+        return problem('dangerous_type' if reason=='executable' else 'upload_type_mismatch',422)
+    async with db.acquire() as con:
         changed=await con.fetchrow('''UPDATE upload_intents SET status='finalized',finalized_at=NOW(),error=NULL
             WHERE id=$1 AND status='pending' AND expires_at>NOW() RETURNING id''',intent['id'])
         if not changed:return problem('upload_not_active',409)

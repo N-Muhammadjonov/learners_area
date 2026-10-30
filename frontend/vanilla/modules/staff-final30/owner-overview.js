@@ -12,8 +12,8 @@ function academicPanel(ctx,a){
  const form=el('form',{class:'card grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3','data-owner-academic-filters':''},
   el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.dateFrom,el('input',{class:'input',type:'date',name:'from',value:a.filters.from??''})),
   el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.dateTo,el('input',{class:'input',type:'date',name:'to',value:a.filters.to??''})),
-  el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.studentSearch,el('input',{class:'input',type:'search',name:'student',maxLength:100,value:a.filters.student,autocomplete:'off'})),
-  el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.teacherSearch,el('input',{class:'input',type:'search',name:'teacher',maxLength:100,value:a.filters.teacher,autocomplete:'off'})),
+  el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.studentSearch,el('input',{class:'input',type:'search',name:'student',maxLength:100,value:a.filters.student,placeholder:t.studentSearch,autocomplete:'off'})),
+  el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.teacherSearch,el('input',{class:'input',type:'search',name:'teacher',maxLength:100,value:a.filters.teacher,placeholder:t.teacherSearch,autocomplete:'off'})),
   el('label',{class:'flex flex-col gap-1 text-xs font-medium text-ink-700'},t.moduleFilter,(()=>{const select=el('select',{class:'input',name:'module'},[el('option',{value:''},t.allAcademicModules),...a.moduleSummary.map(r=>el('option',{value:r.module},stats.modules[r.module]))]);select.value=a.filters.module??'';return select;})()));
  const formError=el('p',{role:'alert',class:'text-sm text-band-bad sm:col-span-2 lg:col-span-3','data-owner-filter-error':''});
  const formActions=el('div',{class:'flex flex-wrap items-center gap-2 sm:col-span-2 lg:col-span-3'},

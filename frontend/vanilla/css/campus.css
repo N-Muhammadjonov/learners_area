@@ -499,3 +499,976 @@ html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){color:va
 html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,.btn-ghost){color:#fff!important}
 .vocabulary-dictionary .dictionary-entry-collocations{margin-top:28px}
 .vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}
+
+
+/* Main background and public-entry accent colours — requested 2026-10-29.
+   The deep navy override is night-only; day keeps its original white palette. */
+html[data-theme="night"] body,
+html[data-theme="night"] #root { background-color: #0A0F24; }
+html[data-theme="night"] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
+  background-color: #0A0F24 !important;
+}
+html[data-theme="night"] #root [data-auth-shell] { background-color: #0A0F24 !important; }
+html[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
+  background-color: #0A0F24 !important;
+}
+#root [data-root-entry] .la-welcome-cta,
+#root [data-auth-shell] .auth-telegram-pill {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+}
+/* Gradient border only: keep each auth panel / route link's existing fill, size and radius. */
+#root [data-auth-shell] :is(.card, .auth-switch-pill) {
+  position: relative;
+  border-color: transparent !important;
+}
+#root [data-auth-shell] :is(.card, .auth-switch-pill)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+#root [data-auth-shell] .card::before { padding: 1px; }
+#root [data-auth-shell] .auth-switch-pill::before { padding: 2px; }
+
+
+/* Shared header and dashboard action colours — keep geometry and SPA actions intact. */
+html[data-theme] #root [data-campus-shell] {
+  --dashboard-action-gradient: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
+
+/* Header controls match Dashboard on the campus map and every module. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-campus-return-link],
+  [data-shell-topbar] [data-profile-menu-trigger],
+  [data-route-usable="dashboard"] .btn-primary,
+  [data-route-usable="dashboard"] .btn-secondary
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span {
+  color: #000000 !important;
+}
+
+/* Only the dashboard vocabulary review action remains an outline. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[href="/app/vocabulary"] > .btn-secondary {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)), rgb(var(--workspace-raised))) padding-box,
+    var(--dashboard-action-gradient) border-box !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+}
+
+/* Existing Day/Night and UZ/EN state controls retain their click handlers. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn-active,
+  [data-locale-switcher] button[aria-pressed="true"]
+) {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+  [data-theme-toggle] .theme-btn:not(.theme-btn-active),
+  [data-locale-switcher] button[aria-pressed="false"]
+) {
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: rgb(var(--workspace-line)) !important;
+}
+
+/* Keep the original circular utilities button; only its palette changes. */
+html[data-theme] #root [data-campus-shell] [data-utilities-launcher] {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-utilities-launcher] .module-emoji {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #000000 !important;
+}
+
+/* Search text fields only: remove inner green rectangle and focus ring.
+   Search containers, layout, dropdowns, other form controls remain untouched. */
+html[data-theme] #root :is(
+  [data-global-search-field] input,
+  .dictionary-search input,
+  [data-dictionary-search],
+  [data-practice-search],
+  input[type="search"],
+  input[role="searchbox"],
+  input[id*="search" i],
+  input[name*="search" i],
+  input[placeholder*="search" i],
+  input[placeholder*="qidir" i],
+  input[placeholder*="izla" i],
+  input[aria-label*="search" i],
+  input[aria-label*="qidir" i]
+) {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+
+/* Listening / Reading catalogue button palette only — 2026-10-29. */
+/* Module catalogue/selection buttons only. Never targets lesson material,
+   test/exam/attempt content or Reading retention exercises. CSS-only update. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(.btn-primary, .btn-gold-solid, a.chip-active) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(.btn-primary, .btn-gold-solid, a.chip-active) :is(span, strong, small) {
+  color: inherit !important;
+}
+/* Gradient border is drawn inside the original element bounds to preserve
+   all widths, heights, border widths, positioning and corner radii. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* Reading / Listening section tabs and Retention actions — 2026-10-29. */
+/* Only the shared module selector, not lesson/test/material content. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"]) {
+  position: relative;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Retention only, including its active reading / recall controls and history.
+   Keep the existing control geometry and all handlers. */
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-primary, .btn-gold-solid,
+  .retention-level-option[aria-pressed="true"]
+) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+  :is(.btn-primary, .btn-gold-solid, .retention-level-option[aria-pressed="true"])
+  :is(span, strong, small) {
+  color: #000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+) {
+  position: relative;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* Live Classes, Assignments, Grammar button palette and dynamic profile name — 2026-10-29. */
+/* Existing buttons only. Keep geometry, routes, handlers, and content unchanged. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-primary, .btn-gold-solid) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-primary, .btn-gold-solid) :is(span, strong, small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-secondary, .btn-ghost, .btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  border-color: transparent !important;
+  color: rgb(var(--workspace-ink)) !important;
+  box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-secondary, .btn-ghost, .btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Grammar's shared header tabs: selected = filled, other = gradient outline. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"]) {
+  position: relative;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Only the topbar user-name text; dynamically supplied for any account. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar]
+  [data-profile-menu-trigger] > span.hidden {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+
+/* Section underlines and TED/Vocabulary palettes — 2026-10-29. */
+/* Only the Reading, Listening, Grammar and Vocabulary module-header sections.
+   Override the earlier outline pseudo-element; retain original box geometry
+   and show ONLY the two-pixel gradient underline on inactive sections. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"],[data-module-sections="listening"],
+      [data-module-sections="grammar"],[data-module-sections="vocabulary"])
+  a[data-module-section]:not([aria-current="page"]) {
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-position: left bottom !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"],[data-module-sections="listening"],
+      [data-module-sections="grammar"],[data-module-sections="vocabulary"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  content: none !important;
+  display: none !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="vocabulary"] a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+
+/* TED/Podcast studio section tabs. Inactive = underline, active = gradient. */
+html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab][aria-selected="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab][aria-selected="false"] {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: 100% 2px !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+
+/* Only TED/Podcast and Vocabulary actions; Dictionary is outside this scope.
+   Vocabulary panel explicitly excludes data-vocabulary-panel="dictionary". */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Vocabulary folder/filter/mode switches are styled by state; the rest of
+   their original behaviour, text, size and placement are not modified. */
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="true"]:not([data-pick]) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="false"]:not([data-pick]) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="false"]:not([data-pick])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* Speaking AI, progress/writing/mocks palette and vocabulary token correction — 2026-10-29. */
+/* AI interviewer buttons were omitted from the original speaking-only list.
+   In this screen primary, ghost and secondary are all existing solid-blue actions. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+/* Only the AI recording-preview's redundant green rectangle, not its player geometry. */
+html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+  [data-recording-preview] [role="group"] {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Vocabulary folder's individual word-selection chips keep the original
+   green outline; exclude them from the new generic pressed-state styling. */
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[data-pick] {
+  border-color: rgb(var(--band-good)) !important;
+  box-shadow: none !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[data-pick]::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* My Progress, Writing and Mock Tests: existing action classes only. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Writing section tabs: unselected only an underline; selected a filled pill. */
+html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+  [role="tab"][aria-selected="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+  [role="tab"][aria-selected="false"] {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-position: left bottom !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+}
+
+
+/* Management-only button gradients — 2026-10-29. */
+/* Applies to existing Owner/Admin/Teacher action controls only.
+   Dictionary controls, management cards, routing, permissions and geometry stay intact. */
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) :is(span, strong, small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* Staff statistics and student-results section selectors:
+   selected = filled, unselected = bottom underline, no rectangular outline. */
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) a.chip.chip-active {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) a.chip:not(.chip-active) {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+}
+
+
+/* Scoped dictionary, profile and utilities gradient palette — 2026-10-29. */
+/* Learner Dictionary: saved-sense + / CEFR = fill; POS and related links = outline. */
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-add-meaning,
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-level {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos,
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-related-items button {
+  background: linear-gradient(var(--dictionary-surface),var(--dictionary-surface)) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border: 1px solid transparent !important;
+  color: var(--dictionary-accent) !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos { border-radius: 8px; }
+
+/* Owner's Dictionary has its own staff view and existing actions. */
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important; color: #000 !important; border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color: inherit !important; }
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative; background: rgb(var(--workspace-raised)) !important; color: rgb(var(--workspace-ink)) !important; border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-pos] {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border:1px solid transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-cefr] {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;
+}
+
+/* Only profile editor actions, including the study form and photo upload label. */
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color:inherit !important; }
+html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+
+/* Floating ⏏ menu actions: AI Coach, Report a problem, and Report submission. */
+html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([data-coach-fab],[data-report-toggle],[data-report-send]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([data-coach-fab],[data-report-toggle],[data-report-send]) :is(span,strong,small,svg) { color:inherit !important; }
+
+
+/* Remaining requested control palette — 2026-10-29. */
+/* Reusable paint declarations are scoped below. The rules add no dimensions,
+   padding, radius or navigation handlers. Existing semantic quiz feedback stays. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] .btn-primary,
+  [data-course-roadmap] .btn-primary,
+  [data-course-lesson] .btn-primary,
+  [data-route-usable="notifications"] .btn-primary,
+  [data-reports-native] .btn-primary,
+  [data-support-page] .btn-primary,
+  [data-dedicated-game] .btn-primary,
+  [data-dedicated-game] button[aria-pressed="true"]:not([data-state="right"]):not([data-state="wrong"]),
+  [data-dedicated-game] button[aria-current="step"],
+  [data-dedicated-game] button[data-built-tile],
+  [data-staff-view] button[aria-pressed="true"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="true"]:not([data-global-dictionary] button)
+) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] .btn-primary,
+  [data-course-roadmap] .btn-primary,
+  [data-course-lesson] .btn-primary,
+  [data-route-usable="notifications"] .btn-primary,
+  [data-reports-native] .btn-primary,
+  [data-support-page] .btn-primary,
+  [data-dedicated-game] .btn-primary,
+  [data-dedicated-game] button[aria-pressed="true"],
+  [data-dedicated-game] button[aria-current="step"]
+) :is(span,strong,small,svg) {
+  color:inherit !important;
+}
+/* Existing secondary buttons and custom actionable controls: gradient edge,
+   existing radius/size, dark/light panel surface. */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
+  [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
+  [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost,[data-notification-id] a),
+  [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
+  [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
+  [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
+  [data-staff-view] button[aria-pressed="false"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="false"]:not([data-global-dictionary] button),
+  [data-management-hub] [data-management-area]
+) {
+  position:relative;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
+  [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
+  [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost,[data-notification-id] a),
+  [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
+  [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
+  [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
+  [data-staff-view] button[aria-pressed="false"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="false"]:not([data-global-dictionary] button),
+  [data-management-hub] [data-management-area]
+)::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
+/* Game-specific colours preserve correct/incorrect and disabled feedback.
+   Neutral secondary blue fills become the existing workspace panel colour. */
+html[data-theme] #root [data-campus-shell] [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled) {
+  background:rgb(var(--workspace-raised)) !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* Global notification bell, without changing its clickable dimensions. */
+html[data-theme] #root [data-campus-shell] [data-campus-header-profile] > a[href="/app/notifications"] {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* The existing Support form is also used from the bottom-right utilities. */
+html[data-theme] #root [data-campus-shell] [data-report-form] :is([data-report-send],button[aria-label]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* Profile dropdown: menuitems and Log out use an inset gradient edge;
+   the drop-down panel and trigger remain unchanged. */
+html[data-theme] #root [data-campus-shell] [data-profile-menu] [role="menuitem"] {
+  position:relative;
+  color:rgb(var(--workspace-ink)) !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-profile-menu] [role="menuitem"]::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
+/* Vocabulary Dictionary: pronunciation and selected EN/UZ = filled gradient.
+   Unselected language, back, expand, search/clear controls = outlined. */
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary :is(.dictionary-pronounce,.dictionary-directions button[aria-pressed="true"]) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] .vocabulary-dictionary :is(.dictionary-directions button[aria-pressed="false"],.dictionary-entry-nav button,.dictionary-expand-all,.dictionary-search-submit,.dictionary-clear:not([hidden])) {
+  position:relative;
+  background:linear-gradient(var(--dictionary-surface),var(--dictionary-surface)) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  color:var(--dictionary-accent) !important;
+  border:1px solid transparent !important;
+}
+/* Owner Dictionary: direction and special administrative controls.
+   Existing sense editing/adding primary buttons already have filled gradient. */
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-direction][aria-pressed="true"] {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-direction][aria-pressed="false"],
+html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is([data-dictionary-back],[data-dictionary-relation]) {
+  background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+/* Staff-specific nonstandard filter/toolbar/menu buttons.
+   Standard btn-* buttons are already covered by prior Management CSS. */
+html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
+  button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"]) {
+  position:relative;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
+  button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"])::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:1.5px;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;
+}
+
+
+/* Writing Translation setup button colours only — 2026-10-29. */
+/* Path cards and the question-type/target-band pills only.
+   Keep all dimensions, layout, disabled state and click handlers unchanged. */
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  :is(button[role="radio"][aria-checked="true"],button[aria-pressed="true"]:not(:disabled)) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  button[role="radio"][aria-checked="true"] :is(span,strong,small) {
+  color:#000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  :is(button[role="radio"][aria-checked="false"],button[aria-pressed="false"]:not(:disabled)) {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,
+    linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
+
+
+/* Retention reading/recall isolation and history result gradient — 2026-10-30. */
+/* Match only the live reading/writing phases, even when a session was started
+   from the entry screen and the earlier overview/history nodes remain mounted. */
+html[data-theme] #root [data-retention-page] [data-retention-workspace]:is(
+  :has([data-retention-phase="reading"]),
+  :has([data-retention-phase="recall"])
+) .retention-hub-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+html[data-theme] #root [data-retention-page] [data-retention-workspace]:is(
+  :has([data-retention-phase="reading"]),
+  :has([data-retention-phase="recall"])
+) :is(.retention-hub-grid > aside, [data-retention-history-section]) {
+  display: none !important;
+}
+
+/* Only Retention history's Open result action gets the filled accent palette.
+   Keep the original anchor element, click handling, dimensions and radius. */
+html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retention-history-open] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retention-history-open]::before {
+  content: none !important;
+  display: none !important;
+}
+
+
+/* Retention completed-result actions — 2026-10-30. */
+/* Scope to completed Retention results (both inline and permalink views).
+   Previously blue pill actions receive the same filled gradient as other
+   updated modules; original size, radius, links and events are unchanged. */
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result],
+  [data-retention-result-page]
+) :is(.btn-primary, .btn-secondary) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result],
+  [data-retention-result-page]
+) :is(.btn-primary, .btn-secondary)::before {
+  content: none !important;
+  display: none !important;
+}
+/* Link to this result and the standalone result page's Back control retain
+   their unfilled appearance, with the requested turquoise-to-blue edge. */
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result] [data-retention-result-permalink],
+  [data-retention-result-page] [data-back-link]
+) {
+  position: relative;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result] [data-retention-result-permalink],
+  [data-retention-result-page] [data-back-link]
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}

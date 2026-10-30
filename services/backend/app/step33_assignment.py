@@ -6,6 +6,7 @@ from . import main as core
 from .step31_learning_production import _language
 from .step31_riwi_text import analyse,LINK
 from . import step31_coach as coach
+from .rate_limit import evaluation_limit
 router=APIRouter()
 
 WRITING_REASON='The assignment is linked to a writing prompt, so the writing rubric applies.'
@@ -59,6 +60,8 @@ async def assignment_evaluate(req:Request,id:str):
     if not aid:return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':'unauthenticated'},401)
+    limited=await evaluation_limit(user['id'],lightweight=False)
+    if limited is not None:return limited
     db=await core.pool()
     async with db.acquire() as con:
         assignment=await con.fetchrow('SELECT * FROM assignments WHERE id=$1',aid)

@@ -1,0 +1,246 @@
+{
+  "task": 12,
+  "name": "Failure recovery and backup readiness",
+  "source_status": "PASS",
+  "isolated_recovery": "PASS",
+  "production_backup_status": "ONE-OFF ENCRYPTED SET VERIFIED ON OWNER MAC",
+  "status": "PASS",
+  "baseline_commit": "3ab3808e45ba70188bc6feea384601a8a2a5c1ff",
+  "database_drill": {
+    "result": "passed",
+    "checks": 151,
+    "scope": "synthetic full application schema/data; native PostgreSQL dump+restore; no production copy",
+    "tables": 141,
+    "populated_tables": 31,
+    "rows": 167,
+    "constraints": 468,
+    "rls_and_function_acl_preserved": true,
+    "database_archive": {
+      "kind": "postgres-custom",
+      "sha256": "5a2478c826679a251037653ba6b3ded890453cba74a577d0c9333be30d562a08",
+      "encrypted_bytes": 429532,
+      "schemas": [
+        "public",
+        "drizzle"
+      ],
+      "source_host_sha256": "12ca17b49af2289436f303e0166030a21e525d266e209267433801a8fd4071a0"
+    },
+    "media_archive": {
+      "kind": "r2-encrypted-tar",
+      "objects": 2,
+      "source_bytes": 1921,
+      "applied": true,
+      "scope": "whole bucket",
+      "sha256": "233c1733729459f0b608fae6fd2ff61a8d9ed73a873a95164103f8b82a0bbc34",
+      "encrypted_bytes": 10283
+    },
+    "media_restored": {
+      "kind": "isolated-media-restore",
+      "result": "passed",
+      "objects": 2,
+      "bytes": 1921,
+      "mime_metadata_exported": true
+    },
+    "guards": [
+      "production restore rejected",
+      "nonempty target rejected",
+      "corruption rejected before plaintext use",
+      "media plan is read-only"
+    ],
+    "temporary_keys_archives_removed_on_exit": true
+  },
+  "targeted_tests": 14,
+  "runtime_tests_reused": null,
+  "production_backup_inventory": {
+    "backups": null,
+    "physical_backup_data": {},
+    "pitr_enabled": false,
+    "region": "ap-southeast-1",
+    "walg_enabled": true
+  },
+  "r2_drill": {
+    "result": "passed",
+    "bucket": "learners-area-preview",
+    "bytes": 81,
+    "etag": "ad38419975e4b88cf354f2ae5c8cc1a7",
+    "restored_bytes_identical": true,
+    "cleanup_verified": true,
+    "remaining_test_objects": 0,
+    "production_bucket_untouched": true,
+    "initial_expected_404_connector_error": "recovered from separate saved copy; final cleanup verified"
+  },
+  "production_bucket_lock_rules": 0,
+  "known_backup_buckets": 0,
+  "owner_confirmed_separate_full_backup_absent": true,
+  "production_configuration_changes": 0,
+  "production_migrations": 0,
+  "next_stage": {
+    "task": 13,
+    "started": false,
+    "reason": "Task 12 automated acceptance complete; proceed after source follow-up release"
+  },
+  "activation_requires": [],
+  "created_at": "2026-10-29T14:47:11.138038+00:00",
+  "static_checks": {
+    "compile": "PASS",
+    "diff": "PASS",
+    "web_bot_frontend_runtime_source_unchanged": false,
+    "frontend_change": "Vocabulary renders selected-word controls after a successful empty folders response, regardless of library response order; folder failures retain retry"
+  },
+  "current_validation": {
+    "main_baseline": "f46da15d1e38512bba49c05b5245234fc355cd6f",
+    "exact_backend_failures_reproduced_on_main": 13,
+    "exact_backend_failures_after_repair": 0,
+    "backend_passed": 3057,
+    "frontend_passed": 1168,
+    "frontend_skipped": 11,
+    "frontend_failures_before": 1,
+    "frontend_failures_after": 0,
+    "postgres_vocabulary_http_checks": 12,
+    "integration_reused_after_main_merge": {
+      "http": 426,
+      "dto": 151,
+      "dom": 118,
+      "replay": 8,
+      "migrations": 72,
+      "typed_tables": 127
+    },
+    "native_build_revision": "e6284dc30bd619ed9b0a",
+    "backend_check": "PASS",
+    "manual_checks": "owner handles; not performed"
+  },
+  "temporary_r2_access": {
+    "approved": true,
+    "source_buckets": 2,
+    "read_only": true,
+    "expiry_utc": "2026-10-30T15:17:48Z",
+    "revocation": "verified revoked; private credentials removed"
+  },
+  "updated_at": "2026-10-29T18:22:29.742151+00:00",
+  "actual_production_set": {
+    "database": {
+      "state": "passed",
+      "result": "passed",
+      "pid": 75478,
+      "project_ref": "tuoeabrrnsiuxpjmslxp",
+      "tls_verify_full": true,
+      "explicit_read_only_serializable_snapshot": true,
+      "scope": "actual production public/drizzle",
+      "at": "2026-10-29T18:09:45.487214+00:00",
+      "kind": "postgres-custom",
+      "sha256": "052c07c1653faf30365eea0e868fe7a3227ab15c7f2831b557652731539ff0cb",
+      "encrypted_bytes": 59517738,
+      "schemas": [
+        "public",
+        "drizzle"
+      ],
+      "overall_timeout_seconds": 3600,
+      "source_host_sha256": "06eb5f60fd044994f216e734cc4afacbd51759f7560f0d54b6c0aca0719dc51f"
+    },
+    "restore": {
+      "state": "passed",
+      "result": "passed",
+      "pid": 75575,
+      "actual_production_archive": true,
+      "network": "none",
+      "host_ports": 0,
+      "persistent_data_volumes": 0,
+      "public_tables": 141,
+      "public_rows": 378153,
+      "rls_tables": 141,
+      "constraints": 468,
+      "authenticated_archive": true,
+      "archive_sha256": "052c07c1653faf30365eea0e868fe7a3227ab15c7f2831b557652731539ff0cb",
+      "restore_and_count_seconds": 60.246,
+      "at": "2026-10-29T18:10:49.876073+00:00"
+    },
+    "reconciliation": {
+      "state": "passed",
+      "result": "passed",
+      "schema_security": {
+        "public_tables": 141,
+        "table_security_md5": "bdc84dba8c7b19286400b3b4f931107f",
+        "public_functions": 7,
+        "function_security_md5": "c8fbfbb706b8f50cf94a7d6d76d00da1",
+        "constraints": 468
+      },
+      "source_security_matches": true,
+      "reference_candidate_tables": 49,
+      "rows_scanned": 338412,
+      "references_checked": 718,
+      "distinct_referenced_objects_found": 195,
+      "distinct_missing_references": 0,
+      "pending_or_aborted_uploads_excluded": 3,
+      "encrypted_detail_sha256": "5f476eec4c6d66cd82b2b97f996b077d70f69ace00c763dd3acf2a0e2d566706",
+      "at": "2026-10-29T18:11:28.747050+00:00",
+      "initial_missing_current_R2_references": 1,
+      "resolved_by_local_original_supplement": 1,
+      "evidence_limit": "Original filename and size match DB; two local copies match each other. Historical server checksum absent; owner handles manual audio identity check. Current production R2 absence is preserved, not silently repaired.",
+      "local_supplement": {
+        "state": "passed",
+        "kind": "local original media supplement",
+        "objects": 1,
+        "bytes": 16450918,
+        "archive": "local-original-media-supplement-20261029.labak",
+        "sha256": "1cd51ef69dc39416951d2aef99a1bb1d2b67b9100a0fefe508a920a7bf1cacd2",
+        "manifest_sha256": "07353e60e1448c5e30d455abab34d7815009f901d3374c206960eb55e3f8f328",
+        "local_extract_and_content_hash_verified": true,
+        "recorded_original_name_and_size_match": true,
+        "identical_source_copies": 2,
+        "historical_server_checksum_available": false,
+        "source_listening_item_active": false,
+        "production_R2_file_missing_preexisting": true,
+        "production_upload_or_data_change": false,
+        "at": "2026-10-29T18:18:41.566030+00:00"
+      }
+    },
+    "R2": {
+      "state": "passed",
+      "result": "passed",
+      "buckets": [
+        {
+          "bucket": "learners-area-dictionary",
+          "shards": 1,
+          "archived_objects": 5,
+          "archived_bytes": 28824814,
+          "current_objects": 5,
+          "missing_current_objects": 0,
+          "changed_current_objects": 0,
+          "archived_not_current": 0,
+          "all_shards_authenticated_and_checksums_verified": true
+        },
+        {
+          "bucket": "learners-area",
+          "shards": 16,
+          "archived_objects": 8116,
+          "archived_bytes": 1305326365,
+          "current_objects": 8116,
+          "missing_current_objects": 0,
+          "changed_current_objects": 0,
+          "archived_not_current": 0,
+          "all_shards_authenticated_and_checksums_verified": true
+        }
+      ],
+      "at": "2026-10-29T17:54:58.942537+00:00"
+    },
+    "temporary_key": {
+      "revoked": true,
+      "id": "679f6e01f72d34d6c023b8b51c729f53",
+      "api_delete_status": 200,
+      "verified_absent_in_account_token_list": true,
+      "local_credentials_removed": true,
+      "at": "2026-10-29T17:57:23.735143+00:00"
+    },
+    "payload_archives": 38,
+    "encrypted_catalog": true,
+    "plain_production_clone_removed": true
+  },
+  "remaining_operational_actions": [
+    "owner protects a separate recovery-key copy",
+    "scheduled backup/retention destination and monitoring not activated; no RPO promise",
+    "manual identity check for the documented inactive Listening local-original supplement belongs to owner",
+    "full Supabase cluster/Auth/vault/global role secrets are outside public/drizzle scope"
+  ],
+  "permanent_production_configuration_changes": 0,
+  "temporary_access_tokens_created_and_revoked": 1
+}

@@ -7,6 +7,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .step31_learning_production import _exercise_and_topic,_revision,_remove_attempt,_language
 from . import step31_coach as coach
+from .rate_limit import evaluation_limit
 from .js_text import collapse, trim
 router=APIRouter()
 
@@ -48,6 +49,9 @@ async def grammar_practice(req:Request,id:str):
     needs=body['activity']=='activate_it' or verdict=='undetermined'
     db=await core.pool()
     async with db.acquire() as con:
+        if needs:
+            limited=await evaluation_limit(u['id'],lightweight=True,connection=con)
+            if limited is not None:return limited
         revision=await _revision(con,topic) if topic else None
         async def insert_attempt():
             return await con.fetchrow('''INSERT INTO grammar_attempts(user_id,exercise_id,activity,selected_option,response_text,is_correct,content_version_id)

@@ -11,11 +11,12 @@ import httpx
 from . import main as core
 from .js_text import slice as js_slice, length
 from .step17_dictionary_read_port import active_release, entry, normalize_search, worker
+from .ai_runtime import request_json
 
 _cache=OrderedDict()
 
 
-async def select_sense(sentence, word, candidates):
+async def select_sense(sentence, word, candidates,*,user_id=None):
     if len(candidates)==1:return candidates[0]
     from .step23_writing_provider import provider_spec
     try:cfg=await provider_spec()
@@ -33,10 +34,8 @@ async def select_sense(sentence, word, candidates):
     elif pid=='anthropic':body={'model':cfg['model'],'max_tokens':180,'system':system,'messages':[{'role':'user','content':content}]}
     else:body={'model':cfg['model'],'messages':[{'role':'system','content':system},{'role':'user','content':content}],'response_format':{'type':'json_object'},'max_tokens':180}
     try:
-        async with httpx.AsyncClient(timeout=12,follow_redirects=False) as client:
-            response=await client.post(cfg['url'],headers={'content-type':'application/json',**cfg['headers']},json=body)
-        if response.status_code!=200 or len(response.content)>50000:return None
-        data=response.json()
+        data=await request_json(user_id,cfg['url'],{'content-type':'application/json',**cfg['headers']},payload=body,timeout=12,max_bytes=50000)
+        if not isinstance(data,dict):return None
         if pid=='openai':reply=''.join(c.get('text','') for b in data.get('output',[]) for c in b.get('content',[]) if c.get('type')=='output_text')
         elif pid=='anthropic':reply=''.join(b.get('text','') for b in data.get('content',[]) if b.get('type')=='text')
         else:reply=data['choices'][0]['message']['content']
@@ -101,7 +100,7 @@ async def lookup(con,user,attempt_id,word,start,end):
         if value:
             candidates.extend({'entry':value,'sense':sense} for sense in value['senses'] if sense.get('definition_en'))
     body=row['body_text'];prefix=js_slice(body,max(0,start-240),start);suffix=js_slice(body,end,min(length(body),end+240))
-    selected=await select_sense(prefix+'[['+word+']]'+suffix,word,candidates[:40]) if candidates else None
+    selected=await select_sense(prefix+'[['+word+']]'+suffix,word,candidates[:40],user_id=user['id']) if candidates else None
     result={'contextual':presentation(selected,release),'occurrenceId':None} if selected else {
       'contextual':None,'known':None,'alternatives':[presentation(c,release) for c in candidates[:12]]}
     _cache[key]=(time.monotonic(),result)

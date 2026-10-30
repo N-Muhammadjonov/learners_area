@@ -97,9 +97,6 @@ async def save_reading_draft(req:Request,id:str):
     if not core.uuid_value(id):return core.j({'error':'not_found'},404)
     u=await core.current_user(req,active=True)
     if not u:return core.auth_error()
-    from .rate_limit import counter
-    # A route-local counter is deliberately not used: existing rate limiter has
-    # shared rule naming and retry semantics.
     b=await core.payload(req)
     if not isinstance(b,dict) or not isinstance(b.get('answers'),list) or len(b['answers'])>60:
         return core.j({'error':'invalid_input'},400)

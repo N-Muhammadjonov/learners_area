@@ -9,6 +9,7 @@ import re
 import uuid
 from fastapi import APIRouter, Request
 from . import main as core
+from .dictionary_gate import dictionary_write_slot,DictionaryBusy,busy_response
 from .step17_dictionary_read_port import active_release, entry, error_response, normalize_search
 
 router=APIRouter()
@@ -79,7 +80,7 @@ async def edit_dictionary_draft(req:Request,action:str):
     if changes is None:return core.j({'error':'invalid_input'},400)
     try:
         db=await core.pool()
-        async with db.acquire() as con:
+        async with dictionary_write_slot(), db.acquire() as con:
             async with con.transaction():
                 await con.execute('SELECT pg_advisory_xact_lock(387384)')
                 old=await con.fetchrow('''SELECT changes,base_release_id FROM dictionary_drafts
@@ -108,6 +109,7 @@ async def edit_dictionary_draft(req:Request,action:str):
                       VALUES($1,'edit_draft',$2,$3,$4::jsonb,$5::jsonb,'{"pass":true}'::jsonb)''',
                       owner['id'],bits[1],release,json.dumps(before),json.dumps(changes,ensure_ascii=False))
         return core.j({'ok':True},headers=PRIVATE)
+    except DictionaryBusy:return busy_response()
     except Exception as exc:return error_response(exc)
 
 def install():core.app.include_router(router)

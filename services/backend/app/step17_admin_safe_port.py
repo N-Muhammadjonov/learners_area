@@ -4,7 +4,6 @@ Do not use as a 1:1 certification until real PostgreSQL differential tests.
 """
 from __future__ import annotations
 import json
-import asyncio
 import re
 from fastapi import APIRouter, Request
 from . import main as core
@@ -28,7 +27,7 @@ async def transfer_owner(req:Request):
         actor=await conn.fetchrow('SELECT id,password_hash FROM users WHERE id=$1',owner['id'])
         if not actor or not actor['password_hash']:return core.j({'error':'no_password_on_account'},409)
         import bcrypt
-        try:valid=await asyncio.to_thread(bcrypt.checkpw,password.encode(),actor['password_hash'].encode())
+        try:valid=await core.run_blocking(bcrypt.checkpw,password.encode(),actor['password_hash'].encode())
         except ValueError:valid=False
         if not valid:return core.j({'error':'invalid_credentials'},401)
         target=await conn.fetchrow('SELECT id,name,account_status FROM users WHERE email=$1 LIMIT 1',email)

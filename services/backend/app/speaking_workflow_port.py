@@ -58,7 +58,7 @@ async def examiner_script(req:Request):
                 AND NOT EXISTS (SELECT 1 FROM activity_events e WHERE e.id=md5('deleted-content:' || speaking_prompts.id::text)::uuid AND e.type='CONTENT_DELETED')
                 AND part=$1::speaking_part GROUP BY {TOPIC} ORDER BY random() LIMIT 1''',part)
             if topic is None:continue
-            rows=await con.fetch(query+(' ORDER BY random() LIMIT 1' if part=='part2' else ' ORDER BY created_at ASC,id ASC LIMIT '+str(limit)),part,topic)
+            rows=await con.fetch(query+(' ORDER BY random() LIMIT 1' if part=='part2' else ' ORDER BY random() LIMIT '+str(limit)),part,topic)
             script.extend(map(row_to_dict,rows))
             if part=='part2' and rows:
                 raw=rows[0]['topic']

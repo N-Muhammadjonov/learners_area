@@ -2,7 +2,7 @@ import {privateScope} from './private-scope.js';
 /** Only settled, passive views may survive navigation. Never retain exams or players. */
 const PASSIVE=new Set(['/app/dashboard','/app/progress','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/listening/lessons','/app/listening/academic','/app/listening/tests','/app/listening/general','/app/listening/mcq','/app/grammar/lessons','/app/video-lessons']);
 const ACTIVE='audio,video,iframe,canvas,dialog[open],[data-retention-session-region],[data-reading-full-focus],[data-async-loading],[aria-busy="true"],.animate-pulse,[role="status"],[role="alert"],input:not([type="search"]),textarea,[contenteditable="true"]';
-export function createRouteReuse({scope=privateScope,limit=4,maxNodes=8000,ttl=30000,clock=Date.now}={}){
+export function createRouteReuse({scope=privateScope,limit=8,maxNodes=16000,ttl=60000,clock=Date.now}={}){
  const entries=new Map();let nodes=0;
  const presentation=()=>typeof document==='undefined'?'':document.documentElement.lang+':'+(document.querySelector('meta[name="la-build"]')?.content??'source');
  const valid=e=>!!scope.scope&&e.identity===scope.scope&&e.generation===scope.generation&&e.revision===scope.revision&&e.presentation===presentation()&&e.expiry>clock()&&!e.controller.signal.aborted;
