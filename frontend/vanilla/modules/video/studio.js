@@ -245,7 +245,11 @@ export function createVideoStudio(context,{mode,video}){
  function buildPanel(name){
   if(name==='description'||name==='transcript')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-description':''},lesson.beforeYouWatch?.trim()||t.descriptionEmpty);
   if(name==='notes')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-notes':'shown'},notes||t.notesEmpty);
-  if(name==='ownNotes')return ownNotesPanel();
+  if(name==='ownNotes')return el('div',{class:'flex flex-col gap-4'},
+   el('section',{class:'flex flex-col gap-2','data-video-own-notes-description':''},
+    el('h3',{class:'font-semibold text-ink-900'},t.tabs.description),
+    buildPanel('description')),
+   ownNotesPanel());
   const vocabulary=createVideoVocabulary({context:{...context,signal:life},id:lesson.id,title:lesson.title,words:vocabWords,dict});
   if(glossary)vocabulary.append(el('p',{class:'whitespace-pre-line text-sm leading-6','data-video-glossary':''},glossary));
   if(!video.vocabulary.ready)vocabulary.prepend(el('p',{role:'status',class:'text-sm text-ink-500'},t.vocabularyUnavailable));
