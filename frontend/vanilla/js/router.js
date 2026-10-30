@@ -16,7 +16,7 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
  async function render(navigation={}){
   const historyEntry=historyKey();let url=new URL(win.location.href);const canonical=canonicalize?.(url);if(canonical){win.history.replaceState(win.history.state,'',canonical);url=new URL(win.location.href);}
   // A module may handle a safe same-page tab change without remounting its shell/tree.
-  if(!navigation.refresh&&active?.navigate&&active.context.url.pathname===url.pathname&&!active.controller.signal.aborted&&(!active.context.session||active.context.session.expiresAt*1000>Date.now())){
+  if(!navigation.refresh&&!active?.pendingMount&&active?.navigate&&active.context.url.pathname===url.pathname&&!active.controller.signal.aborted&&(!active.context.session||active.context.session.expiresAt*1000>Date.now())){
    const inner=metrics?.begin({pattern:active.context.route?.pattern??'other',kind:'inner-navigation',signal:active.controller.signal});inner?.point('commit-start');
    if(active.navigate(url,navigation)===true){++serial;controller?.abort('same-page-navigation');active.context.url=url;active.context.historyKey=historyEntry;onUpdate?.(active.context);inner?.point('commit-end');inner?.finish('committed');focusDestination(navigation);return;}inner?.finish('delegated');
   }
@@ -119,7 +119,7 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
   win.history[replace?'replaceState':'pushState']({__laEntry:replace?historyKey():entry(),...(from?{__laFrom:from}:{})},'',url.pathname+url.search+url.hash);return render({scroll,source,focus});
  }
  const click=e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const a=e.target.closest?.('a[href]');if(!a||a.target||a.hasAttribute('download')||a.hasAttribute('data-native'))return;const u=new URL(a.href,win.location.href);if(u.origin!==win.location.origin||u.pathname.startsWith('/api/'))return;if(u.pathname===win.location.pathname&&u.search===win.location.search&&u.hash)return;e.preventDefault();void navigate(u.pathname+u.search+u.hash,{source:a});};
- const history=event=>{const url=new URL(win.location.href);if(sameDocument?.(url,event)===true){if(active){active.context.url=url;active.context.historyKey=historyKey();onUpdate?.(active.context);}return;}void render({kind:'history'});};
+ const history=event=>{const url=new URL(win.location.href);if(!active?.pendingMount&&sameDocument?.(url,event)===true){if(active){active.context.url=url;active.context.historyKey=historyKey();onUpdate?.(active.context);}return;}void render({kind:'history'});};
  win.addEventListener('popstate',history);root.addEventListener('click',click);
  return {navigate,go:navigate,back,refresh,start:render,destroy(){++serial;controller?.abort();dispose(active);active=null;reuse?.destroy();state={};root.removeEventListener('click',click);win.removeEventListener('popstate',history);}};
 }
