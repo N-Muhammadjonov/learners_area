@@ -1,14 +1,20 @@
 import {el,button,safeArray} from './shared.js';
+import {examFilterGroups,classifyExamQuestion,applicableExamFilters} from './exam-classification.js';
 
 export function questionPicker(ctx,host,{mode,questions,types,onStart,onBack,onPractice}){
  const uz=ctx.locale==='uz',signal=ctx.signal;
  const rows=safeArray(questions).filter(p=>p.taskType===mode);
  let category='all',selected=null;
+ const filterGroups=examFilterGroups[mode]??[];
+ const filters=Object.fromEntries(filterGroups.map(group=>[group.id,'all']));
+ const tags=new Map(rows.map(p=>[p.id,classifyExamQuestion(p)]));
  const root=el('section',{class:'writing-question-picker','data-exam-picker':mode});
  const results=el('ul',{class:'exam-question-list','data-exam-questions':''});
  const count=el('output',{class:'writing-help','aria-live':'polite','data-exam-matching':''});
  const search=el('input',{type:'search',class:'input',placeholder:uz?'Savol qidirish…':'Search questions…','aria-label':uz?'Savol qidirish':'Search questions','data-exam-search':''});
  const choices=el('div',{class:'exam-type-buttons',role:'group','aria-label':'Question type'});
+ const filterHost=el('div',{class:'flex flex-col gap-4','data-exam-filter-groups':''});
+ const filterControls=[];
  const preview=el('section',{class:'card p-5 exam-question-preview',hidden:true,'data-exam-preview':''});
  const previewRow=el('li',{class:'exam-preview-row','data-exam-preview-row':''},preview);
  const warning=el('p',{class:'writing-error',role:'alert'});
@@ -43,8 +49,42 @@ export function questionPicker(ctx,host,{mode,questions,types,onStart,onBack,onP
   const item=buttonNode?.closest('li');
   if(item)results.insertBefore(previewRow,item);
  }
+ function matches(p,except=null){
+  if(category!=='all'&&p.category!==category)return false;
+  const q=search.value.trim().toLocaleLowerCase();
+  if(q&&![p.title,p.prompt,p.code,p.sourceDate].filter(Boolean).join(' ').toLocaleLowerCase().includes(q))return false;
+  return filterGroups.every(group=>group.id===except||filters[group.id]==='all'||(tags.get(p.id)?.[group.id]??[]).includes(filters[group.id]));
+ }
+ function updateFilters(){
+  const applicable=new Set(applicableExamFilters(mode,category).map(group=>group.id));
+  for(const {group,panel,controls} of filterControls){
+   panel.hidden=!applicable.has(group.id);
+   if(panel.hidden)continue;
+   for(const {id,label,b} of controls){
+    const n=rows.filter(p=>matches(p,group.id)&&(id==='all'||(tags.get(p.id)?.[group.id]??[]).includes(id))).length;
+    b.textContent=label+' · '+n;
+    const active=filters[group.id]===id;
+    b.className=active?'btn-primary':'btn-secondary';
+    b.setAttribute('aria-pressed',String(active));
+    b.disabled=n===0&&!active;
+   }
+  }
+ }
+ for(const group of filterGroups){
+  const panel=el('section',{class:'flex flex-col gap-2','data-exam-filter-panel':group.id});
+  const buttons=el('div',{class:'exam-type-buttons',role:'group','aria-label':group.label[ctx.locale]??group.label.en});
+  const controls=[];
+  const options=[['all',uz?'Barchasi':'Any'],...group.options.map(([id,en,uzLabel])=>[id,uz?uzLabel:en])];
+  for(const [id,label] of options){
+   const b=button('',()=>{filters[group.id]=id;closePreview();render();},{signal,cls:id==='all'?'btn-primary':'btn-secondary',attrs:{'data-exam-filter-group':group.id,'data-exam-filter-value':id,'aria-pressed':String(id==='all')}});
+   controls.push({id,label,b});buttons.append(b);
+  }
+  panel.append(el('h3',{class:'font-semibold'},group.label[ctx.locale]??group.label.en),buttons);
+  filterHost.append(panel);filterControls.push({group,panel,controls});
+ }
  function render(){
-  const q=search.value.trim().toLocaleLowerCase(),matching=rows.filter(p=>(category==='all'||p.category===category)&&(!q||[p.title,p.prompt,p.code,p.sourceDate].filter(Boolean).join(' ').toLocaleLowerCase().includes(q)));
+  const matching=rows.filter(p=>matches(p));
+  updateFilters();
   count.textContent=`${matching.length} / ${rows.length} ${uz?'savol':'questions'}`;
   results.replaceChildren(...matching.map(p=>{
    const type=types.find(t=>t.id===p.category)?.label?.[ctx.locale]??p.category;
@@ -62,13 +102,15 @@ export function questionPicker(ctx,host,{mode,questions,types,onStart,onBack,onP
   const n=type.id==='all'?rows.length:rows.filter(p=>p.category===type.id).length;
   const b=button(`${type.label[ctx.locale]??type.label.en} · ${n}`,()=>{
    category=type.id;closePreview();
+   const applicable=new Set(applicableExamFilters(mode,category).map(group=>group.id));
+   for(const group of filterGroups)if(!applicable.has(group.id))filters[group.id]='all';
    for(const item of choices.querySelectorAll('button')){const active=item===b;item.setAttribute('aria-pressed',String(active));item.className=active?'btn-primary':'btn-secondary';}
    render();
   },{signal,cls:type.id==='all'?'btn-primary':'btn-secondary',attrs:{'data-exam-question-type':type.id,'aria-pressed':String(type.id==='all')}});
   choices.append(b);
  }
  search.addEventListener('input',()=>{closePreview();render();},{signal});
- root.append(el('header',{class:'flex flex-wrap items-center justify-between gap-3'},el('h2',{class:'font-display text-xl'},`${mode==='task1'?'Task 1':'Task 2'} · ${uz?'Savol tanlang':'Choose a question'}`),button(uz?'← Orqaga':'← Back',onBack,{signal,cls:'btn-secondary'})),el('h3',{class:'font-semibold'},uz?'Savol turi':'Question type'),choices,search,count,results);
+ root.append(el('header',{class:'flex flex-wrap items-center justify-between gap-3'},el('h2',{class:'font-display text-xl'},`${mode==='task1'?'Task 1':'Task 2'} · ${uz?'Savol tanlang':'Choose a question'}`),button(uz?'← Orqaga':'← Back',onBack,{signal,cls:'btn-secondary'})),el('h3',{class:'font-semibold'},uz?'Savol turi':'Question type'),choices,filterHost,search,count,results);
  host.replaceChildren(root);render();
 }
 
