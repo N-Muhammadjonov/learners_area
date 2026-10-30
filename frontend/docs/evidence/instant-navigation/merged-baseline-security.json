@@ -1,0 +1,62 @@
+{
+  "label": "theirs-sec",
+  "mode": "security",
+  "viewport": "desktop",
+  "checks": [
+    {
+      "check": "one shared /api/auth/changes stream per tab",
+      "status": "PASS",
+      "detail": "streams=1"
+    },
+    {
+      "check": "A: zero /api/auth/state reads across 6 warm navigations",
+      "status": "PASS",
+      "detail": "calls=0"
+    },
+    {
+      "check": "A: no session-presentation read per navigation",
+      "status": "PASS",
+      "detail": "/api/frontend/view?route=%2Fapp%2Freading%2Flessons,/api/frontend/view?route=%2Fapp%2Flistening%2Flessons,/api/frontend/view?route=%2Fapp%2Fwriting,/api/frontend/view?route=%2Fapp%2Fgrammar%2Flessons,/api/presence,/api/notifications?count=1"
+    },
+    {
+      "check": "A: no private-cache grant without an API read",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "B: one event-driven reconciliation for the affected user",
+      "status": "PASS",
+      "detail": "calls=1"
+    },
+    {
+      "check": "B: suspended learner is redirected out of private UI",
+      "status": "PASS",
+      "detail": "/login"
+    },
+    {
+      "check": "B: private workspace DOM and topbar are gone after revocation",
+      "status": "PASS",
+      "detail": "{\"path\":\"/login\",\"workspace\":0,\"authShell\":1,\"fixtureName\":false,\"topbar\":0}"
+    },
+    {
+      "check": "F: no /api/auth/state polling after revocation",
+      "status": "PASS",
+      "detail": "delta=0"
+    },
+    {
+      "check": "E: cross-tab logout hint signs this tab out",
+      "status": "PASS",
+      "detail": "/app/dashboard -> {\"path\":\"/login\",\"workspace\":0}"
+    },
+    {
+      "check": "G: protected API is still server-authorized after logout",
+      "status": "PASS",
+      "detail": "status=401"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+  ],
+  "passed": 10,
+  "failed": 0
+}

@@ -1,0 +1,382 @@
+{
+  "label": "final-api1",
+  "scope": "Chromium 133 headless; built bundle served by the Python preview; /api/** replaced by isolated fixtures; single local machine. Excludes production network, database and cold starts. \"swap\" = first destination DOM frame after the click; \"ready\" = destination content settled (no aria-busy/data-async-loading).",
+  "viewport": "desktop",
+  "cycles": 3,
+  "apiDelayMs": 250,
+  "moduleDelayMs": 0,
+  "warmupCycles": 1,
+  "navigate": {
+    "swap": {
+      "p50": 32.3,
+      "p95": 61.3,
+      "p99": 67.8
+    },
+    "task": {
+      "p50": 37.5,
+      "p95": 69.9,
+      "p99": 74.5
+    },
+    "feedback": {
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "samples": 0
+    },
+    "frame": {
+      "p50": 43.8,
+      "p95": 98.3,
+      "p99": 98.3
+    },
+    "ready": {
+      "p50": 39.1,
+      "p95": 293.9,
+      "p99": 298
+    },
+    "apiRequestsAvg": 0.47,
+    "samples": 36,
+    "failureSamples": 0,
+    "timeouts": 0,
+    "phases": {
+      "prepare": {
+        "p50": 1.2,
+        "p95": 26,
+        "samples": 36
+      },
+      "module": {
+        "p50": 1.8,
+        "p95": 29.9,
+        "samples": 29
+      },
+      "mount": {
+        "p50": 1.2,
+        "p95": 5.2,
+        "samples": 29
+      },
+      "commit": {
+        "p50": 4,
+        "p95": 19,
+        "samples": 36
+      },
+      "total": {
+        "p50": 20.8,
+        "p95": 43.7,
+        "samples": 36
+      }
+    }
+  },
+  "back": {
+    "swap": {
+      "p50": 15.7,
+      "p95": 17.2,
+      "p99": 17.2
+    },
+    "task": {
+      "p50": 17.7,
+      "p95": 18.5,
+      "p99": 18.5
+    },
+    "feedback": {
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "samples": 0
+    },
+    "frame": {
+      "p50": 17.7,
+      "p95": 72.8,
+      "p99": 72.8
+    },
+    "ready": {
+      "p50": 263.9,
+      "p95": 267.4,
+      "p99": 267.4
+    },
+    "apiRequestsAvg": 1,
+    "samples": 3,
+    "failureSamples": 0,
+    "timeouts": 0,
+    "phases": {
+      "prepare": {
+        "p50": 0.3,
+        "p95": 0.3,
+        "samples": 3
+      },
+      "module": {
+        "p50": 0.4,
+        "p95": 0.5,
+        "samples": 3
+      },
+      "mount": {
+        "p50": 0.5,
+        "p95": 1.5,
+        "samples": 3
+      },
+      "commit": {
+        "p50": 5.2,
+        "p95": 6.2,
+        "samples": 3
+      },
+      "total": {
+        "p50": 7.4,
+        "p95": 8,
+        "samples": 3
+      }
+    }
+  },
+  "routes": [
+    {
+      "route": "/app/dashboard",
+      "samples": 3,
+      "swap": {
+        "p50": 42.1,
+        "p95": 48.1
+      },
+      "frame": {
+        "p50": 43.8,
+        "p95": 43.8
+      },
+      "ready": {
+        "p50": 48.3,
+        "p95": 51.3,
+        "p99": 51.3
+      },
+      "apiRequestsAvg": 0,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/reading/lessons",
+      "samples": 6,
+      "swap": {
+        "p50": 37.9,
+        "p95": 67.8
+      },
+      "frame": {
+        "p50": 39.4,
+        "p95": 69
+      },
+      "ready": {
+        "p50": 38.2,
+        "p95": 69.9,
+        "p99": 69.9
+      },
+      "apiRequestsAvg": 0,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/listening/lessons",
+      "samples": 3,
+      "swap": {
+        "p50": 42.9,
+        "p95": 61.3
+      },
+      "frame": {
+        "p50": 36.8,
+        "p95": 36.8
+      },
+      "ready": {
+        "p50": 43.3,
+        "p95": 61.6,
+        "p99": 61.6
+      },
+      "apiRequestsAvg": 0.67,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/writing",
+      "samples": 3,
+      "swap": {
+        "p50": 22.2,
+        "p95": 27.4
+      },
+      "frame": {
+        "p50": null,
+        "p95": null
+      },
+      "ready": {
+        "p50": 22.4,
+        "p95": 39.1,
+        "p99": 39.1
+      },
+      "apiRequestsAvg": 0.67,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/speaking",
+      "samples": 3,
+      "swap": {
+        "p50": 25.3,
+        "p95": 28.1
+      },
+      "frame": {
+        "p50": null,
+        "p95": null
+      },
+      "ready": {
+        "p50": 25.4,
+        "p95": 28.3,
+        "p99": 28.3
+      },
+      "apiRequestsAvg": 0,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/vocabulary",
+      "samples": 3,
+      "swap": {
+        "p50": 50,
+        "p95": 57.1
+      },
+      "frame": {
+        "p50": 71.6,
+        "p95": 98.3
+      },
+      "ready": {
+        "p50": 285.9,
+        "p95": 293.4,
+        "p99": 293.4
+      },
+      "apiRequestsAvg": 1,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/grammar/lessons",
+      "samples": 3,
+      "swap": {
+        "p50": 24.5,
+        "p95": 44.4
+      },
+      "frame": {
+        "p50": null,
+        "p95": null
+      },
+      "ready": {
+        "p50": 24.7,
+        "p95": 44.6,
+        "p99": 44.6
+      },
+      "apiRequestsAvg": 0,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/progress",
+      "samples": 3,
+      "swap": {
+        "p50": 27.9,
+        "p95": 58.3
+      },
+      "frame": {
+        "p50": null,
+        "p95": null
+      },
+      "ready": {
+        "p50": 28.5,
+        "p95": 58.5,
+        "p99": 58.5
+      },
+      "apiRequestsAvg": 0,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/assignments",
+      "samples": 3,
+      "swap": {
+        "p50": 40.3,
+        "p95": 43.2
+      },
+      "frame": {
+        "p50": 46.9,
+        "p95": 55
+      },
+      "ready": {
+        "p50": 293.3,
+        "p95": 293.9,
+        "p99": 293.9
+      },
+      "apiRequestsAvg": 2.33,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/mocks",
+      "samples": 3,
+      "swap": {
+        "p50": 32.3,
+        "p95": 49.3
+      },
+      "frame": {
+        "p50": 34.2,
+        "p95": 56.7
+      },
+      "ready": {
+        "p50": 285.1,
+        "p95": 298,
+        "p99": 298
+      },
+      "apiRequestsAvg": 1,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "/app/video-lessons",
+      "samples": 3,
+      "swap": {
+        "p50": 27.9,
+        "p95": 38.7
+      },
+      "frame": {
+        "p50": 29.6,
+        "p95": 29.9
+      },
+      "ready": {
+        "p50": 34,
+        "p95": 38.8,
+        "p99": 38.8
+      },
+      "apiRequestsAvg": 0,
+      "failed": 0,
+      "timeouts": 0
+    },
+    {
+      "route": "(back)",
+      "samples": 3,
+      "swap": {
+        "p50": 15.7,
+        "p95": 17.2
+      },
+      "frame": {
+        "p50": 17.7,
+        "p95": 72.8
+      },
+      "ready": {
+        "p50": 263.9,
+        "p95": 267.4,
+        "p99": 267.4
+      },
+      "apiRequestsAvg": 1,
+      "failed": 0,
+      "timeouts": 0
+    }
+  ],
+  "heap": {
+    "before": {
+      "jsHeapBytes": 4147324,
+      "domElements": 188
+    },
+    "after": {
+      "jsHeapBytes": 5546520,
+      "domElements": 108
+    }
+  },
+  "documentNavigations": 1,
+  "consoleErrors": [],
+  "unfixturedRequests": []
+}

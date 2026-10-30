@@ -73,6 +73,34 @@ test('a fast flight is aborted before the grace and never flashes a skeleton', a
   }
 });
 
+test('repeated superseded flights leave no frame, notice or busy state behind', async () => {
+  const dom = domWithShell();
+  globalThis.window = dom.window;
+  globalThis.document = dom.window.document;
+  globalThis.Node = dom.window.Node;
+  const signal = new dom.window.AbortController();
+  const transition = workspaceTransition({dict, signal: signal.signal, refresh() {}});
+  try {
+    document.querySelector('#root').append(transition.node);
+    transition.content.append(document.createElement('section'));
+    for (let i = 0; i < 5; i += 1) {
+      const flight = new dom.window.AbortController();
+      transition.begin(new URL('https://fixture.invalid/app/progress'), flight.signal);
+      await new Promise(resolve => setTimeout(resolve, i % 2 ? 60 : 0));
+      flight.abort();
+    }
+    await new Promise(resolve => setTimeout(resolve, 90));
+    assert.equal(transition.node.querySelectorAll('[data-entry-frame]').length, 0);
+    assert.equal(transition.node.querySelectorAll('[data-navigation-pending],[data-workspace-loading]').length, 0);
+    assert.equal(transition.node.getAttribute('aria-busy'), 'false');
+    assert.equal(transition.node.querySelector('[data-outgoing-workspace]').hidden, false);
+    assert.equal(transition.content.inert, false);
+  } finally {
+    signal.abort();
+    dom.window.close();
+  }
+});
+
 test('retention budgets follow device capability and stay inside their stated bounds', () => {
   const desktop = retentionProfile({navigator: {deviceMemory: 8}, innerWidth: 1440});
   const tablet = retentionProfile({navigator: {deviceMemory: 8}, innerWidth: 820});
