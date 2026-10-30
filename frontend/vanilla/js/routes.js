@@ -132,8 +132,8 @@ const PROGRESSIVE_SAFE_ROUTES=new Set([
  // Passive catalogues and learner overviews. These render a route-owned loading
  // shell before requesting private DTOs; no focused exam/player/recorder is opted in.
  '/app/dashboard','/app/progress','/app/mocks','/app/assignments',
- '/app/notifications','/app/live-classes',
- '/app/reading/lessons','/app/reading/academic','/app/reading/general',
+ '/app/notifications','/app/live-classes','/app/speaking',
+ '/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/reading/history',
  '/app/listening/lessons','/app/listening/academic','/app/listening/history',
  '/app/listening/general','/app/listening/tests','/app/listening/mcq',
  '/app/grammar','/app/grammar/lessons','/app/courses/ielts',
