@@ -10,7 +10,7 @@ import {mountSituations,situationTopics,situationLabels} from './situations.js';
  * never loads or constructs the complete question bank in the browser. */
 const PARTS=['part1','part2','part3'];
 const partFrom=p=>PARTS.includes(p)?p:null;
-const urlFor=(part,topic)=>'/app/speaking/practice'+(part?'?'+new URLSearchParams({part,...(topic?{topic}:{})}):'');
+const urlFor=(part,topic,type='all')=>'/app/speaking/practice'+(part?'?'+new URLSearchParams({part,...(topic?{topic}:{}),...(type!=='all'?{type}:{})}):'');
 function button(label,fn,attrs={}){const b=el('button',{type:'button',...attrs},label);b.addEventListener('click',fn);return b;}
 function reportError(host,dict,retry,label){host.replaceChildren(el('p',{class:'text-sm text-ink-500',role:'alert'},dict.common.error,' ',button(dict.errorPage.retry,retry,{class:'min-h-11 rounded-md underline','data-practice-retry':label})));}
 export function mount(context){
@@ -20,10 +20,10 @@ export function mount(context){
  root.append(host);
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.speakingHub.cards.practice.title),el('p',{class:'mt-1 text-base text-ink-500'},t.intro)),studio);
  const part=partFrom(url.searchParams.get('part')),topicKey=part?url.searchParams.get('topic'):null;
- const state={search:'',debounce:0,topics:[],topicCursor:null,topicCount:0,topicBusy:false,prompts:[],promptCursor:null,promptCount:0,promptBusy:false,selected:null,support:null,supportId:null,recorder:null,token:0,blocked:false};
+ const state={questionType:url.searchParams.get('type')??'all',categories:[],categoryCounts:{},byTopic:{},search:'',debounce:0,topics:[],topicCursor:null,topicCount:0,topicBusy:false,prompts:[],promptCursor:null,promptCount:0,promptBusy:false,selected:null,support:null,supportId:null,recorder:null,token:0,blocked:false};
  let supportController=null;const savedVocabulary=new Map();
  signal.addEventListener('abort',()=>{clearTimeout(state.debounce);supportController?.abort();state.recorder?.stop();state.token++;},{once:true});
- const go=(p,key)=>{if(state.blocked||signal.aborted)return;void navigate(urlFor(p,key));};
+ const go=(p,key)=>{if(state.blocked||signal.aborted)return;void navigate(urlFor(p,key,p===part?state.questionType:'all'));};
  const msg=el('p',{role:'status','aria-live':'polite',class:'sr-only','data-practice-status':''});
  const breadcrumb=el('nav',{'aria-label':t.stepsLabel,class:'flex flex-wrap items-center gap-2 text-sm text-ink-500'});
  const body=el('div',{});studio.append(msg,breadcrumb,body);
@@ -44,6 +44,38 @@ export function mount(context){
   const token=++state.token;
   api.request('/api/speaking/practice/facets?channel=practice_alone',{signal}).then(d=>{if(signal.aborted||token!==state.token)return;for(const row of d.parts??[]){const label=list.querySelector(`[data-practice-part-count="${row.part}"]`);if(label)label.textContent=t.questionCount.replace('{n}',String(row.count));}},()=>{if(!signal.aborted&&token===state.token){for(const label of list.querySelectorAll('[data-practice-part-count]'))label.textContent='—';const error=el('div',{});body.append(error);reportError(error,dict,showPart,'parts');}});
  }
+ async function categoriesLoad(){
+  if(!part||signal.aborted)return;
+  try{
+   const data=await api.request('/api/speaking/practice/categories?'+new URLSearchParams({part,channel:'practice_alone'}),{signal});
+   if(signal.aborted)return;
+   state.categories=data.categories??[];
+   if(state.questionType!=='all'&&!state.categories.some(c=>c.id===state.questionType))state.questionType='all';
+   state.categoryCounts=Object.fromEntries(state.categories.map(c=>[c.id,c.count]));
+   state.byTopic=data.byTopic??{};
+   if(!topicKey)drawTopics();
+   else drawQuestions();
+  }catch{/* Category filters are optional; existing practice remains available. */}
+ }
+ function categoryButtons(){
+  if(!state.categories.length)return null;
+  const wrap=el('section',{class:'space-y-2','data-practice-category-filters':''});
+  wrap.append(el('h2',{class:'font-semibold text-ink-900'},part==='part2'?'Cue card category':'Question type'));
+  const group=el('div',{class:'flex flex-wrap gap-2',role:'group','aria-label':'Question type'});
+  const options=[{id:'all',label:'Any type',count:state.categories.reduce((n,c)=>n+c.count,0)},...state.categories];
+  for(const c of options){
+   const selected=state.questionType===c.id;
+   const b=button(c.label+' · '+c.count,()=>{
+    if(state.questionType===c.id)return;
+    state.questionType=c.id;state.selected=null;state.recorder?.stop();
+    const target=urlFor(part,topicKey,c.id);
+    window.history.replaceState(window.history.state,'',target);
+    if(topicKey)drawQuestions();else drawTopics();
+   },{class:selected?'btn-primary':'btn-secondary','aria-pressed':String(selected),'data-practice-category':c.id});
+   group.append(b);
+  }
+  wrap.append(group);return wrap;
+ }
  async function topicsLoad(more=false){
   if((more&&state.topicBusy)||signal.aborted)return;state.topicBusy=true;
   const token=++state.token,q=new URLSearchParams({channel:'practice_alone',part,...(state.search.trim()?{q:state.search.trim().slice(0,120)}:{}),...(more&&state.topicCursor?{topicCursor:state.topicCursor}:{})});
@@ -63,10 +95,14 @@ export function mount(context){
    area.append(input,results);body.replaceChildren(area);
   }
   results.replaceChildren();
-  if(!state.topics.length)results.append(el('p',{class:'text-sm text-ink-500','data-practice-empty':'topics'},state.search.trim()?dict.shell.noResults:t.noQuestionsInPart));
+  const filterArea=body.querySelector('.space-y-4');
+  const previous=filterArea?.querySelector('[data-practice-category-filters]');previous?.remove();
+  const filters=categoryButtons();if(filters&&filterArea)filterArea.insertBefore(filters,results);
+  const visibleTopics=state.questionType==='all'?state.topics:state.topics.filter(g=>(state.byTopic[g.key]?.[state.questionType]??0)>0);
+  if(!visibleTopics.length)results.append(el('p',{class:'text-sm text-ink-500','data-practice-empty':'topics'},state.search.trim()?dict.shell.noResults:t.noQuestionsInPart));
   const list=el('ul',{class:'grid gap-3 sm:grid-cols-2','data-practice-topics':''});
-  for(const g of state.topics)list.append(el('li',{},button('',()=>go(part,g.key),{class:'card flex min-h-16 w-full items-center justify-between gap-3 p-4 text-left hover:bg-paper-sunken','data-practice-topic':g.key})));
-  for(const li of list.children){const g=state.topics[[...list.children].indexOf(li)];li.firstChild.append(el('span',{class:'text-base text-ink-900'},g.title??t.untitledTopic),el('span',{class:'shrink-0 text-xs text-ink-500'},t.questionCount.replace('{n}',String(g.count))));}
+  for(const g of visibleTopics)list.append(el('li',{},button('',()=>go(part,g.key),{class:'card flex min-h-16 w-full items-center justify-between gap-3 p-4 text-left hover:bg-paper-sunken','data-practice-topic':g.key})));
+  for(const li of list.children){const g=visibleTopics[[...list.children].indexOf(li)];li.firstChild.append(el('span',{class:'text-base text-ink-900'},g.title??t.untitledTopic),el('span',{class:'shrink-0 text-xs text-ink-500'},t.questionCount.replace('{n}',String(state.questionType==='all'?g.count:state.byTopic[g.key]?.[state.questionType]??0))));}
   results.append(list);
   if(state.topicCursor)results.append(button(`${dict.common.continue} · ${t.topicCount.replace('{n}',String(Math.max(state.topicCount-state.topics.length,0)))}`,()=>void topicsLoad(true),{class:'btn-secondary min-h-11','data-practice-more-topics':''}));
  }
@@ -92,13 +128,17 @@ export function mount(context){
   state.recorder?.stop();state.recorder=null;
   const columns=el('div',{class:'grid min-w-0 items-start gap-5 lg:grid-cols-2','data-practice-questions':topicKey??''});
   const left=el('section',{class:'card min-w-0 space-y-4 p-5 lg:max-h-[calc(100dvh-14rem)] lg:overflow-y-auto','data-practice-question-column':''},el('h2',{class:'font-display text-xl'},part==='part2'?study.yourCue:study.questions));
+  const filters=categoryButtons();if(filters)left.append(filters);
   const list=el('ol',{class:'space-y-3'});
-  for(const [i,p] of state.prompts.entries()){
+  const visible=state.questionType==='all'?state.prompts:state.prompts.filter(p=>p.questionType===state.questionType);
+  if(!visible.some(p=>p.id===state.selected))state.selected=visible[0]?.id??null;
+  for(const [i,p] of visible.entries()){
    const selected=p.id===state.selected;
    const entry=el('li',{class:'space-y-3 py-3','data-practice-question-entry':'','data-selected':String(selected)},button(`${i+1}. ${p.promptText}`,()=>{if(state.blocked||p.id===state.selected)return;state.selected=p.id;drawQuestions();}, {class:'w-full text-left text-lg font-semibold','data-practice-question':p.id,...(state.blocked&&!selected?{disabled:''}:{})}));
    if(selected){if(p.cueCard)entry.append(el('p',{class:'mt-3 whitespace-pre-wrap text-ink-500'},p.cueCard));if(part==='part2')entry.append(el('p',{class:'mt-3 text-sm'},`${study.prepare} 1:00 · ${study.talk} 2:00`));state.recorder=localAnswerRecorder(context,{id:p.id,part:p.part,lock:(id,action)=>{if(action==='isLocked')return state.blocked&&state.selected!==id;state.blocked=action;}});entry.append(state.recorder.node,...(part==='part2'?[el('div',{'data-practice-related-part3-host':''})]:[]));}
    list.append(entry);
   }
+  if(!visible.length)list.append(el('li',{class:'text-sm text-ink-500'},t.noQuestionsInPart));
   left.append(list);
   if(state.promptCursor)left.append(button(`${dict.common.continue} · ${t.questionCount.replace('{n}',String(Math.max(state.promptCount-state.prompts.length,0)))}`,()=>void promptsLoad(true),{class:'btn-secondary min-h-11','data-practice-more-questions':''}));
   const right=el('div',{class:'min-w-0 space-y-3 lg:max-h-[calc(100dvh-14rem)] lg:overflow-y-auto','data-practice-support-column':''});
@@ -149,6 +189,6 @@ export function mount(context){
   panel.append(tabs,content);target.replaceChildren(panel);show();
  }
  if(!part)return showPart();
- if(!topicKey){studio.dataset.practiceStep='topic';body.replaceChildren(el('p',{'data-practice-loading':'topics'},dict.common.loading));void topicsLoad();return;}
- studio.dataset.practiceStep='questions';void promptsLoad();
+ if(!topicKey){studio.dataset.practiceStep='topic';body.replaceChildren(el('p',{'data-practice-loading':'topics'},dict.common.loading));void categoriesLoad();void topicsLoad();return;}
+ studio.dataset.practiceStep='questions';void categoriesLoad();void promptsLoad();
 }

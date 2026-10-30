@@ -14,6 +14,7 @@ from typing import Any
 from fastapi import APIRouter, Request
 from . import main as core
 from .db import row_to_dict
+from .speaking_question_types import QUESTION_TYPES, question_type
 
 router = APIRouter()
 PARTS = ('part1', 'part2', 'part3', 'general')
@@ -142,7 +143,11 @@ async def _read_page(conn, *, channel: str, part: str | None = None, topic: str 
     keys = ('id', 'part', 'topic', 'promptText', 'cueCard') if live_partner else (
         'id', 'part', 'topic', 'promptText', 'cueCard', 'prepSeconds', 'answerSeconds')
     return {
-        'questions' if live_partner else 'prompts': [{k: row_to_dict(r)[k] for k in keys} for r in chosen],
+        'questions' if live_partner else 'prompts': [
+            {**{k: row_to_dict(r)[k] for k in keys},
+             **({} if live_partner else {'questionType': question_type(
+                 r['part'], r['promptText'], r['cueCard'], r['topic'])})}
+            for r in chosen],
         'hasMore': more,
         'nextCursor': _prompt_cursor(chosen[-1]) if more and chosen else None,
         'matching': int(matching or 0), 'pageSize': page_size,
@@ -202,6 +207,41 @@ async def live_partner_questions(req: Request):
     except InvalidCursor:
         return core.j({'error': 'invalid_cursor'}, 400)
     return core.j(data, headers={'Cache-Control': 'no-store'})
+
+
+@router.get('/api/speaking/practice/categories')
+async def speaking_practice_categories(req: Request):
+    """Counts by individual question type, grouped by the existing topic key.
+
+    Keeps the complete prompt bank server-side and preserves publication,
+    deletion, availability and session authorization predicates.
+    """
+    user = await core.current_user(req, active=True)
+    if not user: return core.auth_error()
+    channel = _channel(req)
+    if channel is None: return core.j({'error': 'invalid_channel'}, 400)
+    part = req.query_params.get('part')
+    if part not in QUESTION_TYPES:
+        return core.j({'error': 'invalid_part'}, 400)
+    where, args = _scope(channel, part=part)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        rows = await conn.fetch(f'''SELECT {_TOPIC_KEY} AS "topicKey",
+            p.prompt_text AS "promptText", p.cue_card AS "cueCard"
+            FROM speaking_prompts p WHERE {where}''', *args)
+    counts = {key: 0 for key, _ in QUESTION_TYPES[part]}
+    by_topic = {}
+    for row in rows:
+        key = question_type(part, row['promptText'], row['cueCard'])
+        if key is None: continue
+        counts[key] += 1
+        group = by_topic.setdefault(row['topicKey'], {})
+        group[key] = group.get(key, 0) + 1
+    return core.j({'part': part, 'categories': [
+        {'id': key, 'label': label, 'count': counts[key]}
+        for key, label in QUESTION_TYPES[part]
+    ], 'byTopic': by_topic, 'matching': sum(counts.values())},
+    headers={'Cache-Control': 'no-store'})
 
 
 @router.get('/api/speaking/practice/facets')
