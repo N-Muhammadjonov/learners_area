@@ -170,10 +170,10 @@
         "archiveEntry": "zip-01-t1.png",
         "originalName": "ZIP-01-T1 · Line graph",
         "kind": "native-screenshot-chart",
-        "size": 77906,
-        "sha256": "6c4bb416f3e0906689f4615a03f8bfa6b2efde2bf97701e5d5aeb6d8a13b30e8",
-        "width": 644,
-        "height": 302,
+        "size": 452403,
+        "sha256": "327bfcce18e2cf29a8b45a3775fd8d7b0e8b436aae7970914df9a7f5c3a48381",
+        "width": 2608,
+        "height": 1252,
         "fileName": "zip-01-t1.png"
       },
       "publicationState": "published"
@@ -217,10 +217,10 @@
         "archiveEntry": "zip-05-t1.png",
         "originalName": "ZIP-05-T1 · Mixed charts",
         "kind": "native-screenshot-chart",
-        "size": 26884,
-        "sha256": "2d18543cb63aa1318d4e91ec391a3ef0a487e35e45bec8aaa6f6172201d42044",
-        "width": 569,
-        "height": 705,
+        "size": 214859,
+        "sha256": "4840b7883ad95710184a8dfc6fe9dfb9e87ee0fab4ff80e32aaf684bb4845bef",
+        "width": 2400,
+        "height": 3020,
         "fileName": "zip-05-t1.png"
       },
       "publicationState": "published"
@@ -264,10 +264,10 @@
         "archiveEntry": "zip-06-t1.png",
         "originalName": "ZIP-06-T1 · Mixed charts",
         "kind": "native-screenshot-chart",
-        "size": 158307,
-        "sha256": "d5131890b29add0c2f232cee4ff240737c88f4ca876eeaa654eeba09215fd18f",
-        "width": 626,
-        "height": 640,
+        "size": 180133,
+        "sha256": "670819abae093e34fbe63435f2e479eccaaefe06bcde2669ff574173ee34dcdc",
+        "width": 2860,
+        "height": 3042,
         "fileName": "zip-06-t1.png"
       },
       "publicationState": "published"
@@ -293,10 +293,10 @@
         "archiveEntry": "zip-07-t1.png",
         "originalName": "ZIP-07-T1 · Bar chart",
         "kind": "native-screenshot-chart",
-        "size": 76227,
-        "sha256": "15530448ee3148038fcd49e3937a759c6d394198889d3bab62a059bec5a98ccc",
-        "width": 616,
-        "height": 366,
+        "size": 70140,
+        "sha256": "97ee13ab245c4d362a8135c3f4e45d32ac8b9014968a4399d5ad7eb9dd594c91",
+        "width": 3080,
+        "height": 1736,
         "fileName": "zip-07-t1.png"
       },
       "publicationState": "published"
@@ -322,10 +322,10 @@
         "archiveEntry": "zip-10-t1.png",
         "originalName": "ZIP-10-T1 · Line graph",
         "kind": "native-screenshot-chart",
-        "size": 200127,
-        "sha256": "d5850f864ea60a28960a1ecb81a99e3171ff7c89e518d9f39fcc6bd0bebe8af8",
-        "width": 640,
-        "height": 650,
+        "size": 261594,
+        "sha256": "1eb47dc69eda4996957db3cb1dec8202a09f329e1f040b30e629d0c11c344d40",
+        "width": 2900,
+        "height": 3025,
         "fileName": "zip-10-t1.png"
       },
       "publicationState": "published"
@@ -423,10 +423,10 @@
         "archiveEntry": "zip-09-t1.png",
         "originalName": "ZIP-09-T1 · Line graph",
         "kind": "native-screenshot-chart",
-        "size": 141963,
-        "sha256": "f62c888e0aa338dc4aa8e0eca715557ae6dfa1d43cfd4e83a9cf0f785c48d04f",
-        "width": 646,
-        "height": 386,
+        "size": 209334,
+        "sha256": "1a53539b297f9b164137528103c270c435bffd2e5bb4adfc2d34837770ce22ca",
+        "width": 3192,
+        "height": 1896,
         "fileName": "zip-09-t1.png"
       },
       "publicationState": "published"
@@ -452,10 +452,10 @@
         "archiveEntry": "zip-13-t1.png",
         "originalName": "ZIP-13-T1 · Table",
         "kind": "source-vector-or-table",
-        "size": 95125,
-        "sha256": "1e127d66e54a0290c7a3a3c79c6c6559ffb04f30505865f82f52cd2e381087e3",
-        "width": 3120,
-        "height": 1008,
+        "size": 123935,
+        "sha256": "f647e74fd8d173c4ffb7d2f0afb25bcff09f0d86320ff93be60aab89db0edd0d",
+        "width": 3072,
+        "height": 1464,
         "fileName": "zip-13-t1.png"
       },
       "publicationState": "published"
@@ -481,10 +481,10 @@
         "archiveEntry": "zip-15-t1.png",
         "originalName": "ZIP-15-T1 · Table",
         "kind": "source-vector-or-table",
-        "size": 103325,
-        "sha256": "2049728fa1a3e662aad5319fc76a45a3bbf94d83c72f8462fb40657444490a13",
-        "width": 3120,
-        "height": 1008,
+        "size": 99271,
+        "sha256": "3a3ed856e8d5d3c0cc906b0fb194be543144476f5f2f5606bb50a53961f1242a",
+        "width": 3200,
+        "height": 1520,
         "fileName": "zip-15-t1.png"
       },
       "publicationState": "published"
@@ -510,10 +510,10 @@
         "archiveEntry": "zip-16-t1.png",
         "originalName": "ZIP-16-T1 · Bar chart",
         "kind": "native-screenshot-chart",
-        "size": 109398,
-        "sha256": "059d07857f2a7fc986c396839c0e176a999d490e8615cdb9b37a6c16333a95b8",
-        "width": 640,
-        "height": 368,
+        "size": 144827,
+        "sha256": "32374fbae03e8a51346ad1cbc9a06e6d00c9acfae72d41f16ef46573c783f02b",
+        "width": 3220,
+        "height": 1909,
         "fileName": "zip-16-t1.png"
       },
       "publicationState": "published"
@@ -539,10 +539,10 @@
         "archiveEntry": "zip-17-t1.png",
         "originalName": "ZIP-17-T1 · Pie chart",
         "kind": "native-screenshot-chart",
-        "size": 169814,
-        "sha256": "ed93c35f1c948009a7c319330341d1be692b6c9d59053a5a15ec12c784efcf31",
-        "width": 628,
-        "height": 534,
+        "size": 469057,
+        "sha256": "583db59c5e009f4d2546c4bba2c9af9b93adf55c678e5b98424785ff195071b5",
+        "width": 3243,
+        "height": 2538,
         "fileName": "zip-17-t1.png"
       },
       "publicationState": "published"
@@ -694,10 +694,10 @@
         "archiveEntry": "zip-18-t1.png",
         "originalName": "ZIP-18-T1 · Table",
         "kind": "source-vector-or-table",
-        "size": 98020,
-        "sha256": "cb0549197f9bb01a03484353e2ff70c791aed14865825a63a79939d22655be1a",
+        "size": 85503,
+        "sha256": "2c0c3d1071df7141f107bbd4dae22ff192ca6d835531ed3b875fd4e4e6dc2bf0",
         "width": 3120,
-        "height": 1008,
+        "height": 1240,
         "fileName": "zip-18-t1.png"
       },
       "publicationState": "published"
@@ -723,10 +723,10 @@
         "archiveEntry": "zip-19-t1.png",
         "originalName": "ZIP-19-T1 · Line graph",
         "kind": "native-screenshot-chart",
-        "size": 98239,
-        "sha256": "15cf42fc94d3a20eab1d41661a4c685db7a6156cf5da6f4ce28fa1ff9d563216",
-        "width": 644,
-        "height": 342,
+        "size": 581352,
+        "sha256": "4187e0a556619fb22aa6dc87d48880636fef2ae83c610b98e6934e940a8ebd20",
+        "width": 2624,
+        "height": 1476,
         "fileName": "zip-19-t1.png"
       },
       "publicationState": "published"
@@ -752,10 +752,10 @@
         "archiveEntry": "zip-20-t1.png",
         "originalName": "ZIP-20-T1 · Line graph",
         "kind": "native-screenshot-chart",
-        "size": 124659,
-        "sha256": "ab7be4e62ba1863f01d8250fddd93f0706ee8ad3b154e04dac50c9fa09aa37b5",
-        "width": 640,
-        "height": 420,
+        "size": 757551,
+        "sha256": "97a634d6890d712f51a07f2b77839549b994a34d4c14fec27cb2a8ad35c99ca5",
+        "width": 2644,
+        "height": 1772,
         "fileName": "zip-20-t1.png"
       },
       "publicationState": "published"
@@ -835,10 +835,10 @@
         "archiveEntry": "zip-08-t1.png",
         "originalName": "ZIP-08-T1 · Bar chart",
         "kind": "native-screenshot-chart",
-        "size": 89553,
-        "sha256": "1fcaef2fce46f1bb52c9c956a5141c351b180d2d46936a8ced48334d7f1c71fc",
-        "width": 642,
-        "height": 442,
+        "size": 86612,
+        "sha256": "adc79627f51d90cbed69e96127d517556c4846734254b5c86b83787d59469f31",
+        "width": 2688,
+        "height": 1888,
         "fileName": "zip-08-t1.png"
       },
       "publicationState": "published"
@@ -864,10 +864,10 @@
         "archiveEntry": "zip-21-t1.png",
         "originalName": "ZIP-21-T1 · Maps / plans",
         "kind": "native-screenshot-chart",
-        "size": 118872,
-        "sha256": "0879eec77ed048ad25c98101c991c4984c19a50ef8382f9bea7f496ec8e2ee32",
-        "width": 570,
-        "height": 246,
+        "size": 717304,
+        "sha256": "ebf07cdd721ca00355b5c847b730c8dff454df21912ead332a6e2464cb07fd32",
+        "width": 2480,
+        "height": 1168,
         "fileName": "zip-21-t1.png"
       },
       "publicationState": "published"
@@ -911,10 +911,10 @@
         "archiveEntry": "zip-04-t1.png",
         "originalName": "ZIP-04-T1 · Process diagram",
         "kind": "native-screenshot-chart",
-        "size": 149334,
-        "sha256": "b04176a448fe2d9b7622ff37e95143ba5463e0dc500d727ad210fc93cdb12bbb",
-        "width": 638,
-        "height": 322,
+        "size": 966964,
+        "sha256": "6f2252f28eca077374e67a9eb3845ef40abce189fadcec138b35f70ca09fe03d",
+        "width": 2592,
+        "height": 1376,
         "fileName": "zip-04-t1.png"
       },
       "publicationState": "published"
@@ -958,10 +958,10 @@
         "archiveEntry": "zip-02-t1.png",
         "originalName": "ZIP-02-T1 · Process diagram",
         "kind": "source-vector-or-table",
-        "size": 128536,
-        "sha256": "fa50983745717a39e4de1ca00dabc3b75c2a94fc0cd3a0018cf187f34b8c870e",
-        "width": 3120,
-        "height": 2235,
+        "size": 188474,
+        "sha256": "603ffb0741d66812e782f754886a79cd0acb211826cfc0425d1bd042a1d2d01b",
+        "width": 3440,
+        "height": 2470,
         "fileName": "zip-02-t1.png"
       },
       "publicationState": "published"
@@ -1005,10 +1005,10 @@
         "archiveEntry": "zip-03-t1.png",
         "originalName": "ZIP-03-T1 · Line graph",
         "kind": "embedded-original",
-        "size": 97096,
-        "sha256": "f5a48abd06db6c69bba097ea7a800b0472b63d4ab35d0b6bda161d45589161cf",
-        "width": 768,
-        "height": 708,
+        "size": 696645,
+        "sha256": "ecb1e902034b5754de570427091b0b6d0e16018be1f6bef91843f11fa19643fc",
+        "width": 2880,
+        "height": 2048,
         "fileName": "zip-03-t1.png"
       },
       "publicationState": "published"
@@ -1052,10 +1052,10 @@
         "archiveEntry": "w24-t43-1.png",
         "originalName": "W24-T43 · Line graph",
         "kind": "matched-online-original",
-        "size": 176564,
-        "sha256": "8ce2bc289bb8cb6553599516a32637c128f740a84ed9c1f0a0a02cf8e6b71543",
-        "width": 831,
-        "height": 606,
+        "size": 233671,
+        "sha256": "11d9e21e5e23147571ed13afac64889fe021b7074c44bbf2ceba0dab60b7b7aa",
+        "width": 3200,
+        "height": 2100,
         "fileName": "w24-t43-1.png"
       },
       "publicationState": "published"
@@ -1081,10 +1081,10 @@
         "archiveEntry": "w24-t44-1.png",
         "originalName": "W24-T44 · Bar chart",
         "kind": "matched-online-original",
-        "size": 29681,
-        "sha256": "a7439c82b5c9338724834acb03003695544431870426d0dc251f3b1e272c0eac",
-        "width": 512,
-        "height": 287,
+        "size": 122852,
+        "sha256": "0ef637848be4ccfcdf07be67ccc8740338ef7a7b1567ed53ac730a5ee0865f48",
+        "width": 3080,
+        "height": 1848,
         "fileName": "w24-t44-1.png"
       },
       "publicationState": "published"
@@ -1240,10 +1240,10 @@
         "archiveEntry": "a09-1.png",
         "originalName": "A09 · Pie chart",
         "kind": "embedded-original",
-        "size": 52012,
-        "sha256": "6718f438d94032f79dd1b55acd2cd1a007129fb6b6c0bf919d4275f6b0a95486",
-        "width": 710,
-        "height": 474,
+        "size": 322095,
+        "sha256": "cbec9bb5c36d7b0561317e4335378a5da1bba1956165f02b65b22e3628f947ec",
+        "width": 3400,
+        "height": 2000,
         "fileName": "a09-1.png"
       },
       "publicationState": "published"
@@ -1334,10 +1334,10 @@
         "archiveEntry": "a11-1.png",
         "originalName": "A11 · Pie chart",
         "kind": "embedded-original",
-        "size": 47663,
-        "sha256": "164aa0aaacf86ae602a35e31d0a5816525e6914eb6f94e33438f1dbed181b855",
-        "width": 710,
-        "height": 474,
+        "size": 285859,
+        "sha256": "5487c03eb17b362a4629e88deaee3d4f64594deb89cf408f45adccd13142fcff",
+        "width": 3400,
+        "height": 2000,
         "fileName": "a11-1.png"
       },
       "publicationState": "published"
@@ -2610,10 +2610,10 @@
         "archiveEntry": "a40-1.png",
         "originalName": "A40 · Pie chart",
         "kind": "embedded-original",
-        "size": 54447,
-        "sha256": "e7cb5ba14711d5151a074460d72da0fd8f28bdae7b49f21cd50eeeff3f4d9071",
-        "width": 710,
-        "height": 474,
+        "size": 342767,
+        "sha256": "80bc923bf9c6674a3fca15f2186d7c26f9c61c6c09c7d7b54f63447c691215ae",
+        "width": 3600,
+        "height": 1800,
         "fileName": "a40-1.png"
       },
       "publicationState": "published"
@@ -2957,10 +2957,10 @@
         "archiveEntry": "d08-1.png",
         "originalName": "D08 · Pie chart",
         "kind": "embedded-original",
-        "size": 122958,
-        "sha256": "1445bebaf854b49048d83f4790770edea006b25d32dc81bbcbf6c3581811ffe3",
-        "width": 768,
-        "height": 736,
+        "size": 354263,
+        "sha256": "85da86443e5a46127c3370c5c9d6f87113adefeabe3cc6b039192a44c03b6b18",
+        "width": 3600,
+        "height": 2000,
         "fileName": "d08-1.png"
       },
       "publicationState": "published"
