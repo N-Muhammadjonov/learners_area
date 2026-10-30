@@ -15,8 +15,6 @@ export const examFilterGroups = {
    ['single-chart','Single chart','Bitta grafik'],['multiple-charts','Multiple charts','Bir nechta grafik'],['dual-axis','Dual-axis','Ikki o‘qli'],['combined-visuals','Combined visuals','Aralash vizuallar']]}
  ],
  task2: [
-  {id:'essay',label:{en:'Essay type',uz:'Esse turi'},options:[
-   ['opinion','Opinion essay','Fikr bildirish'],['discussion','Discussion essay','Muhokama'],['advantages','Advantages / Disadvantages','Afzallik / kamchilik'],['problems','Problem / Solution','Muammo / yechim'],['causes','Causes / Effects','Sabab / oqibat'],['positive-negative','Positive / Negative','Ijobiy / salbiy'],['two-part','Two-part questions','Ikki qismli savol']]},
   {id:'topic',label:{en:'Essay topic',uz:'Esse mavzusi'},options:[
    ['education','Education','Ta’lim'],['technology','Technology','Texnologiya'],['environment','Environment','Atrof-muhit'],['health','Health','Salomatlik'],['work','Work & Employment','Ish va bandlik'],['government','Government & Law','Hukumat va qonun'],['society','Society & Culture','Jamiyat va madaniyat'],['media','Media & Advertising','Media va reklama'],['crime','Crime & Punishment','Jinoyat va jazo'],['transport','Transport & Cities','Transport va shaharlar'],['science','Science','Fan'],['globalisation','Globalisation','Globallashuv']]},
   {id:'requirements',label:{en:'Task requirements',uz:'Savol talablari'},options:[
@@ -49,14 +47,6 @@ const t2TopicCodes = {
 };
 const t2Topics = Object.entries(t2TopicCodes).map(([topic,codes])=>[topic,set(codes)]);
 
-const essayType = {
- opinion:'opinion',discussion:'discussion',outweigh:'advantages',
- 'advantages-disadvantages':'advantages','problem-solution':'problems',
- 'cause-solution':'problems','effect-solution':'problems',
- 'cause-effect':'causes','positive-negative':'positive-negative',
- 'two-part':'two-part','multi-part-opinion':'two-part'
-};
-
 function task2Requirements(p) {
  const category = p.category;
  if(category==='opinion'||category==='positive-negative')return ['opinion'];
@@ -78,7 +68,6 @@ function task2Requirements(p) {
 export function classifyExamQuestion(p) {
  const code = p.code ?? '';
  if(p.taskType==='task2')return {
-  essay:essayType[p.category]?[essayType[p.category]]:[],
   topic:t2Topics.filter(([,codes])=>has(codes,code)).map(([topic])=>topic),
   requirements:task2Requirements(p)
  };
