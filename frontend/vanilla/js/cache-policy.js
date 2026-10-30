@@ -4,6 +4,8 @@ export function viewPolicy(route){
  let url;try{url=new URL(route,'https://local.invalid');}catch{return null;}
  if(!route.startsWith('/')||url.origin!=='https://local.invalid'||url.hash||route.length>2048)return null;
  if(url.pathname==='/app/dashboard'||url.pathname==='/app/progress')return {ttl:10000,staleTtl:50000,snapshot:true};
+ // Time-sensitive assignments/notifications and dynamic examination state are NEVER cached.
+ // Stable learner catalogues use the existing bounded, identity-scoped memory only.
  // Writing tabs can include active exercises; only the ordinary catalogue has a snapshot.
  if(url.pathname==='/app/writing'&&url.search&&url.searchParams.get('tab')!=='lessons')return null;
  return CATALOGUES.has(url.pathname)?{ttl:120000,staleTtl:0}:null;
