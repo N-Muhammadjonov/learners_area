@@ -93,8 +93,37 @@ body .stealing-color-palette button:focus-visible{outline:3px solid #3d50fa;outl
 /* Writing Exam Mode question picker (Task 1 + Task 2 only). */
 .writing-question-picker .exam-preview-row{grid-column:1/-1;list-style:none;min-width:0}
 .writing-question-picker .exam-preview-controls{display:flex;flex-wrap:wrap;gap:.75rem}
-.writing-question-picker [data-exam-search]{width:100%;background:#fff;color:#102740;border:2px solid #748ba6;border-radius:.6rem;caret-color:#0b56a8}
-.writing-question-picker [data-exam-search]::placeholder{color:#526780;opacity:1}
-.writing-question-picker [data-exam-search]:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
-html[data-theme="night"] .writing-question-picker [data-exam-search]{background:#262337;color:#f8f8fd;border-color:#9aacc7;caret-color:#93d5ff}
-html[data-theme="night"] .writing-question-picker [data-exam-search]::placeholder{color:#d0d6e3}
+/* Writing Task 1/2 exam-picker search: override the shell-wide search border reset.
+   Scope strictly to this input; preserve its search logic and other controls. */
+html[data-theme] #root .writing-question-picker input[data-exam-search] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: .7rem .9rem;
+  background-color: #eef5ff !important;
+  color: #102740 !important;
+  border: 2px solid #3b6cff !important;
+  border-radius: .75rem;
+  caret-color: #0b56a8;
+  box-shadow: 0 2px 8px rgb(25 56 104 / 12%) !important;
+  color-scheme: light;
+}
+html[data-theme] #root .writing-question-picker input[data-exam-search]::placeholder {
+  color: #526780;
+  opacity: 1;
+}
+html[data-theme] #root .writing-question-picker input[data-exam-search]:focus-visible {
+  outline: 2px solid #2e68e8 !important;
+  outline-offset: 2px;
+}
+html[data-theme="night"] #root .writing-question-picker input[data-exam-search] {
+  background-color: #132843 !important;
+  color: #f5f9ff !important;
+  border-color: #80b8ff !important;
+  caret-color: #93d5ff;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 20%) !important;
+  color-scheme: dark;
+}
+html[data-theme="night"] #root .writing-question-picker input[data-exam-search]::placeholder {
+  color: #c5d7ee;
+}
