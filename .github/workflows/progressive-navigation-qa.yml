@@ -1,0 +1,40 @@
+name: Progressive navigation QA
+on:
+  push:
+    branches:
+      - feature/instant-progressive-mount-20261030
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install frontend test dependencies
+        run: |
+          npm ci --no-audit --no-fund
+          npm install --prefix frontend/vanilla --no-audit --no-fund
+      - name: Run complete frontend tests
+        run: npm test
+      - name: Run standalone progressive router QA
+        run: node --test frontend/vanilla/tests/progressive-router.test.mjs
+      - name: Run modified JS syntax checks
+        run: |
+          node --check frontend/vanilla/js/router.js
+          node --check frontend/vanilla/js/routes.js
+          node --check frontend/vanilla/tests/progressive-router.test.mjs
+      - name: Build browser assets
+        run: |
+          python -m pip install rcssmin rjsmin
+          npm run build
