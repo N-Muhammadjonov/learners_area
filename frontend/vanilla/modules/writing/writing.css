@@ -90,4 +90,11 @@ body .stealing-color-palette [data-study-color="yellow"]{background:#fef08a!impo
 body .stealing-color-palette [data-study-color="blue"]{background:#bae6fd!important}
 body .stealing-color-palette [data-study-color="orange"]{background:#fed7aa!important}
 body .stealing-color-palette button:focus-visible{outline:3px solid #3d50fa;outline-offset:3px}
-
+/* Writing Exam Mode question picker (Task 1 + Task 2 only). */
+.writing-question-picker .exam-preview-row{grid-column:1/-1;list-style:none;min-width:0}
+.writing-question-picker .exam-preview-controls{display:flex;flex-wrap:wrap;gap:.75rem}
+.writing-question-picker [data-exam-search]{width:100%;background:#fff;color:#102740;border:2px solid #748ba6;border-radius:.6rem;caret-color:#0b56a8}
+.writing-question-picker [data-exam-search]::placeholder{color:#526780;opacity:1}
+.writing-question-picker [data-exam-search]:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
+html[data-theme="night"] .writing-question-picker [data-exam-search]{background:#262337;color:#f8f8fd;border-color:#9aacc7;caret-color:#93d5ff}
+html[data-theme="night"] .writing-question-picker [data-exam-search]::placeholder{color:#d0d6e3}

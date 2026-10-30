@@ -2,6 +2,7 @@ import {formatDateTime} from '../../js/generated/time.js';
 import {resourceBlocks} from '../live-classes/resources.js';
 import {el,button,card,navBack,link,viewRegion,post,state,safeArray,txt,label,words,uuid,missing,errMessage,fill} from './shared.js';
 import {questionPicker,attachExamImageZoom} from './exam-picker.js';
+import {mountExamPractice} from './exam-practice.js';
 const modes=['task1','task2','full'];
 const clock=n=>{const s=Math.max(0,Math.floor(n)),h=Math.floor(s/3600),m=String(Math.floor((s%3600)/60)).padStart(2,'0'),sec=String(s%60).padStart(2,'0');return h?`${h}:${m}:${sec}`:`${m}:${sec}`;};
 /** V49: original WritingExamHome, ExamRunner, exam final result. */
@@ -20,10 +21,11 @@ export function mountTab(ctx,root){
     if(open?.mode===mode){void ctx.navigate(`/app/writing/exam/${open.id}`);return;}
     if(mode!=='full'&&questions.some(p=>p.taskType===mode)){
      const saved=[...host.childNodes];
-     questionPicker(ctx,host,{mode,questions,types:safeArray(d.questionTypes?.[mode]),onBack:()=>host.replaceChildren(...saved),onStart:async promptId=>{
+     const pickerOptions={mode,questions,types:safeArray(d.questionTypes?.[mode]),onBack:()=>host.replaceChildren(...saved),onStart:async promptId=>{
       try{const result=await post(ctx,'/api/writing/exam',{mode,promptId});if(!uuid(result.id))throw Error('Missing id');void ctx.navigate(`/app/writing/exam/${result.id}`);}
       catch(error){throw Error(error.code==='other_paper_open'?t.otherOpen:t.startError);}
-     }});return;
+     },onPractice:prompt=>mountExamPractice(ctx,host,prompt,()=>questionPicker(ctx,host,pickerOptions))};
+     questionPicker(ctx,host,pickerOptions);return;
     }
     start.disabled=true;message.hidden=true;
     try{const result=await post(ctx,'/api/writing/exam',mode==='full'&&fullChoice?.value?{mode,fullTest:fullChoice.value}:{mode});if(!uuid(result.id))throw Error('Missing id');void ctx.navigate(`/app/writing/exam/${result.id}`);}
