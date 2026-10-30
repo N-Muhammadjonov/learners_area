@@ -1128,10 +1128,10 @@
         "archiveEntry": "a06-1.png",
         "originalName": "A06 · Line graph",
         "kind": "embedded-original",
-        "size": 49311,
-        "sha256": "7b789594c535656f4209faf95e7ff0962cefd6691fcaaeae0a56b2822857e3df",
-        "width": 710,
-        "height": 474,
+        "size": 171006,
+        "sha256": "7cdeb218ce768a05ec2c8b44b503e44a8373bcbf68591765d61ef6e4a826238e",
+        "width": 1420,
+        "height": 948,
         "fileName": "a06-1.png"
       },
       "publicationState": "published"
@@ -1493,10 +1493,10 @@
         "archiveEntry": "a15-1.png",
         "originalName": "A15 · Mixed charts",
         "kind": "embedded-original",
-        "size": 70575,
-        "sha256": "3b202e0f0b940bcf35f533f855e6fbc83d59c15123ffaa1c8977bbe25e7ed734",
-        "width": 710,
-        "height": 474,
+        "size": 260309,
+        "sha256": "b24e18a4ed2ffadfef8126412a5d6316aa14530d2f30ddc1aea1a217d169280f",
+        "width": 1420,
+        "height": 948,
         "fileName": "a15-1.png"
       },
       "publicationState": "published"
@@ -1999,10 +1999,10 @@
         "archiveEntry": "a27-1.png",
         "originalName": "A27 · Process diagram",
         "kind": "matched-online-original",
-        "size": 118962,
-        "sha256": "99af5deffd1e43ee5ea6dc40214f129dabf1ee19cce0b76158c93cc6a3c86a38",
-        "width": 800,
-        "height": 500,
+        "size": 103453,
+        "sha256": "cad13ebee9eb9351b54d8d3639461e11283b7c9d894e67920f14817ca5cf2810",
+        "width": 2142,
+        "height": 1418,
         "fileName": "a27-1.png"
       },
       "publicationState": "published"
@@ -2281,10 +2281,10 @@
         "archiveEntry": "a33-1.png",
         "originalName": "A33 · Bar chart",
         "kind": "embedded-original",
-        "size": 35400,
-        "sha256": "4f229399d220fcb331b69a5bf9cac8b3a5f17850804c1294f2d1f2ece456a080",
-        "width": 710,
-        "height": 474,
+        "size": 134227,
+        "sha256": "547631d1242bf6c5839a961c552131292db11ff5fc6b4c763fa07a4e32c920d8",
+        "width": 1420,
+        "height": 948,
         "fileName": "a33-1.png"
       },
       "publicationState": "published"
@@ -2328,10 +2328,10 @@
         "archiveEntry": "a34-1.png",
         "originalName": "A34 · Maps / plans",
         "kind": "matched-online-original",
-        "size": 147052,
-        "sha256": "66e58a4453ef9d9aae3dda8613716b3bc6647ff4987d0ff380a6311832919f6b",
-        "width": 512,
-        "height": 446,
+        "size": 182326,
+        "sha256": "184b12db631e263a44b0bb56fcf31e0832f28e6366831b56e242385861b87b10",
+        "width": 2665,
+        "height": 1737,
         "fileName": "a34-1.png"
       },
       "publicationState": "published"
@@ -2863,10 +2863,10 @@
         "archiveEntry": "d06-1.png",
         "originalName": "D06 · Table",
         "kind": "embedded-original",
-        "size": 146580,
-        "sha256": "3567273d7623e670a0027fefab1a1be363590812126f2a052f2544d91cc24357",
-        "width": 768,
-        "height": 713,
+        "size": 181560,
+        "sha256": "5cf1ce31d26112477fa70e55ba32260458f60f8fc985c146bb6013b5d4b4a9fd",
+        "width": 2646,
+        "height": 1258,
         "fileName": "d06-1.png"
       },
       "publicationState": "published"
@@ -2910,10 +2910,10 @@
         "archiveEntry": "d07-1.png",
         "originalName": "D07 · Line graph",
         "kind": "embedded-original",
-        "size": 148501,
-        "sha256": "588f1b6427e0c967cef9bc892971838e5570eea050675071c19488fec62956fa",
-        "width": 768,
-        "height": 778,
+        "size": 163931,
+        "sha256": "3ff73288b5f456d859e5f3f474e01ec2537a58b578df25ca04f3ac8bb3d56f53",
+        "width": 2917,
+        "height": 1815,
         "fileName": "d07-1.png"
       },
       "publicationState": "published"
@@ -3004,10 +3004,10 @@
         "archiveEntry": "d09-1.png",
         "originalName": "D09 · Bar chart",
         "kind": "embedded-original",
-        "size": 117100,
-        "sha256": "8b25fd3944b35064aef9ebf9f8eab4da7d5bf6a3a797bfa32dc18005fd118dd9",
-        "width": 768,
-        "height": 768,
+        "size": 312178,
+        "sha256": "15e2a73104d2fffd3e67332381cb953edb426e7cc8bb0cc850deede623b50976",
+        "width": 1876,
+        "height": 1536,
         "fileName": "d09-1.png"
       },
       "publicationState": "published"
@@ -3098,10 +3098,10 @@
         "archiveEntry": "d11-1.png",
         "originalName": "D11 · Maps / plans",
         "kind": "embedded-original",
-        "size": 101539,
-        "sha256": "f68dd85d0ff029460b0ad0713a8180b4485fbaa0a40a9160a394f3526ed8e36c",
-        "width": 768,
-        "height": 738,
+        "size": 288892,
+        "sha256": "a0ff4e1b46eb9a28702fb0000634263e9025da90bc0f51ff84396a8738041d68",
+        "width": 1536,
+        "height": 1548,
         "fileName": "d11-1.png"
       },
       "publicationState": "published"
@@ -3145,10 +3145,10 @@
         "archiveEntry": "d12-1.png",
         "originalName": "D12 · Mixed charts",
         "kind": "embedded-original",
-        "size": 184154,
-        "sha256": "c7fcd960a7be14d162ad4ba1f8c452c0085b8797e74812956611a3ae510481f4",
-        "width": 768,
-        "height": 748,
+        "size": 502277,
+        "sha256": "893dbfe4eb79f1ca5172972dea7eb0794a72599a6b42a3b4cd20fb738eb9264c",
+        "width": 1536,
+        "height": 1496,
         "fileName": "d12-1.png"
       },
       "publicationState": "published"
@@ -3192,10 +3192,10 @@
         "archiveEntry": "d13-1.png",
         "originalName": "D13 · Line graph",
         "kind": "embedded-original",
-        "size": 89233,
-        "sha256": "b50cc08e06c8c01d12817a3200bf1d04832d790218bb8dbb456d89fc80852100",
-        "width": 768,
-        "height": 691,
+        "size": 156159,
+        "sha256": "77129eede541cbec4e4513a955e538059156377bc474a5e5d71bee2809edcd32",
+        "width": 2917,
+        "height": 1703,
         "fileName": "d13-1.png"
       },
       "publicationState": "published"
@@ -3221,10 +3221,10 @@
         "archiveEntry": "d14-1.png",
         "originalName": "D14 · Line graph",
         "kind": "embedded-original",
-        "size": 89616,
-        "sha256": "9a58db17ceb79354a190affabfced7586ae7cd7956bc39c0199b67024ad872c3",
-        "width": 768,
-        "height": 671,
+        "size": 195698,
+        "sha256": "a01d7a7b5479f2b3c1fa5f37dccce36c42e7c64ee6823279f801b886d9c88042",
+        "width": 3134,
+        "height": 1750,
         "fileName": "d14-1.png"
       },
       "publicationState": "published"
@@ -3304,10 +3304,10 @@
         "archiveEntry": "w24-t42-1.png",
         "originalName": "W24-T42 · Bar chart",
         "kind": "embedded-original",
-        "size": 462911,
-        "sha256": "09885d7ee4dfe821531f34a11d675e6218da89beae3cb0153f7ddbe54a988808",
-        "width": 1080,
-        "height": 834,
+        "size": 116709,
+        "sha256": "d835fd6245e55e385bc172e927d04992d1642ed1dc4e81949a86489c0816c062",
+        "width": 2915,
+        "height": 1772,
         "fileName": "w24-t42-1.png"
       },
       "publicationState": "published"
@@ -3423,10 +3423,10 @@
         "archiveEntry": "w24-t47-1.png",
         "originalName": "W24-T47 · Line graph",
         "kind": "embedded-original",
-        "size": 213463,
-        "sha256": "0adb81ce6926fa5fa12335a0b7da6fe0b9dd26a4655cc703796a0cb04b928786",
-        "width": 810,
-        "height": 474,
+        "size": 212249,
+        "sha256": "b3f2b14d71bb9d6355b3b17caca9aa80f50ce97a6c5db419cbdede0e4b8c298c",
+        "width": 2914,
+        "height": 1850,
         "fileName": "w24-t47-1.png"
       },
       "publicationState": "published"
