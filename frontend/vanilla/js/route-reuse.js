@@ -25,7 +25,7 @@ export function createRouteReuse(options={}){
  const stop=scope.subscribe(clear);
  return {
   stamp:()=>({identity:scope.scope,generation:scope.generation,revision:scope.revision,presentation:presentation(),expiry:clock()+ttl}),
-  eligible(entry){return !!entry.context.session&&entry.context.route?.protected&&PASSIVE.has(entry.context.url.pathname)&&entry.context.route.layout!=='focus'&&valid(entry)&&entry.nodes.length>0&&entry.nodes.every(n=>n.nodeType===1&&!n.matches(ACTIVE)&&!n.querySelector(ACTIVE));},
+  eligible(entry){return !entry.pendingMount&&!!entry.context.session&&entry.context.route?.protected&&PASSIVE.has(entry.context.url.pathname)&&entry.context.route.layout!=='focus'&&valid(entry)&&entry.nodes.length>0&&entry.nodes.every(n=>n.nodeType===1&&!n.matches(ACTIVE)&&!n.querySelector(ACTIVE));},
   take(key){const e=entries.get(key);if(!e)return;if(!valid(e)){drop(key);return;}entries.delete(key);nodes-=e.nodeCount;return e;},
   put(key,e){if(!this.eligible(e))return false;const count=e.nodes.reduce((sum,n)=>sum+1+n.querySelectorAll('*').length,0);if(count>maxNodes)return false;drop(key);for(const fn of e.pause??[])try{fn();}catch{}for(const n of e.nodes)e.staging.append(n);e.nodeCount=count;entries.set(key,e);nodes+=count;while(entries.size>limit||nodes>maxNodes)drop(entries.keys().next().value);return true;},
   clear,destroy(){clear();stop();},get size(){return entries.size;},get nodeCount(){return nodes;},get profile(){return {...profile,limit,maxNodes,ttl};},
