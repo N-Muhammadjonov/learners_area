@@ -1425,3 +1425,50 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retentio
   content: none !important;
   display: none !important;
 }
+
+
+/* Retention completed-result actions — 2026-10-30. */
+/* Scope to completed Retention results (both inline and permalink views).
+   Previously blue pill actions receive the same filled gradient as other
+   updated modules; original size, radius, links and events are unchanged. */
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result],
+  [data-retention-result-page]
+) :is(.btn-primary, .btn-secondary) {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result],
+  [data-retention-result-page]
+) :is(.btn-primary, .btn-secondary)::before {
+  content: none !important;
+  display: none !important;
+}
+/* Link to this result and the standalone result page's Back control retain
+   their unfilled appearance, with the requested turquoise-to-blue edge. */
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result] [data-retention-result-permalink],
+  [data-retention-result-page] [data-back-link]
+) {
+  position: relative;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root :is(
+  [data-retention-page] [data-retention-result] [data-retention-result-permalink],
+  [data-retention-result-page] [data-back-link]
+)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
