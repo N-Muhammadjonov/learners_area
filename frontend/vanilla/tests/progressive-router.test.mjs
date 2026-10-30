@@ -52,3 +52,24 @@ test('non-opt-in active route retains transactional mount behavior',async()=>{
   resolve();await pending;assert(h.ctx.root.textContent.includes('exam ready'));
  }finally{resolve();router.destroy();h.dispose();}
 });
+
+test('authorization gate prevents early mount and private DOM before completion',async()=>{
+ const h=setup({role:'student',path:'/app/progress'});let release;const gate=new Promise(r=>release=r);let mounts=0;
+ const router=createRouter({root:h.ctx.root,window,routes:[
+  registered('/app/progress',({root})=>{mounts++;root.textContent='PRIVATE USER DATA';})
+ ],prepare:()=>gate,onError:e=>{throw e;}});
+ try{const pending=router.start();await tick(4);
+  assert.equal(mounts,0);assert(!h.ctx.root.textContent.includes('PRIVATE USER DATA'));
+  release(await authorized());await pending;
+  assert.equal(mounts,1);assert(h.ctx.root.textContent.includes('PRIVATE USER DATA'));
+ }finally{release(await authorized());router.destroy();h.dispose();}
+});
+test('a failed progressive mount never enters reusable DOM cache',async()=>{
+ const h=setup({role:'student',path:'/app/progress'}),scope=createPrivateScope();scope.setScope('user-a');
+ const reuse=createRouteReuse({scope}),router=createRouter({root:h.ctx.root,window,reuse,routes:[
+  registered('/app/progress',async({root})=>{root.textContent='BROKEN PARTIAL VIEW';throw new Error('fixture mount failed');})
+ ],prepare:authorized,onError:()=>{h.ctx.root.textContent='error boundary';}});
+ try{await router.start();await tick(4);
+  assert.equal(reuse.size,0);assert(!h.ctx.root.textContent.includes('BROKEN PARTIAL VIEW'));
+ }finally{router.destroy();scope.setScope(null);h.dispose();}
+});
