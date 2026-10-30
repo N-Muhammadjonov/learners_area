@@ -42,10 +42,14 @@ def test_exam_resume_uses_owned_server_deadline_and_ignores_expired_papers(monke
         async def __aenter__(self): return self
         async def __aexit__(self, *args): pass
         async def fetch(self, sql, *args):
+            if 'ORDER BY p.created_at DESC,p.id' in sql:
+                assert 'p.is_active' in sql and 'CONTENT_DELETED' in sql
+                return [{'id':str(i),'task_type':'task1' if i<2 else 'task2','category':'opinion','prompt':'Sample question','source_ref':None} for i in range(5)]
             if 'count(*)' in sql:
                 return [{'task_type': 'task1', 'n': 2}, {'task_type': 'task2', 'n': 3}]
             if 'FROM writing_prompts p' in sql:
-                assert len(args[0]) == 110
+                # Bundled Real Exam catalogue was retired; persisted owned papers still resume.
+                assert args == ([],)
                 return []
             assert args == ('authorised-user',)
             return [{'id': 'expired', 'mode': 'task1', 'started_at': now, 'expires_at': now-timedelta(seconds=1), 'finalized_at': None, 'finalize_reason': None},

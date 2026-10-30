@@ -1,0 +1,23 @@
+/** Topic-level categorisation for Speaking > Practice on Your Own.
+ * Part 1: exact 206-topic mapping supplied by the user.
+ * Part 2: each of the 166 cue-card titles assigned one primary content category.
+ * Part 3: each of the 166 topics assigned one primary type based on its question set.
+ * Individual question views, question ordering and lesson content are not filtered.
+ */
+const GROUPS={"part1":[{"id":"yes-no","label":"Yes / No","numbers":"011 018 024 028 035 036 040 060 062 094 114 116 138 143 148 185 200 201"},{"id":"description","label":"Personal Information / Description","numbers":"001 002 003 004 017 032 038 042 050 052 053 063 069 075 078 118 130 158 183 186 191 194 202 206"},{"id":"preferences","label":"Likes & Preferences","numbers":"006 007 008 010 015 019 044 049 054 058 059 061 068 080 082 084 086 089 091 092 093 105 106 113 115 117 125 131 133 134 140 145 146 149"},{"id":"habits","label":"Habits & Frequency","numbers":"005 009 012 013 016 023 027 034 047 051 056 065 066 067 071 076 085 087 098 111 119 121 128 153 154 157 159 160 161 163 164 172 177 182 197 198"},{"id":"past","label":"Past Experiences","numbers":"029 057 079 088 099 102 127 144 166 169 174 176 181 205"},{"id":"future","label":"Future Plans","numbers":"026 055 083 101 129 155 171 175 178 204"},{"id":"opinions","label":"Opinions","numbers":"014 030 031 039 070 112 132 142 150 167 168 188 203"},{"id":"reasons","label":"Reasons / Why","numbers":"020 064 095 096 103 110 120 139 141 151 162 170 173 179 180 187"},{"id":"comparisons","label":"Comparisons","numbers":"021 022 025 037 041 043 045 046 048 072 073 074 077 081 090 097 100 104 107 108 109 122 123 126 135 137 147 152 156 165 184 189 190 192 199"},{"id":"hypothetical","label":"Hypothetical Questions","numbers":"033 124 136 193 195 196"}],"part2":[{"id":"people","label":"People","numbers":"005 006 011 019 021 028 029 032 040 041 042 044 045 050 051 052 053 056 066 068 083 085 090 104 132 153 163"},{"id":"places","label":"Places","numbers":"001 008 012 013 025 030 037 055 057 060 065 087 092 103 105 107 109 121 123 128 131 137 149 152 155 161"},{"id":"objects","label":"Objects & Things","numbers":"002 004 015 023 024 026 027 031 035 039 049 061 064 069 070 076 077 078 081 086 089 091 093 095 098 102 108 111 114 116 122 127 136 138 140 146 147 148 150 151 154 158 164"},{"id":"events","label":"Events & Occasions","numbers":"016 017 043 054 062 071 082 088 113 119 120 124 126 130 139 142 143 165"},{"id":"experiences","label":"Experiences & Memories","numbers":"007 009 018 020 022 034 038 046 048 058 059 067 072 075 080 084 094 096 097 099 100 110 112 117 118 125 129 134 135 141 144 157 159 162"},{"id":"activities","label":"Activities & Skills","numbers":"003 010 014 033 036 047 063 073 074 079 101 106 115 133 145 156 160 166"}],"part3":[{"id":"hypothetical","label":"Hypothetical & Speculation","numbers":"007"},{"id":"solutions","label":"Problems & Solutions","numbers":"004 008 013 014 015 017 022 025 030 035 040 046 047 049 051 052 053 057 058 064 066 067 068 070 074 075 079 084 099 100 110 111 112 113 115 117 120 123 129 130 133 138 140 143 146 147 152 154 159 161 164"},{"id":"advantages","label":"Advantages & Disadvantages","numbers":"032 034 087 104"},{"id":"agree","label":"Agree / Disagree","numbers":"011 033 037 038 050"},{"id":"comparisons","label":"Comparison & Contrast","numbers":"001 002 006 010 012 016 021 023 027 036 039 041 043 055 059 060 061 062 078 080 081 090 091 096 098 108 119 141"},{"id":"changes","label":"Changes & Trends","numbers":"045 069 071 088 093 097 102 116 118 124 127 131 144 148 166"},{"id":"future","label":"Future Predictions","numbers":"018 031 094 109 114 151"},{"id":"effects","label":"Effects & Consequences","numbers":"009 024 073 085 092 103 106 128 134 137"},{"id":"causes","label":"Causes & Reasons","numbers":"003 019 026 028 044 054 056 063 072 077 082 086 089 095 101 105 107 121 122 126 135 136 139 142 149 153 155 156 157 158 162 165"},{"id":"opinion","label":"Opinion & Evaluation","numbers":"005 020 029 042 048 065 076 083 125 132 145 150 160 163"}]};
+const BY_TOPIC={};
+for(const [part,groups] of Object.entries(GROUPS)){
+ const index=new Map();
+ for(const group of groups)for(const id of group.numbers.split(' ')){
+  if(index.has(id))throw Error('Duplicate topic '+part+' '+id);
+  index.set(id,group.id);
+ }
+ BY_TOPIC[part]=index;
+}
+export const topicCategoryGroups=Object.fromEntries(
+ Object.entries(GROUPS).map(([part,groups])=>[part,groups.map(({id,label})=>({id,label}))])
+);
+export function topicCategoryFor(part,title){
+ const key=String(title??'').trim().slice(0,3);
+ return /^[0-9]{3}$/.test(key)?BY_TOPIC[part]?.get(key)??null:null;
+}

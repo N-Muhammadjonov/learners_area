@@ -1,0 +1,163 @@
+{
+  "task": 2,
+  "baseCommit": "7e916a02ef7be3192f42bfd054fcf432318fbb47",
+  "branch": "arena/system-hardening-20261028",
+  "change": "Double the existing safe route reuse and presentation-cache policies only. No backend, authorization, prewarm-concurrency, UI, content or scoring changes.",
+  "policies": {
+    "passiveRoutes": [
+      4,
+      8
+    ],
+    "reuseTtlSeconds": [
+      30,
+      60
+    ],
+    "maxDomNodes": [
+      8000,
+      16000
+    ],
+    "dashboardProgressFreshSeconds": [
+      5,
+      10
+    ],
+    "dashboardProgressStaleAllowanceSeconds": [
+      25,
+      50
+    ],
+    "catalogueSeconds": [
+      60,
+      120
+    ],
+    "foldersPacksSeconds": [
+      60,
+      120
+    ],
+    "vocabularySummarySeconds": [
+      5,
+      10
+    ],
+    "prewarmInflight": [
+      2,
+      2
+    ],
+    "privateDataBytes": [
+      2097152,
+      2097152
+    ]
+  },
+  "verification": {
+    "uniqueTargetedTests": 66,
+    "failed": 0,
+    "files": [
+      "instant-navigation.test.mjs",
+      "navigation-metrics-v74.test.mjs",
+      "navigation-fast-v70.test.mjs",
+      "navigation-v3.test.mjs",
+      "phase1-v5.test.mjs"
+    ],
+    "acceptance": [
+      "Eight settled passive views retained; LRU evicts oldest",
+      "59-second DOM reuse; expiration at 60 seconds",
+      "9001-node view accepted; total 16000-node retention remains bounded",
+      "Active editors/media/exams excluded",
+      "Account/authority changes purge private state",
+      "Vocabulary writes invalidate cached data immediately",
+      "Browser Back/Forward restores correct route content without document reload"
+    ],
+    "nativeBuild": {
+      "passed": true,
+      "files": 497,
+      "routes": 122,
+      "nodeServerRequired": false,
+      "missingTrackedVisualAssets": 0,
+      "revision": "86b8866df5f6d987ebb7"
+    }
+  },
+  "measurement": {
+    "fixture": "Existing browser-instant-navigation.html; IAB Chromium 156; 638x1046 CSS pixels; synthetic records; fixed 150ms API latency; full identical visual assets. This is not production latency or a load-capacity test.",
+    "fullAssetMain25": [
+      {
+        "scenario": "warm",
+        "readyP50": 33.3,
+        "readyP95": 33.6,
+        "reads": 5
+      },
+      {
+        "scenario": "after-presence",
+        "readyP50": 15.1,
+        "readyP95": 28.8,
+        "reads": 33
+      },
+      {
+        "scenario": "after-45-seconds",
+        "readyP50": 33.4,
+        "readyP95": 182.3,
+        "reads": 7
+      },
+      {
+        "scenario": "back-revisit",
+        "readyP50": 33.3,
+        "readyP95": 34.2,
+        "reads": 0
+      }
+    ],
+    "fullAsset2x25": [
+      {
+        "scenario": "warm",
+        "readyP50": 33.3,
+        "readyP95": 34.2,
+        "reads": 5
+      },
+      {
+        "scenario": "after-presence",
+        "readyP50": 19.1,
+        "readyP95": 32.8,
+        "reads": 33
+      },
+      {
+        "scenario": "after-45-seconds",
+        "readyP50": 33.4,
+        "readyP95": 182.5,
+        "reads": 7
+      },
+      {
+        "scenario": "back-revisit",
+        "readyP50": 33.3,
+        "readyP95": 34.3,
+        "reads": 0
+      }
+    ],
+    "initialGateFailure": "The 25-sample after-presence scenario regressed by 13.9%. It was not discarded or marked PASS; the same scenario was rerun on both sources with 125 samples.",
+    "focused125": {
+      "scenario": "after-presence",
+      "countPerSource": 125,
+      "main": {
+        "readyP50": 16.7,
+        "readyP95": 26.7,
+        "commitP50": 7.1,
+        "commitP95": 17.6,
+        "apiReads": 147,
+        "presencePosts": 125,
+        "dataReads": 22
+      },
+      "twoX": {
+        "readyP50": 17.5,
+        "readyP95": 26.5,
+        "commitP50": 9.4,
+        "commitP95": 19.7,
+        "apiReads": 140,
+        "presencePosts": 125,
+        "dataReads": 15
+      },
+      "gate": "User-visible settled-content ready p95 <= baseline * 1.10",
+      "passed": true,
+      "errors": 0
+    },
+    "limitations": [
+      "Small isolated samples have frame/GC noise. No production speedup or 1000-user readiness is claimed.",
+      "Production and main remain at 7e916a0, so no after-deployment API latency comparison exists.",
+      "The initial Task 1 local fixture lacked 63 visual assets due to sparse checkout. These were restored unchanged from Git; full-asset paired measurements above supersede it for the Task 2 comparison."
+    ]
+  },
+  "status": "PASS - verified source and isolated checks; not merged or deployed"
+}

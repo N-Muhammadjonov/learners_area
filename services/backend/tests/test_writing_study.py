@@ -40,7 +40,7 @@ class Pool:
     def acquire(self):return self.con
 @pytest.fixture
 def env(monkeypatch):
-    con=Con();monkeypatch.setattr(core,'current_user',AsyncMock(return_value={'id':USER,'role':'student','account_status':'active'}));monkeypatch.setattr(core,'pool',AsyncMock(return_value=Pool(con)));monkeypatch.setattr(port,'session_source',AsyncMock(return_value=SOURCE));monkeypatch.setattr(port,'counter',lambda *a,**k:None);return con
+    con=Con();monkeypatch.setattr(core,'current_user',AsyncMock(return_value={'id':USER,'role':'student','account_status':'active'}));monkeypatch.setattr(core,'pool',AsyncMock(return_value=Pool(con)));monkeypatch.setattr(port,'session_source',AsyncMock(return_value=SOURCE));monkeypatch.setattr(port,'counter',AsyncMock(return_value=None));return con
 
 def value(**patches):return {'notes':'Private notes','highlights':[{'id':str(UUID(int=9)),'start':0,'end':5,'color':'blue'}],'sourceHash':source_hash(BODY),'revision':0,**patches}
 

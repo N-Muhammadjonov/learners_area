@@ -9,7 +9,7 @@ from fastapi import APIRouter, Request
 from . import main as core
 from .internal_bot_ready_port import verify_bot
 from .telegram_admins_port import actor_for,denied_response
-from .rate_limit import counter,too_many,RULES
+from .rate_limit import async_counter as counter,too_many,RULES
 
 router=APIRouter()
 _CHECKED={}
@@ -50,7 +50,7 @@ async def refresh_people(req:Request):
     user=await core.current_user(req,active=True)
     if not user or user['role'] not in ('owner','admin'):return core.j({'error':'forbidden'},403)
     RULES.setdefault('people_contacts_refresh',(12,60))
-    delay=counter('people_contacts_refresh',str(user['id']),consume=True)
+    delay=await counter('people_contacts_refresh',str(user['id']),consume=True)
     if delay:return too_many(delay)
     b=await core.payload(req)
     ids=b.get('ids') if isinstance(b,dict) else None

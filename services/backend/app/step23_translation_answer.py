@@ -7,6 +7,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
 from .writing_translation_port import done,translation_view
+from .rate_limit import evaluation_limit
 router=APIRouter()
 
 def norm(s):
@@ -22,6 +23,8 @@ def problem(code):
 async def submit(req:Request,id:str):
     user=await core.current_user(req,active=True)
     if not user:return core.j({'error':{'code':'unauthenticated','message':'Sign in again.'}},401)
+    limited=await evaluation_limit(user['id'],lightweight=True)
+    if limited is not None:return limited
     b=await core.payload(req)
     if not core.uuid_value(id) or not isinstance(b,dict) or set(b)!={'position','answer'} or type(b.get('position')) is not int or not 1<=b['position']<=40 or not isinstance(b.get('answer'),str) or len(b['answer'])>1200:return invalid()
     text=b['answer'].strip()
@@ -38,14 +41,16 @@ async def submit(req:Request,id:str):
         if current is None or current['position']!=b['position']:return problem('not_current')
         eqs=[current['model_english'],*(current['accepted_alternatives'] or [])]
         rec={'answer':text,'evaluation_status':'exact','verdict':'correct','meaning':100,'grammar':None,'vocabulary':None,'feedback':None,'improved':None}
-        if not norm(text) or not any(norm(t)==norm(text) for t in eqs):
-            doc=await con.fetchrow('SELECT target_band FROM writing_translation_sets WHERE id=$1',attempt['set_id'])
-            r,error=await ai.check(user.get('locale','en'),'translation',{'kind':'translation','uzbekSource':current['uzbek_source'],'referenceEnglish':current['model_english'],'acceptedAlternatives':current['accepted_alternatives'] or [],'targetBand':doc['target_band'],'answer':text})
-            if error:
-                rec.update(evaluation_status='unavailable',verdict=None,meaning=None)
-            else:
-                rec.update(evaluation_status='evaluated',verdict=r['verdict'],meaning=round(r['bands']['meaning']/9*100) if r['bands']['meaning'] is not None else None,
-                           grammar=r['bands']['grammar'],vocabulary=r['bands']['vocabulary'],feedback=r['feedback'],improved=r['improved'])
+        needs_ai=not norm(text) or not any(norm(t)==norm(text) for t in eqs)
+        doc=await con.fetchrow('SELECT target_band FROM writing_translation_sets WHERE id=$1',attempt['set_id']) if needs_ai else None
+    if needs_ai:
+        r,error=await ai.check(user.get('locale','en'),'translation',{'kind':'translation','uzbekSource':current['uzbek_source'],'referenceEnglish':current['model_english'],'acceptedAlternatives':current['accepted_alternatives'] or [],'targetBand':doc['target_band'],'answer':text},user_id=user['id'])
+        if error:
+            rec.update(evaluation_status='unavailable',verdict=None,meaning=None)
+        else:
+            rec.update(evaluation_status='evaluated',verdict=r['verdict'],meaning=round(r['bands']['meaning']/9*100) if r['bands']['meaning'] is not None else None,
+                       grammar=r['bands']['grammar'],vocabulary=r['bands']['vocabulary'],feedback=r['feedback'],improved=r['improved'])
+    async with db.acquire() as con:
         prev=old.get(str(current['id']));tries=(prev['tries'] if prev else 0)+1
         await con.execute('''INSERT INTO writing_translation_answers(attempt_id,sentence_id,answer_text,evaluation_status,verdict,meaning_preserved,grammar_band,vocabulary_band,feedback,improved_version,tries)
              VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT(attempt_id,sentence_id) DO UPDATE

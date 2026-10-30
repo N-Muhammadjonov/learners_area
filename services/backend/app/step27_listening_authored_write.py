@@ -7,7 +7,7 @@ from __future__ import annotations
 import json,re,math
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import RULES,counter
+from .rate_limit import RULES,async_counter as counter
 from .step21_listening_authored_reads import PRIVATE,get_context,loaded_values
 from .step17_listening_course_port import COURSE_KEY,SPEC,state_key,runtime_source,read_work,current_work,course_status
 from .step17_listening_start_port import begin
@@ -121,7 +121,7 @@ async def authored_write(req:Request,id:str):
         if err:return err
         source=pkg['source_id']
         if not runtime_source(id,source):return core.j({'error':'not_found'},404,PRIVATE)
-        delay=counter('listening_authored_state',str(user['id']),consume=True)
+        delay=await counter('listening_authored_state',str(user['id']),consume=True, connection=con)
         if delay:return core.j({'error':'rate_limited'},429,{'Retry-After':str(delay)})
         data=await core.payload(req)
         if not validate(data):return core.j({'error':'invalid_input'},400,PRIVATE)

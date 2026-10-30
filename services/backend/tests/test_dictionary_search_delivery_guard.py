@@ -1,3 +1,4 @@
+from unittest.mock import AsyncMock
 import asyncio
 from uuid import UUID
 from fastapi import FastAPI
@@ -51,7 +52,7 @@ def client(monkeypatch, con):
     monkeypatch.setattr(read.core, 'current_user', user)
     monkeypatch.setattr(read.core, 'pool', pool)
     monkeypatch.setattr(read, 'pinned', pinned)
-    monkeypatch.setattr(read, 'counter', lambda *a, **k: 0)
+    monkeypatch.setattr(read, 'counter', AsyncMock(return_value=0))
     app = FastAPI()
     app.include_router(read.router)
     return TestClient(app)
@@ -154,7 +155,8 @@ def test_retention_passes_word_and_existing_candidates_to_context_selection(monk
     original={'lexeme_id':ident,'display_lemma':'fair','part_of_speech':'noun','senses':[sense]}
     async def worker(body):return {'release_id':body['release'],'results':[{'lexeme_id':ident,'match_type':'exact_lemma'}]}
     async def entry(*args):return original
-    async def choose(sentence,word,candidates):
+    async def choose(sentence,word,candidates,*,user_id):
+        assert user_id is not None
         assert sentence=='[[fair]]' and word=='fair'
         assert candidates==[{'entry':original,'sense':sense}]
         return candidates[0]

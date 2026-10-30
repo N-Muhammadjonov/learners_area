@@ -18,7 +18,7 @@ export function mount(context){
  const header=el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},t.title),el('p',{class:'text-sm text-ink-500'},t.intro));
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),header,workspace);root.append(host);
  const remoteAudio=el('audio',{autoplay:'',class:'hidden','aria-hidden':'true'});host.append(remoteAudio);
- let me=null,questions=[],data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open='part1',selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
+ let me=null,questions=[],topicsByPart={part1:[],part2:[],part3:[]},topicQuestions=[],topicCursor=null,topicLoading=false,topicToken=0,data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open=null,selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
  let inFlight=false,heartbeat=false,destroyed=false;
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
@@ -43,6 +43,10 @@ export function mount(context){
   catch(e){if(!destroyed){error=t.errors[e?.code]??(ctl.signal.aborted?t.errors.unknownResult:t.errors.unavailable);void refresh();}return false;}
   finally{clearTimeout(deadline);inFlight=false;busy=false;if(!destroyed)draw();}
  }
+ async function loadTopics(){
+  try{const batches=await Promise.all(PARTS.map(async part=>{const all=[];let cursor=null;do{const params=new URLSearchParams({channel:'practice_alone',part,...(cursor?{topicCursor:cursor}:{})});const res=await fetch('/api/speaking/practice/facets?'+params,{credentials:'same-origin',cache:'no-store',signal});if(!res.ok)throw Error('topics');const data=await res.json();all.push(...(data.topics??[]));cursor=data.nextTopicCursor??null;}while(cursor&&!signal.aborted);return [part,all];}));if(destroyed)return;topicsByPart=Object.fromEntries(batches);draw();}catch{if(!destroyed)error=t.searchFailed;draw();}
+ }
+ async function loadTopic(part,topic,more=false){const token=more?topicToken:++topicToken;if(!more){topicQuestions=[];topicCursor=null;}topicLoading=true;draw();try{const params=new URLSearchParams({part,topic,...(more&&topicCursor?{cursor:topicCursor}:{})});const res=await fetch('/api/speaking/live-partner/questions?'+params,{credentials:'same-origin',cache:'no-store',signal});if(!res.ok)throw Error('topic');const data=await res.json();if(destroyed||token!==topicToken)return;const seen=new Set(topicQuestions.map(q=>q.id));topicQuestions.push(...(data.questions??[]).filter(q=>!seen.has(q.id)));topicCursor=data.nextCursor??null;}catch{if(!destroyed&&token===topicToken)error=t.searchFailed;}finally{if(!destroyed&&token===topicToken){topicLoading=false;draw();}}}
  async function search(more=false){const text=query.trim();if(!text){remoteQuestions=null;searchCursor=null;searchState='idle';searchId++;draw();return;}
   const token=++searchId;searchState='loading';draw();
   try{const q=new URLSearchParams({q:text,...(more&&searchCursor?{cursor:searchCursor}:{})});const r=await fetch('/api/speaking/live-partner/questions?'+q,{credentials:'same-origin',cache:'no-store',signal});if(!r.ok)throw Error('search');const result=await r.json();if(destroyed||token!==searchId)return;
@@ -108,14 +112,15 @@ export function mount(context){
   if(searchState==='error')questionsPanel.append(button(t.searchRetry,()=>void search(),'btn-ghost btn-sm self-start',{'data-partner-search-retry':''}));
   if(searchCursor&&searchState==='success')questionsPanel.append(button(t.searchMore,()=>void search(true),'btn-ghost btn-sm self-start',{'data-partner-search-more':''}));
   const pool=remoteQuestions??questions;
-  if(selectedTopic){const filtered=pool.filter(q=>q.part===selectedTopic.part&&q.topic===selectedTopic.topic);const fallback=questions.filter(q=>q.part===selectedTopic.part&&q.topic===selectedTopic.topic);const list=filtered.length?filtered:fallback,q=list[Math.min(qIndex,list.length-1)];
+  if(selectedTopic){const list=topicQuestions,q=list[Math.min(qIndex,list.length-1)];
+   if(topicLoading&&!list.length)questionsPanel.append(el('p',{role:'status'},dict.common.loading));
    if(q){const card=el('article',{class:'flex min-h-80 flex-col gap-5 rounded-2xl border border-ink-100 bg-paper-raised p-5','data-partner-topic-question':''},button('← '+dict.common.back,()=>{selectedTopic=null;draw();},'btn-secondary self-start'),el('h3',{class:'font-display text-xl'},selectedTopic.topic??dict.speakingStudy.topic),el('p',{class:'whitespace-pre-line text-lg'},q.promptText),q.cueCard?el('p',{class:'whitespace-pre-line text-ink-700'},q.cueCard):null,
-     el('div',{class:'mt-auto flex flex-wrap items-center justify-between gap-2'},el('span',{},`${qIndex+1} / ${list.length}`),button(t.nextQuestion+' →',()=>{qIndex++;draw();},'btn-primary',{disabled:qIndex+1>=list.length?'':null})));questionsPanel.append(card);}
-  }else for(const part of PARTS){const matches=pool.filter(q=>q.part===part&&(!query.trim()||(`${q.topic??''} ${q.promptText}`).toLowerCase().includes(query.toLowerCase())));const byTopic=new Map();for(const q of matches)if(!byTopic.has(q.topic))byTopic.set(q.topic,q);
+     el('div',{class:'mt-auto flex flex-wrap items-center justify-between gap-2'},el('span',{},`${qIndex+1} / ${list.length}`),button(t.nextQuestion+' →',()=>{qIndex++;draw();},'btn-primary',{disabled:qIndex+1>=list.length?'':null})));questionsPanel.append(card);if(topicCursor&&!topicLoading)questionsPanel.append(button(t.searchMore,()=>void loadTopic(selectedTopic.part,selectedTopic.topic,true),'btn-secondary'));}
+  }else for(const part of PARTS){const matches=pool.filter(q=>q.part===part&&(!query.trim()||(`${q.topic??''} ${q.promptText}`).toLowerCase().includes(query.toLowerCase())));const byTopic=new Map(query.trim()?matches.map(q=>[q.topic,{key:q.topic,title:q.topic}]):topicsByPart[part].map(t=>[t.key,t]));
     const wrap=el('section',{class:'practice-part-card relative overflow-hidden rounded-2xl border border-ink-100','data-practice-part':part});
     const expanded=query.trim().length>0||open===part;wrap.append(button('',()=>{open=open===part?null:part;draw();},'relative flex min-h-28 w-full items-center justify-between gap-3 px-5 py-4 text-left font-medium',{'aria-expanded':String(expanded),'aria-controls':`lp-${part}`}));
     wrap.firstChild.append(el('span',{class:'font-display text-xl font-bold'},t.parts[part]),el('span',{class:'text-xs text-ink-500'},String(byTopic.size)));
-    if(expanded){const list=el('ul',{id:`lp-${part}`,class:'max-h-96 space-y-2 overflow-y-auto border-t border-ink-100 p-3'});for(const [name] of byTopic)list.append(el('li',{},button((name??dict.speakingStudy.topic)+' →',()=>{selectedTopic={part,topic:name};qIndex=0;draw();},'btn-secondary w-full justify-between text-left')));if(!byTopic.size)list.append(el('li',{class:'text-sm text-ink-500'},t.noQuestions));wrap.append(list);}questionsPanel.append(wrap);
+    if(expanded){const list=el('ul',{id:`lp-${part}`,class:'max-h-96 space-y-2 overflow-y-auto border-t border-ink-100 p-3'});for(const [name,topicRow] of byTopic)list.append(el('li',{},button((topicRow.title??name??dict.speakingStudy.topic)+' →',()=>{selectedTopic={part,topic:name};qIndex=0;void loadTopic(part,name);},'btn-secondary w-full justify-between text-left')));if(!byTopic.size)list.append(el('li',{class:'text-sm text-ink-500'},t.noQuestions));wrap.append(list);}questionsPanel.append(wrap);
   }
   grid.append(questionsPanel);
   const side=el('section',{class:'lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4'});
@@ -140,7 +145,7 @@ export function mount(context){
     try{replacement.setSelectionRange(selection.from,selection.to);}catch{}}
   }
  }
- async function init(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_live_partner'||!d.me||!Array.isArray(d.questions))throw Error('invalid_live_partner_view');me=d.me;questions=d.questions;draw();void refresh();}catch{if(!signal.aborted)workspace.replaceChildren(RegionFailureNotice({region:'speaking-live-partner',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:init}));}}
+ async function init(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_live_partner'||!d.me||!Array.isArray(d.questions))throw Error('invalid_live_partner_view');me=d.me;questions=d.questions;draw();void loadTopics();void refresh();}catch{if(!signal.aborted)workspace.replaceChildren(RegionFailureNotice({region:'speaking-live-partner',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:init}));}}
  const runPoll=()=>{if(!destroyed&&document.visibilityState==='visible')void refresh();later(runPoll,POLL);};later(runPoll,POLL);
  const runBeat=()=>{if(!destroyed&&state()!=='offline'&&!heartbeat){heartbeat=true;void request({action:'heartbeat'},AbortSignal.timeout(TIMEOUT)).catch(()=>{}).finally(()=>{heartbeat=false;});}later(runBeat,BEAT);};later(runBeat,BEAT);
  void init();

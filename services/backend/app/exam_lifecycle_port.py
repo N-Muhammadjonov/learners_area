@@ -13,6 +13,7 @@ from .lesson_writing_port import is_js_uuid, js_length
 from .db import row_to_dict
 from .writing_source_materials import FULL_TESTS,live_inventory,catalogue
 from .notification_events import notify_writing_review_required
+from .writing_exam_bank import catalogue as exam_catalogue
 import random
 
 router = APIRouter()
@@ -55,27 +56,48 @@ async def exam_start(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return err('unauthenticated','Sign in again.',401)
     body=await core.payload(req)
-    if (not isinstance(body,dict) or not {'mode'}<=set(body)<={'mode','fullTest'}
+    if (not isinstance(body,dict) or not {'mode'}<=set(body)<={'mode','fullTest','promptId'}
         or not isinstance(body['mode'],str) or body['mode'] not in MODES):
         return err('invalid_input','Choose Task 1, Task 2 or Full Writing.',400,field='mode')
     mode=body['mode']; duration,tasks=MODES[mode]
     selected=None
+    chosen_prompt=None
+    if 'promptId' in body:
+        if mode=='full' or 'fullTest' in body or not is_js_uuid(body['promptId']):
+            return err('invalid_input','Choose a published question for this task.',400,field='promptId')
+        chosen_prompt=core.uuid_value(body['promptId'])
     if 'fullTest' in body:
         code=body['fullTest']
-        if mode!='full' or not isinstance(code,str) or code not in FULL_TESTS or not FULL_TESTS[code]['ready']:
+        if mode!='full' or not isinstance(code,str) or not code or len(code)>100:
             return err('invalid_input','Choose an available full test.',400,field='fullTest')
-        selected=FULL_TESTS[code]
+        selected=FULL_TESTS.get(code)
     db=await core.pool()
     async with db.acquire() as conn:
+        bank_pairs=[]
+        if mode=='full':
+            rows=await conn.fetch('''SELECT p.id,p.task_type,p.category,p.prompt,p.source_ref FROM writing_prompts p
+              WHERE p.is_active AND (p.publication_state='published' OR (p.publication_state='scheduled' AND p.publish_at<=NOW()))
+              AND NOT EXISTS (SELECT 1 FROM activity_events e WHERE e.id=md5('deleted-content:' || p.id::text)::uuid AND e.type='CONTENT_DELETED')''')
+            bank_pairs=exam_catalogue(rows)['fullTests']
+            if 'fullTest' in body:
+                selected=next((p for p in bank_pairs if p['code']==body['fullTest']),selected)
+                if not selected or selected.get('ready') is False:
+                    return err('invalid_input','Choose an available full test.',400,field='fullTest')
+        if chosen_prompt:
+            available=await conn.fetchval('''SELECT p.id FROM writing_prompts p WHERE p.id=$1 AND p.task_type=$2
+              AND p.is_active AND (p.publication_state='published' OR (p.publication_state='scheduled' AND p.publish_at<=NOW()))
+              AND NOT EXISTS (SELECT 1 FROM activity_events e WHERE e.id=md5('deleted-content:' || p.id::text)::uuid AND e.type='CONTENT_DELETED')''',chosen_prompt,mode)
+            if not available:return err('no_prompts','This question is not published for this task.',404)
+        requested=selected or ({'promptIds':[str(chosen_prompt)]} if chosen_prompt else None)
         existing=await open_paper(conn,user['id'])
         if existing:
-            if existing['mode']==mode and (not selected or await same_pair(conn,existing['id'],selected)):
+            if existing['mode']==mode and (not requested or await same_pair(conn,existing['id'],requested)):
                 return core.j({'ok':True,'id':str(existing['id']),'resumed':True})
             return core.j({'error':{'code':'other_paper_open','message':'Another exam is open.','retryable':False},'openPaperId':str(existing['id'])},409)
-        prompt_ids=[]
+        prompt_ids=[chosen_prompt] if chosen_prompt else []
         if mode=='full':
             inventory=await live_inventory(conn)
-            pairs=catalogue(inventory)['fullTests']
+            pairs=bank_pairs+catalogue(inventory)['fullTests']
             if selected and selected not in pairs:
                 return err('no_prompts','This full test is not published.',404)
             if selected or pairs:
@@ -85,8 +107,10 @@ async def exam_start(req:Request):
                 return err('no_prompts','No complete published test pair is available.',404)
         for task in tasks if not prompt_ids else []:
             prompt=await conn.fetchval('''SELECT id FROM writing_prompts
-                WHERE task_type=$1 AND (publication_state='published'
+                WHERE task_type=$1 AND is_active AND (publication_state='published'
                 OR (publication_state='scheduled' AND publish_at<=NOW()))
+                AND NOT EXISTS (SELECT 1 FROM activity_events e
+                  WHERE e.id=md5('deleted-content:' || writing_prompts.id::text)::uuid AND e.type='CONTENT_DELETED')
                 ORDER BY random() LIMIT 1''',task)
             if not prompt:
                 return core.j({'error':{'code':'no_prompts','message':'No published questions for this task.','retryable':False},},404)
@@ -106,7 +130,7 @@ async def exam_start(req:Request):
         except Exception:
             winner=await open_paper(conn,user['id'])
             if not winner: raise
-            if winner['mode']!=mode or (selected and not await same_pair(conn,winner['id'],selected)):
+            if winner['mode']!=mode or (requested and not await same_pair(conn,winner['id'],requested)):
                 return core.j({'error':{'code':'other_paper_open','message':'Another exam is open.','retryable':False},'openPaperId':str(winner['id'])},409)
             return core.j({'ok':True,'id':str(winner['id']),'resumed':True})
     return core.j({'ok':True,'id':str(pid),'resumed':False})

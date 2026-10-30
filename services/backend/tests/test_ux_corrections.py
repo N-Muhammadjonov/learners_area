@@ -104,16 +104,10 @@ class UXTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_context_selection_cannot_invent_dictionary_senses(self):
         candidates=[{'entry':{'display_lemma':'bank','part_of_speech':'noun'},'sense':{'sense_id':'river','definition_en':'the land beside a river'}},{'entry':{'display_lemma':'bank','part_of_speech':'noun'},'sense':{'sense_id':'money','definition_en':'a financial institution'}}]
-        class Response:
-            status_code=200;content=b'{}'
-            def json(self):return {'choices':[{'message':{'content':json.dumps({'senseId':'invented','confidence':1})}}]}
-        class Client:
-            def __init__(self,**kwargs):pass
-            async def __aenter__(self):return self
-            async def __aexit__(self,*args):pass
-            async def post(self,*args,**kwargs):return Response()
-        with patch('app.step23_writing_provider.provider_spec',AsyncMock(return_value={'id':'compatible','model':'synthetic','url':'https://provider.example','headers':{}})),patch('httpx.AsyncClient',Client):
-            self.assertIsNone(await retention_meaning.select_sense('The river flooded the bank.','bank',candidates))
+        response={'choices':[{'message':{'content':json.dumps({'senseId':'invented','confidence':1})}}]}
+        with patch('app.step23_writing_provider.provider_spec',AsyncMock(return_value={'id':'compatible','model':'synthetic','url':'https://provider.example','headers':{}})),patch.object(retention_meaning,'request_json',AsyncMock(return_value=response)) as request:
+            self.assertIsNone(await retention_meaning.select_sense('The river flooded the bank.','bank',candidates,user_id=uid))
+            self.assertEqual(request.await_args.args[0],uid)
         self.assertIs(await retention_meaning.select_sense('A book.','book',candidates[:1]),candidates[0])
 
     async def test_context_response_is_sealed_when_reading_deadline_expires_during_lookup(self):

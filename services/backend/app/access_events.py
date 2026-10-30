@@ -3,10 +3,21 @@ import asyncio
 import json
 import re
 import uuid
+import logging
 import asyncpg
-from .db import connection_settings
+from .db import connection_settings,connection_mode
+from urllib.parse import urlsplit,urlunsplit
 
 UUID=re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',re.I)
+
+
+def listener_settings(dsn):
+    # Supavisor transaction clients cannot retain LISTEN state. Its session
+    # endpoint uses the same host/credentials on 5432; retain verified TLS.
+    parts=urlsplit(dsn)
+    if (parts.hostname or '').lower().endswith('.pooler.supabase.com') and parts.port==6543:
+        dsn=urlunsplit(parts._replace(netloc=parts.netloc.rsplit(':',1)[0]+':5432'))
+    return connection_settings(dsn)
 
 def access_event_user_id(payload):
     if not payload or len(payload)>256:return None
@@ -55,13 +66,15 @@ class AccessChangeBus:
     async def connect(self,dsn):
         connection=None
         try:
-            target,tls=connection_settings(dsn)
-            connection=await asyncpg.connect(target,timeout=5,ssl=tls)
+            target,tls=listener_settings(dsn)
+            connection=await asyncpg.connect(target,timeout=5,command_timeout=20,statement_cache_size=0,ssl=tls)
             await connection.add_listener('la_access_changed',self.notification)
             connection.add_termination_listener(self.lost)
             if not self.listeners:
                 await connection.close();return False
             self.connection=connection
+            logging.getLogger('uvicorn.error').info('Access-event listener ready: transport=%s verified_tls=%s',
+                                                  connection_mode(target),bool(tls and tls.check_hostname))
             return True
         except asyncio.CancelledError:
             if connection:await connection.close()

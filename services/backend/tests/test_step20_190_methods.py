@@ -3,7 +3,7 @@
 No live PostgreSQL/S3/Telegram/Worker tests run here; they remain a parity gap.
 """
 from __future__ import annotations
-import json, hashlib, hmac, time
+import json, hashlib, hmac, time, sys
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
 from uuid import UUID
@@ -54,6 +54,8 @@ class Pool:
 
 @pytest.fixture
 def env(monkeypatch):
+    # Collection and unrelated tests can outlast the 45-second recall fixture.
+    monkeypatch.setattr(sys.modules[__name__],'now',datetime.now(timezone.utc))
     db=DB()
     async def pool():return Pool(db)
     async def user(req,active=False):return {'id':ID,'role':'student','account_status':'active'}
@@ -72,7 +74,7 @@ def test_inventory_reconciled_and_no_undeclared_route():
     declared={(v['method'],v['path']) for v in d['endpoints'] if v['status'].startswith('ported_')}
     assert len(registered)==len(set(registered))>=210
     assert declared==set(registered)
-    assert len(d['endpoints'])==271 and d['ported_methods']==len(registered) and d['unported_methods']==271-len(registered)
+    assert len(d['endpoints'])==274 and d['ported_methods']==len(registered) and d['unported_methods']==274-len(registered)
 
 @pytest.mark.parametrize('method,path',[
   ('GET','/api/admin/content/lessons/'+str(RID)+'/edit'),
@@ -298,10 +300,12 @@ def test_inactive_speaking_file_read_follows_original_content_ownership(env,monk
         return {'user':{'id':ID,'role':role,'account_status':'active'},
                 'sessionKey':'a'*64,'authVersion':0,'expiresAt':int(time.time())+300}
     async def local_head(key):return {'size':5,'contentType':'audio/mpeg'}
-    async def local_read(key,start,end):return b'hello'
+    async def local_stream(req,key,info,headers,span,head):
+        from starlette.responses import Response
+        return Response(b'hello',headers=headers)
     monkeypatch.setattr(core,'current_authority',authority)
     monkeypatch.setattr(media_port,'head_object',local_head)
-    monkeypatch.setattr(media_port,'read_object',local_read)
+    monkeypatch.setattr(media_port,'object_response',local_stream)
     env.data['material_block']={'material_id':RID}
     env.data['material']={'id':RID,'is_active':False,'created_by_user_id':creator}
     response=C.get('/api/resources/speaking/lecture.mp3')

@@ -6,7 +6,7 @@ from __future__ import annotations
 import re,json,unicodedata
 from fastapi import APIRouter,Request
 from . import main as core
-from .rate_limit import counter,RULES
+from .rate_limit import async_counter as counter,RULES
 from .step17_listening_start_port import test_detail,PRIVATE
 router=APIRouter()
 RULES.setdefault('listening_practice',(120,60))
@@ -73,7 +73,7 @@ async def practice(req:Request,id:str):
     try:
         user=await core.current_user(req,active=True)
         if not user:return core.auth_error()
-        delay=counter('listening_practice',str(user['id']),consume=True)
+        delay=await counter('listening_practice',str(user['id']),consume=True)
         if delay:return core.j({'error':'rate_limited'},429,{'Retry-After':str(delay)})
         ctx,err=await prepare(req,id)
         if err:return err

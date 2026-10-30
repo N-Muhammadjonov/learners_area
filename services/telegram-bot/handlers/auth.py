@@ -81,7 +81,8 @@ async def _complete_pending_intent(message: Message, state: FSMContext | None,
     if status != 200 or result.get("ok") is not True:
         await message.answer(t(lang, "temporary_error"), reply_markup=_channel_keyboard(lang))
         return False
-    if not token:
+    intent_id = result.get("intentId")
+    if not token and not intent_id:
         if state:
             await state.clear()
         return True
@@ -89,6 +90,7 @@ async def _complete_pending_intent(message: Message, state: FSMContext | None,
         confirmed = await api_client.confirm_intent(
             token=token, telegram_user_id=telegram_user_id,
             displayName=display_name, languageCode=lang,
+            **({"intentId": intent_id} if intent_id else {}),
         )
     except Exception:
         confirmed = False
@@ -118,11 +120,21 @@ async def cmd_start(
     if backend_error:
         await message.answer(t(lang, "temporary_error"))
         return
+    if not message.from_user or not message.chat or message.chat.type != "private":
+        await message.answer(t(lang, "confirm_failed"))
+        return
+    try:
+        status, result = await api_client.auth_context(str(message.from_user.id), args)
+    except Exception:
+        status, result = 503, {}
+    if status != 200 or result.get("ok") is not True:
+        await message.answer(t(lang, "confirm_failed" if status == 404 else "temporary_error"))
+        return
     # An intent token is not consumed until the user's OWN contact is verified.
     if state:
         await state.clear()
         await state.set_state(PhoneFlow.awaiting_own_contact)
-        await state.update_data(pending_token=args)
+        # Security context is durable on the backend; memory holds only UI state.
     await message.answer(t(lang, "share_phone"), reply_markup=phone_keyboard(lang))
 
 
@@ -196,6 +208,15 @@ async def membership(event: ChatMemberUpdated):
 
 @auth_router.message(Command("cancel"))
 async def cmd_cancel(message: Message, state: FSMContext, db_user: dict | None = None):
+    if not message.from_user or not message.chat or message.chat.type != "private":
+        return
+    try:
+        status, result = await api_client.auth_context(str(message.from_user.id), cancel=True)
+    except Exception:
+        status, result = 503, {}
+    if status != 200 or result.get("ok") is not True:
+        await message.answer(t(lang_of(message, db_user), "temporary_error"))
+        return
     await state.clear()
     await message.answer(t(lang_of(message, db_user), "cancelled"))
 

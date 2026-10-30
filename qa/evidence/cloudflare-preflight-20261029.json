@@ -1,0 +1,132 @@
+{
+  "task": 3,
+  "status": "PREPARED - awaiting separate authorization; no production changes applied",
+  "zone": "29f39aa1e1fde776ee382443a9ba0d48",
+  "account": "d953f7ff0eedad092d7059969125244d",
+  "observed": {
+    "apex": {
+      "record": "575c930040f11f24eb1c4f2e9bd88941",
+      "type": "CNAME",
+      "content": "74i26mza.up.railway.app",
+      "proxied": false
+    },
+    "www": {
+      "record": "e8d927ba4441da2f25ca22f23abfd90e",
+      "type": "CNAME",
+      "content": "learnersarea.uz",
+      "proxied": false
+    },
+    "ssl": "full",
+    "edgeCertificate": {
+      "active": true,
+      "hosts": [
+        "learnersarea.uz",
+        "*.learnersarea.uz"
+      ]
+    },
+    "railwayApexCertificate": "valid",
+    "wwwDirectCertificate": "hostname mismatch - pre-existing",
+    "originBypass": "/api/version reachable at Railway service domain",
+    "existingCustomWafTransformRedirectEntrypoints": "not found (404); recheck before applying"
+  },
+  "source": {
+    "originBoundary": "CLOUDFLARE_ORIGIN_SECRET enables constant-time x-la-origin-verify check before the application. Disabled without new config. Existing authenticated internal Telegram bearer calls and exact health probes remain supported.",
+    "tests": {
+      "passed": 42,
+      "failed": 0
+    },
+    "backendCheck": true,
+    "noDatabaseMigration": true
+  },
+  "proposedRules": [
+    {
+      "name": "Learners Area origin verification",
+      "kind": "zone",
+      "phase": "http_request_late_transform",
+      "rules": [
+        {
+          "ref": "learners_area_origin_verify",
+          "description": "Verify requests to the existing Railway origin",
+          "expression": "http.host eq \"learnersarea.uz\"",
+          "action": "rewrite",
+          "action_parameters": {
+            "headers": {
+              "x-la-origin-verify": {
+                "operation": "set",
+                "value": "<same newly generated secret as Railway CLOUDFLARE_ORIGIN_SECRET; never commit the real value>"
+              }
+            }
+          },
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "name": "Learners Area canonical www",
+      "kind": "zone",
+      "phase": "http_request_dynamic_redirect",
+      "rules": [
+        {
+          "ref": "learners_area_www_to_apex",
+          "description": "Preserve path, query and method while redirecting www to the canonical site",
+          "expression": "http.host eq \"www.learnersarea.uz\"",
+          "action": "redirect",
+          "action_parameters": {
+            "from_value": {
+              "status_code": 308,
+              "target_url": {
+                "expression": "concat(\"https://learnersarea.uz\", http.request.uri.path)"
+              },
+              "preserve_query_string": true
+            }
+          },
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "name": "Learners Area sensitive-file probes",
+      "kind": "zone",
+      "phase": "http_request_firewall_custom",
+      "rules": [
+        {
+          "ref": "learners_area_secret_file_probes",
+          "description": "Block requests for non-public configuration files",
+          "expression": "http.host in {\"learnersarea.uz\" \"www.learnersarea.uz\"} and http.request.uri.path in {\"/.env\" \"/.git/config\"}",
+          "action": "block",
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "unchanged": [
+    "Existing DNS targets, TXT verification records, Workers and R2 buckets",
+    "SSL mode Full, as required by current Railway guidance; no downgrade from existing mode",
+    "Free Managed Ruleset and automatic DDoS defaults; no blanket interactive challenges",
+    "Existing application and bot secrets",
+    "Database schema and educational content"
+  ],
+  "uploadCompatibility": "Existing non-local storage uses direct presigned uploads; local-origin fallback caps file bodies at 60 MiB. No upload limit is reduced.",
+  "rolloutOrder": [
+    "After explicit approval, merge the reviewed source PR and verify the Railway web release with the origin boundary still disabled.",
+    "Re-read zone rules and preserve any concurrent operator changes. Install only the three named rules; generate a new strong secret outside source control.",
+    "Enable proxy on the existing apex and www records. Keep CNAME destinations, verification TXT records and TLS mode unchanged.",
+    "Verify HTTPS, canonical redirect, /api/version, health/readiness, anonymous 401, private headers, authorized browser navigation and harmless WAF file-probe 403.",
+    "Wait for the prior DNS TTL and existing direct connections to drain; only then set the matching Railway CLOUDFLARE_ORIGIN_SECRET and deploy this configuration.",
+    "Verify direct-origin rejection, authenticated Telegram readiness, normal proxied behavior, ranges/SSE compatibility and paired API latency. Stop and roll back on failed gates."
+  ],
+  "rollbackOrder": [
+    "Disable the newly introduced Railway origin-boundary setting first, and verify direct-origin readiness before changing DNS.",
+    "Restore only the two records' proxied=false flags; keep the original CNAME and TXT values.",
+    "Remove only the three rules introduced by this rollout, preserving any other rules.",
+    "If source behavior regresses, restore known-good Railway deployment c6a2510f-5d7a-4e84-ba99-35080ac5b071 / commit 7e916a0 after approval. No database rollback is required."
+  ],
+  "blockers": [
+    "Explicit authorization is required for main merge, Railway deploy/new origin-verification setting and Cloudflare DNS/rule changes. Task 4 cannot start until Task 3 is deployed and verified."
+  ],
+  "references": [
+    "https://docs.railway.com/networking/domains/working-with-domains#cloudflare-configuration",
+    "https://developers.cloudflare.com/rules/transform/",
+    "https://developers.cloudflare.com/waf/get-started/"
+  ]
+}

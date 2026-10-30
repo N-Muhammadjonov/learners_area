@@ -1,0 +1,123 @@
+{
+  "stage": 9,
+  "name": "Private media streaming and bounded fallback",
+  "status": "SOURCE_VERIFIED_RELEASE_AUTHORIZED",
+  "verified_at_utc": "2026-10-29T13:31:26.566277+00:00",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/media-delivery-20261029",
+  "baseline": "08ec12dde7913201601673d43064f709926e812d",
+  "implementation_commit": "25f1675f051935b143ad57df384b954190db4735",
+  "schema_changes": [],
+  "production_variable_changes": [],
+  "cloudflare_worker_changes": false,
+  "implementation": {
+    "worker_primary": "Existing private Worker remains preferred. Every new read/seek retains the signed capability and current-authority backchannel. No Worker code, bucket, binding, secret, deploy or cache setting changes.",
+    "proxy_and_fallback": "Worker download=1 proxy and internal S3/R2 GETs use streamed HTTPX responses in 64 KiB chunks. Local delivery uses asynchronous FileResponse with the same private MIME/disposition policy. S3 reads are signed internally with SigV4 and an ETag If-Match condition; signed URLs never leave the backend.",
+    "bounds": "64 media-body requests have a separate immediate admission limit from 64 ordinary requests. Capability JSON remains ordinary. Each transfer has a total 300-second bound; upstream read-idle is 10 seconds, connect 5 seconds; response/client cleanup is shielded and bounded to 5 seconds.",
+    "security": "Authorization occurs before storage access. Private/no-store and nosniff remain enforced. Redirects are refused; upstream errors do not expose XML/HTML or signed URLs. Truncated bodies fail the stream instead of reporting completion. Local resolved paths cannot escape storage via symlinks.",
+    "http_contract": "GET/HEAD, single inclusive/open/suffix ranges, 200/206/416, If-Range, Content-Type, Content-Disposition and Content-Length remain supported. HEAD describes the full representation without reading a body. No frontend/player/upload/module-label change."
+  },
+  "validation": {
+    "backend_pytest": {
+      "before_passed": 3086,
+      "passed": 3100,
+      "failed": 0,
+      "new_cases": 14,
+      "upstream_warnings": 1
+    },
+    "worker_fastapi_contract": {
+      "result": "passed",
+      "checks": 97,
+      "scope": "Existing Worker source + real FastAPI ASGI; synthetic authority/R2; no deployed-edge or live-bucket claim"
+    },
+    "integration": {
+      "migrations": 72,
+      "typedTables": 127,
+      "httpChecks": 426,
+      "nativeDecoderChecks": 151,
+      "nativeDomChecks": 118,
+      "migrationReplayChecks": 8,
+      "database": "embedded PostgreSQL",
+      "result": "passed",
+      "failures": []
+    },
+    "native_build": {
+      "staticBuild": true,
+      "runtime": "Python FastAPI",
+      "files": 497,
+      "routes": 122,
+      "nodeRequired": false,
+      "revision": "c43e40cc8d82505913a3",
+      "inputBytes": 15970687,
+      "transferBytes": 12939072,
+      "minifiedFiles": 175
+    },
+    "backend_check": "PASS",
+    "diff_check": "PASS",
+    "frontend_test_reuse": {
+      "stage": 8,
+      "passed": 1167,
+      "failed": 0,
+      "skipped": 11,
+      "frontend_tree": "0f72b291a0f21e637af74883578b8dc0d30fe929",
+      "same_current_tree": true,
+      "reason": "No frontend source change; integration/Worker/stream tests cover the changed backend boundary."
+    }
+  },
+  "memory_and_latency": {
+    "before": {
+      "bytes": 104857600,
+      "maximum_asgi_chunk": 104857600,
+      "first_byte_ms": 88.956,
+      "elapsed_ms": 88.963,
+      "mode": "before",
+      "python_peak_bytes": 209925377,
+      "scope": "Synthetic 100 MiB Worker download proxy; ASGI sink discards bytes; no live media/device claim"
+    },
+    "after": {
+      "bytes": 104857600,
+      "maximum_asgi_chunk": 65536,
+      "first_byte_ms": 0.924,
+      "elapsed_ms": 44.968,
+      "mode": "after",
+      "python_peak_bytes": 227639,
+      "scope": "Synthetic 100 MiB Worker download proxy; ASGI sink discards bytes; no live media/device claim"
+    },
+    "scope": "Separate processes, exact archived prior media handler from 08ec12d, 16-byte warmup, synthetic 100 MiB Worker body, ASGI sink discards bytes. Python allocation peak only; not process RSS, live R2, device playback or API p95.",
+    "python_peak_reduction_percent": 99.8916,
+    "maximum_chunk_after": 65536
+  },
+  "production_read_only_preflight": {
+    "railway_media_variables_present": [
+      "MEDIA_WORKER_URL",
+      "MEDIA_SIGNING_SECRET"
+    ],
+    "variable_values_redacted": true,
+    "cloudflare_worker": "learnersarea-media",
+    "binding": {
+      "MEDIA_BUCKET": "learners-area",
+      "MEDIA_SIGNING_SECRET": "secret_text present"
+    },
+    "invocation_logs": false,
+    "unchanged_worker_blob": "fb312d9e541466bb90582bca9b4b4df9820dd8be",
+    "unsigned_worker_request": {
+      "status": 403,
+      "cache_control": "private, no-store",
+      "nosniff": true
+    },
+    "positive_live_private_read": "Not exercised; owner performs authenticated manual playback."
+  },
+  "qa_reconciliation": [
+    "Existing role test mocks were moved from full-buffer reads to the streaming boundary; all role denial/allowed assertions retained.",
+    "Writing graph fallback fixture now uses a real isolated local file with its canonical MIME; graph/auth/range assertions retained.",
+    "Worker integration summary referenced undefined baseline/files variables; removed those unperformed reference claims while retaining all 97 functional checks.",
+    "Initial local HEAD/Range test exposed FileResponse 206 behavior; local HEAD now returns full metadata and zero body."
+  ],
+  "manual_checks": "Owner owns manual/mobile playback checks; none performed by the agent.",
+  "limitations": [
+    "No live R2 byte read or device first-play/seek claim.",
+    "Fallback transfers lasting more than 300 seconds terminate; primary Worker streaming is unchanged.",
+    "200/500/1000-user capacity remains Task 13.",
+    "Original student-learning feature checkpoint remains preserved separately."
+  ]
+}

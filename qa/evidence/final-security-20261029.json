@@ -1,0 +1,262 @@
+{
+  "task": 11,
+  "name": "Final security hardening",
+  "source_status": "PASS",
+  "rollout_status": "PASS",
+  "baseline_commit": "c824d9c808adbe561edfed8c067f369a534d9ef2",
+  "before_postgres": {
+    "result": "failed",
+    "checks": 13,
+    "observed": {
+      "failure_status": 500,
+      "orphan_accounts": 1,
+      "orphan_admissions": 1,
+      "version_status": 200,
+      "version_linked": "6002",
+      "version_cookie": true,
+      "logout_status": 200,
+      "logout_linked": "6003",
+      "logout_cookie": true,
+      "race_statuses": [
+        200,
+        409
+      ],
+      "race_admissions": 1,
+      "delete_race_status": 200,
+      "submitted_attempt_survives": false
+    },
+    "database": "actual PostgreSQL",
+    "external_calls": 0
+  },
+  "after_postgres": {
+    "result": "passed",
+    "checks": 16,
+    "observed": {
+      "failure_status": 500,
+      "orphan_accounts": 0,
+      "orphan_admissions": 0,
+      "version_status": 401,
+      "version_linked": null,
+      "version_cookie": false,
+      "logout_status": 401,
+      "logout_linked": null,
+      "logout_cookie": false,
+      "race_statuses": [
+        200,
+        409
+      ],
+      "race_admissions": 1,
+      "delete_race_status": 409,
+      "submitted_attempt_survives": true,
+      "own_draft_delete_status": 200,
+      "own_draft_deleted": true,
+      "foreign_delete_status": 403
+    },
+    "database": "actual PostgreSQL",
+    "external_calls": 0
+  },
+  "anonymous_routes": {
+    "checks": 273,
+    "statuses": {
+      "200": 2,
+      "400": 11,
+      "401": 234,
+      "403": 23,
+      "307": 3
+    },
+    "public_successes": [
+      [
+        "GET",
+        "/api/version",
+        200
+      ],
+      [
+        "POST",
+        "/api/auth/logout",
+        200
+      ],
+      [
+        "GET",
+        "/api/auth/google/start",
+        307
+      ],
+      [
+        "GET",
+        "/api/auth/telegram/callback",
+        307
+      ],
+      [
+        "GET",
+        "/api/auth/google/callback",
+        307
+      ]
+    ],
+    "database_attempts": 0,
+    "failures": [],
+    "result": "passed"
+  },
+  "backend_tests": 3100,
+  "integration": {
+    "migrations": 72,
+    "typedTables": 127,
+    "httpChecks": 426,
+    "nativeDecoderChecks": 151,
+    "nativeDomChecks": 118,
+    "migrationReplayChecks": 8,
+    "database": "embedded PostgreSQL",
+    "result": "passed",
+    "failures": []
+  },
+  "backend_check": "PASS",
+  "diff_check": "PASS",
+  "migrations_added": 0,
+  "production_configuration_changes": 0,
+  "manual_acceptance": "owner",
+  "external_attack_or_provider_calls": 0,
+  "frontend": "unchanged; prior npm/build reused, not rerun",
+  "limits": [
+    "Anonymous sweep uses empty payloads and synthetic IDs; it is a guard check, not exhaustive input fuzzing.",
+    "Existing PostgreSQL role/IDOR, session, origin, AI and upload tests supplement the anonymous sweep.",
+    "No claim of complete invulnerability or production penetration testing."
+  ],
+  "created_at": "2026-10-29T14:10:15.173395+00:00",
+  "status": "PASS",
+  "source_commit": "d30b7a83877a2514dcdd8e27d9f4975ef885f936",
+  "merge_commit": "3ab3808e45ba70188bc6feea384601a8a2a5c1ff",
+  "deployment": "f3a19285-3cd6-4747-9219-f438e222dad7",
+  "production_http": [
+    {
+      "url": "https://learnersarea.uz/api/version",
+      "status": 200,
+      "body": {
+        "commit": "3ab3808e45ba70188bc6feea384601a8a2a5c1ff",
+        "shortCommit": "3ab3808",
+        "region": null,
+        "environment": "production"
+      },
+      "at": "2026-10-29T14:15:24.557304+00:00"
+    },
+    {
+      "url": "https://learnersarea.uz/readyz",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "frontend": true
+      },
+      "at": "2026-10-29T14:15:25.468347+00:00"
+    }
+  ],
+  "advisors": {
+    "security": [
+      {
+        "name": "rls_enabled_no_policy",
+        "level": "INFO",
+        "count": 141,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+      },
+      {
+        "name": "function_search_path_mutable",
+        "level": "WARN",
+        "count": 3,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+        "findings": [
+          {
+            "detail": "Function \\`public.preserve_grammar_source_owner\\` has a role mutable search_path",
+            "metadata": {
+              "name": "preserve_grammar_source_owner",
+              "type": "function",
+              "schema": "public"
+            }
+          },
+          {
+            "detail": "Function \\`public.dictionary_immutable_release\\` has a role mutable search_path",
+            "metadata": {
+              "name": "dictionary_immutable_release",
+              "type": "function",
+              "schema": "public"
+            }
+          },
+          {
+            "detail": "Function \\`public.dictionary_immutable_registry\\` has a role mutable search_path",
+            "metadata": {
+              "name": "dictionary_immutable_registry",
+              "type": "function",
+              "schema": "public"
+            }
+          }
+        ]
+      },
+      {
+        "name": "anon_security_definer_function_executable",
+        "level": "WARN",
+        "count": 1,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+        "findings": [
+          {
+            "detail": "Function `public.rls_auto_enable()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/rls_auto_enable`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "rls_auto_enable",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "level": "WARN",
+        "count": 1,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "findings": [
+          {
+            "detail": "Function `public.rls_auto_enable()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/rls_auto_enable`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "rls_auto_enable",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            }
+          }
+        ]
+      }
+    ],
+    "performance": [
+      {
+        "name": "unindexed_foreign_keys",
+        "level": "INFO",
+        "count": 137,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys"
+      },
+      {
+        "name": "no_primary_key",
+        "level": "INFO",
+        "count": 1,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0004_no_primary_key"
+      },
+      {
+        "name": "unused_index",
+        "level": "INFO",
+        "count": 17,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+      }
+    ],
+    "catalog": {
+      "public_tables_without_rls": 0,
+      "anon_public_create": false,
+      "authenticated_public_create": false,
+      "mutable_path_functions_security_definer": false,
+      "rls_auto_enable_return_type": "event_trigger",
+      "rls_auto_enable_search_path": "pg_catalog"
+    },
+    "classification": "Pre-existing trigger/event-trigger hardening advisories; not ordinary callable RPC functions. No production DDL applied.",
+    "isolated_trigger_call_proof": {
+      "checks": 4,
+      "all_direct_calls_denied": true,
+      "sqlstate": "0A000",
+      "event_trigger_fixture": "same PostgreSQL event_trigger call restriction; production function not invoked"
+    }
+  }
+}

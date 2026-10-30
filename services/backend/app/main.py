@@ -17,7 +17,8 @@ from fastapi.responses import JSONResponse, Response
 
 from .db import db_failure, pool, row_to_dict, close_pool
 from .auth_validation import validate as validate_auth
-from .rate_limit import client_key, counter, too_many, reset
+from .request_lifecycle import control, run_blocking, WorkBusy, unavailable
+from .rate_limit import client_key, async_counter as counter, too_many, async_reset as reset, reserve, release
 from .security import (SESSION_COOKIE, SESSION_TTL, add_security_headers,
                        check_origin, clear_session_cookie, issue_token, normalize_origin,
                        verify_token, write_cookie)
@@ -26,10 +27,25 @@ LOG = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app):
-    yield
-    from .access_events import bus
-    await bus.close()
-    await close_pool()
+    worker_state = control.start()
+    from .ai_runtime import control as ai_control
+    ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.
+    try:
+        yield
+    finally:
+        from .access_events import bus
+        try:
+            await control.drain(state=worker_state)
+        finally:
+            try:
+                await ai_control.close(state=ai_state)
+            finally:
+                try:
+                    await asyncio.wait_for(bus.close(), timeout=5)
+                except (TimeoutError, OSError):
+                    LOG.warning('Access-event shutdown grace expired')
+                finally:
+                    await close_pool()
 
 app = FastAPI(title='Learners Area FastAPI', docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 
@@ -137,7 +153,9 @@ async def secure_transport(request: Request, call_next):
         # credentials / connection strings from any pooled asyncpg exception.
         code = getattr(exc, 'sqlstate', None)
         from .db import is_database_unavailable
-        if isinstance(exc, (OSError, ConnectionError, TimeoutError)) or is_database_unavailable(exc):
+        if isinstance(exc, WorkBusy):
+            response = unavailable()
+        elif isinstance(exc, (OSError, ConnectionError, TimeoutError)) or is_database_unavailable(exc):
             response = db_failure(exc)
         else:
             LOG.exception('Unhandled API exception')
@@ -189,31 +207,43 @@ async def _authenticate(req: Request, recovery_only: bool = False):
     password = body['password']
     k = email
     ip = client_key(req)
-    delay = counter('login_account', k) or counter('login_ip', ip)
-    if delay: return too_many(delay)
-    conn_pool = await pool()
-    async with conn_pool.acquire() as conn:
-        user = await conn.fetchrow('''
-          SELECT id, email, password_hash, role, name, locale,
-                 onboarding_completed_at, account_status, auth_version
-          FROM users WHERE email=$1 LIMIT 1''', email)
-    # Same bcrypt decoy hash as the source: nonexistent email performs bcrypt.
+    # Reserve before password hashing so concurrent replicas cannot all pass a
+    # read-only pre-check. Successful logins release their own IP reservation.
+    ip_slot = await reserve('login_ip', ip)
+    if ip_slot.retry_after:return too_many(ip_slot.retry_after)
     try:
+        account_slot = await reserve('login_account', k)
+    except Exception:
+        await asyncio.gather(release(ip_slot), return_exceptions=True)
+        raise
+    if account_slot.retry_after:
+        await release(ip_slot)
+        return too_many(account_slot.retry_after)
+    try:
+        conn_pool = await pool()
+        async with conn_pool.acquire() as conn:
+            user = await conn.fetchrow('''
+              SELECT id, email, password_hash, role, name, locale,
+                     onboarding_completed_at, account_status, auth_version
+              FROM users WHERE email=$1 LIMIT 1''', email)
+        # Same bcrypt decoy hash as the source: nonexistent email performs bcrypt.
         import bcrypt
-    except ImportError:
-        raise RuntimeError('bcrypt dependency missing')
-    decoy = '$2a$12$NpanVw6DUsaA2WX2Obipc.94Av8DHYf.iT6gFPkLre9PfSqKIuYLe'
-    stored = user['password_hash'] if user else None
-    try:
-        valid = await asyncio.to_thread(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
-    except ValueError:
-        valid = False
+        decoy = '$2a$12$NpanVw6DUsaA2WX2Obipc.94Av8DHYf.iT6gFPkLre9PfSqKIuYLe'
+        stored = user['password_hash'] if user else None
+        try:
+            valid = await run_blocking(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
+        except ValueError:
+            valid = False
+    except Exception:
+        # A server/storage failure must not use up the learner's failed-login
+        # allowance. Release only our slots and retain the original error.
+        await asyncio.gather(release(ip_slot), release(account_slot), return_exceptions=True)
+        raise
     valid = bool(valid and stored)
     if not valid or not user or (recovery_only and not (user['account_status'] == 'active' and user['role'] in ('admin', 'owner'))):
-        counter('login_account', k, consume=True)
-        counter('login_ip', ip, consume=True)
         return j({'error': 'invalid_credentials'}, 401)
-    reset('login_account', k)
+    await reset('login_account', k, window=account_slot.window)
+    await release(ip_slot)
     token = issue_token(dict(user))
     response = j({'ok': True, 'onboarded': bool(user['onboarding_completed_at']),
                   'accountStatus': user['account_status']}, headers={'Cache-Control': 'no-store'})
@@ -254,7 +284,7 @@ async def create_access_request(user_id, message=None):
 async def register(req: Request):
     if not auth_policy()['passwordEnabled']:
         return auth_disabled()
-    delay = counter('register', client_key(req), consume=True)
+    delay = await counter('register', client_key(req), consume=True)
     if delay: return too_many(delay)
     body, error = validate_auth(await payload(req), 'register')
     if error: return j({'error': error}, 400)
@@ -263,8 +293,9 @@ async def register(req: Request):
     async with conn_pool.acquire() as conn:
         existing = await conn.fetchval('SELECT 1 FROM users WHERE email=$1', email)
         if existing: return j({'error': 'email_taken'}, 409)
-        import bcrypt
-        pw_hash = (await asyncio.to_thread(bcrypt.hashpw, password.encode(), bcrypt.gensalt(rounds=12))).decode()
+    import bcrypt
+    pw_hash = (await run_blocking(bcrypt.hashpw, password.encode(), bcrypt.gensalt(rounds=12))).decode()
+    async with conn_pool.acquire() as conn:
         locale = req.cookies.get('la_locale')
         locale = locale if locale in ('uz', 'en') else 'uz'
         try:
@@ -337,7 +368,7 @@ async def profile_patch(req: Request):
 
 @app.post('/api/admission/request')
 async def admission_request(req: Request):
-    delay = counter('admission_request', client_key(req), consume=True)
+    delay = await counter('admission_request', client_key(req), consume=True)
     if delay: return too_many(delay)
     user = await current_user(req)
     if not user: return auth_error()
@@ -407,15 +438,16 @@ async def post_notifications(req: Request):
 async def presence(req: Request):
     user = await current_user(req, active=True)
     if not user: return auth_error()
-    delay = counter('presence', 'presence:' + str(user['id']), consume=False)
-    if delay: return too_many(delay)
-    counter('presence', 'presence:' + str(user['id']), consume=True)
     conn_pool = await pool()
     async with conn_pool.acquire() as conn:
+        delay = await counter('presence', 'presence:' + str(user['id']), consume=True, connection=conn)
+        if delay: return too_many(delay)
         await conn.execute('''
           INSERT INTO activity_events(id,user_id,type,payload,created_at)
-          VALUES(md5('site-presence:'||$1::text)::uuid,$1::uuid,'SITE_PRESENCE',
-            jsonb_build_object('since',NOW(),'visitStartedAt',NOW(),'visitSeconds',0,'totalSeconds',0),NOW())
+          SELECT md5('site-presence:'||$1::text)::uuid,$1::uuid,'SITE_PRESENCE',
+            jsonb_build_object('since',NOW(),'visitStartedAt',NOW(),'visitSeconds',0,'totalSeconds',0),NOW()
+          WHERE NOT EXISTS(SELECT 1 FROM activity_events fresh
+            WHERE fresh.id=md5('site-presence:'||$1::text)::uuid AND fresh.created_at>NOW()-interval '15 seconds')
           ON CONFLICT(id) DO UPDATE SET created_at=NOW(),payload=jsonb_build_object(
             'since',activity_events.payload->>'since',
             'visitStartedAt',CASE WHEN NOW()-activity_events.created_at>interval '90 seconds' THEN NOW()::text
@@ -459,7 +491,7 @@ async def post_profile_photo(req: Request):
     if not user: return auth_error()
     from .rate_limit import RULES
     RULES.setdefault('profile_photo', (12, 60))
-    delay = counter('profile_photo', str(user['id']), consume=True)
+    delay = await counter('profile_photo', str(user['id']), consume=True)
     if delay: return too_many(delay)
     content_length = req.headers.get('content-length', '')
     if content_length and content_length.isdigit() and int(content_length) > 320000:

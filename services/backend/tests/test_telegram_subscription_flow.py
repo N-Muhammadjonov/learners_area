@@ -2,7 +2,7 @@
 import asyncio
 import hashlib
 from datetime import datetime, timedelta, timezone
-from unittest.mock import AsyncMock, Mock
+from unittest.mock import AsyncMock, Mock, ANY
 from uuid import UUID
 
 import pytest
@@ -101,7 +101,9 @@ def test_exchange_cannot_issue_session_or_create_account_without_membership(monk
     r=TestClient(core.app).post('/api/auth/telegram/intent/exchange',json={'intentId':str(ID),'browserNonce':'browser-secret','name':'Test User'})
     assert r.status_code==status and r.json()['error']==error
     assert 'set-cookie' not in r.headers
-    issue.assert_not_called();gate.assert_awaited_once_with(con,'12345')
+    issue.assert_not_called();gate.assert_awaited_once_with(ANY,'12345')
+    from app.db import PooledReads
+    assert isinstance(gate.await_args.args[0],PooledReads)
     assert not any(q.lstrip().startswith(('INSERT','UPDATE','DELETE')) for _,q,_ in con.calls)
 
 def test_presence_passes_text_uuid_to_text_parameter(monkeypatch):

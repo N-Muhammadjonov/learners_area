@@ -1,6 +1,7 @@
 import {el,listen} from '../../js/dom.js';
 import {BackLink} from '../shared/presentation.js';
 import {localAnswerRecorder} from './recorder.js';
+import {vocabularySaver} from './vocabulary-save.js';
 
 // New owner-supplied topics can be added here without changing IELTS part IDs.
 // Load the selected topic only; images are requested only for the selected story.
@@ -23,13 +24,14 @@ function button(label,fn,attrs={}){const b=el('button',{type:'button',...attrs},
 
 /** Same continuous three-second reveal as the IELTS parts. Every new story starts
  * locked. Switching tabs, releasing, hiding the page or leaving cancels a hold. */
-export function createSituationSupport({story,dict,locale,signal}){
+export function createSituationSupport({story,dict,locale,signal,context}){
  const t=situationLabels(locale),study=dict.speakingStudy;
  const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':'','data-situation-support':story.id});
  const tabs=el('div',{role:'tablist','aria-label':study.supportLabel,class:'flex flex-wrap gap-2'});
  const content=el('div',{role:'tabpanel',class:'space-y-4',id:`${story.id}-support-content`});
- let tab='vocabulary',renderController=null,timer=null;const revealed=new Set();
+ let tab='vocabulary',renderController=null,timer=null;const revealed=new Set(),activated=new Set(),confirmed=new Set(),savedIds=new Map();
  const clearHold=()=>{clearTimeout(timer);timer=null;};
+ function tabHold(control,name,events){let pending=null;const clear=()=>{clearTimeout(pending);pending=null;};const start=()=>{if(revealed.has(name)||signal.aborted)return;clear();pending=setTimeout(()=>{pending=null;if(signal.aborted||events.aborted)return;tab=name;revealed.add(name);activated.add(name);show();},3000);};listen(control,'pointerdown',e=>{if(e.button===0)start();},events);for(const ev of ['pointerup','pointercancel','pointerleave','keyup'])listen(control,ev,clear,events);listen(control,'keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat)start();},events);events.addEventListener('abort',clear,{once:true});}
  const destroy=()=>{clearHold();renderController?.abort();};
  signal.addEventListener('abort',destroy,{once:true});
  function show(){
@@ -37,16 +39,17 @@ export function createSituationSupport({story,dict,locale,signal}){
   tabs.replaceChildren();
   for(const [name,label] of [['vocabulary',study.vocabulary],['sample','Sample answer']]){
    const id=`${story.id}-support-${name}`;
-   const b=button(label,()=>{tab=name;show();},{id,class:tab===name?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'aria-controls':content.id,'data-situation-tab':name});
-   listen(b,'keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();tab=e.key==='Home'?'vocabulary':e.key==='End'?'sample':tab==='vocabulary'?'sample':'vocabulary';show();tabs.querySelector('[aria-selected="true"]').focus();},events);
-   b.tabIndex=tab===name?0:-1;tabs.append(b);
+   const b=button(label,()=>{tab=name;activated.add(name);show();},{id,class:tab===name&&(activated.has(name)||revealed.has(name))?'btn-primary':'btn-secondary',role:'tab','aria-selected':String(tab===name),'aria-controls':content.id,'data-situation-tab':name});
+   listen(b,'keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();tab=e.key==='Home'?'vocabulary':e.key==='End'?'sample':tab==='vocabulary'?'sample':'vocabulary';activated.add(tab);show();tabs.querySelector('[aria-selected="true"]').focus();},events);
+   b.tabIndex=tab===name?0:-1;tabHold(b,name,events);tabs.append(b);
   }
   content.setAttribute('aria-labelledby',`${story.id}-support-${tab}`);content.replaceChildren();
   if(revealed.has(tab)){
+   content.append(button(locale==='uz'?'Yopish':'Close',()=>{revealed.delete(tab);show();},{class:'btn-secondary','data-situation-close':tab,'aria-label':locale==='uz'?'Bo‘limni yopish':'Close section'}));
    if(tab==='vocabulary'){
-    const list=el('dl',{class:'space-y-3','data-situation-vocabulary':''});
-    for(const word of story.vocabulary)list.append(el('div',{class:'space-y-1'},el('dt',{class:'font-semibold'},word.term),el('dd',{class:'text-ink-500'},word.translationUz)));
-    content.append(list);
+    content.append(vocabularySaver({...context,signal:events},{
+     words:story.vocabulary,copy:study,pictureStory:{id:story.id,title:story.title},confirmed,savedIds
+    }));
    }else for(const paragraph of story.sampleAnswer)content.append(el('p',{class:'text-base leading-relaxed','data-situation-sample':''},paragraph));
    return;
   }
@@ -116,7 +119,7 @@ export async function mountSituations(context){
     }});
     left.append(recorder.node);
     const right=el('div',{class:'min-w-0 space-y-3','data-practice-support-column':''});
-    right.append(createSituationSupport({story,dict,locale,signal:storyController.signal}).node);
+    right.append(createSituationSupport({story,dict,locale,signal:storyController.signal,context}).node);
     stage.replaceChildren(left,right);
    }
   }catch{if(signal.aborted)return;body.replaceChildren(el('p',{role:'alert'},dict.common.error),button(dict.errorPage.retry,()=>void load(),{class:'btn-secondary'}));}
