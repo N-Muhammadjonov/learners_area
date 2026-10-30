@@ -1,5 +1,8 @@
 import {previousAppPath} from './return-navigation.js';
 import {safeNextPath} from './safe-next.js';
+import {SectionEntryFrame} from './generated/SectionEntryFrame.js';
+import {sectionEntryFrames} from './generated/section-entry.js';
+import {workspaceKey} from './generated/interaction-navigation.js';
 export function compilePattern(pattern){return new RegExp('^'+pattern.split('/').map(s=>s.startsWith(':')?'([^/]+)':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'/?$');}
 /** Route flights and mounted views have separate lifetimes. Only explicit passive views are retained. */
 export function createRouter({root,routes,notFound,onError,canonicalize,prepare,commit,onStart,onUpdate,metrics,reuse,window:win=window}){
@@ -18,7 +21,7 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
    if(active.navigate(url,navigation)===true){++serial;controller?.abort('same-page-navigation');active.context.url=url;active.context.historyKey=historyEntry;onUpdate?.(active.context);inner?.point('commit-end');inner?.finish('committed');focusDestination(navigation);return;}inner?.finish('delegated');
   }
   const id=++serial;controller?.abort(navigation.refresh?'route-refresh':'superseded');controller=new AbortController();const flight=controller,signal=flight.signal;
-  if(active&&(navigation.refresh||!reuse?.eligible(active))){dispose(active,navigation.refresh?'route-refresh':'route-left');active=null;}
+  if(active&&(navigation.refresh||active.pendingMount||!reuse?.eligible(active))){dispose(active,navigation.refresh?'route-refresh':'route-left');active=null;}
   if(!navigation.refresh){if(!active)for(const key of Object.keys(state))delete state[key];state={};}sameDocument=null;
   const record=exactRoutes.get(url.pathname)??(url.pathname.endsWith('/')?exactRoutes.get(url.pathname.slice(0,-1)||'/'):undefined)??dynamicRoutes.find(r=>r.match.test(url.pathname));
   const measurement=metrics?.begin({pattern:record?.pattern??'other',kind:navigation.refresh?'refresh':navigation.kind??'navigate',signal});
@@ -41,6 +44,56 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
     for(const fn of saved.resume)try{fn();}catch{}focusDestination(navigation);return;
    }
    const view=await loading;measurement?.point('module-end');if(signal.aborted||id!==serial)return;
+   // Progressive mounting is STRICTLY opt-in for passive, ordinary protected routes.
+   // Permission was checked by prepare() above. The destination root is connected
+   // before its asynchronous hydration completes, but active exams/forms/media and
+   // redirects stay on the original transactional mount path.
+   const progressive=record?.progressiveMount===true&&record.protected===true&&
+     context.session?.user?.accountStatus==='active'&&record.layout!=='focus'&&!record.redirectOnly;
+   if(progressive){
+    staging=document.createElement('div');
+    const mountRoot=document.createElement('div');mountRoot.style.display='contents';
+    mountRoot.setAttribute('data-progressive-route','');
+    staging.append(mountRoot);
+    measurement?.point('mount-start');
+    const mounting=Promise.resolve().then(()=>view.mount({...context,root:mountRoot}));
+    mounting.catch(()=>{}); // A superseded flight still owns its eventual rejection.
+    // Let mount() run to its first await before deciding whether a loading frame is needed.
+    // The root itself remains stable, so late authorized children hydrate the VISIBLE page.
+    await Promise.resolve();
+    if(signal.aborted||id!==serial){const late=await mounting.catch(()=>undefined);if(typeof late==='function')late();return;}
+    let placeholder=null,observer=null;
+    if(!mountRoot.hasChildNodes()){
+     const frames=context.dict?sectionEntryFrames(context.dict):null;
+     placeholder=frames?SectionEntryFrame({routeKey:workspaceKey(url.pathname),frame:frames[workspaceKey(url.pathname)]??frames.other,privateBoundary:true}):document.createElement('div');
+     placeholder.setAttribute('data-progressive-loading','');
+     if(!frames){placeholder.setAttribute('role','status');placeholder.textContent='Loading…';}
+     mountRoot.append(placeholder);
+     const Observer=win.MutationObserver??globalThis.MutationObserver;
+     if(Observer){observer=new Observer(()=>{
+      if(placeholder&&[...mountRoot.childNodes].some(node=>node!==placeholder)){
+       placeholder.remove();placeholder=null;observer.disconnect();observer=null;
+      }
+     });observer.observe(mountRoot,{childList:true});}
+    }
+    const stopPlaceholder=()=>{observer?.disconnect();observer=null;placeholder?.remove();placeholder=null;};
+    const nodes=[mountRoot];
+    leave();
+    measurement?.point('commit-start');if(commit)commit(staging,context);else root.replaceChildren(...staging.childNodes);measurement?.point('commit-end');
+    const current={controller:flight,dispose:()=>{stopPlaceholder();cleanup?.();},staging,nodes,context,
+      key,resume,pause,history:hooks.history,navigate:hooks.navigate,pendingMount:true,...reuse?.stamp()};
+    active=current;controller=null;state=context.state;sameDocument=hooks.history;
+    focusDestination(navigation);
+    const result=await mounting;
+    if(signal.aborted||id!==serial||active!==current){
+     if(typeof result==='function')result();
+     measurement?.finish('aborted');return;
+    }
+    cleanup=typeof result==='function'?result:undefined;
+    current.pendingMount=false;current.history=hooks.history;current.navigate=hooks.navigate;
+    sameDocument=hooks.history;stopPlaceholder();measurement?.point('mount-end');measurement?.finish('committed');
+    return;
+   }
    staging=document.createElement('div');measurement?.point('mount-start');const result=await view.mount({...context,root:staging});cleanup=typeof result==='function'?result:undefined;measurement?.point('mount-end');
    if(signal.aborted||id!==serial){cleanup?.();return;}
    const nodes=[...staging.childNodes];leave();
