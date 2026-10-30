@@ -104,7 +104,7 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
   }catch(error){
    if(error?.name==='TypeError'&&/dynamically imported module|importing a module script|module script.*failed/i.test(error.message)){const failure=new Error('Module could not load',{cause:error});failure.code='module_load_failed';error=failure;}
    measurement?.finish('error');
-   if(!signal.aborted&&id===serial){flight.abort();cleanup?.();leave();const errorController=new AbortController();controller=errorController;const result=await onError(error,root,{...context,url,signal:errorController.signal,navigate,refresh});const stop=typeof result==='function'?result:undefined;
+   if(!signal.aborted&&id===serial){flight.abort();cleanup?.();if(active?.controller===flight){dispose(active,'route-refresh');active=null;}else leave();const errorController=new AbortController();controller=errorController;const result=await onError(error,root,{...context,url,signal:errorController.signal,navigate,refresh});const stop=typeof result==='function'?result:undefined;
     if(errorController.signal.aborted||id!==serial)stop?.();else{active={controller:errorController,dispose:stop,context:{...context,url},nodes:[],key:'error',resume:[]};controller=null;}}
   }
  }
