@@ -73,3 +73,45 @@ test('a failed progressive mount never enters reusable DOM cache',async()=>{
   assert.equal(reuse.size,0);assert(!h.ctx.root.textContent.includes('BROKEN PARTIAL VIEW'));
  }finally{router.destroy();scope.setScope(null);h.dispose();}
 });
+
+test('Back and Forward reuse settled passive DOM without remounting or fetching',async()=>{
+ const h=setup({role:'student',path:'/app/dashboard'}),scope=createPrivateScope();scope.setScope('user-a');
+ let mounts=0,requests=0;
+ const route=path=>registered(path,({root})=>{
+  mounts++;const heading=document.createElement('h1');heading.dataset.identity=path;
+  heading.textContent=path;root.append(heading);
+  requests++; // A real module would perform one initial projection request.
+ });
+ const router=createRouter({root:h.ctx.root,window,reuse:createRouteReuse({scope}),routes:[
+  route('/app/dashboard'),route('/app/progress')
+ ],prepare:authorized,onError:e=>{throw e;}});
+ try{
+  await router.start();const dashboard=h.q('h1[data-identity="/app/dashboard"]');
+  assert(dashboard);
+  await router.go('/app/progress');const progress=h.q('h1[data-identity="/app/progress"]');
+  assert(progress);
+  const initialRequests=requests;
+  window.history.back();await tick(12);
+  assert.equal(h.q('h1[data-identity="/app/dashboard"]'),dashboard,'Back restores original DOM and event handlers');
+  window.history.forward();await tick(12);
+  assert.equal(h.q('h1[data-identity="/app/progress"]'),progress,'Forward reuses the original DOM');
+  assert.equal(requests,initialRequests,'No extra API read on eligible warm restoration');
+  assert.equal(mounts,2,'Neither cached view is remounted');
+ }finally{router.destroy();scope.setScope(null);h.dispose();}
+});
+
+test('a delayed mount is never eligible for DOM retention',async()=>{
+ const h=setup({role:'student',path:'/app/progress'}),scope=createPrivateScope();scope.setScope('user-a');
+ let release;const waiting=new Promise(resolve=>release=resolve);
+ const reuse=createRouteReuse({scope});
+ const router=createRouter({root:h.ctx.root,window,reuse,routes:[
+  registered('/app/progress',async({root})=>{root.append(document.createElement('h1'));await waiting;}),
+  registered('/app/dashboard',({root})=>{root.append(document.createElement('h1'));})
+ ],prepare:authorized,onError:e=>{throw e;}});
+ try{
+  const flight=router.start();await tick(4);
+  await router.go('/app/dashboard');
+  assert.equal(reuse.size,0,'Pending progress page is not cached');
+  release();await flight;
+ }finally{release();router.destroy();scope.setScope(null);h.dispose();}
+});
