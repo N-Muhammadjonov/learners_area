@@ -129,8 +129,15 @@ const routes = [
 // Only passive catalogue/dashboard pages with immediate synchronous shell rendering
 // opt in. Focus exams, forms, editing and active media remain transactional.
 const PROGRESSIVE_SAFE_ROUTES=new Set([
- '/app/dashboard','/app/grammar/lessons','/app/assignments','/app/progress',
- '/app/mocks','/app/notifications','/app/live-classes'
+ // Passive catalogues and learner overviews. These render a route-owned loading
+ // shell before requesting private DTOs; no focused exam/player/recorder is opted in.
+ '/app/dashboard','/app/progress','/app/mocks','/app/assignments',
+ '/app/notifications','/app/live-classes',
+ '/app/reading/lessons','/app/reading/academic','/app/reading/general',
+ '/app/listening/lessons','/app/listening/academic','/app/listening/history',
+ '/app/listening/general','/app/listening/tests','/app/listening/mcq',
+ '/app/grammar','/app/grammar/lessons','/app/courses/ielts',
+ '/app/video-lessons'
 ]);
 export default routes.map(route=>{if(route.pattern==="/app")return {...route,protected:true,load:()=>import('../modules/campus/page.js')};/* STAFF V57 DISPATCH: original source main b62b78f */
  const staff=staffRoutes.find(s=>s.pattern===route.pattern);
