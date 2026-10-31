@@ -1,0 +1,187 @@
+{
+  "test": "listening-test-16",
+  "part": 1,
+  "activeRelease": "rel-v1-1fa06d8d41d8ff701632573e",
+  "status": "editorial_drafts_not_published",
+  "note": "Input for dictionary applyDraft; requires author review, source attribution, duplicate checks and a new validated release. Cannot be bound by existing sense IDs until published.",
+  "drafts": [
+    {
+      "operation": "add_lexeme",
+      "lemma": "seafront",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "The part of a town that is next to the sea, especially the area with a road or buildings facing it.",
+      "translationUz": "sohilbo‘yi",
+      "definitionUz": "Shaharning dengizga tutash qismi, ayniqsa qirg‘oq bo‘yidagi yo‘l yoki binolar joylashgan hudud.",
+      "examples": [
+        {
+          "textEn": "You can cycle along the seafront.",
+          "textUz": "Sohil bo‘ylab velosipedda yurishingiz mumkin."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "dragon boat",
+      "partOfSpeech": "n",
+      "lexicalType": "compound",
+      "definitionEn": "A long, narrow boat with a dragon design, used for races in which a team paddles together.",
+      "translationUz": "ajdarho qayig‘i",
+      "definitionUz": "Jamoa birgalikda eshkak eshadigan poygalarda ishlatiladigan, ajdarho shaklida bezatilgan uzun va tor qayiq.",
+      "examples": [
+        {
+          "textEn": "We want to enter a team in the dragon boat race.",
+          "textUz": "Biz ajdarho qayig‘i poygasiga jamoa sifatida qatnashmoqchimiz."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "life jacket",
+      "partOfSpeech": "n",
+      "lexicalType": "compound",
+      "definitionEn": "A piece of safety clothing that keeps a person floating in water.",
+      "translationUz": "qutqaruv jileti",
+      "definitionUz": "Suvda odamni suzib turishiga yordam beradigan xavfsizlik kiyimi.",
+      "examples": [
+        {
+          "textEn": "Everyone wears a life jacket.",
+          "textUz": "Hamma qutqaruv jileti kiyadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "7e3ac038-7317-5975-a6e2-d92bd6bf6edb",
+      "definitionEn": "A comfortable sports shoe worn for exercise or as casual footwear (British English).",
+      "translationUz": "krossovka",
+      "definitionUz": "Sport mashqlari yoki kundalik kiyim uchun mo‘ljallangan qulay oyoq kiyimi (Britaniya inglizchasi).",
+      "examples": [
+        {
+          "textEn": "Most people wear a T-shirt, shorts and trainers.",
+          "textUz": "Ko‘pchilik futbolka, shortik va krossovka kiyadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "age limit",
+      "partOfSpeech": "n",
+      "lexicalType": "compound",
+      "definitionEn": "The youngest or oldest age allowed for someone to take part in an activity.",
+      "translationUz": "yosh chegarasi",
+      "definitionUz": "Faoliyatda qatnashish uchun ruxsat etilgan eng kichik yoki eng katta yosh.",
+      "examples": [
+        {
+          "textEn": "There is no age limit for the event.",
+          "textUz": "Tadbirda yosh chegarasi yo‘q."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "semi-final",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "A competition or match whose winners go on to compete in the final.",
+      "translationUz": "yarim final",
+      "definitionUz": "G‘oliblar finalga yo‘l oladigan saralash musobaqasi.",
+      "examples": [
+        {
+          "textEn": "You might qualify for the semi-finals.",
+          "textUz": "Siz yarim finalga yo‘l olishingiz mumkin."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "at",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to show a particular place, point or position.",
+      "translationUz": "-da, yonida",
+      "definitionUz": "Aniq joy yoki nuqtani ko‘rsatadigan predlog.",
+      "examples": [
+        {
+          "textEn": "The race is at the Brighton Marina.",
+          "textUz": "Poyga Brighton Marina hududida bo‘ladi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "in",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Inside or within a place, area, or container.",
+      "translationUz": "ichida, -da",
+      "definitionUz": "Biror joy, hudud yoki idishning ichida bo‘lishni ko‘rsatadigan predlog.",
+      "examples": [
+        {
+          "textEn": "The boats turn over in the water.",
+          "textUz": "Qayiqlar suvda ag‘darilib ketadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "on",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used before a day or date to show when something happens.",
+      "translationUz": "-da (kun yoki sanada)",
+      "definitionUz": "Voqea sodir bo‘ladigan kun yoki sanani bildiradigan predlog.",
+      "examples": [
+        {
+          "textEn": "It is taking place on the second of July.",
+          "textUz": "U ikkinchi iyul kuni bo‘lib o‘tadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "oh",
+      "partOfSpeech": "interjection",
+      "lexicalType": "word",
+      "definitionEn": "Used to express a reaction such as surprise, understanding, disappointment, or pleasure.",
+      "translationUz": "voy, oh, ha",
+      "definitionUz": "Hayrat, tushunish, xafa bo‘lish yoki quvonch kabi munosabatni bildiradigan undov so‘z.",
+      "examples": [
+        {
+          "textEn": "Oh yes, I know it.",
+          "textUz": "Ha, men u joyni bilaman."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "who",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "word",
+      "definitionEn": "Used to introduce a relative clause that gives information about a person.",
+      "translationUz": "-gan, kimki",
+      "definitionUz": "Shaxs haqida qo‘shimcha ma’lumot beruvchi aniqlovchi ergash gapni boshlaydigan olmosh.",
+      "examples": [
+        {
+          "textEn": "Every crew member who takes part in the race can enter the prize draw.",
+          "textUz": "Poygada qatnashadigan har bir ekipaj a’zosi sovrinli qur’ada qatnashishi mumkin."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "that",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "word",
+      "definitionEn": "Used to introduce a defining relative clause about a person or thing.",
+      "translationUz": "-gan, ...ki",
+      "definitionUz": "Shaxs yoki narsa haqidagi aniqlovchi ergash gapni boshlaydigan olmosh.",
+      "examples": [
+        {
+          "textEn": "We have boats that turn over in the water.",
+          "textUz": "Bizda suvda ag‘darilib ketadigan qayiqlar bor."
+        }
+      ]
+    }
+  ]
+}
