@@ -75,6 +75,14 @@
           "meaningSha": "4683d8b6901dc64e29e54f92c9d8edab141396eef33ac52c55d9267380d619fb"
         },
         {
+          "start": 426,
+          "end": 433,
+          "surface": "charity",
+          "entryId": "a34cf05a-e666-5645-a8b7-8de42e7e0fcb",
+          "senseId": "b6506276-246a-45dc-babc-0d563b7e1d8a",
+          "meaningSha": "d02f485b95979de9c11a92f5a5238b1e1952ddb4d699eb048d9b2017c6f72805"
+        },
+        {
           "start": 481,
           "end": 488,
           "surface": "ringing",
@@ -147,6 +155,30 @@
           "meaningSha": "6f758f309ae6d1e5e25cc176bdef35e50448e1f8bc051c010442b16520f8b5d4"
         },
         {
+          "start": 748,
+          "end": 759,
+          "surface": "information",
+          "entryId": "3f3371da-3e41-593f-add4-01b5790e3702",
+          "senseId": "9e7ec391-4e2d-4c94-9ba0-f9ca6e8d7ccb",
+          "meaningSha": "1fa6f5f21c01c45dea43076f7afe83fd9edd600d74f2d9630728abdbdd77fe2c"
+        },
+        {
+          "start": 893,
+          "end": 901,
+          "surface": "Saturday",
+          "entryId": "7461edb7-ac68-5e4e-99c6-4deab867f054",
+          "senseId": "c22d2c5e-2d41-5232-afb1-a0555c9bd956",
+          "meaningSha": "ed9279bb310fff6c9cdfabcddde9341d3927f9ee458d56309ab281e02ce0d926"
+        },
+        {
+          "start": 921,
+          "end": 927,
+          "surface": "Sunday",
+          "entryId": "3eda138e-12ba-5dcf-a887-640e717f75ed",
+          "senseId": "97baa09c-705b-59a1-ac62-11c2b8282329",
+          "meaningSha": "5d283acfa334aaa2cd3de6ca165ae88e6a06b9bb85dc58bcf1250b3d27b8d497"
+        },
+        {
           "start": 978,
           "end": 987,
           "surface": "take part",
@@ -201,6 +233,14 @@
           "entryId": "26db9438-6ed3-5593-b3ac-f65ad1c18f2a",
           "senseId": "76bab2ab-56e4-4e82-8214-9c29a1b8ea1e",
           "meaningSha": "842cc3ba8c7338571e8a4895b7dfca173a8a4e5878290f70f69a6a44eb9c687d"
+        },
+        {
+          "start": 1325,
+          "end": 1332,
+          "surface": "turning",
+          "entryId": "9be573e2-bc32-520a-a425-369b254a5f2b",
+          "senseId": "b2b4d4dd-1b4c-4e06-98fb-ca8a893bff01",
+          "meaningSha": "022623ed8cf445236638e4ca04abe9a983ea117b6ae735cb9937eb503aa1c8d7"
         },
         {
           "start": 1341,
@@ -291,6 +331,14 @@
           "meaningSha": "78ad44f42458f3e8b2fc413b75ba5e7c958113c2566e2da5e65300b95da7dac6"
         },
         {
+          "start": 1723,
+          "end": 1730,
+          "surface": "charity",
+          "entryId": "a34cf05a-e666-5645-a8b7-8de42e7e0fcb",
+          "senseId": "b6506276-246a-45dc-babc-0d563b7e1d8a",
+          "meaningSha": "d02f485b95979de9c11a92f5a5238b1e1952ddb4d699eb048d9b2017c6f72805"
+        },
+        {
           "start": 1765,
           "end": 1769,
           "surface": "team",
@@ -299,12 +347,28 @@
           "meaningSha": "adf04d22e244b87fadca7383ddaee339908f035241ba1333fa7757cddeddd833"
         },
         {
+          "start": 1770,
+          "end": 1776,
+          "surface": "member",
+          "entryId": "12878a9e-a800-5fff-a860-d0ec6a886bd8",
+          "senseId": "3cbe6ede-a45d-47b7-af17-886fff72476c",
+          "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
+        },
+        {
           "start": 1788,
           "end": 1793,
           "surface": "raise",
           "entryId": "8c2bb608-0716-5723-8cff-ccf32f6f7dcb",
           "senseId": "34ce1660-ad9d-4b1f-90bb-e179271d426a",
           "meaningSha": "78ad44f42458f3e8b2fc413b75ba5e7c958113c2566e2da5e65300b95da7dac6"
+        },
+        {
+          "start": 1806,
+          "end": 1812,
+          "surface": "pounds",
+          "entryId": "3928da74-5fc2-5642-af1f-b1b81132f19a",
+          "senseId": "4e28f931-b414-4b20-8959-70ca0fc4e8cf",
+          "meaningSha": "086780dba49c025367ae04da8ca9acff0df8234fa6637e73a254b09fb8c3b28f"
         },
         {
           "start": 1839,
@@ -329,6 +393,14 @@
           "entryId": "5faf4525-e65b-5294-81e8-1e9d038d289c",
           "senseId": "a275556a-4fa8-4910-8c59-45020b4363ec",
           "meaningSha": "0606caa10500af0ba7f8b60cf178284b1ab4bece597c24f8c63165397101ced2"
+        },
+        {
+          "start": 1877,
+          "end": 1883,
+          "surface": "member",
+          "entryId": "12878a9e-a800-5fff-a860-d0ec6a886bd8",
+          "senseId": "3cbe6ede-a45d-47b7-af17-886fff72476c",
+          "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
         },
         {
           "start": 1904,
@@ -363,6 +435,14 @@
           "meaningSha": "78ad44f42458f3e8b2fc413b75ba5e7c958113c2566e2da5e65300b95da7dac6"
         },
         {
+          "start": 1964,
+          "end": 1970,
+          "surface": "pounds",
+          "entryId": "3928da74-5fc2-5642-af1f-b1b81132f19a",
+          "senseId": "4e28f931-b414-4b20-8959-70ca0fc4e8cf",
+          "meaningSha": "086780dba49c025367ae04da8ca9acff0df8234fa6637e73a254b09fb8c3b28f"
+        },
+        {
           "start": 2037,
           "end": 2043,
           "surface": "raffle",
@@ -377,6 +457,14 @@
           "entryId": "5faf4525-e65b-5294-81e8-1e9d038d289c",
           "senseId": "a275556a-4fa8-4910-8c59-45020b4363ec",
           "meaningSha": "0606caa10500af0ba7f8b60cf178284b1ab4bece597c24f8c63165397101ced2"
+        },
+        {
+          "start": 2056,
+          "end": 2062,
+          "surface": "member",
+          "entryId": "12878a9e-a800-5fff-a860-d0ec6a886bd8",
+          "senseId": "3cbe6ede-a45d-47b7-af17-886fff72476c",
+          "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
         },
         {
           "start": 2085,
@@ -425,6 +513,14 @@
           "entryId": "970cc644-6023-5c13-afed-5b294b64c47f",
           "senseId": "1887c9b1-d351-4289-ab18-bbcbbf0f4b61",
           "meaningSha": "6f758f309ae6d1e5e25cc176bdef35e50448e1f8bc051c010442b16520f8b5d4"
+        },
+        {
+          "start": 2274,
+          "end": 2285,
+          "surface": "information",
+          "entryId": "3f3371da-3e41-593f-add4-01b5790e3702",
+          "senseId": "9e7ec391-4e2d-4c94-9ba0-f9ca6e8d7ccb",
+          "meaningSha": "1fa6f5f21c01c45dea43076f7afe83fd9edd600d74f2d9630728abdbdd77fe2c"
         },
         {
           "start": 2331,
@@ -507,12 +603,44 @@
           "meaningSha": "adf04d22e244b87fadca7383ddaee339908f035241ba1333fa7757cddeddd833"
         },
         {
+          "start": 2754,
+          "end": 2761,
+          "surface": "members",
+          "entryId": "12878a9e-a800-5fff-a860-d0ec6a886bd8",
+          "senseId": "3cbe6ede-a45d-47b7-af17-886fff72476c",
+          "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
+        },
+        {
+          "start": 2816,
+          "end": 2821,
+          "surface": "limit",
+          "entryId": "0106f582-6618-5f2d-9152-7c2b692b949a",
+          "senseId": "1866e8c4-350a-559c-ae02-435683631618",
+          "meaningSha": "4c70ea9ee9fde85d691826bc80d197c87b39a74bfe71bd7a97712a8c52386af9"
+        },
+        {
           "start": 2849,
           "end": 2853,
           "surface": "team",
           "entryId": "9f8aa9a9-0d39-58d7-8550-d8eb629a0c25",
           "senseId": "4dfbf020-3203-4cc7-bda3-b1ebe6984c3b",
           "meaningSha": "adf04d22e244b87fadca7383ddaee339908f035241ba1333fa7757cddeddd833"
+        },
+        {
+          "start": 2854,
+          "end": 2860,
+          "surface": "member",
+          "entryId": "12878a9e-a800-5fff-a860-d0ec6a886bd8",
+          "senseId": "3cbe6ede-a45d-47b7-af17-886fff72476c",
+          "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
+        },
+        {
+          "start": 2911,
+          "end": 2918,
+          "surface": "parents",
+          "entryId": "0c169450-2e5b-55c7-adc6-6250f760c4bb",
+          "senseId": "184d08aa-068b-4850-8856-fbf07460c5cf",
+          "meaningSha": "e777baafc9a3682f0bdb45a62676ddd3b5f7e7dfb9e8321640e7fb58413f598b"
         },
         {
           "start": 2920,
@@ -609,6 +737,14 @@
           "entryId": "24323ec8-7129-5271-a41c-16f03df7a916",
           "senseId": "3314c4ed-4b7f-5bc5-afc3-8c8a37f43c42",
           "meaningSha": "c3df56276fad9b4555a1b2fee7601459c924a10cb78d6c7cceebd76226172092"
+        },
+        {
+          "start": 3274,
+          "end": 3280,
+          "surface": "shorts",
+          "entryId": "74afdbf2-4645-5fb2-becf-6e72a4939742",
+          "senseId": "accef558-a69f-4a54-8825-a3bf08d8f48c",
+          "meaningSha": "73e18ca2ada3903a210f954c7a3961a7320c38ab4169c714e639475f239b69b4"
         },
         {
           "start": 3335,
