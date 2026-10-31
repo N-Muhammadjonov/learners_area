@@ -36,11 +36,12 @@ export function bridge(token, stored, notesLabel, storageKey = 'la_listening_tes
   const source=(typeof DATA==='object'?DATA.transcript?.[String(part)]:null);
   if(typeof source!=='string')return;
   const nodeText=caret.startContainer.textContent||'';
-  const first=source.indexOf(nodeText);
-  if(first<0||source.indexOf(nodeText,first+1)!==-1)return;
-  const localStart=nodeText.indexOf(word,l);
-  if(localStart!==l)return;
-  const begin=first+l,end=first+r;
+  const segment=caret.startContainer.parentElement?.closest('[data-script-source-start]');
+  if(!segment||!transcript.contains(segment))return;
+  const offset=Number(segment.getAttribute('data-script-source-start'));
+  if(!Number.isSafeInteger(offset)||offset<0)return;
+  const begin=offset+l,end=offset+r;
+  if(source.slice(begin,end)!==word)return;
   const matches=occurrences.filter(row=>row.part===part&&row.start<=begin&&row.end>=end&&source.slice(row.start,row.end)===row.surface);
   if(matches.length!==1)return;
   send('word',{word,mode:'script',occurrenceId:matches[0].occurrenceId,x:e.clientX,y:e.clientY});
