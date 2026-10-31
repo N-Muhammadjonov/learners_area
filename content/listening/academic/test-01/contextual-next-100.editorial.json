@@ -3,14 +3,12 @@
   "branch": "feature/listening-test-1-next-100-senses",
   "sourceTest": "listening-test-1",
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
-  "status": "STAGED_ONLY_NOT_PUBLISHED",
+  "status": "EDITORIAL_SELECTION_COMPLETE_NOT_PUBLISHED",
   "linkedWithoutLiveWrites": true,
   "description": "100 transcript targets and contextual sense candidates. Existing IDs and source-confirmed candidate drafts; nothing published until editorial pass and safe release deploy.",
   "summary": {
-    "existing_sense_candidate": 85,
-    "source_verified_new_entry_draft": 7,
-    "externally_verified_entry_draft": 3,
-    "requires_dictionary_sense_review": 5
+    "existing_sense_selected": 86,
+    "new_entry_source_checked": 14
   },
   "items": [
     {
@@ -32,7 +30,7 @@
       "availableSenseIds": [
         "5b66fc11-e5f2-43c3-8c61-eba46a680789"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 2,
@@ -58,7 +56,7 @@
         "c2661f56-ea0d-5077-b9d8-a42a9977b095",
         "e519e115-b8de-5ae5-a805-eadee800f777"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 3,
@@ -75,19 +73,37 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 3,
         "headword": "on the phone",
         "partOfSpeech": "phrase",
-        "definitionEn": "speaking by telephone",
-        "translationUz": "telefon orqali gaplashmoq",
+        "lexicalType": "collocation",
+        "definitionEn": "speaking to someone using a telephone",
+        "translationUz": "telefonda gaplashayotgan",
         "cefr": null,
-        "exampleContext": "l be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/on-the-phone",
-        "synonyms": [],
+        "synonyms": [
+          "by telephone"
+        ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "collocations": [
+          "talk on the phone",
+          "speak on the phone"
+        ],
+        "exampleSentence": "We talked on the phone, didn't we?",
+        "source": {
+          "name": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/dictionary/english/on-the-phone",
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 1,
+          "start": 838,
+          "end": 857,
+          "surface": "talked on the phone"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -113,7 +129,7 @@
         "c4843070-dbe1-5901-bca2-4cb0f82d8ac5",
         "f9cab423-c312-5cc9-ad5f-82bcfdcf4cd8"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "come on in",
@@ -139,7 +155,7 @@
       "availableSenseIds": [
         "7d622856-7f4c-50d6-b352-5122f5193b04"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 6,
@@ -162,7 +178,7 @@
         "960673fd-e24d-50b0-886d-1d99b764766f",
         "feaad84e-ff86-53a2-82c1-d04101c25f4e"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "it depends on",
@@ -218,7 +234,7 @@
         "d956f398-7693-4eba-8448-16788dc50d78",
         "f42c9229-3130-51d6-b1dc-e058e982e613"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 8,
@@ -242,7 +258,7 @@
         "63e628fc-d2b8-4a6d-89d5-6d3b73d3da12",
         "fc581dac-8ada-4f4c-a096-9aa482c811f0"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 9,
@@ -263,7 +279,7 @@
       "availableSenseIds": [
         "4b84b699-d444-4492-a422-7956c8ea21fb"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 10,
@@ -284,7 +300,7 @@
       "availableSenseIds": [
         "36db5e43-3cf8-417a-b7a7-70d51ccc74b2"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 11,
@@ -322,7 +338,7 @@
         "eb01c567-eeec-46c5-9f99-ec93636ddfbd",
         "f329e1a6-7221-5ac9-84f8-a1f1153accf0"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "quite a walk",
@@ -349,7 +365,7 @@
         "b58283e3-0916-4128-9a1e-cbfbd5ac92cc",
         "f0ffc936-e803-4ac0-82c7-6d9828d294fe"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "no parking",
@@ -376,7 +392,7 @@
         "109ee09b-b041-4c50-a44e-a4b2825b177e",
         "33b18803-19f4-44d1-8216-5a8d5a88b94f"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "back lane",
@@ -402,7 +418,7 @@
       "availableSenseIds": [
         "53229173-90de-5e72-b0f2-5faeec6c497c"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 15,
@@ -419,28 +435,38 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "externally_verified_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 15,
         "headword": "living room",
         "partOfSpeech": "noun",
-        "definitionEn": "a room in a home used for relaxing or receiving visitors",
-        "translationUz": "mehmonxona (uydagi yashash xonasi)",
+        "lexicalType": "word",
+        "definitionEn": "the room in a house where people relax and spend time together",
+        "translationUz": "mehmonxona; yashash xonasi",
         "cefr": "A1",
-        "exampleContext": " a phone in the house is useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/living-room",
         "synonyms": [
           "sitting room",
           "lounge"
         ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published",
-        "lexicographicVerification": {
-          "source": "Cambridge Dictionary",
+        "collocations": [
+          "in the living room",
+          "living-room furniture"
+        ],
+        "exampleSentence": "It was in the living room, but it was hard to hear over the television.",
+        "source": {
+          "name": "Cambridge Dictionary",
           "url": "https://dictionary.cambridge.org/dictionary/english/living-room",
-          "status": "verified_headword_and_contextual_meaning",
-          "checkedOn": "2026-10-31"
-        }
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 1,
+          "start": 2347,
+          "end": 2358,
+          "surface": "living room"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -466,7 +492,7 @@
         "c055fb34-7ce0-46af-b07f-c02b1d21de3a",
         "dc66332e-5c55-497c-925e-e4a524ab3916"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 17,
@@ -483,19 +509,37 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 17,
         "headword": "fair enough",
         "partOfSpeech": "phrase",
-        "definitionEn": "used to express understanding or acceptance of what someone has said",
-        "translationUz": "tushunarli, mayli",
+        "lexicalType": "collocation",
+        "definitionEn": "said to show that you understand or accept someone's explanation",
+        "translationUz": "tushunarli; mayli, bu adolatli",
         "cefr": "B2",
-        "exampleContext": "hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what about my room? Yes, we'll go up and look in a minute. It's at the front of",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/fair-enough",
-        "synonyms": [],
+        "synonyms": [
+          "I see",
+          "that's reasonable"
+        ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "collocations": [
+          "that's fair enough"
+        ],
+        "exampleSentence": "That's fair enough.",
+        "source": {
+          "name": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/dictionary/english/fair-enough",
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 1,
+          "start": 2446,
+          "end": 2457,
+          "surface": "fair enough"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -531,7 +575,7 @@
         "8b7d1e44-29e6-472d-b551-1ae169ad73d7",
         "b02c67ea-7950-4a05-98b8-312fa3a29d2d"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "front of the house",
@@ -572,7 +616,7 @@
         "cd0e9814-351e-4fd6-9c83-0804d9b16e44",
         "d6d7d849-bafa-4e43-ad8c-e35c658c5909"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 20,
@@ -599,7 +643,7 @@
         "e8d506b4-1985-4226-bb2e-fd484014b534",
         "ee2cf0a6-e0c5-44d7-870d-37bc745a52c6"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 21,
@@ -637,7 +681,7 @@
         "f4ba957f-9178-568c-9b24-a49579f4e093",
         "fabe5484-4551-43b5-a1bd-bcda72f0fc41"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "left me with",
@@ -659,25 +703,37 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "externally_verified_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 22,
         "headword": "rice cooker",
         "partOfSpeech": "noun",
-        "definitionEn": "an electric appliance designed to cook rice",
+        "lexicalType": "word",
+        "definitionEn": "an electrical appliance used specifically to cook rice",
         "translationUz": "guruch pishirgich",
         "cefr": null,
-        "exampleContext": "e I can bring? Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken. I'll have a look in",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/rice-cooker",
-        "synonyms": [],
+        "synonyms": [
+          "electric rice cooker"
+        ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published",
-        "lexicographicVerification": {
-          "source": "Cambridge Dictionary",
+        "collocations": [
+          "electric rice cooker",
+          "use a rice cooker"
+        ],
+        "exampleSentence": "My mother bought me a rice cooker.",
+        "source": {
+          "name": "Cambridge Dictionary",
           "url": "https://dictionary.cambridge.org/dictionary/english/rice-cooker",
-          "status": "verified_headword_and_contextual_meaning",
-          "checkedOn": "2026-10-31"
-        }
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 1,
+          "start": 2926,
+          "end": 2937,
+          "surface": "rice cooker"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -706,7 +762,7 @@
         "7695a773-ab7d-4248-89b2-8d679cecccc8",
         "9b3dce54-5d07-4db5-a5f8-bcf700e76284"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "sports fan",
@@ -732,7 +788,7 @@
       "availableSenseIds": [
         "74d63195-4a8d-4a7e-a646-be0e2afc5292"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 25,
@@ -753,7 +809,7 @@
       "availableSenseIds": [
         "27d4bc0b-20d4-4328-95e0-120a1bd8b262"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 26,
@@ -774,7 +830,7 @@
       "availableSenseIds": [
         "0cc26972-456b-40fe-8b1e-6a781121bee5"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 27,
@@ -799,7 +855,7 @@
         "bfc4de21-16af-542c-99e6-a198d848317c",
         "ec8ce2d8-df5b-5e74-8364-fad5aff3f312"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 28,
@@ -828,7 +884,7 @@
         "c7962963-10c6-4a30-ac33-23c2bacc914e",
         "cdff5bb2-08d7-4697-be21-6839a2fe1b98"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 29,
@@ -851,7 +907,7 @@
         "6330fe9d-90c8-45b9-a8ea-4a8ae58cb8b6",
         "6da4b4c1-b6c5-4944-a281-c525b6373b32"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 30,
@@ -885,7 +941,7 @@
         "046f274a-40b0-4a93-97a6-fba896f44c42",
         "4d49df5d-0756-4c43-8184-4d4a92f98bed"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 31,
@@ -916,7 +972,7 @@
         "32de5942-c292-4709-a03e-ae72b9537282",
         "7308b5cb-2b13-45eb-8d46-f8db1cf3ab1c"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 32,
@@ -967,7 +1023,7 @@
         "c8d8272c-204c-572d-895a-2c0a66c83f7b",
         "cbb86d38-ebdf-4f6d-910e-5857cf909c53"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 33,
@@ -990,7 +1046,7 @@
         "7ff5b61d-5346-4a19-832c-a5a7c2d17e59",
         "efa69c9b-6347-4439-b777-df126eb96633"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "once only",
@@ -1012,19 +1068,37 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 34,
         "headword": "answer sheet",
         "partOfSpeech": "noun phrase",
-        "definitionEn": "a sheet on which a test candidate records answers",
+        "lexicalType": "collocation",
+        "definitionEn": "a paper or form on which a test candidate writes their answers",
         "translationUz": "javob varaqasi",
         "cefr": null,
-        "exampleContext": "d of the test, you will be given 10 minutes to transfer your answers to an answer sheet. Now turn to section 1 on page 2 of your question booklet. Section 1. You will hear",
-        "sourceUrl": "https://dictionary.cambridge.org/us/example/english/answer-sheet",
-        "synonyms": [],
+        "synonyms": [
+          "response sheet"
+        ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "collocations": [
+          "fill in an answer sheet",
+          "transfer answers to an answer sheet"
+        ],
+        "exampleSentence": "You will be given 10 minutes to transfer your answers to an answer sheet.",
+        "source": {
+          "name": "Cambridge English collocation examples",
+          "url": "https://dictionary.cambridge.org/us/example/english/answer-sheet",
+          "evidenceKind": "attested_collocation"
+        },
+        "target": {
+          "part": 1,
+          "start": 400,
+          "end": 412,
+          "surface": "answer sheet"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -1057,7 +1131,7 @@
         "bc55edff-8357-4b77-aa73-6eb1824b4f54",
         "ff475744-4e37-4a21-8971-25ec5a4a5842"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 36,
@@ -1080,7 +1154,7 @@
         "a8e87de3-902f-49e6-87eb-b224b969ef54",
         "efa40e0f-9e3d-4adf-99bf-1598e8f155f2"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 37,
@@ -1101,7 +1175,7 @@
       "availableSenseIds": [
         "ba794285-74f5-4ed0-8dc9-421b494a5c82"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 38,
@@ -1132,7 +1206,7 @@
         "abe92d33-a1c2-44ac-834c-8b7b7c210688",
         "c6aeabc1-54d8-4a79-8d22-5fd99e667652"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 39,
@@ -1164,7 +1238,7 @@
         "cdc68062-ffc4-4c9d-bd25-a7796489da07",
         "db6a7415-dde9-4538-8675-00bfa95f8076"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Contextual meaning checked against exact release entry sense and original sentence",
         "surface": "a few things",
@@ -1173,32 +1247,34 @@
     },
     {
       "entryNumber": 40,
-      "surface": "make up",
-      "lemma": "make up",
+      "surface": "room",
+      "lemma": "room",
       "selected": {
         "part": 1,
-        "start": 935,
-        "end": 942,
-        "surface": "make up",
-        "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space"
+        "start": 814,
+        "end": 818,
+        "surface": "room",
+        "context": " this will be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
       "activeReleaseEntryIds": [
-        "b3c80833-7e89-5622-a9f0-e68577fa6fc1"
+        "e3d7adab-8be1-59ee-b981-e75ff5c4bfe9"
       ],
       "availableSenseIds": [
-        "273eef1d-04bc-59dd-bb3d-73b01130dbb8",
-        "3d3653ff-a548-5f24-913f-6f2c55283c92",
-        "414a7b3e-454f-55fe-a039-169019b24e78",
-        "4572442a-71bb-5b26-84cb-cb736e623a5c",
-        "5180d3f7-1999-55a4-ae7e-b27c7039314d",
-        "5e0d82e5-a2da-5cdf-81fc-54d265cc5455",
-        "95189306-0659-532b-9438-82b0742a9814",
-        "df6f9c53-4fdf-5e34-a01d-c488d4120980",
-        "f3f9b093-2c67-5eb0-816d-cc5a32809880"
+        "35edfd0e-9f2d-4a25-8dc2-33a81ed7255e",
+        "6434a139-49ed-4897-9edd-f2629f7e0cd1",
+        "895e7608-6a69-41c2-8738-3afa88caba76",
+        "b9fdb0e9-eacf-49cd-84db-ae02cf2879df"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_selected",
+      "duplicateCorrection": {
+        "replaced": "make up",
+        "reason": "Subspan of make up my mind (#1), would overlap and select wrong meaning",
+        "replacement": "room",
+        "part": 1,
+        "start": 814
+      }
     },
     {
       "entryNumber": 41,
@@ -1262,7 +1338,7 @@
         "d8b7d696-6608-4d16-a316-97c0cf0bb0b3",
         "dee2306a-02f4-4854-bd45-192de8c8bfd9"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 42,
@@ -1285,7 +1361,7 @@
         "6330fe9d-90c8-45b9-a8ea-4a8ae58cb8b6",
         "6da4b4c1-b6c5-4944-a281-c525b6373b32"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 43,
@@ -1320,7 +1396,7 @@
         "91ae759c-fce0-4fe4-ae82-9983bb1d482e",
         "8e510c42-ada1-4185-b876-804ad5f4cced"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 44,
@@ -1341,7 +1417,7 @@
       "availableSenseIds": [
         "67f92f63-3f44-4044-8f9d-7bc4ee3bebee"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 45,
@@ -1365,7 +1441,7 @@
         "887685d0-ccd1-413e-aed8-e66d406b0de5",
         "0b99d286-e609-4d9b-b154-0feae379d36e"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -1400,7 +1476,7 @@
         "e492e6a6-37be-5a48-9d3a-c06c5f3bfe1a",
         "f557d9f8-f51e-4822-b2c2-e5aca76eb432"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 47,
@@ -1434,7 +1510,7 @@
         "aa18ae77-1550-4b5f-a419-ef015256e72f",
         "ba2df8f3-9222-4344-923a-08850d3b4261"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 48,
@@ -1455,7 +1531,7 @@
       "availableSenseIds": [
         "f64f0036-bdda-4d01-93a5-c6ab87288395"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 49,
@@ -1472,19 +1548,39 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 49,
         "headword": "fresh air",
-        "partOfSpeech": "collocation",
-        "definitionEn": "clean, cool air, especially outdoors",
+        "partOfSpeech": "noun phrase",
+        "lexicalType": "collocation",
+        "definitionEn": "air from outdoors, especially when it is clean and healthy to breathe",
         "translationUz": "toza havo",
-        "cefr": "B1",
-        "exampleContext": "cked lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoon there are two breaks ",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/fresh",
-        "synonyms": [],
-        "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "cefr": null,
+        "synonyms": [
+          "outdoor air"
+        ],
+        "antonyms": [
+          "stale air"
+        ],
+        "collocations": [
+          "get some fresh air",
+          "a breath of fresh air"
+        ],
+        "exampleSentence": "They also play outside and get some fresh air.",
+        "source": {
+          "name": "Collins COBUILD Dictionary",
+          "url": "https://www.collinsdictionary.com/dictionary/english/fresh-air",
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 2,
+          "start": 1226,
+          "end": 1235,
+          "surface": "fresh air"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -1509,7 +1605,7 @@
         "4b1b9901-47f4-401f-99f6-447f4a745460",
         "c2ebd4f0-c732-4ec6-8720-c6de895327c2"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 51,
@@ -1530,7 +1626,7 @@
       "availableSenseIds": [
         "fd8ee5b8-8138-5a74-accd-758241f1cb7b"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 52,
@@ -1552,7 +1648,7 @@
         "35093685-f795-50f8-a9f3-676247ab0753",
         "b23ca39d-1428-5f09-9ccd-85f79feef7d1"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -1577,7 +1673,7 @@
       "availableSenseIds": [
         "4f71055d-99f8-5226-a07b-29cc1c9800c1"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 54,
@@ -1598,7 +1694,7 @@
       "availableSenseIds": [
         "de807916-d969-4208-b041-35bb5cf08895"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 55,
@@ -1620,7 +1716,7 @@
         "42d573e6-8c4c-466b-9ba2-ef3002b4e0be",
         "be12abe2-2613-4be3-820b-e4b86497d66d"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 56,
@@ -1646,7 +1742,7 @@
         "d9034be1-cce9-4bd6-881c-438382d8fc7b",
         "db3198d0-f0ba-444f-bc40-bc8f324cead1"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -1675,7 +1771,7 @@
         "57072ad9-fdce-42db-8967-2878c8044b8c",
         "d9909bef-f5bd-44a3-8ba4-b7cd62730d0f"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 58,
@@ -1713,7 +1809,7 @@
         "2b3e362b-79b6-4615-a411-87157b39a3c7",
         "9a991ae5-a741-48e8-938f-59a42e2266dc"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 59,
@@ -1768,7 +1864,7 @@
         "d779bc26-6084-563a-9a2b-c2c19aa91e1a",
         "57de54c3-b384-589a-bff1-eb63478679c5"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -1793,7 +1889,7 @@
       "availableSenseIds": [
         "b6ea5776-ada8-5690-bf17-5997a19ad3bb"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 61,
@@ -1823,7 +1919,7 @@
         "9829c0c2-9c2a-4a37-9044-3a697b5448c4",
         "ec09dcd5-6805-4dbe-a7ec-3cbabd364d1d"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 62,
@@ -1845,7 +1941,7 @@
         "8f856c66-a4b7-41e5-8f5b-5b7e7fe51f3d",
         "cc4908eb-4be3-4dc8-853e-c1a7e5c61733"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -1872,7 +1968,7 @@
         "695ed495-2f31-47cf-a0d6-8c2c998b2943",
         "ac8be7ec-3372-42f8-b192-26247edb61b2"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -1898,7 +1994,7 @@
         "4c5e0d57-f248-4d43-a0a2-54cc97aee078",
         "61c7d24a-3366-466e-966e-23ecacb77edc"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 65,
@@ -1919,7 +2015,7 @@
       "availableSenseIds": [
         "35a0ba54-0dc2-4fb2-af7a-99269232b5c3"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 66,
@@ -1940,7 +2036,7 @@
       "availableSenseIds": [
         "ff19f1d9-4871-4567-9643-56569c882921"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 67,
@@ -1965,7 +2061,7 @@
         "b7cd1714-7358-4e4f-a25b-86190bf7d225",
         "e89e7659-9a1d-472e-92c5-91dbb4de4556"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 68,
@@ -1987,7 +2083,7 @@
         "050c564c-f4df-458a-89a1-5c513cd0475d",
         "bf68666a-f28a-4e47-90f4-4473bd7002d3"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2012,7 +2108,7 @@
       "availableSenseIds": [
         "9df0220c-762e-4e81-a994-f72ebd2a9c86"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 70,
@@ -2036,7 +2132,7 @@
         "d5e5a429-2fb4-44b4-a3f0-86e995d7869e",
         "e551e20f-a99d-4a03-8894-169bd7ead3e1"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 71,
@@ -2058,7 +2154,7 @@
         "03ff3084-b2e4-46a4-9d4f-cd1e21fa0bbb",
         "43c2fee2-15ab-4442-a832-84fac786053c"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 72,
@@ -2084,7 +2180,7 @@
         "4e4142c5-7d6a-4d6c-b954-1cff9c4afed8",
         "d48253ee-a740-48a5-97b7-85d8e027fa84"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 73,
@@ -2109,7 +2205,39 @@
         "6820cc26-5b50-42c8-b13d-5d8f360724ca",
         "6ccf2059-86fe-4a7a-9ae1-ca751a2dc33a"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 73,
+        "headword": "reception",
+        "partOfSpeech": "noun",
+        "lexicalType": "word",
+        "definitionEn": "the desk or place in a building where visitors go when they first arrive",
+        "translationUz": "qabulxona; tashrif buyuruvchilarni kutib olish joyi",
+        "cefr": "B1",
+        "synonyms": [
+          "reception desk",
+          "front desk"
+        ],
+        "antonyms": [],
+        "collocations": [
+          "at reception",
+          "report to reception"
+        ],
+        "exampleSentence": "Where you would normally expect to find reception, you'll see the head's office.",
+        "source": {
+          "name": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/us/dictionary/english/reception",
+          "evidenceKind": "dictionary_sense"
+        },
+        "target": {
+          "part": 2,
+          "start": 2745,
+          "end": 2754,
+          "surface": "reception"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
+      }
     },
     {
       "entryNumber": 74,
@@ -2136,7 +2264,7 @@
         "bd345d77-c388-409a-8ec3-e645c22f31d3",
         "d3161ef5-4851-4fc1-ae4c-da2a5769e2d1"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2161,7 +2289,7 @@
       "availableSenseIds": [
         "f443f77f-400a-4f68-8796-ef70b6849eb3"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 76,
@@ -2186,7 +2314,7 @@
         "89024e3c-00d3-4a13-9481-fbdeeeb447c4",
         "93bf0e47-c261-4ab7-9e9c-ccc67b27bd96"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 77,
@@ -2203,7 +2331,38 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "requires_dictionary_sense_review"
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 77,
+        "headword": "computer room",
+        "partOfSpeech": "noun phrase",
+        "lexicalType": "collocation",
+        "definitionEn": "a room equipped for using computers, particularly for learning or work",
+        "translationUz": "kompyuter xonasi",
+        "cefr": null,
+        "synonyms": [
+          "computer lab"
+        ],
+        "antonyms": [],
+        "collocations": [
+          "school computer room",
+          "work in the computer room"
+        ],
+        "exampleSentence": "We are hoping that we will be able to create a computer room.",
+        "source": {
+          "name": "Getty Art & Architecture Thesaurus",
+          "url": "https://www.getty.edu/vow/AATFullDisplay?find=sign&logic=AND&note=&subjectid=300004510",
+          "evidenceKind": "controlled_vocabulary_headword"
+        },
+        "target": {
+          "part": 2,
+          "start": 3054,
+          "end": 3067,
+          "surface": "computer room"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
+      }
     },
     {
       "entryNumber": 78,
@@ -2220,19 +2379,40 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 78,
         "headword": "on your own",
         "partOfSpeech": "idiom",
-        "definitionEn": "without help from other people",
-        "translationUz": "mustaqil, o‘zi",
-        "cefr": "B1",
-        "exampleContext": "ter room within that so that the children can have somewhere quiet to work on their own. On the left of the classrooms we have converted one of the old cloak rooms to crea",
-        "sourceUrl": "https://dictionary.cambridge.org/us/dictionary/english/on-own",
-        "synonyms": [],
-        "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "lexicalType": "idiom",
+        "definitionEn": "without help from anyone else",
+        "translationUz": "mustaqil; o‘zi",
+        "cefr": null,
+        "synonyms": [
+          "independently",
+          "without assistance"
+        ],
+        "antonyms": [
+          "with help"
+        ],
+        "collocations": [
+          "work on your own",
+          "learn on your own"
+        ],
+        "exampleSentence": "The children can have somewhere quiet to work on their own.",
+        "source": {
+          "name": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/us/dictionary/english/on-own",
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 2,
+          "start": 3134,
+          "end": 3146,
+          "surface": "on their own"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -2255,7 +2435,7 @@
         "a339fb3e-c734-4945-9ea2-f25a4f7b0a9b",
         "f7cf7876-0489-4b21-9b26-d28a165351de"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2276,7 +2456,38 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "requires_dictionary_sense_review"
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 80,
+        "headword": "music room",
+        "partOfSpeech": "noun phrase",
+        "lexicalType": "collocation",
+        "definitionEn": "a room at a school for teaching or practising music",
+        "translationUz": "musiqa xonasi",
+        "cefr": null,
+        "synonyms": [
+          "music classroom"
+        ],
+        "antonyms": [],
+        "collocations": [
+          "school music room",
+          "practise in the music room"
+        ],
+        "exampleSentence": "We have converted one of the old cloak rooms to create a music room.",
+        "source": {
+          "name": "Wordsmyth Dictionary",
+          "url": "https://www.wordsmyth.net/?dict=2&mode=fmfree&rid=59831",
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 2,
+          "start": 3236,
+          "end": 3246,
+          "surface": "music room"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
+      }
     },
     {
       "entryNumber": 81,
@@ -2304,7 +2515,7 @@
         "dd14150b-7300-5704-9fac-673484f89e8d",
         "f2160126-a28a-4461-b2a6-1b3b128722ed"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 82,
@@ -2321,19 +2532,37 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 82,
         "headword": "assembly hall",
-        "partOfSpeech": "collocation",
-        "definitionEn": "a room or hall for large group meetings",
-        "translationUz": "majlislar zali",
+        "partOfSpeech": "noun phrase",
+        "lexicalType": "collocation",
+        "definitionEn": "a large room or hall used for gatherings such as school meetings",
+        "translationUz": "maktab majlislar zali",
         "cefr": null,
-        "exampleContext": "year and we are very pleased with it. We used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children and w",
-        "sourceUrl": "https://dictionary.cambridge.org/us/example/english/assembly-hall",
-        "synonyms": [],
+        "synonyms": [
+          "school hall"
+        ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "collocations": [
+          "school assembly hall",
+          "in the assembly hall"
+        ],
+        "exampleSentence": "We used to be squashed into the old assembly hall next door.",
+        "source": {
+          "name": "Cambridge English collocation examples",
+          "url": "https://dictionary.cambridge.org/us/example/english/assembly-hall",
+          "evidenceKind": "attested_collocation"
+        },
+        "target": {
+          "part": 2,
+          "start": 3503,
+          "end": 3516,
+          "surface": "assembly hall"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -2351,19 +2580,38 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 83,
         "headword": "turn into",
         "partOfSpeech": "phrasal verb",
-        "definitionEn": "to change something so it becomes something different",
+        "lexicalType": "phrasal_verb",
+        "definitionEn": "to change something into a different thing or make it become different",
         "translationUz": "...ga aylantirmoq",
         "cefr": "B1",
-        "exampleContext": "hed into the old assembly hall next door which as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look ",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/turn-into",
-        "synonyms": [],
+        "synonyms": [
+          "transform into",
+          "convert into"
+        ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published"
+        "collocations": [
+          "turn a room into a gym",
+          "turn into something"
+        ],
+        "exampleSentence": "It has now been turned into a gym for the children.",
+        "source": {
+          "name": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/dictionary/english/turn-into",
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 2,
+          "start": 3561,
+          "end": 3572,
+          "surface": "turned into"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -2388,7 +2636,7 @@
         "7f176297-16ce-402d-90d8-814eda83577b",
         "9941d974-ad46-4582-a280-c5d2ac8ee8bb"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 85,
@@ -2405,27 +2653,38 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "externally_verified_entry_draft",
-      "newEntryDraft": {
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 85,
         "headword": "feel free",
         "partOfSpeech": "idiom",
-        "definitionEn": "used to say someone may do something if they wish",
-        "translationUz": "bemalol qilavering",
+        "lexicalType": "idiom",
+        "definitionEn": "used to tell someone that they may do something if they want to",
+        "translationUz": "bemalol; tortinmasdan",
         "cefr": null,
-        "exampleContext": "een turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your question",
-        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/feel-free",
         "synonyms": [
-          "be welcome to"
+          "be welcome to",
+          "don't hesitate to"
         ],
         "antonyms": [],
-        "collocations": [],
-        "reviewStatus": "not_published",
-        "lexicographicVerification": {
-          "source": "Cambridge Dictionary",
+        "collocations": [
+          "feel free to ask",
+          "feel free to look around"
+        ],
+        "exampleSentence": "Do feel free to go and look round the classrooms.",
+        "source": {
+          "name": "Cambridge Dictionary",
           "url": "https://dictionary.cambridge.org/dictionary/english/feel-free",
-          "status": "verified_headword_and_contextual_meaning",
-          "checkedOn": "2026-10-31"
-        }
+          "evidenceKind": "dictionary_entry"
+        },
+        "target": {
+          "part": 2,
+          "start": 3632,
+          "end": 3641,
+          "surface": "feel free"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
       }
     },
     {
@@ -2462,7 +2721,7 @@
         "fc6e41b4-3003-5ecd-9a75-c6ec31d81016",
         "ebc6280a-9d76-5e28-b639-6e162f99716f"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 87,
@@ -2479,7 +2738,36 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "requires_dictionary_sense_review"
+      "status": "new_entry_source_checked",
+      "validatedNewEntry": {
+        "targetNumber": 87,
+        "headword": "forensic linguistics",
+        "partOfSpeech": "noun phrase",
+        "lexicalType": "collocation",
+        "definitionEn": "the application of linguistic analysis to language used as evidence or in legal investigations",
+        "translationUz": "sud-huquq tilshunosligi; huquqiy tekshiruvlarda til tahlili",
+        "cefr": null,
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [
+          "forensic linguistics project",
+          "forensic linguistics research"
+        ],
+        "exampleSentence": "We need to look at this project we're doing together in Forensic Linguistics.",
+        "source": {
+          "name": "Aston University, Encyclopedia of Applied Linguistics",
+          "url": "https://research.aston.ac.uk/en/publications/forensic-linguistics-overview/",
+          "evidenceKind": "academic_reference"
+        },
+        "target": {
+          "part": 3,
+          "start": 292,
+          "end": 312,
+          "surface": "Forensic Linguistics"
+        },
+        "editorialState": "source_checked_ready_for_release_build",
+        "releaseSenseId": null
+      }
     },
     {
       "entryNumber": 88,
@@ -2505,7 +2793,7 @@
         "d733a66c-15fc-5ff1-a147-ccf91599f40b",
         "df7a702e-c725-4b02-91e7-2c35c1ad373b"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 89,
@@ -2527,7 +2815,7 @@
         "6b5e1de6-b1cf-4e34-98d3-27db7891a9b1",
         "db17018f-3047-4c06-9938-dea58e1a8666"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 90,
@@ -2550,7 +2838,7 @@
         "7c21c15f-6dc6-4859-b62d-130d80b76459",
         "b8e18872-6800-4400-b778-f1d924fbb0f4"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 91,
@@ -2572,7 +2860,7 @@
         "c0d46d77-54f6-4d47-bd42-6b9cd7cdad69",
         "d58fbe59-728d-4754-9fb5-c811ef0618f3"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 92,
@@ -2597,7 +2885,7 @@
         "b68606bc-5fb4-566b-b10b-eb24c9b97d43",
         "df0cc926-f216-575d-9426-128915fea488"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2626,7 +2914,7 @@
         "8ac5b1c2-665a-414b-a8d3-c423e19e618a",
         "d0f5c967-e03a-4e48-bae7-6f70038e8eaa"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2658,7 +2946,7 @@
         "8127d5af-7599-4922-aaca-8bb96d50d3c7",
         "efb23bd6-cab4-42a7-9d4d-ed1e0899582c"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2685,7 +2973,7 @@
         "a8e87de3-902f-49e6-87eb-b224b969ef54",
         "efa40e0f-9e3d-4adf-99bf-1598e8f155f2"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 96,
@@ -2709,7 +2997,7 @@
         "d415948b-995f-4aa3-aa46-dc1c5dc027e9",
         "f6e96250-17ed-4a28-b484-100dc0de2802"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2736,7 +3024,7 @@
         "977fea19-6ec7-45eb-aea6-726bd7c1023f",
         "7876cf8f-f2d5-4017-860a-8a81fe63feb1"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 98,
@@ -2758,7 +3046,7 @@
         "c1d8b6bf-2781-4592-96a8-72b21529aaab",
         "f92c8b84-fdb8-4251-8198-eade1a8fa418"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     },
     {
       "entryNumber": 99,
@@ -2788,7 +3076,7 @@
         "f0fe3c74-a692-4b58-af62-06e17c5cbb83",
         "9046522c-7c54-4de2-9561-fc878721b2b2"
       ],
-      "status": "existing_sense_candidate",
+      "status": "existing_sense_selected",
       "editorialEvidence": {
         "basis": "Manually matched transcript context to exact existing release sense definition",
         "source": "active Cloudflare R2 immutable dictionary shard"
@@ -2817,14 +3105,14 @@
         "7a5a9567-5a86-4ebc-8f79-7b2083b93b38",
         "df6d97e4-14f8-4237-a261-7bb3296ad775"
       ],
-      "status": "existing_sense_candidate"
+      "status": "existing_sense_selected"
     }
   ],
   "audits": {
     "inventoryCount": 100,
     "existingSenseCandidateCount": 85,
     "newEntryDrafts": 10,
-    "unresolvedReviewCount": 5,
+    "unresolvedReviewCount": 0,
     "hiddenTargetsCount": 18,
     "hiddenTargets": [
       {
@@ -2901,6 +3189,9 @@
       }
     ],
     "safeToPublish": false,
-    "reason": "Pending dictionaries for polysemous words, missing entries, hidden gap targets, full release validation and browser QA"
+    "reason": "Release builder must create/verify new senses and hash-guarded occurrence links; full 824-form context review outstanding; no production changes",
+    "selectedExistingSense": 86,
+    "newLexicalEntries": 14,
+    "duplicateOverlapsCorrected": 1
   }
 }
