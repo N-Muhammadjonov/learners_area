@@ -7,10 +7,10 @@
   "linkedWithoutLiveWrites": true,
   "description": "100 transcript targets and contextual sense candidates. Existing IDs and source-confirmed candidate drafts; nothing published until editorial pass and safe release deploy.",
   "summary": {
-    "existing_sense_candidate": 61,
+    "existing_sense_candidate": 71,
     "source_verified_new_entry_draft": 7,
-    "requires_dictionary_sense_review": 29,
-    "externally_verified_entry_draft": 3
+    "externally_verified_entry_draft": 3,
+    "requires_dictionary_sense_review": 19
   },
   "items": [
     {
@@ -102,7 +102,7 @@
         "context": "I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here t"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "481b7241-bdf5-5fcc-919c-0a425618b3b6",
       "activeReleaseEntryIds": [
         "de5db188-10d9-5a15-9c67-5f9140e2773a"
       ],
@@ -113,7 +113,12 @@
         "c4843070-dbe1-5901-bca2-4cb0f82d8ac5",
         "f9cab423-c312-5cc9-ad5f-82bcfdcf4cd8"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "come on in",
+        "transcript": "I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here t"
+      }
     },
     {
       "entryNumber": 5,
@@ -148,7 +153,7 @@
         "context": " up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, bec"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "0aea21ac-aabd-53e1-a273-eb951739a9c9",
       "activeReleaseEntryIds": [
         "b0929bbb-eb79-5850-8c31-be0af0f9bc07"
       ],
@@ -157,7 +162,12 @@
         "960673fd-e24d-50b0-886d-1d99b764766f",
         "feaad84e-ff86-53a2-82c1-d04101c25f4e"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "it depends on",
+        "transcript": " up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, bec"
+      }
     },
     {
       "entryNumber": 7,
@@ -288,7 +298,7 @@
         "context": "thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere I can park? Wel"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "7d84593f-7885-43e3-a78b-2bc11b739396",
       "activeReleaseEntryIds": [
         "e080ef35-f280-54fd-968e-a49155fac093",
         "2741663f-9e8d-52e1-82e8-53e9936119ea"
@@ -312,7 +322,12 @@
         "eb01c567-eeec-46c5-9f99-ec93636ddfbd",
         "f329e1a6-7221-5ac9-84f8-a1f1153accf0"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "quite a walk",
+        "transcript": "thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere I can park? Wel"
+      }
     },
     {
       "entryNumber": 12,
@@ -326,7 +341,7 @@
         "context": "till plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "b58283e3-0916-4128-9a1e-cbfbd5ac92cc",
       "activeReleaseEntryIds": [
         "0de51cfd-3d91-5c31-a0cb-07f4cb9ab2b9"
       ],
@@ -334,7 +349,12 @@
         "b58283e3-0916-4128-9a1e-cbfbd5ac92cc",
         "f0ffc936-e803-4ac0-82c7-6d9828d294fe"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "no parking",
+        "transcript": "till plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a "
+      }
     },
     {
       "entryNumber": 13,
@@ -348,7 +368,7 @@
         "context": "for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall w"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "109ee09b-b041-4c50-a44e-a4b2825b177e",
       "activeReleaseEntryIds": [
         "fab9f832-71ad-5672-85f3-4fde2527a2c2"
       ],
@@ -356,7 +376,12 @@
         "109ee09b-b041-4c50-a44e-a4b2825b177e",
         "33b18803-19f4-44d1-8216-5a8d5a88b94f"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "back lane",
+        "transcript": "for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall w"
+      }
     },
     {
       "entryNumber": 14,
@@ -485,7 +510,7 @@
         "context": "And what about my room? Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room, and there's a cupboard and desk in there already. But it does ge"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "2b238e5f-fe05-49d6-98b6-14cbf39fe005",
       "activeReleaseEntryIds": [
         "6e522f61-d9e0-5718-8bb8-27ccbfebcb50",
         "bc1dad32-d643-5955-9bec-a535c8646c4a",
@@ -506,7 +531,12 @@
         "8b7d1e44-29e6-472d-b551-1ae169ad73d7",
         "b02c67ea-7950-4a05-98b8-312fa3a29d2d"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "front of the house",
+        "transcript": "And what about my room? Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room, and there's a cupboard and desk in there already. But it does ge"
+      }
     },
     {
       "entryNumber": 19,
@@ -583,7 +613,7 @@
         "context": "nd has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a micro"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "1d3bb519-95f1-5655-b8d3-c148794e5cd0",
       "activeReleaseEntryIds": [
         "f5c7bca1-142c-52be-90e1-7c8d45654ff3",
         "b93b5fcc-a926-5745-b25d-d06073681fc8"
@@ -607,7 +637,12 @@
         "f4ba957f-9178-568c-9b24-a49579f4e093",
         "fabe5484-4551-43b5-a1bd-bcda72f0fc41"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "left me with",
+        "transcript": "nd has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a micro"
+      }
     },
     {
       "entryNumber": 22,
@@ -657,7 +692,7 @@
         "context": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too, so "
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "145c6c98-0e39-4d6a-8ff6-4823e6a4c454",
       "activeReleaseEntryIds": [
         "fe4ccfd2-247d-516e-9ce4-4da6945871a8",
         "91f4c54f-c518-5a8c-bdcb-f75387c1b069"
@@ -671,7 +706,12 @@
         "7695a773-ab7d-4248-89b2-8d679cecccc8",
         "9b3dce54-5d07-4db5-a5f8-bcf700e76284"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "sports fan",
+        "transcript": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too, so "
+      }
     },
     {
       "entryNumber": 24,
@@ -941,7 +981,7 @@
         "context": "u will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write all your answers in the listening question boo"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "7ff5b61d-5346-4a19-832c-a5a7c2d17e59",
       "activeReleaseEntryIds": [
         "50e71004-c542-5aab-a555-fb0ad7cf3c2a"
       ],
@@ -950,7 +990,12 @@
         "7ff5b61d-5346-4a19-832c-a5a7c2d17e59",
         "efa69c9b-6347-4439-b777-df126eb96633"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "once only",
+        "transcript": "u will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write all your answers in the listening question boo"
+      }
     },
     {
       "entryNumber": 34,
@@ -1101,7 +1146,7 @@
         "context": "talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been wri"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
       "activeReleaseEntryIds": [
         "f5a3b90e-c5a9-5a12-b019-3eb7b1ddc4df"
       ],
@@ -1119,7 +1164,12 @@
         "cdc68062-ffc4-4c9d-bd25-a7796489da07",
         "db6a7415-dde9-4538-8675-00bfa95f8076"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Contextual meaning checked against exact release entry sense and original sentence",
+        "surface": "a few things",
+        "transcript": "talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been wri"
+      }
     },
     {
       "entryNumber": 40,
@@ -2716,9 +2766,9 @@
   ],
   "audits": {
     "inventoryCount": 100,
-    "existingSenseCandidateCount": 61,
+    "existingSenseCandidateCount": 71,
     "newEntryDrafts": 10,
-    "unresolvedReviewCount": 29,
+    "unresolvedReviewCount": 19,
     "hiddenTargetsCount": 18,
     "hiddenTargets": [
       {
