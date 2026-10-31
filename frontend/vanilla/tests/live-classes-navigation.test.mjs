@@ -17,8 +17,8 @@ test('Live Classes uses the main SPA router for catalogue and class rooms',async
  assert.ok(catalogue && detail,'both routes registered');
  assert.equal(catalogue.protected,true);
  assert.equal(detail.protected,true);
- assert.match(String(catalogue.load),/live-classes\\/page\\.js/);
- assert.match(String(detail.load),/live-classes\\/room\\.js/);
+ assert.ok(String(catalogue.load).includes('live-classes/page.js'));
+ assert.ok(String(detail.load).includes('live-classes/room.js'));
  assert.ok(compilePattern(detail.pattern).test(room));
  assert.equal(workspaceKey(room),'live-classes');
  assert.equal(workspaceKey(live),'live-classes');
@@ -31,7 +31,7 @@ test('progressive navigation remains for passive catalogue; active Live room is 
  assert.equal(route('/app/listening/tests')?.progressiveMount,true,'existing catalogue remains optimized');
  const reuse=readFileSync(fileURLToPath(new URL('../js/route-reuse.js',import.meta.url)),'utf8');
  assert.match(reuse,/const PASSIVE=/);
- assert.ok(!reuse.match(/PASSIVE[^;]*['"]\\/app\\/live-classes['"]/),'active Live Classes pages are not retained');
+ assert.equal(reuse.includes("'/app/live-classes'"),false,'Live Classes is not retained by passive cache');
 });
 
 test('Live Classes breadcrumb/back chain stays inside SPA',()=>{
