@@ -180,6 +180,14 @@ async def source_snapshot(con, slot: str, source_id: uuid.UUID):
              ORDER BY position LIMIT 1
         """, source_id)
         image_key = block['object_key'] if block else None
+        if not image_key and task=='task1':
+            from .writing_exam_bank import PROMPTS as EXAM_PROMPTS
+            from .writing_source_materials import PROMPTS as LEGACY_PROMPTS
+            for bank in (EXAM_PROMPTS,LEGACY_PROMPTS):
+                entry=bank.get(str(source_id))
+                if entry and entry.get('sourceRef')==row['source_ref'] and entry.get('prompt')==row['prompt']:
+                    image_key=(entry.get('image') or {}).get('objectKey')
+                    if image_key: break
         return _plain({'title':str(row['prompt']).splitlines()[0],
             'promptId':str(row['id']), 'taskType':task,
             'category':row['category'], 'prompt':row['prompt'],
