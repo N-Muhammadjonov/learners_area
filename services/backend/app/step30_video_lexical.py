@@ -31,7 +31,7 @@ def forms_of(term,pos):
     add(lemma,'lemma')
     if not lemma or re.search(r"[^a-z' -]",lemma):return list(found.values())
     words=lemma.split(' ');head=words[0];tail=' '.join(words[1:]);join=lambda first:first+(' '+tail if tail else '')
-    verbal=pos=='verb' or lexical_type(lemma,pos) in ('verb_phrase','phrasal_verb')
+    verbal=pos in ('verb','auxiliary verb') or lexical_type(lemma,pos) in ('verb_phrase','phrasal_verb')
     if verbal:
         third=(head+'es' if re.search(r'(s|x|z|ch|sh|o)$',head) else head[:-1]+'ies' if re.search(r'[^aeiou]y$',head) else head+'s')
         syllables=len(re.findall(r'[aeiouy]+',head))
