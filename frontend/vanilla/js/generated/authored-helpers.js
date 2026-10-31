@@ -32,7 +32,7 @@ export function bridge(token, stored, notesLabel, storageKey = 'la_listening_tes
   const overWord=[...actual.getClientRects()].some(rect=>e.clientX>=rect.left+0.5&&e.clientX<=rect.right-0.5&&e.clientY>=rect.top&&e.clientY<=rect.bottom);
   if(!overWord)return;
   send('word',{word,mode:'script',x:e.clientX,y:e.clientY,context:transcript.textContent.slice(0,3000)});
- },true);})();
+ },true);})();`;
 }
 export function resolvePath(current, path) {
     try {
