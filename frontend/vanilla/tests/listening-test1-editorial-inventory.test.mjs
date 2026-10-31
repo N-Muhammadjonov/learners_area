@@ -194,7 +194,8 @@ test('Part 1 every visible word resolves to a selected sense, new-release propos
  const old=JSON.parse(readFileSync(new URL('script-part1-staged-sense-mapping.json',root),'utf8')).mappings;
  const next=JSON.parse(readFileSync(new URL('script-part1-new-sense-links.pending.json',root),'utf8')).entries;
  const excluded=JSON.parse(readFileSync(new URL('script-part1-proper-names.json',root),'utf8')).exclusions;
- const all=[...old,...next,...excluded].sort((a,b)=>a.start-b.start);
+ const grammar=JSON.parse(readFileSync(new URL('script-part1-grammar-exemptions.json',root),'utf8')).exemptions;
+ const all=[...old,...next,...excluded,...grammar].sort((a,b)=>a.start-b.start);
  for(let i=0;i<all.length;i++){
   assert.equal(data.transcript['1'].slice(all[i].start,all[i].end),all[i].surface);
   if(i)assert(all[i-1].end<=all[i].start,'Part1 overlap');
@@ -224,4 +225,35 @@ test('Part 2 inventory keeps all original transcript offsets and excludes hidden
  }
  const all=[...mapped,...pending].sort((a,b)=>a.start-b.start);
  for(let i=1;i<all.length;i++)assert(all[i-1].end<=all[i].start);
+});
+
+
+test('Part 1/2 grammar exemptions do not hide real lexical units',()=>{
+ const policy1=JSON.parse(readFileSync(new URL('script-part1-grammar-exemptions.json',root),'utf8'));
+ const policy2=JSON.parse(readFileSync(new URL('script-part2-grammar-exemptions.json',root),'utf8'));
+ const p1=JSON.parse(readFileSync(new URL('script-part1-new-sense-links.pending.json',root),'utf8'));
+ const p2=JSON.parse(readFileSync(new URL('script-part2-new-sense-links.pending.json',root),'utf8'));
+ const map1=JSON.parse(readFileSync(new URL('script-part1-staged-sense-mapping.json',root),'utf8')).mappings;
+ const map2=JSON.parse(readFileSync(new URL('script-part2-staged-sense-mapping.json',root),'utf8')).mappings;
+ assert.equal(policy1.exemptions.length,policy1.count);
+ assert.equal(policy2.exemptions.length,policy2.grammaticalCount);
+ assert.equal(policy2.entityExemptions.length,policy2.entityCount);
+ assert.equal(policy2.notationExemptions.length,policy2.notationCount);
+ const intersect=(a,b)=>a.start<b.end&&b.start<a.end;
+ const grammar1=policy1.exemptions;
+ for(const e of grammar1){
+  assert.equal(data.transcript['1'].slice(e.start,e.end),e.surface);
+  assert.ok(!p1.entries.some(x=>intersect(x,e)),'Part1 lexical pending overlaps skipped grammar');
+  assert.ok(!map1.some(x=>intersect(x,e)),'Part1 mapping overlaps skipped grammar');
+ }
+ const reserved=[...p2.entries,...policy2.protectedLexicalSpans];
+ const exclusions=[...policy2.exemptions,...policy2.entityExemptions,...policy2.notationExemptions].sort((a,b)=>a.start-b.start);
+ for(let i=0;i<exclusions.length;i++){
+  const e=exclusions[i];
+  assert.equal(data.transcript['2'].slice(e.start,e.end),e.surface);
+  if(i)assert.ok(exclusions[i-1].end<=e.start,'Part2 exemptions overlap');
+  assert.ok(!map2.some(x=>intersect(x,e)),'Part2 mapping overlaps skipped grammar');
+  assert.ok(!reserved.some(x=>intersect(x,e)),'Part2 lexical expression must not be skipped');
+ }
+ for(const e of policy2.protectedLexicalSpans)assert.equal(data.transcript['2'].slice(e.start,e.end),e.surface);
 });
