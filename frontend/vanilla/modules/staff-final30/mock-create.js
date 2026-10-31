@@ -1,5 +1,5 @@
 /** Dedicated Mock material imports + canonical Speaking-topic selection.
- * Does not expose practice MCQ, Listening or Reading banks as Mock material choices.
+ * Only full Listening, Academic Reading and Writing Exam sources are available.
  */
 import {el, listen, mountStaff, heading} from './kit.js';
 import {api} from '../../js/api-client.js';
@@ -23,7 +23,7 @@ const LANG = {
     p1:'Part 1 — mavzu',p2:'Part 2 — cue card',p3:'Part 3 — mavzu',noTopic:'Mavzu tanlanmagan',
     mode:'Speaking savollarini taqsimlash',fixed:'Hamma talabaga bir xil to‘plam',auto:'Har bir talabaga avtomatik tasodifiy to‘plam',
     autoHint:'Part 1 tasodifiy mavzu, Part 2 tasodifiy cue card, Part 3 esa aynan tanlangan Part 2 ga bog‘langan savollardan olinadi. Tanlov har bir talabada bir marta saqlanadi.',
-    disabled:'Nashr qilingan Mock tahrirlanmaydi.'},
+    chooseMode:'Material manbasi',newMode:'Yangi material yuklash',existingMode:'Saytdagi testlardan tanlash',chooseExisting:'Exam Mode testi',bind:'Mock uchun tanlash',noExisting:'Mos Exam Mode materiali topilmadi.',disabled:'Nashr qilingan Mock tahrirlanmaydi.'},
   en:{title:'Create Mock',sub:'Upload new Mock-only Listening, Reading and Writing material. Select Speaking topics from the existing bank.',
     testName:'Exam title',track:'Track',academic:'Academic',general:'General Training',
     blank:'No Mock material selected',noVersions:'No dedicated Mock material uploaded yet.',
@@ -36,7 +36,7 @@ const LANG = {
     p1:'Part 1 topic',p2:'Part 2 cue card',p3:'Part 3 topic',noTopic:'No topic selected',
     mode:'Speaking question assignment',fixed:'Same questions for all students',auto:'Auto-select different questions per student',
     autoHint:'Random Part 1 topic and Part 2 cue card; Part 3 is taken exclusively from that Part 2 follow-up link. Saved once per attempt.',
-    disabled:'Published mocks are immutable.'},
+    chooseMode:'Material source',newMode:'Upload new material',existingMode:'Select from existing tests',chooseExisting:'Exam Mode test',bind:'Use in Mock',noExisting:'No eligible Exam Mode materials found.',disabled:'Published mocks are immutable.'},
 };
 
 export const mockCreateMount=mountStaff({
@@ -45,10 +45,10 @@ export const mockCreateMount=mountStaff({
   render(ctx,data,view){
     const L=LANG[ctx.locale==='uz'?'uz':'en'];
     const {signal}=ctx;
-    const state=ctx.state.mockComposer??={id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',busy:false,message:'',error:false};
+    const state=ctx.state.mockComposer??={id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',sourceModes:{},busy:false,message:'',error:false};
     const notify=(text,error=false)=>{state.message=text;state.error=error;view.rerender();};
     const newButton=el('button',{type:'button',class:'btn-secondary','data-mock-author-new':''},L.newMock);
-    listen(newButton,'click',()=>{Object.assign(state,{id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',message:'',error:false});view.rerender();},signal);
+    listen(newButton,'click',()=>{Object.assign(state,{id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',sourceModes:{},message:'',error:false});view.rerender();},signal);
     const titleInput=el('input',{class:'input w-full',required:'',maxlength:'160',value:state.title,
       'aria-label':L.testName,'data-mock-author-title':''});
     listen(titleInput,'input',()=>{state.title=titleInput.value;},signal);
@@ -65,6 +65,13 @@ export const mockCreateMount=mountStaff({
         ...versions.map(v=>el('option',{value:v.id},`${v.title} · v${v.version||1}`)));
       select.value=state.sections[key]||'';
       listen(select,'change',()=>{state.sections[key]=select.value;},signal);
+      const current=(data.existingSources||{})[key]||[];
+      const selectedSource=el('select',{class:'input w-full','data-mock-existing-select':key,'aria-label':L.chooseExisting},el('option',{value:''},L.blank),...current.map(x=>el('option',{value:x.id},x.title)));
+      const sourceMode=el('select',{class:'input w-full','data-mock-source-mode':key,'aria-label':L.chooseMode},el('option',{value:'existing'},L.existingMode),el('option',{value:'new'},L.newMode));
+      sourceMode.value=state.sourceModes[key]||'existing';
+      listen(sourceMode,'change',()=>{state.sourceModes[key]=sourceMode.value;view.rerender();},signal);
+      const useExisting=el('button',{type:'button',class:'btn-secondary btn-sm','data-mock-existing-bind':key},L.bind);
+      listen(useExisting,'click',async()=>{if(state.busy||signal.aborted||!selectedSource.value)return;state.busy=true;useExisting.disabled=true;try{const result=await api.request('/api/staff/mocks/existing',{method:'POST',body:{slot:key,track:state.track,sourceId:selectedSource.value},signal});if(signal.aborted)return;state.sections[key]=result.id;state.error=false;state.message=L.saved;await view.reload();}catch(e){if(!signal.aborted)notify(`${L.error} (${e.code||'source_failed'})`,true);}finally{state.busy=false;useExisting.disabled=false;}},signal);
       const nameInput=el('input',{type:'text',class:'input w-full',maxlength:'160',
         placeholder:ctx.locale==='uz'?'Yangi material nomi':'New material title',
         'aria-label':`${label} title`,'data-mock-material-title':key});
@@ -100,7 +107,9 @@ export const mockCreateMount=mountStaff({
       return el('div',{class:'panel flex flex-col gap-3','data-mock-material-slot':key},
         el('label',{class:'flex flex-col gap-2 text-sm text-ink-700'},el('span',{class:'font-medium'},label),select),
         versions.length?null:el('p',{class:'text-xs text-band-warn'},L.noVersions),
-        el('div',{class:'flex flex-col gap-2 border-t border-ink-100 pt-3'},nameInput,file,media,upload));
+        el('label',{class:'flex flex-col gap-2 text-sm'},el('span',{},L.chooseMode),sourceMode),
+        sourceMode.value==='existing'?el('div',{class:'flex flex-col gap-3 border-t border-ink-100 pt-3'},selectedSource,current.length?useExisting:el('p',{class:'text-xs text-ink-500'},L.noExisting)):
+          el('div',{class:'flex flex-col gap-2 border-t border-ink-100 pt-3'},nameInput,file,media,upload));
     });
 
     const speakingMode=el('select',{class:'input w-full','data-mock-speaking-mode':'','aria-label':L.mode},
