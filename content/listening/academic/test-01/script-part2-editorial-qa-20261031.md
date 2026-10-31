@@ -1,23 +1,26 @@
 # Listening Test 1 — Part 2 contextual-sense QA checkpoint (2026-10-31)
 
-Branch: `feature/listening-test-1-next-100-senses`. Editorial staging only; do not publish, merge, or deploy.
+Branch: `feature/listening-test-1-next-100-senses`. Editorial staging ONLY. Do not publish, merge, or deploy.
 
-## Cross-check
-- Source: `script-part2-sense-candidates.json` and `script-part2-staged-sense-mapping.json`.
-- 719 token records; 690 visible and 29 hidden.
-- 291 staged mapping spans, including 26 editorial multi-word spans.
-- 0 overlap collisions among staged spans (sorted by start/end).
-- 386 visible tokens not overlapped by a staged mapping. This number does **not** imply 386 distinct missing dictionary entries; grammatical words, lexical chunks, and multi-sense candidates must be assessed individually.
-- Seven new lexical expressions remain in `script-part2-new-sense-links.pending.json`, awaiting **real immutable-release sense IDs**. Never fabricate IDs.
-- 10 unmatched visible tokens have exactly one source candidate sense. **Nine** are explicitly rejected in `editorialQueue.rejected` for wrong contextual sense, including `are` misread as a land-measure noun, `minutes` misread as meeting notes, and `ways` misread as a shipbuilding term. Do not bulk approve unique candidates.
-- The tenth is `their` (3137–3142), which lies **inside** pending `on their own` (3134–3146). Resolve the expression as a lexical unit first; do not stage a competing one-word link.
-- 13 mapping spans do not match a single lexical token because they are editorial multi-word phrases; this is expected, not automatically an offset defect. Verify against source transcript separately.
+## Verified current state
+- Source candidate tokens: 719 total; 690 visible and 29 hidden.
+- Staged mappings: **479**; all sorted and zero overlap collisions.
+- Remaining visible, unbound transcript tokens: **198**, across 123 unique case-folded surface forms.
+- 35 remaining visible tokens lack any entry candidate in the source inventory. Some are inflections, proper names, or grammar, not automatically new lexical entries.
+- Source coverage and offset matching must be checked again before publishing.
+- Dictionary pin: `rel-v1-1fa06d8d41d8ff701632573e`.
+- **Seven unissued expressions** awaiting real new-release IDs: `fresh air`, `reception`, `computer room`, `on their own`, `music room`, `assembly hall`, `feel free`.
 
-## Required next sequence
-1. Continue context-sensitive Part 2 editorial resolutions from the actual transcript, not single-sense heuristics.
-2. Validate offsets/surfaces and correct dictionary definitions; use base forms for conjugations without losing meaning.
-3. Issue the seven new dictionary senses through the proper dictionary editorial/release mechanism and then resolve their occurrence IDs.
-4. Complete Part 2 before beginning Parts 3 and 4.
-5. Keep releaseStatus NOT_PUBLISHED and leave main/production untouched until complete.
+## Lexical safeguards
+- Never attach noun `can` to ability modal; noun `will` to future auxiliary; chemical/currency noun `at` to preposition; or land-unit noun `are` to auxiliary verb.
+- Never attach isolated `their` or `own` inside pending `on their own` multiword sense.
+- Proper names `Springdown`, `Anne Rawson` require entity handling, not invented dictionary senses.
+- Inflections and contractions must be linked to correct lemma/function: `I'd` in `I'd like` means `I would`.
 
-This is an interim QA checkpoint, **not** a claim of completion.
+## Publication gate (NOT PASSED)
+1. Context-check every remaining occurrence against actual transcript and dictionary source; add missing grammar/inflection/phrase senses to a copy-on-write immutable release, with attestations.
+2. Resolve genuine lexical expressions to the new release's actual entry and sense IDs, after duplicate detection.
+3. Generate/revalidate offset-aligned occurrence bindings against the pinned release and verify all four sections stay unchanged.
+4. Run tests; only then consider promotion. Production and main are unchanged by this stage.
+
+**Status: INCOMPLETE / NOT_PUBLISHED.** This document intentionally does not claim Part 2 completion.
