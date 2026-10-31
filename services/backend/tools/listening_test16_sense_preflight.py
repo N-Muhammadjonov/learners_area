@@ -126,3 +126,36 @@ async def apply_after_reviewing_legacy_part1(con, plan):
             "AND section_number=1 AND segment_key='s1' AND id=ANY($2::uuid[])",
             UUID(source),[UUID(key) for key in LEGACY_PART1])
         return await apply_context_bindings(con,plan)
+
+
+def coverage_report(plan):
+    """Count token coverage in transcript order, excluding speaker labels.
+
+    Token counts are not lexical sense counts. Uncovered positions are an
+    editorial work queue, not permission to choose the first homograph.
+    """
+    parts=transcript_parts()
+    report={}
+    for part,body in sorted(parts.items()):
+        source=next((m for m in plan.get("materials",[]) if m.get("sectionNumber")==part and m.get("segmentKey")=="s"+str(part)),None)
+        spans=sorted((source or {}).get("spans",[]),key=lambda row:(row["start"],row["end"]))
+        for left,right in zip(spans,spans[1:]):
+            if left["end"]>right["start"]:
+                raise ValueError("overlapping_senses")
+        found=[]
+        counts={}
+        for match in WORD.finditer(body):
+            # Speaker labels such as MAN: and WOMAN: are dialogue metadata.
+            line=body.rfind("\n",0,match.start())+1
+            colon=body.find(":",line)
+            if colon>=0 and colon<match.start()+len(match.group()) and body[line:colon].strip().isupper():
+                continue
+            covered=any(span["start"]<=match.start() and match.end()<=span["end"] for span in spans)
+            if not covered:
+                word=match.group().casefold()
+                counts[word]=counts.get(word,0)+1
+                found.append({"start":match.start(),"end":match.end(),"surface":match.group()})
+        report[part]={"uncoveredOccurrences":len(found),
+            "uncoveredUnique":len(counts),"priorityWords":sorted(counts,key=lambda w:(-counts[w],w)),
+            "uncovered":found,"mappedSpans":len(spans)}
+    return report
