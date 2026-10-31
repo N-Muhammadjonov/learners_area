@@ -3,9 +3,9 @@
   "part": 2,
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
   "sourceBodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
-  "mappedSpans": 705,
-  "unresolvedOccurrences": 181,
-  "unresolvedUniqueForms": 98,
+  "mappedSpans": 739,
+  "unresolvedOccurrences": 147,
+  "unresolvedUniqueForms": 66,
   "inventory": [
     {
       "start": 27,
@@ -92,13 +92,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 428,
-      "end": 433,
-      "surface": "while",
-      "context": "'ll be speaking to you for a short while before you can go and explore the vario",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 445,
       "end": 448,
       "surface": "can",
@@ -117,13 +110,6 @@
       "end": 492,
       "surface": "that",
       "context": "nd explore the various departments that we have here. The centre was founded fi",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 501,
-      "end": 505,
-      "surface": "here",
-      "context": "e various departments that we have here. The centre was founded fifty years ago",
       "status": "editorial_sense_review_required"
     },
     {
@@ -204,13 +190,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 770,
-      "end": 778,
-      "surface": "whatever",
-      "context": "udy what they missed at school for whatever reason, but we can also just give them ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 794,
       "end": 797,
       "surface": "can",
@@ -225,13 +204,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 875,
-      "end": 885,
-      "surface": "themselves",
-      "context": "kills or just allow them to extend themselves. The teachers in the centre are fully q",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 900,
       "end": 902,
       "surface": "in",
@@ -243,13 +215,6 @@
       "end": 917,
       "surface": "are",
       "context": "selves. The teachers in the centre are fully qualified and their teaching is a",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 918,
-      "end": 923,
-      "surface": "fully",
-      "context": "es. The teachers in the centre are fully qualified and their teaching is apprais",
       "status": "editorial_sense_review_required"
     },
     {
@@ -334,13 +299,6 @@
       "end": 1392,
       "surface": "be",
       "context": "l notes, videos and worksheets can be found there, so if you miss a lesson, y",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1399,
-      "end": 1404,
-      "surface": "there",
-      "context": "videos and worksheets can be found there, so if you miss a lesson, you can catch",
       "status": "editorial_sense_review_required"
     },
     {
@@ -659,13 +617,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2507,
-      "end": 2511,
-      "surface": "rest",
-      "context": "xteen to twenty. Now listen to the rest of the information talk and answer ques",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2611,
       "end": 2616,
       "surface": "about",
@@ -694,76 +645,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2732,
-      "end": 2740,
-      "surface": "European",
-      "context": "ery popular. We offer a variety of European languages, including French, German, Po",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2762,
-      "end": 2768,
-      "surface": "French",
-      "context": "y of European languages, including French, German, Polish and Spanish. In additio",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2770,
-      "end": 2776,
-      "surface": "German",
-      "context": "opean languages, including French, German, Polish and Spanish. In addition, we of",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2778,
-      "end": 2784,
-      "surface": "Polish",
-      "context": "nguages, including French, German, Polish and Spanish. In addition, we offer Arab",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2789,
-      "end": 2796,
-      "surface": "Spanish",
-      "context": "cluding French, German, Polish and Spanish. In addition, we offer Arabic, Korean, ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2820,
-      "end": 2826,
-      "surface": "Arabic",
-      "context": "and Spanish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese.",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2828,
-      "end": 2834,
-      "surface": "Korean",
-      "context": "ish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These l",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2836,
-      "end": 2844,
-      "surface": "Japanese",
-      "context": "addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These languages a",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2849,
-      "end": 2857,
-      "surface": "Mandarin",
-      "context": "offer Arabic, Korean, Japanese and Mandarin Chinese. These languages are offered at",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2858,
-      "end": 2865,
-      "surface": "Chinese",
-      "context": "bic, Korean, Japanese and Mandarin Chinese. These languages are offered at various",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2883,
       "end": 2886,
       "surface": "are",
@@ -775,13 +656,6 @@
       "end": 2897,
       "surface": "at",
       "context": "inese. These languages are offered at various stages of ability and, to find ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2906,
-      "end": 2912,
-      "surface": "stages",
-      "context": "e languages are offered at various stages of ability and, to find out which class",
       "status": "editorial_sense_review_required"
     },
     {
@@ -806,24 +680,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2999,
-      "end": 3003,
-      "surface": "test",
-      "context": "in, you can do our self-assessment test available on our website for all the la",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3014,
       "end": 3016,
       "surface": "on",
       "context": "our self-assessment test available on our website for all the languages we of",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3077,
-      "end": 3081,
-      "surface": "like",
-      "context": "anguages we offer. MIKE: Next, I'd like to tell you about our business-related ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -862,13 +722,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3287,
-      "end": 3290,
-      "surface": "run",
-      "context": " particular topic, to courses that run for over thirty weeks, where you can ac",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3291,
       "end": 3294,
       "surface": "for",
@@ -880,13 +733,6 @@
       "end": 3299,
       "surface": "over",
       "context": "lar topic, to courses that run for over thirty weeks, where you can achieve an ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3300,
-      "end": 3306,
-      "surface": "thirty",
-      "context": "opic, to courses that run for over thirty weeks, where you can achieve an industr",
       "status": "editorial_sense_review_required"
     },
     {
@@ -953,13 +799,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3821,
-      "end": 3826,
-      "surface": "range",
-      "context": "and computers for photography. Our range of courses on these subjects can help y",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3838,
       "end": 3840,
       "surface": "on",
@@ -995,24 +834,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3916,
-      "end": 3921,
-      "surface": "basic",
-      "context": " the most out of your camera. From basic to advanced, our courses will allow you",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3947,
       "end": 3951,
       "surface": "will",
       "context": "rom basic to advanced, our courses will allow you to build up your knowledge an",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4003,
-      "end": 4007,
-      "surface": "ways",
-      "context": "ld up your knowledge and learn new ways to use your equipment. Another favourit",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1055,27 +880,6 @@
       "end": 4216,
       "surface": "anyone",
       "context": "al for those new to cooking or for anyone wishing to create achievable and inspir",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4260,
-      "end": 4266,
-      "surface": "dishes",
-      "context": "to create achievable and inspiring dishes. Learn a variety of essential cooking t",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4351,
-      "end": 4357,
-      "surface": "dishes",
-      "context": "to help you create simple everyday dishes or some more elaborate things to impres",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4381,
-      "end": 4387,
-      "surface": "things",
-      "context": "yday dishes or some more elaborate things to impress your guests. You will also l",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1128,24 +932,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4659,
-      "end": 4663,
-      "surface": "ways",
-      "context": "ting course. It looks at practical ways to get started, whilst promoting greate",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4680,
       "end": 4686,
       "surface": "whilst",
       "context": " at practical ways to get started, whilst promoting greater writing confidence. T",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4729,
-      "end": 4734,
-      "surface": "focus",
-      "context": "ng greater writing confidence. The focus of this course is placed on practical e",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1177,13 +967,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4811,
-      "end": 4819,
-      "surface": "examples",
-      "context": "rcises supported by discussion and examples and builds upon the strengths of each w",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4824,
       "end": 4830,
       "surface": "builds",
@@ -1198,31 +981,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4840,
-      "end": 4849,
-      "surface": "strengths",
-      "context": "n and examples and builds upon the strengths of each writer. It will give you an ins",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4869,
       "end": 4873,
       "surface": "will",
       "context": "n the strengths of each writer. It will give you an insight into the creative p",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 5035,
-      "end": 5043,
-      "surface": "aspiring",
-      "context": "se provides an opportunity for all aspiring writers to develop the skills for writi",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 5044,
-      "end": 5051,
-      "surface": "writers",
-      "context": "es an opportunity for all aspiring writers to develop the skills for writing ficti",
       "status": "editorial_sense_review_required"
     },
     {
