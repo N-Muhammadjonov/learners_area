@@ -117,3 +117,28 @@ test('100 selected editorial targets never overlap',()=>{
  }
  assert.equal(plan.audits.selectedTargetsNonOverlapping,true);
 });
+
+test('Part 1 inventories every token and preserves single-sense candidate boundaries',()=>{
+ const part=JSON.parse(readFileSync(new URL('script-part1-sense-candidates.json',root),'utf8'));
+ assert.equal(part.part,1);
+ assert.equal(part.tokenCount,779);
+ assert.equal(part.tokens.length,779);
+ assert.equal(part.uniqueForms,282);
+ assert.equal(part.stats.uniqueCandidateSpans,part.singleSenseCandidateSpans.length);
+ const transcript=data.transcript['1'];
+ for(const token of part.tokens){
+  assert.equal(transcript.slice(token.start,token.end),token.surface);
+  const spans=part.knownEditorialPhrases.filter(x=>token.start>=x.from&&token.end<=x.to);
+  assert.deepEqual(token.phraseTargets,spans.map(x=>x.id));
+ }
+ for(const span of part.singleSenseCandidateSpans){
+  assert.equal(transcript.slice(span.start,span.end),span.surface);
+  const t=part.tokens[span.tokenIndex-1];
+  assert.equal(t.start,span.start);
+  assert.equal(t.end,span.end);
+  assert.equal(t.visibility,'visible');
+  assert.equal(t.phraseTargets.length,0);
+  assert.match(span.entryId,/^[0-9a-f-]{36}$/);
+  assert.match(span.senseId,/^[0-9a-f-]{36}$/);
+ }
+});
