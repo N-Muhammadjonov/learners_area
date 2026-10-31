@@ -4,8 +4,18 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 404,
+  "count": 410,
   "mappings": [
+    {
+      "part": 2,
+      "start": 0,
+      "end": 3,
+      "surface": "Now",
+      "senseId": "54555443-8be0-47b3-a2e6-4237b0a16861",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Now introduces instruction"
+    },
     {
       "part": 2,
       "start": 9,
@@ -178,6 +188,16 @@
     },
     {
       "part": 2,
+      "start": 147,
+      "end": 151,
+      "surface": "time",
+      "senseId": "441adccb-7aff-413c-9e95-d07a95475b09",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Time allotted for reading questions"
+    },
+    {
+      "part": 2,
       "start": 152,
       "end": 154,
       "surface": "to",
@@ -185,6 +205,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 155,
+      "end": 159,
+      "surface": "look",
+      "senseId": "f0fdeeea-8a0b-461b-8d59-fbe15fcfa63b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Look at exam questions"
     },
     {
       "part": 2,
@@ -215,6 +245,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 193,
+      "end": 196,
+      "surface": "Now",
+      "senseId": "54555443-8be0-47b3-a2e6-4237b0a16861",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Now introduces listening instruction"
     },
     {
       "part": 2,
@@ -437,6 +477,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 414,
+      "end": 418,
+      "surface": "What",
+      "senseId": "2bbcf707-0752-5fb0-8345-f9239b097ba3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "What I'd like to do: relative pronoun the thing"
     },
     {
       "part": 2,
@@ -678,6 +728,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 630,
+      "end": 634,
+      "surface": "what",
+      "senseId": "2bbcf707-0752-5fb0-8345-f9239b097ba3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "What happens here: relative pronoun the thing"
     },
     {
       "part": 2,
