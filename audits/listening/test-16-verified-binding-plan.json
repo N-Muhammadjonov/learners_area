@@ -5732,6 +5732,14 @@
           "meaningSha": "b034f55818c62181a2a9bcb8e3d8f063e1ecc3ef5c35127343c819a07675f3e2"
         },
         {
+          "start": 1149,
+          "end": 1159,
+          "surface": "up-to-date",
+          "entryId": "c318ff89-b5d6-5c22-ba8b-424636425300",
+          "senseId": "5ee00a53-10e1-4231-968d-79c70c1d9d46",
+          "meaningSha": "1e135289aa3b1fbe1bbcf518d6277ad2d32dabef28d9cf545629eef26ec39da7"
+        },
+        {
           "start": 1160,
           "end": 1170,
           "surface": "technology",
@@ -7492,6 +7500,14 @@
           "meaningSha": "fa9a6357d9c709c2382e94afb899049e0c6e8ed9b415ede0a7f7cd8ca6c7a1f1"
         },
         {
+          "start": 2932,
+          "end": 2940,
+          "surface": "find out",
+          "entryId": "56e329a1-31af-5c46-9e9b-c559a1304a9e",
+          "senseId": "0d1cb737-9351-55c3-85cb-15dd853e2cfc",
+          "meaningSha": "c4279f9e3754247afccee0aa67b42603bbb86e049a169353c74f9a27f687b081"
+        },
+        {
           "start": 2941,
           "end": 2946,
           "surface": "which",
@@ -8172,12 +8188,12 @@
           "meaningSha": "a6d127cdb1483cbc7c644c72a2951b450c7048a8cf5b49a1dab33c0f557cc343"
         },
         {
-          "start": 3637,
+          "start": 3632,
           "end": 3641,
-          "surface": "sure",
-          "entryId": "ec067cb3-a9f3-5bf3-a205-c5a1d4c7d56e",
-          "senseId": "3dce400c-ba5c-40f3-8efc-f5fc6cad030d",
-          "meaningSha": "6b5bb58d6c71a5f7b6243dd25e3be38b07b12c318dd76dc1c15affc4966dc4d3"
+          "surface": "make sure",
+          "entryId": "5c2acfe4-d6fa-59a1-bd6c-bff27e28433c",
+          "senseId": "1de9aede-7719-57b9-84c6-d0875a749e09",
+          "meaningSha": "901cff2be27c7bafd9e1fd7b0184bbd179e9a26422033cda7be8ff456da60ae6"
         },
         {
           "start": 3642,
