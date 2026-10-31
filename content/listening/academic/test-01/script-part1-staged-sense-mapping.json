@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 73,
+  "count": 85,
   "mappings": [
     {
       "part": 1,
@@ -41,6 +41,17 @@
     },
     {
       "part": 1,
+      "start": 82,
+      "end": 86,
+      "surface": "time",
+      "senseId": "441adccb-7aff-413c-9e95-d07a95475b09",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "time available to read instructions"
+    },
+    {
+      "part": 1,
       "start": 98,
       "end": 102,
       "surface": "read",
@@ -61,6 +72,17 @@
     },
     {
       "part": 1,
+      "start": 124,
+      "end": 133,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "IELTS questions requiring response"
+    },
+    {
+      "part": 1,
       "start": 148,
       "end": 161,
       "surface": "have a chance",
@@ -76,6 +98,17 @@
       "entryNumber": 32,
       "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 190,
+      "end": 200,
+      "surface": "recordings",
+      "senseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "recorded sound signals"
     },
     {
       "part": 1,
@@ -121,12 +154,34 @@
     },
     {
       "part": 1,
+      "start": 273,
+      "end": 280,
+      "surface": "answers",
+      "senseId": "6ad10a02-cdd0-4228-af5b-d3b84b297fb2",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "answers recorded in booklet"
+    },
+    {
+      "part": 1,
       "start": 307,
       "end": 314,
       "surface": "booklet",
       "entryNumber": null,
       "senseId": "d5fa7bf0-9aaa-4802-bf65-a8fd58493013",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 323,
+      "end": 326,
+      "surface": "end",
+      "senseId": "018a7278-2e4d-4beb-9a31-ecbc5228b327",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "end of the test is point in time"
     },
     {
       "part": 1,
@@ -152,6 +207,17 @@
     },
     {
       "part": 1,
+      "start": 386,
+      "end": 393,
+      "surface": "answers",
+      "senseId": "6ad10a02-cdd0-4228-af5b-d3b84b297fb2",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "answers transferred to paper"
+    },
+    {
+      "part": 1,
       "start": 400,
       "end": 406,
       "surface": "answer",
@@ -160,6 +226,17 @@
       "kind": "single_word",
       "basis": "reply to question",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 440,
+      "end": 444,
+      "surface": "page",
+      "senseId": "5013052f-0032-4e7e-9315-4c2b5cb99e91",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "page in book"
     },
     {
       "part": 1,
@@ -172,12 +249,67 @@
     },
     {
       "part": 1,
+      "start": 498,
+      "end": 501,
+      "surface": "two",
+      "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "two enrolled students"
+    },
+    {
+      "part": 1,
+      "start": 502,
+      "end": 510,
+      "surface": "students",
+      "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "students enrolled at university"
+    },
+    {
+      "part": 1,
       "start": 546,
       "end": 561,
       "surface": "sharing a house",
       "entryNumber": 38,
       "senseId": "892e5ef2-3854-4d1c-bd71-8d3a45034d87",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 592,
+      "end": 596,
+      "surface": "time",
+      "senseId": "441adccb-7aff-413c-9e95-d07a95475b09",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "time available to look at questions"
+    },
+    {
+      "part": 1,
+      "start": 608,
+      "end": 617,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "questions for test"
+    },
+    {
+      "part": 1,
+      "start": 628,
+      "end": 632,
+      "surface": "page",
+      "senseId": "5013052f-0032-4e7e-9315-4c2b5cb99e91",
+      "entryNumber": null,
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "book page"
     },
     {
       "part": 1,
