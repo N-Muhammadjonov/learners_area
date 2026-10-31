@@ -3,9 +3,9 @@
   "part": 2,
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
   "sourceBodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
-  "mappedSpans": 354,
-  "unresolvedOccurrences": 545,
-  "unresolvedUniqueForms": 286,
+  "mappedSpans": 376,
+  "unresolvedOccurrences": 523,
+  "unresolvedUniqueForms": 285,
   "inventory": [
     {
       "start": 18,
@@ -694,24 +694,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 997,
-      "end": 1001,
-      "surface": "from",
-      "context": "ed every six months by inspectors from the Ministry of Education. Our teachers",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1006,
       "end": 1014,
       "surface": "Ministry",
       "context": "six months by inspectors from the Ministry of Education. Our teachers have the lat",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1015,
-      "end": 1017,
-      "surface": "of",
-      "context": "s by inspectors from the Ministry of Education. Our teachers have the latest",
       "status": "editorial_sense_review_required"
     },
     {
@@ -754,13 +740,6 @@
       "end": 1087,
       "surface": "accessories",
       "context": "have the latest teaching aids and accessories, from interactive whiteboards to comput",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1089,
-      "end": 1093,
-      "surface": "from",
-      "context": "st teaching aids and accessories, from interactive whiteboards to computer lab",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1128,13 +1107,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1665,
-      "end": 1667,
-      "surface": "of",
-      "context": " has two online tutorial sessions of three hours each when they are availabl",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1668,
       "end": 1673,
       "surface": "three",
@@ -1324,13 +1296,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1868,
-      "end": 1870,
-      "surface": "of",
-      "context": " with their teacher for a maximum of ten minutes. If the teacher is free tho",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1875,
       "end": 1882,
       "surface": "minutes",
@@ -1433,13 +1398,6 @@
       "end": 2015,
       "surface": "details",
       "context": "o have a normal website. This has details of all our courses, teachers, fees and ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2016,
-      "end": 2018,
-      "surface": "of",
-      "context": " normal website. This has details of all our courses, teachers, fees and tim",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1660,13 +1618,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2307,
-      "end": 2309,
-      "surface": "of",
-      "context": " Langdon Street between the hours of ten a.m. and two p.m., which are the ho",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2314,
       "end": 2315,
       "surface": "a",
@@ -1849,13 +1800,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2512,
-      "end": 2514,
-      "surface": "of",
-      "context": "to twenty. Now listen to the rest of the information talk and answer questio",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2531,
       "end": 2535,
       "surface": "talk",
@@ -1965,13 +1909,6 @@
       "end": 2728,
       "surface": "variety",
       "context": "re often very popular. We offer a variety of European languages, including French",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2729,
-      "end": 2731,
-      "surface": "of",
-      "context": " very popular. We offer a variety of European languages, including French, G",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2112,13 +2049,6 @@
       "end": 2912,
       "surface": "stages",
       "context": " languages are offered at various stages of ability and, to find out which class",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2913,
-      "end": 2915,
-      "surface": "of",
-      "context": "ges are offered at various stages of ability and, to find out which class yo",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2290,13 +2220,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3156,
-      "end": 3160,
-      "surface": "from",
-      "context": "ourses. Our business courses vary from short morning or afternoon sessions, wh",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3161,
       "end": 3166,
       "surface": "short",
@@ -2343,13 +2266,6 @@
       "end": 3247,
       "surface": "understanding",
       "context": "ere you will develop an excellent understanding of a particular topic, to courses that ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3248,
-      "end": 3250,
-      "surface": "of",
-      "context": "evelop an excellent understanding of a particular topic, to courses that run",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2434,13 +2350,6 @@
       "end": 3358,
       "surface": "industry-recognised",
       "context": "y weeks, where you can achieve an industry-recognised qualification. From learning how to use",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3374,
-      "end": 3378,
-      "surface": "From",
-      "context": "ndustry-recognised qualification. From learning how to use essential computer ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2647,13 +2556,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3738,
-      "end": 3740,
-      "surface": "of",
-      "context": " and these places go quickly. One of our most popular course areas is photog",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3741,
       "end": 3744,
       "surface": "our",
@@ -2700,13 +2602,6 @@
       "end": 3826,
       "surface": "range",
       "context": "nd computers for photography. Our range of courses on these subjects can help y",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3827,
-      "end": 3829,
-      "surface": "of",
-      "context": "puters for photography. Our range of courses on these subjects can help you ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2770,20 +2665,6 @@
       "end": 3894,
       "surface": "out",
       "context": "an help you learn to get the most out of your camera. From basic to advanced,",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3895,
-      "end": 3897,
-      "surface": "of",
-      "context": "elp you learn to get the most out of your camera. From basic to advanced, ou",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3911,
-      "end": 3915,
-      "surface": "From",
-      "context": " get the most out of your camera. From basic to advanced, our courses will all",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3074,13 +2955,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4284,
-      "end": 4286,
-      "surface": "of",
-      "context": "inspiring dishes. Learn a variety of essential cooking techniques to help yo",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4287,
       "end": 4296,
       "surface": "essential",
@@ -3211,13 +3085,6 @@
       "end": 4452,
       "surface": "use",
       "context": " will also learn to make the best use of store cupboard ingredients, and how ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4453,
-      "end": 4455,
-      "surface": "of",
-      "context": "l also learn to make the best use of store cupboard ingredients, and how to ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3417,13 +3284,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4735,
-      "end": 4737,
-      "surface": "of",
-      "context": "ter writing confidence. The focus of this course is placed on practical exer",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4750,
       "end": 4752,
       "surface": "is",
@@ -3505,13 +3365,6 @@
       "end": 4849,
       "surface": "strengths",
       "context": " and examples and builds upon the strengths of each writer. It will give you an ins",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4850,
-      "end": 4852,
-      "surface": "of",
-      "context": "les and builds upon the strengths of each writer. It will give you an insigh",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3785,13 +3638,6 @@
       "end": 5259,
       "surface": "end",
       "context": "e on offer. NARRATOR: That is the end of section two. You now have half a min",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 5260,
-      "end": 5262,
-      "surface": "of",
-      "context": " offer. NARRATOR: That is the end of section two. You now have half a minute",
       "status": "editorial_sense_review_required"
     },
     {
