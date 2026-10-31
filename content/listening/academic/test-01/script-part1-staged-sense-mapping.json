@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 247,
+  "count": 245,
   "mappings": [
     {
       "part": 1,
@@ -1694,17 +1694,6 @@
     },
     {
       "part": 1,
-      "start": 2364,
-      "end": 2366,
-      "surface": "it",
-      "kind": "function_word",
-      "entryNumber": null,
-      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
-      "status": "context_approved_staged_not_published",
-      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
-    },
-    {
-      "part": 1,
       "start": 2371,
       "end": 2383,
       "surface": "hard to hear",
@@ -1995,17 +1984,6 @@
       "kind": "function_word",
       "entryNumber": null,
       "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
-      "status": "context_approved_staged_not_published",
-      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
-    },
-    {
-      "part": 1,
-      "start": 2943,
-      "end": 2945,
-      "surface": "it",
-      "kind": "function_word",
-      "entryNumber": null,
-      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
