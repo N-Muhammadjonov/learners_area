@@ -1835,6 +1835,14 @@
           "meaningSha": "590c663ccf841439341751d1c12bc01a4c5ce0350e3ad99882d5a8aa0c5d6009"
         },
         {
+          "start": 1606,
+          "end": 1610,
+          "surface": "nine",
+          "entryId": "2c2bd38b-8a5a-59a6-b71c-858fbe5e2b41",
+          "senseId": "fa99bb30-3400-4c24-b54f-ee0ac60654a6",
+          "meaningSha": "850faa18900ef7441f375f2ff49f6aa581cbd1a3d18a2cdae9b095f01f741d90"
+        },
+        {
           "start": 1612,
           "end": 1616,
           "surface": "It's",
@@ -2273,6 +2281,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 1955,
+          "end": 1963,
+          "surface": "thousand",
+          "entryId": "9f169ffd-47df-5266-9f7c-cd28b9d6c5d1",
+          "senseId": "cb5f9db8-7d61-44e4-90d1-a0a0a9779d0b",
+          "meaningSha": "2a174748d3753bcf25101a0789ccf06728db72b1f26ab6e2aa7f4d708373a7cc"
         },
         {
           "start": 1964,
@@ -3257,6 +3273,14 @@
           "entryId": "12878a9e-a800-5fff-a860-d0ec6a886bd8",
           "senseId": "3cbe6ede-a45d-47b7-af17-886fff72476c",
           "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
+        },
+        {
+          "start": 2873,
+          "end": 2881,
+          "surface": "eighteen",
+          "entryId": "60c68e44-3eef-505d-a27f-2198d5542436",
+          "senseId": "23cd6130-6d7a-4d3b-9b5a-f7f1b0a14b53",
+          "meaningSha": "9acf980b51698e4f8fdc1763b6a82444faaebfe0822dbf833754967faa244ccd"
         },
         {
           "start": 2883,
