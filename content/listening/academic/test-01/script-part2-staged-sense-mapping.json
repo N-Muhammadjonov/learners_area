@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 562,
+  "count": 563,
   "mappings": [
     {
       "part": 2,
@@ -2682,6 +2682,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 1840,
+      "end": 1846,
+      "surface": "poster",
+      "senseId": "aad0327f-0ff1-4a55-a418-061867ec049b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Pinned R2 definition matches school-transcript meaning"
     },
     {
       "part": 2,
