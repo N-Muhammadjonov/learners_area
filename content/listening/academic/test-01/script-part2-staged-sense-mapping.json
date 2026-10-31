@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 349,
+  "count": 399,
   "mappings": [
     {
       "part": 2,
@@ -138,6 +138,16 @@
     },
     {
       "part": 2,
+      "start": 127,
+      "end": 132,
+      "surface": "First",
+      "senseId": "e94243fd-1baa-407d-aebf-0969ed3d80b3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 133,
       "end": 136,
       "surface": "you",
@@ -145,6 +155,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 137,
+      "end": 141,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 142,
+      "end": 146,
+      "surface": "some",
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -295,6 +325,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 306,
+      "end": 309,
+      "surface": "all",
+      "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -561,6 +601,16 @@
     },
     {
       "part": 2,
+      "start": 546,
+      "end": 550,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 554,
       "end": 557,
       "surface": "the",
@@ -578,6 +628,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 570,
+      "end": 575,
+      "surface": "first",
+      "senseId": "e94243fd-1baa-407d-aebf-0969ed3d80b3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 579,
+      "end": 582,
+      "surface": "all",
+      "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -691,6 +761,16 @@
     },
     {
       "part": 2,
+      "start": 755,
+      "end": 758,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 769,
       "end": 771,
       "surface": "to",
@@ -742,6 +822,26 @@
     },
     {
       "part": 2,
+      "start": 803,
+      "end": 805,
+      "surface": "so",
+      "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 806,
+      "end": 810,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 811,
       "end": 813,
       "surface": "we",
@@ -769,6 +869,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 845,
+      "end": 849,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -830,6 +940,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 907,
+      "end": 910,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -913,6 +1033,16 @@
     },
     {
       "part": 2,
+      "start": 1001,
+      "end": 1005,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 1006,
       "end": 1008,
       "surface": "is",
@@ -920,6 +1050,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "is linking subject and predicate"
+    },
+    {
+      "part": 2,
+      "start": 1019,
+      "end": 1022,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -950,6 +1090,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1074,
+      "end": 1077,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1014,6 +1164,16 @@
     },
     {
       "part": 2,
+      "start": 1145,
+      "end": 1148,
+      "surface": "own",
+      "senseId": "b7374664-eb80-42c8-85eb-67dc5f949445",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 1149,
       "end": 1161,
       "surface": "packed lunch",
@@ -1022,6 +1182,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1162,
+      "end": 1164,
+      "surface": "or",
+      "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1073,6 +1243,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1221,
+      "end": 1225,
+      "surface": "some",
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1163,6 +1343,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 1299,
+      "end": 1304,
+      "surface": "there",
+      "senseId": "ef1658cb-b193-47eb-bc1b-1dafc2dad324",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1327,6 +1517,16 @@
     },
     {
       "part": 2,
+      "start": 1428,
+      "end": 1430,
+      "surface": "do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 1451,
       "end": 1454,
       "surface": "and",
@@ -1364,6 +1564,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1496,
+      "end": 1499,
+      "surface": "For",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1539,6 +1749,16 @@
     },
     {
       "part": 2,
+      "start": 1703,
+      "end": 1707,
+      "surface": "like",
+      "senseId": "5e7614d9-9b0d-5062-989f-6380e47c8acd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 1708,
       "end": 1711,
       "surface": "the",
@@ -1597,6 +1817,26 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1778,
+      "end": 1780,
+      "surface": "so",
+      "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 1781,
+      "end": 1784,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1670,6 +1910,16 @@
     },
     {
       "part": 2,
+      "start": 1894,
+      "end": 1898,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 1904,
       "end": 1908,
       "surface": "have",
@@ -1677,6 +1927,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 1917,
+      "end": 1921,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -1823,6 +2083,36 @@
     },
     {
       "part": 2,
+      "start": 2117,
+      "end": 2121,
+      "surface": "some",
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 2130,
+      "end": 2132,
+      "surface": "do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 2138,
+      "end": 2142,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 2143,
       "end": 2145,
       "surface": "to",
@@ -1830,6 +2120,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 2146,
+      "end": 2148,
+      "surface": "do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -2014,6 +2314,16 @@
     },
     {
       "part": 2,
+      "start": 2293,
+      "end": 2296,
+      "surface": "all",
+      "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 2302,
       "end": 2311,
       "surface": "committed",
@@ -2135,6 +2445,26 @@
     },
     {
       "part": 2,
+      "start": 2372,
+      "end": 2376,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 2390,
+      "end": 2394,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 2395,
       "end": 2398,
       "surface": "the",
@@ -2155,6 +2485,16 @@
     },
     {
       "part": 2,
+      "start": 2408,
+      "end": 2410,
+      "surface": "go",
+      "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 2411,
       "end": 2413,
       "surface": "to",
@@ -2162,6 +2502,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
+      "start": 2414,
+      "end": 2417,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -2214,6 +2564,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2469,
+      "end": 2475,
+      "surface": "Before",
+      "senseId": "b4b879ab-dff5-5056-b631-03a5273ed32e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -2274,6 +2634,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2510,
+      "end": 2514,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 2515,
+      "end": 2519,
+      "surface": "some",
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -2475,6 +2855,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2715,
+      "end": 2720,
+      "surface": "would",
+      "senseId": "dcee1476-28cb-5558-b921-7f956a2793da",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -2781,6 +3171,16 @@
     },
     {
       "part": 2,
+      "start": 3021,
+      "end": 3025,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 3026,
       "end": 3028,
       "surface": "we",
@@ -2811,6 +3211,36 @@
     },
     {
       "part": 2,
+      "start": 3075,
+      "end": 3079,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 3080,
+      "end": 3082,
+      "surface": "so",
+      "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 3083,
+      "end": 3087,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 3088,
       "end": 3091,
       "surface": "the",
@@ -2828,6 +3258,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 3105,
+      "end": 3109,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -2878,6 +3318,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3182,
+      "end": 3186,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -3063,6 +3513,16 @@
     },
     {
       "part": 2,
+      "start": 3358,
+      "end": 3360,
+      "surface": "OK",
+      "senseId": "0fe24087-afef-409f-9a15-23a997e8dd62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 3369,
       "end": 3372,
       "surface": "you",
@@ -3233,6 +3693,16 @@
     },
     {
       "part": 2,
+      "start": 3579,
+      "end": 3582,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 3583,
       "end": 3586,
       "surface": "the",
@@ -3301,6 +3771,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3629,
+      "end": 3631,
+      "surface": "Do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
@@ -3404,6 +3884,16 @@
     },
     {
       "part": 2,
+      "start": 3730,
+      "end": 3734,
+      "surface": "That",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
       "start": 3735,
       "end": 3737,
       "surface": "is",
@@ -3461,6 +3951,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3768,
+      "end": 3772,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
     },
     {
       "part": 2,
