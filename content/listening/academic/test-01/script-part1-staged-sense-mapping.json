@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 520,
+  "count": 539,
   "mappings": [
     {
       "part": 1,
@@ -3687,6 +3687,16 @@
     },
     {
       "part": 1,
+      "start": 2680,
+      "end": 2687,
+      "surface": "doesn't",
+      "senseId": "043ae280-8aa5-56a4-85e8-f037b1fc4295",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 2688,
       "end": 2692,
       "surface": "have",
@@ -3715,6 +3725,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
+      "start": 2703,
+      "end": 2705,
+      "surface": "No",
+      "senseId": "8e2f0159-ff59-43f8-bd9a-823a79947445",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -3777,6 +3797,16 @@
       "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2743,
+      "end": 2746,
+      "surface": "one",
+      "senseId": "d0344a4c-6150-4079-8483-2c76c2209154",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4029,6 +4059,16 @@
       "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2946,
+      "end": 2951,
+      "surface": "would",
+      "senseId": "dcee1476-28cb-5558-b921-7f956a2793da",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4476,6 +4516,16 @@
     },
     {
       "part": 1,
+      "start": 3267,
+      "end": 3272,
+      "surface": "Would",
+      "senseId": "dcee1476-28cb-5558-b921-7f956a2793da",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 3278,
       "end": 3280,
       "surface": "be",
@@ -4483,6 +4533,16 @@
       "kind": "verb",
       "status": "context_approved_staged_not_published",
       "basis": "be as copula"
+    },
+    {
+      "part": 1,
+      "start": 3281,
+      "end": 3283,
+      "surface": "OK",
+      "senseId": "0fe24087-afef-409f-9a15-23a997e8dd62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4524,6 +4584,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3303,
+      "end": 3307,
+      "surface": "good",
+      "senseId": "17054eb9-c7f1-53d2-8586-206d0545aec4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4607,6 +4677,16 @@
     },
     {
       "part": 1,
+      "start": 3363,
+      "end": 3369,
+      "surface": "nights",
+      "senseId": "22db4310-50ea-4299-bec2-40bfceccd742",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 3372,
       "end": 3377,
       "surface": "Great",
@@ -4649,6 +4729,16 @@
     },
     {
       "part": 1,
+      "start": 3403,
+      "end": 3407,
+      "surface": "then",
+      "senseId": "812728eb-c461-459c-a98e-1fdfec101e47",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 3412,
       "end": 3415,
       "surface": "you",
@@ -4667,6 +4757,16 @@
       "kind": "verb",
       "status": "context_approved_staged_not_published",
       "basis": "have or possess"
+    },
+    {
+      "part": 1,
+      "start": 3421,
+      "end": 3425,
+      "surface": "most",
+      "senseId": "71723c14-99a9-4d08-9a30-6e997f94d483",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4712,6 +4812,26 @@
     },
     {
       "part": 1,
+      "start": 3450,
+      "end": 3457,
+      "surface": "morning",
+      "senseId": "0266e1ac-50da-42fc-a1c6-8cbdd3547ef6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
+      "start": 3458,
+      "end": 3460,
+      "surface": "or",
+      "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 3461,
       "end": 3470,
       "surface": "afternoon",
@@ -4740,6 +4860,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
+      "start": 3491,
+      "end": 3494,
+      "surface": "Why",
+      "senseId": "5591d840-f8c2-576c-87c7-a1cab43a3705",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4831,6 +4961,16 @@
       "entryNumber": 26,
       "senseId": "0cc26972-456b-40fe-8b1e-6a781121bee5",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3580,
+      "end": 3584,
+      "surface": "Good",
+      "senseId": "17054eb9-c7f1-53d2-8586-206d0545aec4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -4926,6 +5066,16 @@
     },
     {
       "part": 1,
+      "start": 3642,
+      "end": 3652,
+      "surface": "interested",
+      "senseId": "fa76f819-6b55-4a67-82e3-5b89d1bb866e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 3654,
       "end": 3657,
       "surface": "and",
@@ -4975,6 +5125,26 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3676,
+      "end": 3680,
+      "surface": "need",
+      "senseId": "cf3affce-888b-403b-930f-94e3c6c37ce9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
+      "start": 3681,
+      "end": 3688,
+      "surface": "someone",
+      "senseId": "933c78fb-ee94-428e-b1bd-a4a6ac854a06",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
@@ -5183,6 +5353,16 @@
     },
     {
       "part": 1,
+      "start": 3862,
+      "end": 3867,
+      "surface": "after",
+      "senseId": "792134dc-b5f3-5c19-8452-82c0614498b0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
       "start": 3873,
       "end": 3875,
       "surface": "if",
@@ -5303,6 +5483,16 @@
       "kind": "verb",
       "status": "context_approved_staged_not_published",
       "basis": "have time available"
+    },
+    {
+      "part": 1,
+      "start": 3955,
+      "end": 3959,
+      "surface": "half",
+      "senseId": "0cfa42c8-f33f-4d4b-b29a-4289e1a4feb0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against immutable release semantic definition"
     },
     {
       "part": 1,
