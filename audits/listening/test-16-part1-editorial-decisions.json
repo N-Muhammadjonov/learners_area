@@ -1,0 +1,888 @@
+{
+  "test": "listening-test-16",
+  "part": 1,
+  "status": "editorial_work_queue_only",
+  "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
+  "unresolved": 140,
+  "remainingAfterPublishedDrafts": "requires full contextual QA and release publication",
+  "categories": {
+    "missing_topic_preposition": 4,
+    "missing_preposition_sense": 14,
+    "await_dragon_boat_compound": 3,
+    "missing_modal_auxiliary_sense": 5,
+    "missing_conjunction_or_as_well_phrase": 3,
+    "organization_name": 1,
+    "manual_existing_sense_or_new_sense_review": 28,
+    "missing_modal_sense": 5,
+    "missing_interjection_entry": 8,
+    "relative_demonstrative_complementizer_review": 5,
+    "missing_auxiliary_copula_form": 8,
+    "missing_auxiliary_passive_form": 2,
+    "month_name": 1,
+    "missing_contraction": 4,
+    "place_name": 5,
+    "spelling_out_letters": 1,
+    "needs_do_auxiliary_vs_lexical_sense": 4,
+    "await_new_dictionary_entry": 1,
+    "missing_do_auxiliary_sense": 1,
+    "missing_discourse_sense": 6,
+    "tokenization_abbreviation_a_m": 2,
+    "numerical_time": 1,
+    "number_word": 3,
+    "numeral_phrase": 1,
+    "missing_relative_pronoun": 2,
+    "needs_copula_or_auxiliary_sense": 4,
+    "await_prize_draw_compound": 2,
+    "needs_possession_or_have_to_distinction": 5,
+    "await_age_limit_compound": 1,
+    "await_under_age_preposition_sense": 1,
+    "purpose_preposition_review": 1,
+    "await_life_jacket_compound": 3,
+    "await_life_jackets_compound": 1,
+    "await_trainer_shoe_sense": 1,
+    "await_semifinal_surface_forms": 1,
+    "await_first_class_postal_sense": 2
+  },
+  "occurrences": [
+    {
+      "start": 47,
+      "end": 52,
+      "surface": "about",
+      "decision": "missing_topic_preposition"
+    },
+    {
+      "start": 65,
+      "end": 67,
+      "surface": "in",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 70,
+      "end": 76,
+      "surface": "dragon",
+      "decision": "await_dragon_boat_compound"
+    },
+    {
+      "start": 248,
+      "end": 253,
+      "surface": "shall",
+      "decision": "missing_modal_auxiliary_sense"
+    },
+    {
+      "start": 293,
+      "end": 295,
+      "surface": "as",
+      "decision": "missing_conjunction_or_as_well_phrase"
+    },
+    {
+      "start": 319,
+      "end": 323,
+      "surface": "will",
+      "decision": "missing_modal_auxiliary_sense"
+    },
+    {
+      "start": 420,
+      "end": 425,
+      "surface": "Scope",
+      "decision": "organization_name"
+    },
+    {
+      "start": 442,
+      "end": 445,
+      "surface": "how",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 446,
+      "end": 449,
+      "surface": "can",
+      "decision": "missing_modal_sense"
+    },
+    {
+      "start": 467,
+      "end": 469,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 470,
+      "end": 475,
+      "surface": "hello",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 489,
+      "end": 494,
+      "surface": "about",
+      "decision": "missing_topic_preposition"
+    },
+    {
+      "start": 499,
+      "end": 505,
+      "surface": "Dragon",
+      "decision": "await_dragon_boat_compound"
+    },
+    {
+      "start": 516,
+      "end": 520,
+      "surface": "that",
+      "decision": "relative_demonstrative_complementizer_review"
+    },
+    {
+      "start": 555,
+      "end": 557,
+      "surface": "in",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 566,
+      "end": 568,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 606,
+      "end": 609,
+      "surface": "Are",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 625,
+      "end": 627,
+      "surface": "in",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 708,
+      "end": 713,
+      "surface": "about",
+      "decision": "missing_topic_preposition"
+    },
+    {
+      "start": 774,
+      "end": 776,
+      "surface": "Of",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 777,
+      "end": 783,
+      "surface": "course",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 808,
+      "end": 812,
+      "surface": "when",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 818,
+      "end": 823,
+      "surface": "being",
+      "decision": "missing_auxiliary_passive_form"
+    },
+    {
+      "start": 855,
+      "end": 857,
+      "surface": "on",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 872,
+      "end": 876,
+      "surface": "July",
+      "decision": "month_name"
+    },
+    {
+      "start": 883,
+      "end": 885,
+      "surface": "Is",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 886,
+      "end": 890,
+      "surface": "that",
+      "decision": "relative_demonstrative_complementizer_review"
+    },
+    {
+      "start": 954,
+      "end": 957,
+      "surface": "day",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 974,
+      "end": 977,
+      "surface": "can",
+      "decision": "missing_modal_sense"
+    },
+    {
+      "start": 999,
+      "end": 1004,
+      "surface": "Right",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 1010,
+      "end": 1017,
+      "surface": "where's",
+      "decision": "missing_contraction"
+    },
+    {
+      "start": 1021,
+      "end": 1026,
+      "surface": "being",
+      "decision": "missing_auxiliary_passive_form"
+    },
+    {
+      "start": 1040,
+      "end": 1042,
+      "surface": "At",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 1047,
+      "end": 1055,
+      "surface": "Brighton",
+      "decision": "place_name"
+    },
+    {
+      "start": 1069,
+      "end": 1071,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 1144,
+      "end": 1152,
+      "surface": "Brighton",
+      "decision": "place_name"
+    },
+    {
+      "start": 1168,
+      "end": 1179,
+      "surface": "M-A-R-I-N-A",
+      "decision": "spelling_out_letters"
+    },
+    {
+      "start": 1181,
+      "end": 1183,
+      "surface": "Do",
+      "decision": "needs_do_auxiliary_vs_lexical_sense"
+    },
+    {
+      "start": 1202,
+      "end": 1204,
+      "surface": "is",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 1249,
+      "end": 1254,
+      "surface": "miles",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 1264,
+      "end": 1270,
+      "surface": "Palace",
+      "decision": "place_name"
+    },
+    {
+      "start": 1282,
+      "end": 1284,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 1312,
+      "end": 1316,
+      "surface": "take",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 1360,
+      "end": 1363,
+      "surface": "can",
+      "decision": "missing_modal_sense"
+    },
+    {
+      "start": 1380,
+      "end": 1388,
+      "surface": "seafront",
+      "decision": "await_new_dictionary_entry"
+    },
+    {
+      "start": 1418,
+      "end": 1422,
+      "surface": "does",
+      "decision": "missing_do_auxiliary_sense"
+    },
+    {
+      "start": 1446,
+      "end": 1450,
+      "surface": "Well",
+      "decision": "missing_discourse_sense"
+    },
+    {
+      "start": 1474,
+      "end": 1476,
+      "surface": "at",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 1481,
+      "end": 1482,
+      "surface": "a",
+      "decision": "tokenization_abbreviation_a_m"
+    },
+    {
+      "start": 1483,
+      "end": 1484,
+      "surface": "m",
+      "decision": "tokenization_abbreviation_a_m"
+    },
+    {
+      "start": 1538,
+      "end": 1540,
+      "surface": "at",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 1541,
+      "end": 1552,
+      "surface": "nine-thirty",
+      "decision": "numerical_time"
+    },
+    {
+      "start": 1603,
+      "end": 1605,
+      "surface": "by",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 1606,
+      "end": 1610,
+      "surface": "nine",
+      "decision": "number_word"
+    },
+    {
+      "start": 1676,
+      "end": 1681,
+      "surface": "Right",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 1696,
+      "end": 1698,
+      "surface": "is",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 1742,
+      "end": 1744,
+      "surface": "is",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 1794,
+      "end": 1805,
+      "surface": "thirty-five",
+      "decision": "numeral_phrase"
+    },
+    {
+      "start": 1813,
+      "end": 1815,
+      "surface": "by",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 1884,
+      "end": 1888,
+      "surface": "will",
+      "decision": "missing_modal_auxiliary_sense"
+    },
+    {
+      "start": 1955,
+      "end": 1963,
+      "surface": "thousand",
+      "decision": "number_word"
+    },
+    {
+      "start": 1985,
+      "end": 1987,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 2063,
+      "end": 2066,
+      "surface": "who",
+      "decision": "missing_relative_pronoun"
+    },
+    {
+      "start": 2078,
+      "end": 2080,
+      "surface": "in",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 2102,
+      "end": 2106,
+      "surface": "will",
+      "decision": "missing_modal_auxiliary_sense"
+    },
+    {
+      "start": 2107,
+      "end": 2109,
+      "surface": "be",
+      "decision": "needs_copula_or_auxiliary_sense"
+    },
+    {
+      "start": 2118,
+      "end": 2122,
+      "surface": "into",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2130,
+      "end": 2135,
+      "surface": "prize",
+      "decision": "await_prize_draw_compound"
+    },
+    {
+      "start": 2136,
+      "end": 2140,
+      "surface": "draw",
+      "decision": "await_prize_draw_compound"
+    },
+    {
+      "start": 2147,
+      "end": 2149,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 2209,
+      "end": 2211,
+      "surface": "in",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 2212,
+      "end": 2216,
+      "surface": "Hong",
+      "decision": "place_name"
+    },
+    {
+      "start": 2217,
+      "end": 2221,
+      "surface": "Kong",
+      "decision": "place_name"
+    },
+    {
+      "start": 2400,
+      "end": 2402,
+      "surface": "Is",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 2403,
+      "end": 2408,
+      "surface": "there",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2418,
+      "end": 2422,
+      "surface": "else",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2456,
+      "end": 2460,
+      "surface": "just",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2487,
+      "end": 2492,
+      "surface": "about",
+      "decision": "missing_topic_preposition"
+    },
+    {
+      "start": 2511,
+      "end": 2515,
+      "surface": "Well",
+      "decision": "missing_discourse_sense"
+    },
+    {
+      "start": 2567,
+      "end": 2573,
+      "surface": "dragon",
+      "decision": "await_dragon_boat_compound"
+    },
+    {
+      "start": 2607,
+      "end": 2609,
+      "surface": "on",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 2610,
+      "end": 2615,
+      "surface": "who's",
+      "decision": "missing_contraction"
+    },
+    {
+      "start": 2616,
+      "end": 2621,
+      "surface": "going",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2625,
+      "end": 2627,
+      "surface": "be",
+      "decision": "needs_copula_or_auxiliary_sense"
+    },
+    {
+      "start": 2646,
+      "end": 2650,
+      "surface": "That",
+      "decision": "relative_demonstrative_complementizer_review"
+    },
+    {
+      "start": 2651,
+      "end": 2655,
+      "surface": "will",
+      "decision": "missing_modal_auxiliary_sense"
+    },
+    {
+      "start": 2678,
+      "end": 2682,
+      "surface": "Fine",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2718,
+      "end": 2721,
+      "surface": "who",
+      "decision": "missing_relative_pronoun"
+    },
+    {
+      "start": 2722,
+      "end": 2725,
+      "surface": "are",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 2738,
+      "end": 2740,
+      "surface": "Do",
+      "decision": "needs_do_auxiliary_vs_lexical_sense"
+    },
+    {
+      "start": 2762,
+      "end": 2766,
+      "surface": "have",
+      "decision": "needs_possession_or_have_to_distinction"
+    },
+    {
+      "start": 2770,
+      "end": 2772,
+      "surface": "be",
+      "decision": "needs_copula_or_auxiliary_sense"
+    },
+    {
+      "start": 2795,
+      "end": 2799,
+      "surface": "Well",
+      "decision": "missing_discourse_sense"
+    },
+    {
+      "start": 2812,
+      "end": 2815,
+      "surface": "age",
+      "decision": "await_age_limit_compound"
+    },
+    {
+      "start": 2822,
+      "end": 2824,
+      "surface": "as",
+      "decision": "missing_conjunction_or_as_well_phrase"
+    },
+    {
+      "start": 2825,
+      "end": 2829,
+      "surface": "such",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2861,
+      "end": 2866,
+      "surface": "who's",
+      "decision": "missing_contraction"
+    },
+    {
+      "start": 2867,
+      "end": 2872,
+      "surface": "under",
+      "decision": "await_under_age_preposition_sense"
+    },
+    {
+      "start": 2873,
+      "end": 2881,
+      "surface": "eighteen",
+      "decision": "number_word"
+    },
+    {
+      "start": 2893,
+      "end": 2897,
+      "surface": "have",
+      "decision": "needs_possession_or_have_to_distinction"
+    },
+    {
+      "start": 2955,
+      "end": 2959,
+      "surface": "that",
+      "decision": "relative_demonstrative_complementizer_review"
+    },
+    {
+      "start": 2960,
+      "end": 2965,
+      "surface": "makes",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 2966,
+      "end": 2971,
+      "surface": "sense",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3007,
+      "end": 3009,
+      "surface": "do",
+      "decision": "needs_do_auxiliary_vs_lexical_sense"
+    },
+    {
+      "start": 3010,
+      "end": 3014,
+      "surface": "have",
+      "decision": "needs_possession_or_have_to_distinction"
+    },
+    {
+      "start": 3021,
+      "end": 3025,
+      "surface": "that",
+      "decision": "relative_demonstrative_complementizer_review"
+    },
+    {
+      "start": 3036,
+      "end": 3038,
+      "surface": "in",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 3054,
+      "end": 3057,
+      "surface": "for",
+      "decision": "purpose_preposition_review"
+    },
+    {
+      "start": 3110,
+      "end": 3114,
+      "surface": "life",
+      "decision": "await_life_jacket_compound"
+    },
+    {
+      "start": 3115,
+      "end": 3121,
+      "surface": "jacket",
+      "decision": "await_life_jacket_compound"
+    },
+    {
+      "start": 3122,
+      "end": 3124,
+      "surface": "as",
+      "decision": "missing_conjunction_or_as_well_phrase"
+    },
+    {
+      "start": 3125,
+      "end": 3129,
+      "surface": "well",
+      "decision": "missing_discourse_sense"
+    },
+    {
+      "start": 3139,
+      "end": 3142,
+      "surface": "can",
+      "decision": "missing_modal_sense"
+    },
+    {
+      "start": 3148,
+      "end": 3152,
+      "surface": "life",
+      "decision": "await_life_jacket_compound"
+    },
+    {
+      "start": 3153,
+      "end": 3160,
+      "surface": "jackets",
+      "decision": "await_life_jackets_compound"
+    },
+    {
+      "start": 3166,
+      "end": 3168,
+      "surface": "us",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3169,
+      "end": 3173,
+      "surface": "when",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3203,
+      "end": 3205,
+      "surface": "do",
+      "decision": "needs_do_auxiliary_vs_lexical_sense"
+    },
+    {
+      "start": 3240,
+      "end": 3244,
+      "surface": "Well",
+      "decision": "missing_discourse_sense"
+    },
+    {
+      "start": 3285,
+      "end": 3293,
+      "surface": "trainers",
+      "decision": "await_trainer_shoe_sense"
+    },
+    {
+      "start": 3356,
+      "end": 3358,
+      "surface": "In",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 3359,
+      "end": 3363,
+      "surface": "fact",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3421,
+      "end": 3425,
+      "surface": "Okay",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3437,
+      "end": 3440,
+      "surface": "can",
+      "decision": "missing_modal_sense"
+    },
+    {
+      "start": 3471,
+      "end": 3480,
+      "surface": "weather's",
+      "decision": "missing_contraction"
+    },
+    {
+      "start": 3563,
+      "end": 3574,
+      "surface": "semi-finals",
+      "decision": "await_semifinal_surface_forms"
+    },
+    {
+      "start": 3622,
+      "end": 3626,
+      "surface": "Have",
+      "decision": "needs_possession_or_have_to_distinction"
+    },
+    {
+      "start": 3662,
+      "end": 3664,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 3686,
+      "end": 3690,
+      "surface": "Well",
+      "decision": "missing_discourse_sense"
+    },
+    {
+      "start": 3711,
+      "end": 3713,
+      "surface": "on",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 3734,
+      "end": 3736,
+      "surface": "on",
+      "decision": "missing_preposition_sense"
+    },
+    {
+      "start": 3741,
+      "end": 3749,
+      "surface": "entrance",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3782,
+      "end": 3784,
+      "surface": "Oh",
+      "decision": "missing_interjection_entry"
+    },
+    {
+      "start": 3786,
+      "end": 3790,
+      "surface": "okay",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3846,
+      "end": 3848,
+      "surface": "be",
+      "decision": "needs_copula_or_auxiliary_sense"
+    },
+    {
+      "start": 3863,
+      "end": 3870,
+      "surface": "details",
+      "decision": "manual_existing_sense_or_new_sense_review"
+    },
+    {
+      "start": 3871,
+      "end": 3876,
+      "surface": "first",
+      "decision": "await_first_class_postal_sense"
+    },
+    {
+      "start": 3877,
+      "end": 3882,
+      "surface": "class",
+      "decision": "await_first_class_postal_sense"
+    },
+    {
+      "start": 3899,
+      "end": 3901,
+      "surface": "is",
+      "decision": "missing_auxiliary_copula_form"
+    },
+    {
+      "start": 3934,
+      "end": 3938,
+      "surface": "have",
+      "decision": "needs_possession_or_have_to_distinction"
+    }
+  ]
+}
