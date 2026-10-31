@@ -343,7 +343,9 @@ async def _load_section_questions_from_version(con, section_row: dict[str, Any],
             raw_c = vrow['content_snapshot']
             version_payload = json.loads(raw_c) if isinstance(raw_c, str) else dict(raw_c)
 
-    if isinstance(version_payload, dict) and version_payload.get('questions'):
+    if isinstance(version_payload, dict) and (version_payload.get('questions') or
+                                             version_payload.get('parts') or
+                                             version_payload.get('prompt')):
         return version_payload if reveal_keys else sanitize_section_payload_for_exam(version_payload)
 
     if skill == 'listening':

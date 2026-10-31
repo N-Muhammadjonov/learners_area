@@ -15,12 +15,26 @@ class Tests(unittest.TestCase):
   async def auth(_): return {'id':uuid.uuid4(),'role':role}
   with patch.object(mock,'_auth_user',auth):return asyncio.run(author.save_mock_draft(Req(data)))
  def test_published_version(self):
-  row={'publication_state':'published','module':'writing','content_type':'task1','track':'academic','content_snapshot':{'prompt':'Real prompt'}}
+  row={'publication_state':'published','module':'mock','content_type':'task1','track':'academic','content_snapshot':{'prompt':'Real prompt'}}
   self.assertTrue(author._eligible_version(row,'writing','task1','academic'))
   self.assertFalse(author._eligible_version({**row,'publication_state':'draft'},'writing','task1','academic'))
+  self.assertFalse(author._eligible_version({**row,'module':'writing'},'writing','task1','academic'))
   self.assertFalse(author._eligible_version(row,'writing','task2','academic'))
   self.assertFalse(author._eligible_version(row,'writing','task1','general'))
   self.assertTrue(author._eligible_version({**row,'track':'unspecified'},'writing','task1','general'))
+ def test_imported_json_validation(self):
+  q=[{'id':str(i),'questionText':'Real item','correctAnswer':'A'} for i in range(40)]
+  self.assertEqual(author._validate_material_payload('listening',{'questions':q},True),(None,None))
+  self.assertEqual(author._validate_material_payload('reading',{'questions':q,'passages':[{'bodyText':'Real passage'}]},False),(None,None))
+  self.assertEqual(author._validate_material_payload('writingTask2',{'prompt':'Actual essay prompt'},False),(None,None))
+  self.assertEqual(author._validate_material_payload('listening',{'questions':q},False)[0],'missing_audio')
+  self.assertEqual(author._validate_material_payload('writingTask1',{'prompt':'Graph prompt'},False)[0],'missing_task1_visual')
+  self.assertEqual(author._validate_material_payload('reading',{'questions':q[:39],'passages':[{'bodyText':'Passage'}]},False)[0],'invalid_question_count')
+  self.assertEqual(author._validate_material_payload('reading',{'questions':q,'passages':[]},False)[0],'missing_passages')
+ def test_only_mock_module_allowed(self):
+  row={'publication_state':'published','module':'mock','content_type':'listening','track':'academic','content_snapshot':{'questions':[]}}
+  self.assertTrue(author._eligible_version(row,'listening',None,'academic'))
+  self.assertFalse(author._eligible_version({**row,'module':'listening'},'listening',None,'academic'))
  def test_invalid_title(self):
   r=self.post({'title':'','track':'academic','sections':{}})
   self.assertEqual(r.status_code,422)
