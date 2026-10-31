@@ -450,6 +450,84 @@
           "textUz": "U qayerda o‘tkazilmoqda?"
         }
       ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "3c47f57a-7005-519f-8215-624298b95ed9",
+      "definitionEn": "Used to show the exact time when something happens.",
+      "translationUz": "soatda, paytida",
+      "definitionUz": "Biror hodisaning aniq vaqtini bildiradigan predlog.",
+      "examples": [
+        {
+          "textEn": "The heats begin at ten a.m.",
+          "textUz": "Saralash poygalari ertalab soat o‘nda boshlanadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "a30414a6-9579-51aa-af41-be95c657c779",
+      "definitionEn": "Used to show that something is resting or positioned on a surface.",
+      "translationUz": "ustida, -da",
+      "definitionUz": "Narsa biror sirt ustida ekanini bildiruvchi predlog.",
+      "examples": [
+        {
+          "textEn": "Put the name on the entrance form.",
+          "textUz": "Ismni ariza varag‘iga yozing."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "7e0ceb8a-0599-5a8d-aec4-5556666a801e",
+      "definitionEn": "Used to show participation or involvement in an event or activity.",
+      "translationUz": "-da, ichida, ishtirokida",
+      "definitionUz": "Tadbir yoki faoliyatga qatnashishni bildiruvchi predlog.",
+      "examples": [
+        {
+          "textEn": "We want to take part in the race.",
+          "textUz": "Biz poygada qatnashmoqchimiz."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "fe631f76-66f0-54c9-9b80-56c06dc0fcaa",
+      "definitionEn": "Used with a past participle to form passive verb constructions.",
+      "translationUz": "-iladi, -ilgan, majhul nisbat",
+      "definitionUz": "O‘tgan zamon sifatdoshi bilan majhul nisbat shaklini yasovchi yordamchi fe’l.",
+      "examples": [
+        {
+          "textEn": "The race is being held at the marina.",
+          "textUz": "Poyga marinada o‘tkazilmoqda."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "3e6ce288-579a-5c99-92c2-b25d3bdc1ed7",
+      "definitionEn": "Used to refer to one thing already mentioned or understood.",
+      "translationUz": "shu, o‘sha",
+      "definitionUz": "Oldin aytilgan narsaga ishora qiluvchi olmosh.",
+      "examples": [
+        {
+          "textEn": "Is that a Saturday?",
+          "textUz": "Bu shanba kunimi?"
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "835ce433-a561-5fb4-8d30-af81c64ae644",
+      "definitionEn": "Used to ask which person or people are involved.",
+      "translationUz": "kim?",
+      "definitionUz": "Shaxs yoki odamlar kimligini so‘rash uchun ishlatiladigan olmosh.",
+      "examples": [
+        {
+          "textEn": "Who is going to be the team captain?",
+          "textUz": "Jamoa sardori kim bo‘ladi?"
+        }
+      ]
     }
   ],
   "existingLexemeFormExtensions": [
@@ -471,5 +549,18 @@
       ],
       "note": "Dictionary already has exact matching semifinal meaning. Add verified surface forms to NEW release; never create duplicate entry."
     }
+  ],
+  "derivedEntryIds": {
+    "at": "3c47f57a-7005-519f-8215-624298b95ed9",
+    "on": "a30414a6-9579-51aa-af41-be95c657c779",
+    "in": "7e0ceb8a-0599-5a8d-aec4-5556666a801e",
+    "be": "fe631f76-66f0-54c9-9b80-56c06dc0fcaa",
+    "who": "835ce433-a561-5fb4-8d30-af81c64ae644",
+    "that": "3e6ce288-579a-5c99-92c2-b25d3bdc1ed7"
+  },
+  "validationNotes": [
+    "New-entry drafts must be applied before add_sense operations referencing the derived deterministic entry IDs",
+    "Base release remains immutable; publish and switch to a new validated release",
+    "Preserve distinct contextual senses and POS of modal, auxiliary, lexical verbs, and adjectives"
   ]
 }
