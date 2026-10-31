@@ -31,7 +31,7 @@ async def managed_owners(con, user, kind, count=False):
     if kind not in OWNER: raise HTTPException(404,'not_found')
     table,title,creator = OWNER[kind]
     clauses,args = [],[]
-    if creator and user['role']=='teacher':
+    if creator and (user['role']=='teacher' or (kind=='live_class' and user['role']!='owner')):
         clauses.append(f'{creator}=$1');args.append(user['id'])
     if kind in ('reading','listening','writing','speaking'):
         clauses.append("NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||x.id::text)::uuid AND d.type='CONTENT_DELETED')")
@@ -78,8 +78,8 @@ async def read_staff(req, user, kind):
     elif kind in ('student-results','centre-statistics'):
         require_role(user,('owner',))
     elif kind in ('teacher-live-classes','teacher-live-class'):
-        # Centre-wide administrators may manage the timetable, but this is not
-        # authority to read personal academic results.
+        # Centre-wide administrators may manage their own assigned classes, but do not
+        # receive global Owner-level read access to other teachers' classes or rosters.
         require_role(user,STAFF)
     elif kind in ('teacher-students','teacher-student','teacher-homework','teacher-actions','teacher-assignment','teacher-assessment','student-learning'):
         require_role(user,TEACHER_OWNER)
@@ -111,17 +111,18 @@ async def read_staff(req, user, kind):
         if kind == 'materials-owner':
             type = q.get('type'); id = identifier(q.get('id'))
             owner = await get_owner(con,type,str(id))
-            if not owner or user['role']=='teacher' and owner['creatorId'] and str(owner['creatorId'])!=str(user['id']): raise HTTPException(404,'not_found')
+            if not owner or (user['role']=='teacher' or (type=='live_class' and user['role']!='owner')) and owner['creatorId'] and str(owner['creatorId'])!=str(user['id']): raise HTTPException(404,'not_found')
+            if type == 'live_class' and user['role'] != 'owner' and not owner.get('creatorId'): raise HTTPException(404,'not_found')
             return {'owner':{'title':owner['title'],'studentVisible':owner['studentVisible']}}
         if kind == 'owner-overview':
             counts = [dict(r) for r in await con.fetch('SELECT role,account_status status,count(*)::int count FROM users GROUP BY role,account_status')]
             pending = await con.fetchval("SELECT count(*)::int FROM users WHERE account_status='pending'")
             from .browser_statistics import owner_academic_overview
             academic = await owner_academic_overview(con,q)
-            return {'counts':counts,'pendingCount':pending,'academic':academic,'integrations':await integrations(con),'brand':{'siteName':os.getenv('NEXT_PUBLIC_SITE_NAME','Learners Area'),'favicon':'/brand/'+BRAND['favicon'],'assets':[{'key':key,'path':'/brand/'+path} for key,path in BRAND.items()]}}
-        if kind == 'owner-integrations': return {'report':await integrations(con)}
-        if kind == 'owner-retention':
-            from .step27_retention_policy import config
-            return {'config':config()}
-        if kind == 'owner-transfer': return {'ownerEmail':user['email'] or ''}
+            return {'userCounts':counts,'pendingAdmissions':pending,'academic':academic}
+        if kind == 'owner-integrations': return {'services':await integrations(con)}
+        if kind == 'owner-retention': return await existing(req,'/api/owner/retention')
+        if kind == 'owner-transfer':
+            candidates = [camel(r) for r in await con.fetch("SELECT id,name,email,role FROM users WHERE account_status='active' AND id<>$1 AND role IN ('admin','teacher') ORDER BY CASE role WHEN 'admin' THEN 0 ELSE 1 END,name,email LIMIT 200",user['id'])]
+            return {'currentOwner':{'id':str(user['id']),'name':user['name'],'email':user['email']},'candidates':candidates}
     raise HTTPException(404,'not_found')

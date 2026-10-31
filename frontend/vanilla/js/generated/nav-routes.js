@@ -43,6 +43,7 @@ const ENTRIES = [
     { prefix: "/app/reports", exact: true, build: (d) => [{ label: d.reporter.title, href: "/app/reports" }] },
     { prefix: "/app/progress", exact: true, build: (d) => [{ label: d.nav.progress, href: "/app/progress" }] },
     { prefix: "/app/live-classes", exact: true, build: (d) => [{ label: d.nav.liveClasses, href: "/app/live-classes" }] },
+    { prefix: "/app/live-classes/", build: (d) => [{ label: d.nav.liveClasses, href: "/app/live-classes" }, { label: d.liveClasses.title, href: "/app/live-classes" }] },
     { prefix: "/app/notifications", exact: true, build: (d) => [{ label: d.notifications.title, href: "/app/notifications" }] },
     { prefix: "/app/support", exact: true, build: (d) => [{ label: d.nav.support, href: "/app/support" }] },
     { prefix: "/app/coach", exact: true, build: (d) => [{ label: d.nav.coach, href: "/app/coach" }] },
