@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 403,
+  "count": 404,
   "mappings": [
     {
       "part": 2,
@@ -2614,6 +2614,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2489,
+      "end": 2493,
+      "surface": "rest",
+      "senseId": "708ea6f4-f26e-464b-b17e-9ef0dc6279c3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "The remainder of the recorded talk in 'hear the rest of the talk'; reuse verified release sense"
     },
     {
       "part": 2,
