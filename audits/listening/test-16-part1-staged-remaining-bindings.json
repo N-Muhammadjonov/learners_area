@@ -1,0 +1,1145 @@
+{
+  "test": "listening-test-16",
+  "part": 1,
+  "sourceRelease": "rel-v1-1fa06d8d41d8ff701632573e",
+  "sourceBodySha": "700860086d027a47f567269463c7a901a57d46ec6ee0f00c4e1ea65dbba4bfa8",
+  "status": "fully_enumerated_NOT_PUBLISHED_NOT_BOUND",
+  "inputOccurrences": 126,
+  "records": [
+    {
+      "start": 47,
+      "end": 52,
+      "surface": "about",
+      "lexicalTarget": "about",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 65,
+      "end": 67,
+      "surface": "in",
+      "lexicalTarget": "in",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 70,
+      "end": 76,
+      "surface": "dragon",
+      "lexicalTarget": "dragon boat",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 248,
+      "end": 253,
+      "surface": "shall",
+      "lexicalTarget": "shall",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 293,
+      "end": 295,
+      "surface": "as",
+      "lexicalTarget": "as",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 2
+    },
+    {
+      "start": 319,
+      "end": 323,
+      "surface": "will",
+      "lexicalTarget": "will",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 420,
+      "end": 425,
+      "surface": "Scope",
+      "lexicalTarget": "scope",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 446,
+      "end": 449,
+      "surface": "can",
+      "lexicalTarget": "can",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 467,
+      "end": 469,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 470,
+      "end": 475,
+      "surface": "hello",
+      "lexicalTarget": "hello",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 489,
+      "end": 494,
+      "surface": "about",
+      "lexicalTarget": "about",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 499,
+      "end": 505,
+      "surface": "Dragon",
+      "lexicalTarget": "dragon boat",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 516,
+      "end": 520,
+      "surface": "that",
+      "lexicalTarget": "that",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 555,
+      "end": 557,
+      "surface": "in",
+      "lexicalTarget": "in",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 566,
+      "end": 568,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 606,
+      "end": 609,
+      "surface": "Are",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 625,
+      "end": 627,
+      "surface": "in",
+      "lexicalTarget": "in",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 708,
+      "end": 713,
+      "surface": "about",
+      "lexicalTarget": "about",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 774,
+      "end": 776,
+      "surface": "Of",
+      "lexicalTarget": "of course",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 777,
+      "end": 783,
+      "surface": "course",
+      "lexicalTarget": "of course",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 818,
+      "end": 823,
+      "surface": "being",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 855,
+      "end": 857,
+      "surface": "on",
+      "lexicalTarget": "on",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 872,
+      "end": 876,
+      "surface": "July",
+      "lexicalTarget": "july",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 883,
+      "end": 885,
+      "surface": "Is",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 886,
+      "end": 890,
+      "surface": "that",
+      "lexicalTarget": "that",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 974,
+      "end": 977,
+      "surface": "can",
+      "lexicalTarget": "can",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 999,
+      "end": 1004,
+      "surface": "Right",
+      "lexicalTarget": "right",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1010,
+      "end": 1017,
+      "surface": "where's",
+      "lexicalTarget": "where's",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1021,
+      "end": 1026,
+      "surface": "being",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1040,
+      "end": 1042,
+      "surface": "At",
+      "lexicalTarget": "at",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1047,
+      "end": 1055,
+      "surface": "Brighton",
+      "lexicalTarget": "brighton marina",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1069,
+      "end": 1071,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1144,
+      "end": 1152,
+      "surface": "Brighton",
+      "lexicalTarget": "brighton marina",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1168,
+      "end": 1179,
+      "surface": "M-A-R-I-N-A",
+      "lexicalTarget": "marina",
+      "targetType": "proper_name",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 1181,
+      "end": 1183,
+      "surface": "Do",
+      "lexicalTarget": "do",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1202,
+      "end": 1204,
+      "surface": "is",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1264,
+      "end": 1270,
+      "surface": "Palace",
+      "lexicalTarget": "palace pier",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1282,
+      "end": 1284,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1312,
+      "end": 1316,
+      "surface": "take",
+      "lexicalTarget": "take",
+      "targetType": "existing_sense_or_new_sense_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 1360,
+      "end": 1363,
+      "surface": "can",
+      "lexicalTarget": "can",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1380,
+      "end": 1388,
+      "surface": "seafront",
+      "lexicalTarget": "seafront",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1418,
+      "end": 1422,
+      "surface": "does",
+      "lexicalTarget": "do",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1446,
+      "end": 1450,
+      "surface": "Well",
+      "lexicalTarget": "well",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1474,
+      "end": 1476,
+      "surface": "at",
+      "lexicalTarget": "at",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1481,
+      "end": 1482,
+      "surface": "a",
+      "lexicalTarget": "a.m.",
+      "targetType": "existing_entry",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 1483,
+      "end": 1484,
+      "surface": "m",
+      "lexicalTarget": "a.m.",
+      "targetType": "existing_entry",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 1538,
+      "end": 1540,
+      "surface": "at",
+      "lexicalTarget": "at",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1541,
+      "end": 1552,
+      "surface": "nine-thirty",
+      "lexicalTarget": "nine-thirty",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1603,
+      "end": 1605,
+      "surface": "by",
+      "lexicalTarget": "by",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1676,
+      "end": 1681,
+      "surface": "Right",
+      "lexicalTarget": "right",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1696,
+      "end": 1698,
+      "surface": "is",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1742,
+      "end": 1744,
+      "surface": "is",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1794,
+      "end": 1805,
+      "surface": "thirty-five",
+      "lexicalTarget": "thirty-five",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1813,
+      "end": 1815,
+      "surface": "by",
+      "lexicalTarget": "by",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1884,
+      "end": 1888,
+      "surface": "will",
+      "lexicalTarget": "will",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 1985,
+      "end": 1987,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2063,
+      "end": 2066,
+      "surface": "who",
+      "lexicalTarget": "who",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2078,
+      "end": 2080,
+      "surface": "in",
+      "lexicalTarget": "in",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2102,
+      "end": 2106,
+      "surface": "will",
+      "lexicalTarget": "will",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2107,
+      "end": 2109,
+      "surface": "be",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2118,
+      "end": 2122,
+      "surface": "into",
+      "lexicalTarget": "into",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2130,
+      "end": 2135,
+      "surface": "prize",
+      "lexicalTarget": "prize draw",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2136,
+      "end": 2140,
+      "surface": "draw",
+      "lexicalTarget": "prize draw",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2147,
+      "end": 2149,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2209,
+      "end": 2211,
+      "surface": "in",
+      "lexicalTarget": "in",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2212,
+      "end": 2216,
+      "surface": "Hong",
+      "lexicalTarget": "hong kong",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2217,
+      "end": 2221,
+      "surface": "Kong",
+      "lexicalTarget": "hong kong",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2400,
+      "end": 2402,
+      "surface": "Is",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2403,
+      "end": 2408,
+      "surface": "there",
+      "lexicalTarget": "there",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2487,
+      "end": 2492,
+      "surface": "about",
+      "lexicalTarget": "about",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2511,
+      "end": 2515,
+      "surface": "Well",
+      "lexicalTarget": "well",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2567,
+      "end": 2573,
+      "surface": "dragon",
+      "lexicalTarget": "dragon boat",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2607,
+      "end": 2609,
+      "surface": "on",
+      "lexicalTarget": "on",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2610,
+      "end": 2615,
+      "surface": "who's",
+      "lexicalTarget": "who's",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2616,
+      "end": 2621,
+      "surface": "going",
+      "lexicalTarget": "going to",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2625,
+      "end": 2627,
+      "surface": "be",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2646,
+      "end": 2650,
+      "surface": "That",
+      "lexicalTarget": "that",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2651,
+      "end": 2655,
+      "surface": "will",
+      "lexicalTarget": "will",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2678,
+      "end": 2682,
+      "surface": "Fine",
+      "lexicalTarget": "fine",
+      "targetType": "existing_sense_or_new_sense_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 2718,
+      "end": 2721,
+      "surface": "who",
+      "lexicalTarget": "who",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2722,
+      "end": 2725,
+      "surface": "are",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2738,
+      "end": 2740,
+      "surface": "Do",
+      "lexicalTarget": "do",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2762,
+      "end": 2766,
+      "surface": "have",
+      "lexicalTarget": "have to",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2770,
+      "end": 2772,
+      "surface": "be",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2795,
+      "end": 2799,
+      "surface": "Well",
+      "lexicalTarget": "well",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2812,
+      "end": 2815,
+      "surface": "age",
+      "lexicalTarget": "age limit",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2822,
+      "end": 2824,
+      "surface": "as",
+      "lexicalTarget": "as such",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2825,
+      "end": 2829,
+      "surface": "such",
+      "lexicalTarget": "as such",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2861,
+      "end": 2866,
+      "surface": "who's",
+      "lexicalTarget": "who's",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2867,
+      "end": 2872,
+      "surface": "under",
+      "lexicalTarget": "under",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2893,
+      "end": 2897,
+      "surface": "have",
+      "lexicalTarget": "have to",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 2955,
+      "end": 2959,
+      "surface": "that",
+      "lexicalTarget": "that",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3007,
+      "end": 3009,
+      "surface": "do",
+      "lexicalTarget": "do",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3010,
+      "end": 3014,
+      "surface": "have",
+      "lexicalTarget": "have",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3021,
+      "end": 3025,
+      "surface": "that",
+      "lexicalTarget": "that",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3036,
+      "end": 3038,
+      "surface": "in",
+      "lexicalTarget": "in",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3054,
+      "end": 3057,
+      "surface": "for",
+      "lexicalTarget": "for",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3110,
+      "end": 3114,
+      "surface": "life",
+      "lexicalTarget": "life jacket",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3115,
+      "end": 3121,
+      "surface": "jacket",
+      "lexicalTarget": "life jacket",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3122,
+      "end": 3124,
+      "surface": "as",
+      "lexicalTarget": "as well",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3125,
+      "end": 3129,
+      "surface": "well",
+      "lexicalTarget": "as well",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3139,
+      "end": 3142,
+      "surface": "can",
+      "lexicalTarget": "can",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3148,
+      "end": 3152,
+      "surface": "life",
+      "lexicalTarget": "life jacket",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3153,
+      "end": 3160,
+      "surface": "jackets",
+      "lexicalTarget": "life jacket",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3203,
+      "end": 3205,
+      "surface": "do",
+      "lexicalTarget": "do",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3240,
+      "end": 3244,
+      "surface": "Well",
+      "lexicalTarget": "well",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3285,
+      "end": 3293,
+      "surface": "trainers",
+      "lexicalTarget": "trainers",
+      "targetType": "existing_sense_or_new_sense_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 3356,
+      "end": 3358,
+      "surface": "In",
+      "lexicalTarget": "in fact",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3359,
+      "end": 3363,
+      "surface": "fact",
+      "lexicalTarget": "in fact",
+      "targetType": "new_lexeme",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3421,
+      "end": 3425,
+      "surface": "Okay",
+      "lexicalTarget": "okay",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3437,
+      "end": 3440,
+      "surface": "can",
+      "lexicalTarget": "can",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3471,
+      "end": 3480,
+      "surface": "weather's",
+      "lexicalTarget": "weather's",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3563,
+      "end": 3574,
+      "surface": "semi-finals",
+      "lexicalTarget": "semifinal",
+      "targetType": "existing_form_extension",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 3622,
+      "end": 3626,
+      "surface": "Have",
+      "lexicalTarget": "have",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3662,
+      "end": 3664,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3686,
+      "end": 3690,
+      "surface": "Well",
+      "lexicalTarget": "well",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3711,
+      "end": 3713,
+      "surface": "on",
+      "lexicalTarget": "on",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3734,
+      "end": 3736,
+      "surface": "on",
+      "lexicalTarget": "on",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3782,
+      "end": 3784,
+      "surface": "Oh",
+      "lexicalTarget": "oh",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3786,
+      "end": 3790,
+      "surface": "okay",
+      "lexicalTarget": "okay",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3846,
+      "end": 3848,
+      "surface": "be",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3863,
+      "end": 3870,
+      "surface": "details",
+      "lexicalTarget": "detail",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3871,
+      "end": 3876,
+      "surface": "first",
+      "lexicalTarget": "first class",
+      "targetType": "new_sense",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 3877,
+      "end": 3882,
+      "surface": "class",
+      "lexicalTarget": "first class",
+      "targetType": "new_sense",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 0
+    },
+    {
+      "start": 3899,
+      "end": 3901,
+      "surface": "is",
+      "lexicalTarget": "be",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    },
+    {
+      "start": 3934,
+      "end": 3938,
+      "surface": "have",
+      "lexicalTarget": "have",
+      "targetType": "draft_or_existing_review",
+      "resolution": "staged_pending_release_and_context_review",
+      "matchesDrafts": 1
+    }
+  ],
+  "completionRule": "Only mark complete when each source word is covered by a valid nonoverlapping span, every target has an existing or published dictionary entry/sense, all forms and hashes pass release validation, and the application preflight passes."
+}
