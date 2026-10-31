@@ -203,7 +203,7 @@ export const draftSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("add_lexeme"),
       lemma: z.string().trim().min(1).max(120),
-      partOfSpeech: z.enum(["n", "v", "a", "r", "noun", "verb", "adjective", "adverb", "preposition", "pronoun", "determiner", "conjunction", "interjection", "numeral"]),
+      partOfSpeech: z.enum(["n", "v", "a", "r", "noun", "verb", "adjective", "adverb", "preposition", "pronoun", "determiner", "conjunction", "interjection", "numeral", "modal verb", "auxiliary verb"]),
       lexicalType: z.enum([
         "word",
         "noun_phrase",
