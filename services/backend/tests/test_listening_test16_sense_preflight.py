@@ -92,3 +92,21 @@ def test_no_fake_sentence_as_standalone_lexical_entry_in_part_one():
     spans=next(m["spans"] for m in plan["materials"] if m["sectionNumber"]==1)
     assert all(len(span["surface"].split())<=2 for span in spans)
     assert all(span["surface"].strip()==span["surface"] for span in spans)
+
+def test_auxiliary_inflections_open_v1_lemma_not_fabricated_forms():
+    from app.step30_video_lexical import forms_of
+    forms=lambda lemma,pos: {f[1] for f in forms_of(lemma,pos)}
+    be=forms("be","auxiliary verb")
+    have=forms("have","auxiliary verb")
+    do=forms("do","auxiliary verb")
+    assert {"be","am","is","are","was","were","being","been"} <= be
+    assert {"have","has","had","having"} <= have
+    assert {"do","does","did","done","doing"} <= do
+    assert "bes" not in be and "haves" not in have
+    assert forms("can","modal verb")=={"can"}
+
+def test_inflection_does_not_make_adjectives_verbs():
+    from app.step30_video_lexical import forms_of
+    result={form[1] for form in forms_of("interested","adjective")}
+    assert "interested" in result
+    assert "interesting" not in result
