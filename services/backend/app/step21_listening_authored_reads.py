@@ -88,11 +88,40 @@ async def authored(req:Request,id:str):
             return core.j(out,headers=AUTHOR_HEADERS)
     except Exception:return core.j({'error':'temporarily_unavailable'},503,AUTHOR_HEADERS)
 
+async def _recover_linked_completed_attempt(con,user,testid,source,values,attempt_id):
+    """Recover a completed native attempt when an older browser checkpoint was
+    left in_progress. A read never writes or adopts a different attempt."""
+    key=state_key(source)
+    try:state=json.loads(values.get(key,'{}'))
+    except (ValueError,TypeError):return values
+    if not isinstance(state,dict) or state.get('attemptStatus') not in ('in_progress','exited') or not attempt_id:
+        return values
+    latest=await con.fetchrow('''SELECT * FROM listening_attempts WHERE user_id=$1 AND test_id=$2
+        ORDER BY started_at DESC LIMIT 1''',user['id'],core.uuid_value(testid))
+    if not latest or str(latest['id'])!=str(attempt_id) or latest['status']!='completed':
+        return values
+    from .step22_listening_submit import assigned_questions
+    questions=await assigned_questions(con,latest)
+    if len(questions)!=40:return values
+    saved=await con.fetch('''SELECT question_id,user_answer,is_correct FROM listening_answers
+        WHERE attempt_id=$1''',latest['id'])
+    indexed={str(r['question_id']):r for r in saved}
+    if len(saved)!=40 or len(indexed)!=40 or any(str(q['id']) not in indexed or
+        not isinstance(indexed[str(q['id'])]['is_correct'],bool) for q in questions):
+        return values
+    answers={str(q['order']):indexed[str(q['id'])]['user_answer'] or '' for q in questions}
+    results=[{'q':q['order'],'user':answers[str(q['order'])],
+              'ok':indexed[str(q['id'])]['is_correct']} for q in questions]
+    recovered={**state,'answers':answers,'attemptStatus':'submitted',
+               'submitted':True,'lastResults':results}
+    return {**values,key:json.dumps(recovered,ensure_ascii=False,separators=(',',':'))}
+
 async def loaded_values(con,user,testid,source):
-    row=await con.fetchrow('''SELECT values FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2''',user['id'],core.uuid_value(testid))
+    row=await con.fetchrow('''SELECT values,attempt_id FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2''',user['id'],core.uuid_value(testid))
     if row:
         values=row['values']
-        return json.loads(values) if isinstance(values,str) else dict(values)
+        values=json.loads(values) if isinstance(values,str) else dict(values)
+        return await _recover_linked_completed_attempt(con,user,testid,source,values,row['attempt_id'])
     # Original state getter hydrates from an existing canonical native attempt.
     attempt=await con.fetchrow('''SELECT * FROM listening_attempts WHERE user_id=$1 AND test_id=$2 ORDER BY started_at DESC LIMIT 1''',user['id'],core.uuid_value(testid))
     if not attempt:return {}
