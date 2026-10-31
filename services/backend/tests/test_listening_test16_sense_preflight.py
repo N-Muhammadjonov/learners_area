@@ -110,3 +110,36 @@ def test_inflection_does_not_make_adjectives_verbs():
     result={form[1] for form in forms_of("interested","adjective")}
     assert "interested" in result
     assert "interesting" not in result
+
+def test_part_one_dictionary_drafts_have_real_headwords_and_uzbek_examples():
+    import json
+    drafts=json.loads((Path(__file__).resolve().parents[3]/
+      "audits/listening/test-16-part1-dictionary-drafts.json").read_text())
+    assert drafts["status"]=="editorial_drafts_not_published"
+    assert len(drafts["drafts"])>=30
+    new_entries={}
+    for d in drafts["drafts"]:
+        assert d["definitionEn"] and d["definitionUz"] and d["translationUz"]
+        assert d["examples"] and all(e.get("textEn") and e.get("textUz") for e in d["examples"])
+        if d["operation"]=="add_lexeme":
+            assert len(d["lemma"].split())<=3
+            assert all(ch not in d["lemma"] for ch in ".!?")
+            key=(d["lemma"].casefold(),d["partOfSpeech"],d["lexicalType"])
+            assert key not in new_entries
+            new_entries[key]=d
+        else:
+            assert d["operation"]=="add_sense" and d["lexemeId"]
+
+def test_derivative_dictionary_entry_ids_are_stable_and_unique():
+    import hashlib,json
+    drafts=json.loads((Path(__file__).resolve().parents[3]/
+      "audits/listening/test-16-part1-dictionary-drafts.json").read_text())
+    for lemma,expected in drafts["derivedEntryIds"].items():
+        found=next(d for d in drafts["drafts"] if d.get("lemma")==lemma and d["operation"]=="add_lexeme")
+        key="|".join((lemma,found["partOfSpeech"],found["lexicalType"]))
+        h=bytearray(hashlib.sha256(("learners-area-dictionary-v1:lexeme:"+key).encode()).digest()[:16])
+        h[6]=(h[6]&15)|80
+        h[8]=(h[8]&63)|128
+        raw=h.hex()
+        actual="-".join((raw[:8],raw[8:12],raw[12:16],raw[16:20],raw[20:]))
+        assert actual==expected
