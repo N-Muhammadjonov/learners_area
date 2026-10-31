@@ -1037,13 +1037,13 @@ def test_attendance_merger_preserves_existing_history_of_every_duplicate_row():
     assert scalar["session_history"][2] == "old-history"
 
 
-def test_task2_and_fix5_migration_0072_sql_relational_and_static_schema_verification():
+def test_task2_and_fix5_migration_0073_sql_relational_and_static_schema_verification():
     repo_root = pathlib.Path(__file__).resolve().parents[3]
-    drizzle_sql = (repo_root / "drizzle" / "0072_live_classes_youtube_chat_attendance.sql").read_text(encoding="utf-8")
-    backend_sql = (repo_root / "services" / "backend" / "migrations" / "0072_live_classes_youtube_chat_attendance.sql").read_text(encoding="utf-8")
-    assert drizzle_sql == backend_sql, "Drizzle and backend migration 0072 SQL files must be identical"
+    drizzle_sql = (repo_root / "drizzle" / "0073_live_classes_youtube_chat_attendance.sql").read_text(encoding="utf-8")
+    backend_sql = (repo_root / "services" / "backend" / "migrations" / "0073_live_classes_youtube_chat_attendance.sql").read_text(encoding="utf-8")
+    assert drizzle_sql == backend_sql, "Drizzle and backend migration 0073 SQL files must be identical"
 
-    # Static verification of PostgreSQL DDL, constraints, indexes, and RLS in 0072
+    # Static verification of PostgreSQL DDL, constraints, indexes, and RLS in 0073
     for required_fragment in (
         "ALTER TABLE public.live_classes",
         "live_classes_youtube_video_id_chk",
