@@ -3,9 +3,9 @@
   "part": 2,
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
   "sourceBodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
-  "mappedSpans": 376,
-  "unresolvedOccurrences": 523,
-  "unresolvedUniqueForms": 285,
+  "mappedSpans": 429,
+  "unresolvedOccurrences": 465,
+  "unresolvedUniqueForms": 254,
   "inventory": [
     {
       "start": 18,
@@ -26,13 +26,6 @@
       "end": 49,
       "surface": "giving",
       "context": " Section two. You will hear a man giving an information talk at an adult educati",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 65,
-      "end": 69,
-      "surface": "talk",
-      "context": " hear a man giving an information talk at an adult education centre. First, yo",
       "status": "editorial_sense_review_required"
     },
     {
@@ -127,13 +120,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 216,
-      "end": 220,
-      "surface": "talk",
-      "context": "sten carefully to the information talk and answer questions eleven to fifteen.",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 242,
       "end": 248,
       "surface": "eleven",
@@ -152,13 +138,6 @@
       "end": 259,
       "surface": "fifteen",
       "context": "lk and answer questions eleven to fifteen. MIKE: Good evening everyone, and thank",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 272,
-      "end": 279,
-      "surface": "evening",
-      "context": "ons eleven to fifteen. MIKE: Good evening everyone, and thanks for coming to this",
       "status": "editorial_sense_review_required"
     },
     {
@@ -187,13 +166,6 @@
       "end": 314,
       "surface": "to",
       "context": "g everyone, and thanks for coming to this information evening at the Adult E",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 332,
-      "end": 339,
-      "surface": "evening",
-      "context": "ks for coming to this information evening at the Adult Education Centre. My name ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -260,13 +232,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 422,
-      "end": 427,
-      "surface": "short",
-      "context": "and I'll be speaking to you for a short while before you can go and explore the",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 428,
       "end": 433,
       "surface": "while",
@@ -302,13 +267,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 468,
-      "end": 475,
-      "surface": "various",
-      "context": "before you can go and explore the various departments that we have here. The cent",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 488,
       "end": 492,
       "surface": "that",
@@ -334,13 +292,6 @@
       "end": 521,
       "surface": "was",
       "context": "nts that we have here. The centre was founded fifty years ago by the town cou",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 522,
-      "end": 529,
-      "surface": "founded",
-      "context": "that we have here. The centre was founded fifty years ago by the town council in ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -439,13 +390,6 @@
       "end": 611,
       "surface": "get",
       "context": " to help people who had failed to get a proper education when they were child",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 614,
-      "end": 620,
-      "surface": "proper",
-      "context": "lp people who had failed to get a proper education when they were children. The ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -582,13 +526,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 830,
-      "end": 838,
-      "surface": "everyday",
-      "context": "n also just give them training in everyday skills or just allow them to extend the",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 854,
       "end": 859,
       "surface": "allow",
@@ -642,13 +579,6 @@
       "end": 923,
       "surface": "fully",
       "context": "s. The teachers in the centre are fully qualified and their teaching is apprais",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 924,
-      "end": 933,
-      "surface": "qualified",
-      "context": " teachers in the centre are fully qualified and their teaching is appraised every s",
       "status": "editorial_sense_review_required"
     },
     {
@@ -792,13 +722,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1195,
-      "end": 1202,
-      "surface": "undergo",
-      "context": "echnology. MIKE: All our teachers undergo special training and all their lessons ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1203,
       "end": 1210,
       "surface": "special",
@@ -869,13 +792,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1332,
-      "end": 1342,
-      "surface": "registered",
-      "context": "sroom, which is accessible by all registered students. All notes, videos and workshe",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1357,
       "end": 1362,
       "surface": "notes",
@@ -943,20 +859,6 @@
       "end": 1438,
       "surface": "can",
       "context": "ere, so if you miss a lesson, you can catch up on your computer at home. As w",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1439,
-      "end": 1444,
-      "surface": "catch",
-      "context": " so if you miss a lesson, you can catch up on your computer at home. As well as",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1445,
-      "end": 1447,
-      "surface": "up",
-      "context": " you miss a lesson, you can catch up on your computer at home. As well as ju",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1051,13 +953,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1567,
-      "end": 1576,
-      "surface": "Naturally",
-      "context": " contact with your teacher. MIKE: Naturally, he or she cannot be online all day, bu",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1578,
       "end": 1580,
       "surface": "he",
@@ -1135,24 +1030,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1699,
-      "end": 1708,
-      "surface": "available",
-      "context": "of three hours each when they are available to chat. They can of course be in deman",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1709,
       "end": 1711,
       "surface": "to",
       "context": "ours each when they are available to chat. They can of course be in demand, ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1712,
-      "end": 1716,
-      "surface": "chat",
-      "context": "s each when they are available to chat. They can of course be in demand, so th",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1261,13 +1142,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1821,
-      "end": 1825,
-      "surface": "only",
-      "context": " at any one time and students can only interact with their teacher for a maxim",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1826,
       "end": 1834,
       "surface": "interact",
@@ -1345,13 +1219,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 1940,
-      "end": 1944,
-      "surface": "chat",
-      "context": " though, students may continue to chat for longer. Naturally, we also have a n",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 1945,
       "end": 1948,
       "surface": "for",
@@ -1363,13 +1230,6 @@
       "end": 1955,
       "surface": "longer",
       "context": "students may continue to chat for longer. Naturally, we also have a normal websi",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1957,
-      "end": 1966,
-      "surface": "Naturally",
-      "context": " may continue to chat for longer. Naturally, we also have a normal website. This ha",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1489,34 +1349,6 @@
       "end": 2160,
       "surface": "supply",
       "context": "although you'll need of course to supply credit card or bank account details. If",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2161,
-      "end": 2167,
-      "surface": "credit",
-      "context": "h you'll need of course to supply credit card or bank account details. If you do",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2168,
-      "end": 2172,
-      "surface": "card",
-      "context": "l need of course to supply credit card or bank account details. If you don't w",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2176,
-      "end": 2180,
-      "surface": "bank",
-      "context": "f course to supply credit card or bank account details. If you don't want to b",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2181,
-      "end": 2188,
-      "surface": "account",
-      "context": "rse to supply credit card or bank account details. If you don't want to book onli",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1800,13 +1632,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2531,
-      "end": 2535,
-      "surface": "talk",
-      "context": "en to the rest of the information talk and answer questions sixteen to twenty.",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2557,
       "end": 2564,
       "surface": "sixteen",
@@ -1863,13 +1688,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2645,
-      "end": 2650,
-      "surface": "offer",
-      "context": "about the courses that we have on offer. I'll begin with languages, as they're ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2663,
       "end": 2667,
       "surface": "with",
@@ -1895,20 +1713,6 @@
       "end": 2695,
       "surface": "often",
       "context": " begin with languages, as they're often very popular. We offer a variety of Eur",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2713,
-      "end": 2718,
-      "surface": "offer",
-      "context": "as they're often very popular. We offer a variety of European languages, includ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2721,
-      "end": 2728,
-      "surface": "variety",
-      "context": "re often very popular. We offer a variety of European languages, including French",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1968,13 +1772,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2814,
-      "end": 2819,
-      "surface": "offer",
-      "context": "lish and Spanish. In addition, we offer Arabic, Korean, Japanese and Mandarin C",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2820,
       "end": 2826,
       "surface": "Arabic",
@@ -2024,24 +1821,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2887,
-      "end": 2894,
-      "surface": "offered",
-      "context": "arin Chinese. These languages are offered at various stages of ability and, to fi",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2895,
       "end": 2897,
       "surface": "at",
       "context": "nese. These languages are offered at various stages of ability and, to find ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2898,
-      "end": 2905,
-      "surface": "various",
-      "context": "e. These languages are offered at various stages of ability and, to find out whic",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2122,13 +1905,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3004,
-      "end": 3013,
-      "surface": "available",
-      "context": "u can do our self-assessment test available on our website for all the languages we",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3014,
       "end": 3016,
       "surface": "on",
@@ -2147,13 +1923,6 @@
       "end": 3032,
       "surface": "for",
       "context": "ent test available on our website for all the languages we offer. MIKE: Next,",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3054,
-      "end": 3059,
-      "surface": "offer",
-      "context": " website for all the languages we offer. MIKE: Next, I'd like to tell you about",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2217,13 +1986,6 @@
       "end": 3155,
       "surface": "vary",
       "context": "ted courses. Our business courses vary from short morning or afternoon session",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3161,
-      "end": 3166,
-      "surface": "short",
-      "context": "s. Our business courses vary from short morning or afternoon sessions, where yo",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2339,13 +2101,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3328,
-      "end": 3335,
-      "surface": "achieve",
-      "context": " over thirty weeks, where you can achieve an industry-recognised qualification. F",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3339,
       "end": 3358,
       "surface": "industry-recognised",
@@ -2367,45 +2122,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3395,
-      "end": 3398,
-      "surface": "use",
-      "context": "alification. From learning how to use essential computer software to bookkeep",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3399,
-      "end": 3408,
-      "surface": "essential",
-      "context": "ication. From learning how to use essential computer software to bookkeeping or sea",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3427,
       "end": 3429,
       "surface": "to",
       "context": "o use essential computer software to bookkeeping or search engine optimisati",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3445,
-      "end": 3451,
-      "surface": "search",
-      "context": "mputer software to bookkeeping or search engine optimisation and website develop",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3452,
-      "end": 3458,
-      "surface": "engine",
-      "context": "software to bookkeeping or search engine optimisation and website development, w",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3459,
-      "end": 3471,
-      "surface": "optimisation",
-      "context": "e to bookkeeping or search engine optimisation and website development, we have the bu",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2427,13 +2147,6 @@
       "end": 3528,
       "surface": "to",
       "context": "ent, we have the business courses to help you achieve your goals. MIKE: Thes",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3538,
-      "end": 3545,
-      "surface": "achieve",
-      "context": " the business courses to help you achieve your goals. MIKE: These courses are alw",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2497,13 +2210,6 @@
       "end": 3668,
       "surface": "fast",
       "context": ", make sure you make your booking fast. We only take ten people per course and",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3673,
-      "end": 3677,
-      "surface": "only",
-      "context": "re you make your booking fast. We only take ten people per course and these pl",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2633,13 +2339,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3869,
-      "end": 3874,
-      "surface": "learn",
-      "context": "es on these subjects can help you learn to get the most out of your camera. Fro",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3875,
       "end": 3877,
       "surface": "to",
@@ -2731,13 +2430,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3993,
-      "end": 3998,
-      "surface": "learn",
-      "context": "ou to build up your knowledge and learn new ways to use your equipment. Another",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3999,
       "end": 4002,
       "surface": "new",
@@ -2759,24 +2451,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4011,
-      "end": 4014,
-      "surface": "use",
-      "context": "r knowledge and learn new ways to use your equipment. Another favourite are o",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4031,
       "end": 4038,
       "surface": "Another",
       "context": "n new ways to use your equipment. Another favourite are our cooking courses. MIKE",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4039,
-      "end": 4048,
-      "surface": "favourite",
-      "context": "ys to use your equipment. Another favourite are our cooking courses. MIKE: We offer",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2794,24 +2472,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4083,
-      "end": 4088,
-      "surface": "offer",
-      "context": "are our cooking courses. MIKE: We offer speciality courses, but a favourite is ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4089,
       "end": 4099,
       "surface": "speciality",
       "context": "r cooking courses. MIKE: We offer speciality courses, but a favourite is our introdu",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4115,
-      "end": 4124,
-      "surface": "favourite",
-      "context": "e offer speciality courses, but a favourite is our introduction to cooking. This co",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2941,27 +2605,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4268,
-      "end": 4273,
-      "surface": "Learn",
-      "context": " achievable and inspiring dishes. Learn a variety of essential cooking techniqu",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4276,
-      "end": 4283,
-      "surface": "variety",
-      "context": "ble and inspiring dishes. Learn a variety of essential cooking techniques to help",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4287,
-      "end": 4296,
-      "surface": "essential",
-      "context": "piring dishes. Learn a variety of essential cooking techniques to help you create s",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4305,
       "end": 4315,
       "surface": "techniques",
@@ -2987,13 +2630,6 @@
       "end": 4341,
       "surface": "simple",
       "context": "ing techniques to help you create simple everyday dishes or some more elaborate ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4342,
-      "end": 4350,
-      "surface": "everyday",
-      "context": "hniques to help you create simple everyday dishes or some more elaborate things to",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3053,13 +2689,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4426,
-      "end": 4431,
-      "surface": "learn",
-      "context": "mpress your guests. You will also learn to make the best use of store cupboard ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4432,
       "end": 4434,
       "surface": "to",
@@ -3078,13 +2707,6 @@
       "end": 4448,
       "surface": "best",
       "context": ". You will also learn to make the best use of store cupboard ingredients, and ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4449,
-      "end": 4452,
-      "surface": "use",
-      "context": " will also learn to make the best use of store cupboard ingredients, and how ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3214,13 +2836,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4649,
-      "end": 4658,
-      "surface": "practical",
-      "context": "ative writing course. It looks at practical ways to get started, whilst promoting g",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4659,
       "end": 4663,
       "surface": "ways",
@@ -3302,13 +2917,6 @@
       "end": 4762,
       "surface": "on",
       "context": "he focus of this course is placed on practical exercises supported by discus",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4763,
-      "end": 4772,
-      "surface": "practical",
-      "context": "focus of this course is placed on practical exercises supported by discussion and e",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3421,13 +3029,6 @@
       "end": 4940,
       "surface": "to",
       "context": "reative process and encourage you to achieve your writing goals. MIKE: Our c",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4941,
-      "end": 4948,
-      "surface": "achieve",
-      "context": "tive process and encourage you to achieve your writing goals. MIKE: Our creative ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -3610,13 +3211,6 @@
       "end": 5226,
       "surface": "on",
       "context": "introduce everything that we have on offer. NARRATOR: That is the end of sec",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 5227,
-      "end": 5232,
-      "surface": "offer",
-      "context": "roduce everything that we have on offer. NARRATOR: That is the end of section t",
       "status": "editorial_sense_review_required"
     },
     {
