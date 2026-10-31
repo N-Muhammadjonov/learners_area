@@ -1,0 +1,637 @@
+{
+  "test": "listening-test-16",
+  "part": 2,
+  "status": "editorial_drafts_not_published",
+  "targetRelease": "new_copy_on_write_release_required",
+  "sourceRelease": "rel-v1-1fa06d8d41d8ff701632573e",
+  "instruction": "Do not apply as-is: compare normalized lemma+POS with active release, convert duplicate add_lexeme to add_sense or form extension. Review dictionary attestations, CEFR, synonyms/antonyms and morphology before publication. Proper names are entity annotations, not generic headwords.",
+  "drafts": [
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "can",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "To be able to do something or to have permission to do it.",
+      "translationUz": "qila olmoq, mumkin bo‘lmoq",
+      "definitionUz": "Qobiliyat yoki ruxsatni bildiradi.",
+      "examples": [
+        {
+          "textEn": "Students can study at home.",
+          "textUz": "Talabalar uyda o‘qiy olishadi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "will",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "Used to express future events, intentions or predictions.",
+      "translationUz": "-adi, -moqchi",
+      "definitionUz": "Kelajakda bo‘ladigan hodisa yoki niyatni bildiradi.",
+      "examples": [
+        {
+          "textEn": "You will learn new skills.",
+          "textUz": "Siz yangi ko‘nikmalarni o‘rganasiz."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "be",
+      "partOfSpeech": "auxiliary verb",
+      "lexicalType": "word",
+      "definitionEn": "Used with a present participle to form continuous tenses and a past participle to form the passive.",
+      "translationUz": "-yapti, -iladi",
+      "definitionUz": "Davomiy zamon va majhul nisbatning yordamchi fe’li.",
+      "examples": [
+        {
+          "textEn": "The courses are offered online.",
+          "textUz": "Kurslar onlayn taklif qilinadi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "be",
+      "partOfSpeech": "v",
+      "lexicalType": "word",
+      "definitionEn": "Used to state existence, identity, condition or location.",
+      "translationUz": "bo‘lmoq, mavjud bo‘lmoq",
+      "definitionUz": "Mavjudlik, kimlik, holat yoki joyni ifodalaydi.",
+      "examples": [
+        {
+          "textEn": "The centre is open.",
+          "textUz": "Markaz ochiq."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "for",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to indicate the purpose, intended recipient, duration, or reason for an action.",
+      "translationUz": "uchun, davomida, sababli",
+      "definitionUz": "Maqsad, kimga atalganligi, davomiylik yoki sababni bildiradi.",
+      "examples": [
+        {
+          "textEn": "The course runs for thirty weeks.",
+          "textUz": "Kurs o'ttiz hafta davom etadi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "at",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to indicate a point in time or a precise location.",
+      "translationUz": "-da (vaqt yoki joy)",
+      "definitionUz": "Aniq vaqt yoki joyni bildiradi.",
+      "examples": [
+        {
+          "textEn": "The centre opens at ten.",
+          "textUz": "Markaz soat o‘nda ochiladi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "in",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to express location inside a place or participation in an activity.",
+      "translationUz": "ichida, -da",
+      "definitionUz": "Joy ichida bo‘lish yoki faoliyatga qatnashishni bildiradi.",
+      "examples": [
+        {
+          "textEn": "The teacher is in the classroom.",
+          "textUz": "O‘qituvchi sinfxonada."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "on",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to indicate a physical surface, a subject, or internet-based activity.",
+      "translationUz": "ustida, bo‘yicha, -da",
+      "definitionUz": "Sirt, mavzu yoki internet orqali faoliyatni bildiradi.",
+      "examples": [
+        {
+          "textEn": "The details are on our website.",
+          "textUz": "Tafsilotlar veb-saytimizda."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "about",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to introduce the subject of speech, thought or activity.",
+      "translationUz": "haqida",
+      "definitionUz": "Gap yoki fikrning mavzusini bildiradi.",
+      "examples": [
+        {
+          "textEn": "I will tell you about our courses.",
+          "textUz": "Men sizga kurslarimiz haqida aytaman."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "as",
+      "partOfSpeech": "conjunction",
+      "lexicalType": "word",
+      "definitionEn": "Used to give a reason, describe the time when something happens, or compare things.",
+      "translationUz": "chunki, -ganda, kabi",
+      "definitionUz": "Sabab, vaqt yoki taqqoslashni bildiradi.",
+      "examples": [
+        {
+          "textEn": "As the courses are popular, book early.",
+          "textUz": "Kurslar mashhur bo‘lgani sababli oldindan band qiling."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "by",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to show who performs an action, a method, or a deadline.",
+      "translationUz": "tomonidan, orqali, -gacha",
+      "definitionUz": "Ishni bajaruvchi, usul yoki muddatni bildiradi.",
+      "examples": [
+        {
+          "textEn": "The lessons are reviewed by inspectors.",
+          "textUz": "Darslar inspektorlar tomonidan baholanadi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "that",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "word",
+      "definitionEn": "Used to introduce a defining relative clause referring to someone or something.",
+      "translationUz": "-gan, ...ki",
+      "definitionUz": "Aniqlovchi ergash gapni boshlaydi.",
+      "examples": [
+        {
+          "textEn": "Courses that run for thirty weeks are available.",
+          "textUz": "O‘ttiz hafta davom etadigan kurslar mavjud."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "that",
+      "partOfSpeech": "determiner",
+      "lexicalType": "word",
+      "definitionEn": "Used to refer to a particular person, thing or matter.",
+      "translationUz": "o‘sha, shu",
+      "definitionUz": "Aniq bir shaxs yoki narsaga ishora qiladi.",
+      "examples": [
+        {
+          "textEn": "That is the end of section two.",
+          "textUz": "Bu ikkinchi bo‘limning oxiri."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "who",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "word",
+      "definitionEn": "Used to introduce a relative clause describing people.",
+      "translationUz": "-gan, kim",
+      "definitionUz": "Inson haqida aniqlovchi ergash gapda ishlatiladi.",
+      "examples": [
+        {
+          "textEn": "People who missed school can study here.",
+          "textUz": "Maktabdagi ta’limni o‘tkazib yuborganlar bu yerda o‘qishi mumkin."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "may",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "Used to indicate possibility or give formal permission.",
+      "translationUz": "mumkin, ehtimol",
+      "definitionUz": "Imkoniyat yoki rasmiy ruxsatni bildiradi.",
+      "examples": [
+        {
+          "textEn": "Students may continue to chat.",
+          "textUz": "Talabalar suhbatni davom ettirishi mumkin."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "cannot",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "The negative form of can, expressing inability or lack of permission.",
+      "translationUz": "qila olmaydi, mumkin emas",
+      "definitionUz": "Qila olmaslik yoki ruxsat yo‘qligini bildiradi.",
+      "examples": [
+        {
+          "textEn": "The teacher cannot be online all day.",
+          "textUz": "O‘qituvchi kun bo‘yi onlayn bo‘la olmaydi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "of course",
+      "partOfSpeech": "r",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "Used to confirm something as obvious, expected, or willingly agreed to.",
+      "translationUz": "albatta",
+      "definitionUz": "Biror narsani tabiiy yoki ma’qul deb tasdiqlaydi.",
+      "examples": [
+        {
+          "textEn": "You will of course need an account.",
+          "textUz": "Albatta, sizga hisob kerak bo‘ladi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "as well as",
+      "partOfSpeech": "conjunction",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "In addition to someone or something.",
+      "translationUz": "bilan birga, shuningdek",
+      "definitionUz": "Bir narsaga qo‘shimcha ravishda boshqasini kiritadi.",
+      "examples": [
+        {
+          "textEn": "As well as notes, videos are available.",
+          "textUz": "Konspektlardan tashqari videolar ham mavjud."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "on offer",
+      "partOfSpeech": "adjective",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "Available to be chosen or used.",
+      "translationUz": "taklif etilayotgan, mavjud",
+      "definitionUz": "Tanlash yoki foydalanish uchun mavjud.",
+      "examples": [
+        {
+          "textEn": "Our courses are on offer this term.",
+          "textUz": "Bu semestrda kurslarimiz taklif qilinmoqda."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "in order to",
+      "partOfSpeech": "conjunction",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "For the purpose of doing something.",
+      "translationUz": "uchun, maqsadida",
+      "definitionUz": "Harakatning maqsadini bildiradi.",
+      "examples": [
+        {
+          "textEn": "The centre was founded in order to help adults.",
+          "textUz": "Markaz kattalarga yordam berish maqsadida tashkil etilgan."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "get the most out of",
+      "partOfSpeech": "v",
+      "lexicalType": "verb_phrase",
+      "definitionEn": "To gain the greatest possible benefit from something.",
+      "translationUz": "maksimal foyda olmoq",
+      "definitionUz": "Biror narsadan imkon qadar ko‘p foyda olish.",
+      "examples": [
+        {
+          "textEn": "Get the most out of your camera.",
+          "textUz": "Kamerangizdan maksimal foyda oling."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "store cupboard",
+      "partOfSpeech": "n",
+      "lexicalType": "compound",
+      "definitionEn": "A cupboard for storing food and ingredients, especially basic non-perishable items.",
+      "translationUz": "oziq-ovqat saqlanadigan shkaf",
+      "definitionUz": "Oziq-ovqat va masalliqlar saqlanadigan shkaf.",
+      "examples": [
+        {
+          "textEn": "Use store cupboard ingredients.",
+          "textUz": "Oshxona shkafidagi masalliqlardan foydalaning."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "business-related",
+      "partOfSpeech": "a",
+      "lexicalType": "word",
+      "definitionEn": "Connected with business activities.",
+      "translationUz": "biznesga oid",
+      "definitionUz": "Biznes faoliyatiga aloqador.",
+      "examples": [
+        {
+          "textEn": "We provide business-related courses.",
+          "textUz": "Biz biznesga oid kurslarni taklif qilamiz."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "industry-recognised",
+      "partOfSpeech": "a",
+      "lexicalType": "word",
+      "definitionEn": "Officially or widely accepted as valid within a professional industry.",
+      "translationUz": "sohada tan olingan",
+      "definitionUz": "Kasbiy soha tomonidan tan olingan.",
+      "examples": [
+        {
+          "textEn": "You can achieve an industry-recognised qualification.",
+          "textUz": "Sohada tan olingan malaka olishingiz mumkin."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "adult education",
+      "partOfSpeech": "n",
+      "lexicalType": "compound",
+      "definitionEn": "Education provided to adults beyond compulsory school age.",
+      "translationUz": "kattalar ta’limi",
+      "definitionUz": "Maktab yoshidan o‘tgan kattalar uchun ta’lim.",
+      "examples": [
+        {
+          "textEn": "The adult education centre offers courses.",
+          "textUz": "Kattalar ta’limi markazi kurslar taklif qiladi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "whiteboard",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "A smooth white board used for writing or projecting information during teaching.",
+      "translationUz": "oq doska",
+      "definitionUz": "Dars jarayonida yozish uchun ishlatiladigan oq doska.",
+      "examples": [
+        {
+          "textEn": "Teachers use interactive whiteboards.",
+          "textUz": "O‘qituvchilar interaktiv oq doskalardan foydalanishadi."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "worksheet",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "A sheet of paper or digital document containing exercises or tasks.",
+      "translationUz": "mashq varaqasi",
+      "definitionUz": "Mashqlar yoki topshiriqlar yozilgan varaq.",
+      "examples": [
+        {
+          "textEn": "Students can download worksheets.",
+          "textUz": "Talabalar mashq varaqlarini yuklab olishi mumkin."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "a.m.",
+      "partOfSpeech": "r",
+      "lexicalType": "abbreviation",
+      "definitionEn": "Used after a clock time to mean before noon.",
+      "translationUz": "ertalab",
+      "definitionUz": "Soat vaqtining tushdan oldingi qismi.",
+      "examples": [
+        {
+          "textEn": "Ten a.m.",
+          "textUz": "Ertalab soat o‘n."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "p.m.",
+      "partOfSpeech": "r",
+      "lexicalType": "abbreviation",
+      "definitionEn": "Used after a clock time to mean after noon.",
+      "translationUz": "tushdan keyin",
+      "definitionUz": "Soat vaqtining tushdan keyingi qismi.",
+      "examples": [
+        {
+          "textEn": "Two p.m.",
+          "textUz": "Tushdan keyin soat ikki."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "anyone",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "word",
+      "definitionEn": "Any person, without specifying who.",
+      "translationUz": "har kim",
+      "definitionUz": "Muayyan shaxsni ko‘rsatmasdan har qanday odamni bildiradi.",
+      "examples": [
+        {
+          "textEn": "Anyone can join.",
+          "textUz": "Har kim qatnashishi mumkin."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "thirty",
+      "partOfSpeech": "numeral",
+      "lexicalType": "word",
+      "definitionEn": "The number 30.",
+      "translationUz": "o‘ttiz",
+      "definitionUz": "30 soni.",
+      "examples": [
+        {
+          "textEn": "Thirty weeks.",
+          "textUz": "O‘ttiz hafta."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "mike",
+      "partOfSpeech": "proper_noun",
+      "lexicalType": "word",
+      "definitionEn": "A man's given name used for the speaker of the talk.",
+      "translationUz": "Mayk",
+      "definitionUz": "Suhbatdagi ma’ruzachining ismi.",
+      "examples": [
+        {
+          "textEn": "My name is Mike.",
+          "textUz": "Mening ismim Mayk."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    },
+    {
+      "operation": "propose_lexical_entry_or_sense",
+      "lemma": "langdon street",
+      "partOfSpeech": "proper_noun",
+      "lexicalType": "compound",
+      "definitionEn": "The name of the street mentioned as the education centre's location.",
+      "translationUz": "Lengdon ko‘chasi",
+      "definitionUz": "Ta’lim markazining joylashgan ko‘chasi nomi.",
+      "examples": [
+        {
+          "textEn": "The centre is on Langdon Street.",
+          "textUz": "Markaz Lengdon ko‘chasida."
+        }
+      ],
+      "relations": [],
+      "cefr": null,
+      "senseId": null,
+      "reviewStatus": "pending_attestation_and_duplicate_preflight"
+    }
+  ]
+}
