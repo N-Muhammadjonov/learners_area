@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 445,
+  "count": 446,
   "mappings": [
     {
       "part": 2,
@@ -2622,6 +2622,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2348,
+      "end": 2354,
+      "surface": "school",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "School day: institutional school context; same approved education-institution sense in Part 2"
     },
     {
       "part": 2,
