@@ -4876,6 +4876,22 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 294,
+          "end": 300,
+          "surface": "thanks",
+          "entryId": "0725432f-f481-57f4-8a29-3b25e6c16e8a",
+          "senseId": "efc449ad-d352-4cd6-86d2-a517d4f1a087",
+          "meaningSha": "4d32cdf7dbe28aadf1e1c0ce24b5b0a87733994b64227eddb36267de0c6a4a96"
+        },
+        {
+          "start": 305,
+          "end": 311,
+          "surface": "coming",
+          "entryId": "592403bd-bfc6-520f-8565-34cb150ca685",
+          "senseId": "548a8422-3e2f-41a7-877a-9f1bb6712737",
+          "meaningSha": "d884fe0f9d7ec82a794e063a0acd9468afeb602c53f4255225930043370b0c22"
+        },
+        {
           "start": 312,
           "end": 314,
           "surface": "to",
@@ -5026,6 +5042,14 @@
           "entryId": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
           "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
+        },
+        {
+          "start": 449,
+          "end": 451,
+          "surface": "go",
+          "entryId": "3a9f7ce9-768b-5546-89d2-80eed43ec44e",
+          "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+          "meaningSha": "af5ea9f06e7aa4b392911e692765aeae421c49432a1513056939b02d52cb9a47"
         },
         {
           "start": 452,
@@ -6148,6 +6172,14 @@
           "meaningSha": "114c94aa273ecba9ff9575b1e9c64ef55ec497d2c1cea7e68fc63cecb6cee805"
         },
         {
+          "start": 1468,
+          "end": 1472,
+          "surface": "home",
+          "entryId": "0768a317-daa4-544c-9396-3c78ad07f5e3",
+          "senseId": "7da495ca-815b-4629-994a-caeade745a44",
+          "meaningSha": "7ef92d6fd45d45445a7817593b98c62ee1232ab220b57061f6bc94785ced63fb"
+        },
+        {
           "start": 1485,
           "end": 1489,
           "surface": "just",
@@ -6644,6 +6676,14 @@
           "meaningSha": "b2618e5daffa1b09bd34021472979a7d36b061733bcb999d29077922217f857c"
         },
         {
+          "start": 1928,
+          "end": 1936,
+          "surface": "continue",
+          "entryId": "40737b3d-fb5d-59aa-9503-cbf14f047b04",
+          "senseId": "8ce7b89b-283d-4a0e-b1e1-6c862ca72ebd",
+          "meaningSha": "f07ae0f9cc3285b633edf94ccfc63561ab7d21d87a68a9660475c7af56a88c1f"
+        },
+        {
           "start": 1937,
           "end": 1939,
           "surface": "to",
@@ -6884,6 +6924,14 @@
           "meaningSha": "fa9a6357d9c709c2382e94afb899049e0c6e8ed9b415ede0a7f7cd8ca6c7a1f1"
         },
         {
+          "start": 2154,
+          "end": 2160,
+          "surface": "supply",
+          "entryId": "24825f2a-dce5-5805-a37f-5fab08d47ed6",
+          "senseId": "5013d89f-3d60-4a4a-8184-db8bbef905bf",
+          "meaningSha": "4d269121846fd74ff53b795cb106552ec0a80837d3cd8022e398bad88d87ba36"
+        },
+        {
           "start": 2161,
           "end": 2172,
           "surface": "credit card",
@@ -6994,6 +7042,14 @@
           "entryId": "77c22f9f-a129-54a8-9f67-b4b1a8162782",
           "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
           "meaningSha": "fa9a6357d9c709c2382e94afb899049e0c6e8ed9b415ede0a7f7cd8ca6c7a1f1"
+        },
+        {
+          "start": 2247,
+          "end": 2251,
+          "surface": "come",
+          "entryId": "592403bd-bfc6-520f-8565-34cb150ca685",
+          "senseId": "548a8422-3e2f-41a7-877a-9f1bb6712737",
+          "meaningSha": "d884fe0f9d7ec82a794e063a0acd9468afeb602c53f4255225930043370b0c22"
         },
         {
           "start": 2252,
