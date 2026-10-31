@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 471,
+  "count": 496,
   "mappings": [
     {
       "part": 1,
@@ -500,6 +500,16 @@
     },
     {
       "part": 1,
+      "start": 352,
+      "end": 357,
+      "surface": "given",
+      "senseId": "b42f0184-a106-45d6-a571-54adead5fa2d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "given to you possession transfer"
+    },
+    {
+      "part": 1,
       "start": 361,
       "end": 368,
       "surface": "minutes",
@@ -519,6 +529,16 @@
       "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
       "status": "context_approved_staged_not_published",
       "basis": "infinitive marker before transfer"
+    },
+    {
+      "part": 1,
+      "start": 372,
+      "end": 380,
+      "surface": "transfer",
+      "senseId": "9b771acb-43e6-5013-b5a0-d3a21a771700",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "transfer answers from booklet to answer sheet"
     },
     {
       "part": 1,
@@ -574,6 +594,16 @@
       "kind": "single_word",
       "basis": "reply to question",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 407,
+      "end": 412,
+      "surface": "sheet",
+      "senseId": "e857759c-42ad-4177-bbe6-4ef938f4d181",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "paper answer sheet"
     },
     {
       "part": 1,
@@ -716,6 +746,16 @@
     },
     {
       "part": 1,
+      "start": 511,
+      "end": 517,
+      "surface": "called",
+      "senseId": "58023a19-d501-4024-bfb8-04fe9b908292",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "students named Peter and Jim"
+    },
+    {
+      "part": 1,
       "start": 524,
       "end": 527,
       "surface": "and",
@@ -724,6 +764,16 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 532,
+      "end": 539,
+      "surface": "talking",
+      "senseId": "86957097-6a1f-404e-809b-911b6af85b11",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "two students talking together"
     },
     {
       "part": 1,
@@ -809,6 +859,16 @@
       "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
       "status": "context_approved_staged_not_published",
       "basis": "infinitive marker before look"
+    },
+    {
+      "part": 1,
+      "start": 600,
+      "end": 604,
+      "surface": "look",
+      "senseId": "f0fdeeea-8a0b-461b-8d59-fbe15fcfa63b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "look at questions"
     },
     {
       "part": 1,
@@ -1357,6 +1417,16 @@
     },
     {
       "part": 1,
+      "start": 1007,
+      "end": 1014,
+      "surface": "written",
+      "senseId": "d2942fc4-74ee-4507-ab48-4db649574ff8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "word set down in writing"
+    },
+    {
+      "part": 1,
       "start": 1018,
       "end": 1021,
       "surface": "the",
@@ -1865,6 +1935,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1335,
+      "end": 1341,
+      "surface": "things",
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4d4847",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "unspecified things"
     },
     {
       "part": 1,
@@ -2563,6 +2643,16 @@
     },
     {
       "part": 1,
+      "start": 1919,
+      "end": 1923,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "this house"
+    },
+    {
+      "part": 1,
       "start": 1924,
       "end": 1929,
       "surface": "house",
@@ -2828,6 +2918,16 @@
     },
     {
       "part": 1,
+      "start": 2130,
+      "end": 2134,
+      "surface": "Fine",
+      "senseId": "c78254e4-d842-4e2d-aeda-419a1d035976",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Fine used as agreement"
+    },
+    {
+      "part": 1,
       "start": 2136,
       "end": 2139,
       "surface": "Now",
@@ -2874,6 +2974,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 2174,
+      "end": 2177,
+      "surface": "see",
+      "senseId": "42fe559a-0566-41d3-9b85-ba5e63563fe4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "see physically"
     },
     {
       "part": 1,
@@ -3210,6 +3320,16 @@
     },
     {
       "part": 1,
+      "start": 2416,
+      "end": 2419,
+      "surface": "pay",
+      "senseId": "38a693a4-52a1-4af4-84a4-a55101257b72",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "pay for own calls"
+    },
+    {
+      "part": 1,
       "start": 2432,
       "end": 2437,
       "surface": "calls",
@@ -3269,6 +3389,16 @@
       "kind": "lexical_word",
       "status": "context_approved_staged_not_published",
       "basis": "Word sense validated against exact R2 dictionary definition in Part 1 housing/test context"
+    },
+    {
+      "part": 1,
+      "start": 2483,
+      "end": 2486,
+      "surface": "Yes",
+      "senseId": "db503a51-7a74-4da9-a1b2-ea28a6a62f5d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "yes"
     },
     {
       "part": 1,
@@ -3589,6 +3719,16 @@
     },
     {
       "part": 1,
+      "start": 2734,
+      "end": 2739,
+      "surface": "given",
+      "senseId": "b42f0184-a106-45d6-a571-54adead5fa2d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "given someone heater"
+    },
+    {
+      "part": 1,
       "start": 2740,
       "end": 2742,
       "surface": "me",
@@ -3747,6 +3887,16 @@
     },
     {
       "part": 1,
+      "start": 2889,
+      "end": 2898,
+      "surface": "microwave",
+      "senseId": "9a887fa4-2fb7-4e87-b254-b0a7871ec4cf",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "microwave oven appliance"
+    },
+    {
+      "part": 1,
       "start": 2900,
       "end": 2903,
       "surface": "and",
@@ -3769,6 +3919,26 @@
     },
     {
       "part": 1,
+      "start": 2907,
+      "end": 2913,
+      "surface": "mother",
+      "senseId": "853967fa-05e4-4d2d-88ee-c7e94e7629b9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "mother parent"
+    },
+    {
+      "part": 1,
+      "start": 2914,
+      "end": 2920,
+      "surface": "bought",
+      "senseId": "61ef40c3-3f3f-4768-af8b-95129ccc8f2b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "bought rice cooker by purchase"
+    },
+    {
+      "part": 1,
       "start": 2921,
       "end": 2923,
       "surface": "me",
@@ -3788,6 +3958,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2931,
+      "end": 2937,
+      "surface": "cooker",
+      "senseId": "e61f6744-0973-49a0-b33d-04149049c494",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "rice cooker appliance"
     },
     {
       "part": 1,
@@ -4054,6 +4234,16 @@
     },
     {
       "part": 1,
+      "start": 3142,
+      "end": 3148,
+      "surface": "listen",
+      "senseId": "0e9049d5-673e-4712-9a6b-bf4420ccc086",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "listen"
+    },
+    {
+      "part": 1,
       "start": 3149,
       "end": 3152,
       "surface": "and",
@@ -4297,6 +4487,16 @@
     },
     {
       "part": 1,
+      "start": 3372,
+      "end": 3377,
+      "surface": "Great",
+      "senseId": "51e7b0ac-9b78-4f1a-b118-2854a6188e57",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "great approval"
+    },
+    {
+      "part": 1,
       "start": 3379,
       "end": 3382,
       "surface": "You",
@@ -4425,6 +4625,16 @@
     },
     {
       "part": 1,
+      "start": 3532,
+      "end": 3537,
+      "surface": "could",
+      "senseId": "48f05119-8333-54dd-88e1-8b1981dcc300",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "could possible"
+    },
+    {
+      "part": 1,
       "start": 3538,
       "end": 3552,
       "surface": "give me a lift",
@@ -4483,6 +4693,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3611,
+      "end": 3616,
+      "surface": "could",
+      "senseId": "48f05119-8333-54dd-88e1-8b1981dcc300",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "could possible"
     },
     {
       "part": 1,
@@ -4607,6 +4827,26 @@
       "entryNumber": 28,
       "senseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3741,
+      "end": 3744,
+      "surface": "Yes",
+      "senseId": "db503a51-7a74-4da9-a1b2-ea28a6a62f5d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "yes"
+    },
+    {
+      "part": 1,
+      "start": 3751,
+      "end": 3757,
+      "surface": "should",
+      "senseId": "e28c9529-da74-54eb-ac82-ee2961aa84db",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "should advice"
     },
     {
       "part": 1,
@@ -4741,6 +4981,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3883,
+      "end": 3885,
+      "surface": "OK",
+      "senseId": "0fe24087-afef-409f-9a15-23a997e8dd62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "OK satisfactory"
     },
     {
       "part": 1,
