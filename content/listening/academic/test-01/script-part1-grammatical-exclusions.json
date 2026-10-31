@@ -1,0 +1,809 @@
+{
+  "schema": "test1-part1-user-exempt-grammar-v1",
+  "part": 1,
+  "count": 89,
+  "scope": "Functional grammatical terms and discourse fillers are intentionally not lexical click targets",
+  "exclusions": [
+    {
+      "part": 1,
+      "start": 20,
+      "end": 24,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 25,
+      "end": 29,
+      "surface": "have",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 50,
+      "end": 52,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 68,
+      "end": 73,
+      "surface": "There",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 74,
+      "end": 78,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 143,
+      "end": 147,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 201,
+      "end": 205,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 206,
+      "end": 208,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 240,
+      "end": 242,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 281,
+      "end": 283,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 316,
+      "end": 318,
+      "surface": "At",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 344,
+      "end": 348,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 349,
+      "end": 351,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 437,
+      "end": 439,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 488,
+      "end": 492,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 540,
+      "end": 545,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 605,
+      "end": 607,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 625,
+      "end": 627,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 640,
+      "end": 644,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 649,
+      "end": 653,
+      "surface": "that",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 654,
+      "end": 659,
+      "surface": "there",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 674,
+      "end": 678,
+      "surface": "that",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 679,
+      "end": 682,
+      "surface": "has",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 683,
+      "end": 687,
+      "surface": "been",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 703,
+      "end": 705,
+      "surface": "On",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 760,
+      "end": 764,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 765,
+      "end": 767,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 804,
+      "end": 809,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 976,
+      "end": 981,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 998,
+      "end": 1001,
+      "surface": "has",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1002,
+      "end": 1006,
+      "surface": "been",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1015,
+      "end": 1017,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1036,
+      "end": 1041,
+      "surface": "shall",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1082,
+      "end": 1084,
+      "surface": "as",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1109,
+      "end": 1113,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1220,
+      "end": 1225,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1261,
+      "end": 1263,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1368,
+      "end": 1370,
+      "surface": "OK",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1372,
+      "end": 1376,
+      "surface": "Well",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1413,
+      "end": 1418,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1511,
+      "end": 1516,
+      "surface": "Yours",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1594,
+      "end": 1596,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1675,
+      "end": 1679,
+      "surface": "Yeah",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1864,
+      "end": 1869,
+      "surface": "there",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1881,
+      "end": 1884,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1891,
+      "end": 1895,
+      "surface": "Well",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1945,
+      "end": 1947,
+      "surface": "At",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1960,
+      "end": 1965,
+      "surface": "there",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 1987,
+      "end": 1989,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2059,
+      "end": 2061,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2146,
+      "end": 2151,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2186,
+      "end": 2188,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2265,
+      "end": 2267,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2281,
+      "end": 2283,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2305,
+      "end": 2309,
+      "surface": "Yeah",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2316,
+      "end": 2318,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2340,
+      "end": 2342,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2405,
+      "end": 2407,
+      "surface": "Oh",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2468,
+      "end": 2473,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2509,
+      "end": 2511,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2527,
+      "end": 2529,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2604,
+      "end": 2606,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2630,
+      "end": 2634,
+      "surface": "does",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2659,
+      "end": 2661,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2725,
+      "end": 2728,
+      "surface": "has",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2793,
+      "end": 2796,
+      "surface": "has",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2855,
+      "end": 2858,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2866,
+      "end": 2870,
+      "surface": "Well",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 2983,
+      "end": 2989,
+      "surface": "Mine's",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3020,
+      "end": 3022,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3106,
+      "end": 3108,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3127,
+      "end": 3129,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3242,
+      "end": 3244,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3248,
+      "end": 3250,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3320,
+      "end": 3322,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3339,
+      "end": 3341,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3383,
+      "end": 3386,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3409,
+      "end": 3411,
+      "surface": "Do",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3443,
+      "end": 3445,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3472,
+      "end": 3474,
+      "surface": "In",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3496,
+      "end": 3500,
+      "surface": "Mine",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3505,
+      "end": 3507,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3557,
+      "end": 3560,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3596,
+      "end": 3598,
+      "surface": "do",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3626,
+      "end": 3630,
+      "surface": "Well",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3670,
+      "end": 3672,
+      "surface": "OK",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3689,
+      "end": 3691,
+      "surface": "by",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3700,
+      "end": 3702,
+      "surface": "of",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 1,
+      "start": 3887,
+      "end": 3891,
+      "surface": "Yeah",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    }
+  ]
+}
