@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 292,
+  "count": 349,
   "mappings": [
     {
       "part": 2,
@@ -18,6 +18,36 @@
     },
     {
       "part": 2,
+      "start": 12,
+      "end": 19,
+      "surface": "section",
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 25,
+      "end": 29,
+      "surface": "page",
+      "senseId": "5013052f-0032-4e7e-9315-4c2b5cb99e91",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 33,
+      "end": 40,
+      "surface": "Section",
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 44,
       "end": 47,
       "surface": "You",
@@ -25,6 +55,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 53,
+      "end": 57,
+      "surface": "hear",
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -138,6 +178,36 @@
     },
     {
       "part": 2,
+      "start": 185,
+      "end": 189,
+      "surface": "page",
+      "senseId": "5013052f-0032-4e7e-9315-4c2b5cb99e91",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 197,
+      "end": 203,
+      "surface": "listen",
+      "senseId": "0e9049d5-673e-4712-9a6b-bf4420ccc086",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 204,
+      "end": 213,
+      "surface": "carefully",
+      "senseId": "02512087-7ea4-482e-8f13-77e3e1bfaedb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 214,
       "end": 217,
       "surface": "and",
@@ -145,6 +215,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 218,
+      "end": 224,
+      "surface": "answer",
+      "senseId": "4fa3b9b1-1f6d-431d-b82a-cee3743503a2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -168,6 +248,16 @@
     },
     {
       "part": 2,
+      "start": 266,
+      "end": 270,
+      "surface": "hear",
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 271,
       "end": 273,
       "surface": "me",
@@ -175,6 +265,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 275,
+      "end": 279,
+      "surface": "Good",
+      "senseId": "17054eb9-c7f1-53d2-8586-206d0545aec4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 290,
+      "end": 294,
+      "surface": "like",
+      "senseId": "5e7614d9-9b0d-5062-989f-6380e47c8acd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -290,6 +400,16 @@
     },
     {
       "part": 2,
+      "start": 423,
+      "end": 427,
+      "surface": "like",
+      "senseId": "5e7614d9-9b0d-5062-989f-6380e47c8acd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 428,
       "end": 430,
       "surface": "to",
@@ -297,6 +417,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 431,
+      "end": 433,
+      "surface": "do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -441,6 +571,16 @@
     },
     {
       "part": 2,
+      "start": 558,
+      "end": 561,
+      "surface": "end",
+      "senseId": "018a7278-2e4d-4beb-9a31-ecbc5228b327",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 587,
       "end": 589,
       "surface": "me",
@@ -468,6 +608,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 643,
+      "end": 647,
+      "surface": "here",
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -551,6 +701,16 @@
     },
     {
       "part": 2,
+      "start": 772,
+      "end": 774,
+      "surface": "go",
+      "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 775,
       "end": 777,
       "surface": "to",
@@ -602,6 +762,16 @@
     },
     {
       "part": 2,
+      "start": 840,
+      "end": 844,
+      "surface": "then",
+      "senseId": "812728eb-c461-459c-a98e-1fdfec101e47",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 850,
       "end": 858,
       "surface": "assembly",
@@ -650,6 +820,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 902,
+      "end": 906,
+      "surface": "hall",
+      "senseId": "624c68ae-67b7-42dc-9308-a8798ff22a2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -710,6 +890,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 988,
+      "end": 990,
+      "surface": "or",
+      "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -801,6 +991,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 1133,
+      "end": 1138,
+      "surface": "bring",
+      "senseId": "4f079865-a8ff-49f5-9fdf-faf974797e75",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -906,6 +1106,16 @@
     },
     {
       "part": 2,
+      "start": 1259,
+      "end": 1266,
+      "surface": "morning",
+      "senseId": "0266e1ac-50da-42fc-a1c6-8cbdd3547ef6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 1267,
       "end": 1270,
       "surface": "and",
@@ -946,6 +1156,16 @@
     },
     {
       "part": 2,
+      "start": 1289,
+      "end": 1298,
+      "surface": "afternoon",
+      "senseId": "5f57ea72-5a91-4d68-bc42-1c65ff353fab",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 1305,
       "end": 1308,
       "surface": "are",
@@ -953,6 +1173,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "there are introducing existence"
+    },
+    {
+      "part": 2,
+      "start": 1309,
+      "end": 1312,
+      "surface": "two",
+      "senseId": "d1598030-c59e-4d2a-a25d-922c2538a473",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -1017,6 +1247,16 @@
     },
     {
       "part": 2,
+      "start": 1367,
+      "end": 1369,
+      "surface": "go",
+      "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 1370,
       "end": 1377,
       "surface": "outside",
@@ -1034,6 +1274,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1385,
+      "end": 1389,
+      "surface": "it's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -1117,6 +1367,16 @@
     },
     {
       "part": 2,
+      "start": 1500,
+      "end": 1507,
+      "surface": "example",
+      "senseId": "99e4200d-e030-5be1-a688-de58048fccb7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 1511,
       "end": 1519,
       "surface": "Thursday",
@@ -1164,6 +1424,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 1597,
+      "end": 1599,
+      "surface": "do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -1299,6 +1569,16 @@
     },
     {
       "part": 2,
+      "start": 1724,
+      "end": 1728,
+      "surface": "work",
+      "senseId": "374112ea-6cd8-41cd-b69e-478c9188dc23",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 1732,
       "end": 1741,
       "surface": "something",
@@ -1387,6 +1667,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1904,
+      "end": 1908,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -1520,6 +1810,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 2110,
+      "end": 2111,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -1664,6 +1964,16 @@
     },
     {
       "part": 2,
+      "start": 2250,
+      "end": 2254,
+      "surface": "good",
+      "senseId": "17054eb9-c7f1-53d2-8586-206d0545aec4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 2263,
       "end": 2265,
       "surface": "we",
@@ -1762,6 +2072,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2337,
+      "end": 2340,
+      "surface": "end",
+      "senseId": "018a7278-2e4d-4beb-9a31-ecbc5228b327",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -1907,6 +2227,16 @@
     },
     {
       "part": 2,
+      "start": 2480,
+      "end": 2484,
+      "surface": "hear",
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 2485,
       "end": 2488,
       "surface": "the",
@@ -1977,6 +2307,26 @@
     },
     {
       "part": 2,
+      "start": 2558,
+      "end": 2562,
+      "surface": "page",
+      "senseId": "5013052f-0032-4e7e-9315-4c2b5cb99e91",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 2570,
+      "end": 2576,
+      "surface": "listen",
+      "senseId": "0e9049d5-673e-4712-9a6b-bf4420ccc086",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 2577,
       "end": 2580,
       "surface": "and",
@@ -1984,6 +2334,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2581,
+      "end": 2587,
+      "surface": "answer",
+      "senseId": "4fa3b9b1-1f6d-431d-b82a-cee3743503a2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2054,6 +2414,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2662,
+      "end": 2666,
+      "surface": "here",
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2219,6 +2589,16 @@
     },
     {
       "part": 2,
+      "start": 2868,
+      "end": 2871,
+      "surface": "two",
+      "senseId": "d1598030-c59e-4d2a-a25d-922c2538a473",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 2872,
       "end": 2874,
       "surface": "of",
@@ -2236,6 +2616,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2890,
+      "end": 2893,
+      "surface": "but",
+      "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 2894,
+      "end": 2898,
+      "surface": "most",
+      "senseId": "71723c14-99a9-4d08-9a30-6e997f94d483",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2311,6 +2711,16 @@
     },
     {
       "part": 2,
+      "start": 2957,
+      "end": 2961,
+      "surface": "then",
+      "senseId": "812728eb-c461-459c-a98e-1fdfec101e47",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 2962,
       "end": 2964,
       "surface": "is",
@@ -2338,6 +2748,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2988,
+      "end": 2991,
+      "surface": "two",
+      "senseId": "d1598030-c59e-4d2a-a25d-922c2538a473",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2461,6 +2881,16 @@
     },
     {
       "part": 2,
+      "start": 3197,
+      "end": 3200,
+      "surface": "one",
+      "senseId": "d0344a4c-6150-4079-8483-2c76c2209154",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3201,
       "end": 3203,
       "surface": "of",
@@ -2529,6 +2959,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 3264,
+      "end": 3266,
+      "surface": "go",
+      "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2613,6 +3053,16 @@
     },
     {
       "part": 2,
+      "start": 3352,
+      "end": 3356,
+      "surface": "here",
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3369,
       "end": 3372,
       "surface": "you",
@@ -2630,6 +3080,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3400,
+      "end": 3404,
+      "surface": "hall",
+      "senseId": "624c68ae-67b7-42dc-9308-a8798ff22a2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2743,6 +3203,26 @@
     },
     {
       "part": 2,
+      "start": 3512,
+      "end": 3516,
+      "surface": "hall",
+      "senseId": "624c68ae-67b7-42dc-9308-a8798ff22a2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3527,
+      "end": 3532,
+      "surface": "which",
+      "senseId": "c4997e85-8c01-5ad1-826f-ccbd8d065829",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3536,
       "end": 3539,
       "surface": "you",
@@ -2793,6 +3273,16 @@
     },
     {
       "part": 2,
+      "start": 3603,
+      "end": 3607,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3608,
       "end": 3622,
       "surface": "weekly lessons",
@@ -2804,6 +3294,16 @@
     },
     {
       "part": 2,
+      "start": 3623,
+      "end": 3627,
+      "surface": "here",
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3642,
       "end": 3644,
       "surface": "to",
@@ -2811,6 +3311,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3645,
+      "end": 3647,
+      "surface": "go",
+      "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2864,6 +3374,16 @@
     },
     {
       "part": 2,
+      "start": 3706,
+      "end": 3712,
+      "surface": "answer",
+      "senseId": "4fa3b9b1-1f6d-431d-b82a-cee3743503a2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3713,
       "end": 3717,
       "surface": "your",
@@ -2904,6 +3424,16 @@
     },
     {
       "part": 2,
+      "start": 3742,
+      "end": 3745,
+      "surface": "end",
+      "senseId": "018a7278-2e4d-4beb-9a31-ecbc5228b327",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3746,
       "end": 3748,
       "surface": "of",
@@ -2911,6 +3441,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
+      "start": 3749,
+      "end": 3756,
+      "surface": "section",
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
@@ -2924,6 +3464,16 @@
     },
     {
       "part": 2,
+      "start": 3773,
+      "end": 3777,
+      "surface": "half",
+      "senseId": "0cfa42c8-f33f-4d4b-b29a-4289e1a4feb0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3778,
       "end": 3779,
       "surface": "a",
@@ -2934,6 +3484,16 @@
     },
     {
       "part": 2,
+      "start": 3780,
+      "end": 3786,
+      "surface": "minute",
+      "senseId": "8d41bf57-1b11-4fc4-a055-538d2b39fc34",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
       "start": 3787,
       "end": 3789,
       "surface": "to",
@@ -2941,6 +3501,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3790,
+      "end": 3795,
+      "surface": "check",
+      "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
