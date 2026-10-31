@@ -456,6 +456,16 @@
     },
     {
       "part": 1,
+      "start": 2446,
+      "end": 2457,
+      "surface": "fair enough",
+      "tokenIndex": null,
+      "newSenseRef": "lexical-new-entry:17",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/fair-enough"
+    },
+    {
+      "part": 1,
       "start": 2468,
       "end": 2473,
       "surface": "about",
