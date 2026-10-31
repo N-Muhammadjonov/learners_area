@@ -3,7 +3,7 @@
   "part": 1,
   "status": "editorial_work_queue_only",
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
-  "unresolved": 140,
+  "unresolved": 126,
   "remainingAfterPublishedDrafts": "requires full contextual QA and release publication",
   "categories": {
     "missing_topic_preposition": 4,
@@ -12,9 +12,9 @@
     "missing_modal_auxiliary_sense": 5,
     "missing_conjunction_or_as_well_phrase": 3,
     "organization_name": 1,
-    "manual_existing_sense_or_new_sense_review": 28,
     "missing_modal_sense": 5,
     "missing_interjection_entry": 8,
+    "manual_existing_sense_or_new_sense_review": 17,
     "relative_demonstrative_complementizer_review": 5,
     "missing_auxiliary_copula_form": 8,
     "missing_auxiliary_passive_form": 2,
@@ -28,7 +28,6 @@
     "missing_discourse_sense": 6,
     "tokenization_abbreviation_a_m": 2,
     "numerical_time": 1,
-    "number_word": 3,
     "numeral_phrase": 1,
     "missing_relative_pronoun": 2,
     "needs_copula_or_auxiliary_sense": 4,
@@ -85,12 +84,6 @@
       "end": 425,
       "surface": "Scope",
       "decision": "organization_name"
-    },
-    {
-      "start": 442,
-      "end": 445,
-      "surface": "how",
-      "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
       "start": 446,
@@ -171,12 +164,6 @@
       "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
-      "start": 808,
-      "end": 812,
-      "surface": "when",
-      "decision": "manual_existing_sense_or_new_sense_review"
-    },
-    {
       "start": 818,
       "end": 823,
       "surface": "being",
@@ -205,12 +192,6 @@
       "end": 890,
       "surface": "that",
       "decision": "relative_demonstrative_complementizer_review"
-    },
-    {
-      "start": 954,
-      "end": 957,
-      "surface": "day",
-      "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
       "start": 974,
@@ -277,12 +258,6 @@
       "end": 1204,
       "surface": "is",
       "decision": "missing_auxiliary_copula_form"
-    },
-    {
-      "start": 1249,
-      "end": 1254,
-      "surface": "miles",
-      "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
       "start": 1264,
@@ -363,12 +338,6 @@
       "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
-      "start": 1606,
-      "end": 1610,
-      "surface": "nine",
-      "decision": "number_word"
-    },
-    {
       "start": 1676,
       "end": 1681,
       "surface": "Right",
@@ -403,12 +372,6 @@
       "end": 1888,
       "surface": "will",
       "decision": "missing_modal_auxiliary_sense"
-    },
-    {
-      "start": 1955,
-      "end": 1963,
-      "surface": "thousand",
-      "decision": "number_word"
     },
     {
       "start": 1985,
@@ -492,18 +455,6 @@
       "start": 2403,
       "end": 2408,
       "surface": "there",
-      "decision": "manual_existing_sense_or_new_sense_review"
-    },
-    {
-      "start": 2418,
-      "end": 2422,
-      "surface": "else",
-      "decision": "manual_existing_sense_or_new_sense_review"
-    },
-    {
-      "start": 2456,
-      "end": 2460,
-      "surface": "just",
       "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
@@ -633,12 +584,6 @@
       "decision": "await_under_age_preposition_sense"
     },
     {
-      "start": 2873,
-      "end": 2881,
-      "surface": "eighteen",
-      "decision": "number_word"
-    },
-    {
       "start": 2893,
       "end": 2897,
       "surface": "have",
@@ -649,18 +594,6 @@
       "end": 2959,
       "surface": "that",
       "decision": "relative_demonstrative_complementizer_review"
-    },
-    {
-      "start": 2960,
-      "end": 2965,
-      "surface": "makes",
-      "decision": "manual_existing_sense_or_new_sense_review"
-    },
-    {
-      "start": 2966,
-      "end": 2971,
-      "surface": "sense",
-      "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
       "start": 3007,
@@ -733,18 +666,6 @@
       "end": 3160,
       "surface": "jackets",
       "decision": "await_life_jackets_compound"
-    },
-    {
-      "start": 3166,
-      "end": 3168,
-      "surface": "us",
-      "decision": "manual_existing_sense_or_new_sense_review"
-    },
-    {
-      "start": 3169,
-      "end": 3173,
-      "surface": "when",
-      "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
       "start": 3203,
@@ -829,12 +750,6 @@
       "end": 3736,
       "surface": "on",
       "decision": "missing_preposition_sense"
-    },
-    {
-      "start": 3741,
-      "end": 3749,
-      "surface": "entrance",
-      "decision": "manual_existing_sense_or_new_sense_review"
     },
     {
       "start": 3782,
