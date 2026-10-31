@@ -5,9 +5,20 @@
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
-  "note": "Selected release senses and exact transcript offsets. These are NOT live lexical_occurrences, and must be converted to validated occurrence IDs in release commit before loading.",
-  "count": 64,
+  "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
+  "count": 73,
   "mappings": [
+    {
+      "part": 1,
+      "start": 0,
+      "end": 10,
+      "surface": "Recordings",
+      "entryNumber": null,
+      "senseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
+      "kind": "single_word",
+      "basis": "a signal that encodes audio or images",
+      "status": "context_approved_staged_not_published"
+    },
     {
       "part": 1,
       "start": 40,
@@ -16,6 +27,28 @@
       "entryNumber": 35,
       "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 62,
+      "end": 66,
+      "surface": "hear",
+      "entryNumber": null,
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "kind": "single_word",
+      "basis": "perceive sound",
+      "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 98,
+      "end": 102,
+      "surface": "read",
+      "entryNumber": null,
+      "senseId": "0367d59a-f555-46f4-a007-6a694836da3b",
+      "kind": "single_word",
+      "basis": "interpret written text",
+      "status": "context_approved_staged_not_published"
     },
     {
       "part": 1,
@@ -55,12 +88,78 @@
     },
     {
       "part": 1,
+      "start": 232,
+      "end": 236,
+      "surface": "test",
+      "entryNumber": null,
+      "senseId": "654730fe-5d4b-4096-a7e6-3ebb32675645",
+      "kind": "single_word",
+      "basis": "set of questions evaluating knowledge",
+      "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 248,
+      "end": 256,
+      "surface": "sections",
+      "entryNumber": null,
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "kind": "single_word",
+      "basis": "a section of the full test",
+      "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 258,
+      "end": 263,
+      "surface": "Write",
+      "entryNumber": null,
+      "senseId": "f0f1a81a-a52d-499e-a7bb-92cfbf9f01c9",
+      "kind": "single_word",
+      "basis": "write words on a surface",
+      "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
       "start": 307,
       "end": 314,
       "surface": "booklet",
       "entryNumber": null,
       "senseId": "d5fa7bf0-9aaa-4802-bf65-a8fd58493013",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 334,
+      "end": 338,
+      "surface": "test",
+      "entryNumber": null,
+      "senseId": "654730fe-5d4b-4096-a7e6-3ebb32675645",
+      "kind": "single_word",
+      "basis": "academic test",
+      "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 361,
+      "end": 368,
+      "surface": "minutes",
+      "entryNumber": null,
+      "senseId": "8d41bf57-1b11-4fc4-a055-538d2b39fc34",
+      "kind": "single_word",
+      "basis": "60-second time unit via lemma minute",
+      "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 400,
+      "end": 406,
+      "surface": "answer",
+      "entryNumber": null,
+      "senseId": "5b545620-0f52-43d7-8e77-83126b86cd1a",
+      "kind": "single_word",
+      "basis": "reply to question",
+      "status": "context_approved_staged_not_published"
     },
     {
       "part": 1,
