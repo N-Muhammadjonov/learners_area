@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 395,
+  "count": 394,
   "mappings": [
     {
       "part": 1,
@@ -3957,16 +3957,6 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
-    },
-    {
-      "part": 1,
-      "start": 3799,
-      "end": 3805,
-      "surface": "rent's",
-      "senseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
-      "kind": "lexical_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Word sense validated against exact R2 dictionary definition in Part 1 housing/test context"
     },
     {
       "part": 1,
