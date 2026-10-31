@@ -188,13 +188,13 @@ async def deliver(req,key,head):
                 return RedirectResponse(url,status_code=302,headers=PRIVATE)
             forwarded={k:req.headers[k] for k in ('range','if-range') if k in req.headers}
             response=await upstream_response('HEAD' if head else 'GET',url,forwarded,PRIVATE)
-            if response.status_code!=503:return response
+            if response.status_code!=503 or not key.startswith('listening/'):return response
             # The current owner/session was verified above. If the Worker
             # backchannel is unavailable, use the existing private R2 transport.
             # Never return a public/presigned URL to the browser.
             info=await head_object(key)
             if info is None:return core.j({'error':'not_found'},404,PRIVATE)
-            h={**PRIVATE,'Content-Type':info.get('contentType') or 'audio/mpeg' if key.lower().endswith('.mp3') else info.get('contentType') or 'application/octet-stream','Accept-Ranges':'bytes'}
+            h={**PRIVATE,'Content-Type':info.get('contentType') or ('audio/mpeg' if key.lower().endswith('.mp3') else 'application/octet-stream'),'Accept-Ranges':'bytes'}
             if info.get('etag'):h['ETag']=info['etag']
             if info.get('lastModified'):
                 from email.utils import formatdate
