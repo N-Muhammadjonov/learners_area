@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 84,
+  "count": 100,
   "mappings": [
     {
       "part": 1,
@@ -165,6 +165,17 @@
     },
     {
       "part": 1,
+      "start": 298,
+      "end": 306,
+      "surface": "question",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 307,
       "end": 314,
       "surface": "booklet",
@@ -229,6 +240,17 @@
     },
     {
       "part": 1,
+      "start": 427,
+      "end": 434,
+      "surface": "section",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 440,
       "end": 444,
       "surface": "page",
@@ -240,12 +262,45 @@
     },
     {
       "part": 1,
+      "start": 455,
+      "end": 463,
+      "surface": "question",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 464,
       "end": 471,
       "surface": "booklet",
       "entryNumber": null,
       "senseId": "d5fa7bf0-9aaa-4802-bf65-a8fd58493013",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 473,
+      "end": 480,
+      "surface": "Section",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 493,
+      "end": 497,
+      "surface": "hear",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
     },
     {
       "part": 1,
@@ -356,6 +411,17 @@
     },
     {
       "part": 1,
+      "start": 1072,
+      "end": 1081,
+      "surface": "questions",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 1097,
       "end": 1104,
       "surface": "because",
@@ -365,12 +431,34 @@
     },
     {
       "part": 1,
+      "start": 1118,
+      "end": 1122,
+      "surface": "hear",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 1127,
       "end": 1136,
       "surface": "recording",
       "entryNumber": 36,
       "senseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1180,
+      "end": 1189,
+      "surface": "questions",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
     },
     {
       "part": 1,
@@ -509,6 +597,17 @@
     },
     {
       "part": 1,
+      "start": 1924,
+      "end": 1929,
+      "surface": "house",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "1f4fd880-5e9f-4f1f-a29b-fea346ea4424",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 1936,
       "end": 1942,
       "surface": "garage",
@@ -560,6 +659,17 @@
       "entryNumber": null,
       "senseId": "2a7a2544-4a34-437e-80e0-3e44bcbdcf31",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2288,
+      "end": 2293,
+      "surface": "house",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "1f4fd880-5e9f-4f1f-a29b-fea346ea4424",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
     },
     {
       "part": 1,
@@ -680,12 +790,56 @@
     },
     {
       "part": 1,
+      "start": 3044,
+      "end": 3048,
+      "surface": "hear",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 3065,
       "end": 3077,
       "surface": "conversation",
       "entryNumber": null,
       "senseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3109,
+      "end": 3118,
+      "surface": "questions",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 3130,
+      "end": 3134,
+      "surface": "page",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "5013052f-0032-4e7e-9315-4c2b5cb99e91",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 3160,
+      "end": 3169,
+      "surface": "questions",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
     },
     {
       "part": 1,
@@ -779,6 +933,17 @@
     },
     {
       "part": 1,
+      "start": 3771,
+      "end": 3776,
+      "surface": "house",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "1f4fd880-5e9f-4f1f-a29b-fea346ea4424",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
       "start": 3830,
       "end": 3834,
       "surface": "exam",
@@ -803,6 +968,17 @@
       "entryNumber": 30,
       "senseId": "0244d1c2-fab3-447e-b2f5-782e835f854d",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3931,
+      "end": 3938,
+      "surface": "section",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
+      "status": "context_approved_staged_not_published",
+      "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
     }
   ]
 }
