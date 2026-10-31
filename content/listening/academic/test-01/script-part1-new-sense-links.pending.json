@@ -146,6 +146,26 @@
     },
     {
       "part": 1,
+      "start": 649,
+      "end": 653,
+      "surface": "that",
+      "tokenIndex": 118,
+      "newSenseRef": "that:CLAUSE_CONNECTOR",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/that"
+    },
+    {
+      "part": 1,
+      "start": 674,
+      "end": 678,
+      "surface": "that",
+      "tokenIndex": 123,
+      "newSenseRef": "that:RELATIVE_PRONOUN",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/that"
+    },
+    {
+      "part": 1,
       "start": 679,
       "end": 682,
       "surface": "has",
@@ -286,6 +306,16 @@
     },
     {
       "part": 1,
+      "start": 1368,
+      "end": 1370,
+      "surface": "OK",
+      "tokenIndex": 261,
+      "newSenseRef": "okay:AGREEMENT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/okay"
+    },
+    {
+      "part": 1,
       "start": 1413,
       "end": 1418,
       "surface": "about",
@@ -293,6 +323,16 @@
       "newSenseRef": "about:SUBJECT",
       "status": "awaiting_immutable_release_sense_id",
       "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 1511,
+      "end": 1516,
+      "surface": "Yours",
+      "tokenIndex": 290,
+      "newSenseRef": "yours:POSSESSIVE_PRONOUN",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/possessive-pronouns"
     },
     {
       "part": 1,
@@ -546,6 +586,16 @@
     },
     {
       "part": 1,
+      "start": 3496,
+      "end": 3500,
+      "surface": "Mine",
+      "tokenIndex": 682,
+      "newSenseRef": "mine:POSSESSIVE_PRONOUN",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/mine"
+    },
+    {
+      "part": 1,
       "start": 3557,
       "end": 3560,
       "surface": "can",
@@ -553,6 +603,16 @@
       "newSenseRef": "can:ABILITY",
       "status": "awaiting_immutable_release_sense_id",
       "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/can"
+    },
+    {
+      "part": 1,
+      "start": 3670,
+      "end": 3672,
+      "surface": "OK",
+      "tokenIndex": 717,
+      "newSenseRef": "okay:AGREEMENT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/okay"
     },
     {
       "part": 1,
