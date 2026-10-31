@@ -3,9 +3,9 @@
   "part": 1,
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
   "sourceBodySha": "700860086d027a47f567269463c7a901a57d46ec6ee0f00c4e1ea65dbba4bfa8",
-  "mappedSpans": 553,
-  "unresolvedOccurrences": 140,
-  "unresolvedUniqueForms": 74,
+  "mappedSpans": 563,
+  "unresolvedOccurrences": 129,
+  "unresolvedUniqueForms": 64,
   "inventory": [
     {
       "start": 47,
@@ -54,13 +54,6 @@
       "end": 425,
       "surface": "Scope",
       "context": " answer questions one to five. WOMAN: Scope charity office, how can I help you? MAN: Oh hel",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 442,
-      "end": 445,
-      "surface": "how",
-      "context": "to five. WOMAN: Scope charity office, how can I help you? MAN: Oh hello. I'm ringing abou",
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
@@ -155,13 +148,6 @@
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
-      "start": 808,
-      "end": 812,
-      "surface": "when",
-      "context": "AN: Of course. MAN: I don't even know when it's being held. WOMAN: It's taking place on th",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
       "start": 818,
       "end": 823,
       "surface": "being",
@@ -194,13 +180,6 @@
       "end": 890,
       "surface": "that",
       "context": " place on the second of July. MAN: Is that a Saturday? WOMAN: No, it's a Sunday. It's a mu",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 954,
-      "end": 957,
-      "surface": "day",
-      "context": "'s a Sunday. It's a much more popular day and more people can take part then. MAN: Right.",
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
@@ -278,13 +257,6 @@
       "end": 1204,
       "surface": "is",
       "context": "t's M-A-R-I-N-A. Do you know where it is? MAN: I'm not sure. WOMAN: It's a couple of mil",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 1249,
-      "end": 1254,
-      "surface": "miles",
-      "context": "I'm not sure. WOMAN: It's a couple of miles past the Palace Pier. MAN: Oh yes, I know it. W",
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
@@ -533,20 +505,6 @@
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
-      "start": 2418,
-      "end": 2422,
-      "surface": "else",
-      "context": " six to ten. WOMAN: Is there anything else you need to know? MAN: Could you just tell me a",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 2456,
-      "end": 2460,
-      "surface": "just",
-      "context": "else you need to know? MAN: Could you just tell me a little bit more about the teams? WOMA",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
       "start": 2487,
       "end": 2492,
       "surface": "about",
@@ -715,20 +673,6 @@
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
-      "start": 2960,
-      "end": 2965,
-      "surface": "makes",
-      "context": "rmission to take part. MAN: Yes, that makes sense. WOMAN: It isn't dangerous, but we do hav",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 2966,
-      "end": 2971,
-      "surface": "sense",
-      "context": "on to take part. MAN: Yes, that makes sense. WOMAN: It isn't dangerous, but we do have boat",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
       "start": 3007,
       "end": 3009,
       "surface": "do",
@@ -810,20 +754,6 @@
       "end": 3160,
       "surface": "jackets",
       "context": "jacket as well. And you can hire life jackets from us when your team arrives. MAN: What do yo",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 3166,
-      "end": 3168,
-      "surface": "us",
-      "context": "l. And you can hire life jackets from us when your team arrives. MAN: What do you advise",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 3169,
-      "end": 3173,
-      "surface": "when",
-      "context": "And you can hire life jackets from us when your team arrives. MAN: What do you advise peop",
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
@@ -922,13 +852,6 @@
       "end": 3736,
       "surface": "on",
       "context": "need to decide on one and then put it on the entrance form, which I'll send you. MAN: Oh",
-      "status": "needs_contextual_sense_or_multiword_resolution"
-    },
-    {
-      "start": 3741,
-      "end": 3749,
-      "surface": "entrance",
-      "context": " decide on one and then put it on the entrance form, which I'll send you. MAN: Oh, okay. WOMAN",
       "status": "needs_contextual_sense_or_multiword_resolution"
     },
     {
