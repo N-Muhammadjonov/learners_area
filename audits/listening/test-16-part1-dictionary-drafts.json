@@ -528,6 +528,378 @@
           "textUz": "Jamoa sardori kim bo‘ladi?"
         }
       ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "about",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to indicate the topic or subject of speech, thought, or an activity.",
+      "translationUz": "haqida",
+      "definitionUz": "Suhbat, fikr yoki faoliyatning mavzusini ko‘rsatadi.",
+      "examples": [
+        {
+          "textEn": "I'm ringing about the race.",
+          "textUz": "Men poyga haqida telefon qilyapman."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "as",
+      "partOfSpeech": "conjunction",
+      "lexicalType": "word",
+      "definitionEn": "Used to show that two things happen at the same time.",
+      "translationUz": "-ganda, paytida",
+      "definitionUz": "Ikki hodisa bir vaqtda sodir bo‘lishini bildiradi.",
+      "examples": [
+        {
+          "textEn": "Answer the questions as you listen.",
+          "textUz": "Tinglayotganingizda savollarga javob bering."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "as",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to describe the role, function, or identity of a person or thing.",
+      "translationUz": "sifatida",
+      "definitionUz": "Shaxs yoki narsaning vazifasini, maqomini yoki rolini bildiradi.",
+      "examples": [
+        {
+          "textEn": "It's not an age limit as such.",
+          "textUz": "Bu aynan yosh chegarasi emas."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "by",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Not later than a specified time.",
+      "translationUz": "-gacha",
+      "definitionUz": "Belgilangan vaqtdan kech bo‘lmasligini bildiradi.",
+      "examples": [
+        {
+          "textEn": "Be there by nine.",
+          "textUz": "Soat to‘qqizgacha u yerda bo‘ling."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": null,
+      "referenceNewLexeme": {
+        "lemma": "by",
+        "pos": "preposition",
+        "lexicalType": "word"
+      },
+      "definitionEn": "Used to show the action or means by which something is achieved.",
+      "translationUz": "orqali, bilan",
+      "definitionUz": "Ish-harakat bajarilishining usuli yoki vositasini bildiradi.",
+      "examples": [
+        {
+          "textEn": "Raise money by getting sponsors.",
+          "textUz": "Homiylar topish orqali pul yig‘ing."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "for",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Because of the reason or purpose stated.",
+      "translationUz": "sababli, uchun",
+      "definitionUz": "Aytilgan sabab yoki maqsadni ko‘rsatadi.",
+      "examples": [
+        {
+          "textEn": "For that reason, bring a life jacket.",
+          "textUz": "Shu sababdan qutqaruv jiletini oling."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": null,
+      "referenceNewLexeme": {
+        "lemma": "on",
+        "pos": "preposition",
+        "lexicalType": "word"
+      },
+      "definitionEn": "Used to indicate the subject or topic of a discussion or decision.",
+      "translationUz": "haqida, bo‘yicha",
+      "definitionUz": "Muhokama yoki qarorning mavzusini ko‘rsatadi.",
+      "examples": [
+        {
+          "textEn": "Agree on who will be captain.",
+          "textUz": "Kim sardor bo‘lishi haqida kelishing."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": null,
+      "referenceNewLexeme": {
+        "lemma": "in",
+        "pos": "preposition",
+        "lexicalType": "word"
+      },
+      "definitionEn": "Used with names of places to say where something happens or is situated.",
+      "translationUz": "-da, ichida",
+      "definitionUz": "Joy nomi bilan hodisaning sodir bo‘lish joyini ko‘rsatadi.",
+      "examples": [
+        {
+          "textEn": "The holiday is in Hong Kong.",
+          "textUz": "Ta’til Gonkongda bo‘ladi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "under",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Younger than a stated age.",
+      "translationUz": "yoshga to‘lmagan",
+      "definitionUz": "Ko‘rsatilgan yoshdan kichik ekanini bildiradi.",
+      "examples": [
+        {
+          "textEn": "A member who's under eighteen needs permission.",
+          "textUz": "O‘n sakkiz yoshga to‘lmagan a’zoga ruxsat kerak."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "into",
+      "partOfSpeech": "preposition",
+      "lexicalType": "word",
+      "definitionEn": "Used to show entry into a competition, group, or organized activity.",
+      "translationUz": "-ga, ichiga",
+      "definitionUz": "Tanlov, guruh yoki tashkillashtirilgan faoliyatga kiritilishni bildiradi.",
+      "examples": [
+        {
+          "textEn": "You will be entered into a prize draw.",
+          "textUz": "Siz sovrinli qur’aga kiritilasiz."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "going to",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "verb_phrase",
+      "definitionEn": "Used to express an intention or a future event predicted from the present.",
+      "translationUz": "-moqchi, -adi",
+      "definitionUz": "Reja yoki kelajakda yuz berishi kutilgan hodisani bildiradi.",
+      "examples": [
+        {
+          "textEn": "Who's going to be the captain?",
+          "textUz": "Kim sardor bo‘lmoqchi?"
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "there",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "word",
+      "definitionEn": "Used with be to indicate that something exists.",
+      "translationUz": "bor",
+      "definitionUz": "Biror narsa mavjudligini bildirish uchun be fe’li bilan keladi.",
+      "examples": [
+        {
+          "textEn": "Is there anything else?",
+          "textUz": "Yana biror narsa bormi?"
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": null,
+      "referenceNewLexeme": {
+        "lemma": "who's",
+        "pos": "pronoun",
+        "lexicalType": "fixed_expression"
+      },
+      "definitionEn": "Short form of who has.",
+      "translationUz": "kim ...gan?",
+      "definitionUz": "Who has birikmasining qisqartma shakli.",
+      "examples": [
+        {
+          "textEn": "Who's got the form?",
+          "textUz": "Hujjat kimda bor?"
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "weather's",
+      "partOfSpeech": "fixed_expression",
+      "lexicalType": "word",
+      "definitionEn": "Short form of weather is.",
+      "translationUz": "ob-havo ...",
+      "definitionUz": "Weather is birikmasining qisqartma shakli.",
+      "examples": [
+        {
+          "textEn": "The weather's bad.",
+          "textUz": "Ob-havo yomon."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "detail",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "A particular fact or piece of information about something.",
+      "translationUz": "tafsilot, ma’lumot",
+      "definitionUz": "Biror narsa haqidagi alohida fakt yoki ma’lumot.",
+      "examples": [
+        {
+          "textEn": "I'll send you the details.",
+          "textUz": "Men sizga tafsilotlarni yuboraman."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "a.m.",
+      "partOfSpeech": "r",
+      "lexicalType": "word",
+      "definitionEn": "Before noon, used after a clock time.",
+      "translationUz": "ertalab, tushgacha",
+      "definitionUz": "Soat vaqtidan keyin kelib tushdan oldingi vaqtni bildiradi.",
+      "examples": [
+        {
+          "textEn": "The heats begin at ten a.m.",
+          "textUz": "Saralash ertalab soat o‘nda boshlanadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "brighton marina",
+      "partOfSpeech": "n",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "The named marina in Brighton, United Kingdom.",
+      "translationUz": "Brayton marinasi",
+      "definitionUz": "Buyuk Britaniyaning Brayton shahridagi marina nomi.",
+      "examples": [
+        {
+          "textEn": "The race is at Brighton Marina.",
+          "textUz": "Poyga Brayton marinasida."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "hong kong",
+      "partOfSpeech": "n",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "A special administrative region of China on its southern coast.",
+      "translationUz": "Gonkong",
+      "definitionUz": "Xitoyning janubiy qirg‘og‘ida joylashgan maxsus ma’muriy hudud.",
+      "examples": [
+        {
+          "textEn": "The prize is a holiday in Hong Kong.",
+          "textUz": "Sovrin Gonkongda ta’til."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "palace pier",
+      "partOfSpeech": "n",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "A named pier in Brighton, United Kingdom.",
+      "translationUz": "Palas Piyr",
+      "definitionUz": "Buyuk Britaniyaning Brayton shahridagi pristan nomi.",
+      "examples": [
+        {
+          "textEn": "It's past the Palace Pier.",
+          "textUz": "Bu Palas Piyrdan narida."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "scope",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "The name of the charity organization mentioned in this conversation.",
+      "translationUz": "Scope xayriya tashkiloti",
+      "definitionUz": "Suhbatda tilga olingan xayriya tashkilotining nomi.",
+      "examples": [
+        {
+          "textEn": "Scope charity office.",
+          "textUz": "Scope xayriya tashkiloti idorasi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "nine-thirty",
+      "partOfSpeech": "numeral",
+      "lexicalType": "word",
+      "definitionEn": "Half past nine on the clock.",
+      "translationUz": "soat to‘qqiz yarim",
+      "definitionUz": "Soat 9:30 ni bildiradi.",
+      "examples": [
+        {
+          "textEn": "Register at nine-thirty.",
+          "textUz": "Soat to‘qqiz yarimda ro‘yxatdan o‘ting."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "thirty-five",
+      "partOfSpeech": "numeral",
+      "lexicalType": "word",
+      "definitionEn": "The number 35.",
+      "translationUz": "o‘ttiz besh",
+      "definitionUz": "35 soni.",
+      "examples": [
+        {
+          "textEn": "Raise thirty-five pounds.",
+          "textUz": "O‘ttiz besh funt yig‘ing."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "july",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "definitionEn": "The seventh month of the year.",
+      "translationUz": "iyul",
+      "definitionUz": "Yilning yettinchi oyi.",
+      "examples": [
+        {
+          "textEn": "The second of July.",
+          "textUz": "Ikkinchi iyul."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "a.m.",
+      "partOfSpeech": "fixed_expression",
+      "lexicalType": "word",
+      "definitionEn": "A written abbreviation meaning before midday in a clock time.",
+      "translationUz": "ertalab",
+      "definitionUz": "Soat vaqtini tushdan oldinligini ko‘rsatuvchi qisqartma.",
+      "examples": [
+        {
+          "textEn": "Ten a.m.",
+          "textUz": "Ertalab o‘n."
+        }
+      ]
     }
   ],
   "existingLexemeFormExtensions": [
