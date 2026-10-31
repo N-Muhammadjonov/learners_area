@@ -214,8 +214,7 @@
       ]
     },
     {
-      "operation": "add_sense",
-      "lexemeId": "6c594cb9-43dd-5ba0-ba3a-9225c2430593",
+      "operation": "add_lexeme",
       "definitionEn": "Used at the start of an answer, explanation or conversation turn to organize what is said next.",
       "translationUz": "xo‘sh, yaxshi, demak",
       "definitionUz": "Javob yoki tushuntirishni boshlash va fikrni bog‘lash uchun ishlatiladigan kirish so‘z.",
@@ -224,7 +223,10 @@
           "textEn": "Well, you need to have a crew of twenty people.",
           "textUz": "Xo‘sh, yigirma kishilik ekipaj kerak."
         }
-      ]
+      ],
+      "lemma": "well",
+      "partOfSpeech": "interjection",
+      "lexicalType": "word"
     },
     {
       "operation": "add_sense",
@@ -324,8 +326,8 @@
       "definitionUz": "Perfect zamon shakllarini yasashda past participle bilan ishlatiladigan yordamchi fe’l.",
       "examples": [
         {
-          "textEn": "I've got a group of twenty people.",
-          "textUz": "Menda yigirma kishilik guruh bor."
+          "textEn": "I have already spoken to the team.",
+          "textUz": "Men jamoa bilan allaqachon gaplashdim."
         }
       ]
     },
@@ -424,9 +426,9 @@
       "lemma": "who's",
       "partOfSpeech": "pronoun",
       "lexicalType": "fixed_expression",
-      "definitionEn": "A short form of who is or who has.",
+      "definitionEn": "A short form of who is.",
       "translationUz": "kim ...?",
-      "definitionUz": "Who is yoki who has birikmalarining qisqartma shakli.",
+      "definitionUz": "Who is birikmasining qisqartma shakli.",
       "examples": [
         {
           "textEn": "You need to agree on who's going to be the team captain.",
@@ -439,9 +441,9 @@
       "lemma": "where's",
       "partOfSpeech": "r",
       "lexicalType": "fixed_expression",
-      "definitionEn": "A short form of where is or where has.",
+      "definitionEn": "A short form of where is.",
       "translationUz": "qayerda ...?",
-      "definitionUz": "Where is yoki where has birikmalarining qisqartma shakli.",
+      "definitionUz": "Where is birikmasining qisqartma shakli.",
       "examples": [
         {
           "textEn": "And where's it being held?",
