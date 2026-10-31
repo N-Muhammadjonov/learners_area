@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 463,
+  "count": 465,
   "mappings": [
     {
       "part": 2,
@@ -398,6 +398,16 @@
     },
     {
       "part": 2,
+      "start": 286,
+      "end": 289,
+      "surface": "I'd",
+      "senseId": "36078df4-16ca-5df1-a444-7a697def6388",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "I'd like to: contraction of I would, not I had"
+    },
+    {
+      "part": 2,
       "start": 290,
       "end": 294,
       "surface": "like",
@@ -577,6 +587,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "What I'd like to do: relative pronoun the thing"
+    },
+    {
+      "part": 2,
+      "start": 419,
+      "end": 422,
+      "surface": "I'd",
+      "senseId": "36078df4-16ca-5df1-a444-7a697def6388",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "I'd like to: contraction of I would, not I had"
     },
     {
       "part": 2,
