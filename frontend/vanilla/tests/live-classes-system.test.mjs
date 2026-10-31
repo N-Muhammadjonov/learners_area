@@ -518,9 +518,19 @@ test('Chat microsecond ordering: messages within the same millisecond follow Pos
   return {status:200,body:{ok:true,joined:true}};
  });
  await mountRoom(h.ctx,CLASS_LIVE_ID);
- const order=[...h.root.querySelectorAll('[data-chat-message]')].map(el=>el.getAttribute('data-chat-message'));
- assert.deepEqual(order,messages.map(m=>m.id),'Messages keep full microsecond ordering, even when UUIDs are reversed');
- h.ac.abort();
+ try{
+  // mountRoom starts its asynchronous view load without awaiting it.
+  // Wait for the actual DOM state, not an arbitrary fixed sleep.
+  for(let n=0;n<100 && h.root.querySelectorAll('[data-chat-message]').length<messages.length;n++){
+   await new Promise(resolve=>setTimeout(resolve,10));
+  }
+  const order=[...h.root.querySelectorAll('[data-chat-message]')].map(el=>el.getAttribute('data-chat-message'));
+  assert.deepEqual(order,messages.map(m=>m.id),'Messages keep full microsecond ordering, even when UUIDs are reversed');
+ }finally{
+  // Ensure a failed assertion cannot leak WebSockets or attendance timers.
+  h.ac.abort();
+  h.dom.window.close();
+ }
 });
 
 test('Task 5: reconnection / sync_required recovers 120 missed messages across 3 pages (50 + 50 + 20) in chronological order without duplicates',async()=>{
