@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 458,
+  "count": 453,
   "mappings": [
     {
       "part": 2,
@@ -1734,26 +1734,6 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
-    },
-    {
-      "part": 2,
-      "start": 1431,
-      "end": 1433,
-      "surface": "as",
-      "senseId": "5f5a32f1-544c-4f8e-a7ba-174c8d72214c",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "As much as: comparative degree adverb contextual reading"
-    },
-    {
-      "part": 2,
-      "start": 1434,
-      "end": 1438,
-      "surface": "much",
-      "senseId": "35cbaf7a-821a-4902-a709-3b17ec1e5c6e",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Manually checked matching context in Test 1 Part 2 against already staged dictionary sense"
     },
     {
       "part": 2,
@@ -3661,16 +3641,6 @@
     },
     {
       "part": 2,
-      "start": 3063,
-      "end": 3067,
-      "surface": "room",
-      "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Computer room: room in building, as validated Part 1"
-    },
-    {
-      "part": 2,
       "start": 3075,
       "end": 3079,
       "surface": "that",
@@ -3869,16 +3839,6 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
-    },
-    {
-      "part": 2,
-      "start": 3242,
-      "end": 3246,
-      "surface": "room",
-      "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Music room: room in building as validated Part 1"
     },
     {
       "part": 2,
@@ -4200,16 +4160,6 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
-    },
-    {
-      "part": 2,
-      "start": 3512,
-      "end": 3516,
-      "surface": "hall",
-      "senseId": "624c68ae-67b7-42dc-9308-a8798ff22a2c",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
     },
     {
       "part": 2,
