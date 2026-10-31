@@ -48,5 +48,86 @@
       "wears a life jacket",
       "bring some spare clothes"
     ]
-  }
+  },
+  "part1VerifiedMissingEntries": [
+    {
+      "lemma": "seafront",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "cefr": null,
+      "definitionEn": "The part of a coastal town next to the beach or sea, often including a road and buildings facing the water.",
+      "definitionUz": "dengiz bo‘yidagi shahar qirg‘oq qismi, sohilbo‘yi",
+      "attestationUrl": "https://dictionary.cambridge.org/dictionary/english/seafront",
+      "source": "Cambridge English Dictionary",
+      "surface": "seafront",
+      "start": 1380,
+      "end": 1388,
+      "exampleEn": "You can cycle along the seafront.",
+      "exampleUz": "Sohil bo‘ylab velosiped haydashingiz mumkin.",
+      "synonyms": [],
+      "antonyms": [],
+      "relationsStatus": "not_attested_no_fabrication",
+      "releaseStatus": "editorial_staged_not_inserted"
+    },
+    {
+      "lemma": "dragon boat",
+      "partOfSpeech": "n",
+      "lexicalType": "multiword",
+      "cefr": null,
+      "definitionEn": "A long racing boat decorated to resemble a dragon and propelled by a team of paddlers.",
+      "definitionUz": "ajdarho shaklida bezatilgan, jamoa eshkak eshadigan poyga qayig‘i",
+      "attestationUrl": "https://dictionary.cambridge.org/dictionary/english/dragon-boat",
+      "source": "Cambridge English Dictionary",
+      "surface": "dragon boat",
+      "occurrences": [
+        {
+          "start": 500,
+          "end": 511
+        },
+        {
+          "start": 2567,
+          "end": 2578
+        }
+      ],
+      "exampleEn": "A man wants to find out about taking part in a dragon boat race.",
+      "synonyms": [],
+      "antonyms": [],
+      "relationsStatus": "not_attested_no_fabrication",
+      "releaseStatus": "editorial_staged_not_inserted"
+    },
+    {
+      "lemma": "life jacket",
+      "partOfSpeech": "n",
+      "lexicalType": "multiword",
+      "cefr": null,
+      "definitionEn": "A buoyant sleeveless safety garment worn to help someone stay afloat in water.",
+      "definitionUz": "suvda cho‘kmaslik uchun kiyiladigan qutqaruv jileti",
+      "attestationUrl": "https://dictionary.cambridge.org/dictionary/english/life-jacket",
+      "source": "Cambridge English Dictionary",
+      "surfaces": [
+        {
+          "surface": "life jacket",
+          "start": 3110,
+          "end": 3121
+        },
+        {
+          "surface": "life jackets",
+          "start": 3148,
+          "end": 3160
+        }
+      ],
+      "exampleEn": "Everyone wears a life jacket.",
+      "synonyms": [
+        {
+          "lemma": "life vest",
+          "source": "Cambridge life jacket entry",
+          "url": "https://dictionary.cambridge.org/dictionary/english/life-jacket",
+          "senseId": null
+        }
+      ],
+      "antonyms": [],
+      "relationsStatus": "synonym_attested_pending_target_dictionary_sense",
+      "releaseStatus": "editorial_staged_not_inserted"
+    }
+  ]
 }
