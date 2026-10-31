@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 512,
+  "count": 519,
   "mappings": [
     {
       "part": 2,
@@ -911,6 +911,26 @@
     },
     {
       "part": 2,
+      "start": 613,
+      "end": 619,
+      "surface": "little",
+      "senseId": "e407c6a5-5263-44ed-b6be-550b5c236a00",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: a little bit: at least some small quantity"
+    },
+    {
+      "part": 2,
+      "start": 620,
+      "end": 623,
+      "surface": "bit",
+      "senseId": "ba591f2b-7da2-4b66-a1c4-3f8dd2f115b1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: little bit: a small quantity"
+    },
+    {
+      "part": 2,
       "start": 630,
       "end": 634,
       "surface": "what",
@@ -1383,6 +1403,16 @@
     },
     {
       "part": 2,
+      "start": 1009,
+      "end": 1018,
+      "surface": "important",
+      "senseId": "93033d55-812b-4c29-966a-b24726ed964e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: important for children: great significance"
+    },
+    {
+      "part": 2,
       "start": 1019,
       "end": 1022,
       "surface": "for",
@@ -1585,6 +1615,16 @@
     },
     {
       "part": 2,
+      "start": 1167,
+      "end": 1170,
+      "surface": "hot",
+      "senseId": "c4a3fb50-ca51-46ae-80e2-1c57bf5f305a",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: hot meal: food with high physical temperature"
+    },
+    {
+      "part": 2,
       "start": 1171,
       "end": 1175,
       "surface": "meal",
@@ -1663,6 +1703,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1217,
+      "end": 1220,
+      "surface": "get",
+      "senseId": "9f377858-cde8-4435-9d24-6e30ccc6c719",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: get fresh air: receive or obtain something"
     },
     {
       "part": 2,
@@ -2608,6 +2658,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1961,
+      "end": 1965,
+      "surface": "make",
+      "senseId": "36368c6b-2644-48d1-9449-5f868201b40d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: make sure: cause a state of certainty"
+    },
+    {
+      "part": 2,
+      "start": 1966,
+      "end": 1970,
+      "surface": "sure",
+      "senseId": "3dce400c-ba5c-40f3-8efc-f5fc6cad030d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked R2 immutable English sense definition against local sentence: make sure: be certain"
     },
     {
       "part": 2,
