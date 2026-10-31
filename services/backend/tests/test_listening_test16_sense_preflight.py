@@ -45,3 +45,29 @@ def test_wrong_offsets_rejected():
     candidate["start"]+=1
     with pytest.raises(ValueError,match="span_mismatch"):
         tool.preflight([candidate])
+
+def test_real_release_binding_plan_is_exactly_grounded():
+    import json
+    path=Path(__file__).resolve().parents[3]/"audits/listening/test-16-verified-binding-plan.json"
+    plan=json.loads(path.read_text())
+    assert plan["version"]==1 and plan["releaseId"].startswith("rel-v1-")
+    records=[]
+    for material in plan["materials"]:
+        for span in material["spans"]:
+            records.append({**span,"part":material["sectionNumber"],
+                "lemma":"ethnography","partOfSpeech":"n","grammaticalUse":"noun",
+                "unitType":"word"})
+    assert tool.preflight(records)
+
+def test_adjective_grammar_does_not_accept_verb_mapping_even_without_ed():
+    candidate=record("joining")
+    candidate.update(grammaticalUse="adjective")
+    with pytest.raises(ValueError,match="adjective"):
+        tool.preflight([candidate])
+
+def test_ill_formed_ids_or_digest_are_refused():
+    for key,value in [("senseId","bad"),("entryId","bad"),("meaningSha","123")]:
+        candidate=record("joining")
+        candidate[key]=value
+        with pytest.raises(ValueError,match="dictionary_identity_invalid"):
+            tool.preflight([candidate])
