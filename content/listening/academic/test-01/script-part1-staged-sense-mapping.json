@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 85,
+  "count": 84,
   "mappings": [
     {
       "part": 1,
@@ -246,17 +246,6 @@
       "entryNumber": null,
       "senseId": "d5fa7bf0-9aaa-4802-bf65-a8fd58493013",
       "kind": "single_word"
-    },
-    {
-      "part": 1,
-      "start": 498,
-      "end": 501,
-      "surface": "two",
-      "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
-      "entryNumber": null,
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "two enrolled students"
     },
     {
       "part": 1,
