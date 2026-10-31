@@ -14,7 +14,7 @@ test('Test 1 inventory has exactly 100 unique source numbered targets',()=>{
  assert.deepEqual(plan.items.map(r=>r.entryNumber),Array.from({length:100},(_,i)=>i+1));
  assert.equal(new Set(plan.items.map(r=>r.entryNumber)).size,100);
  assert.equal(plan.sourceTest,'listening-test-1');
- assert.equal(plan.status,'STAGED_ONLY_NOT_PUBLISHED');
+ assert.equal(plan.status,'EDITORIAL_SELECTION_COMPLETE_NOT_PUBLISHED');
 });
 
 test('Every selected source span matches original Test 1 transcript verbatim',()=>{
@@ -80,4 +80,28 @@ test('Bridge uses actual active Script tab, not unset aria-selected',()=>{
  const helper=readFileSync(new URL('../../js/generated/authored-helpers.js',import.meta.url),'utf8');
  assert.match(helper,/querySelector\('#scriptTabs \[data-spart\]\.active'\)/);
  assert.doesNotMatch(helper,/data-spart\]\[aria-selected/);
+});
+
+test('All 100 editorial selections are source exact, never unresolved',()=>{
+ assert.equal(plan.items.length,100);
+ assert.equal(plan.items.filter(x=>x.status==='existing_sense_selected').length,86);
+ assert.equal(plan.items.filter(x=>x.status==='new_entry_source_checked').length,14);
+ assert.equal(plan.items.filter(x=>x.status.includes('draft')||x.status.includes('requires')||x.status.includes('unresolved')).length,0);
+ assert(plan.items.every(x=>x.status==='existing_sense_selected'||x.status==='new_entry_source_checked'));
+});
+
+test('New lexical entries supply required dictionary fields and avoid sentence headwords',()=>{
+ const batch=JSON.parse(readFileSync(new URL('lexical-new-entries.source-checked.json',root),'utf8'));
+ assert.equal(batch.entries.length,14);
+ for(const entry of batch.entries){
+  assert(entry.headword.length>1&&entry.headword.length<100);
+  assert(!/[.!?]$/.test(entry.headword));
+  assert(entry.partOfSpeech&&entry.definitionEn&&entry.translationUz&&entry.exampleSentence);
+  assert(Array.isArray(entry.synonyms)&&Array.isArray(entry.antonyms)&&Array.isArray(entry.collocations));
+  assert(entry.source?.url?.startsWith('https://'));
+  assert.equal(entry.editorialState,'source_checked_ready_for_release_build');
+  const part=entry.target.part;
+  assert.equal(data.transcript[String(part)].slice(entry.target.start,entry.target.end),entry.target.surface);
+ }
+ assert.equal(batch.releaseDraftStatus,'NOT_PUBLISHED');
 });
