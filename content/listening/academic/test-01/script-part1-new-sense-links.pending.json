@@ -66,6 +66,16 @@
     },
     {
       "part": 1,
+      "start": 316,
+      "end": 318,
+      "surface": "At",
+      "tokenIndex": 58,
+      "newSenseRef": "at:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/at"
+    },
+    {
+      "part": 1,
       "start": 344,
       "end": 348,
       "surface": "will",
@@ -186,6 +196,16 @@
     },
     {
       "part": 1,
+      "start": 845,
+      "end": 847,
+      "surface": "on",
+      "tokenIndex": 155,
+      "newSenseRef": "on:PHONE_MEDIUM",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/on"
+    },
+    {
+      "part": 1,
       "start": 976,
       "end": 981,
       "surface": "about",
@@ -256,6 +276,16 @@
     },
     {
       "part": 1,
+      "start": 1261,
+      "end": 1263,
+      "surface": "on",
+      "tokenIndex": 237,
+      "newSenseRef": "on:PHONE_MEDIUM",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/on"
+    },
+    {
+      "part": 1,
       "start": 1413,
       "end": 1418,
       "surface": "about",
@@ -273,6 +303,36 @@
       "newSenseRef": "in:LOCATION",
       "status": "awaiting_immutable_release_sense_id",
       "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 1675,
+      "end": 1679,
+      "surface": "Yeah",
+      "tokenIndex": 322,
+      "newSenseRef": "yeah:AFFIRMATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/yes"
+    },
+    {
+      "part": 1,
+      "start": 1881,
+      "end": 1884,
+      "surface": "can",
+      "tokenIndex": 363,
+      "newSenseRef": "can:ABILITY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/can"
+    },
+    {
+      "part": 1,
+      "start": 1945,
+      "end": 1947,
+      "surface": "At",
+      "tokenIndex": 374,
+      "newSenseRef": "at:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/at"
     },
     {
       "part": 1,
@@ -326,6 +386,16 @@
     },
     {
       "part": 1,
+      "start": 2305,
+      "end": 2309,
+      "surface": "Yeah",
+      "tokenIndex": 447,
+      "newSenseRef": "yeah:AFFIRMATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/yes"
+    },
+    {
+      "part": 1,
       "start": 2316,
       "end": 2318,
       "surface": "in",
@@ -353,6 +423,16 @@
       "newSenseRef": "about:SUBJECT",
       "status": "awaiting_immutable_release_sense_id",
       "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 2527,
+      "end": 2529,
+      "surface": "at",
+      "tokenIndex": 493,
+      "newSenseRef": "at:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/at"
     },
     {
       "part": 1,
@@ -396,6 +476,16 @@
     },
     {
       "part": 1,
+      "start": 2855,
+      "end": 2858,
+      "surface": "can",
+      "tokenIndex": 560,
+      "newSenseRef": "can:ABILITY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/can"
+    },
+    {
+      "part": 1,
       "start": 3020,
       "end": 3022,
       "surface": "in",
@@ -413,6 +503,66 @@
       "newSenseRef": "on:SURFACE",
       "status": "awaiting_immutable_release_sense_id",
       "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 3248,
+      "end": 3250,
+      "surface": "on",
+      "tokenIndex": 636,
+      "newSenseRef": "on:TIME_DAY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/on"
+    },
+    {
+      "part": 1,
+      "start": 3320,
+      "end": 3322,
+      "surface": "at",
+      "tokenIndex": 651,
+      "newSenseRef": "at:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/at"
+    },
+    {
+      "part": 1,
+      "start": 3339,
+      "end": 3341,
+      "surface": "on",
+      "tokenIndex": 654,
+      "newSenseRef": "on:TIME_DAY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/on"
+    },
+    {
+      "part": 1,
+      "start": 3383,
+      "end": 3386,
+      "surface": "can",
+      "tokenIndex": 661,
+      "newSenseRef": "can:ABILITY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/can"
+    },
+    {
+      "part": 1,
+      "start": 3557,
+      "end": 3560,
+      "surface": "can",
+      "tokenIndex": 695,
+      "newSenseRef": "can:ABILITY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/can"
+    },
+    {
+      "part": 1,
+      "start": 3887,
+      "end": 3891,
+      "surface": "Yeah",
+      "tokenIndex": 760,
+      "newSenseRef": "yeah:AFFIRMATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/yes"
     }
   ]
 }
