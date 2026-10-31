@@ -3,1513 +3,1408 @@
   "part": 2,
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
   "sourceBodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
-  "mappedSpans": 675,
-  "unresolvedOccurrences": 215,
-  "unresolvedUniqueForms": 111,
+  "mappedSpans": 686,
+  "unresolvedOccurrences": 200,
+  "unresolvedUniqueForms": 104,
   "inventory": [
     {
       "start": 27,
       "end": 31,
       "surface": "will",
-      "context": "NARRATOR: Section two. You will hear a man giving an information talk ",
+      "context": "NARRATOR: Section two. You will hear a man giving an information talk a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 70,
       "end": 72,
       "surface": "at",
-      "context": " a man giving an information talk at an adult education centre. First, you ",
+      "context": " a man giving an information talk at an adult education centre. First, you h",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 76,
       "end": 81,
       "surface": "adult",
-      "context": " giving an information talk at an adult education centre. First, you have some",
+      "context": " giving an information talk at an adult education centre. First, you have some ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 121,
       "end": 125,
       "surface": "time",
-      "context": "tion centre. First, you have some time to look at questions eleven to fifteen",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 129,
-      "end": 133,
-      "surface": "look",
-      "context": "tre. First, you have some time to look at questions eleven to fifteen. NARRAT",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 134,
-      "end": 136,
-      "surface": "at",
-      "context": "First, you have some time to look at questions eleven to fifteen. NARRATOR:",
+      "context": "tion centre. First, you have some time to look at questions eleven to fifteen.",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 294,
       "end": 300,
       "surface": "thanks",
-      "context": " MIKE: Good evening everyone, and thanks for coming to this information evening",
+      "context": " MIKE: Good evening everyone, and thanks for coming to this information evening ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 301,
       "end": 304,
       "surface": "for",
-      "context": "Good evening everyone, and thanks for coming to this information evening at ",
+      "context": "Good evening everyone, and thanks for coming to this information evening at t",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 305,
       "end": 311,
       "surface": "coming",
-      "context": " evening everyone, and thanks for coming to this information evening at the Adu",
+      "context": " evening everyone, and thanks for coming to this information evening at the Adul",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 340,
       "end": 342,
       "surface": "at",
-      "context": "oming to this information evening at the Adult Education Centre. My name is",
+      "context": "oming to this information evening at the Adult Education Centre. My name is ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 347,
       "end": 352,
       "surface": "Adult",
-      "context": "o this information evening at the Adult Education Centre. My name is Mike, and",
+      "context": "o this information evening at the Adult Education Centre. My name is Mike, and ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 379,
       "end": 381,
       "surface": "is",
-      "context": "e Adult Education Centre. My name is Mike, and I'll be speaking to you for ",
+      "context": "e Adult Education Centre. My name is Mike, and I'll be speaking to you for a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 382,
       "end": 386,
       "surface": "Mike",
-      "context": "dult Education Centre. My name is Mike, and I'll be speaking to you for a sho",
+      "context": "dult Education Centre. My name is Mike, and I'll be speaking to you for a shor",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 397,
       "end": 399,
       "surface": "be",
-      "context": "Centre. My name is Mike, and I'll be speaking to you for a short while befo",
+      "context": "Centre. My name is Mike, and I'll be speaking to you for a short while befor",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 416,
       "end": 419,
       "surface": "for",
-      "context": "Mike, and I'll be speaking to you for a short while before you can go and ex",
+      "context": "Mike, and I'll be speaking to you for a short while before you can go and exp",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 428,
       "end": 433,
       "surface": "while",
-      "context": "ll be speaking to you for a short while before you can go and explore the vari",
+      "context": "ll be speaking to you for a short while before you can go and explore the vario",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 445,
       "end": 448,
       "surface": "can",
-      "context": " you for a short while before you can go and explore the various departments",
+      "context": " you for a short while before you can go and explore the various departments ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 449,
       "end": 451,
       "surface": "go",
-      "context": " for a short while before you can go and explore the various departments th",
+      "context": " for a short while before you can go and explore the various departments tha",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 488,
       "end": 492,
       "surface": "that",
-      "context": "d explore the various departments that we have here. The centre was founded f",
+      "context": "d explore the various departments that we have here. The centre was founded fi",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 501,
       "end": 505,
       "surface": "here",
-      "context": " various departments that we have here. The centre was founded fifty years ag",
+      "context": " various departments that we have here. The centre was founded fifty years ago",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 518,
       "end": 521,
       "surface": "was",
-      "context": "nts that we have here. The centre was founded fifty years ago by the town co",
+      "context": "nts that we have here. The centre was founded fifty years ago by the town cou",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 546,
       "end": 548,
       "surface": "by",
-      "context": "entre was founded fifty years ago by the town council in order to help peop",
+      "context": "entre was founded fifty years ago by the town council in order to help peopl",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 566,
       "end": 568,
       "surface": "in",
-      "context": "fty years ago by the town council in order to help people who had failed to",
+      "context": "fty years ago by the town council in order to help people who had failed to ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 569,
       "end": 574,
       "surface": "order",
-      "context": " years ago by the town council in order to help people who had failed to get a",
+      "context": " years ago by the town council in order to help people who had failed to get a ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 590,
       "end": 593,
       "surface": "who",
-      "context": "n council in order to help people who had failed to get a proper education w",
+      "context": "n council in order to help people who had failed to get a proper education wh",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 594,
       "end": 597,
       "surface": "had",
-      "context": "uncil in order to help people who had failed to get a proper education when ",
+      "context": "uncil in order to help people who had failed to get a proper education when t",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 608,
       "end": 611,
       "surface": "get",
-      "context": " to help people who had failed to get a proper education when they were chil",
+      "context": " to help people who had failed to get a proper education when they were child",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 641,
       "end": 645,
       "surface": "were",
-      "context": " get a proper education when they were children. The idea today is a little d",
+      "context": " get a proper education when they were children. The idea today is a little di",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 671,
       "end": 673,
       "surface": "is",
-      "context": "hey were children. The idea today is a little different. MIKE: We can give ",
+      "context": "hey were children. The idea today is a little different. MIKE: We can give p",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 703,
       "end": 706,
       "surface": "can",
-      "context": "y is a little different. MIKE: We can give people the chance to study what t",
+      "context": "y is a little different. MIKE: We can give people the chance to study what th",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 739,
       "end": 743,
       "surface": "what",
-      "context": "n give people the chance to study what they missed at school for whatever rea",
+      "context": "n give people the chance to study what they missed at school for whatever reas",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 756,
       "end": 758,
       "surface": "at",
-      "context": " chance to study what they missed at school for whatever reason, but we can",
+      "context": " chance to study what they missed at school for whatever reason, but we can ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 766,
       "end": 769,
       "surface": "for",
-      "context": " study what they missed at school for whatever reason, but we can also just ",
+      "context": " study what they missed at school for whatever reason, but we can also just g",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 770,
       "end": 778,
       "surface": "whatever",
-      "context": "dy what they missed at school for whatever reason, but we can also just give them",
+      "context": "dy what they missed at school for whatever reason, but we can also just give them ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 794,
       "end": 797,
       "surface": "can",
-      "context": "chool for whatever reason, but we can also just give them training in everyd",
+      "context": "chool for whatever reason, but we can also just give them training in everyda",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 827,
       "end": 829,
       "surface": "in",
-      "context": " can also just give them training in everyday skills or just allow them to ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 854,
-      "end": 859,
-      "surface": "allow",
-      "context": "aining in everyday skills or just allow them to extend themselves. The teacher",
+      "context": " can also just give them training in everyday skills or just allow them to e",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 875,
       "end": 885,
       "surface": "themselves",
-      "context": "ills or just allow them to extend themselves. The teachers in the centre are fully ",
+      "context": "ills or just allow them to extend themselves. The teachers in the centre are fully q",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 900,
       "end": 902,
       "surface": "in",
-      "context": "o extend themselves. The teachers in the centre are fully qualified and the",
+      "context": "o extend themselves. The teachers in the centre are fully qualified and thei",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 914,
       "end": 917,
       "surface": "are",
-      "context": "elves. The teachers in the centre are fully qualified and their teaching is ",
+      "context": "elves. The teachers in the centre are fully qualified and their teaching is a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 918,
       "end": 923,
       "surface": "fully",
-      "context": "s. The teachers in the centre are fully qualified and their teaching is apprai",
+      "context": "s. The teachers in the centre are fully qualified and their teaching is apprais",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 953,
       "end": 955,
       "surface": "is",
-      "context": "ully qualified and their teaching is appraised every six months by inspecto",
+      "context": "ully qualified and their teaching is appraised every six months by inspector",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 983,
       "end": 985,
       "surface": "by",
-      "context": "ing is appraised every six months by inspectors from the Ministry of Educat",
+      "context": "ing is appraised every six months by inspectors from the Ministry of Educati",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1006,
       "end": 1014,
       "surface": "Ministry",
-      "context": "six months by inspectors from the Ministry of Education. Our teachers have the la",
+      "context": "six months by inspectors from the Ministry of Education. Our teachers have the lat",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1106,
       "end": 1117,
       "surface": "whiteboards",
-      "context": "and accessories, from interactive whiteboards to computer labs with the most up-to-d",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1130,
-      "end": 1134,
-      "surface": "labs",
-      "context": "teractive whiteboards to computer labs with the most up-to-date technology. M",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1149,
-      "end": 1159,
-      "surface": "up-to-date",
-      "context": "ds to computer labs with the most up-to-date technology. MIKE: All our teachers und",
+      "context": "and accessories, from interactive whiteboards to computer labs with the most up-to-da",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1242,
       "end": 1245,
       "surface": "can",
-      "context": "al training and all their lessons can be found online at what we call the in",
+      "context": "al training and all their lessons can be found online at what we call the int",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1246,
       "end": 1248,
       "surface": "be",
-      "context": "raining and all their lessons can be found online at what we call the inter",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1249,
-      "end": 1254,
-      "surface": "found",
-      "context": "ning and all their lessons can be found online at what we call the interactive",
+      "context": "raining and all their lessons can be found online at what we call the intera",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1262,
       "end": 1264,
       "surface": "at",
-      "context": "their lessons can be found online at what we call the interactive classroom",
+      "context": "their lessons can be found online at what we call the interactive classroom,",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1265,
       "end": 1269,
       "surface": "what",
-      "context": "ir lessons can be found online at what we call the interactive classroom, whi",
+      "context": "ir lessons can be found online at what we call the interactive classroom, whic",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1311,
       "end": 1313,
       "surface": "is",
-      "context": " the interactive classroom, which is accessible by all registered students.",
+      "context": " the interactive classroom, which is accessible by all registered students. ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1325,
       "end": 1327,
       "surface": "by",
-      "context": "ve classroom, which is accessible by all registered students. All notes, vi",
+      "context": "ve classroom, which is accessible by all registered students. All notes, vid",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1375,
       "end": 1385,
       "surface": "worksheets",
-      "context": "d students. All notes, videos and worksheets can be found there, so if you miss a l",
+      "context": "d students. All notes, videos and worksheets can be found there, so if you miss a le",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1386,
       "end": 1389,
       "surface": "can",
-      "context": " All notes, videos and worksheets can be found there, so if you miss a lesso",
+      "context": " All notes, videos and worksheets can be found there, so if you miss a lesson",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1390,
       "end": 1392,
       "surface": "be",
-      "context": " notes, videos and worksheets can be found there, so if you miss a lesson, ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 1393,
-      "end": 1398,
-      "surface": "found",
-      "context": "tes, videos and worksheets can be found there, so if you miss a lesson, you ca",
+      "context": " notes, videos and worksheets can be found there, so if you miss a lesson, y",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1399,
       "end": 1404,
       "surface": "there",
-      "context": "ideos and worksheets can be found there, so if you miss a lesson, you can catc",
+      "context": "ideos and worksheets can be found there, so if you miss a lesson, you can catch",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1435,
       "end": 1438,
       "surface": "can",
-      "context": "ere, so if you miss a lesson, you can catch up on your computer at home. As ",
+      "context": "ere, so if you miss a lesson, you can catch up on your computer at home. As w",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1448,
       "end": 1450,
       "surface": "on",
-      "context": "u miss a lesson, you can catch up on your computer at home. As well as just",
+      "context": "u miss a lesson, you can catch up on your computer at home. As well as just ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1465,
       "end": 1467,
       "surface": "at",
-      "context": "you can catch up on your computer at home. As well as just finding the reso",
+      "context": "you can catch up on your computer at home. As well as just finding the resou",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1468,
       "end": 1472,
       "surface": "home",
-      "context": " can catch up on your computer at home. As well as just finding the resources",
+      "context": " can catch up on your computer at home. As well as just finding the resources,",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1474,
       "end": 1476,
       "surface": "As",
-      "context": "atch up on your computer at home. As well as just finding the resources, yo",
+      "context": "atch up on your computer at home. As well as just finding the resources, you",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1477,
       "end": 1481,
       "surface": "well",
-      "context": "h up on your computer at home. As well as just finding the resources, you can",
+      "context": "h up on your computer at home. As well as just finding the resources, you can ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1482,
       "end": 1484,
       "surface": "as",
-      "context": "on your computer at home. As well as just finding the resources, you can be",
+      "context": "on your computer at home. As well as just finding the resources, you can be ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1490,
       "end": 1497,
       "surface": "finding",
-      "context": "computer at home. As well as just finding the resources, you can be in direct co",
+      "context": "computer at home. As well as just finding the resources, you can be in direct con",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1517,
       "end": 1520,
       "surface": "can",
-      "context": "s just finding the resources, you can be in direct contact with your teacher",
+      "context": "s just finding the resources, you can be in direct contact with your teacher.",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1521,
       "end": 1523,
       "surface": "be",
-      "context": "st finding the resources, you can be in direct contact with your teacher. M",
+      "context": "st finding the resources, you can be in direct contact with your teacher. MI",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1524,
       "end": 1526,
       "surface": "in",
-      "context": "finding the resources, you can be in direct contact with your teacher. MIKE",
+      "context": "finding the resources, you can be in direct contact with your teacher. MIKE:",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1527,
       "end": 1533,
       "surface": "direct",
-      "context": "ding the resources, you can be in direct contact with your teacher. MIKE: Natur",
+      "context": "ding the resources, you can be in direct contact with your teacher. MIKE: Natura",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1588,
       "end": 1594,
       "surface": "cannot",
-      "context": "acher. MIKE: Naturally, he or she cannot be online all day, but every teacher h",
+      "context": "acher. MIKE: Naturally, he or she cannot be online all day, but every teacher ha",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1595,
       "end": 1597,
       "surface": "be",
-      "context": "MIKE: Naturally, he or she cannot be online all day, but every teacher has ",
+      "context": "MIKE: Naturally, he or she cannot be online all day, but every teacher has t",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1632,
       "end": 1635,
       "surface": "has",
-      "context": "online all day, but every teacher has two online tutorial sessions of three ",
+      "context": "online all day, but every teacher has two online tutorial sessions of three h",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1695,
       "end": 1698,
       "surface": "are",
-      "context": "ons of three hours each when they are available to chat. They can of course ",
+      "context": "ons of three hours each when they are available to chat. They can of course b",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1723,
       "end": 1726,
       "surface": "can",
-      "context": " they are available to chat. They can of course be in demand, so they are li",
+      "context": " they are available to chat. They can of course be in demand, so they are lim",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1727,
       "end": 1729,
       "surface": "of",
-      "context": "y are available to chat. They can of course be in demand, so they are limit",
+      "context": "y are available to chat. They can of course be in demand, so they are limite",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1737,
       "end": 1739,
       "surface": "be",
-      "context": "lable to chat. They can of course be in demand, so they are limited to four",
+      "context": "lable to chat. They can of course be in demand, so they are limited to four ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1740,
       "end": 1742,
       "surface": "in",
-      "context": "le to chat. They can of course be in demand, so they are limited to four st",
+      "context": "le to chat. They can of course be in demand, so they are limited to four stu",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1759,
       "end": 1762,
       "surface": "are",
-      "context": "n of course be in demand, so they are limited to four students at any one ti",
+      "context": "n of course be in demand, so they are limited to four students at any one tim",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1788,
       "end": 1790,
       "surface": "at",
-      "context": "they are limited to four students at any one time and students can only int",
+      "context": "they are limited to four students at any one time and students can only inte",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1795,
       "end": 1798,
       "surface": "one",
-      "context": "e limited to four students at any one time and students can only interact wi",
+      "context": "e limited to four students at any one time and students can only interact wit",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1799,
       "end": 1803,
       "surface": "time",
-      "context": "mited to four students at any one time and students can only interact with th",
+      "context": "mited to four students at any one time and students can only interact with the",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1817,
       "end": 1820,
       "surface": "can",
-      "context": "ents at any one time and students can only interact with their teacher for a",
+      "context": "ents at any one time and students can only interact with their teacher for a ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1854,
       "end": 1857,
       "surface": "for",
-      "context": " only interact with their teacher for a maximum of ten minutes. If the teach",
+      "context": " only interact with their teacher for a maximum of ten minutes. If the teache",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1899,
       "end": 1901,
       "surface": "is",
-      "context": "um of ten minutes. If the teacher is free though, students may continue to ",
+      "context": "um of ten minutes. If the teacher is free though, students may continue to c",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1902,
       "end": 1906,
       "surface": "free",
-      "context": "of ten minutes. If the teacher is free though, students may continue to chat ",
+      "context": "of ten minutes. If the teacher is free though, students may continue to chat f",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1924,
       "end": 1927,
       "surface": "may",
-      "context": " teacher is free though, students may continue to chat for longer. Naturally",
+      "context": " teacher is free though, students may continue to chat for longer. Naturally,",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1928,
       "end": 1936,
       "surface": "continue",
-      "context": "cher is free though, students may continue to chat for longer. Naturally, we also",
+      "context": "cher is free though, students may continue to chat for longer. Naturally, we also ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1945,
       "end": 1948,
       "surface": "for",
-      "context": "gh, students may continue to chat for longer. Naturally, we also have a norm",
+      "context": "gh, students may continue to chat for longer. Naturally, we also have a norma",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 1949,
       "end": 1955,
       "surface": "longer",
-      "context": "students may continue to chat for longer. Naturally, we also have a normal webs",
+      "context": "students may continue to chat for longer. Naturally, we also have a normal websi",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2004,
       "end": 2007,
       "surface": "has",
-      "context": " also have a normal website. This has details of all our courses, teachers, ",
+      "context": " also have a normal website. This has details of all our courses, teachers, f",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2085,
       "end": 2088,
       "surface": "can",
-      "context": "and timetables. MIKE: All courses can be booked and paid for online, althoug",
+      "context": "and timetables. MIKE: All courses can be booked and paid for online, although",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2089,
       "end": 2091,
       "surface": "be",
-      "context": "timetables. MIKE: All courses can be booked and paid for online, although y",
+      "context": "timetables. MIKE: All courses can be booked and paid for online, although yo",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2108,
       "end": 2111,
       "surface": "for",
-      "context": "ll courses can be booked and paid for online, although you'll need of course",
+      "context": "ll courses can be booked and paid for online, although you'll need of course ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2120,
       "end": 2128,
       "surface": "although",
-      "context": "an be booked and paid for online, although you'll need of course to supply credit",
+      "context": "an be booked and paid for online, although you'll need of course to supply credit ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2141,
       "end": 2143,
       "surface": "of",
-      "context": " for online, although you'll need of course to supply credit card or bank a",
+      "context": " for online, although you'll need of course to supply credit card or bank ac",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2154,
       "end": 2160,
       "surface": "supply",
-      "context": "although you'll need of course to supply credit card or bank account details. I",
+      "context": "although you'll need of course to supply credit card or bank account details. If",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2247,
       "end": 2251,
       "surface": "come",
-      "context": "nt to book online, you'll need to come to our main centre on Langdon Street b",
+      "context": "nt to book online, you'll need to come to our main centre on Langdon Street be",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2271,
       "end": 2273,
       "surface": "on",
-      "context": "l need to come to our main centre on Langdon Street between the hours of te",
+      "context": "l need to come to our main centre on Langdon Street between the hours of ten",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2274,
       "end": 2281,
       "surface": "Langdon",
-      "context": "eed to come to our main centre on Langdon Street between the hours of ten a.m. a",
+      "context": "eed to come to our main centre on Langdon Street between the hours of ten a.m. an",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2314,
       "end": 2315,
       "surface": "a",
-      "context": "n Street between the hours of ten a.m. and two p.m., which are the hours t",
+      "context": "n Street between the hours of ten a.m. and two p.m., which are the hours th",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2316,
       "end": 2317,
       "surface": "m",
-      "context": "Street between the hours of ten a.m. and two p.m., which are the hours tha",
+      "context": "Street between the hours of ten a.m. and two p.m., which are the hours that",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2327,
       "end": 2328,
       "surface": "p",
-      "context": "een the hours of ten a.m. and two p.m., which are the hours that our admin",
+      "context": "een the hours of ten a.m. and two p.m., which are the hours that our admini",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2329,
       "end": 2330,
       "surface": "m",
-      "context": "n the hours of ten a.m. and two p.m., which are the hours that our adminis",
+      "context": "n the hours of ten a.m. and two p.m., which are the hours that our administ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2339,
       "end": 2342,
       "surface": "are",
-      "context": "s of ten a.m. and two p.m., which are the hours that our administration sect",
+      "context": "s of ten a.m. and two p.m., which are the hours that our administration secti",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2353,
       "end": 2357,
       "surface": "that",
-      "context": "and two p.m., which are the hours that our administration section is open to ",
+      "context": "and two p.m., which are the hours that our administration section is open to t",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2385,
       "end": 2387,
       "surface": "is",
-      "context": "s that our administration section is open to the general public. NARRATOR: ",
+      "context": "s that our administration section is open to the general public. NARRATOR: Y",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2388,
       "end": 2392,
       "surface": "open",
-      "context": "hat our administration section is open to the general public. NARRATOR: You n",
+      "context": "hat our administration section is open to the general public. NARRATOR: You no",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2444,
       "end": 2448,
       "surface": "time",
-      "context": "blic. NARRATOR: You now have some time to look at questions sixteen to twenty",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2452,
-      "end": 2456,
-      "surface": "look",
-      "context": "RRATOR: You now have some time to look at questions sixteen to twenty. Now li",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2457,
-      "end": 2459,
-      "surface": "at",
-      "context": "R: You now have some time to look at questions sixteen to twenty. Now liste",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2470,
-      "end": 2477,
-      "surface": "sixteen",
-      "context": "ve some time to look at questions sixteen to twenty. Now listen to the rest of t",
+      "context": "blic. NARRATOR: You now have some time to look at questions sixteen to twenty.",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2507,
       "end": 2511,
       "surface": "rest",
-      "context": "teen to twenty. Now listen to the rest of the information talk and answer que",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2557,
-      "end": 2564,
-      "surface": "sixteen",
-      "context": "rmation talk and answer questions sixteen to twenty. MIKE: Now let me tell you a",
+      "context": "teen to twenty. Now listen to the rest of the information talk and answer ques",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2611,
       "end": 2616,
       "surface": "about",
-      "context": "IKE: Now let me tell you a little about the courses that we have on offer. I'l",
+      "context": "IKE: Now let me tell you a little about the courses that we have on offer. I'll",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2629,
       "end": 2633,
       "surface": "that",
-      "context": "ll you a little about the courses that we have on offer. I'll begin with lang",
+      "context": "ll you a little about the courses that we have on offer. I'll begin with langu",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2642,
       "end": 2644,
       "surface": "on",
-      "context": "le about the courses that we have on offer. I'll begin with languages, as t",
+      "context": "le about the courses that we have on offer. I'll begin with languages, as th",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2679,
       "end": 2681,
       "surface": "as",
-      "context": "offer. I'll begin with languages, as they're often very popular. We offer a",
+      "context": "offer. I'll begin with languages, as they're often very popular. We offer a ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2732,
       "end": 2740,
       "surface": "European",
-      "context": "ry popular. We offer a variety of European languages, including French, German, P",
+      "context": "ry popular. We offer a variety of European languages, including French, German, Po",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2762,
       "end": 2768,
       "surface": "French",
-      "context": " of European languages, including French, German, Polish and Spanish. In additi",
+      "context": " of European languages, including French, German, Polish and Spanish. In additio",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2770,
       "end": 2776,
       "surface": "German",
-      "context": "pean languages, including French, German, Polish and Spanish. In addition, we o",
+      "context": "pean languages, including French, German, Polish and Spanish. In addition, we of",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2778,
       "end": 2784,
       "surface": "Polish",
-      "context": "guages, including French, German, Polish and Spanish. In addition, we offer Ara",
+      "context": "guages, including French, German, Polish and Spanish. In addition, we offer Arab",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2789,
       "end": 2796,
       "surface": "Spanish",
-      "context": "luding French, German, Polish and Spanish. In addition, we offer Arabic, Korean,",
+      "context": "luding French, German, Polish and Spanish. In addition, we offer Arabic, Korean, ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2820,
       "end": 2826,
       "surface": "Arabic",
-      "context": "nd Spanish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese",
+      "context": "nd Spanish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese.",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2828,
       "end": 2834,
       "surface": "Korean",
-      "context": "sh. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These ",
+      "context": "sh. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These l",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2836,
       "end": 2844,
       "surface": "Japanese",
-      "context": "ddition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These languages ",
+      "context": "ddition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These languages a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2849,
       "end": 2857,
       "surface": "Mandarin",
-      "context": "ffer Arabic, Korean, Japanese and Mandarin Chinese. These languages are offered a",
+      "context": "ffer Arabic, Korean, Japanese and Mandarin Chinese. These languages are offered at",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2858,
       "end": 2865,
       "surface": "Chinese",
-      "context": "ic, Korean, Japanese and Mandarin Chinese. These languages are offered at variou",
+      "context": "ic, Korean, Japanese and Mandarin Chinese. These languages are offered at various",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2883,
       "end": 2886,
       "surface": "are",
-      "context": "Mandarin Chinese. These languages are offered at various stages of ability a",
+      "context": "Mandarin Chinese. These languages are offered at various stages of ability an",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2895,
       "end": 2897,
       "surface": "at",
-      "context": "nese. These languages are offered at various stages of ability and, to find",
+      "context": "nese. These languages are offered at various stages of ability and, to find ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2906,
       "end": 2912,
       "surface": "stages",
-      "context": " languages are offered at various stages of ability and, to find out which clas",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2932,
-      "end": 2936,
-      "surface": "find",
-      "context": "various stages of ability and, to find out which class you belong in, you can",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2937,
-      "end": 2940,
-      "surface": "out",
-      "context": "us stages of ability and, to find out which class you belong in, you can do ",
+      "context": " languages are offered at various stages of ability and, to find out which class",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2964,
       "end": 2966,
       "surface": "in",
-      "context": "o find out which class you belong in, you can do our self-assessment test a",
+      "context": "o find out which class you belong in, you can do our self-assessment test av",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2972,
       "end": 2975,
       "surface": "can",
-      "context": "ut which class you belong in, you can do our self-assessment test available ",
+      "context": "ut which class you belong in, you can do our self-assessment test available o",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2976,
       "end": 2978,
       "surface": "do",
-      "context": "hich class you belong in, you can do our self-assessment test available on ",
+      "context": "hich class you belong in, you can do our self-assessment test available on o",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 2999,
       "end": 3003,
       "surface": "test",
-      "context": "n, you can do our self-assessment test available on our website for all the l",
+      "context": "n, you can do our self-assessment test available on our website for all the la",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3014,
       "end": 3016,
       "surface": "on",
-      "context": "ur self-assessment test available on our website for all the languages we o",
+      "context": "ur self-assessment test available on our website for all the languages we of",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3029,
       "end": 3032,
       "surface": "for",
-      "context": "ent test available on our website for all the languages we offer. MIKE: Next",
+      "context": "ent test available on our website for all the languages we offer. MIKE: Next,",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3077,
       "end": 3081,
       "surface": "like",
-      "context": "nguages we offer. MIKE: Next, I'd like to tell you about our business-related",
+      "context": "nguages we offer. MIKE: Next, I'd like to tell you about our business-related ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3094,
       "end": 3099,
       "surface": "about",
-      "context": " MIKE: Next, I'd like to tell you about our business-related courses. Our busi",
+      "context": " MIKE: Next, I'd like to tell you about our business-related courses. Our busin",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3104,
       "end": 3120,
       "surface": "business-related",
-      "context": "t, I'd like to tell you about our business-related courses. Our business courses vary fro",
+      "context": "t, I'd like to tell you about our business-related courses. Our business courses vary from",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3208,
       "end": 3212,
       "surface": "will",
-      "context": " or afternoon sessions, where you will develop an excellent understanding of ",
+      "context": " or afternoon sessions, where you will develop an excellent understanding of a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3253,
       "end": 3263,
       "surface": "particular",
-      "context": "p an excellent understanding of a particular topic, to courses that run for over th",
+      "context": "p an excellent understanding of a particular topic, to courses that run for over thi",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3282,
       "end": 3286,
       "surface": "that",
-      "context": "of a particular topic, to courses that run for over thirty weeks, where you c",
+      "context": "of a particular topic, to courses that run for over thirty weeks, where you ca",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3287,
       "end": 3290,
       "surface": "run",
-      "context": "particular topic, to courses that run for over thirty weeks, where you can a",
+      "context": "particular topic, to courses that run for over thirty weeks, where you can ac",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3291,
       "end": 3294,
       "surface": "for",
-      "context": "icular topic, to courses that run for over thirty weeks, where you can achie",
+      "context": "icular topic, to courses that run for over thirty weeks, where you can achiev",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3295,
       "end": 3299,
       "surface": "over",
-      "context": "ar topic, to courses that run for over thirty weeks, where you can achieve an",
+      "context": "ar topic, to courses that run for over thirty weeks, where you can achieve an ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3300,
       "end": 3306,
       "surface": "thirty",
-      "context": "pic, to courses that run for over thirty weeks, where you can achieve an indust",
+      "context": "pic, to courses that run for over thirty weeks, where you can achieve an industr",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3324,
       "end": 3327,
       "surface": "can",
-      "context": " for over thirty weeks, where you can achieve an industry-recognised qualifi",
+      "context": " for over thirty weeks, where you can achieve an industry-recognised qualific",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3339,
       "end": 3358,
       "surface": "industry-recognised",
-      "context": "y weeks, where you can achieve an industry-recognised qualification. From learning how to us",
+      "context": "y weeks, where you can achieve an industry-recognised qualification. From learning how to use",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3379,
       "end": 3387,
       "surface": "learning",
-      "context": "ry-recognised qualification. From learning how to use essential computer software",
+      "context": "ry-recognised qualification. From learning how to use essential computer software ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3578,
       "end": 3581,
       "surface": "are",
-      "context": "e your goals. MIKE: These courses are always the most popular, so if you're ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3632,
-      "end": 3636,
-      "surface": "make",
-      "context": "popular, so if you're interested, make sure you make your booking fast. We on",
+      "context": "e your goals. MIKE: These courses are always the most popular, so if you're i",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3646,
       "end": 3650,
       "surface": "make",
-      "context": " you're interested, make sure you make your booking fast. We only take ten pe",
+      "context": " you're interested, make sure you make your booking fast. We only take ten peo",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3678,
       "end": 3682,
       "surface": "take",
-      "context": "u make your booking fast. We only take ten people per course and these places",
+      "context": "u make your booking fast. We only take ten people per course and these places ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3715,
       "end": 3721,
       "surface": "places",
-      "context": "e ten people per course and these places go quickly. One of our most popular co",
+      "context": "e ten people per course and these places go quickly. One of our most popular cou",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3722,
       "end": 3724,
       "surface": "go",
-      "context": "eople per course and these places go quickly. One of our most popular cours",
+      "context": "eople per course and these places go quickly. One of our most popular course",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3771,
       "end": 3773,
       "surface": "is",
-      "context": " of our most popular course areas is photography and computers for photogra",
+      "context": " of our most popular course areas is photography and computers for photograp",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3800,
       "end": 3803,
       "surface": "for",
-      "context": "reas is photography and computers for photography. Our range of courses on t",
+      "context": "reas is photography and computers for photography. Our range of courses on th",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3821,
       "end": 3826,
       "surface": "range",
-      "context": "nd computers for photography. Our range of courses on these subjects can help ",
+      "context": "nd computers for photography. Our range of courses on these subjects can help y",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3838,
       "end": 3840,
       "surface": "on",
-      "context": "photography. Our range of courses on these subjects can help you learn to g",
+      "context": "photography. Our range of courses on these subjects can help you learn to ge",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3856,
       "end": 3859,
       "surface": "can",
-      "context": "ange of courses on these subjects can help you learn to get the most out of ",
+      "context": "ange of courses on these subjects can help you learn to get the most out of y",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3878,
       "end": 3881,
       "surface": "get",
-      "context": "se subjects can help you learn to get the most out of your camera. From basi",
+      "context": "se subjects can help you learn to get the most out of your camera. From basic",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3886,
       "end": 3890,
       "surface": "most",
-      "context": "cts can help you learn to get the most out of your camera. From basic to adva",
+      "context": "cts can help you learn to get the most out of your camera. From basic to advan",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3891,
       "end": 3894,
       "surface": "out",
-      "context": "an help you learn to get the most out of your camera. From basic to advanced",
+      "context": "an help you learn to get the most out of your camera. From basic to advanced,",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3916,
       "end": 3921,
       "surface": "basic",
-      "context": "the most out of your camera. From basic to advanced, our courses will allow yo",
+      "context": "the most out of your camera. From basic to advanced, our courses will allow you",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 3947,
       "end": 3951,
       "surface": "will",
-      "context": "om basic to advanced, our courses will allow you to build up your knowledge a",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3952,
-      "end": 3957,
-      "surface": "allow",
-      "context": "sic to advanced, our courses will allow you to build up your knowledge and lea",
+      "context": "om basic to advanced, our courses will allow you to build up your knowledge an",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4003,
       "end": 4007,
       "surface": "ways",
-      "context": "d up your knowledge and learn new ways to use your equipment. Another favouri",
+      "context": "d up your knowledge and learn new ways to use your equipment. Another favourit",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4049,
       "end": 4052,
       "surface": "are",
-      "context": "your equipment. Another favourite are our cooking courses. MIKE: We offer sp",
+      "context": "your equipment. Another favourite are our cooking courses. MIKE: We offer spe",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4089,
       "end": 4099,
       "surface": "speciality",
-      "context": "r cooking courses. MIKE: We offer speciality courses, but a favourite is our introd",
+      "context": "r cooking courses. MIKE: We offer speciality courses, but a favourite is our introdu",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4125,
       "end": 4127,
       "surface": "is",
-      "context": "eciality courses, but a favourite is our introduction to cooking. This cour",
+      "context": "eciality courses, but a favourite is our introduction to cooking. This cours",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4145,
       "end": 4147,
       "surface": "to",
-      "context": "t a favourite is our introduction to cooking. This course is ideal for thos",
+      "context": "t a favourite is our introduction to cooking. This course is ideal for those",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4169,
       "end": 4171,
       "surface": "is",
-      "context": "roduction to cooking. This course is ideal for those new to cooking or for ",
+      "context": "roduction to cooking. This course is ideal for those new to cooking or for a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4178,
       "end": 4181,
       "surface": "for",
-      "context": " to cooking. This course is ideal for those new to cooking or for anyone wis",
+      "context": " to cooking. This course is ideal for those new to cooking or for anyone wish",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4206,
       "end": 4209,
       "surface": "for",
-      "context": "ideal for those new to cooking or for anyone wishing to create achievable an",
+      "context": "ideal for those new to cooking or for anyone wishing to create achievable and",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4210,
       "end": 4216,
       "surface": "anyone",
-      "context": "l for those new to cooking or for anyone wishing to create achievable and inspi",
+      "context": "l for those new to cooking or for anyone wishing to create achievable and inspir",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4260,
       "end": 4266,
       "surface": "dishes",
-      "context": "o create achievable and inspiring dishes. Learn a variety of essential cooking ",
+      "context": "o create achievable and inspiring dishes. Learn a variety of essential cooking t",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4351,
       "end": 4357,
       "surface": "dishes",
-      "context": "o help you create simple everyday dishes or some more elaborate things to impre",
+      "context": "o help you create simple everyday dishes or some more elaborate things to impres",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4366,
       "end": 4370,
       "surface": "more",
-      "context": "te simple everyday dishes or some more elaborate things to impress your guest",
+      "context": "te simple everyday dishes or some more elaborate things to impress your guests",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4381,
       "end": 4387,
       "surface": "things",
-      "context": "day dishes or some more elaborate things to impress your guests. You will also ",
+      "context": "day dishes or some more elaborate things to impress your guests. You will also l",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4416,
       "end": 4420,
       "surface": "will",
-      "context": "hings to impress your guests. You will also learn to make the best use of sto",
+      "context": "hings to impress your guests. You will also learn to make the best use of stor",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4435,
       "end": 4439,
       "surface": "make",
-      "context": "ur guests. You will also learn to make the best use of store cupboard ingredi",
+      "context": "ur guests. You will also learn to make the best use of store cupboard ingredie",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4456,
       "end": 4461,
       "surface": "store",
-      "context": "lso learn to make the best use of store cupboard ingredients, and how to take ",
+      "context": "lso learn to make the best use of store cupboard ingredients, and how to take d",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4462,
       "end": 4470,
       "surface": "cupboard",
-      "context": "arn to make the best use of store cupboard ingredients, and how to take delicious",
+      "context": "arn to make the best use of store cupboard ingredients, and how to take delicious ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4495,
       "end": 4499,
       "surface": "take",
-      "context": " cupboard ingredients, and how to take delicious shortcuts to make cooking qu",
+      "context": " cupboard ingredients, and how to take delicious shortcuts to make cooking qui",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4523,
       "end": 4527,
       "surface": "make",
-      "context": "ow to take delicious shortcuts to make cooking quick and enjoyable every day.",
+      "context": "ow to take delicious shortcuts to make cooking quick and enjoyable every day. ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4602,
       "end": 4607,
       "surface": "about",
-      "context": "IKE: I'll finish with telling you about our creative writing course. It looks ",
+      "context": "IKE: I'll finish with telling you about our creative writing course. It looks a",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4659,
       "end": 4663,
       "surface": "ways",
-      "context": "ing course. It looks at practical ways to get started, whilst promoting great",
+      "context": "ing course. It looks at practical ways to get started, whilst promoting greate",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4680,
       "end": 4686,
       "surface": "whilst",
-      "context": "at practical ways to get started, whilst promoting greater writing confidence. ",
+      "context": "at practical ways to get started, whilst promoting greater writing confidence. T",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4729,
       "end": 4734,
       "surface": "focus",
-      "context": "g greater writing confidence. The focus of this course is placed on practical ",
+      "context": "g greater writing confidence. The focus of this course is placed on practical e",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4750,
       "end": 4752,
       "surface": "is",
-      "context": "fidence. The focus of this course is placed on practical exercises supporte",
+      "context": "fidence. The focus of this course is placed on practical exercises supported",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4753,
       "end": 4759,
       "surface": "placed",
-      "context": "ence. The focus of this course is placed on practical exercises supported by di",
+      "context": "ence. The focus of this course is placed on practical exercises supported by dis",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4760,
       "end": 4762,
       "surface": "on",
-      "context": "he focus of this course is placed on practical exercises supported by discu",
+      "context": "he focus of this course is placed on practical exercises supported by discus",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4793,
       "end": 4795,
       "surface": "by",
-      "context": " on practical exercises supported by discussion and examples and builds upo",
+      "context": " on practical exercises supported by discussion and examples and builds upon",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4811,
       "end": 4819,
       "surface": "examples",
-      "context": "cises supported by discussion and examples and builds upon the strengths of each ",
+      "context": "cises supported by discussion and examples and builds upon the strengths of each w",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4824,
       "end": 4830,
       "surface": "builds",
-      "context": "ed by discussion and examples and builds upon the strengths of each writer. It ",
+      "context": "ed by discussion and examples and builds upon the strengths of each writer. It w",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4831,
       "end": 4835,
       "surface": "upon",
-      "context": "iscussion and examples and builds upon the strengths of each writer. It will ",
+      "context": "iscussion and examples and builds upon the strengths of each writer. It will g",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4840,
       "end": 4849,
       "surface": "strengths",
-      "context": " and examples and builds upon the strengths of each writer. It will give you an in",
+      "context": " and examples and builds upon the strengths of each writer. It will give you an ins",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 4869,
       "end": 4873,
       "surface": "will",
-      "context": " the strengths of each writer. It will give you an insight into the creative ",
+      "context": " the strengths of each writer. It will give you an insight into the creative p",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5027,
       "end": 5030,
       "surface": "for",
-      "context": "ng course provides an opportunity for all aspiring writers to develop the sk",
+      "context": "ng course provides an opportunity for all aspiring writers to develop the ski",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5035,
       "end": 5043,
       "surface": "aspiring",
-      "context": "e provides an opportunity for all aspiring writers to develop the skills for writ",
+      "context": "e provides an opportunity for all aspiring writers to develop the skills for writi",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5044,
       "end": 5051,
       "surface": "writers",
-      "context": "s an opportunity for all aspiring writers to develop the skills for writing fict",
+      "context": "s an opportunity for all aspiring writers to develop the skills for writing ficti",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5074,
       "end": 5077,
       "surface": "for",
-      "context": "ing writers to develop the skills for writing fiction. We have lots more cou",
+      "context": "ing writers to develop the skills for writing fiction. We have lots more cour",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5103,
       "end": 5107,
       "surface": "lots",
-      "context": "ills for writing fiction. We have lots more courses and I urge you to check o",
+      "context": "ills for writing fiction. We have lots more courses and I urge you to check ou",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5108,
       "end": 5112,
       "surface": "more",
-      "context": "for writing fiction. We have lots more courses and I urge you to check our we",
+      "context": "for writing fiction. We have lots more courses and I urge you to check our web",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5158,
       "end": 5160,
       "surface": "as",
-      "context": " I urge you to check our website, as we don't have enough time to introduce",
+      "context": " I urge you to check our website, as we don't have enough time to introduce ",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5182,
       "end": 5186,
       "surface": "time",
-      "context": " website, as we don't have enough time to introduce everything that we have o",
+      "context": " website, as we don't have enough time to introduce everything that we have on",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5190,
       "end": 5199,
       "surface": "introduce",
-      "context": ", as we don't have enough time to introduce everything that we have on offer. NARR",
+      "context": ", as we don't have enough time to introduce everything that we have on offer. NARRA",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5211,
       "end": 5215,
       "surface": "that",
-      "context": "ough time to introduce everything that we have on offer. NARRATOR: That is th",
+      "context": "ough time to introduce everything that we have on offer. NARRATOR: That is the",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5224,
       "end": 5226,
       "surface": "on",
-      "context": "introduce everything that we have on offer. NARRATOR: That is the end of se",
+      "context": "introduce everything that we have on offer. NARRATOR: That is the end of sec",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5244,
       "end": 5248,
       "surface": "That",
-      "context": " that we have on offer. NARRATOR: That is the end of section two. You now hav",
+      "context": " that we have on offer. NARRATOR: That is the end of section two. You now have",
       "status": "editorial_sense_review_required"
     },
     {
       "start": 5249,
       "end": 5251,
       "surface": "is",
-      "context": " we have on offer. NARRATOR: That is the end of section two. You now have h",
+      "context": " we have on offer. NARRATOR: That is the end of section two. You now have ha",
       "status": "editorial_sense_review_required"
     }
   ]
