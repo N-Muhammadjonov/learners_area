@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 539,
+  "count": 566,
   "mappings": [
     {
       "part": 1,
@@ -2297,6 +2297,16 @@
     },
     {
       "part": 1,
+      "start": 1608,
+      "end": 1612,
+      "surface": "week",
+      "senseId": "6da4b4c1-b6c5-4944-a281-c525b6373b32",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 1614,
       "end": 1617,
       "surface": "and",
@@ -2329,6 +2339,16 @@
     },
     {
       "part": 1,
+      "start": 1625,
+      "end": 1629,
+      "surface": "much",
+      "senseId": "35cbaf7a-821a-4902-a709-3b17ec1e5c6e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 1630,
       "end": 1637,
       "surface": "smaller",
@@ -2357,6 +2377,16 @@
       "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1646,
+      "end": 1651,
+      "surface": "seems",
+      "senseId": "cec04b6b-8bf9-4982-96bf-34ab549071c5",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -2422,6 +2452,26 @@
     },
     {
       "part": 1,
+      "start": 1699,
+      "end": 1705,
+      "surface": "pretty",
+      "senseId": "427ddcdf-d027-4b37-b77f-a7229a2d20b0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
+      "start": 1706,
+      "end": 1711,
+      "surface": "close",
+      "senseId": "4fe8c18b-3592-4bc6-95fd-96fbb8aa4cd1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 1713,
       "end": 1716,
       "surface": "The",
@@ -2430,6 +2480,26 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1717,
+      "end": 1721,
+      "surface": "only",
+      "senseId": "668622b5-8dd3-45e0-aae3-1d71c543bc2d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
+      "start": 1722,
+      "end": 1727,
+      "surface": "thing",
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4d4847",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -2550,6 +2620,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 1838,
+      "end": 1841,
+      "surface": "got",
+      "senseId": "9f377858-cde8-4435-9d24-6e30ccc6c719",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -3080,6 +3160,16 @@
     },
     {
       "part": 1,
+      "start": 2219,
+      "end": 2222,
+      "surface": "got",
+      "senseId": "9f377858-cde8-4435-9d24-6e30ccc6c719",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 2223,
       "end": 2224,
       "surface": "a",
@@ -3088,6 +3178,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2232,
+      "end": 2237,
+      "surface": "which",
+      "senseId": "c4997e85-8c01-5ad1-826f-ccbd8d065829",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -3299,6 +3399,16 @@
     },
     {
       "part": 1,
+      "start": 2364,
+      "end": 2366,
+      "surface": "it",
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 2367,
       "end": 2370,
       "surface": "was",
@@ -3347,6 +3457,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "pay for own calls"
+    },
+    {
+      "part": 1,
+      "start": 2424,
+      "end": 2427,
+      "surface": "our",
+      "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
+      "start": 2428,
+      "end": 2431,
+      "surface": "own",
+      "senseId": "b7374664-eb80-42c8-85eb-67dc5f949445",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -3655,6 +3785,16 @@
     },
     {
       "part": 1,
+      "start": 2662,
+      "end": 2666,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 2667,
       "end": 2671,
       "surface": "room",
@@ -3888,6 +4028,16 @@
     },
     {
       "part": 1,
+      "start": 2823,
+      "end": 2829,
+      "surface": "things",
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4d4847",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 2830,
       "end": 2832,
       "surface": "to",
@@ -3953,6 +4103,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "have just got recent"
+    },
+    {
+      "part": 1,
+      "start": 2883,
+      "end": 2886,
+      "surface": "got",
+      "senseId": "9f377858-cde8-4435-9d24-6e30ccc6c719",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -4059,6 +4219,16 @@
       "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2943,
+      "end": 2945,
+      "surface": "it",
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -4302,6 +4472,16 @@
     },
     {
       "part": 1,
+      "start": 3093,
+      "end": 3097,
+      "surface": "time",
+      "senseId": "441adccb-7aff-413c-9e95-d07a95475b09",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 3098,
       "end": 3100,
       "surface": "to",
@@ -4403,6 +4583,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "questions 6 to 10 range"
+    },
+    {
+      "part": 1,
+      "start": 3179,
+      "end": 3182,
+      "surface": "One",
+      "senseId": "d0344a4c-6150-4079-8483-2c76c2209154",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
+      "start": 3183,
+      "end": 3188,
+      "surface": "thing",
+      "senseId": "044301d8-42fd-5894-918b-a299fe69a75f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -4523,6 +4723,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Checked against immutable release semantic definition"
+    },
+    {
+      "part": 1,
+      "start": 3273,
+      "end": 3277,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -5200,6 +5410,16 @@
     },
     {
       "part": 1,
+      "start": 3746,
+      "end": 3750,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 3751,
       "end": 3757,
       "surface": "should",
@@ -5239,6 +5459,16 @@
       "senseId": "1f4fd880-5e9f-4f1f-a29b-fea346ea4424",
       "status": "context_approved_staged_not_published",
       "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 3777,
+      "end": 3782,
+      "surface": "seems",
+      "senseId": "cec04b6b-8bf9-4982-96bf-34ab549071c5",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -5290,6 +5520,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3823,
+      "end": 3826,
+      "surface": "got",
+      "senseId": "9f377858-cde8-4435-9d24-6e30ccc6c719",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
@@ -5363,6 +5603,16 @@
     },
     {
       "part": 1,
+      "start": 3868,
+      "end": 3872,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 3873,
       "end": 3875,
       "surface": "if",
@@ -5394,12 +5644,32 @@
     },
     {
       "part": 1,
+      "start": 3893,
+      "end": 3897,
+      "surface": "that",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
+    },
+    {
+      "part": 1,
       "start": 3898,
       "end": 3909,
       "surface": "sounds fine",
       "entryNumber": 30,
       "senseId": "0244d1c2-fab3-447e-b2f5-782e835f854d",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3912,
+      "end": 3916,
+      "surface": "That",
+      "senseId": "e83ca191-6c77-5d87-a4b3-f1f7b015b011",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context matches existing WordNet/Cambridge release sense"
     },
     {
       "part": 1,
