@@ -1,0 +1,125 @@
+{
+  "schema": "part1-contextual-pronoun-proposals-v1",
+  "status": "NOT_PUBLISHED",
+  "senses": [
+    {
+      "headword": "that",
+      "use": "DEMONSTRATIVE_PRONOUN",
+      "definitionEn": "Refers to something previously mentioned or understood in the conversation.",
+      "translationUz": "o‘sha; shu narsa",
+      "partOfSpeech": "pronoun",
+      "cefr": "A2",
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/that",
+      "positions": [],
+      "senseId": null,
+      "status": "not_published"
+    },
+    {
+      "headword": "that",
+      "use": "RELATIVE_PRONOUN",
+      "definitionEn": "Introduces a defining clause describing a person or thing.",
+      "translationUz": "-gan; ...ki",
+      "partOfSpeech": "relative pronoun",
+      "cefr": "B1",
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/that",
+      "positions": [
+        {
+          "part": 1,
+          "start": 674,
+          "end": 678,
+          "surface": "that",
+          "tokenIndex": 123
+        }
+      ],
+      "senseId": null,
+      "status": "not_published"
+    },
+    {
+      "headword": "that",
+      "use": "CLAUSE_CONNECTOR",
+      "definitionEn": "Introduces a clause reporting a fact or thought.",
+      "translationUz": "...ligini; -ki",
+      "partOfSpeech": "conjunction",
+      "cefr": "A2",
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/that",
+      "positions": [
+        {
+          "part": 1,
+          "start": 649,
+          "end": 653,
+          "surface": "that",
+          "tokenIndex": 118
+        }
+      ],
+      "senseId": null,
+      "status": "not_published"
+    },
+    {
+      "headword": "mine",
+      "use": "POSSESSIVE_PRONOUN",
+      "definitionEn": "The one belonging to or associated with the speaker.",
+      "translationUz": "meniki; mening ...im",
+      "partOfSpeech": "possessive pronoun",
+      "cefr": "A2",
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/mine",
+      "positions": [
+        {
+          "part": 1,
+          "start": 3496,
+          "end": 3500,
+          "surface": "Mine",
+          "tokenIndex": 682
+        }
+      ],
+      "senseId": null,
+      "status": "not_published"
+    },
+    {
+      "headword": "yours",
+      "use": "POSSESSIVE_PRONOUN",
+      "definitionEn": "The one belonging to or associated with the person being addressed.",
+      "translationUz": "seniki; sizniki",
+      "partOfSpeech": "possessive pronoun",
+      "cefr": "A2",
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/possessive-pronouns",
+      "positions": [
+        {
+          "part": 1,
+          "start": 1511,
+          "end": 1516,
+          "surface": "Yours",
+          "tokenIndex": 290
+        }
+      ],
+      "senseId": null,
+      "status": "not_published"
+    },
+    {
+      "headword": "okay",
+      "use": "AGREEMENT",
+      "definitionEn": "Used to express acceptance or agreement.",
+      "translationUz": "xo‘p; mayli; yaxshi",
+      "partOfSpeech": "interjection",
+      "cefr": "A1",
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/okay",
+      "positions": [
+        {
+          "part": 1,
+          "start": 1368,
+          "end": 1370,
+          "surface": "OK",
+          "tokenIndex": 261
+        },
+        {
+          "part": 1,
+          "start": 3670,
+          "end": 3672,
+          "surface": "OK",
+          "tokenIndex": 717
+        }
+      ],
+      "senseId": null,
+      "status": "not_published"
+    }
+  ]
+}
