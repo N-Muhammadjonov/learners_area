@@ -238,6 +238,216 @@
           "textUz": "Ma’lumotlarni birinchi toifali pochta orqali yuborishdan mamnun bo‘laman."
         }
       ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "can",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "Used to express that somebody is able to do something.",
+      "translationUz": "qila olmoq",
+      "definitionUz": "Biror ishni bajarish qobiliyati yoki imkoniyati borligini bildiruvchi modal fe’l.",
+      "examples": [
+        {
+          "textEn": "More people can take part then.",
+          "textUz": "Shunda ko‘proq odam qatnasha oladi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "will",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "Used to refer to an action or event expected or intended in the future.",
+      "translationUz": "-adi, bo‘ladi",
+      "definitionUz": "Kelajakda bo‘lishi kutilayotgan yoki rejalashtirilgan ish-harakatni bildiruvchi modal fe’l.",
+      "examples": [
+        {
+          "textEn": "Every crew member will receive a T-shirt.",
+          "textUz": "Har bir ekipaj a’zosi futbolka oladi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "shall",
+      "partOfSpeech": "modal verb",
+      "lexicalType": "word",
+      "definitionEn": "Used with I or we to refer to future actions, especially in formal speech.",
+      "translationUz": "-amiz, bo‘ladi",
+      "definitionUz": "Rasmiy uslubda birinchi shaxs bilan kelajak harakatini ifodalovchi modal fe’l.",
+      "examples": [
+        {
+          "textEn": "Now we shall begin.",
+          "textUz": "Endi boshlaymiz."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "be",
+      "partOfSpeech": "auxiliary verb",
+      "lexicalType": "word",
+      "definitionEn": "Used with a present participle to form a continuous verb tense, or with a past participle to form a passive construction.",
+      "translationUz": "bo‘lmoq, -yapti, -iladi",
+      "definitionUz": "Davomiy zamon yoki majhul nisbat shakllarini hosil qilish uchun ishlatiladigan yordamchi fe’l.",
+      "examples": [
+        {
+          "textEn": "The race is being held on Sunday.",
+          "textUz": "Poyga yakshanba kuni o‘tkazilmoqda."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "do",
+      "partOfSpeech": "auxiliary verb",
+      "lexicalType": "word",
+      "definitionEn": "Used to form questions and negative statements in the simple present or past tense.",
+      "translationUz": "yordamchi fe’l (so‘roq/inkor)",
+      "definitionUz": "Oddiy zamonda so‘roq va inkor gaplarini tuzishda ishlatiladigan yordamchi fe’l.",
+      "examples": [
+        {
+          "textEn": "Do all the team members have to be a certain age?",
+          "textUz": "Jamoaning barcha a’zolari ma’lum yoshda bo‘lishi shartmi?"
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "have",
+      "partOfSpeech": "auxiliary verb",
+      "lexicalType": "word",
+      "definitionEn": "Used with a past participle to form the perfect tenses.",
+      "translationUz": "-gan, -ib bo‘lgan",
+      "definitionUz": "Perfect zamon shakllarini yasashda past participle bilan ishlatiladigan yordamchi fe’l.",
+      "examples": [
+        {
+          "textEn": "I've got a group of twenty people.",
+          "textUz": "Menda yigirma kishilik guruh bor."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "hello",
+      "partOfSpeech": "interjection",
+      "lexicalType": "word",
+      "definitionEn": "Used to greet somebody when meeting them or beginning a conversation.",
+      "translationUz": "salom",
+      "definitionUz": "Uchrashganda yoki suhbat boshida salomlashish uchun ishlatiladigan undov so‘z.",
+      "examples": [
+        {
+          "textEn": "Oh hello. I'm ringing about the race.",
+          "textUz": "Oh, salom. Poyga haqida qo‘ng‘iroq qilyapman."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "okay",
+      "partOfSpeech": "interjection",
+      "lexicalType": "word",
+      "definitionEn": "Used to express agreement, acceptance, or acknowledgement.",
+      "translationUz": "xo‘p, mayli, tushunarli",
+      "definitionUz": "Rozilik, qabul qilish yoki tushunganlikni bildiruvchi undov so‘z.",
+      "examples": [
+        {
+          "textEn": "Okay.",
+          "textUz": "Xo‘p."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "right",
+      "partOfSpeech": "interjection",
+      "lexicalType": "word",
+      "definitionEn": "Used in conversation to show agreement, understanding, or a change of topic.",
+      "translationUz": "to‘g‘ri, xo‘p",
+      "definitionUz": "Suhbatda rozilik yoki tushunishni bildiruvchi, ba’zan yangi mavzuga o‘tkazuvchi so‘z.",
+      "examples": [
+        {
+          "textEn": "Right. And what time does the race start?",
+          "textUz": "Xo‘p. Poyga soat nechada boshlanadi?"
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "of course",
+      "partOfSpeech": "r",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "Used to confirm that something is obvious, expected, or willingly agreed to.",
+      "translationUz": "albatta",
+      "definitionUz": "Biror narsa tabiiy, kutilgan yoki bajonidil qabul qilinganini tasdiqlovchi ibora.",
+      "examples": [
+        {
+          "textEn": "Of course.",
+          "textUz": "Albatta."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "in fact",
+      "partOfSpeech": "r",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "Used to add more detailed information or emphasize what is true.",
+      "translationUz": "aslida, haqiqatda",
+      "definitionUz": "Ma’lumotni aniqlashtirish yoki fikrni kuchaytirish uchun ishlatiladigan ibora.",
+      "examples": [
+        {
+          "textEn": "In fact, it's a very good idea to bring some spare clothes.",
+          "textUz": "Aslida, qo‘shimcha kiyim olib kelish yaxshi fikr."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "as such",
+      "partOfSpeech": "r",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "In the exact sense mentioned, or considered strictly in that capacity.",
+      "translationUz": "aynan shunday ma’noda",
+      "definitionUz": "Narsani aynan aytilgan ma’noda yoki holatda nazarda tutishni bildiradi.",
+      "examples": [
+        {
+          "textEn": "There's no age limit as such.",
+          "textUz": "Aynan yosh chegarasi deb aytadigan cheklov yo‘q."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "who's",
+      "partOfSpeech": "pronoun",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "A short form of who is or who has.",
+      "translationUz": "kim ...?",
+      "definitionUz": "Who is yoki who has birikmalarining qisqartma shakli.",
+      "examples": [
+        {
+          "textEn": "You need to agree on who's going to be the team captain.",
+          "textUz": "Kim jamoa sardori bo‘lishini kelishib olishingiz kerak."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "where's",
+      "partOfSpeech": "r",
+      "lexicalType": "fixed_expression",
+      "definitionEn": "A short form of where is or where has.",
+      "translationUz": "qayerda ...?",
+      "definitionUz": "Where is yoki where has birikmalarining qisqartma shakli.",
+      "examples": [
+        {
+          "textEn": "And where's it being held?",
+          "textUz": "U qayerda o‘tkazilmoqda?"
+        }
+      ]
     }
   ],
   "existingLexemeFormExtensions": [
