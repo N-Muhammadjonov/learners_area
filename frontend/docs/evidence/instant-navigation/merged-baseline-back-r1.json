@@ -1,0 +1,247 @@
+{
+  "label": "theirs-back1",
+  "mode": "back",
+  "viewport": "desktop",
+  "rows": [
+    {
+      "href": "/app/reading/lessons",
+      "t0": 812,
+      "swap": 264.79999999981374,
+      "frame": null,
+      "task": 266.5,
+      "ready": 270.59999999962747,
+      "feedback": 151,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": null,
+      "reused": null,
+      "scrollTop": 0,
+      "apiRequests": 1,
+      "apiPaths": [
+        "/api/frontend/view?route=%2Fapp%2Freading%2Flessons"
+      ],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 3,
+          "pattern": "/app/reading/lessons",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 257.8999999994412,
+          "phasesMs": {
+            "prepare": 1.900000000372529,
+            "module": 11.600000000558794,
+            "mount": 198.29999999981374,
+            "commit": 15.099999999627471
+          }
+        }
+      ]
+    },
+    {
+      "href": "/app/listening/lessons",
+      "t0": 1173.7000000001863,
+      "swap": 44.5,
+      "frame": null,
+      "task": 44.799999999813735,
+      "ready": 44.799999999813735,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": null,
+      "reused": null,
+      "scrollTop": 0,
+      "apiRequests": 1,
+      "apiPaths": [
+        "/api/frontend/view?route=%2Fapp%2Flistening%2Flessons"
+      ],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 4,
+          "pattern": "/app/listening/lessons",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 40.5,
+          "phasesMs": {
+            "prepare": 1,
+            "module": 12.699999999254942,
+            "mount": 0.6000000005587935,
+            "commit": 13.299999999813735
+          }
+        }
+      ]
+    },
+    {
+      "href": "/app/writing",
+      "t0": 1313.2000000001863,
+      "swap": 56.200000000186265,
+      "frame": null,
+      "task": 56.39999999944121,
+      "ready": 56.39999999944121,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": null,
+      "reused": null,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 5,
+          "pattern": "/app/writing",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 52,
+          "phasesMs": {
+            "prepare": 3.2999999998137355,
+            "module": 15.599999999627471,
+            "mount": 21.90000000037253,
+            "commit": 10
+          }
+        }
+      ]
+    },
+    {
+      "href": "(back)",
+      "t0": 1470.7000000001863,
+      "swap": 22.09999999962747,
+      "frame": null,
+      "task": 22.299999999813735,
+      "ready": 22.299999999813735,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "back",
+      "view": "listening",
+      "reused": true,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 6,
+          "pattern": "/app/listening/lessons",
+          "kind": "history",
+          "status": "committed",
+          "totalMs": 19.799999999813735,
+          "phasesMs": {
+            "prepare": 0.2999999998137355,
+            "commit": 18.200000000186265
+          }
+        }
+      ],
+      "expectedScroll": 0
+    },
+    {
+      "href": "(back)",
+      "t0": 1581.7000000001863,
+      "swap": 15.700000000186265,
+      "frame": null,
+      "task": 17.200000000186265,
+      "ready": 17.200000000186265,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "back",
+      "view": "reading",
+      "reused": true,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 7,
+          "pattern": "/app/reading/lessons",
+          "kind": "history",
+          "status": "committed",
+          "totalMs": 13.700000000186265,
+          "phasesMs": {
+            "prepare": 0.2999999998137355,
+            "commit": 13.099999999627471
+          }
+        }
+      ],
+      "expectedScroll": 0
+    },
+    {
+      "href": "(back)",
+      "t0": 1694.2000000001863,
+      "swap": 39.59999999962747,
+      "frame": null,
+      "task": 40.39999999944121,
+      "ready": 40.5,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "back",
+      "view": "dashboard",
+      "reused": true,
+      "scrollTop": 120,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 8,
+          "pattern": "/app/dashboard",
+          "kind": "history",
+          "status": "committed",
+          "totalMs": 26.699999999254942,
+          "phasesMs": {
+            "prepare": 0.40000000037252903,
+            "commit": 26.199999999254942
+          }
+        }
+      ],
+      "expectedScroll": 120
+    },
+    {
+      "href": "/app/reading/lessons",
+      "t0": 1833.4000000003725,
+      "swap": 75.29999999981374,
+      "frame": null,
+      "task": 75.5,
+      "ready": 75.3999999994412,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": "reading",
+      "reused": true,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 9,
+          "pattern": "/app/reading/lessons",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 71.30000000074506,
+          "phasesMs": {
+            "prepare": 6.599999999627471,
+            "commit": 28.700000000186265
+          }
+        }
+      ],
+      "expectedScroll": 0
+    }
+  ],
+  "consoleErrors": [],
+  "unfixturedRequests": []
+}

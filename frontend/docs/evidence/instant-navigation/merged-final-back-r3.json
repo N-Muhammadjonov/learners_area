@@ -1,0 +1,247 @@
+{
+  "label": "final-back3",
+  "mode": "back",
+  "viewport": "desktop",
+  "rows": [
+    {
+      "href": "/app/reading/lessons",
+      "t0": 826,
+      "swap": 278.20000000018626,
+      "frame": null,
+      "task": 278.59999999962747,
+      "ready": 283,
+      "feedback": 68.8999999994412,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": null,
+      "reused": null,
+      "scrollTop": 0,
+      "apiRequests": 1,
+      "apiPaths": [
+        "/api/frontend/view?route=%2Fapp%2Freading%2Flessons"
+      ],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 3,
+          "pattern": "/app/reading/lessons",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 276.1000000005588,
+          "phasesMs": {
+            "prepare": 1.400000000372529,
+            "module": 11.799999999813735,
+            "mount": 240.40000000037253,
+            "commit": 6.699999999254942
+          }
+        }
+      ]
+    },
+    {
+      "href": "/app/listening/lessons",
+      "t0": 1207,
+      "swap": 50.799999999813735,
+      "frame": null,
+      "task": 51.89999999944121,
+      "ready": 52,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": null,
+      "reused": null,
+      "scrollTop": 0,
+      "apiRequests": 1,
+      "apiPaths": [
+        "/api/frontend/view?route=%2Fapp%2Flistening%2Flessons"
+      ],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 4,
+          "pattern": "/app/listening/lessons",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 39.60000000055879,
+          "phasesMs": {
+            "prepare": 8.600000000558794,
+            "module": 21.200000000186265,
+            "mount": 0.6000000005587935,
+            "commit": 9.5
+          }
+        }
+      ]
+    },
+    {
+      "href": "/app/writing",
+      "t0": 1353.3999999994412,
+      "swap": 71.5,
+      "frame": null,
+      "task": 73.1000000005588,
+      "ready": 73.20000000018626,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": null,
+      "reused": null,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 5,
+          "pattern": "/app/writing",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 52.40000000037253,
+          "phasesMs": {
+            "prepare": 1.8999999994412065,
+            "module": 12,
+            "mount": 22.700000000186265,
+            "commit": 5.5
+          }
+        }
+      ]
+    },
+    {
+      "href": "(back)",
+      "t0": 1518,
+      "swap": 22,
+      "frame": null,
+      "task": 22.299999999813735,
+      "ready": 22.299999999813735,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "back",
+      "view": "listening",
+      "reused": true,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 6,
+          "pattern": "/app/listening/lessons",
+          "kind": "history",
+          "status": "committed",
+          "totalMs": 13.299999999813735,
+          "phasesMs": {
+            "prepare": 0.30000000074505806,
+            "commit": 12.799999999813735
+          }
+        }
+      ],
+      "expectedScroll": 0
+    },
+    {
+      "href": "(back)",
+      "t0": 1626.5999999996275,
+      "swap": 31.700000000186265,
+      "frame": 34.799999999813735,
+      "task": 39,
+      "ready": 39,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "back",
+      "view": "reading",
+      "reused": true,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 7,
+          "pattern": "/app/reading/lessons",
+          "kind": "history",
+          "status": "committed",
+          "totalMs": 10.299999999813735,
+          "phasesMs": {
+            "prepare": 0.40000000037252903,
+            "commit": 9.600000000558794
+          }
+        }
+      ],
+      "expectedScroll": 0
+    },
+    {
+      "href": "(back)",
+      "t0": 1753.5,
+      "swap": 35.5,
+      "frame": null,
+      "task": 36.39999999944121,
+      "ready": 36.5,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "back",
+      "view": "dashboard",
+      "reused": true,
+      "scrollTop": 120,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 8,
+          "pattern": "/app/dashboard",
+          "kind": "history",
+          "status": "committed",
+          "totalMs": 22.5,
+          "phasesMs": {
+            "prepare": 0.39999999944120646,
+            "commit": 21.899999999441206
+          }
+        }
+      ],
+      "expectedScroll": 120
+    },
+    {
+      "href": "/app/reading/lessons",
+      "t0": 1901.8999999994412,
+      "swap": 56.80000000074506,
+      "frame": null,
+      "task": 57,
+      "ready": 56.90000000037253,
+      "feedback": null,
+      "failed": false,
+      "done": true,
+      "timeout": false,
+      "kind": "navigate",
+      "view": "reading",
+      "reused": true,
+      "scrollTop": 0,
+      "apiRequests": 0,
+      "apiPaths": [],
+      "phases": [
+        {
+          "event": "routePipeline",
+          "id": 9,
+          "pattern": "/app/reading/lessons",
+          "kind": "navigate",
+          "status": "committed",
+          "totalMs": 54.89999999944121,
+          "phasesMs": {
+            "prepare": 1,
+            "commit": 5.8999999994412065
+          }
+        }
+      ],
+      "expectedScroll": 0
+    }
+  ],
+  "consoleErrors": [],
+  "unfixturedRequests": []
+}

@@ -68,7 +68,9 @@ test('an unavailable Retention series does not crash all other Progress trends',
 
 test('eight passive routes survive 59 seconds, evict the least recent view, and expire at 60 seconds',()=>{
  const h=setup({role:'student'}),scope=createPrivateScope();scope.setScope('A');let time=0;
- const pool=createRouteReuse({scope,clock:()=>time}),paths=['/app/dashboard','/app/progress','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/listening/lessons','/app/listening/academic','/app/grammar/lessons'];
+ // The enlarged budget is still supported, but it is not the shipped default: it was
+ // A/B measured and regressed warm navigation, so the device profile stays smaller.
+ const pool=createRouteReuse({scope,clock:()=>time,limit:8,maxNodes:16000,ttl:60000}),paths=['/app/dashboard','/app/progress','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/listening/lessons','/app/listening/academic','/app/grammar/lessons'];
  const entry=path=>{const staging=document.createElement('div');staging.innerHTML='<section><button>Catalogue</button></section>';return {context:{url:new URL(path,'https://fixture.invalid'),session:{},route:{protected:true}},nodes:[...staging.children],staging,controller:new AbortController(),...pool.stamp()};};
  try{
   const views=paths.map(path=>entry(path));paths.forEach((path,i)=>assert(pool.put(path,views[i])));assert.equal(pool.size,8);
@@ -77,15 +79,21 @@ test('eight passive routes survive 59 seconds, evict the least recent view, and 
   assert(pool.put('/app/video-lessons',entry('/app/video-lessons')));assert.equal(pool.size,8);assert(views[1].controller.signal.aborted);assert(!views[0].controller.signal.aborted);
   time=60000;assert.equal(pool.take(paths[0]),undefined);assert(views[0].controller.signal.aborted);
   scope.setScope('B');assert.equal(pool.size,0);assert.equal(pool.nodeCount,0);
+  // The shipped default stays the measured budget (desktop 4 views / 8000 nodes / 60 s).
+  const shipped=createRouteReuse({scope,clock:()=>time});
+  try{assert.deepEqual([shipped.profile.name,shipped.profile.limit,shipped.profile.maxNodes,shipped.profile.ttl],['desktop',4,8000,60000]);}finally{shipped.destroy();}
  }finally{pool.destroy();h.dispose();}
 });
 
 test('the enlarged DOM budget accepts a 9001-node catalogue but still bounds total retained nodes',()=>{
- const h=setup({role:'student'}),scope=createPrivateScope();scope.setScope('A');const pool=createRouteReuse({scope});
+ const h=setup({role:'student'}),scope=createPrivateScope();scope.setScope('A');const pool=createRouteReuse({scope,limit:8,maxNodes:16000,ttl:60000});
  const entry=(path,count)=>{const staging=document.createElement('div');staging.innerHTML='<section>'+('<i></i>'.repeat(count))+'</section>';return {context:{url:new URL(path,'https://fixture.invalid'),session:{},route:{protected:true}},nodes:[...staging.children],staging,controller:new AbortController(),...pool.stamp()};};
  try{
   const large=entry('/app/reading/academic',9000);assert(pool.put('large',large));assert.equal(pool.nodeCount,9001);
   assert(pool.put('next',entry('/app/listening/academic',8000)));assert(large.controller.signal.aborted);assert.equal(pool.size,1);assert.equal(pool.nodeCount,8001);
   assert.equal(pool.put('oversize',entry('/app/grammar/lessons',16000)),false);assert.equal(pool.nodeCount,8001);
+  // The shipped desktop budget refuses a 9001-node catalogue instead of retaining it.
+  const shipped=createRouteReuse({scope});
+  try{const over={...entry('/app/reading/academic',9000),...shipped.stamp()};assert.equal(shipped.put('large',over),false);assert.equal(shipped.nodeCount,0);}finally{shipped.destroy();}
  }finally{pool.destroy();h.dispose();}
 });

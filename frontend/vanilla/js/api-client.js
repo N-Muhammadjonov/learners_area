@@ -34,13 +34,44 @@ export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthoriz
   // an in-flight GET (which may predate the change) and is not shared with later callers.
   if(options.fresh===true)return bounded(path,options);
   if(options.signal?.aborted)return Promise.reject(new DOMException('Aborted','AbortError'));
-  const key=epoch+':'+path+':'+(options.maxBytes??'unlimited');let entry=pending.get(key);
-  if(!entry){const controller=new AbortController();entry={controller,users:0};entry.promise=bounded(path,{...options,signal:controller.signal}).finally(()=>{if(pending.get(key)===entry)pending.delete(key);});pending.set(key,entry);}
+  // A bounded prefetch and the real navigation are the SAME read. Share one
+  // transport where possible instead of sending duplicate GETs for maxBytes.
+  // A later unbounded consumer can retry only if the bounded leader hit its
+  // explicit size ceiling. The regular navigation is never size-restricted.
+  const key=epoch+':'+path;let entry=pending.get(key);
+  if(!entry){
+   const controller=new AbortController();
+   entry={controller,users:0,maxBytes:options.maxBytes};
+   entry.promise=bounded(path,{...options,signal:controller.signal})
+    .finally(()=>{if(pending.get(key)===entry)pending.delete(key);});
+   pending.set(key,entry);
+  }
   entry.users++;
-  return new Promise((resolve,reject)=>{let ended=false;
-   const finish=(fn,value)=>{if(ended)return;ended=true;options.signal?.removeEventListener('abort',abort);if(--entry.users===0){entry.controller.abort();if(pending.get(key)===entry)pending.delete(key);}fn(value);};
+  return new Promise((resolve,reject)=>{
+   let ended=false;
+   const finish=(fn,value)=>{if(ended)return;ended=true;options.signal?.removeEventListener('abort',abort);
+    if(--entry.users===0){entry.controller.abort();if(pending.get(key)===entry)pending.delete(key);}fn(value);};
    const abort=()=>finish(reject,new DOMException('Aborted','AbortError'));
-   options.signal?.addEventListener('abort',abort,{once:true});entry.promise.then(v=>finish(resolve,v),e=>finish(reject,e));
+   options.signal?.addEventListener('abort',abort,{once:true});
+   const deliver=data=>{
+    // When a bounded prefetch joins an already-unbounded request, apply its
+    // own memory cap before returning any data to the prefetch caller.
+    if(options.maxBytes){
+     let size;try{size=new TextEncoder().encode(JSON.stringify(data)).byteLength;}
+     catch{return finish(reject,new ApiError(413,'prefetch_limit'));}
+     if(size>options.maxBytes)return finish(reject,new ApiError(413,'prefetch_limit'));
+    }
+    finish(resolve,data);
+   };
+   entry.promise.then(deliver,error=>{
+    // The original size limit applies only to the speculative reader. Never
+    // surface its prefetch_limit failure as a navigation error. The fallback
+    // is a single explicit uncapped GET, without joining the failed flight.
+    if(!ended&&entry.maxBytes&&options.maxBytes==null&&
+       error instanceof ApiError&&error.status===413&&error.code==='prefetch_limit'){
+     bounded(path,options).then(deliver,e=>finish(reject,e));
+    }else finish(reject,error);
+   });
   });
  }
  async function bounded(path,options){const timeout=AbortSignal.timeout(options.timeoutMs??25000);const signal=options.signal?anySignal([options.signal,timeout]):timeout;return execute(path,{...options,signal});}
