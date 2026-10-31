@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 318,
+  "count": 368,
   "mappings": [
     {
       "part": 1,
@@ -943,6 +943,26 @@
     },
     {
       "part": 1,
+      "start": 786,
+      "end": 789,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 795,
+      "end": 798,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 799,
       "end": 803,
       "surface": "here",
@@ -982,6 +1002,16 @@
       "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 824,
+      "end": 827,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1027,6 +1057,16 @@
     },
     {
       "part": 1,
+      "start": 859,
+      "end": 865,
+      "surface": "didn't",
+      "senseId": "65015ace-4adc-5d50-89f9-7ab00487e090",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 866,
       "end": 868,
       "surface": "we",
@@ -1054,6 +1094,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "great as excellent acceptance"
+    },
+    {
+      "part": 1,
+      "start": 889,
+      "end": 890,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1102,6 +1152,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "before another clause"
+    },
+    {
+      "part": 1,
+      "start": 933,
+      "end": 934,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1418,6 +1478,26 @@
     },
     {
       "part": 1,
+      "start": 1202,
+      "end": 1205,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 1211,
+      "end": 1214,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1215,
       "end": 1219,
       "surface": "here",
@@ -1448,6 +1528,16 @@
       "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1240,
+      "end": 1243,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1493,6 +1583,16 @@
     },
     {
       "part": 1,
+      "start": 1275,
+      "end": 1281,
+      "surface": "didn't",
+      "senseId": "65015ace-4adc-5d50-89f9-7ab00487e090",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1282,
       "end": 1284,
       "surface": "we",
@@ -1511,6 +1611,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "approval great"
+    },
+    {
+      "part": 1,
+      "start": 1305,
+      "end": 1306,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1552,6 +1662,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "before another clause"
+    },
+    {
+      "part": 1,
+      "start": 1349,
+      "end": 1350,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1646,6 +1766,16 @@
     },
     {
       "part": 1,
+      "start": 1463,
+      "end": 1464,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1470,
       "end": 1473,
       "surface": "the",
@@ -1686,6 +1816,16 @@
     },
     {
       "part": 1,
+      "start": 1492,
+      "end": 1493,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1494,
       "end": 1497,
       "surface": "pay",
@@ -1714,12 +1854,32 @@
     },
     {
       "part": 1,
+      "start": 1533,
+      "end": 1537,
+      "surface": "it's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1538,
       "end": 1551,
       "surface": "a bit smaller",
       "entryNumber": 43,
       "senseId": "520c1ba0-08a0-4684-abf9-43eff80b22ec",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1553,
+      "end": 1559,
+      "surface": "That's",
+      "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1760,6 +1920,16 @@
       "entryNumber": 7,
       "senseId": "bee55fe4-3e01-4866-8936-8bd846a127cf",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1588,
+      "end": 1589,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1880,6 +2050,16 @@
     },
     {
       "part": 1,
+      "start": 1732,
+      "end": 1736,
+      "surface": "it's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1755,
       "end": 1771,
       "surface": "public transport",
@@ -1918,6 +2098,16 @@
     },
     {
       "part": 1,
+      "start": 1811,
+      "end": 1817,
+      "surface": "That's",
+      "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 1818,
       "end": 1821,
       "surface": "not",
@@ -1937,6 +2127,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1833,
+      "end": 1837,
+      "surface": "I've",
+      "senseId": "4a8d6065-07cc-5715-a392-051fbdafb5c1",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -1968,6 +2168,26 @@
       "entryNumber": null,
       "senseId": "5972013b-476b-449d-85b0-0e372fb75f62",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1879,
+      "end": 1880,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 1897,
+      "end": 1903,
+      "surface": "you're",
+      "senseId": "6eb1adb1-b99d-5e3f-99f1-89901dacc906",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2044,6 +2264,16 @@
     },
     {
       "part": 1,
+      "start": 2001,
+      "end": 2008,
+      "surface": "there's",
+      "senseId": "ca6b96c2-1cbb-56b9-a337-53b5755c80e7",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2015,
       "end": 2029,
       "surface": "plenty of room",
@@ -2064,6 +2294,16 @@
     },
     {
       "part": 1,
+      "start": 2048,
+      "end": 2053,
+      "surface": "can't",
+      "senseId": "0afb02de-f5f9-57f4-943b-7f9f83a19820",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2062,
       "end": 2065,
       "surface": "the",
@@ -2072,6 +2312,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2074,
+      "end": 2078,
+      "surface": "it's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2124,6 +2374,26 @@
     },
     {
       "part": 1,
+      "start": 2165,
+      "end": 2166,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 2167,
+      "end": 2173,
+      "surface": "didn't",
+      "senseId": "65015ace-4adc-5d50-89f9-7ab00487e090",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2178,
       "end": 2179,
       "surface": "a",
@@ -2154,6 +2424,26 @@
       "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2203,
+      "end": 2204,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 2214,
+      "end": 2218,
+      "surface": "I've",
+      "senseId": "4a8d6065-07cc-5715-a392-051fbdafb5c1",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2243,6 +2533,16 @@
     },
     {
       "part": 1,
+      "start": 2311,
+      "end": 2315,
+      "surface": "it's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2319,
       "end": 2322,
       "surface": "the",
@@ -2327,6 +2627,16 @@
     },
     {
       "part": 1,
+      "start": 2439,
+      "end": 2445,
+      "surface": "That's",
+      "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2459,
       "end": 2462,
       "surface": "And",
@@ -2346,6 +2656,16 @@
       "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2488,
+      "end": 2493,
+      "surface": "we'll",
+      "senseId": "ae539c01-537f-5cb7-bbb7-d6229b293194",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2371,6 +2691,16 @@
     },
     {
       "part": 1,
+      "start": 2522,
+      "end": 2526,
+      "surface": "It's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2530,
       "end": 2533,
       "surface": "the",
@@ -2388,6 +2718,16 @@
       "entryNumber": 18,
       "senseId": "2b238e5f-fe05-49d6-98b6-14cbf39fe005",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2554,
+      "end": 2558,
+      "surface": "It's",
+      "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2410,6 +2750,16 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2576,
+      "end": 2583,
+      "surface": "there's",
+      "senseId": "ca6b96c2-1cbb-56b9-a337-53b5755c80e7",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2557,12 +2907,32 @@
     },
     {
       "part": 1,
+      "start": 2751,
+      "end": 2755,
+      "surface": "I'll",
+      "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 2756,
       "end": 2766,
       "surface": "bring that",
       "entryNumber": 46,
       "senseId": "4f079865-a8ff-49f5-9fdf-faf974797e75",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2768,
+      "end": 2772,
+      "surface": "He's",
+      "senseId": "3a88ebc3-fc72-522d-a533-db883f9eab49",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2610,6 +2980,26 @@
       "entryNumber": null,
       "senseId": "489b4d8b-a0cb-5130-862c-dff0aa60da62",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2853,
+      "end": 2854,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 2872,
+      "end": 2877,
+      "surface": "we've",
+      "senseId": "b5ea88e9-f478-538b-bfca-f3863b81d2d3",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2709,6 +3099,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 3003,
+      "end": 3007,
+      "surface": "I'll",
+      "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2853,6 +3253,16 @@
     },
     {
       "part": 1,
+      "start": 3190,
+      "end": 3193,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 3194,
       "end": 3195,
       "surface": "a",
@@ -2881,6 +3291,16 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3217,
+      "end": 3218,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -2924,6 +3344,16 @@
     },
     {
       "part": 1,
+      "start": 3296,
+      "end": 3302,
+      "surface": "that's",
+      "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 3309,
       "end": 3312,
       "surface": "And",
@@ -2932,6 +3362,16 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3313,
+      "end": 3314,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -3123,6 +3563,16 @@
     },
     {
       "part": 1,
+      "start": 3609,
+      "end": 3610,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 3617,
       "end": 3624,
       "surface": "move in",
@@ -3140,6 +3590,16 @@
       "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3635,
+      "end": 3641,
+      "surface": "you're",
+      "senseId": "6eb1adb1-b99d-5e3f-99f1-89901dacc906",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -3162,6 +3622,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3674,
+      "end": 3675,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
@@ -3240,6 +3710,16 @@
     },
     {
       "part": 1,
+      "start": 3818,
+      "end": 3822,
+      "surface": "I've",
+      "senseId": "4a8d6065-07cc-5715-a392-051fbdafb5c1",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 3827,
       "end": 3829,
       "surface": "an",
@@ -3269,6 +3749,16 @@
     },
     {
       "part": 1,
+      "start": 3849,
+      "end": 3853,
+      "surface": "I'll",
+      "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
       "start": 3873,
       "end": 3875,
       "surface": "if",
@@ -3277,6 +3767,16 @@
       "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3876,
+      "end": 3882,
+      "surface": "that's",
+      "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+      "kind": "pronoun_or_contraction",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
     },
     {
       "part": 1,
