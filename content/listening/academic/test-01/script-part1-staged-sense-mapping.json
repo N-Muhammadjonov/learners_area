@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 245,
+  "count": 282,
   "mappings": [
     {
       "part": 1,
@@ -883,6 +883,17 @@
     },
     {
       "part": 1,
+      "start": 799,
+      "end": 803,
+      "surface": "here",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 810,
       "end": 813,
       "surface": "the",
@@ -983,6 +994,28 @@
     },
     {
       "part": 1,
+      "start": 959,
+      "end": 963,
+      "surface": "here",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 982,
+      "end": 983,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 1018,
       "end": 1021,
       "surface": "the",
@@ -1069,6 +1102,17 @@
     },
     {
       "part": 1,
+      "start": 1114,
+      "end": 1117,
+      "surface": "not",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "f911f8d6-7e67-4480-a2e8-e726052dde95",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 1118,
       "end": 1122,
       "surface": "hear",
@@ -1097,6 +1141,17 @@
       "entryNumber": 36,
       "senseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1137,
+      "end": 1138,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1130,6 +1185,17 @@
       "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1215,
+      "end": 1219,
+      "surface": "here",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1185,6 +1251,17 @@
       "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1329,
+      "end": 1330,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1306,12 +1383,34 @@
     },
     {
       "part": 1,
+      "start": 1560,
+      "end": 1563,
+      "surface": "not",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "f911f8d6-7e67-4480-a2e8-e726052dde95",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 1573,
       "end": 1587,
       "surface": "The last place",
       "entryNumber": 7,
       "senseId": "bee55fe4-3e01-4866-8936-8bd846a127cf",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1606,
+      "end": 1607,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1365,6 +1464,17 @@
       "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1657,
+      "end": 1658,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1448,6 +1558,39 @@
     },
     {
       "part": 1,
+      "start": 1818,
+      "end": 1821,
+      "surface": "not",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "f911f8d6-7e67-4480-a2e8-e726052dde95",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1822,
+      "end": 1823,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1842,
+      "end": 1843,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 1852,
       "end": 1855,
       "surface": "the",
@@ -1488,6 +1631,17 @@
     },
     {
       "part": 1,
+      "start": 1934,
+      "end": 1935,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 1936,
       "end": 1942,
       "surface": "garage",
@@ -1505,6 +1659,28 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1970,
+      "end": 1974,
+      "surface": "some",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1997,
+      "end": 2000,
+      "surface": "but",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1588,6 +1764,17 @@
     },
     {
       "part": 1,
+      "start": 2178,
+      "end": 2179,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 2189,
       "end": 2192,
       "surface": "the",
@@ -1596,6 +1783,28 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2198,
+      "end": 2202,
+      "surface": "when",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2223,
+      "end": 2224,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1627,6 +1836,28 @@
       "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2269,
+      "end": 2272,
+      "surface": "but",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2273,
+      "end": 2274,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1694,6 +1925,17 @@
     },
     {
       "part": 1,
+      "start": 2360,
+      "end": 2363,
+      "surface": "but",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 2371,
       "end": 2383,
       "surface": "hard to hear",
@@ -1758,6 +2000,17 @@
     },
     {
       "part": 1,
+      "start": 2512,
+      "end": 2513,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 2530,
       "end": 2533,
       "surface": "the",
@@ -1778,6 +2031,17 @@
     },
     {
       "part": 1,
+      "start": 2559,
+      "end": 2560,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 2572,
       "end": 2575,
       "surface": "and",
@@ -1786,6 +2050,17 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2584,
+      "end": 2585,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1824,6 +2099,17 @@
       "entryNumber": null,
       "senseId": "98abbae2-d979-4898-8905-1cb49ae41536",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2623,
+      "end": 2626,
+      "surface": "But",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1875,6 +2161,17 @@
       "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2693,
+      "end": 2694,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -1956,6 +2253,17 @@
     },
     {
       "part": 1,
+      "start": 2887,
+      "end": 2888,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 2900,
       "end": 2903,
       "surface": "and",
@@ -1989,6 +2297,28 @@
     },
     {
       "part": 1,
+      "start": 2924,
+      "end": 2925,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2939,
+      "end": 2942,
+      "surface": "but",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 2961,
       "end": 2963,
       "surface": "if",
@@ -2008,6 +2338,28 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2972,
+      "end": 2973,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 3013,
+      "end": 3014,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -2086,6 +2438,17 @@
     },
     {
       "part": 1,
+      "start": 3088,
+      "end": 3092,
+      "surface": "some",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 3109,
       "end": 3118,
       "surface": "questions",
@@ -2127,6 +2490,17 @@
       "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
       "status": "context_approved_staged_not_published",
       "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 3194,
+      "end": 3195,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -2367,6 +2741,17 @@
     },
     {
       "part": 1,
+      "start": 3591,
+      "end": 3595,
+      "surface": "When",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
       "start": 3599,
       "end": 3602,
       "surface": "you",
@@ -2428,6 +2813,17 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3708,
+      "end": 3712,
+      "surface": "when",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
@@ -2563,6 +2959,17 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3960,
+      "end": 3961,
+      "surface": "a",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
     },
     {
       "part": 1,
