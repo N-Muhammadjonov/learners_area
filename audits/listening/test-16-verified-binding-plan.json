@@ -4644,6 +4644,14 @@
           "meaningSha": "f986bdaa85338dae9bb9b3888206e949f4495e406a4eaa36b8f7393247b1a5c6"
         },
         {
+          "start": 100,
+          "end": 105,
+          "surface": "First",
+          "entryId": "1cb773a2-8a90-5951-96c5-9487a4cf71ef",
+          "senseId": "e94243fd-1baa-407d-aebf-0969ed3d80b3",
+          "meaningSha": "65274c371b7b6d82551a59ad6bedae80d6d10c2f9a7b09309f42caa166977883"
+        },
+        {
           "start": 107,
           "end": 110,
           "surface": "you",
@@ -4900,6 +4908,14 @@
           "meaningSha": "da820d672056d9b97e3d9bd124f764d225176d5383b92e6c3e7cf23f82f1ab77"
         },
         {
+          "start": 434,
+          "end": 440,
+          "surface": "before",
+          "entryId": "de8c7e7f-0082-5a5d-bd0b-6099c428207a",
+          "senseId": "b4b879ab-dff5-5056-b631-03a5273ed32e",
+          "meaningSha": "d8f5649bcae3f722402dd1a8eae3e8d9dc92adb155491ac762eb94e02d0f91a6"
+        },
+        {
           "start": 441,
           "end": 444,
           "surface": "you",
@@ -5002,6 +5018,14 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 553,
+          "end": 557,
+          "surface": "town",
+          "entryId": "1ec34f36-9c9a-58b4-a378-9d2ab1c7f311",
+          "senseId": "c08d707c-5c65-45f0-b829-4589b06c605f",
+          "meaningSha": "1193bcc0b0c2b26baced829c9972dcdbe4049681ff0ce550632263a749dfb6cb"
         },
         {
           "start": 558,
@@ -5156,6 +5180,14 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 723,
+          "end": 729,
+          "surface": "chance",
+          "entryId": "2c1a8895-2b0e-54bf-90c1-b73b9b2c8f3c",
+          "senseId": "672f5393-a93c-457f-94fb-2637ae36acf7",
+          "meaningSha": "f560aaf5183b22d4ad8f0a8d6829cd44ba83bac167610fa1689d85a33fd4e76c"
+        },
+        {
           "start": 733,
           "end": 738,
           "surface": "study",
@@ -5228,6 +5260,14 @@
           "meaningSha": "9b57ea7641e0cd3da605ba5a477c7f16a76a2746f5b42a4d1418357f4323c948"
         },
         {
+          "start": 813,
+          "end": 817,
+          "surface": "them",
+          "entryId": "e765051f-33c9-5e4f-b6c7-653c3ffb0257",
+          "senseId": "939df193-ef6a-5339-8f6f-6d6e56fba082",
+          "meaningSha": "895b884a7d13eaab09e2a06e3a67dbe72d089ad638d8c6f13272cf703684f488"
+        },
+        {
           "start": 818,
           "end": 826,
           "surface": "training",
@@ -5266,6 +5306,14 @@
           "entryId": "120e8195-5e84-5c20-892d-a2f5298c88ec",
           "senseId": "9147b73c-9b32-4a1e-9167-96b0c8351b7d",
           "meaningSha": "e2538f374b6bd3c9b4b6256565af52948c36bafc186ce49445c903a53cc8052c"
+        },
+        {
+          "start": 860,
+          "end": 864,
+          "surface": "them",
+          "entryId": "e765051f-33c9-5e4f-b6c7-653c3ffb0257",
+          "senseId": "939df193-ef6a-5339-8f6f-6d6e56fba082",
+          "meaningSha": "895b884a7d13eaab09e2a06e3a67dbe72d089ad638d8c6f13272cf703684f488"
         },
         {
           "start": 887,
@@ -5322,6 +5370,14 @@
           "entryId": "bf28cc21-5641-55ed-a6be-12a770eaaf83",
           "senseId": "ed80fa1f-fcfb-50bd-b083-685e70a96460",
           "meaningSha": "6bf9231e0a915bf43e20e2d89eb13dec8934177df8ee80ba8d38e0947ce446b8"
+        },
+        {
+          "start": 944,
+          "end": 952,
+          "surface": "teaching",
+          "entryId": "43c9df43-35c9-51f7-bd22-c5627ff80134",
+          "senseId": "4af4299c-b434-46e5-b24e-53065baed04c",
+          "meaningSha": "142ed938a021d593f9d21eb1cfb23dbfba1b2f7d1ea046b419e5633cbb2c0ef4"
         },
         {
           "start": 966,
@@ -5388,6 +5444,14 @@
           "meaningSha": "0313c312a2ed46ef571f2d65d2a6a52a018832f131752d44e8111e902aff36ed"
         },
         {
+          "start": 1029,
+          "end": 1032,
+          "surface": "Our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 1033,
           "end": 1041,
           "surface": "teachers",
@@ -5410,6 +5474,14 @@
           "entryId": "ee8ab00c-9ffc-5953-8e0a-771a4b01513d",
           "senseId": "19cc6db2-e04c-4a06-a49c-04cb76193396",
           "meaningSha": "feabd9c20d8f6b6353377bd8a100b429f4438f91367a450f19983b4006af77cc"
+        },
+        {
+          "start": 1058,
+          "end": 1066,
+          "surface": "teaching",
+          "entryId": "43c9df43-35c9-51f7-bd22-c5627ff80134",
+          "senseId": "4af4299c-b434-46e5-b24e-53065baed04c",
+          "meaningSha": "142ed938a021d593f9d21eb1cfb23dbfba1b2f7d1ea046b419e5633cbb2c0ef4"
         },
         {
           "start": 1072,
@@ -5466,6 +5538,14 @@
           "entryId": "b1147ab0-0a6e-58c4-bedf-e92e3a33fd38",
           "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
+        },
+        {
+          "start": 1182,
+          "end": 1185,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 1186,
@@ -5618,6 +5698,14 @@
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 1406,
+          "end": 1408,
+          "surface": "so",
+          "entryId": "03630889-6a6a-57d4-a0f1-742affe18d8f",
+          "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+          "meaningSha": "0f65c387ac4e4a0ff616120f9a9721bb23324e783db4bba979a545bbf1de27e6"
         },
         {
           "start": 1409,
@@ -5916,6 +6004,14 @@
           "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
+          "start": 1751,
+          "end": 1753,
+          "surface": "so",
+          "entryId": "03630889-6a6a-57d4-a0f1-742affe18d8f",
+          "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+          "meaningSha": "0f65c387ac4e4a0ff616120f9a9721bb23324e783db4bba979a545bbf1de27e6"
+        },
+        {
           "start": 1754,
           "end": 1758,
           "surface": "they",
@@ -6140,6 +6236,14 @@
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
         },
         {
+          "start": 2023,
+          "end": 2026,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 2027,
           "end": 2034,
           "surface": "courses",
@@ -6292,6 +6396,14 @@
           "meaningSha": "8bd477c70ce3de1cdd31d315b72239d2e4835a68133b0202210b9e81376fc55e"
         },
         {
+          "start": 2255,
+          "end": 2258,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 2264,
           "end": 2270,
           "surface": "centre",
@@ -6378,6 +6490,14 @@
           "entryId": "a2225138-f5f0-5d65-919c-35aaf05acb88",
           "senseId": "e551e20f-a99d-4a03-8894-169bd7ead3e1",
           "meaningSha": "b67bd116948b00cc5ee8dbeb9e87b4f8dacc70857e5e1ff82f9619bdbf2254ff"
+        },
+        {
+          "start": 2358,
+          "end": 2361,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 2362,
@@ -6724,6 +6844,14 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 2867,
+          "end": 2872,
+          "surface": "These",
+          "entryId": "f42fe78b-4cb1-5be5-b785-7f3ce59d9e69",
+          "senseId": "92e21f76-0d59-5c33-be24-0a2de21fdfad",
+          "meaningSha": "6c65a54df4e2a3dd06ae14581743a7dc8076bd2a118e3ab7c18894d6d89b50ca"
+        },
+        {
           "start": 2873,
           "end": 2882,
           "surface": "languages",
@@ -6796,6 +6924,14 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 2979,
+          "end": 2982,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 2983,
           "end": 2998,
           "surface": "self-assessment",
@@ -6810,6 +6946,14 @@
           "entryId": "455fa4ef-f3c3-53ed-b431-3296892599a1",
           "senseId": "b9b271ef-31a0-4092-862d-a71b014dc70b",
           "meaningSha": "c4b7fb08942c61954b4a936320fbd1defb9fdae3d5e8bb97a0b957a28441307b"
+        },
+        {
+          "start": 3017,
+          "end": 3020,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 3021,
@@ -6876,6 +7020,14 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 3100,
+          "end": 3103,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 3104,
           "end": 3112,
           "surface": "business",
@@ -6890,6 +7042,14 @@
           "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
           "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
           "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 3130,
+          "end": 3133,
+          "surface": "Our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 3134,
@@ -6954,6 +7114,14 @@
           "entryId": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
           "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
+        },
+        {
+          "start": 3213,
+          "end": 3220,
+          "surface": "develop",
+          "entryId": "ce811d3b-247e-590e-8abf-bf50e5983c6f",
+          "senseId": "7fe57c48-2766-5dfc-9ecd-c1d83df463be",
+          "meaningSha": "957849424c49bb89d5a578880021065af0de4f143f5a6e68c9bf57b86618c6d5"
         },
         {
           "start": 3221,
@@ -7188,6 +7356,14 @@
           "meaningSha": "d96d39c6c6dd87608ddb204cf38e85e2d60a2e07d8be46fb5b554a42b390b3cb"
         },
         {
+          "start": 3564,
+          "end": 3569,
+          "surface": "These",
+          "entryId": "f42fe78b-4cb1-5be5-b785-7f3ce59d9e69",
+          "senseId": "92e21f76-0d59-5c33-be24-0a2de21fdfad",
+          "meaningSha": "6c65a54df4e2a3dd06ae14581743a7dc8076bd2a118e3ab7c18894d6d89b50ca"
+        },
+        {
           "start": 3570,
           "end": 3577,
           "surface": "courses",
@@ -7210,6 +7386,14 @@
           "entryId": "4e63592f-3e05-58f6-9a2d-9e9b9161154c",
           "senseId": "edf2e01e-9018-4b49-bd5c-8b79bb01d614",
           "meaningSha": "b090dd119a76382752a8ecf23bd7c06723ae087d500c0abd040be0ddc6dcdfdf"
+        },
+        {
+          "start": 3607,
+          "end": 3609,
+          "surface": "so",
+          "entryId": "03630889-6a6a-57d4-a0f1-742affe18d8f",
+          "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+          "meaningSha": "0f65c387ac4e4a0ff616120f9a9721bb23324e783db4bba979a545bbf1de27e6"
         },
         {
           "start": 3610,
@@ -7308,12 +7492,36 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 3709,
+          "end": 3714,
+          "surface": "these",
+          "entryId": "f42fe78b-4cb1-5be5-b785-7f3ce59d9e69",
+          "senseId": "92e21f76-0d59-5c33-be24-0a2de21fdfad",
+          "meaningSha": "6c65a54df4e2a3dd06ae14581743a7dc8076bd2a118e3ab7c18894d6d89b50ca"
+        },
+        {
+          "start": 3734,
+          "end": 3737,
+          "surface": "One",
+          "entryId": "471243c3-46d4-5b04-bf4d-e9592b920328",
+          "senseId": "01ddf559-66b0-4631-969f-1ea50ba8e6df",
+          "meaningSha": "c28b75ec617604cfbbbea2fad90239ff1813389f955cb9595078d1fa7e80329f"
+        },
+        {
           "start": 3738,
           "end": 3740,
           "surface": "of",
           "entryId": "9f232f27-65ac-5f90-896f-9d9936d91d8c",
           "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
           "meaningSha": "9f08f5ab730ab117135348010ed2b033f1ac7bd27d1ae3cf0777abbbc48569ed"
+        },
+        {
+          "start": 3741,
+          "end": 3744,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 3750,
@@ -7364,6 +7572,14 @@
           "meaningSha": "c05bcef89957394b80c5114e57fd63e8c3b8d5da579d54649f70d05a22110369"
         },
         {
+          "start": 3817,
+          "end": 3820,
+          "surface": "Our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 3827,
           "end": 3829,
           "surface": "of",
@@ -7378,6 +7594,14 @@
           "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
           "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
           "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 3841,
+          "end": 3846,
+          "surface": "these",
+          "entryId": "f42fe78b-4cb1-5be5-b785-7f3ce59d9e69",
+          "senseId": "92e21f76-0d59-5c33-be24-0a2de21fdfad",
+          "meaningSha": "6c65a54df4e2a3dd06ae14581743a7dc8076bd2a118e3ab7c18894d6d89b50ca"
         },
         {
           "start": 3860,
@@ -7444,6 +7668,14 @@
           "meaningSha": "0d470f4bc2fda87c9f98312539d7c54484af34d5c18da97f4463900f21ee5a1b"
         },
         {
+          "start": 3935,
+          "end": 3938,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 3939,
           "end": 3946,
           "surface": "courses",
@@ -7492,6 +7724,14 @@
           "meaningSha": "fd2964f954ac7dff4a503a1d2c729a19f741f01c023c0b465afe5744ccfc5ba8"
         },
         {
+          "start": 3999,
+          "end": 4002,
+          "surface": "new",
+          "entryId": "fa332cbc-59db-5baf-ad3c-322451bb84c7",
+          "senseId": "4f1afb67-5ae4-5644-b324-327c035dd288",
+          "meaningSha": "acaf0198c38834a962bbcf4657e3ed6c69d9f1db2f19e188e6735fb2b8b728f7"
+        },
+        {
           "start": 4011,
           "end": 4014,
           "surface": "use",
@@ -7522,6 +7762,14 @@
           "entryId": "0b29e513-36d3-5ecf-97c0-b9d52b48447d",
           "senseId": "cfdfb544-ca84-4ec0-a4be-0e959b286c17",
           "meaningSha": "b3238d771435dc5eab4e83d0438719f5f77edec11de3e1ba8615047a2deef777"
+        },
+        {
+          "start": 4053,
+          "end": 4056,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 4057,
@@ -7588,6 +7836,14 @@
           "meaningSha": "b3238d771435dc5eab4e83d0438719f5f77edec11de3e1ba8615047a2deef777"
         },
         {
+          "start": 4128,
+          "end": 4131,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 4148,
           "end": 4155,
           "surface": "cooking",
@@ -7612,6 +7868,14 @@
           "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
+          "start": 4188,
+          "end": 4191,
+          "surface": "new",
+          "entryId": "fa332cbc-59db-5baf-ad3c-322451bb84c7",
+          "senseId": "4f1afb67-5ae4-5644-b324-327c035dd288",
+          "meaningSha": "acaf0198c38834a962bbcf4657e3ed6c69d9f1db2f19e188e6735fb2b8b728f7"
+        },
+        {
           "start": 4195,
           "end": 4202,
           "surface": "cooking",
@@ -7626,6 +7890,14 @@
           "entryId": "c4cf9379-d8c0-5a45-80ae-1200362fd0a6",
           "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
           "meaningSha": "f5fc179c4dfb7956f2157b91feed82b1f98f3b7a5837b7ec94e2fc7f44087b04"
+        },
+        {
+          "start": 4228,
+          "end": 4234,
+          "surface": "create",
+          "entryId": "12beab7e-9c5c-56f5-836c-505ed3eca723",
+          "senseId": "aec8df3e-45d7-4f72-b389-eb4d83e6c999",
+          "meaningSha": "f1a6e8801ba07efe19809fe3e3085a97ce67685fb0badeb796a2b15f6fe6eaaf"
         },
         {
           "start": 4246,
@@ -7698,6 +7970,14 @@
           "entryId": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
           "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
+        },
+        {
+          "start": 4328,
+          "end": 4334,
+          "surface": "create",
+          "entryId": "12beab7e-9c5c-56f5-836c-505ed3eca723",
+          "senseId": "aec8df3e-45d7-4f72-b389-eb4d83e6c999",
+          "meaningSha": "f1a6e8801ba07efe19809fe3e3085a97ce67685fb0badeb796a2b15f6fe6eaaf"
         },
         {
           "start": 4342,
@@ -7842,6 +8122,14 @@
           "entryId": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
           "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
+        },
+        {
+          "start": 4608,
+          "end": 4611,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 4612,
@@ -8068,6 +8356,14 @@
           "meaningSha": "d96d39c6c6dd87608ddb204cf38e85e2d60a2e07d8be46fb5b554a42b390b3cb"
         },
         {
+          "start": 4975,
+          "end": 4978,
+          "surface": "Our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
+        },
+        {
           "start": 4979,
           "end": 4987,
           "surface": "creative",
@@ -8106,6 +8402,14 @@
           "entryId": "b1147ab0-0a6e-58c4-bedf-e92e3a33fd38",
           "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
+        },
+        {
+          "start": 5055,
+          "end": 5062,
+          "surface": "develop",
+          "entryId": "ce811d3b-247e-590e-8abf-bf50e5983c6f",
+          "senseId": "7fe57c48-2766-5dfc-9ecd-c1d83df463be",
+          "meaningSha": "957849424c49bb89d5a578880021065af0de4f143f5a6e68c9bf57b86618c6d5"
         },
         {
           "start": 5063,
@@ -8178,6 +8482,14 @@
           "entryId": "a4076356-e823-560e-9dfc-5f6ee5a8e88c",
           "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
           "meaningSha": "a60c83669d72cf6db1d90c9c9b82bc9765a708ab6d71d3b5195bb09cd2ad9d88"
+        },
+        {
+          "start": 5145,
+          "end": 5148,
+          "surface": "our",
+          "entryId": "1486d007-5437-54db-8d66-68e5f18ff3d9",
+          "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+          "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
           "start": 5149,
