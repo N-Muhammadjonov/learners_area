@@ -1,0 +1,588 @@
+{
+  "schema": "listening-test-1-part-1-staged-sense-mapping-v1",
+  "test": "listening-test-1",
+  "part": 1,
+  "release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "deploymentStatus": "NOT_PUBLISHED",
+  "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
+  "note": "Selected release senses and exact transcript offsets. These are NOT live lexical_occurrences, and must be converted to validated occurrence IDs in release commit before loading.",
+  "count": 64,
+  "mappings": [
+    {
+      "part": 1,
+      "start": 40,
+      "end": 49,
+      "surface": "questions",
+      "entryNumber": 35,
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 107,
+      "end": 119,
+      "surface": "instructions",
+      "entryNumber": null,
+      "senseId": "f269c019-3066-4c34-8659-00bdba585d97",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 148,
+      "end": 161,
+      "surface": "have a chance",
+      "entryNumber": 31,
+      "senseId": "672f5393-a93c-457f-94fb-2637ae36acf7",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 165,
+      "end": 180,
+      "surface": "check your work",
+      "entryNumber": 32,
+      "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 216,
+      "end": 225,
+      "surface": "once only",
+      "entryNumber": 33,
+      "senseId": "7ff5b61d-5346-4a19-832c-a5a7c2d17e59",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 307,
+      "end": 314,
+      "surface": "booklet",
+      "entryNumber": null,
+      "senseId": "d5fa7bf0-9aaa-4802-bf65-a8fd58493013",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 464,
+      "end": 471,
+      "surface": "booklet",
+      "entryNumber": null,
+      "senseId": "d5fa7bf0-9aaa-4802-bf65-a8fd58493013",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 546,
+      "end": 561,
+      "surface": "sharing a house",
+      "entryNumber": 38,
+      "senseId": "892e5ef2-3854-4d1c-bd71-8d3a45034d87",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 730,
+      "end": 742,
+      "surface": "conversation",
+      "entryNumber": 37,
+      "senseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 814,
+      "end": 818,
+      "surface": "room",
+      "entryNumber": 40,
+      "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 870,
+      "end": 880,
+      "surface": "Come on in",
+      "entryNumber": 4,
+      "senseId": "481b7241-bdf5-5fcc-919c-0a425618b3b6",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 904,
+      "end": 912,
+      "surface": "find out",
+      "entryNumber": 2,
+      "senseId": "91ff9330-3649-442a-8d44-86f0e7db6100",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 913,
+      "end": 925,
+      "surface": "a few things",
+      "entryNumber": 39,
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 935,
+      "end": 950,
+      "surface": "make up my mind",
+      "entryNumber": 1,
+      "senseId": "5b66fc11-e5f2-43c3-8c61-eba46a680789",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1097,
+      "end": 1104,
+      "surface": "because",
+      "entryNumber": null,
+      "senseId": "dda5b1c0-768c-58f7-b6c9-941411ba46c5",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1127,
+      "end": 1136,
+      "surface": "recording",
+      "entryNumber": 36,
+      "senseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1378,
+      "end": 1390,
+      "surface": "first of all",
+      "entryNumber": 5,
+      "senseId": "7d622856-7f4c-50d6-b352-5122f5193b04",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1394,
+      "end": 1412,
+      "surface": "wasn't quite clear",
+      "entryNumber": 41,
+      "senseId": "86c921f0-4bef-449b-b0ab-b1c277d3ab26",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1430,
+      "end": 1443,
+      "surface": "It depends on",
+      "entryNumber": 6,
+      "senseId": "0aea21ac-aabd-53e1-a273-eb951739a9c9",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1480,
+      "end": 1487,
+      "surface": "bedroom",
+      "entryNumber": null,
+      "senseId": "6cffda95-280b-4bb1-b15e-80f160cf43de",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1503,
+      "end": 1509,
+      "surface": "a week",
+      "entryNumber": 42,
+      "senseId": "6da4b4c1-b6c5-4944-a281-c525b6373b32",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1525,
+      "end": 1532,
+      "surface": "because",
+      "entryNumber": null,
+      "senseId": "dda5b1c0-768c-58f7-b6c9-941411ba46c5",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1538,
+      "end": 1551,
+      "surface": "a bit smaller",
+      "entryNumber": 43,
+      "senseId": "520c1ba0-08a0-4684-abf9-43eff80b22ec",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1573,
+      "end": 1587,
+      "surface": "The last place",
+      "entryNumber": 7,
+      "senseId": "bee55fe4-3e01-4866-8936-8bd846a127cf",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1630,
+      "end": 1637,
+      "surface": "smaller",
+      "entryNumber": null,
+      "senseId": "0664b79c-db4e-4478-a530-9f1b5dad31c1",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1659,
+      "end": 1672,
+      "surface": "good location",
+      "entryNumber": 8,
+      "senseId": "63e628fc-d2b8-4a6d-89d5-6d3b73d3da12",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1755,
+      "end": 1771,
+      "surface": "public transport",
+      "entryNumber": 9,
+      "senseId": "4b84b699-d444-4492-a422-7956c8ea21fb",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1777,
+      "end": 1793,
+      "surface": "nearest bus stop",
+      "entryNumber": 10,
+      "senseId": "36db5e43-3cf8-417a-b7a7-70d51ccc74b2",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1797,
+      "end": 1809,
+      "surface": "quite a walk",
+      "entryNumber": 11,
+      "senseId": "7d84593f-7885-43e3-a78b-2bc11b739396",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1870,
+      "end": 1878,
+      "surface": "anywhere",
+      "entryNumber": null,
+      "senseId": "5972013b-476b-449d-85b0-0e372fb75f62",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1911,
+      "end": 1918,
+      "surface": "because",
+      "entryNumber": null,
+      "senseId": "dda5b1c0-768c-58f7-b6c9-941411ba46c5",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1936,
+      "end": 1942,
+      "surface": "garage",
+      "entryNumber": 45,
+      "senseId": "70b83e52-5c6d-403c-a0cc-d75d45ec91e1",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2015,
+      "end": 2029,
+      "surface": "plenty of room",
+      "entryNumber": 44,
+      "senseId": "67f92f63-3f44-4044-8f9d-7bc4ee3bebee",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2085,
+      "end": 2095,
+      "surface": "no parking",
+      "entryNumber": 12,
+      "senseId": "b58283e3-0916-4128-9a1e-cbfbd5ac92cc",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2105,
+      "end": 2114,
+      "surface": "back lane",
+      "entryNumber": 13,
+      "senseId": "109ee09b-b041-4c50-a44e-a4b2825b177e",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2152,
+      "end": 2163,
+      "surface": "phone calls",
+      "entryNumber": 14,
+      "senseId": "53229173-90de-5e72-b0f2-5faeec6c497c",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2249,
+      "end": 2256,
+      "surface": "usually",
+      "entryNumber": null,
+      "senseId": "2a7a2544-4a34-437e-80e0-3e44bcbdcf31",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2323,
+      "end": 2330,
+      "surface": "kitchen",
+      "entryNumber": null,
+      "senseId": "c9caeb39-926f-433e-932c-777227c03a14",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2371,
+      "end": 2383,
+      "surface": "hard to hear",
+      "entryNumber": 16,
+      "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2534,
+      "end": 2552,
+      "surface": "front of the house",
+      "entryNumber": 18,
+      "senseId": "2b238e5f-fe05-49d6-98b6-14cbf39fe005",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2586,
+      "end": 2594,
+      "surface": "cupboard",
+      "entryNumber": null,
+      "senseId": "0e63380e-669e-4b5e-bffb-fcbbb481e635",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2599,
+      "end": 2603,
+      "surface": "desk",
+      "entryNumber": null,
+      "senseId": "fd423a5e-4bb1-4a78-9127-eb92f463d2ac",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2613,
+      "end": 2620,
+      "surface": "already",
+      "entryNumber": null,
+      "senseId": "98abbae2-d979-4898-8905-1cb49ae41536",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2639,
+      "end": 2649,
+      "surface": "quite cold",
+      "entryNumber": 19,
+      "senseId": "e8f5c066-c58e-4c8d-b8d1-cb99b8f64c2f",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2650,
+      "end": 2658,
+      "surface": "at night",
+      "entryNumber": 20,
+      "senseId": "22db4310-50ea-4299-bec2-40bfceccd742",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2756,
+      "end": 2766,
+      "surface": "bring that",
+      "entryNumber": 46,
+      "senseId": "4f079865-a8ff-49f5-9fdf-faf974797e75",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2797,
+      "end": 2809,
+      "surface": "left me with",
+      "entryNumber": 21,
+      "senseId": "1d3bb519-95f1-5655-b8d3-c148794e5cd0",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2810,
+      "end": 2819,
+      "surface": "a big box",
+      "entryNumber": 47,
+      "senseId": "4db2dc38-6a0d-4026-bb85-a5963d6ade29",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2839,
+      "end": 2847,
+      "surface": "Anything",
+      "entryNumber": null,
+      "senseId": "76c1189c-bf86-5cf1-9b91-9a11f2e50def",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2848,
+      "end": 2852,
+      "surface": "else",
+      "entryNumber": null,
+      "senseId": "489b4d8b-a0cb-5130-862c-dff0aa60da62",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3065,
+      "end": 3077,
+      "surface": "conversation",
+      "entryNumber": null,
+      "senseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3201,
+      "end": 3211,
+      "surface": "sports fan",
+      "entryNumber": 23,
+      "senseId": "145c6c98-0e39-4d6a-8ff6-4823e6a4c454",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3219,
+      "end": 3226,
+      "surface": "usually",
+      "entryNumber": null,
+      "senseId": "2a7a2544-4a34-437e-80e0-3e44bcbdcf31",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3251,
+      "end": 3257,
+      "surface": "Friday",
+      "entryNumber": null,
+      "senseId": "3cf52838-8295-5258-9e06-ef7fb1e22c24",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3327,
+      "end": 3338,
+      "surface": "supermarket",
+      "entryNumber": 24,
+      "senseId": "74d63195-4a8d-4a7e-a646-be0e2afc5292",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3342,
+      "end": 3349,
+      "surface": "Tuesday",
+      "entryNumber": null,
+      "senseId": "edef6bf8-bd89-5db2-a4ea-311aa4e8614e",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3354,
+      "end": 3362,
+      "surface": "Thursday",
+      "entryNumber": null,
+      "senseId": "c923a375-22c8-57d8-a201-4b3fdc867d14",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3538,
+      "end": 3552,
+      "surface": "give me a lift",
+      "entryNumber": 25,
+      "senseId": "27d4bc0b-20d4-4328-95e0-120a1bd8b262",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3561,
+      "end": 3577,
+      "surface": "share the petrol",
+      "entryNumber": 26,
+      "senseId": "0cc26972-456b-40fe-8b1e-6a781121bee5",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3617,
+      "end": 3624,
+      "surface": "move in",
+      "entryNumber": 27,
+      "senseId": "313e5c16-3fc9-41b5-9540-105df8fe9598",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3721,
+      "end": 3732,
+      "surface": "rent period",
+      "entryNumber": 28,
+      "senseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3830,
+      "end": 3834,
+      "surface": "exam",
+      "entryNumber": null,
+      "senseId": "69613fac-589b-4d54-8307-57a7d0d071c5",
+      "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3835,
+      "end": 3844,
+      "surface": "next week",
+      "entryNumber": 29,
+      "senseId": "6da4b4c1-b6c5-4944-a281-c525b6373b32",
+      "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3898,
+      "end": 3909,
+      "surface": "sounds fine",
+      "entryNumber": 30,
+      "senseId": "0244d1c2-fab3-447e-b2f5-782e835f854d",
+      "kind": "phrase"
+    }
+  ]
+}
