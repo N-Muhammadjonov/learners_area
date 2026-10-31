@@ -3,9 +3,9 @@
   "part": 2,
   "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
   "sourceBodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
-  "mappedSpans": 583,
-  "unresolvedOccurrences": 311,
-  "unresolvedUniqueForms": 203,
+  "mappedSpans": 613,
+  "unresolvedOccurrences": 277,
+  "unresolvedUniqueForms": 172,
   "inventory": [
     {
       "start": 27,
@@ -1044,13 +1044,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2690,
-      "end": 2695,
-      "surface": "often",
-      "context": "l begin with languages, as they're often very popular. We offer a variety of Europ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2732,
       "end": 2740,
       "surface": "European",
@@ -1090,20 +1083,6 @@
       "end": 2796,
       "surface": "Spanish",
       "context": "cluding French, German, Polish and Spanish. In addition, we offer Arabic, Korean, Ja",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2798,
-      "end": 2800,
-      "surface": "In",
-      "context": "rench, German, Polish and Spanish. In addition, we offer Arabic, Korean, Japane",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 2801,
-      "end": 2809,
-      "surface": "addition",
-      "context": "ch, German, Polish and Spanish. In addition, we offer Arabic, Korean, Japanese and Ma",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1177,13 +1156,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 2947,
-      "end": 2952,
-      "surface": "class",
-      "context": " of ability and, to find out which class you belong in, you can do our self-assess",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 2957,
       "end": 2963,
       "surface": "belong",
@@ -1233,13 +1205,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3067,
-      "end": 3071,
-      "surface": "Next",
-      "context": " all the languages we offer. MIKE: Next, I'd like to tell you about our business-",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3077,
       "end": 3081,
       "surface": "like",
@@ -1268,31 +1233,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3167,
-      "end": 3174,
-      "surface": "morning",
-      "context": "r business courses vary from short morning or afternoon sessions, where you will dev",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3178,
-      "end": 3187,
-      "surface": "afternoon",
-      "context": "courses vary from short morning or afternoon sessions, where you will develop an excel",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3208,
       "end": 3212,
       "surface": "will",
       "context": "g or afternoon sessions, where you will develop an excellent understanding of a p",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3224,
-      "end": 3233,
-      "surface": "excellent",
-      "context": "essions, where you will develop an excellent understanding of a particular topic, to c",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1307,13 +1251,6 @@
       "end": 3263,
       "surface": "particular",
       "context": "op an excellent understanding of a particular topic, to courses that run for over thirt",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3264,
-      "end": 3269,
-      "surface": "topic",
-      "context": "lent understanding of a particular topic, to courses that run for over thirty week",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1380,24 +1317,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3484,
-      "end": 3495,
-      "surface": "development",
-      "context": "ch engine optimisation and website development, we have the business courses to help you",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 3578,
       "end": 3581,
       "surface": "are",
       "context": "ve your goals. MIKE: These courses are always the most popular, so if you're int",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3582,
-      "end": 3588,
-      "surface": "always",
-      "context": "our goals. MIKE: These courses are always the most popular, so if you're interested",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1412,13 +1335,6 @@
       "end": 3650,
       "surface": "make",
       "context": "f you're interested, make sure you make your booking fast. We only take ten peopl",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3656,
-      "end": 3663,
-      "surface": "booking",
-      "context": "nterested, make sure you make your booking fast. We only take ten people per course ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1454,13 +1370,6 @@
       "end": 3724,
       "surface": "go",
       "context": "people per course and these places go quickly. One of our most popular course a",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3725,
-      "end": 3732,
-      "surface": "quickly",
-      "context": "ple per course and these places go quickly. One of our most popular course areas is ",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1562,20 +1471,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 3965,
-      "end": 3970,
-      "surface": "build",
-      "context": "ced, our courses will allow you to build up your knowledge and learn new ways to u",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 3971,
-      "end": 3973,
-      "surface": "up",
-      "context": "ur courses will allow you to build up your knowledge and learn new ways to use ",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4003,
       "end": 4007,
       "surface": "ways",
@@ -1611,13 +1506,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4132,
-      "end": 4144,
-      "surface": "introduction",
-      "context": "ty courses, but a favourite is our introduction to cooking. This course is ideal for thos",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4145,
       "end": 4147,
       "surface": "to",
@@ -1629,13 +1517,6 @@
       "end": 4171,
       "surface": "is",
       "context": "troduction to cooking. This course is ideal for those new to cooking or for any",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4172,
-      "end": 4177,
-      "surface": "ideal",
-      "context": "duction to cooking. This course is ideal for those new to cooking or for anyone wi",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1695,13 +1576,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4305,
-      "end": 4315,
-      "surface": "techniques",
-      "context": "arn a variety of essential cooking techniques to help you create simple everyday dishes",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4335,
       "end": 4341,
       "surface": "simple",
@@ -1744,13 +1618,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4404,
-      "end": 4410,
-      "surface": "guests",
-      "context": "e elaborate things to impress your guests. You will also learn to make the best use",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4416,
       "end": 4420,
       "surface": "will",
@@ -1786,31 +1653,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4471,
-      "end": 4482,
-      "surface": "ingredients",
-      "context": "ake the best use of store cupboard ingredients, and how to take delicious shortcuts to m",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4495,
       "end": 4499,
       "surface": "take",
       "context": "e cupboard ingredients, and how to take delicious shortcuts to make cooking quick",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4500,
-      "end": 4509,
-      "surface": "delicious",
-      "context": "board ingredients, and how to take delicious shortcuts to make cooking quick and enjoy",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4510,
-      "end": 4519,
-      "surface": "shortcuts",
-      "context": "edients, and how to take delicious shortcuts to make cooking quick and enjoyable every",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1825,13 +1671,6 @@
       "end": 4541,
       "surface": "quick",
       "context": "elicious shortcuts to make cooking quick and enjoyable every day. MIKE: I'll finis",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4546,
-      "end": 4555,
-      "surface": "enjoyable",
-      "context": "hortcuts to make cooking quick and enjoyable every day. MIKE: I'll finish with telling",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1856,38 +1695,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4640,
-      "end": 4645,
-      "surface": "looks",
-      "context": "ut our creative writing course. It looks at practical ways to get started, whilst ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4646,
-      "end": 4648,
-      "surface": "at",
-      "context": " creative writing course. It looks at practical ways to get started, whilst pro",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4659,
       "end": 4663,
       "surface": "ways",
       "context": "ting course. It looks at practical ways to get started, whilst promoting greater ",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4667,
-      "end": 4670,
-      "surface": "get",
-      "context": "rse. It looks at practical ways to get started, whilst promoting greater writing",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4671,
-      "end": 4678,
-      "surface": "started",
-      "context": " It looks at practical ways to get started, whilst promoting greater writing confide",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1909,13 +1720,6 @@
       "end": 4704,
       "surface": "greater",
       "context": "s to get started, whilst promoting greater writing confidence. The focus of this cou",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4713,
-      "end": 4723,
-      "surface": "confidence",
-      "context": ", whilst promoting greater writing confidence. The focus of this course is placed on pr",
       "status": "editorial_sense_review_required"
     },
     {
@@ -1968,13 +1772,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4796,
-      "end": 4806,
-      "surface": "discussion",
-      "context": "n practical exercises supported by discussion and examples and builds upon the strength",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4811,
       "end": 4819,
       "surface": "examples",
@@ -2003,13 +1800,6 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4858,
-      "end": 4864,
-      "surface": "writer",
-      "context": " builds upon the strengths of each writer. It will give you an insight into the cre",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4869,
       "end": 4873,
       "surface": "will",
@@ -2017,24 +1807,10 @@
       "status": "editorial_sense_review_required"
     },
     {
-      "start": 4886,
-      "end": 4893,
-      "surface": "insight",
-      "context": "f each writer. It will give you an insight into the creative process and encourage y",
-      "status": "editorial_sense_review_required"
-    },
-    {
       "start": 4894,
       "end": 4898,
       "surface": "into",
       "context": "riter. It will give you an insight into the creative process and encourage you to",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 4912,
-      "end": 4919,
-      "surface": "process",
-      "context": "e you an insight into the creative process and encourage you to achieve your writing",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2049,13 +1825,6 @@
       "end": 5011,
       "surface": "provides",
       "context": " MIKE: Our creative writing course provides an opportunity for all aspiring writers t",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 5015,
-      "end": 5026,
-      "surface": "opportunity",
-      "context": "reative writing course provides an opportunity for all aspiring writers to develop the s",
       "status": "editorial_sense_review_required"
     },
     {
@@ -2084,13 +1853,6 @@
       "end": 5077,
       "surface": "for",
       "context": "ring writers to develop the skills for writing fiction. We have lots more course",
-      "status": "editorial_sense_review_required"
-    },
-    {
-      "start": 5086,
-      "end": 5093,
-      "surface": "fiction",
-      "context": " to develop the skills for writing fiction. We have lots more courses and I urge you",
       "status": "editorial_sense_review_required"
     },
     {
