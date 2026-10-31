@@ -32,5 +32,21 @@
     "Do not manufacture synonyms/antonyms",
     "Only bind transcript offsets after exact lexeme, sense, and part-of-speech verification",
     "No unrelated production writes"
-  ]
+  ],
+  "part1Reconciliation": {
+    "status": "blocked_until_existing_unresolved_occurrences_are_relocated_or_removed_using_explicit_before_preconditions",
+    "note": "The existing eight unresolved multiword spans overlap verified word senses. The binding operator rejects all overlaps. Never falsely label a sentence fragment as a collocation or bypass overlap checks.",
+    "count": 8,
+    "policy": "Editorial maintenance must separately correct the legacy occurrence rows, with exact IDs/offsets and transactional preconditions, before applying the verified 89-span plan. Do not delete live rows merely to make this batch pass.",
+    "legacySurfaces": [
+      "a couple of miles past the Palace Pier",
+      "arrange a meeting place",
+      "raise thirty-five pounds",
+      "entered into a free prize draw",
+      "a crew of twenty people",
+      "parents' permission",
+      "wears a life jacket",
+      "bring some spare clothes"
+    ]
+  }
 }
