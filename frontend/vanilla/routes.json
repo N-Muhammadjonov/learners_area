@@ -115,6 +115,7 @@
     "/app/admin/grammar/[^/]+",
     "/app/admin/reading/[^/]+",
     "/app/video-lessons/[^/]+",
+    "/app/live-classes/[^/]+",
     "/app/writing/grade/[^/]+",
     "/app/admin/people/[^/]+",
     "/app/grammar/[^/]+",
