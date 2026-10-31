@@ -591,12 +591,7 @@
     },
     {
       "operation": "add_sense",
-      "lexemeId": null,
-      "referenceNewLexeme": {
-        "lemma": "by",
-        "pos": "preposition",
-        "lexicalType": "word"
-      },
+      "lexemeId": "39f18755-9ec5-5977-9939-8b5fba8aa929",
       "definitionEn": "Used to show the action or means by which something is achieved.",
       "translationUz": "orqali, bilan",
       "definitionUz": "Ish-harakat bajarilishining usuli yoki vositasini bildiradi.",
@@ -624,12 +619,7 @@
     },
     {
       "operation": "add_sense",
-      "lexemeId": null,
-      "referenceNewLexeme": {
-        "lemma": "on",
-        "pos": "preposition",
-        "lexicalType": "word"
-      },
+      "lexemeId": "a30414a6-9579-51aa-af41-be95c657c779",
       "definitionEn": "Used to indicate the subject or topic of a discussion or decision.",
       "translationUz": "haqida, bo‘yicha",
       "definitionUz": "Muhokama yoki qarorning mavzusini ko‘rsatadi.",
@@ -642,12 +632,7 @@
     },
     {
       "operation": "add_sense",
-      "lexemeId": null,
-      "referenceNewLexeme": {
-        "lemma": "in",
-        "pos": "preposition",
-        "lexicalType": "word"
-      },
+      "lexemeId": "7e0ceb8a-0599-5a8d-aec4-5556666a801e",
       "definitionEn": "Used with names of places to say where something happens or is situated.",
       "translationUz": "-da, ichida",
       "definitionUz": "Joy nomi bilan hodisaning sodir bo‘lish joyini ko‘rsatadi.",
@@ -720,12 +705,7 @@
     },
     {
       "operation": "add_sense",
-      "lexemeId": null,
-      "referenceNewLexeme": {
-        "lemma": "who's",
-        "pos": "pronoun",
-        "lexicalType": "fixed_expression"
-      },
+      "lexemeId": "4a76773f-02c0-5306-a614-b14f83254c6d",
       "definitionEn": "Short form of who has.",
       "translationUz": "kim ...gan?",
       "definitionUz": "Who has birikmasining qisqartma shakli.",
@@ -763,21 +743,6 @@
         {
           "textEn": "I'll send you the details.",
           "textUz": "Men sizga tafsilotlarni yuboraman."
-        }
-      ]
-    },
-    {
-      "operation": "add_lexeme",
-      "lemma": "a.m.",
-      "partOfSpeech": "r",
-      "lexicalType": "word",
-      "definitionEn": "Before noon, used after a clock time.",
-      "translationUz": "ertalab, tushgacha",
-      "definitionUz": "Soat vaqtidan keyin kelib tushdan oldingi vaqtni bildiradi.",
-      "examples": [
-        {
-          "textEn": "The heats begin at ten a.m.",
-          "textUz": "Saralash ertalab soat o‘nda boshlanadi."
         }
       ]
     },
@@ -883,21 +848,6 @@
         {
           "textEn": "The second of July.",
           "textUz": "Ikkinchi iyul."
-        }
-      ]
-    },
-    {
-      "operation": "add_lexeme",
-      "lemma": "a.m.",
-      "partOfSpeech": "fixed_expression",
-      "lexicalType": "word",
-      "definitionEn": "A written abbreviation meaning before midday in a clock time.",
-      "translationUz": "ertalab",
-      "definitionUz": "Soat vaqtini tushdan oldinligini ko‘rsatuvchi qisqartma.",
-      "examples": [
-        {
-          "textEn": "Ten a.m.",
-          "textUz": "Ertalab o‘n."
         }
       ]
     }
