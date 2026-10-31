@@ -8,8 +8,9 @@
   "description": "100 transcript targets and contextual sense candidates. Existing IDs and source-confirmed candidate drafts; nothing published until editorial pass and safe release deploy.",
   "summary": {
     "existing_sense_candidate": 61,
-    "source_verified_new_entry_draft": 10,
-    "requires_dictionary_sense_review": 29
+    "source_verified_new_entry_draft": 7,
+    "requires_dictionary_sense_review": 29,
+    "externally_verified_entry_draft": 3
   },
   "items": [
     {
@@ -393,7 +394,7 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
+      "status": "externally_verified_entry_draft",
       "newEntryDraft": {
         "headword": "living room",
         "partOfSpeech": "noun",
@@ -402,10 +403,19 @@
         "cefr": "A1",
         "exampleContext": " a phone in the house is useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That",
         "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/living-room",
-        "synonyms": [],
+        "synonyms": [
+          "sitting room",
+          "lounge"
+        ],
         "antonyms": [],
         "collocations": [],
-        "reviewStatus": "not_published"
+        "reviewStatus": "not_published",
+        "lexicographicVerification": {
+          "source": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/dictionary/english/living-room",
+          "status": "verified_headword_and_contextual_meaning",
+          "checkedOn": "2026-10-31"
+        }
       }
     },
     {
@@ -614,7 +624,7 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
+      "status": "externally_verified_entry_draft",
       "newEntryDraft": {
         "headword": "rice cooker",
         "partOfSpeech": "noun",
@@ -626,7 +636,13 @@
         "synonyms": [],
         "antonyms": [],
         "collocations": [],
-        "reviewStatus": "not_published"
+        "reviewStatus": "not_published",
+        "lexicographicVerification": {
+          "source": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/dictionary/english/rice-cooker",
+          "status": "verified_headword_and_contextual_meaning",
+          "checkedOn": "2026-10-31"
+        }
       }
     },
     {
@@ -2303,7 +2319,7 @@
       "exactExistingSenseId": null,
       "activeReleaseEntryIds": [],
       "availableSenseIds": [],
-      "status": "source_verified_new_entry_draft",
+      "status": "externally_verified_entry_draft",
       "newEntryDraft": {
         "headword": "feel free",
         "partOfSpeech": "idiom",
@@ -2312,10 +2328,18 @@
         "cefr": null,
         "exampleContext": "een turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your question",
         "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/feel-free",
-        "synonyms": [],
+        "synonyms": [
+          "be welcome to"
+        ],
         "antonyms": [],
         "collocations": [],
-        "reviewStatus": "not_published"
+        "reviewStatus": "not_published",
+        "lexicographicVerification": {
+          "source": "Cambridge Dictionary",
+          "url": "https://dictionary.cambridge.org/dictionary/english/feel-free",
+          "status": "verified_headword_and_contextual_meaning",
+          "checkedOn": "2026-10-31"
+        }
       }
     },
     {
