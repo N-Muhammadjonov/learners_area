@@ -148,7 +148,7 @@ def coverage_report(plan):
             # Speaker labels such as MAN: and WOMAN: are dialogue metadata.
             line=body.rfind("\n",0,match.start())+1
             colon=body.find(":",line)
-            if colon>=0 and colon<match.start()+len(match.group()) and body[line:colon].strip().isupper():
+            if colon==match.end() and match.start()==line and body[line:colon].isupper():
                 continue
             covered=any(span["start"]<=match.start() and match.end()<=span["end"] for span in spans)
             if not covered:
