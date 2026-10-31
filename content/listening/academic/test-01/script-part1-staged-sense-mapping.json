@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 122,
+  "count": 247,
   "mappings": [
     {
       "part": 1,
@@ -18,6 +18,28 @@
       "kind": "single_word",
       "basis": "a signal that encodes audio or images",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 12,
+      "end": 15,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 16,
+      "end": 19,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -49,6 +71,17 @@
       "senseId": "2bbcf707-0752-5fb0-8345-f9239b097ba3",
       "status": "context_approved_staged_not_published",
       "basis": "relative pronoun: the thing heard"
+    },
+    {
+      "part": 1,
+      "start": 58,
+      "end": 61,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -85,6 +118,17 @@
     },
     {
       "part": 1,
+      "start": 91,
+      "end": 94,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 95,
       "end": 97,
       "surface": "to",
@@ -107,12 +151,34 @@
     },
     {
       "part": 1,
+      "start": 103,
+      "end": 106,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 107,
       "end": 119,
       "surface": "instructions",
       "entryNumber": null,
       "senseId": "f269c019-3066-4c34-8659-00bdba585d97",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 120,
+      "end": 123,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -124,6 +190,28 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "IELTS questions requiring response"
+    },
+    {
+      "part": 1,
+      "start": 135,
+      "end": 138,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 139,
+      "end": 142,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -167,6 +255,17 @@
     },
     {
       "part": 1,
+      "start": 186,
+      "end": 189,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 190,
       "end": 200,
       "surface": "recordings",
@@ -184,6 +283,17 @@
       "entryNumber": 33,
       "senseId": "7ff5b61d-5346-4a19-832c-a5a7c2d17e59",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 228,
+      "end": 231,
+      "surface": "The",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -242,6 +352,17 @@
     },
     {
       "part": 1,
+      "start": 268,
+      "end": 272,
+      "surface": "your",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 273,
       "end": 280,
       "surface": "answers",
@@ -250,6 +371,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "answers recorded in booklet"
+    },
+    {
+      "part": 1,
+      "start": 284,
+      "end": 287,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -273,6 +405,17 @@
     },
     {
       "part": 1,
+      "start": 319,
+      "end": 322,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 323,
       "end": 326,
       "surface": "end",
@@ -284,6 +427,17 @@
     },
     {
       "part": 1,
+      "start": 330,
+      "end": 333,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 334,
       "end": 338,
       "surface": "test",
@@ -292,6 +446,17 @@
       "kind": "single_word",
       "basis": "academic test",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 340,
+      "end": 343,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -317,6 +482,17 @@
     },
     {
       "part": 1,
+      "start": 381,
+      "end": 385,
+      "surface": "your",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 386,
       "end": 393,
       "surface": "answers",
@@ -336,6 +512,17 @@
       "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
       "status": "context_approved_staged_not_published",
       "basis": "transfer to destination answer sheet"
+    },
+    {
+      "part": 1,
+      "start": 397,
+      "end": 399,
+      "surface": "an",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "06b8c0cc-088f-56c0-bf41-e4b9c309993d",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -380,6 +567,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "page in book"
+    },
+    {
+      "part": 1,
+      "start": 450,
+      "end": 454,
+      "surface": "your",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -458,6 +656,17 @@
     },
     {
       "part": 1,
+      "start": 524,
+      "end": 527,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 546,
       "end": 561,
       "surface": "sharing a house",
@@ -486,6 +695,17 @@
       "senseId": "e94243fd-1baa-407d-aebf-0969ed3d80b3",
       "status": "context_approved_staged_not_published",
       "basis": "before anything else"
+    },
+    {
+      "part": 1,
+      "start": 578,
+      "end": 581,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -555,6 +775,17 @@
     },
     {
       "part": 1,
+      "start": 636,
+      "end": 639,
+      "surface": "You",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 645,
       "end": 648,
       "surface": "see",
@@ -563,6 +794,17 @@
       "senseId": "42d0f160-bc4b-56c4-879f-0d0af1ddbfcf",
       "status": "context_approved_staged_not_published",
       "basis": "notice visually on page"
+    },
+    {
+      "part": 1,
+      "start": 663,
+      "end": 665,
+      "surface": "an",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "06b8c0cc-088f-56c0-bf41-e4b9c309993d",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -588,6 +830,28 @@
     },
     {
       "part": 1,
+      "start": 697,
+      "end": 700,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 726,
+      "end": 729,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 730,
       "end": 742,
       "surface": "conversation",
@@ -608,12 +872,78 @@
     },
     {
       "part": 1,
+      "start": 782,
+      "end": 784,
+      "surface": "Hi",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 810,
+      "end": 813,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 814,
       "end": 818,
       "surface": "room",
       "entryNumber": 40,
       "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 820,
+      "end": 822,
+      "surface": "Hi",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 835,
+      "end": 837,
+      "surface": "We",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 848,
+      "end": 851,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 866,
+      "end": 868,
+      "surface": "we",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -653,6 +983,50 @@
     },
     {
       "part": 1,
+      "start": 1018,
+      "end": 1021,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1033,
+      "end": 1035,
+      "surface": "we",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1050,
+      "end": 1053,
+      "surface": "You",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1068,
+      "end": 1071,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 1072,
       "end": 1081,
       "surface": "questions",
@@ -664,12 +1038,34 @@
     },
     {
       "part": 1,
+      "start": 1085,
+      "end": 1088,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 1097,
       "end": 1104,
       "surface": "because",
       "entryNumber": null,
       "senseId": "dda5b1c0-768c-58f7-b6c9-941411ba46c5",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1105,
+      "end": 1108,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -684,12 +1080,34 @@
     },
     {
       "part": 1,
+      "start": 1123,
+      "end": 1126,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 1127,
       "end": 1136,
       "surface": "recording",
       "entryNumber": 36,
       "senseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1169,
+      "end": 1172,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -701,6 +1119,83 @@
       "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
       "status": "context_approved_staged_not_published",
       "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 1198,
+      "end": 1200,
+      "surface": "Hi",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1226,
+      "end": 1229,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1236,
+      "end": 1238,
+      "surface": "Hi",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "c5a53978-b1e0-4a59-99f6-4ab731d08082",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1251,
+      "end": 1253,
+      "surface": "We",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1264,
+      "end": 1267,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1282,
+      "end": 1284,
+      "surface": "we",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1359,
+      "end": 1361,
+      "surface": "my",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -722,12 +1217,56 @@
     },
     {
       "part": 1,
+      "start": 1419,
+      "end": 1422,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 1430,
       "end": 1443,
       "surface": "It depends on",
       "entryNumber": 6,
       "senseId": "0aea21ac-aabd-53e1-a273-eb951739a9c9",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1444,
+      "end": 1447,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1453,
+      "end": 1456,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1470,
+      "end": 1473,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -776,12 +1315,56 @@
     },
     {
       "part": 1,
+      "start": 1614,
+      "end": 1617,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1618,
+      "end": 1620,
+      "surface": "it",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 1630,
       "end": 1637,
       "surface": "smaller",
       "entryNumber": null,
       "senseId": "0664b79c-db4e-4478-a530-9f1b5dad31c1",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1639,
+      "end": 1642,
+      "surface": "And",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1643,
+      "end": 1645,
+      "surface": "it",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -794,12 +1377,56 @@
     },
     {
       "part": 1,
+      "start": 1681,
+      "end": 1684,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1685,
+      "end": 1688,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1713,
+      "end": 1716,
+      "surface": "The",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 1755,
       "end": 1771,
       "surface": "public transport",
       "entryNumber": 9,
       "senseId": "4b84b699-d444-4492-a422-7956c8ea21fb",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1773,
+      "end": 1776,
+      "surface": "The",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -818,6 +1445,17 @@
       "entryNumber": 11,
       "senseId": "7d84593f-7885-43e3-a78b-2bc11b739396",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1852,
+      "end": 1855,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -859,6 +1497,17 @@
     },
     {
       "part": 1,
+      "start": 1948,
+      "end": 1951,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2015,
       "end": 2029,
       "surface": "plenty of room",
@@ -868,12 +1517,56 @@
     },
     {
       "part": 1,
+      "start": 2044,
+      "end": 2047,
+      "surface": "You",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2062,
+      "end": 2065,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2085,
       "end": 2095,
       "surface": "no parking",
       "entryNumber": 12,
       "senseId": "b58283e3-0916-4128-9a1e-cbfbd5ac92cc",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2097,
+      "end": 2100,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2101,
+      "end": 2104,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -895,12 +1588,56 @@
     },
     {
       "part": 1,
+      "start": 2189,
+      "end": 2192,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2238,
+      "end": 2240,
+      "surface": "my",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2249,
       "end": 2256,
       "surface": "usually",
       "entryNumber": null,
       "senseId": "2a7a2544-4a34-437e-80e0-3e44bcbdcf31",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2262,
+      "end": 2264,
+      "surface": "me",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2284,
+      "end": 2287,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -915,12 +1652,56 @@
     },
     {
       "part": 1,
+      "start": 2319,
+      "end": 2322,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2323,
       "end": 2330,
       "surface": "kitchen",
       "entryNumber": null,
       "senseId": "c9caeb39-926f-433e-932c-777227c03a14",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2333,
+      "end": 2335,
+      "surface": "It",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2343,
+      "end": 2346,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2364,
+      "end": 2366,
+      "surface": "it",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -933,6 +1714,72 @@
     },
     {
       "part": 1,
+      "start": 2409,
+      "end": 2412,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2413,
+      "end": 2415,
+      "surface": "we",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2459,
+      "end": 2462,
+      "surface": "And",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2474,
+      "end": 2476,
+      "surface": "my",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2500,
+      "end": 2503,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2530,
+      "end": 2533,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2534,
       "end": 2552,
       "surface": "front of the house",
@@ -942,12 +1789,34 @@
     },
     {
       "part": 1,
+      "start": 2572,
+      "end": 2575,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2586,
       "end": 2594,
       "surface": "cupboard",
       "entryNumber": null,
       "senseId": "0e63380e-669e-4b5e-bffb-fcbbb481e635",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 2595,
+      "end": 2598,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -969,6 +1838,17 @@
     },
     {
       "part": 1,
+      "start": 2627,
+      "end": 2629,
+      "surface": "it",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2639,
       "end": 2649,
       "surface": "quite cold",
@@ -987,12 +1867,67 @@
     },
     {
       "part": 1,
+      "start": 2673,
+      "end": 2676,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2677,
+      "end": 2679,
+      "surface": "it",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2715,
+      "end": 2717,
+      "surface": "My",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2740,
+      "end": 2742,
+      "surface": "me",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 2756,
       "end": 2766,
       "surface": "bring that",
       "entryNumber": 46,
       "senseId": "4f079865-a8ff-49f5-9fdf-faf974797e75",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2789,
+      "end": 2792,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1032,6 +1967,94 @@
     },
     {
       "part": 1,
+      "start": 2900,
+      "end": 2903,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2904,
+      "end": 2906,
+      "surface": "my",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2921,
+      "end": 2923,
+      "surface": "me",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2943,
+      "end": 2945,
+      "surface": "it",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2961,
+      "end": 2963,
+      "surface": "if",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2964,
+      "end": 2967,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3023,
+      "end": 3026,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3040,
+      "end": 3043,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3044,
       "end": 3048,
       "surface": "hear",
@@ -1043,12 +2066,45 @@
     },
     {
       "part": 1,
+      "start": 3049,
+      "end": 3052,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3061,
+      "end": 3064,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3065,
       "end": 3077,
       "surface": "conversation",
       "entryNumber": null,
       "senseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3079,
+      "end": 3082,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1074,6 +2130,17 @@
     },
     {
       "part": 1,
+      "start": 3149,
+      "end": 3152,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3160,
       "end": 3169,
       "surface": "questions",
@@ -1094,6 +2161,17 @@
     },
     {
       "part": 1,
+      "start": 3213,
+      "end": 3216,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3219,
       "end": 3226,
       "surface": "usually",
@@ -1103,12 +2181,56 @@
     },
     {
       "part": 1,
+      "start": 3233,
+      "end": 3236,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3251,
       "end": 3257,
       "surface": "Friday",
       "entryNumber": null,
       "senseId": "3cf52838-8295-5258-9e06-ef7fb1e22c24",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3285,
+      "end": 3287,
+      "surface": "Me",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3309,
+      "end": 3312,
+      "surface": "And",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3323,
+      "end": 3326,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1130,12 +2252,111 @@
     },
     {
       "part": 1,
+      "start": 3350,
+      "end": 3353,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3354,
       "end": 3362,
       "surface": "Thursday",
       "entryNumber": null,
       "senseId": "c923a375-22c8-57d8-a201-4b3fdc867d14",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3379,
+      "end": 3382,
+      "surface": "You",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3390,
+      "end": 3393,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3412,
+      "end": 3415,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3429,
+      "end": 3433,
+      "surface": "your",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3446,
+      "end": 3449,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3475,
+      "end": 3478,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3508,
+      "end": 3511,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3528,
+      "end": 3531,
+      "surface": "You",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1148,12 +2369,34 @@
     },
     {
       "part": 1,
+      "start": 3554,
+      "end": 3556,
+      "surface": "We",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3561,
       "end": 3577,
       "surface": "share the petrol",
       "entryNumber": 26,
       "senseId": "0cc26972-456b-40fe-8b1e-6a781121bee5",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3599,
+      "end": 3602,
+      "surface": "you",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1166,12 +2409,78 @@
     },
     {
       "part": 1,
+      "start": 3632,
+      "end": 3634,
+      "surface": "if",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3654,
+      "end": 3657,
+      "surface": "and",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3658,
+      "end": 3661,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3692,
+      "end": 3695,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3713,
+      "end": 3716,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3721,
       "end": 3732,
       "surface": "rent period",
       "entryNumber": 28,
       "senseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3767,
+      "end": 3770,
+      "surface": "The",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1183,6 +2492,28 @@
       "senseId": "1f4fd880-5e9f-4f1f-a29b-fea346ea4424",
       "status": "context_approved_staged_not_published",
       "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 3795,
+      "end": 3798,
+      "surface": "The",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3827,
+      "end": 3829,
+      "surface": "an",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "06b8c0cc-088f-56c0-bf41-e4b9c309993d",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1204,12 +2535,34 @@
     },
     {
       "part": 1,
+      "start": 3873,
+      "end": 3875,
+      "surface": "if",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
       "start": 3898,
       "end": 3909,
       "surface": "sounds fine",
       "entryNumber": 30,
       "senseId": "0244d1c2-fab3-447e-b2f5-782e835f854d",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3920,
+      "end": 3923,
+      "surface": "the",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     },
     {
       "part": 1,
@@ -1221,6 +2574,28 @@
       "senseId": "5ef3fcb8-2dfb-51ee-bfd9-e50dfdbf6d35",
       "status": "context_approved_staged_not_published",
       "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 3942,
+      "end": 3945,
+      "surface": "You",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3978,
+      "end": 3982,
+      "surface": "your",
+      "kind": "function_word",
+      "entryNumber": null,
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "status": "context_approved_staged_not_published",
+      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
     }
   ]
 }
