@@ -187,17 +187,27 @@ async def submit_video_response(req: Request, id: str):
 
 @router.post('/api/live-classes/{id}/join')
 async def join_live_class(req: Request, id: str):
+    from .live_classes_port import can_user_access_class, record_student_attendance, parse_attendance_session_id
     if not is_js_uuid(id):
         return core.j({'error':'not_found'},404)
     user=await core.current_user(req,active=True)
     if not user:
         return core.auth_error()
+    body=await core.payload(req)
+    try:
+        session_id=parse_attendance_session_id(body.get('sessionId') if isinstance(body,dict) else None)
+    except ValueError:
+        return core.j({'error':'invalid_attendance_session_id'},400)
     db=await core.pool()
     async with db.acquire() as conn:
-        live=await conn.fetchrow('''SELECT id,status,scheduled_at,duration_minutes
+        live=await conn.fetchrow('''SELECT id,status,scheduled_at,duration_minutes,course_id,teacher_user_id,access_scope
             FROM live_classes WHERE id=$1 LIMIT 1''',id)
         if not live:
             return core.j({'error':'not_found'},404)
+        live_dict=dict(live)
+        if 'access_scope' in live_dict and user.get('role') in ('student','teacher','admin','owner'):
+            if not await can_user_access_class(conn,user,live_dict):
+                return core.j({'error':'forbidden'},403)
         scheduled=live['scheduled_at']
         if isinstance(scheduled,str):scheduled=datetime.fromisoformat(scheduled.replace('Z','+00:00'))
         if scheduled.tzinfo is None:scheduled=scheduled.replace(tzinfo=timezone.utc)
@@ -206,16 +216,32 @@ async def join_live_class(req: Request, id: str):
         now=datetime.now(timezone.utc)
         state=('cancelled' if live['status']=='cancelled' else
                'open' if live['status']=='live' else
+               'closed' if live['status'] in ('completed','recorded') else
                'too_early' if now<opens else
                'closed' if now>ends else 'open')
         if state!='open':
             return core.j({'error':state,'opensAt':js_iso(opens),'joined':False},409)
         # The parent-row FOR UPDATE lock is part of the source's concurrency fix.
         async with conn.transaction():
-            locked=await conn.fetchrow('''SELECT id FROM live_classes WHERE id=$1 FOR UPDATE''',id)
+            # For modern browser tabs, record_student_attendance locks only the
+            # (class, student) attendance row. The legacy path keeps the old lock.
+            locked={'id': id} if session_id is not None else await conn.fetchrow(
+                '''SELECT id FROM live_classes WHERE id=$1 FOR UPDATE''', id)
             if not locked:
                 joined_at=None
+                att_extra={}
+            elif 'access_scope' in live_dict and hasattr(conn,'fetchval'):
+                try:
+                    att_info=await record_student_attendance(
+                        conn,live_dict,user,action='join',now=now,session_id=session_id)
+                except ValueError as exc:
+                    if str(exc) != 'too_many_active_tabs':
+                        raise
+                    return core.j({'error':'too_many_active_tabs'},429)
+                joined_at=att_info.get('joinedAt')
+                att_extra={'lastSeenAt':att_info.get('lastSeenAt'),'estimatedDurationSeconds':att_info.get('estimatedDurationSeconds',0)}
             else:
+                att_extra={}
                 existing=await conn.fetchrow('''SELECT joined_at FROM live_class_attendance
                     WHERE live_class_id=$1 AND user_id=$2 LIMIT 1''',id,user['id'])
                 if existing:
@@ -227,7 +253,8 @@ async def join_live_class(req: Request, id: str):
                     await conn.execute('''INSERT INTO activity_events(user_id,type,payload)
                         VALUES($1,'LIVE_CLASS_ATTENDED',$2::jsonb)''',user['id'],
                         json.dumps({'liveClassId':id}))
-    return core.j({'ok':True,'joined':True,'joinedAt':js_iso(joined_at or datetime.now(timezone.utc))})
+    joined_iso=joined_at if isinstance(joined_at,str) else js_iso(joined_at or datetime.now(timezone.utc))
+    return core.j({'ok':True,'joined':True,'joinedAt':joined_iso,**att_extra})
 
 
 def install():

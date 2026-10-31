@@ -41,7 +41,7 @@ async def read_view(req, user, path, search, region):
     if path.startswith('/app/courses/'):
         from .browser_curriculum import course
         return await course(req, user, path, q)
-    if path in ('/app', '/app/dashboard', '/app/progress', '/app/mocks', '/app/coach', '/app/assignments', '/app/reports', '/app/live-classes'):
+    if path in ('/app', '/app/dashboard', '/app/progress', '/app/mocks', '/app/coach', '/app/assignments', '/app/reports', '/app/live-classes') or re.fullmatch(r'/app/live-classes/[^/]+', path):
         from .browser_activity import read
         return await read(req, user, path, q, region)
     if path.startswith('/app/listening'):

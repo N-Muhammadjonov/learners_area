@@ -34,6 +34,7 @@ async def lifespan(app):
         yield
     finally:
         from .access_events import bus
+        from .live_classes_port import chat_bus
         try:
             await control.drain(state=worker_state)
         finally:
@@ -41,7 +42,7 @@ async def lifespan(app):
                 await ai_control.close(state=ai_state)
             finally:
                 try:
-                    await asyncio.wait_for(bus.close(), timeout=5)
+                    await asyncio.wait_for(asyncio.gather(bus.close(), chat_bus.close(), return_exceptions=True), timeout=5)
                 except (TimeoutError, OSError):
                     LOG.warning('Access-event shutdown grace expired')
                 finally:
@@ -842,3 +843,6 @@ _install_step40_content_drafts()
 
 from .writing_study_port import install as _install_writing_study
 _install_writing_study()
+
+from .live_classes_port import install as _install_live_classes
+_install_live_classes()

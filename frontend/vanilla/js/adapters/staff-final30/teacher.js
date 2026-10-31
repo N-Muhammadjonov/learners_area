@@ -111,29 +111,154 @@ export function validateSupport(d){return {reports:arr(d.reports,2000).map(r=>{i
 export const support=signal=>staffData('support-inbox',{},signal).then(validateSupport);
 /** Source PATCH /api/support/reports/:id (no body). 409 already_resolved is a state conflict, 404 gone. */
 export async function resolveReport(id,signal){if(!UUID.test(id))throw new TypeError('invalid');return ok(await call('PATCH',`/api/support/reports/${id}`,undefined,signal));}
-/** Live classes. Read DTOs PROPOSED (server computes joinState/opensAt with ITS clock, attendance counts by one grouped COUNT). */
-const CLASS_STATUS=['upcoming','live','completed','recorded','cancelled'];
-export function validateClasses(d){return {classes:arr(d.classes,2000).map(c=>{if(!isObj(c)||!UUID.test(c.id))throw bad();return {id:c.id,title:str(c.title,{max:200}),status:oneOf(c.status,CLASS_STATUS),scheduledAt:date(c.scheduledAt),durationMinutes:int(c.durationMinutes,{min:1,max:1440}),attendees:int(c.attendees??0)};})};}
+/** Live classes. Read DTOs + YouTube Live / recording / student-assignment management. */
+const CLASS_STATUS=['upcoming','scheduled','live','ended','completed','recording_processing','recording_ready','recorded','recording_unavailable','cancelled'];
+const REC_STATUS=['none','processing','ready','unavailable'];
+const ACCESS_SCOPES=['course','teacher_roster','assigned'];
+const YT_ID=/^[A-Za-z0-9_-]{11}$/;
+const STREAM_KEY=/^[A-Za-z0-9]{4}(?:-[A-Za-z0-9]{4}){3,5}$/;
+const YT_HOSTS=new Set(['youtube.com','www.youtube.com','m.youtube.com','youtu.be','www.youtu.be','youtube-nocookie.com','www.youtube-nocookie.com','studio.youtube.com']);
+
+export function extractYoutubeId(raw){
+ if(raw==null||raw==='')return null;
+ if(typeof raw!=='string')return undefined;
+ const s=raw.trim();
+ if(!s)return null;
+ if(STREAM_KEY.test(s))return undefined;
+ if(YT_ID.test(s))return s;
+ try{
+  const u=new URL(s);
+  if(!['http:','https:'].includes(u.protocol)||u.username||u.password)return undefined;
+  const h=u.hostname.toLowerCase();
+  if(!YT_HOSTS.has(h))return undefined;
+  const parts=u.pathname.split('/').filter(Boolean);
+  let id=null;
+  if(h==='youtu.be'||h==='www.youtu.be'){if(parts.length===1)id=parts[0];}
+  else if(h==='studio.youtube.com'){if(parts.length>=2&&parts[0]==='video')id=parts[1];}
+  else if(parts.length===1&&parts[0]==='watch'){id=u.searchParams.get('v');}
+  else if(parts.length===2&&['live','embed','shorts','v'].includes(parts[0])){id=parts[1];}
+  return id&&YT_ID.test(id)?id:undefined;
+ }catch{return undefined;}
+}
+
+export function validateClasses(d){
+ const availableStudents=arr(d.availableStudents??[],1000).map(s=>{
+  if(!isObj(s)||!UUID.test(s.id))throw bad();
+  return {id:s.id,name:str(s.name,{max:300}),email:str(s.email??null,{nullable:true,max:320})};
+ });
+ return {
+  classes:arr(d.classes,2000).map(c=>{
+   if(!isObj(c)||!UUID.test(c.id))throw bad();
+   return {
+    id:c.id,
+    title:str(c.title,{max:200}),
+    topic:str(c.topic??null,{nullable:true,max:500}),
+    description:str(c.description??c.topic??null,{nullable:true,max:2000}),
+    status:oneOf(c.status,CLASS_STATUS),
+    lifecycleStatus:c.lifecycleStatus?oneOf(c.lifecycleStatus,CLASS_STATUS):c.status,
+    recordingStatus:c.recordingStatus?oneOf(c.recordingStatus,REC_STATUS):'none',
+    scheduledAt:date(c.scheduledAt),
+    durationMinutes:int(c.durationMinutes,{min:1,max:1440}),
+    recordingDurationSeconds:c.recordingDurationSeconds==null?null:int(c.recordingDurationSeconds,{min:1,max:86400}),
+    youtubeVideoId:str(c.youtubeVideoId??null,{nullable:true,max:11}),
+    hasYoutubeVideo:Boolean(c.hasYoutubeVideo||c.youtubeVideoId),
+    accessScope:c.accessScope?oneOf(c.accessScope,ACCESS_SCOPES):'course',
+    assignedStudentIds:arr(c.assignedStudentIds??[],500).map(id=>{if(!UUID.test(id))throw bad();return id;}),
+    attendees:int(c.attendees??0),
+   };
+  }),
+  availableStudents,
+ };
+}
 export const liveClasses=signal=>staffData('teacher-live-classes',{},signal).then(validateClasses);
-export function validateClassDetail(d){const c=d.liveClass;if(!isObj(c)||!UUID.test(c.id))throw bad();
- return {liveClass:{id:c.id,title:str(c.title,{max:200}),topic:str(c.topic??null,{nullable:true,max:500}),status:oneOf(c.status,CLASS_STATUS),scheduledAt:date(c.scheduledAt),durationMinutes:int(c.durationMinutes,{min:1,max:1440}),hasMeetingUrl:bool(c.hasMeetingUrl),hasRecordingUrl:bool(c.hasRecordingUrl)},
-  joinState:oneOf(d.joinState,['cancelled','open','too_early','closed']),opensAt:date(d.opensAt),
-  roster:arr(d.roster??[],5000).map(r=>{if(!isObj(r))throw bad();return {name:str(r.name,{max:300}),email:str(r.email??null,{nullable:true,max:320}),joinedAt:date(r.joinedAt)};})};}
+
+export function validateClassDetail(d){
+ const c=d.liveClass;if(!isObj(c)||!UUID.test(c.id))throw bad();
+ const assignedStudents=arr(d.assignedStudents??[],500).map(s=>{
+  if(!isObj(s)||!UUID.test(s.id))throw bad();
+  return {id:s.id,name:str(s.name,{max:300}),email:str(s.email??null,{nullable:true,max:320})};
+ });
+ return {
+  liveClass:{
+   id:c.id,
+   title:str(c.title,{max:200}),
+   topic:str(c.topic??null,{nullable:true,max:500}),
+   description:str(c.description??c.topic??null,{nullable:true,max:2000}),
+   status:oneOf(c.status,CLASS_STATUS),
+   lifecycleStatus:c.lifecycleStatus?oneOf(c.lifecycleStatus,CLASS_STATUS):c.status,
+   recordingStatus:c.recordingStatus?oneOf(c.recordingStatus,REC_STATUS):'none',
+   scheduledAt:date(c.scheduledAt),
+   durationMinutes:int(c.durationMinutes,{min:1,max:1440}),
+   recordingDurationSeconds:c.recordingDurationSeconds==null?null:int(c.recordingDurationSeconds,{min:1,max:86400}),
+   youtubeVideoId:str(c.youtubeVideoId??null,{nullable:true,max:11}),
+   hasYoutubeVideo:Boolean(c.hasYoutubeVideo||c.youtubeVideoId),
+   accessScope:c.accessScope?oneOf(c.accessScope,ACCESS_SCOPES):'course',
+   hasMeetingUrl:bool(c.hasMeetingUrl),
+   hasRecordingUrl:bool(c.hasRecordingUrl),
+  },
+  joinState:oneOf(d.joinState,['cancelled','open','too_early','closed']),
+  opensAt:date(d.opensAt),
+  roster:arr(d.roster??[],5000).map(r=>{
+   if(!isObj(r))throw bad();
+   return {
+    userId:r.userId&&UUID.test(r.userId)?r.userId:null,
+    name:str(r.name,{max:300}),
+    email:str(r.email??null,{nullable:true,max:320}),
+    joinedAt:date(r.joinedAt),
+    lastSeenAt:nullableDate(r.lastSeenAt),
+    leftAt:nullableDate(r.leftAt),
+    estimatedDurationSeconds:r.estimatedDurationSeconds==null?0:int(r.estimatedDurationSeconds,{min:0,max:86400}),
+    sessionCount:r.sessionCount==null?1:int(r.sessionCount,{min:1,max:10000}),
+   };
+  }),
+  assignedStudents,
+ };
+}
 export const liveClassDetail=(id,signal)=>UUID.test(id)?staffData('teacher-live-class',{id},signal).then(validateClassDetail):Promise.reject(Object.assign(new Error('not_found'),{status:404}));
+
 const urlOk=v=>{try{const u=new URL(v);return ['http:','https:'].includes(u.protocol);}catch{return false;}};
+
 /** Source POST /api/teacher/live-classes. scheduledAt is the browser-local datetime-local value converted with new Date().toISOString(). */
-export async function createLiveClass({title,topic,scheduledAt,durationMinutes,meetingUrl},signal){
+export async function createLiveClass({title,topic,description,scheduledAt,durationMinutes,meetingUrl,youtubeUrl,accessScope,studentIds},signal){
  const when=new Date(scheduledAt);if(!Number.isFinite(when.getTime()))throw Object.assign(new TypeError('date'),{status:400,code:'invalid_input'});
  const dur=Number(durationMinutes);if(!Number.isInteger(dur)||dur<15||dur>240)throw Object.assign(new TypeError('duration'),{status:400,code:'invalid_input'});
  if(String(title??'').length<3||String(title).length>200)throw Object.assign(new TypeError('title'),{status:400,code:'invalid_input'});
  if(meetingUrl&&!urlOk(meetingUrl))throw Object.assign(new TypeError('url'),{status:400,code:'invalid_input'});
- const r=await rawJson('POST','/api/teacher/live-classes',{title,topic:topic||undefined,scheduledAt:when.toISOString(),durationMinutes:String(dur),meetingUrl:meetingUrl||undefined},signal);
+ if(youtubeUrl!==undefined&&youtubeUrl!==''&&extractYoutubeId(youtubeUrl)===undefined)throw Object.assign(new TypeError('youtube'),{status:400,code:'invalid_youtube_url'});
+ const payload={title,topic:topic||undefined,scheduledAt:when.toISOString(),durationMinutes:String(dur),meetingUrl:meetingUrl||undefined};
+ if(description)payload.description=description;
+ if(youtubeUrl)payload.youtubeUrl=youtubeUrl.trim();
+ if(accessScope&&accessScope!=='course')payload.accessScope=accessScope;
+ if(Array.isArray(studentIds)&&studentIds.length)payload.studentIds=studentIds;
+ const r=await rawJson('POST','/api/teacher/live-classes',payload,signal);
  if(!r.ok)throw Object.assign(new Error('create'),{status:r.status,code:typeof r.data?.error==='string'?r.data.error:'request_failed'});return ok(r.data);
 }
-/** Source PATCH /api/teacher/live-classes/:id — {status} or {recordingUrl,status:'recorded'}. Ownership is enforced by the server (404 for another teacher's class). */
+
+/** Source PATCH /api/teacher/live-classes/:id — supports status, recordingStatus, youtubeUrl/youtubeVideoId, recordingUrl, title, description, scheduledAt, durationMinutes, accessScope, studentIds. */
 export async function patchLiveClass(id,body,signal){
- if(!UUID.test(id))throw new TypeError('invalid');const b={};
+ if(!UUID.test(id)||!isObj(body))throw new TypeError('invalid');
+ const b={};
  if(body.status!==undefined){if(!CLASS_STATUS.includes(body.status))throw new TypeError('status');b.status=body.status;}
+ if(body.recordingStatus!==undefined){if(!REC_STATUS.includes(body.recordingStatus))throw new TypeError('recordingStatus');b.recordingStatus=body.recordingStatus;}
  if(body.recordingUrl!==undefined){if(!urlOk(body.recordingUrl))throw new TypeError('url');b.recordingUrl=body.recordingUrl;}
- if(!Object.keys(b).length)throw new TypeError('empty');return ok(await call('PATCH',`/api/teacher/live-classes/${id}`,b,signal));
+ if(body.meetingUrl!==undefined){if(body.meetingUrl!==''&&!urlOk(body.meetingUrl))throw new TypeError('url');b.meetingUrl=body.meetingUrl;}
+ if(body.youtubeUrl!==undefined){if(body.youtubeUrl!==''&&extractYoutubeId(body.youtubeUrl)===undefined)throw new TypeError('youtube');b.youtubeUrl=body.youtubeUrl;}
+ if(body.youtubeVideoId!==undefined){if(body.youtubeVideoId!==null&&body.youtubeVideoId!==''&&extractYoutubeId(body.youtubeVideoId)===undefined)throw new TypeError('youtube');b.youtubeVideoId=body.youtubeVideoId;}
+ if(body.title!==undefined){if(typeof body.title!=='string'||body.title.trim().length<3||body.title.trim().length>200)throw new TypeError('title');b.title=body.title.trim();}
+ if(body.topic!==undefined){b.topic=body.topic;}
+ if(body.description!==undefined){b.description=body.description;}
+ if(body.scheduledAt!==undefined){const w=new Date(body.scheduledAt);if(!Number.isFinite(w.getTime()))throw new TypeError('date');b.scheduledAt=w.toISOString();}
+ if(body.durationMinutes!==undefined){const d=Number(body.durationMinutes);if(!Number.isInteger(d)||d<15||d>240)throw new TypeError('duration');b.durationMinutes=d;}
+ if(body.recordingDurationSeconds!==undefined){b.recordingDurationSeconds=body.recordingDurationSeconds;}
+ if(body.accessScope!==undefined){if(!ACCESS_SCOPES.includes(body.accessScope))throw new TypeError('accessScope');b.accessScope=body.accessScope;}
+ if(body.studentIds!==undefined){if(!Array.isArray(body.studentIds)||body.studentIds.some(s=>!UUID.test(s)))throw new TypeError('studentIds');b.studentIds=body.studentIds;}
+ if(!Object.keys(b).length)throw new TypeError('empty');
+ return ok(await call('PATCH',`/api/teacher/live-classes/${id}`,b,signal));
+}
+
+export async function checkLiveClassRecording(id,signal){
+ if(!UUID.test(id))throw new TypeError('invalid');
+ const r=await rawJson('POST',`/api/teacher/live-classes/${id}/check-recording`,{},signal);
+ if(!r.ok)throw Object.assign(new Error('check_recording'),{status:r.status,code:typeof r.data?.error==='string'?r.data.error:'request_failed'});
+ return r.data;
 }

@@ -498,6 +498,20 @@
       "when": 1793241854800,
       "tag": "0071_shared_abuse_limits",
       "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "7",
+      "when": 1793370499000,
+      "tag": "0072_ai_provider_admission",
+      "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "7",
+      "when": 1793370500000,
+      "tag": "0073_live_classes_youtube_chat_attendance",
+      "breakpoints": true
     }
   ]
 }

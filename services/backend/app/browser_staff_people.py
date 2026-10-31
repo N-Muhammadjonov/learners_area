@@ -145,16 +145,117 @@ async def read(req, user, kind, q):
             rows = await con.fetch('SELECT p.id,p.route,p.module,p.status,p.message,u.name reporter_name,p.created_at,p.viewport,p.last_error_code FROM problem_reports p JOIN users u ON u.id=p.user_id ORDER BY p.created_at DESC LIMIT 50')
             return {'reports':[camel(r) for r in rows]}
         if kind == 'teacher-live-classes':
-            scope = 'WHERE l.teacher_user_id=$1' if user['role']=='teacher' else ''
-            rows = await con.fetch(f'''SELECT l.id,l.title,l.status,l.scheduled_at,l.duration_minutes,
+            from .live_classes_port import can_user_manage_class, compute_lifecycle_status, extract_youtube_video_id, has_extended_live_schema
+            if user.get('role') not in ('owner', 'teacher', 'admin') or user.get('account_status') != 'active':
+                raise HTTPException(403, 'forbidden')
+            # Only Owner has global access across all teachers' classes; Teacher and Admin
+            # are strictly scoped at both query level and row authorization level.
+            scope = '' if user['role'] == 'owner' else 'WHERE l.teacher_user_id=$1'
+            scope_args = [] if user['role'] == 'owner' else [user['id']]
+            extended = await has_extended_live_schema(con)
+            if extended:
+                fetched_rows = await con.fetch(f'''SELECT l.id,l.title,l.topic,l.description,l.status,l.recording_status,
+                  l.scheduled_at,l.started_at,l.ended_at,l.duration_minutes,l.recording_duration_seconds,
+                  l.youtube_video_id,l.meeting_url,l.recording_url,l.access_scope,l.teacher_user_id,
+                  (SELECT count(*)::int FROM live_class_attendance a WHERE a.live_class_id=l.id) attendees
+                  FROM live_classes l {scope} ORDER BY l.scheduled_at DESC LIMIT 2000''', *scope_args)
+                rows = [r for r in fetched_rows if can_user_manage_class(user, dict(r))]
+                class_ids = [r['id'] for r in rows]
+                enroll_rows = await con.fetch(
+                    'SELECT live_class_id, user_id FROM live_class_enrollments WHERE live_class_id = ANY($1::uuid[])',
+                    class_ids,
+                ) if class_ids else []
+                enrolled_map = {}
+                for er in enroll_rows:
+                    enrolled_map.setdefault(str(er['live_class_id']), []).append(str(er['user_id']))
+                classes_out = []
+                for r in rows:
+                    c = camel(r)
+                    vid = c.get('youtubeVideoId')
+                    if not vid and c.get('meetingUrl'):
+                        vid, _ = extract_youtube_video_id(c.get('meetingUrl'))
+                    st = c.get('status') or 'upcoming'
+                    rec_st = c.get('recordingStatus') or ('ready' if st == 'recorded' else 'none')
+                    c['youtubeVideoId'] = vid
+                    c['hasYoutubeVideo'] = bool(vid)
+                    c['recordingStatus'] = rec_st
+                    c['lifecycleStatus'] = compute_lifecycle_status(st, rec_st)
+                    c['assignedStudentIds'] = enrolled_map.get(str(r['id']), [])
+                    # Keep meetingUrl/recordingUrl out of raw staff list to preserve security expectations
+                    c.pop('meetingUrl', None)
+                    c.pop('recordingUrl', None)
+                    classes_out.append(c)
+                if user['role'] != 'owner':
+                    avail = await con.fetch(
+                        '''SELECT u.id, u.name, u.email FROM users u
+                           JOIN teacher_student_links l ON l.student_user_id = u.id
+                           WHERE l.teacher_user_id = $1 AND u.role = 'student' AND u.account_status = 'active'
+                           ORDER BY u.name, u.id LIMIT 500''',
+                        user['id'],
+                    )
+                else:
+                    avail = await con.fetch(
+                        '''SELECT id, name, email FROM users
+                           WHERE role = 'student' AND account_status = 'active'
+                           ORDER BY name, id LIMIT 500'''
+                    )
+                return {'classes': classes_out, 'availableStudents': [camel(s) for s in avail]}
+            fetched_rows = await con.fetch(f'''SELECT l.id,l.title,l.status,l.scheduled_at,l.duration_minutes,l.teacher_user_id,
               (SELECT count(*)::int FROM live_class_attendance a WHERE a.live_class_id=l.id) attendees
-              FROM live_classes l {scope} ORDER BY l.scheduled_at DESC LIMIT 2000''',*([user['id']] if scope else []))
-            return {'classes':[camel(r) for r in rows]}
+              FROM live_classes l {scope} ORDER BY l.scheduled_at DESC LIMIT 2000''', *scope_args)
+            rows = [r for r in fetched_rows if can_user_manage_class(user, dict(r))]
+            return {'classes': [{k: v for k, v in camel(r).items() if k != 'teacherUserId'} for r in rows]}
         if kind == 'teacher-live-class':
-            id = identifier(q.get('id'));row = await con.fetchrow('SELECT * FROM live_classes WHERE id=$1',id)
-            if not row or user['role']=='teacher' and str(row['teacher_user_id'])!=str(user['id']): raise HTTPException(404,'not_found')
+            from .live_classes_port import can_user_manage_class, compute_lifecycle_status, extract_youtube_video_id, has_extended_live_schema
+            if user.get('role') not in ('owner', 'teacher', 'admin') or user.get('account_status') != 'active':
+                raise HTTPException(403, 'forbidden')
+            id = identifier(q.get('id'))
+            if user['role'] == 'owner':
+                row = await con.fetchrow('SELECT * FROM live_classes WHERE id=$1', id)
+            else:
+                row = await con.fetchrow('SELECT * FROM live_classes WHERE id=$1 AND teacher_user_id=$2', id, user['id'])
+            if not row or not can_user_manage_class(user, dict(row)):
+                raise HTTPException(404, 'not_found')
             now = datetime.now(timezone.utc);opens = row['scheduled_at']-timedelta(minutes=15)
             state = 'cancelled' if row['status']=='cancelled' else 'open' if row['status']=='live' else 'too_early' if now<opens else 'closed' if now>row['scheduled_at']+timedelta(minutes=row['duration_minutes']+30) else 'open'
+            extended = await has_extended_live_schema(con)
+            if extended:
+                roster = [camel(r) for r in await con.fetch(
+                    '''SELECT u.id AS user_id, u.name, u.email, a.joined_at, a.last_seen_at,
+                              a.left_at, a.estimated_duration_seconds, a.session_count
+                       FROM live_class_attendance a
+                       JOIN users u ON u.id=a.user_id
+                       WHERE a.live_class_id=$1
+                       ORDER BY a.joined_at''',
+                    id,
+                )]
+                enrolled = [camel(r) for r in await con.fetch(
+                    '''SELECT u.id, u.name, u.email
+                       FROM live_class_enrollments e
+                       JOIN users u ON u.id = e.user_id
+                       WHERE e.live_class_id = $1
+                       ORDER BY u.name, u.id''',
+                    id,
+                )]
+                vid = row.get('youtube_video_id')
+                if not vid and row.get('meeting_url'):
+                    vid, _ = extract_youtube_video_id(row.get('meeting_url'))
+                rec_st = row.get('recording_status') or ('ready' if row['status'] == 'recorded' else 'none')
+                live_dto = {
+                    **camel({k:row[k] for k in ('id','title','topic','status','scheduled_at','duration_minutes')}),
+                    'description': row.get('description') if row.get('description') is not None else row.get('topic'),
+                    'youtubeVideoId': vid,
+                    'hasYoutubeVideo': bool(vid),
+                    'recordingStatus': rec_st,
+                    'lifecycleStatus': compute_lifecycle_status(row['status'], rec_st),
+                    'recordingDurationSeconds': row.get('recording_duration_seconds'),
+                    'accessScope': row.get('access_scope') or 'course',
+                    'startedAt': row.get('started_at'),
+                    'endedAt': row.get('ended_at'),
+                    'hasMeetingUrl': bool(row['meeting_url'] or vid),
+                    'hasRecordingUrl': bool(row['recording_url'] or (vid and rec_st == 'ready')),
+                }
+                return {'liveClass': camel(live_dto), 'joinState': state, 'opensAt': opens, 'roster': roster, 'assignedStudents': enrolled}
             roster = [camel(r) for r in await con.fetch('SELECT u.name,u.email,a.joined_at FROM live_class_attendance a JOIN users u ON u.id=a.user_id WHERE a.live_class_id=$1 ORDER BY a.joined_at',id)]
             return {'liveClass':{**camel({k:row[k] for k in ('id','title','topic','status','scheduled_at','duration_minutes')}),'hasMeetingUrl':bool(row['meeting_url']),'hasRecordingUrl':bool(row['recording_url'])},'joinState':state,'opensAt':opens,'roster':roster}
     raise HTTPException(404,'not_found')
