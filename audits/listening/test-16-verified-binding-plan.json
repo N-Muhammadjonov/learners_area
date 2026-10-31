@@ -595,14 +595,6 @@
           "meaningSha": "22de4171e021f04064df151c1dfe861f4212110c7773f0efc70bb0736b6403be"
         },
         {
-          "start": 516,
-          "end": 520,
-          "surface": "that",
-          "entryId": "3463ee74-3056-5afc-a0e6-24c2ee7996c0",
-          "senseId": "79d1ab20-4629-547d-aaca-1808136a16d3",
-          "meaningSha": "3a38df895010e488943172b077a1c35e955db30296faac2e834391d1f7e1ca5b"
-        },
-        {
           "start": 521,
           "end": 527,
           "surface": "you're",
@@ -3297,14 +3289,6 @@
           "entryId": "7d9325e7-1b42-5d06-beb7-c2e4d4b0ea0b",
           "senseId": "b7b647c9-c2d9-43a0-9dba-92206cf15b8e",
           "meaningSha": "95eb48f254e1f30fbd9863aaf818a4ea262ae6711afc0a32374ffc59bb2f4209"
-        },
-        {
-          "start": 3021,
-          "end": 3025,
-          "surface": "that",
-          "entryId": "3463ee74-3056-5afc-a0e6-24c2ee7996c0",
-          "senseId": "79d1ab20-4629-547d-aaca-1808136a16d3",
-          "meaningSha": "3a38df895010e488943172b077a1c35e955db30296faac2e834391d1f7e1ca5b"
         },
         {
           "start": 3026,
