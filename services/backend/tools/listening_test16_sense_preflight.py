@@ -13,6 +13,8 @@ from pathlib import Path
 TEST = "listening-test-16"
 RUNTIME = Path(__file__).resolve().parents[1] / "assets/listening/test-16.json"
 WORD = re.compile(r"[A-Za-z]+(?:['’][A-Za-z]+)?(?:-[A-Za-z]+)*")
+UUID = re.compile(r"^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$", re.I)
+SHA = re.compile(r"^[0-9a-f]{64}$")
 
 
 def transcript_parts():
@@ -46,12 +48,18 @@ def preflight(records):
             raise ValueError("partial_word")
         if not all(record.get(x) for x in ("entryId", "senseId", "meaningSha", "partOfSpeech", "lemma")):
             raise ValueError("dictionary_sense_unverified")
+        if not UUID.fullmatch(record["entryId"]) or not UUID.fullmatch(record["senseId"]) or not SHA.fullmatch(record["meaningSha"]):
+            raise ValueError("dictionary_identity_invalid")
         if record.get("grammaticalUse") not in ("verb", "adjective", "noun", "adverb", "other"):
             raise ValueError("grammatical_use_required")
         if surface.casefold().endswith(("ed", "ing")) and record.get("grammaticalUse") == "adjective" and record["partOfSpeech"] not in ("a", "adjective"):
             raise ValueError("adjective_cannot_be_verb_lemma")
         if record["grammaticalUse"] == "verb" and record["partOfSpeech"] not in ("v", "verb"):
             raise ValueError("verb_requires_verb_sense")
+        if record["grammaticalUse"] == "adjective" and record["partOfSpeech"] not in ("a", "adjective"):
+            raise ValueError("adjective_requires_adjective_sense")
+        if record["grammaticalUse"] == "noun" and record["partOfSpeech"] not in ("n", "noun"):
+            raise ValueError("noun_requires_noun_sense")
         if record.get("unitType") == "collocation" and not record.get("lexicographicSource"):
             raise ValueError("collocation_requires_attestation")
         ordered[part].append((start, end))
