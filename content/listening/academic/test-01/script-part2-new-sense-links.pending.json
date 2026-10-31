@@ -1,0 +1,78 @@
+{
+  "schema": "test1-part2-new-sense-links-v1",
+  "releaseStatus": "NOT_PUBLISHED",
+  "sourceTest": "listening-test-1",
+  "part": 2,
+  "entries": [
+    {
+      "part": 2,
+      "start": 1226,
+      "end": 1235,
+      "surface": "fresh air",
+      "entryNumber": 49,
+      "newSenseRef": "lexical-new-entry:49",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    },
+    {
+      "part": 2,
+      "start": 2745,
+      "end": 2754,
+      "surface": "reception",
+      "entryNumber": 73,
+      "newSenseRef": "lexical-new-entry:73",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    },
+    {
+      "part": 2,
+      "start": 3054,
+      "end": 3067,
+      "surface": "computer room",
+      "entryNumber": 77,
+      "newSenseRef": "lexical-new-entry:77",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    },
+    {
+      "part": 2,
+      "start": 3134,
+      "end": 3146,
+      "surface": "on their own",
+      "entryNumber": 78,
+      "newSenseRef": "lexical-new-entry:78",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    },
+    {
+      "part": 2,
+      "start": 3236,
+      "end": 3246,
+      "surface": "music room",
+      "entryNumber": 80,
+      "newSenseRef": "lexical-new-entry:80",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    },
+    {
+      "part": 2,
+      "start": 3503,
+      "end": 3516,
+      "surface": "assembly hall",
+      "entryNumber": 82,
+      "newSenseRef": "lexical-new-entry:82",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    },
+    {
+      "part": 2,
+      "start": 3632,
+      "end": 3641,
+      "surface": "feel free",
+      "entryNumber": 85,
+      "newSenseRef": "lexical-new-entry:85",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "content/listening/academic/test-01/lexical-new-entries.source-checked.json"
+    }
+  ]
+}

@@ -1,0 +1,668 @@
+{
+  "schema": "test1-part2-user-excluded-grammar-v1",
+  "part": 2,
+  "scope": "grammatical terms do not require clickable dictionary senses; true lexical usages remain eligible",
+  "count": 77,
+  "exclusions": [
+    {
+      "part": 2,
+      "start": 22,
+      "end": 24,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 48,
+      "end": 52,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 82,
+      "end": 87,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 160,
+      "end": 162,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 182,
+      "end": 184,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 246,
+      "end": 250,
+      "surface": "Okay",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 252,
+      "end": 255,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 256,
+      "end": 265,
+      "surface": "everybody",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 281,
+      "end": 285,
+      "surface": "well",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 329,
+      "end": 339,
+      "surface": "Springdown",
+      "kind": "proper_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 2,
+      "start": 366,
+      "end": 370,
+      "surface": "Anne",
+      "kind": "proper_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 2,
+      "start": 371,
+      "end": 377,
+      "surface": "Rawson",
+      "kind": "proper_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 2,
+      "start": 446,
+      "end": 451,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 513,
+      "end": 516,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 542,
+      "end": 545,
+      "surface": "may",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 551,
+      "end": 553,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 563,
+      "end": 568,
+      "surface": "Right",
+      "kind": "discourse_marker",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 576,
+      "end": 578,
+      "surface": "of",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 596,
+      "end": 598,
+      "surface": "by",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 624,
+      "end": 629,
+      "surface": "about",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 679,
+      "end": 682,
+      "surface": "are",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 702,
+      "end": 704,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 747,
+      "end": 749,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 759,
+      "end": 768,
+      "surface": "everybody",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 795,
+      "end": 797,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 814,
+      "end": 817,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 859,
+      "end": 861,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 895,
+      "end": 897,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 948,
+      "end": 951,
+      "surface": "may",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 976,
+      "end": 978,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1091,
+      "end": 1093,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1101,
+      "end": 1103,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1129,
+      "end": 1132,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1238,
+      "end": 1240,
+      "surface": "In",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1442,
+      "end": 1446,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1447,
+      "end": 1450,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1508,
+      "end": 1510,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1623,
+      "end": 1630,
+      "surface": "between",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1664,
+      "end": 1666,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1678,
+      "end": 1680,
+      "surface": "by",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1729,
+      "end": 1731,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1809,
+      "end": 1813,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1814,
+      "end": 1817,
+      "surface": "are",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1853,
+      "end": 1857,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1870,
+      "end": 1872,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 1899,
+      "end": 1903,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1932,
+      "end": 1934,
+      "surface": "as",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2009,
+      "end": 2011,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 2018,
+      "end": 2020,
+      "surface": "in",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2107,
+      "end": 2109,
+      "surface": "as",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2133,
+      "end": 2137,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 2187,
+      "end": 2191,
+      "surface": "over",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2330,
+      "end": 2332,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2458,
+      "end": 2460,
+      "surface": "as",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2533,
+      "end": 2535,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2555,
+      "end": 2557,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2667,
+      "end": 2669,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2692,
+      "end": 2694,
+      "surface": "on",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 2974,
+      "end": 2981,
+      "surface": "between",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3010,
+      "end": 3013,
+      "surface": "are",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3029,
+      "end": 3033,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3101,
+      "end": 3104,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3149,
+      "end": 3151,
+      "surface": "On",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3260,
+      "end": 3263,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3276,
+      "end": 3278,
+      "surface": "at",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3292,
+      "end": 3296,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3330,
+      "end": 3337,
+      "surface": "through",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3366,
+      "end": 3368,
+      "surface": "as",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3373,
+      "end": 3376,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3457,
+      "end": 3461,
+      "surface": "with",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3478,
+      "end": 3480,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3490,
+      "end": 3494,
+      "surface": "into",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3533,
+      "end": 3535,
+      "surface": "as",
+      "kind": "grammatical_term",
+      "policy": "optional_function_word_user_exempt_not_lexical_entry",
+      "coverageStatus": "excluded_not_unresolved"
+    },
+    {
+      "part": 2,
+      "start": 3540,
+      "end": 3543,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3548,
+      "end": 3551,
+      "surface": "has",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3556,
+      "end": 3560,
+      "surface": "been",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3687,
+      "end": 3689,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    }
+  ]
+}

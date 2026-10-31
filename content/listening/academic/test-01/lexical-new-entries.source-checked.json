@@ -1,0 +1,448 @@
+{
+  "schema": "learners-area-test1-lexical-entries-source-checked-v1",
+  "source": "listening-test-1",
+  "releaseDraftStatus": "NOT_PUBLISHED",
+  "entries": [
+    {
+      "targetNumber": 3,
+      "headword": "on the phone",
+      "partOfSpeech": "phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "speaking to someone using a telephone",
+      "translationUz": "telefonda gaplashayotgan",
+      "cefr": null,
+      "synonyms": [
+        "by telephone"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "talk on the phone",
+        "speak on the phone"
+      ],
+      "exampleSentence": "We talked on the phone, didn't we?",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/on-the-phone",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 1,
+        "start": 838,
+        "end": 857,
+        "surface": "talked on the phone"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 15,
+      "headword": "living room",
+      "partOfSpeech": "noun",
+      "lexicalType": "word",
+      "definitionEn": "the room in a house where people relax and spend time together",
+      "translationUz": "mehmonxona; yashash xonasi",
+      "cefr": "A1",
+      "synonyms": [
+        "sitting room",
+        "lounge"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "in the living room",
+        "living-room furniture"
+      ],
+      "exampleSentence": "It was in the living room, but it was hard to hear over the television.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/living-room",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 1,
+        "start": 2347,
+        "end": 2358,
+        "surface": "living room"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 17,
+      "headword": "fair enough",
+      "partOfSpeech": "phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "said to show that you understand or accept someone's explanation",
+      "translationUz": "tushunarli; mayli, bu adolatli",
+      "cefr": "B2",
+      "synonyms": [
+        "I see",
+        "that's reasonable"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "that's fair enough"
+      ],
+      "exampleSentence": "That's fair enough.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/fair-enough",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 1,
+        "start": 2446,
+        "end": 2457,
+        "surface": "fair enough"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 22,
+      "headword": "rice cooker",
+      "partOfSpeech": "noun",
+      "lexicalType": "word",
+      "definitionEn": "an electrical appliance used specifically to cook rice",
+      "translationUz": "guruch pishirgich",
+      "cefr": null,
+      "synonyms": [
+        "electric rice cooker"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "electric rice cooker",
+        "use a rice cooker"
+      ],
+      "exampleSentence": "My mother bought me a rice cooker.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/rice-cooker",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 1,
+        "start": 2926,
+        "end": 2937,
+        "surface": "rice cooker"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 34,
+      "headword": "answer sheet",
+      "partOfSpeech": "noun phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "a paper or form on which a test candidate writes their answers",
+      "translationUz": "javob varaqasi",
+      "cefr": null,
+      "synonyms": [
+        "response sheet"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "fill in an answer sheet",
+        "transfer answers to an answer sheet"
+      ],
+      "exampleSentence": "You will be given 10 minutes to transfer your answers to an answer sheet.",
+      "source": {
+        "name": "Cambridge English collocation examples",
+        "url": "https://dictionary.cambridge.org/us/example/english/answer-sheet",
+        "evidenceKind": "attested_collocation"
+      },
+      "target": {
+        "part": 1,
+        "start": 400,
+        "end": 412,
+        "surface": "answer sheet"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 49,
+      "headword": "fresh air",
+      "partOfSpeech": "noun phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "air from outdoors, especially when it is clean and healthy to breathe",
+      "translationUz": "toza havo",
+      "cefr": null,
+      "synonyms": [
+        "outdoor air"
+      ],
+      "antonyms": [
+        "stale air"
+      ],
+      "collocations": [
+        "get some fresh air",
+        "a breath of fresh air"
+      ],
+      "exampleSentence": "They also play outside and get some fresh air.",
+      "source": {
+        "name": "Collins COBUILD Dictionary",
+        "url": "https://www.collinsdictionary.com/dictionary/english/fresh-air",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 2,
+        "start": 1226,
+        "end": 1235,
+        "surface": "fresh air"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 78,
+      "headword": "on your own",
+      "partOfSpeech": "idiom",
+      "lexicalType": "idiom",
+      "definitionEn": "without help from anyone else",
+      "translationUz": "mustaqil; o‘zi",
+      "cefr": null,
+      "synonyms": [
+        "independently",
+        "without assistance"
+      ],
+      "antonyms": [
+        "with help"
+      ],
+      "collocations": [
+        "work on your own",
+        "learn on your own"
+      ],
+      "exampleSentence": "The children can have somewhere quiet to work on their own.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/us/dictionary/english/on-own",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 2,
+        "start": 3134,
+        "end": 3146,
+        "surface": "on their own"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 82,
+      "headword": "assembly hall",
+      "partOfSpeech": "noun phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "a large room or hall used for gatherings such as school meetings",
+      "translationUz": "maktab majlislar zali",
+      "cefr": null,
+      "synonyms": [
+        "school hall"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "school assembly hall",
+        "in the assembly hall"
+      ],
+      "exampleSentence": "We used to be squashed into the old assembly hall next door.",
+      "source": {
+        "name": "Cambridge English collocation examples",
+        "url": "https://dictionary.cambridge.org/us/example/english/assembly-hall",
+        "evidenceKind": "attested_collocation"
+      },
+      "target": {
+        "part": 2,
+        "start": 3503,
+        "end": 3516,
+        "surface": "assembly hall"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 83,
+      "headword": "turn into",
+      "partOfSpeech": "phrasal verb",
+      "lexicalType": "phrasal_verb",
+      "definitionEn": "to change something into a different thing or make it become different",
+      "translationUz": "...ga aylantirmoq",
+      "cefr": "B1",
+      "synonyms": [
+        "transform into",
+        "convert into"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "turn a room into a gym",
+        "turn into something"
+      ],
+      "exampleSentence": "It has now been turned into a gym for the children.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/turn-into",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 2,
+        "start": 3561,
+        "end": 3572,
+        "surface": "turned into"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 85,
+      "headword": "feel free",
+      "partOfSpeech": "idiom",
+      "lexicalType": "idiom",
+      "definitionEn": "used to tell someone that they may do something if they want to",
+      "translationUz": "bemalol; tortinmasdan",
+      "cefr": null,
+      "synonyms": [
+        "be welcome to",
+        "don't hesitate to"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "feel free to ask",
+        "feel free to look around"
+      ],
+      "exampleSentence": "Do feel free to go and look round the classrooms.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/feel-free",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 2,
+        "start": 3632,
+        "end": 3641,
+        "surface": "feel free"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 73,
+      "headword": "reception",
+      "partOfSpeech": "noun",
+      "lexicalType": "word",
+      "definitionEn": "the desk or place in a building where visitors go when they first arrive",
+      "translationUz": "qabulxona; tashrif buyuruvchilarni kutib olish joyi",
+      "cefr": "B1",
+      "synonyms": [
+        "reception desk",
+        "front desk"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "at reception",
+        "report to reception"
+      ],
+      "exampleSentence": "Where you would normally expect to find reception, you'll see the head's office.",
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/us/dictionary/english/reception",
+        "evidenceKind": "dictionary_sense"
+      },
+      "target": {
+        "part": 2,
+        "start": 2745,
+        "end": 2754,
+        "surface": "reception"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 77,
+      "headword": "computer room",
+      "partOfSpeech": "noun phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "a room equipped for using computers, particularly for learning or work",
+      "translationUz": "kompyuter xonasi",
+      "cefr": null,
+      "synonyms": [
+        "computer lab"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "school computer room",
+        "work in the computer room"
+      ],
+      "exampleSentence": "We are hoping that we will be able to create a computer room.",
+      "source": {
+        "name": "Getty Art & Architecture Thesaurus",
+        "url": "https://www.getty.edu/vow/AATFullDisplay?find=sign&logic=AND&note=&subjectid=300004510",
+        "evidenceKind": "controlled_vocabulary_headword"
+      },
+      "target": {
+        "part": 2,
+        "start": 3054,
+        "end": 3067,
+        "surface": "computer room"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 80,
+      "headword": "music room",
+      "partOfSpeech": "noun phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "a room at a school for teaching or practising music",
+      "translationUz": "musiqa xonasi",
+      "cefr": null,
+      "synonyms": [
+        "music classroom"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "school music room",
+        "practise in the music room"
+      ],
+      "exampleSentence": "We have converted one of the old cloak rooms to create a music room.",
+      "source": {
+        "name": "Wordsmyth Dictionary",
+        "url": "https://www.wordsmyth.net/?dict=2&mode=fmfree&rid=59831",
+        "evidenceKind": "dictionary_entry"
+      },
+      "target": {
+        "part": 2,
+        "start": 3236,
+        "end": 3246,
+        "surface": "music room"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    },
+    {
+      "targetNumber": 87,
+      "headword": "forensic linguistics",
+      "partOfSpeech": "noun phrase",
+      "lexicalType": "collocation",
+      "definitionEn": "the application of linguistic analysis to language used as evidence or in legal investigations",
+      "translationUz": "sud-huquq tilshunosligi; huquqiy tekshiruvlarda til tahlili",
+      "cefr": null,
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "forensic linguistics project",
+        "forensic linguistics research"
+      ],
+      "exampleSentence": "We need to look at this project we're doing together in Forensic Linguistics.",
+      "source": {
+        "name": "Aston University, Encyclopedia of Applied Linguistics",
+        "url": "https://research.aston.ac.uk/en/publications/forensic-linguistics-overview/",
+        "evidenceKind": "academic_reference"
+      },
+      "target": {
+        "part": 3,
+        "start": 292,
+        "end": 312,
+        "surface": "Forensic Linguistics"
+      },
+      "editorialState": "source_checked_ready_for_release_build",
+      "releaseSenseId": null
+    }
+  ]
+}

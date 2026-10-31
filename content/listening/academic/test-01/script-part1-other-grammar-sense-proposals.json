@@ -1,0 +1,243 @@
+{
+  "schema": "test1-part1-new-grammar-senses-v1",
+  "status": "NOT_PUBLISHED",
+  "entries": [
+    {
+      "headword": "can",
+      "category": "ABILITY",
+      "numbers": [
+        363,
+        560,
+        661,
+        695
+      ],
+      "partOfSpeech": "modal verb",
+      "cefr": "A1",
+      "definitionEn": "Expresses a person's ability or possibility of performing an action.",
+      "translationUz": "qila olmoq; imkoniga ega bo‘lmoq",
+      "synonyms": [
+        "be able to"
+      ],
+      "antonyms": [
+        "be unable to"
+      ],
+      "collocations": [
+        "can park",
+        "can bring",
+        "can do",
+        "can share"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/can",
+      "verifiedPositions": [
+        {
+          "part": 1,
+          "start": 1881,
+          "end": 1884,
+          "surface": "can",
+          "tokenIndex": 363
+        },
+        {
+          "part": 1,
+          "start": 2855,
+          "end": 2858,
+          "surface": "can",
+          "tokenIndex": 560
+        },
+        {
+          "part": 1,
+          "start": 3383,
+          "end": 3386,
+          "surface": "can",
+          "tokenIndex": 661
+        },
+        {
+          "part": 1,
+          "start": 3557,
+          "end": 3560,
+          "surface": "can",
+          "tokenIndex": 695
+        }
+      ],
+      "releaseSenseId": null,
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED"
+    },
+    {
+      "headword": "on",
+      "category": "TIME_DAY",
+      "numbers": [
+        636,
+        654
+      ],
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Marks a specified day or date when an event takes place.",
+      "translationUz": "(kun nomidan oldin) -da",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "on Friday",
+        "on Tuesday"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/on",
+      "verifiedPositions": [
+        {
+          "part": 1,
+          "start": 3248,
+          "end": 3250,
+          "surface": "on",
+          "tokenIndex": 636
+        },
+        {
+          "part": 1,
+          "start": 3339,
+          "end": 3341,
+          "surface": "on",
+          "tokenIndex": 654
+        }
+      ],
+      "releaseSenseId": null,
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED"
+    },
+    {
+      "headword": "on",
+      "category": "PHONE_MEDIUM",
+      "numbers": [
+        155,
+        237
+      ],
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates the communication device used to speak to someone.",
+      "translationUz": "telefon orqali",
+      "synonyms": [
+        "by telephone"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "talk on the phone"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/on",
+      "verifiedPositions": [
+        {
+          "part": 1,
+          "start": 845,
+          "end": 847,
+          "surface": "on",
+          "tokenIndex": 155
+        },
+        {
+          "part": 1,
+          "start": 1261,
+          "end": 1263,
+          "surface": "on",
+          "tokenIndex": 237
+        }
+      ],
+      "releaseSenseId": null,
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED"
+    },
+    {
+      "headword": "at",
+      "category": "LOCATION",
+      "numbers": [
+        58,
+        374,
+        493,
+        651
+      ],
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates a specific point in a place, time, activity or location.",
+      "translationUz": "-da; joyda; paytda",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "at the moment",
+        "at the supermarket",
+        "at the front"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/at",
+      "verifiedPositions": [
+        {
+          "part": 1,
+          "start": 316,
+          "end": 318,
+          "surface": "At",
+          "tokenIndex": 58
+        },
+        {
+          "part": 1,
+          "start": 1945,
+          "end": 1947,
+          "surface": "At",
+          "tokenIndex": 374
+        },
+        {
+          "part": 1,
+          "start": 2527,
+          "end": 2529,
+          "surface": "at",
+          "tokenIndex": 493
+        },
+        {
+          "part": 1,
+          "start": 3320,
+          "end": 3322,
+          "surface": "at",
+          "tokenIndex": 651
+        }
+      ],
+      "releaseSenseId": null,
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED"
+    },
+    {
+      "headword": "yeah",
+      "category": "AFFIRMATION",
+      "numbers": [
+        322,
+        447,
+        760
+      ],
+      "partOfSpeech": "interjection",
+      "cefr": null,
+      "definitionEn": "An informal expression of yes, agreement or acknowledgment.",
+      "translationUz": "ha; xo‘p",
+      "synonyms": [
+        "yes"
+      ],
+      "antonyms": [
+        "no"
+      ],
+      "collocations": [
+        "Yeah, and",
+        "Yeah, that sounds fine"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/yes",
+      "verifiedPositions": [
+        {
+          "part": 1,
+          "start": 1675,
+          "end": 1679,
+          "surface": "Yeah",
+          "tokenIndex": 322
+        },
+        {
+          "part": 1,
+          "start": 2305,
+          "end": 2309,
+          "surface": "Yeah",
+          "tokenIndex": 447
+        },
+        {
+          "part": 1,
+          "start": 3887,
+          "end": 3891,
+          "surface": "Yeah",
+          "tokenIndex": 760
+        }
+      ],
+      "releaseSenseId": null,
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED"
+    }
+  ]
+}

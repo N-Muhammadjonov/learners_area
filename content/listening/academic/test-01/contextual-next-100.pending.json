@@ -1,0 +1,2702 @@
+{
+  "schema": "learners-area-listening-script-editorial-inventory-v1",
+  "source": "listening-test-1",
+  "scope": "academic/test-01 Script Completion only",
+  "deployment": "blocked until exact dictionary sense editorial verification",
+  "sourceBranch": "feature/listening-test-1-next-100-senses",
+  "candidateCount": 100,
+  "candidates": [
+    {
+      "term": "make up my mind",
+      "instances": [
+        {
+          "part": 1,
+          "start": 935,
+          "end": 950,
+          "surface": "make up my mind",
+          "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space. Now we"
+        },
+        {
+          "part": 1,
+          "start": 1351,
+          "end": 1366,
+          "surface": "make up my mind",
+          "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the roo"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 935,
+        "end": 950,
+        "surface": "make up my mind",
+        "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space. Now we"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "find out",
+      "instances": [
+        {
+          "part": 1,
+          "start": 904,
+          "end": 912,
+          "surface": "find out",
+          "context": "eter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room"
+        },
+        {
+          "part": 1,
+          "start": 967,
+          "end": 975,
+          "surface": "find out",
+          "context": "ust need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space. Now we shall begin. You should"
+        },
+        {
+          "part": 1,
+          "start": 1320,
+          "end": 1328,
+          "surface": "find out",
+          "context": "eter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear "
+        },
+        {
+          "part": 3,
+          "start": 608,
+          "end": 616,
+          "surface": "find out",
+          "context": "s. So Forensic Linguistics involves analysing people's use of language to find out whether they've committed a crime. What do you think of that as a definition? Sounds"
+        },
+        {
+          "part": 3,
+          "start": 889,
+          "end": 897,
+          "surface": "find out",
+          "context": "linguists actually do to back it up. You know, like analysing documents to find out who wrote them. Good point. Let's do that. What about the actual project? I'm glad w"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 904,
+        "end": 912,
+        "surface": "find out",
+        "context": "eter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "talked on the phone",
+      "instances": [
+        {
+          "part": 1,
+          "start": 838,
+          "end": 857,
+          "surface": "talked on the phone",
+          "context": "l be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up"
+        },
+        {
+          "part": 1,
+          "start": 1254,
+          "end": 1273,
+          "surface": "talked on the phone",
+          "context": " questions 1 to 5. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 838,
+        "end": 857,
+        "surface": "talked on the phone",
+        "context": "l be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "come on in",
+      "instances": [
+        {
+          "part": 1,
+          "start": 870,
+          "end": 880,
+          "surface": "Come on in",
+          "context": "I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here t"
+        },
+        {
+          "part": 1,
+          "start": 1286,
+          "end": 1296,
+          "surface": "Come on in",
+          "context": "I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. OK. Well, fir"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 870,
+        "end": 880,
+        "surface": "Come on in",
+        "context": "I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here t"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "first of all",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1378,
+          "end": 1390,
+          "surface": "first of all",
+          "context": ". I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the l"
+        },
+        {
+          "part": 2,
+          "start": 570,
+          "end": 582,
+          "surface": "first of all",
+          "context": "l and perhaps you can ask me any questions you may have at the end. Right, first of all let me start by telling you a little bit about what happens here and what's on offer"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1378,
+        "end": 1390,
+        "surface": "first of all",
+        "context": ". I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the l"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "it depends on",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1430,
+          "end": 1443,
+          "surface": "It depends on",
+          "context": " up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, bec"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1430,
+        "end": 1443,
+        "surface": "It depends on",
+        "context": " up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, bec"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "the last place",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1573,
+          "end": 1587,
+          "surface": "The last place",
+          "context": "$110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smaller. And it seems like a good location"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1573,
+        "end": 1587,
+        "surface": "The last place",
+        "context": "$110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smaller. And it seems like a good location"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "good location",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1659,
+          "end": 1672,
+          "surface": "good location",
+          "context": "ace I was in was $100 a week, and it was much smaller. And it seems like a good location. Yeah, and the shops are pretty close. The only thing is, it's not very good for pu"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1659,
+        "end": 1672,
+        "surface": "good location",
+        "context": "ace I was in was $100 a week, and it was much smaller. And it seems like a good location. Yeah, and the shops are pretty close. The only thing is, it's not very good for pu"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "public transport",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1755,
+          "end": 1771,
+          "surface": "public transport",
+          "context": " and the shops are pretty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1755,
+        "end": 1771,
+        "surface": "public transport",
+        "context": " and the shops are pretty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "nearest bus stop",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1777,
+          "end": 1793,
+          "surface": "nearest bus stop",
+          "context": "tty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1777,
+        "end": 1793,
+        "surface": "nearest bus stop",
+        "context": "tty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "quite a walk",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1797,
+          "end": 1809,
+          "surface": "quite a walk",
+          "context": "thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere I can park? Wel"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1797,
+        "end": 1809,
+        "surface": "quite a walk",
+        "context": "thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere I can park? Wel"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "no parking",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2085,
+          "end": 2095,
+          "surface": "no parking",
+          "context": "till plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2085,
+        "end": 2095,
+        "surface": "no parking",
+        "context": "till plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "back lane",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2105,
+          "end": 2114,
+          "surface": "back lane",
+          "context": "for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall w"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2105,
+        "end": 2114,
+        "surface": "back lane",
+        "context": "for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall w"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "phone calls",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2152,
+          "end": 2163,
+          "surface": "phone calls",
+          "context": "s zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall when I came in. I've got a mobile which my friends"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2152,
+        "end": 2163,
+        "surface": "phone calls",
+        "context": "s zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall when I came in. I've got a mobile which my friends"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "living room",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2347,
+          "end": 2358,
+          "surface": "living room",
+          "context": " a phone in the house is useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2347,
+        "end": 2358,
+        "surface": "living room",
+        "context": " a phone in the house is useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "hard to hear",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2371,
+          "end": 2383,
+          "surface": "hard to hear",
+          "context": " useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2371,
+        "end": 2383,
+        "surface": "hard to hear",
+        "context": " useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "fair enough",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2446,
+          "end": 2457,
+          "surface": "fair enough",
+          "context": "hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what about my room? Yes, we'll go up and look in a minute. It's at the front of"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2446,
+        "end": 2457,
+        "surface": "fair enough",
+        "context": "hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what about my room? Yes, we'll go up and look in a minute. It's at the front of"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "front of the house",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2534,
+          "end": 2552,
+          "surface": "front of the house",
+          "context": "And what about my room? Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room, and there's a cupboard and desk in there already. But it does ge"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2534,
+        "end": 2552,
+        "surface": "front of the house",
+        "context": "And what about my room? Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room, and there's a cupboard and desk in there already. But it does ge"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "quite cold",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2639,
+          "end": 2649,
+          "surface": "quite cold",
+          "context": "e room, and there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2639,
+        "end": 2649,
+        "surface": "quite cold",
+        "context": "e room, and there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "at night",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2650,
+          "end": 2658,
+          "surface": "at night",
+          "context": " there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2650,
+        "end": 2658,
+        "surface": "at night",
+        "context": " there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "left me with",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2797,
+          "end": 2809,
+          "surface": "left me with",
+          "context": "nd has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a micro"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2797,
+        "end": 2809,
+        "surface": "left me with",
+        "context": "nd has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a micro"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "rice cooker",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2926,
+          "end": 2937,
+          "surface": "rice cooker",
+          "context": "e I can bring? Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken. I'll have a look in"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2926,
+        "end": 2937,
+        "surface": "rice cooker",
+        "context": "e I can bring? Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken. I'll have a look in"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "sports fan",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3201,
+          "end": 3211,
+          "surface": "sports fan",
+          "context": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too, so "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3201,
+        "end": 3211,
+        "surface": "sports fan",
+        "context": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too, so "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "supermarket",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3327,
+          "end": 3338,
+          "surface": "supermarket",
+          "context": "riday evening. Would that be OK? Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights. Great. You can do the shopping then. Do you have mo"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3327,
+        "end": 3338,
+        "surface": "supermarket",
+        "context": "riday evening. Would that be OK? Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights. Great. You can do the shopping then. Do you have mo"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "give me a lift",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3538,
+          "end": 3552,
+          "surface": "give me a lift",
+          "context": "ternoon? In the afternoons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if yo"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3538,
+        "end": 3552,
+        "surface": "give me a lift",
+        "context": "ternoon? In the afternoons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if yo"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "share the petrol",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3561,
+          "end": 3577,
+          "surface": "share the petrol",
+          "context": "ons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if you're interested, and the "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3561,
+        "end": 3577,
+        "surface": "share the petrol",
+        "context": "ons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if you're interested, and the "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "move in",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3617,
+          "end": 3624,
+          "surface": "move in",
+          "context": " me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if you're interested, and the rent is OK, I need someone by the 1st of June w"
+        },
+        {
+          "part": 1,
+          "start": 3854,
+          "end": 3861,
+          "surface": "move in",
+          "context": "ems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end of section 1. You "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3617,
+        "end": 3624,
+        "surface": "move in",
+        "context": " me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if you're interested, and the rent is OK, I need someone by the 1st of June w"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "rent period",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3721,
+          "end": 3732,
+          "surface": "rent period",
+          "context": "rested, and the rent is OK, I need someone by the 1st of June when the new rent period starts. Yes, that should be fine. The house seems big enough. The rent's reasonable."
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3721,
+        "end": 3732,
+        "surface": "rent period",
+        "context": "rested, and the rent is OK, I need someone by the 1st of June when the new rent period starts. Yes, that should be fine. The house seems big enough. The rent's reasonable."
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "next week",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3835,
+          "end": 3844,
+          "surface": "next week",
+          "context": " fine. The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end o"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3835,
+        "end": 3844,
+        "surface": "next week",
+        "context": " fine. The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end o"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "sounds fine",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3898,
+          "end": 3909,
+          "surface": "sounds fine",
+          "context": "got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end of section 1. You now have half a minute to check your answers."
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3898,
+        "end": 3909,
+        "surface": "sounds fine",
+        "context": "got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end of section 1. You now have half a minute to check your answers."
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "have a chance",
+      "instances": [
+        {
+          "part": 1,
+          "start": 148,
+          "end": 161,
+          "surface": "have a chance",
+          "context": " will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in fou"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 148,
+        "end": 161,
+        "surface": "have a chance",
+        "context": " will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in fou"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "check your work",
+      "instances": [
+        {
+          "part": 1,
+          "start": 165,
+          "end": 180,
+          "surface": "check your work",
+          "context": " you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write a"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 165,
+        "end": 180,
+        "surface": "check your work",
+        "context": " you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write a"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "once only",
+      "instances": [
+        {
+          "part": 1,
+          "start": 216,
+          "end": 225,
+          "surface": "once only",
+          "context": "u will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write all your answers in the listening question boo"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 216,
+        "end": 225,
+        "surface": "once only",
+        "context": "u will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write all your answers in the listening question boo"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "answer sheet",
+      "instances": [
+        {
+          "part": 1,
+          "start": 400,
+          "end": 412,
+          "surface": "answer sheet",
+          "context": "d of the test, you will be given 10 minutes to transfer your answers to an answer sheet. Now turn to section 1 on page 2 of your question booklet. Section 1. You will hear"
+        },
+        {
+          "part": 4,
+          "start": 4789,
+          "end": 4801,
+          "surface": "answer sheet",
+          "context": "ng test. You now have 10 minutes to transfer your answers to the listening answer sheet."
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 400,
+        "end": 412,
+        "surface": "answer sheet",
+        "context": "d of the test, you will be given 10 minutes to transfer your answers to an answer sheet. Now turn to section 1 on page 2 of your question booklet. Section 1. You will hear"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "questions",
+      "instances": [
+        {
+          "part": 1,
+          "start": 40,
+          "end": 49,
+          "surface": "questions",
+          "context": "Recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions,"
+        },
+        {
+          "part": 1,
+          "start": 124,
+          "end": 133,
+          "surface": "questions",
+          "context": " on what you hear. There will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played on"
+        },
+        {
+          "part": 1,
+          "start": 608,
+          "end": 617,
+          "surface": "questions",
+          "context": "alking about sharing a house together. First you have some time to look at questions 1 to 5 on page 2. You will see that there is an example that has been done for you. "
+        },
+        {
+          "part": 1,
+          "start": 1072,
+          "end": 1081,
+          "surface": "questions",
+          "context": " has been written in the space. Now we shall begin. You should answer the questions as you listen, because you will not hear the recording a second time. Listen careful"
+        },
+        {
+          "part": 1,
+          "start": 1180,
+          "end": 1189,
+          "surface": "questions",
+          "context": "you will not hear the recording a second time. Listen carefully and answer questions 1 to 5. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone,"
+        },
+        {
+          "part": 1,
+          "start": 3109,
+          "end": 3118,
+          "surface": "questions",
+          "context": "efore you hear the rest of the conversation, you have some time to look at questions 6 to 10 on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sp"
+        },
+        {
+          "part": 1,
+          "start": 3160,
+          "end": 3169,
+          "surface": "questions",
+          "context": "ve some time to look at questions 6 to 10 on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Fri"
+        },
+        {
+          "part": 2,
+          "start": 163,
+          "end": 172,
+          "surface": "questions",
+          "context": "a junior school to a group of parents. First you have some time to look at questions 11 to 17 on page 3. Now listen carefully and answer questions 11 to 17. Okay, can e"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 40,
+        "end": 49,
+        "surface": "questions",
+        "context": "Recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions,"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "recording",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1127,
+          "end": 1136,
+          "surface": "recording",
+          "context": "u should answer the questions as you listen, because you will not hear the recording a second time. Listen carefully and answer questions 1 to 5. Hi, I'm Jim. I'm here a"
+        },
+        {
+          "part": 3,
+          "start": 1057,
+          "end": 1066,
+          "surface": "recording",
+          "context": "e chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the r"
+        },
+        {
+          "part": 3,
+          "start": 1150,
+          "end": 1159,
+          "surface": "recording",
+          "context": "sible suspect. Not a real suspect of course. So we've got to listen to the recording and analyse their voice. Should be OK? Well, I've already listened to the recording "
+        },
+        {
+          "part": 3,
+          "start": 1234,
+          "end": 1243,
+          "surface": "recording",
+          "context": " and analyse their voice. Should be OK? Well, I've already listened to the recording and I can't even tell if it's a man or a woman. But I guess that doesn't matter. The"
+        },
+        {
+          "part": 3,
+          "start": 1458,
+          "end": 1467,
+          "surface": "recording",
+          "context": "l affect anything. Where we're really going to get in trouble is that the recording is very unclear. I'm sure they've done that to test us. Well, they weren't going to "
+        },
+        {
+          "part": 3,
+          "start": 1824,
+          "end": 1833,
+          "surface": "recording",
+          "context": "e. I guess so. And then we have to interview the suspect and make our own recording face to face and decide if it's the same person as on the original recording, right?"
+        },
+        {
+          "part": 3,
+          "start": 1901,
+          "end": 1910,
+          "surface": "recording",
+          "context": "cording face to face and decide if it's the same person as on the original recording, right? Yes. It's not an exact science but it's usually pretty accurate. You can oft"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1127,
+        "end": 1136,
+        "surface": "recording",
+        "context": "u should answer the questions as you listen, because you will not hear the recording a second time. Listen carefully and answer questions 1 to 5. Hi, I'm Jim. I'm here a"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "conversation",
+      "instances": [
+        {
+          "part": 1,
+          "start": 730,
+          "end": 742,
+          "surface": "conversation",
+          "context": "here is an example that has been done for you. On this occasion only, the conversation relating to this will be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm"
+        },
+        {
+          "part": 1,
+          "start": 3065,
+          "end": 3077,
+          "surface": "conversation",
+          "context": "just broken. I'll have a look in the box. Before you hear the rest of the conversation, you have some time to look at questions 6 to 10 on page 2. Now listen and answer qu"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 730,
+        "end": 742,
+        "surface": "conversation",
+        "context": "here is an example that has been done for you. On this occasion only, the conversation relating to this will be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "sharing a house",
+      "instances": [
+        {
+          "part": 1,
+          "start": 546,
+          "end": 561,
+          "surface": "sharing a house",
+          "context": ". Section 1. You will hear two students called Peter and Jim talking about sharing a house together. First you have some time to look at questions 1 to 5 on page 2. You will s"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 546,
+        "end": 561,
+        "surface": "sharing a house",
+        "context": ". Section 1. You will hear two students called Peter and Jim talking about sharing a house together. First you have some time to look at questions 1 to 5 on page 2. You will s"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "a few things",
+      "instances": [
+        {
+          "part": 1,
+          "start": 913,
+          "end": 925,
+          "surface": "a few things",
+          "context": "talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been wri"
+        },
+        {
+          "part": 1,
+          "start": 1329,
+          "end": 1341,
+          "surface": "a few things",
+          "context": "talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the ren"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 913,
+        "end": 925,
+        "surface": "a few things",
+        "context": "talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been wri"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "make up",
+      "instances": [
+        {
+          "part": 1,
+          "start": 935,
+          "end": 942,
+          "surface": "make up",
+          "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space"
+        },
+        {
+          "part": 1,
+          "start": 1351,
+          "end": 1358,
+          "surface": "make up",
+          "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 935,
+        "end": 942,
+        "surface": "make up",
+        "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "wasn't quite clear",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1394,
+          "end": 1412,
+          "surface": "wasn't quite clear",
+          "context": " find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1394,
+        "end": 1412,
+        "surface": "wasn't quite clear",
+        "context": " find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "a week",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1503,
+          "end": 1509,
+          "surface": "a week",
+          "context": " It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was "
+        },
+        {
+          "part": 1,
+          "start": 1606,
+          "end": 1612,
+          "surface": "a week",
+          "context": "e it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smaller. And it seems like a good location. Yeah, and the shops ar"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1503,
+        "end": 1509,
+        "surface": "a week",
+        "context": " It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "a bit smaller",
+      "instances": [
+        {
+          "part": 1,
+          "start": 1538,
+          "end": 1551,
+          "surface": "a bit smaller",
+          "context": "I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smalle"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 1538,
+        "end": 1551,
+        "surface": "a bit smaller",
+        "context": "I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smalle"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "plenty of room",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2015,
+          "end": 2029,
+          "surface": "plenty of room",
+          "context": "ge. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2015,
+        "end": 2029,
+        "surface": "plenty of room",
+        "context": "ge. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "still plenty",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2009,
+          "end": 2021,
+          "surface": "still plenty",
+          "context": "a garage. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the b"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2009,
+        "end": 2021,
+        "surface": "still plenty",
+        "context": "a garage. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the b"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "bring that",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2756,
+          "end": 2766,
+          "surface": "bring that",
+          "context": "oesn't have a heater. No problem. My friend has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything els"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2756,
+        "end": 2766,
+        "surface": "bring that",
+        "context": "oesn't have a heater. No problem. My friend has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything els"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "a big box",
+      "instances": [
+        {
+          "part": 1,
+          "start": 2810,
+          "end": 2819,
+          "surface": "a big box",
+          "context": "iven me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a microwave, and "
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 2810,
+        "end": 2819,
+        "surface": "a big box",
+        "context": "iven me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a microwave, and "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "packed lunch",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1149,
+          "end": 1161,
+          "surface": "packed lunch",
+          "context": "for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the m"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1149,
+        "end": 1161,
+        "surface": "packed lunch",
+        "context": "for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the m"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "fresh air",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1226,
+          "end": 1235,
+          "surface": "fresh air",
+          "context": "cked lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoon there are two breaks "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1226,
+        "end": 1235,
+        "surface": "fresh air",
+        "context": "cked lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoon there are two breaks "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "new parents",
+      "instances": [
+        {
+          "part": 2,
+          "start": 314,
+          "end": 325,
+          "surface": "new parents",
+          "context": "o 17. Okay, can everybody hear me? Good, well I'd like to welcome all the new parents to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teach"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 314,
+        "end": 325,
+        "surface": "new parents",
+        "context": "o 17. Okay, can everybody hear me? Good, well I'd like to welcome all the new parents to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teach"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "head teacher",
+      "instances": [
+        {
+          "part": 2,
+          "start": 400,
+          "end": 412,
+          "surface": "head teacher",
+          "context": " to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 400,
+        "end": 412,
+        "surface": "head teacher",
+        "context": " to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "school day",
+      "instances": [
+        {
+          "part": 2,
+          "start": 456,
+          "end": 466,
+          "surface": "school day",
+          "context": " I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school and perhaps you can ask me any questions you may have "
+        },
+        {
+          "part": 2,
+          "start": 2348,
+          "end": 2358,
+          "surface": "school day",
+          "context": ". Our teachers are all very committed to the school and at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 456,
+        "end": 466,
+        "surface": "school day",
+        "context": " I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school and perhaps you can ask me any questions you may have "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "on offer",
+      "instances": [
+        {
+          "part": 2,
+          "start": 659,
+          "end": 667,
+          "surface": "on offer",
+          "context": "et me start by telling you a little bit about what happens here and what's on offer. Children are expected to arrive at school between 8.45 and 8.50 and the bell is ru"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 659,
+        "end": 667,
+        "surface": "on offer",
+        "context": "et me start by telling you a little bit about what happens here and what's on offer. Children are expected to arrive at school between 8.45 and 8.50 and the bell is ru"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "classrooms",
+      "instances": [
+        {
+          "part": 2,
+          "start": 784,
+          "end": 794,
+          "surface": "classrooms",
+          "context": "ol between 8.45 and 8.50 and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the who"
+        },
+        {
+          "part": 2,
+          "start": 2879,
+          "end": 2889,
+          "surface": "classrooms",
+          "context": "itors personally and his door is always open. Opposite this are two of the classrooms but most of the classrooms are down the long corridor. The library then is situated "
+        },
+        {
+          "part": 2,
+          "start": 2906,
+          "end": 2916,
+          "surface": "classrooms",
+          "context": "or is always open. Opposite this are two of the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classroom"
+        },
+        {
+          "part": 2,
+          "start": 2992,
+          "end": 3002,
+          "surface": "classrooms",
+          "context": "are down the long corridor. The library then is situated between those two classrooms and we are hoping that we will be able to create a computer room within that so that"
+        },
+        {
+          "part": 2,
+          "start": 3168,
+          "end": 3178,
+          "surface": "classrooms",
+          "context": "hildren can have somewhere quiet to work on their own. On the left of the classrooms we have converted one of the old cloak rooms to create a music room and children can"
+        },
+        {
+          "part": 2,
+          "start": 3667,
+          "end": 3677,
+          "surface": "classrooms",
+          "context": "ren and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your questions. That is the end of section 2. Yo"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 784,
+        "end": 794,
+        "surface": "classrooms",
+        "context": "ol between 8.45 and 8.50 and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the who"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "take the register",
+      "instances": [
+        {
+          "part": 2,
+          "start": 818,
+          "end": 835,
+          "surface": "take the register",
+          "context": "ell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 818,
+        "end": 835,
+        "surface": "take the register",
+        "context": "ell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "assembly",
+      "instances": [
+        {
+          "part": 2,
+          "start": 850,
+          "end": 858,
+          "surface": "assembly",
+          "context": "to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head to talk to the children"
+        },
+        {
+          "part": 2,
+          "start": 3503,
+          "end": 3511,
+          "surface": "assembly",
+          "context": "year and we are very pleased with it. We used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 850,
+        "end": 858,
+        "surface": "assembly",
+        "context": "to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head to talk to the children"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "canteen",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1108,
+          "end": 1115,
+          "surface": "canteen",
+          "context": ". Lessons run until 4.00pm with an hour for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1108,
+        "end": 1115,
+        "surface": "canteen",
+        "context": ". Lessons run until 4.00pm with an hour for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "outside",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1205,
+          "end": 1212,
+          "surface": "outside",
+          "context": "an bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoo"
+        },
+        {
+          "part": 2,
+          "start": 1370,
+          "end": 1377,
+          "surface": "outside",
+          "context": "oon there are two breaks of 15 minutes when the children also generally go outside unless it's wet. Now we encourage the children to do as much as they can and we offe"
+        },
+        {
+          "part": 4,
+          "start": 3143,
+          "end": 3150,
+          "surface": "outside",
+          "context": " possibility. They trust the protection of their shell. Snails that remain outside during their dormancy can usually be recognized by a rather brightly colored shell r"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1205,
+        "end": 1212,
+        "surface": "outside",
+        "context": "an bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoo"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "breaks",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1313,
+          "end": 1319,
+          "surface": "breaks",
+          "context": "In the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes when the children also generally go outside unless it's wet. Now we en"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1313,
+        "end": 1319,
+        "surface": "breaks",
+        "context": "In the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes when the children also generally go outside unless it's wet. Now we en"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "rather than",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1531,
+          "end": 1542,
+          "surface": "rather than",
+          "context": "e offer several ways of achieving this. For example on Thursday afternoons rather than continuing with lessons we expect the whole school to do sports. We vary these betw"
+        },
+        {
+          "part": 2,
+          "start": 2054,
+          "end": 2065,
+          "surface": "rather than",
+          "context": "a close eye on how each child is doing in their schoolwork and every month rather than the teacher giving the children a report as I know some schools do they have to do t"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1531,
+        "end": 1542,
+        "surface": "rather than",
+        "context": "e offer several ways of achieving this. For example on Thursday afternoons rather than continuing with lessons we expect the whole school to do sports. We vary these betw"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "sports",
+      "instances": [
+        {
+          "part": 1,
+          "start": 3201,
+          "end": 3207,
+          "surface": "sports",
+          "context": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too,"
+        },
+        {
+          "part": 2,
+          "start": 1600,
+          "end": 1606,
+          "surface": "sports",
+          "context": "noons rather than continuing with lessons we expect the whole school to do sports. We vary these between summer and winter and everything is supervised by the teache"
+        }
+      ],
+      "selected": {
+        "part": 1,
+        "start": 3201,
+        "end": 3207,
+        "surface": "sports",
+        "context": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too,"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "supervised",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1667,
+          "end": 1677,
+          "surface": "supervised",
+          "context": "l to do sports. We vary these between summer and winter and everything is supervised by the teachers. Also we like the children to work on something artistic over a long"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1667,
+        "end": 1677,
+        "surface": "supervised",
+        "context": "l to do sports. We vary these between summer and winter and everything is supervised by the teachers. Also we like the children to work on something artistic over a long"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "artistic",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1742,
+          "end": 1750,
+          "surface": "artistic",
+          "context": "supervised by the teachers. Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produ"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1742,
+        "end": 1750,
+        "surface": "artistic",
+        "context": "supervised by the teachers. Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produ"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "environment",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1939,
+          "end": 1950,
+          "surface": "environment",
+          "context": "ly be on something particular that they have studied that term such as the environment. We also make sure we keep a close eye on how each child is doing in their schoolwo"
+        },
+        {
+          "part": 4,
+          "start": 124,
+          "end": 135,
+          "surface": "environment",
+          "context": "ill hear a biology lecture on how living things deal with changes in their environment by entering a state called dormancy. First you have some time to look at questions 3"
+        },
+        {
+          "part": 4,
+          "start": 382,
+          "end": 393,
+          "surface": "environment",
+          "context": "ing about some ways in which plants and animals deal with changes in their environment, and today we'll continue that discussion by looking at dormancy. First we'll cover "
+        },
+        {
+          "part": 4,
+          "start": 695,
+          "end": 706,
+          "surface": "environment",
+          "context": "conserve the resources available to them and reduce their demands on their environment. Most major groups of plants and animals have some representatives that can become d"
+        },
+        {
+          "part": 4,
+          "start": 2158,
+          "end": 2169,
+          "surface": "environment",
+          "context": " of the life cycle, such as with butterflies or certain moths. In terms of environment, it's interesting to note that through dormancy insects can survive when it's very c"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1939,
+        "end": 1950,
+        "surface": "environment",
+        "context": "ly be on something particular that they have studied that term such as the environment. We also make sure we keep a close eye on how each child is doing in their schoolwo"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "keep a close eye on",
+      "instances": [
+        {
+          "part": 2,
+          "start": 1974,
+          "end": 1993,
+          "surface": "keep a close eye on",
+          "context": "they have studied that term such as the environment. We also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 1974,
+        "end": 1993,
+        "surface": "keep a close eye on",
+        "context": "they have studied that term such as the environment. We also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "schoolwork",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2027,
+          "end": 2037,
+          "surface": "schoolwork",
+          "context": " We also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher giving the children a report as I know some "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2027,
+        "end": 2037,
+        "surface": "schoolwork",
+        "context": " We also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher giving the children a report as I know some "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "performance",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2175,
+          "end": 2186,
+          "surface": "performance",
+          "context": "report as I know some schools do they have to do tests and we record their performance over the year. We are very proud of our school and of the very good results we achie"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2175,
+        "end": 2186,
+        "surface": "performance",
+        "context": "report as I know some schools do they have to do tests and we record their performance over the year. We are very proud of our school and of the very good results we achie"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "committed",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2302,
+          "end": 2311,
+          "surface": "committed",
+          "context": "school and of the very good results we achieve. Our teachers are all very committed to the school and at the end of the school day many of them have set up clubs that t"
+        },
+        {
+          "part": 3,
+          "start": 633,
+          "end": 642,
+          "surface": "committed",
+          "context": "cs involves analysing people's use of language to find out whether they've committed a crime. What do you think of that as a definition? Sounds OK. I looked it up in my "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2302,
+        "end": 2311,
+        "surface": "committed",
+        "context": "school and of the very good results we achieve. Our teachers are all very committed to the school and at the end of the school day many of them have set up clubs that t"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "set up clubs",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2377,
+          "end": 2389,
+          "surface": "set up clubs",
+          "context": "committed to the school and at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Befor"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2377,
+        "end": 2389,
+        "surface": "set up clubs",
+        "context": "committed to the school and at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Befor"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "extra hour",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2421,
+          "end": 2431,
+          "surface": "extra hour",
+          "context": "e school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have s"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2421,
+        "end": 2431,
+        "surface": "extra hour",
+        "context": "e school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have s"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "new skill",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2443,
+          "end": 2452,
+          "surface": "new skill",
+          "context": "hem have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have some time to look at q"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2443,
+        "end": 2452,
+        "surface": "new skill",
+        "context": "hem have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have some time to look at q"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "main entrance",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2674,
+          "end": 2687,
+          "surface": "main entrance",
+          "context": "8 to 20. OK, I'll quickly show you where everything is. We're here at the main entrance and on the right where you would normally expect to find reception you'll see the he"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2674,
+        "end": 2687,
+        "surface": "main entrance",
+        "context": "8 to 20. OK, I'll quickly show you where everything is. We're here at the main entrance and on the right where you would normally expect to find reception you'll see the he"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "reception",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2745,
+          "end": 2754,
+          "surface": "reception",
+          "context": "the main entrance and on the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is al"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2745,
+        "end": 2754,
+        "surface": "reception",
+        "context": "the main entrance and on the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is al"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "head's office",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2770,
+          "end": 2783,
+          "surface": "head's office",
+          "context": "the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is always open. Opposite this are "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2770,
+        "end": 2783,
+        "surface": "head's office",
+        "context": "the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is always open. Opposite this are "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "long corridor",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2930,
+          "end": 2943,
+          "surface": "long corridor",
+          "context": "ite this are two of the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2930,
+        "end": 2943,
+        "surface": "long corridor",
+        "context": "ite this are two of the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "library",
+      "instances": [
+        {
+          "part": 2,
+          "start": 2949,
+          "end": 2956,
+          "surface": "library",
+          "context": " the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we will be able"
+        },
+        {
+          "part": 3,
+          "start": 2703,
+          "end": 2710,
+          "surface": "library",
+          "context": " 25 to 30. We'll have to do some background reading first. I'll go to the library later and get what we need. OK. I've already looked at Forensics Today and it didn't"
+        },
+        {
+          "part": 3,
+          "start": 2952,
+          "end": 2959,
+          "surface": "library",
+          "context": "and Crime looks a bit more promising, doesn't it? I've got that out of the library already so we don't need to worry about borrowing that. Research Methods in Forensi"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 2949,
+        "end": 2956,
+        "surface": "library",
+        "context": " the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we will be able"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "computer room",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3054,
+          "end": 3067,
+          "surface": "computer room",
+          "context": "en those two classrooms and we are hoping that we will be able to create a computer room within that so that the children can have somewhere quiet to work on their own. On "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3054,
+        "end": 3067,
+        "surface": "computer room",
+        "context": "en those two classrooms and we are hoping that we will be able to create a computer room within that so that the children can have somewhere quiet to work on their own. On "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "on their own",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3134,
+          "end": 3146,
+          "surface": "on their own",
+          "context": "ter room within that so that the children can have somewhere quiet to work on their own. On the left of the classrooms we have converted one of the old cloak rooms to crea"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3134,
+        "end": 3146,
+        "surface": "on their own",
+        "context": "ter room within that so that the children can have somewhere quiet to work on their own. On the left of the classrooms we have converted one of the old cloak rooms to crea"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "cloak rooms",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3212,
+          "end": 3223,
+          "surface": "cloak rooms",
+          "context": "their own. On the left of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. No"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3212,
+        "end": 3223,
+        "surface": "cloak rooms",
+        "context": "their own. On the left of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. No"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "music room",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3236,
+          "end": 3246,
+          "surface": "music room",
+          "context": "of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. Now if you come with me t"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3236,
+        "end": 3246,
+        "surface": "music room",
+        "context": "of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. Now if you come with me t"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "main hall",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3342,
+          "end": 3351,
+          "surface": "main hall",
+          "context": "in there at lunchtime if they want to. Now if you come with me through the main hall here. OK, now as you can probably see this main hall is a new addition this year and"
+        },
+        {
+          "part": 2,
+          "start": 3395,
+          "end": 3404,
+          "surface": "main hall",
+          "context": "e with me through the main hall here. OK, now as you can probably see this main hall is a new addition this year and we are very pleased with it. We used to be squashed"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3342,
+        "end": 3351,
+        "surface": "main hall",
+        "context": "in there at lunchtime if they want to. Now if you come with me through the main hall here. OK, now as you can probably see this main hall is a new addition this year and"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "assembly hall",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3503,
+          "end": 3516,
+          "surface": "assembly hall",
+          "context": "year and we are very pleased with it. We used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children and w"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3503,
+        "end": 3516,
+        "surface": "assembly hall",
+        "context": "year and we are very pleased with it. We used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children and w"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "turned into",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3561,
+          "end": 3572,
+          "surface": "turned into",
+          "context": "hed into the old assembly hall next door which as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look "
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3561,
+        "end": 3572,
+        "surface": "turned into",
+        "context": "hed into the old assembly hall next door which as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look "
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "weekly lessons",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3608,
+          "end": 3622,
+          "surface": "weekly lessons",
+          "context": "as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to a"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3608,
+        "end": 3622,
+        "surface": "weekly lessons",
+        "context": "as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to a"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "feel free",
+      "instances": [
+        {
+          "part": 2,
+          "start": 3632,
+          "end": 3641,
+          "surface": "feel free",
+          "context": "een turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your question"
+        }
+      ],
+      "selected": {
+        "part": 2,
+        "start": 3632,
+        "end": 3641,
+        "surface": "feel free",
+        "context": "een turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your question"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "project",
+      "instances": [
+        {
+          "part": 3,
+          "start": 67,
+          "end": 74,
+          "surface": "project",
+          "context": "Part 3. You will hear two students called Jen and Rob discussing a project they are about to start working on. First you have some time to look at questions 21"
+        },
+        {
+          "part": 3,
+          "start": 260,
+          "end": 267,
+          "surface": "project",
+          "context": "ly and answer questions 21 to 24. Hi Jen. Hi Rob. We need to look at this project we're doing together in Forensic Linguistics. Sure. The first thing we have to do is"
+        },
+        {
+          "part": 3,
+          "start": 963,
+          "end": 970,
+          "surface": "project",
+          "context": " find out who wrote them. Good point. Let's do that. What about the actual project? I'm glad we chose voice identification as the topic. Yeah. We've been given a voic"
+        },
+        {
+          "part": 3,
+          "start": 1728,
+          "end": 1735,
+          "surface": "project",
+          "context": "ng what to do with it is the only thing that really concerns me about this project. It'll be fine. I guess so. And then we have to interview the suspect and make our "
+        },
+        {
+          "part": 3,
+          "start": 3208,
+          "end": 3215,
+          "surface": "project",
+          "context": " one. I'll borrow that from our classmate George. He won't need it for his project. But we should get out Modern Forensic Techniques. We need all the help we can get o"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 67,
+        "end": 74,
+        "surface": "project",
+        "context": "Part 3. You will hear two students called Jen and Rob discussing a project they are about to start working on. First you have some time to look at questions 21"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "forensic linguistics",
+      "instances": [
+        {
+          "part": 3,
+          "start": 292,
+          "end": 312,
+          "surface": "Forensic Linguistics",
+          "context": ". Hi Jen. Hi Rob. We need to look at this project we're doing together in Forensic Linguistics. Sure. The first thing we have to do is define Forensic Linguistics. I thought we co"
+        },
+        {
+          "part": 3,
+          "start": 360,
+          "end": 380,
+          "surface": "Forensic Linguistics",
+          "context": "her in Forensic Linguistics. Sure. The first thing we have to do is define Forensic Linguistics. I thought we could say something like, linguistics involves the analysis of languag"
+        },
+        {
+          "part": 3,
+          "start": 540,
+          "end": 560,
+          "surface": "Forensic Linguistics",
+          "context": "e, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of language to find out whether they've committed a "
+        },
+        {
+          "part": 3,
+          "start": 3037,
+          "end": 3057,
+          "surface": "Forensic Linguistics",
+          "context": "ready so we don't need to worry about borrowing that. Research Methods in Forensic Linguistics. I guess we ought to borrow that. And Voice Identification will be a useful one. I'l"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 292,
+        "end": 312,
+        "surface": "Forensic Linguistics",
+        "context": ". Hi Jen. Hi Rob. We need to look at this project we're doing together in Forensic Linguistics. Sure. The first thing we have to do is define Forensic Linguistics. I thought we co"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "analysis of language",
+      "instances": [
+        {
+          "part": 3,
+          "start": 446,
+          "end": 466,
+          "surface": "analysis of language",
+          "context": "nguistics. I thought we could say something like, linguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Li"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 446,
+        "end": 466,
+        "surface": "analysis of language",
+        "context": "nguistics. I thought we could say something like, linguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Li"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "scientific techniques",
+      "instances": [
+        {
+          "part": 3,
+          "start": 497,
+          "end": 518,
+          "surface": "scientific techniques",
+          "context": "inguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of languag"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 497,
+        "end": 518,
+        "surface": "scientific techniques",
+        "context": "inguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of languag"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "solve crimes",
+      "instances": [
+        {
+          "part": 3,
+          "start": 522,
+          "end": 534,
+          "surface": "solve crimes",
+          "context": "nalysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of language to find out wh"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 522,
+        "end": 534,
+        "surface": "solve crimes",
+        "context": "nalysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of language to find out wh"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "definition",
+      "instances": [
+        {
+          "part": 3,
+          "start": 683,
+          "end": 693,
+          "surface": "definition",
+          "context": "find out whether they've committed a crime. What do you think of that as a definition? Sounds OK. I looked it up in my dictionary and I got something similar. Then we ca"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 683,
+        "end": 693,
+        "surface": "definition",
+        "context": "find out whether they've committed a crime. What do you think of that as a definition? Sounds OK. I looked it up in my dictionary and I got something similar. Then we ca"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "back it up",
+      "instances": [
+        {
+          "part": 3,
+          "start": 839,
+          "end": 849,
+          "surface": "back it up",
+          "context": "r. Then we can add something about what forensic linguists actually do to back it up. You know, like analysing documents to find out who wrote them. Good point. Let's do"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 839,
+        "end": 849,
+        "surface": "back it up",
+        "context": "r. Then we can add something about what forensic linguists actually do to back it up. You know, like analysing documents to find out who wrote them. Good point. Let's do"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "voice identification",
+      "instances": [
+        {
+          "part": 3,
+          "start": 990,
+          "end": 1010,
+          "surface": "voice identification",
+          "context": "ood point. Let's do that. What about the actual project? I'm glad we chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a"
+        },
+        {
+          "part": 3,
+          "start": 2811,
+          "end": 2831,
+          "surface": "voice identification",
+          "context": "d. OK. I've already looked at Forensics Today and it didn't say much about voice identification so we needn't bother with that one. Language and Crime looks a bit more promising, d"
+        },
+        {
+          "part": 3,
+          "start": 3096,
+          "end": 3116,
+          "surface": "Voice Identification",
+          "context": "arch Methods in Forensic Linguistics. I guess we ought to borrow that. And Voice Identification will be a useful one. I'll borrow that from our classmate George. He won't need it f"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 990,
+        "end": 1010,
+        "surface": "voice identification",
+        "context": "ood point. Let's do that. What about the actual project? I'm glad we chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "possible suspect",
+      "instances": [
+        {
+          "part": 3,
+          "start": 1072,
+          "end": 1088,
+          "surface": "possible suspect",
+          "context": "dentification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the recording and analyse t"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 1072,
+        "end": 1088,
+        "surface": "possible suspect",
+        "context": "dentification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the recording and analyse t"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "voice recording",
+      "instances": [
+        {
+          "part": 3,
+          "start": 1051,
+          "end": 1066,
+          "surface": "voice recording",
+          "context": "glad we chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the r"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 1051,
+        "end": 1066,
+        "surface": "voice recording",
+        "context": "glad we chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the r"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "analyse their voice",
+      "instances": [
+        {
+          "part": 3,
+          "start": 1164,
+          "end": 1183,
+          "surface": "analyse their voice",
+          "context": " Not a real suspect of course. So we've got to listen to the recording and analyse their voice. Should be OK? Well, I've already listened to the recording and I can't even tell if"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 1164,
+        "end": 1183,
+        "surface": "analyse their voice",
+        "context": " Not a real suspect of course. So we've got to listen to the recording and analyse their voice. Should be OK? Well, I've already listened to the recording and I can't even tell if"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "technical side of things",
+      "instances": [
+        {
+          "part": 3,
+          "start": 3457,
+          "end": 3481,
+          "surface": "technical side of things",
+          "context": "t sure about how we're going to record the voices. I'm not too good on the technical side of things. Me neither. We'd better work out what we're doing. At least we get more than one op"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 3457,
+        "end": 3481,
+        "surface": "technical side of things",
+        "context": "t sure about how we're going to record the voices. I'm not too good on the technical side of things. Me neither. We'd better work out what we're doing. At least we get more than one op"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "self-doubt",
+      "instances": [
+        {
+          "part": 3,
+          "start": 2234,
+          "end": 2244,
+          "surface": "self-doubt",
+          "context": " to test us. So let's get on with it then. Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do OK in the end. I reckon tha"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 2234,
+        "end": 2244,
+        "surface": "self-doubt",
+        "context": " to test us. So let's get on with it then. Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do OK in the end. I reckon tha"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "background",
+      "instances": [
+        {
+          "part": 3,
+          "start": 2662,
+          "end": 2672,
+          "surface": "background",
+          "context": "25 to 30. Now listen and answer questions 25 to 30. We'll have to do some background reading first. I'll go to the library later and get what we need. OK. I've already l"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 2662,
+        "end": 2672,
+        "surface": "background",
+        "context": "25 to 30. Now listen and answer questions 25 to 30. We'll have to do some background reading first. I'll go to the library later and get what we need. OK. I've already l"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    },
+    {
+      "term": "research",
+      "instances": [
+        {
+          "part": 3,
+          "start": 3017,
+          "end": 3025,
+          "surface": "Research",
+          "context": "ut of the library already so we don't need to worry about borrowing that. Research Methods in Forensic Linguistics. I guess we ought to borrow that. And Voice Identifi"
+        },
+        {
+          "part": 3,
+          "start": 3743,
+          "end": 3751,
+          "surface": "research",
+          "context": "oo tricky. I'm sure they won't be too hard on us. And as long as we do our research properly it shouldn't be too hard to do the rest of it. I'm more worried about fitti"
+        }
+      ],
+      "selected": {
+        "part": 3,
+        "start": 3017,
+        "end": 3025,
+        "surface": "Research",
+        "context": "ut of the library already so we don't need to worry about borrowing that. Research Methods in Forensic Linguistics. I guess we ought to borrow that. And Voice Identifi"
+      },
+      "status": "awaiting_verified_sense",
+      "dictionaryEntryId": null,
+      "dictionarySenseId": null,
+      "sourceDictionary": null
+    }
+  ]
+}

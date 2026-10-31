@@ -1,0 +1,164 @@
+{
+  "schema": "listening-test1-part1-missing-lemmas-reviewed-v1",
+  "verified": [
+    {
+      "surface": "shall",
+      "lemma": "shall",
+      "pos": "modal verb",
+      "cefr": "B1",
+      "meaning": "used to express what one intends to do in the future, especially with I or we",
+      "uz": "(biz) boshlaymiz, qilamiz",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/shall",
+      "synonyms": [
+        "will"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "shall begin"
+      ],
+      "translation": "Endi biz boshlaymiz."
+    },
+    {
+      "surface": "yours",
+      "lemma": "yours",
+      "pos": "possessive pronoun",
+      "cefr": "A2",
+      "meaning": "the one that belongs to or is used by the person being addressed",
+      "uz": "seniki; sizniki",
+      "source": "https://dictionary.cambridge.org/dictionary/english/yours",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "Yours is..."
+      ],
+      "translation": "Sizning xonangiz esa ..."
+    },
+    {
+      "surface": "oh",
+      "lemma": "oh",
+      "pos": "exclamation",
+      "cefr": "A1",
+      "meaning": "an expression introducing something remembered or showing a reaction",
+      "uz": "oh; ha, aytgancha",
+      "source": "https://dictionary.cambridge.org/dictionary/english/oh",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "Oh, and ..."
+      ],
+      "translation": "Oh, yana ..."
+    }
+  ],
+  "wordEntries": [
+    {
+      "surface": "shall",
+      "lemma": "shall",
+      "pos": "modal verb",
+      "cefr": "B1",
+      "meaning": "used to express what one intends to do in the future, especially with I or we",
+      "uz": "(biz) boshlaymiz, qilamiz",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/shall",
+      "synonyms": [
+        "will"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "shall begin"
+      ],
+      "translation": "Endi biz boshlaymiz.",
+      "occurrences": [
+        {
+          "tokenIndex": 198,
+          "start": 1036,
+          "end": 1041,
+          "surface": "shall"
+        }
+      ],
+      "status": "source_verified_lexeme_proposal_not_published",
+      "dictionarySenseId": null
+    },
+    {
+      "surface": "yours",
+      "lemma": "yours",
+      "pos": "possessive pronoun",
+      "cefr": "A2",
+      "meaning": "the one that belongs to or is used by the person being addressed",
+      "uz": "seniki; sizniki",
+      "source": "https://dictionary.cambridge.org/dictionary/english/yours",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "Yours is..."
+      ],
+      "translation": "Sizning xonangiz esa ...",
+      "occurrences": [
+        {
+          "tokenIndex": 290,
+          "start": 1511,
+          "end": 1516,
+          "surface": "Yours"
+        }
+      ],
+      "status": "source_verified_lexeme_proposal_not_published",
+      "dictionarySenseId": null
+    },
+    {
+      "surface": "oh",
+      "lemma": "oh",
+      "pos": "exclamation",
+      "cefr": "A1",
+      "meaning": "an expression introducing something remembered or showing a reaction",
+      "uz": "oh; ha, aytgancha",
+      "source": "https://dictionary.cambridge.org/dictionary/english/oh",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "Oh, and ..."
+      ],
+      "translation": "Oh, yana ...",
+      "occurrences": [
+        {
+          "tokenIndex": 467,
+          "start": 2405,
+          "end": 2407,
+          "surface": "Oh"
+        }
+      ],
+      "status": "source_verified_lexeme_proposal_not_published",
+      "dictionarySenseId": null
+    }
+  ],
+  "properNames": [
+    {
+      "surface": "peter",
+      "occurrences": [
+        94,
+        152,
+        234
+      ],
+      "policy": "proper_name_do_not_create_lexical_sense",
+      "class": "person_name"
+    },
+    {
+      "surface": "jim",
+      "occurrences": [
+        96,
+        144,
+        179,
+        226
+      ],
+      "policy": "proper_name_do_not_create_lexical_sense",
+      "class": "person_name"
+    },
+    {
+      "surface": "june",
+      "occurrences": [
+        725
+      ],
+      "policy": "proper_name_do_not_create_lexical_sense",
+      "class": "calendar_month_name"
+    }
+  ],
+  "notes": "All definitions are editorial paraphrases, not direct dictionary quotations; stage only until immutable release publishing and linked occurrence QA. No invented antonyms for pronouns/interjections.",
+  "releaseState": "NOT_PUBLISHED"
+}

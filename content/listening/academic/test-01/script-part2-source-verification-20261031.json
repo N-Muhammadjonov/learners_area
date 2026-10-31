@@ -1,0 +1,44 @@
+{
+  "schema": "listening-test1-part2-source-verification-v1",
+  "part": 2,
+  "releaseStatus": "NOT_PUBLISHED",
+  "verified": [
+    {
+      "surface": "on their own",
+      "start": 3134,
+      "end": 3146,
+      "lemma": "on one's own",
+      "definitionEn": "without help from other people",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/on-own",
+      "status": "external_dictionary_evidence_checked"
+    },
+    {
+      "surface": "reception",
+      "start": 2745,
+      "end": 2754,
+      "lemma": "reception",
+      "definitionEn": "the part of a building where visitors report on arrival",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/reception",
+      "status": "external_dictionary_evidence_checked"
+    },
+    {
+      "surface": "assembly hall",
+      "start": 3503,
+      "end": 3516,
+      "lemma": "assembly hall",
+      "definitionEn": "a hall used for meetings and gatherings",
+      "source": "https://dictionary.cambridge.org/us/example/english/assembly-hall",
+      "status": "attested_collocation_checked"
+    },
+    {
+      "surface": "feel free",
+      "start": 3632,
+      "end": 3641,
+      "lemma": "feel free",
+      "definitionEn": "used to give someone permission to do something if they wish",
+      "source": "https://dictionary.cambridge.org/dictionary/english/feel-free",
+      "status": "external_dictionary_evidence_checked"
+    }
+  ],
+  "note": "Evidence check is not a publication, immutable senseId assignment, or lexical occurrence link. Respect immutable R2 release and pending IDs."
+}

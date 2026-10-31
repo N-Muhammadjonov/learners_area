@@ -1,0 +1,1429 @@
+{
+  "schema": "test1-part1-cambridge-new-sense-proposals-v1",
+  "sourceTest": "listening-test-1",
+  "part": 1,
+  "releaseStatus": "NOT_PUBLISHED",
+  "entries": [
+    {
+      "headword": "will",
+      "surfaceForms": [
+        "will"
+      ],
+      "partOfSpeech": "modal verb",
+      "cefr": "A2",
+      "definitionEn": "Expresses a future action or expected event.",
+      "translationUz": "-adi; bo‘ladi (kelajakni bildiradi)",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "will be",
+        "will have",
+        "will hear",
+        "will see"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/will",
+      "senseType": "FUTURE",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "You will have a chance to check your work.",
+      "verifiedPositions": [
+        {
+          "start": 20,
+          "end": 24,
+          "surface": "will",
+          "tokenIndex": 4
+        },
+        {
+          "start": 74,
+          "end": 78,
+          "surface": "will",
+          "tokenIndex": 14
+        },
+        {
+          "start": 143,
+          "end": 147,
+          "surface": "will",
+          "tokenIndex": 27
+        },
+        {
+          "start": 201,
+          "end": 205,
+          "surface": "will",
+          "tokenIndex": 38
+        },
+        {
+          "start": 344,
+          "end": 348,
+          "surface": "will",
+          "tokenIndex": 65
+        },
+        {
+          "start": 488,
+          "end": 492,
+          "surface": "will",
+          "tokenIndex": 89
+        },
+        {
+          "start": 640,
+          "end": 644,
+          "surface": "will",
+          "tokenIndex": 116
+        },
+        {
+          "start": 760,
+          "end": 764,
+          "surface": "will",
+          "tokenIndex": 138
+        },
+        {
+          "start": 1109,
+          "end": 1113,
+          "surface": "will",
+          "tokenIndex": 210
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 20,
+          "end": 24,
+          "surface": "will",
+          "tokenIndex": 4,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 74,
+          "end": 78,
+          "surface": "will",
+          "tokenIndex": 14,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 143,
+          "end": 147,
+          "surface": "will",
+          "tokenIndex": 27,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 201,
+          "end": 205,
+          "surface": "will",
+          "tokenIndex": 38,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 344,
+          "end": 348,
+          "surface": "will",
+          "tokenIndex": 65,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 488,
+          "end": 492,
+          "surface": "will",
+          "tokenIndex": 89,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 640,
+          "end": 644,
+          "surface": "will",
+          "tokenIndex": 116,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 760,
+          "end": 764,
+          "surface": "will",
+          "tokenIndex": 138,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1109,
+          "end": 1113,
+          "surface": "will",
+          "tokenIndex": 210,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": []
+    },
+    {
+      "headword": "about",
+      "surfaceForms": [
+        "about"
+      ],
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates the topic or subject under discussion.",
+      "translationUz": "haqida; to‘g‘risida",
+      "synonyms": [
+        "regarding",
+        "concerning"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "talk about",
+        "questions about",
+        "what about"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/about",
+      "senseType": "SUBJECT",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "You will hear two students talking about sharing a house.",
+      "verifiedPositions": [
+        {
+          "start": 540,
+          "end": 545,
+          "surface": "about",
+          "tokenIndex": 98
+        },
+        {
+          "start": 804,
+          "end": 809,
+          "surface": "about",
+          "tokenIndex": 147
+        },
+        {
+          "start": 976,
+          "end": 981,
+          "surface": "about",
+          "tokenIndex": 185
+        },
+        {
+          "start": 1220,
+          "end": 1225,
+          "surface": "about",
+          "tokenIndex": 229
+        },
+        {
+          "start": 1413,
+          "end": 1418,
+          "surface": "about",
+          "tokenIndex": 270
+        },
+        {
+          "start": 2146,
+          "end": 2151,
+          "surface": "about",
+          "tokenIndex": 413
+        },
+        {
+          "start": 2468,
+          "end": 2473,
+          "surface": "about",
+          "tokenIndex": 480
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 540,
+          "end": 545,
+          "surface": "about",
+          "tokenIndex": 98,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 804,
+          "end": 809,
+          "surface": "about",
+          "tokenIndex": 147,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 976,
+          "end": 981,
+          "surface": "about",
+          "tokenIndex": 185,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1220,
+          "end": 1225,
+          "surface": "about",
+          "tokenIndex": 229,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1413,
+          "end": 1418,
+          "surface": "about",
+          "tokenIndex": 270,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2146,
+          "end": 2151,
+          "surface": "about",
+          "tokenIndex": 413,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2468,
+          "end": 2473,
+          "surface": "about",
+          "tokenIndex": 480,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": []
+    },
+    {
+      "headword": "in",
+      "surfaceForms": [
+        "in"
+      ],
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates a position inside a place, container, room or area.",
+      "translationUz": "ichida; -da",
+      "synonyms": [
+        "inside",
+        "within"
+      ],
+      "antonyms": [
+        "outside"
+      ],
+      "collocations": [
+        "in the room",
+        "in the kitchen",
+        "in the house"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place",
+      "senseType": "LOCATION",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "It's in the kitchen.",
+      "verifiedPositions": [
+        {
+          "start": 240,
+          "end": 242,
+          "surface": "in",
+          "tokenIndex": 46
+        },
+        {
+          "start": 281,
+          "end": 283,
+          "surface": "in",
+          "tokenIndex": 53
+        },
+        {
+          "start": 1015,
+          "end": 1017,
+          "surface": "in",
+          "tokenIndex": 193
+        },
+        {
+          "start": 1294,
+          "end": 1296,
+          "surface": "in",
+          "tokenIndex": 244
+        },
+        {
+          "start": 1594,
+          "end": 1596,
+          "surface": "in",
+          "tokenIndex": 306
+        },
+        {
+          "start": 1987,
+          "end": 1989,
+          "surface": "in",
+          "tokenIndex": 382
+        },
+        {
+          "start": 2059,
+          "end": 2061,
+          "surface": "in",
+          "tokenIndex": 396
+        },
+        {
+          "start": 2186,
+          "end": 2188,
+          "surface": "in",
+          "tokenIndex": 421
+        },
+        {
+          "start": 2210,
+          "end": 2212,
+          "surface": "in",
+          "tokenIndex": 427
+        },
+        {
+          "start": 2281,
+          "end": 2283,
+          "surface": "in",
+          "tokenIndex": 442
+        },
+        {
+          "start": 2316,
+          "end": 2318,
+          "surface": "in",
+          "tokenIndex": 449
+        },
+        {
+          "start": 2340,
+          "end": 2342,
+          "surface": "in",
+          "tokenIndex": 454
+        },
+        {
+          "start": 2509,
+          "end": 2511,
+          "surface": "in",
+          "tokenIndex": 489
+        },
+        {
+          "start": 2604,
+          "end": 2606,
+          "surface": "in",
+          "tokenIndex": 509
+        },
+        {
+          "start": 2659,
+          "end": 2661,
+          "surface": "in",
+          "tokenIndex": 520
+        },
+        {
+          "start": 3020,
+          "end": 3022,
+          "surface": "in",
+          "tokenIndex": 593
+        },
+        {
+          "start": 3443,
+          "end": 3445,
+          "surface": "in",
+          "tokenIndex": 673
+        },
+        {
+          "start": 3472,
+          "end": 3474,
+          "surface": "In",
+          "tokenIndex": 678
+        },
+        {
+          "start": 3505,
+          "end": 3507,
+          "surface": "in",
+          "tokenIndex": 684
+        },
+        {
+          "start": 3859,
+          "end": 3861,
+          "surface": "in",
+          "tokenIndex": 754
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 281,
+          "end": 283,
+          "surface": "in",
+          "tokenIndex": 53,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1015,
+          "end": 1017,
+          "surface": "in",
+          "tokenIndex": 193,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1594,
+          "end": 1596,
+          "surface": "in",
+          "tokenIndex": 306,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1987,
+          "end": 1989,
+          "surface": "in",
+          "tokenIndex": 382,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2059,
+          "end": 2061,
+          "surface": "in",
+          "tokenIndex": 396,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2186,
+          "end": 2188,
+          "surface": "in",
+          "tokenIndex": 421,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2281,
+          "end": 2283,
+          "surface": "in",
+          "tokenIndex": 442,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2316,
+          "end": 2318,
+          "surface": "in",
+          "tokenIndex": 449,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2340,
+          "end": 2342,
+          "surface": "in",
+          "tokenIndex": 454,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2604,
+          "end": 2606,
+          "surface": "in",
+          "tokenIndex": 509,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2659,
+          "end": 2661,
+          "surface": "in",
+          "tokenIndex": 520,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 3020,
+          "end": 3022,
+          "surface": "in",
+          "tokenIndex": 593,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": [
+        {
+          "start": 240,
+          "end": 242,
+          "surface": "in",
+          "tokenIndex": 46,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1294,
+          "end": 1296,
+          "surface": "in",
+          "tokenIndex": 244,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2210,
+          "end": 2212,
+          "surface": "in",
+          "tokenIndex": 427,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2509,
+          "end": 2511,
+          "surface": "in",
+          "tokenIndex": 489,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3443,
+          "end": 3445,
+          "surface": "in",
+          "tokenIndex": 673,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3472,
+          "end": 3474,
+          "surface": "In",
+          "tokenIndex": 678,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3505,
+          "end": 3507,
+          "surface": "in",
+          "tokenIndex": 684,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3859,
+          "end": 3861,
+          "surface": "in",
+          "tokenIndex": 754,
+          "status": "different_grammatical_sense_required"
+        }
+      ]
+    },
+    {
+      "headword": "on",
+      "surfaceForms": [
+        "on"
+      ],
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates a position on a surface or a specific page.",
+      "translationUz": "ustida; -da; sahifada",
+      "synonyms": [],
+      "antonyms": [
+        "off"
+      ],
+      "collocations": [
+        "on page two",
+        "on the table"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place",
+      "senseType": "SURFACE",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "Now turn to section 1 on page 2.",
+      "verifiedPositions": [
+        {
+          "start": 50,
+          "end": 52,
+          "surface": "on",
+          "tokenIndex": 9
+        },
+        {
+          "start": 437,
+          "end": 439,
+          "surface": "on",
+          "tokenIndex": 81
+        },
+        {
+          "start": 625,
+          "end": 627,
+          "surface": "on",
+          "tokenIndex": 113
+        },
+        {
+          "start": 703,
+          "end": 705,
+          "surface": "On",
+          "tokenIndex": 129
+        },
+        {
+          "start": 845,
+          "end": 847,
+          "surface": "on",
+          "tokenIndex": 155
+        },
+        {
+          "start": 1261,
+          "end": 1263,
+          "surface": "on",
+          "tokenIndex": 237
+        },
+        {
+          "start": 1291,
+          "end": 1293,
+          "surface": "on",
+          "tokenIndex": 243
+        },
+        {
+          "start": 2265,
+          "end": 2267,
+          "surface": "on",
+          "tokenIndex": 438
+        },
+        {
+          "start": 3127,
+          "end": 3129,
+          "surface": "on",
+          "tokenIndex": 613
+        },
+        {
+          "start": 3242,
+          "end": 3244,
+          "surface": "on",
+          "tokenIndex": 634
+        },
+        {
+          "start": 3248,
+          "end": 3250,
+          "surface": "on",
+          "tokenIndex": 636
+        },
+        {
+          "start": 3339,
+          "end": 3341,
+          "surface": "on",
+          "tokenIndex": 654
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 437,
+          "end": 439,
+          "surface": "on",
+          "tokenIndex": 81,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 625,
+          "end": 627,
+          "surface": "on",
+          "tokenIndex": 113,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 3127,
+          "end": 3129,
+          "surface": "on",
+          "tokenIndex": 613,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": [
+        {
+          "start": 50,
+          "end": 52,
+          "surface": "on",
+          "tokenIndex": 9,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 703,
+          "end": 705,
+          "surface": "On",
+          "tokenIndex": 129,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 845,
+          "end": 847,
+          "surface": "on",
+          "tokenIndex": 155,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1261,
+          "end": 1263,
+          "surface": "on",
+          "tokenIndex": 237,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1291,
+          "end": 1293,
+          "surface": "on",
+          "tokenIndex": 243,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2265,
+          "end": 2267,
+          "surface": "on",
+          "tokenIndex": 438,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3242,
+          "end": 3244,
+          "surface": "on",
+          "tokenIndex": 634,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3248,
+          "end": 3250,
+          "surface": "on",
+          "tokenIndex": 636,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3339,
+          "end": 3341,
+          "surface": "on",
+          "tokenIndex": 654,
+          "status": "different_grammatical_sense_required"
+        }
+      ]
+    },
+    {
+      "headword": "be",
+      "surfaceForms": [
+        "be",
+        "is",
+        "are",
+        "was",
+        "were",
+        "been"
+      ],
+      "partOfSpeech": "auxiliary verb",
+      "cefr": "A1",
+      "definitionEn": "An auxiliary used with a past participle to form a passive construction.",
+      "translationUz": "majhul nisbatni hosil qiluvchi yordamchi fe’l",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "will be played",
+        "have been written",
+        "will be given"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs",
+      "senseType": "PASSIVE_AUXILIARY",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "All the recordings will be played once only.",
+      "verifiedPositions": [
+        {
+          "start": 79,
+          "end": 81,
+          "surface": "be",
+          "tokenIndex": 15
+        },
+        {
+          "start": 206,
+          "end": 208,
+          "surface": "be",
+          "tokenIndex": 39
+        },
+        {
+          "start": 237,
+          "end": 239,
+          "surface": "is",
+          "tokenIndex": 45
+        },
+        {
+          "start": 349,
+          "end": 351,
+          "surface": "be",
+          "tokenIndex": 66
+        },
+        {
+          "start": 660,
+          "end": 662,
+          "surface": "is",
+          "tokenIndex": 120
+        },
+        {
+          "start": 683,
+          "end": 687,
+          "surface": "been",
+          "tokenIndex": 125
+        },
+        {
+          "start": 765,
+          "end": 767,
+          "surface": "be",
+          "tokenIndex": 139
+        },
+        {
+          "start": 956,
+          "end": 958,
+          "surface": "is",
+          "tokenIndex": 180
+        },
+        {
+          "start": 1002,
+          "end": 1006,
+          "surface": "been",
+          "tokenIndex": 191
+        },
+        {
+          "start": 1517,
+          "end": 1519,
+          "surface": "is",
+          "tokenIndex": 291
+        },
+        {
+          "start": 1590,
+          "end": 1593,
+          "surface": "was",
+          "tokenIndex": 305
+        },
+        {
+          "start": 1597,
+          "end": 1600,
+          "surface": "was",
+          "tokenIndex": 307
+        },
+        {
+          "start": 1621,
+          "end": 1624,
+          "surface": "was",
+          "tokenIndex": 312
+        },
+        {
+          "start": 1695,
+          "end": 1698,
+          "surface": "are",
+          "tokenIndex": 326
+        },
+        {
+          "start": 1728,
+          "end": 1730,
+          "surface": "is",
+          "tokenIndex": 332
+        },
+        {
+          "start": 1794,
+          "end": 1796,
+          "surface": "is",
+          "tokenIndex": 344
+        },
+        {
+          "start": 1861,
+          "end": 1863,
+          "surface": "is",
+          "tokenIndex": 359
+        },
+        {
+          "start": 1966,
+          "end": 1969,
+          "surface": "are",
+          "tokenIndex": 378
+        },
+        {
+          "start": 2115,
+          "end": 2117,
+          "surface": "is",
+          "tokenIndex": 407
+        },
+        {
+          "start": 2294,
+          "end": 2296,
+          "surface": "is",
+          "tokenIndex": 445
+        },
+        {
+          "start": 2336,
+          "end": 2339,
+          "surface": "was",
+          "tokenIndex": 453
+        },
+        {
+          "start": 2367,
+          "end": 2370,
+          "surface": "was",
+          "tokenIndex": 460
+        },
+        {
+          "start": 2952,
+          "end": 2954,
+          "surface": "be",
+          "tokenIndex": 579
+        },
+        {
+          "start": 3278,
+          "end": 3280,
+          "surface": "be",
+          "tokenIndex": 641
+        },
+        {
+          "start": 3501,
+          "end": 3504,
+          "surface": "are",
+          "tokenIndex": 683
+        },
+        {
+          "start": 3667,
+          "end": 3669,
+          "surface": "is",
+          "tokenIndex": 716
+        },
+        {
+          "start": 3758,
+          "end": 3760,
+          "surface": "be",
+          "tokenIndex": 735
+        },
+        {
+          "start": 3917,
+          "end": 3919,
+          "surface": "is",
+          "tokenIndex": 765
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 206,
+          "end": 208,
+          "surface": "be",
+          "tokenIndex": 39,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 349,
+          "end": 351,
+          "surface": "be",
+          "tokenIndex": 66,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 683,
+          "end": 687,
+          "surface": "been",
+          "tokenIndex": 125,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 765,
+          "end": 767,
+          "surface": "be",
+          "tokenIndex": 139,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 1002,
+          "end": 1006,
+          "surface": "been",
+          "tokenIndex": 191,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": [
+        {
+          "start": 79,
+          "end": 81,
+          "surface": "be",
+          "tokenIndex": 15,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 237,
+          "end": 239,
+          "surface": "is",
+          "tokenIndex": 45,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 660,
+          "end": 662,
+          "surface": "is",
+          "tokenIndex": 120,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 956,
+          "end": 958,
+          "surface": "is",
+          "tokenIndex": 180,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1517,
+          "end": 1519,
+          "surface": "is",
+          "tokenIndex": 291,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1590,
+          "end": 1593,
+          "surface": "was",
+          "tokenIndex": 305,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1597,
+          "end": 1600,
+          "surface": "was",
+          "tokenIndex": 307,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1621,
+          "end": 1624,
+          "surface": "was",
+          "tokenIndex": 312,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1695,
+          "end": 1698,
+          "surface": "are",
+          "tokenIndex": 326,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1728,
+          "end": 1730,
+          "surface": "is",
+          "tokenIndex": 332,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1794,
+          "end": 1796,
+          "surface": "is",
+          "tokenIndex": 344,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1861,
+          "end": 1863,
+          "surface": "is",
+          "tokenIndex": 359,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1966,
+          "end": 1969,
+          "surface": "are",
+          "tokenIndex": 378,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2115,
+          "end": 2117,
+          "surface": "is",
+          "tokenIndex": 407,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2294,
+          "end": 2296,
+          "surface": "is",
+          "tokenIndex": 445,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2336,
+          "end": 2339,
+          "surface": "was",
+          "tokenIndex": 453,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2367,
+          "end": 2370,
+          "surface": "was",
+          "tokenIndex": 460,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2952,
+          "end": 2954,
+          "surface": "be",
+          "tokenIndex": 579,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3278,
+          "end": 3280,
+          "surface": "be",
+          "tokenIndex": 641,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3501,
+          "end": 3504,
+          "surface": "are",
+          "tokenIndex": 683,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3667,
+          "end": 3669,
+          "surface": "is",
+          "tokenIndex": 716,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3758,
+          "end": 3760,
+          "surface": "be",
+          "tokenIndex": 735,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3917,
+          "end": 3919,
+          "surface": "is",
+          "tokenIndex": 765,
+          "status": "different_grammatical_sense_required"
+        }
+      ]
+    },
+    {
+      "headword": "have",
+      "surfaceForms": [
+        "have",
+        "has",
+        "had"
+      ],
+      "partOfSpeech": "auxiliary verb",
+      "cefr": "A1",
+      "definitionEn": "An auxiliary used with a past participle to make perfect tenses.",
+      "translationUz": "tugallangan zamonni hosil qiluvchi yordamchi fe’l",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [
+        "have been",
+        "has been",
+        "has gone"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs",
+      "senseType": "PERFECT_AUXILIARY",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "He has gone travelling.",
+      "verifiedPositions": [
+        {
+          "start": 25,
+          "end": 29,
+          "surface": "have",
+          "tokenIndex": 5
+        },
+        {
+          "start": 582,
+          "end": 586,
+          "surface": "have",
+          "tokenIndex": 105
+        },
+        {
+          "start": 679,
+          "end": 682,
+          "surface": "has",
+          "tokenIndex": 124
+        },
+        {
+          "start": 998,
+          "end": 1001,
+          "surface": "has",
+          "tokenIndex": 190
+        },
+        {
+          "start": 1457,
+          "end": 1461,
+          "surface": "have",
+          "tokenIndex": 279
+        },
+        {
+          "start": 1465,
+          "end": 1469,
+          "surface": "have",
+          "tokenIndex": 281
+        },
+        {
+          "start": 1930,
+          "end": 1933,
+          "surface": "has",
+          "tokenIndex": 371
+        },
+        {
+          "start": 2688,
+          "end": 2692,
+          "surface": "have",
+          "tokenIndex": 526
+        },
+        {
+          "start": 2725,
+          "end": 2728,
+          "surface": "has",
+          "tokenIndex": 533
+        },
+        {
+          "start": 2793,
+          "end": 2796,
+          "surface": "has",
+          "tokenIndex": 546
+        },
+        {
+          "start": 2968,
+          "end": 2971,
+          "surface": "had",
+          "tokenIndex": 583
+        },
+        {
+          "start": 3008,
+          "end": 3012,
+          "surface": "have",
+          "tokenIndex": 590
+        },
+        {
+          "start": 3083,
+          "end": 3087,
+          "surface": "have",
+          "tokenIndex": 605
+        },
+        {
+          "start": 3416,
+          "end": 3420,
+          "surface": "have",
+          "tokenIndex": 668
+        },
+        {
+          "start": 3950,
+          "end": 3954,
+          "surface": "have",
+          "tokenIndex": 772
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 679,
+          "end": 682,
+          "surface": "has",
+          "tokenIndex": 124,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 998,
+          "end": 1001,
+          "surface": "has",
+          "tokenIndex": 190,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2725,
+          "end": 2728,
+          "surface": "has",
+          "tokenIndex": 533,
+          "status": "context_approved_source_checked_release_required"
+        },
+        {
+          "start": 2793,
+          "end": 2796,
+          "surface": "has",
+          "tokenIndex": 546,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": [
+        {
+          "start": 25,
+          "end": 29,
+          "surface": "have",
+          "tokenIndex": 5,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 582,
+          "end": 586,
+          "surface": "have",
+          "tokenIndex": 105,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1457,
+          "end": 1461,
+          "surface": "have",
+          "tokenIndex": 279,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1465,
+          "end": 1469,
+          "surface": "have",
+          "tokenIndex": 281,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 1930,
+          "end": 1933,
+          "surface": "has",
+          "tokenIndex": 371,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2688,
+          "end": 2692,
+          "surface": "have",
+          "tokenIndex": 526,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 2968,
+          "end": 2971,
+          "surface": "had",
+          "tokenIndex": 583,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3008,
+          "end": 3012,
+          "surface": "have",
+          "tokenIndex": 590,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3083,
+          "end": 3087,
+          "surface": "have",
+          "tokenIndex": 605,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3416,
+          "end": 3420,
+          "surface": "have",
+          "tokenIndex": 668,
+          "status": "different_grammatical_sense_required"
+        },
+        {
+          "start": 3950,
+          "end": 3954,
+          "surface": "have",
+          "tokenIndex": 772,
+          "status": "different_grammatical_sense_required"
+        }
+      ]
+    },
+    {
+      "headword": "shall",
+      "surfaceForms": [
+        "shall"
+      ],
+      "partOfSpeech": "modal verb",
+      "cefr": null,
+      "definitionEn": "Used with I or we to refer formally to a future action or intention.",
+      "translationUz": "(biz) qilamiz; boshlaymiz",
+      "synonyms": [
+        "will"
+      ],
+      "antonyms": [],
+      "collocations": [
+        "shall begin"
+      ],
+      "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/shall",
+      "senseType": "FUTURE",
+      "status": "source_checked_new_contextual_sense_NOT_PUBLISHED",
+      "senseId": null,
+      "source": "Cambridge Dictionary / English Grammar Today",
+      "exampleSentence": "Now we shall begin.",
+      "verifiedPositions": [
+        {
+          "start": 1036,
+          "end": 1041,
+          "surface": "shall",
+          "tokenIndex": 198
+        }
+      ],
+      "contextApprovedPositions": [
+        {
+          "start": 1036,
+          "end": 1041,
+          "surface": "shall",
+          "tokenIndex": 198,
+          "status": "context_approved_source_checked_release_required"
+        }
+      ],
+      "otherUsesRequiringDifferentSense": []
+    }
+  ],
+  "contextApprovedOccurrences": 41,
+  "audits": {
+    "verifiedDefinitions": 7,
+    "contextApproved": 41,
+    "remainingDifferentSenses": 51,
+    "allOriginalOccurrences": 92,
+    "fakeIdCount": 0
+  }
+}

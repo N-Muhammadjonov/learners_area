@@ -1,0 +1,88 @@
+{
+  "schema": "listening-test1-part1-proper-name-exclusions-v1",
+  "source": "listening-test-1",
+  "part": 1,
+  "exclusions": [
+    {
+      "part": 1,
+      "start": 518,
+      "end": 523,
+      "surface": "Peter",
+      "tokenIndex": 94,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 528,
+      "end": 531,
+      "surface": "Jim",
+      "tokenIndex": 96,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 790,
+      "end": 793,
+      "surface": "Jim",
+      "tokenIndex": 144,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 828,
+      "end": 833,
+      "surface": "Peter",
+      "tokenIndex": 152,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 952,
+      "end": 955,
+      "surface": "Jim",
+      "tokenIndex": 179,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 1206,
+      "end": 1209,
+      "surface": "Jim",
+      "tokenIndex": 226,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 1244,
+      "end": 1249,
+      "surface": "Peter",
+      "tokenIndex": 234,
+      "kind": "person_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 3703,
+      "end": 3707,
+      "surface": "June",
+      "tokenIndex": 725,
+      "kind": "month_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 3697,
+      "end": 3699,
+      "surface": "st",
+      "tokenIndex": 723,
+      "kind": "ordinal_suffix",
+      "policy": "orthographic_1st_suffix_not_standalone_lexical_word"
+    }
+  ]
+}
