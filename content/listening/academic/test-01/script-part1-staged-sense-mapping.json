@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 100,
+  "count": 122,
   "mappings": [
     {
       "part": 1,
@@ -21,12 +21,34 @@
     },
     {
       "part": 1,
+      "start": 30,
+      "end": 32,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "status": "context_approved_staged_not_published",
+      "basis": "Infinitive marker before answer"
+    },
+    {
+      "part": 1,
       "start": 40,
       "end": 49,
       "surface": "questions",
       "entryNumber": 35,
       "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 53,
+      "end": 57,
+      "surface": "what",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "2bbcf707-0752-5fb0-8345-f9239b097ba3",
+      "status": "context_approved_staged_not_published",
+      "basis": "relative pronoun: the thing heard"
     },
     {
       "part": 1,
@@ -49,6 +71,28 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "time available to read instructions"
+    },
+    {
+      "part": 1,
+      "start": 87,
+      "end": 90,
+      "surface": "for",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "status": "context_approved_staged_not_published",
+      "basis": "for the listeners, intended recipient"
+    },
+    {
+      "part": 1,
+      "start": 95,
+      "end": 97,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "status": "context_approved_staged_not_published",
+      "basis": "infinitive marker before read"
     },
     {
       "part": 1,
@@ -92,12 +136,34 @@
     },
     {
       "part": 1,
+      "start": 162,
+      "end": 164,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "status": "context_approved_staged_not_published",
+      "basis": "infinitive marker before check"
+    },
+    {
+      "part": 1,
       "start": 165,
       "end": 180,
       "surface": "check your work",
       "entryNumber": 32,
       "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 182,
+      "end": 185,
+      "surface": "All",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
+      "status": "context_approved_staged_not_published",
+      "basis": "the entire set of recordings"
     },
     {
       "part": 1,
@@ -132,6 +198,17 @@
     },
     {
       "part": 1,
+      "start": 243,
+      "end": 247,
+      "surface": "four",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "0808289e-2194-4cbe-9884-201fa15bf9c4",
+      "status": "context_approved_staged_not_published",
+      "basis": "four numerical sections"
+    },
+    {
+      "part": 1,
       "start": 248,
       "end": 256,
       "surface": "sections",
@@ -151,6 +228,17 @@
       "kind": "single_word",
       "basis": "write words on a surface",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 264,
+      "end": 267,
+      "surface": "all",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
+      "status": "context_approved_staged_not_published",
+      "basis": "all answers in question booklet"
     },
     {
       "part": 1,
@@ -218,6 +306,17 @@
     },
     {
       "part": 1,
+      "start": 369,
+      "end": 371,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "status": "context_approved_staged_not_published",
+      "basis": "infinitive marker before transfer"
+    },
+    {
+      "part": 1,
       "start": 386,
       "end": 393,
       "surface": "answers",
@@ -229,6 +328,17 @@
     },
     {
       "part": 1,
+      "start": 394,
+      "end": 396,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "status": "context_approved_staged_not_published",
+      "basis": "transfer to destination answer sheet"
+    },
+    {
+      "part": 1,
       "start": 400,
       "end": 406,
       "surface": "answer",
@@ -237,6 +347,17 @@
       "kind": "single_word",
       "basis": "reply to question",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 415,
+      "end": 418,
+      "surface": "Now",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "54555443-8be0-47b3-a2e6-4237b0a16861",
+      "status": "context_approved_staged_not_published",
+      "basis": "prefatory now before command"
     },
     {
       "part": 1,
@@ -293,6 +414,17 @@
     },
     {
       "part": 1,
+      "start": 484,
+      "end": 487,
+      "surface": "You",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "status": "context_approved_staged_not_published",
+      "basis": "you is the listener"
+    },
+    {
+      "part": 1,
       "start": 493,
       "end": 497,
       "surface": "hear",
@@ -301,6 +433,17 @@
       "senseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
       "status": "context_approved_staged_not_published",
       "basis": "Same contextual sense checked for repeated lexical occurrence in Part 1"
+    },
+    {
+      "part": 1,
+      "start": 498,
+      "end": 501,
+      "surface": "two",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "d1598030-c59e-4d2a-a25d-922c2538a473",
+      "status": "context_approved_staged_not_published",
+      "basis": "two students numeral adjective"
     },
     {
       "part": 1,
@@ -324,6 +467,39 @@
     },
     {
       "part": 1,
+      "start": 562,
+      "end": 570,
+      "surface": "together",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "32170137-28c9-499f-b5f6-39d19bb9904b",
+      "status": "context_approved_staged_not_published",
+      "basis": "students live in each other's company"
+    },
+    {
+      "part": 1,
+      "start": 572,
+      "end": 577,
+      "surface": "First",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "e94243fd-1baa-407d-aebf-0969ed3d80b3",
+      "status": "context_approved_staged_not_published",
+      "basis": "before anything else"
+    },
+    {
+      "part": 1,
+      "start": 587,
+      "end": 591,
+      "surface": "some",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "03380c79-a59e-46e8-b9e0-12f120cfd2ba",
+      "status": "context_approved_staged_not_published",
+      "basis": "unspecified amount of time"
+    },
+    {
+      "part": 1,
       "start": 592,
       "end": 596,
       "surface": "time",
@@ -332,6 +508,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "time available to look at questions"
+    },
+    {
+      "part": 1,
+      "start": 597,
+      "end": 599,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "status": "context_approved_staged_not_published",
+      "basis": "infinitive marker before look"
     },
     {
       "part": 1,
@@ -346,6 +533,17 @@
     },
     {
       "part": 1,
+      "start": 620,
+      "end": 622,
+      "surface": "to",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "b3d1108b-7319-520a-860a-e567106a286e",
+      "status": "context_approved_staged_not_published",
+      "basis": "end of question range"
+    },
+    {
+      "part": 1,
       "start": 628,
       "end": 632,
       "surface": "page",
@@ -357,12 +555,56 @@
     },
     {
       "part": 1,
+      "start": 645,
+      "end": 648,
+      "surface": "see",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "42d0f160-bc4b-56c4-879f-0d0af1ddbfcf",
+      "status": "context_approved_staged_not_published",
+      "basis": "notice visually on page"
+    },
+    {
+      "part": 1,
+      "start": 666,
+      "end": 673,
+      "surface": "example",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "99e4200d-e030-5be1-a688-de58048fccb7",
+      "status": "context_approved_staged_not_published",
+      "basis": "worked example"
+    },
+    {
+      "part": 1,
+      "start": 693,
+      "end": 696,
+      "surface": "for",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "status": "context_approved_staged_not_published",
+      "basis": "example done for you"
+    },
+    {
+      "part": 1,
       "start": 730,
       "end": 742,
       "surface": "conversation",
       "entryNumber": 37,
       "senseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 775,
+      "end": 780,
+      "surface": "first",
+      "kind": "single_word",
+      "entryNumber": null,
+      "senseId": "e94243fd-1baa-407d-aebf-0969ed3d80b3",
+      "status": "context_approved_staged_not_published",
+      "basis": "recording played before anything else"
     },
     {
       "part": 1,
