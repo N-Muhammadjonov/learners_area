@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 508,
+  "count": 512,
   "mappings": [
     {
       "part": 2,
@@ -2621,6 +2621,16 @@
     },
     {
       "part": 2,
+      "start": 1994,
+      "end": 1997,
+      "surface": "how",
+      "senseId": "d8769110-7027-5564-90fb-e8ff84020e10",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Exact immutable R2 dictionary definition independently retrieved and matched: how each child is doing: degree or level of progress"
+    },
+    {
+      "part": 2,
       "start": 1998,
       "end": 2002,
       "surface": "each",
@@ -2770,6 +2780,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 2112,
+      "end": 2116,
+      "surface": "know",
+      "senseId": "6e325d6d-202a-4e12-97c3-a151966daa02",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Exact immutable R2 dictionary definition independently retrieved and matched: As you know: be aware of a fact"
     },
     {
       "part": 2,
@@ -4281,6 +4301,16 @@
     },
     {
       "part": 2,
+      "start": 3156,
+      "end": 3160,
+      "surface": "left",
+      "senseId": "57792e3b-6901-4705-b90c-96b22efdfba9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Exact immutable R2 dictionary definition independently retrieved and matched: left side of classrooms, spatial direction"
+    },
+    {
+      "part": 2,
       "start": 3161,
       "end": 3163,
       "surface": "of",
@@ -4489,6 +4519,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3322,
+      "end": 3326,
+      "surface": "with",
+      "senseId": "36693201-e7a5-52e6-a711-2caf6896843a",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Exact immutable R2 dictionary definition independently retrieved and matched: come with me: accompaniment"
     },
     {
       "part": 2,
