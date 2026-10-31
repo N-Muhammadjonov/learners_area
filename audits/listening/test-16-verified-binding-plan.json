@@ -35,6 +35,14 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 77,
+          "end": 81,
+          "surface": "boat",
+          "entryId": "7d9325e7-1b42-5d06-beb7-c2e4d4b0ea0b",
+          "senseId": "b7b647c9-c2d9-43a0-9dba-92206cf15b8e",
+          "meaningSha": "95eb48f254e1f30fbd9863aaf818a4ea262ae6711afc0a32374ffc59bb2f4209"
+        },
+        {
           "start": 82,
           "end": 86,
           "surface": "race",
@@ -107,12 +115,28 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 160,
+          "end": 169,
+          "surface": "questions",
+          "entryId": "7253f620-2d5f-5c78-b58b-8147c15c7640",
+          "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+          "meaningSha": "6bd3d206447581c8b299a325ae7a670220f56e87fb79a01c8254f7276c9fc4e6"
+        },
+        {
           "start": 178,
           "end": 181,
           "surface": "you",
           "entryId": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
           "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
+        },
+        {
+          "start": 208,
+          "end": 217,
+          "surface": "questions",
+          "entryId": "7253f620-2d5f-5c78-b58b-8147c15c7640",
+          "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+          "meaningSha": "6bd3d206447581c8b299a325ae7a670220f56e87fb79a01c8254f7276c9fc4e6"
         },
         {
           "start": 245,
@@ -145,6 +169,14 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 283,
+          "end": 292,
+          "surface": "questions",
+          "entryId": "7253f620-2d5f-5c78-b58b-8147c15c7640",
+          "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+          "meaningSha": "6bd3d206447581c8b299a325ae7a670220f56e87fb79a01c8254f7276c9fc4e6"
         },
         {
           "start": 296,
@@ -219,12 +251,28 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 390,
+          "end": 399,
+          "surface": "questions",
+          "entryId": "7253f620-2d5f-5c78-b58b-8147c15c7640",
+          "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+          "meaningSha": "6bd3d206447581c8b299a325ae7a670220f56e87fb79a01c8254f7276c9fc4e6"
+        },
+        {
           "start": 426,
           "end": 433,
           "surface": "charity",
           "entryId": "a34cf05a-e666-5645-a8b7-8de42e7e0fcb",
           "senseId": "b6506276-246a-45dc-babc-0d563b7e1d8a",
           "meaningSha": "d02f485b95979de9c11a92f5a5238b1e1952ddb4d699eb048d9b2017c6f72805"
+        },
+        {
+          "start": 434,
+          "end": 440,
+          "surface": "office",
+          "entryId": "dc4c3170-c251-509b-a725-5580c55d8447",
+          "senseId": "614a803a-e9a6-4314-a20b-bcfb59d2e604",
+          "meaningSha": "c57f3e878e7003a4796b4866974eb6409905c126570d2eb01e7ffd5584f6c65f"
         },
         {
           "start": 450,
@@ -259,12 +307,28 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 506,
+          "end": 510,
+          "surface": "Boat",
+          "entryId": "7d9325e7-1b42-5d06-beb7-c2e4d4b0ea0b",
+          "senseId": "b7b647c9-c2d9-43a0-9dba-92206cf15b8e",
+          "meaningSha": "95eb48f254e1f30fbd9863aaf818a4ea262ae6711afc0a32374ffc59bb2f4209"
+        },
+        {
           "start": 511,
           "end": 515,
           "surface": "Race",
           "entryId": "57a357cc-934e-56f4-9a48-e71d87b3e6a5",
           "senseId": "240c52db-0269-44a9-8094-82a13e51fad7",
           "meaningSha": "22de4171e021f04064df151c1dfe861f4212110c7773f0efc70bb0736b6403be"
+        },
+        {
+          "start": 535,
+          "end": 541,
+          "surface": "people",
+          "entryId": "ec4c99a7-67af-5066-b4f4-fb9430327349",
+          "senseId": "a3e8d175-aa19-47d2-9b97-02987f75dea0",
+          "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
         },
         {
           "start": 545,
@@ -483,6 +547,14 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 967,
+          "end": 973,
+          "surface": "people",
+          "entryId": "ec4c99a7-67af-5066-b4f4-fb9430327349",
+          "senseId": "a3e8d175-aa19-47d2-9b97-02987f75dea0",
+          "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
+        },
+        {
           "start": 978,
           "end": 987,
           "surface": "take part",
@@ -529,6 +601,14 @@
           "entryId": "e0d363aa-494c-59e4-91ec-75790bbbf963",
           "senseId": "fa33316b-6be2-455b-92fe-c81edd9a1eac",
           "meaningSha": "fdbbadf70c40c9b698d180cdb65aa7c0bdb23faf0d5aed085a0949152941ce14"
+        },
+        {
+          "start": 1089,
+          "end": 1096,
+          "surface": "student",
+          "entryId": "918a75b8-9470-5f4a-af7c-e6796e4c431e",
+          "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+          "meaningSha": "b2618e5daffa1b09bd34021472979a7d36b061733bcb999d29077922217f857c"
         },
         {
           "start": 1104,
@@ -779,6 +859,14 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 1520,
+          "end": 1524,
+          "surface": "hour",
+          "entryId": "a2225138-f5f0-5d65-919c-35aaf05acb88",
+          "senseId": "e551e20f-a99d-4a03-8894-169bd7ead3e1",
+          "meaningSha": "b67bd116948b00cc5ee8dbeb9e87b4f8dacc70857e5e1ff82f9619bdbf2254ff"
+        },
+        {
           "start": 1554,
           "end": 1557,
           "surface": "and",
@@ -817,6 +905,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 1624,
+          "end": 1628,
+          "surface": "idea",
+          "entryId": "4ff76286-a54e-57bb-b42e-c2a418e87b0e",
+          "senseId": "0489d505-ffb6-4d26-84b3-49a595266400",
+          "meaningSha": "8518d1a6888ded94c2e0f7b38baf19193bc4d82c494dd09a94a91d6ea0f11d1e"
         },
         {
           "start": 1632,
@@ -883,6 +979,14 @@
           "meaningSha": "78ad44f42458f3e8b2fc413b75ba5e7c958113c2566e2da5e65300b95da7dac6"
         },
         {
+          "start": 1713,
+          "end": 1718,
+          "surface": "money",
+          "entryId": "ded14017-68cf-5445-90c0-d5f5960e0939",
+          "senseId": "dfb2c86c-c4eb-48a8-a141-5f47a9d81ba7",
+          "meaningSha": "f09b4a092da393defbb530abf1c237351fdc5e6afec41f85028eb3e64fc3c555"
+        },
+        {
           "start": 1723,
           "end": 1730,
           "surface": "charity",
@@ -937,6 +1041,14 @@
           "entryId": "3928da74-5fc2-5642-af1f-b1b81132f19a",
           "senseId": "4e28f931-b414-4b20-8959-70ca0fc4e8cf",
           "meaningSha": "086780dba49c025367ae04da8ca9acff0df8234fa6637e73a254b09fb8c3b28f"
+        },
+        {
+          "start": 1824,
+          "end": 1831,
+          "surface": "friends",
+          "entryId": "a30a8728-2a2f-5f9f-8cfe-62c4fe1cf4b0",
+          "senseId": "62779089-ced7-4a2b-b39e-e530a57931d3",
+          "meaningSha": "28777334fd6600212d0887eb7b382a9517be01440ecd2f13ad87c024a0777008"
         },
         {
           "start": 1832,
@@ -1211,6 +1323,14 @@
           "meaningSha": "1fa6f5f21c01c45dea43076f7afe83fd9edd600d74f2d9630728abdbdd77fe2c"
         },
         {
+          "start": 2295,
+          "end": 2304,
+          "surface": "questions",
+          "entryId": "7253f620-2d5f-5c78-b58b-8147c15c7640",
+          "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+          "meaningSha": "6bd3d206447581c8b299a325ae7a670220f56e87fb79a01c8254f7276c9fc4e6"
+        },
+        {
           "start": 2331,
           "end": 2337,
           "surface": "listen",
@@ -1241,6 +1361,14 @@
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 2371,
+          "end": 2380,
+          "surface": "questions",
+          "entryId": "7253f620-2d5f-5c78-b58b-8147c15c7640",
+          "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+          "meaningSha": "6bd3d206447581c8b299a325ae7a670220f56e87fb79a01c8254f7276c9fc4e6"
         },
         {
           "start": 2423,
@@ -1315,12 +1443,28 @@
           "meaningSha": "0606caa10500af0ba7f8b60cf178284b1ab4bece597c24f8c63165397101ced2"
         },
         {
+          "start": 2551,
+          "end": 2557,
+          "surface": "people",
+          "entryId": "ec4c99a7-67af-5066-b4f4-fb9430327349",
+          "senseId": "a3e8d175-aa19-47d2-9b97-02987f75dea0",
+          "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
+        },
+        {
           "start": 2562,
           "end": 2566,
           "surface": "your",
           "entryId": "a0ddaf6f-f1cc-5af3-bf96-b2ea58881249",
           "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
+        },
+        {
+          "start": 2574,
+          "end": 2578,
+          "surface": "boat",
+          "entryId": "7d9325e7-1b42-5d06-beb7-c2e4d4b0ea0b",
+          "senseId": "b7b647c9-c2d9-43a0-9dba-92206cf15b8e",
+          "meaningSha": "95eb48f254e1f30fbd9863aaf818a4ea262ae6711afc0a32374ffc59bb2f4209"
         },
         {
           "start": 2580,
@@ -1393,6 +1537,14 @@
           "entryId": "4ef96246-4a7a-5826-ab4d-e5f1164e7c76",
           "senseId": "dd1f5be9-c6e3-447c-b0fa-e46bae661cbd",
           "meaningSha": "1a4f7bd50df6af758340f8a15dd7b73b6a61f56b7044dbfa8b5062334fbe3ca6"
+        },
+        {
+          "start": 2711,
+          "end": 2717,
+          "surface": "people",
+          "entryId": "ec4c99a7-67af-5066-b4f4-fb9430327349",
+          "senseId": "a3e8d175-aa19-47d2-9b97-02987f75dea0",
+          "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
         },
         {
           "start": 2726,
@@ -1555,6 +1707,14 @@
           "meaningSha": "260ab9dfe38a8ca4e5997df93b9bf875f81fcffee10bcccce34f3caad0658393"
         },
         {
+          "start": 3015,
+          "end": 3020,
+          "surface": "boats",
+          "entryId": "7d9325e7-1b42-5d06-beb7-c2e4d4b0ea0b",
+          "senseId": "b7b647c9-c2d9-43a0-9dba-92206cf15b8e",
+          "meaningSha": "95eb48f254e1f30fbd9863aaf818a4ea262ae6711afc0a32374ffc59bb2f4209"
+        },
+        {
           "start": 3026,
           "end": 3035,
           "surface": "turn over",
@@ -1667,12 +1827,28 @@
           "meaningSha": "0127a0dc3aaae102219493f8de1b74d0e6ac42c811825b7d7becb6f854c15972"
         },
         {
+          "start": 3217,
+          "end": 3223,
+          "surface": "people",
+          "entryId": "ec4c99a7-67af-5066-b4f4-fb9430327349",
+          "senseId": "a3e8d175-aa19-47d2-9b97-02987f75dea0",
+          "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
+        },
+        {
           "start": 3227,
           "end": 3231,
           "surface": "wear",
           "entryId": "d007e648-bba2-5081-a053-d7be9234e669",
           "senseId": "44997511-e2bf-5bb9-b1e0-7da6b61a8d4c",
           "meaningSha": "9811eb70622d826bd04407d2a2dadead6cb1b0141e2aed3f6b6a756227f46a49"
+        },
+        {
+          "start": 3251,
+          "end": 3257,
+          "surface": "people",
+          "entryId": "ec4c99a7-67af-5066-b4f4-fb9430327349",
+          "senseId": "a3e8d175-aa19-47d2-9b97-02987f75dea0",
+          "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
         },
         {
           "start": 3258,
@@ -1769,6 +1945,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 3382,
+          "end": 3386,
+          "surface": "idea",
+          "entryId": "4ff76286-a54e-57bb-b42e-c2a418e87b0e",
+          "senseId": "0489d505-ffb6-4d26-84b3-49a595266400",
+          "meaningSha": "8518d1a6888ded94c2e0f7b38baf19193bc4d82c494dd09a94a91d6ea0f11d1e"
         },
         {
           "start": 3390,
@@ -1931,6 +2115,14 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 3637,
+          "end": 3641,
+          "surface": "name",
+          "entryId": "714949f8-c1fe-56b1-a00a-dc10e4a6310b",
+          "senseId": "85e5e7d8-4c37-4d2a-8418-ff4bf371b869",
+          "meaningSha": "616502c6ae3dfe5fd8ead971d95e75d016a1e52580ad1d2619b65fad032313ae"
+        },
+        {
           "start": 3646,
           "end": 3650,
           "surface": "your",
@@ -2035,6 +2227,14 @@
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
         },
         {
+          "start": 3832,
+          "end": 3839,
+          "surface": "address",
+          "entryId": "cc43ffd7-165f-574f-ba7a-3b52f4c9878d",
+          "senseId": "fcffa4c4-72d1-4e9b-9362-7d1f7159c047",
+          "meaningSha": "ce7f905dec87dfbcc4611b87f7fb16f239e1b557638e935470db47a852c36ded"
+        },
+        {
           "start": 3858,
           "end": 3862,
           "surface": "send",
@@ -2065,6 +2265,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 3946,
+          "end": 3952,
+          "surface": "minute",
+          "entryId": "a68a2935-3671-54ec-ad17-4182ea9d9158",
+          "senseId": "8d41bf57-1b11-4fc4-a055-538d2b39fc34",
+          "meaningSha": "78a019cd53d68e25cd344ef752725b072aafdc18622e3addf3183a387da075b6"
         },
         {
           "start": 3956,
