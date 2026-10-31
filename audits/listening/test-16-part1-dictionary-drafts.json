@@ -167,6 +167,77 @@
           "textUz": "Bizda suvda ag‘darilib ketadigan qayiqlar bor."
         }
       ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "prize draw",
+      "partOfSpeech": "n",
+      "lexicalType": "compound",
+      "definitionEn": "A competition in which people are entered for the chance to win a prize, with the winner chosen randomly.",
+      "translationUz": "sovrinli qur’a",
+      "definitionUz": "G‘olib tasodifiy qur’a orqali tanlanadigan sovrinli tanlov.",
+      "examples": [
+        {
+          "textEn": "Every crew member will be entered into a free prize draw.",
+          "textUz": "Har bir ekipaj a’zosi bepul sovrinli qur’ada ishtirok etadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "have to",
+      "partOfSpeech": "v",
+      "lexicalType": "verb_phrase",
+      "definitionEn": "To be obliged or required to do something.",
+      "translationUz": "majbur bo‘lmoq, kerak bo‘lmoq",
+      "definitionUz": "Biror ishni bajarish zarur yoki majburiy bo‘lishi.",
+      "examples": [
+        {
+          "textEn": "All team members have to get their parents' permission if they are under eighteen.",
+          "textUz": "O‘n sakkiz yoshga to‘lmagan jamoa a’zolari ota-onasidan ruxsat olishi kerak."
+        }
+      ]
+    },
+    {
+      "operation": "add_lexeme",
+      "lemma": "as well",
+      "partOfSpeech": "r",
+      "lexicalType": "phrase",
+      "definitionEn": "In addition; also.",
+      "translationUz": "ham, shuningdek",
+      "definitionUz": "Oldin aytilgan ma’lumotga yana bir narsani qo‘shish uchun ishlatiladi.",
+      "examples": [
+        {
+          "textEn": "Everyone wears a life jacket as well.",
+          "textUz": "Hamma qutqaruv jileti ham kiyadi."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "6c594cb9-43dd-5ba0-ba3a-9225c2430593",
+      "definitionEn": "Used at the start of an answer, explanation or conversation turn to organize what is said next.",
+      "translationUz": "xo‘sh, yaxshi, demak",
+      "definitionUz": "Javob yoki tushuntirishni boshlash va fikrni bog‘lash uchun ishlatiladigan kirish so‘z.",
+      "examples": [
+        {
+          "textEn": "Well, you need to have a crew of twenty people.",
+          "textUz": "Xo‘sh, yigirma kishilik ekipaj kerak."
+        }
+      ]
+    },
+    {
+      "operation": "add_sense",
+      "lexemeId": "fb252c5e-5d6e-5a8c-b631-0e4494eed83a",
+      "definitionEn": "By a priority class of postal service, usually with faster delivery.",
+      "translationUz": "birinchi toifali pochta orqali",
+      "definitionUz": "Xat yoki jo‘natmani ustuvor toifali pochta xizmati orqali yuborish usuli.",
+      "examples": [
+        {
+          "textEn": "I'll be happy to send details first class.",
+          "textUz": "Ma’lumotlarni birinchi toifali pochta orqali yuborishdan mamnun bo‘laman."
+        }
+      ]
     }
   ],
   "existingLexemeFormExtensions": [
