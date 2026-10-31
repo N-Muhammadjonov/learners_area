@@ -219,5 +219,116 @@
       "relationsStatus": "compound_attested_in_context_and_draw_sense",
       "releaseStatus": "editorial_staged_not_inserted"
     }
+  ],
+  "part1PendingGrammarSenses": [
+    {
+      "lemma": "can",
+      "pos": "modal verb",
+      "surfacePositions": [
+        446,
+        974,
+        1360,
+        3139,
+        3437
+      ],
+      "meaning": "be able to / have the ability to",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/can",
+      "status": "missing_release_sense_do_not_map_to_verb_can_tin_or_dismiss"
+    },
+    {
+      "lemma": "at",
+      "pos": "preposition",
+      "surfacePositions": [
+        205,
+        1040,
+        1474,
+        1538,
+        2292
+      ],
+      "meaning": "time, location or target (requires contextual sense separation)",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/at",
+      "status": "no_matching_release_preposition"
+    },
+    {
+      "lemma": "in",
+      "pos": "preposition",
+      "surfacePositions": [
+        65,
+        555,
+        625,
+        2078,
+        2209,
+        3036,
+        3356
+      ],
+      "meaning": "inside or within place/event/activity",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/in",
+      "status": "no_matching_release_preposition"
+    },
+    {
+      "lemma": "oh",
+      "pos": "exclamation",
+      "surfacePositions": [
+        467,
+        566,
+        1069,
+        1282,
+        1985,
+        2147,
+        3662,
+        3782
+      ],
+      "meaning": "interjection expressing recognition, surprise, or understanding",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/oh",
+      "status": "missing_release_entry"
+    },
+    {
+      "lemma": "have to",
+      "pos": "modal construction",
+      "surfacePositions": [
+        2762,
+        2893
+      ],
+      "meaning": "obligation or necessity",
+      "dictionaryUrl": "https://dictionary.cambridge.org/grammar/british-grammar/have-to",
+      "status": "no_appropriate_release_sense_do_not_map_to_possession"
+    },
+    {
+      "lemma": "well",
+      "pos": "discourse marker",
+      "surfacePositions": [
+        1446,
+        2511,
+        2795,
+        3240,
+        3686
+      ],
+      "meaning": "used to begin or frame an answer, transition, or clarification",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/well",
+      "status": "no_appropriate_release_sense_do_not_map_to_well_adverb_fine"
+    },
+    {
+      "lemma": "on",
+      "pos": "preposition",
+      "surfacePositions": [
+        855,
+        2607,
+        3711,
+        3734
+      ],
+      "meaning": "event date, about/relating to, or on surface",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/on",
+      "status": "no_matching_release_preposition"
+    },
+    {
+      "lemma": "as well",
+      "pos": "adverb phrase",
+      "surfacePositions": [
+        3122
+      ],
+      "meaning": "also; in addition",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/as-well",
+      "status": "missing_release_multiword"
+    }
   ]
 }
