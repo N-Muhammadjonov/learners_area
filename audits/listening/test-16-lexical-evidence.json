@@ -329,6 +329,48 @@
       "meaning": "also; in addition",
       "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/as-well",
       "status": "missing_release_multiword"
+    },
+    {
+      "lemma": "that",
+      "pos": "relative pronoun",
+      "surfacePositions": [
+        516,
+        3021
+      ],
+      "meaning": "introduces a defining relative clause referring to a person or thing",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/that",
+      "status": "no_matching_release_relative_pronoun_do_not_use_complementizer"
+    },
+    {
+      "lemma": "who",
+      "pos": "relative pronoun",
+      "surfacePositions": [
+        2063,
+        2718
+      ],
+      "meaning": "introduces a relative clause describing a person",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/who",
+      "status": "release_has_wrong_noun_homograph_only"
+    },
+    {
+      "lemma": "details",
+      "pos": "plural noun",
+      "surfacePositions": [
+        3863
+      ],
+      "meaning": "individual facts or pieces of information about something",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/detail",
+      "status": "release_details_entry_definition_true_confidential_information_incompatible"
+    },
+    {
+      "lemma": "first class",
+      "pos": "adverb phrase",
+      "surfacePositions": [
+        3871
+      ],
+      "meaning": "by the fastest or first-class postal service",
+      "dictionaryUrl": "https://dictionary.cambridge.org/dictionary/english/first-class",
+      "status": "release_sense_about_accommodation_not_postal_service"
     }
   ]
 }
