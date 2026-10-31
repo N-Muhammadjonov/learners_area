@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 566,
+  "count": 581,
   "mappings": [
     {
       "part": 1,
@@ -415,6 +415,16 @@
     },
     {
       "part": 1,
+      "start": 288,
+      "end": 297,
+      "surface": "listening",
+      "senseId": "052dd110-1155-4c00-a6e3-56049efb8df3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 298,
       "end": 306,
       "surface": "question",
@@ -615,6 +625,16 @@
       "senseId": "54555443-8be0-47b3-a2e6-4237b0a16861",
       "status": "context_approved_staged_not_published",
       "basis": "prefatory now before command"
+    },
+    {
+      "part": 1,
+      "start": 419,
+      "end": 423,
+      "surface": "turn",
+      "senseId": "a0b318a5-50a1-4648-b099-23e5cabe4c6d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
@@ -1938,6 +1958,16 @@
     },
     {
       "part": 1,
+      "start": 1331,
+      "end": 1334,
+      "surface": "few",
+      "senseId": "41a02207-ad45-4234-a3d1-bfbea374c9c1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 1335,
       "end": 1341,
       "surface": "things",
@@ -1976,6 +2006,16 @@
       "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1362,
+      "end": 1366,
+      "surface": "mind",
+      "senseId": "7438f6fb-5060-5159-b554-495e4ca18bf9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
@@ -3460,6 +3500,16 @@
     },
     {
       "part": 1,
+      "start": 2420,
+      "end": 2423,
+      "surface": "for",
+      "senseId": "f8951daa-545f-5a2b-9443-afca3c0bcd6c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 2424,
       "end": 2427,
       "surface": "our",
@@ -3562,6 +3612,26 @@
     },
     {
       "part": 1,
+      "start": 2494,
+      "end": 2496,
+      "surface": "go",
+      "senseId": "5f51b0db-5b14-4483-8f12-973a7469ca2c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
+      "start": 2497,
+      "end": 2499,
+      "surface": "up",
+      "senseId": "d0499d29-35d6-4c36-9245-ebc01f9d3190",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 2500,
       "end": 2503,
       "surface": "and",
@@ -3570,6 +3640,16 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2504,
+      "end": 2508,
+      "surface": "look",
+      "senseId": "f0fdeeea-8a0b-461b-8d59-fbe15fcfa63b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
@@ -4048,6 +4128,16 @@
     },
     {
       "part": 1,
+      "start": 2833,
+      "end": 2837,
+      "surface": "mind",
+      "senseId": "c2ccb512-0b13-47f0-bc58-b5b4fc191553",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 2839,
       "end": 2847,
       "surface": "Anything",
@@ -4201,6 +4291,16 @@
     },
     {
       "part": 1,
+      "start": 2926,
+      "end": 2930,
+      "surface": "rice",
+      "senseId": "3941b61b-f562-4258-9ae4-887dddeb0093",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 2931,
       "end": 2937,
       "surface": "cooker",
@@ -4335,6 +4435,16 @@
     },
     {
       "part": 1,
+      "start": 3008,
+      "end": 3012,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
+    },
+    {
+      "part": 1,
       "start": 3013,
       "end": 3014,
       "surface": "a",
@@ -4343,6 +4453,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 3015,
+      "end": 3019,
+      "surface": "look",
+      "senseId": "8dfeebf2-d4bb-4a7f-9cee-46532345c1ed",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
@@ -4489,6 +4609,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "time to look infinitive"
+    },
+    {
+      "part": 1,
+      "start": 3101,
+      "end": 3105,
+      "surface": "look",
+      "senseId": "f0fdeeea-8a0b-461b-8d59-fbe15fcfa63b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
@@ -4694,6 +4824,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
+      "start": 3245,
+      "end": 3247,
+      "surface": "TV",
+      "senseId": "aaab4036-4278-4320-ba13-ecf616685c3b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
@@ -4915,6 +5055,16 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3387,
+      "end": 3389,
+      "surface": "do",
+      "senseId": "c959ba07-d1fa-48d8-b936-4804165afbae",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Contextually matched active immutable dictionary definition"
     },
     {
       "part": 1,
