@@ -7,6 +7,7 @@ import {privateScope} from './private-scope.js';
 export function viewPrewarm({root,signal,win=window,doc=document,nav=navigator,clock=Date.now,setTimer=setTimeout,clearTimer=clearTimeout}){
  const budget=new IntentPrefetchBudget(),timers=new Map(),requests=new Set();
  let remaining=1024*1024,idleTimer,idleHandle,idleIndex=0,disposed=false;
+ const mobile=win.matchMedia?.('(pointer: coarse)')?.matches===true||(win.innerWidth>0&&win.innerWidth<768);
  const lowResource=()=>nav.connection?.saveData||['2g','slow-2g'].includes(nav.connection?.effectiveType)||
     (typeof nav.deviceMemory==='number'&&nav.deviceMemory<=2);
  const allowed=()=>!disposed&&!signal.aborted&&remaining>0&&!!privateScope.scope&&
@@ -35,7 +36,8 @@ export function viewPrewarm({root,signal,win=window,doc=document,nav=navigator,c
   const a=event.target.closest?.('a[href],[data-navigation-route]');
   if(!a)return;
   clearTimer(timers.get(a));timers.delete(a);
-  if(event.detail?.action!=='prepare'||![0,90].includes(event.detail.delay)||!allowed()||
+  // Tap starts a real route load immediately. Do not race its private API reads.
+  if(mobile||event.detail?.action!=='prepare'||![0,90].includes(event.detail.delay)||!allowed()||
      a.hasAttribute('download')||(a.target&&a.target!=='_self'))return;
   const target=eligibleIntentTarget(a.dataset.navigationRoute||a.href,win.location.origin,win.location.href);
   if(!target||!(target==='/app/vocabulary'||cacheableView(target)))return;
@@ -46,7 +48,6 @@ export function viewPrewarm({root,signal,win=window,doc=document,nav=navigator,c
  root.addEventListener('learners-area:prefetch-intent',intent);
  // Idle reads improve warm desktop navigation; suppress optional private network
  // work on touch/mobile so first-frame and ready p99 aren't delayed by competition.
- const mobile=win.matchMedia?.('(pointer: coarse)')?.matches===true||(win.innerWidth>0&&win.innerWidth<768);
  function idle(){
   if(!allowed()||mobile)return;
   const run=()=>{idleHandle=null;if(!allowed())return;
