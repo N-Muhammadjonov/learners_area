@@ -80,21 +80,6 @@
     },
     {
       "operation": "add_lexeme",
-      "lemma": "semi-final",
-      "partOfSpeech": "n",
-      "lexicalType": "word",
-      "definitionEn": "A competition or match whose winners go on to compete in the final.",
-      "translationUz": "yarim final",
-      "definitionUz": "G‘oliblar finalga yo‘l oladigan saralash musobaqasi.",
-      "examples": [
-        {
-          "textEn": "You might qualify for the semi-finals.",
-          "textUz": "Siz yarim finalga yo‘l olishingiz mumkin."
-        }
-      ]
-    },
-    {
-      "operation": "add_lexeme",
       "lemma": "at",
       "partOfSpeech": "preposition",
       "lexicalType": "word",
@@ -182,6 +167,26 @@
           "textUz": "Bizda suvda ag‘darilib ketadigan qayiqlar bor."
         }
       ]
+    }
+  ],
+  "existingLexemeFormExtensions": [
+    {
+      "lemma": "semifinal",
+      "lexemeId": "2bb08050-183b-5a5d-869f-22af4207b257",
+      "senseId": "66f9573b-fb5d-4c61-ae26-f1d20d399e18",
+      "sourceForm": "semi-finals",
+      "canonicalLemma": "semifinal",
+      "newForms": [
+        {
+          "surface_form": "semi-final",
+          "form_type": "regional_spelling_variant"
+        },
+        {
+          "surface_form": "semi-finals",
+          "form_type": "regional_spelling_plural"
+        }
+      ],
+      "note": "Dictionary already has exact matching semifinal meaning. Add verified surface forms to NEW release; never create duplicate entry."
     }
   ]
 }
