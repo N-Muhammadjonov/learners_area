@@ -132,6 +132,92 @@
       "antonyms": [],
       "relationsStatus": "synonym_attested_pending_target_dictionary_sense",
       "releaseStatus": "editorial_staged_not_inserted"
+    },
+    {
+      "lemma": "trainer",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "cefr": "A2",
+      "definitionEn": "A lightweight comfortable sports shoe, often worn in pairs (British English).",
+      "definitionUz": "sport yoki kundalik yurishga mo‘ljallangan yengil sport oyoq kiyimi, krossovka",
+      "attestationUrl": "https://dictionary.cambridge.org/us/dictionary/english/trainer",
+      "source": "Cambridge English Dictionary",
+      "surface": "trainers",
+      "start": 3285,
+      "end": 3293,
+      "exampleEn": "Most people wear a T-shirt, shorts and trainers.",
+      "synonyms": [
+        {
+          "lemma": "sneaker",
+          "relation": "regional equivalent",
+          "source": "Cambridge"
+        }
+      ],
+      "antonyms": [],
+      "relationsStatus": "US_variant_attested_pending_target_sense",
+      "existingEntryId": "7e3ac038-7317-5975-a6e2-d92bd6bf6edb",
+      "status": "add_new_sense_to_existing_entry_not_new_homograph",
+      "releaseStatus": "editorial_staged_not_inserted"
+    },
+    {
+      "lemma": "age limit",
+      "partOfSpeech": "n",
+      "lexicalType": "multiword",
+      "cefr": null,
+      "definitionEn": "The minimum or maximum age at which someone is permitted to do something.",
+      "definitionUz": "biror faoliyatga qatnashish uchun belgilangan eng kichik yoki eng katta yosh chegarasi",
+      "attestationUrl": "https://dictionary.cambridge.org/dictionary/english/age-limit",
+      "source": "Cambridge English Dictionary",
+      "surface": "age limit",
+      "start": 2812,
+      "end": 2821,
+      "exampleEn": "There's no age limit as such.",
+      "synonyms": [],
+      "antonyms": [],
+      "relationsStatus": "no_attested_sense_level_synonyms",
+      "releaseStatus": "editorial_staged_not_inserted"
+    },
+    {
+      "lemma": "semi-final",
+      "partOfSpeech": "n",
+      "lexicalType": "word",
+      "cefr": "B2",
+      "definitionEn": "A contest in which the winners qualify to compete in the final.",
+      "definitionUz": "finalga chiqish uchun o‘tkaziladigan yarim final musobaqasi",
+      "attestationUrl": "https://dictionary.cambridge.org/dictionary/english/semifinal",
+      "source": "Cambridge English Dictionary",
+      "surface": "semi-finals",
+      "start": 3563,
+      "end": 3574,
+      "exampleEn": "Especially if you qualify for the semi-finals or the final.",
+      "synonyms": [
+        {
+          "lemma": "semifinal",
+          "relation": "spelling variant",
+          "source": "Cambridge"
+        }
+      ],
+      "antonyms": [],
+      "relationsStatus": "spelling_variant_only",
+      "releaseStatus": "editorial_staged_not_inserted"
+    },
+    {
+      "lemma": "prize draw",
+      "partOfSpeech": "n",
+      "lexicalType": "multiword",
+      "cefr": null,
+      "definitionEn": "A competition whose winner is selected by chance from entered names, tickets, or numbers.",
+      "definitionUz": "g‘olib qur’a tashlash orqali aniqlanadigan sovrinli tanlov",
+      "attestationUrl": "https://dictionary.cambridge.org/dictionary/english/draw",
+      "source": "Cambridge English Dictionary - draw (competition)",
+      "surface": "prize draw",
+      "start": 2130,
+      "end": 2140,
+      "exampleEn": "Every crew member will be entered into a free prize draw.",
+      "synonyms": [],
+      "antonyms": [],
+      "relationsStatus": "compound_attested_in_context_and_draw_sense",
+      "releaseStatus": "editorial_staged_not_inserted"
     }
   ]
 }
