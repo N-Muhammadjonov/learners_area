@@ -71,3 +71,22 @@ def test_ill_formed_ids_or_digest_are_refused():
         candidate[key]=value
         with pytest.raises(ValueError,match="dictionary_identity_invalid"):
             tool.preflight([candidate])
+
+def test_all_pinned_transcript_offsets_nonoverlapping():
+    import json
+    plan=json.loads((Path(__file__).resolve().parents[3]/"audits/listening/test-16-verified-binding-plan.json").read_text())
+    parts=tool.transcript_parts()
+    for material in plan["materials"]:
+        text=parts[material["sectionNumber"]]
+        spans=material["spans"]
+        assert spans==sorted(spans,key=lambda x:x["start"])
+        assert all(text[x["start"]:x["end"]]==x["surface"] for x in spans)
+        assert all(a["end"]<=b["start"] for a,b in zip(spans,spans[1:]))
+    assert len(next(m for m in plan["materials"] if m["sectionNumber"]==1)["spans"])>=100
+
+def test_no_fake_sentence_as_standalone_lexical_entry_in_part_one():
+    import json
+    plan=json.loads((Path(__file__).resolve().parents[3]/"audits/listening/test-16-verified-binding-plan.json").read_text())
+    spans=next(m["spans"] for m in plan["materials"] if m["sectionNumber"]==1)
+    assert all(len(span["surface"].split())<=2 for span in spans)
+    assert all(span["surface"].strip()==span["surface"] for span in spans)
