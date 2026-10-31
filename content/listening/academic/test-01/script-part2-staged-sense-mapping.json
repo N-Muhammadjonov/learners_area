@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 428,
+  "count": 445,
   "mappings": [
     {
       "part": 2,
@@ -479,6 +479,16 @@
     },
     {
       "part": 2,
+      "start": 390,
+      "end": 399,
+      "surface": "assistant",
+      "senseId": "190dd7d3-bce2-4597-8e46-2d3e51422f67",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 400,
       "end": 412,
       "surface": "head teacher",
@@ -591,6 +601,16 @@
     },
     {
       "part": 2,
+      "start": 480,
+      "end": 485,
+      "surface": "round",
+      "senseId": "7604f7da-080c-4ec0-8ebb-3a35642dcbe9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 486,
       "end": 489,
       "surface": "the",
@@ -638,6 +658,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 524,
+      "end": 527,
+      "surface": "any",
+      "senseId": "616be41d-9213-487f-bb7d-5b5495d4b927",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
     },
     {
       "part": 2,
@@ -1073,6 +1103,16 @@
     },
     {
       "part": 2,
+      "start": 945,
+      "end": 947,
+      "surface": "He",
+      "senseId": "238f1fdf-cd0e-5005-8b63-956c6b6868a1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 979,
       "end": 982,
       "surface": "the",
@@ -1153,6 +1193,16 @@
     },
     {
       "part": 2,
+      "start": 1048,
+      "end": 1053,
+      "surface": "until",
+      "senseId": "8c999c6e-9ffa-5b39-b877-f6f02b6f8753",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 1066,
       "end": 1068,
       "surface": "an",
@@ -1170,6 +1220,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 1078,
+      "end": 1083,
+      "surface": "lunch",
+      "senseId": "6880c645-d96e-42a9-bd06-c60e7c462bc6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
+      "start": 1085,
+      "end": 1090,
+      "surface": "Lunch",
+      "senseId": "6880c645-d96e-42a9-bd06-c60e7c462bc6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
     },
     {
       "part": 2,
@@ -1778,6 +1848,16 @@
     },
     {
       "part": 2,
+      "start": 1642,
+      "end": 1648,
+      "surface": "winter",
+      "senseId": "7badb28a-6d63-465b-b5f4-cbd4cba6237f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 1649,
       "end": 1652,
       "surface": "and",
@@ -1930,6 +2010,16 @@
     },
     {
       "part": 2,
+      "start": 1785,
+      "end": 1789,
+      "surface": "each",
+      "senseId": "1e197610-f370-48bc-ad6c-4af286e38a53",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 1790,
       "end": 1792,
       "surface": "of",
@@ -2040,6 +2130,16 @@
     },
     {
       "part": 2,
+      "start": 1927,
+      "end": 1931,
+      "surface": "such",
+      "senseId": "c809855d-b27d-4a09-8e74-7c345ea6ac54",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 1935,
       "end": 1938,
       "surface": "the",
@@ -2088,6 +2188,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1998,
+      "end": 2002,
+      "surface": "each",
+      "senseId": "1e197610-f370-48bc-ad6c-4af286e38a53",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
     },
     {
       "part": 2,
@@ -2917,6 +3027,16 @@
     },
     {
       "part": 2,
+      "start": 2635,
+      "end": 2640,
+      "surface": "where",
+      "senseId": "36b68452-eb86-51c2-80b4-84e542e70a94",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 2641,
       "end": 2651,
       "surface": "everything",
@@ -2998,6 +3118,16 @@
     },
     {
       "part": 2,
+      "start": 2705,
+      "end": 2710,
+      "surface": "where",
+      "senseId": "36b68452-eb86-51c2-80b4-84e542e70a94",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 2711,
       "end": 2714,
       "surface": "you",
@@ -3076,6 +3206,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2785,
+      "end": 2787,
+      "surface": "He",
+      "senseId": "238f1fdf-cd0e-5005-8b63-956c6b6868a1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
     },
     {
       "part": 2,
@@ -3461,6 +3601,16 @@
     },
     {
       "part": 2,
+      "start": 3110,
+      "end": 3119,
+      "surface": "somewhere",
+      "senseId": "64974a31-5541-4ebc-9b02-497aac1c9760",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
       "start": 3126,
       "end": 3128,
       "surface": "to",
@@ -3629,6 +3779,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3267,
+      "end": 3269,
+      "surface": "in",
+      "senseId": "7d8a398d-3431-4df4-9cdf-089c36cb66f5",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
     },
     {
       "part": 2,
@@ -4081,6 +4241,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3657,
+      "end": 3662,
+      "surface": "round",
+      "senseId": "7604f7da-080c-4ec0-8ebb-3a35642dcbe9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
     },
     {
       "part": 2,
