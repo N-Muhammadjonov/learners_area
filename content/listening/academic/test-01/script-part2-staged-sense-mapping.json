@@ -4,8 +4,18 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 187,
+  "count": 291,
   "mappings": [
+    {
+      "part": 2,
+      "start": 9,
+      "end": 11,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
+    },
     {
       "part": 2,
       "start": 44,
@@ -15,6 +25,76 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 58,
+      "end": 59,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 75,
+      "end": 76,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 88,
+      "end": 89,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 97,
+      "end": 103,
+      "surface": "school",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as educational institution"
+    },
+    {
+      "part": 2,
+      "start": 104,
+      "end": 106,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
+      "start": 107,
+      "end": 108,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 115,
+      "end": 117,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -28,6 +108,36 @@
     },
     {
       "part": 2,
+      "start": 152,
+      "end": 154,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 163,
+      "end": 172,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "question asking for an answer"
+    },
+    {
+      "part": 2,
+      "start": 176,
+      "end": 178,
+      "surface": "to",
+      "senseId": "b3d1108b-7319-520a-860a-e567106a286e",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to end of numerical range"
+    },
+    {
+      "part": 2,
       "start": 214,
       "end": 217,
       "surface": "and",
@@ -38,6 +148,26 @@
     },
     {
       "part": 2,
+      "start": 225,
+      "end": 234,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "question asking for an answer"
+    },
+    {
+      "part": 2,
+      "start": 238,
+      "end": 240,
+      "surface": "to",
+      "senseId": "b3d1108b-7319-520a-860a-e567106a286e",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to end of numerical range"
+    },
+    {
+      "part": 2,
       "start": 271,
       "end": 273,
       "surface": "me",
@@ -45,6 +175,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 295,
+      "end": 297,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
@@ -69,6 +209,26 @@
     },
     {
       "part": 2,
+      "start": 326,
+      "end": 328,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
+      "start": 347,
+      "end": 353,
+      "surface": "School",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as educational institution"
+    },
+    {
+      "part": 2,
       "start": 355,
       "end": 357,
       "surface": "My",
@@ -76,6 +236,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 363,
+      "end": 365,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
     },
     {
       "part": 2,
@@ -117,6 +287,26 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 428,
+      "end": 430,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 434,
+      "end": 436,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
     },
     {
       "part": 2,
@@ -181,6 +371,16 @@
     },
     {
       "part": 2,
+      "start": 490,
+      "end": 496,
+      "surface": "school",
+      "senseId": "6b53a9fb-7a66-4ef2-96fa-6ec8aae42899",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as building"
+    },
+    {
+      "part": 2,
       "start": 497,
       "end": 500,
       "surface": "and",
@@ -208,6 +408,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 528,
+      "end": 537,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "question asking for an answer"
     },
     {
       "part": 2,
@@ -251,6 +461,16 @@
     },
     {
       "part": 2,
+      "start": 611,
+      "end": 612,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
       "start": 648,
       "end": 651,
       "surface": "and",
@@ -258,6 +478,36 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 670,
+      "end": 678,
+      "surface": "Children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 692,
+      "end": 694,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 705,
+      "end": 711,
+      "surface": "school",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as educational institution"
     },
     {
       "part": 2,
@@ -288,6 +538,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 769,
+      "end": 771,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 775,
+      "end": 777,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
     },
     {
       "part": 2,
@@ -363,6 +633,16 @@
     },
     {
       "part": 2,
+      "start": 882,
+      "end": 888,
+      "surface": "school",
+      "senseId": "0bd9c513-93f2-5129-bbe1-28809fa71ac2",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "whole school as pupils and staff"
+    },
+    {
+      "part": 2,
       "start": 898,
       "end": 901,
       "surface": "the",
@@ -383,6 +663,26 @@
     },
     {
       "part": 2,
+      "start": 920,
+      "end": 922,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 928,
+      "end": 930,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
       "start": 931,
       "end": 934,
       "surface": "the",
@@ -390,6 +690,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 935,
+      "end": 943,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
     },
     {
       "part": 2,
@@ -413,6 +723,16 @@
     },
     {
       "part": 2,
+      "start": 1006,
+      "end": 1008,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
+    },
+    {
+      "part": 2,
       "start": 1023,
       "end": 1026,
       "surface": "the",
@@ -420,6 +740,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1027,
+      "end": 1033,
+      "surface": "school",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as educational institution"
     },
     {
       "part": 2,
@@ -464,6 +794,16 @@
     },
     {
       "part": 2,
+      "start": 1120,
+      "end": 1128,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
       "start": 1139,
       "end": 1144,
       "surface": "their",
@@ -482,6 +822,26 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1165,
+      "end": 1166,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 1176,
+      "end": 1178,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
     },
     {
       "part": 2,
@@ -526,6 +886,16 @@
     },
     {
       "part": 2,
+      "start": 1252,
+      "end": 1254,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 1255,
       "end": 1258,
       "surface": "the",
@@ -556,6 +926,16 @@
     },
     {
       "part": 2,
+      "start": 1282,
+      "end": 1284,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 1285,
       "end": 1288,
       "surface": "the",
@@ -563,6 +943,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1305,
+      "end": 1308,
+      "surface": "are",
+      "senseId": "ea35fac1-26f4-46dd-b1c6-530309e1a2fa",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "there are introducing existence"
     },
     {
       "part": 2,
@@ -574,6 +964,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1320,
+      "end": 1322,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -594,6 +994,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1343,
+      "end": 1351,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
     },
     {
       "part": 2,
@@ -637,6 +1047,26 @@
     },
     {
       "part": 2,
+      "start": 1416,
+      "end": 1424,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 1425,
+      "end": 1427,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 1451,
       "end": 1454,
       "surface": "and",
@@ -654,6 +1084,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1477,
+      "end": 1479,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -694,6 +1134,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1587,
+      "end": 1593,
+      "surface": "school",
+      "senseId": "0bd9c513-93f2-5129-bbe1-28809fa71ac2",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "whole school as pupils and staff"
+    },
+    {
+      "part": 2,
+      "start": 1594,
+      "end": 1596,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
@@ -809,6 +1269,26 @@
     },
     {
       "part": 2,
+      "start": 1712,
+      "end": 1720,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 1721,
+      "end": 1723,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 1732,
       "end": 1741,
       "surface": "something",
@@ -830,6 +1310,16 @@
     },
     {
       "part": 2,
+      "start": 1790,
+      "end": 1792,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 1793,
       "end": 1796,
       "surface": "the",
@@ -837,6 +1327,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1827,
+      "end": 1829,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 1838,
+      "end": 1839,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
     },
     {
       "part": 2,
@@ -983,6 +1493,36 @@
     },
     {
       "part": 2,
+      "start": 2089,
+      "end": 2097,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 2098,
+      "end": 2099,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 2143,
+      "end": 2145,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 2155,
       "end": 2158,
       "surface": "and",
@@ -1044,6 +1584,26 @@
     },
     {
       "part": 2,
+      "start": 2205,
+      "end": 2208,
+      "surface": "are",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "are linking subject and property"
+    },
+    {
+      "part": 2,
+      "start": 2220,
+      "end": 2222,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 2223,
       "end": 2226,
       "surface": "our",
@@ -1054,6 +1614,16 @@
     },
     {
       "part": 2,
+      "start": 2227,
+      "end": 2233,
+      "surface": "school",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as educational institution"
+    },
+    {
+      "part": 2,
       "start": 2234,
       "end": 2237,
       "surface": "and",
@@ -1061,6 +1631,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2238,
+      "end": 2240,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -1104,6 +1684,16 @@
     },
     {
       "part": 2,
+      "start": 2289,
+      "end": 2292,
+      "surface": "are",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "are linking subject and property"
+    },
+    {
+      "part": 2,
       "start": 2302,
       "end": 2311,
       "surface": "committed",
@@ -1115,6 +1705,16 @@
     },
     {
       "part": 2,
+      "start": 2312,
+      "end": 2314,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
       "start": 2315,
       "end": 2318,
       "surface": "the",
@@ -1122,6 +1722,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2319,
+      "end": 2325,
+      "surface": "school",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "school as educational institution"
     },
     {
       "part": 2,
@@ -1145,6 +1755,16 @@
     },
     {
       "part": 2,
+      "start": 2341,
+      "end": 2343,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 2344,
       "end": 2347,
       "surface": "the",
@@ -1162,6 +1782,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2364,
+      "end": 2366,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -1185,6 +1815,26 @@
     },
     {
       "part": 2,
+      "start": 2399,
+      "end": 2407,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 2411,
+      "end": 2413,
+      "surface": "to",
+      "senseId": "196a2208-d179-5fa0-98f5-ae2db9699672",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
       "start": 2418,
       "end": 2420,
       "surface": "an",
@@ -1203,6 +1853,26 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2432,
+      "end": 2434,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 2441,
+      "end": 2442,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
     },
     {
       "part": 2,
@@ -1237,6 +1907,16 @@
     },
     {
       "part": 2,
+      "start": 2494,
+      "end": 2496,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 2497,
       "end": 2500,
       "surface": "the",
@@ -1257,6 +1937,36 @@
     },
     {
       "part": 2,
+      "start": 2525,
+      "end": 2527,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 2536,
+      "end": 2545,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "question asking for an answer"
+    },
+    {
+      "part": 2,
+      "start": 2549,
+      "end": 2551,
+      "surface": "to",
+      "senseId": "b3d1108b-7319-520a-860a-e567106a286e",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to end of numerical range"
+    },
+    {
+      "part": 2,
       "start": 2577,
       "end": 2580,
       "surface": "and",
@@ -1264,6 +1974,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2588,
+      "end": 2597,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "question asking for an answer"
+    },
+    {
+      "part": 2,
+      "start": 2601,
+      "end": 2603,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
@@ -1294,6 +2024,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2652,
+      "end": 2654,
+      "surface": "is",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is to be located"
     },
     {
       "part": 2,
@@ -1368,6 +2108,16 @@
     },
     {
       "part": 2,
+      "start": 2737,
+      "end": 2739,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 2755,
       "end": 2761,
       "surface": "you'll",
@@ -1399,6 +2149,16 @@
     },
     {
       "part": 2,
+      "start": 2794,
+      "end": 2796,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 2821,
       "end": 2824,
       "surface": "and",
@@ -1419,6 +2179,16 @@
     },
     {
       "part": 2,
+      "start": 2834,
+      "end": 2836,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
+    },
+    {
+      "part": 2,
       "start": 2859,
       "end": 2863,
       "surface": "this",
@@ -1426,6 +2196,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2864,
+      "end": 2867,
+      "surface": "are",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "are located at a place"
+    },
+    {
+      "part": 2,
+      "start": 2872,
+      "end": 2874,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -1439,6 +2229,16 @@
     },
     {
       "part": 2,
+      "start": 2899,
+      "end": 2901,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 2902,
       "end": 2905,
       "surface": "the",
@@ -1446,6 +2246,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2917,
+      "end": 2920,
+      "surface": "are",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "are located at a place"
     },
     {
       "part": 2,
@@ -1488,6 +2298,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2962,
+      "end": 2964,
+      "surface": "is",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is to be located"
     },
     {
       "part": 2,
@@ -1541,6 +2361,26 @@
     },
     {
       "part": 2,
+      "start": 3042,
+      "end": 3044,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3052,
+      "end": 3053,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
       "start": 3088,
       "end": 3091,
       "surface": "the",
@@ -1551,6 +2391,26 @@
     },
     {
       "part": 2,
+      "start": 3092,
+      "end": 3100,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 3126,
+      "end": 3128,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 3152,
       "end": 3155,
       "surface": "the",
@@ -1558,6 +2418,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3161,
+      "end": 3163,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -1578,6 +2448,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3201,
+      "end": 3203,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
     },
     {
       "part": 2,
@@ -1602,6 +2482,26 @@
     },
     {
       "part": 2,
+      "start": 3224,
+      "end": 3226,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3234,
+      "end": 3235,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
       "start": 3247,
       "end": 3250,
       "surface": "and",
@@ -1609,6 +2509,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3251,
+      "end": 3259,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
     },
     {
       "part": 2,
@@ -1629,6 +2539,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3302,
+      "end": 3304,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
@@ -1703,6 +2623,26 @@
     },
     {
       "part": 2,
+      "start": 3405,
+      "end": 3407,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
+    },
+    {
+      "part": 2,
+      "start": 3408,
+      "end": 3409,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
       "start": 3423,
       "end": 3427,
       "surface": "this",
@@ -1733,6 +2673,16 @@
     },
     {
       "part": 2,
+      "start": 3440,
+      "end": 3443,
+      "surface": "are",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "are linking subject and property"
+    },
+    {
+      "part": 2,
       "start": 3462,
       "end": 3464,
       "surface": "it",
@@ -1750,6 +2700,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3475,
+      "end": 3477,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
@@ -1793,6 +2753,16 @@
     },
     {
       "part": 2,
+      "start": 3587,
+      "end": 3595,
+      "surface": "children",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "children: young people"
+    },
+    {
+      "part": 2,
       "start": 3596,
       "end": 3599,
       "surface": "and",
@@ -1821,6 +2791,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 3642,
+      "end": 3644,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
@@ -1864,6 +2844,16 @@
     },
     {
       "part": 2,
+      "start": 3703,
+      "end": 3705,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
       "start": 3713,
       "end": 3717,
       "surface": "your",
@@ -1871,6 +2861,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3718,
+      "end": 3727,
+      "surface": "questions",
+      "senseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "question asking for an answer"
+    },
+    {
+      "part": 2,
+      "start": 3735,
+      "end": 3737,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "is linking subject and predicate"
     },
     {
       "part": 2,
@@ -1884,6 +2894,16 @@
     },
     {
       "part": 2,
+      "start": 3746,
+      "end": 3748,
+      "surface": "of",
+      "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
       "start": 3760,
       "end": 3763,
       "surface": "You",
@@ -1891,6 +2911,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3778,
+      "end": 3779,
+      "surface": "a",
+      "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 3787,
+      "end": 3789,
+      "surface": "to",
+      "senseId": "0fba4a60-27c8-5f82-80e0-93c55d3fd333",
+      "kind": "word",
+      "status": "context_approved_staged_not_published",
+      "basis": "to introduces an infinitive"
     },
     {
       "part": 2,
