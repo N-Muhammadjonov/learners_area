@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 581,
+  "count": 574,
   "mappings": [
     {
       "part": 1,
@@ -596,27 +596,6 @@
     },
     {
       "part": 1,
-      "start": 400,
-      "end": 406,
-      "surface": "answer",
-      "entryNumber": null,
-      "senseId": "5b545620-0f52-43d7-8e77-83126b86cd1a",
-      "kind": "single_word",
-      "basis": "reply to question",
-      "status": "context_approved_staged_not_published"
-    },
-    {
-      "part": 1,
-      "start": 407,
-      "end": 412,
-      "surface": "sheet",
-      "senseId": "e857759c-42ad-4177-bbe6-4ef938f4d181",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "paper answer sheet"
-    },
-    {
-      "part": 1,
       "start": 415,
       "end": 418,
       "surface": "Now",
@@ -1203,27 +1182,6 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "talk on the phone"
-    },
-    {
-      "part": 1,
-      "start": 848,
-      "end": 851,
-      "surface": "the",
-      "kind": "function_word",
-      "entryNumber": null,
-      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
-      "status": "context_approved_staged_not_published",
-      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
-    },
-    {
-      "part": 1,
-      "start": 852,
-      "end": 857,
-      "surface": "phone",
-      "senseId": "1f80b78f-88ed-4c35-8de4-45fd13ade00f",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "telephone device"
     },
     {
       "part": 1,
@@ -3418,16 +3376,6 @@
     },
     {
       "part": 1,
-      "start": 2354,
-      "end": 2358,
-      "surface": "room",
-      "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
-      "kind": "lexical_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Word sense validated against exact R2 dictionary definition in Part 1 housing/test context"
-    },
-    {
-      "part": 1,
       "start": 2360,
       "end": 2363,
       "surface": "but",
@@ -4288,26 +4236,6 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
-    },
-    {
-      "part": 1,
-      "start": 2926,
-      "end": 2930,
-      "surface": "rice",
-      "senseId": "3941b61b-f562-4258-9ae4-887dddeb0093",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "Contextually matched active immutable dictionary definition"
-    },
-    {
-      "part": 1,
-      "start": 2931,
-      "end": 2937,
-      "surface": "cooker",
-      "senseId": "e61f6744-0973-49a0-b33d-04149049c494",
-      "kind": "single_word",
-      "status": "context_approved_staged_not_published",
-      "basis": "rice cooker appliance"
     },
     {
       "part": 1,
