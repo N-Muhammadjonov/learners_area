@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 282,
+  "count": 318,
   "mappings": [
     {
       "part": 1,
@@ -819,6 +819,16 @@
     },
     {
       "part": 1,
+      "start": 688,
+      "end": 692,
+      "surface": "done",
+      "senseId": "55927bc5-b559-4d98-beb3-f554e69bfabd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "example finished"
+    },
+    {
+      "part": 1,
       "start": 693,
       "end": 696,
       "surface": "for",
@@ -841,6 +851,36 @@
     },
     {
       "part": 1,
+      "start": 706,
+      "end": 710,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "this occasion determiner"
+    },
+    {
+      "part": 1,
+      "start": 711,
+      "end": 719,
+      "surface": "occasion",
+      "senseId": "a09caa5e-3500-4594-8985-12795106631d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "particular event"
+    },
+    {
+      "part": 1,
+      "start": 720,
+      "end": 724,
+      "surface": "only",
+      "senseId": "668622b5-8dd3-45e0-aae3-1d71c543bc2d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "only this occasion"
+    },
+    {
+      "part": 1,
       "start": 726,
       "end": 729,
       "surface": "the",
@@ -858,6 +898,26 @@
       "entryNumber": 37,
       "senseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 743,
+      "end": 751,
+      "surface": "relating",
+      "senseId": "6214bcd8-57a2-4102-ac33-f47a73ae497b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "relevant to the example"
+    },
+    {
+      "part": 1,
+      "start": 755,
+      "end": 759,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "this event"
     },
     {
       "part": 1,
@@ -936,6 +996,16 @@
     },
     {
       "part": 1,
+      "start": 838,
+      "end": 844,
+      "surface": "talked",
+      "senseId": "86957097-6a1f-404e-809b-911b6af85b11",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "talk on the phone"
+    },
+    {
+      "part": 1,
       "start": 848,
       "end": 851,
       "surface": "the",
@@ -944,6 +1014,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 852,
+      "end": 857,
+      "surface": "phone",
+      "senseId": "1f80b78f-88ed-4c35-8de4-45fd13ade00f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "telephone device"
     },
     {
       "part": 1,
@@ -967,6 +1047,36 @@
     },
     {
       "part": 1,
+      "start": 882,
+      "end": 887,
+      "surface": "Great",
+      "senseId": "51e7b0ac-9b78-4f1a-b118-2854a6188e57",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "great as excellent acceptance"
+    },
+    {
+      "part": 1,
+      "start": 891,
+      "end": 895,
+      "surface": "just",
+      "senseId": "9147b73c-9b32-4a1e-9167-96b0c8351b7d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "just means only"
+    },
+    {
+      "part": 1,
+      "start": 896,
+      "end": 900,
+      "surface": "need",
+      "senseId": "cf3affce-888b-403b-930f-94e3c6c37ce9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "need as require"
+    },
+    {
+      "part": 1,
       "start": 904,
       "end": 912,
       "surface": "find out",
@@ -982,6 +1092,16 @@
       "entryNumber": 39,
       "senseId": "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 926,
+      "end": 932,
+      "surface": "before",
+      "senseId": "b4b879ab-dff5-5056-b631-03a5273ed32e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "before another clause"
     },
     {
       "part": 1,
@@ -1027,6 +1147,26 @@
     },
     {
       "part": 1,
+      "start": 1022,
+      "end": 1027,
+      "surface": "space",
+      "senseId": "a9f28325-f768-593f-93cf-a17aa294607a",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "blank area in form"
+    },
+    {
+      "part": 1,
+      "start": 1029,
+      "end": 1032,
+      "surface": "Now",
+      "senseId": "c17e6064-6cd0-5eb7-8bba-3c0f0a602bda",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "now marks new activity"
+    },
+    {
+      "part": 1,
       "start": 1033,
       "end": 1035,
       "surface": "we",
@@ -1038,6 +1178,16 @@
     },
     {
       "part": 1,
+      "start": 1042,
+      "end": 1047,
+      "surface": "begin",
+      "senseId": "0facdf96-93f7-4120-b3ad-e4dc98aa5507",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "begin action"
+    },
+    {
+      "part": 1,
       "start": 1050,
       "end": 1053,
       "surface": "You",
@@ -1046,6 +1196,26 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1054,
+      "end": 1060,
+      "surface": "should",
+      "senseId": "e28c9529-da74-54eb-ac82-ee2961aa84db",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "should advise"
+    },
+    {
+      "part": 1,
+      "start": 1061,
+      "end": 1067,
+      "surface": "answer",
+      "senseId": "4fa3b9b1-1f6d-431d-b82a-cee3743503a2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "give answer"
     },
     {
       "part": 1,
@@ -1079,6 +1249,16 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1089,
+      "end": 1095,
+      "surface": "listen",
+      "senseId": "0e9049d5-673e-4712-9a6b-bf4420ccc086",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "listen intentionally"
     },
     {
       "part": 1,
@@ -1155,6 +1335,46 @@
     },
     {
       "part": 1,
+      "start": 1139,
+      "end": 1145,
+      "surface": "second",
+      "senseId": "51da29a0-9ddb-42d7-89fd-484aa7bc3ac0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "second in sequence"
+    },
+    {
+      "part": 1,
+      "start": 1146,
+      "end": 1150,
+      "surface": "time",
+      "senseId": "ab1b9207-72c9-4d6a-ad1e-6eb998cbf273",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "second occasion"
+    },
+    {
+      "part": 1,
+      "start": 1152,
+      "end": 1158,
+      "surface": "Listen",
+      "senseId": "0e9049d5-673e-4712-9a6b-bf4420ccc086",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "listen intentionally"
+    },
+    {
+      "part": 1,
+      "start": 1159,
+      "end": 1168,
+      "surface": "carefully",
+      "senseId": "02512087-7ea4-482e-8f13-77e3e1bfaedb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "carefully"
+    },
+    {
+      "part": 1,
       "start": 1169,
       "end": 1172,
       "surface": "and",
@@ -1163,6 +1383,16 @@
       "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1173,
+      "end": 1179,
+      "surface": "answer",
+      "senseId": "4fa3b9b1-1f6d-431d-b82a-cee3743503a2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "answer questions"
     },
     {
       "part": 1,
@@ -1232,6 +1462,16 @@
     },
     {
       "part": 1,
+      "start": 1254,
+      "end": 1260,
+      "surface": "talked",
+      "senseId": "86957097-6a1f-404e-809b-911b6af85b11",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "phone discussion"
+    },
+    {
+      "part": 1,
       "start": 1264,
       "end": 1267,
       "surface": "the",
@@ -1240,6 +1480,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1268,
+      "end": 1273,
+      "surface": "phone",
+      "senseId": "1f80b78f-88ed-4c35-8de4-45fd13ade00f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "telephone"
     },
     {
       "part": 1,
@@ -1254,6 +1504,36 @@
     },
     {
       "part": 1,
+      "start": 1298,
+      "end": 1303,
+      "surface": "Great",
+      "senseId": "51e7b0ac-9b78-4f1a-b118-2854a6188e57",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "approval great"
+    },
+    {
+      "part": 1,
+      "start": 1307,
+      "end": 1311,
+      "surface": "just",
+      "senseId": "9147b73c-9b32-4a1e-9167-96b0c8351b7d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "just only"
+    },
+    {
+      "part": 1,
+      "start": 1312,
+      "end": 1316,
+      "surface": "need",
+      "senseId": "cf3affce-888b-403b-930f-94e3c6c37ce9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "require"
+    },
+    {
+      "part": 1,
       "start": 1329,
       "end": 1330,
       "surface": "a",
@@ -1262,6 +1542,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1342,
+      "end": 1348,
+      "surface": "before",
+      "senseId": "b4b879ab-dff5-5056-b631-03a5273ed32e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "before another clause"
     },
     {
       "part": 1,
@@ -1285,6 +1575,16 @@
     },
     {
       "part": 1,
+      "start": 1392,
+      "end": 1393,
+      "surface": "I",
+      "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "subject speaker"
+    },
+    {
+      "part": 1,
       "start": 1394,
       "end": 1412,
       "surface": "wasn't quite clear",
@@ -1302,6 +1602,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1423,
+      "end": 1427,
+      "surface": "rent",
+      "senseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "rent payment"
     },
     {
       "part": 1,
@@ -1347,12 +1657,42 @@
     },
     {
       "part": 1,
+      "start": 1474,
+      "end": 1479,
+      "surface": "large",
+      "senseId": "7ffadd13-23c5-4a21-871e-0eea60665136",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "large bedroom"
+    },
+    {
+      "part": 1,
       "start": 1480,
       "end": 1487,
       "surface": "bedroom",
       "entryNumber": null,
       "senseId": "6cffda95-280b-4bb1-b15e-80f160cf43de",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 1489,
+      "end": 1491,
+      "surface": "so",
+      "senseId": "997f472c-9c60-5610-a8bd-fe7a77058539",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "so cause consequence"
+    },
+    {
+      "part": 1,
+      "start": 1494,
+      "end": 1497,
+      "surface": "pay",
+      "senseId": "38a693a4-52a1-4af4-84a4-a55101257b72",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "pay money"
     },
     {
       "part": 1,
@@ -1391,6 +1731,26 @@
       "senseId": "f911f8d6-7e67-4480-a2e8-e726052dde95",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 1564,
+      "end": 1567,
+      "surface": "too",
+      "senseId": "a9503835-eccc-4c31-8dd8-949e6f071033",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "too degree"
+    },
+    {
+      "part": 1,
+      "start": 1568,
+      "end": 1571,
+      "surface": "bad",
+      "senseId": "8fe7006d-a701-5f1a-8d21-10a17255525b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "bad quality"
     },
     {
       "part": 1,
