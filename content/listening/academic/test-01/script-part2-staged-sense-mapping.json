@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 452,
+  "count": 458,
   "mappings": [
     {
       "part": 2,
@@ -118,6 +118,16 @@
     },
     {
       "part": 2,
+      "start": 77,
+      "end": 81,
+      "surface": "talk",
+      "senseId": "00c110b2-db0c-4acd-9f81-f0b8f74d6630",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Teacher gives a talk: public speech to parents, noun."
+    },
+    {
+      "part": 2,
       "start": 88,
       "end": 89,
       "surface": "a",
@@ -125,6 +135,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 90,
+      "end": 96,
+      "surface": "junior",
+      "senseId": "a20698b5-faa9-4710-a347-176b2df45f26",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Junior school: intended for younger children, adjective."
     },
     {
       "part": 2,
@@ -155,6 +175,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 109,
+      "end": 114,
+      "surface": "group",
+      "senseId": "dd1f5be9-c6e3-447c-b0fa-e46bae661cbd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Group of parents: people considered together as a unit, noun."
     },
     {
       "part": 2,
@@ -426,6 +456,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to destination recipient"
+    },
+    {
+      "part": 2,
+      "start": 340,
+      "end": 346,
+      "surface": "Junior",
+      "senseId": "a20698b5-faa9-4710-a347-176b2df45f26",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Junior School: intended for young children, adjective."
     },
     {
       "part": 2,
@@ -1080,6 +1120,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 923,
+      "end": 927,
+      "surface": "talk",
+      "senseId": "2ae060c1-f59c-5439-b562-5fdee616ce63",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Head teacher addresses assembled children: deliver a talk, verb."
     },
     {
       "part": 2,
@@ -2914,6 +2964,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2501,
+      "end": 2505,
+      "surface": "talk",
+      "senseId": "00c110b2-db0c-4acd-9f81-f0b8f74d6630",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Rest of the talk: announced informative speech, noun."
     },
     {
       "part": 2,
