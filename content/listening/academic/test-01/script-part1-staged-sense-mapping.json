@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 574,
+  "count": 573,
   "mappings": [
     {
       "part": 1,
@@ -1956,24 +1956,14 @@
     },
     {
       "part": 1,
-      "start": 1359,
-      "end": 1361,
-      "surface": "my",
-      "kind": "function_word",
-      "entryNumber": null,
-      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
-      "status": "context_approved_staged_not_published",
-      "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
-    },
-    {
-      "part": 1,
-      "start": 1362,
+      "start": 1351,
       "end": 1366,
-      "surface": "mind",
-      "senseId": "7438f6fb-5060-5159-b554-495e4ca18bf9",
-      "kind": "single_word",
+      "surface": "make up my mind",
+      "senseId": "5b66fc11-e5f2-43c3-8c61-eba46a680789",
+      "entryNumber": 1,
+      "kind": "phrase",
       "status": "context_approved_staged_not_published",
-      "basis": "Contextually matched active immutable dictionary definition"
+      "basis": "Repeated exact lexical chunk; select phrase sense instead of isolated my/mind"
     },
     {
       "part": 1,
