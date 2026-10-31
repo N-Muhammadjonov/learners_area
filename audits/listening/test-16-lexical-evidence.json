@@ -1,0 +1,36 @@
+{
+  "test": "listening-test-16",
+  "status": "external_lexical_evidence_only_pending_existing_dictionary_sense_lookup",
+  "entries": [
+    {
+      "part": 4,
+      "term": "ethnography",
+      "pos": "noun",
+      "source": "https://dictionary.cambridge.org/dictionary/english/ethnography",
+      "note": "Study/description of a society's culture; not interchangeable with ethnographic (adjective).",
+      "dictionarySenseId": null
+    },
+    {
+      "part": 4,
+      "term": "ethnographic research",
+      "pos": "collocation",
+      "source": "https://dictionary.cambridge.org/example/english/ethnographic-research",
+      "note": "Attested collocation, candidate only; exact occurrences must be checked before binding.",
+      "dictionarySenseId": null
+    },
+    {
+      "part": 4,
+      "term": "carry out research",
+      "pos": "collocation",
+      "source": "https://dictionary.cambridge.org/grammar/british-grammar/collocation-research",
+      "note": "Attested expression. Transcript uses carried out; verb lemma carry out, not adjective.",
+      "dictionarySenseId": null
+    }
+  ],
+  "restrictions": [
+    "Do not insert dictionary rows without comparing existing senseIds",
+    "Do not manufacture synonyms/antonyms",
+    "Only bind transcript offsets after exact lexeme, sense, and part-of-speech verification",
+    "No unrelated production writes"
+  ]
+}
