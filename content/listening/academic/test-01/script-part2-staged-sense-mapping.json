@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 291,
+  "count": 292,
   "mappings": [
     {
       "part": 2,
@@ -1014,6 +1014,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1370,
+      "end": 1377,
+      "surface": "outside",
+      "senseId": "2b3e362b-79b6-4615-a411-87157b39a3c7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Adverb meaning outdoors in 'children ... go outside'; the same sense already context-reviewed for 'eat outside' in Part 2"
     },
     {
       "part": 2,
