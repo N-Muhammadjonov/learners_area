@@ -7,9 +7,9 @@
   "linkedWithoutLiveWrites": true,
   "description": "100 transcript targets and contextual sense candidates. Existing IDs and source-confirmed candidate drafts; nothing published until editorial pass and safe release deploy.",
   "summary": {
-    "existing_sense_candidate": 32,
+    "existing_sense_candidate": 61,
     "source_verified_new_entry_draft": 10,
-    "requires_dictionary_sense_review": 58
+    "requires_dictionary_sense_review": 29
   },
   "items": [
     {
@@ -170,7 +170,7 @@
         "context": "$110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smaller. And it seems like a good location"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "bee55fe4-3e01-4866-8936-8bd846a127cf",
       "activeReleaseEntryIds": [
         "71fcdb59-b897-5ae7-b783-4e2b850f0390",
         "46e905e3-ea17-5348-8350-dbb0cbdf292e"
@@ -207,7 +207,7 @@
         "d956f398-7693-4eba-8448-16788dc50d78",
         "f42c9229-3130-51d6-b1dc-e058e982e613"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 8,
@@ -221,7 +221,7 @@
         "context": "ace I was in was $100 a week, and it was much smaller. And it seems like a good location. Yeah, and the shops are pretty close. The only thing is, it's not very good for pu"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "63e628fc-d2b8-4a6d-89d5-6d3b73d3da12",
       "activeReleaseEntryIds": [
         "00f93de1-4128-52b2-afd5-9f61a8efcdc9"
       ],
@@ -231,7 +231,7 @@
         "63e628fc-d2b8-4a6d-89d5-6d3b73d3da12",
         "fc581dac-8ada-4f4c-a096-9aa482c811f0"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 9,
@@ -420,7 +420,7 @@
         "context": " useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what "
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "dc66332e-5c55-497c-925e-e4a524ab3916",
       "activeReleaseEntryIds": [
         "b880807d-8cbe-5de2-b080-694936ae9878"
       ],
@@ -431,7 +431,7 @@
         "c055fb34-7ce0-46af-b07f-c02b1d21de3a",
         "dc66332e-5c55-497c-925e-e4a524ab3916"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 17,
@@ -510,7 +510,7 @@
         "context": "e room, and there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just "
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "e8f5c066-c58e-4c8d-b8d1-cb99b8f64c2f",
       "activeReleaseEntryIds": [
         "92f93d10-ae7d-537d-b1a7-430ee5b8aeb2",
         "25980613-1dd4-556d-a6e3-abe6aed349f1"
@@ -532,7 +532,7 @@
         "cd0e9814-351e-4fd6-9c83-0804d9b16e44",
         "d6d7d849-bafa-4e43-ad8c-e35c658c5909"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 20,
@@ -546,7 +546,7 @@
         "context": " there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me "
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "22db4310-50ea-4299-bec2-40bfceccd742",
       "activeReleaseEntryIds": [
         "aa800661-6fcc-540f-92b0-29f54ef24449"
       ],
@@ -559,7 +559,7 @@
         "e8d506b4-1985-4226-bb2e-fd484014b534",
         "ee2cf0a6-e0c5-44d7-870d-37bc745a52c6"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 21,
@@ -757,7 +757,7 @@
         "context": "rested, and the rent is OK, I need someone by the 1st of June when the new rent period starts. Yes, that should be fine. The house seems big enough. The rent's reasonable."
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
       "activeReleaseEntryIds": [
         "b9e6360c-ff8b-51f2-85a0-3e5ebc1480a1",
         "31175979-924d-53f8-989d-387725a1d5b2"
@@ -772,7 +772,7 @@
         "c7962963-10c6-4a30-ac33-23c2bacc914e",
         "cdff5bb2-08d7-4697-be21-6839a2fe1b98"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 29,
@@ -786,7 +786,7 @@
         "context": " fine. The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end o"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "6da4b4c1-b6c5-4944-a281-c525b6373b32",
       "activeReleaseEntryIds": [
         "ae4dd036-c0a2-594d-aea8-928381d5e886"
       ],
@@ -795,7 +795,7 @@
         "6330fe9d-90c8-45b9-a8ea-4a8ae58cb8b6",
         "6da4b4c1-b6c5-4944-a281-c525b6373b32"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 30,
@@ -809,7 +809,7 @@
         "context": "got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end of section 1. You now have half a minute to check your answers."
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "0244d1c2-fab3-447e-b2f5-782e835f854d",
       "activeReleaseEntryIds": [
         "0cc907ce-d37d-5541-ad97-6e7881aba3ba",
         "fa72c873-99fb-54df-9418-ccdb0dd30a4d",
@@ -829,7 +829,7 @@
         "046f274a-40b0-4a93-97a6-fba896f44c42",
         "4d49df5d-0756-4c43-8184-4d4a92f98bed"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 31,
@@ -843,7 +843,7 @@
         "context": " will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in fou"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "672f5393-a93c-457f-94fb-2637ae36acf7",
       "activeReleaseEntryIds": [
         "a57dcb17-b403-5a2d-84cb-e12e9451b941",
         "2c1a8895-2b0e-54bf-90c1-b73b9b2c8f3c",
@@ -860,7 +860,7 @@
         "32de5942-c292-4709-a03e-ae72b9537282",
         "7308b5cb-2b13-45eb-8d46-f8db1cf3ab1c"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 32,
@@ -874,7 +874,7 @@
         "context": " you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write a"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "180496c1-70b2-4537-a530-fec2176155e4",
       "activeReleaseEntryIds": [
         "3d4e6bbb-2b60-5037-8997-7302f5907ae2",
         "a4076356-e823-560e-9dfc-5f6ee5a8e88c"
@@ -911,7 +911,7 @@
         "c8d8272c-204c-572d-895a-2c0a66c83f7b",
         "cbb86d38-ebdf-4f6d-910e-5857cf909c53"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 33,
@@ -978,7 +978,7 @@
         "context": "Recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions,"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "74a2bb5c-4a14-47cb-b576-53921b757cd8",
       "activeReleaseEntryIds": [
         "7253f620-2d5f-5c78-b58b-8147c15c7640",
         "5e4b01c6-4011-569a-9b8c-8918f26ae3cf"
@@ -996,7 +996,7 @@
         "bc55edff-8357-4b77-aa73-6eb1824b4f54",
         "ff475744-4e37-4a21-8971-25ec5a4a5842"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 36,
@@ -1054,7 +1054,7 @@
         "context": ". Section 1. You will hear two students called Peter and Jim talking about sharing a house together. First you have some time to look at questions 1 to 5 on page 2. You will s"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "892e5ef2-3854-4d1c-bd71-8d3a45034d87",
       "activeReleaseEntryIds": [
         "3e499c20-8a85-5fca-b5ef-b693afefd82c",
         "047dbde1-017b-5e7d-8ea8-8d1015d9d541"
@@ -1071,7 +1071,7 @@
         "abe92d33-a1c2-44ac-834c-8b7b7c210688",
         "c6aeabc1-54d8-4a79-8d22-5fd99e667652"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 39,
@@ -1146,7 +1146,7 @@
         "context": " find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "86c921f0-4bef-449b-b0ab-b1c277d3ab26",
       "activeReleaseEntryIds": [
         "aadb5f51-1810-5516-95af-94c4469a9ddd",
         "ea89b76c-f731-594e-9683-c3088f643df0",
@@ -1196,7 +1196,7 @@
         "d8b7d696-6608-4d16-a316-97c0cf0bb0b3",
         "dee2306a-02f4-4854-bd45-192de8c8bfd9"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 42,
@@ -1210,7 +1210,7 @@
         "context": " It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "6da4b4c1-b6c5-4944-a281-c525b6373b32",
       "activeReleaseEntryIds": [
         "ae4dd036-c0a2-594d-aea8-928381d5e886"
       ],
@@ -1219,7 +1219,7 @@
         "6330fe9d-90c8-45b9-a8ea-4a8ae58cb8b6",
         "6da4b4c1-b6c5-4944-a281-c525b6373b32"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 43,
@@ -1233,7 +1233,7 @@
         "context": "I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smalle"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "520c1ba0-08a0-4684-abf9-43eff80b22ec",
       "activeReleaseEntryIds": [
         "74be8f8b-d577-5b88-9e90-9a8b4f34bf69",
         "f7e2af64-74e1-59d6-a4c7-9dbb15257eab",
@@ -1254,7 +1254,7 @@
         "91ae759c-fce0-4fe4-ae82-9983bb1d482e",
         "8e510c42-ada1-4185-b876-804ad5f4cced"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 44,
@@ -1313,7 +1313,7 @@
         "context": "oesn't have a heater. No problem. My friend has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything els"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "4f079865-a8ff-49f5-9fdf-faf974797e75",
       "activeReleaseEntryIds": [
         "0c14b9b2-1e15-5f96-94fb-39cb7d327d58"
       ],
@@ -1330,7 +1330,7 @@
         "e492e6a6-37be-5a48-9d3a-c06c5f3bfe1a",
         "f557d9f8-f51e-4822-b2c2-e5aca76eb432"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 47,
@@ -1344,7 +1344,7 @@
         "context": "iven me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a microwave, and "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "4db2dc38-6a0d-4026-bb85-a5963d6ade29",
       "activeReleaseEntryIds": [
         "2b61dd4e-00b9-5c2a-aced-d597d9ec4600",
         "220c8f4c-2228-572d-a3ba-4683b22bf660"
@@ -1364,7 +1364,7 @@
         "aa18ae77-1550-4b5f-a419-ef015256e72f",
         "ba2df8f3-9222-4344-923a-08850d3b4261"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 48,
@@ -1429,7 +1429,7 @@
         "context": "o 17. Okay, can everybody hear me? Good, well I'd like to welcome all the new parents to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teach"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "184d08aa-068b-4850-8856-fbf07460c5cf",
       "activeReleaseEntryIds": [
         "0c169450-2e5b-55c7-adc6-6250f760c4bb",
         "c88e5a40-5a82-583b-9cde-9fd39007f561"
@@ -1439,7 +1439,7 @@
         "4b1b9901-47f4-401f-99f6-447f4a745460",
         "c2ebd4f0-c732-4ec6-8720-c6de895327c2"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 51,
@@ -1586,7 +1586,7 @@
         "context": ". Lessons run until 4.00pm with an hour for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "57072ad9-fdce-42db-8967-2878c8044b8c",
       "activeReleaseEntryIds": [
         "a4c6d3ca-3e6c-559c-bfbe-78285fa30f67"
       ],
@@ -1597,7 +1597,7 @@
         "57072ad9-fdce-42db-8967-2878c8044b8c",
         "d9909bef-f5bd-44a3-8ba4-b7cd62730d0f"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 58,
@@ -1725,7 +1725,7 @@
         "context": "noons rather than continuing with lessons we expect the whole school to do sports. We vary these between summer and winter and everything is supervised by the teache"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "f61167f9-9271-477d-9aca-c899a9254f19",
       "activeReleaseEntryIds": [
         "7c400fbd-7ccc-5e9d-b215-4e2e59afaf04",
         "4faca1e0-a1a1-56c5-8a72-7344433c5d78"
@@ -1741,7 +1741,7 @@
         "9829c0c2-9c2a-4a37-9044-3a697b5448c4",
         "ec09dcd5-6805-4dbe-a7ec-3cbabd364d1d"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 62,
@@ -1932,7 +1932,7 @@
         "context": "e school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have s"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "e551e20f-a99d-4a03-8894-169bd7ead3e1",
       "activeReleaseEntryIds": [
         "a2225138-f5f0-5d65-919c-35aaf05acb88"
       ],
@@ -1942,7 +1942,7 @@
         "d5e5a429-2fb4-44b4-a3f0-86e995d7869e",
         "e551e20f-a99d-4a03-8894-169bd7ead3e1"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 71,
@@ -1956,7 +1956,7 @@
         "context": "hem have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have some time to look at q"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "43c2fee2-15ab-4442-a832-84fac786053c",
       "activeReleaseEntryIds": [
         "8ebed839-05f7-5280-9a4e-6d436c072469"
       ],
@@ -1964,7 +1964,7 @@
         "03ff3084-b2e4-46a4-9d4f-cd1e21fa0bbb",
         "43c2fee2-15ab-4442-a832-84fac786053c"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 72,
@@ -1978,7 +1978,7 @@
         "context": "8 to 20. OK, I'll quickly show you where everything is. We're here at the main entrance and on the right where you would normally expect to find reception you'll see the he"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "c73c3c90-52b3-4c46-b031-b5dde3a88238",
       "activeReleaseEntryIds": [
         "7944b9ff-053b-515d-bd69-4fbc9bb96e4c",
         "e40c1c77-ea88-5db5-86ea-5ed5c3c11e1a"
@@ -1990,7 +1990,7 @@
         "4e4142c5-7d6a-4d6c-b954-1cff9c4afed8",
         "d48253ee-a740-48a5-97b7-85d8e027fa84"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 73,
@@ -2188,7 +2188,7 @@
         "context": "in there at lunchtime if they want to. Now if you come with me through the main hall here. OK, now as you can probably see this main hall is a new addition this year and"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "f2160126-a28a-4461-b2a6-1b3b128722ed",
       "activeReleaseEntryIds": [
         "1326277e-0059-5d2b-9815-054ea4441f14"
       ],
@@ -2202,7 +2202,7 @@
         "dd14150b-7300-5704-9fac-673484f89e8d",
         "f2160126-a28a-4461-b2a6-1b3b128722ed"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 82,
@@ -2276,7 +2276,7 @@
         "context": "as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to a"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "9941d974-ad46-4582-a280-c5d2ac8ee8bb",
       "activeReleaseEntryIds": [
         "bfe9a0ac-d123-58b5-a804-57c3d64caea6"
       ],
@@ -2286,7 +2286,7 @@
         "7f176297-16ce-402d-90d8-814eda83577b",
         "9941d974-ad46-4582-a280-c5d2ac8ee8bb"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 85,
@@ -2383,7 +2383,7 @@
         "context": "nguistics. I thought we could say something like, linguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Li"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "07927b0b-524f-49e7-b02f-07aa986fd17c",
       "activeReleaseEntryIds": [
         "32f08484-188b-55c4-8b72-70fe0adda955"
       ],
@@ -2395,7 +2395,7 @@
         "d733a66c-15fc-5ff1-a147-ccf91599f40b",
         "df7a702e-c725-4b02-91e7-2c35c1ad373b"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 89,
@@ -2409,7 +2409,7 @@
         "context": "inguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of languag"
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "db17018f-3047-4c06-9938-dea58e1a8666",
       "activeReleaseEntryIds": [
         "676319a4-a18b-55ef-b424-b936b3e56041"
       ],
@@ -2417,7 +2417,7 @@
         "6b5e1de6-b1cf-4e34-98d3-27db7891a9b1",
         "db17018f-3047-4c06-9938-dea58e1a8666"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 90,
@@ -2431,7 +2431,7 @@
         "context": "nalysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of language to find out wh"
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "b8e18872-6800-4400-b778-f1d924fbb0f4",
       "activeReleaseEntryIds": [
         "e71f7b82-d8ca-5136-8408-7c542385475c"
       ],
@@ -2440,7 +2440,7 @@
         "7c21c15f-6dc6-4859-b62d-130d80b76459",
         "b8e18872-6800-4400-b778-f1d924fbb0f4"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 91,
@@ -2554,7 +2554,7 @@
         "context": "glad we chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the r"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
       "activeReleaseEntryIds": [
         "ba5b6ca2-1894-53ef-8199-618a1639472f"
       ],
@@ -2563,7 +2563,7 @@
         "a8e87de3-902f-49e6-87eb-b224b969ef54",
         "efa40e0f-9e3d-4adf-99bf-1598e8f155f2"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate"
     },
     {
       "entryNumber": 96,
@@ -2689,5 +2689,88 @@
       ],
       "status": "existing_sense_candidate"
     }
-  ]
+  ],
+  "audits": {
+    "inventoryCount": 100,
+    "existingSenseCandidateCount": 61,
+    "newEntryDrafts": 10,
+    "unresolvedReviewCount": 29,
+    "hiddenTargetsCount": 18,
+    "hiddenTargets": [
+      {
+        "i": 9,
+        "term": "public transport"
+      },
+      {
+        "i": 16,
+        "term": "hard to hear"
+      },
+      {
+        "i": 19,
+        "term": "quite cold"
+      },
+      {
+        "i": 20,
+        "term": "at night"
+      },
+      {
+        "i": 23,
+        "term": "sports fan"
+      },
+      {
+        "i": 25,
+        "term": "give me a lift"
+      },
+      {
+        "i": 28,
+        "term": "rent period"
+      },
+      {
+        "i": 44,
+        "term": "plenty of room"
+      },
+      {
+        "i": 45,
+        "term": "still plenty"
+      },
+      {
+        "i": 53,
+        "term": "on offer"
+      },
+      {
+        "i": 55,
+        "term": "take the register"
+      },
+      {
+        "i": 65,
+        "term": "keep a close eye on"
+      },
+      {
+        "i": 69,
+        "term": "set up clubs"
+      },
+      {
+        "i": 83,
+        "term": "turned into"
+      },
+      {
+        "i": 89,
+        "term": "scientific techniques"
+      },
+      {
+        "i": 90,
+        "term": "solve crimes"
+      },
+      {
+        "i": 97,
+        "term": "technical side of things"
+      },
+      {
+        "i": 99,
+        "term": "background"
+      }
+    ],
+    "safeToPublish": false,
+    "reason": "Pending dictionaries for polysemous words, missing entries, hidden gap targets, full release validation and browser QA"
+  }
 }
