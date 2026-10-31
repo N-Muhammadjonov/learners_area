@@ -4,8 +4,58 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 26,
+  "count": 187,
   "mappings": [
+    {
+      "part": 2,
+      "start": 44,
+      "end": 47,
+      "surface": "You",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 133,
+      "end": 136,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 214,
+      "end": 217,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 271,
+      "end": 273,
+      "surface": "me",
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 310,
+      "end": 313,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
     {
       "part": 2,
       "start": 314,
@@ -16,6 +66,46 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 355,
+      "end": 357,
+      "surface": "My",
+      "senseId": "07b46366-0a37-5071-89ee-4538daa3e790",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 378,
+      "end": 381,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 382,
+      "end": 385,
+      "surface": "I'm",
+      "senseId": "bf220c0c-3a41-5362-be67-449c36e37f80",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 386,
+      "end": 389,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -30,6 +120,26 @@
     },
     {
       "part": 2,
+      "start": 442,
+      "end": 445,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 452,
+      "end": 455,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 456,
       "end": 466,
       "surface": "school day",
@@ -38,6 +148,156 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 467,
+      "end": 470,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 476,
+      "end": 479,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 486,
+      "end": 489,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 497,
+      "end": 500,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 509,
+      "end": 512,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 521,
+      "end": 523,
+      "surface": "me",
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 538,
+      "end": 541,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 554,
+      "end": 557,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 587,
+      "end": 589,
+      "surface": "me",
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 607,
+      "end": 610,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 648,
+      "end": 651,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 725,
+      "end": 728,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 734,
+      "end": 737,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 738,
+      "end": 741,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 778,
+      "end": 783,
+      "surface": "their",
+      "senseId": "ed80fa1f-fcfb-50bd-b083-685e70a96460",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -52,6 +312,26 @@
     },
     {
       "part": 2,
+      "start": 811,
+      "end": 813,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 837,
+      "end": 839,
+      "surface": "We",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 850,
       "end": 858,
       "surface": "assembly",
@@ -60,6 +340,106 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 867,
+      "end": 871,
+      "surface": "when",
+      "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 872,
+      "end": 875,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 898,
+      "end": 901,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 911,
+      "end": 914,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 931,
+      "end": 934,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 979,
+      "end": 982,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 991,
+      "end": 1000,
+      "surface": "something",
+      "senseId": "4b27e1ec-4de1-5cd9-bf28-2b059f4c02d2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1023,
+      "end": 1026,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1066,
+      "end": 1068,
+      "surface": "an",
+      "senseId": "06b8c0cc-088f-56c0-bf41-e4b9c309993d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1104,
+      "end": 1107,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -74,6 +454,26 @@
     },
     {
       "part": 2,
+      "start": 1116,
+      "end": 1119,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1139,
+      "end": 1144,
+      "surface": "their",
+      "senseId": "ed80fa1f-fcfb-50bd-b083-685e70a96460",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 1149,
       "end": 1161,
       "surface": "packed lunch",
@@ -82,6 +482,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1195,
+      "end": 1199,
+      "surface": "also",
+      "senseId": "9adedce0-2643-48ba-9425-537f91b41c28",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -96,6 +506,66 @@
     },
     {
       "part": 2,
+      "start": 1213,
+      "end": 1216,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1241,
+      "end": 1244,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1255,
+      "end": 1258,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1267,
+      "end": 1270,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1271,
+      "end": 1274,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1285,
+      "end": 1288,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 1313,
       "end": 1319,
       "surface": "breaks",
@@ -104,6 +574,126 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1334,
+      "end": 1338,
+      "surface": "when",
+      "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1339,
+      "end": 1342,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1352,
+      "end": 1356,
+      "surface": "also",
+      "senseId": "9adedce0-2643-48ba-9425-537f91b41c28",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1378,
+      "end": 1384,
+      "surface": "unless",
+      "senseId": "f738ffbd-9d7e-5c06-9fca-df837fa6e628",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1399,
+      "end": 1401,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1412,
+      "end": 1415,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1451,
+      "end": 1454,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1455,
+      "end": 1457,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1490,
+      "end": 1494,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1511,
+      "end": 1519,
+      "surface": "Thursday",
+      "senseId": "c923a375-22c8-57d8-a201-4b3fdc867d14",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1567,
+      "end": 1569,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1577,
+      "end": 1580,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -118,6 +708,56 @@
     },
     {
       "part": 2,
+      "start": 1609,
+      "end": 1611,
+      "surface": "We",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1617,
+      "end": 1622,
+      "surface": "these",
+      "senseId": "92e21f76-0d59-5c33-be24-0a2de21fdfad",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1638,
+      "end": 1641,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1649,
+      "end": 1652,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1653,
+      "end": 1663,
+      "surface": "everything",
+      "senseId": "be2f5e03-5b55-4565-b884-3ec7b6135dbd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 1667,
       "end": 1677,
       "surface": "supervised",
@@ -126,6 +766,56 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1681,
+      "end": 1684,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1695,
+      "end": 1699,
+      "surface": "Also",
+      "senseId": "9adedce0-2643-48ba-9425-537f91b41c28",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1700,
+      "end": 1702,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1708,
+      "end": 1711,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1732,
+      "end": 1741,
+      "surface": "something",
+      "senseId": "4b27e1ec-4de1-5cd9-bf28-2b059f4c02d2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -140,6 +830,56 @@
     },
     {
       "part": 2,
+      "start": 1793,
+      "end": 1796,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1848,
+      "end": 1852,
+      "surface": "This",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1858,
+      "end": 1866,
+      "surface": "normally",
+      "senseId": "3de90f49-d5e2-4266-b4d6-a91eb6f4a998",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1873,
+      "end": 1882,
+      "surface": "something",
+      "senseId": "4b27e1ec-4de1-5cd9-bf28-2b059f4c02d2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1935,
+      "end": 1938,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 1939,
       "end": 1950,
       "surface": "environment",
@@ -148,6 +888,46 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 1953,
+      "end": 1955,
+      "surface": "We",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1956,
+      "end": 1960,
+      "surface": "also",
+      "senseId": "9adedce0-2643-48ba-9425-537f91b41c28",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1971,
+      "end": 1973,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2021,
+      "end": 2026,
+      "surface": "their",
+      "senseId": "ed80fa1f-fcfb-50bd-b083-685e70a96460",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -162,6 +942,16 @@
     },
     {
       "part": 2,
+      "start": 2038,
+      "end": 2041,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 2054,
       "end": 2065,
       "surface": "rather than",
@@ -170,6 +960,56 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2066,
+      "end": 2069,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2085,
+      "end": 2088,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2155,
+      "end": 2158,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2159,
+      "end": 2161,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2169,
+      "end": 2174,
+      "surface": "their",
+      "senseId": "ed80fa1f-fcfb-50bd-b083-685e70a96460",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -184,6 +1024,86 @@
     },
     {
       "part": 2,
+      "start": 2192,
+      "end": 2195,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2202,
+      "end": 2204,
+      "surface": "We",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2223,
+      "end": 2226,
+      "surface": "our",
+      "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2234,
+      "end": 2237,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2241,
+      "end": 2244,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2263,
+      "end": 2265,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2266,
+      "end": 2273,
+      "surface": "achieve",
+      "senseId": "b199c2f6-8225-4564-9954-acd377ad80eb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2276,
+      "end": 2279,
+      "surface": "Our",
+      "senseId": "d6082d81-16e5-5c9e-8557-2149f2dea2ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 2302,
       "end": 2311,
       "surface": "committed",
@@ -192,6 +1112,86 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2315,
+      "end": 2318,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2326,
+      "end": 2329,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2333,
+      "end": 2336,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2344,
+      "end": 2347,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2359,
+      "end": 2363,
+      "surface": "many",
+      "senseId": "9e021eed-5976-45cf-8d0b-fcedaabe63c3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2367,
+      "end": 2371,
+      "surface": "them",
+      "senseId": "939df193-ef6a-5339-8f6f-6d6e56fba082",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2395,
+      "end": 2398,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2418,
+      "end": 2420,
+      "surface": "an",
+      "senseId": "06b8c0cc-088f-56c0-bf41-e4b9c309993d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -217,6 +1217,106 @@
     },
     {
       "part": 2,
+      "start": 2476,
+      "end": 2479,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2485,
+      "end": 2488,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2497,
+      "end": 2500,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2506,
+      "end": 2509,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2577,
+      "end": 2580,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2613,
+      "end": 2617,
+      "surface": "I'll",
+      "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2631,
+      "end": 2634,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2641,
+      "end": 2651,
+      "surface": "everything",
+      "senseId": "be2f5e03-5b55-4565-b884-3ec7b6135dbd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2656,
+      "end": 2661,
+      "surface": "We're",
+      "senseId": "a5a01862-4355-5f23-aa87-71018d16b8bd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2670,
+      "end": 2673,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 2674,
       "end": 2687,
       "surface": "main entrance",
@@ -225,6 +1325,66 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2688,
+      "end": 2691,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2695,
+      "end": 2698,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2711,
+      "end": 2714,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2721,
+      "end": 2729,
+      "surface": "normally",
+      "senseId": "3de90f49-d5e2-4266-b4d6-a91eb6f4a998",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2755,
+      "end": 2761,
+      "surface": "you'll",
+      "senseId": "24daaad4-2ec9-53bd-8636-0548add63208",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2766,
+      "end": 2769,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -239,6 +1399,66 @@
     },
     {
       "part": 2,
+      "start": 2821,
+      "end": 2824,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2825,
+      "end": 2828,
+      "surface": "his",
+      "senseId": "b0586720-6d9f-5204-b17f-9b3baa2bf4e8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2859,
+      "end": 2863,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2875,
+      "end": 2878,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2902,
+      "end": 2905,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2926,
+      "end": 2929,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 2930,
       "end": 2943,
       "surface": "long corridor",
@@ -247,6 +1467,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2945,
+      "end": 2948,
+      "surface": "The",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -261,6 +1491,106 @@
     },
     {
       "part": 2,
+      "start": 2965,
+      "end": 2973,
+      "surface": "situated",
+      "senseId": "28651946-97bf-42bf-a1a8-0f7a78520ea0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2982,
+      "end": 2987,
+      "surface": "those",
+      "senseId": "2ad85a4d-5624-55c0-8672-dcfe854fc594",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3003,
+      "end": 3006,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3007,
+      "end": 3009,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3026,
+      "end": 3028,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3088,
+      "end": 3091,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3152,
+      "end": 3155,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3164,
+      "end": 3167,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3179,
+      "end": 3181,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3204,
+      "end": 3207,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 3212,
       "end": 3223,
       "surface": "cloak rooms",
@@ -269,6 +1599,76 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 3247,
+      "end": 3250,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3279,
+      "end": 3288,
+      "surface": "lunchtime",
+      "senseId": "3a39353f-61f4-442a-89ce-bbfc5a9b15bb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3289,
+      "end": 3291,
+      "surface": "if",
+      "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3310,
+      "end": 3312,
+      "surface": "if",
+      "senseId": "cca40c3a-8361-5843-a698-0e9083749be9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3313,
+      "end": 3316,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3327,
+      "end": 3329,
+      "surface": "me",
+      "senseId": "b3fa4286-7d65-598c-bdee-0e5b0cd7872b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3338,
+      "end": 3341,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     },
     {
       "part": 2,
@@ -283,6 +1683,136 @@
     },
     {
       "part": 2,
+      "start": 3369,
+      "end": 3372,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3390,
+      "end": 3394,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3423,
+      "end": 3427,
+      "surface": "this",
+      "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3433,
+      "end": 3436,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3437,
+      "end": 3439,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3462,
+      "end": 3464,
+      "surface": "it",
+      "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3467,
+      "end": 3469,
+      "surface": "We",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3481,
+      "end": 3489,
+      "surface": "squashed",
+      "senseId": "0c93346e-31f2-466b-895f-e232574c5c85",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3495,
+      "end": 3498,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3536,
+      "end": 3539,
+      "surface": "you",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3583,
+      "end": 3586,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3596,
+      "end": 3599,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3600,
+      "end": 3602,
+      "surface": "we",
+      "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
       "start": 3608,
       "end": 3622,
       "surface": "weekly lessons",
@@ -291,6 +1821,86 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 3648,
+      "end": 3651,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3663,
+      "end": 3666,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3678,
+      "end": 3681,
+      "surface": "and",
+      "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3682,
+      "end": 3686,
+      "surface": "I'll",
+      "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3713,
+      "end": 3717,
+      "surface": "your",
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3738,
+      "end": 3741,
+      "surface": "the",
+      "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3760,
+      "end": 3763,
+      "surface": "You",
+      "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3796,
+      "end": 3800,
+      "surface": "your",
+      "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified single active release sense against Part 2 transcript grammatical function"
     }
   ]
 }
