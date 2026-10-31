@@ -187,7 +187,27 @@ async def deliver(req,key,head):
             if req.query_params.get('download')!='1':
                 return RedirectResponse(url,status_code=302,headers=PRIVATE)
             forwarded={k:req.headers[k] for k in ('range','if-range') if k in req.headers}
-            return await upstream_response('HEAD' if head else 'GET',url,forwarded,PRIVATE)
+            response=await upstream_response('HEAD' if head else 'GET',url,forwarded,PRIVATE)
+            if response.status_code!=503:return response
+            # The current owner/session was verified above. If the Worker
+            # backchannel is unavailable, use the existing private R2 transport.
+            # Never return a public/presigned URL to the browser.
+            info=await head_object(key)
+            if info is None:return core.j({'error':'not_found'},404,PRIVATE)
+            h={**PRIVATE,'Content-Type':info.get('contentType') or 'audio/mpeg' if key.lower().endswith('.mp3') else info.get('contentType') or 'application/octet-stream','Accept-Ranges':'bytes'}
+            if info.get('etag'):h['ETag']=info['etag']
+            if info.get('lastModified'):
+                from email.utils import formatdate
+                h['Last-Modified']=formatdate(info['lastModified'].timestamp(),usegmt=True)
+            size=info['size']
+            range_header=None if head else req.headers.get('range')
+            if not if_range_matches(req.headers.get('if-range'),info):range_header=None
+            span=media_range(range_header,size) if range_header else None
+            if range_header and span is None:return Response(status_code=416,headers={**h,'Content-Range':f'bytes */{size}'})
+            h['Content-Length']=str(span[1]-span[0]+1 if span else size)
+            h['Content-Disposition']='inline; filename="'+key.split('/')[-1]+'"'
+            if span:h['Content-Range']=f'bytes {span[0]}-{span[1]}/{size}'
+            return await object_response(req,key,info,h,span,head)
         if want_cap:
             from urllib.parse import urlsplit,urlunsplit
             u=urlsplit(str(req.url))
