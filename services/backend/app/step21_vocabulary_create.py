@@ -76,6 +76,10 @@ async def resolve_occurrence(con,u,source,source_id,oid):
         study=payload.get('study',{}) if isinstance(payload,dict) else {}
         segments=study.get('segments',[]) if isinstance(study,dict) else []
         segment=next((x for x in segments if isinstance(x,dict) and x.get('key')==key and x.get('section')==section),None)
+        if not segment and key=='s'+str(section) and isinstance(payload,dict):
+            sections=payload.get('sections',[])
+            if isinstance(sections,list) and 1<=section<=len(sections) and isinstance(sections[section-1],dict):
+                segment={'text':sections[section-1].get('transcript','')}
         if not segment:return {'status':'missing'}
         text=segment.get('text','');start=r.get('start_char') or 0;end=r.get('end_char') or 0
         if not isinstance(text,str) or start<0 or end<=start or text[start:end].lower()!=str(r.get('surface_form','')).lower():return {'status':'missing'}
