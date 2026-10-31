@@ -83,6 +83,8 @@ async def authoring_index(req: Request):
                ORDER BY published_at DESC NULLS LAST, id DESC LIMIT 500""",
             user['role']=='owner', user['id']
         )
+        from .mock_existing_sources import existing_catalogue
+        existing_sources = await existing_catalogue(con)
         # Speaking bank is independent of content_versions and is grouped by topic.
         speaking_rows = await con.fetch(
             """SELECT part::text AS part, topic, COUNT(*)::int AS question_count
@@ -107,6 +109,7 @@ async def authoring_index(req: Request):
                    'sections': by_test.get(str(t['id']), {}),
                    'speakingTopics': speaking_topic_map.get(by_test.get(str(t['id']), {}).get('speaking',''), {}),
                    'speakingMode': speaking_mode_map.get(by_test.get(str(t['id']), {}).get('speaking',''), 'fixed')} for t in rows],
+        'existingSources': existing_sources,
         'versions': [{'id': str(v['id']), 'title': v['title'], 'module': v['module'],
                       'contentType': v['content_type'], 'track': v['track'] or 'unspecified',
                       'version': v['version_no']} for v in versions],
@@ -168,6 +171,51 @@ async def _insert_mock_version(con, *, vid, title, track, content_type, user_id,
        vid, content_type, 'mock-upload:'+str(vid), title, track, digest, user_id,
        json.dumps({'origin':'mock_authoring','dedicated':True}),
        json.dumps(payload,ensure_ascii=False))
+
+
+@router.post('/api/staff/mocks/existing')
+async def bind_existing_exam_material(req: Request):
+    from . import main as core, mock_system_port as mock
+    from .mock_existing_sources import source_snapshot
+    user, err = await _session(req)
+    if err: return err
+    try: body = await req.json()
+    except (ValueError, TypeError): return mock._err('invalid_json','Expected JSON.',422)
+    if not isinstance(body,dict): return mock._err('invalid_source','Expected source selection.',422)
+    slot=body.get('slot')
+    track=body.get('track')
+    source_id=_uuid(body.get('sourceId'))
+    if slot not in MOCK_MATERIAL_TYPES or not source_id or track not in ('academic','general'):
+        return mock._err('invalid_source','Invalid exam source.',422)
+    if slot=='reading' and track!='academic':
+        return mock._err('academic_only','Existing Reading mocks use Academic Reading only.',422)
+    db=await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            snapshot=await source_snapshot(con,slot,source_id)
+            if snapshot is None:
+                return mock._err('unavailable_exam_material','The selected published Exam material is not complete.',422)
+            source_ref=f'exam:{slot}:{source_id}'
+            old=await con.fetchrow("""SELECT id FROM content_versions WHERE module='mock'
+                 AND content_type=$1 AND track=$2 AND source_ref=$3
+                 AND publication_state='published' AND content_hash=$4 LIMIT 1""",
+                 MOCK_MATERIAL_TYPES[slot],track,source_ref,_content_hash(snapshot))
+            if old:
+                vid=old['id']
+            else:
+                vid=uuid.uuid4()
+                digest=_content_hash(snapshot)
+                await con.execute("""INSERT INTO content_versions
+                   (id,module,content_type,source_ref,version_no,status,title,track,
+                    content_hash,semantic_hash,answer_key_hash,publication_state,
+                    created_by_user_id,change_kind,provenance,published_at,content_snapshot)
+                   VALUES ($1,'mock',$2,$3,1,'published',$4,$5,$6,$6,$6,
+                     'published',$7,'created',$8::jsonb,NOW(),$9::jsonb)""",
+                   vid,MOCK_MATERIAL_TYPES[slot],source_ref,
+                   snapshot['title'][:160],track,digest,user['id'],
+                   json.dumps({'origin':'exam_mode','sourceId':str(source_id),'dedicated':True}),
+                   json.dumps(snapshot,ensure_ascii=False))
+    return core.j({'ok':True,'id':str(vid)},headers=mock.PRIVATE_HEADERS)
 
 
 @router.post('/api/staff/mocks/materials')
@@ -388,7 +436,7 @@ async def save_mock_draft(req: Request):
     if speaking_mode not in ('fixed','auto'):
         return mock._err('invalid_speaking_mode','Unknown Speaking assignment mode.',422)
     if publish and any(not selected.get(key) for key in SLOT_BY_KEY if key!='speaking'):
-        return mock._err('missing_sections', 'All four newly uploaded Mock materials are required.', 422)
+        return mock._err('missing_sections', 'All four Mock materials are required.', 422)
     if publish and speaking_mode=='fixed' and not selected.get('speaking') and not all(speaking_topics.get(k) for k in ('P1','P2','P3')):
         return mock._err('missing_speaking_topics', 'Select published Speaking topics for Parts 1, 2 and 3.', 422)
     bindings: dict[str, uuid.UUID] = {}
