@@ -1248,12 +1248,13 @@
       "surface": "as much as",
       "lemma": "as much as",
       "partOfSpeech": "phrase",
-      "definitionEn": "to the greatest extent or amount possible in this context",
-      "translationUz": "imkon qadar; qo‘ldan kelganicha",
+      "definitionEn": "to the greatest amount or extent that someone is able to do something",
+      "translationUz": "qo‘ldan kelganicha; imkon qadar",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
       "releaseStatus": "requires_exact_phrase_sense_resolution",
-      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/as-much-as"
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/as-as",
+      "referenceEvidence": "Cambridge grammar: as … as + expressions of ability, e.g. as much ... as they can; contrast Cambridge idiom as much as = almost (not used here)"
     },
     {
       "part": 2,
