@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 394,
+  "count": 426,
   "mappings": [
     {
       "part": 1,
@@ -93,6 +93,16 @@
       "kind": "single_word",
       "basis": "perceive sound",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 79,
+      "end": 81,
+      "surface": "be",
+      "senseId": "ea35fac1-26f4-46dd-b1c6-530309e1a2fa",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "existential be"
     },
     {
       "part": 1,
@@ -305,6 +315,16 @@
       "kind": "single_word",
       "basis": "set of questions evaluating knowledge",
       "status": "context_approved_staged_not_published"
+    },
+    {
+      "part": 1,
+      "start": 237,
+      "end": 239,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -709,6 +729,16 @@
     },
     {
       "part": 1,
+      "start": 582,
+      "end": 586,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have time available"
+    },
+    {
+      "part": 1,
       "start": 587,
       "end": 591,
       "surface": "some",
@@ -794,6 +824,16 @@
       "senseId": "42d0f160-bc4b-56c4-879f-0d0af1ddbfcf",
       "status": "context_approved_staged_not_published",
       "basis": "notice visually on page"
+    },
+    {
+      "part": 1,
+      "start": 660,
+      "end": 662,
+      "surface": "is",
+      "senseId": "ea35fac1-26f4-46dd-b1c6-530309e1a2fa",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "existential be"
     },
     {
       "part": 1,
@@ -1171,6 +1211,16 @@
       "entryNumber": 1,
       "senseId": "5b66fc11-e5f2-43c3-8c61-eba46a680789",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 956,
+      "end": 958,
+      "surface": "is",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be located"
     },
     {
       "part": 1,
@@ -1806,6 +1856,16 @@
     },
     {
       "part": 1,
+      "start": 1457,
+      "end": 1461,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have or possess"
+    },
+    {
+      "part": 1,
       "start": 1463,
       "end": 1464,
       "surface": "I",
@@ -1813,6 +1873,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 1465,
+      "end": 1469,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have or possess"
     },
     {
       "part": 1,
@@ -1882,6 +1952,16 @@
       "entryNumber": 42,
       "senseId": "6da4b4c1-b6c5-4944-a281-c525b6373b32",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1517,
+      "end": 1519,
+      "surface": "is",
+      "senseId": "2d869cc4-9841-5265-84fb-460712f30045",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be priced at"
     },
     {
       "part": 1,
@@ -1973,6 +2053,26 @@
     },
     {
       "part": 1,
+      "start": 1590,
+      "end": 1593,
+      "surface": "was",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be located"
+    },
+    {
+      "part": 1,
+      "start": 1597,
+      "end": 1600,
+      "surface": "was",
+      "senseId": "2d869cc4-9841-5265-84fb-460712f30045",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be priced at"
+    },
+    {
+      "part": 1,
       "start": 1606,
       "end": 1607,
       "surface": "a",
@@ -2003,6 +2103,16 @@
       "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1621,
+      "end": 1624,
+      "surface": "was",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -2089,6 +2199,16 @@
     },
     {
       "part": 1,
+      "start": 1695,
+      "end": 1698,
+      "surface": "are",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
+    },
+    {
+      "part": 1,
       "start": 1713,
       "end": 1716,
       "surface": "The",
@@ -2097,6 +2217,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 1728,
+      "end": 1730,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -2136,6 +2266,16 @@
       "entryNumber": 10,
       "senseId": "36db5e43-3cf8-417a-b7a7-70d51ccc74b2",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 1794,
+      "end": 1796,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -2232,6 +2372,16 @@
     },
     {
       "part": 1,
+      "start": 1861,
+      "end": 1863,
+      "surface": "is",
+      "senseId": "ea35fac1-26f4-46dd-b1c6-530309e1a2fa",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "existential be"
+    },
+    {
+      "part": 1,
       "start": 1870,
       "end": 1878,
       "surface": "anywhere",
@@ -2291,6 +2441,16 @@
     },
     {
       "part": 1,
+      "start": 1930,
+      "end": 1933,
+      "surface": "has",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have or possess"
+    },
+    {
+      "part": 1,
       "start": 1934,
       "end": 1935,
       "surface": "a",
@@ -2329,6 +2489,16 @@
       "kind": "lexical_word",
       "status": "context_approved_staged_not_published",
       "basis": "Word sense validated against exact R2 dictionary definition in Part 1 housing/test context"
+    },
+    {
+      "part": 1,
+      "start": 1966,
+      "end": 1969,
+      "surface": "are",
+      "senseId": "ea35fac1-26f4-46dd-b1c6-530309e1a2fa",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "existential be"
     },
     {
       "part": 1,
@@ -2482,6 +2652,16 @@
       "entryNumber": 13,
       "senseId": "109ee09b-b041-4c50-a44e-a4b2825b177e",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 2115,
+      "end": 2117,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -2683,6 +2863,16 @@
     },
     {
       "part": 1,
+      "start": 2294,
+      "end": 2296,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
+    },
+    {
+      "part": 1,
       "start": 2297,
       "end": 2303,
       "surface": "useful",
@@ -2734,6 +2924,16 @@
     },
     {
       "part": 1,
+      "start": 2336,
+      "end": 2339,
+      "surface": "was",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be located"
+    },
+    {
+      "part": 1,
       "start": 2343,
       "end": 2346,
       "surface": "the",
@@ -2763,6 +2963,16 @@
       "senseId": "81e5ebf7-08d6-5e97-955c-193fd2afe199",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2367,
+      "end": 2370,
+      "surface": "was",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -3084,6 +3294,16 @@
     },
     {
       "part": 1,
+      "start": 2688,
+      "end": 2692,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have or possess"
+    },
+    {
+      "part": 1,
       "start": 2693,
       "end": 2694,
       "surface": "a",
@@ -3299,6 +3519,16 @@
     },
     {
       "part": 1,
+      "start": 2952,
+      "end": 2954,
+      "surface": "be",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
+    },
+    {
+      "part": 1,
       "start": 2961,
       "end": 2963,
       "surface": "if",
@@ -3318,6 +3548,16 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 2968,
+      "end": 2971,
+      "surface": "had",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have or possess"
     },
     {
       "part": 1,
@@ -3435,6 +3675,16 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3083,
+      "end": 3087,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have time available"
     },
     {
       "part": 1,
@@ -3573,6 +3823,16 @@
     },
     {
       "part": 1,
+      "start": 3278,
+      "end": 3280,
+      "surface": "be",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
+    },
+    {
+      "part": 1,
       "start": 3285,
       "end": 3287,
       "surface": "Me",
@@ -3697,6 +3957,16 @@
     },
     {
       "part": 1,
+      "start": 3416,
+      "end": 3420,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have or possess"
+    },
+    {
+      "part": 1,
       "start": 3429,
       "end": 3433,
       "surface": "your",
@@ -3727,6 +3997,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3501,
+      "end": 3504,
+      "surface": "are",
+      "senseId": "08c0975c-7685-459f-90f7-4a90920c12b5",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be located"
     },
     {
       "part": 1,
@@ -3875,6 +4155,16 @@
     },
     {
       "part": 1,
+      "start": 3667,
+      "end": 3669,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
+    },
+    {
+      "part": 1,
       "start": 3674,
       "end": 3675,
       "surface": "I",
@@ -3924,6 +4214,16 @@
       "entryNumber": 28,
       "senseId": "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
       "kind": "phrase"
+    },
+    {
+      "part": 1,
+      "start": 3758,
+      "end": 3760,
+      "surface": "be",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
     },
     {
       "part": 1,
@@ -4039,6 +4339,16 @@
     },
     {
       "part": 1,
+      "start": 3917,
+      "end": 3919,
+      "surface": "is",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "be as copula"
+    },
+    {
+      "part": 1,
       "start": 3920,
       "end": 3923,
       "surface": "the",
@@ -4069,6 +4379,16 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3950,
+      "end": 3954,
+      "surface": "have",
+      "senseId": "9650fd79-6392-4bf8-a22c-8070fa5184cd",
+      "kind": "verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "have time available"
     },
     {
       "part": 1,
