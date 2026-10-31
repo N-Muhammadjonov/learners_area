@@ -1,0 +1,991 @@
+{
+  "test": "listening-test-16",
+  "part": 1,
+  "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
+  "sourceBodySha": "700860086d027a47f567269463c7a901a57d46ec6ee0f00c4e1ea65dbba4bfa8",
+  "mappedSpans": 553,
+  "unresolvedOccurrences": 140,
+  "unresolvedUniqueForms": 74,
+  "inventory": [
+    {
+      "start": 47,
+      "end": 52,
+      "surface": "about",
+      "context": " Section one. A man wants to find out about taking part in a dragon boat race. Listen to th",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 65,
+      "end": 67,
+      "surface": "in",
+      "context": "n wants to find out about taking part in a dragon boat race. Listen to the conversation ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 70,
+      "end": 76,
+      "surface": "dragon",
+      "context": "ts to find out about taking part in a dragon boat race. Listen to the conversation between t",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 248,
+      "end": 253,
+      "surface": "shall",
+      "context": "estions one to five. NARRATOR: Now we shall begin. You should answer the questions as you l",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 293,
+      "end": 295,
+      "surface": "as",
+      "context": "egin. You should answer the questions as you listen because you will not hear the record",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 319,
+      "end": 323,
+      "surface": "will",
+      "context": "e questions as you listen because you will not hear the recording a second time. Listen ca",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 420,
+      "end": 425,
+      "surface": "Scope",
+      "context": " answer questions one to five. WOMAN: Scope charity office, how can I help you? MAN: Oh hel",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 442,
+      "end": 445,
+      "surface": "how",
+      "context": "to five. WOMAN: Scope charity office, how can I help you? MAN: Oh hello. I'm ringing abou",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 446,
+      "end": 449,
+      "surface": "can",
+      "context": "ive. WOMAN: Scope charity office, how can I help you? MAN: Oh hello. I'm ringing about th",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 467,
+      "end": 469,
+      "surface": "Oh",
+      "context": "rity office, how can I help you? MAN: Oh hello. I'm ringing about the Dragon Boat Race t",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 470,
+      "end": 475,
+      "surface": "hello",
+      "context": "y office, how can I help you? MAN: Oh hello. I'm ringing about the Dragon Boat Race that yo",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 489,
+      "end": 494,
+      "surface": "about",
+      "context": " help you? MAN: Oh hello. I'm ringing about the Dragon Boat Race that you're asking people ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 499,
+      "end": 505,
+      "surface": "Dragon",
+      "context": " MAN: Oh hello. I'm ringing about the Dragon Boat Race that you're asking people to take par",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 516,
+      "end": 520,
+      "surface": "that",
+      "context": "'m ringing about the Dragon Boat Race that you're asking people to take part in. WOMAN: Oh",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 555,
+      "end": 557,
+      "surface": "in",
+      "context": "hat you're asking people to take part in. WOMAN: Oh yes. We still need a few more teams.",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 566,
+      "end": 568,
+      "surface": "Oh",
+      "context": "asking people to take part in. WOMAN: Oh yes. We still need a few more teams. Are you in",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 606,
+      "end": 609,
+      "surface": "Are",
+      "context": " yes. We still need a few more teams. Are you interested in joining the race? MAN: Yes. W",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 625,
+      "end": 627,
+      "surface": "in",
+      "context": " a few more teams. Are you interested in joining the race? MAN: Yes. We want to enter a ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 708,
+      "end": 713,
+      "surface": "about",
+      "context": "er a team, but we don't know anything about it. Could I ask you for some more information f",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 774,
+      "end": 776,
+      "surface": "Of",
+      "context": "r some more information first? WOMAN: Of course. MAN: I don't even know when it's being ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 777,
+      "end": 783,
+      "surface": "course",
+      "context": "ome more information first? WOMAN: Of course. MAN: I don't even know when it's being held. W",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 808,
+      "end": 812,
+      "surface": "when",
+      "context": "AN: Of course. MAN: I don't even know when it's being held. WOMAN: It's taking place on th",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 818,
+      "end": 823,
+      "surface": "being",
+      "context": "rse. MAN: I don't even know when it's being held. WOMAN: It's taking place on the second of",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 855,
+      "end": 857,
+      "surface": "on",
+      "context": " being held. WOMAN: It's taking place on the second of July. MAN: Is that a Saturday? WO",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 872,
+      "end": 876,
+      "surface": "July",
+      "context": "N: It's taking place on the second of July. MAN: Is that a Saturday? WOMAN: No, it's a Sun",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 883,
+      "end": 885,
+      "surface": "Is",
+      "context": "ing place on the second of July. MAN: Is that a Saturday? WOMAN: No, it's a Sunday. It's",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 886,
+      "end": 890,
+      "surface": "that",
+      "context": " place on the second of July. MAN: Is that a Saturday? WOMAN: No, it's a Sunday. It's a mu",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 954,
+      "end": 957,
+      "surface": "day",
+      "context": "'s a Sunday. It's a much more popular day and more people can take part then. MAN: Right.",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 974,
+      "end": 977,
+      "surface": "can",
+      "context": "much more popular day and more people can take part then. MAN: Right. And where's it bein",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 999,
+      "end": 1004,
+      "surface": "Right",
+      "context": " more people can take part then. MAN: Right. And where's it being held? WOMAN: At the Brigh",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1010,
+      "end": 1017,
+      "surface": "where's",
+      "context": "e can take part then. MAN: Right. And where's it being held? WOMAN: At the Brighton Marina. M",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1021,
+      "end": 1026,
+      "surface": "being",
+      "context": "part then. MAN: Right. And where's it being held? WOMAN: At the Brighton Marina. MAN: Oh, I",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1040,
+      "end": 1042,
+      "surface": "At",
+      "context": "ht. And where's it being held? WOMAN: At the Brighton Marina. MAN: Oh, I'm an overseas s",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1047,
+      "end": 1055,
+      "surface": "Brighton",
+      "context": " where's it being held? WOMAN: At the Brighton Marina. MAN: Oh, I'm an overseas student. Could",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1069,
+      "end": 1071,
+      "surface": "Oh",
+      "context": "? WOMAN: At the Brighton Marina. MAN: Oh, I'm an overseas student. Could you spell that ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1144,
+      "end": 1152,
+      "surface": "Brighton",
+      "context": "u spell that for me? WOMAN: Yes. It's Brighton Marina. That's M-A-R-I-N-A. Do you know where i",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1168,
+      "end": 1179,
+      "surface": "M-A-R-I-N-A",
+      "context": "AN: Yes. It's Brighton Marina. That's M-A-R-I-N-A. Do you know where it is? MAN: I'm not sure. WO",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1181,
+      "end": 1183,
+      "surface": "Do",
+      "context": " Brighton Marina. That's M-A-R-I-N-A. Do you know where it is? MAN: I'm not sure. WOMAN:",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1202,
+      "end": 1204,
+      "surface": "is",
+      "context": "t's M-A-R-I-N-A. Do you know where it is? MAN: I'm not sure. WOMAN: It's a couple of mil",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1249,
+      "end": 1254,
+      "surface": "miles",
+      "context": "I'm not sure. WOMAN: It's a couple of miles past the Palace Pier. MAN: Oh yes, I know it. W",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1264,
+      "end": 1270,
+      "surface": "Palace",
+      "context": "OMAN: It's a couple of miles past the Palace Pier. MAN: Oh yes, I know it. WOMAN: You take a",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1282,
+      "end": 1284,
+      "surface": "Oh",
+      "context": "e of miles past the Palace Pier. MAN: Oh yes, I know it. WOMAN: You take a right turning",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1312,
+      "end": 1316,
+      "surface": "take",
+      "context": "r. MAN: Oh yes, I know it. WOMAN: You take a right turning off the coast road, or you can ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1360,
+      "end": 1363,
+      "surface": "can",
+      "context": "ht turning off the coast road, or you can cycle along the seafront. MAN: That's good. Wha",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1380,
+      "end": 1388,
+      "surface": "seafront",
+      "context": "oast road, or you can cycle along the seafront. MAN: That's good. What time does the race star",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1418,
+      "end": 1422,
+      "surface": "does",
+      "context": "seafront. MAN: That's good. What time does the race start? WOMAN: Well, the first heats be",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1446,
+      "end": 1450,
+      "surface": "Well",
+      "context": "What time does the race start? WOMAN: Well, the first heats begin at ten a.m., but you nee",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1474,
+      "end": 1476,
+      "surface": "at",
+      "context": "t? WOMAN: Well, the first heats begin at ten a.m., but you need to register half an hour",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1481,
+      "end": 1482,
+      "surface": "a",
+      "context": "N: Well, the first heats begin at ten a.m., but you need to register half an hour befor",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1483,
+      "end": 1484,
+      "surface": "m",
+      "context": " Well, the first heats begin at ten a.m., but you need to register half an hour before ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1538,
+      "end": 1540,
+      "surface": "at",
+      "context": "to register half an hour before that, at nine-thirty, and we really recommend that you a",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1541,
+      "end": 1552,
+      "surface": "nine-thirty",
+      "context": "register half an hour before that, at nine-thirty, and we really recommend that you aim to be the",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1603,
+      "end": 1605,
+      "surface": "by",
+      "context": "ly recommend that you aim to be there by nine. It's a good idea to arrange a meeting pla",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1606,
+      "end": 1610,
+      "surface": "nine",
+      "context": "recommend that you aim to be there by nine. It's a good idea to arrange a meeting place fo",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1676,
+      "end": 1681,
+      "surface": "Right",
+      "context": "e a meeting place for your team. MAN: Right. And the race is to help raise money for charit",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1696,
+      "end": 1698,
+      "surface": "is",
+      "context": "r your team. MAN: Right. And the race is to help raise money for charity? WOMAN: It is. ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1742,
+      "end": 1744,
+      "surface": "is",
+      "context": "lp raise money for charity? WOMAN: It is. We're asking every team member to try and rais",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1794,
+      "end": 1805,
+      "surface": "thirty-five",
+      "context": "ng every team member to try and raise thirty-five pounds by getting friends and/or relatives to s",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1813,
+      "end": 1815,
+      "surface": "by",
+      "context": "r to try and raise thirty-five pounds by getting friends and/or relatives to sponsor the",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1884,
+      "end": 1888,
+      "surface": "will",
+      "context": "es to sponsor them. Every crew member will receive a free tournament T-shirt if your team ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1955,
+      "end": 1963,
+      "surface": "thousand",
+      "context": "shirt if your team manages to raise a thousand pounds or more. MAN: Oh, that's quite good. WOM",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 1985,
+      "end": 1987,
+      "surface": "Oh",
+      "context": "raise a thousand pounds or more. MAN: Oh, that's quite good. WOMAN: Also, we're holding ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2063,
+      "end": 2066,
+      "surface": "who",
+      "context": "e holding a raffle. Every crew member who takes part in the race this season will be ente",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2078,
+      "end": 2080,
+      "surface": "in",
+      "context": "fle. Every crew member who takes part in the race this season will be entered into a fre",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2102,
+      "end": 2106,
+      "surface": "will",
+      "context": "ho takes part in the race this season will be entered into a free prize draw. MAN: Oh, wha",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2107,
+      "end": 2109,
+      "surface": "be",
+      "context": "kes part in the race this season will be entered into a free prize draw. MAN: Oh, what's",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2118,
+      "end": 2122,
+      "surface": "into",
+      "context": " the race this season will be entered into a free prize draw. MAN: Oh, what's the prize? W",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2130,
+      "end": 2135,
+      "surface": "prize",
+      "context": "is season will be entered into a free prize draw. MAN: Oh, what's the prize? WOMAN: It's pr",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2136,
+      "end": 2140,
+      "surface": "draw",
+      "context": "son will be entered into a free prize draw. MAN: Oh, what's the prize? WOMAN: It's pretty ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2147,
+      "end": 2149,
+      "surface": "Oh",
+      "context": " entered into a free prize draw. MAN: Oh, what's the prize? WOMAN: It's pretty good. It'",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2209,
+      "end": 2211,
+      "surface": "in",
+      "context": "MAN: It's pretty good. It's a holiday in Hong Kong. MAN: Sounds great. NARRATOR: The man",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2212,
+      "end": 2216,
+      "surface": "Hong",
+      "context": ": It's pretty good. It's a holiday in Hong Kong. MAN: Sounds great. NARRATOR: The man asks",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2217,
+      "end": 2221,
+      "surface": "Kong",
+      "context": "s pretty good. It's a holiday in Hong Kong. MAN: Sounds great. NARRATOR: The man asks for ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2400,
+      "end": 2402,
+      "surface": "Is",
+      "context": "d answer questions six to ten. WOMAN: Is there anything else you need to know? MAN: Coul",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2403,
+      "end": 2408,
+      "surface": "there",
+      "context": "nswer questions six to ten. WOMAN: Is there anything else you need to know? MAN: Could you ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2418,
+      "end": 2422,
+      "surface": "else",
+      "context": " six to ten. WOMAN: Is there anything else you need to know? MAN: Could you just tell me a",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2456,
+      "end": 2460,
+      "surface": "just",
+      "context": "else you need to know? MAN: Could you just tell me a little bit more about the teams? WOMA",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2487,
+      "end": 2492,
+      "surface": "about",
+      "context": "ld you just tell me a little bit more about the teams? WOMAN: Well, you need to have a crew",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2511,
+      "end": 2515,
+      "surface": "Well",
+      "context": "ttle bit more about the teams? WOMAN: Well, you need to have a crew of twenty people for y",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2567,
+      "end": 2573,
+      "surface": "dragon",
+      "context": "have a crew of twenty people for your dragon boat, and you then need to agree on who's going",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2607,
+      "end": 2609,
+      "surface": "on",
+      "context": "agon boat, and you then need to agree on who's going to be the team captain. That will p",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2610,
+      "end": 2615,
+      "surface": "who's",
+      "context": "n boat, and you then need to agree on who's going to be the team captain. That will probabl",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2616,
+      "end": 2621,
+      "surface": "going",
+      "context": ", and you then need to agree on who's going to be the team captain. That will probably be y",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2625,
+      "end": 2627,
+      "surface": "be",
+      "context": " then need to agree on who's going to be the team captain. That will probably be you. MA",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2646,
+      "end": 2650,
+      "surface": "That",
+      "context": "n who's going to be the team captain. That will probably be you. MAN: Fine. I've got a gro",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2651,
+      "end": 2655,
+      "surface": "will",
+      "context": "'s going to be the team captain. That will probably be you. MAN: Fine. I've got a group of",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2678,
+      "end": 2682,
+      "surface": "Fine",
+      "context": "tain. That will probably be you. MAN: Fine. I've got a group of twenty people who are inte",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2718,
+      "end": 2721,
+      "surface": "who",
+      "context": "ne. I've got a group of twenty people who are interested. Do all the team members have to",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2722,
+      "end": 2725,
+      "surface": "are",
+      "context": "I've got a group of twenty people who are interested. Do all the team members have to be ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2738,
+      "end": 2740,
+      "surface": "Do",
+      "context": " of twenty people who are interested. Do all the team members have to be a certain age? ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2762,
+      "end": 2766,
+      "surface": "have",
+      "context": "e interested. Do all the team members have to be a certain age? WOMAN: Well, there's no ag",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2770,
+      "end": 2772,
+      "surface": "be",
+      "context": "sted. Do all the team members have to be a certain age? WOMAN: Well, there's no age limi",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2795,
+      "end": 2799,
+      "surface": "Well",
+      "context": "bers have to be a certain age? WOMAN: Well, there's no age limit as such, but if you have ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2812,
+      "end": 2815,
+      "surface": "age",
+      "context": " certain age? WOMAN: Well, there's no age limit as such, but if you have a team member wh",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2822,
+      "end": 2824,
+      "surface": "as",
+      "context": "ge? WOMAN: Well, there's no age limit as such, but if you have a team member who's under",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2825,
+      "end": 2829,
+      "surface": "such",
+      "context": " WOMAN: Well, there's no age limit as such, but if you have a team member who's under eigh",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2861,
+      "end": 2866,
+      "surface": "who's",
+      "context": "s such, but if you have a team member who's under eighteen, then they have to get their par",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2867,
+      "end": 2872,
+      "surface": "under",
+      "context": ", but if you have a team member who's under eighteen, then they have to get their parents' ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2873,
+      "end": 2881,
+      "surface": "eighteen",
+      "context": "if you have a team member who's under eighteen, then they have to get their parents' permissio",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2893,
+      "end": 2897,
+      "surface": "have",
+      "context": "ember who's under eighteen, then they have to get their parents' permission to take part. ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2955,
+      "end": 2959,
+      "surface": "that",
+      "context": "s' permission to take part. MAN: Yes, that makes sense. WOMAN: It isn't dangerous, but we ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2960,
+      "end": 2965,
+      "surface": "makes",
+      "context": "rmission to take part. MAN: Yes, that makes sense. WOMAN: It isn't dangerous, but we do hav",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 2966,
+      "end": 2971,
+      "surface": "sense",
+      "context": "on to take part. MAN: Yes, that makes sense. WOMAN: It isn't dangerous, but we do have boat",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3007,
+      "end": 3009,
+      "surface": "do",
+      "context": "se. WOMAN: It isn't dangerous, but we do have boats that turn over in the water, and for",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3010,
+      "end": 3014,
+      "surface": "have",
+      "context": " WOMAN: It isn't dangerous, but we do have boats that turn over in the water, and for that",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3021,
+      "end": 3025,
+      "surface": "that",
+      "context": "isn't dangerous, but we do have boats that turn over in the water, and for that reason we ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3036,
+      "end": 3038,
+      "surface": "in",
+      "context": ", but we do have boats that turn over in the water, and for that reason we need to insis",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3054,
+      "end": 3057,
+      "surface": "for",
+      "context": "oats that turn over in the water, and for that reason we need to insist that everyone wea",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3110,
+      "end": 3114,
+      "surface": "life",
+      "context": " need to insist that everyone wears a life jacket as well. And you can hire life jackets f",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3115,
+      "end": 3121,
+      "surface": "jacket",
+      "context": " to insist that everyone wears a life jacket as well. And you can hire life jackets from us ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3122,
+      "end": 3124,
+      "surface": "as",
+      "context": "ist that everyone wears a life jacket as well. And you can hire life jackets from us whe",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3125,
+      "end": 3129,
+      "surface": "well",
+      "context": " that everyone wears a life jacket as well. And you can hire life jackets from us when you",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3139,
+      "end": 3142,
+      "surface": "can",
+      "context": " wears a life jacket as well. And you can hire life jackets from us when your team arrive",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3148,
+      "end": 3152,
+      "surface": "life",
+      "context": "life jacket as well. And you can hire life jackets from us when your team arrives. MAN: Wh",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3153,
+      "end": 3160,
+      "surface": "jackets",
+      "context": "jacket as well. And you can hire life jackets from us when your team arrives. MAN: What do yo",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3166,
+      "end": 3168,
+      "surface": "us",
+      "context": "l. And you can hire life jackets from us when your team arrives. MAN: What do you advise",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3169,
+      "end": 3173,
+      "surface": "when",
+      "context": "And you can hire life jackets from us when your team arrives. MAN: What do you advise peop",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3203,
+      "end": 3205,
+      "surface": "do",
+      "context": " us when your team arrives. MAN: What do you advise people to wear? WOMAN: Well, most pe",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3240,
+      "end": 3244,
+      "surface": "Well",
+      "context": " do you advise people to wear? WOMAN: Well, most people wear a T-shirt, shorts and trainer",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3285,
+      "end": 3293,
+      "surface": "trainers",
+      "context": "ost people wear a T-shirt, shorts and trainers. I certainly wouldn't recommend that you wear j",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3356,
+      "end": 3358,
+      "surface": "In",
+      "context": "commend that you wear jeans or boots. In fact, it's a very good idea to bring some spare",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3359,
+      "end": 3363,
+      "surface": "fact",
+      "context": "mend that you wear jeans or boots. In fact, it's a very good idea to bring some spare clot",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3421,
+      "end": 3425,
+      "surface": "Okay",
+      "context": "dea to bring some spare clothes. MAN: Okay. WOMAN: It can get quite cold and wet if the we",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3437,
+      "end": 3440,
+      "surface": "can",
+      "context": "e spare clothes. MAN: Okay. WOMAN: It can get quite cold and wet if the weather's bad, an",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3471,
+      "end": 3480,
+      "surface": "weather's",
+      "context": " It can get quite cold and wet if the weather's bad, and there's quite a bit of hanging around,",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3563,
+      "end": 3574,
+      "surface": "semi-finals",
+      "context": "nd, especially if you qualify for the semi-finals or the final. MAN: I see what you mean. WOMAN: ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3622,
+      "end": 3626,
+      "surface": "Have",
+      "context": "nal. MAN: I see what you mean. WOMAN: Have you got a name for your team? MAN: Oh, not yet,",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3662,
+      "end": 3664,
+      "surface": "Oh",
+      "context": "ve you got a name for your team? MAN: Oh, not yet, no. WOMAN: Well, you need to decide o",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3686,
+      "end": 3690,
+      "surface": "Well",
+      "context": "ur team? MAN: Oh, not yet, no. WOMAN: Well, you need to decide on one and then put it on t",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3711,
+      "end": 3713,
+      "surface": "on",
+      "context": ", no. WOMAN: Well, you need to decide on one and then put it on the entrance form, which",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3734,
+      "end": 3736,
+      "surface": "on",
+      "context": "need to decide on one and then put it on the entrance form, which I'll send you. MAN: Oh",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3741,
+      "end": 3749,
+      "surface": "entrance",
+      "context": " decide on one and then put it on the entrance form, which I'll send you. MAN: Oh, okay. WOMAN",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3782,
+      "end": 3784,
+      "surface": "Oh",
+      "context": "rance form, which I'll send you. MAN: Oh, okay. WOMAN: So if you'd like to give me your ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3786,
+      "end": 3790,
+      "surface": "okay",
+      "context": "e form, which I'll send you. MAN: Oh, okay. WOMAN: So if you'd like to give me your addres",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3846,
+      "end": 3848,
+      "surface": "be",
+      "context": "'d like to give me your address, I'll be happy to send details first class. NARRATOR: Th",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3863,
+      "end": 3870,
+      "surface": "details",
+      "context": "e your address, I'll be happy to send details first class. NARRATOR: That is the end of secti",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3871,
+      "end": 3876,
+      "surface": "first",
+      "context": "ddress, I'll be happy to send details first class. NARRATOR: That is the end of section one",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3877,
+      "end": 3882,
+      "surface": "class",
+      "context": ", I'll be happy to send details first class. NARRATOR: That is the end of section one. You ",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3899,
+      "end": 3901,
+      "surface": "is",
+      "context": "d details first class. NARRATOR: That is the end of section one. You now have half a min",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    },
+    {
+      "start": 3934,
+      "end": 3938,
+      "surface": "have",
+      "context": "at is the end of section one. You now have half a minute to check your answers.",
+      "status": "needs_contextual_sense_or_multiword_resolution"
+    }
+  ]
+}
