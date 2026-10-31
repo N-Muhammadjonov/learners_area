@@ -209,7 +209,7 @@
       "end": 876,
       "surface": "July",
       "lexicalTarget": "july",
-      "targetType": "draft_or_existing_review",
+      "targetType": "calendar_name",
       "resolution": "staged_pending_release_and_context_review",
       "matchesDrafts": 1
     },
@@ -307,8 +307,8 @@
       "start": 1168,
       "end": 1179,
       "surface": "M-A-R-I-N-A",
-      "lexicalTarget": "marina",
-      "targetType": "proper_name",
+      "lexicalTarget": "Brighton Marina",
+      "targetType": "spelled_out_proper_name_not_independent_lexeme",
       "resolution": "staged_pending_release_and_context_review",
       "matchesDrafts": 0
     },
@@ -407,7 +407,7 @@
       "end": 1482,
       "surface": "a",
       "lexicalTarget": "a.m.",
-      "targetType": "existing_entry",
+      "targetType": "already_existing_abbreviation",
       "resolution": "staged_pending_release_and_context_review",
       "matchesDrafts": 0
     },
@@ -416,7 +416,7 @@
       "end": 1484,
       "surface": "m",
       "lexicalTarget": "a.m.",
-      "targetType": "existing_entry",
+      "targetType": "already_existing_abbreviation",
       "resolution": "staged_pending_release_and_context_review",
       "matchesDrafts": 0
     },
@@ -964,10 +964,11 @@
       "start": 3285,
       "end": 3293,
       "surface": "trainers",
-      "lexicalTarget": "trainers",
-      "targetType": "existing_sense_or_new_sense_review",
+      "lexicalTarget": "trainer",
+      "targetType": "existing_entry_new_sense",
       "resolution": "staged_pending_release_and_context_review",
-      "matchesDrafts": 0
+      "matchesDrafts": 1,
+      "existingEntryId": "7e3ac038-7317-5975-a6e2-d92bd6bf6edb"
     },
     {
       "start": 3356,
@@ -1021,7 +1022,8 @@
       "lexicalTarget": "semifinal",
       "targetType": "existing_form_extension",
       "resolution": "staged_pending_release_and_context_review",
-      "matchesDrafts": 0
+      "matchesDrafts": 0,
+      "existingEntryId": "2bb08050-183b-5a5d-869f-22af4207b257"
     },
     {
       "start": 3622,
@@ -1141,5 +1143,11 @@
       "matchesDrafts": 1
     }
   ],
-  "completionRule": "Only mark complete when each source word is covered by a valid nonoverlapping span, every target has an existing or published dictionary entry/sense, all forms and hashes pass release validation, and the application preflight passes."
+  "completionRule": "Only mark complete when each source word is covered by a valid nonoverlapping span, every target has an existing or published dictionary entry/sense, all forms and hashes pass release validation, and the application preflight passes.",
+  "notes": [
+    "Proper names and spelled-out letters must not be treated as dictionary common nouns by default.",
+    "Multiword entries must replace their overlapping existing singleton spans in a new release-scoped plan; never insert overlapping occurrences.",
+    "Inflected forms such as trainers and semi-finals need forms in the destination release, not just the lemma.",
+    "Draft records are NOT applied by this list; each target still needs a validated senseId, surface-form and meaningSha in the newly published release."
+  ]
 }
