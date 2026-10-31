@@ -3,7 +3,7 @@
   "test": "listening-test-1",
   "part": 2,
   "source": "script-part2-sense-candidates.json",
-  "count": 249,
+  "count": 248,
   "entries": [
     {
       "part": 2,
@@ -1256,28 +1256,16 @@
     {
       "part": 2,
       "start": 1431,
-      "end": 1433,
-      "surface": "as",
-      "lemma": "as",
-      "partOfSpeech": "adverb",
-      "definitionEn": "used in the degree construction as much as",
-      "translationUz": "qadar",
-      "editorialStatus": "context_definition_reviewed",
-      "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
-    },
-    {
-      "part": 2,
-      "start": 1439,
       "end": 1441,
-      "surface": "as",
-      "lemma": "as",
-      "partOfSpeech": "conjunction",
-      "definitionEn": "introduces a degree comparison",
-      "translationUz": "qadar",
+      "surface": "as much as",
+      "lemma": "as much as",
+      "partOfSpeech": "phrase",
+      "definitionEn": "to the greatest extent or amount possible in this context",
+      "translationUz": "imkon qadar; qo‘ldan kelganicha",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/as-much-as"
     },
     {
       "part": 2,
