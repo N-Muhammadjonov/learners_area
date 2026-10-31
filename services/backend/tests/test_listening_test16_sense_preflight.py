@@ -143,3 +143,39 @@ def test_derivative_dictionary_entry_ids_are_stable_and_unique():
         raw=h.hex()
         actual="-".join((raw[:8],raw[8:12],raw[12:16],raw[16:20],raw[20:]))
         assert actual==expected
+
+def test_staged_part_one_queue_matches_every_unbound_token_exactly():
+    import json
+    root=Path(__file__).resolve().parents[3]/"audits/listening"
+    plan=json.loads((root/"test-16-verified-binding-plan.json").read_text())
+    staged=json.loads((root/"test-16-part1-staged-remaining-bindings.json").read_text())
+    body=tool.transcript_parts()[1]
+    part=next(m for m in plan["materials"] if m["sectionNumber"]==1)
+    report=tool.coverage_report(plan)[1]
+    assert staged["status"]=="fully_enumerated_NOT_PUBLISHED_NOT_BOUND"
+    assert staged["sourceRelease"]==plan["releaseId"]
+    assert staged["inputOccurrences"]==len(staged["records"])
+    assert len(staged["records"])==report["uncoveredOccurrences"]
+    assert [(s["start"],s["end"],s["surface"]) for s in staged["records"]]==[
+        (s["start"],s["end"],s["surface"]) for s in report["uncovered"]]
+    for s in staged["records"]:
+        assert body[s["start"]:s["end"]]==s["surface"]
+        assert s["lexicalTarget"] and s["resolution"]=="staged_pending_release_and_context_review"
+        assert not any(x["start"]<=s["start"]<x["end"] for x in part["spans"])
+
+
+def test_draft_dependencies_and_new_lexeme_keys_are_unique():
+    import json
+    root=Path(__file__).resolve().parents[3]/"audits/listening"
+    data=json.loads((root/"test-16-part1-dictionary-drafts.json").read_text())
+    keys=set()
+    for draft in data["drafts"]:
+        if draft["operation"]=="add_lexeme":
+            key=(draft["lemma"].casefold(),draft["partOfSpeech"],draft["lexicalType"])
+            assert key not in keys, f"duplicate new entry: {key}"
+            keys.add(key)
+        else:
+            assert draft["operation"]=="add_sense"
+            assert draft["lexemeId"] and draft["lexemeId"]!="null"
+    assert ("semifinal","n","word") not in keys
+    assert ("a.m.","r","word") not in keys
