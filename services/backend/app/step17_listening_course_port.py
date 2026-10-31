@@ -94,8 +94,8 @@ async def progress_post(req:Request,id:str):
         if not spec:return core.j({'error':'not_found'},404,PRIVATE)
         async with con.transaction():
             await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',u['id'])
-            row=await con.fetchrow('SELECT values FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2',u['id'],core.uuid_value(id))
-            values=(json.loads(row['values']) if isinstance(row['values'],str) else dict(row['values'])) if row else {}
+            from .step21_listening_authored_reads import loaded_values
+            values=await loaded_values(con,u,id,source)
             work=await current_work(con,u['id'],id,source,values)
             try:work=combine(spec,work,act,answers)
             except ValueError as ex:return core.j({'error':str(ex)},400,PRIVATE)
