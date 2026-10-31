@@ -1107,6 +1107,14 @@
           "meaningSha": "b090dd119a76382752a8ecf23bd7c06723ae087d500c0abd040be0ddc6dcdfdf"
         },
         {
+          "start": 954,
+          "end": 957,
+          "surface": "day",
+          "entryId": "e6684401-7b69-5af2-b7d6-127cf152bb1f",
+          "senseId": "b2c97500-fc3c-4c21-bfb5-5b2396665f37",
+          "meaningSha": "12bfbcc76526349b96a23a2dbdd27f8f90794480dadc8001708eb8809251d6b6"
+        },
+        {
           "start": 958,
           "end": 961,
           "surface": "and",
@@ -4233,6 +4241,14 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 3741,
+          "end": 3749,
+          "surface": "entrance",
+          "entryId": "7944b9ff-053b-515d-bd69-4fbc9bb96e4c",
+          "senseId": "117c61e5-8833-42d6-8525-0eb0b810a95a",
+          "meaningSha": "53c722706e07e64764a10cf64747cff46fa0605f98ae3df3e436f90cff481131"
         },
         {
           "start": 3750,
