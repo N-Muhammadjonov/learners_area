@@ -24,7 +24,7 @@ export function managementAreas(dict,role){
   const academic=dict.people.name==='Ism'?ACADEMIC_UZ:ACADEMIC_EN;
   add('/app/teacher/students',dict.nav.people,dict.management.studentsBody,IconPeople);
   add('/app/teacher/homework',academic.homework,academic.homeworkBody,IconWriting);
-  add('/app/management?view=mock-grading',dict.people.name==='Ism'?'Mock baholash':'Mock Grading',dict.people.name==='Ism'?'Haftalik Writing DOCX va Speaking ZIP eksporti, Gemini JSON importi va natijalarni tasdiqlash.':'Weekly Writing DOCX & Speaking ZIP export, Gemini JSON import, review and publication.',IconAudit);
+  add('/app/management?view=mocks',dict.people.name==='Ism'?'Mock testlar':'Mock Tests',dict.people.name==='Ism'?'Mock yaratish, materiallarni nashr qilish va natijalarni tekshirish.':'Create mocks, publish materials, review and grade results.',IconAudit);
  }
  if(staff){
   add('/app/teacher/support',dict.support.inbox,dict.management.supportBody,IconSupport);
@@ -58,10 +58,13 @@ export async function mount(ctx){
  const {root,signal,session,dict,navigate,url}=ctx;
  const role=session?.user?.role;
  if(!['teacher','admin','owner'].includes(role)){void navigate('/app',{replace:true});return;}
- if(url?.searchParams?.get('view')==='mock-grading'){
-  const {mockGradingMount}=await import('./mock-grading.js');
+ const view=url?.searchParams?.get('view');
+ if(['mocks','mock-create','mock-grading'].includes(view)){
+  if(!['teacher','owner'].includes(role)){void navigate('/app/management',{replace:true});return;}
+  const entry=view==='mocks'?await import('./mock-management.js'):
+    view==='mock-create'?await import('./mock-create.js'):await import('./mock-grading.js');
   if(signal?.aborted)return;
-  await mockGradingMount(ctx);
+  await (view==='mock-grading'?entry.mockGradingMount:view==='mock-create'?entry.mockCreateMount:entry.mount)(ctx);
   return;
  }
  const link=(href,classes,...children)=>el('a',{href,class:classes},...children);

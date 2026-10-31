@@ -44,7 +44,7 @@ const STRINGS = {
     exportCombinedBtn: 'Export DOCX / audio ZIP',
     importJsonBtn: 'Import JSON',
     reviewPublishBtn: 'Review & Publish',
-    promptsBtn: 'Gemini Prompts',
+    promptsBtn: 'AI Prompts',
     batchHeading: 'Batch Queue • Writing / Speaking',
     emptyQueue: 'No mock submissions match the selected filters.',
     readyForApproval: 'Ready for approval',
@@ -62,9 +62,9 @@ const STRINGS = {
     publishBatchConfirm: '{approved} of {total} will publish',
     publishNowBtn: 'Confirm & Publish Approved',
     downloadExport: 'Download export file',
-    importPanelTitle: 'Import Gemini Grading JSON (la.mock.grading.v1)',
-    importPlaceholder: 'Paste the strict JSON output from Gemini Pro here…',
-    promptsPanelTitle: 'Official Gemini Pro Copy/Paste Prompts',
+    importPanelTitle: 'Import AI Grading JSON (la.mock.grading.v1)',
+    importPlaceholder: 'Paste the grading JSON from your AI assistant here…',
+    promptsPanelTitle: 'AI grading prompts (copy and paste)',
     pageOf: 'Page {page} of {total}',
     prev: 'Previous',
     next: 'Next',
@@ -98,7 +98,7 @@ const STRINGS = {
     exportCombinedBtn: 'Export DOCX / audio ZIP',
     importJsonBtn: 'Import JSON',
     reviewPublishBtn: 'Review & Publish',
-    promptsBtn: 'Gemini Promptlar',
+    promptsBtn: 'AI Prompts',
     batchHeading: 'Batch navbati • Writing / Speaking',
     emptyQueue: 'Tanlangan filtrlar bo‘yicha mock topshiriqlari topilmadi.',
     readyForApproval: 'Tasdiqlashga tayyor',
@@ -116,9 +116,9 @@ const STRINGS = {
     publishBatchConfirm: '{total} tadan {approved} tasi e’lon qilinadi',
     publishNowBtn: 'Tasdiqlash va e’lon qilish',
     downloadExport: 'Eksport faylni yuklab olish',
-    importPanelTitle: 'Gemini JSON natijalarini yuklash (la.mock.grading.v1)',
-    importPlaceholder: 'Gemini Pro qaytargan JSON matnini shu yerga joylang…',
-    promptsPanelTitle: 'Gemini Pro uchun rasmiy Promptlar (Copy/Paste)',
+    importPanelTitle: 'AI baholash JSON natijalarini yuklash (la.mock.grading.v1)',
+    importPlaceholder: 'AI yordamchi qaytargan JSON matnini joylang…',
+    promptsPanelTitle: 'AI baholash promptlari (nusxalash)',
     pageOf: '{page} / {total} sahifa',
     prev: 'Oldingi',
     next: 'Keyingi',
@@ -271,7 +271,7 @@ export const mockGradingMount = mountStaff({
       try {
         parsed = JSON.parse(jsonTextarea.value);
       } catch {
-        showNotice('Invalid JSON syntax. Use the Gemini JSON Repair Prompt if needed.', true);
+        showNotice('Invalid JSON syntax. Use the AI JSON Repair Prompt if needed.', true);
         return;
       }
       const reqBody = {
@@ -571,8 +571,7 @@ export const mockGradingMount = mountStaff({
       el('div', {class: 'flex flex-wrap items-center justify-between gap-3'},
         heading(L.title, L.subtitle),
         el('div', {class: 'flex items-center gap-2'},
-          openPromptsBtn,
-          el('a', {href: '/app/management', class: 'btn-secondary btn-sm'}, L.backManagement))),
+          openPromptsBtn)),
       statusAlert,
       filterForm,
       kpiGrid,

@@ -174,10 +174,10 @@ async def _verify_section_material_integrity(
     skill = section_row.get('skill')
     version_id = section_row.get('content_version_id')
     if version_id:
-        vrow = await con.fetchrow('SELECT id, track, content_snapshot FROM content_versions WHERE id = $1', version_id)
-        if not vrow or not vrow['content_snapshot']:
+        vrow = await con.fetchrow('SELECT id, track, publication_state, content_snapshot FROM content_versions WHERE id = $1', version_id)
+        if not vrow or vrow['publication_state'] != 'published' or not vrow['content_snapshot']:
             return False, 'invalid_content_version', f'Bound content version for {skill} is missing.', {}
-        if expected_track and vrow['track'] and str(vrow['track']).lower() != str(expected_track).lower():
+        if expected_track and vrow['track'] and str(vrow['track']).lower() not in (str(expected_track).lower(), 'unspecified'):
             return False, 'track_mismatch', f'Section {skill} track ({vrow["track"]}) does not match mock track ({expected_track}).', {}
 
     raw_data = await _load_section_questions_from_version(con, section_row, reveal_keys=True)
@@ -3044,3 +3044,5 @@ async def publish_staff_mock_batch(req: Request, batchId: str):
 
 def install():
     core.app.include_router(router)
+    from .mock_authoring_port import router as authoring_router
+    core.app.include_router(authoring_router)

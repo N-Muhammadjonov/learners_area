@@ -13,15 +13,15 @@ import uz from '../js/i18n/uz.js';
 
 const read = rel => fs.readFileSync(new URL('../' + rel, import.meta.url), 'utf8');
 
-test('A07 / Section 12: Management hub shows Mock Grading card ONLY to Teacher and Owner, never to Admin', () => {
+test('A07 / Section 12: Management hub shows Mock Tests card ONLY to Teacher and Owner, never to Admin', () => {
   for (const dict of [en, uz]) {
     const teacherHrefs = managementAreas(dict, 'teacher').map(a => a.href);
     const ownerHrefs = managementAreas(dict, 'owner').map(a => a.href);
     const adminHrefs = managementAreas(dict, 'admin').map(a => a.href);
 
-    assert.equal(teacherHrefs.includes('/app/management?view=mock-grading'), true, 'Teacher must see Mock Grading');
-    assert.equal(ownerHrefs.includes('/app/management?view=mock-grading'), true, 'Owner must see Mock Grading');
-    assert.equal(adminHrefs.includes('/app/management?view=mock-grading'), false, 'Admin must NOT gain Mock Grading rights');
+    assert.equal(teacherHrefs.includes('/app/management?view=mocks'), true, 'Teacher must see Mock Tests');
+    assert.equal(ownerHrefs.includes('/app/management?view=mocks'), true, 'Owner must see Mock Tests');
+    assert.equal(adminHrefs.includes('/app/management?view=mocks'), false, 'Admin must NOT gain Mock management rights');
   }
 });
 

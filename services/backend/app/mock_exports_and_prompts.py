@@ -438,7 +438,7 @@ def render_speaking_batch_zip(
         f'Batch ID: {batch_id}',
         f'Schema: {BATCH_SCHEMA_VERSION}',
         f'Generated At: {format_tashkent_time(generated_at)}',
-        'NOTE: Unzip this archive before uploading to Gemini. Upload manifest.json, questions.txt, and the individual audio files directly.',
+        'NOTE: Extract this archive before assessing audio with your chosen AI model. Provide manifest.json, questions.txt and individual audio files.',
         '=' * 72,
     ]
     zip_files: dict[str, bytes | str] = {}
@@ -501,7 +501,7 @@ def render_speaking_batch_zip(
         'generated_at': generated_at,
         'attachment_policy': {
             'max_files_per_gemini_prompt': 10,
-            'note': 'Extract ZIP before uploading to Gemini. Do not upload the ZIP archive directly for audio grading.',
+            'note': 'Extract ZIP before uploading to an AI assistant. Supply individual audio files for grading, not the archive.',
         },
         'attempts': manifest_attempts,
     }
