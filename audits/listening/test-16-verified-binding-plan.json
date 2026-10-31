@@ -4612,6 +4612,22 @@
           "meaningSha": "3c968f611e923b6add8d909b2499e065b6395a65a21c01ca7c867d509000c72c"
         },
         {
+          "start": 82,
+          "end": 91,
+          "surface": "education",
+          "entryId": "e20868a1-e3cd-5838-aa24-9c9fc51115d4",
+          "senseId": "4dd4f230-2507-4046-b024-a6877629f664",
+          "meaningSha": "0313c312a2ed46ef571f2d65d2a6a52a018832f131752d44e8111e902aff36ed"
+        },
+        {
+          "start": 92,
+          "end": 98,
+          "surface": "centre",
+          "entryId": "e7f41631-e6c2-556d-84c5-e6b6678ee2d7",
+          "senseId": "c7a1f7d1-7557-5118-8522-976c009b8016",
+          "meaningSha": "f986bdaa85338dae9bb9b3888206e949f4495e406a4eaa36b8f7393247b1a5c6"
+        },
+        {
           "start": 107,
           "end": 110,
           "surface": "you",
@@ -4740,6 +4756,22 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 353,
+          "end": 362,
+          "surface": "Education",
+          "entryId": "e20868a1-e3cd-5838-aa24-9c9fc51115d4",
+          "senseId": "4dd4f230-2507-4046-b024-a6877629f664",
+          "meaningSha": "0313c312a2ed46ef571f2d65d2a6a52a018832f131752d44e8111e902aff36ed"
+        },
+        {
+          "start": 363,
+          "end": 369,
+          "surface": "Centre",
+          "entryId": "e7f41631-e6c2-556d-84c5-e6b6678ee2d7",
+          "senseId": "c7a1f7d1-7557-5118-8522-976c009b8016",
+          "meaningSha": "f986bdaa85338dae9bb9b3888206e949f4495e406a4eaa36b8f7393247b1a5c6"
+        },
+        {
           "start": 374,
           "end": 378,
           "surface": "name",
@@ -4804,6 +4836,14 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 476,
+          "end": 487,
+          "surface": "departments",
+          "entryId": "634a87fc-3860-52fb-adaa-ab0c321c1d13",
+          "senseId": "8e78868c-f3d5-46d5-93c8-869d66cdd6b2",
+          "meaningSha": "64d67e9dfee11954cf8657bc0ec43ebb72035bc7b16164672b50e5991488e6a1"
+        },
+        {
           "start": 493,
           "end": 495,
           "surface": "we",
@@ -4818,6 +4858,14 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 511,
+          "end": 517,
+          "surface": "centre",
+          "entryId": "e7f41631-e6c2-556d-84c5-e6b6678ee2d7",
+          "senseId": "c7a1f7d1-7557-5118-8522-976c009b8016",
+          "meaningSha": "f986bdaa85338dae9bb9b3888206e949f4495e406a4eaa36b8f7393247b1a5c6"
         },
         {
           "start": 549,
@@ -4850,6 +4898,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 621,
+          "end": 630,
+          "surface": "education",
+          "entryId": "e20868a1-e3cd-5838-aa24-9c9fc51115d4",
+          "senseId": "4dd4f230-2507-4046-b024-a6877629f664",
+          "meaningSha": "0313c312a2ed46ef571f2d65d2a6a52a018832f131752d44e8111e902aff36ed"
         },
         {
           "start": 631,
@@ -4980,6 +5036,22 @@
           "meaningSha": "9b57ea7641e0cd3da605ba5a477c7f16a76a2746f5b42a4d1418357f4323c948"
         },
         {
+          "start": 818,
+          "end": 826,
+          "surface": "training",
+          "entryId": "aa022ee6-6c0d-5c0f-b98f-fb6a124e3eb3",
+          "senseId": "b6e0b06a-ba48-4ea0-bc5b-741bc2bfd629",
+          "meaningSha": "010058c1dfb770cae4c1b3da07c4e6dafe928c57e36a42b09c1e2d80ef347c8f"
+        },
+        {
+          "start": 839,
+          "end": 845,
+          "surface": "skills",
+          "entryId": "8ebed839-05f7-5280-9a4e-6d436c072469",
+          "senseId": "43c2fee2-15ab-4442-a832-84fac786053c",
+          "meaningSha": "e68d9e6d6c2f37220fc283f89322be38f4c5e51423f1f409ed6213029d4592b0"
+        },
+        {
           "start": 846,
           "end": 848,
           "surface": "or",
@@ -5004,12 +5076,28 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 891,
+          "end": 899,
+          "surface": "teachers",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
+        },
+        {
           "start": 903,
           "end": 906,
           "surface": "the",
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 907,
+          "end": 913,
+          "surface": "centre",
+          "entryId": "e7f41631-e6c2-556d-84c5-e6b6678ee2d7",
+          "senseId": "c7a1f7d1-7557-5118-8522-976c009b8016",
+          "meaningSha": "f986bdaa85338dae9bb9b3888206e949f4495e406a4eaa36b8f7393247b1a5c6"
         },
         {
           "start": 934,
@@ -5052,6 +5140,22 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 1018,
+          "end": 1027,
+          "surface": "Education",
+          "entryId": "e20868a1-e3cd-5838-aa24-9c9fc51115d4",
+          "senseId": "4dd4f230-2507-4046-b024-a6877629f664",
+          "meaningSha": "0313c312a2ed46ef571f2d65d2a6a52a018832f131752d44e8111e902aff36ed"
+        },
+        {
+          "start": 1033,
+          "end": 1041,
+          "surface": "teachers",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
+        },
+        {
           "start": 1047,
           "end": 1050,
           "surface": "the",
@@ -5068,6 +5172,22 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 1094,
+          "end": 1105,
+          "surface": "interactive",
+          "entryId": "ae8592d4-a350-5c4b-b7d7-2715d4735b30",
+          "senseId": "07c383f1-5f1c-41a8-aaab-4dd12febeb2c",
+          "meaningSha": "669c6f7b484d4ce65e1cb51c2f70523f3a55e52d9f666001c4657e0a0165ef28"
+        },
+        {
+          "start": 1121,
+          "end": 1129,
+          "surface": "computer",
+          "entryId": "839283cb-5eda-5fd9-b471-4ded3504ed3c",
+          "senseId": "8d991478-6541-4fc4-8979-77492e8aadf9",
+          "meaningSha": "114c94aa273ecba9ff9575b1e9c64ef55ec497d2c1cea7e68fc63cecb6cee805"
+        },
+        {
           "start": 1140,
           "end": 1143,
           "surface": "the",
@@ -5076,12 +5196,36 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 1160,
+          "end": 1170,
+          "surface": "technology",
+          "entryId": "7767313a-bd86-5eb5-9ffc-1f7b265c4392",
+          "senseId": "84935f01-fa5e-486c-b7ca-8418c9cd9824",
+          "meaningSha": "35d889547d474e8bcd9ca0686cfff8d28ee053378edb89b752b3882f364459fa"
+        },
+        {
           "start": 1178,
           "end": 1181,
           "surface": "All",
           "entryId": "b1147ab0-0a6e-58c4-bedf-e92e3a33fd38",
           "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
+        },
+        {
+          "start": 1186,
+          "end": 1194,
+          "surface": "teachers",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
+        },
+        {
+          "start": 1211,
+          "end": 1219,
+          "surface": "training",
+          "entryId": "aa022ee6-6c0d-5c0f-b98f-fb6a124e3eb3",
+          "senseId": "b6e0b06a-ba48-4ea0-bc5b-741bc2bfd629",
+          "meaningSha": "010058c1dfb770cae4c1b3da07c4e6dafe928c57e36a42b09c1e2d80ef347c8f"
         },
         {
           "start": 1220,
@@ -5108,6 +5252,22 @@
           "meaningSha": "6bf9231e0a915bf43e20e2d89eb13dec8934177df8ee80ba8d38e0947ce446b8"
         },
         {
+          "start": 1234,
+          "end": 1241,
+          "surface": "lessons",
+          "entryId": "bfe9a0ac-d123-58b5-a804-57c3d64caea6",
+          "senseId": "9941d974-ad46-4582-a280-c5d2ac8ee8bb",
+          "meaningSha": "bd4c87e07e0238fcb2d9b381f2e887e03a749b2b4567411233fde7d13409f3e8"
+        },
+        {
+          "start": 1255,
+          "end": 1261,
+          "surface": "online",
+          "entryId": "c1550612-697f-5bf4-8684-87ffb1ff8138",
+          "senseId": "7a612df6-dc93-44c6-b1d1-7295ab2043db",
+          "meaningSha": "385ea554d679b29fec3aaa9b794486984a2a8d823355e480f7265c2ac9f341f6"
+        },
+        {
           "start": 1270,
           "end": 1272,
           "surface": "we",
@@ -5124,6 +5284,22 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 1282,
+          "end": 1293,
+          "surface": "interactive",
+          "entryId": "ae8592d4-a350-5c4b-b7d7-2715d4735b30",
+          "senseId": "07c383f1-5f1c-41a8-aaab-4dd12febeb2c",
+          "meaningSha": "669c6f7b484d4ce65e1cb51c2f70523f3a55e52d9f666001c4657e0a0165ef28"
+        },
+        {
+          "start": 1294,
+          "end": 1303,
+          "surface": "classroom",
+          "entryId": "516e7955-d78e-5927-bab7-f8fb8ab3476b",
+          "senseId": "de807916-d969-4208-b041-35bb5cf08895",
+          "meaningSha": "f2ac36efd2f28f6f335f501ef8ea03eee073d99bab0d8e4cb88adc05dfd1f31b"
+        },
+        {
           "start": 1305,
           "end": 1310,
           "surface": "which",
@@ -5138,6 +5314,14 @@
           "entryId": "b1147ab0-0a6e-58c4-bedf-e92e3a33fd38",
           "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
+        },
+        {
+          "start": 1343,
+          "end": 1351,
+          "surface": "students",
+          "entryId": "918a75b8-9470-5f4a-af7c-e6796e4c431e",
+          "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+          "meaningSha": "b2618e5daffa1b09bd34021472979a7d36b061733bcb999d29077922217f857c"
         },
         {
           "start": 1353,
@@ -5180,6 +5364,14 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 1423,
+          "end": 1429,
+          "surface": "lesson",
+          "entryId": "bfe9a0ac-d123-58b5-a804-57c3d64caea6",
+          "senseId": "9941d974-ad46-4582-a280-c5d2ac8ee8bb",
+          "meaningSha": "bd4c87e07e0238fcb2d9b381f2e887e03a749b2b4567411233fde7d13409f3e8"
+        },
+        {
           "start": 1431,
           "end": 1434,
           "surface": "you",
@@ -5194,6 +5386,14 @@
           "entryId": "a0ddaf6f-f1cc-5af3-bf96-b2ea58881249",
           "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
+        },
+        {
+          "start": 1456,
+          "end": 1464,
+          "surface": "computer",
+          "entryId": "839283cb-5eda-5fd9-b471-4ded3504ed3c",
+          "senseId": "8d991478-6541-4fc4-8979-77492e8aadf9",
+          "meaningSha": "114c94aa273ecba9ff9575b1e9c64ef55ec497d2c1cea7e68fc63cecb6cee805"
         },
         {
           "start": 1485,
@@ -5212,6 +5412,14 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 1502,
+          "end": 1511,
+          "surface": "resources",
+          "entryId": "b7170b95-4410-5363-90de-1b031e10d5e8",
+          "senseId": "3da81575-845b-406d-9f1b-a62852d2791e",
+          "meaningSha": "25793e4e38810f731777411b7988905b96a93b043058c8b7df77bf6989291a17"
+        },
+        {
           "start": 1513,
           "end": 1516,
           "surface": "you",
@@ -5228,12 +5436,28 @@
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
         },
         {
+          "start": 1552,
+          "end": 1559,
+          "surface": "teacher",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
+        },
+        {
           "start": 1581,
           "end": 1583,
           "surface": "or",
           "entryId": "c4cf9379-d8c0-5a45-80ae-1200362fd0a6",
           "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
           "meaningSha": "f5fc179c4dfb7956f2157b91feed82b1f98f3b7a5837b7ec94e2fc7f44087b04"
+        },
+        {
+          "start": 1598,
+          "end": 1604,
+          "surface": "online",
+          "entryId": "c1550612-697f-5bf4-8684-87ffb1ff8138",
+          "senseId": "7a612df6-dc93-44c6-b1d1-7295ab2043db",
+          "meaningSha": "385ea554d679b29fec3aaa9b794486984a2a8d823355e480f7265c2ac9f341f6"
         },
         {
           "start": 1605,
@@ -5268,6 +5492,30 @@
           "meaningSha": "ee102cc16b7acd5b36ff76ee302bc9a65b424020fe289280449c89a02631ae12"
         },
         {
+          "start": 1624,
+          "end": 1631,
+          "surface": "teacher",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
+        },
+        {
+          "start": 1640,
+          "end": 1646,
+          "surface": "online",
+          "entryId": "c1550612-697f-5bf4-8684-87ffb1ff8138",
+          "senseId": "7a612df6-dc93-44c6-b1d1-7295ab2043db",
+          "meaningSha": "385ea554d679b29fec3aaa9b794486984a2a8d823355e480f7265c2ac9f341f6"
+        },
+        {
+          "start": 1656,
+          "end": 1664,
+          "surface": "sessions",
+          "entryId": "32b721bf-54db-5471-8df0-df79d1c047b2",
+          "senseId": "2796b6ac-b126-4527-b2b8-192511596cf2",
+          "meaningSha": "294a0ab7e63d7c39668b3bd7b651a479bb3e4eff10f33c22e66adbfda2299ad2"
+        },
+        {
           "start": 1685,
           "end": 1689,
           "surface": "when",
@@ -5292,12 +5540,28 @@
           "meaningSha": "4180d28c9d16163ca14a41341a6a5cc281098ebfa20d0c6d0fe6052ee18405fd"
         },
         {
+          "start": 1730,
+          "end": 1736,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 1754,
           "end": 1758,
           "surface": "they",
           "entryId": "5d320aed-a940-5cb9-aabc-6b88a5553bdf",
           "senseId": "e3618314-7ddf-5429-b663-1a75ff8e10a8",
           "meaningSha": "4180d28c9d16163ca14a41341a6a5cc281098ebfa20d0c6d0fe6052ee18405fd"
+        },
+        {
+          "start": 1779,
+          "end": 1787,
+          "surface": "students",
+          "entryId": "918a75b8-9470-5f4a-af7c-e6796e4c431e",
+          "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+          "meaningSha": "b2618e5daffa1b09bd34021472979a7d36b061733bcb999d29077922217f857c"
         },
         {
           "start": 1804,
@@ -5308,12 +5572,28 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 1808,
+          "end": 1816,
+          "surface": "students",
+          "entryId": "918a75b8-9470-5f4a-af7c-e6796e4c431e",
+          "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+          "meaningSha": "b2618e5daffa1b09bd34021472979a7d36b061733bcb999d29077922217f857c"
+        },
+        {
           "start": 1840,
           "end": 1845,
           "surface": "their",
           "entryId": "bf28cc21-5641-55ed-a6be-12a770eaaf83",
           "senseId": "ed80fa1f-fcfb-50bd-b083-685e70a96460",
           "meaningSha": "6bf9231e0a915bf43e20e2d89eb13dec8934177df8ee80ba8d38e0947ce446b8"
+        },
+        {
+          "start": 1846,
+          "end": 1853,
+          "surface": "teacher",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
         },
         {
           "start": 1858,
@@ -5348,6 +5628,22 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 1891,
+          "end": 1898,
+          "surface": "teacher",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
+        },
+        {
+          "start": 1915,
+          "end": 1923,
+          "surface": "students",
+          "entryId": "918a75b8-9470-5f4a-af7c-e6796e4c431e",
+          "senseId": "531939e8-d737-416a-9ef4-ed170f918dd0",
+          "meaningSha": "b2618e5daffa1b09bd34021472979a7d36b061733bcb999d29077922217f857c"
+        },
+        {
           "start": 1968,
           "end": 1970,
           "surface": "we",
@@ -5372,6 +5668,14 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 1990,
+          "end": 1997,
+          "surface": "website",
+          "entryId": "28d38200-dd51-5d34-a7fc-e67184ce6140",
+          "senseId": "63518e3a-5a90-5035-9b2e-b8c1f9fd0664",
+          "meaningSha": "e50d79fd05ff214407a1d58dd9c170177288aed4c7996df92b6d7cc07e985b01"
+        },
+        {
           "start": 1999,
           "end": 2003,
           "surface": "This",
@@ -5386,6 +5690,22 @@
           "entryId": "b1147ab0-0a6e-58c4-bedf-e92e3a33fd38",
           "senseId": "e37a9a6a-4f52-4df2-84ad-895869e46bd7",
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
+        },
+        {
+          "start": 2027,
+          "end": 2034,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 2036,
+          "end": 2044,
+          "surface": "teachers",
+          "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+          "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+          "meaningSha": "ff1a0862acf26fc69a74dd2302236f9b59843150b0e09118e839983da0cc3024"
         },
         {
           "start": 2051,
@@ -5404,6 +5724,14 @@
           "meaningSha": "03666c9610b210f36bc95074ddfa5d227b18ee999ad599c0b4a42310557e1a7e"
         },
         {
+          "start": 2077,
+          "end": 2084,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 2099,
           "end": 2102,
           "surface": "and",
@@ -5412,12 +5740,28 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 2112,
+          "end": 2118,
+          "surface": "online",
+          "entryId": "c1550612-697f-5bf4-8684-87ffb1ff8138",
+          "senseId": "7a612df6-dc93-44c6-b1d1-7295ab2043db",
+          "meaningSha": "385ea554d679b29fec3aaa9b794486984a2a8d823355e480f7265c2ac9f341f6"
+        },
+        {
           "start": 2136,
           "end": 2140,
           "surface": "need",
           "entryId": "92bc7b34-6488-5cb4-bfa2-984894a57898",
           "senseId": "cf3affce-888b-403b-930f-94e3c6c37ce9",
           "meaningSha": "8bd477c70ce3de1cdd31d315b72239d2e4835a68133b0202210b9e81376fc55e"
+        },
+        {
+          "start": 2144,
+          "end": 2150,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 2173,
@@ -5452,12 +5796,28 @@
           "meaningSha": "4d7e66ec98f4fd5f6c52da29bc288d2d52ee369d0432f33f50574e4ded54d233"
         },
         {
+          "start": 2224,
+          "end": 2230,
+          "surface": "online",
+          "entryId": "c1550612-697f-5bf4-8684-87ffb1ff8138",
+          "senseId": "7a612df6-dc93-44c6-b1d1-7295ab2043db",
+          "meaningSha": "385ea554d679b29fec3aaa9b794486984a2a8d823355e480f7265c2ac9f341f6"
+        },
+        {
           "start": 2239,
           "end": 2243,
           "surface": "need",
           "entryId": "92bc7b34-6488-5cb4-bfa2-984894a57898",
           "senseId": "cf3affce-888b-403b-930f-94e3c6c37ce9",
           "meaningSha": "8bd477c70ce3de1cdd31d315b72239d2e4835a68133b0202210b9e81376fc55e"
+        },
+        {
+          "start": 2264,
+          "end": 2270,
+          "surface": "centre",
+          "entryId": "e7f41631-e6c2-556d-84c5-e6b6678ee2d7",
+          "senseId": "c7a1f7d1-7557-5118-8522-976c009b8016",
+          "meaningSha": "f986bdaa85338dae9bb9b3888206e949f4495e406a4eaa36b8f7393247b1a5c6"
         },
         {
           "start": 2289,
@@ -5668,6 +6028,14 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 2621,
+          "end": 2628,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 2634,
           "end": 2636,
           "surface": "we",
@@ -5690,6 +6058,14 @@
           "entryId": "75077910-36e6-5ed6-9e73-c8044507ac5a",
           "senseId": "0facdf96-93f7-4120-b3ad-e4dc98aa5507",
           "meaningSha": "be59e3ab7a74711d9ac6b50ee7da2f6fe4196fbaf31c11fc3f92fb5de116507f"
+        },
+        {
+          "start": 2668,
+          "end": 2677,
+          "surface": "languages",
+          "entryId": "b0f4a2ba-789b-5ebe-a4bd-71729a11cba4",
+          "senseId": "6c1f95f0-296e-4647-be0b-27f68dc20035",
+          "meaningSha": "bed4296f4e36e084d93bfdcd0f799eff2833077665ffdecbc335575755bad070"
         },
         {
           "start": 2696,
@@ -5724,6 +6100,14 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 2741,
+          "end": 2750,
+          "surface": "languages",
+          "entryId": "b0f4a2ba-789b-5ebe-a4bd-71729a11cba4",
+          "senseId": "6c1f95f0-296e-4647-be0b-27f68dc20035",
+          "meaningSha": "bed4296f4e36e084d93bfdcd0f799eff2833077665ffdecbc335575755bad070"
+        },
+        {
           "start": 2785,
           "end": 2788,
           "surface": "and",
@@ -5746,6 +6130,22 @@
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 2873,
+          "end": 2882,
+          "surface": "languages",
+          "entryId": "b0f4a2ba-789b-5ebe-a4bd-71729a11cba4",
+          "senseId": "6c1f95f0-296e-4647-be0b-27f68dc20035",
+          "meaningSha": "bed4296f4e36e084d93bfdcd0f799eff2833077665ffdecbc335575755bad070"
+        },
+        {
+          "start": 2916,
+          "end": 2923,
+          "surface": "ability",
+          "entryId": "a6cfcd0c-0a6f-5cc2-adfd-dd87f3dbce0b",
+          "senseId": "4671c62a-8d56-4a52-bfd7-5760dddd46ec",
+          "meaningSha": "e34dd5800eab2c99fe9fc5c1078af5ddc6075ba67d8d6ae987bb169c2926bcf3"
         },
         {
           "start": 2924,
@@ -5780,6 +6180,22 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 2983,
+          "end": 2998,
+          "surface": "self-assessment",
+          "entryId": "1d8bb826-0620-44df-b35a-b57bbfc47f5d",
+          "senseId": "6c78493d-0183-4a29-9564-eafa71479d4c",
+          "meaningSha": "2d1ada86dbd43c7f377eaf7b29c316fbae364be5da7f472a7daa0d22ad2cddd7"
+        },
+        {
+          "start": 3021,
+          "end": 3028,
+          "surface": "website",
+          "entryId": "28d38200-dd51-5d34-a7fc-e67184ce6140",
+          "senseId": "63518e3a-5a90-5035-9b2e-b8c1f9fd0664",
+          "meaningSha": "e50d79fd05ff214407a1d58dd9c170177288aed4c7996df92b6d7cc07e985b01"
+        },
+        {
           "start": 3033,
           "end": 3036,
           "surface": "all",
@@ -5794,6 +6210,14 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 3041,
+          "end": 3050,
+          "surface": "languages",
+          "entryId": "b0f4a2ba-789b-5ebe-a4bd-71729a11cba4",
+          "senseId": "6c1f95f0-296e-4647-be0b-27f68dc20035",
+          "meaningSha": "bed4296f4e36e084d93bfdcd0f799eff2833077665ffdecbc335575755bad070"
         },
         {
           "start": 3051,
@@ -5820,12 +6244,52 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 3104,
+          "end": 3112,
+          "surface": "business",
+          "entryId": "c8dc3d99-e66c-5d8d-96f6-6c076d163151",
+          "senseId": "530c2efd-e318-4ff3-8016-757c45ed38c2",
+          "meaningSha": "0bfc5d7e9e574723e9bb128f84b26e4446b0630329cc4e3e85b9e3f144e942a8"
+        },
+        {
+          "start": 3121,
+          "end": 3128,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 3134,
+          "end": 3142,
+          "surface": "business",
+          "entryId": "c8dc3d99-e66c-5d8d-96f6-6c076d163151",
+          "senseId": "530c2efd-e318-4ff3-8016-757c45ed38c2",
+          "meaningSha": "0bfc5d7e9e574723e9bb128f84b26e4446b0630329cc4e3e85b9e3f144e942a8"
+        },
+        {
+          "start": 3143,
+          "end": 3150,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 3175,
           "end": 3177,
           "surface": "or",
           "entryId": "c4cf9379-d8c0-5a45-80ae-1200362fd0a6",
           "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
           "meaningSha": "f5fc179c4dfb7956f2157b91feed82b1f98f3b7a5837b7ec94e2fc7f44087b04"
+        },
+        {
+          "start": 3188,
+          "end": 3196,
+          "surface": "sessions",
+          "entryId": "32b721bf-54db-5471-8df0-df79d1c047b2",
+          "senseId": "2796b6ac-b126-4527-b2b8-192511596cf2",
+          "meaningSha": "294a0ab7e63d7c39668b3bd7b651a479bb3e4eff10f33c22e66adbfda2299ad2"
         },
         {
           "start": 3198,
@@ -5860,6 +6324,14 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 3274,
+          "end": 3281,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 3314,
           "end": 3319,
           "surface": "where",
@@ -5884,12 +6356,36 @@
           "meaningSha": "3c968f611e923b6add8d909b2499e065b6395a65a21c01ca7c867d509000c72c"
         },
         {
+          "start": 3359,
+          "end": 3372,
+          "surface": "qualification",
+          "entryId": "6b0da565-1c1c-59e1-b7d7-7b4b2ba3bd04",
+          "senseId": "93bf7ee9-fda8-4bf9-b6bb-cc3938e5d6c4",
+          "meaningSha": "6056954b6d6c5ea581b64911d916c3268336240d60eb435522517a5c57dde489"
+        },
+        {
           "start": 3388,
           "end": 3391,
           "surface": "how",
           "entryId": "577247cc-70d7-5f11-be70-34fe0a8d583f",
           "senseId": "9ef557dd-3ec4-5ecd-9867-55bc73bc73c3",
           "meaningSha": "bd937813074ea55d6c203c635e0e2909ff8cb1ebfb22eb90421b1aca87b30205"
+        },
+        {
+          "start": 3409,
+          "end": 3417,
+          "surface": "computer",
+          "entryId": "839283cb-5eda-5fd9-b471-4ded3504ed3c",
+          "senseId": "8d991478-6541-4fc4-8979-77492e8aadf9",
+          "meaningSha": "114c94aa273ecba9ff9575b1e9c64ef55ec497d2c1cea7e68fc63cecb6cee805"
+        },
+        {
+          "start": 3418,
+          "end": 3426,
+          "surface": "software",
+          "entryId": "7308f262-aa04-5ac8-8ad3-142d111729bf",
+          "senseId": "6f5bd699-0eef-4f56-90a6-559b52d38211",
+          "meaningSha": "d5ce1e5ca314267be26a0ff99cebc2e5ec25bdad4ed266c7be7446d4162cfcf1"
         },
         {
           "start": 3430,
@@ -5916,6 +6412,14 @@
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
         },
         {
+          "start": 3476,
+          "end": 3483,
+          "surface": "website",
+          "entryId": "28d38200-dd51-5d34-a7fc-e67184ce6140",
+          "senseId": "63518e3a-5a90-5035-9b2e-b8c1f9fd0664",
+          "meaningSha": "e50d79fd05ff214407a1d58dd9c170177288aed4c7996df92b6d7cc07e985b01"
+        },
+        {
           "start": 3497,
           "end": 3499,
           "surface": "we",
@@ -5930,6 +6434,22 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 3509,
+          "end": 3517,
+          "surface": "business",
+          "entryId": "c8dc3d99-e66c-5d8d-96f6-6c076d163151",
+          "senseId": "530c2efd-e318-4ff3-8016-757c45ed38c2",
+          "meaningSha": "0bfc5d7e9e574723e9bb128f84b26e4446b0630329cc4e3e85b9e3f144e942a8"
+        },
+        {
+          "start": 3518,
+          "end": 3525,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 3529,
@@ -5954,6 +6474,22 @@
           "entryId": "a0ddaf6f-f1cc-5af3-bf96-b2ea58881249",
           "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
+        },
+        {
+          "start": 3551,
+          "end": 3556,
+          "surface": "goals",
+          "entryId": "ae53c04d-e774-5f55-ad2d-6983fcb7eead",
+          "senseId": "261afb03-b6a4-4e1b-a1b0-25f8d3ad4e95",
+          "meaningSha": "d96d39c6c6dd87608ddb204cf38e85e2d60a2e07d8be46fb5b554a42b390b3cb"
+        },
+        {
+          "start": 3570,
+          "end": 3577,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 3589,
@@ -6044,6 +6580,14 @@
           "meaningSha": "b8740e4f3f0ef4117b81240ad1f114bbd6b1b49174e1436f611f018f8bd95845"
         },
         {
+          "start": 3698,
+          "end": 3704,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 3705,
           "end": 3708,
           "surface": "and",
@@ -6060,12 +6604,52 @@
           "meaningSha": "b090dd119a76382752a8ecf23bd7c06723ae087d500c0abd040be0ddc6dcdfdf"
         },
         {
+          "start": 3758,
+          "end": 3764,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 3774,
+          "end": 3785,
+          "surface": "photography",
+          "entryId": "1e56c7a2-f6e0-55e8-b203-901160b0fc56",
+          "senseId": "aeaba2c2-73bc-4e6d-a096-324c2fba81f9",
+          "meaningSha": "c05bcef89957394b80c5114e57fd63e8c3b8d5da579d54649f70d05a22110369"
+        },
+        {
           "start": 3786,
           "end": 3789,
           "surface": "and",
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 3790,
+          "end": 3799,
+          "surface": "computers",
+          "entryId": "839283cb-5eda-5fd9-b471-4ded3504ed3c",
+          "senseId": "8d991478-6541-4fc4-8979-77492e8aadf9",
+          "meaningSha": "114c94aa273ecba9ff9575b1e9c64ef55ec497d2c1cea7e68fc63cecb6cee805"
+        },
+        {
+          "start": 3804,
+          "end": 3815,
+          "surface": "photography",
+          "entryId": "1e56c7a2-f6e0-55e8-b203-901160b0fc56",
+          "senseId": "aeaba2c2-73bc-4e6d-a096-324c2fba81f9",
+          "meaningSha": "c05bcef89957394b80c5114e57fd63e8c3b8d5da579d54649f70d05a22110369"
+        },
+        {
+          "start": 3830,
+          "end": 3837,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 3860,
@@ -6100,6 +6684,22 @@
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
         },
         {
+          "start": 3903,
+          "end": 3909,
+          "surface": "camera",
+          "entryId": "dfbc28fc-dc18-57c6-9c98-e2afc09b7a9d",
+          "senseId": "5d1ec95e-b939-4981-b35e-7d282dd30149",
+          "meaningSha": "16e483cbfd2ead44579ef714750f229993d5d049208d30ed6218933849b57c9d"
+        },
+        {
+          "start": 3939,
+          "end": 3946,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 3958,
           "end": 3961,
           "surface": "you",
@@ -6114,6 +6714,14 @@
           "entryId": "a0ddaf6f-f1cc-5af3-bf96-b2ea58881249",
           "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
+        },
+        {
+          "start": 3979,
+          "end": 3988,
+          "surface": "knowledge",
+          "entryId": "e7d23bc9-2ad1-57c1-80dc-2fdc334c397e",
+          "senseId": "53aaad19-5cd8-4149-80fb-b08b8758a3d8",
+          "meaningSha": "a1801278922d20f83e7c364d503b6750801e8979f639fb4922bb1dd1697b3a02"
         },
         {
           "start": 3989,
@@ -6132,12 +6740,44 @@
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
         },
         {
+          "start": 4020,
+          "end": 4029,
+          "surface": "equipment",
+          "entryId": "f19dc69d-4afd-50df-8302-8ea28f822ef5",
+          "senseId": "7b4331eb-b305-42ad-b965-ccf1c3b738a2",
+          "meaningSha": "25ca65495152c876c87ff0e31d6e54488dfb8581a9baa1a4a0b8345f4f36f139"
+        },
+        {
+          "start": 4057,
+          "end": 4064,
+          "surface": "cooking",
+          "entryId": "d35ede79-a72a-5b7f-8c56-e91502156d1e",
+          "senseId": "fd94b247-29d4-4b25-a13c-7c56bf9dcd96",
+          "meaningSha": "3e28222acf45235ab5e12c70e7fa545ce1e1047336593c9771852b5e127d7c02"
+        },
+        {
+          "start": 4065,
+          "end": 4072,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 4080,
           "end": 4082,
           "surface": "We",
           "entryId": "a79d0b60-2093-53c4-8735-26ea100b9460",
           "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
           "meaningSha": "260ab9dfe38a8ca4e5997df93b9bf875f81fcffee10bcccce34f3caad0658393"
+        },
+        {
+          "start": 4100,
+          "end": 4107,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 4109,
@@ -6156,12 +6796,36 @@
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
         },
         {
+          "start": 4148,
+          "end": 4155,
+          "surface": "cooking",
+          "entryId": "d35ede79-a72a-5b7f-8c56-e91502156d1e",
+          "senseId": "fd94b247-29d4-4b25-a13c-7c56bf9dcd96",
+          "meaningSha": "3e28222acf45235ab5e12c70e7fa545ce1e1047336593c9771852b5e127d7c02"
+        },
+        {
           "start": 4157,
           "end": 4161,
           "surface": "This",
           "entryId": "acda63ca-e2e9-5e25-8e8e-362290ddb4ad",
           "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
           "meaningSha": "2a0274a99eaadd4803c14b4b3111c6944587e81302a505d135f264fcc554a566"
+        },
+        {
+          "start": 4162,
+          "end": 4168,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 4195,
+          "end": 4202,
+          "surface": "cooking",
+          "entryId": "d35ede79-a72a-5b7f-8c56-e91502156d1e",
+          "senseId": "fd94b247-29d4-4b25-a13c-7c56bf9dcd96",
+          "meaningSha": "3e28222acf45235ab5e12c70e7fa545ce1e1047336593c9771852b5e127d7c02"
         },
         {
           "start": 4203,
@@ -6186,6 +6850,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 4297,
+          "end": 4304,
+          "surface": "cooking",
+          "entryId": "d35ede79-a72a-5b7f-8c56-e91502156d1e",
+          "senseId": "fd94b247-29d4-4b25-a13c-7c56bf9dcd96",
+          "meaningSha": "3e28222acf45235ab5e12c70e7fa545ce1e1047336593c9771852b5e127d7c02"
         },
         {
           "start": 4319,
@@ -6268,6 +6940,14 @@
           "meaningSha": "bd937813074ea55d6c203c635e0e2909ff8cb1ebfb22eb90421b1aca87b30205"
         },
         {
+          "start": 4528,
+          "end": 4535,
+          "surface": "cooking",
+          "entryId": "d35ede79-a72a-5b7f-8c56-e91502156d1e",
+          "senseId": "fd94b247-29d4-4b25-a13c-7c56bf9dcd96",
+          "meaningSha": "3e28222acf45235ab5e12c70e7fa545ce1e1047336593c9771852b5e127d7c02"
+        },
+        {
           "start": 4542,
           "end": 4545,
           "surface": "and",
@@ -6308,12 +6988,44 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 4612,
+          "end": 4620,
+          "surface": "creative",
+          "entryId": "9f3298a2-1bd9-5509-bf3a-8cc4d8b52ead",
+          "senseId": "e1c79751-f027-4757-b563-bedd6f17e327",
+          "meaningSha": "79f20a56da83b8ece5979d4bfde023fdcd07f3602a290566be8333287a3d26a4"
+        },
+        {
+          "start": 4621,
+          "end": 4628,
+          "surface": "writing",
+          "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
+          "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
+          "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
+        },
+        {
+          "start": 4629,
+          "end": 4635,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
           "start": 4637,
           "end": 4639,
           "surface": "It",
           "entryId": "91b26c72-2cef-5c35-a765-4f9481f466c0",
           "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
           "meaningSha": "c697caab715eff726a65b4168347477bd5dafdebb8a3ae882510e51e19757980"
+        },
+        {
+          "start": 4705,
+          "end": 4712,
+          "surface": "writing",
+          "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
+          "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
+          "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
         },
         {
           "start": 4725,
@@ -6330,6 +7042,14 @@
           "entryId": "acda63ca-e2e9-5e25-8e8e-362290ddb4ad",
           "senseId": "cd89f8df-9707-50ad-aa4a-7e0dad6f1666",
           "meaningSha": "2a0274a99eaadd4803c14b4b3111c6944587e81302a505d135f264fcc554a566"
+        },
+        {
+          "start": 4743,
+          "end": 4749,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 4807,
@@ -6396,6 +7116,14 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 4903,
+          "end": 4911,
+          "surface": "creative",
+          "entryId": "9f3298a2-1bd9-5509-bf3a-8cc4d8b52ead",
+          "senseId": "e1c79751-f027-4757-b563-bedd6f17e327",
+          "meaningSha": "79f20a56da83b8ece5979d4bfde023fdcd07f3602a290566be8333287a3d26a4"
+        },
+        {
           "start": 4920,
           "end": 4923,
           "surface": "and",
@@ -6418,6 +7146,46 @@
           "entryId": "a0ddaf6f-f1cc-5af3-bf96-b2ea58881249",
           "senseId": "9f861590-529a-5f0c-a0ce-370a6a64acac",
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
+        },
+        {
+          "start": 4954,
+          "end": 4961,
+          "surface": "writing",
+          "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
+          "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
+          "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
+        },
+        {
+          "start": 4962,
+          "end": 4967,
+          "surface": "goals",
+          "entryId": "ae53c04d-e774-5f55-ad2d-6983fcb7eead",
+          "senseId": "261afb03-b6a4-4e1b-a1b0-25f8d3ad4e95",
+          "meaningSha": "d96d39c6c6dd87608ddb204cf38e85e2d60a2e07d8be46fb5b554a42b390b3cb"
+        },
+        {
+          "start": 4979,
+          "end": 4987,
+          "surface": "creative",
+          "entryId": "9f3298a2-1bd9-5509-bf3a-8cc4d8b52ead",
+          "senseId": "e1c79751-f027-4757-b563-bedd6f17e327",
+          "meaningSha": "79f20a56da83b8ece5979d4bfde023fdcd07f3602a290566be8333287a3d26a4"
+        },
+        {
+          "start": 4988,
+          "end": 4995,
+          "surface": "writing",
+          "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
+          "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
+          "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
+        },
+        {
+          "start": 4996,
+          "end": 5002,
+          "surface": "course",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 5012,
@@ -6444,12 +7212,36 @@
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
         },
         {
+          "start": 5067,
+          "end": 5073,
+          "surface": "skills",
+          "entryId": "8ebed839-05f7-5280-9a4e-6d436c072469",
+          "senseId": "43c2fee2-15ab-4442-a832-84fac786053c",
+          "meaningSha": "e68d9e6d6c2f37220fc283f89322be38f4c5e51423f1f409ed6213029d4592b0"
+        },
+        {
+          "start": 5078,
+          "end": 5085,
+          "surface": "writing",
+          "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
+          "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
+          "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
+        },
+        {
           "start": 5095,
           "end": 5097,
           "surface": "We",
           "entryId": "a79d0b60-2093-53c4-8735-26ea100b9460",
           "senseId": "b1d56148-6c1b-5145-b3e4-9e1e62f59fb6",
           "meaningSha": "260ab9dfe38a8ca4e5997df93b9bf875f81fcffee10bcccce34f3caad0658393"
+        },
+        {
+          "start": 5113,
+          "end": 5120,
+          "surface": "courses",
+          "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
+          "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
+          "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
           "start": 5121,
@@ -6482,6 +7274,14 @@
           "entryId": "a4076356-e823-560e-9dfc-5f6ee5a8e88c",
           "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
           "meaningSha": "a60c83669d72cf6db1d90c9c9b82bc9765a708ab6d71d3b5195bb09cd2ad9d88"
+        },
+        {
+          "start": 5149,
+          "end": 5156,
+          "surface": "website",
+          "entryId": "28d38200-dd51-5d34-a7fc-e67184ce6140",
+          "senseId": "63518e3a-5a90-5035-9b2e-b8c1f9fd0664",
+          "meaningSha": "e50d79fd05ff214407a1d58dd9c170177288aed4c7996df92b6d7cc07e985b01"
         },
         {
           "start": 5161,
