@@ -59,3 +59,25 @@ test('Gap-hidden targets are recorded as inaccessible rather than falsely linked
  assert.deepEqual(hidden.map(x=>x.entryNumber),plan.audits.hiddenTargets.map(x=>x.i));
  assert.equal(plan.audits.safeToPublish,false);
 });
+
+test('Full Test 1 transcript inventory has exact offsets across all four Parts',()=>{
+ const full=JSON.parse(readFileSync(new URL('script-all-tokens.pending.json',root),'utf8'));
+ assert.equal(full.totalTokens,3098);
+ assert.equal(full.distinctSurfaceForms,824);
+ assert.equal(full.parts.length,4);
+ assert.equal(full.parts.reduce((n,p)=>n+p.tokens.length,0),3098);
+ for(const part of full.parts){
+  const transcript=data.transcript[String(part.part)];
+  assert.equal(part.sourceLength,transcript.length);
+  for(const t of part.tokens){
+   assert.equal(transcript.slice(t.start,t.end),t.surface);
+   assert(t.end>t.start);
+  }
+ }
+ assert.equal(full.status,'STAGED_NOT_CONTEXTUALLY_RESOLVED');
+});
+test('Bridge uses actual active Script tab, not unset aria-selected',()=>{
+ const helper=readFileSync(new URL('../../js/generated/authored-helpers.js',import.meta.url),'utf8');
+ assert.match(helper,/querySelector\('#scriptTabs \[data-spart\]\.active'\)/);
+ assert.doesNotMatch(helper,/data-spart\]\[aria-selected/);
+});
