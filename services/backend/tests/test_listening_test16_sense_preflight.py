@@ -46,7 +46,7 @@ def test_wrong_offsets_rejected():
     with pytest.raises(ValueError,match="span_mismatch"):
         tool.preflight([candidate])
 
-def test_real_release_binding_plan_is_exactly_grounded():
+def test_pinned_plan_has_exact_transcript_offsets_and_well_formed_sense_ids():
     import json
     path=Path(__file__).resolve().parents[3]/"audits/listening/test-16-verified-binding-plan.json"
     plan=json.loads(path.read_text())
@@ -54,9 +54,11 @@ def test_real_release_binding_plan_is_exactly_grounded():
     records=[]
     for material in plan["materials"]:
         for span in material["spans"]:
+            # POS and actual release hash MUST be validated separately against
+            # R2; this unit test does not fake that by calling every term a noun.
             records.append({**span,"part":material["sectionNumber"],
-                "lemma":"ethnography","partOfSpeech":"n","grammaticalUse":"noun",
-                "unitType":"word"})
+                "lemma":"__release_check_required__","partOfSpeech":"other",
+                "grammaticalUse":"other","unitType":"word"})
     assert tool.preflight(records)
 
 def test_adjective_grammar_does_not_accept_verb_mapping_even_without_ed():
