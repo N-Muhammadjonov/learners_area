@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 453,
+  "count": 463,
   "mappings": [
     {
       "part": 2,
@@ -418,6 +418,16 @@
     },
     {
       "part": 2,
+      "start": 298,
+      "end": 305,
+      "surface": "welcome",
+      "senseId": "5c4d25e7-5612-49a9-9d45-ce15e8505b85",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verb: to greet newly arrived parents."
+    },
+    {
+      "part": 2,
       "start": 306,
       "end": 309,
       "surface": "all",
@@ -486,6 +496,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 358,
+      "end": 362,
+      "surface": "name",
+      "senseId": "85e5e7d8-4c37-4d2a-8418-ff4bf371b869",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Noun: person's identifying name."
     },
     {
       "part": 2,
@@ -600,6 +620,16 @@
     },
     {
       "part": 2,
+      "start": 437,
+      "end": 441,
+      "surface": "tell",
+      "senseId": "620686df-332b-4e3b-8e5a-f2fd3cbf65fd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Tell parents about school day: communicate information."
+    },
+    {
+      "part": 2,
       "start": 442,
       "end": 445,
       "surface": "you",
@@ -638,6 +668,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 471,
+      "end": 475,
+      "surface": "show",
+      "senseId": "422b90fb-da9e-5f06-ac9b-4e882b2c9e4b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Show you round the school: guide and indicate places."
     },
     {
       "part": 2,
@@ -698,6 +738,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 517,
+      "end": 520,
+      "surface": "ask",
+      "senseId": "1887c9b1-d351-4289-ab18-bbcbbf0f4b61",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Ask questions: seek an answer."
     },
     {
       "part": 2,
@@ -791,6 +841,16 @@
     },
     {
       "part": 2,
+      "start": 583,
+      "end": 586,
+      "surface": "let",
+      "senseId": "9a2e67bf-0839-46a1-bb13-9b97791a13ea",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Let me start: allow an action to happen."
+    },
+    {
+      "part": 2,
       "start": 587,
       "end": 589,
       "surface": "me",
@@ -798,6 +858,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 590,
+      "end": 595,
+      "surface": "start",
+      "senseId": "2788e35c-305b-42df-b23b-eb40a0e830f5",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Start by telling: begin an action."
     },
     {
       "part": 2,
@@ -871,6 +941,16 @@
     },
     {
       "part": 2,
+      "start": 695,
+      "end": 701,
+      "surface": "arrive",
+      "senseId": "03f583ad-7fe2-4241-9095-443bfd966c68",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Arrive at school: reach a destination."
+    },
+    {
+      "part": 2,
       "start": 705,
       "end": 711,
       "surface": "school",
@@ -878,6 +958,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "school as educational institution"
+    },
+    {
+      "part": 2,
+      "start": 712,
+      "end": 719,
+      "surface": "between",
+      "senseId": "1b0525a6-ae09-5e69-b0a3-8bf1ef4d320c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Between 8.45 and 8.50: time interval."
     },
     {
       "part": 2,
@@ -908,6 +998,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 742,
+      "end": 746,
+      "surface": "bell",
+      "senseId": "3470cf8c-d093-465f-886a-fd47c0315588",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "School bell is rung: physical ringing device."
     },
     {
       "part": 2,
