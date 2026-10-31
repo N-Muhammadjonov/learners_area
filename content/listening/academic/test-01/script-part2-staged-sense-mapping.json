@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 410,
+  "count": 422,
   "mappings": [
     {
       "part": 2,
@@ -1537,6 +1537,16 @@
     },
     {
       "part": 2,
+      "start": 1395,
+      "end": 1398,
+      "surface": "Now",
+      "senseId": "c17e6064-6cd0-5eb7-8bba-3c0f0a602bda",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Discourse transition to school encouragement"
+    },
+    {
+      "part": 2,
       "start": 1399,
       "end": 1401,
       "surface": "we",
@@ -2737,6 +2747,16 @@
     },
     {
       "part": 2,
+      "start": 2520,
+      "end": 2524,
+      "surface": "time",
+      "senseId": "441adccb-7aff-413c-9e95-d07a95475b09",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Time allotted for next question preview"
+    },
+    {
+      "part": 2,
       "start": 2525,
       "end": 2527,
       "surface": "to",
@@ -2744,6 +2764,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 2528,
+      "end": 2532,
+      "surface": "look",
+      "senseId": "f0fdeeea-8a0b-461b-8d59-fbe15fcfa63b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Look at questions"
     },
     {
       "part": 2,
@@ -2774,6 +2804,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 2566,
+      "end": 2569,
+      "surface": "Now",
+      "senseId": "54555443-8be0-47b3-a2e6-4237b0a16861",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Now listen to recording instruction"
     },
     {
       "part": 2,
@@ -2988,6 +3028,16 @@
     },
     {
       "part": 2,
+      "start": 2762,
+      "end": 2765,
+      "surface": "see",
+      "senseId": "42fe559a-0566-41d3-9b85-ba5e63563fe4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Physical sight during school tour"
+    },
+    {
+      "part": 2,
       "start": 2766,
       "end": 2769,
       "surface": "the",
@@ -3016,6 +3066,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 2797,
+      "end": 2800,
+      "surface": "see",
+      "senseId": "42fe559a-0566-41d3-9b85-ba5e63563fe4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "See visitors in person"
     },
     {
       "part": 2,
@@ -3552,6 +3612,16 @@
     },
     {
       "part": 2,
+      "start": 3306,
+      "end": 3309,
+      "surface": "Now",
+      "senseId": "c17e6064-6cd0-5eb7-8bba-3c0f0a602bda",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Now transitions to next room"
+    },
+    {
+      "part": 2,
       "start": 3310,
       "end": 3312,
       "surface": "if",
@@ -3623,6 +3693,16 @@
     },
     {
       "part": 2,
+      "start": 3362,
+      "end": 3365,
+      "surface": "now",
+      "senseId": "cb456a1d-1b53-4a9a-b2cb-e83c4cc17fdf",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Current moment as pupils walk into hall"
+    },
+    {
+      "part": 2,
       "start": 3369,
       "end": 3372,
       "surface": "you",
@@ -3630,6 +3710,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3386,
+      "end": 3389,
+      "surface": "see",
+      "senseId": "42fe559a-0566-41d3-9b85-ba5e63563fe4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Visual perception of main hall"
     },
     {
       "part": 2,
@@ -3790,6 +3880,26 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3544,
+      "end": 3547,
+      "surface": "see",
+      "senseId": "42fe559a-0566-41d3-9b85-ba5e63563fe4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Can physically see the hall"
+    },
+    {
+      "part": 2,
+      "start": 3552,
+      "end": 3555,
+      "surface": "now",
+      "senseId": "cb456a1d-1b53-4a9a-b2cb-e83c4cc17fdf",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Hall now turned into gym"
     },
     {
       "part": 2,
@@ -4061,6 +4171,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3764,
+      "end": 3767,
+      "surface": "now",
+      "senseId": "cb456a1d-1b53-4a9a-b2cb-e83c4cc17fdf",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "You now have half a minute"
     },
     {
       "part": 2,
