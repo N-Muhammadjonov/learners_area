@@ -174,3 +174,17 @@ test('Part 1 context review rejects semantically incorrect unique dictionary sen
  assert(review.rejectedWrongSense.some(x=>x.lemma==='minutes'));
  assert(review.rejectedWrongSense.some(x=>x.lemma==='played'));
 });
+
+test('Part 1 staged mappings use exact, nonoverlapping transcript spans and real sense UUIDs',()=>{
+ const mapped=JSON.parse(readFileSync(new URL('script-part1-staged-sense-mapping.json',root),'utf8'));
+ assert.equal(mapped.part,1);
+ assert.equal(mapped.count,mapped.mappings.length);
+ assert.equal(mapped.deploymentStatus,'NOT_PUBLISHED');
+ const transcription=data.transcript['1'], sorted=[...mapped.mappings].sort((a,b)=>a.start-b.start);
+ for(const [i,x] of sorted.entries()){
+  assert.equal(transcription.slice(x.start,x.end),x.surface,'invalid span at '+i);
+  assert.match(x.senseId,/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i);
+  if(i)assert(sorted[i-1].end<=x.start,'overlapping mappings');
+ }
+ assert(!sorted.some(x=>x.surface.toLowerCase()==='two'&&x.senseId==='531939e8-d737-416a-9ef4-ed170f918dd0'));
+});
