@@ -163,6 +163,35 @@ def _question_has_answer_key(q: dict[str, Any]) -> bool:
     return isinstance(acc, list) and len(acc) > 0
 
 
+def _valid_auto_speaking_pool(payload):
+    if payload.get('speakingMode') != 'auto':return False
+    topics=payload.get('part1Pool')
+    pairs=payload.get('part2Pairs')
+    def question(q,part):
+        return isinstance(q,dict) and q.get('part')==part and bool(q.get('questionId')) and bool(q.get('promptText'))
+    return (isinstance(topics,list) and bool(topics) and
+            isinstance(pairs,list) and bool(pairs) and
+            all(isinstance(t,dict) and t.get('topic') and isinstance(t.get('parts'),list) and
+                t['parts'] and all(question(q,'P1') for q in t['parts']) for t in topics) and
+            all(isinstance(p,dict) and question(p.get('part2'),'P2') and
+                isinstance(p.get('part3'),list) and p['part3'] and
+                all(question(q,'P3') for q in p['part3']) for p in pairs))
+
+
+def select_attempt_speaking_material(pool):
+    """Independent student assignment. Part3 comes ONLY from the chosen Part2 link.
+
+    The selected set is persisted in mock_attempts.mock_snapshot inside the
+    attempt creation transaction; refresh and resume never select again.
+    """
+    import secrets
+    if not _valid_auto_speaking_pool(pool):
+        raise ValueError('invalid_speaking_pool')
+    topic=secrets.choice(pool['part1Pool'])
+    pair=secrets.choice(pool['part2Pairs'])
+    return {'speakingMode':'auto','parts':[*topic['parts'],pair['part2'],*pair['part3']]}
+
+
 async def _verify_section_material_integrity(
     con,
     section_row: dict[str, Any],
@@ -214,6 +243,10 @@ async def _verify_section_material_integrity(
         return True, None, None, raw_data
 
     if skill == 'speaking':
+        if raw_data.get('speakingMode') == 'auto':
+            if _valid_auto_speaking_pool(raw_data):
+                return True, None, None, raw_data
+            return False, 'invalid_speaking_pool', 'Auto Speaking requires real Part 1, Part 2 and linked Part 3 questions.', raw_data
         parts = raw_data.get('parts') if isinstance(raw_data.get('parts'), list) else []
         for req_part in ('P1', 'P2', 'P3'):
             if not any(isinstance(p, dict) and p.get('part') == req_part and p.get('questionId') and str(p.get('promptText') or p.get('topic') or '').strip() for p in parts):
@@ -646,6 +679,7 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
 
             # TASK 5: Verify every section has real published questions, answer keys, prompts, and media before starting
             verified_writing_materials: list[tuple[dict[str, Any], dict[str, Any]]] = []
+            attempt_speaking_material = None
             for s_row in sections_list:
                 ok_mat, err_code, err_msg, raw_mat = await _verify_section_material_integrity(
                     con, s_row, expected_track=mock_row['track']
@@ -654,6 +688,8 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
                     return _err(err_code or 'mock_content_unavailable', err_msg or 'Required mock content is unavailable.', 422)
                 if s_row['skill'] == 'writing':
                     verified_writing_materials.append((s_row, raw_mat))
+                elif s_row['skill']=='speaking' and raw_mat.get('speakingMode')=='auto':
+                    attempt_speaking_material=select_attempt_speaking_material(raw_mat)
 
             if any(r['skill'] == 'writing' for r in sections_list) and len(verified_writing_materials) < 2:
                 return _err('missing_writing_prompt', 'Both Writing Task 1 and Task 2 published prompts are required.', 422)
@@ -679,6 +715,8 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
                     for r in sections_list
                 ],
             }
+            if attempt_speaking_material is not None:
+                snapshot['speakingMaterial'] = attempt_speaking_material
             snapshot_hash = canonical_json_sha256(snapshot)
             deadline_dt = datetime.fromisoformat(plan['deadlineAt'].replace('Z', '+00:00'))
 
@@ -794,7 +832,9 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
         materials_by_skill: dict[str, Any] = {}
         for s_def in sec_defs:
             sk = s_def.get('skill')
-            if sk in ('listening', 'reading', 'speaking') and sk not in materials_by_skill:
+            if sk=='speaking' and isinstance(snap.get('speakingMaterial'),dict):
+                materials_by_skill[sk] = snap['speakingMaterial']
+            elif sk in ('listening', 'reading', 'speaking') and sk not in materials_by_skill:
                 materials_by_skill[sk] = await _load_section_questions_from_version(
                     con,
                     {
@@ -2186,7 +2226,7 @@ async def create_staff_mock_export_batch(req: Request):
 
             rows = await con.fetch(
                 f"""SELECT s.attempt_id, s.answer_hash, s.submitted_at,
-                           a.user_id AS student_user_id, a.weekly_slot,
+                           a.user_id AS student_user_id, a.weekly_slot, a.mock_snapshot,
                            COALESCE(t.title, a.mock_snapshot->>'title', 'MOCK-01') AS test_title,
                            COALESCE(t.track, a.mock_snapshot->>'track', 'academic') AS track
                     FROM mock_section_submissions s
@@ -2254,6 +2294,29 @@ async def create_staff_mock_export_batch(req: Request):
                 for r in rows:
                     aid = r['attempt_id']
                     p_list = s_by_attempt.get(aid, [])
+                    snap = r['mock_snapshot']
+                    snap = json.loads(snap) if isinstance(snap, str) else (snap or {})
+                    speaking_material = snap.get('speakingMaterial')
+                    if not speaking_material:
+                        # Fixed mode: read the frozen shared version, not today's bank.
+                        speak_section = next((section for section in snap.get('sections', [])
+                                              if section.get('skill') == 'speaking'), None)
+                        if speak_section and speak_section.get('contentVersionId'):
+                            version = await con.fetchrow('SELECT content_snapshot FROM content_versions WHERE id=$1',
+                                                         uuid.UUID(speak_section['contentVersionId']))
+                            if version:
+                                speaking_material = version['content_snapshot']
+                                if isinstance(speaking_material, str):
+                                    speaking_material = json.loads(speaking_material)
+                    source_parts = speaking_material.get('parts', []) if isinstance(speaking_material, dict) else []
+                    for part_audio in p_list:
+                        part_code = part_audio['part']
+                        qids = part_audio.get('question_ids') or []
+                        if isinstance(qids, str): qids = json.loads(qids)
+                        allowed_ids = set(map(str, qids))
+                        part_audio['prompts'] = [str(q['promptText']) for q in source_parts
+                            if q.get('part') == part_code and q.get('promptText') and
+                               (not allowed_ids or str(q.get('questionId')) in allowed_ids)]
                     src_sha = compute_speaking_source_sha256(str(aid), p_list)
                     entries_raw.append({
                         'attemptId': str(aid),
@@ -2266,6 +2329,7 @@ async def create_staff_mock_export_batch(req: Request):
                             {
                                 'part': p['part'],
                                 'questionIds': p['question_ids'] if isinstance(p['question_ids'], list) else json.loads(p['question_ids'] or '[]'),
+                                'prompts': p.get('prompts', []),
                                 'objectKey': p['object_key'],
                                 'codec': p['codec'],
                                 'mimeType': p['mime_type'],

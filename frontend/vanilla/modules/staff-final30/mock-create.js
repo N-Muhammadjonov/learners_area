@@ -21,6 +21,8 @@ const LANG = {
     upload:'Yangi Mock materialini yuklash',json:'Material JSON',media:'Audio / Task 1 rasm',
     uploaded:'Yangi Mock materiali yuklandi.',speaking:'Speaking — saytdagi mavjud savollar',
     p1:'Part 1 — mavzu',p2:'Part 2 — cue card',p3:'Part 3 — mavzu',noTopic:'Mavzu tanlanmagan',
+    mode:'Speaking savollarini taqsimlash',fixed:'Hamma talabaga bir xil to‘plam',auto:'Har bir talabaga avtomatik tasodifiy to‘plam',
+    autoHint:'Part 1 tasodifiy mavzu, Part 2 tasodifiy cue card, Part 3 esa aynan tanlangan Part 2 ga bog‘langan savollardan olinadi. Tanlov har bir talabada bir marta saqlanadi.',
     disabled:'Nashr qilingan Mock tahrirlanmaydi.'},
   en:{title:'Create Mock',sub:'Upload new Mock-only Listening, Reading and Writing material. Select Speaking topics from the existing bank.',
     testName:'Exam title',track:'Track',academic:'Academic',general:'General Training',
@@ -32,6 +34,8 @@ const LANG = {
     upload:'Upload new Mock material',json:'Material JSON',media:'Audio / Task 1 image',
     uploaded:'New Mock material uploaded.',speaking:'Speaking — existing question bank',
     p1:'Part 1 topic',p2:'Part 2 cue card',p3:'Part 3 topic',noTopic:'No topic selected',
+    mode:'Speaking question assignment',fixed:'Same questions for all students',auto:'Auto-select different questions per student',
+    autoHint:'Random Part 1 topic and Part 2 cue card; Part 3 is taken exclusively from that Part 2 follow-up link. Saved once per attempt.',
     disabled:'Published mocks are immutable.'},
 };
 
@@ -41,10 +45,10 @@ export const mockCreateMount=mountStaff({
   render(ctx,data,view){
     const L=LANG[ctx.locale==='uz'?'uz':'en'];
     const {signal}=ctx;
-    const state=ctx.state.mockComposer??={id:null,title:'',track:'academic',sections:{},speakingTopics:{},busy:false,message:'',error:false};
+    const state=ctx.state.mockComposer??={id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',busy:false,message:'',error:false};
     const notify=(text,error=false)=>{state.message=text;state.error=error;view.rerender();};
     const newButton=el('button',{type:'button',class:'btn-secondary','data-mock-author-new':''},L.newMock);
-    listen(newButton,'click',()=>{Object.assign(state,{id:null,title:'',track:'academic',sections:{},speakingTopics:{},message:'',error:false});view.rerender();},signal);
+    listen(newButton,'click',()=>{Object.assign(state,{id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',message:'',error:false});view.rerender();},signal);
     const titleInput=el('input',{class:'input w-full',required:'',maxlength:'160',value:state.title,
       'aria-label':L.testName,'data-mock-author-title':''});
     listen(titleInput,'input',()=>{state.title=titleInput.value;},signal);
@@ -99,6 +103,10 @@ export const mockCreateMount=mountStaff({
         el('div',{class:'flex flex-col gap-2 border-t border-ink-100 pt-3'},nameInput,file,media,upload));
     });
 
+    const speakingMode=el('select',{class:'input w-full','data-mock-speaking-mode':'','aria-label':L.mode},
+      el('option',{value:'fixed'},L.fixed),el('option',{value:'auto'},L.auto));
+    speakingMode.value=state.speakingMode||'fixed';
+    listen(speakingMode,'change',()=>{state.speakingMode=speakingMode.value;state.sections.speaking='';view.rerender();},signal);
     const speakingFields=['P1','P2','P3'].map((part,index)=>{
       const options=(data.speakingTopics||[]).filter(row=>row.part===part);
       const label=[L.p1,L.p2,L.p3][index];
@@ -114,7 +122,10 @@ export const mockCreateMount=mountStaff({
     });
     const speaking=el('section',{class:'panel flex flex-col gap-3','data-mock-speaking-bank':''},
       el('h2',{class:'font-display text-lg text-ink-900'},L.speaking),
-      el('div',{class:'grid grid-cols-1 gap-3 lg:grid-cols-3'},...speakingFields));
+      el('label',{class:'flex flex-col gap-2'},el('span',{class:'text-sm font-medium'},L.mode),speakingMode),
+      state.speakingMode==='auto'
+        ?el('p',{class:'text-sm text-ink-500','data-mock-speaking-auto-hint':''},L.autoHint)
+        :el('div',{class:'grid grid-cols-1 gap-3 lg:grid-cols-3'},...speakingFields));
 
     const button=(label,publish,attr)=>{
       const b=el('button',{type:'button',class:publish?'btn-primary':'btn-secondary',disabled:state.busy,[attr]:''},label);
@@ -125,12 +136,12 @@ export const mockCreateMount=mountStaff({
         try{
           const result=await api.request('/api/staff/mocks/authoring',{
             method:'POST',signal,body:{id:state.id,title:state.title.trim(),track:state.track,
-              sections:state.sections,speakingTopics:state.speakingTopics,publish},
+              sections:state.sections,speakingTopics:state.speakingTopics,speakingMode:state.speakingMode,publish},
           });
           if(signal.aborted)return;
           state.id=publish?null:result.testId;
           if(result.speakingVersionId)state.sections.speaking=result.speakingVersionId;
-          if(publish){state.title='';state.sections={};state.speakingTopics={};}
+          if(publish){state.title='';state.sections={};state.speakingTopics={};state.speakingMode='fixed';}
           state.message=publish?L.publishedNotice:L.saved;
           state.error=false;await view.reload();
         }catch(err){if(!signal.aborted)notify(`${L.error} (${err.code||'request_failed'})`,true);}
@@ -142,7 +153,8 @@ export const mockCreateMount=mountStaff({
         el('span',{class:'text-xs text-ink-500'},`${test.track} · ${test.status==='published'?L.published:L.draft}`)),
       test.status==='draft'?(()=>{const b=el('button',{type:'button',class:'btn-secondary btn-sm','data-mock-author-edit':test.id},L.edit);
         listen(b,'click',()=>{Object.assign(state,{id:test.id,title:test.title,track:test.track,
-          sections:{...test.sections},speakingTopics:{...(test.speakingTopics||{})},message:'',error:false});view.rerender();},signal);return b;})():null));
+          sections:{...test.sections},speakingTopics:{...(test.speakingTopics||{})},
+          speakingMode:test.speakingMode||'fixed',message:'',error:false});view.rerender();},signal);return b;})():null));
     const form=el('section',{class:'panel flex flex-col gap-4','data-mock-authoring-form':''},
       el('p',{class:'text-sm text-ink-500'},L.note),
       el('label',{class:'flex flex-col gap-2'},el('span',{class:'text-sm font-medium'},L.testName),titleInput),

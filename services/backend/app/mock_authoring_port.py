@@ -92,7 +92,9 @@ async def authoring_index(req: Request):
         )
         speaking_ids=[s['content_version_id'] for s in sections if s['skill']=='speaking' and s['content_version_id']]
         speaking_details=await con.fetch('SELECT id, content_snapshot FROM content_versions WHERE id=ANY($1::uuid[])',speaking_ids) if speaking_ids else []
-    speaking_topic_map={str(r['id']): (r['content_snapshot'] if isinstance(r['content_snapshot'],dict) else json.loads(r['content_snapshot'] or '{}')).get('speakingTopics',{}) for r in speaking_details}
+    speaking_snapshots={str(r['id']): (r['content_snapshot'] if isinstance(r['content_snapshot'],dict) else json.loads(r['content_snapshot'] or '{}')) for r in speaking_details}
+    speaking_topic_map={vid: snap.get('speakingTopics',{}) for vid,snap in speaking_snapshots.items()}
+    speaking_mode_map={vid: ('auto' if snap.get('speakingMode')=='auto' else 'fixed') for vid,snap in speaking_snapshots.items()}
     by_test: dict[str, dict[str, str]] = {}
     for s in sections:
         key = 'writingTask1' if s['skill'] == 'writing' and s['content_type'] == 'task1' else (
@@ -103,7 +105,8 @@ async def authoring_index(req: Request):
         'tests': [{'id': str(t['id']), 'title': t['title'], 'track': t['track'],
                    'status': t['publication_state'], 'version': t['version'],
                    'sections': by_test.get(str(t['id']), {}),
-                   'speakingTopics': speaking_topic_map.get(by_test.get(str(t['id']), {}).get('speaking',''), {})} for t in rows],
+                   'speakingTopics': speaking_topic_map.get(by_test.get(str(t['id']), {}).get('speaking',''), {}),
+                   'speakingMode': speaking_mode_map.get(by_test.get(str(t['id']), {}).get('speaking',''), 'fixed')} for t in rows],
         'versions': [{'id': str(v['id']), 'title': v['title'], 'module': v['module'],
                       'contentType': v['content_type'], 'track': v['track'] or 'unspecified',
                       'version': v['version_no']} for v in versions],
@@ -299,6 +302,63 @@ async def _speaking_version(con, user, topics: dict, track: str, title: str):
     return vid
 
 
+async def _auto_speaking_version(con, user, track: str, title: str):
+    """Freeze published question bank and explicit Part2.follow_ups -> Part3 links.
+
+    This is a server-side source pool. It is NEVER returned to students; each
+    attempt receives only its chosen three-part questions in mock_snapshot.
+    """
+    rows = await con.fetch("""SELECT id, part::text AS part, topic, prompt_text,
+                           cue_card, follow_ups, external_id FROM speaking_prompts
+                           WHERE is_active=TRUE AND publication_state='published'
+                             AND part::text IN ('part1','part2','part3','1','2','3')
+                           ORDER BY part, topic, id""")
+    def material(row, part):
+        return {'part':part, 'questionId':str(row['id']), 'topic':row['topic'],
+                'promptText':row['prompt_text'] or row['topic'], 'cueCard':row['cue_card']}
+    p1_topics={}
+    p3_by_text={}
+    part2=[]
+    for row in rows:
+        part=str(row['part']).replace('part','')
+        if part=='1' and row['topic'] and row['prompt_text']:
+            p1_topics.setdefault(row['topic'],[]).append(material(row,'P1'))
+        elif part=='2' and row['prompt_text']:
+            part2.append(row)
+        elif part=='3' and row['prompt_text']:
+            group = str(row['external_id'] or '').split('-')
+            if len(group) >= 4 and group[0]=='s166':
+                p3_by_text.setdefault((group[1], str(row['prompt_text']).strip()), []).append(material(row,'P3'))
+    pairs=[]
+    for row in part2:
+        group = str(row['external_id'] or '').split('-')
+        if len(group) < 4 or group[0] != 's166':
+            continue
+        raw=row['follow_ups']
+        followups=json.loads(raw) if isinstance(raw,str) else raw
+        if not isinstance(followups,list):
+            continue
+        matched=[]
+        seen=set()
+        for text in followups:
+            if not isinstance(text,str):continue
+            for linked in p3_by_text.get((group[1], text.strip()),[]):
+                if linked['questionId'] not in seen:
+                    matched.append(linked)
+                    seen.add(linked['questionId'])
+        if matched:
+            pairs.append({'part2':material(row,'P2'), 'part3':matched})
+    topics=[{'topic':topic,'parts':parts} for topic,parts in sorted(p1_topics.items()) if parts]
+    if not topics or not pairs:
+        return None
+    vid=uuid.uuid4()
+    await _insert_mock_version(con,vid=vid,title=title+' — Speaking (Auto)',track=track,
+                               content_type='speaking',user_id=user['id'],
+                               payload={'speakingMode':'auto','part1Pool':topics,
+                                        'part2Pairs':pairs,'mockMaterialSlot':'speaking'})
+    return vid
+
+
 @router.post('/api/staff/mocks/authoring')
 async def save_mock_draft(req: Request):
     from . import main as core
@@ -324,9 +384,12 @@ async def save_mock_draft(req: Request):
     if any(key not in SLOT_BY_KEY for key in selected):
         return mock._err('invalid_section', 'Unsupported section binding.', 422)
     speaking_topics=body.get('speakingTopics') or {}
+    speaking_mode=body.get('speakingMode','fixed')
+    if speaking_mode not in ('fixed','auto'):
+        return mock._err('invalid_speaking_mode','Unknown Speaking assignment mode.',422)
     if publish and any(not selected.get(key) for key in SLOT_BY_KEY if key!='speaking'):
         return mock._err('missing_sections', 'All four newly uploaded Mock materials are required.', 422)
-    if publish and not selected.get('speaking') and not all(speaking_topics.get(k) for k in ('P1','P2','P3')):
+    if publish and speaking_mode=='fixed' and not selected.get('speaking') and not all(speaking_topics.get(k) for k in ('P1','P2','P3')):
         return mock._err('missing_speaking_topics', 'Select published Speaking topics for Parts 1, 2 and 3.', 422)
     bindings: dict[str, uuid.UUID] = {}
     for key in SLOT_BY_KEY:
@@ -358,8 +421,9 @@ async def save_mock_draft(req: Request):
             source_map = {r['id']: dict(r) for r in source_rows}
             # Resolve the existing Speaking bank into an immutable, dedicated Mock
             # snapshot. It is never taken from arbitrary `content_versions` rows.
-            if all(speaking_topics.get(k) for k in ('P1','P2','P3')) and not bindings.get('speaking'):
-                speak_vid=await _speaking_version(con,user,speaking_topics,track,title)
+            if not bindings.get('speaking') and (speaking_mode=='auto' or all(speaking_topics.get(k) for k in ('P1','P2','P3'))):
+                speak_vid=(await _auto_speaking_version(con,user,track,title) if speaking_mode=='auto'
+                           else await _speaking_version(con,user,speaking_topics,track,title))
                 if not speak_vid:
                     return mock._err('missing_speaking_bank', 'The selected Speaking topic has no active questions.', 422)
                 bindings['speaking']=speak_vid
@@ -377,6 +441,11 @@ async def save_mock_draft(req: Request):
                     (user['role'] != 'owner' and source['created_by_user_id'] != user['id'])):
                     return mock._err('unpublished_or_mismatched_material',
                                      f'{key} must reference a published {track} content version.', 422)
+                if key=='speaking':
+                    content=source['content_snapshot']
+                    content=json.loads(content) if isinstance(content,str) else content
+                    if (content.get('speakingMode')=='auto') != (speaking_mode=='auto'):
+                        return mock._err('speaking_mode_mismatch','Save a new Speaking selection for this mode.',422)
                 ref = str(source['source_ref'] or vid)
                 if len(ref) > 80:
                     return mock._err('invalid_source_ref', f'{key} source reference is too long.', 422)
@@ -435,5 +504,6 @@ async def save_mock_draft(req: Request):
                 await con.execute(
                     "UPDATE mock_tests SET publication_state = 'published', updated_at = NOW() WHERE id = $1", test_id)
     return core.j({'ok': True, 'testId': str(test_id),
+                   'speakingMode': speaking_mode,
                    'speakingVersionId': str(bindings.get('speaking')) if bindings.get('speaking') else None,
                    'status': 'published' if publish else 'draft'}, headers=mock.PRIVATE_HEADERS)
