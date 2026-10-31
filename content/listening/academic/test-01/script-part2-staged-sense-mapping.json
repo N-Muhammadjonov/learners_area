@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 422,
+  "count": 428,
   "mappings": [
     {
       "part": 2,
@@ -15,6 +15,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Now introduces instruction"
+    },
+    {
+      "part": 2,
+      "start": 4,
+      "end": 8,
+      "surface": "turn",
+      "senseId": "a0b318a5-50a1-4648-b099-23e5cabe4c6d",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Turn to section: turn pages or attention to next section"
     },
     {
       "part": 2,
@@ -1980,6 +1990,16 @@
     },
     {
       "part": 2,
+      "start": 1867,
+      "end": 1869,
+      "surface": "be",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Poster will be on a particular topic: copular state"
+    },
+    {
+      "part": 2,
       "start": 1873,
       "end": 1882,
       "surface": "something",
@@ -3341,6 +3361,16 @@
     },
     {
       "part": 2,
+      "start": 3034,
+      "end": 3036,
+      "surface": "be",
+      "senseId": "ec518aa3-09d9-4392-9f35-fc38d17501b4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Be able to: auxiliary-like copula in ability construction"
+    },
+    {
+      "part": 2,
       "start": 3042,
       "end": 3044,
       "surface": "to",
@@ -3358,6 +3388,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 3063,
+      "end": 3067,
+      "surface": "room",
+      "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Computer room: room in building, as validated Part 1"
     },
     {
       "part": 2,
@@ -3428,6 +3468,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3129,
+      "end": 3133,
+      "surface": "work",
+      "senseId": "374112ea-6cd8-41cd-b69e-478c9188dc23",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "To work quietly: perform work"
     },
     {
       "part": 2,
@@ -3539,6 +3589,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 3242,
+      "end": 3246,
+      "surface": "room",
+      "senseId": "b9fdb0e9-eacf-49cd-84db-ae02cf2879df",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Music room: room in building as validated Part 1"
     },
     {
       "part": 2,
