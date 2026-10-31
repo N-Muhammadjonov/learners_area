@@ -732,10 +732,7 @@
       ]
     },
     {
-      "operation": "add_lexeme",
-      "lemma": "detail",
-      "partOfSpeech": "n",
-      "lexicalType": "word",
+      "operation": "add_sense",
       "definitionEn": "A particular fact or piece of information about something.",
       "translationUz": "tafsilot, ma’lumot",
       "definitionUz": "Biror narsa haqidagi alohida fakt yoki ma’lumot.",
@@ -744,7 +741,8 @@
           "textEn": "I'll send you the details.",
           "textUz": "Men sizga tafsilotlarni yuboraman."
         }
-      ]
+      ],
+      "lexemeId": "6698a0c8-643e-5151-b9f9-7c2fd68d1cbd"
     },
     {
       "operation": "add_lexeme",
@@ -788,21 +786,6 @@
         {
           "textEn": "It's past the Palace Pier.",
           "textUz": "Bu Palas Piyrdan narida."
-        }
-      ]
-    },
-    {
-      "operation": "add_lexeme",
-      "lemma": "scope",
-      "partOfSpeech": "n",
-      "lexicalType": "word",
-      "definitionEn": "The name of the charity organization mentioned in this conversation.",
-      "translationUz": "Scope xayriya tashkiloti",
-      "definitionUz": "Suhbatda tilga olingan xayriya tashkilotining nomi.",
-      "examples": [
-        {
-          "textEn": "Scope charity office.",
-          "textUz": "Scope xayriya tashkiloti idorasi."
         }
       ]
     },
@@ -884,5 +867,38 @@
     "New-entry drafts must be applied before add_sense operations referencing the derived deterministic entry IDs",
     "Base release remains immutable; publish and switch to a new validated release",
     "Preserve distinct contextual senses and POS of modal, auxiliary, lexical verbs, and adjectives"
+  ],
+  "properNameAnnotations": [
+    {
+      "start": 420,
+      "end": 425,
+      "surface": "Scope",
+      "entityType": "charity_organization",
+      "note": "Organization name, do not conflate with existing common noun scope."
+    },
+    {
+      "start": 1047,
+      "end": 1062,
+      "surface": "Brighton Marina",
+      "entityType": "place_name"
+    },
+    {
+      "start": 1144,
+      "end": 1159,
+      "surface": "Brighton Marina",
+      "entityType": "place_name"
+    },
+    {
+      "start": 1264,
+      "end": 1275,
+      "surface": "Palace Pier",
+      "entityType": "place_name"
+    },
+    {
+      "start": 2212,
+      "end": 2221,
+      "surface": "Hong Kong",
+      "entityType": "place_name"
+    }
   ]
 }
