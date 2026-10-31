@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 399,
+  "count": 403,
   "mappings": [
     {
       "part": 2,
@@ -1527,6 +1527,16 @@
     },
     {
       "part": 2,
+      "start": 1434,
+      "end": 1438,
+      "surface": "much",
+      "senseId": "35cbaf7a-821a-4902-a709-3b17ec1e5c6e",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Manually checked matching context in Test 1 Part 2 against already staged dictionary sense"
+    },
+    {
+      "part": 2,
       "start": 1451,
       "end": 1454,
       "surface": "and",
@@ -2747,6 +2757,16 @@
     },
     {
       "part": 2,
+      "start": 2609,
+      "end": 2611,
+      "surface": "OK",
+      "senseId": "0fe24087-afef-409f-9a15-23a997e8dd62",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Manually checked matching context in Test 1 Part 2 against already staged dictionary sense"
+    },
+    {
+      "part": 2,
       "start": 2613,
       "end": 2617,
       "surface": "I'll",
@@ -3422,6 +3442,16 @@
     },
     {
       "part": 2,
+      "start": 3270,
+      "end": 3275,
+      "surface": "there",
+      "senseId": "ef1658cb-b193-47eb-bc1b-1dafc2dad324",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Manually checked matching context in Test 1 Part 2 against already staged dictionary sense"
+    },
+    {
+      "part": 2,
       "start": 3279,
       "end": 3288,
       "surface": "lunchtime",
@@ -3841,6 +3871,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3698,
+      "end": 3702,
+      "surface": "here",
+      "senseId": "701fdc95-2b4e-4225-895f-0985a36187cd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Manually checked matching context in Test 1 Part 2 against already staged dictionary sense"
     },
     {
       "part": 2,
