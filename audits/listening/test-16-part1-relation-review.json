@@ -1,0 +1,55 @@
+{
+  "test": "listening-test-16",
+  "part": 1,
+  "status": "sense_level_relation_review_pending_new_release",
+  "sourceRelease": "rel-v1-1fa06d8d41d8ff701632573e",
+  "relations": [
+    {
+      "newLemma": "trainer",
+      "newMeaning": "sports shoe (UK)",
+      "newSenseId": null,
+      "relation": "regional_synonym",
+      "targetLemma": "sneaker",
+      "targetEntryId": "662ff778-3168-5447-af81-268e423d5f02",
+      "targetSenseId": "31f266af-0418-47f0-8f16-0fb3563e96f2",
+      "direction": "UK to US",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/trainer",
+      "status": "source_checked_new_sense_not_published"
+    },
+    {
+      "newLemma": "trainer",
+      "newMeaning": "sports shoe (UK)",
+      "newSenseId": null,
+      "relation": "hypernym",
+      "targetLemma": "shoe",
+      "targetEntryId": "f9f97a92-3d43-5863-a98e-7c4bbe58a0e2",
+      "targetSenseId": "44105f5c-37d6-47ac-b8a0-45cb6b84388e",
+      "source": "https://dictionary.cambridge.org/us/dictionary/english/trainer",
+      "status": "logical_relation_not_synonym"
+    },
+    {
+      "newLemma": "seafront",
+      "newMeaning": "coastal town's area by the sea",
+      "newSenseId": null,
+      "relation": "related_near_synonym",
+      "targetLemma": "waterfront",
+      "targetEntryId": "1af52530-a000-58e4-98df-b071c4608782",
+      "targetSenseId": "2e927f5f-095e-42b8-9629-43e6aa7397d1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/seafront",
+      "status": "context-dependent_not_strict_synonym"
+    },
+    {
+      "newLemma": "seafront",
+      "newMeaning": "coastal town's area by the sea",
+      "newSenseId": null,
+      "relation": "related",
+      "targetLemma": "shore",
+      "targetEntryId": "6afeb05e-e94b-5ec2-ab4e-cca3475c70ad",
+      "targetSenseId": "aaa42a1d-a943-4fcb-b310-3326a86190d1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/seafront",
+      "status": "related_not_identical"
+    }
+  ],
+  "antonymPolicy": "Do not fabricate antonyms where a lexical item has no conventional direct opposite.",
+  "note": "All links must wait for a published source sense ID. Relations use actual target entry and sense IDs. No production write."
+}
