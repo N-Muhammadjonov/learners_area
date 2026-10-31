@@ -17,7 +17,15 @@ test('mobile does not schedule background idle API prewarming',()=>{
   nav:{onLine:true,connection:{effectiveType:'4g'}},
   doc:{visibilityState:'visible'},setTimer:(fn,ms)=>{timers.push({fn,ms});return timers.length;},
   clearTimer(){}});
- try{assert.equal(timers.length,0);assert.equal(typeof root.handlers.get('learners-area:prefetch-intent'),'function');}
+ try{
+  assert.equal(timers.length,0);
+  const hint=root.handlers.get('learners-area:prefetch-intent');
+  assert.equal(typeof hint,'function');
+  hint({detail:{action:'prepare',delay:0},target:{closest:()=>({
+   href:'https://la.example/app/reading/lessons',hasAttribute:()=>false,isConnected:true,target:''
+  })}});
+  assert.equal(timers.length,0,'mobile tap must not start competing prefetch');
+ }
  finally{worker.dispose();controller.abort();}
 });
 test('desktop schedules only one bounded idle warm-up and disposes on abort',()=>{
