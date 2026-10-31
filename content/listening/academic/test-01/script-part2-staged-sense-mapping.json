@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 479,
+  "count": 508,
   "mappings": [
     {
       "part": 2,
@@ -1183,6 +1183,16 @@
     },
     {
       "part": 2,
+      "start": 876,
+      "end": 881,
+      "surface": "whole",
+      "senseId": "366b789e-2c84-4a85-b0eb-2fc173dd3a74",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Whole school: all members without exception"
+    },
+    {
+      "part": 2,
       "start": 882,
       "end": 888,
       "surface": "school",
@@ -1413,6 +1423,16 @@
     },
     {
       "part": 2,
+      "start": 1061,
+      "end": 1065,
+      "surface": "with",
+      "senseId": "36693201-e7a5-52e6-a711-2caf6896843a",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Lessons with an hour for lunch: accompanying time allowance"
+    },
+    {
+      "part": 2,
       "start": 1066,
       "end": 1068,
       "surface": "an",
@@ -1420,6 +1440,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1069,
+      "end": 1073,
+      "surface": "hour",
+      "senseId": "e551e20f-a99d-4a03-8894-169bd7ead3e1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Hour: sixty minute duration"
     },
     {
       "part": 2,
@@ -1555,6 +1585,16 @@
     },
     {
       "part": 2,
+      "start": 1171,
+      "end": 1175,
+      "surface": "meal",
+      "senseId": "0a53e0aa-803d-4f99-a7f9-226a97b0106f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Hot meal: food served at one eating occasion"
+    },
+    {
+      "part": 2,
       "start": 1176,
       "end": 1178,
       "surface": "is",
@@ -1562,6 +1602,26 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "is linking subject and predicate"
+    },
+    {
+      "part": 2,
+      "start": 1179,
+      "end": 1188,
+      "surface": "available",
+      "senseId": "b9b271ef-31a0-4092-862d-a71b014dc70b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Meal is available: obtainable and ready for use"
+    },
+    {
+      "part": 2,
+      "start": 1190,
+      "end": 1194,
+      "surface": "They",
+      "senseId": "e3618314-7ddf-5429-b663-1a75ff8e10a8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "They: children previously identified"
     },
     {
       "part": 2,
@@ -1626,6 +1686,16 @@
     },
     {
       "part": 2,
+      "start": 1245,
+      "end": 1251,
+      "surface": "middle",
+      "senseId": "4ea80456-2cfb-4a4c-a4d2-feb934c53aef",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Middle of morning: center of a time period"
+    },
+    {
+      "part": 2,
       "start": 1252,
       "end": 1254,
       "surface": "of",
@@ -1673,6 +1743,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1275,
+      "end": 1281,
+      "surface": "middle",
+      "senseId": "4ea80456-2cfb-4a4c-a4d2-feb934c53aef",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Middle of afternoon: center of a time period"
     },
     {
       "part": 2,
@@ -1797,6 +1877,16 @@
     },
     {
       "part": 2,
+      "start": 1357,
+      "end": 1366,
+      "surface": "generally",
+      "senseId": "b0d4731b-40c3-4c30-96b8-a91388bc8235",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Generally: usually"
+    },
+    {
+      "part": 2,
       "start": 1367,
       "end": 1369,
       "surface": "go",
@@ -1834,6 +1924,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 1390,
+      "end": 1393,
+      "surface": "wet",
+      "senseId": "a91d1cba-cc7a-4322-b263-f76fd83e9632",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Wet weather: containing moisture"
     },
     {
       "part": 2,
@@ -1927,6 +2027,26 @@
     },
     {
       "part": 2,
+      "start": 1458,
+      "end": 1463,
+      "surface": "offer",
+      "senseId": "19920949-2fc8-4dfb-85e8-da13f0a6e079",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Offer several ways: provide options"
+    },
+    {
+      "part": 2,
+      "start": 1464,
+      "end": 1471,
+      "surface": "several",
+      "senseId": "7c087015-14bc-4469-bbaf-9bab1adcde41",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Several ways: more than two but not many"
+    },
+    {
+      "part": 2,
       "start": 1477,
       "end": 1479,
       "surface": "of",
@@ -1987,6 +2107,16 @@
     },
     {
       "part": 2,
+      "start": 1570,
+      "end": 1576,
+      "surface": "expect",
+      "senseId": "76d6b342-d750-4db3-a9a9-80d18a2a6fad",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "We expect pupils to do sport: consider it required"
+    },
+    {
+      "part": 2,
       "start": 1577,
       "end": 1580,
       "surface": "the",
@@ -1994,6 +2124,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1581,
+      "end": 1586,
+      "surface": "whole",
+      "senseId": "366b789e-2c84-4a85-b0eb-2fc173dd3a74",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Whole school: every pupil"
     },
     {
       "part": 2,
@@ -2280,6 +2420,16 @@
     },
     {
       "part": 2,
+      "start": 1797,
+      "end": 1802,
+      "surface": "three",
+      "senseId": "a3abf86d-0248-467c-87d9-3c664198d2ac",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Three terms: cardinal number modifying term"
+    },
+    {
+      "part": 2,
       "start": 1803,
       "end": 1808,
       "surface": "terms",
@@ -2360,6 +2510,16 @@
     },
     {
       "part": 2,
+      "start": 1883,
+      "end": 1893,
+      "surface": "particular",
+      "senseId": "4fc5f963-66aa-447c-8c1c-7fce3aa6473a",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Something particular: a specific item"
+    },
+    {
+      "part": 2,
       "start": 1894,
       "end": 1898,
       "surface": "that",
@@ -2387,6 +2547,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 1922,
+      "end": 1926,
+      "surface": "term",
+      "senseId": "3a735fa5-2d2f-45cb-bef3-28bcb2a1adbc",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "School term: a limited time period"
     },
     {
       "part": 2,
@@ -2461,6 +2631,16 @@
     },
     {
       "part": 2,
+      "start": 2003,
+      "end": 2008,
+      "surface": "child",
+      "senseId": "40d5f5cb-fc20-4c7f-b459-9af8b9304f02",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Each child: young person"
+    },
+    {
+      "part": 2,
       "start": 2021,
       "end": 2026,
       "surface": "their",
@@ -2489,6 +2669,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2042,
+      "end": 2047,
+      "surface": "every",
+      "senseId": "691a0175-b139-487d-9885-5aebae6fa5d9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Every month: regular specified monthly interval"
     },
     {
       "part": 2,
@@ -2560,6 +2750,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 2100,
+      "end": 2106,
+      "surface": "report",
+      "senseId": "955f7a80-0174-4ec5-8b4a-dd9875a8d101",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Student report: written evaluation of pupil performance"
     },
     {
       "part": 2,
@@ -2684,6 +2884,16 @@
     },
     {
       "part": 2,
+      "start": 2196,
+      "end": 2200,
+      "surface": "year",
+      "senseId": "7ce0310f-1a9d-47fe-9dcd-f4b3b67a27a2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Over the year: academic cycle"
+    },
+    {
+      "part": 2,
       "start": 2202,
       "end": 2204,
       "surface": "We",
@@ -2701,6 +2911,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "are linking subject and property"
+    },
+    {
+      "part": 2,
+      "start": 2209,
+      "end": 2213,
+      "surface": "very",
+      "senseId": "0c9bff2d-b4a7-4c14-824c-07fddd5b3307",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Very proud: emphasis adverb"
     },
     {
       "part": 2,
@@ -2771,6 +2991,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2245,
+      "end": 2249,
+      "surface": "very",
+      "senseId": "0c9bff2d-b4a7-4c14-824c-07fddd5b3307",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Very good: emphasis adverb"
     },
     {
       "part": 2,
@@ -3347,6 +3577,16 @@
     },
     {
       "part": 2,
+      "start": 2618,
+      "end": 2625,
+      "surface": "quickly",
+      "senseId": "78d86c2c-57c8-4d8a-80d2-906e83fab504",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Quickly show: with speed"
+    },
+    {
+      "part": 2,
       "start": 2626,
       "end": 2630,
       "surface": "show",
@@ -3498,6 +3738,16 @@
     },
     {
       "part": 2,
+      "start": 2730,
+      "end": 2736,
+      "surface": "expect",
+      "senseId": "53750578-9187-4741-92eb-48a239204302",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Expect to find reception: consider it likely"
+    },
+    {
+      "part": 2,
       "start": 2737,
       "end": 2739,
       "surface": "to",
@@ -3589,6 +3839,16 @@
     },
     {
       "part": 2,
+      "start": 2810,
+      "end": 2820,
+      "surface": "personally",
+      "senseId": "a7e05696-fafb-4cb0-a6d6-d4b62a808a44",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "See visitors personally: in person"
+    },
+    {
+      "part": 2,
       "start": 2821,
       "end": 2824,
       "surface": "and",
@@ -3609,6 +3869,16 @@
     },
     {
       "part": 2,
+      "start": 2829,
+      "end": 2833,
+      "surface": "door",
+      "senseId": "29a9d9a1-8c68-42c0-bdf9-f965176d68b1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "His door: physical entrance barrier"
+    },
+    {
+      "part": 2,
       "start": 2834,
       "end": 2836,
       "surface": "is",
@@ -3619,6 +3889,16 @@
     },
     {
       "part": 2,
+      "start": 2837,
+      "end": 2843,
+      "surface": "always",
+      "senseId": "a09484a5-427f-4dfd-9a3e-5bc4979e18b0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Door is always open: at all times"
+    },
+    {
+      "part": 2,
       "start": 2844,
       "end": 2848,
       "surface": "open",
@@ -3626,6 +3906,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Door is always open: not shut."
+    },
+    {
+      "part": 2,
+      "start": 2850,
+      "end": 2858,
+      "surface": "Opposite",
+      "senseId": "5806fa15-674f-4d03-a892-7af5a9cbcf97",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Opposite this: directly facing spatially"
     },
     {
       "part": 2,
