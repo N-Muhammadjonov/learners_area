@@ -1,0 +1,827 @@
+{
+  "schema": "test1-part1-new-contextual-senses-v1",
+  "releaseStatus": "NOT_PUBLISHED",
+  "senses": [
+    {
+      "headword": "have to",
+      "senseName": "OBLIGATION",
+      "partOfSpeech": "auxiliary verb",
+      "cefr": "A2",
+      "definitionEn": "To be obliged or required to do something.",
+      "translationUz": "...ishga majbur bo‘lmoq; zarur bo‘lmoq",
+      "synonyms": [
+        "must"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/us/dictionary/english/have-to"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 25,
+          "end": 29,
+          "tokenIndex": 5,
+          "surface": "have",
+          "tokenIndices": [
+            5
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "there",
+      "senseName": "EXISTENTIAL",
+      "partOfSpeech": "existential pronoun",
+      "cefr": "A1",
+      "definitionEn": "Introduces a statement that someone or something exists or is present.",
+      "translationUz": "bor; mavjud",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/there-is-there-are"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 68,
+          "end": 73,
+          "tokenIndex": 13,
+          "surface": "There",
+          "tokenIndices": [
+            13
+          ]
+        },
+        {
+          "part": 1,
+          "start": 654,
+          "end": 659,
+          "tokenIndex": 119,
+          "surface": "there",
+          "tokenIndices": [
+            119
+          ]
+        },
+        {
+          "part": 1,
+          "start": 1864,
+          "end": 1869,
+          "tokenIndex": 360,
+          "surface": "there",
+          "tokenIndices": [
+            360
+          ]
+        },
+        {
+          "part": 1,
+          "start": 1960,
+          "end": 1965,
+          "tokenIndex": 377,
+          "surface": "there",
+          "tokenIndices": [
+            377
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "play",
+      "senseName": "RECORDING_PLAYBACK",
+      "partOfSpeech": "verb",
+      "cefr": "A2",
+      "definitionEn": "To make an audio or video recording produce sounds or pictures.",
+      "translationUz": "audioyozuvni ijro etmoq; qo‘ymoq",
+      "synonyms": [
+        "play back"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/play"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 209,
+          "end": 215,
+          "tokenIndex": 40,
+          "surface": "played",
+          "tokenIndices": [
+            40
+          ]
+        },
+        {
+          "part": 1,
+          "start": 768,
+          "end": 774,
+          "tokenIndex": 140,
+          "surface": "played",
+          "tokenIndices": [
+            140
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "on",
+      "senseName": "TOPIC",
+      "partOfSpeech": "preposition",
+      "cefr": "A2",
+      "definitionEn": "Introduces the subject being discussed or described.",
+      "translationUz": "haqida; to‘g‘risida",
+      "synonyms": [
+        "about"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/on"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 50,
+          "end": 52,
+          "tokenIndex": 9,
+          "surface": "on",
+          "tokenIndices": [
+            9
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "on",
+      "senseName": "SPECIFIC_OCCASION",
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates an occasion or date when something happens.",
+      "translationUz": "shu safar; shu munosabat bilan",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/on"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 703,
+          "end": 705,
+          "tokenIndex": 129,
+          "surface": "On",
+          "tokenIndices": [
+            129
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "on",
+      "senseName": "DEVICE_OR_MEDIUM",
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates a device or means of communication, such as telephone or television.",
+      "translationUz": "telefon yoki televizor orqali",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/on"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2265,
+          "end": 2267,
+          "tokenIndex": 438,
+          "surface": "on",
+          "tokenIndices": [
+            438
+          ]
+        },
+        {
+          "part": 1,
+          "start": 3242,
+          "end": 3244,
+          "tokenIndex": 634,
+          "surface": "on",
+          "tokenIndices": [
+            634
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "in",
+      "senseName": "CLASSIFICATION",
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates inclusion within a group or division.",
+      "translationUz": "ichida; bo‘limlarga ajratilgan",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/in"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 240,
+          "end": 242,
+          "tokenIndex": 46,
+          "surface": "in",
+          "tokenIndices": [
+            46
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "in",
+      "senseName": "AFTER_A_SHORT_TIME",
+      "partOfSpeech": "preposition",
+      "cefr": "A2",
+      "definitionEn": "Marks the amount of time before something happens.",
+      "translationUz": "...dan keyin; ... ichida",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/in"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2509,
+          "end": 2511,
+          "tokenIndex": 489,
+          "surface": "in",
+          "tokenIndices": [
+            489
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "in",
+      "senseName": "TIME_OF_DAY",
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Indicates a part of the day when something happens.",
+      "translationUz": "ertalab; tushdan keyin (...da)",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-in-time"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 3443,
+          "end": 3445,
+          "tokenIndex": 673,
+          "surface": "in",
+          "tokenIndices": [
+            673
+          ]
+        },
+        {
+          "part": 1,
+          "start": 3472,
+          "end": 3474,
+          "tokenIndex": 678,
+          "surface": "In",
+          "tokenIndices": [
+            678
+          ]
+        },
+        {
+          "part": 1,
+          "start": 3505,
+          "end": 3507,
+          "tokenIndex": 684,
+          "surface": "in",
+          "tokenIndices": [
+            684
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "at",
+      "senseName": "DIRECTION_ATTENTION",
+      "partOfSpeech": "preposition",
+      "cefr": "A1",
+      "definitionEn": "Marks the person or thing towards which someone directs attention or sight.",
+      "translationUz": "-ga qarab; -ni",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/at"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 605,
+          "end": 607,
+          "tokenIndex": 110,
+          "surface": "at",
+          "tokenIndices": [
+            110
+          ]
+        },
+        {
+          "part": 1,
+          "start": 3106,
+          "end": 3108,
+          "tokenIndex": 610,
+          "surface": "at",
+          "tokenIndices": [
+            610
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "well",
+      "senseName": "DISCOURSE_MARKER",
+      "partOfSpeech": "discourse marker",
+      "cefr": null,
+      "definitionEn": "Used to begin a response, introduce a thought or change how a speaker continues.",
+      "translationUz": "xo‘sh; xullas; endi",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/well"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 1372,
+          "end": 1376,
+          "tokenIndex": 262,
+          "surface": "Well",
+          "tokenIndices": [
+            262
+          ]
+        },
+        {
+          "part": 1,
+          "start": 1891,
+          "end": 1895,
+          "tokenIndex": 365,
+          "surface": "Well",
+          "tokenIndices": [
+            365
+          ]
+        },
+        {
+          "part": 1,
+          "start": 2866,
+          "end": 2870,
+          "tokenIndex": 562,
+          "surface": "Well",
+          "tokenIndices": [
+            562
+          ]
+        },
+        {
+          "part": 1,
+          "start": 3626,
+          "end": 3630,
+          "tokenIndex": 709,
+          "surface": "Well",
+          "tokenIndices": [
+            709
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "as",
+      "senseName": "SIMULTANEOUS",
+      "partOfSpeech": "conjunction",
+      "cefr": "B1",
+      "definitionEn": "Introduces an event happening during another event.",
+      "translationUz": "...paytida; ...ganda",
+      "synonyms": [
+        "while"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/us/grammar/british-grammar/as-when-or-while"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 1082,
+          "end": 1084,
+          "tokenIndex": 205,
+          "surface": "as",
+          "tokenIndices": [
+            205
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "zone",
+      "senseName": "DESIGNATED_RESTRICTION",
+      "partOfSpeech": "verb",
+      "cefr": null,
+      "definitionEn": "To designate an area for a particular type of use or restriction.",
+      "translationUz": "hududni muayyan maqsad uchun belgilamoq",
+      "synonyms": [
+        "designate"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/zone"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2079,
+          "end": 2084,
+          "tokenIndex": 400,
+          "surface": "zoned",
+          "tokenIndices": [
+            400
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "mobile phone",
+      "senseName": "PHONE_NOUN",
+      "partOfSpeech": "noun",
+      "cefr": "A1",
+      "definitionEn": "A portable telephone that connects using a wireless network.",
+      "translationUz": "mobil telefon; uyali telefon",
+      "synonyms": [
+        "cell phone"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/mobile-phone"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2225,
+          "end": 2231,
+          "tokenIndex": 431,
+          "surface": "mobile",
+          "tokenIndices": [
+            431
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "oh",
+      "senseName": "DISCOURSE_REACTION",
+      "partOfSpeech": "interjection",
+      "cefr": null,
+      "definitionEn": "Used to express a reaction or introduce newly remembered information.",
+      "translationUz": "oh; ha, aytgancha",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/oh"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2405,
+          "end": 2407,
+          "tokenIndex": 467,
+          "surface": "Oh",
+          "tokenIndices": [
+            467
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "do",
+      "senseName": "QUESTION_AUXILIARY",
+      "partOfSpeech": "auxiliary verb",
+      "cefr": "A1",
+      "definitionEn": "Forms a question using an ordinary verb.",
+      "translationUz": "so‘roq gap yasovchi yordamchi fe’l",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/do"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 3409,
+          "end": 3411,
+          "tokenIndex": 666,
+          "surface": "Do",
+          "tokenIndices": [
+            666
+          ]
+        },
+        {
+          "part": 1,
+          "start": 3596,
+          "end": 3598,
+          "tokenIndex": 702,
+          "surface": "do",
+          "tokenIndices": [
+            702
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "do",
+      "senseName": "EMPHATIC_AUXILIARY",
+      "partOfSpeech": "auxiliary verb",
+      "cefr": "B1",
+      "definitionEn": "Emphasizes that an action or state is true.",
+      "translationUz": "haqiqatan ham; rostdan",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/do"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2630,
+          "end": 2634,
+          "tokenIndex": 514,
+          "surface": "does",
+          "tokenIndices": [
+            514
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "go travelling",
+      "senseName": "TRAVEL_ACTIVITY",
+      "partOfSpeech": "verb phrase",
+      "cefr": null,
+      "definitionEn": "To travel to places for an extended period or as an activity.",
+      "translationUz": "sayohatga ketmoq; safarga chiqmoq",
+      "synonyms": [
+        "travel"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/go"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2773,
+          "end": 2788,
+          "tokenIndex": 543,
+          "surface": "gone travelling",
+          "tokenIndices": [
+            543,
+            544
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "mine is",
+      "senseName": "POSSESSIVE_CONTRACTION",
+      "partOfSpeech": "contraction",
+      "cefr": null,
+      "definitionEn": "Contracted form of mine is, referring to something belonging to the speaker.",
+      "translationUz": "meniki ...; mening buyumim ...",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/grammar/british-grammar/possessive-pronouns"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2983,
+          "end": 2989,
+          "tokenIndex": 586,
+          "surface": "Mine's",
+          "tokenIndices": [
+            586
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "break",
+      "senseName": "STOP_FUNCTIONING",
+      "partOfSpeech": "verb",
+      "cefr": "A2",
+      "definitionEn": "To stop functioning or working properly.",
+      "translationUz": "buzilmoq; ishlamay qolmoq",
+      "synonyms": [
+        "stop working"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/break"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 2995,
+          "end": 3001,
+          "tokenIndex": 588,
+          "surface": "broken",
+          "tokenIndices": [
+            588
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "by",
+      "senseName": "DEADLINE",
+      "partOfSpeech": "preposition",
+      "cefr": "A2",
+      "definitionEn": "Not later than the stated time or date.",
+      "translationUz": "...gacha; kechiktirmay",
+      "synonyms": [
+        "no later than",
+        "before"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/by"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 3689,
+          "end": 3691,
+          "tokenIndex": 721,
+          "surface": "by",
+          "tokenIndices": [
+            721
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "of",
+      "senseName": "DATE_MONTH",
+      "partOfSpeech": "preposition",
+      "cefr": null,
+      "definitionEn": "Links an ordinal day number with the month in a date.",
+      "translationUz": "(sana) oyning ...-kuni",
+      "synonyms": [],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/of"
+      },
+      "positions": [
+        {
+          "part": 1,
+          "start": 3700,
+          "end": 3702,
+          "tokenIndex": 724,
+          "surface": "of",
+          "tokenIndices": [
+            724
+          ]
+        }
+      ],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    },
+    {
+      "headword": "by the way",
+      "senseName": "TOPIC_CHANGE",
+      "partOfSpeech": "idiom",
+      "cefr": "A2",
+      "definitionEn": "Introduces an additional subject or unrelated information in conversation.",
+      "translationUz": "aytgancha; darvoqe",
+      "synonyms": [
+        "incidentally"
+      ],
+      "antonyms": [],
+      "collocations": [],
+      "exampleSentence": null,
+      "source": {
+        "name": "Cambridge Dictionary",
+        "url": "https://dictionary.cambridge.org/dictionary/english/by-the-way"
+      },
+      "positions": [],
+      "status": "source_verified_meaning_NOT_PUBLISHED",
+      "senseId": null
+    }
+  ]
+}
