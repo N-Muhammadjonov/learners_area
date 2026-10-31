@@ -4,7 +4,8 @@ Stable media protocol copied from lib/media/protocol.ts. Every file requires
 actual user/session authority and a resource-owner DB lookup.
 """
 from __future__ import annotations
-import base64,hashlib,hmac,json,os,re,time
+import base64,hashlib,hmac,json,logging,os,re,time
+import httpx
 from datetime import datetime,timezone
 from urllib.parse import urlencode,quote,urlparse
 from fastapi import APIRouter,Request
@@ -16,6 +17,7 @@ from .writing_exam_bank import graph_bytes as exam_graph_bytes, GRAPHS as EXAM_G
 from .media_streaming import upstream_response,object_response,if_range_matches
 
 router=APIRouter()
+LOG=logging.getLogger('uvicorn.error')
 PRIVATE={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}
 STAFF={'owner','admin','teacher'}
 ORIGIN='https://learnersarea-media.owneruchunla.workers.dev'
@@ -33,7 +35,7 @@ def media_conf():
     if not address and not secret:return None
     url=urlparse(address or '')
     if (not address or not secret or len(secret.encode())<32 or url.scheme!='https' or
-        url.netloc!='learnersarea-media.owneruchunla.workers.dev' or url.path!='/' or url.params or url.query or url.fragment or url.username or url.password):
+        url.netloc!='learnersarea-media.owneruchunla.workers.dev' or url.path not in ('','/') or url.params or url.query or url.fragment or url.username or url.password):
         raise ValueError('invalid_media_configuration')
     return secret
 
@@ -152,6 +154,7 @@ async def stored_mime(con,key):
     return None
 
 async def deliver(req,key,head):
+    stage='authority'
     try:
         authority=await core.current_authority(req)
         if not authority or authority['user']['account_status']!='active':return core.j({'error':'unauthenticated'},401,PRIVATE)
@@ -178,6 +181,7 @@ async def deliver(req,key,head):
             h['Content-Length']=str(span[1]-span[0]+1 if span else size)
             if span:h['Content-Range']=f'bytes {span[0]}-{span[1]}/{size}'
             return Response(None if head else graph[span[0]:span[1]+1] if span else graph,status_code=206 if span else 200,headers=h)
+        stage='media_configuration'
         secret=media_conf()
         want_cap=req.query_params.get('capability')=='1'
         if secret:
@@ -187,11 +191,18 @@ async def deliver(req,key,head):
             if req.query_params.get('download')!='1':
                 return RedirectResponse(url,status_code=302,headers=PRIVATE)
             forwarded={k:req.headers[k] for k in ('range','if-range') if k in req.headers}
-            response=await upstream_response('HEAD' if head else 'GET',url,forwarded,PRIVATE)
+            stage='worker_upstream'
+            try:
+                response=await upstream_response('HEAD' if head else 'GET',url,forwarded,PRIVATE)
+            except (httpx.HTTPError,OSError):
+                if not key.startswith('listening/'):raise
+                LOG.warning('Listening media Worker transport unavailable; using authorized private object fallback')
+                response=Response(status_code=503,headers=PRIVATE)
             if response.status_code!=503 or not key.startswith('listening/'):return response
             # The current owner/session was verified above. If the Worker
             # backchannel is unavailable, use the existing private R2 transport.
             # Never return a public/presigned URL to the browser.
+            stage='private_fallback_head'
             info=await head_object(key)
             if info is None:return core.j({'error':'not_found'},404,PRIVATE)
             h={**PRIVATE,'Content-Type':info.get('contentType') or ('audio/mpeg' if key.lower().endswith('.mp3') else 'application/octet-stream'),'Accept-Ranges':'bytes'}
@@ -207,12 +218,14 @@ async def deliver(req,key,head):
             h['Content-Length']=str(span[1]-span[0]+1 if span else size)
             h['Content-Disposition']='inline; filename="'+key.split('/')[-1]+'"'
             if span:h['Content-Range']=f'bytes {span[0]}-{span[1]}/{size}'
+            stage='private_fallback_stream'
             return await object_response(req,key,info,h,span,head)
         if want_cap:
             from urllib.parse import urlsplit,urlunsplit
             u=urlsplit(str(req.url))
             url=urlunsplit((u.scheme,u.netloc,u.path,'stream=1',''))
             return core.j({'url':url,'expiresAt':min(int(time.time()*1000)+120000,int(authority['expiresAt'])*1000),'key':key},headers=PRIVATE)
+        stage='direct_object_head'
         info=await head_object(key)
         if info is None:return core.j({'error':'not_found'},404,PRIVATE)
         mime=None
@@ -246,8 +259,12 @@ async def deliver(req,key,head):
         inline=content_type.startswith(('image/','audio/','video/','text/plain'))
         h['Content-Disposition']=('inline' if inline else 'attachment')+'; filename="'+key.split('/')[-1]+'"'
         if byte_range:h['Content-Range']=f'bytes {byte_range[0]}-{byte_range[1]}/{size}'
+        stage='direct_object_stream'
         return await object_response(req,key,info,h,byte_range,head)
-    except Exception:return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
+    except Exception as exc:
+        if isinstance(key,str) and key.startswith('listening/'):
+            LOG.warning('Listening media error stage=%s type=%s',stage,type(exc).__name__)
+        return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
 
 @router.get('/api/resources/{key:path}')
 async def resource_get(req:Request,key:str):return await deliver(req,key,False)
