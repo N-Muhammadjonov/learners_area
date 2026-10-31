@@ -188,3 +188,40 @@ test('Part 1 staged mappings use exact, nonoverlapping transcript spans and real
  }
  assert(!sorted.some(x=>x.surface.toLowerCase()==='two'&&x.senseId==='531939e8-d737-416a-9ef4-ed170f918dd0'));
 });
+
+test('Part 1 every visible word resolves to a selected sense, new-release proposal or explicit non-lexical exclusion',()=>{
+ const part=JSON.parse(readFileSync(new URL('script-part1-sense-candidates.json',root),'utf8'));
+ const old=JSON.parse(readFileSync(new URL('script-part1-staged-sense-mapping.json',root),'utf8')).mappings;
+ const next=JSON.parse(readFileSync(new URL('script-part1-new-sense-links.pending.json',root),'utf8')).entries;
+ const excluded=JSON.parse(readFileSync(new URL('script-part1-proper-names.json',root),'utf8')).exclusions;
+ const all=[...old,...next,...excluded].sort((a,b)=>a.start-b.start);
+ for(let i=0;i<all.length;i++){
+  assert.equal(data.transcript['1'].slice(all[i].start,all[i].end),all[i].surface);
+  if(i)assert(all[i-1].end<=all[i].start,'Part1 overlap');
+ }
+ let visible=0;
+ for(const t of part.tokens){
+  if(part.hiddenGaps.some(g=>t.start>=g.start&&t.end<=g.end))continue;
+  visible++;
+  const hits=all.filter(x=>t.start>=x.start&&t.end<=x.end);
+  assert.equal(hits.length,1,'Unmapped/ambiguous Part 1 token '+t.index+' '+t.surface);
+ }
+ assert.equal(visible,744);
+ assert.equal(next.filter(x=>!x.newSenseRef||!x.dictionarySource).length,0);
+});
+test('Part 2 inventory keeps all original transcript offsets and excludes hidden gap phrases',()=>{
+ const part=JSON.parse(readFileSync(new URL('script-part2-sense-candidates.json',root),'utf8'));
+ const mapped=JSON.parse(readFileSync(new URL('script-part2-staged-sense-mapping.json',root),'utf8')).mappings;
+ const pending=JSON.parse(readFileSync(new URL('script-part2-new-sense-links.pending.json',root),'utf8')).entries;
+ assert.equal(part.tokenCount,719);
+ assert.equal(part.tokens.length,719);
+ assert.equal(part.distinctSpellingForms,282);
+ assert.equal(part.tokens.filter(t=>t.hidden).length,29);
+ for(const token of part.tokens)assert.equal(data.transcript['2'].slice(token.start,token.end),token.surface);
+ for(const target of [...mapped,...pending]){
+  assert.equal(data.transcript['2'].slice(target.start,target.end),target.surface);
+  assert(!part.gaps.some(g=>target.start<g.end&&target.end>g.start));
+ }
+ const all=[...mapped,...pending].sort((a,b)=>a.start-b.start);
+ for(let i=1;i<all.length;i++)assert(all[i-1].end<=all[i].start);
+});
