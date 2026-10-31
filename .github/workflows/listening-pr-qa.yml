@@ -1,0 +1,63 @@
+name: Listening PR browser regression
+on:
+  push:
+    branches:
+      - fix/listening-immediate-navigation-20261031
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'frontend/vanilla/modules/listening/**'
+      - 'frontend/vanilla/tests/listening-*.test.mjs'
+      - 'frontend/vanilla/tests/browser-listening-*.mjs'
+      - 'frontend/vanilla/scripts/serve-test-preview.py'
+      - '.github/workflows/listening-pr-qa.yml'
+permissions:
+  contents: read
+jobs:
+  listening-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.4'
+      - name: Install isolated browser test dependencies
+        run: |
+          npm ci --prefix frontend/vanilla
+          npm install --prefix frontend/vanilla --no-save @sparticuz/chromium@132.0.0
+      - name: Run Listening / Review state and postMessage regression tests
+        run: |
+          cd frontend/vanilla
+          node --test tests/listening-immediate-navigation.test.mjs tests/listening-v10.test.mjs tests/listening-v14.test.mjs tests/listening-v20.test.mjs tests/listening-v21.test.mjs tests/listening-v23.test.mjs tests/listening-v25.test.mjs
+      - name: Start real HTTP preview with synthetic auth/API interception
+        run: |
+          python3 frontend/vanilla/scripts/serve-test-preview.py > /tmp/listening-preview.log 2>&1 &
+          for i in $(seq 1 30); do curl --silent --fail http://127.0.0.1:4173/app/listening/academic > /dev/null && exit 0; sleep 1; done
+          cat /tmp/listening-preview.log
+          exit 1
+      - name: Run real Chromium Listening section and activity browser suites
+        env:
+          PREVIEW_URL: http://127.0.0.1:4173
+        run: |
+          set -e
+          node frontend/vanilla/tests/browser-listening-v38.mjs
+          node frontend/vanilla/tests/browser-listening-v39.mjs
+          node frontend/vanilla/tests/browser-listening-v40.mjs
+          node frontend/vanilla/tests/browser-listening-v41.mjs
+          node frontend/vanilla/tests/browser-listening-v42.mjs
+          node frontend/vanilla/tests/browser-listening-v43.mjs
+      - name: Publish test evidence on failure or success
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: listening-pr105-browser-evidence
+          if-no-files-found: ignore
+          path: |
+            frontend/vanilla/docs/evidence/v38/
+            frontend/vanilla/docs/evidence/v39/
+            frontend/vanilla/docs/evidence/v40/
+            frontend/vanilla/docs/evidence/v41/
+            frontend/vanilla/docs/evidence/v42/
+            frontend/vanilla/docs/evidence/v43/
