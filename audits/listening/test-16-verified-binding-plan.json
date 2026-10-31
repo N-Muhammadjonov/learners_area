@@ -7076,6 +7076,14 @@
           "meaningSha": "245783cbc72bd4f243b1622c498c8d6974405aacff6207e136a3c6dcb2596e7b"
         },
         {
+          "start": 2690,
+          "end": 2695,
+          "surface": "often",
+          "entryId": "a02cbb6c-a909-5169-8446-4fe97a818cd4",
+          "senseId": "066e98fb-c606-4ca4-b286-bd4d3845e220",
+          "meaningSha": "2ca3645e57c94357fa2fef8699f0cdd4364dae6376c02df12f517fc8372373db"
+        },
+        {
           "start": 2696,
           "end": 2700,
           "surface": "very",
@@ -7146,6 +7154,14 @@
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 2798,
+          "end": 2809,
+          "surface": "In addition",
+          "entryId": "456013d6-4561-5d52-a17c-b65c61e28f59",
+          "senseId": "f138516d-27f4-5982-bfb7-9c36e3b3efec",
+          "meaningSha": "11a154c27e895ceea632328830c3c455f113f742fadf9cc99ea441dd319de20a"
         },
         {
           "start": 2811,
@@ -7244,6 +7260,14 @@
           "meaningSha": "0a04ef1231362298bc4a8893b9b101cd7d4f423299582475a1877c5d67023c94"
         },
         {
+          "start": 2947,
+          "end": 2952,
+          "surface": "class",
+          "entryId": "10a34e85-751a-55ed-970b-1deec076204a",
+          "senseId": "90d1499e-f1dd-4d55-9e61-7faae3018249",
+          "meaningSha": "b1e73ba9be6b638ed9e6bf0a21a0d5535923d054af0fc65341b7789d2579a77b"
+        },
+        {
           "start": 2953,
           "end": 2956,
           "surface": "you",
@@ -7338,6 +7362,14 @@
           "entryId": "4b3f3965-2faa-5ac7-9c67-480c14da79a0",
           "senseId": "8e1580c9-c120-53db-b46c-e5bfc45fd98c",
           "meaningSha": "c990523db424b04cf43760041ce29458dc9337636f33f0d7076aa3acd870bda5"
+        },
+        {
+          "start": 3067,
+          "end": 3071,
+          "surface": "Next",
+          "entryId": "e42f325a-e392-5ea9-996f-e622fc7c84f3",
+          "senseId": "6e7f6119-f8c2-44f5-9f22-58aa6f47d630",
+          "meaningSha": "78e87f4f3c2ee4511f3f6ce13e2ea9ca9527aedb2c1a398fc511c8d4016785c1"
         },
         {
           "start": 3073,
@@ -7436,12 +7468,28 @@
           "meaningSha": "da820d672056d9b97e3d9bd124f764d225176d5383b92e6c3e7cf23f82f1ab77"
         },
         {
+          "start": 3167,
+          "end": 3174,
+          "surface": "morning",
+          "entryId": "b2894c49-a439-5063-9e1a-121a2646bf49",
+          "senseId": "0266e1ac-50da-42fc-a1c6-8cbdd3547ef6",
+          "meaningSha": "1d98f5ddfdc2cf020ab41812ddc5f3e4b189d680d100a3e34df240f8f4cfe52a"
+        },
+        {
           "start": 3175,
           "end": 3177,
           "surface": "or",
           "entryId": "c4cf9379-d8c0-5a45-80ae-1200362fd0a6",
           "senseId": "fb052a7f-e367-5499-8e4d-cebca2325183",
           "meaningSha": "f5fc179c4dfb7956f2157b91feed82b1f98f3b7a5837b7ec94e2fc7f44087b04"
+        },
+        {
+          "start": 3178,
+          "end": 3187,
+          "surface": "afternoon",
+          "entryId": "355de692-26f7-5922-ac4e-e13d7a3b56e3",
+          "senseId": "5f57ea72-5a91-4d68-bc42-1c65ff353fab",
+          "meaningSha": "a4eba187151a29761151a2cc671b551169d5e8857137bfaf7ec1984ccd2a8ab8"
         },
         {
           "start": 3188,
@@ -7484,6 +7532,14 @@
           "meaningSha": "3c968f611e923b6add8d909b2499e065b6395a65a21c01ca7c867d509000c72c"
         },
         {
+          "start": 3224,
+          "end": 3233,
+          "surface": "excellent",
+          "entryId": "335acf37-18d8-57d9-b48d-fd5e3e3f9fd1",
+          "senseId": "e0f0e137-809c-46cf-b23a-e22e2582ec53",
+          "meaningSha": "6a93fc9db373f6f6abc04824c757f85cbabc4950ac68bfa6dad39779d0461b52"
+        },
+        {
           "start": 3248,
           "end": 3250,
           "surface": "of",
@@ -7498,6 +7554,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 3264,
+          "end": 3269,
+          "surface": "topic",
+          "entryId": "ac0b46cb-2ed6-5806-9c66-0ac59e4b7911",
+          "senseId": "9ae2b204-e511-4e9f-b07c-5bbead5fa5ab",
+          "meaningSha": "f190de928b498164b5cfb5e5e2ac89bc3e33f78cf0f958d556509267ac30c076"
         },
         {
           "start": 3271,
@@ -7660,6 +7724,14 @@
           "meaningSha": "e50d79fd05ff214407a1d58dd9c170177288aed4c7996df92b6d7cc07e985b01"
         },
         {
+          "start": 3484,
+          "end": 3495,
+          "surface": "development",
+          "entryId": "68ad8bca-b904-565a-8e33-a6bcf396ffdd",
+          "senseId": "b8a0687a-6110-4214-82d3-48f272f8c167",
+          "meaningSha": "346d876331c3ade9646f1bc8d43f8fd838f0a89d773bcdc94620bcb42cb8a347"
+        },
+        {
           "start": 3497,
           "end": 3499,
           "surface": "we",
@@ -7764,6 +7836,14 @@
           "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
         },
         {
+          "start": 3582,
+          "end": 3588,
+          "surface": "always",
+          "entryId": "1039d655-b1ed-5121-810e-11f7c1b3abe6",
+          "senseId": "a09484a5-427f-4dfd-9a3e-5bc4979e18b0",
+          "meaningSha": "8237b2ada176350999e6dbe7bb31bdaa39532cfb02e36173cd7500173cbce6af"
+        },
+        {
           "start": 3589,
           "end": 3592,
           "surface": "the",
@@ -7844,6 +7924,14 @@
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
         },
         {
+          "start": 3656,
+          "end": 3663,
+          "surface": "booking",
+          "entryId": "5b399eb3-ea89-554c-8280-4a68e86e702e",
+          "senseId": "80f86535-e7b2-48d8-bd8d-b739d50c2419",
+          "meaningSha": "cddf3af60e9c7441476078bff3b47c28c0f846b267c67501186d4ec8e078966d"
+        },
+        {
           "start": 3670,
           "end": 3672,
           "surface": "We",
@@ -7898,6 +7986,14 @@
           "entryId": "f42fe78b-4cb1-5be5-b785-7f3ce59d9e69",
           "senseId": "92e21f76-0d59-5c33-be24-0a2de21fdfad",
           "meaningSha": "6c65a54df4e2a3dd06ae14581743a7dc8076bd2a118e3ab7c18894d6d89b50ca"
+        },
+        {
+          "start": 3725,
+          "end": 3732,
+          "surface": "quickly",
+          "entryId": "246900c2-9301-510f-b76c-b624b9ef7581",
+          "senseId": "78d86c2c-57c8-4d8a-80d2-906e83fab504",
+          "meaningSha": "510a595fc31acb0e95206422686570370b7165a78dc3f66c4fb5d91f798e159e"
         },
         {
           "start": 3734,
@@ -8124,6 +8220,14 @@
           "meaningSha": "fa9a6357d9c709c2382e94afb899049e0c6e8ed9b415ede0a7f7cd8ca6c7a1f1"
         },
         {
+          "start": 3965,
+          "end": 3973,
+          "surface": "build up",
+          "entryId": "1ac8a812-e442-5555-b620-489eb669d184",
+          "senseId": "879db535-387d-5fc5-93cd-0641171a34b0",
+          "meaningSha": "368459919768f6790af32f78fb3e0b53de0d2f7ea579eeef8196003985dd6693"
+        },
+        {
           "start": 3974,
           "end": 3978,
           "surface": "your",
@@ -8284,6 +8388,14 @@
           "meaningSha": "565510caa4cf8fc708b2b36cd26b921cb49531bd0c0b62d8dd56df82285fb9f2"
         },
         {
+          "start": 4132,
+          "end": 4144,
+          "surface": "introduction",
+          "entryId": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+          "senseId": "287d92bd-1cd3-4a02-9923-19bbd52d4325",
+          "meaningSha": "91ddc8a25f545f3094674fa5c1051b455e7a88da8d3ac0927a39468478eb8bbb"
+        },
+        {
           "start": 4148,
           "end": 4155,
           "surface": "cooking",
@@ -8306,6 +8418,14 @@
           "entryId": "29dcbafc-6564-5707-9a66-dfbbaeb256a4",
           "senseId": "f01859af-844f-47e4-8b78-6aeeef1748a4",
           "meaningSha": "56ac2f782ef238aef51cde0b17430eedb2f1a80c05a6c39df278ad06cc498fda"
+        },
+        {
+          "start": 4172,
+          "end": 4177,
+          "surface": "ideal",
+          "entryId": "2b0dfdbb-c6ed-58c8-ba1b-83841fdb9649",
+          "senseId": "d221fb04-bee7-48af-be99-bcb86e4b683a",
+          "meaningSha": "99f7648889b18333e5fc3c85080baaa6eea73a8fea96a07fb269778fbc266ffb"
         },
         {
           "start": 4188,
@@ -8412,6 +8532,14 @@
           "meaningSha": "3e28222acf45235ab5e12c70e7fa545ce1e1047336593c9771852b5e127d7c02"
         },
         {
+          "start": 4305,
+          "end": 4315,
+          "surface": "techniques",
+          "entryId": "676319a4-a18b-55ef-b424-b936b3e56041",
+          "senseId": "db17018f-3047-4c06-9938-dea58e1a8666",
+          "meaningSha": "73bc0e7bdecc11b26550ac84ea8cd68fd923ac3c5c55a105003d8bf848d32191"
+        },
+        {
           "start": 4316,
           "end": 4318,
           "surface": "to",
@@ -8484,6 +8612,14 @@
           "meaningSha": "8cce3fd8d2896048a70ac20a48e980b21e161884afd9ac2cdd0323e503289d02"
         },
         {
+          "start": 4404,
+          "end": 4410,
+          "surface": "guests",
+          "entryId": "47a410c3-0466-52c5-a1ea-c6ca9ae97a7e",
+          "senseId": "0f0a6bf7-a25a-4a7b-9601-172b05e0f59c",
+          "meaningSha": "12ebce358faf1fbf7639a89be66d7bb92ed6c74600b82a82ebd1127fff955b73"
+        },
+        {
           "start": 4412,
           "end": 4415,
           "surface": "You",
@@ -8540,6 +8676,14 @@
           "meaningSha": "9f08f5ab730ab117135348010ed2b033f1ac7bd27d1ae3cf0777abbbc48569ed"
         },
         {
+          "start": 4471,
+          "end": 4482,
+          "surface": "ingredients",
+          "entryId": "f8db8e1d-a161-534d-8b12-1eaf4aafd52e",
+          "senseId": "eb27f873-f6c1-4adb-a9c0-3403b7274a84",
+          "meaningSha": "e00953f387ff8abfcef358c9fbae94d093f3eaf2e3f12ced6cdaa7a955484112"
+        },
+        {
           "start": 4484,
           "end": 4487,
           "surface": "and",
@@ -8564,6 +8708,22 @@
           "meaningSha": "fa9a6357d9c709c2382e94afb899049e0c6e8ed9b415ede0a7f7cd8ca6c7a1f1"
         },
         {
+          "start": 4500,
+          "end": 4509,
+          "surface": "delicious",
+          "entryId": "268377d7-fd31-5f61-ac31-b221cf76bed8",
+          "senseId": "59f73e3e-45d4-4d62-9847-4cf337e397ae",
+          "meaningSha": "261bf0e85d1efc5819b8f4ea08f74be762aae41de9fbc23793643b393bb11d8c"
+        },
+        {
+          "start": 4510,
+          "end": 4519,
+          "surface": "shortcuts",
+          "entryId": "88127e95-7f48-57d9-a561-7b3752035628",
+          "senseId": "97d4f492-ab52-4cf5-900c-c2bb017b39c5",
+          "meaningSha": "c54a188534a309fdd6c9b66f361f96a8a8acec74a294c5a4a5a8f15bcab1ea7a"
+        },
+        {
           "start": 4520,
           "end": 4522,
           "surface": "to",
@@ -8586,6 +8746,14 @@
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 4546,
+          "end": 4555,
+          "surface": "enjoyable",
+          "entryId": "1d858fcf-fe1d-5e73-8af9-ef8a2fcc03f1",
+          "senseId": "873a3ec2-c602-4263-8d76-2062a3b735c6",
+          "meaningSha": "f1cbe6c510c215b01ff88e070be8f58501270e5fb828221b487e30c4a733730a"
         },
         {
           "start": 4556,
@@ -8668,6 +8836,14 @@
           "meaningSha": "c697caab715eff726a65b4168347477bd5dafdebb8a3ae882510e51e19757980"
         },
         {
+          "start": 4640,
+          "end": 4648,
+          "surface": "looks at",
+          "entryId": "f2c2116d-927a-5ccf-b8dc-7f4cf45f89aa",
+          "senseId": "b5318dae-7898-5de4-92cd-97f103b2ad1b",
+          "meaningSha": "ffe7a69517eee926761a47af05d9c7a0de3cd44d202cc70ebbc2b4cbac39c494"
+        },
+        {
           "start": 4649,
           "end": 4658,
           "surface": "practical",
@@ -8684,12 +8860,28 @@
           "meaningSha": "fa9a6357d9c709c2382e94afb899049e0c6e8ed9b415ede0a7f7cd8ca6c7a1f1"
         },
         {
+          "start": 4667,
+          "end": 4678,
+          "surface": "get started",
+          "entryId": "a9dd6ff7-6d04-5892-bca8-d44df55bc499",
+          "senseId": "fda1b521-e5df-546c-9ba7-9013f41107d7",
+          "meaningSha": "40d64c74da3cafb534a85e8fcbee91ea4514b07dab5be2ec2d9b1407914d1f85"
+        },
+        {
           "start": 4705,
           "end": 4712,
           "surface": "writing",
           "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
           "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
           "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
+        },
+        {
+          "start": 4713,
+          "end": 4723,
+          "surface": "confidence",
+          "entryId": "0540179a-27fb-579b-a1ba-40295c24b806",
+          "senseId": "8f7abfb7-4f0f-41b0-9803-3f9c92a54d0c",
+          "meaningSha": "621e604c3238dbf8697b64c1127ee589b6e994efa1d9908c422a07c4dffe75a8"
         },
         {
           "start": 4725,
@@ -8732,6 +8924,14 @@
           "meaningSha": "d8ee14dd873ffc0b476d0241d5111ab4ecb8e951119bcb6d8fb92e9e17683ee2"
         },
         {
+          "start": 4796,
+          "end": 4806,
+          "surface": "discussion",
+          "entryId": "c3f85d9b-1d79-5f00-8df0-41c54e61e5cc",
+          "senseId": "873f9150-ba09-4a60-bb76-1dad406ea900",
+          "meaningSha": "001e7a1f2082e825d92f25f7b9f73d9fccc45234cabdf9ce88abff59f7b744fc"
+        },
+        {
           "start": 4807,
           "end": 4810,
           "surface": "and",
@@ -8772,6 +8972,14 @@
           "meaningSha": "1bfc78acda52b868a71aba28e8fd8a1c8ac1ad6298ae60452763836b1c6d1d7f"
         },
         {
+          "start": 4858,
+          "end": 4864,
+          "surface": "writer",
+          "entryId": "73757c06-58c4-5f7e-a0e2-4bd265f5cb5a",
+          "senseId": "3cfd6e16-96d4-43fc-aad5-d0d32629e7",
+          "meaningSha": "aedae73bf9ffcd627463ac897c945a80e6e7c868653d2105088487b50a88aec5"
+        },
+        {
           "start": 4866,
           "end": 4868,
           "surface": "It",
@@ -8804,6 +9012,14 @@
           "meaningSha": "3c968f611e923b6add8d909b2499e065b6395a65a21c01ca7c867d509000c72c"
         },
         {
+          "start": 4886,
+          "end": 4893,
+          "surface": "insight",
+          "entryId": "bed43bc3-e28a-58b0-a5e0-5fb2b88e6dc9",
+          "senseId": "02979cdb-a581-4bf6-80e4-22570d019d91",
+          "meaningSha": "fd713b6016f8efddc3d1a360985015c3a3071e09c31d88ba0db8151d97a22512"
+        },
+        {
           "start": 4899,
           "end": 4902,
           "surface": "the",
@@ -8818,6 +9034,14 @@
           "entryId": "9f3298a2-1bd9-5509-bf3a-8cc4d8b52ead",
           "senseId": "e1c79751-f027-4757-b563-bedd6f17e327",
           "meaningSha": "79f20a56da83b8ece5979d4bfde023fdcd07f3602a290566be8333287a3d26a4"
+        },
+        {
+          "start": 4912,
+          "end": 4919,
+          "surface": "process",
+          "entryId": "fbf276c7-8c52-5536-bc08-6f0957e4e868",
+          "senseId": "1f59e6c0-fd7d-40f5-8bef-6aa13d40d5ca",
+          "meaningSha": "b5ccb7ee33a77574956e48ba858c27e3a7d826b858e0019841e71443863b12de"
         },
         {
           "start": 4920,
@@ -8916,6 +9140,14 @@
           "meaningSha": "3c968f611e923b6add8d909b2499e065b6395a65a21c01ca7c867d509000c72c"
         },
         {
+          "start": 5015,
+          "end": 5026,
+          "surface": "opportunity",
+          "entryId": "312c729c-45f3-5d46-a5c6-97401eb80ccd",
+          "senseId": "88be9c13-e3d9-48cb-a519-e36ffdd84e38",
+          "meaningSha": "3a744ccd2efc5a3e49723fc5cf7bf7cc0f1778be17a039e731d23cd5cecfe62b"
+        },
+        {
           "start": 5031,
           "end": 5034,
           "surface": "all",
@@ -8962,6 +9194,14 @@
           "entryId": "0cb2e9c9-a66e-57b4-ab51-b0a9d391af36",
           "senseId": "3f17b5d2-f51e-4e3a-b63e-6eda493039d2",
           "meaningSha": "78198e0f81007ac65cdecc0d1328ef9923d9dcd24793365aec08caa34d78861e"
+        },
+        {
+          "start": 5086,
+          "end": 5093,
+          "surface": "fiction",
+          "entryId": "1a95c489-9192-5030-a560-9b4545032550",
+          "senseId": "f51a62bc-3af7-4508-8b43-3e898bc4b5bc",
+          "meaningSha": "cd84b9297c03a45fb621f2b9cd12881d0fe698ae6b6d4142e6bb3192013c48b0"
         },
         {
           "start": 5095,
