@@ -1421,30 +1421,34 @@
     },
     {
       "entryNumber": 45,
-      "surface": "still plenty",
-      "lemma": "plenty",
+      "surface": "garage",
+      "lemma": "garage",
       "selected": {
         "part": 1,
-        "start": 2009,
-        "end": 2021,
-        "surface": "still plenty",
-        "context": "a garage. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the b"
+        "start": 1936,
+        "end": 1942,
+        "surface": "garage",
+        "context": "is there anywhere I can park? Well, you're lucky, because this house has a garage.\n\nAt the moment, there are some empty boxes in there, but there's still plenty"
       },
-      "visibleInScript": false,
-      "exactExistingSenseId": "7acc91d3-fee3-47d8-af25-762e49d908fb",
+      "visibleInScript": true,
+      "exactExistingSenseId": "70b83e52-5c6d-403c-a0cc-d75d45ec91e1",
       "activeReleaseEntryIds": [
-        "60c86b3e-3612-5af2-8cff-9abf787b4b98",
-        "8ab93a15-d8cd-5893-a53f-4f5206110749"
+        "0d925528-6040-545a-bd55-226ec82f3fd6"
       ],
       "availableSenseIds": [
-        "7acc91d3-fee3-47d8-af25-762e49d908fb",
-        "887685d0-ccd1-413e-aed8-e66d406b0de5",
-        "0b99d286-e609-4d9b-b154-0feae379d36e"
+        "015c2014-8c9b-46c1-bdd0-b870a611d55d",
+        "70b83e52-5c6d-403c-a0cc-d75d45ec91e1"
       ],
       "status": "existing_sense_selected",
       "editorialEvidence": {
-        "basis": "Manually matched transcript context to exact existing release sense definition",
-        "source": "active Cloudflare R2 immutable dictionary shard"
+        "source": "Active Cloudflare R2 dictionary shard",
+        "definitionEn": "an outbuilding (or part of a building) for housing automobiles",
+        "translationUz": "garaj"
+      },
+      "duplicateCorrection": {
+        "replaced": "still plenty",
+        "reason": "overlaps plenty of room, choose a distinct noun with context-specific sense",
+        "replacement": "garage"
       }
     },
     {
@@ -3192,6 +3196,7 @@
     "reason": "Release builder must create/verify new senses and hash-guarded occurrence links; full 824-form context review outstanding; no production changes",
     "selectedExistingSense": 86,
     "newLexicalEntries": 14,
-    "duplicateOverlapsCorrected": 1
+    "duplicateOverlapsCorrected": 2,
+    "selectedTargetsNonOverlapping": true
   }
 }
