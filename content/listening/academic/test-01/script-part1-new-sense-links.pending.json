@@ -96,6 +96,16 @@
     },
     {
       "part": 1,
+      "start": 400,
+      "end": 412,
+      "surface": "answer sheet",
+      "tokenIndex": null,
+      "newSenseRef": "lexical-new-entry:34",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/us/example/english/answer-sheet"
+    },
+    {
+      "part": 1,
       "start": 437,
       "end": 439,
       "surface": "on",
@@ -217,12 +227,12 @@
     {
       "part": 1,
       "start": 845,
-      "end": 847,
-      "surface": "on",
-      "tokenIndex": 155,
-      "newSenseRef": "on:PHONE_MEDIUM",
+      "end": 857,
+      "surface": "on the phone",
+      "tokenIndex": null,
+      "newSenseRef": "lexical-new-entry:3",
       "status": "awaiting_immutable_release_sense_id",
-      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/on"
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/on-the-phone"
     },
     {
       "part": 1,
@@ -456,6 +466,16 @@
     },
     {
       "part": 1,
+      "start": 2347,
+      "end": 2358,
+      "surface": "living room",
+      "tokenIndex": null,
+      "newSenseRef": "lexical-new-entry:15",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/living-room"
+    },
+    {
+      "part": 1,
       "start": 2446,
       "end": 2457,
       "surface": "fair enough",
@@ -533,6 +553,16 @@
       "newSenseRef": "can:ABILITY",
       "status": "awaiting_immutable_release_sense_id",
       "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/can"
+    },
+    {
+      "part": 1,
+      "start": 2926,
+      "end": 2937,
+      "surface": "rice cooker",
+      "tokenIndex": null,
+      "newSenseRef": "lexical-new-entry:22",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/rice-cooker"
     },
     {
       "part": 1,
