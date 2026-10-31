@@ -142,3 +142,16 @@ test('Part 1 inventories every token and preserves single-sense candidate bounda
   assert.match(span.senseId,/^[0-9a-f-]{36}$/);
  }
 });
+
+test('Part 1 external lexical sources and proper-name exclusions are explicit',()=>{
+ const verified=JSON.parse(readFileSync(new URL('script-part1-verified-missing-lemmas.json',root),'utf8'));
+ assert.equal(verified.releaseState,'NOT_PUBLISHED');
+ assert.deepEqual(verified.wordEntries.map(x=>x.lemma).sort(),['oh','shall','yours']);
+ assert.deepEqual(verified.properNames.map(x=>x.surface).sort(),['jim','june','peter']);
+ for(const e of verified.wordEntries){
+  assert(e.source.startsWith('https://dictionary.cambridge.org/'));
+  assert(e.meaning&&e.uz&&e.pos&&e.cefr);
+  assert(Array.isArray(e.synonyms)&&Array.isArray(e.antonyms));
+  assert(e.occurrences.length>0);
+ }
+});
