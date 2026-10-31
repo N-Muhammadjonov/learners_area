@@ -1,0 +1,42 @@
+name: Live Classes integration gate
+on:
+  push:
+    branches:
+      - feature/live-classes-merge-qa-20261031
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install backend test dependencies
+        run: python -m pip install -r services/backend/requirements-dev.txt
+      - name: Live Classes backend tests and route invariants
+        env:
+          PYTHONPATH: services/backend
+        run: |
+          python -m pytest -q services/backend/tests/test_live_classes_system.py services/backend/tests/test_live_classes_multitab.py services/backend/tests/test_live_classes_recording_archive.py services/backend/tests/test_step31_release_invariants.py
+      - name: Build native frontend assets
+        env:
+          PYTHONPATH: services/backend
+        run: python scripts/build_native_assets.py
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Frontend tests
+        run: npm test

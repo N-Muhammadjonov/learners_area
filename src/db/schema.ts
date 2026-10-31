@@ -1699,19 +1699,66 @@ export const liveClasses = pgTable("live_classes", {
   teacherUserId: uuid("teacher_user_id").references(() => users.id),
   title: varchar("title", { length: 200 }).notNull(),
   topic: text("topic"),
+  description: text("description"),
   scheduledAt: timestamp("scheduled_at", { withTimezone: true }).notNull(),
   durationMinutes: integer("duration_minutes").notNull().default(60),
   meetingUrl: text("meeting_url"),
   recordingUrl: text("recording_url"),
+  youtubeVideoId: varchar("youtube_video_id", { length: 11 }),
+  recordingStatus: varchar("recording_status", { length: 32 }).notNull().default("none"),
+  startedAt: timestamp("started_at", { withTimezone: true }),
+  endedAt: timestamp("ended_at", { withTimezone: true }),
+  recordingDurationSeconds: integer("recording_duration_seconds"),
+  accessScope: varchar("access_scope", { length: 24 }).notNull().default("course"),
   status: liveClassStatusEnum("status").notNull().default("upcoming"),
-});
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  courseStatusSchedIdx: index("live_classes_course_status_sched_idx").on(table.courseId, table.status, table.scheduledAt),
+  teacherSchedIdx: index("live_classes_teacher_sched_idx").on(table.teacherUserId, table.scheduledAt),
+  recordingReadyIdx: index("live_classes_recording_ready_idx").on(table.courseId, table.recordingStatus, table.scheduledAt),
+}));
+
+export const liveClassEnrollments = pgTable("live_class_enrollments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  liveClassId: uuid("live_class_id").notNull().references(() => liveClasses.id, { onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  assignedByUserId: uuid("assigned_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  classUserIdx: uniqueIndex("live_class_enrollments_class_user_uidx").on(table.liveClassId, table.userId),
+  userIdx: index("live_class_enrollments_user_idx").on(table.userId, table.liveClassId),
+}));
+
+export const liveClassMessages = pgTable("live_class_messages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  liveClassId: uuid("live_class_id").notNull().references(() => liveClasses.id, { onDelete: "cascade" }),
+  senderUserId: uuid("sender_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  body: text("body").notNull(),
+  isDeleted: boolean("is_deleted").notNull().default(false),
+  deletedByUserId: uuid("deleted_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  classCreatedIdx: index("live_class_messages_class_created_idx").on(table.liveClassId, table.createdAt, table.id),
+  senderCreatedIdx: index("live_class_messages_sender_created_idx").on(table.senderUserId, table.createdAt),
+}));
 
 export const liveClassAttendance = pgTable("live_class_attendance", {
   id: uuid("id").defaultRandom().primaryKey(),
   liveClassId: uuid("live_class_id").notNull().references(() => liveClasses.id, { onDelete: "cascade" }),
   userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   joinedAt: timestamp("joined_at", { withTimezone: true }).defaultNow().notNull(),
-});
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  leftAt: timestamp("left_at", { withTimezone: true }),
+  estimatedDurationSeconds: integer("estimated_duration_seconds").notNull().default(0),
+  sessionCount: integer("session_count").notNull().default(1),
+  sessionHistory: jsonb("session_history").notNull().default([]),
+  activeSessions: jsonb("active_sessions").notNull().default({}),
+}, (table) => ({
+  classUserIdx: uniqueIndex("live_class_attendance_class_user_uidx").on(table.liveClassId, table.userId),
+  userJoinedIdx: index("live_class_attendance_user_joined_idx").on(table.userId, table.joinedAt),
+}));
 
 /**
  * "Report a problem" — what the student saw, attached to the page they were on.

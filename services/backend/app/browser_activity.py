@@ -32,7 +32,7 @@ async def mocks(con, uid):
         attempts.append(a)
     return {'tests':[camel(r) for r in tests],'attempts':attempts,'finishedCount':sum(bool(r['finishedAt']) for r in attempts),
       'catalogueUnavailable':'catalogue' in read.failed,'catalogueTruncated':catalogue_truncated,
-      'attemptsUnavailable':'attempts' in read.failed,'attemptsTruncated':attempts_truncated,
+      'attemptsUnavailable':'attempts' in read.failed,'attemptsTruncated':attemptsTruncated if 'attemptsTruncated' in locals() else attempts_truncated,
       'attemptTitlesUnavailable':'titles' in read.failed}
 
 
@@ -124,18 +124,185 @@ async def dashboard(req, con, uid):
       'unavailable':{k:k in read.failed for k in ('profile','latestEvaluation','vocabDue','streak','writingAttempts','readingAttempts','listeningAttempts','speakingAttempts','assignments','nextLiveClass','lastActivity')}}
 
 
-async def live_classes(con, uid):
+# Fixed-size result pages, independent of the number of enrolled students or past lessons.
+RECORDINGS_PAGE_SIZE = 20
+
+
+def _archive_cursor(raw):
+    """Validate a (scheduled_at, id) keyset cursor without losing timestamp precision."""
+    from .live_classes_port import parse_iso_datetime
+    from uuid import UUID
+    if raw is None or raw == '':
+        return None, None
+    if not isinstance(raw, str) or len(raw) > 128 or raw.count('|') != 1:
+        raise HTTPException(400, 'invalid_recordings_cursor')
+    stamp, identifier = raw.split('|')
+    try:
+        dt = parse_iso_datetime(stamp)
+        item_id = UUID(identifier)
+    except (TypeError, ValueError, AttributeError):
+        raise HTTPException(400, 'invalid_recordings_cursor') from None
+    if dt is None:
+        raise HTTPException(400, 'invalid_recordings_cursor')
+    return dt, item_id
+
+
+def _hub_class(row_dict, actor, *, extended):
+    from .live_classes_port import (
+        can_user_manage_class, compute_lifecycle_status,
+        extract_youtube_video_id, youtube_thumbnail_url,
+    )
+    c = camel(row_dict)
+    if not extended:
+        return c
+    status = c.get('status') or 'upcoming'
+    recording = c.get('recordingStatus') or ('ready' if status == 'recorded' else 'none')
+    lifecycle = compute_lifecycle_status(status, recording)
+    video = c.get('youtubeVideoId')
+    for url in (c.get('meetingUrl'), c.get('recordingUrl')):
+        if not video and url:
+            video, _ = extract_youtube_video_id(url)
+    playable = status == 'live' or lifecycle == 'recording_ready' or can_user_manage_class(actor, row_dict)
+    c['youtubeVideoId'] = video if playable else None
+    if not playable:
+        c['meetingUrl'] = None
+        c['recordingUrl'] = None
+    c['hasYoutubeVideo'] = bool(video)
+    c['thumbnailUrl'] = youtube_thumbnail_url(video)
+    c['lifecycleStatus'] = lifecycle
+    c['recordingStatus'] = recording
+    if c.get('description') is None:
+        c['description'] = c.get('topic')
+    return c
+
+
+async def _archive_page_rows(con, actor, course_id, *, extended, before=None):
+    """Only authorized historical lessons are paged, in the database, before LIMIT.
+
+    The access predicates match can_user_access_class. This avoids retrieving
+    arbitrary numbers of inaccessible lessons for a student and keeps every
+    page capped regardless of total archive size or student count.
+    """
+    from .live_classes_port import chat_iso
+    if not actor or actor.get('account_status') != 'active' or actor.get('role') not in ('owner','teacher','admin','student'):
+        raise HTTPException(403, 'forbidden')
+    cursor_at, cursor_id = _archive_cursor(before)
+    role = actor['role']
+    if extended:
+        columns = ('id,course_id,title,topic,description,status,recording_status,scheduled_at,started_at,ended_at,'
+                   'duration_minutes,recording_duration_seconds,teacher_user_id,meeting_url,recording_url,'
+                   'youtube_video_id,access_scope')
+    else:
+        columns = 'id,course_id,title,topic,status,scheduled_at,duration_minutes,teacher_user_id,meeting_url,recording_url'
+    if role == 'owner':
+        access_sql = ''
+    elif role in ('teacher','admin'):
+        access_sql = 'AND l.teacher_user_id=$2::uuid'
+    else:
+        entitlement = """(
+            EXISTS (SELECT 1 FROM enrollments e WHERE e.user_id=$2::uuid AND e.course_id=l.course_id)
+            OR EXISTS (SELECT 1 FROM access_entitlements a WHERE a.user_id=$2::uuid
+                       AND a.course_id=l.course_id AND (a.expires_at IS NULL OR a.expires_at > NOW()))
+        )"""
+        if extended:
+            access_sql = f"""AND (
+                (COALESCE(l.access_scope,'course')='course' AND {entitlement})
+                OR (l.access_scope='teacher_roster' AND EXISTS (
+                     SELECT 1 FROM teacher_student_links t
+                     WHERE t.teacher_user_id=l.teacher_user_id AND t.student_user_id=$2::uuid))
+                OR (l.access_scope='assigned' AND EXISTS (
+                     SELECT 1 FROM live_class_enrollments e
+                     WHERE e.live_class_id=l.id AND e.user_id=$2::uuid))
+            )"""
+        else:
+            access_sql = f'AND {entitlement}'
+    query = f"""SELECT {columns} FROM live_classes l
+               WHERE l.course_id=$1::uuid AND $2::uuid IS NOT NULL
+                 AND l.status IN ('completed','recorded')
+                 {access_sql}
+                 AND ($3::timestamptz IS NULL OR (l.scheduled_at,l.id)<($3::timestamptz,$4::uuid))
+               ORDER BY l.scheduled_at DESC,l.id DESC LIMIT $5"""
+    rows = [dict(r) for r in await con.fetch(query, course_id, actor['id'], cursor_at, cursor_id, RECORDINGS_PAGE_SIZE+1)]
+    has_more = len(rows) > RECORDINGS_PAGE_SIZE
+    page = rows[:RECORDINGS_PAGE_SIZE]
+    last = page[-1] if has_more else None
+    cursor = f"{chat_iso(last['scheduled_at'])}|{last['id']}" if last else None
+    return page, {'hasMore':has_more,'nextCursor':cursor}
+
+
+async def _archive_page_payload(con, actor, course_id, *, extended, before=None):
+    rows, pagination = await _archive_page_rows(con, actor, course_id, extended=extended, before=before)
+    past = [_hub_class(r, actor, extended=extended) for r in rows]
+    ids = [r['id'] for r in past]
+    attendance = ([camel(r) for r in await con.fetch(
+        'SELECT live_class_id,joined_at FROM live_class_attendance WHERE user_id=$1 AND live_class_id=ANY($2::uuid[])',
+        actor['id'], ids)] if ids else [])
+    teacher_ids = list({r['teacherUserId'] for r in past if r.get('teacherUserId')})
+    teachers = ([camel(r) for r in await con.fetch('SELECT id,name FROM users WHERE id=ANY($1::uuid[])',teacher_ids)]
+                if teacher_ids else [])
+    # Recording cards don't render material blocks: avoid 20 extra queries per page.
+    return {'past':past,'pastPagination':pagination,'attendance':attendance,'teachers':teachers,'materials':{}}
+
+
+async def load_recording_archive_page(con, user, *, before=None):
+    """Called by the authenticated archive API; uses the exact hub access rules."""
     course = await con.fetchval("SELECT id FROM courses WHERE slug='ielts'")
-    upcoming, past = [], []
+    _archive_cursor(before)  # reject malformed input even when no course exists
+    if not course:
+        return {'past':[],'pastPagination':{'hasMore':False,'nextCursor':None},
+                'attendance':[],'teachers':[],'materials':{}}
+    from .live_classes_port import has_extended_live_schema
+    return await _archive_page_payload(con, user, course, extended=await has_extended_live_schema(con), before=before)
+
+
+async def live_classes(con, uid, user=None):
+    from .live_classes_port import can_user_access_class, has_extended_live_schema
+    course = await con.fetchval("SELECT id FROM courses WHERE slug='ielts'")
+    upcoming, live_now = [], []
+    actor = user or {'id':uid,'role':'student','account_status':'active'}
+    extended = await has_extended_live_schema(con)
+    archive = {'past':[],'pastPagination':{'hasMore':False,'nextCursor':None},
+               'attendance':[],'teachers':[],'materials':{}}
     if course:
-        columns = 'id,title,status,scheduled_at,duration_minutes,teacher_user_id,meeting_url,recording_url'
-        upcoming = [camel(r) for r in await con.fetch(f"SELECT {columns} FROM live_classes WHERE course_id=$1 AND status IN ('upcoming','live') ORDER BY scheduled_at", course)]
-        past = [camel(r) for r in await con.fetch(f"SELECT {columns} FROM live_classes WHERE course_id=$1 AND status IN ('completed','recorded','cancelled') ORDER BY scheduled_at DESC LIMIT 10", course)]
-    ids = [r['id'] for r in upcoming + past]
-    attendance = [camel(r) for r in await con.fetch('SELECT live_class_id,joined_at FROM live_class_attendance WHERE user_id=$1 AND live_class_id=ANY($2::uuid[])', uid, ids)] if ids else []
-    teachers = [camel(r) for r in await con.fetch('SELECT id,name FROM users WHERE id=ANY($1::uuid[])', list({r['teacherUserId'] for r in upcoming + past if r['teacherUserId']}))] if ids else []
-    return {'courseAvailable': bool(course), 'upcoming': upcoming, 'past': past, 'attendance': attendance, 'teachers': teachers,
-            'materials': {id: await material_blocks(con, 'live_class', id) for id in ids}, 'metadataUnavailable': False}
+        if extended:
+            columns = ('id,course_id,title,topic,description,status,recording_status,scheduled_at,started_at,ended_at,'
+                       'duration_minutes,recording_duration_seconds,teacher_user_id,meeting_url,recording_url,'
+                       'youtube_video_id,access_scope')
+            raw_up = await con.fetch(
+                f"SELECT {columns} FROM live_classes WHERE course_id=$1 AND status IN ('upcoming','live') "
+                "ORDER BY CASE WHEN status='live' THEN 0 ELSE 1 END, scheduled_at", course)
+        else:
+            columns = 'id,course_id,title,topic,status,scheduled_at,duration_minutes,teacher_user_id,meeting_url,recording_url'
+            raw_up = await con.fetch(
+                f"SELECT {columns} FROM live_classes WHERE course_id=$1 AND status IN ('upcoming','live') ORDER BY scheduled_at",course)
+        upcoming = [_hub_class(dict(r),actor,extended=extended) for r in raw_up
+                    if await can_user_access_class(con,actor,dict(r))]
+        live_now = [c for c in upcoming if c.get('status')=='live']
+        archive = await _archive_page_payload(con,actor,course,extended=extended)
+    past = archive['past']
+    ids = [r['id'] for r in upcoming]
+    attendance = archive['attendance'] + ([camel(r) for r in await con.fetch(
+        'SELECT live_class_id,joined_at FROM live_class_attendance WHERE user_id=$1 AND live_class_id=ANY($2::uuid[])',
+        uid,ids)] if ids else [])
+    teacher_ids = list({r['teacherUserId'] for r in upcoming if r.get('teacherUserId')})
+    existing_teachers = {r['id'] for r in archive['teachers']}
+    new_teachers = ([camel(r) for r in await con.fetch(
+        'SELECT id,name FROM users WHERE id=ANY($1::uuid[])', [i for i in teacher_ids if i not in existing_teachers])]
+        if any(i not in existing_teachers for i in teacher_ids) else [])
+    materials = {**archive['materials'], **{id: await material_blocks(con,'live_class',id) for id in ids}}
+    return {
+        'courseAvailable':bool(course),
+        'liveNow':live_now,
+        'upcoming':upcoming,
+        'past':past,
+        'pastPagination':archive['pastPagination'],
+        'previousRecordings':[c for c in past if c.get('lifecycleStatus')=='recording_ready'
+                              and (c.get('youtubeVideoId') or c.get('recordingUrl'))],
+        'attendance':attendance,
+        'teachers':archive['teachers']+new_teachers,
+        'materials':materials,
+        'metadataUnavailable':False,
+    }
 
 
 async def read(req, user, path, q, region):
@@ -180,5 +347,12 @@ async def read(req, user, path, q, region):
             from .browser_coach import coach
             return {region: await coach(con, uid)}
         if path == '/app/live-classes':
-            return await live_classes(con, uid)
+            return await live_classes(con, uid, user=user)
+        if path.startswith('/app/live-classes/'):
+            from .live_classes_port import load_single_live_class_view
+            class_id = path.split('/')[-1]
+            detail, err_code, status_code = await load_single_live_class_view(req, con, user, class_id)
+            if err_code:
+                raise HTTPException(status_code, err_code)
+            return detail
     raise HTTPException(400, 'invalid_region')
