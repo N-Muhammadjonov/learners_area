@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "releaseId": "rel-v1-1fa06d8d41d8ff701632573e",
+  "reviewer": "Test 16 contextual editorial check",
+  "materials": [
+    {
+      "source": "listening",
+      "sourceId": "dc42157f-0373-462f-9196-a1cc026e2e4c",
+      "sectionNumber": 4,
+      "segmentKey": "s4",
+      "bodySha": "1d52c011421021fe6bd723e9043bc1806528d2162b1a340c6736d68667127a04",
+      "spans": [
+        {
+          "start": 121,
+          "end": 133,
+          "surface": "ethnography",
+          "entryId": "40db744f-fb78-5b6c-a3bc-fa2efe59318b",
+          "senseId": "099880e1-d1b8-459f-ab2b-1452f01da40d",
+          "meaningSha": "2839e7f58aad25c89a1d59057cd0de02d4b91257b0331f739340b40232018851"
+        }
+      ]
+    }
+  ]
+}
