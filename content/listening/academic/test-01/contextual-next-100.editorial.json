@@ -1,0 +1,2693 @@
+{
+  "schema": "learners-area-listening-test-1-editorial-link-plan-v1",
+  "branch": "feature/listening-test-1-next-100-senses",
+  "sourceTest": "listening-test-1",
+  "release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "status": "STAGED_ONLY_NOT_PUBLISHED",
+  "linkedWithoutLiveWrites": true,
+  "description": "100 transcript targets and contextual sense candidates. Existing IDs and source-confirmed candidate drafts; nothing published until editorial pass and safe release deploy.",
+  "summary": {
+    "existing_sense_candidate": 32,
+    "source_verified_new_entry_draft": 10,
+    "requires_dictionary_sense_review": 58
+  },
+  "items": [
+    {
+      "entryNumber": 1,
+      "surface": "make up my mind",
+      "lemma": "make up my mind",
+      "selected": {
+        "part": 1,
+        "start": 935,
+        "end": 950,
+        "surface": "make up my mind",
+        "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space. Now we"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "5b66fc11-e5f2-43c3-8c61-eba46a680789",
+      "activeReleaseEntryIds": [
+        "de614bfd-d5ab-4e5d-b4ad-d462795c9190"
+      ],
+      "availableSenseIds": [
+        "5b66fc11-e5f2-43c3-8c61-eba46a680789"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 2,
+      "surface": "find out",
+      "lemma": "find out",
+      "selected": {
+        "part": 1,
+        "start": 904,
+        "end": 912,
+        "surface": "find out",
+        "context": "eter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "91ff9330-3649-442a-8d44-86f0e7db6100",
+      "activeReleaseEntryIds": [
+        "24a57b44-7a7d-4812-8364-d8ce0d737597",
+        "56e329a1-31af-5c46-9e9b-c559a1304a9e"
+      ],
+      "availableSenseIds": [
+        "91ff9330-3649-442a-8d44-86f0e7db6100",
+        "0d1cb737-9351-55c3-85cb-15dd853e2cfc",
+        "6417f3be-5285-53ce-9d6a-5464ccd9896a",
+        "c2661f56-ea0d-5077-b9d8-a42a9977b095",
+        "e519e115-b8de-5ae5-a805-eadee800f777"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 3,
+      "surface": "talked on the phone",
+      "lemma": "on the phone",
+      "selected": {
+        "part": 1,
+        "start": 838,
+        "end": 857,
+        "surface": "talked on the phone",
+        "context": "l be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "on the phone",
+        "partOfSpeech": "phrase",
+        "definitionEn": "speaking by telephone",
+        "translationUz": "telefon orqali gaplashmoq",
+        "cefr": null,
+        "exampleContext": "l be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/on-the-phone",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 4,
+      "surface": "come on in",
+      "lemma": "come in",
+      "selected": {
+        "part": 1,
+        "start": 870,
+        "end": 880,
+        "surface": "Come on in",
+        "context": "I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here t"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "de5db188-10d9-5a15-9c67-5f9140e2773a"
+      ],
+      "availableSenseIds": [
+        "0c6fda05-bef1-5961-9fdc-11f00ee1f4cc",
+        "481b7241-bdf5-5fcc-919c-0a425618b3b6",
+        "91def97a-0d92-5a5e-9e23-472f4cafce2a",
+        "c4843070-dbe1-5901-bca2-4cb0f82d8ac5",
+        "f9cab423-c312-5cc9-ad5f-82bcfdcf4cd8"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 5,
+      "surface": "first of all",
+      "lemma": "first of all",
+      "selected": {
+        "part": 1,
+        "start": 1378,
+        "end": 1390,
+        "surface": "first of all",
+        "context": ". I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the l"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "7d622856-7f4c-50d6-b352-5122f5193b04",
+      "activeReleaseEntryIds": [
+        "339f72ad-7c56-5146-8b91-9d5ae32be19b"
+      ],
+      "availableSenseIds": [
+        "7d622856-7f4c-50d6-b352-5122f5193b04"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 6,
+      "surface": "it depends on",
+      "lemma": "depend on",
+      "selected": {
+        "part": 1,
+        "start": 1430,
+        "end": 1443,
+        "surface": "It depends on",
+        "context": " up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, bec"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "b0929bbb-eb79-5850-8c31-be0af0f9bc07"
+      ],
+      "availableSenseIds": [
+        "0aea21ac-aabd-53e1-a273-eb951739a9c9",
+        "960673fd-e24d-50b0-886d-1d99b764766f",
+        "feaad84e-ff86-53a2-82c1-d04101c25f4e"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 7,
+      "surface": "the last place",
+      "lemma": "place",
+      "selected": {
+        "part": 1,
+        "start": 1573,
+        "end": 1587,
+        "surface": "The last place",
+        "context": "$110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smaller. And it seems like a good location"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "71fcdb59-b897-5ae7-b783-4e2b850f0390",
+        "46e905e3-ea17-5348-8350-dbb0cbdf292e"
+      ],
+      "availableSenseIds": [
+        "1a6fe0e4-c96e-4003-9a64-79dc480b0a24",
+        "2746a3be-e14d-5dd8-aac5-6610abbb6c3a",
+        "31a0d957-1762-5760-849c-39b38138db8b",
+        "56ff9ae3-ee1a-5617-b68d-2391ebf562dc",
+        "683a7eae-b396-4ab6-b871-b717df2da922",
+        "90ff730c-d25e-5d36-9949-7c6ba63f332a",
+        "a0cb3028-bb64-5fe0-aa43-c5cb251e0eeb",
+        "a1c0ee13-41ff-5209-92e9-7fc32911ae05",
+        "b0c8a47a-4c95-40df-b61c-ecc13cec5851",
+        "ba4c2e80-bd5d-5c8f-a6c5-08acd3b99523",
+        "bee55fe4-3e01-4866-8936-8bd846a127cf",
+        "c289750c-8509-597b-9be7-277ff66e8215",
+        "c8f93c2b-a23f-5763-91b5-4f0790b9206b",
+        "e6a0da31-01c2-58b9-966f-9e8931ebf812",
+        "ea8e78f3-097e-46e0-bd7d-2e06c5261d92",
+        "077814c4-9a73-5365-b476-f0ed483bfd3a",
+        "0a9a3710-508e-52f9-bcab-11013c1ad080",
+        "0bcd7642-0a75-53f3-8df9-b4d5b6421f25",
+        "16476cef-ab66-4b93-9746-38fe7bbcc8c0",
+        "3d27a7d7-a042-5795-b346-ef6791eb7620",
+        "48fa22a5-054e-469f-95f7-c076321bf49b",
+        "76616d8d-47d4-580e-ac1f-2ae7fcdbb789",
+        "8d5fa8ab-0deb-4d42-b51a-6c6b64ebe594",
+        "ae2ac908-9681-5340-aabd-faba228621f2",
+        "b181866a-1ca4-5dbe-8571-5437ea207abf",
+        "b6ad4be4-7370-56c6-b6f2-4a1bc00c9073",
+        "b6be1aed-ece2-53dc-8783-4d9ae5af75a0",
+        "d725f0f2-2ea8-44e5-bb51-4d0c1e585560",
+        "d956f398-7693-4eba-8448-16788dc50d78",
+        "f42c9229-3130-51d6-b1dc-e058e982e613"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 8,
+      "surface": "good location",
+      "lemma": "location",
+      "selected": {
+        "part": 1,
+        "start": 1659,
+        "end": 1672,
+        "surface": "good location",
+        "context": "ace I was in was $100 a week, and it was much smaller. And it seems like a good location. Yeah, and the shops are pretty close. The only thing is, it's not very good for pu"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "00f93de1-4128-52b2-afd5-9f61a8efcdc9"
+      ],
+      "availableSenseIds": [
+        "017e0319-078e-47e4-829c-eead5b211137",
+        "08fb42cc-7bc4-47c2-803a-2cce5cd824ce",
+        "63e628fc-d2b8-4a6d-89d5-6d3b73d3da12",
+        "fc581dac-8ada-4f4c-a096-9aa482c811f0"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 9,
+      "surface": "public transport",
+      "lemma": "public transport",
+      "selected": {
+        "part": 1,
+        "start": 1755,
+        "end": 1771,
+        "surface": "public transport",
+        "context": " and the shops are pretty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "4b84b699-d444-4492-a422-7956c8ea21fb",
+      "activeReleaseEntryIds": [
+        "d100f7c2-ddd1-4b37-952d-b6e976190bad"
+      ],
+      "availableSenseIds": [
+        "4b84b699-d444-4492-a422-7956c8ea21fb"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 10,
+      "surface": "nearest bus stop",
+      "lemma": "bus stop",
+      "selected": {
+        "part": 1,
+        "start": 1777,
+        "end": 1793,
+        "surface": "nearest bus stop",
+        "context": "tty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "36db5e43-3cf8-417a-b7a7-70d51ccc74b2",
+      "activeReleaseEntryIds": [
+        "69ab559d-1c8c-41fc-830d-d2994659ff40"
+      ],
+      "availableSenseIds": [
+        "36db5e43-3cf8-417a-b7a7-70d51ccc74b2"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 11,
+      "surface": "quite a walk",
+      "lemma": "walk",
+      "selected": {
+        "part": 1,
+        "start": 1797,
+        "end": 1809,
+        "surface": "quite a walk",
+        "context": "thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere I can park? Wel"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "e080ef35-f280-54fd-968e-a49155fac093",
+        "2741663f-9e8d-52e1-82e8-53e9936119ea"
+      ],
+      "availableSenseIds": [
+        "1aadbe34-7d27-4dd9-a0da-94d811322636",
+        "3f7a881a-1cda-4873-aa0f-b9deeacf4c05",
+        "54d79f96-aff2-5c8c-b51a-b246ae32cbfe",
+        "6b9e1749-2b45-4ae7-a27b-c5fba1888c7c",
+        "7d84593f-7885-43e3-a78b-2bc11b739396",
+        "a4252b95-9331-4a60-832a-554c09c271cc",
+        "f80f5eb7-2051-5c8e-9c3e-5f8a044e75c6",
+        "197c66a8-79c1-5811-98c3-fdd13af1d801",
+        "208f2c4e-e683-5b9d-8b3c-378390f3c503",
+        "222e2a51-7359-44df-bd7e-0e507ccbea84",
+        "335822a7-a088-5431-94cd-9ce198629db9",
+        "35f4942d-4559-5d36-af63-a6856086d8b6",
+        "85885462-8a67-4b70-9e30-49e1a3ec6c96",
+        "9ab47fff-a063-4c13-a043-705937e7baa1",
+        "aabeca4c-02c7-4f54-9bcc-cc2e13e1eda9",
+        "eb01c567-eeec-46c5-9f99-ec93636ddfbd",
+        "f329e1a6-7221-5ac9-84f8-a1f1153accf0"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 12,
+      "surface": "no parking",
+      "lemma": "parking",
+      "selected": {
+        "part": 1,
+        "start": 2085,
+        "end": 2095,
+        "surface": "no parking",
+        "context": "till plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "0de51cfd-3d91-5c31-a0cb-07f4cb9ab2b9"
+      ],
+      "availableSenseIds": [
+        "b58283e3-0916-4128-9a1e-cbfbd5ac92cc",
+        "f0ffc936-e803-4ac0-82c7-6d9828d294fe"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 13,
+      "surface": "back lane",
+      "lemma": "lane",
+      "selected": {
+        "part": 1,
+        "start": 2105,
+        "end": 2114,
+        "surface": "back lane",
+        "context": "for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall w"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "fab9f832-71ad-5672-85f3-4fde2527a2c2"
+      ],
+      "availableSenseIds": [
+        "109ee09b-b041-4c50-a44e-a4b2825b177e",
+        "33b18803-19f4-44d1-8216-5a8d5a88b94f"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 14,
+      "surface": "phone calls",
+      "lemma": "phone call",
+      "selected": {
+        "part": 1,
+        "start": 2152,
+        "end": 2163,
+        "surface": "phone calls",
+        "context": "s zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall when I came in. I've got a mobile which my friends"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "53229173-90de-5e72-b0f2-5faeec6c497c",
+      "activeReleaseEntryIds": [
+        "e038f3eb-c2ad-569d-af43-683096dad144"
+      ],
+      "availableSenseIds": [
+        "53229173-90de-5e72-b0f2-5faeec6c497c"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 15,
+      "surface": "living room",
+      "lemma": "living room",
+      "selected": {
+        "part": 1,
+        "start": 2347,
+        "end": 2358,
+        "surface": "living room",
+        "context": " a phone in the house is useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "living room",
+        "partOfSpeech": "noun",
+        "definitionEn": "a room in a home used for relaxing or receiving visitors",
+        "translationUz": "mehmonxona (uydagi yashash xonasi)",
+        "cefr": "A1",
+        "exampleContext": " a phone in the house is useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/living-room",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 16,
+      "surface": "hard to hear",
+      "lemma": "hear",
+      "selected": {
+        "part": 1,
+        "start": 2371,
+        "end": 2383,
+        "surface": "hard to hear",
+        "context": " useful. Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "b880807d-8cbe-5de2-b080-694936ae9878"
+      ],
+      "availableSenseIds": [
+        "181ec6a3-5dad-400c-be54-21d62fbdb1b1",
+        "659784d3-adf9-4cc8-812a-3e33e364cdb4",
+        "6de9922d-e977-49ca-9194-419ebf6b2bff",
+        "c055fb34-7ce0-46af-b07f-c02b1d21de3a",
+        "dc66332e-5c55-497c-925e-e4a524ab3916"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 17,
+      "surface": "fair enough",
+      "lemma": "fair enough",
+      "selected": {
+        "part": 1,
+        "start": 2446,
+        "end": 2457,
+        "surface": "fair enough",
+        "context": "hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what about my room? Yes, we'll go up and look in a minute. It's at the front of"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "fair enough",
+        "partOfSpeech": "phrase",
+        "definitionEn": "used to express understanding or acceptance of what someone has said",
+        "translationUz": "tushunarli, mayli",
+        "cefr": "B2",
+        "exampleContext": "hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what about my room? Yes, we'll go up and look in a minute. It's at the front of",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/fair-enough",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 18,
+      "surface": "front of the house",
+      "lemma": "front",
+      "selected": {
+        "part": 1,
+        "start": 2534,
+        "end": 2552,
+        "surface": "front of the house",
+        "context": "And what about my room? Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room, and there's a cupboard and desk in there already. But it does ge"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "6e522f61-d9e0-5718-8bb8-27ccbfebcb50",
+        "bc1dad32-d643-5955-9bec-a535c8646c4a",
+        "2cd98533-712f-5823-9718-db2d2718982f"
+      ],
+      "availableSenseIds": [
+        "ab97887c-eaab-4a85-9f78-be1650f63c81",
+        "23a3af0b-054e-421d-a246-672b9c3494ce",
+        "2b238e5f-fe05-49d6-98b6-14cbf39fe005",
+        "3ca40e29-4d8b-5792-be2a-fd24af6ff503",
+        "4f972767-d0c9-568c-9e36-db76a98dea83",
+        "6de53929-61ab-4f64-85d3-724a9c6038e4",
+        "82c4bfeb-9596-5631-af4f-143f45fbd6ba",
+        "90295fb0-a516-5777-82af-91565f36a8e7",
+        "cb6a0642-533e-5931-a31a-014b7b4d6142",
+        "f7f8a23f-3716-48f7-9e8d-3083ad308c69",
+        "fe8c2c39-c1e8-41f0-a33b-9e17f8b2c304",
+        "8b7d1e44-29e6-472d-b551-1ae169ad73d7",
+        "b02c67ea-7950-4a05-98b8-312fa3a29d2d"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 19,
+      "surface": "quite cold",
+      "lemma": "cold",
+      "selected": {
+        "part": 1,
+        "start": 2639,
+        "end": 2649,
+        "surface": "quite cold",
+        "context": "e room, and there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "92f93d10-ae7d-537d-b1a7-430ee5b8aeb2",
+        "25980613-1dd4-556d-a6e3-abe6aed349f1"
+      ],
+      "availableSenseIds": [
+        "307062d2-669f-4ef6-8230-bfadbe2aead5",
+        "307b52ee-8b98-4ec1-b1df-f1ba2d6476a1",
+        "73bab4db-307c-5545-b653-cc5c31d45f49",
+        "93b801ec-7ee4-5cbb-84c9-9d1898d7bb17",
+        "b0cec66d-3f54-562f-bfb6-7a64fa4cd3af",
+        "b9f33a44-733f-51ac-85ae-2fd9fbc5fd64",
+        "bfe4d311-dc87-4b8b-ae73-132db5000637",
+        "c82187ca-b539-4f02-81b5-01196b835e92",
+        "e8f5c066-c58e-4c8d-b8d1-cb99b8f64c2f",
+        "f9486ce8-4d82-58df-b560-6505bd25d9d0",
+        "fd7974cb-8a25-59f9-b7af-ed9f398ef757",
+        "fe7e0acc-fcfa-5a63-9c6d-45374efa8e0f",
+        "b279619a-9ad0-4758-a921-fb25c842261a",
+        "cd0e9814-351e-4fd6-9c83-0804d9b16e44",
+        "d6d7d849-bafa-4e43-ad8c-e35c658c5909"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 20,
+      "surface": "at night",
+      "lemma": "night",
+      "selected": {
+        "part": 1,
+        "start": 2650,
+        "end": 2658,
+        "surface": "at night",
+        "context": " there's a cupboard and desk in there already. But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "aa800661-6fcc-540f-92b0-29f54ef24449"
+      ],
+      "availableSenseIds": [
+        "22db4310-50ea-4299-bec2-40bfceccd742",
+        "b0f40d31-c011-43f7-abea-841b0af95055",
+        "cd208a21-b2e3-5edf-b114-596ff701e1a6",
+        "d43c92df-8252-4443-a3df-971230b37110",
+        "e565149a-9492-59e3-8803-7101ff8193f8",
+        "e8d506b4-1985-4226-bb2e-fd484014b534",
+        "ee2cf0a6-e0c5-44d7-870d-37bc745a52c6"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 21,
+      "surface": "left me with",
+      "lemma": "leave",
+      "selected": {
+        "part": 1,
+        "start": 2797,
+        "end": 2809,
+        "surface": "left me with",
+        "context": "nd has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a micro"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "f5c7bca1-142c-52be-90e1-7c8d45654ff3",
+        "b93b5fcc-a926-5745-b25d-d06073681fc8"
+      ],
+      "availableSenseIds": [
+        "25ade0c7-23d5-4320-bc3f-d4c476d4ef41",
+        "4b5349cc-8e34-4629-acf9-0711891b81ca",
+        "a574d8e5-bb07-412f-a39f-05411c7ff11a",
+        "1d3bb519-95f1-5655-b8d3-c148794e5cd0",
+        "2bbe8b4f-685c-550d-a8e9-690bba115007",
+        "2c1e920e-a043-5cf5-905f-65774f5afd41",
+        "3634dd27-40d2-50d9-a3de-cf26a3cdd48d",
+        "4d9231fd-956f-4a8b-8cee-0a5fb228bfbc",
+        "5208821f-3626-5a69-b8fc-74dab8ba11ea",
+        "972fd839-fb2b-5d71-b4cd-9c23e1638b67",
+        "9d48dff7-98da-44ed-8140-75c0057cd2c0",
+        "a0a8c227-89cb-5073-9b55-a3cc4b84b3b7",
+        "b8309b34-215a-5370-aa67-11ce2bafb6fc",
+        "e349deca-db24-4671-be76-17ac537e18c4",
+        "eb4f010e-04bb-453c-8f69-a70f7de9745a",
+        "f4ba957f-9178-568c-9b24-a49579f4e093",
+        "fabe5484-4551-43b5-a1bd-bcda72f0fc41"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 22,
+      "surface": "rice cooker",
+      "lemma": "rice cooker",
+      "selected": {
+        "part": 1,
+        "start": 2926,
+        "end": 2937,
+        "surface": "rice cooker",
+        "context": "e I can bring? Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken. I'll have a look in"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "rice cooker",
+        "partOfSpeech": "noun",
+        "definitionEn": "an electric appliance designed to cook rice",
+        "translationUz": "guruch pishirgich",
+        "cefr": null,
+        "exampleContext": "e I can bring? Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken. I'll have a look in",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/rice-cooker",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 23,
+      "surface": "sports fan",
+      "lemma": "fan",
+      "selected": {
+        "part": 1,
+        "start": 3201,
+        "end": 3211,
+        "surface": "sports fan",
+        "context": " on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too, so "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "fe4ccfd2-247d-516e-9ce4-4da6945871a8",
+        "91f4c54f-c518-5a8c-bdcb-f75387c1b069"
+      ],
+      "availableSenseIds": [
+        "145c6c98-0e39-4d6a-8ff6-4823e6a4c454",
+        "2c2d9685-a266-4f92-9e54-5d3777414adb",
+        "3e27875d-d081-4ac4-8309-31c80526176f",
+        "581b7748-ef2d-4ef2-ad98-1f4e88ed6e59",
+        "6541490d-c595-473c-a511-4bc9352767d8",
+        "7695a773-ab7d-4248-89b2-8d679cecccc8",
+        "9b3dce54-5d07-4db5-a5f8-bcf700e76284"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 24,
+      "surface": "supermarket",
+      "lemma": "supermarket",
+      "selected": {
+        "part": 1,
+        "start": 3327,
+        "end": 3338,
+        "surface": "supermarket",
+        "context": "riday evening. Would that be OK? Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights. Great. You can do the shopping then. Do you have mo"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "74d63195-4a8d-4a7e-a646-be0e2afc5292",
+      "activeReleaseEntryIds": [
+        "b1333eac-2344-5a41-9616-f23cf3e84b3e"
+      ],
+      "availableSenseIds": [
+        "74d63195-4a8d-4a7e-a646-be0e2afc5292"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 25,
+      "surface": "give me a lift",
+      "lemma": "give someone a lift",
+      "selected": {
+        "part": 1,
+        "start": 3538,
+        "end": 3552,
+        "surface": "give me a lift",
+        "context": "ternoon? In the afternoons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if yo"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "27d4bc0b-20d4-4328-95e0-120a1bd8b262",
+      "activeReleaseEntryIds": [
+        "f9cc0273-2245-4c5d-9b65-5b17a2118b8f"
+      ],
+      "availableSenseIds": [
+        "27d4bc0b-20d4-4328-95e0-120a1bd8b262"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 26,
+      "surface": "share the petrol",
+      "lemma": "share the petrol",
+      "selected": {
+        "part": 1,
+        "start": 3561,
+        "end": 3577,
+        "surface": "share the petrol",
+        "context": "ons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if you're interested, and the "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "0cc26972-456b-40fe-8b1e-6a781121bee5",
+      "activeReleaseEntryIds": [
+        "d7bec30b-18e7-4cb7-bc39-818a7b8bab17"
+      ],
+      "availableSenseIds": [
+        "0cc26972-456b-40fe-8b1e-6a781121bee5"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 27,
+      "surface": "move in",
+      "lemma": "move in",
+      "selected": {
+        "part": 1,
+        "start": 3617,
+        "end": 3624,
+        "surface": "move in",
+        "context": " me a lift. We can share the petrol. Good idea. When do you think I could move in? Well, if you're interested, and the rent is OK, I need someone by the 1st of June w"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "313e5c16-3fc9-41b5-9540-105df8fe9598",
+      "activeReleaseEntryIds": [
+        "aab6b6bc-351f-4cc6-a3d3-cfd4708f501f",
+        "08865a76-41d8-52cf-a668-da008cea5b6f"
+      ],
+      "availableSenseIds": [
+        "313e5c16-3fc9-41b5-9540-105df8fe9598",
+        "47887a7e-3137-5cc6-817a-f4aa297b1212",
+        "bfc4de21-16af-542c-99e6-a198d848317c",
+        "ec8ce2d8-df5b-5e74-8364-fad5aff3f312"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 28,
+      "surface": "rent period",
+      "lemma": "rent",
+      "selected": {
+        "part": 1,
+        "start": 3721,
+        "end": 3732,
+        "surface": "rent period",
+        "context": "rested, and the rent is OK, I need someone by the 1st of June when the new rent period starts. Yes, that should be fine. The house seems big enough. The rent's reasonable."
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "b9e6360c-ff8b-51f2-85a0-3e5ebc1480a1",
+        "31175979-924d-53f8-989d-387725a1d5b2"
+      ],
+      "availableSenseIds": [
+        "189dc42c-09a7-4a68-8034-482c2d30b140",
+        "897d114d-dea4-4d7e-9e53-61601cfbad3d",
+        "e0971260-9656-45a6-8304-a1ec08703884",
+        "ea8c37ac-4f01-4c95-bc45-2401e2b01bd0",
+        "9f576533-c5fa-47c5-9fd2-e42f78b2ddd7",
+        "c35346b4-fd0f-4df8-8d1d-83d3fb5e9fe6",
+        "c7962963-10c6-4a30-ac33-23c2bacc914e",
+        "cdff5bb2-08d7-4697-be21-6839a2fe1b98"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 29,
+      "surface": "next week",
+      "lemma": "week",
+      "selected": {
+        "part": 1,
+        "start": 3835,
+        "end": 3844,
+        "surface": "next week",
+        "context": " fine. The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end o"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "ae4dd036-c0a2-594d-aea8-928381d5e886"
+      ],
+      "availableSenseIds": [
+        "2db473da-e6e4-471c-a935-0ac5222bbc7f",
+        "6330fe9d-90c8-45b9-a8ea-4a8ae58cb8b6",
+        "6da4b4c1-b6c5-4944-a281-c525b6373b32"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 30,
+      "surface": "sounds fine",
+      "lemma": "fine",
+      "selected": {
+        "part": 1,
+        "start": 3898,
+        "end": 3909,
+        "surface": "sounds fine",
+        "context": "got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine. That is the end of section 1. You now have half a minute to check your answers."
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "0cc907ce-d37d-5541-ad97-6e7881aba3ba",
+        "fa72c873-99fb-54df-9418-ccdb0dd30a4d",
+        "4d362417-f7fa-52d1-9a26-d35ec5e8d963",
+        "41aa336e-846f-504c-9ab6-bd560f80876d"
+      ],
+      "availableSenseIds": [
+        "0244d1c2-fab3-447e-b2f5-782e835f854d",
+        "42adf797-5b09-49e0-9965-2be5e8dd29e7",
+        "5ef21026-5c90-4c8e-9fdd-ce8e8b6c3915",
+        "a59f997d-086f-4b45-b0e6-c2ab68c02f24",
+        "c119ef30-92a0-4f74-b9e4-535788ac4a72",
+        "fc3b75c0-c56e-5f38-a6ab-bb45be313e0b",
+        "555074a5-fb72-4f54-9bd6-ec1e4a235a74",
+        "c78254e4-d842-4e2d-aeda-419a1d035976",
+        "daf85a26-5d05-4550-9313-6a850e76f382",
+        "046f274a-40b0-4a93-97a6-fba896f44c42",
+        "4d49df5d-0756-4c43-8184-4d4a92f98bed"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 31,
+      "surface": "have a chance",
+      "lemma": "chance",
+      "selected": {
+        "part": 1,
+        "start": 148,
+        "end": 161,
+        "surface": "have a chance",
+        "context": " will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in fou"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "a57dcb17-b403-5a2d-84cb-e12e9451b941",
+        "2c1a8895-2b0e-54bf-90c1-b73b9b2c8f3c",
+        "cdb03862-319e-5572-9c3f-d890b9fb79ca"
+      ],
+      "availableSenseIds": [
+        "a5970050-931e-41d9-aaab-7b9e943f353f",
+        "0325360e-8985-4960-ba47-442df69424cc",
+        "267bcc4c-6d08-4b18-9702-d4bbd7515d78",
+        "672f5393-a93c-457f-94fb-2637ae36acf7",
+        "731b9eaf-6693-4afb-9649-bff655764976",
+        "e80ee9af-7c8d-4ad7-92c5-3646330305b3",
+        "2845f2ea-70a1-4d41-a2e3-4e153c49dc22",
+        "32de5942-c292-4709-a03e-ae72b9537282",
+        "7308b5cb-2b13-45eb-8d46-f8db1cf3ab1c"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 32,
+      "surface": "check your work",
+      "lemma": "check",
+      "selected": {
+        "part": 1,
+        "start": 165,
+        "end": 180,
+        "surface": "check your work",
+        "context": " you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write a"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "3d4e6bbb-2b60-5037-8997-7302f5907ae2",
+        "a4076356-e823-560e-9dfc-5f6ee5a8e88c"
+      ],
+      "availableSenseIds": [
+        "016f629c-28e8-4aed-b5fe-17b4c771e043",
+        "17002780-333d-46d3-8187-e0e99d89c752",
+        "36b256ce-c00a-57d4-8911-456cd5db40d6",
+        "3e453412-82a6-4f64-a97f-eb3f636e7e5c",
+        "4e4fe510-bd68-5b62-97f8-f27351f9a725",
+        "5d08fc0e-1717-4f2c-8d89-9595d0a64e07",
+        "c505d20c-7747-5109-a448-dabe123f88c4",
+        "c81a23a8-ef85-5d03-98c6-12832d20f793",
+        "cb1a9ac0-4574-56bd-9c2f-e95991799d4e",
+        "e14b666b-056b-5fcc-9dfe-aea9769a4adf",
+        "f1caa27e-d284-50de-aa23-a7c613e7aed6",
+        "f4157c4a-3c4d-5e65-beec-0c627c1efb99",
+        "fb8068bc-000a-45dd-9aa4-09d0825103c5",
+        "003ff920-50a7-4128-a35a-28bd114bcce0",
+        "0e67a56a-1f07-5dbe-8fed-a843f91ff4c0",
+        "180496c1-70b2-4537-a530-fec2176155e4",
+        "223d7b62-88fb-5de1-b738-a2f844ee6dd6",
+        "2fea1923-a58c-5a59-93d4-d4d2731f17ad",
+        "68c5146c-cea9-52c3-9062-5966cab9a435",
+        "6da2557f-8a9f-4b20-a889-eb5c002acb06",
+        "739ae81b-3e58-5b15-ac32-0ea33fc7eaed",
+        "74a5fd4a-f974-5757-ab4b-e475ee756fa4",
+        "8473ff8e-54b2-5e8a-901e-83c1aa1802f6",
+        "93c41aa9-28eb-5404-be08-69fd97473211",
+        "a107f2e8-315f-58ee-ada0-16a6c1b14367",
+        "a9736a41-a4b9-531c-9069-9a056a55dd1d",
+        "ac6bdf48-795b-5bf1-840b-2d7a4f8c3e08",
+        "af29814c-654c-49b9-a4eb-8766ceeff713",
+        "c8d8272c-204c-572d-895a-2c0a66c83f7b",
+        "cbb86d38-ebdf-4f6d-910e-5857cf909c53"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 33,
+      "surface": "once only",
+      "lemma": "once",
+      "selected": {
+        "part": 1,
+        "start": 216,
+        "end": 225,
+        "surface": "once only",
+        "context": "u will have a chance to check your work. All the recordings will be played once only. The test is in four sections. Write all your answers in the listening question boo"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "50e71004-c542-5aab-a555-fb0ad7cf3c2a"
+      ],
+      "availableSenseIds": [
+        "259c562e-b608-4501-9bec-b1c2513a31ac",
+        "7ff5b61d-5346-4a19-832c-a5a7c2d17e59",
+        "efa69c9b-6347-4439-b777-df126eb96633"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 34,
+      "surface": "answer sheet",
+      "lemma": "answer sheet",
+      "selected": {
+        "part": 1,
+        "start": 400,
+        "end": 412,
+        "surface": "answer sheet",
+        "context": "d of the test, you will be given 10 minutes to transfer your answers to an answer sheet. Now turn to section 1 on page 2 of your question booklet. Section 1. You will hear"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "answer sheet",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "a sheet on which a test candidate records answers",
+        "translationUz": "javob varaqasi",
+        "cefr": null,
+        "exampleContext": "d of the test, you will be given 10 minutes to transfer your answers to an answer sheet. Now turn to section 1 on page 2 of your question booklet. Section 1. You will hear",
+        "sourceUrl": "https://dictionary.cambridge.org/us/example/english/answer-sheet",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 35,
+      "surface": "questions",
+      "lemma": "question",
+      "selected": {
+        "part": 1,
+        "start": 40,
+        "end": 49,
+        "surface": "questions",
+        "context": "Recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions,"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "7253f620-2d5f-5c78-b58b-8147c15c7640",
+        "5e4b01c6-4011-569a-9b8c-8918f26ae3cf"
+      ],
+      "availableSenseIds": [
+        "23c1adb2-c52e-488b-8dcc-e258fbe514b5",
+        "5bfc475d-74c5-4d2c-9c1c-e54d17b88a92",
+        "60af39d4-21ad-4641-a6eb-780f32338249",
+        "74a2bb5c-4a14-47cb-b576-53921b757cd8",
+        "9e38bded-143d-560e-a4f0-5067351bc1b7",
+        "f77b0ed9-5d58-4c66-8239-3d4f21d5d67e",
+        "1f61271b-5257-43a1-8ce5-6b09c3672818",
+        "327cdbfa-5575-4c6b-a219-da452704a6ac",
+        "7e89081d-8050-444f-8210-d0c6d36384f4",
+        "bc55edff-8357-4b77-aa73-6eb1824b4f54",
+        "ff475744-4e37-4a21-8971-25ec5a4a5842"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 36,
+      "surface": "recording",
+      "lemma": "recording",
+      "selected": {
+        "part": 1,
+        "start": 1127,
+        "end": 1136,
+        "surface": "recording",
+        "context": "u should answer the questions as you listen, because you will not hear the recording a second time. Listen carefully and answer questions 1 to 5. Hi, I'm Jim. I'm here a"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "642c0138-10ac-4684-b3d1-68163806d7cd",
+      "activeReleaseEntryIds": [
+        "ba5b6ca2-1894-53ef-8199-618a1639472f"
+      ],
+      "availableSenseIds": [
+        "642c0138-10ac-4684-b3d1-68163806d7cd",
+        "a8e87de3-902f-49e6-87eb-b224b969ef54",
+        "efa40e0f-9e3d-4adf-99bf-1598e8f155f2"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 37,
+      "surface": "conversation",
+      "lemma": "conversation",
+      "selected": {
+        "part": 1,
+        "start": 730,
+        "end": 742,
+        "surface": "conversation",
+        "context": "here is an example that has been done for you. On this occasion only, the conversation relating to this will be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "ba794285-74f5-4ed0-8dc9-421b494a5c82",
+      "activeReleaseEntryIds": [
+        "dcf2b0f0-c382-57af-ad31-89f82a2c52ab"
+      ],
+      "availableSenseIds": [
+        "ba794285-74f5-4ed0-8dc9-421b494a5c82"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 38,
+      "surface": "sharing a house",
+      "lemma": "share",
+      "selected": {
+        "part": 1,
+        "start": 546,
+        "end": 561,
+        "surface": "sharing a house",
+        "context": ". Section 1. You will hear two students called Peter and Jim talking about sharing a house together. First you have some time to look at questions 1 to 5 on page 2. You will s"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "3e499c20-8a85-5fca-b5ef-b693afefd82c",
+        "047dbde1-017b-5e7d-8ea8-8d1015d9d541"
+      ],
+      "availableSenseIds": [
+        "2cefb789-f3d0-4c35-b511-10a473aee856",
+        "d6a37425-6d3e-4c7c-b98c-b29208aa16a7",
+        "d8b363a4-8d73-4dd1-9b97-256478362012",
+        "d9fee407-cce6-4b58-b9e5-ee611046109c",
+        "e5a272ef-3b29-4046-bfa3-9a359fe28243",
+        "590cb09b-e758-4ce3-b917-ef01dc8d1a15",
+        "892e5ef2-3854-4d1c-bd71-8d3a45034d87",
+        "9ddc2c58-99d6-46d1-91e6-e8808f7bbad6",
+        "abe92d33-a1c2-44ac-834c-8b7b7c210688",
+        "c6aeabc1-54d8-4a79-8d22-5fd99e667652"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 39,
+      "surface": "a few things",
+      "lemma": "thing",
+      "selected": {
+        "part": 1,
+        "start": 913,
+        "end": 925,
+        "surface": "a few things",
+        "context": "talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been wri"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "f5a3b90e-c5a9-5a12-b019-3eb7b1ddc4df"
+      ],
+      "availableSenseIds": [
+        "044301d8-42fd-5894-918b-a299fe69a75f",
+        "3c65a16e-1f8c-5773-8460-d0a62b3a884e",
+        "3daa3588-ebec-4e3d-9e83-2cb7f55245e7",
+        "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
+        "63259bd2-1c20-52c7-910d-c2c11b96ca59",
+        "926978f5-9a2a-5da2-a027-1d3d81bfc76f",
+        "af60afb6-8d7a-4826-831c-4e990ac66684",
+        "b303d3ff-06aa-57c2-a3c6-71e27a0b41ef",
+        "c0939db8-8057-5c54-9bd8-ab86475ca47e",
+        "c215bcfb-f1a4-41a4-9f4f-7bf0905ce6be",
+        "cdc68062-ffc4-4c9d-bd25-a7796489da07",
+        "db6a7415-dde9-4538-8675-00bfa95f8076"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 40,
+      "surface": "make up",
+      "lemma": "make up",
+      "selected": {
+        "part": 1,
+        "start": 935,
+        "end": 942,
+        "surface": "make up",
+        "context": "idn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "b3c80833-7e89-5622-a9f0-e68577fa6fc1"
+      ],
+      "availableSenseIds": [
+        "273eef1d-04bc-59dd-bb3d-73b01130dbb8",
+        "3d3653ff-a548-5f24-913f-6f2c55283c92",
+        "414a7b3e-454f-55fe-a039-169019b24e78",
+        "4572442a-71bb-5b26-84cb-cb736e623a5c",
+        "5180d3f7-1999-55a4-ae7e-b27c7039314d",
+        "5e0d82e5-a2da-5cdf-81fc-54d265cc5455",
+        "95189306-0659-532b-9438-82b0742a9814",
+        "df6f9c53-4fdf-5e34-a01d-c488d4120980",
+        "f3f9b093-2c67-5eb0-816d-cc5a32809880"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 41,
+      "surface": "wasn't quite clear",
+      "lemma": "clear",
+      "selected": {
+        "part": 1,
+        "start": 1394,
+        "end": 1412,
+        "surface": "wasn't quite clear",
+        "context": " find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent. It depends on the room you have. I have the large bedroom, so I pay"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "aadb5f51-1810-5516-95af-94c4469a9ddd",
+        "ea89b76c-f731-594e-9683-c3088f643df0",
+        "13995a48-b716-5d94-bf37-e7537eeffbba",
+        "2bc05a2a-53ba-594c-a72a-269640ed7523"
+      ],
+      "availableSenseIds": [
+        "1a4fbc51-bf0c-5b34-8b5b-888b02801e96",
+        "245f2d9c-845e-5d1d-8907-f0e11d16d623",
+        "684a32f5-8566-41ed-84b1-ac9e09f36aea",
+        "6aa1fc32-c2ee-48e9-9379-6a859b038f49",
+        "75f27b2f-59c4-4412-9ae8-e3a9f3e3b0d8",
+        "7d801bb5-1496-5da6-967b-10afa5085851",
+        "86c921f0-4bef-449b-b0ab-b1c277d3ab26",
+        "884802e1-0fa9-53ba-a5dd-7815ee9bfdbd",
+        "8f4d3952-9b82-5f25-9ae2-c23fe803839a",
+        "9bf2100f-bead-5b85-baa5-511d903a1f29",
+        "9edded8f-e0f0-56c9-8aa1-1afb50e99fc2",
+        "acba0df3-1a42-5aa2-8221-c13b8a4c27da",
+        "af21d6b7-62f6-5698-9c72-f3bf4058d026",
+        "c4a93072-13d4-4ae3-bf3a-5d669a1f2dfe",
+        "f1588575-f83c-5452-a995-fa10b3c73755",
+        "f1fabd80-fc80-5d94-938a-9988487d431b",
+        "fd482b50-a4fb-5e9e-ab98-8bd59859dcc0",
+        "7b116f40-4810-4834-921d-0976e7c653ab",
+        "ef5fcbb2-127f-4d2f-9576-1681cbbea85b",
+        "5a54d027-eace-4bf4-b4b8-c31d8863d03b",
+        "b7b01bf7-9f59-4779-aa0b-1868f339ae16",
+        "1e68700a-9eaa-5db4-adec-2044698473fa",
+        "3053f252-2208-5aca-b29d-66f7d9b2cfd3",
+        "4cc2ceb9-66f7-56ef-a2e8-24c4c4526c1c",
+        "5ca11090-c18f-57da-a1bb-b201a6f6dba5",
+        "5e135c3c-40eb-59c0-9ac4-9d90e46311f6",
+        "63cf68d2-397f-5b84-aba8-8907f08c6dab",
+        "68f3464f-2cd7-51bb-8845-096ed3d07260",
+        "a086585c-cde5-54d8-ba53-b62ff1e94f9c",
+        "a6c1387f-e84a-556f-99f4-22699a21e8e0",
+        "bb6802af-7001-5f83-8bfb-9dd1af360fa3",
+        "bcaa8cec-a7f3-4f28-a10d-e22959b818ba",
+        "be9d8729-dcb0-41af-b233-3afc88eb6992",
+        "c92ff1c1-52aa-5b4f-b555-302241ff9c4f",
+        "caa88165-926a-53ca-8ee0-b3e4cdcdfb7b",
+        "ccf90bb2-448f-4f77-9db9-b1f6b91ffb64",
+        "d698b149-b796-5f9b-8a33-3c5eb60ad3a8",
+        "d6fee79d-695f-58d3-8135-341758c52329",
+        "d794d11d-6675-58a2-b8b0-c4942b935487",
+        "d8b7d696-6608-4d16-a316-97c0cf0bb0b3",
+        "dee2306a-02f4-4854-bd45-192de8c8bfd9"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 42,
+      "surface": "a week",
+      "lemma": "week",
+      "selected": {
+        "part": 1,
+        "start": 1503,
+        "end": 1509,
+        "surface": "a week",
+        "context": " It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "ae4dd036-c0a2-594d-aea8-928381d5e886"
+      ],
+      "availableSenseIds": [
+        "2db473da-e6e4-471c-a935-0ac5222bbc7f",
+        "6330fe9d-90c8-45b9-a8ea-4a8ae58cb8b6",
+        "6da4b4c1-b6c5-4944-a281-c525b6373b32"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 43,
+      "surface": "a bit smaller",
+      "lemma": "small",
+      "selected": {
+        "part": 1,
+        "start": 1538,
+        "end": 1551,
+        "surface": "a bit smaller",
+        "context": "I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smalle"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "74be8f8b-d577-5b88-9e90-9a8b4f34bf69",
+        "f7e2af64-74e1-59d6-a4c7-9dbb15257eab",
+        "eb9e10df-f9f7-52bc-9eed-7e808c9e4836"
+      ],
+      "availableSenseIds": [
+        "14cb0b61-9401-519d-9cfe-a15ba23f9f8b",
+        "1e51b6c2-6fd9-4860-9a33-b9575608bcb5",
+        "1f3dd412-bf16-50df-b841-1389affd1aa4",
+        "42b61a6f-95fc-4a0e-a7a4-7e77ceb18969",
+        "520c1ba0-08a0-4684-abf9-43eff80b22ec",
+        "6a251016-9c21-40dc-a2d1-7b1ed45ee5b0",
+        "a3f2411b-4712-5e8a-99f6-766a7a55cac6",
+        "b3be6da5-9381-4873-81eb-316a831d7256",
+        "b53a2720-f415-5339-ad61-4366baf8b4ea",
+        "f8cbc5ef-d611-531a-8b0c-9d8deae17734",
+        "80db4c53-139f-4f3b-9ef9-e03d7f040422",
+        "91ae759c-fce0-4fe4-ae82-9983bb1d482e",
+        "8e510c42-ada1-4185-b876-804ad5f4cced"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 44,
+      "surface": "plenty of room",
+      "lemma": "plenty of room",
+      "selected": {
+        "part": 1,
+        "start": 2015,
+        "end": 2029,
+        "surface": "plenty of room",
+        "context": "ge. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "67f92f63-3f44-4044-8f9d-7bc4ee3bebee",
+      "activeReleaseEntryIds": [
+        "3c14fa8c-1ee8-46b2-9bcd-623a4a4cf405"
+      ],
+      "availableSenseIds": [
+        "67f92f63-3f44-4044-8f9d-7bc4ee3bebee"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 45,
+      "surface": "still plenty",
+      "lemma": "plenty",
+      "selected": {
+        "part": 1,
+        "start": 2009,
+        "end": 2021,
+        "surface": "still plenty",
+        "context": "a garage. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the b"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "60c86b3e-3612-5af2-8cff-9abf787b4b98",
+        "8ab93a15-d8cd-5893-a53f-4f5206110749"
+      ],
+      "availableSenseIds": [
+        "7acc91d3-fee3-47d8-af25-762e49d908fb",
+        "887685d0-ccd1-413e-aed8-e66d406b0de5",
+        "0b99d286-e609-4d9b-b154-0feae379d36e"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 46,
+      "surface": "bring that",
+      "lemma": "bring",
+      "selected": {
+        "part": 1,
+        "start": 2756,
+        "end": 2766,
+        "surface": "bring that",
+        "context": "oesn't have a heater. No problem. My friend has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything els"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "0c14b9b2-1e15-5f96-94fb-39cb7d327d58"
+      ],
+      "availableSenseIds": [
+        "0c843f95-7fed-4130-8252-4303bcb27ebf",
+        "110079ce-0862-48f3-90eb-16d49bb64f07",
+        "1e300acf-71ca-52d3-9147-fb2673bf6470",
+        "4f079865-a8ff-49f5-9fdf-faf974797e75",
+        "607fde2e-84b9-5503-9a7f-0306ffd2e540",
+        "706b2d87-053c-4875-b772-d116b1d5a0ad",
+        "7e6f9364-9011-5f2b-93ee-8dc485b5f47a",
+        "82883386-d256-59e9-ab0f-924d96fd0aa9",
+        "83ab6ba7-eab6-51d9-9079-9e37bac3a075",
+        "e492e6a6-37be-5a48-9d3a-c06c5f3bfe1a",
+        "f557d9f8-f51e-4822-b2c2-e5aca76eb432"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 47,
+      "surface": "a big box",
+      "lemma": "box",
+      "selected": {
+        "part": 1,
+        "start": 2810,
+        "end": 2819,
+        "surface": "a big box",
+        "context": "iven me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a microwave, and "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "2b61dd4e-00b9-5c2a-aced-d597d9ec4600",
+        "220c8f4c-2228-572d-a3ba-4683b22bf660"
+      ],
+      "availableSenseIds": [
+        "0dc9e081-3190-491d-a2b9-6f6054bf9d91",
+        "24e764d5-e17c-5e89-b33b-7cb5d30fb234",
+        "4db2dc38-6a0d-4026-bb85-a5963d6ade29",
+        "63cb9b99-a88a-5c01-8727-f6a018e48fc2",
+        "7aa1857e-f9ef-4c4d-9b28-4daa2fd39e47",
+        "7d758332-5577-55ae-ac5c-6da3279ab3a3",
+        "7de9e954-48b7-5947-9f00-16642fec9c3d",
+        "829a5f4b-d8b2-4280-8ef0-117e82ff0ca0",
+        "999c40bf-47e5-5a26-8109-d51e12f39e67",
+        "a55c82a5-04ab-49f3-a9c8-b71382ce7d1d",
+        "9d1206d6-8d1f-4177-9713-4c4ca595856d",
+        "aa18ae77-1550-4b5f-a419-ef015256e72f",
+        "ba2df8f3-9222-4344-923a-08850d3b4261"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 48,
+      "surface": "packed lunch",
+      "lemma": "packed lunch",
+      "selected": {
+        "part": 2,
+        "start": 1149,
+        "end": 1161,
+        "surface": "packed lunch",
+        "context": "for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the m"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "f64f0036-bdda-4d01-93a5-c6ab87288395",
+      "activeReleaseEntryIds": [
+        "c1551466-7416-4be3-8fba-c8378ca8819c"
+      ],
+      "availableSenseIds": [
+        "f64f0036-bdda-4d01-93a5-c6ab87288395"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 49,
+      "surface": "fresh air",
+      "lemma": "fresh air",
+      "selected": {
+        "part": 2,
+        "start": 1226,
+        "end": 1235,
+        "surface": "fresh air",
+        "context": "cked lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoon there are two breaks "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "fresh air",
+        "partOfSpeech": "collocation",
+        "definitionEn": "clean, cool air, especially outdoors",
+        "translationUz": "toza havo",
+        "cefr": "B1",
+        "exampleContext": "cked lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoon there are two breaks ",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/fresh",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 50,
+      "surface": "new parents",
+      "lemma": "parent",
+      "selected": {
+        "part": 2,
+        "start": 314,
+        "end": 325,
+        "surface": "new parents",
+        "context": "o 17. Okay, can everybody hear me? Good, well I'd like to welcome all the new parents to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teach"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "0c169450-2e5b-55c7-adc6-6250f760c4bb",
+        "c88e5a40-5a82-583b-9cde-9fd39007f561"
+      ],
+      "availableSenseIds": [
+        "184d08aa-068b-4850-8856-fbf07460c5cf",
+        "4b1b9901-47f4-401f-99f6-447f4a745460",
+        "c2ebd4f0-c732-4ec6-8720-c6de895327c2"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 51,
+      "surface": "head teacher",
+      "lemma": "head teacher",
+      "selected": {
+        "part": 2,
+        "start": 400,
+        "end": 412,
+        "surface": "head teacher",
+        "context": " to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "fd8ee5b8-8138-5a74-accd-758241f1cb7b",
+      "activeReleaseEntryIds": [
+        "f3bf8fff-e739-52a0-9b7c-d262100f14a5"
+      ],
+      "availableSenseIds": [
+        "fd8ee5b8-8138-5a74-accd-758241f1cb7b"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 52,
+      "surface": "school day",
+      "lemma": "school day",
+      "selected": {
+        "part": 2,
+        "start": 456,
+        "end": 466,
+        "surface": "school day",
+        "context": " I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school and perhaps you can ask me any questions you may have "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "531127a8-6e8e-5a6d-a56f-efc5654a16f3"
+      ],
+      "availableSenseIds": [
+        "35093685-f795-50f8-a9f3-676247ab0753",
+        "b23ca39d-1428-5f09-9ccd-85f79feef7d1"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 53,
+      "surface": "on offer",
+      "lemma": "on offer",
+      "selected": {
+        "part": 2,
+        "start": 659,
+        "end": 667,
+        "surface": "on offer",
+        "context": "et me start by telling you a little bit about what happens here and what's on offer. Children are expected to arrive at school between 8.45 and 8.50 and the bell is ru"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "4f71055d-99f8-5226-a07b-29cc1c9800c1",
+      "activeReleaseEntryIds": [
+        "69d12884-c5b5-5235-b0b4-057ba29b7c0d"
+      ],
+      "availableSenseIds": [
+        "4f71055d-99f8-5226-a07b-29cc1c9800c1"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 54,
+      "surface": "classrooms",
+      "lemma": "classroom",
+      "selected": {
+        "part": 2,
+        "start": 784,
+        "end": 794,
+        "surface": "classrooms",
+        "context": "ol between 8.45 and 8.50 and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the who"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "de807916-d969-4208-b041-35bb5cf08895",
+      "activeReleaseEntryIds": [
+        "516e7955-d78e-5927-bab7-f8fb8ab3476b"
+      ],
+      "availableSenseIds": [
+        "de807916-d969-4208-b041-35bb5cf08895"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 55,
+      "surface": "take the register",
+      "lemma": "take the register",
+      "selected": {
+        "part": 2,
+        "start": 818,
+        "end": 835,
+        "surface": "take the register",
+        "context": "ell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "42d573e6-8c4c-466b-9ba2-ef3002b4e0be",
+      "activeReleaseEntryIds": [
+        "f1de9561-b28f-4033-ae06-f2f0a4171c0d"
+      ],
+      "availableSenseIds": [
+        "42d573e6-8c4c-466b-9ba2-ef3002b4e0be",
+        "be12abe2-2613-4be3-820b-e4b86497d66d"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 56,
+      "surface": "assembly",
+      "lemma": "assembly",
+      "selected": {
+        "part": 2,
+        "start": 850,
+        "end": 858,
+        "surface": "assembly",
+        "context": "to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head to talk to the children"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "e3075ec6-bb61-51fd-8b93-992aa93bf386"
+      ],
+      "availableSenseIds": [
+        "5f074380-e562-46f2-896e-4485b4842e57",
+        "8d786a2c-ea38-4ec3-8fa4-1036af7aa5e6",
+        "a154af2f-32a0-4688-933a-0354063672fa",
+        "ca524218-4aae-535a-954a-a8a3861392d0",
+        "d9034be1-cce9-4bd6-881c-438382d8fc7b",
+        "db3198d0-f0ba-444f-bc40-bc8f324cead1"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 57,
+      "surface": "canteen",
+      "lemma": "canteen",
+      "selected": {
+        "part": 2,
+        "start": 1108,
+        "end": 1115,
+        "surface": "canteen",
+        "context": ". Lessons run until 4.00pm with an hour for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "a4c6d3ca-3e6c-559c-bfbe-78285fa30f67"
+      ],
+      "availableSenseIds": [
+        "176be618-8479-4fd4-9e0d-7adb967bc924",
+        "21590a1c-81da-488a-aad0-4df37553ad23",
+        "2a7687b5-565f-40cd-b145-9f5abc0f8154",
+        "57072ad9-fdce-42db-8967-2878c8044b8c",
+        "d9909bef-f5bd-44a3-8ba4-b7cd62730d0f"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 58,
+      "surface": "outside",
+      "lemma": "outside",
+      "selected": {
+        "part": 2,
+        "start": 1205,
+        "end": 1212,
+        "surface": "outside",
+        "context": "an bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoo"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "2b3e362b-79b6-4615-a411-87157b39a3c7",
+      "activeReleaseEntryIds": [
+        "ca0148f0-dcfd-56b2-bf5d-e23701f21285",
+        "17937146-3506-504a-9d03-6ec1be9dbb15",
+        "653c8d50-4dc4-537a-bfba-0eaa9ba7e223",
+        "044c7ad8-cce9-53b4-99a1-de0d59334672"
+      ],
+      "availableSenseIds": [
+        "04b57613-0d18-4187-93b4-6c646e8f4a71",
+        "0a83e869-a008-56ca-9e73-666133d4df3a",
+        "11a5081e-4235-4154-9c6f-5169f9d9422d",
+        "131cbb66-a5b6-59eb-8b0c-d0a3739d15f4",
+        "5aba3117-eb02-5be4-acb9-785bbc1cd28d",
+        "c07d2c90-1e92-5290-84bc-f8318a2f226c",
+        "c5cb7979-7b3c-5471-b396-4062e4a6ebbf",
+        "cf2b1feb-78c0-48de-af36-348084aad9b1",
+        "d9c1c717-eed5-470b-8937-0b68edd77b94",
+        "e252d783-e812-49a8-bc38-5612b3980935",
+        "3a4eca32-490f-404a-91aa-b0bfe90b5c62",
+        "a6ebd497-ca67-4ffd-970d-d5f1f2f247b4",
+        "5648a48f-1896-5fb5-9aa9-76156e66e78b",
+        "2b3e362b-79b6-4615-a411-87157b39a3c7",
+        "9a991ae5-a741-48e8-938f-59a42e2266dc"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 59,
+      "surface": "breaks",
+      "lemma": "break",
+      "selected": {
+        "part": 2,
+        "start": 1313,
+        "end": 1319,
+        "surface": "breaks",
+        "context": "In the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes when the children also generally go outside unless it's wet. Now we en"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "4dd42d3b-360c-5bf2-8aa0-de06ef21fb52",
+        "7f2f0473-a900-5b38-b2fc-fac4304cce56"
+      ],
+      "availableSenseIds": [
+        "26164e72-8f78-40f7-a1bd-c85fbe0a1235",
+        "263aa8d6-f5aa-5f6f-a00f-bcf38552a6b7",
+        "2fb61b94-f11b-406e-9b35-269ccfd7baa8",
+        "3c96af12-0989-5365-a7a2-347ac28ba25f",
+        "40f54b7a-1db2-5c07-87c8-7dd5f315f383",
+        "4d3ddc7e-7fbe-585a-ad7e-d27dded78447",
+        "57ebaf54-57a5-5fd0-a74f-04e047bf505c",
+        "5f83eda0-f92f-5fb5-98d8-1cbe0101ced6",
+        "627865d4-36f4-5f1f-aa1a-fc807c48cbe8",
+        "65a8f115-87d3-5896-b745-88ecfca5fb19",
+        "7eb85cf3-7e62-5067-aaf2-10b8a337fb96",
+        "85ae718b-22fe-482d-a054-05718672e752",
+        "92b9e81b-4841-57e4-99ad-5cdfbd2b96c4",
+        "939b1da8-3cef-46b7-9045-b6d33d8b9b5f",
+        "b7109788-73e8-41b0-ad3f-bb7d4178bbca",
+        "c83b4bd3-ba29-525e-b202-481e42c466ce",
+        "07ce2f74-88ac-5e4b-9692-c765e49ba982",
+        "0faf6f24-94a4-46fa-bcb7-23520654f08c",
+        "1787e822-3886-51ed-bff0-874f17f69a86",
+        "24c39767-e0e1-5143-9387-3f8eca2dcd80",
+        "26cb2c90-4ab3-417e-bf46-ea953c41c666",
+        "34b3158f-6fa7-4a51-a808-76ddf80a49ce",
+        "353e5666-8d16-5fad-8ac7-cde40bff5e7c",
+        "42b0872e-eed9-5cdc-8e00-ab14068ee4f7",
+        "43f97e5d-0885-5b49-8f01-207453f17da8",
+        "5decd7e4-fe97-5932-9447-e3d3c3dcfd3f",
+        "6af543bb-28a9-5351-88f2-a382d65305af",
+        "71bab821-4971-5d37-8719-dedefb8e6208",
+        "7ab1020e-f4a9-5a1e-a763-56ab18917a9e",
+        "98b5b5d1-5d76-47b2-89b5-2bafd87be2ad",
+        "9d92b198-21db-4a50-b73e-5b01bdeb4fbc",
+        "a12285d6-e5cb-502c-87ff-6d966ae046b4",
+        "d779bc26-6084-563a-9a2b-c2c19aa91e1a",
+        "57de54c3-b384-589a-bff1-eb63478679c5"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 60,
+      "surface": "rather than",
+      "lemma": "rather than",
+      "selected": {
+        "part": 2,
+        "start": 2054,
+        "end": 2065,
+        "surface": "rather than",
+        "context": "a close eye on how each child is doing in their schoolwork and every month rather than the teacher giving the children a report as I know some schools do they have to do t"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "b6ea5776-ada8-5690-bf17-5997a19ad3bb",
+      "activeReleaseEntryIds": [
+        "f2524896-be2f-5840-b6e5-261339c3d988"
+      ],
+      "availableSenseIds": [
+        "b6ea5776-ada8-5690-bf17-5997a19ad3bb"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 61,
+      "surface": "sports",
+      "lemma": "sport",
+      "selected": {
+        "part": 2,
+        "start": 1600,
+        "end": 1606,
+        "surface": "sports",
+        "context": "noons rather than continuing with lessons we expect the whole school to do sports. We vary these between summer and winter and everything is supervised by the teache"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "7c400fbd-7ccc-5e9d-b215-4e2e59afaf04",
+        "4faca1e0-a1a1-56c5-8a72-7344433c5d78"
+      ],
+      "availableSenseIds": [
+        "1d85012b-28b1-4f31-b9d5-f807ac78a6a1",
+        "56b13ae9-4a3a-46d7-80c6-4e287db96a48",
+        "634e4b0c-3091-46da-8db7-10cd8261e97f",
+        "9053f45b-45a1-51ad-997e-27917323afb2",
+        "a12dff8e-118f-4ad5-bf9b-8442b033cf23",
+        "f61167f9-9271-477d-9aca-c899a9254f19",
+        "fa2eb7e7-4658-5f6c-a755-bc75409ad29b",
+        "9829c0c2-9c2a-4a37-9044-3a697b5448c4",
+        "ec09dcd5-6805-4dbe-a7ec-3cbabd364d1d"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 62,
+      "surface": "supervised",
+      "lemma": "supervise",
+      "selected": {
+        "part": 2,
+        "start": 1667,
+        "end": 1677,
+        "surface": "supervised",
+        "context": "l to do sports. We vary these between summer and winter and everything is supervised by the teachers. Also we like the children to work on something artistic over a long"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "1405651d-6c91-514e-9e5b-dec1b914dd3b"
+      ],
+      "availableSenseIds": [
+        "8f856c66-a4b7-41e5-8f5b-5b7e7fe51f3d",
+        "cc4908eb-4be3-4dc8-853e-c1a7e5c61733"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 63,
+      "surface": "artistic",
+      "lemma": "artistic",
+      "selected": {
+        "part": 2,
+        "start": 1742,
+        "end": 1750,
+        "surface": "artistic",
+        "context": "supervised by the teachers. Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produ"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "dbf3c883-2f38-5324-9bb4-9805fcbbcc5d"
+      ],
+      "availableSenseIds": [
+        "27befe1c-91b5-4c88-bb85-219d925149fa",
+        "695ed495-2f31-47cf-a0d6-8c2c998b2943",
+        "ac8be7ec-3372-42f8-b192-26247edb61b2"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 64,
+      "surface": "environment",
+      "lemma": "environment",
+      "selected": {
+        "part": 2,
+        "start": 1939,
+        "end": 1950,
+        "surface": "environment",
+        "context": "ly be on something particular that they have studied that term such as the environment. We also make sure we keep a close eye on how each child is doing in their schoolwo"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "4c5e0d57-f248-4d43-a0a2-54cc97aee078",
+      "activeReleaseEntryIds": [
+        "e8006c76-81a0-5212-9195-d10f98260734"
+      ],
+      "availableSenseIds": [
+        "4c5e0d57-f248-4d43-a0a2-54cc97aee078",
+        "61c7d24a-3366-466e-966e-23ecacb77edc"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 65,
+      "surface": "keep a close eye on",
+      "lemma": "keep a close eye on",
+      "selected": {
+        "part": 2,
+        "start": 1974,
+        "end": 1993,
+        "surface": "keep a close eye on",
+        "context": "they have studied that term such as the environment. We also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "35a0ba54-0dc2-4fb2-af7a-99269232b5c3",
+      "activeReleaseEntryIds": [
+        "6aa8b3f5-2cb9-4579-a56b-52648d6a3f0a"
+      ],
+      "availableSenseIds": [
+        "35a0ba54-0dc2-4fb2-af7a-99269232b5c3"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 66,
+      "surface": "schoolwork",
+      "lemma": "schoolwork",
+      "selected": {
+        "part": 2,
+        "start": 2027,
+        "end": 2037,
+        "surface": "schoolwork",
+        "context": " We also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher giving the children a report as I know some "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "ff19f1d9-4871-4567-9643-56569c882921",
+      "activeReleaseEntryIds": [
+        "bf37b63a-6e07-5b88-889f-06802305fb3a"
+      ],
+      "availableSenseIds": [
+        "ff19f1d9-4871-4567-9643-56569c882921"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 67,
+      "surface": "performance",
+      "lemma": "performance",
+      "selected": {
+        "part": 2,
+        "start": 2175,
+        "end": 2186,
+        "surface": "performance",
+        "context": "report as I know some schools do they have to do tests and we record their performance over the year. We are very proud of our school and of the very good results we achie"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "63382297-3903-4cf1-9f3d-65ca57c4023a",
+      "activeReleaseEntryIds": [
+        "958e1d52-016f-5895-91b9-4a8751255327"
+      ],
+      "availableSenseIds": [
+        "07b120a8-8d54-4f02-862a-f9da593e5c63",
+        "63382297-3903-4cf1-9f3d-65ca57c4023a",
+        "69ca2799-b405-4cb9-adcc-376fba9a84d7",
+        "b7cd1714-7358-4e4f-a25b-86190bf7d225",
+        "e89e7659-9a1d-472e-92c5-91dbb4de4556"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 68,
+      "surface": "committed",
+      "lemma": "committed",
+      "selected": {
+        "part": 2,
+        "start": 2302,
+        "end": 2311,
+        "surface": "committed",
+        "context": "school and of the very good results we achieve. Our teachers are all very committed to the school and at the end of the school day many of them have set up clubs that t"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "d71c80d0-0866-5af9-a620-d0c720652d25"
+      ],
+      "availableSenseIds": [
+        "050c564c-f4df-458a-89a1-5c513cd0475d",
+        "bf68666a-f28a-4e47-90f4-4473bd7002d3"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 69,
+      "surface": "set up clubs",
+      "lemma": "set up clubs",
+      "selected": {
+        "part": 2,
+        "start": 2377,
+        "end": 2389,
+        "surface": "set up clubs",
+        "context": "committed to the school and at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Befor"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "9df0220c-762e-4e81-a994-f72ebd2a9c86",
+      "activeReleaseEntryIds": [
+        "924540a0-39aa-4573-aa86-451c5c4681c5"
+      ],
+      "availableSenseIds": [
+        "9df0220c-762e-4e81-a994-f72ebd2a9c86"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 70,
+      "surface": "extra hour",
+      "lemma": "hour",
+      "selected": {
+        "part": 2,
+        "start": 2421,
+        "end": 2431,
+        "surface": "extra hour",
+        "context": "e school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have s"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "a2225138-f5f0-5d65-919c-35aaf05acb88"
+      ],
+      "availableSenseIds": [
+        "10510c93-6909-4dda-a6c6-ca0ad81b1961",
+        "26e67b75-344d-43a3-b3b2-2813c50104a2",
+        "d5e5a429-2fb4-44b4-a3f0-86e995d7869e",
+        "e551e20f-a99d-4a03-8894-169bd7ead3e1"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 71,
+      "surface": "new skill",
+      "lemma": "skill",
+      "selected": {
+        "part": 2,
+        "start": 2443,
+        "end": 2452,
+        "surface": "new skill",
+        "context": "hem have set up clubs that the children go to for an extra hour to learn a new skill such as music. Before you hear the rest of the talk you have some time to look at q"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "8ebed839-05f7-5280-9a4e-6d436c072469"
+      ],
+      "availableSenseIds": [
+        "03ff3084-b2e4-46a4-9d4f-cd1e21fa0bbb",
+        "43c2fee2-15ab-4442-a832-84fac786053c"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 72,
+      "surface": "main entrance",
+      "lemma": "entrance",
+      "selected": {
+        "part": 2,
+        "start": 2674,
+        "end": 2687,
+        "surface": "main entrance",
+        "context": "8 to 20. OK, I'll quickly show you where everything is. We're here at the main entrance and on the right where you would normally expect to find reception you'll see the he"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "7944b9ff-053b-515d-bd69-4fbc9bb96e4c",
+        "e40c1c77-ea88-5db5-86ea-5ed5c3c11e1a"
+      ],
+      "availableSenseIds": [
+        "117c61e5-8833-42d6-8525-0eb0b810a95a",
+        "56546697-2033-42ab-906f-43f5093ef984",
+        "c73c3c90-52b3-4c46-b031-b5dde3a88238",
+        "4e4142c5-7d6a-4d6c-b954-1cff9c4afed8",
+        "d48253ee-a740-48a5-97b7-85d8e027fa84"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 73,
+      "surface": "reception",
+      "lemma": "reception",
+      "selected": {
+        "part": 2,
+        "start": 2745,
+        "end": 2754,
+        "surface": "reception",
+        "context": "the main entrance and on the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is al"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "ebaddb5c-6930-5c86-9f40-27dade05c400"
+      ],
+      "availableSenseIds": [
+        "11e539b7-b3ab-4a11-83ef-ba6b15c03fa4",
+        "1647347e-ce11-48f8-b09f-85514dbf66d0",
+        "2dfe535e-c632-4859-9866-662fa98aeb52",
+        "6820cc26-5b50-42c8-b13d-5d8f360724ca",
+        "6ccf2059-86fe-4a7a-9ae1-ca751a2dc33a"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 74,
+      "surface": "head's office",
+      "lemma": "office",
+      "selected": {
+        "part": 2,
+        "start": 2770,
+        "end": 2783,
+        "surface": "head's office",
+        "context": "the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is always open. Opposite this are "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "dc4c3170-c251-509b-a725-5580c55d8447"
+      ],
+      "availableSenseIds": [
+        "2e9c3efd-94bd-5980-a527-68f7efb558fa",
+        "3d0ddd5d-3c9a-49a6-a5cd-ddb8dbc33f94",
+        "614a803a-e9a6-4314-a20b-bcfb59d2e604",
+        "74ab945b-8943-4065-8809-fc3b75a10f7d",
+        "90698d50-11eb-52c0-b7fb-8e657f7f8aac",
+        "bd345d77-c388-409a-8ec3-e645c22f31d3",
+        "d3161ef5-4851-4fc1-ae4c-da2a5769e2d1"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 75,
+      "surface": "long corridor",
+      "lemma": "corridor",
+      "selected": {
+        "part": 2,
+        "start": 2930,
+        "end": 2943,
+        "surface": "long corridor",
+        "context": "ite this are two of the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "f443f77f-400a-4f68-8796-ef70b6849eb3",
+      "activeReleaseEntryIds": [
+        "dc3f721b-65b7-5d73-8d81-1817aa467b05"
+      ],
+      "availableSenseIds": [
+        "f443f77f-400a-4f68-8796-ef70b6849eb3"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 76,
+      "surface": "library",
+      "lemma": "library",
+      "selected": {
+        "part": 2,
+        "start": 2949,
+        "end": 2956,
+        "surface": "library",
+        "context": " the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we will be able"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "89024e3c-00d3-4a13-9481-fbdeeeb447c4",
+      "activeReleaseEntryIds": [
+        "79b8a84d-c1d7-5386-b904-6b6eec6adaff"
+      ],
+      "availableSenseIds": [
+        "011e42a7-ad33-433e-b7c8-580bf97a71fe",
+        "0206e0a2-2f71-4393-85c3-8d2ba87e6b09",
+        "6fc166b2-f3f8-4da7-9f1f-0e09989168c7",
+        "89024e3c-00d3-4a13-9481-fbdeeeb447c4",
+        "93bf0e47-c261-4ab7-9e9c-ccc67b27bd96"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 77,
+      "surface": "computer room",
+      "lemma": "computer room",
+      "selected": {
+        "part": 2,
+        "start": 3054,
+        "end": 3067,
+        "surface": "computer room",
+        "context": "en those two classrooms and we are hoping that we will be able to create a computer room within that so that the children can have somewhere quiet to work on their own. On "
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 78,
+      "surface": "on their own",
+      "lemma": "on your own",
+      "selected": {
+        "part": 2,
+        "start": 3134,
+        "end": 3146,
+        "surface": "on their own",
+        "context": "ter room within that so that the children can have somewhere quiet to work on their own. On the left of the classrooms we have converted one of the old cloak rooms to crea"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "on your own",
+        "partOfSpeech": "idiom",
+        "definitionEn": "without help from other people",
+        "translationUz": "mustaqil, o‘zi",
+        "cefr": "B1",
+        "exampleContext": "ter room within that so that the children can have somewhere quiet to work on their own. On the left of the classrooms we have converted one of the old cloak rooms to crea",
+        "sourceUrl": "https://dictionary.cambridge.org/us/dictionary/english/on-own",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 79,
+      "surface": "cloak rooms",
+      "lemma": "cloakroom",
+      "selected": {
+        "part": 2,
+        "start": 3212,
+        "end": 3223,
+        "surface": "cloak rooms",
+        "context": "their own. On the left of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. No"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "32e6a175-f458-5b6c-8f99-4337f3d75266"
+      ],
+      "availableSenseIds": [
+        "a339fb3e-c734-4945-9ea2-f25a4f7b0a9b",
+        "f7cf7876-0489-4b21-9b26-d28a165351de"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 80,
+      "surface": "music room",
+      "lemma": "music room",
+      "selected": {
+        "part": 2,
+        "start": 3236,
+        "end": 3246,
+        "surface": "music room",
+        "context": "of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. Now if you come with me t"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 81,
+      "surface": "main hall",
+      "lemma": "hall",
+      "selected": {
+        "part": 2,
+        "start": 3342,
+        "end": 3351,
+        "surface": "main hall",
+        "context": "in there at lunchtime if they want to. Now if you come with me through the main hall here. OK, now as you can probably see this main hall is a new addition this year and"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "1326277e-0059-5d2b-9815-054ea4441f14"
+      ],
+      "availableSenseIds": [
+        "2f1c6896-0eff-4260-a697-9802f4929866",
+        "3a019140-3d72-5e41-8501-f6775eb224d7",
+        "3c350fb4-07a8-4324-bb34-69e26ee34232",
+        "624c68ae-67b7-42dc-9308-a8798ff22a2c",
+        "ac2c35e0-b6b6-4981-a043-8bb427b2ecc0",
+        "b55887c9-8e9c-507b-970b-c4e6e9d44c89",
+        "dd14150b-7300-5704-9fac-673484f89e8d",
+        "f2160126-a28a-4461-b2a6-1b3b128722ed"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 82,
+      "surface": "assembly hall",
+      "lemma": "assembly hall",
+      "selected": {
+        "part": 2,
+        "start": 3503,
+        "end": 3516,
+        "surface": "assembly hall",
+        "context": "year and we are very pleased with it. We used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children and w"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "assembly hall",
+        "partOfSpeech": "collocation",
+        "definitionEn": "a room or hall for large group meetings",
+        "translationUz": "majlislar zali",
+        "cefr": null,
+        "exampleContext": "year and we are very pleased with it. We used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children and w",
+        "sourceUrl": "https://dictionary.cambridge.org/us/example/english/assembly-hall",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 83,
+      "surface": "turned into",
+      "lemma": "turn into",
+      "selected": {
+        "part": 2,
+        "start": 3561,
+        "end": 3572,
+        "surface": "turned into",
+        "context": "hed into the old assembly hall next door which as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look "
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "turn into",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "to change something so it becomes something different",
+        "translationUz": "...ga aylantirmoq",
+        "cefr": "B1",
+        "exampleContext": "hed into the old assembly hall next door which as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look ",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/turn-into",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 84,
+      "surface": "weekly lessons",
+      "lemma": "lesson",
+      "selected": {
+        "part": 2,
+        "start": 3608,
+        "end": 3622,
+        "surface": "weekly lessons",
+        "context": "as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to a"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "bfe9a0ac-d123-58b5-a804-57c3d64caea6"
+      ],
+      "availableSenseIds": [
+        "4c306d37-9b52-4e50-9e89-f9afac74512b",
+        "4e652b9d-0d10-4884-b921-5dc76718ee1f",
+        "7f176297-16ce-402d-90d8-814eda83577b",
+        "9941d974-ad46-4582-a280-c5d2ac8ee8bb"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 85,
+      "surface": "feel free",
+      "lemma": "feel free",
+      "selected": {
+        "part": 2,
+        "start": 3632,
+        "end": 3641,
+        "surface": "feel free",
+        "context": "een turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your question"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "source_verified_new_entry_draft",
+      "newEntryDraft": {
+        "headword": "feel free",
+        "partOfSpeech": "idiom",
+        "definitionEn": "used to say someone may do something if they wish",
+        "translationUz": "bemalol qilavering",
+        "cefr": null,
+        "exampleContext": "een turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your question",
+        "sourceUrl": "https://dictionary.cambridge.org/dictionary/english/feel-free",
+        "synonyms": [],
+        "antonyms": [],
+        "collocations": [],
+        "reviewStatus": "not_published"
+      }
+    },
+    {
+      "entryNumber": 86,
+      "surface": "project",
+      "lemma": "project",
+      "selected": {
+        "part": 3,
+        "start": 67,
+        "end": 74,
+        "surface": "project",
+        "context": "Part 3. You will hear two students called Jen and Rob discussing a project they are about to start working on. First you have some time to look at questions 21"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "237b7e53-3ee3-4755-a37e-9a8a565a5a15",
+      "activeReleaseEntryIds": [
+        "f6491635-68de-52e7-8f51-363f63f7aa59",
+        "54cf3679-6756-512a-92ce-da34266aff8f"
+      ],
+      "availableSenseIds": [
+        "237b7e53-3ee3-4755-a37e-9a8a565a5a15",
+        "e29dfa72-6ef4-4b47-af00-fbbba0c4f2ac",
+        "07d42537-7520-454c-ae3b-5ee6c3c72b7b",
+        "0c97ed2e-3052-499b-97d5-ac78433393eb",
+        "1dbe163d-716c-4a81-b827-6c951a024b25",
+        "3f509505-34b9-5339-90ef-366b6be1dcf8",
+        "4bdcd507-8de6-44d8-9a7b-981f37931b4d",
+        "56e0c884-68e3-520e-b984-bc3e2a67028c",
+        "5b152fee-5433-5af9-a294-83cfaf8640a0",
+        "80052af9-27fe-579b-9d3e-f391f3265135",
+        "8b1e8518-2586-58dd-8c29-5a5b46c93937",
+        "b484affe-c48a-4678-8578-514ab3c47e7f",
+        "cd484511-eaf1-5fc8-a063-83f81ed47dc2",
+        "fc6e41b4-3003-5ecd-9a75-c6ec31d81016",
+        "ebc6280a-9d76-5e28-b639-6e162f99716f"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 87,
+      "surface": "forensic linguistics",
+      "lemma": "forensic linguistics",
+      "selected": {
+        "part": 3,
+        "start": 292,
+        "end": 312,
+        "surface": "Forensic Linguistics",
+        "context": ". Hi Jen. Hi Rob. We need to look at this project we're doing together in Forensic Linguistics. Sure. The first thing we have to do is define Forensic Linguistics. I thought we co"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [],
+      "availableSenseIds": [],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 88,
+      "surface": "analysis of language",
+      "lemma": "analysis",
+      "selected": {
+        "part": 3,
+        "start": 446,
+        "end": 466,
+        "surface": "analysis of language",
+        "context": "nguistics. I thought we could say something like, linguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Li"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "32f08484-188b-55c4-8b72-70fe0adda955"
+      ],
+      "availableSenseIds": [
+        "07927b0b-524f-49e7-b02f-07aa986fd17c",
+        "1dcd3d12-7f23-4ff3-82ee-969533e74f2a",
+        "6df716c6-dac7-4ea9-9660-bb96a4c3fbce",
+        "c4772ed0-1485-4571-ab87-22c23abd2969",
+        "d733a66c-15fc-5ff1-a147-ccf91599f40b",
+        "df7a702e-c725-4b02-91e7-2c35c1ad373b"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 89,
+      "surface": "scientific techniques",
+      "lemma": "technique",
+      "selected": {
+        "part": 3,
+        "start": 497,
+        "end": 518,
+        "surface": "scientific techniques",
+        "context": "inguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of languag"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "676319a4-a18b-55ef-b424-b936b3e56041"
+      ],
+      "availableSenseIds": [
+        "6b5e1de6-b1cf-4e34-98d3-27db7891a9b1",
+        "db17018f-3047-4c06-9938-dea58e1a8666"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 90,
+      "surface": "solve crimes",
+      "lemma": "solve",
+      "selected": {
+        "part": 3,
+        "start": 522,
+        "end": 534,
+        "surface": "solve crimes",
+        "context": "nalysis of language, and forensic refers to using scientific techniques to solve crimes. So Forensic Linguistics involves analysing people's use of language to find out wh"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "e71f7b82-d8ca-5136-8408-7c542385475c"
+      ],
+      "availableSenseIds": [
+        "3948474b-98c0-46ba-9eca-172797ba1357",
+        "7c21c15f-6dc6-4859-b62d-130d80b76459",
+        "b8e18872-6800-4400-b778-f1d924fbb0f4"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 91,
+      "surface": "definition",
+      "lemma": "definition",
+      "selected": {
+        "part": 3,
+        "start": 683,
+        "end": 693,
+        "surface": "definition",
+        "context": "find out whether they've committed a crime. What do you think of that as a definition? Sounds OK. I looked it up in my dictionary and I got something similar. Then we ca"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "d58fbe59-728d-4754-9fb5-c811ef0618f3",
+      "activeReleaseEntryIds": [
+        "97216861-344e-5a57-b36b-8b932fac02e9"
+      ],
+      "availableSenseIds": [
+        "c0d46d77-54f6-4d47-bd42-6b9cd7cdad69",
+        "d58fbe59-728d-4754-9fb5-c811ef0618f3"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 92,
+      "surface": "back it up",
+      "lemma": "back up",
+      "selected": {
+        "part": 3,
+        "start": 839,
+        "end": 849,
+        "surface": "back it up",
+        "context": "r. Then we can add something about what forensic linguists actually do to back it up. You know, like analysing documents to find out who wrote them. Good point. Let's do"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "6a442a37-96c0-5e96-a02d-10f99c005547"
+      ],
+      "availableSenseIds": [
+        "01cc2559-02d3-5959-970a-e31d3bbc2934",
+        "0f18968f-179c-5dce-a811-45987b30658f",
+        "76cb1627-bf91-5ea3-940d-e0a3013c7422",
+        "b68606bc-5fb4-566b-b10b-eb24c9b97d43",
+        "df0cc926-f216-575d-9426-128915fea488"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 93,
+      "surface": "voice identification",
+      "lemma": "identification",
+      "selected": {
+        "part": 3,
+        "start": 2811,
+        "end": 2831,
+        "surface": "voice identification",
+        "context": "d. OK. I've already looked at Forensics Today and it didn't say much about voice identification so we needn't bother with that one. Language and Crime looks a bit more promising, d"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "4b65aa5d-a441-5700-9b2a-f4f9b3d02d7f"
+      ],
+      "availableSenseIds": [
+        "0455dc4e-ae0d-4a15-b84e-249fca1cc0dc",
+        "0b73ffd3-9f50-4e02-9109-658a7b1bc777",
+        "0ec22019-4ed2-4056-88d3-8ddf78ebbe9d",
+        "8ac5b1c2-665a-414b-a8d3-c423e19e618a",
+        "d0f5c967-e03a-4e48-bae7-6f70038e8eaa"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 94,
+      "surface": "possible suspect",
+      "lemma": "suspect",
+      "selected": {
+        "part": 3,
+        "start": 1072,
+        "end": 1088,
+        "surface": "possible suspect",
+        "context": "dentification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the recording and analyse t"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "a2464d8c-a1d8-5adb-8b0d-b2a163066120",
+        "1b64ceaf-82da-5ecf-a82a-b6f3e9ce453c",
+        "03e109ee-155f-5c1e-b71e-6f4fd8504e6b"
+      ],
+      "availableSenseIds": [
+        "88b1052e-b72c-483f-b024-f933ef45e398",
+        "9eb35114-467a-4179-bfc6-99e022baad66",
+        "d3e51396-01a1-4800-81da-743f7c2cc1a8",
+        "4f69ecba-8534-494b-9173-45d73ac38c9d",
+        "8127d5af-7599-4922-aaca-8bb96d50d3c7",
+        "efb23bd6-cab4-42a7-9d4d-ed1e0899582c"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 95,
+      "surface": "voice recording",
+      "lemma": "recording",
+      "selected": {
+        "part": 3,
+        "start": 1051,
+        "end": 1066,
+        "surface": "voice recording",
+        "context": "glad we chose voice identification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the r"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "ba5b6ca2-1894-53ef-8199-618a1639472f"
+      ],
+      "availableSenseIds": [
+        "642c0138-10ac-4684-b3d1-68163806d7cd",
+        "a8e87de3-902f-49e6-87eb-b224b969ef54",
+        "efa40e0f-9e3d-4adf-99bf-1598e8f155f2"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 96,
+      "surface": "analyse their voice",
+      "lemma": "analyse",
+      "selected": {
+        "part": 3,
+        "start": 1164,
+        "end": 1183,
+        "surface": "analyse their voice",
+        "context": " Not a real suspect of course. So we've got to listen to the recording and analyse their voice. Should be OK? Well, I've already listened to the recording and I can't even tell if"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "d94633f8-a108-5186-b29f-bb36a7538906"
+      ],
+      "availableSenseIds": [
+        "24a2c99e-fc30-4e55-a419-b7439d15d485",
+        "494f21a1-6fb6-4c7e-9991-02b0418c727b",
+        "d415948b-995f-4aa3-aa46-dc1c5dc027e9",
+        "f6e96250-17ed-4a28-b484-100dc0de2802"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 97,
+      "surface": "technical side of things",
+      "lemma": "technical side of things",
+      "selected": {
+        "part": 3,
+        "start": 3457,
+        "end": 3481,
+        "surface": "technical side of things",
+        "context": "t sure about how we're going to record the voices. I'm not too good on the technical side of things. Me neither. We'd better work out what we're doing. At least we get more than one op"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": "977fea19-6ec7-45eb-aea6-726bd7c1023f",
+      "activeReleaseEntryIds": [
+        "9584f0ba-c254-4547-9e03-399519d1b76a",
+        "34a68043-a76c-4297-9825-877e26e518f4"
+      ],
+      "availableSenseIds": [
+        "977fea19-6ec7-45eb-aea6-726bd7c1023f",
+        "7876cf8f-f2d5-4017-860a-8a81fe63feb1"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 98,
+      "surface": "self-doubt",
+      "lemma": "self-doubt",
+      "selected": {
+        "part": 3,
+        "start": 2234,
+        "end": 2244,
+        "surface": "self-doubt",
+        "context": " to test us. So let's get on with it then. Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do OK in the end. I reckon tha"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "f92c8b84-fdb8-4251-8198-eade1a8fa418",
+      "activeReleaseEntryIds": [
+        "00f878d7-5a73-5410-9e6b-8b58dfccd9a8"
+      ],
+      "availableSenseIds": [
+        "c1d8b6bf-2781-4592-96a8-72b21529aaab",
+        "f92c8b84-fdb8-4251-8198-eade1a8fa418"
+      ],
+      "status": "existing_sense_candidate"
+    },
+    {
+      "entryNumber": 99,
+      "surface": "background",
+      "lemma": "background",
+      "selected": {
+        "part": 3,
+        "start": 2662,
+        "end": 2672,
+        "surface": "background",
+        "context": "25 to 30. Now listen and answer questions 25 to 30. We'll have to do some background reading first. I'll go to the library later and get what we need. OK. I've already l"
+      },
+      "visibleInScript": false,
+      "exactExistingSenseId": null,
+      "activeReleaseEntryIds": [
+        "83d2a78d-5eaa-5177-a4bd-b0c843ae1020",
+        "248e7c1b-8fc9-5fd4-82d0-2c8ed9e08f8a"
+      ],
+      "availableSenseIds": [
+        "33d4b08f-274c-5576-98eb-9bfc72e3a393",
+        "56ee39c5-6d76-4fac-80f5-efce3bdfa9c4",
+        "68d83abb-e0d8-5ac1-8ed5-4b5c9927e20e",
+        "849a854d-8210-41c5-99e4-6cc2295b91d1",
+        "dd16854d-c3f8-4fbc-aa99-db31d968a290",
+        "dd34c4a1-7122-5c02-80cf-14683902bd46",
+        "dfc22cf9-b82d-44f8-8d3e-9a27c1d22b92",
+        "f0fe3c74-a692-4b58-af62-06e17c5cbb83",
+        "9046522c-7c54-4de2-9561-fc878721b2b2"
+      ],
+      "status": "requires_dictionary_sense_review"
+    },
+    {
+      "entryNumber": 100,
+      "surface": "research",
+      "lemma": "research",
+      "selected": {
+        "part": 3,
+        "start": 3017,
+        "end": 3025,
+        "surface": "Research",
+        "context": "ut of the library already so we don't need to worry about borrowing that. Research Methods in Forensic Linguistics. I guess we ought to borrow that. And Voice Identifi"
+      },
+      "visibleInScript": true,
+      "exactExistingSenseId": "fca2fbc9-f076-4e43-915e-94a56378c3a5",
+      "activeReleaseEntryIds": [
+        "071b3f7e-176e-5008-858c-caca57fc76aa",
+        "338ec4b2-782d-5db4-89f4-559ddf1ff7aa"
+      ],
+      "availableSenseIds": [
+        "69e4a450-e9c6-4ed8-b1cd-4b5941030a65",
+        "fca2fbc9-f076-4e43-915e-94a56378c3a5",
+        "7a5a9567-5a86-4ebc-8f79-7b2083b93b38",
+        "df6d97e4-14f8-4237-a261-7bb3296ad775"
+      ],
+      "status": "existing_sense_candidate"
+    }
+  ]
+}
