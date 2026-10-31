@@ -68,3 +68,61 @@ def preflight(records):
         if any(a[1] > b[0] for a, b in zip(spans, spans[1:])):
             raise ValueError("overlapping_senses")
     return True
+
+
+# These eight source-created records are complete, non-lexical sentence fragments.
+# The source-specific maintenance operation below retains the entire change
+# in ONE transaction: a failed sense/hash/offset check rolls back retirement.
+# It is NEVER invoked during serving, on import, or by an anonymous request.
+LEGACY_PART1 = {
+    "353e104e-5ae9-4a1a-b182-c4b1a012044d": (1237,1275,"a couple of miles past the Palace Pier"),
+    "935aa2e4-a89a-4cad-b922-c76f2af0252c": (1632,1655,"arrange a meeting place"),
+    "5b24a714-fd87-4721-ad3b-a5949e9f535d": (1788,1812,"raise thirty-five pounds"),
+    "c90c6be2-ecfd-4a48-aeb1-6554c040f209": (2110,2140,"entered into a free prize draw"),
+    "e8437092-d9d4-416b-92a1-a5f24dc7732d": (2534,2557,"a crew of twenty people"),
+    "a274bb40-feb1-460f-a79c-e8d3e48b0865": (2911,2930,"parents' permission"),
+    "39673a05-6b80-4e3d-8714-ad3981f67f8e": (3102,3121,"wears a life jacket"),
+    "174e2a45-6312-4a8f-8b57-94b44bd7d8a8": (3390,3414,"bring some spare clothes"),
+}
+
+async def apply_after_reviewing_legacy_part1(con, plan):
+    """Explicit maintenance-only atomic replacement, NOT a deployed endpoint.
+
+    Refuse when a previous occurrence, release, source, or sense changed.
+    Never auto-link or infer a word's meaning.
+    """
+    from uuid import UUID
+    from app.dictionary_context import apply_context_bindings
+    source="dc42157f-0373-462f-9196-a1cc026e2e4c"
+    if (not isinstance(plan,dict) or
+        plan.get("releaseId")!="rel-v1-1fa06d8d41d8ff701632573e" or
+        not any(m.get("source")=="listening" and m.get("sourceId")==source and
+                m.get("sectionNumber")==1 and m.get("segmentKey")=="s1"
+                for m in plan.get("materials",[]))):
+        raise ValueError("test16_plan_not_pinned")
+    async with con.transaction():
+        await con.execute("SELECT pg_advisory_xact_lock(387384)")
+        row=await con.fetchrow("SELECT payload FROM listening_packages WHERE test_id=$1 FOR UPDATE",UUID(source))
+        if not row:
+            raise ValueError("test16_source_missing")
+        payload=row["payload"]
+        if isinstance(payload,str):
+            payload=json.loads(payload)
+        section=next((s for s in payload.get("sections",[]) if s.get("number")==1),None)
+        if not section or hashlib.sha256(section["transcript"].encode()).hexdigest()!="700860086d027a47f567269463c7a901a57d46ec6ee0f00c4e1ea65dbba4bfa8":
+            raise ValueError("test16_source_changed")
+        records=await con.fetch(
+            "SELECT id,start_char,end_char,surface_form,lexeme_id,resolution_status FROM lexical_occurrences "
+            "WHERE listening_test_id=$1 AND section_number=1 AND segment_key='s1' FOR UPDATE",UUID(source))
+        if len(records)!=len(LEGACY_PART1):
+            raise ValueError("test16_legacy_inventory_changed")
+        for row in records:
+            expected=LEGACY_PART1.get(str(row["id"]))
+            if (not expected or (row["start_char"],row["end_char"],row["surface_form"])!=expected or
+                row["lexeme_id"] is not None or row["resolution_status"]!="unresolved"):
+                raise ValueError("test16_legacy_annotation_changed")
+        await con.execute(
+            "DELETE FROM lexical_occurrences WHERE listening_test_id=$1 "
+            "AND section_number=1 AND segment_key='s1' AND id=ANY($2::uuid[])",
+            UUID(source),[UUID(key) for key in LEGACY_PART1])
+        return await apply_context_bindings(con,plan)
