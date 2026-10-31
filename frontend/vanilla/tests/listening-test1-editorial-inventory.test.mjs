@@ -155,3 +155,22 @@ test('Part 1 external lexical sources and proper-name exclusions are explicit',(
   assert(e.occurrences.length>0);
  }
 });
+
+test('Part 1 context review rejects semantically incorrect unique dictionary senses',()=>{
+ const part=JSON.parse(readFileSync(new URL('script-part1-sense-candidates.json',root),'utf8'));
+ const review=part.editorialQueue;
+ assert.equal(review.summary.approvedOccurrences,21);
+ assert.equal(review.summary.rejectedOccurrences,13);
+ assert.equal(review.summary.remainingOccurrences,0);
+ const all=[...review.contextApproved,...review.rejectedWrongSense];
+ assert.equal(new Set(all.map(x=>x.tokenIndex)).size,all.length);
+ for(const x of review.contextApproved){
+  assert.equal(part.tokens[x.tokenIndex-1].surface,data.transcript['1'].slice(x.start,x.end));
+  assert(x.definitionEn&&x.translationUz&&x.senseId);
+ }
+ for(const x of review.rejectedWrongSense){
+  assert(x.reason&&x.status==='rejected_false_single_sense');
+ }
+ assert(review.rejectedWrongSense.some(x=>x.lemma==='minutes'));
+ assert(review.rejectedWrongSense.some(x=>x.lemma==='played'));
+});
