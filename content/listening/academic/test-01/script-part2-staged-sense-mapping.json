@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 446,
+  "count": 451,
   "mappings": [
     {
       "part": 2,
@@ -95,6 +95,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "indefinite article a"
+    },
+    {
+      "part": 2,
+      "start": 60,
+      "end": 67,
+      "surface": "teacher",
+      "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context-reviewed school meaning; correct noun sense in immutable release candidate inventory"
     },
     {
       "part": 2,
@@ -1838,6 +1848,16 @@
     },
     {
       "part": 2,
+      "start": 1631,
+      "end": 1637,
+      "surface": "summer",
+      "senseId": "72c4f5f5-c173-4636-a1b7-40b8dd237a1c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context-reviewed school meaning; correct noun sense in immutable release candidate inventory"
+    },
+    {
+      "part": 2,
       "start": 1638,
       "end": 1641,
       "surface": "and",
@@ -2040,6 +2060,16 @@
     },
     {
       "part": 2,
+      "start": 1803,
+      "end": 1808,
+      "surface": "terms",
+      "senseId": "94ef6d3b-8e75-408a-a8fb-fe98d7e30037",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context-reviewed school meaning; correct noun sense in immutable release candidate inventory"
+    },
+    {
+      "part": 2,
       "start": 1827,
       "end": 1829,
       "surface": "to",
@@ -2232,6 +2262,16 @@
     },
     {
       "part": 2,
+      "start": 2048,
+      "end": 2053,
+      "surface": "month",
+      "senseId": "39922867-c0ff-40d4-a6fd-fb8ee1a840a8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context-reviewed school meaning; correct noun sense in immutable release candidate inventory"
+    },
+    {
+      "part": 2,
       "start": 2054,
       "end": 2065,
       "surface": "rather than",
@@ -2250,6 +2290,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2070,
+      "end": 2077,
+      "surface": "teacher",
+      "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Context-reviewed school meaning; correct noun sense in immutable release candidate inventory"
     },
     {
       "part": 2,
