@@ -1,5 +1,5 @@
-export function bridge(token, stored, notesLabel, storageKey = 'la_listening_test_1_v2', course, progressive = false) {
-    return `(()=>{const token=${JSON.stringify(token)}, initial=${JSON.stringify(stored)}, notesLabel=${JSON.stringify(notesLabel)}, storageKey=${JSON.stringify(storageKey)};
+export function bridge(token, stored, notesLabel, storageKey = 'la_listening_test_1_v2', course, progressive = false, occurrences = []) {
+    return `(()=>{const token=${JSON.stringify(token)}, initial=${JSON.stringify(stored)}, notesLabel=${JSON.stringify(notesLabel)}, storageKey=${JSON.stringify(storageKey)},occurrences=${JSON.stringify(occurrences)};
  let ready=${!progressive};const send=(op,rest)=>{if(!ready&&['storage','course'].includes(op))return;parent.postMessage({channel:'learners-area-authored-v1',token,op,...rest},'*');};
  window.laInitialCourseStatus=${JSON.stringify(course ?? null)};window.laCourseWork=(activity,answers)=>send('course',{activity,answers});
  addEventListener('message',e=>{if(e.source===parent&&e.data?.channel==='learners-area-course-progress'&&e.data.token===token)dispatchEvent(new CustomEvent('la-course-status',{detail:e.data.status}));});
@@ -31,7 +31,19 @@ export function bridge(token, stored, notesLabel, storageKey = 'la_listening_tes
   const actual=document.createRange();actual.setStart(caret.startContainer,l);actual.setEnd(caret.startContainer,r);
   const overWord=[...actual.getClientRects()].some(rect=>e.clientX>=rect.left+0.5&&e.clientX<=rect.right-0.5&&e.clientY>=rect.top&&e.clientY<=rect.bottom);
   if(!overWord)return;
-  send('word',{word,mode:'script',x:e.clientX,y:e.clientY,context:transcript.textContent.slice(0,3000)});
+  const part=Number(document.querySelector('#scriptTabs [data-spart][aria-selected="true"]')?.dataset.spart);
+  if(!Number.isInteger(part)||part<1||part>4)return;
+  const source=(typeof DATA==='object'?DATA.transcript?.[String(part)]:null);
+  if(typeof source!=='string')return;
+  const nodeText=caret.startContainer.textContent||'';
+  const first=source.indexOf(nodeText);
+  if(first<0||source.indexOf(nodeText,first+1)!==-1)return;
+  const localStart=nodeText.indexOf(word,l);
+  if(localStart!==l)return;
+  const begin=first+l,end=first+r;
+  const matches=occurrences.filter(row=>row.part===part&&row.start<=begin&&row.end>=end&&source.slice(row.start,row.end)===row.surface);
+  if(matches.length!==1)return;
+  send('word',{word,mode:'script',occurrenceId:matches[0].occurrenceId,x:e.clientX,y:e.clientY});
  },true);})();`;
 }
 export function resolvePath(current, path) {
