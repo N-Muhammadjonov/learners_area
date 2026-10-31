@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 517,
+  "count": 537,
   "mappings": [
     {
       "part": 2,
@@ -3134,6 +3134,16 @@
     },
     {
       "part": 2,
+      "start": 2297,
+      "end": 2301,
+      "surface": "very",
+      "senseId": "0c9bff2d-b4a7-4c14-824c-07fddd5b3307",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
       "start": 2302,
       "end": 2311,
       "surface": "committed",
@@ -3232,6 +3242,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "School day: institutional school context; same approved education-institution sense in Part 2"
+    },
+    {
+      "part": 2,
+      "start": 2355,
+      "end": 2358,
+      "surface": "day",
+      "senseId": "52d6e953-bee9-4ee7-b7a7-6c34d39c947b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -3394,6 +3414,16 @@
       "kind": "editorial_phrase",
       "status": "context_approved_staged_not_published",
       "basis": "Test 1 editorial selection, exact Part 2 source span"
+    },
+    {
+      "part": 2,
+      "start": 2461,
+      "end": 2466,
+      "surface": "music",
+      "senseId": "a45f5dd6-af08-4a92-873d-e1ea8b98c05c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -3765,6 +3795,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2699,
+      "end": 2704,
+      "surface": "right",
+      "senseId": "e68ed9c4-45e3-47ff-834b-0194058a5ac6",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4231,6 +4271,16 @@
     },
     {
       "part": 2,
+      "start": 3037,
+      "end": 3041,
+      "surface": "able",
+      "senseId": "8335a9d2-c965-4196-ac00-47dfa2b365b2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
       "start": 3042,
       "end": 3044,
       "surface": "to",
@@ -4238,6 +4288,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3045,
+      "end": 3051,
+      "surface": "create",
+      "senseId": "aec8df3e-45d7-4f72-b389-eb4d83e6c999",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4318,6 +4378,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
+      "start": 3120,
+      "end": 3125,
+      "surface": "quiet",
+      "senseId": "dfdb2038-ef8f-4713-9bc6-54bb05c2eea1",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4431,6 +4501,16 @@
     },
     {
       "part": 2,
+      "start": 3208,
+      "end": 3211,
+      "surface": "old",
+      "senseId": "12aa6401-4ce5-4d3a-8f7c-2f7a9c7e7772",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
       "start": 3212,
       "end": 3223,
       "surface": "cloak rooms",
@@ -4449,6 +4529,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 3227,
+      "end": 3233,
+      "surface": "create",
+      "senseId": "aec8df3e-45d7-4f72-b389-eb4d83e6c999",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4532,6 +4622,16 @@
     },
     {
       "part": 2,
+      "start": 3297,
+      "end": 3301,
+      "surface": "want",
+      "senseId": "014474b2-c3aa-486b-8f5e-45ed8e8fe9e8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
       "start": 3302,
       "end": 3304,
       "surface": "to",
@@ -4569,6 +4669,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3317,
+      "end": 3321,
+      "surface": "come",
+      "senseId": "548a8422-3e2f-41a7-877a-9f1bb6712737",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4713,6 +4823,26 @@
     },
     {
       "part": 2,
+      "start": 3410,
+      "end": 3413,
+      "surface": "new",
+      "senseId": "45eb6603-295b-4542-bb60-8e60b2a86025",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3414,
+      "end": 3422,
+      "surface": "addition",
+      "senseId": "27dba58f-4e2b-491b-ba0b-67b74a0a5d78",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
       "start": 3423,
       "end": 3427,
       "surface": "this",
@@ -4720,6 +4850,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3428,
+      "end": 3432,
+      "surface": "year",
+      "senseId": "0061f594-beab-43d1-861b-01665a4119ec",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4750,6 +4890,26 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "are linking subject and property"
+    },
+    {
+      "part": 2,
+      "start": 3444,
+      "end": 3448,
+      "surface": "very",
+      "senseId": "0c9bff2d-b4a7-4c14-824c-07fddd5b3307",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3449,
+      "end": 3456,
+      "surface": "pleased",
+      "senseId": "7c18d0ea-dd4e-4e65-ac99-04e52f001ec5",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4800,6 +4960,36 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3499,
+      "end": 3502,
+      "surface": "old",
+      "senseId": "12aa6401-4ce5-4d3a-8f7c-2f7a9c7e7772",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3517,
+      "end": 3521,
+      "surface": "next",
+      "senseId": "b6601038-b6c8-43b8-8476-8cff06d3a56c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
+    },
+    {
+      "part": 2,
+      "start": 3522,
+      "end": 3526,
+      "surface": "door",
+      "senseId": "37f004fa-24a1-4671-b092-c752e21162bf",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
@@ -4961,6 +5151,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3652,
+      "end": 3656,
+      "surface": "look",
+      "senseId": "f0fdeeea-8a0b-461b-8d59-fbe15fcfa63b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Checked against pinned R2 release definition and school-tour transcript context"
     },
     {
       "part": 2,
