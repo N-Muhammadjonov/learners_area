@@ -59,6 +59,14 @@
           "meaningSha": "c4279f9e3754247afccee0aa67b42603bbb86e049a169353c74f9a27f687b081"
         },
         {
+          "start": 53,
+          "end": 64,
+          "surface": "taking part",
+          "entryId": "e01e802a-bb0e-5345-9244-e2d3ebda7de9",
+          "senseId": "f3ab248e-69b3-5246-8f9a-fcb7441be146",
+          "meaningSha": "2f615ca6ed3212f6bcbb5bc4d71ecfa4bd6e67536ebcb4ba3667cf0f83ace640"
+        },
+        {
           "start": 68,
           "end": 69,
           "surface": "a",
@@ -905,6 +913,14 @@
           "entryId": "8e642f11-de7b-56d9-bea9-357229602655",
           "senseId": "ca19e9dd-85d2-56e7-8966-7d50dc0fb74e",
           "meaningSha": "d71db1975c5a25de6f22ac371be028f2d07501ac45d761756ede0364e0c8e7c9"
+        },
+        {
+          "start": 842,
+          "end": 854,
+          "surface": "taking place",
+          "entryId": "1b91663c-be2a-5987-b148-7972b5458c4f",
+          "senseId": "2e073d31-297b-51d9-b2bf-da01df470c7b",
+          "meaningSha": "fdf3cdc8c979410373551b0ea43dbe439e757fb510512ec409552d0ffaba5e08"
         },
         {
           "start": 858,
@@ -2171,6 +2187,14 @@
           "meaningSha": "199e67cc05b88b2699d4debfcb58ef1ed61540af70990af9b53685aba15dd533"
         },
         {
+          "start": 2067,
+          "end": 2077,
+          "surface": "takes part",
+          "entryId": "e01e802a-bb0e-5345-9244-e2d3ebda7de9",
+          "senseId": "f3ab248e-69b3-5246-8f9a-fcb7441be146",
+          "meaningSha": "2f615ca6ed3212f6bcbb5bc4d71ecfa4bd6e67536ebcb4ba3667cf0f83ace640"
+        },
+        {
           "start": 2081,
           "end": 2084,
           "surface": "the",
@@ -2225,14 +2249,6 @@
           "entryId": "23ce7f63-c3b6-53a3-aaf7-5acf5692818f",
           "senseId": "c6d04dac-7167-4c7a-ad59-08c697f3f789",
           "meaningSha": "48d44d7d74a7a04048d83e70390da82e5cbc81712268e9ff52ffbcb072227adc"
-        },
-        {
-          "start": 2130,
-          "end": 2135,
-          "surface": "prize",
-          "entryId": "3af1aad1-462c-561c-9f33-4a3de3994cd7",
-          "senseId": "55339dac-1642-465c-add8-3282ee653b48",
-          "meaningSha": "65d7932308fb38548f5dfa4c915c27afdd9defd75f0b91fa1fcfb3b8141cee6a"
         },
         {
           "start": 2151,
@@ -3585,6 +3601,14 @@
           "entryId": "9f232f27-65ac-5f90-896f-9d9936d91d8c",
           "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
           "meaningSha": "9f08f5ab730ab117135348010ed2b033f1ac7bd27d1ae3cf0777abbbc48569ed"
+        },
+        {
+          "start": 3513,
+          "end": 3527,
+          "surface": "hanging around",
+          "entryId": "5905141a-cb1a-51a8-aeea-da6dd8f040ac",
+          "senseId": "f90e578e-cc92-555d-8d75-51171b55bb03",
+          "meaningSha": "a378f1cc83a5f34a798f2e1f5aefb32d7b7adb65153f9fe323f648076a32902f"
         },
         {
           "start": 3529,
