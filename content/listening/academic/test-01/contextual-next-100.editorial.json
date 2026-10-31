@@ -7,10 +7,10 @@
   "linkedWithoutLiveWrites": true,
   "description": "100 transcript targets and contextual sense candidates. Existing IDs and source-confirmed candidate drafts; nothing published until editorial pass and safe release deploy.",
   "summary": {
-    "existing_sense_candidate": 71,
+    "existing_sense_candidate": 85,
     "source_verified_new_entry_draft": 7,
     "externally_verified_entry_draft": 3,
-    "requires_dictionary_sense_review": 19
+    "requires_dictionary_sense_review": 5
   },
   "items": [
     {
@@ -1355,7 +1355,7 @@
         "context": "a garage. At the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the b"
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "7acc91d3-fee3-47d8-af25-762e49d908fb",
       "activeReleaseEntryIds": [
         "60c86b3e-3612-5af2-8cff-9abf787b4b98",
         "8ab93a15-d8cd-5893-a53f-4f5206110749"
@@ -1365,7 +1365,11 @@
         "887685d0-ccd1-413e-aed8-e66d406b0de5",
         "0b99d286-e609-4d9b-b154-0feae379d36e"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 46,
@@ -1540,7 +1544,7 @@
         "context": " I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school and perhaps you can ask me any questions you may have "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "35093685-f795-50f8-a9f3-676247ab0753",
       "activeReleaseEntryIds": [
         "531127a8-6e8e-5a6d-a56f-efc5654a16f3"
       ],
@@ -1548,7 +1552,11 @@
         "35093685-f795-50f8-a9f3-676247ab0753",
         "b23ca39d-1428-5f09-9ccd-85f79feef7d1"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 53,
@@ -1626,7 +1634,7 @@
         "context": "to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head to talk to the children"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "db3198d0-f0ba-444f-bc40-bc8f324cead1",
       "activeReleaseEntryIds": [
         "e3075ec6-bb61-51fd-8b93-992aa93bf386"
       ],
@@ -1638,7 +1646,11 @@
         "d9034be1-cce9-4bd6-881c-438382d8fc7b",
         "db3198d0-f0ba-444f-bc40-bc8f324cead1"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 57,
@@ -1715,7 +1727,7 @@
         "context": "In the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes when the children also generally go outside unless it's wet. Now we en"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "627865d4-36f4-5f1f-aa1a-fc807c48cbe8",
       "activeReleaseEntryIds": [
         "4dd42d3b-360c-5bf2-8aa0-de06ef21fb52",
         "7f2f0473-a900-5b38-b2fc-fac4304cce56"
@@ -1756,7 +1768,11 @@
         "d779bc26-6084-563a-9a2b-c2c19aa91e1a",
         "57de54c3-b384-589a-bff1-eb63478679c5"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 60,
@@ -1821,7 +1837,7 @@
         "context": "l to do sports. We vary these between summer and winter and everything is supervised by the teachers. Also we like the children to work on something artistic over a long"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "8f856c66-a4b7-41e5-8f5b-5b7e7fe51f3d",
       "activeReleaseEntryIds": [
         "1405651d-6c91-514e-9e5b-dec1b914dd3b"
       ],
@@ -1829,7 +1845,11 @@
         "8f856c66-a4b7-41e5-8f5b-5b7e7fe51f3d",
         "cc4908eb-4be3-4dc8-853e-c1a7e5c61733"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 63,
@@ -1843,7 +1863,7 @@
         "context": "supervised by the teachers. Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produ"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "27befe1c-91b5-4c88-bb85-219d925149fa",
       "activeReleaseEntryIds": [
         "dbf3c883-2f38-5324-9bb4-9805fcbbcc5d"
       ],
@@ -1852,7 +1872,11 @@
         "695ed495-2f31-47cf-a0d6-8c2c998b2943",
         "ac8be7ec-3372-42f8-b192-26247edb61b2"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 64,
@@ -1955,7 +1979,7 @@
         "context": "school and of the very good results we achieve. Our teachers are all very committed to the school and at the end of the school day many of them have set up clubs that t"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "050c564c-f4df-458a-89a1-5c513cd0475d",
       "activeReleaseEntryIds": [
         "d71c80d0-0866-5af9-a620-d0c720652d25"
       ],
@@ -1963,7 +1987,11 @@
         "050c564c-f4df-458a-89a1-5c513cd0475d",
         "bf68666a-f28a-4e47-90f4-4473bd7002d3"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 69,
@@ -2095,7 +2123,7 @@
         "context": "the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is always open. Opposite this are "
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "614a803a-e9a6-4314-a20b-bcfb59d2e604",
       "activeReleaseEntryIds": [
         "dc4c3170-c251-509b-a725-5580c55d8447"
       ],
@@ -2108,7 +2136,11 @@
         "bd345d77-c388-409a-8ec3-e645c22f31d3",
         "d3161ef5-4851-4fc1-ae4c-da2a5769e2d1"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 75,
@@ -2215,7 +2247,7 @@
         "context": "their own. On the left of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. No"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "f7cf7876-0489-4b21-9b26-d28a165351de",
       "activeReleaseEntryIds": [
         "32e6a175-f458-5b6c-8f99-4337f3d75266"
       ],
@@ -2223,7 +2255,11 @@
         "a339fb3e-c734-4945-9ea2-f25a4f7b0a9b",
         "f7cf7876-0489-4b21-9b26-d28a165351de"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 80,
@@ -2550,7 +2586,7 @@
         "context": "r. Then we can add something about what forensic linguists actually do to back it up. You know, like analysing documents to find out who wrote them. Good point. Let's do"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "0f18968f-179c-5dce-a811-45987b30658f",
       "activeReleaseEntryIds": [
         "6a442a37-96c0-5e96-a02d-10f99c005547"
       ],
@@ -2561,7 +2597,11 @@
         "b68606bc-5fb4-566b-b10b-eb24c9b97d43",
         "df0cc926-f216-575d-9426-128915fea488"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 93,
@@ -2575,7 +2615,7 @@
         "context": "d. OK. I've already looked at Forensics Today and it didn't say much about voice identification so we needn't bother with that one. Language and Crime looks a bit more promising, d"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "d0f5c967-e03a-4e48-bae7-6f70038e8eaa",
       "activeReleaseEntryIds": [
         "4b65aa5d-a441-5700-9b2a-f4f9b3d02d7f"
       ],
@@ -2586,7 +2626,11 @@
         "8ac5b1c2-665a-414b-a8d3-c423e19e618a",
         "d0f5c967-e03a-4e48-bae7-6f70038e8eaa"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 94,
@@ -2600,7 +2644,7 @@
         "context": "dentification as the topic. Yeah. We've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the recording and analyse t"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "9eb35114-467a-4179-bfc6-99e022baad66",
       "activeReleaseEntryIds": [
         "a2464d8c-a1d8-5adb-8b0d-b2a163066120",
         "1b64ceaf-82da-5ecf-a82a-b6f3e9ce453c",
@@ -2614,7 +2658,11 @@
         "8127d5af-7599-4922-aaca-8bb96d50d3c7",
         "efb23bd6-cab4-42a7-9d4d-ed1e0899582c"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 95,
@@ -2651,7 +2699,7 @@
         "context": " Not a real suspect of course. So we've got to listen to the recording and analyse their voice. Should be OK? Well, I've already listened to the recording and I can't even tell if"
       },
       "visibleInScript": true,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "24a2c99e-fc30-4e55-a419-b7439d15d485",
       "activeReleaseEntryIds": [
         "d94633f8-a108-5186-b29f-bb36a7538906"
       ],
@@ -2661,7 +2709,11 @@
         "d415948b-995f-4aa3-aa46-dc1c5dc027e9",
         "f6e96250-17ed-4a28-b484-100dc0de2802"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 97,
@@ -2720,7 +2772,7 @@
         "context": "25 to 30. Now listen and answer questions 25 to 30. We'll have to do some background reading first. I'll go to the library later and get what we need. OK. I've already l"
       },
       "visibleInScript": false,
-      "exactExistingSenseId": null,
+      "exactExistingSenseId": "f0fe3c74-a692-4b58-af62-06e17c5cbb83",
       "activeReleaseEntryIds": [
         "83d2a78d-5eaa-5177-a4bd-b0c843ae1020",
         "248e7c1b-8fc9-5fd4-82d0-2c8ed9e08f8a"
@@ -2736,7 +2788,11 @@
         "f0fe3c74-a692-4b58-af62-06e17c5cbb83",
         "9046522c-7c54-4de2-9561-fc878721b2b2"
       ],
-      "status": "requires_dictionary_sense_review"
+      "status": "existing_sense_candidate",
+      "editorialEvidence": {
+        "basis": "Manually matched transcript context to exact existing release sense definition",
+        "source": "active Cloudflare R2 immutable dictionary shard"
+      }
     },
     {
       "entryNumber": 100,
@@ -2766,9 +2822,9 @@
   ],
   "audits": {
     "inventoryCount": 100,
-    "existingSenseCandidateCount": 71,
+    "existingSenseCandidateCount": 85,
     "newEntryDrafts": 10,
-    "unresolvedReviewCount": 19,
+    "unresolvedReviewCount": 5,
     "hiddenTargetsCount": 18,
     "hiddenTargets": [
       {
