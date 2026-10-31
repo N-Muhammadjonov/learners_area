@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 537,
+  "count": 562,
   "mappings": [
     {
       "part": 2,
@@ -195,6 +195,17 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
+      "start": 118,
+      "end": 125,
+      "surface": "parents",
+      "entryId": "0c169450-2e5b-55c7-adc6-6250f760c4bb",
+      "senseId": "184d08aa-068b-4850-8856-fbf07460c5cf",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. parent noun: mother or father"
     },
     {
       "part": 2,
@@ -891,6 +902,17 @@
     },
     {
       "part": 2,
+      "start": 599,
+      "end": 606,
+      "surface": "telling",
+      "entryId": "cca0d22e-53c0-51b0-a09e-99b2162e72b0",
+      "senseId": "620686df-332b-4e3b-8e5a-f2fd3cbf65fd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. tell verb: let information be known"
+    },
+    {
+      "part": 2,
       "start": 607,
       "end": 610,
       "surface": "you",
@@ -941,6 +963,17 @@
     },
     {
       "part": 2,
+      "start": 635,
+      "end": 642,
+      "surface": "happens",
+      "entryId": "d448c465-0716-5a46-a41c-5961f6fa8eca",
+      "senseId": "32b099f3-3318-4f7c-b5a2-e0e72b30f043",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. happen verb: take place"
+    },
+    {
+      "part": 2,
       "start": 643,
       "end": 647,
       "surface": "here",
@@ -968,6 +1001,17 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "children: young people"
+    },
+    {
+      "part": 2,
+      "start": 683,
+      "end": 691,
+      "surface": "expected",
+      "entryId": "f959a95a-3d72-53a5-b1d5-3d34bcc0dcb0",
+      "senseId": "bbf6341e-283a-4537-b48d-e20e8d046362",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. expect verb: consider obligatory"
     },
     {
       "part": 2,
@@ -1048,6 +1092,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "School bell is rung: physical ringing device."
+    },
+    {
+      "part": 2,
+      "start": 750,
+      "end": 754,
+      "surface": "rung",
+      "entryId": "629dd0e7-8129-521d-960d-da678b8c6f8e",
+      "senseId": "839a64d7-b1f0-4431-a3fb-681def25b73c",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. ring verb: make a school bell sound"
     },
     {
       "part": 2,
@@ -1223,6 +1278,17 @@
     },
     {
       "part": 2,
+      "start": 889,
+      "end": 894,
+      "surface": "meets",
+      "entryId": "1006c021-c6fd-58ac-b07c-83e1de759667",
+      "senseId": "d9577168-db12-478d-8770-5a2499ed5923",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. meet verb: get together for purpose"
+    },
+    {
+      "part": 2,
       "start": 898,
       "end": 901,
       "surface": "the",
@@ -1343,6 +1409,17 @@
     },
     {
       "part": 2,
+      "start": 967,
+      "end": 975,
+      "surface": "happened",
+      "entryId": "d448c465-0716-5a46-a41c-5961f6fa8eca",
+      "senseId": "32b099f3-3318-4f7c-b5a2-e0e72b30f043",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. happen verb: take place"
+    },
+    {
+      "part": 2,
       "start": 979,
       "end": 982,
       "surface": "the",
@@ -1443,6 +1520,17 @@
     },
     {
       "part": 2,
+      "start": 1036,
+      "end": 1043,
+      "surface": "Lessons",
+      "entryId": "bfe9a0ac-d123-58b5-a804-57c3d64caea6",
+      "senseId": "9941d974-ad46-4582-a280-c5d2ac8ee8bb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. lesson noun: unit of instruction"
+    },
+    {
+      "part": 2,
       "start": 1048,
       "end": 1053,
       "surface": "until",
@@ -1510,6 +1598,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Part 2 context and grammatical class checked; exact single active dictionary sense for this POS."
+    },
+    {
+      "part": 2,
+      "start": 1094,
+      "end": 1100,
+      "surface": "served",
+      "entryId": "f2d7dc98-8bb8-52b4-a399-8782a1f42434",
+      "senseId": "af3f18a0-082d-50b6-bfd4-2165b6b439d9",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. serve verb: provide food"
     },
     {
       "part": 2,
@@ -1887,6 +1986,17 @@
     },
     {
       "part": 2,
+      "start": 1326,
+      "end": 1333,
+      "surface": "minutes",
+      "entryId": "a68a2935-3671-54ec-ad17-4182ea9d9158",
+      "senseId": "8d41bf57-1b11-4fc4-a055-538d2b39fc34",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. minute noun: sixty seconds"
+    },
+    {
+      "part": 2,
       "start": 1334,
       "end": 1338,
       "surface": "when",
@@ -2097,6 +2207,17 @@
     },
     {
       "part": 2,
+      "start": 1472,
+      "end": 1476,
+      "surface": "ways",
+      "entryId": "d6486bb4-bb8e-5c54-a709-d4966627831f",
+      "senseId": "0ac7344a-5b71-4ace-aaaa-0768263c8297",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. way noun: method of doing something"
+    },
+    {
+      "part": 2,
       "start": 1477,
       "end": 1479,
       "surface": "of",
@@ -2104,6 +2225,17 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "of as part whole belonging to group"
+    },
+    {
+      "part": 2,
+      "start": 1480,
+      "end": 1489,
+      "surface": "achieving",
+      "entryId": "756713a0-89c3-55d8-ab82-b2377b6994db",
+      "senseId": "b199c2f6-8225-4564-9954-acd377ad80eb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. achieve verb: reach goal by effort"
     },
     {
       "part": 2,
@@ -2144,6 +2276,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1520,
+      "end": 1530,
+      "surface": "afternoons",
+      "entryId": "355de692-26f7-5922-ac4e-e13d7a3b56e3",
+      "senseId": "5f57ea72-5a91-4d68-bc42-1c65ff353fab",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. afternoon noun: time noon to evening"
     },
     {
       "part": 2,
@@ -2329,6 +2472,17 @@
     },
     {
       "part": 2,
+      "start": 1685,
+      "end": 1693,
+      "surface": "teachers",
+      "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+      "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. teacher noun: person who teaches"
+    },
+    {
+      "part": 2,
       "start": 1695,
       "end": 1699,
       "surface": "Also",
@@ -2490,6 +2644,17 @@
     },
     {
       "part": 2,
+      "start": 1818,
+      "end": 1826,
+      "surface": "expected",
+      "entryId": "f959a95a-3d72-53a5-b1d5-3d34bcc0dcb0",
+      "senseId": "bbf6341e-283a-4537-b48d-e20e8d046362",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. expect verb: require students to do activity"
+    },
+    {
+      "part": 2,
       "start": 1827,
       "end": 1829,
       "surface": "to",
@@ -2587,6 +2752,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 1909,
+      "end": 1916,
+      "surface": "studied",
+      "entryId": "f32920c6-721f-5de9-9f32-29d7851440f6",
+      "senseId": "31d9b0af-7c8c-4f80-8845-290e842d1787",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. study verb: be student of subject"
     },
     {
       "part": 2,
@@ -2853,6 +3029,17 @@
     },
     {
       "part": 2,
+      "start": 2122,
+      "end": 2129,
+      "surface": "schools",
+      "entryId": "d859f9c3-e6a3-56df-8e98-0d56d28207cd",
+      "senseId": "5190bfda-658f-4588-9acf-625ccac0ba76",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. school noun: educational institution"
+    },
+    {
+      "part": 2,
       "start": 2130,
       "end": 2132,
       "surface": "do",
@@ -2890,6 +3077,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Existing approved occurrence sense reused in matching Part 2 grammatical/lexical context"
+    },
+    {
+      "part": 2,
+      "start": 2149,
+      "end": 2154,
+      "surface": "tests",
+      "entryId": "000d735d-c834-5313-a15b-79adf69506ca",
+      "senseId": "654730fe-5d4b-4096-a7e6-3ebb32675645",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. test noun: questions to evaluate learning"
     },
     {
       "part": 2,
@@ -3111,6 +3309,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2280,
+      "end": 2288,
+      "surface": "teachers",
+      "entryId": "4c1884f4-05e2-5f89-8e71-bc160d0994a1",
+      "senseId": "111b0b01-6ccd-4bf9-9d2a-ae368ac943c8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. teacher noun: person who teaches"
     },
     {
       "part": 2,
@@ -4079,6 +4288,17 @@
     },
     {
       "part": 2,
+      "start": 2879,
+      "end": 2889,
+      "surface": "classrooms",
+      "entryId": "516e7955-d78e-5927-bab7-f8fb8ab3476b",
+      "senseId": "de807916-d969-4208-b041-35bb5cf08895",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. classroom noun: room where lessons take place"
+    },
+    {
+      "part": 2,
       "start": 2890,
       "end": 2893,
       "surface": "but",
@@ -4116,6 +4336,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 2906,
+      "end": 2916,
+      "surface": "classrooms",
+      "entryId": "516e7955-d78e-5927-bab7-f8fb8ab3476b",
+      "senseId": "de807916-d969-4208-b041-35bb5cf08895",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. classroom noun: room where lessons take place"
     },
     {
       "part": 2,
@@ -4218,6 +4449,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Reused previously staged sense with same lexical meaning/POS in Part 1/2; manually selected in Part 2 transcript context"
+    },
+    {
+      "part": 2,
+      "start": 2992,
+      "end": 3002,
+      "surface": "classrooms",
+      "entryId": "516e7955-d78e-5927-bab7-f8fb8ab3476b",
+      "senseId": "de807916-d969-4208-b041-35bb5cf08895",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. classroom noun: room where lessons take place"
     },
     {
       "part": 2,
@@ -4448,6 +4690,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3168,
+      "end": 3178,
+      "surface": "classrooms",
+      "entryId": "516e7955-d78e-5927-bab7-f8fb8ab3476b",
+      "senseId": "de807916-d969-4208-b041-35bb5cf08895",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. classroom noun: room where lessons take place"
     },
     {
       "part": 2,
@@ -5184,6 +5437,17 @@
     },
     {
       "part": 2,
+      "start": 3667,
+      "end": 3677,
+      "surface": "classrooms",
+      "entryId": "516e7955-d78e-5927-bab7-f8fb8ab3476b",
+      "senseId": "de807916-d969-4208-b041-35bb5cf08895",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. classroom noun: room where lessons take place"
+    },
+    {
+      "part": 2,
       "start": 3678,
       "end": 3681,
       "surface": "and",
@@ -5201,6 +5465,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3690,
+      "end": 3697,
+      "surface": "waiting",
+      "entryId": "8697c07e-3dc0-5e42-afcb-424b2c6079f9",
+      "senseId": "8633f028-c04d-42f0-b9d5-2715b3291075",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Verified immutable R2 lexeme and sense, checked inflected surface against forms/lemma. wait verb: stay here and anticipate people"
     },
     {
       "part": 2,
