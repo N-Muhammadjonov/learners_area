@@ -4,7 +4,7 @@
   "part": 2,
   "release": "rel-v1-1fa06d8d41d8ff701632573e",
   "deploymentStatus": "NOT_PUBLISHED",
-  "count": 465,
+  "count": 479,
   "mappings": [
     {
       "part": 2,
@@ -1233,6 +1233,16 @@
     },
     {
       "part": 2,
+      "start": 915,
+      "end": 919,
+      "surface": "head",
+      "senseId": "4cb29b5a-6d67-46b7-8fff-2e3ee1fc35ba",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "The head is the person in charge of the school."
+    },
+    {
+      "part": 2,
       "start": 920,
       "end": 922,
       "surface": "to",
@@ -1293,6 +1303,16 @@
     },
     {
       "part": 2,
+      "start": 952,
+      "end": 959,
+      "surface": "discuss",
+      "senseId": "ef2ff3b2-90c5-4e3c-800e-e1f4ef2274a7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Discuss news or school issues: consider subjects in speech."
+    },
+    {
+      "part": 2,
       "start": 979,
       "end": 982,
       "surface": "the",
@@ -1300,6 +1320,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 983,
+      "end": 987,
+      "surface": "news",
+      "senseId": "59e970d2-54c5-4986-aa6e-fdeaafb53276",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "News means recent and important events."
     },
     {
       "part": 2,
@@ -1542,6 +1572,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1200,
+      "end": 1204,
+      "surface": "play",
+      "senseId": "9d5bfb26-2554-4060-bee7-385dab2f31a3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Children play outside: engage in playful activity."
     },
     {
       "part": 2,
@@ -1817,6 +1857,16 @@
     },
     {
       "part": 2,
+      "start": 1402,
+      "end": 1411,
+      "surface": "encourage",
+      "senseId": "2c127a76-9356-44cb-b50b-a0af64987fbe",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Encourage children to do as much as they can: spur on."
+    },
+    {
+      "part": 2,
       "start": 1412,
       "end": 1415,
       "surface": "the",
@@ -1995,6 +2045,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 1612,
+      "end": 1616,
+      "surface": "vary",
+      "senseId": "66642c46-f013-4e82-9b42-d5c3f41a4a37",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Vary activities between seasons: make them diverse."
     },
     {
       "part": 2,
@@ -2237,6 +2297,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "to introduces an infinitive"
+    },
+    {
+      "part": 2,
+      "start": 1830,
+      "end": 1837,
+      "surface": "produce",
+      "senseId": "7b965f80-4a38-46ac-8bba-f7c6a329c5f5",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Produce a poster: make a man-made product."
     },
     {
       "part": 2,
@@ -2573,6 +2643,16 @@
     },
     {
       "part": 2,
+      "start": 2162,
+      "end": 2168,
+      "surface": "record",
+      "senseId": "528d67d9-9f5a-4c2e-9579-b524e1982728",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Record pupil performance: make a permanent record."
+    },
+    {
+      "part": 2,
       "start": 2169,
       "end": 2174,
       "surface": "their",
@@ -2621,6 +2701,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "are linking subject and property"
+    },
+    {
+      "part": 2,
+      "start": 2214,
+      "end": 2219,
+      "surface": "proud",
+      "senseId": "be965053-308c-4123-8ffd-45e9a517792f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Proud of school: pleasure and self-worth from achievement."
     },
     {
       "part": 2,
@@ -2976,6 +3066,16 @@
     },
     {
       "part": 2,
+      "start": 2435,
+      "end": 2440,
+      "surface": "learn",
+      "senseId": "c8a91050-73b5-4cf3-8db4-39a13aa7ccf3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Learn a new skill: gain knowledge or skills."
+    },
+    {
+      "part": 2,
       "start": 2441,
       "end": 2442,
       "surface": "a",
@@ -3247,6 +3347,16 @@
     },
     {
       "part": 2,
+      "start": 2626,
+      "end": 2630,
+      "surface": "show",
+      "senseId": "422b90fb-da9e-5f06-ac9b-4e882b2c9e4b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Show where everything is: indicate places."
+    },
+    {
+      "part": 2,
       "start": 2631,
       "end": 2634,
       "surface": "you",
@@ -3398,6 +3508,16 @@
     },
     {
       "part": 2,
+      "start": 2740,
+      "end": 2744,
+      "surface": "find",
+      "senseId": "713a964a-45b9-4499-a0e7-b5c1454fdae0",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Find reception: locate a place."
+    },
+    {
+      "part": 2,
       "start": 2755,
       "end": 2761,
       "surface": "you'll",
@@ -3496,6 +3616,16 @@
       "kind": "word",
       "status": "context_approved_staged_not_published",
       "basis": "is linking subject and predicate"
+    },
+    {
+      "part": 2,
+      "start": 2844,
+      "end": 2848,
+      "surface": "open",
+      "senseId": "234668ff-5e72-486e-9838-3e63ae0c8c43",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Door is always open: not shut."
     },
     {
       "part": 2,
@@ -4160,6 +4290,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Verified single active release sense against Part 2 transcript grammatical function"
+    },
+    {
+      "part": 2,
+      "start": 3395,
+      "end": 3399,
+      "surface": "main",
+      "senseId": "efd3ca4f-4a3c-4761-825e-218ef79abeeb",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Main hall: principal or most important hall."
     },
     {
       "part": 2,
