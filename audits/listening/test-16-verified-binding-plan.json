@@ -531,6 +531,14 @@
           "meaningSha": "c57f3e878e7003a4796b4866974eb6409905c126570d2eb01e7ffd5584f6c65f"
         },
         {
+          "start": 442,
+          "end": 445,
+          "surface": "how",
+          "entryId": "577247cc-70d7-5f11-be70-34fe0a8d583f",
+          "senseId": "9ef557dd-3ec4-5ecd-9867-55bc73bc73c3",
+          "meaningSha": "bd937813074ea55d6c203c635e0e2909ff8cb1ebfb22eb90421b1aca87b30205"
+        },
+        {
           "start": 450,
           "end": 451,
           "surface": "I",
@@ -945,6 +953,14 @@
           "entryId": "274387f8-95b6-5a4e-a4e6-d95014e36f24",
           "senseId": "6e325d6d-202a-4e12-97c3-a151966daa02",
           "meaningSha": "dc648aa2163a025d224f1a0bf042f45b7a3f7ce0f1921be9011961caaf4458d8"
+        },
+        {
+          "start": 808,
+          "end": 812,
+          "surface": "when",
+          "entryId": "56de6372-8e42-5ae1-be86-298248272460",
+          "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+          "meaningSha": "c300eea99175025482f7ec1d8917b9519f51e25a10ca098f14e0cb0b7a24f186"
         },
         {
           "start": 813,
@@ -1385,6 +1401,14 @@
           "entryId": "9f232f27-65ac-5f90-896f-9d9936d91d8c",
           "senseId": "6a2abefc-90de-56b8-b233-d8bad03fd5f9",
           "meaningSha": "9f08f5ab730ab117135348010ed2b033f1ac7bd27d1ae3cf0777abbbc48569ed"
+        },
+        {
+          "start": 1249,
+          "end": 1254,
+          "surface": "miles",
+          "entryId": "35909569-fda8-5504-869c-1338d4e8a381",
+          "senseId": "83b00539-6d8a-46ac-bc54-800cbbd84260",
+          "meaningSha": "eb5ba83e7114f48c8da1fc470b1be61ac6d0576711a39d4d83e5d60734d54f16"
         },
         {
           "start": 1255,
@@ -2691,6 +2715,14 @@
           "meaningSha": "10f06e6381651394eb5498621e9968d8116965cd634b4995eed1d956d32d25b0"
         },
         {
+          "start": 2418,
+          "end": 2422,
+          "surface": "else",
+          "entryId": "0bff02e8-0f05-561a-abfb-ad59f7fab0f0",
+          "senseId": "489b4d8b-a0cb-5130-862c-dff0aa60da62",
+          "meaningSha": "6b410809524244e4fbb1133daa54ae6c5eb6e91dcf4ddd974945a519a292bb6d"
+        },
+        {
           "start": 2423,
           "end": 2426,
           "surface": "you",
@@ -2737,6 +2769,14 @@
           "entryId": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
           "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
+        },
+        {
+          "start": 2456,
+          "end": 2460,
+          "surface": "just",
+          "entryId": "120e8195-5e84-5c20-892d-a2f5298c88ec",
+          "senseId": "9147b73c-9b32-4a1e-9167-96b0c8351b7d",
+          "meaningSha": "e2538f374b6bd3c9b4b6256565af52948c36bafc186ce49445c903a53cc8052c"
         },
         {
           "start": 2461,
@@ -3291,6 +3331,14 @@
           "meaningSha": "16d5361ca816b3b80994f12da5ac3bbbc91af5cc4ec6ff2f16747efb4aae9ffd"
         },
         {
+          "start": 2960,
+          "end": 2971,
+          "surface": "makes sense",
+          "entryId": "de1ebbc2-4ea7-58e7-befa-04e506a05174",
+          "senseId": "0f6572c6-57e0-5528-ac92-b0682698c901",
+          "meaningSha": "5298276bf983c96797f3468fab63db581400e7f2e457c849f99a99a9e9231c25"
+        },
+        {
           "start": 2980,
           "end": 2982,
           "surface": "It",
@@ -3481,6 +3529,22 @@
           "entryId": "54e24c89-0fde-57a8-8f94-8d21d2e2442e",
           "senseId": "f5dea2da-b208-5772-99c6-ea718a8c02f2",
           "meaningSha": "0d470f4bc2fda87c9f98312539d7c54484af34d5c18da97f4463900f21ee5a1b"
+        },
+        {
+          "start": 3166,
+          "end": 3168,
+          "surface": "us",
+          "entryId": "b018f445-35b5-5dce-8878-10987dc652d1",
+          "senseId": "8bc2507d-6621-5b0f-b680-5c307cd42ecd",
+          "meaningSha": "fad66d0fa133c908699bd7788ca9b495b5c3d7a7c2fd85a972bbf4dcf96756d4"
+        },
+        {
+          "start": 3169,
+          "end": 3173,
+          "surface": "when",
+          "entryId": "56de6372-8e42-5ae1-be86-298248272460",
+          "senseId": "bbc3389b-aba9-5b1b-a0e8-8c8638a2a59e",
+          "meaningSha": "c300eea99175025482f7ec1d8917b9519f51e25a10ca098f14e0cb0b7a24f186"
         },
         {
           "start": 3174,
