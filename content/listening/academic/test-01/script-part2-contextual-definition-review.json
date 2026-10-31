@@ -3,7 +3,7 @@
   "test": "listening-test-1",
   "part": 2,
   "source": "script-part2-sense-candidates.json",
-  "count": 248,
+  "count": 244,
   "entries": [
     {
       "part": 2,
@@ -1139,28 +1139,16 @@
     {
       "part": 2,
       "start": 1226,
-      "end": 1231,
-      "surface": "fresh",
-      "lemma": "fresh",
-      "partOfSpeech": "adjective",
-      "definitionEn": "clean and not stale (air)",
-      "translationUz": "toza",
-      "editorialStatus": "context_definition_reviewed",
-      "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
-    },
-    {
-      "part": 2,
-      "start": 1232,
       "end": 1235,
-      "surface": "air",
-      "lemma": "air",
-      "partOfSpeech": "noun",
-      "definitionEn": "the gas mixture we breathe",
-      "translationUz": "havo",
+      "surface": "fresh air",
+      "lemma": "fresh air",
+      "partOfSpeech": "noun phrase",
+      "definitionEn": "air from outdoors, especially when it is clean and healthy to breathe",
+      "translationUz": "toza havo",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://www.collinsdictionary.com/dictionary/english/fresh-air"
     },
     {
       "part": 2,
@@ -2557,15 +2545,16 @@
     {
       "part": 2,
       "start": 3054,
-      "end": 3062,
-      "surface": "computer",
-      "lemma": "computer",
-      "partOfSpeech": "noun",
-      "definitionEn": "an electronic data-processing device",
-      "translationUz": "kompyuter",
+      "end": 3067,
+      "surface": "computer room",
+      "lemma": "computer room",
+      "partOfSpeech": "noun phrase",
+      "definitionEn": "a room equipped for using computers, particularly for learning or work",
+      "translationUz": "kompyuter xonasi",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://www.getty.edu/vow/AATFullDisplay?find=sign&logic=AND&note=&subjectid=300004510"
     },
     {
       "part": 2,
@@ -2622,41 +2611,16 @@
     {
       "part": 2,
       "start": 3134,
-      "end": 3136,
-      "surface": "on",
-      "lemma": "on",
-      "partOfSpeech": "preposition",
-      "definitionEn": "part of on their own expression",
-      "translationUz": "o‘zicha",
-      "editorialStatus": "context_definition_reviewed",
-      "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
-    },
-    {
-      "part": 2,
-      "start": 3137,
-      "end": 3142,
-      "surface": "their",
-      "lemma": "their",
-      "partOfSpeech": "determiner",
-      "definitionEn": "belonging to them",
-      "translationUz": "ularning",
-      "editorialStatus": "context_definition_reviewed",
-      "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
-    },
-    {
-      "part": 2,
-      "start": 3143,
       "end": 3146,
-      "surface": "own",
-      "lemma": "own",
-      "partOfSpeech": "adjective",
-      "definitionEn": "belonging to oneself",
-      "translationUz": "o‘z",
+      "surface": "on their own",
+      "lemma": "on your own",
+      "partOfSpeech": "idiom",
+      "definitionEn": "without help from anyone else",
+      "translationUz": "mustaqil; o‘zi",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/on-own"
     },
     {
       "part": 2,
@@ -2739,15 +2703,16 @@
     {
       "part": 2,
       "start": 3236,
-      "end": 3241,
-      "surface": "music",
-      "lemma": "music",
-      "partOfSpeech": "noun",
-      "definitionEn": "the subject dealing with musical sounds",
-      "translationUz": "musiqa",
+      "end": 3246,
+      "surface": "music room",
+      "lemma": "music room",
+      "partOfSpeech": "noun phrase",
+      "definitionEn": "a room at a school for teaching or practising music",
+      "translationUz": "musiqa xonasi",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://www.wordsmyth.net/?dict=2&mode=fmfree&rid=59831"
     },
     {
       "part": 2,
@@ -3038,15 +3003,16 @@
     {
       "part": 2,
       "start": 3503,
-      "end": 3511,
-      "surface": "assembly",
-      "lemma": "assembly",
-      "partOfSpeech": "noun",
-      "definitionEn": "a gathering of people at school",
-      "translationUz": "yig‘ilish",
+      "end": 3516,
+      "surface": "assembly hall",
+      "lemma": "assembly hall",
+      "partOfSpeech": "noun phrase",
+      "definitionEn": "a large room or hall used for gatherings such as school meetings",
+      "translationUz": "maktab majlislar zali",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://dictionary.cambridge.org/us/example/english/assembly-hall"
     },
     {
       "part": 2,
@@ -3129,28 +3095,16 @@
     {
       "part": 2,
       "start": 3632,
-      "end": 3636,
-      "surface": "feel",
-      "lemma": "feel",
-      "partOfSpeech": "verb",
-      "definitionEn": "experience a state",
-      "translationUz": "his qilmoq",
-      "editorialStatus": "context_definition_reviewed",
-      "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
-    },
-    {
-      "part": 2,
-      "start": 3637,
       "end": 3641,
-      "surface": "free",
-      "lemma": "free",
-      "partOfSpeech": "adjective",
-      "definitionEn": "not restricted; feel free to do",
-      "translationUz": "bemalol",
+      "surface": "feel free",
+      "lemma": "feel free",
+      "partOfSpeech": "idiom",
+      "definitionEn": "used to tell someone that they may do something if they want to",
+      "translationUz": "bemalol; tortinmasdan",
       "editorialStatus": "context_definition_reviewed",
       "senseId": null,
-      "releaseStatus": "requires_existing_or_new_release_sense_resolution"
+      "releaseStatus": "requires_exact_phrase_sense_resolution",
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/feel-free"
     },
     {
       "part": 2,
