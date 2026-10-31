@@ -2,12 +2,9 @@ import {h} from '../../js/native.js';
 import {mockDTO} from '../../js/adapters/dashboard.js';
 import {projection, loadingNode, failureNode} from '../shared/region.js';
 import {Card} from '../../js/generated/ui.js';
+import {mountMockWorkspace} from './runner.js';
 
-/** Mock tests (`/app/mocks`), a native port of the original page. The original has NO timed runner:
- * `startMockAttempt` has no caller, there is no mock API route, and the page itself says the runner is
- * not enabled. So this page shows only the configured catalogue and the learner's own recorded attempts.
- * It never renders a start, timer or submit control, and never invents a band. Attempt rows come from the
- * existing `mock` region projection, validated by `mockDTO`. */
+/** Mock tests (`/app/mocks`), a native port of the original page. */
 export async function mount(context) {
   const {root, url, signal, dict} = context;
   const t = dict.mocks;
@@ -22,12 +19,28 @@ export async function mount(context) {
       h('p', {class: 'text-sm text-ink-700'}, t.runnerNote)),
     host));
 
+  // Register same-pathname query and popstate handlers *during mount*, before the
+  // router snapshots hooks. Registering them only in async projection.ready()
+  // makes the first History API transition remount the entire workspace.
+  void mountMockWorkspace(context, host);
+
+  // Deep-linked attempts/results are owned solely by the Mock route controller.
+  // The legacy read-only projection must never overwrite the active exam screen.
+  if (url.searchParams.has('attempt')) return;
+
+  const isEnhanced = () => !!host.querySelector('[data-mock-enhanced-catalogue], [data-mock-runner], [data-mock-result-summary], [data-mock-route-loading]');
   const refresh = projection({
     route, region: 'mock', signal, parse: mockDTO,
-    loading() { host.replaceChildren(loadingNode(dict, 'mocks')); },
-    ready(data) { host.replaceChildren(mocksContent(data, dict, () => refresh())); },
+    loading() { if (!isEnhanced() && !context.url.searchParams.has('attempt')) host.replaceChildren(loadingNode(dict, 'mocks')); },
+    ready(data) {
+      if (!isEnhanced() && !context.url.searchParams.has('attempt')) {
+        host.replaceChildren(mocksContent(data, dict, () => refresh()));
+      }
+    },
     failed(again) {
-      host.replaceChildren(failureNode({region: 'mocks', message: dict.errors.unknown, retry, refresh: again}));
+      if (!isEnhanced() && !context.url.searchParams.has('attempt')) {
+        host.replaceChildren(failureNode({region: 'mocks', message: dict.errors.unknown, retry, refresh: again}));
+      }
     },
   });
   void refresh();

@@ -1850,34 +1850,257 @@ export type MockAttemptSnapshot = {
   scorePolicies: Record<string, string> | null;
 };
 
-export const mockAttempts = pgTable("mock_attempts", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  /**
-   * set null, not cascade: deleting a mock must not destroy the learner's record
-   * of having taken it (§94, §103). The snapshot below keeps it readable.
-   */
-  mockTestId: uuid("mock_test_id").references(() => mockTests.id, { onDelete: "set null" }),
-  /** What the attempt was taken against, copied at start time (title/track/kind/policy). */
-  mockSnapshot: jsonb("mock_snapshot").$type<MockAttemptSnapshot>(),
-  /** The composition version this attempt started: a later edit never rewrites it (§13). */
-  mockVersion: integer("mock_version"),
-  /** in_progress | submitted | abandoned — a mock in progress is resumable, not lost. */
-  status: varchar("status", { length: 24 }).notNull().default("in_progress"),
-  startedAt: timestamp("started_at", { withTimezone: true }),
-  finishedAt: timestamp("finished_at", { withTimezone: true }),
-  rawScore: real("raw_score"),
-  estimatedBand: real("estimated_band"),
-  /** Conversion policy that produced `estimatedBand` (§22). */
-  scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
-  skillBreakdown: jsonb("skill_breakdown"),
-  /** Per-section results, each independently inspectable (§21). */
-  sectionResults: jsonb("section_results").$type<
-    { skill: string; sourceRef: string; raw: number | null; total: number | null; band: number | null; contentVersionId: string | null; attemptId: string | null }[]
-  >(),
-  /** section position → content version id, frozen when the attempt started. */
-  contentVersionBindings: jsonb("content_version_bindings").$type<Record<string, string | null>>(),
-});
+export const mockSchedules = pgTable(
+  "mock_schedules",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    mockTestId: uuid("mock_test_id")
+      .notNull()
+      .references(() => mockTests.id, { onDelete: "cascade" }),
+    weeklySlot: varchar("weekly_slot", { length: 32 }).notNull(),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+    timezone: varchar("timezone", { length: 40 }).notNull().default("Asia/Tashkent"),
+    policyVersion: varchar("policy_version", { length: 24 }).notNull().default("v1"),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("mock_schedules_test_slot_uq").on(table.mockTestId, table.weeklySlot),
+    index("mock_schedules_slot_window_idx").on(table.weeklySlot, table.startsAt, table.endsAt),
+  ],
+);
+
+export const mockAttempts = pgTable(
+  "mock_attempts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    /**
+     * set null, not cascade: deleting a mock must not destroy the learner's record
+     * of having taken it (§94, §103). The snapshot below keeps it readable.
+     */
+    mockTestId: uuid("mock_test_id").references(() => mockTests.id, { onDelete: "set null" }),
+    scheduleId: uuid("schedule_id").references(() => mockSchedules.id, { onDelete: "set null" }),
+    weeklySlot: varchar("weekly_slot", { length: 32 }),
+    /** What the attempt was taken against, copied at start time (title/track/kind/policy). */
+    mockSnapshot: jsonb("mock_snapshot").$type<MockAttemptSnapshot>(),
+    /** The composition version this attempt started: a later edit never rewrites it (§13). */
+    mockVersion: integer("mock_version"),
+    /**
+     * Lifecycle status: in_progress | submitted | auto_graded | awaiting_export |
+     * exported | imported_draft | needs_review | approved | published |
+     * retryable_failure | abandoned
+     */
+    status: varchar("status", { length: 24 }).notNull().default("in_progress"),
+    startedAt: timestamp("started_at", { withTimezone: true }),
+    submittedAt: timestamp("submitted_at", { withTimezone: true }),
+    finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+    finishedAt: timestamp("finished_at", { withTimezone: true }),
+    deadlineAt: timestamp("deadline_at", { withTimezone: true }),
+    contentSnapshotHash: varchar("content_snapshot_hash", { length: 64 }),
+    activeSectionPosition: integer("active_section_position").notNull().default(1),
+    sectionDeadlines: jsonb("section_deadlines").$type<Record<string, unknown>>(),
+    rawScore: real("raw_score"),
+    estimatedBand: real("estimated_band"),
+    /** Conversion policy that produced `estimatedBand` (§22). */
+    scorePolicyVersion: varchar("score_policy_version", { length: 24 }),
+    skillBreakdown: jsonb("skill_breakdown"),
+    /** Per-section results, each independently inspectable (§21). */
+    sectionResults: jsonb("section_results").$type<
+      { skill: string; sourceRef: string; raw: number | null; total: number | null; band: number | null; contentVersionId: string | null; attemptId: string | null }[]
+    >(),
+    /** section position → content version id, frozen when the attempt started. */
+    contentVersionBindings: jsonb("content_version_bindings").$type<Record<string, string | null>>(),
+  },
+  (table) => [
+    uniqueIndex("mock_attempts_user_weekly_slot_uq")
+      .on(table.userId, table.weeklySlot)
+      .where(sql`${table.weeklySlot} is not null and ${table.status} <> 'abandoned'`),
+    index("mock_attempts_user_status_idx").on(table.userId, table.status, table.startedAt),
+  ],
+);
+
+export const mockSectionSubmissions = pgTable(
+  "mock_section_submissions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    attemptId: uuid("attempt_id")
+      .notNull()
+      .references(() => mockAttempts.id, { onDelete: "cascade" }),
+    skill: varchar("skill", { length: 16 }).notNull(),
+    status: varchar("status", { length: 32 }).notNull().default("in_progress"),
+    rawScore: integer("raw_score"),
+    scoreMax: integer("score_max"),
+    band: real("band"),
+    answersJson: jsonb("answers_json").$type<Record<string, unknown>>().notNull().default({}),
+    resultDetails: jsonb("result_details").$type<Record<string, unknown>>(),
+    draftRevision: integer("draft_revision").notNull().default(0),
+    answerHash: varchar("answer_hash", { length: 64 }),
+    contentVersionId: uuid("content_version_id").references(() => contentVersions.id, { onDelete: "set null" }),
+    startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+    deadlineAt: timestamp("deadline_at", { withTimezone: true }),
+    submittedAt: timestamp("submitted_at", { withTimezone: true }),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("mock_section_submissions_attempt_skill_uq").on(table.attemptId, table.skill),
+    index("mock_section_submissions_skill_status_idx").on(table.skill, table.status, table.submittedAt),
+  ],
+);
+
+export const mockWritingAnswers = pgTable(
+  "mock_writing_answers",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    attemptId: uuid("attempt_id")
+      .notNull()
+      .references(() => mockAttempts.id, { onDelete: "cascade" }),
+    taskType: varchar("task_type", { length: 16 }).notNull(),
+    promptSnapshotId: uuid("prompt_snapshot_id").references(() => contentVersions.id, { onDelete: "set null" }),
+    promptText: text("prompt_text").notNull().default(""),
+    content: text("content").notNull().default(""),
+    mediaRef: text("media_ref"),
+    mediaSha256: varchar("media_sha256", { length: 64 }),
+    wordCount: integer("word_count").notNull().default(0),
+    draftRevision: integer("draft_revision").notNull().default(0),
+    finalizedAt: timestamp("finalized_at", { withTimezone: true }),
+    sha256: varchar("sha256", { length: 64 }),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex("mock_writing_answers_attempt_task_uq").on(table.attemptId, table.taskType)],
+);
+
+export const mockSpeakingAudio = pgTable(
+  "mock_speaking_audio",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    attemptId: uuid("attempt_id")
+      .notNull()
+      .references(() => mockAttempts.id, { onDelete: "cascade" }),
+    part: varchar("part", { length: 8 }).notNull(),
+    questionIds: jsonb("question_ids").$type<string[]>().notNull().default([]),
+    objectKey: text("object_key").notNull(),
+    uploadIntentId: uuid("upload_intent_id").references(() => uploadIntents.id, { onDelete: "set null" }),
+    codec: varchar("codec", { length: 64 }).notNull(),
+    mimeType: varchar("mime_type", { length: 120 }).notNull().default("audio/webm"),
+    bytes: integer("bytes").notNull(),
+    durationMs: integer("duration_ms").notNull(),
+    sha256: varchar("sha256", { length: 64 }).notNull(),
+    captureStatus: varchar("capture_status", { length: 32 }).notNull().default("finalized"),
+    startedAt: timestamp("started_at", { withTimezone: true }),
+    endedAt: timestamp("ended_at", { withTimezone: true }),
+    finalizedAt: timestamp("finalized_at", { withTimezone: true }).defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex("mock_speaking_audio_attempt_part_uq").on(table.attemptId, table.part)],
+);
+
+export const mockGradingBatches = pgTable(
+  "mock_grading_batches",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    batchCode: varchar("batch_code", { length: 64 }).notNull(),
+    scope: varchar("scope", { length: 32 }).notNull(),
+    section: varchar("section", { length: 16 }).notNull(),
+    filterMode: varchar("filter_mode", { length: 24 }).notNull().default("ungraded"),
+    dateFrom: varchar("date_from", { length: 10 }),
+    dateTo: varchar("date_to", { length: 10 }),
+    createdBy: uuid("created_by")
+      .notNull()
+      .references(() => users.id, { onDelete: "restrict" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    exportManifestHash: varchar("export_manifest_hash", { length: 64 }).notNull(),
+    manifestJson: jsonb("manifest_json").$type<Record<string, unknown>>().notNull(),
+    studentAliasMap: jsonb("student_alias_map").$type<Record<string, unknown>>().notNull().default({}),
+    status: varchar("status", { length: 32 }).notNull().default("exported"),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    publishedBy: uuid("published_by").references(() => users.id, { onDelete: "set null" }),
+  },
+  (table) => [
+    uniqueIndex("mock_grading_batches_code_uq").on(table.batchCode),
+    index("mock_grading_batches_creator_idx").on(table.createdBy, table.createdAt),
+  ],
+);
+
+export const mockGradingRevisions = pgTable(
+  "mock_grading_revisions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    attemptId: uuid("attempt_id")
+      .notNull()
+      .references(() => mockAttempts.id, { onDelete: "cascade" }),
+    section: varchar("section", { length: 16 }).notNull(),
+    batchId: uuid("batch_id")
+      .notNull()
+      .references(() => mockGradingBatches.id, { onDelete: "cascade" }),
+    rubricVersion: varchar("rubric_version", { length: 32 }).notNull(),
+    source: varchar("source", { length: 32 }).notNull().default("gemini_manual"),
+    status: varchar("status", { length: 32 }).notNull().default("imported_draft"),
+    payloadJson: jsonb("payload_json").$type<Record<string, unknown>>().notNull(),
+    rawGeminiJson: jsonb("raw_gemini_json").$type<Record<string, unknown>>(),
+    payloadSha256: varchar("payload_sha256", { length: 64 }).notNull(),
+    sourceSha256: varchar("source_sha256", { length: 64 }).notNull(),
+    calculatedBand: real("calculated_band"),
+    task1Band: real("task1_band"),
+    task2Band: real("task2_band"),
+    authorUserId: uuid("author_user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "restrict" }),
+    approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+    approvedAt: timestamp("approved_at", { withTimezone: true }),
+    publishedBy: uuid("published_by").references(() => users.id, { onDelete: "set null" }),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    supersedesId: uuid("supersedes_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("mock_grading_revisions_idempotent_import_uq")
+      .on(table.batchId, table.attemptId, table.section, table.payloadSha256)
+      .where(sql`${table.source} = 'gemini_manual'`),
+    index("mock_grading_revisions_attempt_section_idx").on(table.attemptId, table.section, table.createdAt),
+    index("mock_grading_revisions_batch_status_idx").on(table.batchId, table.status),
+  ],
+);
+
+export const mockGradingImportIssues = pgTable(
+  "mock_grading_import_issues",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    batchId: uuid("batch_id")
+      .notNull()
+      .references(() => mockGradingBatches.id, { onDelete: "cascade" }),
+    rowNumber: integer("row_number"),
+    attemptId: uuid("attempt_id").references(() => mockAttempts.id, { onDelete: "set null" }),
+    studentAlias: varchar("student_alias", { length: 32 }),
+    errorCode: varchar("error_code", { length: 64 }).notNull(),
+    details: text("details").notNull(),
+    createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index("mock_grading_import_issues_batch_idx").on(table.batchId, table.createdAt)],
+);
+
+export const mockAuditEvents = pgTable(
+  "mock_audit_events",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+    attemptId: uuid("attempt_id").references(() => mockAttempts.id, { onDelete: "set null" }),
+    batchId: uuid("batch_id").references(() => mockGradingBatches.id, { onDelete: "set null" }),
+    action: varchar("action", { length: 80 }).notNull(),
+    sourceHash: varchar("source_hash", { length: 64 }),
+    oldRevisionId: uuid("old_revision_id").references(() => mockGradingRevisions.id, { onDelete: "set null" }),
+    newRevisionId: uuid("new_revision_id").references(() => mockGradingRevisions.id, { onDelete: "set null" }),
+    metadata: jsonb("metadata").$type<Record<string, unknown>>().notNull().default({}),
+    at: timestamp("at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("mock_audit_events_attempt_idx").on(table.attemptId, table.at),
+    index("mock_audit_events_batch_idx").on(table.batchId, table.at),
+  ],
+);
 
 // Future billing — schema exists, BILLING_ENABLED flag keeps it dark
 export const products = pgTable("products", {

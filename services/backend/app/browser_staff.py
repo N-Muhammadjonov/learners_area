@@ -81,12 +81,17 @@ async def read_staff(req, user, kind):
         # Centre-wide administrators may manage their own assigned classes, but do not
         # receive global Owner-level read access to other teachers' classes or rosters.
         require_role(user,STAFF)
-    elif kind in ('teacher-students','teacher-student','teacher-homework','teacher-actions','teacher-assignment','teacher-assessment','student-learning'):
+    elif kind in ('teacher-students','teacher-student','teacher-homework','teacher-actions','teacher-assignment','teacher-assessment','student-learning','mock-grading'):
         require_role(user,TEACHER_OWNER)
     elif kind in ('admissions','people','roster','grammar-topics','grammar-topic','reading-passages','reading-passage','listening-library','listening-test','listening-import','reading-retention','retention-staged','writing-admin','writing-admin-new','writing-admin-item'):
         require_role(user,ADMIN)
     else:
         require_role(user,STAFF)
+    if kind == 'mock-grading':
+        from .mock_system_port import build_staff_mock_queue
+        db = await core.pool()
+        async with db.acquire() as con:
+            return await build_staff_mock_queue(con, user, q)
     if kind in ('admissions','people','roster','student-results','support-inbox','teacher-live-classes','teacher-live-class'):
         from .browser_staff_people import read
         return await read(req,user,kind,q)

@@ -24,6 +24,7 @@ export function managementAreas(dict,role){
   const academic=dict.people.name==='Ism'?ACADEMIC_UZ:ACADEMIC_EN;
   add('/app/teacher/students',dict.nav.people,dict.management.studentsBody,IconPeople);
   add('/app/teacher/homework',academic.homework,academic.homeworkBody,IconWriting);
+  add('/app/management?view=mock-grading',dict.people.name==='Ism'?'Mock baholash':'Mock Grading',dict.people.name==='Ism'?'Haftalik Writing DOCX va Speaking ZIP eksporti, Gemini JSON importi va natijalarni tasdiqlash.':'Weekly Writing DOCX & Speaking ZIP export, Gemini JSON import, review and publication.',IconAudit);
  }
  if(staff){
   add('/app/teacher/support',dict.support.inbox,dict.management.supportBody,IconSupport);
@@ -54,9 +55,15 @@ export function managementAreas(dict,role){
  return areas;
 }
 export async function mount(ctx){
- const {root,signal,session,dict,navigate}=ctx;
+ const {root,signal,session,dict,navigate,url}=ctx;
  const role=session?.user?.role;
  if(!['teacher','admin','owner'].includes(role)){void navigate('/app',{replace:true});return;}
+ if(url?.searchParams?.get('view')==='mock-grading'){
+  const {mockGradingMount}=await import('./mock-grading.js');
+  if(signal?.aborted)return;
+  await mockGradingMount(ctx);
+  return;
+ }
  const link=(href,classes,...children)=>el('a',{href,class:classes},...children);
  const areas=managementAreas(dict,role);
  const cards=areas.map(({href,title,body,icon})=>{

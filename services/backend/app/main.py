@@ -846,3 +846,6 @@ _install_writing_study()
 
 from .live_classes_port import install as _install_live_classes
 _install_live_classes()
+
+from .mock_system_port import install as _install_mock_system
+_install_mock_system()
