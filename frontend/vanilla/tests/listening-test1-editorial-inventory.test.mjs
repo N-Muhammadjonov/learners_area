@@ -105,3 +105,15 @@ test('New lexical entries supply required dictionary fields and avoid sentence h
  }
  assert.equal(batch.releaseDraftStatus,'NOT_PUBLISHED');
 });
+
+test('100 selected editorial targets never overlap',()=>{
+ for(let i=0;i<plan.items.length;i++){
+  const a=plan.items[i].selected;
+  for(let j=i+1;j<plan.items.length;j++){
+   const b=plan.items[j].selected;
+   assert(a.part!==b.part||a.end<=b.start||b.end<=a.start,
+    'Overlapping target positions #'+plan.items[i].entryNumber+' and #'+plan.items[j].entryNumber);
+  }
+ }
+ assert.equal(plan.audits.selectedTargetsNonOverlapping,true);
+});
