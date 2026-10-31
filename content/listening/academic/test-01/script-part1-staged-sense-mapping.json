@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 496,
+  "count": 520,
   "mappings": [
     {
       "part": 1,
@@ -2614,6 +2614,16 @@
     },
     {
       "part": 1,
+      "start": 1885,
+      "end": 1889,
+      "surface": "park",
+      "senseId": "c4334b59-0fbb-4520-a5db-86d143592cd8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 1897,
       "end": 1903,
       "surface": "you're",
@@ -2814,6 +2824,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 2054,
+      "end": 2058,
+      "surface": "park",
+      "senseId": "c4334b59-0fbb-4520-a5db-86d143592cd8",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -3495,6 +3515,16 @@
     },
     {
       "part": 1,
+      "start": 2561,
+      "end": 2565,
+      "surface": "nice",
+      "senseId": "b6287516-b4b4-45ab-917a-54374eb68aef",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 2566,
       "end": 2570,
       "surface": "room",
@@ -3678,6 +3708,16 @@
     },
     {
       "part": 1,
+      "start": 2695,
+      "end": 2701,
+      "surface": "heater",
+      "senseId": "5dd429bc-32f5-4ee8-aa57-8bf5ca24bb5b",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 2706,
       "end": 2713,
       "surface": "problem",
@@ -3856,6 +3896,16 @@
     },
     {
       "part": 1,
+      "start": 2859,
+      "end": 2864,
+      "surface": "bring",
+      "senseId": "4f079865-a8ff-49f5-9fdf-faf974797e75",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 2872,
       "end": 2877,
       "surface": "we've",
@@ -3992,6 +4042,16 @@
     },
     {
       "part": 1,
+      "start": 2955,
+      "end": 2960,
+      "surface": "great",
+      "senseId": "51e7b0ac-9b78-4f1a-b118-2854a6188e57",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 2961,
       "end": 2963,
       "surface": "if",
@@ -4032,6 +4092,16 @@
       "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
       "status": "context_approved_staged_not_published",
       "basis": "Contextual grammatical role matched to source dictionary sense; no overlapping phrases"
+    },
+    {
+      "part": 1,
+      "start": 2974,
+      "end": 2981,
+      "surface": "toaster",
+      "senseId": "a8d954dd-8240-44a0-b335-fa9360c24c04",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4117,6 +4187,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3053,
+      "end": 3057,
+      "surface": "rest",
+      "senseId": "708ea6f4-f26e-464b-b17e-9ef0dc6279c3",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4346,6 +4426,16 @@
     },
     {
       "part": 1,
+      "start": 3227,
+      "end": 3232,
+      "surface": "watch",
+      "senseId": "8857175f-5667-401f-97d0-ce74871bd376",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3233,
       "end": 3236,
       "surface": "the",
@@ -4357,12 +4447,32 @@
     },
     {
       "part": 1,
+      "start": 3237,
+      "end": 3241,
+      "surface": "game",
+      "senseId": "e164357a-56c1-4b96-9c33-4e3e88382e6a",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3251,
       "end": 3257,
       "surface": "Friday",
       "entryNumber": null,
       "senseId": "3cf52838-8295-5258-9e06-ef7fb1e22c24",
       "kind": "single_word"
+    },
+    {
+      "part": 1,
+      "start": 3258,
+      "end": 3265,
+      "surface": "evening",
+      "senseId": "34f3bb03-eaf9-44d3-9103-003b419b7ad7",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4435,6 +4545,16 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3315,
+      "end": 3319,
+      "surface": "work",
+      "senseId": "374112ea-6cd8-41cd-b69e-478c9188dc23",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4519,6 +4639,16 @@
     },
     {
       "part": 1,
+      "start": 3394,
+      "end": 3402,
+      "surface": "shopping",
+      "senseId": "b5bf3eff-2b74-4ac9-902d-b5927827a4fd",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3412,
       "end": 3415,
       "surface": "you",
@@ -4561,6 +4691,16 @@
     },
     {
       "part": 1,
+      "start": 3434,
+      "end": 3442,
+      "surface": "lectures",
+      "senseId": "1471b4f3-9b49-4a37-8689-e3bba42ea2b2",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3446,
       "end": 3449,
       "surface": "the",
@@ -4572,6 +4712,16 @@
     },
     {
       "part": 1,
+      "start": 3461,
+      "end": 3470,
+      "surface": "afternoon",
+      "senseId": "5f57ea72-5a91-4d68-bc42-1c65ff353fab",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3475,
       "end": 3478,
       "surface": "the",
@@ -4580,6 +4730,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3479,
+      "end": 3489,
+      "surface": "afternoons",
+      "senseId": "5f57ea72-5a91-4d68-bc42-1c65ff353fab",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4601,6 +4761,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3512,
+      "end": 3522,
+      "surface": "afternoons",
+      "senseId": "5f57ea72-5a91-4d68-bc42-1c65ff353fab",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4664,6 +4834,16 @@
     },
     {
       "part": 1,
+      "start": 3585,
+      "end": 3589,
+      "surface": "idea",
+      "senseId": "0489d505-ffb6-4d26-84b3-49a595266400",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3591,
       "end": 3595,
       "surface": "When",
@@ -4683,6 +4863,16 @@
       "senseId": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3603,
+      "end": 3608,
+      "surface": "think",
+      "senseId": "7732eb15-113b-4187-88ef-d078fbc54247",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -4882,6 +5072,26 @@
     },
     {
       "part": 1,
+      "start": 3783,
+      "end": 3786,
+      "surface": "big",
+      "senseId": "43676ac4-5184-4765-a0af-c822fd10392f",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
+      "start": 3787,
+      "end": 3793,
+      "surface": "enough",
+      "senseId": "d026e597-d905-4e78-8b13-66d9dcc34072",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3795,
       "end": 3798,
       "surface": "The",
@@ -4890,6 +5100,16 @@
       "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
       "status": "context_approved_staged_not_published",
       "basis": "Dictionary grammatical sense verified in immutable R2 release; no overlap with lexical chunks"
+    },
+    {
+      "part": 1,
+      "start": 3806,
+      "end": 3816,
+      "surface": "reasonable",
+      "senseId": "08d4af14-2a54-4557-9cb3-869662731270",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
@@ -5024,6 +5244,16 @@
     },
     {
       "part": 1,
+      "start": 3924,
+      "end": 3927,
+      "surface": "end",
+      "senseId": "018a7278-2e4d-4beb-9a31-ecbc5228b327",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
+    },
+    {
+      "part": 1,
       "start": 3928,
       "end": 3930,
       "surface": "of",
@@ -5104,6 +5334,16 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "to check infinitive"
+    },
+    {
+      "part": 1,
+      "start": 3972,
+      "end": 3977,
+      "surface": "check",
+      "senseId": "180496c1-70b2-4537-a530-fec2176155e4",
+      "kind": "single_word",
+      "status": "context_approved_staged_not_published",
+      "basis": "Selected exact definition for Part 1 transcript context"
     },
     {
       "part": 1,
