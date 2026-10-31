@@ -9,6 +9,8 @@ const exists=path=>paths.some(route=>route.match.test(path));
 export function returnPolicy(url,{previous=null}={}){
  const path=url.pathname.replace(/\/+$/,'')||'/',segments=path.split('/').filter(Boolean),module=segments[1];
  if(path==='/app')return {mode:'hidden',href:'/app'};
+ if(path==='/app/mocks'&&url.searchParams.has('attempt'))return {mode:'back',href:'/app/mocks'};
+ if(path==='/app/management'&&url.searchParams.get('view')==='mock-grading')return {mode:'back',href:'/app/management'};
  if(tabbed.has(module)&&paths.find(route=>route.match.test(path))?.layout!=='focus')return {mode:'main',href:'/app'};
  if(module==='speaking'&&path==='/app/speaking/practice'){
   if(url.searchParams.has('topic')){const q=new URLSearchParams();const part=url.searchParams.get('part');if(['part1','part2','part3'].includes(part))q.set('part',part);return {mode:'back',href:'/app/speaking/practice'+(q.size?'?'+q:'')};}

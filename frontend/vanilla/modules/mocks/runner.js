@@ -1140,6 +1140,12 @@ export function renderEnhancedCatalogue(context, host, catalog) {
     );
     testsList.append(card);
   }
+  if (!testsList.childElementCount) {
+    testsList.append(el('p', {class: 'panel text-sm text-ink-500', 'data-mock-no-published-tests': ''},
+      context?.locale === 'uz'
+        ? 'Hozircha rasmiy Mock testlari nashr qilinmagan. Test materiali e’lon qilingach boshlash tugmasi paydo bo‘ladi.'
+        : 'No official Mock tests have been published yet. The Start button appears when a test with verified materials is available.'));
+  }
   wrapper.append(testsList);
 
   if (Array.isArray(catalog.attempts) && catalog.attempts.length > 0) {
