@@ -379,6 +379,14 @@
           "meaningSha": "22de4171e021f04064df151c1dfe861f4212110c7773f0efc70bb0736b6403be"
         },
         {
+          "start": 521,
+          "end": 527,
+          "surface": "you're",
+          "entryId": "3619347c-c5b8-570a-8654-a9390042aad6",
+          "senseId": "6eb1adb1-b99d-5e3f-99f1-89901dacc906",
+          "meaningSha": "4436cd6d13b02d2202389f7baba8521527c0f71d9039baddd9eeb32475592314"
+        },
+        {
           "start": 535,
           "end": 541,
           "surface": "people",
@@ -515,6 +523,14 @@
           "meaningSha": "260ab9dfe38a8ca4e5997df93b9bf875f81fcffee10bcccce34f3caad0658393"
         },
         {
+          "start": 688,
+          "end": 693,
+          "surface": "don't",
+          "entryId": "9186ff8c-e8c6-5ce0-865a-d60ee2578494",
+          "senseId": "c03211dc-581d-5ee9-ad3a-9f0757cdc90b",
+          "meaningSha": "4d7e66ec98f4fd5f6c52da29bc288d2d52ee369d0432f33f50574e4ded54d233"
+        },
+        {
           "start": 714,
           "end": 716,
           "surface": "it",
@@ -569,6 +585,14 @@
           "entryId": "76a44a61-caba-5759-8f75-a9b756cf6a85",
           "senseId": "d299e387-7c7d-5f95-a2c6-66085c159677",
           "meaningSha": "0781ea9c72a789701c8afef13f5a2493f7b069c5c3f43634239f584360b4eaa0"
+        },
+        {
+          "start": 792,
+          "end": 797,
+          "surface": "don't",
+          "entryId": "9186ff8c-e8c6-5ce0-865a-d60ee2578494",
+          "senseId": "c03211dc-581d-5ee9-ad3a-9f0757cdc90b",
+          "meaningSha": "4d7e66ec98f4fd5f6c52da29bc288d2d52ee369d0432f33f50574e4ded54d233"
         },
         {
           "start": 813,
@@ -787,6 +811,14 @@
           "meaningSha": "495e3ac813912144ba256f7273da1a99d4b35eeb4ecce5fc6ce2269dea5a6310"
         },
         {
+          "start": 1161,
+          "end": 1167,
+          "surface": "That's",
+          "entryId": "24bf4c73-6bfa-5788-81df-bfb5d0c7fddb",
+          "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+          "meaningSha": "eb42b0dd7c3c5ab2349a1e7b71ed7100fe100d6c87e5259572ece2fc40775ea4"
+        },
+        {
           "start": 1170,
           "end": 1171,
           "surface": "A",
@@ -977,6 +1009,14 @@
           "entryId": "9e05019a-c8a0-5e91-a784-6727b6e1c8c5",
           "senseId": "ea98ecec-fad0-577a-bb6e-b583f429ae62",
           "meaningSha": "18a1b0ec87064872da461e1fbbe95c25c2aa12ccb36744992cd45f959b2d70c6"
+        },
+        {
+          "start": 1395,
+          "end": 1401,
+          "surface": "That's",
+          "entryId": "24bf4c73-6bfa-5788-81df-bfb5d0c7fddb",
+          "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+          "meaningSha": "eb42b0dd7c3c5ab2349a1e7b71ed7100fe100d6c87e5259572ece2fc40775ea4"
         },
         {
           "start": 1423,
@@ -1243,6 +1283,14 @@
           "meaningSha": "c697caab715eff726a65b4168347477bd5dafdebb8a3ae882510e51e19757980"
         },
         {
+          "start": 1746,
+          "end": 1751,
+          "surface": "We're",
+          "entryId": "026911fd-565f-5e2e-99b6-9025ee3eac36",
+          "senseId": "a5a01862-4355-5f23-aa87-71018d16b8bd",
+          "meaningSha": "49af800450beb5b981d0865d116605b0c15ff5b365e91c40a3905adf74810da4"
+        },
+        {
           "start": 1765,
           "end": 1769,
           "surface": "team",
@@ -1451,6 +1499,22 @@
           "meaningSha": "f5fc179c4dfb7956f2157b91feed82b1f98f3b7a5837b7ec94e2fc7f44087b04"
         },
         {
+          "start": 1989,
+          "end": 1995,
+          "surface": "that's",
+          "entryId": "24bf4c73-6bfa-5788-81df-bfb5d0c7fddb",
+          "senseId": "476d68a7-3c6a-52bd-a121-fa703bbc9776",
+          "meaningSha": "eb42b0dd7c3c5ab2349a1e7b71ed7100fe100d6c87e5259572ece2fc40775ea4"
+        },
+        {
+          "start": 2021,
+          "end": 2026,
+          "surface": "we're",
+          "entryId": "026911fd-565f-5e2e-99b6-9025ee3eac36",
+          "senseId": "a5a01862-4355-5f23-aa87-71018d16b8bd",
+          "meaningSha": "49af800450beb5b981d0865d116605b0c15ff5b365e91c40a3905adf74810da4"
+        },
+        {
           "start": 2035,
           "end": 2036,
           "surface": "a",
@@ -1529,6 +1593,14 @@
           "entryId": "3af1aad1-462c-561c-9f33-4a3de3994cd7",
           "senseId": "55339dac-1642-465c-add8-3282ee653b48",
           "meaningSha": "65d7932308fb38548f5dfa4c915c27afdd9defd75f0b91fa1fcfb3b8141cee6a"
+        },
+        {
+          "start": 2151,
+          "end": 2157,
+          "surface": "what's",
+          "entryId": "f363b0f8-b12a-5ed4-a5aa-2e197adc2ca2",
+          "senseId": "0cb69e11-aa05-540e-8305-d797b04b4553",
+          "meaningSha": "60d3af89b2e28d4aeed2d827b4266b2f95d1476c2ae1b82bc4c996820a24cad4"
         },
         {
           "start": 2158,
@@ -1883,6 +1955,14 @@
           "meaningSha": "5f5697ed3bda9ef36cb3fe06da92a138a0b4a264719ba9318a68a550ac2e19db"
         },
         {
+          "start": 2684,
+          "end": 2688,
+          "surface": "I've",
+          "entryId": "5574932d-eefd-529b-bbc7-12e309e97d0f",
+          "senseId": "4a8d6065-07cc-5715-a392-051fbdafb5c1",
+          "meaningSha": "f59945888bb8dbf4034a8b7cd56f5309af886ae04a737629d1dcb2b011cfe4f7"
+        },
+        {
           "start": 2693,
           "end": 2694,
           "surface": "a",
@@ -1961,6 +2041,14 @@
           "entryId": "b3ed188f-f22e-5fd5-a07e-e38a260de50b",
           "senseId": "e0f205f2-92c8-553a-b4c2-5dc792fd8137",
           "meaningSha": "afee11a985ffb2abccbddd89232874d63d7230a857b99f0fcfed43bceeba819d"
+        },
+        {
+          "start": 2801,
+          "end": 2808,
+          "surface": "there's",
+          "entryId": "598e97d6-742f-5d80-ad3f-52454a2d5986",
+          "senseId": "ca6b96c2-1cbb-56b9-a337-53b5755c80e7",
+          "meaningSha": "3c37d812588dba24bf680bc47e61695e2cc07a167abadf1768d991a6005090ef"
         },
         {
           "start": 2816,
@@ -2073,6 +2161,14 @@
           "entryId": "91b26c72-2cef-5c35-a765-4f9481f466c0",
           "senseId": "4aa7a8d6-9764-58a2-b6b8-f6168ab21f37",
           "meaningSha": "c697caab715eff726a65b4168347477bd5dafdebb8a3ae882510e51e19757980"
+        },
+        {
+          "start": 2983,
+          "end": 2988,
+          "surface": "isn't",
+          "entryId": "e2d2cf1c-ddb5-5e4f-8151-4021f2ab5de1",
+          "senseId": "66cbfe96-a123-5814-8e39-cd2c531ebfb9",
+          "meaningSha": "9684c99341c1f640ac2c83fb3d36639cc0702107b87686ddee93c4dbd8eb0907"
         },
         {
           "start": 2989,
@@ -2315,6 +2411,14 @@
           "meaningSha": "0781ea9c72a789701c8afef13f5a2493f7b069c5c3f43634239f584360b4eaa0"
         },
         {
+          "start": 3307,
+          "end": 3315,
+          "surface": "wouldn't",
+          "entryId": "89db913f-1754-5335-8afc-041121822a2f",
+          "senseId": "2bad08c4-cc02-5001-8bfe-3a819619bacf",
+          "meaningSha": "2867a9915c1f0cc4f0a457acd00e63d4372ca761b27e3af304b4f0a006289d79"
+        },
+        {
           "start": 3326,
           "end": 3330,
           "surface": "that",
@@ -2457,6 +2561,14 @@
           "entryId": "df758696-5697-5609-b701-5d80c9bd1010",
           "senseId": "4f39656f-ce09-502c-b8d1-1bffd3c6dba6",
           "meaningSha": "0a7ecdaa00a9c2be20c875a0041e4859a863a7dcf994ee6b9dfc204a3bc6f877"
+        },
+        {
+          "start": 3490,
+          "end": 3497,
+          "surface": "there's",
+          "entryId": "598e97d6-742f-5d80-ad3f-52454a2d5986",
+          "senseId": "ca6b96c2-1cbb-56b9-a337-53b5755c80e7",
+          "meaningSha": "3c37d812588dba24bf680bc47e61695e2cc07a167abadf1768d991a6005090ef"
         },
         {
           "start": 3504,
@@ -2667,6 +2779,14 @@
           "meaningSha": "dd731ac15172c55ce80327702fa9801af5df9b3ea38a61f425a8917a56dc1bc3"
         },
         {
+          "start": 3762,
+          "end": 3766,
+          "surface": "I'll",
+          "entryId": "5f483f45-e3da-5ca8-b828-a234dcc4138b",
+          "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+          "meaningSha": "fa3539efde9b5d7f0e129e63adc6e75ca739cbc16614b487c809ea09a33f4480"
+        },
+        {
           "start": 3767,
           "end": 3771,
           "surface": "send",
@@ -2721,6 +2841,14 @@
           "entryId": "cc43ffd7-165f-574f-ba7a-3b52f4c9878d",
           "senseId": "fcffa4c4-72d1-4e9b-9362-7d1f7159c047",
           "meaningSha": "ce7f905dec87dfbcc4611b87f7fb16f239e1b557638e935470db47a852c36ded"
+        },
+        {
+          "start": 3841,
+          "end": 3845,
+          "surface": "I'll",
+          "entryId": "5f483f45-e3da-5ca8-b828-a234dcc4138b",
+          "senseId": "ab81b937-bf0d-5a7d-8e5d-0fb87e401c93",
+          "meaningSha": "fa3539efde9b5d7f0e129e63adc6e75ca739cbc16614b487c809ea09a33f4480"
         },
         {
           "start": 3855,
