@@ -74,6 +74,15 @@
       "tokenIndex": 725,
       "kind": "month_name",
       "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 1,
+      "start": 3697,
+      "end": 3699,
+      "surface": "st",
+      "tokenIndex": 723,
+      "kind": "ordinal_suffix",
+      "policy": "orthographic_1st_suffix_not_standalone_lexical_word"
     }
   ]
 }
