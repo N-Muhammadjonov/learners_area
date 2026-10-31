@@ -1,0 +1,272 @@
+{
+  "schema": "test1-part2-user-excluded-grammar-v1",
+  "part": 2,
+  "scope": "grammatical terms do not require clickable dictionary senses; true lexical usages remain eligible",
+  "count": 33,
+  "exclusions": [
+    {
+      "part": 2,
+      "start": 48,
+      "end": 52,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 252,
+      "end": 255,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 329,
+      "end": 339,
+      "surface": "Springdown",
+      "kind": "proper_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 2,
+      "start": 366,
+      "end": 370,
+      "surface": "Anne",
+      "kind": "proper_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 2,
+      "start": 371,
+      "end": 377,
+      "surface": "Rawson",
+      "kind": "proper_name",
+      "policy": "proper_name_no_dictionary_sense"
+    },
+    {
+      "part": 2,
+      "start": 513,
+      "end": 516,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 542,
+      "end": 545,
+      "surface": "may",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 679,
+      "end": 682,
+      "surface": "are",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 747,
+      "end": 749,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 814,
+      "end": 817,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 948,
+      "end": 951,
+      "surface": "may",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1091,
+      "end": 1093,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1129,
+      "end": 1132,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1442,
+      "end": 1446,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1447,
+      "end": 1450,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1664,
+      "end": 1666,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1809,
+      "end": 1813,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1814,
+      "end": 1817,
+      "surface": "are",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1853,
+      "end": 1857,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 1899,
+      "end": 1903,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 2009,
+      "end": 2011,
+      "surface": "is",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 2133,
+      "end": 2137,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3010,
+      "end": 3013,
+      "surface": "are",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3029,
+      "end": 3033,
+      "surface": "will",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3101,
+      "end": 3104,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3260,
+      "end": 3263,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3292,
+      "end": 3296,
+      "surface": "they",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3373,
+      "end": 3376,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3478,
+      "end": 3480,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3540,
+      "end": 3543,
+      "surface": "can",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3548,
+      "end": 3551,
+      "surface": "has",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3556,
+      "end": 3560,
+      "surface": "been",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    },
+    {
+      "part": 2,
+      "start": 3687,
+      "end": 3689,
+      "surface": "be",
+      "kind": "grammatical_term",
+      "policy": "user_excluded_from_required_lexical_sense_binding"
+    }
+  ]
+}
