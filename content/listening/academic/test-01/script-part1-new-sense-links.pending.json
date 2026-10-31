@@ -1,0 +1,418 @@
+{
+  "schema": "test1-part1-new-sense-links-v1",
+  "releaseStatus": "NOT_PUBLISHED",
+  "sourceTest": "listening-test-1",
+  "part": 1,
+  "entries": [
+    {
+      "part": 1,
+      "start": 20,
+      "end": 24,
+      "surface": "will",
+      "tokenIndex": 4,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 74,
+      "end": 78,
+      "surface": "will",
+      "tokenIndex": 14,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 143,
+      "end": 147,
+      "surface": "will",
+      "tokenIndex": 27,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 201,
+      "end": 205,
+      "surface": "will",
+      "tokenIndex": 38,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 206,
+      "end": 208,
+      "surface": "be",
+      "tokenIndex": 39,
+      "newSenseRef": "be:PASSIVE_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 281,
+      "end": 283,
+      "surface": "in",
+      "tokenIndex": 53,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 344,
+      "end": 348,
+      "surface": "will",
+      "tokenIndex": 65,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 349,
+      "end": 351,
+      "surface": "be",
+      "tokenIndex": 66,
+      "newSenseRef": "be:PASSIVE_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 437,
+      "end": 439,
+      "surface": "on",
+      "tokenIndex": 81,
+      "newSenseRef": "on:SURFACE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 488,
+      "end": 492,
+      "surface": "will",
+      "tokenIndex": 89,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 540,
+      "end": 545,
+      "surface": "about",
+      "tokenIndex": 98,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 625,
+      "end": 627,
+      "surface": "on",
+      "tokenIndex": 113,
+      "newSenseRef": "on:SURFACE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 640,
+      "end": 644,
+      "surface": "will",
+      "tokenIndex": 116,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 679,
+      "end": 682,
+      "surface": "has",
+      "tokenIndex": 124,
+      "newSenseRef": "have:PERFECT_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 683,
+      "end": 687,
+      "surface": "been",
+      "tokenIndex": 125,
+      "newSenseRef": "be:PASSIVE_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 760,
+      "end": 764,
+      "surface": "will",
+      "tokenIndex": 138,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 765,
+      "end": 767,
+      "surface": "be",
+      "tokenIndex": 139,
+      "newSenseRef": "be:PASSIVE_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 804,
+      "end": 809,
+      "surface": "about",
+      "tokenIndex": 147,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 976,
+      "end": 981,
+      "surface": "about",
+      "tokenIndex": 185,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 998,
+      "end": 1001,
+      "surface": "has",
+      "tokenIndex": 190,
+      "newSenseRef": "have:PERFECT_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 1002,
+      "end": 1006,
+      "surface": "been",
+      "tokenIndex": 191,
+      "newSenseRef": "be:PASSIVE_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 1015,
+      "end": 1017,
+      "surface": "in",
+      "tokenIndex": 193,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 1036,
+      "end": 1041,
+      "surface": "shall",
+      "tokenIndex": 198,
+      "newSenseRef": "shall:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/shall"
+    },
+    {
+      "part": 1,
+      "start": 1109,
+      "end": 1113,
+      "surface": "will",
+      "tokenIndex": 210,
+      "newSenseRef": "will:FUTURE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/will"
+    },
+    {
+      "part": 1,
+      "start": 1220,
+      "end": 1225,
+      "surface": "about",
+      "tokenIndex": 229,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 1413,
+      "end": 1418,
+      "surface": "about",
+      "tokenIndex": 270,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 1594,
+      "end": 1596,
+      "surface": "in",
+      "tokenIndex": 306,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 1987,
+      "end": 1989,
+      "surface": "in",
+      "tokenIndex": 382,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2059,
+      "end": 2061,
+      "surface": "in",
+      "tokenIndex": 396,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2146,
+      "end": 2151,
+      "surface": "about",
+      "tokenIndex": 413,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 2186,
+      "end": 2188,
+      "surface": "in",
+      "tokenIndex": 421,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2281,
+      "end": 2283,
+      "surface": "in",
+      "tokenIndex": 442,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2316,
+      "end": 2318,
+      "surface": "in",
+      "tokenIndex": 449,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2340,
+      "end": 2342,
+      "surface": "in",
+      "tokenIndex": 454,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2468,
+      "end": 2473,
+      "surface": "about",
+      "tokenIndex": 480,
+      "newSenseRef": "about:SUBJECT",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/dictionary/english/about"
+    },
+    {
+      "part": 1,
+      "start": 2604,
+      "end": 2606,
+      "surface": "in",
+      "tokenIndex": 509,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2659,
+      "end": 2661,
+      "surface": "in",
+      "tokenIndex": 520,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 2725,
+      "end": 2728,
+      "surface": "has",
+      "tokenIndex": 533,
+      "newSenseRef": "have:PERFECT_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 2793,
+      "end": 2796,
+      "surface": "has",
+      "tokenIndex": 546,
+      "newSenseRef": "have:PERFECT_AUXILIARY",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/state-verbs"
+    },
+    {
+      "part": 1,
+      "start": 3020,
+      "end": 3022,
+      "surface": "in",
+      "tokenIndex": 593,
+      "newSenseRef": "in:LOCATION",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    },
+    {
+      "part": 1,
+      "start": 3127,
+      "end": 3129,
+      "surface": "on",
+      "tokenIndex": 613,
+      "newSenseRef": "on:SURFACE",
+      "status": "awaiting_immutable_release_sense_id",
+      "dictionarySource": "https://dictionary.cambridge.org/grammar/british-grammar/at-on-and-in-place"
+    }
+  ]
+}
