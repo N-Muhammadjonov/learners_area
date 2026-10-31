@@ -1,0 +1,2514 @@
+{
+  "test": "listening-test-16",
+  "part": 2,
+  "sourceRelease": "rel-v1-1fa06d8d41d8ff701632573e",
+  "sourceBodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
+  "status": "full_inventory_not_all_verified_or_bound",
+  "mappedVerifiedSpans": 583,
+  "unresolvedOccurrences": 311,
+  "categoryCounts": {
+    "requires_exact_auxiliary_or_modal_sense": 51,
+    "morphology_or_noun_plural_review": 36,
+    "requires_contextual_preposition_or_conjunction": 48,
+    "independent_lexical_sense_review": 150,
+    "proper_name_or_named_language": 13,
+    "multiword_unit_review": 5,
+    "numeric_or_abbreviation_review": 8
+  },
+  "records": [
+    {
+      "start": 27,
+      "end": 31,
+      "surface": "will",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "NARRATOR: Section two. You will hear a man giving an information talk at "
+    },
+    {
+      "start": 43,
+      "end": 49,
+      "surface": "giving",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": ": Section two. You will hear a man giving an information talk at an adult education"
+    },
+    {
+      "start": 70,
+      "end": 72,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "r a man giving an information talk at an adult education centre. First, you hav"
+    },
+    {
+      "start": 76,
+      "end": 81,
+      "surface": "adult",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "n giving an information talk at an adult education centre. First, you have some ti"
+    },
+    {
+      "start": 121,
+      "end": 125,
+      "surface": "time",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ation centre. First, you have some time to look at questions eleven to fifteen. N"
+    },
+    {
+      "start": 129,
+      "end": 133,
+      "surface": "look",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ntre. First, you have some time to look at questions eleven to fifteen. NARRATOR:"
+    },
+    {
+      "start": 134,
+      "end": 136,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " First, you have some time to look at questions eleven to fifteen. NARRATOR: No"
+    },
+    {
+      "start": 294,
+      "end": 300,
+      "surface": "thanks",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": ". MIKE: Good evening everyone, and thanks for coming to this information evening at"
+    },
+    {
+      "start": 301,
+      "end": 304,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " Good evening everyone, and thanks for coming to this information evening at the"
+    },
+    {
+      "start": 305,
+      "end": 311,
+      "surface": "coming",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "d evening everyone, and thanks for coming to this information evening at the Adult "
+    },
+    {
+      "start": 340,
+      "end": 342,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "coming to this information evening at the Adult Education Centre. My name is Mi"
+    },
+    {
+      "start": 347,
+      "end": 352,
+      "surface": "Adult",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "to this information evening at the Adult Education Centre. My name is Mike, and I'"
+    },
+    {
+      "start": 379,
+      "end": 381,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "he Adult Education Centre. My name is Mike, and I'll be speaking to you for a s"
+    },
+    {
+      "start": 382,
+      "end": 386,
+      "surface": "Mike",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "Adult Education Centre. My name is Mike, and I'll be speaking to you for a short "
+    },
+    {
+      "start": 397,
+      "end": 399,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " Centre. My name is Mike, and I'll be speaking to you for a short while before "
+    },
+    {
+      "start": 400,
+      "end": 408,
+      "surface": "speaking",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ntre. My name is Mike, and I'll be speaking to you for a short while before you can g"
+    },
+    {
+      "start": 416,
+      "end": 419,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " Mike, and I'll be speaking to you for a short while before you can go and explo"
+    },
+    {
+      "start": 428,
+      "end": 433,
+      "surface": "while",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "'ll be speaking to you for a short while before you can go and explore the various"
+    },
+    {
+      "start": 445,
+      "end": 448,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "o you for a short while before you can go and explore the various departments th"
+    },
+    {
+      "start": 449,
+      "end": 451,
+      "surface": "go",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "u for a short while before you can go and explore the various departments that "
+    },
+    {
+      "start": 456,
+      "end": 463,
+      "surface": "explore",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " short while before you can go and explore the various departments that we have here"
+    },
+    {
+      "start": 488,
+      "end": 492,
+      "surface": "that",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "nd explore the various departments that we have here. The centre was founded fift"
+    },
+    {
+      "start": 501,
+      "end": 505,
+      "surface": "here",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e various departments that we have here. The centre was founded fifty years ago b"
+    },
+    {
+      "start": 518,
+      "end": 521,
+      "surface": "was",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ents that we have here. The centre was founded fifty years ago by the town counc"
+    },
+    {
+      "start": 546,
+      "end": 548,
+      "surface": "by",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "centre was founded fifty years ago by the town council in order to help people "
+    },
+    {
+      "start": 566,
+      "end": 568,
+      "surface": "in",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ifty years ago by the town council in order to help people who had failed to ge"
+    },
+    {
+      "start": 569,
+      "end": 574,
+      "surface": "order",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "y years ago by the town council in order to help people who had failed to get a pr"
+    },
+    {
+      "start": 590,
+      "end": 593,
+      "surface": "who",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "wn council in order to help people who had failed to get a proper education when"
+    },
+    {
+      "start": 594,
+      "end": 597,
+      "surface": "had",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ouncil in order to help people who had failed to get a proper education when the"
+    },
+    {
+      "start": 598,
+      "end": 604,
+      "surface": "failed",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "il in order to help people who had failed to get a proper education when they were "
+    },
+    {
+      "start": 608,
+      "end": 611,
+      "surface": "get",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "r to help people who had failed to get a proper education when they were childre"
+    },
+    {
+      "start": 641,
+      "end": 645,
+      "surface": "were",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "o get a proper education when they were children. The idea today is a little diff"
+    },
+    {
+      "start": 671,
+      "end": 673,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "they were children. The idea today is a little different. MIKE: We can give peo"
+    },
+    {
+      "start": 703,
+      "end": 706,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ay is a little different. MIKE: We can give people the chance to study what they"
+    },
+    {
+      "start": 739,
+      "end": 743,
+      "surface": "what",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "an give people the chance to study what they missed at school for whatever reason"
+    },
+    {
+      "start": 749,
+      "end": 755,
+      "surface": "missed",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ople the chance to study what they missed at school for whatever reason, but we can"
+    },
+    {
+      "start": 756,
+      "end": 758,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "e chance to study what they missed at school for whatever reason, but we can al"
+    },
+    {
+      "start": 766,
+      "end": 769,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "o study what they missed at school for whatever reason, but we can also just giv"
+    },
+    {
+      "start": 770,
+      "end": 778,
+      "surface": "whatever",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "udy what they missed at school for whatever reason, but we can also just give them tr"
+    },
+    {
+      "start": 794,
+      "end": 797,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "school for whatever reason, but we can also just give them training in everyday "
+    },
+    {
+      "start": 827,
+      "end": 829,
+      "surface": "in",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "e can also just give them training in everyday skills or just allow them to ext"
+    },
+    {
+      "start": 854,
+      "end": 859,
+      "surface": "allow",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "raining in everyday skills or just allow them to extend themselves. The teachers i"
+    },
+    {
+      "start": 868,
+      "end": 874,
+      "surface": "extend",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ryday skills or just allow them to extend themselves. The teachers in the centre ar"
+    },
+    {
+      "start": 875,
+      "end": 885,
+      "surface": "themselves",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "kills or just allow them to extend themselves. The teachers in the centre are fully qua"
+    },
+    {
+      "start": 900,
+      "end": 902,
+      "surface": "in",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "to extend themselves. The teachers in the centre are fully qualified and their "
+    },
+    {
+      "start": 914,
+      "end": 917,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "selves. The teachers in the centre are fully qualified and their teaching is app"
+    },
+    {
+      "start": 918,
+      "end": 923,
+      "surface": "fully",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "es. The teachers in the centre are fully qualified and their teaching is appraised"
+    },
+    {
+      "start": 953,
+      "end": 955,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "fully qualified and their teaching is appraised every six months by inspectors "
+    },
+    {
+      "start": 956,
+      "end": 965,
+      "surface": "appraised",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ly qualified and their teaching is appraised every six months by inspectors from the M"
+    },
+    {
+      "start": 983,
+      "end": 985,
+      "surface": "by",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "hing is appraised every six months by inspectors from the Ministry of Education"
+    },
+    {
+      "start": 1006,
+      "end": 1014,
+      "surface": "Ministry",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": " six months by inspectors from the Ministry of Education. Our teachers have the lates"
+    },
+    {
+      "start": 1067,
+      "end": 1071,
+      "surface": "aids",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": " teachers have the latest teaching aids and accessories, from interactive whitebo"
+    },
+    {
+      "start": 1076,
+      "end": 1087,
+      "surface": "accessories",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": " have the latest teaching aids and accessories, from interactive whiteboards to computer"
+    },
+    {
+      "start": 1106,
+      "end": 1117,
+      "surface": "whiteboards",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": " and accessories, from interactive whiteboards to computer labs with the most up-to-date"
+    },
+    {
+      "start": 1130,
+      "end": 1134,
+      "surface": "labs",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "nteractive whiteboards to computer labs with the most up-to-date technology. MIKE"
+    },
+    {
+      "start": 1149,
+      "end": 1159,
+      "surface": "up-to-date",
+      "category": "multiword_unit_review",
+      "status": "pending_editorial_verification",
+      "context": "rds to computer labs with the most up-to-date technology. MIKE: All our teachers underg"
+    },
+    {
+      "start": 1242,
+      "end": 1245,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ial training and all their lessons can be found online at what we call the inter"
+    },
+    {
+      "start": 1246,
+      "end": 1248,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "training and all their lessons can be found online at what we call the interact"
+    },
+    {
+      "start": 1249,
+      "end": 1254,
+      "surface": "found",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ining and all their lessons can be found online at what we call the interactive cl"
+    },
+    {
+      "start": 1262,
+      "end": 1264,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " their lessons can be found online at what we call the interactive classroom, w"
+    },
+    {
+      "start": 1265,
+      "end": 1269,
+      "surface": "what",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "eir lessons can be found online at what we call the interactive classroom, which "
+    },
+    {
+      "start": 1273,
+      "end": 1277,
+      "surface": "call",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ons can be found online at what we call the interactive classroom, which is acces"
+    },
+    {
+      "start": 1311,
+      "end": 1313,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "l the interactive classroom, which is accessible by all registered students. Al"
+    },
+    {
+      "start": 1314,
+      "end": 1324,
+      "surface": "accessible",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "he interactive classroom, which is accessible by all registered students. All notes, vi"
+    },
+    {
+      "start": 1325,
+      "end": 1327,
+      "surface": "by",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ive classroom, which is accessible by all registered students. All notes, video"
+    },
+    {
+      "start": 1357,
+      "end": 1362,
+      "surface": "notes",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "le by all registered students. All notes, videos and worksheets can be found there"
+    },
+    {
+      "start": 1364,
+      "end": 1370,
+      "surface": "videos",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ll registered students. All notes, videos and worksheets can be found there, so if "
+    },
+    {
+      "start": 1375,
+      "end": 1385,
+      "surface": "worksheets",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ed students. All notes, videos and worksheets can be found there, so if you miss a less"
+    },
+    {
+      "start": 1386,
+      "end": 1389,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": ". All notes, videos and worksheets can be found there, so if you miss a lesson, "
+    },
+    {
+      "start": 1390,
+      "end": 1392,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "l notes, videos and worksheets can be found there, so if you miss a lesson, you"
+    },
+    {
+      "start": 1393,
+      "end": 1398,
+      "surface": "found",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "otes, videos and worksheets can be found there, so if you miss a lesson, you can c"
+    },
+    {
+      "start": 1399,
+      "end": 1404,
+      "surface": "there",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "videos and worksheets can be found there, so if you miss a lesson, you can catch u"
+    },
+    {
+      "start": 1416,
+      "end": 1420,
+      "surface": "miss",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "eets can be found there, so if you miss a lesson, you can catch up on your comput"
+    },
+    {
+      "start": 1435,
+      "end": 1438,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "here, so if you miss a lesson, you can catch up on your computer at home. As wel"
+    },
+    {
+      "start": 1448,
+      "end": 1450,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ou miss a lesson, you can catch up on your computer at home. As well as just fi"
+    },
+    {
+      "start": 1465,
+      "end": 1467,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " you can catch up on your computer at home. As well as just finding the resourc"
+    },
+    {
+      "start": 1468,
+      "end": 1472,
+      "surface": "home",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "u can catch up on your computer at home. As well as just finding the resources, y"
+    },
+    {
+      "start": 1474,
+      "end": 1476,
+      "surface": "As",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "catch up on your computer at home. As well as just finding the resources, you c"
+    },
+    {
+      "start": 1477,
+      "end": 1481,
+      "surface": "well",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ch up on your computer at home. As well as just finding the resources, you can be"
+    },
+    {
+      "start": 1482,
+      "end": 1484,
+      "surface": "as",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " on your computer at home. As well as just finding the resources, you can be in"
+    },
+    {
+      "start": 1490,
+      "end": 1497,
+      "surface": "finding",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": " computer at home. As well as just finding the resources, you can be in direct conta"
+    },
+    {
+      "start": 1517,
+      "end": 1520,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "as just finding the resources, you can be in direct contact with your teacher. M"
+    },
+    {
+      "start": 1521,
+      "end": 1523,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ust finding the resources, you can be in direct contact with your teacher. MIKE"
+    },
+    {
+      "start": 1524,
+      "end": 1526,
+      "surface": "in",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " finding the resources, you can be in direct contact with your teacher. MIKE: N"
+    },
+    {
+      "start": 1527,
+      "end": 1533,
+      "surface": "direct",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "nding the resources, you can be in direct contact with your teacher. MIKE: Naturall"
+    },
+    {
+      "start": 1578,
+      "end": 1580,
+      "surface": "he",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ith your teacher. MIKE: Naturally, he or she cannot be online all day, but ever"
+    },
+    {
+      "start": 1584,
+      "end": 1587,
+      "surface": "she",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ur teacher. MIKE: Naturally, he or she cannot be online all day, but every teach"
+    },
+    {
+      "start": 1588,
+      "end": 1594,
+      "surface": "cannot",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "eacher. MIKE: Naturally, he or she cannot be online all day, but every teacher has "
+    },
+    {
+      "start": 1595,
+      "end": 1597,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " MIKE: Naturally, he or she cannot be online all day, but every teacher has two"
+    },
+    {
+      "start": 1632,
+      "end": 1635,
+      "surface": "has",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " online all day, but every teacher has two online tutorial sessions of three hou"
+    },
+    {
+      "start": 1695,
+      "end": 1698,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ions of three hours each when they are available to chat. They can of course be "
+    },
+    {
+      "start": 1723,
+      "end": 1726,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "n they are available to chat. They can of course be in demand, so they are limit"
+    },
+    {
+      "start": 1727,
+      "end": 1729,
+      "surface": "of",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ey are available to chat. They can of course be in demand, so they are limited "
+    },
+    {
+      "start": 1737,
+      "end": 1739,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ilable to chat. They can of course be in demand, so they are limited to four st"
+    },
+    {
+      "start": 1740,
+      "end": 1742,
+      "surface": "in",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ble to chat. They can of course be in demand, so they are limited to four stude"
+    },
+    {
+      "start": 1743,
+      "end": 1749,
+      "surface": "demand",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " to chat. They can of course be in demand, so they are limited to four students at "
+    },
+    {
+      "start": 1759,
+      "end": 1762,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "an of course be in demand, so they are limited to four students at any one time "
+    },
+    {
+      "start": 1788,
+      "end": 1790,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " they are limited to four students at any one time and students can only intera"
+    },
+    {
+      "start": 1795,
+      "end": 1798,
+      "surface": "one",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "re limited to four students at any one time and students can only interact with "
+    },
+    {
+      "start": 1799,
+      "end": 1803,
+      "surface": "time",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "imited to four students at any one time and students can only interact with their"
+    },
+    {
+      "start": 1817,
+      "end": 1820,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "dents at any one time and students can only interact with their teacher for a ma"
+    },
+    {
+      "start": 1826,
+      "end": 1834,
+      "surface": "interact",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "any one time and students can only interact with their teacher for a maximum of ten m"
+    },
+    {
+      "start": 1854,
+      "end": 1857,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "n only interact with their teacher for a maximum of ten minutes. If the teacher "
+    },
+    {
+      "start": 1899,
+      "end": 1901,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "mum of ten minutes. If the teacher is free though, students may continue to cha"
+    },
+    {
+      "start": 1902,
+      "end": 1906,
+      "surface": "free",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " of ten minutes. If the teacher is free though, students may continue to chat for"
+    },
+    {
+      "start": 1907,
+      "end": 1913,
+      "surface": "though",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "en minutes. If the teacher is free though, students may continue to chat for longer"
+    },
+    {
+      "start": 1924,
+      "end": 1927,
+      "surface": "may",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "e teacher is free though, students may continue to chat for longer. Naturally, w"
+    },
+    {
+      "start": 1928,
+      "end": 1936,
+      "surface": "continue",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "acher is free though, students may continue to chat for longer. Naturally, we also ha"
+    },
+    {
+      "start": 1945,
+      "end": 1948,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ugh, students may continue to chat for longer. Naturally, we also have a normal "
+    },
+    {
+      "start": 1949,
+      "end": 1955,
+      "surface": "longer",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " students may continue to chat for longer. Naturally, we also have a normal website"
+    },
+    {
+      "start": 1983,
+      "end": 1989,
+      "surface": "normal",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " longer. Naturally, we also have a normal website. This has details of all our cour"
+    },
+    {
+      "start": 2004,
+      "end": 2007,
+      "surface": "has",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "e also have a normal website. This has details of all our courses, teachers, fee"
+    },
+    {
+      "start": 2008,
+      "end": 2015,
+      "surface": "details",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "so have a normal website. This has details of all our courses, teachers, fees and ti"
+    },
+    {
+      "start": 2085,
+      "end": 2088,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " and timetables. MIKE: All courses can be booked and paid for online, although y"
+    },
+    {
+      "start": 2089,
+      "end": 2091,
+      "surface": "be",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " timetables. MIKE: All courses can be booked and paid for online, although you'"
+    },
+    {
+      "start": 2092,
+      "end": 2098,
+      "surface": "booked",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "metables. MIKE: All courses can be booked and paid for online, although you'll need"
+    },
+    {
+      "start": 2103,
+      "end": 2107,
+      "surface": "paid",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "IKE: All courses can be booked and paid for online, although you'll need of cours"
+    },
+    {
+      "start": 2108,
+      "end": 2111,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "All courses can be booked and paid for online, although you'll need of course to"
+    },
+    {
+      "start": 2120,
+      "end": 2128,
+      "surface": "although",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "can be booked and paid for online, although you'll need of course to supply credit ca"
+    },
+    {
+      "start": 2141,
+      "end": 2143,
+      "surface": "of",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "d for online, although you'll need of course to supply credit card or bank acco"
+    },
+    {
+      "start": 2154,
+      "end": 2160,
+      "surface": "supply",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " although you'll need of course to supply credit card or bank account details. If y"
+    },
+    {
+      "start": 2189,
+      "end": 2196,
+      "surface": "details",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "supply credit card or bank account details. If you don't want to book online, you'll"
+    },
+    {
+      "start": 2211,
+      "end": 2215,
+      "surface": "want",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "bank account details. If you don't want to book online, you'll need to come to ou"
+    },
+    {
+      "start": 2219,
+      "end": 2223,
+      "surface": "book",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ount details. If you don't want to book online, you'll need to come to our main c"
+    },
+    {
+      "start": 2247,
+      "end": 2251,
+      "surface": "come",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ant to book online, you'll need to come to our main centre on Langdon Street betw"
+    },
+    {
+      "start": 2259,
+      "end": 2263,
+      "surface": "main",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "online, you'll need to come to our main centre on Langdon Street between the hour"
+    },
+    {
+      "start": 2271,
+      "end": 2273,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ll need to come to our main centre on Langdon Street between the hours of ten a"
+    },
+    {
+      "start": 2274,
+      "end": 2281,
+      "surface": "Langdon",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "need to come to our main centre on Langdon Street between the hours of ten a.m. and "
+    },
+    {
+      "start": 2282,
+      "end": 2288,
+      "surface": "Street",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "come to our main centre on Langdon Street between the hours of ten a.m. and two p.m"
+    },
+    {
+      "start": 2314,
+      "end": 2315,
+      "surface": "a",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "on Street between the hours of ten a.m. and two p.m., which are the hours that"
+    },
+    {
+      "start": 2316,
+      "end": 2317,
+      "surface": "m",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": " Street between the hours of ten a.m. and two p.m., which are the hours that o"
+    },
+    {
+      "start": 2327,
+      "end": 2328,
+      "surface": "p",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "ween the hours of ten a.m. and two p.m., which are the hours that our administ"
+    },
+    {
+      "start": 2329,
+      "end": 2330,
+      "surface": "m",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "en the hours of ten a.m. and two p.m., which are the hours that our administra"
+    },
+    {
+      "start": 2339,
+      "end": 2342,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "rs of ten a.m. and two p.m., which are the hours that our administration section"
+    },
+    {
+      "start": 2353,
+      "end": 2357,
+      "surface": "that",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " and two p.m., which are the hours that our administration section is open to the"
+    },
+    {
+      "start": 2385,
+      "end": 2387,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "rs that our administration section is open to the general public. NARRATOR: You"
+    },
+    {
+      "start": 2388,
+      "end": 2392,
+      "surface": "open",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "that our administration section is open to the general public. NARRATOR: You now "
+    },
+    {
+      "start": 2444,
+      "end": 2448,
+      "surface": "time",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ublic. NARRATOR: You now have some time to look at questions sixteen to twenty. N"
+    },
+    {
+      "start": 2452,
+      "end": 2456,
+      "surface": "look",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ARRATOR: You now have some time to look at questions sixteen to twenty. Now liste"
+    },
+    {
+      "start": 2457,
+      "end": 2459,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "OR: You now have some time to look at questions sixteen to twenty. Now listen t"
+    },
+    {
+      "start": 2470,
+      "end": 2477,
+      "surface": "sixteen",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "ave some time to look at questions sixteen to twenty. Now listen to the rest of the "
+    },
+    {
+      "start": 2507,
+      "end": 2511,
+      "surface": "rest",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "xteen to twenty. Now listen to the rest of the information talk and answer questi"
+    },
+    {
+      "start": 2557,
+      "end": 2564,
+      "surface": "sixteen",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "ormation talk and answer questions sixteen to twenty. MIKE: Now let me tell you a li"
+    },
+    {
+      "start": 2586,
+      "end": 2589,
+      "surface": "let",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "tions sixteen to twenty. MIKE: Now let me tell you a little about the courses th"
+    },
+    {
+      "start": 2611,
+      "end": 2616,
+      "surface": "about",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "MIKE: Now let me tell you a little about the courses that we have on offer. I'll b"
+    },
+    {
+      "start": 2629,
+      "end": 2633,
+      "surface": "that",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ell you a little about the courses that we have on offer. I'll begin with languag"
+    },
+    {
+      "start": 2642,
+      "end": 2644,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "tle about the courses that we have on offer. I'll begin with languages, as they"
+    },
+    {
+      "start": 2679,
+      "end": 2681,
+      "surface": "as",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " offer. I'll begin with languages, as they're often very popular. We offer a va"
+    },
+    {
+      "start": 2690,
+      "end": 2695,
+      "surface": "often",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "l begin with languages, as they're often very popular. We offer a variety of Europ"
+    },
+    {
+      "start": 2732,
+      "end": 2740,
+      "surface": "European",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "ery popular. We offer a variety of European languages, including French, German, Poli"
+    },
+    {
+      "start": 2752,
+      "end": 2761,
+      "surface": "including",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "r a variety of European languages, including French, German, Polish and Spanish. In ad"
+    },
+    {
+      "start": 2762,
+      "end": 2768,
+      "surface": "French",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "y of European languages, including French, German, Polish and Spanish. In addition,"
+    },
+    {
+      "start": 2770,
+      "end": 2776,
+      "surface": "German",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "opean languages, including French, German, Polish and Spanish. In addition, we offe"
+    },
+    {
+      "start": 2778,
+      "end": 2784,
+      "surface": "Polish",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "nguages, including French, German, Polish and Spanish. In addition, we offer Arabic"
+    },
+    {
+      "start": 2789,
+      "end": 2796,
+      "surface": "Spanish",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "cluding French, German, Polish and Spanish. In addition, we offer Arabic, Korean, Ja"
+    },
+    {
+      "start": 2798,
+      "end": 2800,
+      "surface": "In",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "rench, German, Polish and Spanish. In addition, we offer Arabic, Korean, Japane"
+    },
+    {
+      "start": 2801,
+      "end": 2809,
+      "surface": "addition",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ch, German, Polish and Spanish. In addition, we offer Arabic, Korean, Japanese and Ma"
+    },
+    {
+      "start": 2820,
+      "end": 2826,
+      "surface": "Arabic",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "and Spanish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. T"
+    },
+    {
+      "start": 2828,
+      "end": 2834,
+      "surface": "Korean",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "ish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These lan"
+    },
+    {
+      "start": 2836,
+      "end": 2844,
+      "surface": "Japanese",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These languages are"
+    },
+    {
+      "start": 2849,
+      "end": 2857,
+      "surface": "Mandarin",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "offer Arabic, Korean, Japanese and Mandarin Chinese. These languages are offered at v"
+    },
+    {
+      "start": 2858,
+      "end": 2865,
+      "surface": "Chinese",
+      "category": "proper_name_or_named_language",
+      "status": "pending_editorial_verification",
+      "context": "bic, Korean, Japanese and Mandarin Chinese. These languages are offered at various s"
+    },
+    {
+      "start": 2883,
+      "end": 2886,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " Mandarin Chinese. These languages are offered at various stages of ability and,"
+    },
+    {
+      "start": 2895,
+      "end": 2897,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "inese. These languages are offered at various stages of ability and, to find ou"
+    },
+    {
+      "start": 2906,
+      "end": 2912,
+      "surface": "stages",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e languages are offered at various stages of ability and, to find out which class y"
+    },
+    {
+      "start": 2932,
+      "end": 2936,
+      "surface": "find",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " various stages of ability and, to find out which class you belong in, you can do"
+    },
+    {
+      "start": 2937,
+      "end": 2940,
+      "surface": "out",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ous stages of ability and, to find out which class you belong in, you can do our"
+    },
+    {
+      "start": 2947,
+      "end": 2952,
+      "surface": "class",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " of ability and, to find out which class you belong in, you can do our self-assess"
+    },
+    {
+      "start": 2957,
+      "end": 2963,
+      "surface": "belong",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "y and, to find out which class you belong in, you can do our self-assessment test a"
+    },
+    {
+      "start": 2964,
+      "end": 2966,
+      "surface": "in",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "to find out which class you belong in, you can do our self-assessment test avai"
+    },
+    {
+      "start": 2972,
+      "end": 2975,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "out which class you belong in, you can do our self-assessment test available on "
+    },
+    {
+      "start": 2976,
+      "end": 2978,
+      "surface": "do",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "which class you belong in, you can do our self-assessment test available on our"
+    },
+    {
+      "start": 2999,
+      "end": 3003,
+      "surface": "test",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "in, you can do our self-assessment test available on our website for all the lang"
+    },
+    {
+      "start": 3014,
+      "end": 3016,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "our self-assessment test available on our website for all the languages we offe"
+    },
+    {
+      "start": 3029,
+      "end": 3032,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ment test available on our website for all the languages we offer. MIKE: Next, I"
+    },
+    {
+      "start": 3067,
+      "end": 3071,
+      "surface": "Next",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " all the languages we offer. MIKE: Next, I'd like to tell you about our business-"
+    },
+    {
+      "start": 3077,
+      "end": 3081,
+      "surface": "like",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "anguages we offer. MIKE: Next, I'd like to tell you about our business-related co"
+    },
+    {
+      "start": 3094,
+      "end": 3099,
+      "surface": "about",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": ". MIKE: Next, I'd like to tell you about our business-related courses. Our busines"
+    },
+    {
+      "start": 3104,
+      "end": 3120,
+      "surface": "business-related",
+      "category": "multiword_unit_review",
+      "status": "pending_editorial_verification",
+      "context": "xt, I'd like to tell you about our business-related courses. Our business courses vary from s"
+    },
+    {
+      "start": 3151,
+      "end": 3155,
+      "surface": "vary",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ated courses. Our business courses vary from short morning or afternoon sessions,"
+    },
+    {
+      "start": 3167,
+      "end": 3174,
+      "surface": "morning",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "r business courses vary from short morning or afternoon sessions, where you will dev"
+    },
+    {
+      "start": 3178,
+      "end": 3187,
+      "surface": "afternoon",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "courses vary from short morning or afternoon sessions, where you will develop an excel"
+    },
+    {
+      "start": 3208,
+      "end": 3212,
+      "surface": "will",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "g or afternoon sessions, where you will develop an excellent understanding of a p"
+    },
+    {
+      "start": 3224,
+      "end": 3233,
+      "surface": "excellent",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "essions, where you will develop an excellent understanding of a particular topic, to c"
+    },
+    {
+      "start": 3234,
+      "end": 3247,
+      "surface": "understanding",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "here you will develop an excellent understanding of a particular topic, to courses that ru"
+    },
+    {
+      "start": 3253,
+      "end": 3263,
+      "surface": "particular",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "op an excellent understanding of a particular topic, to courses that run for over thirt"
+    },
+    {
+      "start": 3264,
+      "end": 3269,
+      "surface": "topic",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "lent understanding of a particular topic, to courses that run for over thirty week"
+    },
+    {
+      "start": 3282,
+      "end": 3286,
+      "surface": "that",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " of a particular topic, to courses that run for over thirty weeks, where you can "
+    },
+    {
+      "start": 3287,
+      "end": 3290,
+      "surface": "run",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " particular topic, to courses that run for over thirty weeks, where you can achi"
+    },
+    {
+      "start": 3291,
+      "end": 3294,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ticular topic, to courses that run for over thirty weeks, where you can achieve "
+    },
+    {
+      "start": 3295,
+      "end": 3299,
+      "surface": "over",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "lar topic, to courses that run for over thirty weeks, where you can achieve an in"
+    },
+    {
+      "start": 3300,
+      "end": 3306,
+      "surface": "thirty",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "opic, to courses that run for over thirty weeks, where you can achieve an industry-"
+    },
+    {
+      "start": 3307,
+      "end": 3312,
+      "surface": "weeks",
+      "category": "numeric_or_abbreviation_review",
+      "status": "pending_editorial_verification",
+      "context": "o courses that run for over thirty weeks, where you can achieve an industry-recogn"
+    },
+    {
+      "start": 3324,
+      "end": 3327,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "n for over thirty weeks, where you can achieve an industry-recognised qualificat"
+    },
+    {
+      "start": 3339,
+      "end": 3358,
+      "surface": "industry-recognised",
+      "category": "multiword_unit_review",
+      "status": "pending_editorial_verification",
+      "context": "ty weeks, where you can achieve an industry-recognised qualification. From learning how to use e"
+    },
+    {
+      "start": 3379,
+      "end": 3387,
+      "surface": "learning",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "try-recognised qualification. From learning how to use essential computer software to"
+    },
+    {
+      "start": 3484,
+      "end": 3495,
+      "surface": "development",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ch engine optimisation and website development, we have the business courses to help you"
+    },
+    {
+      "start": 3578,
+      "end": 3581,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "ve your goals. MIKE: These courses are always the most popular, so if you're int"
+    },
+    {
+      "start": 3582,
+      "end": 3588,
+      "surface": "always",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "our goals. MIKE: These courses are always the most popular, so if you're interested"
+    },
+    {
+      "start": 3632,
+      "end": 3636,
+      "surface": "make",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " popular, so if you're interested, make sure you make your booking fast. We only "
+    },
+    {
+      "start": 3646,
+      "end": 3650,
+      "surface": "make",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "f you're interested, make sure you make your booking fast. We only take ten peopl"
+    },
+    {
+      "start": 3656,
+      "end": 3663,
+      "surface": "booking",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "nterested, make sure you make your booking fast. We only take ten people per course "
+    },
+    {
+      "start": 3664,
+      "end": 3668,
+      "surface": "fast",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "d, make sure you make your booking fast. We only take ten people per course and t"
+    },
+    {
+      "start": 3678,
+      "end": 3682,
+      "surface": "take",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ou make your booking fast. We only take ten people per course and these places go"
+    },
+    {
+      "start": 3694,
+      "end": 3697,
+      "surface": "per",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "king fast. We only take ten people per course and these places go quickly. One o"
+    },
+    {
+      "start": 3715,
+      "end": 3721,
+      "surface": "places",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ke ten people per course and these places go quickly. One of our most popular cours"
+    },
+    {
+      "start": 3722,
+      "end": 3724,
+      "surface": "go",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "people per course and these places go quickly. One of our most popular course a"
+    },
+    {
+      "start": 3725,
+      "end": 3732,
+      "surface": "quickly",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ple per course and these places go quickly. One of our most popular course areas is "
+    },
+    {
+      "start": 3765,
+      "end": 3770,
+      "surface": "areas",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ly. One of our most popular course areas is photography and computers for photogra"
+    },
+    {
+      "start": 3771,
+      "end": 3773,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "e of our most popular course areas is photography and computers for photography"
+    },
+    {
+      "start": 3800,
+      "end": 3803,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "areas is photography and computers for photography. Our range of courses on thes"
+    },
+    {
+      "start": 3821,
+      "end": 3826,
+      "surface": "range",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "and computers for photography. Our range of courses on these subjects can help you"
+    },
+    {
+      "start": 3838,
+      "end": 3840,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " photography. Our range of courses on these subjects can help you learn to get "
+    },
+    {
+      "start": 3847,
+      "end": 3855,
+      "surface": "subjects",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "phy. Our range of courses on these subjects can help you learn to get the most out of"
+    },
+    {
+      "start": 3856,
+      "end": 3859,
+      "surface": "can",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "range of courses on these subjects can help you learn to get the most out of you"
+    },
+    {
+      "start": 3878,
+      "end": 3881,
+      "surface": "get",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ese subjects can help you learn to get the most out of your camera. From basic t"
+    },
+    {
+      "start": 3886,
+      "end": 3890,
+      "surface": "most",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ects can help you learn to get the most out of your camera. From basic to advance"
+    },
+    {
+      "start": 3891,
+      "end": 3894,
+      "surface": "out",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "can help you learn to get the most out of your camera. From basic to advanced, o"
+    },
+    {
+      "start": 3916,
+      "end": 3921,
+      "surface": "basic",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " the most out of your camera. From basic to advanced, our courses will allow you t"
+    },
+    {
+      "start": 3925,
+      "end": 3933,
+      "surface": "advanced",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " out of your camera. From basic to advanced, our courses will allow you to build up y"
+    },
+    {
+      "start": 3947,
+      "end": 3951,
+      "surface": "will",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "rom basic to advanced, our courses will allow you to build up your knowledge and "
+    },
+    {
+      "start": 3952,
+      "end": 3957,
+      "surface": "allow",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "asic to advanced, our courses will allow you to build up your knowledge and learn "
+    },
+    {
+      "start": 3965,
+      "end": 3970,
+      "surface": "build",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ced, our courses will allow you to build up your knowledge and learn new ways to u"
+    },
+    {
+      "start": 3971,
+      "end": 3973,
+      "surface": "up",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ur courses will allow you to build up your knowledge and learn new ways to use "
+    },
+    {
+      "start": 4003,
+      "end": 4007,
+      "surface": "ways",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ld up your knowledge and learn new ways to use your equipment. Another favourite "
+    },
+    {
+      "start": 4031,
+      "end": 4038,
+      "surface": "Another",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "rn new ways to use your equipment. Another favourite are our cooking courses. MIKE: "
+    },
+    {
+      "start": 4049,
+      "end": 4052,
+      "surface": "are",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": " your equipment. Another favourite are our cooking courses. MIKE: We offer speci"
+    },
+    {
+      "start": 4089,
+      "end": 4099,
+      "surface": "speciality",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ur cooking courses. MIKE: We offer speciality courses, but a favourite is our introduct"
+    },
+    {
+      "start": 4125,
+      "end": 4127,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "peciality courses, but a favourite is our introduction to cooking. This course "
+    },
+    {
+      "start": 4132,
+      "end": 4144,
+      "surface": "introduction",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ty courses, but a favourite is our introduction to cooking. This course is ideal for thos"
+    },
+    {
+      "start": 4145,
+      "end": 4147,
+      "surface": "to",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ut a favourite is our introduction to cooking. This course is ideal for those n"
+    },
+    {
+      "start": 4169,
+      "end": 4171,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "troduction to cooking. This course is ideal for those new to cooking or for any"
+    },
+    {
+      "start": 4172,
+      "end": 4177,
+      "surface": "ideal",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "duction to cooking. This course is ideal for those new to cooking or for anyone wi"
+    },
+    {
+      "start": 4178,
+      "end": 4181,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "n to cooking. This course is ideal for those new to cooking or for anyone wishin"
+    },
+    {
+      "start": 4182,
+      "end": 4187,
+      "surface": "those",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " cooking. This course is ideal for those new to cooking or for anyone wishing to c"
+    },
+    {
+      "start": 4206,
+      "end": 4209,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " ideal for those new to cooking or for anyone wishing to create achievable and i"
+    },
+    {
+      "start": 4210,
+      "end": 4216,
+      "surface": "anyone",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "al for those new to cooking or for anyone wishing to create achievable and inspirin"
+    },
+    {
+      "start": 4217,
+      "end": 4224,
+      "surface": "wishing",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "those new to cooking or for anyone wishing to create achievable and inspiring dishes"
+    },
+    {
+      "start": 4235,
+      "end": 4245,
+      "surface": "achievable",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ng or for anyone wishing to create achievable and inspiring dishes. Learn a variety of "
+    },
+    {
+      "start": 4250,
+      "end": 4259,
+      "surface": "inspiring",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e wishing to create achievable and inspiring dishes. Learn a variety of essential cook"
+    },
+    {
+      "start": 4260,
+      "end": 4266,
+      "surface": "dishes",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "to create achievable and inspiring dishes. Learn a variety of essential cooking tec"
+    },
+    {
+      "start": 4305,
+      "end": 4315,
+      "surface": "techniques",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "arn a variety of essential cooking techniques to help you create simple everyday dishes"
+    },
+    {
+      "start": 4335,
+      "end": 4341,
+      "surface": "simple",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "king techniques to help you create simple everyday dishes or some more elaborate th"
+    },
+    {
+      "start": 4351,
+      "end": 4357,
+      "surface": "dishes",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "to help you create simple everyday dishes or some more elaborate things to impress "
+    },
+    {
+      "start": 4366,
+      "end": 4370,
+      "surface": "more",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ate simple everyday dishes or some more elaborate things to impress your guests. "
+    },
+    {
+      "start": 4371,
+      "end": 4380,
+      "surface": "elaborate",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "imple everyday dishes or some more elaborate things to impress your guests. You will a"
+    },
+    {
+      "start": 4381,
+      "end": 4387,
+      "surface": "things",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "yday dishes or some more elaborate things to impress your guests. You will also lea"
+    },
+    {
+      "start": 4391,
+      "end": 4398,
+      "surface": "impress",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "s or some more elaborate things to impress your guests. You will also learn to make "
+    },
+    {
+      "start": 4404,
+      "end": 4410,
+      "surface": "guests",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e elaborate things to impress your guests. You will also learn to make the best use"
+    },
+    {
+      "start": 4416,
+      "end": 4420,
+      "surface": "will",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "things to impress your guests. You will also learn to make the best use of store "
+    },
+    {
+      "start": 4435,
+      "end": 4439,
+      "surface": "make",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "our guests. You will also learn to make the best use of store cupboard ingredient"
+    },
+    {
+      "start": 4444,
+      "end": 4448,
+      "surface": "best",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "s. You will also learn to make the best use of store cupboard ingredients, and ho"
+    },
+    {
+      "start": 4456,
+      "end": 4461,
+      "surface": "store",
+      "category": "multiword_unit_review",
+      "status": "pending_editorial_verification",
+      "context": "also learn to make the best use of store cupboard ingredients, and how to take del"
+    },
+    {
+      "start": 4462,
+      "end": 4470,
+      "surface": "cupboard",
+      "category": "multiword_unit_review",
+      "status": "pending_editorial_verification",
+      "context": "earn to make the best use of store cupboard ingredients, and how to take delicious sh"
+    },
+    {
+      "start": 4471,
+      "end": 4482,
+      "surface": "ingredients",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ake the best use of store cupboard ingredients, and how to take delicious shortcuts to m"
+    },
+    {
+      "start": 4495,
+      "end": 4499,
+      "surface": "take",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e cupboard ingredients, and how to take delicious shortcuts to make cooking quick"
+    },
+    {
+      "start": 4500,
+      "end": 4509,
+      "surface": "delicious",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "board ingredients, and how to take delicious shortcuts to make cooking quick and enjoy"
+    },
+    {
+      "start": 4510,
+      "end": 4519,
+      "surface": "shortcuts",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "edients, and how to take delicious shortcuts to make cooking quick and enjoyable every"
+    },
+    {
+      "start": 4523,
+      "end": 4527,
+      "surface": "make",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "how to take delicious shortcuts to make cooking quick and enjoyable every day. MI"
+    },
+    {
+      "start": 4536,
+      "end": 4541,
+      "surface": "quick",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "elicious shortcuts to make cooking quick and enjoyable every day. MIKE: I'll finis"
+    },
+    {
+      "start": 4546,
+      "end": 4555,
+      "surface": "enjoyable",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "hortcuts to make cooking quick and enjoyable every day. MIKE: I'll finish with telling"
+    },
+    {
+      "start": 4578,
+      "end": 4584,
+      "surface": "finish",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "nd enjoyable every day. MIKE: I'll finish with telling you about our creative writi"
+    },
+    {
+      "start": 4590,
+      "end": 4597,
+      "surface": "telling",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": " every day. MIKE: I'll finish with telling you about our creative writing course. It"
+    },
+    {
+      "start": 4602,
+      "end": 4607,
+      "surface": "about",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "MIKE: I'll finish with telling you about our creative writing course. It looks at "
+    },
+    {
+      "start": 4640,
+      "end": 4645,
+      "surface": "looks",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ut our creative writing course. It looks at practical ways to get started, whilst "
+    },
+    {
+      "start": 4646,
+      "end": 4648,
+      "surface": "at",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " creative writing course. It looks at practical ways to get started, whilst pro"
+    },
+    {
+      "start": 4659,
+      "end": 4663,
+      "surface": "ways",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ting course. It looks at practical ways to get started, whilst promoting greater "
+    },
+    {
+      "start": 4667,
+      "end": 4670,
+      "surface": "get",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "rse. It looks at practical ways to get started, whilst promoting greater writing"
+    },
+    {
+      "start": 4671,
+      "end": 4678,
+      "surface": "started",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": " It looks at practical ways to get started, whilst promoting greater writing confide"
+    },
+    {
+      "start": 4680,
+      "end": 4686,
+      "surface": "whilst",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " at practical ways to get started, whilst promoting greater writing confidence. The"
+    },
+    {
+      "start": 4687,
+      "end": 4696,
+      "surface": "promoting",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ctical ways to get started, whilst promoting greater writing confidence. The focus of "
+    },
+    {
+      "start": 4697,
+      "end": 4704,
+      "surface": "greater",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "s to get started, whilst promoting greater writing confidence. The focus of this cou"
+    },
+    {
+      "start": 4713,
+      "end": 4723,
+      "surface": "confidence",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": ", whilst promoting greater writing confidence. The focus of this course is placed on pr"
+    },
+    {
+      "start": 4729,
+      "end": 4734,
+      "surface": "focus",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ng greater writing confidence. The focus of this course is placed on practical exe"
+    },
+    {
+      "start": 4750,
+      "end": 4752,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "nfidence. The focus of this course is placed on practical exercises supported b"
+    },
+    {
+      "start": 4753,
+      "end": 4759,
+      "surface": "placed",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "dence. The focus of this course is placed on practical exercises supported by discu"
+    },
+    {
+      "start": 4760,
+      "end": 4762,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "The focus of this course is placed on practical exercises supported by discussi"
+    },
+    {
+      "start": 4773,
+      "end": 4782,
+      "surface": "exercises",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "this course is placed on practical exercises supported by discussion and examples and "
+    },
+    {
+      "start": 4783,
+      "end": 4792,
+      "surface": "supported",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "e is placed on practical exercises supported by discussion and examples and builds upo"
+    },
+    {
+      "start": 4793,
+      "end": 4795,
+      "surface": "by",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "d on practical exercises supported by discussion and examples and builds upon t"
+    },
+    {
+      "start": 4796,
+      "end": 4806,
+      "surface": "discussion",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "n practical exercises supported by discussion and examples and builds upon the strength"
+    },
+    {
+      "start": 4811,
+      "end": 4819,
+      "surface": "examples",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "rcises supported by discussion and examples and builds upon the strengths of each wri"
+    },
+    {
+      "start": 4824,
+      "end": 4830,
+      "surface": "builds",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "ted by discussion and examples and builds upon the strengths of each writer. It wil"
+    },
+    {
+      "start": 4831,
+      "end": 4835,
+      "surface": "upon",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "discussion and examples and builds upon the strengths of each writer. It will giv"
+    },
+    {
+      "start": 4840,
+      "end": 4849,
+      "surface": "strengths",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "n and examples and builds upon the strengths of each writer. It will give you an insig"
+    },
+    {
+      "start": 4858,
+      "end": 4864,
+      "surface": "writer",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " builds upon the strengths of each writer. It will give you an insight into the cre"
+    },
+    {
+      "start": 4869,
+      "end": 4873,
+      "surface": "will",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "n the strengths of each writer. It will give you an insight into the creative pro"
+    },
+    {
+      "start": 4886,
+      "end": 4893,
+      "surface": "insight",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "f each writer. It will give you an insight into the creative process and encourage y"
+    },
+    {
+      "start": 4894,
+      "end": 4898,
+      "surface": "into",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "riter. It will give you an insight into the creative process and encourage you to"
+    },
+    {
+      "start": 4912,
+      "end": 4919,
+      "surface": "process",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e you an insight into the creative process and encourage you to achieve your writing"
+    },
+    {
+      "start": 4924,
+      "end": 4933,
+      "surface": "encourage",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ight into the creative process and encourage you to achieve your writing goals. MIKE: "
+    },
+    {
+      "start": 5003,
+      "end": 5011,
+      "surface": "provides",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " MIKE: Our creative writing course provides an opportunity for all aspiring writers t"
+    },
+    {
+      "start": 5015,
+      "end": 5026,
+      "surface": "opportunity",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "reative writing course provides an opportunity for all aspiring writers to develop the s"
+    },
+    {
+      "start": 5027,
+      "end": 5030,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ing course provides an opportunity for all aspiring writers to develop the skill"
+    },
+    {
+      "start": 5035,
+      "end": 5043,
+      "surface": "aspiring",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "se provides an opportunity for all aspiring writers to develop the skills for writing"
+    },
+    {
+      "start": 5044,
+      "end": 5051,
+      "surface": "writers",
+      "category": "morphology_or_noun_plural_review",
+      "status": "pending_editorial_verification",
+      "context": "es an opportunity for all aspiring writers to develop the skills for writing fiction"
+    },
+    {
+      "start": 5074,
+      "end": 5077,
+      "surface": "for",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "ring writers to develop the skills for writing fiction. We have lots more course"
+    },
+    {
+      "start": 5086,
+      "end": 5093,
+      "surface": "fiction",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " to develop the skills for writing fiction. We have lots more courses and I urge you"
+    },
+    {
+      "start": 5103,
+      "end": 5107,
+      "surface": "lots",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "kills for writing fiction. We have lots more courses and I urge you to check our "
+    },
+    {
+      "start": 5108,
+      "end": 5112,
+      "surface": "more",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": " for writing fiction. We have lots more courses and I urge you to check our websi"
+    },
+    {
+      "start": 5127,
+      "end": 5131,
+      "surface": "urge",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "n. We have lots more courses and I urge you to check our website, as we don't hav"
+    },
+    {
+      "start": 5158,
+      "end": 5160,
+      "surface": "as",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": "d I urge you to check our website, as we don't have enough time to introduce ev"
+    },
+    {
+      "start": 5175,
+      "end": 5181,
+      "surface": "enough",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "heck our website, as we don't have enough time to introduce everything that we have"
+    },
+    {
+      "start": 5182,
+      "end": 5186,
+      "surface": "time",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "r website, as we don't have enough time to introduce everything that we have on o"
+    },
+    {
+      "start": 5190,
+      "end": 5199,
+      "surface": "introduce",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "e, as we don't have enough time to introduce everything that we have on offer. NARRATO"
+    },
+    {
+      "start": 5200,
+      "end": 5210,
+      "surface": "everything",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "on't have enough time to introduce everything that we have on offer. NARRATOR: That is "
+    },
+    {
+      "start": 5211,
+      "end": 5215,
+      "surface": "that",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "nough time to introduce everything that we have on offer. NARRATOR: That is the e"
+    },
+    {
+      "start": 5224,
+      "end": 5226,
+      "surface": "on",
+      "category": "requires_contextual_preposition_or_conjunction",
+      "status": "pending_editorial_verification",
+      "context": " introduce everything that we have on offer. NARRATOR: That is the end of secti"
+    },
+    {
+      "start": 5244,
+      "end": 5248,
+      "surface": "That",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "g that we have on offer. NARRATOR: That is the end of section two. You now have h"
+    },
+    {
+      "start": 5249,
+      "end": 5251,
+      "surface": "is",
+      "category": "requires_exact_auxiliary_or_modal_sense",
+      "status": "pending_editorial_verification",
+      "context": "t we have on offer. NARRATOR: That is the end of section two. You now have half"
+    },
+    {
+      "start": 5256,
+      "end": 5259,
+      "surface": "end",
+      "category": "independent_lexical_sense_review",
+      "status": "pending_editorial_verification",
+      "context": "ve on offer. NARRATOR: That is the end of section two. You now have half a minut"
+    }
+  ],
+  "requirements": [
+    "No active release sense may be invented or assigned by similar spelling alone",
+    "Verb V3/-ing must resolve base verb only when used verbally; adjectives remain adjectives",
+    "Publish new dictionary senses/forms in an immutable release before binding",
+    "Do not merge or apply until release hash, offset and contextual sense tests pass"
+  ]
+}
