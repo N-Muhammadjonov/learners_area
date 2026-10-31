@@ -6,6 +6,23 @@
     {
       "source": "listening",
       "sourceId": "dc42157f-0373-462f-9196-a1cc026e2e4c",
+      "sectionNumber": 2,
+      "segmentKey": "s2",
+      "bodySha": "9076879de3b876806892dae67d65feef765e1c4d30ff089398f839968ce685c1",
+      "spans": [
+        {
+          "start": 3430,
+          "surface": "bookkeeping",
+          "entryId": "0e0639ec-1046-538c-be91-22922a161934",
+          "senseId": "efbcb8db-6e0f-4ee2-bea8-b71f135e928c",
+          "meaningSha": "fc85fcf01e6811b4358f56ae64b17bd23fbe1719a543b748ed1ac3bb865ca212",
+          "end": 3441
+        }
+      ]
+    },
+    {
+      "source": "listening",
+      "sourceId": "dc42157f-0373-462f-9196-a1cc026e2e4c",
       "sectionNumber": 4,
       "segmentKey": "s4",
       "bodySha": "1d52c011421021fe6bd723e9043bc1806528d2162b1a340c6736d68667127a04",
@@ -17,6 +34,30 @@
           "entryId": "40db744f-fb78-5b6c-a3bc-fa2efe59318b",
           "senseId": "099880e1-d1b8-459f-ab2b-1452f01da40d",
           "meaningSha": "2839e7f58aad25c89a1d59057cd0de02d4b91257b0331f739340b40232018851"
+        },
+        {
+          "start": 462,
+          "surface": "anthropology",
+          "entryId": "a60a59f2-d94b-5136-8bdf-4f5dd6486534",
+          "senseId": "c846789e-098e-4219-8b3c-d6c01e76479f",
+          "meaningSha": "d8297e3c8e74e86ae4512f0d8c1da95577d60a6bb9b368bc7f1f967e55eca9c9",
+          "end": 474
+        },
+        {
+          "start": 503,
+          "surface": "sociology",
+          "entryId": "f11df267-a31e-58ca-9db6-f049a558233d",
+          "senseId": "7812c8cc-f431-4693-b982-68634b39084b",
+          "meaningSha": "240455807097d99bc1d5e77e9d2c5a223639e946a1ef26ddebfc3e91b5b34960",
+          "end": 512
+        },
+        {
+          "start": 3240,
+          "surface": "hypothesis",
+          "entryId": "27098c77-441d-5412-8641-1977567caf80",
+          "senseId": "82f0101c-9023-4928-a60f-933284a4c630",
+          "meaningSha": "25e3a59f9cd45666fa08b73bf865a506dc5a2741c5da9c6755ac2b0358f12a98",
+          "end": 3250
         }
       ]
     }
