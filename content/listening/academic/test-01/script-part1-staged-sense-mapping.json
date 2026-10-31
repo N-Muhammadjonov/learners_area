@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 577,
+  "count": 578,
   "mappings": [
     {
       "part": 1,
@@ -3145,6 +3145,17 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 2205,
+      "end": 2212,
+      "surface": "came in",
+      "senseId": "481b7241-bdf5-5fcc-919c-0a425618b3b6",
+      "entryNumber": null,
+      "kind": "phrasal_verb",
+      "status": "context_approved_staged_not_published",
+      "basis": "past form of come in meaning enter a building"
     },
     {
       "part": 1,
