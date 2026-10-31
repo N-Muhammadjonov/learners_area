@@ -69,8 +69,8 @@ async def progress_get(req:Request,id:str):
         ctx,err=await context(con,req,id,user)
         if err:return err
         u,source=ctx
-        row=await con.fetchrow('SELECT values FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2',u['id'],core.uuid_value(id))
-        values=(json.loads(row['values']) if isinstance(row['values'],str) else row['values']) if row else {}
+        from .step21_listening_authored_reads import loaded_values
+        values=await loaded_values(con,u,id,source)
         work=await current_work(con,u['id'],id,source,values)
         answer=course_status(SPEC[source],work) if source in SPEC else None
     return core.j(answer,headers=PRIVATE)
