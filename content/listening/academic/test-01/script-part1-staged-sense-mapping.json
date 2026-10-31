@@ -6,7 +6,7 @@
   "deploymentStatus": "NOT_PUBLISHED",
   "mappingStatus": "EDITORIAL_STAGED_NOT_OCCURRENCE_ID_RESOLVED",
   "note": "Context-approved staged senses; release not published and not yet linked to lexical_occurrences. Time unit 'minutes' uses lemma minute.",
-  "count": 467,
+  "count": 471,
   "mappings": [
     {
       "part": 1,
@@ -1305,6 +1305,17 @@
     },
     {
       "part": 1,
+      "start": 967,
+      "end": 975,
+      "surface": "find out",
+      "senseId": "91ff9330-3649-442a-8d44-86f0e7db6100",
+      "kind": "phrase",
+      "entryNumber": 2,
+      "status": "context_approved_staged_not_published",
+      "basis": "Repeat of manually selected canonical phrase with identical source meaning"
+    },
+    {
+      "part": 1,
       "start": 982,
       "end": 983,
       "surface": "a",
@@ -1774,6 +1785,17 @@
     },
     {
       "part": 1,
+      "start": 1286,
+      "end": 1296,
+      "surface": "Come on in",
+      "senseId": "481b7241-bdf5-5fcc-919c-0a425618b3b6",
+      "kind": "phrase",
+      "entryNumber": 4,
+      "status": "context_approved_staged_not_published",
+      "basis": "Repeat of manually selected canonical phrase with identical source meaning"
+    },
+    {
+      "part": 1,
       "start": 1298,
       "end": 1303,
       "surface": "Great",
@@ -1821,6 +1843,17 @@
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "need to find infinitive"
+    },
+    {
+      "part": 1,
+      "start": 1320,
+      "end": 1328,
+      "surface": "find out",
+      "senseId": "91ff9330-3649-442a-8d44-86f0e7db6100",
+      "kind": "phrase",
+      "entryNumber": 2,
+      "status": "context_approved_staged_not_published",
+      "basis": "Repeat of manually selected canonical phrase with identical source meaning"
     },
     {
       "part": 1,
@@ -4676,6 +4709,17 @@
       "kind": "pronoun_or_contraction",
       "status": "context_approved_staged_not_published",
       "basis": "Verified exact contraction expansion or speaker subject from immutable dictionary release"
+    },
+    {
+      "part": 1,
+      "start": 3854,
+      "end": 3861,
+      "surface": "move in",
+      "senseId": "313e5c16-3fc9-41b5-9540-105df8fe9598",
+      "kind": "phrase",
+      "entryNumber": 27,
+      "status": "context_approved_staged_not_published",
+      "basis": "Repeat of manually selected canonical phrase with identical source meaning"
     },
     {
       "part": 1,
