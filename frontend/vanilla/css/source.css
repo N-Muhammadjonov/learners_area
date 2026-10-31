@@ -1287,6 +1287,10 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-full-focus [data-listening-focus-content] { min-height: calc(100dvh - var(--listening-focus-bar-h)); }
 .listening-full-focus .listening-workspace { min-height: calc(100dvh - var(--listening-focus-bar-h)); border-radius: 0; }
 .listening-full-focus [data-authored-listening] iframe { height: calc(100dvh - var(--listening-focus-bar-h)); min-height: 0; border-radius: 0; }
+/* Authored Listening uses the global shell Back control. The local focus bar
+   has a hidden duplicate Back link and must not reserve an empty row above
+   the iframe on the hub (or during an activity). Other Listening routes keep it. */
+.listening-full-focus:has([data-authored-listening]) [data-listening-focus-backbar] { display: none; }
 /* Activities own their Activities control; the Listening control belongs to the hub. */
 .listening-full-focus:has([data-authored-listening][data-activity-active="true"]) { --listening-focus-bar-h: 0px; }
 .listening-full-focus:has([data-authored-listening][data-activity-active="true"]) [data-listening-focus-backbar] { display: none; }
