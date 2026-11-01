@@ -77,7 +77,7 @@ test('Full Test 1 transcript inventory has exact offsets across all four Parts',
  assert.equal(full.status,'STAGED_NOT_CONTEXTUALLY_RESOLVED');
 });
 test('Bridge uses actual active Script tab, not unset aria-selected',()=>{
- const helper=readFileSync(new URL('../../js/generated/authored-helpers.js',import.meta.url),'utf8');
+ const helper=readFileSync(new URL('../js/generated/authored-helpers.js',import.meta.url),'utf8');
  assert.match(helper,/querySelector\('#scriptTabs \[data-spart\]\.active'\)/);
  assert.doesNotMatch(helper,/data-spart\]\[aria-selected/);
 });
@@ -159,12 +159,16 @@ test('Part 1 external lexical sources and proper-name exclusions are explicit',(
 test('Part 1 context review rejects semantically incorrect unique dictionary senses',()=>{
  const part=JSON.parse(readFileSync(new URL('script-part1-sense-candidates.json',root),'utf8'));
  const review=part.editorialQueue;
- assert.equal(review.summary.approvedOccurrences,21);
- assert.equal(review.summary.rejectedOccurrences,13);
+ const approved=[...review.contextApproved,...review.correctedMismatches];
+ assert.equal(review.summary.approvedOccurrences,22);
+ assert.equal(review.summary.rejectedOccurrences,12);
+ assert.equal(review.summary.approvedOccurrences,approved.length);
+ assert.equal(review.summary.rejectedOccurrences,review.rejectedWrongSense.length);
  assert.equal(review.summary.remainingOccurrences,0);
- const all=[...review.contextApproved,...review.rejectedWrongSense];
+ const all=[...approved,...review.rejectedWrongSense];
  assert.equal(new Set(all.map(x=>x.tokenIndex)).size,all.length);
- for(const x of review.contextApproved){
+ assert.deepEqual(all.map(x=>x.tokenIndex).sort((a,b)=>a-b),review.positions.map(x=>x.tokenIndex).sort((a,b)=>a-b));
+ for(const x of approved){
   assert.equal(part.tokens[x.tokenIndex-1].surface,data.transcript['1'].slice(x.start,x.end));
   assert(x.definitionEn&&x.translationUz&&x.senseId);
  }

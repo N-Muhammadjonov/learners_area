@@ -1929,7 +1929,7 @@
       "start": 1335,
       "end": 1341,
       "surface": "things",
-      "senseId": "4c499086-7b9b-5104-8bc2-b09c4d4847",
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "unspecified things"
@@ -2494,7 +2494,7 @@
       "start": 1722,
       "end": 1727,
       "surface": "thing",
-      "senseId": "4c499086-7b9b-5104-8bc2-b09c4d4847",
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Context matches existing WordNet/Cambridge release sense"
@@ -4059,7 +4059,7 @@
       "start": 2823,
       "end": 2829,
       "surface": "things",
-      "senseId": "4c499086-7b9b-5104-8bc2-b09c4d4847",
+      "senseId": "4c499086-7b9b-5104-8bc2-b09c4c4d4847",
       "kind": "single_word",
       "status": "context_approved_staged_not_published",
       "basis": "Context matches existing WordNet/Cambridge release sense"
