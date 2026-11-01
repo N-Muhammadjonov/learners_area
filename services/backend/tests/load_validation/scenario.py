@@ -90,7 +90,7 @@ async def main():
                     except ValueError:reason=str(status)
                     errors[kind+':'+str(status)+':'+str(reason)]+=1
             except httpx.HTTPError as e:
-                if began>=measure_at:errors[kind+':'+type(e).__name__]+=1
+                if phase=='steady' and measure_at<=began<end:errors[kind+':'+type(e).__name__]+=1
             elapsed=(time.monotonic()-began)*1000
             if phase=='steady' and measure_at<=began<end:samples[kind].append(elapsed);statuses[str(status)]+=1
             return status,elapsed
@@ -101,17 +101,17 @@ async def main():
                 began=time.monotonic();await request(user,step,(user['n']*37+step*17)%100);step+=1
                 period=args.think*(.7+((user['n']*13+step*7)%61)/100)
                 await asyncio.sleep(max(0,period-(time.monotonic()-began)))
-        try:await asyncio.gather(*(learner(u,i) for i,u in enumerate(users)))
+        try:
+            await asyncio.gather(*(learner(u,i) for i,u in enumerate(users)))
+            # Burst/recovery are separate from the paced traffic, but the same
+            # observer must remain active to capture overload queue/memory peaks.
+            burst=await asyncio.gather(*(request(u,10000,0,'burst') for u in users))
+            await asyncio.sleep(2)
+            recovery=[]
+            for n in range(40):recovery.append(await request(users[n%len(users)],20000+n,0 if n%2 else 80,'recovery'))
+            foreign=await api.get('/api/frontend/view?route=/app/writing/submissions/'+users[-1]['writing'],headers={'Cookie':users[0]['cookie']}) if len(users)>1 else None
+            if foreign is not None and foreign.status_code not in (403,404):failures.append('foreign-writing-access')
         finally:stop.set();await observer
-        # A real simultaneous navigation burst, then normal requests again. These
-        # are reported separately from the paced sustainable-traffic error rate.
-        burst=await asyncio.gather(*(request(u,10000,0,'burst') for u in users))
-        await asyncio.sleep(2)
-        recovery=[]
-        for n in range(40):recovery.append(await request(users[n%len(users)],20000+n,0 if n%2 else 80,'recovery'))
-        # A distinct authenticated actor must not read another learner's draft.
-        foreign=await api.get('/api/frontend/view?route=/app/writing/submissions/'+users[-1]['writing'],headers={'Cookie':users[0]['cookie']}) if len(users)>1 else None
-        if foreign is not None and foreign.status_code not in (403,404):failures.append('foreign-writing-access')
     lost=[]
     for n,(version,content,ident) in ack.items():
         row=await con.fetchrow('SELECT user_id,content FROM writing_submissions WHERE id=$1',UUID(ident))
@@ -127,7 +127,9 @@ async def main():
     memory=[m['rss_bytes'] for m in measured];last_metrics=metrics[-1] if metrics else {}
     per_api={kind:{'requests':len(v),'p50_ms':pct(v,.5),'p95_ms':pct(v,.95)} for kind,v in samples.items()}
     result={'label':args.label,'users':args.users,'steady_seconds':args.seconds,'think_seconds':args.think,'ramp_seconds':args.ramp,'warmup_seconds':args.warmup,'requests':total,'achieved_rps':round(total/args.seconds,3),'p50_ms':pct(all_samples,.5),'p95_ms':pct(all_samples,.95),'statuses':dict(statuses),'error_percent':round(100*bad/max(1,total),3),'errors':dict(errors),'per_api':per_api,'confirmed_draft_owners':len(ack),'lost_confirmed_writes':len(lost),'completed_ai_submissions':len(grades),'incorrect_ai_scores':incorrect,'duplicate_ai_requests':duplicates,'completed_objective_submissions':len(reading),'failures':failures,'pool_wait_p95_ms':last_metrics.get('pool_wait_p95_ms'),'pool_waiters_peak':last_metrics.get('pool_waiters_peak'),'http_inflight_peak':last_metrics.get('http_peak'),'provider_peak':last_metrics.get('provider_peak'),'peak_backend_connections':max((x['sessions'] for x in database),default=0),'peak_active_backend_connections':max((x['active'] for x in database),default=0),'rss_start_bytes':memory[0] if memory else None,'rss_end_bytes':memory[-1] if memory else None,'rss_peak_bytes':max(memory,default=0),'cgroup_memory_peak_bytes':max((x['cgroup_memory_bytes'] for x in metrics),default=0),'cpu_average_cores':round((measured[-1]['cpu_usage_usec']-measured[0]['cpu_usage_usec'])/(1e6*(measured[-1]['at']-measured[0]['at'])),3) if len(measured)>1 else None,'burst_statuses':dict(Counter(str(x[0]) for x in burst)),'burst_p95_ms':pct([x[1] for x in burst],.95),'recovery_statuses':dict(Counter(str(x[0]) for x in recovery)),'recovery_p95_ms':pct([x[1] for x in recovery],.95),'synthetic_only':True,'paid_provider_calls':0,'database_volume':fixture['volume']}
-    budget_ok=not args.label.startswith('current-') or ((last_metrics.get('provider_peak') or 0)<=4 and result['peak_backend_connections']<=6)
+    result['worker_active_peak']=max((m.get('worker',{}).get('active',0) for m in metrics),default=0)
+    result['overload_metrics_observed']=any('active' in m.get('worker',{}) for m in metrics)
+    budget_ok=not args.label.startswith('current-') or ((last_metrics.get('provider_peak') or 0)<=4 and result['peak_backend_connections']<=6 and result['overload_metrics_observed'] and result['worker_active_peak']<=64)
     result['functional_pass']=not failures and not lost and not incorrect and not duplicates and budget_ok and all(x[0]==200 for x in recovery)
     result['sustainable_pass']=result['functional_pass'] and result['error_percent']<=1 and (result['p95_ms'] or 1e9)<=1000
     Path('/results/'+args.label+'.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True)
