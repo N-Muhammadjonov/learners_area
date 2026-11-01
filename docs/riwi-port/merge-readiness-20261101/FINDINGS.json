@@ -1,0 +1,82 @@
+[
+  {
+    "id": "MIG-001",
+    "severity": "P0",
+    "status": "open",
+    "summary": "RIWI migration ordinals 0072-0074 collide with different current-main migrations.",
+    "evidence": "drizzle/meta/_journal.json and MIGRATION_PLAN.json",
+    "required_fix": "Keep current-main history. Append the verified RIWI semantic delta after the freshly measured main tip and rehearse native PostgreSQL fresh and populated upgrades."
+  },
+  {
+    "id": "PORT-001",
+    "severity": "P0",
+    "status": "open",
+    "summary": "Portability A/B/C table boundaries do not match the governing prompt.",
+    "path": "services/backend/app/riwi_portability.py",
+    "line": 19,
+    "observed": "A includes a small common knowledge/content set. B adds RIWI signals/experiments. C adds users plus RIWI conversations and Speaking AI sessions. Required: A approved full system, B RIWI-only, C site-only excluding RIWI governance.",
+    "required_fix": "Reconcile every current table, private column and mode with canonical classification and independent privacy canaries; preserve archive compatibility explicitly, then test transactional native-database imports."
+  },
+  {
+    "id": "REG-001",
+    "severity": "P1",
+    "status": "open",
+    "summary": "105 registered keys do not implement the Basebook's 68 task-specific rule sets.",
+    "path": "services/backend/app/riwi_assessment_contracts.py",
+    "line": 256,
+    "observed": "purpose/task_rules are generated from generic domain/key strings. Actual source task focus, teaching method and hard guard are not used by the factory.",
+    "required_fix": "Map all 68 source contracts to historical stable keys/aliases, compose the actual task rules, derive subtype from canonical metadata, and test provider/local behavior and persisted versions."
+  },
+  {
+    "id": "EXT-001",
+    "severity": "P1",
+    "status": "open",
+    "summary": "The RIWI chat HTTP handler does not inject an external provider transport.",
+    "path": "services/backend/app/riwi_port.py",
+    "line": 395,
+    "observed": "post_riwi_chat is called without external_runner. Its default is None; gateway external dispatch requires a non-None runner.",
+    "required_fix": "Wire the existing authorized provider path without replacing current main's shared AI admission, actor identity, budget, privacy and cancellation controls; exercise actual HTTP-to-provider behavior separately from injected-runner tests."
+  },
+  {
+    "id": "LOCAL-001",
+    "severity": "P1",
+    "status": "open",
+    "summary": "New ONNX local evaluator is not used by the source branch's existing Coach internal evaluator.",
+    "path": "services/backend/app/step31_coach.py",
+    "line": 51,
+    "observed": "internal() dispatches Writing to wval and Speaking to sval. The added local evaluator is a separate module. Synthetic reference accuracy does not establish independent IELTS band validity.",
+    "required_fix": "Resolve the canonical evaluator integration and confidence policy with one existing Coach path. Withhold unsupported bands and prove native API persistence/provenance on the final merged tree."
+  },
+  {
+    "id": "BB-001",
+    "severity": "P1",
+    "status": "open",
+    "summary": "Basebook ingestion can certify compliance from keyword coverage without executed acceptance tests.",
+    "path": "services/backend/app/riwi_basebook_framework.py",
+    "line": 343,
+    "observed": "fully_covered is based on domain presence, requirement count and conflict keywords; the result becomes compliance_certified, while individual non-conflicting rules are marked verified_baseline.",
+    "required_fix": "Separate parsed/mapped from verified. Default compliance to false until immutable source/version links, executed tests and required acceptance receipts are actually verified."
+  },
+  {
+    "id": "META-001",
+    "severity": "release_evidence",
+    "status": "open",
+    "summary": "271 endpoint metadata differences remain unresolved for business behavior and database provenance.",
+    "required_fix": "Preserve original snapshots, link per-endpoint implementation/test evidence, and avoid promoting route registration into behavior parity."
+  },
+  {
+    "id": "ENV-001",
+    "severity": "execution_blocker",
+    "status": "blocked",
+    "summary": "Execution environment became unavailable before current-main integration and final native tests.",
+    "required_fix": "Reconnect an execution workspace, reconcile the preserved working tree, and resume the incomplete main snapshot preparation. Do not re-import the recovery bundle or repeat old cherry-picks."
+  },
+  {
+    "id": "SOURCE-001",
+    "severity": "source_blocker",
+    "status": "blocked",
+    "summary": "The full named conversation and exact Phase A-J continuation prompt were not accessible.",
+    "observed": "Thread-reader calls failed, native app access was denied, personal context lacked the full continuation text. Two recovery transcript excerpts and the full governing master/FastAPI V2/Basebook files were retrieved.",
+    "required_fix": "Supply or make the full named conversation export available before certifying every original prompt and recorded owner decision."
+  }
+]
