@@ -24,10 +24,10 @@ AUTH = {'code':'unauthenticated','message':'Sign in again.'}
 def err(code, message, status, **extras):
     return core.j({'error':{'code':code,'message':message, **extras}},status)
 
-async def expire_due(conn, paper_id):
+async def expire_due(conn, paper_id, user_id):
     async with conn.transaction():
         row=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason='timeout'
-           WHERE id=$1 AND finalized_at IS NULL AND NOW()>expires_at+make_interval(secs=>15) RETURNING id''',paper_id)
+           WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL AND NOW()>expires_at+make_interval(secs=>15) RETURNING id''',paper_id,user_id)
         if row:
             await mark_submitted(conn,paper_id)
 
@@ -42,7 +42,7 @@ async def open_paper(conn, user_id):
     row=await conn.fetchrow('''SELECT id,mode FROM writing_exam_papers
         WHERE user_id=$1 AND finalized_at IS NULL LIMIT 1''',user_id)
     if not row: return None
-    await expire_due(conn,row['id'])
+    await expire_due(conn,row['id'],user_id)
     still=await conn.fetchval('''SELECT id FROM writing_exam_papers
         WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL''',row['id'],user_id)
     return dict(row) if still else None
@@ -154,20 +154,23 @@ async def exam_draft(req:Request,id:str):
         return err('invalid_input','Could not save this text.',400,retryable=False)
     db=await core.pool()
     async with db.acquire() as conn:
-        row=await conn.fetchrow('''SELECT e.submission_id AS "submissionId",e.draft_revision AS "current",
-              p.finalized_at AS "finalizedAt",(NOW()<=p.expires_at+make_interval(secs=>15)) AS "open"
-              FROM writing_exam_paper_entries e JOIN writing_exam_papers p ON p.id=e.paper_id
-              WHERE e.paper_id=$1 AND e.position=$2 AND p.user_id=$3 LIMIT 1''',id,body['position'],user['id'])
-        if not row:return err('not_found','Could not save this text.',404,retryable=False)
-        if row['finalizedAt'] or not row['open']:
-            await expire_due(conn,id)
-            return err('closed','This paper is closed.',409,retryable=False)
-        updated=await conn.fetchrow('''UPDATE writing_exam_paper_entries SET draft_revision=$3,saved_at=NOW()
-              WHERE paper_id=$1 AND position=$2 AND draft_revision<$3 RETURNING saved_at''',id,body['position'],body['revision'])
-        if not updated:
-            return core.j({'ok':True,'revision':row['current'], 'savedAt':datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z'),'stale':True})
-        await conn.execute('''UPDATE writing_submissions SET content=$2,word_count=$3,updated_at=NOW()
-              WHERE id=$1''',row['submissionId'],body['content'],count_essay_words(body['content']))
+        # Serialize autosaves with each other and finalization. Revision and text
+        # commit together, so a failed/late save cannot acknowledge lost content.
+        async with conn.transaction():
+            row=await conn.fetchrow('''SELECT e.submission_id AS "submissionId",e.draft_revision AS "current",
+                  p.finalized_at AS "finalizedAt",(NOW()<=p.expires_at+make_interval(secs=>15)) AS "open"
+                  FROM writing_exam_paper_entries e JOIN writing_exam_papers p ON p.id=e.paper_id
+                  WHERE e.paper_id=$1 AND e.position=$2 AND p.user_id=$3 LIMIT 1 FOR UPDATE OF p,e''',id,body['position'],user['id'])
+            if not row:return err('not_found','Could not save this text.',404,retryable=False)
+            if row['finalizedAt'] or not row['open']:
+                await expire_due(conn,id,user['id'])
+                return err('closed','This paper is closed.',409,retryable=False)
+            updated=await conn.fetchrow('''UPDATE writing_exam_paper_entries SET draft_revision=$3,saved_at=NOW()
+                  WHERE paper_id=$1 AND position=$2 AND draft_revision<$3 RETURNING saved_at''',id,body['position'],body['revision'])
+            if not updated:
+                return core.j({'ok':True,'revision':row['current'], 'savedAt':datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z'),'stale':True})
+            await conn.execute('''UPDATE writing_submissions SET content=$2,word_count=$3,updated_at=NOW()
+                  WHERE id=$1''',row['submissionId'],body['content'],count_essay_words(body['content']))
     saved=updated['saved_at']
     if isinstance(saved,str): saved=datetime.fromisoformat(saved.replace('Z','+00:00'))
     return core.j({'ok':True,'revision':body['revision'],'savedAt':saved.isoformat(timespec='milliseconds').replace('+00:00','Z'),'stale':False})
@@ -182,7 +185,7 @@ async def exam_finalize(req:Request,id:str):
     db=await core.pool()
     async with db.acquire() as conn:
         async with conn.transaction():
-            await expire_due(conn,id)
+            await expire_due(conn,id,user['id'])
             closed=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason=$3
                  WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL RETURNING id''',id,user['id'],body['reason'])
             if closed and body['reason']=='submitted':await mark_submitted(conn,id)
