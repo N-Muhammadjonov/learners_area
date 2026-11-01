@@ -14,6 +14,12 @@ ROOT = Path(__file__).resolve().parents[3]
 client = TestClient(application)
 
 
+@pytest.fixture(autouse=True)
+def isolated_origin(monkeypatch):
+    for key in ('PUBLIC_BASE_URL', 'NEXT_PUBLIC_APP_URL', 'APP_ENV', 'VERCEL_ENV', 'RAILWAY_ENVIRONMENT_NAME'):
+        monkeypatch.delenv(key, raising=False)
+
+
 @pytest.fixture(scope='module', autouse=True)
 def native_build():
     spec = importlib.util.spec_from_file_location('seo_assets', ROOT/'scripts/build_native_assets.py')
@@ -103,3 +109,63 @@ def test_existing_api_inventory_is_preserved_and_python_entrypoint_is_ready():
     assert client.get('/api/version').status_code == 200
     assert client.get('/api/frontend/public').status_code == 200
     assert client.get('/healthz').json()['service'] == 'learners-area-fastapi'
+
+
+def test_explicit_origin_is_shared_by_metadata_robots_and_sitemap_without_host_poisoning(monkeypatch):
+    monkeypatch.setenv('PUBLIC_BASE_URL', 'https://Study.Example:443/')
+    monkeypatch.setenv('NEXT_PUBLIC_APP_URL', 'https://old.example')
+    monkeypatch.setenv('VERCEL_URL', 'generated-preview.example')
+    for host in ('localhost', 'attacker.example'):
+        html = client.get('/', headers={'host': host, 'x-forwarded-host': 'forged.example'}).text
+        assert '<link rel="canonical" href="https://study.example/">' in html
+        assert 'content="https://study.example/brand/learners-area-logo-horizontal-dark.png"' in html
+        data = json.loads(re.search(r'<script[^>]+type="application/ld\+json">(.*?)</script>', html, re.S)[1])
+        assert data['url'] == 'https://study.example/'
+        assert 'forged.example' not in html and 'generated-preview.example' not in html
+        assert 'Sitemap: https://study.example/sitemap.xml' in client.get('/robots.txt', headers={'host': host}).text
+        document = ET.fromstring(client.get('/sitemap.xml', headers={'host': host}).text)
+        assert [node.text for node in document.iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc')] == ['https://study.example/']
+
+
+@pytest.mark.parametrize('settings', [
+    {'APP_ENV': 'preview'}, {'VERCEL_ENV': 'preview'}, {'RAILWAY_ENVIRONMENT_NAME': 'staging'},
+])
+def test_preview_is_not_indexed_on_any_host(monkeypatch, settings):
+    for key, value in settings.items():
+        monkeypatch.setenv(key, value)
+    monkeypatch.setenv('PUBLIC_BASE_URL', 'https://study.example')
+    home = client.get('/')
+    assert home.status_code == 200 and home.headers['x-robots-tag'].startswith('noindex')
+    assert '<meta name="robots" content="noindex,nofollow,noarchive">' in home.text
+    assert 'Welcome to the next level' in home.text
+    robots = client.get('/robots.txt')
+    assert robots.text == 'User-agent: *\nDisallow: /\n' and robots.headers['x-robots-tag'].startswith('noindex')
+    sitemap = client.get('/sitemap.xml')
+    assert sitemap.headers['x-robots-tag'].startswith('noindex')
+    assert not list(ET.fromstring(sitemap.text))
+
+
+@pytest.mark.parametrize('origin', [
+    'https://user:secret@example.com', 'https://@example.com', 'https://example.com/path',
+    'https://example.com?query=1', 'https://example.com#fragment', ' https://example.com',
+    'https://exam\tple.com', 'https://example.com:bad', 'https://example.com\"',
+    'https://[broken', 'javascript:alert(1)', 'https://[fe80::1%25eth0]',
+])
+def test_invalid_explicit_origin_fails_closed_without_leaking_configuration(monkeypatch, origin):
+    monkeypatch.setenv('PUBLIC_BASE_URL', origin)
+    monkeypatch.setenv('NEXT_PUBLIC_APP_URL', 'https://fallback.example')
+    for path in ('/', '/robots.txt', '/sitemap.xml'):
+        response = client.get(path)
+        assert response.status_code == 503
+        assert response.json() == {'error': 'configuration_unavailable'}
+        assert 'no-store' in response.headers['cache-control']
+        assert response.headers['x-robots-tag'].startswith('noindex')
+    assert client.get('/healthz').status_code == 200
+    assert client.get('/login').status_code == 200
+
+
+def test_legacy_origin_alias_remains_supported_at_runtime(monkeypatch):
+    monkeypatch.setenv('NEXT_PUBLIC_APP_URL', 'http://localhost:8080')
+    assert '<loc>http://localhost:8080/</loc>' in client.get('/sitemap.xml').text
+    monkeypatch.setenv('PUBLIC_BASE_URL', 'https://new.example')
+    assert '<loc>https://new.example/</loc>' in client.get('/sitemap.xml').text

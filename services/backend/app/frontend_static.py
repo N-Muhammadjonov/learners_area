@@ -13,7 +13,7 @@ from fastapi import Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from . import main as core
 from .security import add_security_headers, build_csp
-from .seo import ROBOTS, SITEMAP, private_document
+from .seo import robots_document, sitemap_document, public_document, private_document
 
 ROOT = Path(__file__).resolve().parents[3]
 PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery'))
@@ -45,10 +45,13 @@ class StaticFrontend:
         response = None
         if req.method not in ('GET', 'HEAD'):
             response = core.j({'error': 'method_not_allowed'}, 405, {'Allow': 'GET, HEAD'})
-        elif path == '/robots.txt':
-            response = Response(ROBOTS, media_type='text/plain', headers={'Cache-Control': 'public, max-age=300'})
-        elif path == '/sitemap.xml':
-            response = Response(SITEMAP, media_type='application/xml', headers={'Cache-Control': 'public, max-age=300'})
+        elif path in ('/robots.txt', '/sitemap.xml'):
+            try:
+                body = robots_document() if path == '/robots.txt' else sitemap_document()
+                response = Response(body, media_type='text/plain' if path == '/robots.txt' else 'application/xml',
+                                    headers={'Cache-Control': 'public, max-age=300'})
+            except ValueError:
+                response = core.j({'error': 'configuration_unavailable'}, 503, core.PRIVATE)
         elif path == '/healthz':
             response = core.j({'ok': True, 'service': 'learners-area-fastapi'}, headers=core.PRIVATE)
         elif path == '/readyz':
@@ -151,11 +154,13 @@ class StaticFrontend:
                         if response is None:
                             nonce = secrets.token_hex(16)
                             html = (root / 'index.html').read_text()
-                            if path != '/':
-                                html = private_document(html)
-                            html = re.sub(r'<script\b', f'<script nonce="{nonce}"', html)
-                            response = Response(html, media_type='text/html', headers={
-                                **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce)})
+                            try:
+                                html = public_document(html) if path == '/' else private_document(html)
+                                html = re.sub(r'<script\b', f'<script nonce="{nonce}"', html)
+                                response = Response(html, media_type='text/html', headers={
+                                    **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce)})
+                            except ValueError:
+                                response = core.j({'error': 'configuration_unavailable'}, 503, core.PRIVATE)
                 if response is None:
                     response = core.j({'error': 'not_found'}, 404)
         add_security_headers(response, req)
