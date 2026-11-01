@@ -1,4 +1,5 @@
 """Shared atomic PostgreSQL abuse limits; memory counters support database-free development only."""
+from .runtime_config import development
 import ipaddress
 import hashlib
 import hmac
@@ -95,7 +96,7 @@ class Reservation:
 
 def backend():
     selected=os.environ.get('RATE_LIMIT_BACKEND') or ('postgres' if os.environ.get('DATABASE_URL') else 'memory')
-    production=os.environ.get('APP_ENV')=='production' or os.environ.get('RAILWAY_ENVIRONMENT_NAME')=='production'
+    production=not development()
     if selected not in ('postgres','memory') or selected=='memory' and production:
         raise RateLimitUnavailable('shared_rate_store_required')
     return selected

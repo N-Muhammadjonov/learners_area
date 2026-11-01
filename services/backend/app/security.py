@@ -16,6 +16,7 @@ import secrets
 import time
 import uuid
 from urllib.parse import urlsplit
+from .runtime_config import environment, development
 from fastapi import Request
 from fastapi.responses import Response
 
@@ -177,13 +178,18 @@ def write_cookie(response: Response, req: Request, name: str, value: str, ttl: i
 
 
 def build_csp(req: Request, nonce: str) -> str:
-    secure, dev = is_https(req), (os.environ.get('APP_ENV') != 'production')
+    secure, dev = is_https(req), development()
     def origins(name): return [n for v in os.environ.get(name, '').split(',') if (n := normalize_origin(v))]
     storage = [n for s in (os.environ.get('R2_ENDPOINT'), os.environ.get('S3_ENDPOINT')) if (n := normalize_origin(s))]
     media = normalize_origin(os.environ.get('AUTHORIZED_MEDIA_ORIGIN'))
     worker = normalize_origin(os.environ.get('MEDIA_WORKER_URL'))
     worker = worker if worker == 'https://learnersarea-media.owneruchunla.workers.dev' else None
     connect = list(dict.fromkeys(origins('CSP_CONNECT_SRC') + storage + ([worker] if worker else [])))
+    # Explicit same-origin WebSocket permission keeps Live Classes available
+    # without the development-only ws:/wss: wildcard on deployed hosts.
+    authority = urlsplit(request_origin(req)).netloc
+    if re.fullmatch(r'[A-Za-z0-9.\[\]:-]+', authority):
+        connect.append(('wss' if secure else 'ws') + '://' + authority)
     signal = os.environ.get('LIVE_PARTNER_SIGNAL_URL', '')
     if signal.startswith('wss://'):
         try:
@@ -214,5 +220,5 @@ def add_security_headers(response: Response, req: Request) -> None:
     response.headers['referrer-policy'] = 'strict-origin-when-cross-origin'
     response.headers['permissions-policy'] = 'camera=(), geolocation=(), payment=(), usb=(), microphone=(self)'
     response.headers['x-dns-prefetch-control'] = 'off'
-    if is_https(req) and os.environ.get('APP_ENV') == 'production':
+    if is_https(req) and environment() == 'production':
         response.headers['strict-transport-security'] = 'max-age=15552000; includeSubDomains'

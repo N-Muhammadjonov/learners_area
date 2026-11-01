@@ -205,13 +205,27 @@ backup destination only.
    Check public SHA and private access before allowing normal traffic. Manual
    learner/device acceptance remains with the owner.
 
-Railway marks the Task 12 follow-up deployment
+Historical Railway receipt (2026-10-29): Railway marked the Task 12 follow-up deployment
 `e3509bad-c02d-4f6a-b8df-73aa4b2d1f0f` / SHA
 `7cab6ad233ab5557f0323ba2c4de943ef1bbd4ec` as rollback/redeploy capable. Record fresh
 IDs immediately before an incident: provider image-retention limits apply.
 Railway rollback restores image **and custom variables**, so verify both; it does
 not restore PostgreSQL or R2. The next source-only operations release can fall
-back to that release, retaining its security and owner-authored UI changes.
+back to that release if the provider still retains it. On 2026-11-01 the owner
+reported deleting that Railway account and temporarily moved the web application
+to Vercel. The old deployment ID is historical evidence, not a currently usable
+rollback target. The Telegram bot remains separately hosted/offline until restored.
+
+On Vercel or another host, retain the previous tested Git SHA and its deployable
+Python/container artifact plus the matching secret/configuration version before
+releasing. Rebuild/redeploy that compatible version if a provider rollback is
+unavailable. Restore no database/media merely to roll back application code.
+Record fresh `/api/version` and `/readyz` results after restarting. A new domain
+requires host-only cookie sign-in again and reviewed callback/CORS settings;
+copying an old Railway origin-verification secret without its matching edge
+route can block access. See [portable deployment](DEPLOYMENT-PORTABILITY.md).
+This recovery set and its isolated tools are independent of the web host; its
+original archive/key/catalog must remain protected together under owner control.
 
 For migrations, prefer a reviewed forward repair and retain additive schema when
 rolling back compatible application code. Do not drop 0071/0072 while runtime or

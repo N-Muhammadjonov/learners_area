@@ -4,6 +4,7 @@ Port of dictionary/{model,store,publish}.ts (PostgreSQL release path). Draft
 changes, release copies, search index and manifest are durable across requests.
 """
 from __future__ import annotations
+from .runtime_config import development
 import copy,hashlib,json,os,uuid,math
 from fastapi import APIRouter,Request,BackgroundTasks
 from . import main as core
@@ -152,7 +153,7 @@ async def start_publish(con,owner):
       pg_total_relation_size('dictionary_entries')::text entries,
       pg_total_relation_size('dictionary_search_terms')::text terms,
       (SELECT count(*)::int FROM dictionary_releases WHERE state='validated') releases''')
-    quota=float(os.getenv('DICTIONARY_DATABASE_LIMIT_BYTES') or (500000000 if os.getenv('APP_ENV')=='production' else 9007199254740991))
+    quota=float(os.getenv('DICTIONARY_DATABASE_LIMIT_BYTES') or (500000000 if not development() else 9007199254740991))
     reserve=(int(cap['entries'])+(0 if delivery=='r2-worker-v1' else int(cap['terms'])))/max(1,cap['releases'])
     if not math.isfinite(quota) or quota<1 or int(cap['bytes'])+reserve+25000000>quota:
         raise ValueError('dictionary_capacity_exceeded')

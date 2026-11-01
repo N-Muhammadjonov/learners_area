@@ -16,6 +16,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
 
 from .db import db_failure, pool, row_to_dict, close_pool
+from .runtime_config import environment as runtime_environment
 from .auth_validation import validate as validate_auth
 from .request_lifecycle import control, run_blocking, WorkBusy, unavailable
 from .rate_limit import client_key, async_counter as counter, too_many, async_reset as reset, reserve, release
@@ -170,9 +171,8 @@ async def version():
     commit = next((v.strip() for name in ('APP_COMMIT_SHA', 'VERCEL_GIT_COMMIT_SHA', 'RAILWAY_GIT_COMMIT_SHA')
                    if (v := os.getenv(name, '').strip())), None)
     region = next((v.strip() for name in ('APP_REGION', 'VERCEL_REGION') if (v := os.getenv(name, '').strip())), None)
-    environment = os.getenv('APP_ENV') or os.getenv('VERCEL_ENV')
-    if environment not in ('production', 'preview', 'development'):
-        environment = 'production' if os.getenv('APP_ENV') == 'production' else 'development'
+    environment = runtime_environment()
+    if environment == 'test': environment = 'development'
     return j({'commit': commit, 'shortCommit': commit[:7] if commit else None,
               'region': region, 'environment': environment}, headers={'Cache-Control': 'no-store'})
 

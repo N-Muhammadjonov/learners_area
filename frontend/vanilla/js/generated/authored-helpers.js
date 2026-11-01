@@ -31,7 +31,7 @@ export function bridge(token, stored, notesLabel, storageKey = 'la_listening_tes
   const actual=document.createRange();actual.setStart(caret.startContainer,l);actual.setEnd(caret.startContainer,r);
   const overWord=[...actual.getClientRects()].some(rect=>e.clientX>=rect.left+0.5&&e.clientX<=rect.right-0.5&&e.clientY>=rect.top&&e.clientY<=rect.bottom);
   if(!overWord)return;
-  const part=Number(document.querySelector('#scriptTabs [data-spart][aria-selected="true"]')?.dataset.spart);
+  const part=Number((document.querySelector('#scriptTabs [data-spart].active')||document.querySelector('#scriptTabs [aria-selected="true"][data-spart]'))?.dataset.spart);
   if(!Number.isInteger(part)||part<1||part>4)return;
   const source=(typeof DATA==='object'?DATA.transcript?.[String(part)]:null);
   if(typeof source!=='string')return;

@@ -4,6 +4,7 @@ Source: cb6b3cdf. No generic /api/{path} fallback, no synthetic responses:
 only endpoints with translated business logic are routed here.
 """
 from __future__ import annotations
+from .runtime_config import environment
 import asyncio
 from .admin_validation import parse as parse_admin
 
@@ -544,7 +545,7 @@ async def auth_reset_request(req: Request):
     body, error = core.validate_auth(await core.payload(req), 'request')
     if error:return core.j({'error': error},400)
     email=body['email']
-    if os.environ.get('APP_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
+    if environment() != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
         return core.j({'error':'reset_unavailable'},503)
     RULES.setdefault('password_reset',(5,900))
     ip_limit=await counter('password_reset',client_key(req),consume=True)
