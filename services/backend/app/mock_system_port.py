@@ -688,8 +688,9 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
                     return _err(err_code or 'mock_content_unavailable', err_msg or 'Required mock content is unavailable.', 422)
                 if s_row['skill'] == 'writing':
                     verified_writing_materials.append((s_row, raw_mat))
-                elif s_row['skill']=='speaking' and raw_mat.get('speakingMode')=='auto':
-                    attempt_speaking_material=select_attempt_speaking_material(raw_mat)
+                elif s_row['skill']=='speaking':
+                    attempt_speaking_material=(select_attempt_speaking_material(raw_mat)
+                        if raw_mat.get('speakingMode')=='auto' else raw_mat)
 
             if any(r['skill'] == 'writing' for r in sections_list) and len(verified_writing_materials) < 2:
                 return _err('missing_writing_prompt', 'Both Writing Task 1 and Task 2 published prompts are required.', 422)
@@ -717,6 +718,9 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
             }
             if attempt_speaking_material is not None:
                 snapshot['speakingMaterial'] = attempt_speaking_material
+                from .mock_speaking_questions import available as question_capture_available
+                if await question_capture_available(con):
+                    snapshot['speakingCaptureMode']='question'
             snapshot_hash = canonical_json_sha256(snapshot)
             deadline_dt = datetime.fromisoformat(plan['deadlineAt'].replace('Z', '+00:00'))
 
@@ -761,14 +765,15 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
                 t_type = 'task1' if idx_w == 1 or w_sec.get('content_type') == 'task1' else 'task2'
                 await con.execute(
                     """INSERT INTO mock_writing_answers
-                       (attempt_id, task_type, prompt_snapshot_id, prompt_text, content, media_ref, word_count)
-                       VALUES ($1, $2, $3, $4, '', $5, 0)
+                       (attempt_id, task_type, prompt_snapshot_id, prompt_text, content, media_ref, media_sha256, word_count)
+                       VALUES ($1, $2, $3, $4, '', $5, $6, 0)
                        ON CONFLICT (attempt_id, task_type) DO NOTHING""",
                     attempt_id,
                     t_type,
                     w_sec.get('content_version_id'),
                     str(w_content.get('prompt') or ''),
                     w_content.get('mediaObjectKey') or w_content.get('mediaRef'),
+                    w_content.get('mediaSha256'),
                 )
 
             await _log_mock_audit(
@@ -813,7 +818,7 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
             aid,
         )
         writing_rows = await con.fetch(
-            """SELECT task_type, prompt_text, content, media_ref, word_count, draft_revision, finalized_at
+            """SELECT task_type, prompt_snapshot_id, prompt_text, content, media_ref, word_count, draft_revision, finalized_at
                FROM mock_writing_answers WHERE attempt_id = $1 ORDER BY task_type""",
             aid,
         )
@@ -822,6 +827,9 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
                FROM mock_speaking_audio WHERE attempt_id = $1 ORDER BY part""",
             aid,
         )
+        from .mock_speaking_questions import question_mode,rows as question_capture_rows
+        if question_mode(attempt):
+            speaking_rows=await question_capture_rows(con,aid)
 
         snap = attempt['mock_snapshot']
         if isinstance(snap, str):
@@ -886,7 +894,8 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
             'taskType': w['task_type'],
             'prompt': w['prompt_text'],
             'content': w['content'],
-            'mediaUrl': (f"/api/resources/{w['media_ref']}" if not str(w['media_ref']).startswith('/') else w['media_ref']) if w['media_ref'] else None,
+            'mediaUrl': (f"/api/mocks/media/{w['prompt_snapshot_id']}" if str(w['media_ref']).startswith('mock/materials/') and w.get('prompt_snapshot_id')
+                         else f"/api/resources/{w['media_ref']}" if not str(w['media_ref']).startswith('/') else w['media_ref']) if w['media_ref'] else None,
             'wordCount': w['word_count'],
             'draftRevision': w['draft_revision'],
             'finalizedAt': _iso(w['finalized_at']),
@@ -908,6 +917,9 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
         }
         for s in speaking_rows
     ]
+    if question_mode(attempt):
+        from .mock_speaking_questions import public_row
+        speaking_parts=[public_row(s) for s in speaking_rows]
 
     return core.j({
         'ok': True,
@@ -930,6 +942,7 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
             'sections': sections_state,
             'writingTasks': writing_tasks,
             'speakingParts': speaking_parts,
+            'speakingCaptureMode': 'question' if question_mode(attempt) else 'part',
         },
     }, headers=PRIVATE_HEADERS)
 
@@ -1235,6 +1248,9 @@ async def create_mock_speaking_upload_intent(req: Request, id: str):
             attempt, own_err = await _check_attempt_ownership(con, aid, user, for_update=True)
             if own_err:
                 return own_err
+            from .mock_speaking_questions import question_mode
+            if question_mode(attempt):
+                return _err('question_capture_required','Record each Speaking question separately.',409)
             if attempt['status'] != 'in_progress':
                 return _err('attempt_closed', 'This mock attempt is already submitted.', 409)
 
@@ -1428,6 +1444,9 @@ async def finalize_mock_speaking_upload(req: Request, id: str):
             attempt, own_err = await _check_attempt_ownership(con, aid, user, for_update=True)
             if own_err:
                 return own_err
+            from .mock_speaking_questions import question_mode
+            if question_mode(attempt):
+                return _err('question_capture_required','Record each Speaking question separately.',409)
             if attempt['status'] != 'in_progress':
                 return _err('attempt_closed', 'This mock attempt is already submitted.', 409)
 
@@ -1727,6 +1746,13 @@ async def submit_mock_section(req: Request, id: str, skill: str):
                     aid,
                 )
                 parts_list = [dict(r) for r in s_rows]
+                from .mock_speaking_questions import question_mode,rows as question_capture_rows,questions
+                if question_mode(attempt):
+                    parts_list=[dict(r) for r in await question_capture_rows(con,aid)]
+                    required={(q['part'],q['questionId']) for q in questions(attempt)}
+                    captured={(r['part'],str(r['question_id'])) for r in parts_list}
+                    if not required or required!=captured:
+                        return _err('speaking_audio_incomplete','Record every frozen Speaking question before submitting.',409)
                 by_part = {p['part']: p for p in parts_list}
                 for req_part in ('P1', 'P2', 'P3'):
                     p_rec = by_part.get(req_part)
@@ -1736,13 +1762,10 @@ async def submit_mock_section(req: Request, id: str, skill: str):
                             f'Speaking {req_part} recording must be finalized and verified before submitting.',
                             409,
                         )
-                    obj_bytes = await read_object(p_rec['object_key'])
-                    if obj_bytes is None or len(obj_bytes) != int(p_rec['bytes']) or sha256_hex(obj_bytes) != p_rec['sha256']:
-                        return _err(
-                            'audio_object_missing',
-                            f'Stored audio for Speaking {req_part} failed storage integrity verification.',
-                            409,
-                        )
+                for recording in parts_list:
+                    obj_bytes=await read_object(recording['object_key'])
+                    if not obj_bytes or len(obj_bytes)!=recording['bytes'] or sha256_hex(obj_bytes)!=recording['sha256']:
+                        return _err('audio_object_missing','A Speaking recording failed integrity verification.',409)
 
                 source_sha = compute_speaking_source_sha256(str(aid), parts_list)
                 new_status = 'awaiting_export'
@@ -2186,13 +2209,24 @@ async def create_staff_mock_export_batch(req: Request):
     include_exported = bool(body.get('includePreviouslyExported', False))
     date_from = body.get('dateFrom')
     date_to = body.get('dateTo')
-    max_per_batch = int(body.get('maxPerBatch') or MAX_BATCH_SIZE_DEFAULT)
-    max_per_batch = max(1, min(50, max_per_batch))
+    max_per_batch = body.get('maxPerBatch', MAX_BATCH_SIZE_DEFAULT)
+    if type(max_per_batch) is not int or not 1 <= max_per_batch <= 50:
+        return _err('invalid_input', 'maxPerBatch must be an integer from 1 to 50.', 400)
+    try:
+        for value in (date_from,date_to):
+            if value is not None and (not isinstance(value,str) or date.fromisoformat(value).isoformat()!=value):
+                return _err('invalid_input','Use a valid calendar date in YYYY-MM-DD format.',400)
+    except ValueError:
+        return _err('invalid_input','Use a valid calendar date in YYYY-MM-DD format.',400)
+    if date_from and date_to and date_from>date_to:
+        return _err('invalid_input','Date from must not follow date to.',400)
 
     requested_ids = body.get('attemptIds')
+    if requested_ids is not None and (not isinstance(requested_ids,list) or len(requested_ids)>200):
+        return _err('invalid_input','Supply at most 200 attempt IDs.',400)
     explicit_attempt_ids: list[uuid.UUID] = []
     if isinstance(requested_ids, list) and requested_ids:
-        for x in requested_ids[:200]:
+        for x in requested_ids:
             u_id = core.uuid_value(x)
             if not u_id:
                 return _err('invalid_input', 'Invalid attemptId in attemptIds.', 400)
@@ -2216,6 +2250,22 @@ async def create_staff_mock_export_batch(req: Request):
                     return _err('forbidden', 'One or more requested student attempts are outside your assigned scope.', 403)
                 args.append(explicit_attempt_ids)
                 conds.append(f's.attempt_id = ANY(${len(args)}::uuid[])')
+
+            student_filter=body.get('student')
+            if student_filter is not None and not isinstance(student_filter,str):
+                return _err('invalid_input','Invalid student filter.',400)
+            if student_filter:
+                if not isinstance(student_filter,str) or len(student_filter)>200:
+                    return _err('invalid_input','Invalid student filter.',400)
+                args.append('%'+student_filter.strip()+'%')
+                conds.append(f'EXISTS(SELECT 1 FROM users u WHERE u.id=a.user_id AND (u.name ILIKE ${len(args)} OR u.id::text ILIKE ${len(args)}))')
+            weekly_filter=body.get('weeklySlot')
+            if weekly_filter is not None and not isinstance(weekly_filter,str):
+                return _err('invalid_input','Invalid weekly slot.',400)
+            if weekly_filter:
+                if not isinstance(weekly_filter,str) or not re.fullmatch(r'\d{4}-W\d{2}',weekly_filter):
+                    return _err('invalid_input','Invalid weekly slot.',400)
+                args.append(weekly_filter);conds.append(f'a.weekly_slot=${len(args)}')
 
             if isinstance(date_from, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', date_from):
                 args.append(date.fromisoformat(date_from))
@@ -2290,6 +2340,12 @@ async def create_staff_mock_export_batch(req: Request):
                 s_by_attempt: dict[uuid.UUID, list[dict[str, Any]]] = {}
                 for s in s_rows:
                     s_by_attempt.setdefault(s['attempt_id'], []).append(dict(s))
+                from .mock_speaking_questions import question_mode
+                question_attempts=[r['attempt_id'] for r in rows if question_mode(r)]
+                if question_attempts:
+                    q_rows=await con.fetch('SELECT * FROM mock_speaking_question_captures WHERE attempt_id=ANY($1::uuid[]) ORDER BY attempt_id,part,question_id',question_attempts)
+                    for aid in question_attempts:s_by_attempt[aid]=[]
+                    for recording in q_rows:s_by_attempt[recording['attempt_id']].append(dict(recording))
 
                 for r in rows:
                     aid = r['attempt_id']
@@ -2309,6 +2365,8 @@ async def create_staff_mock_export_batch(req: Request):
                                 if isinstance(speaking_material, str):
                                     speaking_material = json.loads(speaking_material)
                     source_parts = speaking_material.get('parts', []) if isinstance(speaking_material, dict) else []
+                    question_order={(q.get('part'),str(q.get('questionId'))):n for n,q in enumerate(source_parts)}
+                    p_list.sort(key=lambda p:(p['part'],question_order.get((p['part'],str(p.get('question_id'))),0)))
                     for part_audio in p_list:
                         part_code = part_audio['part']
                         qids = part_audio.get('question_ids') or []
@@ -2317,6 +2375,8 @@ async def create_staff_mock_export_batch(req: Request):
                         part_audio['prompts'] = [str(q['promptText']) for q in source_parts
                             if q.get('part') == part_code and q.get('promptText') and
                                (not allowed_ids or str(q.get('questionId')) in allowed_ids)]
+                        part_audio['cueCards']=[q['cueCard'] for q in source_parts if q.get('part')==part_code
+                            and q.get('cueCard') and (not allowed_ids or str(q.get('questionId')) in allowed_ids)]
                     src_sha = compute_speaking_source_sha256(str(aid), p_list)
                     entries_raw.append({
                         'attemptId': str(aid),
@@ -2330,6 +2390,9 @@ async def create_staff_mock_export_batch(req: Request):
                                 'part': p['part'],
                                 'questionIds': p['question_ids'] if isinstance(p['question_ids'], list) else json.loads(p['question_ids'] or '[]'),
                                 'prompts': p.get('prompts', []),
+                                'cueCards': p.get('cueCards', []),
+                                **({'questionId':str(p['question_id']),'transcriptCapture':p['transcript_capture']}
+                                   if p.get('question_id') else {}),
                                 'objectKey': p['object_key'],
                                 'codec': p['codec'],
                                 'mimeType': p['mime_type'],
@@ -2348,7 +2411,11 @@ async def create_staff_mock_export_batch(req: Request):
             prefix = 'W' if section == 'writing' else 'S'
             seq_num = await con.fetchval('SELECT count(*)::int + 1 FROM mock_grading_batches WHERE section = $1', section)
             base_code = f'{prefix}-{slot_code}-{int(seq_num or 1):03d}'
-            split_batches = split_into_stable_batches(base_code, entries_raw, max_per_batch=max_per_batch)
+            try:
+                split_batches = split_into_stable_batches(base_code, entries_raw, max_per_batch=max_per_batch,
+                    max_audio_bytes=64*1024*1024 if section=='speaking' else None)
+            except ValueError:
+                return _err('export_too_large','One attempt exceeds the 64 MB audio export limit.',413)
 
             created_batches = []
             for sub_b in split_batches:
@@ -2362,6 +2429,9 @@ async def create_staff_mock_export_batch(req: Request):
                         'studentUserId': entry['studentUserId'],
                         'attemptId': entry['attemptId'],
                         'sourceSha256': entry['sourceSha256'],
+                        **({'speakingQuestions':[{'part':p['part'],'questionId':qid}
+                             for p in entry.get('parts',[]) for qid in p.get('questionIds',[])]}
+                           if section=='speaking' else {}),
                     }
 
                 manifest_json = {
@@ -2464,22 +2534,37 @@ async def download_staff_mock_export(req: Request, batchId: str):
         if section == 'writing':
             for entry in manifest.get('entries', []):
                 media_ref = entry.get('task1MediaRef')
-                if isinstance(media_ref, str) and valid_key(media_ref):
-                    img_bytes = await read_object(media_ref)
-                    if img_bytes:
-                        entry['task1MediaBytes'] = img_bytes
+                if media_ref:
+                    key=media_ref.removeprefix('/api/resources/') if isinstance(media_ref,str) else None
+                    if not key or not valid_key(key):
+                        return _err('export_media_unavailable','The pinned Task 1 image cannot be resolved.',409)
+                    from .writing_exam_bank import graph_bytes as exam_graph_bytes
+                    from .writing_source_materials import graph_bytes as source_graph_bytes
+                    img_bytes=exam_graph_bytes(key) or source_graph_bytes(key) or await read_object(key)
+                    if not img_bytes:
+                        return _err('export_media_unavailable','Task 1 image is missing; an incomplete DOCX was not created.',503)
+                    if entry.get('task1MediaSha256') and sha256_hex(img_bytes)!=entry['task1MediaSha256']:
+                        return _err('export_media_changed','Task 1 image does not match the frozen source.',409)
+                    entry['task1MediaBytes'] = img_bytes
             payload_bytes = await core.run_blocking(render_writing_batch_docx, manifest)
             media_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             filename = f'{batch_code}_Writing_Batch.docx'
         else:
             audio_blobs: dict[str, bytes] = {}
+            total_audio_bytes=0
             for entry in manifest.get('entries', []):
                 for p in entry.get('parts', []):
                     okey = p.get('objectKey')
                     if isinstance(okey, str) and valid_key(okey) and okey not in audio_blobs:
+                        total_audio_bytes+=int(p.get('bytes') or 0)
+                        if total_audio_bytes>64*1024*1024:
+                            return _err('export_too_large','Select a smaller Speaking batch (audio limit: 64 MB).',413)
                         raw = await read_object(okey)
-                        if raw:
-                            audio_blobs[okey] = raw
+                        if not raw or len(raw)!=p.get('bytes') or sha256_hex(raw)!=p.get('sha256'):
+                            return _err('export_audio_unavailable','Original audio is missing or changed; an incomplete ZIP was not created.',503)
+                        audio_blobs[okey] = raw
+                    elif not isinstance(okey,str) or not valid_key(okey):
+                        return _err('export_audio_unavailable','Invalid pinned audio reference.',409)
             payload_bytes = await core.run_blocking(render_speaking_batch_zip, manifest, audio_blobs)
             media_type = 'application/zip'
             filename = f'{batch_code}_Speaking_Audio.zip'
@@ -3112,3 +3197,5 @@ def install():
     core.app.include_router(router)
     from .mock_authoring_port import router as authoring_router
     core.app.include_router(authoring_router)
+    from .mock_speaking_questions import router as question_capture_router
+    core.app.include_router(question_capture_router)

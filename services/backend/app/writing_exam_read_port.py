@@ -32,8 +32,8 @@ async def writing_exam_read(req: Request, id: str):
         async with conn.transaction():
             expired = await conn.fetchrow('''UPDATE writing_exam_papers SET
                 finalized_at=now(),finalize_reason='timeout' WHERE id=$1
-                AND finalized_at IS NULL AND now()>expires_at+make_interval(secs=>15)
-                RETURNING id''', id)
+                AND user_id=$2 AND finalized_at IS NULL AND now()>expires_at+make_interval(secs=>15)
+                RETURNING id''', id, user['id'])
             if expired:
                 # markSubmitted() changes only draft submissions of this paper;
                 # an already submitted response is never downgraded.

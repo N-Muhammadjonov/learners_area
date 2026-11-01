@@ -111,7 +111,7 @@ def run(con,client,check,uid,password):
     assert loaded_paper['paper']['entries'][0]['content']==''
     assert loaded_paper['materials']['1'][0]['objectKey']=='writing/fixture-chart.png'
     call('PUT','/api/writing/exam/'+exam+'/draft',{'position':1,'revision':2,'content':'A saved examination draft.'})
-    assert call('PUT','/api/writing/exam/'+exam+'/draft',{'position':1,'revision':1,'content':'Stale overwrite'})['stale']
+    assert call('PUT','/api/writing/exam/'+exam+'/draft',{'position':1,'revision':1,'content':'Stale overwrite'},status=409)['error']['code']=='draft_conflict'
     assert view('/app/writing/exam/'+exam)['paper']['entries'][0]['content']=='A saved examination draft.'
     call('POST','/api/writing/exam/'+exam+'/finalize',{'reason':'submitted'})
     assert view('/app/writing/exam/'+exam)['paper']['finalizeReason']=='submitted';checks+=4

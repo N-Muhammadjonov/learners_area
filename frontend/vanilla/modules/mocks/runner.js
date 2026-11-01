@@ -7,6 +7,7 @@
  */
 import {el, listen} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
+import {createLocalTranscriptCapture} from './local-transcript.js';
 
 const STRINGS = {
   en: {
@@ -286,6 +287,7 @@ export async function createMockSpeakingRecorder({
   part,
   attemptId,
   questionIds = [],
+  captureMode = 'part',
   onDisconnect,
 } = {}) {
   if (!part || !['P1', 'P2', 'P3'].includes(part)) {
@@ -330,10 +332,12 @@ export async function createMockSpeakingRecorder({
   let recorder = null;
   let startedAtMs = 0;
   const chunks = [];
+  const transcription=captureMode==='question'?createLocalTranscriptCapture({signal}):null;
 
   const handleTrackEnded = () => {
     if (!released && recorder && recorder.state === 'recording') {
       disconnected = true;
+      transcription?.cancel();
       try {
         recorder.stop();
       } catch {
@@ -373,7 +377,7 @@ export async function createMockSpeakingRecorder({
   try {
     recorder = new globalThis.MediaRecorder(stream, chosen.mimeType ? {mimeType: chosen.mimeType} : undefined);
   } catch (err) {
-    releaseTracks();
+    transcription?.cancel();releaseTracks();
     throw new MockRunnerError('unsupported_format', err?.message || 'Failed to initialize MediaRecorder.');
   }
 
@@ -384,6 +388,7 @@ export async function createMockSpeakingRecorder({
   });
 
   const onSignalAbort = () => {
+    transcription?.cancel();
     try {
       if (recorder && recorder.state !== 'inactive') {
         recorder.stop();
@@ -410,8 +415,9 @@ export async function createMockSpeakingRecorder({
       startedAtMs = Date.now();
       try {
         recorder.start(250);
+        transcription?.start();
       } catch (err) {
-        releaseTracks();
+        transcription?.cancel();releaseTracks();
         throw new MockRunnerError('microphone_error', err?.message || 'Could not start audio recording.');
       }
     },
@@ -421,6 +427,7 @@ export async function createMockSpeakingRecorder({
         releaseTracks();
         throw new MockRunnerError('device_disconnected', 'Microphone was disconnected during recording.');
       }
+      const transcriptPromise=transcription?.stop();
       await new Promise((resolve, reject) => {
         if (!recorder || recorder.state === 'inactive') {
           resolve();
@@ -437,7 +444,7 @@ export async function createMockSpeakingRecorder({
         recorder.addEventListener('error', ev => {
           clearTimeout(stopTimer);
           releaseTracks();
-          reject(new MockRunnerError('microphone_error', ev?.error?.message || 'MediaRecorder error during capture.'));
+          transcription?.cancel();reject(new MockRunnerError('microphone_error', ev?.error?.message || 'MediaRecorder error during capture.'));
         }, {once: true});
         try {
           recorder.stop();
@@ -458,6 +465,7 @@ export async function createMockSpeakingRecorder({
       if (!blob || blob.size < MIN_VALID_AUDIO_BYTES) {
         throw new MockRunnerError('empty_recording', 'Recorded audio is empty or too short to contain speech.');
       }
+      const transcriptCapture=transcriptPromise?await transcriptPromise:null;
       const sha256 = await sha256FromBlob(blob);
       return {
         blob,
@@ -469,9 +477,11 @@ export async function createMockSpeakingRecorder({
         part,
         attemptId,
         questionIds: [...questionIds],
+        captureMode,transcriptCapture,
       };
     },
     cancel() {
+      transcription?.cancel();
       signal?.removeEventListener?.('abort', onSignalAbort);
       try {
         if (recorder && recorder.state !== 'inactive') {
@@ -517,6 +527,15 @@ export async function uploadSpeakingPartRecording({
     }
     return data;
   };
+
+  if(recording.captureMode==='question'){
+    const form=new FormData();form.set('part',part);form.set('questionId',recording.questionIds?.[0]||'');
+    form.set('durationMs',String(recording.durationMs));form.set('sha256',recording.sha256);
+    form.set('transcriptCapture',JSON.stringify(recording.transcriptCapture||{text:'',status:'unavailable'}));
+    form.set('audio',recording.blob,'response.'+(recording.codec||'webm'));
+    const response=await fetcher(`/api/mocks/attempts/${encodeURIComponent(attemptId)}/speaking/responses`,{method:'POST',credentials:'same-origin',headers:{Accept:'application/json'},body:form,signal});
+    return parseJsonResponse(response);
+  }
 
   // Step 1: Create or reuse authenticated upload intent bound to (student, attemptId, part, sha256, bytes)
   let intent = recording.uploadIntent;
@@ -1199,8 +1218,8 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
   const serverOffsetMs = snapResp.serverNow ? (new Date(snapResp.serverNow).getTime() - Date.now()) : 0;
 
   const sections = attempt.sections || [];
-  let activeIdx = Math.max(0, sections.findIndex(s => s.status === 'in_progress'));
-  if (activeIdx === -1) activeIdx = 0;
+  let activeIdx = sections.findIndex(s => s.status === 'in_progress');
+  if(activeIdx<0){await navigateMockRoute(context,host,buildMockRouteUrl(attemptId,true));return;}
 
   let activeWritingTab = 'task1';
   const initialRevisions = {
@@ -1217,7 +1236,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
   };
   const speakingState = {};
   for (const sp of attempt.speakingParts || []) {
-    speakingState[sp.part] = sp;
+    speakingState[sp.questionId?sp.part+':'+sp.questionId:sp.part] = sp;
   }
   const activeSpeakingRecorders = new Map();
   const pendingSpeakingRecordings = new Map();
@@ -1638,28 +1657,29 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
     } else {
       const matParts = sec.material.parts;
 
-      const partCards = ['P1', 'P2', 'P3'].map(partCode => {
-        const partPrompts = matParts.filter(p => p.part === partCode);
-        const existingRec = speakingState[partCode];
-        const activeRec = activeSpeakingRecorders.get(partCode);
-        const pendingUploadRec = pendingSpeakingRecordings.get(partCode);
+      const questionMode=attempt.speakingCaptureMode==='question';
+      const recordings=questionMode?matParts.map((p,index)=>({partCode:p.part,partPrompts:[p],captureKey:p.part+':'+p.questionId,index})):['P1','P2','P3'].map(partCode=>({partCode,partPrompts:matParts.filter(p=>p.part===partCode),captureKey:partCode}));
+      const partCards = recordings.map(({partCode,partPrompts,captureKey,index}) => {
+        const existingRec = speakingState[captureKey];
+        const activeRec = activeSpeakingRecorders.get(captureKey);
+        const pendingUploadRec = pendingSpeakingRecordings.get(captureKey);
         const isFinalized = existingRec?.captureStatus === 'finalized';
 
         const statusBadge = el('span', {
           class: isFinalized ? 'badge badge-done' : 'badge badge-locked',
-          'data-mock-speaking-status': partCode,
+          'data-mock-speaking-status': captureKey,
         }, isFinalized ? L.recordedFinalized : activeRec ? L.recordingNow : partCode);
 
         const feedbackMsg = el('p', {
           class: 'text-xs text-ink-500',
-          'data-mock-speaking-msg': partCode,
+          'data-mock-speaking-msg': captureKey,
         }, '');
 
         const recordBtn = el('button', {
           type: 'button',
           class: 'btn-primary btn-sm',
           disabled: isFinalized,
-          'data-mock-speaking-record': partCode,
+          'data-mock-speaking-record': captureKey,
         }, isFinalized
           ? L.recordedFinalized
           : activeRec
@@ -1669,17 +1689,17 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         const retryUploadBtn = el('button', {
           type: 'button',
           class: `btn-secondary btn-sm ${pendingUploadRec && !isFinalized ? '' : 'hidden'}`,
-          'data-mock-speaking-retry': partCode,
+          'data-mock-speaking-retry': captureKey,
         }, L.retryAudioUpload);
 
-        const previewUrl = speakingPreviewUrls.get(partCode);
+        const previewUrl = speakingPreviewUrls.get(captureKey)||(existingRec?.objectKey?'/api/resources/'+existingRec.objectKey:null);
         const replayAudio = previewUrl
           ? el('audio', {
               controls: true,
               src: previewUrl,
               class: 'mt-2 w-full',
               'aria-label': `${L.replayRecording} ${partCode}`,
-              'data-mock-speaking-replay': partCode,
+              'data-mock-speaking-replay': captureKey,
             })
           : null;
 
@@ -1695,9 +1715,10 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
               signal,
             });
             if (signal?.aborted) return;
-            pendingSpeakingRecordings.delete(partCode);
-            speakingState[partCode] = {
+            pendingSpeakingRecordings.delete(captureKey);
+            speakingState[captureKey] = {
               part: partCode,
+              ...(questionMode?{questionId:partPrompts[0].questionId}:{}),
               captureStatus: 'finalized',
               sha256: finalized.sha256,
               bytes: finalized.bytes,
@@ -1714,7 +1735,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         };
 
         listen(retryUploadBtn, 'click', async () => {
-          const pendingRec = pendingSpeakingRecordings.get(partCode);
+          const pendingRec = pendingSpeakingRecordings.get(captureKey);
           if (pendingRec) {
             await performUploadAndFinalize(pendingRec);
           }
@@ -1722,19 +1743,22 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
 
         listen(recordBtn, 'click', async () => {
           if (isFinalized) return;
-          const currentActive = activeSpeakingRecorders.get(partCode);
+          const currentActive = activeSpeakingRecorders.get(captureKey);
+          if(!currentActive&&activeSpeakingRecorders.size){feedbackMsg.textContent=context.locale==='uz'?'Avval joriy yozuvni yakunlang.':'Finish the current recording first.';return;}
           if (!currentActive) {
             // Start real MediaRecorder capture
             recordBtn.disabled = true;
             feedbackMsg.textContent = '';
             try {
+              activeSpeakingRecorders.set(captureKey,{cancel(){}});
               const recorderInstance = await createMockSpeakingRecorder({
                 signal,
                 part: partCode,
                 attemptId,
                 questionIds: partPrompts.map(p => p.questionId),
+                captureMode:questionMode?'question':'part',
                 onDisconnect() {
-                  activeSpeakingRecorders.delete(partCode);
+                  activeSpeakingRecorders.delete(captureKey);
                   feedbackMsg.textContent = L.micDisconnected;
                   recordBtn.disabled = false;
                   recordBtn.textContent = `${L.recordPart} ${partCode}`;
@@ -1745,12 +1769,13 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
                 recorderInstance.cancel();
                 return;
               }
-              activeSpeakingRecorders.set(partCode, recorderInstance);
+              activeSpeakingRecorders.set(captureKey, recorderInstance);
               recordBtn.disabled = false;
               recordBtn.textContent = L.stopRecording;
               statusBadge.textContent = L.recordingNow;
               feedbackMsg.textContent = L.recordingNow;
             } catch (err) {
+              activeSpeakingRecorders.delete(captureKey);
               if (signal?.aborted) return;
               recordBtn.disabled = false;
               const code = err?.code || '';
@@ -1764,19 +1789,19 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
             }
           } else {
             // Stop recording, create local preview, and upload real bytes
-            activeSpeakingRecorders.delete(partCode);
+            activeSpeakingRecorders.delete(captureKey);
             recordBtn.disabled = true;
             try {
               const recordedObj = await currentActive.stop();
               if (signal?.aborted) return;
-              const prevUrl = speakingPreviewUrls.get(partCode);
+              const prevUrl = speakingPreviewUrls.get(captureKey);
               if (prevUrl) {
                 try { URL.revokeObjectURL?.(prevUrl); } catch { /* ignore */ }
               }
               if (typeof URL?.createObjectURL === 'function') {
-                speakingPreviewUrls.set(partCode, URL.createObjectURL(recordedObj.blob));
+                speakingPreviewUrls.set(captureKey, URL.createObjectURL(recordedObj.blob));
               }
-              pendingSpeakingRecordings.set(partCode, recordedObj);
+              pendingSpeakingRecordings.set(captureKey, recordedObj);
               await performUploadAndFinalize(recordedObj);
             } catch (err) {
               if (signal?.aborted) return;
@@ -1792,12 +1817,13 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
           }
         }, signal);
 
-        return el('div', {class: 'panel flex flex-col gap-2', 'data-mock-speaking-part': partCode},
+        return el('div', {class: 'panel flex flex-col gap-2', 'data-mock-speaking-part': partCode, 'data-mock-speaking-question':questionMode?partPrompts[0].questionId:''},
           el('div', {class: 'flex items-center justify-between'},
-            el('h3', {class: 'font-display text-base text-ink-900'}, `Speaking ${partCode}`),
+            el('h3', {class: 'font-display text-base text-ink-900'}, `Speaking ${partCode}${questionMode?' · Q'+(index+1):''}`),
             statusBadge),
-          ...partPrompts.map(p => el('p', {class: 'text-sm text-ink-700'}, p.promptText || p.topic || '')),
+          ...partPrompts.flatMap(p => [el('p', {class: 'text-sm text-ink-700'}, p.promptText || p.topic || ''),...(p.cueCard?[el('p',{class:'whitespace-pre-line text-sm'},p.cueCard)]:[])]),
           replayAudio,
+          questionMode?el('p',{class:'text-xs text-ink-500'},context.locale==='uz'?'Transcript mavjud bo‘lsa qurilmada olinadi; aniqligi tasdiqlanmagan. Asl audio saqlanadi.':'On-device transcript when supported; accuracy is unverified. Original audio is retained.'):null,
           el('div', {class: 'mt-2 flex flex-wrap items-center gap-2'}, recordBtn, retryUploadBtn, feedbackMsg),
         );
       });
@@ -1826,7 +1852,8 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         } else if (sec.skill === 'writing') {
           await autosave.flushAll(['task1', 'task2']);
         } else if (sec.skill === 'speaking') {
-          const allPartsFinalized = ['P1', 'P2', 'P3'].every(pCode => speakingState[pCode]?.captureStatus === 'finalized');
+          const requiredRecordings=attempt.speakingCaptureMode==='question'?sec.material.parts.map(p=>p.part+':'+p.questionId):['P1','P2','P3'];
+          const allPartsFinalized = requiredRecordings.every(key => speakingState[key]?.captureStatus === 'finalized');
           if (!allPartsFinalized) {
             throw new MockRunnerError('speaking_incomplete', 'Please record and finalize Speaking Part 1, Part 2, and Part 3 before submitting.');
           }

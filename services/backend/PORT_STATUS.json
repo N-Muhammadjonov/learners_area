@@ -1,7 +1,7 @@
 {
-  "total_route_files": 221,
-  "total_methods": 308,
-  "ported_methods": 308,
+  "total_route_files": 226,
+  "total_methods": 309,
+  "ported_methods": 309,
   "unported_methods": 0,
   "endpoints": [
     {
@@ -1851,6 +1851,12 @@
       "path": "/api/teacher/live-classes/{id}/students",
       "source": "services/backend/app/live_classes_port.py",
       "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mocks/attempts/{id}/speaking/responses",
+      "source": "services/backend/app/mock_speaking_questions.py",
+      "status": "ported_native_isolated_postgres_verified"
     }
   ]
 }

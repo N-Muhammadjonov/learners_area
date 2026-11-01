@@ -319,3 +319,40 @@ def test_cancelling_pool_shutdown_terminates_and_propagates(monkeypatch):
         with pytest.raises(asyncio.CancelledError):await pending
     asyncio.run(run())
     assert pool.terminated and db._pool is None
+
+
+def test_mock_export_budget_is_bounded_and_releases_after_completion():
+    async def run():
+        control=WorkerControl();release=asyncio.Event();started=asyncio.Event()
+        path='/api/staff/mocks/exports/test-batch/download'
+        async def slow(scope,receive,send):
+            if scope['path']==path:started.set();await release.wait()
+            await ok(scope,receive,send)
+        app=RequestBudget(slow,controller=control)
+        state=control.state();pending=asyncio.create_task(request(app,path));await started.wait()
+        try:
+            assert status(await request(app,path))==503
+            assert status(await request(app,'/api/view'))==200
+            assert state.exports==1
+        finally:release.set();await pending
+        assert state.exports==state.bulk==state.active==0
+        assert status(await request(app,path))==200
+    asyncio.run(run())
+
+
+def test_question_upload_stream_is_size_bounded_before_multipart_spooling():
+    from fastapi import FastAPI,Request
+    api=FastAPI()
+    @api.post('/api/mocks/attempts/test/speaking/responses')
+    async def consume(req:Request):
+        await req.body()
+        return {'ok':True}
+    async def run():
+        control=WorkerControl();app=RequestBudget(api,controller=control)
+        chunks=iter([{'type':'http.request','body':b'x'*(6*1024*1024),'more_body':True},
+                     {'type':'http.request','body':b'x'*(6*1024*1024),'more_body':False}])
+        async def body():return next(chunks)
+        response=await request(app,'/api/mocks/attempts/test/speaking/responses','POST',body)
+        assert status(response)==413
+        assert control.state().active==control.state().bulk==0
+    asyncio.run(run())

@@ -96,6 +96,10 @@ INPUT: manifest.json, questions.txt, ORIGINAL student audio attachments,
 and official IELTS Speaking band descriptors supplied with this request.
 One complete student attempt has Part 1, Part 2 and Part 3. ID/hash is
 specified in the manifest. Match EXACT filenames and question order.
+Question-mode attempts have a separate original audio file for each question.
+Browser transcript candidates may be absent or inaccurate; listen to each file
+and preserve audible fillers/repetitions when quoting. Never certify a candidate
+as exact merely because it is present.
 MUST:
 1) LISTEN to original audio. Do not grade pronunciation from transcript alone.
 2) Evaluate 4 official criteria for each full attempt: Fluency & Coherence,
@@ -105,6 +109,9 @@ MUST:
 3) Provide per-part AND per-question feedback with real timestamp, exact
    heard quote only when reliable, pronunciation (word stress, intonation,
    intelligibility) and grammar/vocabulary observations.
+   For graded attempts, part_feedback must include exactly one item for EVERY
+   manifest question_id/question_ids entry in its matching Part. The three
+   example items below illustrate the shape, not a three-question limit.
 4) Do not penalize a speaker merely for accent identity. Focus on clarity,
    intelligibility, fluency, control and language range.
 5) If one part is missing, audio is corrupted/noisy, identity inconsistent or
@@ -267,17 +274,25 @@ def split_into_stable_batches(
     base_batch_code: str,
     entries: list[dict[str, Any]],
     max_per_batch: int = MAX_BATCH_SIZE_DEFAULT,
+    max_audio_bytes: int | None = None,
 ) -> list[dict[str, Any]]:
     """Split entries into deterministic sub-batches (e.g., W-2026-W44-001-A, B, C) when exceeding policy."""
     if max_per_batch <= 0:
         max_per_batch = MAX_BATCH_SIZE_DEFAULT
     ordered = sorted(entries, key=lambda e: (str(e.get('submittedAt') or ''), str(e.get('attemptId') or '')))
-    if len(ordered) <= max_per_batch:
+    chunks=[];chunk=[];used=0
+    for entry in ordered:
+        weight=sum(int(p.get('bytes') or 0) for p in entry.get('parts',[]))
+        if max_audio_bytes and weight>max_audio_bytes:
+            raise ValueError('single_attempt_export_too_large')
+        if chunk and (len(chunk)>=max_per_batch or max_audio_bytes and used+weight>max_audio_bytes):
+            chunks.append(chunk);chunk=[];used=0
+        chunk.append(entry);used+=weight
+    if chunk:chunks.append(chunk)
+    if len(chunks)<=1:
         return [{'batchCode': base_batch_code, 'entries': ordered}]
     batches: list[dict[str, Any]] = []
-    for idx in range(0, len(ordered), max_per_batch):
-        chunk = ordered[idx:idx + max_per_batch]
-        suffix_idx = idx // max_per_batch
+    for suffix_idx,chunk in enumerate(chunks):
         suffix = chr(65 + suffix_idx) if suffix_idx < 26 else f'P{suffix_idx + 1}'
         batches.append({
             'batchCode': f'{base_batch_code}-{suffix}',
@@ -321,7 +336,7 @@ def render_writing_batch_docx(batch_snapshot: dict[str, Any]) -> bytes:
             'DISCLAIMER: AI grading outputs are IELTS-equivalent estimates only and remain subject to Teacher/Owner review and approval before release. No personal student PII (name, email, phone) is included in this export.',
             size=18,
         ),
-        '<w:p><w:r><w:Pr><w:NoProof/></w:Pr></w:r></w:p>',
+        '<w:p><w:r><w:rPr><w:noProof/></w:rPr></w:r></w:p>',
     ]
 
     media_files: dict[str, bytes] = {}
@@ -451,11 +466,13 @@ def render_speaking_batch_zip(
         part_manifest_rows: list[dict[str, Any]] = []
 
         questions_lines.append(f'\nStudent ID: {student_alias} | Attempt ID: {attempt_id} | Source SHA-256: {source_sha}')
-        for p in sorted(parts, key=lambda x: str(x.get('part') or '')):
+        for question_index,p in enumerate(sorted(parts, key=lambda x: str(x.get('part') or '')),1):
             part_code = str(p.get('part') or 'P1').upper()
             codec = str(p.get('codec') or 'mp3').lower().lstrip('.')
             ext = codec if codec in ('mp3', 'wav', 'ogg', 'webm', 'm4a', 'flac', 'mp4') else 'mp3'
-            filename = f'{student_alias}__{attempt_id}__{part_code}.{ext}'
+            question_id=p.get('questionId')
+            suffix=f'__Q{question_index:02d}_{question_id}' if question_id else ''
+            filename = f'{student_alias}__{attempt_id}__{part_code}{suffix}.{ext}'
             obj_key = str(p.get('objectKey') or '')
             raw_audio = p.get('audioBytes') or audio_blobs_by_key.get(obj_key) or b''
             if isinstance(raw_audio, str):
@@ -463,6 +480,8 @@ def render_speaking_batch_zip(
             actual_sha = str(p.get('sha256') or sha256_hex(raw_audio))
             qids = [str(q) for q in (p.get('questionIds') or p.get('qids') or [])]
             prompts_text = p.get('prompts') or p.get('questionTexts') or []
+            capture=p.get('transcriptCapture') or {}
+            if isinstance(capture,str):capture=json.loads(capture)
 
             if raw_audio:
                 zip_files[filename] = raw_audio
@@ -480,17 +499,25 @@ def render_speaking_batch_zip(
                 'started_at': p.get('startedAt') or p.get('started_at'),
                 'ended_at': p.get('endedAt') or p.get('ended_at'),
                 'capture_status': p.get('captureStatus') or p.get('capture_status') or ('finalized' if raw_audio else 'incomplete'),
+                **({'question_id':question_id,'transcript':capture.get('text',''),
+                    'transcript_status':capture.get('status','unavailable')} if question_id else {}),
             })
-            questions_lines.append(f'  [{part_code}] File: {filename} | QIDs: {", ".join(qids) if qids else "default"}')
+            questions_lines.append(f'  [{part_code}] Question {question_index} | QIDs: {", ".join(qids) if qids else "default"}')
             for q_line in prompts_text:
-                questions_lines.append(f'    - {q_line}')
+                questions_lines.append(str(q_line))
+            for cue in p.get('cueCards') or []:questions_lines.append(str(cue))
+            questions_lines.append(f'Audio: {filename}')
+            if question_id:
+                questions_lines.append('Transcript (browser candidate; NOT verified verbatim):')
+                questions_lines.append(capture.get('text','') if capture.get('text') else '[Unavailable: '+str(capture.get('reason') or 'not captured')+']')
 
         manifest_attempts.append({
             'student_id': student_alias,
             'attempt_id': attempt_id,
             'test_code': str(item.get('testCode') or 'MOCK-01'),
             'source_sha256': source_sha,
-            'capture_complete': len(part_manifest_rows) == 3 and all(r['capture_status'] == 'finalized' for r in part_manifest_rows),
+            'capture_complete': {r['part'] for r in part_manifest_rows}=={'P1','P2','P3'} and all(
+                r['capture_status']=='finalized' and r['filename'] in zip_files for r in part_manifest_rows),
             'parts': part_manifest_rows,
         })
 
@@ -952,6 +979,8 @@ def validate_gemini_grading_json(
             cleaned_parts: list[dict[str, str]] = []
             seen_parts: set[str] = set()
             part_err = None
+            expected_questions={(q['part'],q['questionId']) for q in mapped.get('speakingQuestions',[])}
+            received_questions=[]
             for pf in part_fb:
                 if not isinstance(pf, dict) or set(pf.keys()) != {'part', 'question_id', 'timestamp', 'feedback', 'explanation'}:
                     part_err = 'invalid_part_feedback_item'
@@ -961,6 +990,7 @@ def validate_gemini_grading_json(
                     part_err = 'invalid_part_feedback_fields'
                     break
                 seen_parts.add(p_code)
+                received_questions.append((p_code,pf['question_id']))
                 cleaned_parts.append({
                     'part': p_code,
                     'question_id': _strip_html_tags(pf['question_id'])[:120],
@@ -968,6 +998,10 @@ def validate_gemini_grading_json(
                     'feedback': _strip_html_tags(pf['feedback'])[:2000],
                     'explanation': _strip_html_tags(pf['explanation'])[:2000],
                 })
+            if expected_questions and (any(q not in expected_questions for q in received_questions) or
+                    len(received_questions)!=len(set(received_questions)) or
+                    status=='graded' and set(received_questions)!=expected_questions):
+                part_err='speaking_question_mismatch'
             if part_err or (status == 'graded' and seen_parts != {'P1', 'P2', 'P3'}):
                 counts['malformed'] += 1
                 issues.append({
