@@ -113,7 +113,43 @@ invalid staged sense UUID. These existing editorial/source issues are retained
 as unresolved; no lexical IDs, transcript or owner-authored content is rewritten
 to force a green suite.
 
-## Acceptance scope
+## Actual controlled results
+
+| Case | Steady requests | p50 ms | p95 ms | Errors | Result |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Task 1 baseline, 20 learners | 469 | 1,354.914 | 4,893.599 | 0.0% | latency gate failed |
+| Current, 20 learners | 599 | 74.005 | 127.225 | 0.0% | PASS |
+| Task 1 baseline, 200 learners | 601 | 20,006.680 | 20,012.802 | 99.334% | overloaded |
+| Current, 200 learners | 1,187 | 68.704 | 121.348 | 0.0% | PASS |
+| Current, 500 learners | 2,971 | 71.036 | 168.716 | 0.0% | PASS |
+| Current, 1,000 learners before Dashboard batch | 5,942 | 634.535 | 956.518 | 7.455% | failed error gate |
+| Current, 1,000 learners after Dashboard batch | 5,942 | 70.671 | 211.066 | 0.0% | PASS |
+
+The first 1,000-learner run reached the ordinary-request admission limit while
+waiting on the five-connection pool. Dashboard now uses one scoped SQL snapshot
+instead of eight round trips. The prior per-widget optional-table fallback stays
+available. Another 24 PostgreSQL assertions compare owned/peer histories,
+private evaluations, ordered timestamps, streaks and an optional-table outage
+against exact main behavior. Only the failed 1,000-learner stage was rerun.
+
+The final 1,000 run achieved 99.033 requests/s: 661 acknowledged draft owners,
+175 AI submissions and 86 objective submissions, with zero lost confirmed
+writes, duplicate AI keys or incorrect scores. Provider peak was two; backend
+connection peak was five. Steady RSS changed from 112,074,752 to 112,209,920
+bytes during the measured minute. Normal recovery was 40/40 HTTP 200, p95
+45.263 ms. The separate 1,000-request burst returned 865 HTTP 200 and 135 bounded
+HTTP 503 responses. No paid providers or production load were used.
+
+All seven critical API p95 values improved in the equivalent 20- and 200-user
+baseline comparisons; none regressed by more than 10%. Higher baseline overload
+runs were omitted because the baseline already failed at 200. The original
+baseline-200 diagnostic error breakdown also includes burst/recovery timeouts;
+its steady status counts/error percentage remain separate. The 200 observer
+stopped before burst; 500 and both 1,000 runs observe through recovery.
+
+Raw results and limitations: `qa/evidence/controlled-load-20261101.json`.
+
+## Delivery boundary
 
 Local backend capacity evidence does not certify Internet latency, Cloudflare
 capacity, real AI provider quotas or mobile/desktop visual acceptance. The owner
