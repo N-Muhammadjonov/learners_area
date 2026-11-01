@@ -8,16 +8,14 @@ import { fileURLToPath } from 'node:url';
 import { is } from 'drizzle-orm';
 import { PgTable, getTableConfig } from 'drizzle-orm/pg-core';
 import * as schema from '../src/db/schema.ts';
+import {applyTestMigrations} from './apply-test-migrations.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const db = new PGlite();
 const python = resolve(root, process.env.BACKEND_PYTHON || 'services/backend/.venv/bin/python');
 let applied = 0;
 try {
-  for (const file of readdirSync(join(root, 'services/backend/migrations')).filter(x => x.endsWith('.sql')).sort()) {
-    for (const sql of readFileSync(join(root, 'services/backend/migrations', file), 'utf8').split('--> statement-breakpoint').map(x => x.trim()).filter(Boolean)) await db.exec(sql);
-    applied++;
-  }
+  applied=await applyTestMigrations(db,root);
   // The UI's typed selectors must agree with the actual migrated database.
   const columns = (await db.query("SELECT table_name,column_name FROM information_schema.columns WHERE table_schema='public'")).rows;
   const actual = new Set(columns.map(row => `${row.table_name}.${row.column_name}`));

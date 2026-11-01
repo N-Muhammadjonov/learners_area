@@ -1,11 +1,12 @@
 """Actual write -> native read -> resume/submit workflows on the isolated DB."""
+import asyncio
 from urllib.parse import urlencode
 from fastapi.testclient import TestClient
 from app.asgi import application
 from browser_fixtures import id
 
 
-def run(client, check, uid, password):
+def run(client, check, uid, password, con):
     checks = 0
     def call(method,path,body=None,status=200):
         nonlocal checks
@@ -89,7 +90,10 @@ def run(client, check, uid, password):
     for kind,query in [('teacher-students',''),('teacher-student','?id='+uid),('teacher-homework',''),('teacher-actions',''),('student-results','?id='+uid),('student-learning','?id='+uid),('centre-statistics',''),('owner-overview','')]:
         r=admin.get('/api/frontend/staff/'+kind+query);assert r.status_code==403,(kind,r.status_code,r.text[:300]);checks+=1
     assert admin.get('/api/frontend/staff/teacher-live-classes').status_code==200;checks+=1
-    assert admin.get('/api/frontend/staff/teacher-live-class?id='+id('live')).status_code==200;checks+=1
+    # Current main restricts operational class detail to its assigned manager.
+    assert admin.get('/api/frontend/staff/teacher-live-class?id='+id('live')).status_code==404;checks+=1
+    asyncio.run(con.execute("INSERT INTO live_classes(id,course_id,teacher_user_id,title,scheduled_at,duration_minutes,status) VALUES($1,$2,$3,'Synthetic administrator class',now()+interval '2 days',60,'upcoming')",id('admin-live'),id('course'),id('admin')))
+    assert admin.get('/api/frontend/staff/teacher-live-class?id='+id('admin-live')).status_code==200;checks+=1
     people=admin.get('/api/frontend/staff/people?role=student');assert people.status_code==200
     for row in people.json()['data']['people']:
         assert row['online'] is None and row['seenAt'] is None and row['visitSeconds'] is None and row['totalSeconds'] is None

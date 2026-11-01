@@ -124,10 +124,18 @@ async def read_staff(req, user, kind):
             pending = await con.fetchval("SELECT count(*)::int FROM users WHERE account_status='pending'")
             from .browser_statistics import owner_academic_overview
             academic = await owner_academic_overview(con,q)
-            return {'userCounts':counts,'pendingAdmissions':pending,'academic':academic}
-        if kind == 'owner-integrations': return {'services':await integrations(con)}
-        if kind == 'owner-retention': return await existing(req,'/api/owner/retention')
+            return {'userCounts':counts,'pendingAdmissions':pending,'academic':academic,
+                'counts':counts,'pendingCount':pending,'integrations':await integrations(con),
+                'brand':{'siteName':os.getenv('NEXT_PUBLIC_SITE_NAME','Learners Area'),
+                    'favicon':'/brand/'+BRAND['favicon'],
+                    'assets':[{'key':key,'path':'/brand/'+path} for key,path in BRAND.items()]}}
+        if kind == 'owner-integrations':
+            services=await integrations(con)
+            return {'services':services,'report':services}
+        if kind == 'owner-retention':
+            from .step27_retention_policy import config
+            return {'config':config()}
         if kind == 'owner-transfer':
             candidates = [camel(r) for r in await con.fetch("SELECT id,name,email,role FROM users WHERE account_status='active' AND id<>$1 AND role IN ('admin','teacher') ORDER BY CASE role WHEN 'admin' THEN 0 ELSE 1 END,name,email LIMIT 200",user['id'])]
-            return {'currentOwner':{'id':str(user['id']),'name':user['name'],'email':user['email']},'candidates':candidates}
+            return {'currentOwner':{'id':str(user['id']),'name':user['name'],'email':user['email']},'candidates':candidates,'ownerEmail':user['email'] or ''}
     raise HTTPException(404,'not_found')

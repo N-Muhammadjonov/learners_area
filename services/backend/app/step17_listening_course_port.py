@@ -28,7 +28,7 @@ def course_status(spec,work):
         activities[key]={'done':done,'total':total,'complete':(False if not work['exam'] else done==total) if key=='retry' else done==total,'available':total>0}
     avail=[v for v in activities.values() if v['available']]
     return {'activities':activities,'completed':sum(v['complete'] for v in avail),'total':len(avail),'complete':all(v['complete'] for v in activities.values()) and work['exam']}
-async def current_work(con,user_id,test_id,source_id,values):
+async def current_work(con,user_id,test_id,source_id,values,*,completed_attempts=None):
     spec=SPEC.get(source_id)
     if not spec:return None
     work=read_work(values,spec)
@@ -36,9 +36,9 @@ async def current_work(con,user_id,test_id,source_id,values):
     try:state=json.loads(values.get(state_key(source_id),'{}'))
     except ValueError:return work
     if state.get('attemptStatus')!='submitted':return work
-    row=await con.fetchrow("""SELECT id FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='completed' ORDER BY submitted_at DESC LIMIT 1""",user_id,core.uuid_value(test_id))
+    row=await con.fetchrow("""SELECT id FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='completed' ORDER BY submitted_at DESC LIMIT 1""",user_id,core.uuid_value(test_id)) if completed_attempts is None else completed_attempts.get(core.uuid_value(test_id))
     if not row:return work
-    count=await con.fetchval('SELECT count(*) FROM listening_answers WHERE attempt_id=$1',row['id'])
+    count=await con.fetchval('SELECT count(*) FROM listening_answers WHERE attempt_id=$1',row['id']) if completed_attempts is None else row['answer_count']
     results=state.get('lastResults',[])
     if count!=40 or not isinstance(results,list) or len(results)!=40:return work
     return {**work,'exam':True,'retry':[str(r.get('q')) for r in results if r.get('ok') is False]}

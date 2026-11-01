@@ -103,7 +103,7 @@ for route in ('/app/listening/lessons/'+id('listening-lesson'),'/app/reading/les
 for route in ('/app/listening/lessons/'+id('reading-lesson'),'/app/reading/lessons/'+id('listening-lesson'),'/app/listening/general/'+id('listening-academic')):
     check('/api/frontend/view?'+urlencode({'route':route}),404)
 from browser_workflows import run
-workflow_checks=run(client,check,UID,PASSWORD)
+workflow_checks=run(client,check,UID,PASSWORD,con)
 checks+=workflow_checks
 from browser_regressions import run as regressions
 checks+=regressions(con,client,check,UID,PASSWORD)
