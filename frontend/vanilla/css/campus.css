@@ -539,7 +539,7 @@ html[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :
 
 
 /* Shared header and dashboard action colours — keep geometry and SPA actions intact. */
-html[data-theme] #root [data-campus-shell] {
+html[data-theme] #root :is([data-campus-shell],[data-auth-shell]) {
   --dashboard-action-gradient: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
 }
 
@@ -567,6 +567,7 @@ html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[hre
 }
 
 /* Existing Day/Night and UZ/EN state controls retain their click handlers. */
+html[data-theme] #root [data-auth-shell] [data-locale-switcher] button[aria-pressed="true"],
 html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
   [data-theme-toggle] .theme-btn-active,
   [data-locale-switcher] button[aria-pressed="true"]
@@ -574,6 +575,11 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
   background: var(--dashboard-action-gradient) !important;
   color: #000000 !important;
   border-color: transparent !important;
+}
+html[data-theme] #root [data-auth-shell] [data-locale-switcher] button[aria-pressed="false"] {
+  background: rgb(var(--paper-raised)) !important;
+  color: rgb(var(--ink-900)) !important;
+  border-color: rgb(var(--ink-100)) !important;
 }
 html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
   [data-theme-toggle] .theme-btn:not(.theme-btn-active),
@@ -1253,7 +1259,7 @@ html[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
   [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
   [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
-  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost,[data-notification-id] a),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost),
   [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
   [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
   [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
@@ -1268,7 +1274,7 @@ html[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
   [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
   [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
-  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost,[data-notification-id] a),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost),
   [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
   [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
   [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),

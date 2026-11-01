@@ -3,7 +3,7 @@ import {api} from '../../js/api-client.js';
 import {CHANGED} from '../shell/notifications.js';
 /** View-owned, visibility-bound acknowledgements. Never optimistic badge counts. */
 export function notificationRead({ids,label,errorLabel,signal}){
- const host=el('div',{class:'flex flex-col items-start gap-2'}),button=el('button',{type:'button',class:'btn-secondary'},label),error=el('p',{role:'alert',hidden:true,class:'text-sm text-band-bad'});host.append(button,error);
+ const host=el('div',{class:'flex flex-col items-start gap-2'}),button=el('button',{type:'button',class:'btn-primary'},label),error=el('p',{role:'alert',hidden:true,class:'text-sm text-band-bad'});host.append(button,error);
  let observer,attachment,timer,attachDeadline,stopped=false,sending=false,allQueued=false;
  const queued=new Set(),seen=new Set(),unread=new Set(ids);
  function publish(n){const id=globalThis.crypto?.randomUUID?.()??Date.now()+'-'+Math.random();window.dispatchEvent(new CustomEvent(CHANGED,{detail:n}));try{if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANGED);try{c.postMessage({id});}finally{c.close();}}}catch{}try{localStorage.setItem(CHANGED,id);localStorage.removeItem(CHANGED);}catch{}}
