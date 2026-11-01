@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 import io
+import importlib
 import json
 import pathlib
 import sys
@@ -26,6 +27,12 @@ if str(BACKEND_ROOT) not in sys.path:
 
 
 def _ensure_lightweight_fastapi_stub():
+    # Use installed dependencies before the offline-only fallback. Injecting
+    # placeholders for not-yet-imported packages poisons the rest of pytest.
+    try:
+        importlib.import_module('fastapi')
+    except ModuleNotFoundError as error:
+        if error.name != 'fastapi':raise
     class _AutoStubModule(types.ModuleType):
         def __getattr__(self, name):
             if name.startswith('__'):
@@ -116,6 +123,11 @@ def _ensure_lightweight_fastapi_stub():
         'rjsmin',
         'rcssmin',
     ):
+        try:
+            importlib.import_module(mod_name)
+            continue
+        except ModuleNotFoundError as error:
+            if error.name not in (mod_name,mod_name.split('.')[0]):raise
         if mod_name not in sys.modules:
             class _AutoStubModule(types.ModuleType):
                 def __getattr__(self, name):
@@ -126,8 +138,10 @@ def _ensure_lightweight_fastapi_stub():
             m.__path__ = []
             sys.modules[mod_name] = m
     if 'regex' not in sys.modules:
-        import re as _re
-        sys.modules['regex'] = _re
+        try:importlib.import_module('regex')
+        except ModuleNotFoundError:
+            import re as _re
+            sys.modules['regex'] = _re
 
 
 _ensure_lightweight_fastapi_stub()

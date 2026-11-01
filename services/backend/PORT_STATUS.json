@@ -1,7 +1,7 @@
 {
   "total_route_files": 221,
-  "total_methods": 274,
-  "ported_methods": 274,
+  "total_methods": 308,
+  "ported_methods": 308,
   "unported_methods": 0,
   "endpoints": [
     {
@@ -1647,6 +1647,210 @@
       "path": "/api/vocabulary/remove",
       "source": "services/backend/app/step21_vocabulary_create.py",
       "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-classes",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-classes/recordings",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-classes/{id}",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-classes/{id}/attendance",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-classes/{id}/chat",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-classes/{id}/chat",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/live-classes/{id}/chat/{message_id}",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mocks/attempts/{id}",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mocks/attempts/{id}/listening/playback",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mocks/attempts/{id}/results",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/mocks/attempts/{id}/sections/{skill}/draft",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mocks/attempts/{id}/sections/{skill}/submit",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mocks/attempts/{id}/speaking/upload-finalize",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mocks/attempts/{id}/speaking/upload-intent",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/mocks/attempts/{id}/speaking/uploads/{uploadId}",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mocks/catalog",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/mocks/media/{versionId}",
+      "source": "services/backend/app/mock_authoring_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/mocks/{testId}/attempts",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/mocks/authoring",
+      "source": "services/backend/app/mock_authoring_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/authoring",
+      "source": "services/backend/app/mock_authoring_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/batches/{batchId}/publish",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/existing",
+      "source": "services/backend/app/mock_authoring_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/exports",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/mocks/exports/{batchId}/download",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/grade-imports/commit",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/grade-imports/validate",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/grades/{revisionId}/approve",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/grades/{revisionId}/revise",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/mocks/materials",
+      "source": "services/backend/app/mock_authoring_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/mocks/prompts",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/mocks/queue",
+      "source": "services/backend/app/mock_system_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teacher/live-classes/{id}/attendance",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/live-classes/{id}/check-recording",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/live-classes/{id}/students",
+      "source": "services/backend/app/live_classes_port.py",
+      "status": "ported_code_parity_unverified"
     }
   ]
 }

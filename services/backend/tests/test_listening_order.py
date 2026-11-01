@@ -31,7 +31,7 @@ class OrderingTests(unittest.IsolatedAsyncioTestCase):
     async def test_academic_catalogue_uses_numbered_order_for_a_reuploaded_test(self):
         records=[row(10),row(3),row(1),row(2,'replacement')]
         class Connection:
-            async def fetch(self,sql,*args):return [] if 'WITH latest' in sql else records
+            async def fetch(self,sql,*args):return records if 'FROM listening_tests t' in sql else []
             async def fetchrow(self,*args):return None
             async def fetchval(self,sql,*args):return len(records) if 'count(*)' in sql else False
         with patch.object(browser_listening,'facts',AsyncMock(return_value=([],None))),patch.object(browser_listening,'sequence',AsyncMock(return_value=True)):

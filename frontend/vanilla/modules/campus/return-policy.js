@@ -8,6 +8,7 @@ const exists=path=>paths.some(route=>route.match.test(path));
 /** A direct detail URL has a real parent even without a prior browser entry. */
 export function returnPolicy(url,{previous=null}={}){
  const path=url.pathname.replace(/\/+$/,'')||'/',segments=path.split('/').filter(Boolean),module=segments[1];
+ if(path==='/app')return {mode:'hidden',href:'/app'};
  if(path==='/app/management'&&['mock-create','mock-grading'].includes(url.searchParams.get('view')))return {mode:'back',href:'/app/management?view=mocks'};
  if(path==='/app/management'&&url.searchParams.get('view')==='mocks')return {mode:'back',href:'/app/management'};
  if(tabbed.has(module)&&paths.find(route=>route.match.test(path))?.layout!=='focus')return {mode:'main',href:'/app'};

@@ -54,9 +54,9 @@ def test_listening_visit_or_completed_exam_cannot_complete_unfinished_course():
            'program_ref':None, 'payload':{'sections':[{}]*4, 'questions':[{}]*40}}
     class Con:
         async def fetch(self, sql, *args):
-            if 'WITH latest' in sql:
+            if 'answered_count' in sql:
                 return [{'test_id':test_id, 'status':'completed', 'total_questions':40, 'answered_count':0}]
-            return [row]
+            return [row] if 'FROM listening_tests t' in sql else []
         async def fetchrow(self, *args):return {'score':0,'total_questions':40}
         async def fetchval(self, sql, *args):return 1
     async def run(done):

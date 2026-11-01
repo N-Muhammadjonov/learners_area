@@ -102,7 +102,13 @@ def main():
                         before=pair['baseline']['per_api'].get(kind);after=pair['current']['per_api'].get(kind)
                         if before and after:comparison[kind]={'before_p95_ms':before['p95_ms'],'after_p95_ms':after['p95_ms'],'change_percent':round((after['p95_ms']/before['p95_ms']-1)*100,2),'before_samples':before['requests'],'after_samples':after['requests']}
                     (output/f'comparison-{level}.json').write_text(json.dumps(comparison,indent=2)+'\n')
+                    regressions=[kind for kind,row in comparison.items() if row['change_percent']>10]
+                    if regressions:raise RuntimeError('critical API p95 regressed over 10%: '+', '.join(regressions))
             (output/'summary.json').write_text(json.dumps({'result':'completed','reports':reports,'baseline':BASELINE,'current':version,'scope':'controlled backend HTTP capacity; local resource caps and simulated query delay, not a production/Cloudflare capacity certification'},indent=2)+'\n')
+    except Exception as error:
+        (output/'summary.json').write_text(json.dumps({'result':'failed','reason':str(error),
+            'reports':reports,'baseline':BASELINE,'current':version},indent=2)+'\n')
+        raise
     finally:
         for name in reversed(created):command(['docker','stop','--time','30',name],check=False)
         command(['docker','network','rm',network],check=False)
