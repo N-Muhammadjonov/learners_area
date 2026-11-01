@@ -63,7 +63,9 @@ try {
   const report=reports[0];
   if(replicas===2 && reports.reduce((n,r)=>n+(r.allowed??0),0)!==8)throw Error('Replica counters diverged');
   const checks=reports.reduce((n,r)=>n+r.checks,0);
-  console.log(JSON.stringify({ migrations: applied, typedTables, ...(report.probeKind==='read_model'?{readModelChecks:checks}:{httpChecks:checks}), replicas, admitted:replicas===2?reports.reduce((n,r)=>n+r.allowed,0):undefined, measurements:report.measurements, database: 'embedded PostgreSQL', result: 'passed' }));
+  const checkKinds=report.probeKind==='read_model'?{readModelChecks:checks}:
+    ['riwi_policy','riwi_domain'].includes(report.probeKind)?{storeChecks:report.storeChecks,httpChecks:report.httpChecks}:{httpChecks:checks};
+  console.log(JSON.stringify({ migrations: applied, typedTables, ...checkKinds, replicas, admitted:replicas===2?reports.reduce((n,r)=>n+r.allowed,0):undefined, measurements:report.measurements, database: 'embedded PostgreSQL', result: 'passed' }));
   if (process.env.FASTAPI_WIRE_FIXTURE) {
     const { writeFileSync } = await import('node:fs');
     writeFileSync(process.env.FASTAPI_WIRE_FIXTURE, JSON.stringify(report.wire));

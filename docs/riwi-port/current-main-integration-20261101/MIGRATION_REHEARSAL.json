@@ -1,0 +1,38 @@
+{
+  "executed_at": "2026-11-01T18:11:37.278Z",
+  "engine": "PGlite PostgreSQL WASM",
+  "native_server": false,
+  "source_main": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "main_prefix_unchanged": true,
+  "journal_entries": 79,
+  "suffix": [
+    {
+      "tag": "0075_riwi_core_and_governance",
+      "sha256": "0007b0f95a2142bcc0d6df9bc2fb812cee2a6ac02d00f6ef5e71fb40dbf03076"
+    },
+    {
+      "tag": "0076_riwi_assessments_and_security_signals",
+      "sha256": "f9631873a72b6744a719d0b1d3cb8d9840486c3e502af2f563227744154d31e5"
+    },
+    {
+      "tag": "0077_riwi_speaking_sessions_and_activity_indexes",
+      "sha256": "98582f29ed7a7eff000c440b839ad23e22ac55d290d59f95d46983a1d973cf6a"
+    },
+    {
+      "tag": "0078_riwi_server_only_tables",
+      "sha256": "e2ba1edf433eb633e238ba1c09b2b262902afc6b587f64d5ad52a71366cfd9c6"
+    },
+    {
+      "tag": "0079_riwi_canonical_task_metadata",
+      "sha256": "f5c3f763fdad955fb47e270222d7ca7eba050a2aba3fc82e02e3b4459b904cb5"
+    }
+  ],
+  "fresh_install": "pass",
+  "populated_upgrade": "pass",
+  "preserved_existing_tables": 151,
+  "privacy_tables": 16,
+  "direct_client_read_denied": true,
+  "shared_database_touched": false,
+  "divergent_historical_riwi_database": "not_rehearsed",
+  "native_postgresql": "blocked: Docker socket access denied; native server binary unavailable"
+}

@@ -1,0 +1,10 @@
+{
+  "test_result_sha256": "4a1026afed1b9640b96fc23c091e9534eec3b8b2e0069014c7211a0dcdadb31f",
+  "tests": 83,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "new_independent_tests": 23,
+  "scope": "RIWI and step31 Coach suites; not the full backend suite",
+  "external_services_live_e2e": false
+}

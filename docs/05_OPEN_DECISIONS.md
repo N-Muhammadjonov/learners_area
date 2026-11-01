@@ -1,0 +1,16 @@
+# 05 — Open Owner Decisions & External Infrastructure Gates
+
+The source branch's D-01 approval claim has not been verified against an accessible Owner decision receipt. The full named conversation remains unavailable, and later prompt history may differ. **Do not treat the historical defaults below as a newly approved retention policy.** All D-01–D-08 release decisions require reconciliation. See [current candidate report](riwi-port/current-main-integration-20261101/README.md).
+
+## 1. Owner Decisions Inventory (`D-01` through `D-08`)
+
+| Decision ID | Decision Topic | Status | Technical Implementation in Code |
+|---|---|---|---|
+| **D-01** | RIWI Chat Retention Policy | `SOURCE CLAIM — OWNER RECEIPT UNVERIFIED` | Implemented and enforced: (1) All messages created within the last 30 days (`RIWI_CONVERSATION_TTL_DAYS = 30`) are retained for active users without a message-count cap; (2) If a user has been offline for more than 7 days (`RIWI_INACTIVE_OFFLINE_DAYS = 7`), all of their RIWI conversations and messages are hard-deleted on day 8 (`RIWI_OFFLINE_DELETE_DAY = 8`). |
+| **D-02** | Production External AI Provider & Model Selection | `OWNER ACTION REQUIRED` | Safe default enforced: `AI_EXTERNAL_ENABLED=false` and `RIWI_EXTERNAL_AI_ENABLED=false`. Internal deterministic `riwi` remains active by default until Owner explicitly enables external providers via environment variables and `/app/owner/riwi`. |
+| **D-03** | Production Daily/Monthly Spend & Token Ceilings | `OWNER ACTION REQUIRED` | Safe default enforced: hard output token caps (`1200` tokens in Provider Lab, `900` tokens in chat), hourly run caps (`4/hr` per owner, `12/hr` global), and `riwi_usage_metrics` accounting are active. |
+| **D-04** | Knowledge Corpus Initial Seed & Rights Sign-Off | `OWNER ACTION REQUIRED` | Safe default enforced: all uploaded/created knowledge sources start in `candidate` state, require `owner_authored`, `licensed`, `public_domain`, or `internal_permission` rights class, zero open conflicts, and a passing golden regression fixture before promotion to `active`. |
+| **D-05** | Teacher Correction Promotion Policy | `OWNER ACTION REQUIRED` | Safe default enforced: teacher corrections are restricted to `scope="user"` for active learners on the teacher's explicit roster (`teacher_student_links`) and remain inert `candidate` signals until Owner review, regression check, and explicit promotion. |
+| **D-06** | Portable Archive Encryption Key Management (`RIWI_PORTABLE_ENCRYPTION_KEY_B64`) | `OWNER ACTION REQUIRED` | Safe default enforced: out-of-band 32-byte key required at CLI runtime; never stored in database or exported archives. |
+| **D-07** | Scheduled Chat Retention Worker Cadence (`scripts/riwi_chat_retention_worker.py`) | `OWNER ACTION REQUIRED` | Safe default enforced: read-time SQL filters enforce D-01 immediately on every read/write/export; the background purge worker (`scripts/riwi_chat_retention_worker.py`) must be scheduled on Railway/cron (recommended: every 6 hours) with `RIWI_CHAT_RETENTION_DELETE_ENABLED=true`. |
+| **D-08** | Live Browser & Production Infrastructure Sign-Off | `OWNER ACTION REQUIRED` | Marked `EXTERNAL VERIFICATION REQUIRED`; release recommendation remains `NO-GO` until live PostgreSQL migration apply, R2 object checks, and live provider smoke tests are executed in staging/production. |

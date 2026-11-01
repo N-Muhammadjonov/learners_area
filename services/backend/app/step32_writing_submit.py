@@ -27,7 +27,7 @@ async def writing_submit(req:Request,id:str):
         if not prompt:return core.j({'error':'prompt_missing'},500)
     result=await coach.evaluate(user['id'],'writing','writing_submission',sid,
            {'taskType':prompt['task_type'],'prompt':prompt['prompt'],'content':submission['content'],
-            'targetWordCount':prompt['target_word_count']},_language(req))
+            'targetWordCount':prompt['target_word_count'],'writingSubtype':dict(prompt).get('task_category')},_language(req))
     if not result['ok']:return core.j({'error':result['error']},502)
     ev=result['evaluation']
     async with db.acquire() as con:

@@ -77,6 +77,8 @@ const routes = [
  {pattern:"/app/writing",load:()=>import('../modules/unavailable.js')},
  {pattern:"/onboarding",load:()=>import('../modules/auth/account.js')},
  {pattern:"/app/coach",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/app/riwi",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/app/owner/riwi",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/mocks",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/owner",load:()=>import('../modules/unavailable.js')},
  {pattern:"/register",load:()=>import('../modules/auth/public.js')},
@@ -147,7 +149,7 @@ export default routes.map(route=>{if(route.pattern==="/app")return {...route,pro
 if(["/app/speaking","/app/speaking/lessons","/app/speaking/live-partner","/app/speaking/practice","/app/speaking/ai","/app/speaking/history","/app/speaking/shadowing"].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/speaking/index.js')};
 if(route.pattern==='/app/writing'||route.pattern.startsWith('/app/writing/'))return {...route,protected:true,load:()=>import('../modules/writing/index.js')};
 /* V59 ASSIGNMENTS + V60 COACH DISPATCH: native modules, server-only data; teachers/admins never fetch learner data */
-if(route.pattern==='/app/assignments')return {...route,protected:true,load:()=>import('../modules/assignments/index.js')};if(route.pattern==='/app/coach')return {...route,protected:true,load:()=>import('../modules/coach/index.js')};
+if(route.pattern==='/app/assignments')return {...route,protected:true,load:()=>import('../modules/assignments/index.js')};if(route.pattern==='/app/coach')return {...route,protected:true,load:()=>import('../modules/coach/index.js')};if(route.pattern==='/app/riwi')return {...route,protected:true,load:()=>import('../modules/riwi/index.js')};if(route.pattern==='/app/owner/riwi')return {...route,protected:true,roles:['owner'],load:()=>import('../modules/staff-final30/owner-riwi.js')};
 /* V63 FOUR ROUTES: shared source-led LessonAuthoringDesk (Grammar/Reading); canonical full-test catalogue; Listening entry. */
 if(['/app/grammar/lessons/author','/app/reading/lessons/author'].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/listening/lesson-authoring.js')};
 if(route.pattern==='/app/listening/tests')return {...route,protected:true,load:()=>import('../modules/listening/tests-catalogue.js')};

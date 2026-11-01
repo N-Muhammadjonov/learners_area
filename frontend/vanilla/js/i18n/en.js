@@ -3947,5 +3947,12 @@ export default {
         "review": "Review",
         "library": "Passage library"
     }
+,
+    "riwi": {
+        "title": "RIWI AI Coach & Learning Assistant",
+        "ownerTitle": "Owner RIWI Governance & Provider Lab",
+        "send": "Send",
+        "clear": "Delete Conversation",
+        "explainOfficialAnswer": "Explain Official Answer"
+    }
 };
-

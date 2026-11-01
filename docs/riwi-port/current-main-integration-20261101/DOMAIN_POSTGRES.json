@@ -1,0 +1,13 @@
+{
+  "migrations": 79,
+  "typedTables": 153,
+  "storeChecks": 32,
+  "httpChecks": 7,
+  "replicas": 1,
+  "measurements": {
+    "httpRequests": 5,
+    "providerNetworkCalls": 0
+  },
+  "database": "embedded PostgreSQL",
+  "result": "passed"
+}

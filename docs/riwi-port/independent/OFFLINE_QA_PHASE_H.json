@@ -1,0 +1,36 @@
+{
+  "base_sha": "bf7319a3418e918a84d50fd2c451e32e4b687015",
+  "evaluator_version": "riwi-independent-evidence-v1",
+  "mode": "B",
+  "network_guard": "in-process Python socket guard; OS-level network isolation not verified",
+  "outbound_attempts_observed": 0,
+  "objective_synthetic_holdout": {
+    "samples": 72,
+    "matches_reference": 72,
+    "accuracy": 1.0,
+    "limitation": "Answer-key checks on generated examples; not a general language or IELTS accuracy benchmark."
+  },
+  "subjective_band_mae": null,
+  "subjective_band_rmse": null,
+  "subjective_band_agreement": null,
+  "subjective_metrics_status": "unavailable_no_independent_reference_labels",
+  "basebook_status": "awaiting_owner_basebook",
+  "elapsed_seconds": 0.004245749907568097,
+  "objective_p95_ms": 0.004249857738614082,
+  "process_peak_rss_mb": 83.15625,
+  "rss_scope": "whole audit process including optional FastAPI import",
+  "external_comparison_calls": 0,
+  "model_training_performed": false,
+  "production_ready": false,
+  "phase_completion": {
+    "B": "audit_completed_with_unresolved_provenance",
+    "C": "feasibility_measured_subjective_scoring_blocked",
+    "D": "framework_implemented_owner_basebook_pending",
+    "E": "synthetic_exercises_and_split_dataset_generated",
+    "F": "objective_and_pattern_engine_implemented_no_calibrated_subjective_model",
+    "G": "candidate_review_framework_implemented_live_external_comparison_not_run",
+    "H": "scoped_offline_engineering_checks_executed",
+    "I": "see_independent_test_receipt",
+    "J": "review_only_no_main_merge_no_production_deployment"
+  }
+}

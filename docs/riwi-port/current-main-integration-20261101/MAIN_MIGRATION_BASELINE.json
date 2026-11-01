@@ -1,0 +1,600 @@
+{
+  "main_sha": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "journal_sha256": "647cc5d7f5dd59e9cf7225f8dac6bb9b41a0c84dc8f3b89dbde3bd70471ad4bd",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790188219029,
+      "tag": "0000_upload_intents",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790189397777,
+      "tag": "0001_speaking_practice",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790191131151,
+      "tag": "0002_coach_evaluations",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790275357849,
+      "tag": "0003_phase1_access_control",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790276380642,
+      "tag": "0004_vocabulary_engine",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790299753865,
+      "tag": "0005_lexeme_sense_key",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790300320283,
+      "tag": "0006_lexeme_collocations",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790300889330,
+      "tag": "0007_listening_mcq_mastery",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790301301541,
+      "tag": "0008_typing_runs",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790361168134,
+      "tag": "0009_grammar_activities",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790361524937,
+      "tag": "0010_problem_reports",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790362848900,
+      "tag": "0011_lesson_recording",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1790390667608,
+      "tag": "0012_goofy_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1790391090261,
+      "tag": "0013_gifted_shotgun",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1790392022049,
+      "tag": "0014_mighty_sway",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1790395150776,
+      "tag": "0015_polite_archangel",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1790403060935,
+      "tag": "0016_publication_state",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1790425259055,
+      "tag": "0017_reading_105_library",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1790429326290,
+      "tag": "0018_resource_blocks",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1790559351334,
+      "tag": "0019_grammar_source_privacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1790620308660,
+      "tag": "0020_lexical_source_snapshot",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1790734416580,
+      "tag": "0021_registration_gender",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1790756280556,
+      "tag": "0022_retention_bank",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790759035406,
+      "tag": "0023_video_lesson_notes",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1790785789328,
+      "tag": "0024_video_lessons_standalone",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1790845294168,
+      "tag": "0025_speaking_bank_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1790845470436,
+      "tag": "0026_google_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1790845656316,
+      "tag": "0027_live_partner",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1790857800000,
+      "tag": "0028_full_listening",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1790900000000,
+      "tag": "0029_vocabulary_architecture",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1791000000000,
+      "tag": "0030_general_reading",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1791100000000,
+      "tag": "0031_writing_workspace",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1791200000000,
+      "tag": "0032_writing_exam_papers",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1791300000000,
+      "tag": "0033_writing_language_stealing",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1791400000000,
+      "tag": "0034_typing_duration_presets",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1791500000000,
+      "tag": "0035_teacher_student_links",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1791600000000,
+      "tag": "0036_speaking_study_support",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1791700000000,
+      "tag": "0037_profile_photos",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1791800000000,
+      "tag": "0038_dictionary_releases",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1791900000000,
+      "tag": "0039_academic_reading_sets",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1792000000000,
+      "tag": "0040_content_imports",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1792100000000,
+      "tag": "0041_content_versions",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1792200000000,
+      "tag": "0042_mock_composition",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1792200100000,
+      "tag": "0043_authoring_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1792200200000,
+      "tag": "0044_lesson_blocks",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1792200300000,
+      "tag": "0045_media_lessons",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1792200400000,
+      "tag": "0046_vocabulary_topic_packs",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1792200500000,
+      "tag": "0047_assignments_canonical",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1792200600000,
+      "tag": "0048_typing_trainer",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1792200700000,
+      "tag": "0049_lesson_notes",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1792200800000,
+      "tag": "0050_lesson_learning_area",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "7",
+      "when": 1792200900000,
+      "tag": "0051_listening_question_revision",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1792201000000,
+      "tag": "0052_listening_mcq_program_days",
+      "breakpoints": true
+    },
+    {
+      "idx": 53,
+      "version": "7",
+      "when": 1792201000001,
+      "tag": "0053_telegram_bot_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1792201000002,
+      "tag": "0054_telegram_bot_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 55,
+      "version": "7",
+      "when": 1792201000003,
+      "tag": "0055_telegram_intent_purpose",
+      "breakpoints": true
+    },
+    {
+      "idx": 56,
+      "version": "7",
+      "when": 1792201000004,
+      "tag": "0056_telegram_owner_authority",
+      "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "7",
+      "when": 1792201000005,
+      "tag": "0057_telegram_contact_phone",
+      "breakpoints": true
+    },
+    {
+      "idx": 58,
+      "version": "7",
+      "when": 1792201000006,
+      "tag": "0058_telegram_private_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1792201000007,
+      "tag": "0059_listening_authored_checkpoints",
+      "breakpoints": true
+    },
+    {
+      "idx": 60,
+      "version": "7",
+      "when": 1792201000008,
+      "tag": "0060_auth_session_revocation",
+      "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "7",
+      "when": 1792201000009,
+      "tag": "0061_retention_permanent_delete",
+      "breakpoints": true
+    },
+    {
+      "idx": 62,
+      "version": "7",
+      "when": 1792360000000,
+      "tag": "0062_reading_assessment_questions",
+      "breakpoints": true
+    },
+    {
+      "idx": 63,
+      "version": "7",
+      "when": 1792400000000,
+      "tag": "0063_retention_vocabulary",
+      "breakpoints": true
+    },
+    {
+      "idx": 64,
+      "version": "7",
+      "when": 1792450000000,
+      "tag": "0064_dictionary_r2",
+      "breakpoints": true
+    },
+    {
+      "idx": 65,
+      "version": "7",
+      "when": 1792460000000,
+      "tag": "0065_dictionary_worker_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "7",
+      "when": 1793164198221,
+      "tag": "0066_notification_event_idempotency",
+      "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1793164199221,
+      "tag": "0067_assignment_deadline_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "7",
+      "when": 1793164200221,
+      "tag": "0068_writing_model_pattern_capacity",
+      "breakpoints": true
+    },
+    {
+      "idx": 69,
+      "version": "7",
+      "when": 1793164201221,
+      "tag": "0069_video_progress_playback_duration",
+      "breakpoints": true
+    },
+    {
+      "idx": 70,
+      "version": "7",
+      "when": 1793241854800,
+      "tag": "0071_shared_abuse_limits",
+      "breakpoints": true
+    },
+    {
+      "idx": 71,
+      "version": "7",
+      "when": 1793370499000,
+      "tag": "0072_ai_provider_admission",
+      "breakpoints": true
+    },
+    {
+      "idx": 72,
+      "version": "7",
+      "when": 1793370500000,
+      "tag": "0073_live_classes_youtube_chat_attendance",
+      "breakpoints": true
+    },
+    {
+      "idx": 73,
+      "version": "7",
+      "when": 1793370501000,
+      "tag": "0074_mock_hybrid_grading_system",
+      "breakpoints": true
+    }
+  ],
+  "sql_sha256": {
+    "drizzle/0000_upload_intents.sql": "d149017a39cfaf517789938cb802ba79120bdab1a3f0c498fd670a75c0a48c69",
+    "drizzle/0001_speaking_practice.sql": "190c03262689fe1e2b3d19f36301325a7371ac417533eb01e5d5430f9549a2e4",
+    "drizzle/0002_coach_evaluations.sql": "5d7e5bb9f40c2a88ec36915b937fc44ac673085bf82c66a2ae47833c868fd255",
+    "drizzle/0003_phase1_access_control.sql": "0519ca31d9a2862f309c7679cb62645be3c11bcdb6c3f338e5e5c5253c0f7005",
+    "drizzle/0004_vocabulary_engine.sql": "a449a08648b90ddf84c09c1ef6c3be99d4e826adee0828735e798e2d0eaa1386",
+    "drizzle/0005_lexeme_sense_key.sql": "bd709e30eb0eec7f35ee21718ee11fd1bb6a16f58d0d7dd25592a75f221ae3bc",
+    "drizzle/0006_lexeme_collocations.sql": "c5528a3321a819b1e258e4341c901edd4f9df00fb8212404f6ada52dc75cfc64",
+    "drizzle/0007_listening_mcq_mastery.sql": "038ca444dd47bbcb8e69607104fffc4eea3899862689ddc8cfa7bd6df9ab5d52",
+    "drizzle/0008_typing_runs.sql": "cc629a8023010503cd10e324b3a51ba490af40ccc7449e03c1bb6407cd421f41",
+    "drizzle/0009_grammar_activities.sql": "a9dc2fdd20ee9f143e00691a7497ceb48cad895efb1cda6e54d1777fbc459e14",
+    "drizzle/0010_problem_reports.sql": "007dbef62c06873bece2ec1ee62395608255ddbdc8e178381fcff956c310cfeb",
+    "drizzle/0011_lesson_recording.sql": "c3d2617870a2b33cc6690410b05a4fe303ac2fe927487413a15a720f0290d1db",
+    "drizzle/0012_goofy_beast.sql": "5b9dee31abe37c5bbfbd312261ea34c4cbf04f13c55c976d143edc3ce38f5d15",
+    "drizzle/0013_gifted_shotgun.sql": "3d8620f16e431a40eecb998721a9cc8f57ebcd5b2d9e05112fa45ada68b39e52",
+    "drizzle/0014_mighty_sway.sql": "1a0f569675807bde417cb0b80ef3de342f05daa13c2818cb76fc7c9bcc115b0e",
+    "drizzle/0015_polite_archangel.sql": "e2eaa95546d55cd43b8427cd21ae763612154df24e2902c8c891da9edde9a299",
+    "drizzle/0016_publication_state.sql": "e50c6bb5ed9ccbb2682c8307de36f040461898047ec318f1ff8b01c365d29986",
+    "drizzle/0017_reading_105_library.sql": "55bba8c1941c7185cc7405cfb1a7f209579a01f39274a8b1c78db11bf28b07c5",
+    "drizzle/0018_resource_blocks.sql": "5d8355ddad0962744f07758759bf28d0868122339eef86477a1b9fe8c6fbd290",
+    "drizzle/0019_grammar_source_privacy.sql": "d749c650685c693eb0f15b994272b59dca56eaed0ca886a2b87fca23787de816",
+    "drizzle/0020_lexical_source_snapshot.sql": "9e2d6b3ffbc7ea27c683350c6494e94d7c1d3d1e796f982443f4a9b32be49140",
+    "drizzle/0021_registration_gender.sql": "ba209a85c50ecf0818933f31896769bde1a1540ee21364bc18d3024e99f83d4a",
+    "drizzle/0022_retention_bank.sql": "8294e9c9e9c93116a6168e609d39fba4da7292f38ac27f726a90116b24814bb8",
+    "drizzle/0023_video_lesson_notes.sql": "e4ca1c6e2afdbd9f3360156eb4f9c932e7febfbe091a818c61160b2f359f2a27",
+    "drizzle/0024_video_lessons_standalone.sql": "4a5d5159f325884fd8e26ac5d7477a35e2280b812c8c9551a94ae2423b79806d",
+    "drizzle/0025_speaking_bank_identity.sql": "79ecefbd9fd75b36126ba330d117954091f0f0525f76370a3f337f4f021f4d74",
+    "drizzle/0026_google_identity.sql": "2a3104169e142576e4afff2e4fd37566890acd49280df25155f2258acbf000d4",
+    "drizzle/0027_live_partner.sql": "b76f9776ab6ff57208f9a8ab3b8e9ca692c8baa7173d26bb98efa920c4b12285",
+    "drizzle/0028_full_listening.sql": "09fa9dbc01efb0ce477c59cb02c9e5624421fcc3c6879f442031ede12001b3c7",
+    "drizzle/0029_vocabulary_architecture.sql": "050fa13dda1883a949ca0537c4b25a49f3d340a44066487441d631361ba7a774",
+    "drizzle/0030_general_reading.sql": "3d99ff8db195587609046a112b6efc21878e4defaf9cc3b2134b32ef75a90574",
+    "drizzle/0031_writing_workspace.sql": "bcbe2a3f24b884611cfbeb2d423bf3e1db09de104056b269c356afeb8dee24b8",
+    "drizzle/0032_writing_exam_papers.sql": "57686828eb5f61a381a9f324d9ccbd4cea533ecbc947ca2a7cd76c5ac9bdb07f",
+    "drizzle/0033_writing_language_stealing.sql": "128394ec0a6016c3c78564d977638dd06b2642ffcdbfb331ca8ec9a68c5ad7fc",
+    "drizzle/0034_typing_duration_presets.sql": "3eb1e502b6102e3476b6d8e120f699bd0c596e123d10103b5d27d645e7f12fcc",
+    "drizzle/0035_teacher_student_links.sql": "1244008086904ae204bfcf3244f68d91abac0750e73a1893cd6b74b204a6ec79",
+    "drizzle/0036_speaking_study_support.sql": "2287d37ada3bd0d542ecdc9fb966dd024c903f04f6f8d3c274294d73d3b071da",
+    "drizzle/0037_profile_photos.sql": "32890672239b62b019331a43c72d1102d48cd66651c156662c1cbad5a98f0341",
+    "drizzle/0038_dictionary_releases.sql": "b54e0187c6c5bcafdd7070437c5a9a27d7d3259ba1a93976544da26da74e916d",
+    "drizzle/0039_academic_reading_sets.sql": "7d4bb56a0cbc516f7be38da90c46b55e64be2fc7bd4816b1b6fe993642e0ebbd",
+    "drizzle/0040_content_imports.sql": "07061c332c848f89d17fd0510884a097eaabd01a429bf2d1f846e56d02a0a397",
+    "drizzle/0041_content_versions.sql": "594b74d0e36b1dda3a9e783d5de1f880fbe176e63e0209f7c4f2772c94640e35",
+    "drizzle/0042_mock_composition.sql": "7323615d9a62864532b1e23a48d20c7a11654eeba34278554303c73eec0b00f9",
+    "drizzle/0043_authoring_identity.sql": "e517578ebdf508d5490f0b66236358f1f054100745aa1aa62e5eef8f3d4dc52c",
+    "drizzle/0044_lesson_blocks.sql": "85b33a5fdecfa4240ea5281c6dd4ce73ae9e3d7e43fb7ef376cedfd363b314a9",
+    "drizzle/0045_media_lessons.sql": "c9d728b966b5334ffac970a0346023071f78da4b3f0388758bb99fbab578d7d3",
+    "drizzle/0046_vocabulary_topic_packs.sql": "d0251d7d0f4fda6a838c330fc51fe6adebc0c150cf020141db53968b983f577a",
+    "drizzle/0047_assignments_canonical.sql": "210927a617c29017ee9ba5e05f4155ce3c707895a7cb3b1e62ba1cc532885cf4",
+    "drizzle/0048_typing_trainer.sql": "813f3c8566afa4c1c6df10584e7041f58576d9558f384cb81cfe623c8c415ef0",
+    "drizzle/0049_lesson_notes.sql": "5896ddea2edf4916cd7c8c6889b999452a6a0d708dcc0d79b6478ded56f6f841",
+    "drizzle/0050_lesson_learning_area.sql": "ff5d754833e804723c198ab3ebefb0553006ae47e7e6908c06757f3d5865089d",
+    "drizzle/0051_listening_question_revision.sql": "f5b7a259f2643de8155cf66188d3d8b7a7313ca804ceb9920bebe306bb9ec26c",
+    "drizzle/0052_listening_mcq_program_days.sql": "ebb72044b2474bf3f22fd2f6e3be88591a5d24db9c66800fdec3f18c6cd8f742",
+    "drizzle/0053_telegram_bot_foundation.sql": "27c7902661d7a786a43933ee8ca61c3f73ad81f602fdc048b704f8c4a12cd708",
+    "drizzle/0054_telegram_bot_integrity.sql": "9b9203d21e2ed6625bf081bd35cd61fae2aa4a959e894dce9a21d44ad4a74d7e",
+    "drizzle/0055_telegram_intent_purpose.sql": "29cfad8e043b3cbb5c588174740c731b8ea300fd3e85bccc04f22e99f60d179e",
+    "drizzle/0056_telegram_owner_authority.sql": "2396d8ad27017e10670133bdf82a0d68dd394b407d139c1876f7360b3bc3c9f0",
+    "drizzle/0057_telegram_contact_phone.sql": "9c073d7115823b25b338136b76799a7ee3a6d19694d53f3f74d25579c26a0f73",
+    "drizzle/0058_telegram_private_tables.sql": "b934315013a243ef546f496c2774d6035d9b1ee8790492c98312985d82e21895",
+    "drizzle/0059_listening_authored_checkpoints.sql": "f92d113d25494dafe8bcae4e29cc6e2e2220ee0e01e99445f020d81de3b96e83",
+    "drizzle/0060_auth_session_revocation.sql": "1b2c7b55f817884f8acb8235ba05bf5dba4d1ee68e8a14b3f860b4d2c1574a0b",
+    "drizzle/0061_retention_permanent_delete.sql": "91b8d9e132d7dd73b6ad3e4979d3f71ee10a039d197fbaaf74d26b6ac8c8a1ff",
+    "drizzle/0062_reading_assessment_questions.sql": "d81f3f7bf975f444479cf2d908f6d2fb0305ad88c6aaa70b1bbabb6839ca2937",
+    "drizzle/0063_retention_vocabulary.sql": "4faf11f67d67a2f4b23b8c6d74efdafbed0441d057b0c65f6f2a4638b8ad017e",
+    "drizzle/0064_dictionary_r2.sql": "3ce16fe6d85b90b3de85316cbd87cb5d9e85845d0dac82c79ac6fb08f876fee3",
+    "drizzle/0065_dictionary_worker_index.sql": "cae12e2b7f4cbb8ae8ef3130f58de727175a522dadd36fd0529500f72a2c54df",
+    "drizzle/0066_notification_event_idempotency.sql": "b3900206718fdd3bae5867bde61221578a7e0e7b43eefd1f58202b7598aa1984",
+    "drizzle/0067_assignment_deadline_indexes.sql": "4cb10a096e82e04a91a16259febad43074236df05cd7e1651a1a71eb7813a94a",
+    "drizzle/0068_writing_model_pattern_capacity.sql": "1dcfc4af7b7021ac2eaf1f51bb3dd28e23713f2577ccaef059af746de75d8f31",
+    "drizzle/0069_video_progress_playback_duration.sql": "7ae9c08a9ffc07662ac81589f2c1f24800f60d81894ff878cf08dd786a5c7ea5",
+    "drizzle/0071_shared_abuse_limits.sql": "4a4d15599cfad8569c7798ec6a7b2ab5a41c99913cea70b4775fa6c51bf4e5e3",
+    "drizzle/0072_ai_provider_admission.sql": "69115873db05746128e5885fc3101d916d3307e9d9b0b2aa6f35706c72525e8e",
+    "drizzle/0073_live_classes_youtube_chat_attendance.sql": "70726841b2dc2d52bb8fbf13be3d3ad7e6d61ab8d0fb2dae918846342b96b47b",
+    "drizzle/0074_mock_hybrid_grading_system.sql": "16338cf06c2d025b2294c662775d302e209600151a2f2e312731e550163ef635"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.5",
+  "cpu_count": 8,
+  "host_ram_bytes": null,
+  "host_ram_is_deployment_budget": false,
+  "host_ram_measurement_error": "CalledProcessError: host memory measurement unavailable in this sandbox",
+  "installed_libraries": {
+    "numpy": false,
+    "onnxruntime": false,
+    "torch": false,
+    "transformers": false,
+    "whisper": false
+  },
+  "implementable_and_testable": [
+    "trusted-key objective evaluation",
+    "bounded pattern feedback",
+    "source-family split datasets",
+    "Basebook intake and evidence mapping",
+    "local PCM energy telemetry",
+    "guarded provider candidate review"
+  ],
+  "not_established": [
+    "independent IELTS band accuracy",
+    "semantic prompt relevance",
+    "phoneme/pronunciation assessment",
+    "local model weights and model licence",
+    "target-host memory and latency budget",
+    "human-reference calibration"
+  ],
+  "decision": "Objective evaluation is feasible. Subjective feedback is limited to observable patterns; independently validated band scoring remains blocked."
+}

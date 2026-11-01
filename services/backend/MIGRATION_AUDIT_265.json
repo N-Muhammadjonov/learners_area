@@ -1,14 +1,12 @@
 {
-  "source_commit": "cb6b3cdfdab8909c8d172df4714dba2bfe1a7b2e",
-  "source_archive_sha256": "6265490a87351a69cb97d579f18c3038eaedff0d7f40846f98b469ab8726124a",
-  "route_file_count": 218,
-  "source_total_methods": 265,
-  "fastapi_registered_methods": 265,
-  "unique_registered_method_paths": true,
-  "postgresql_integration_executed": false,
-  "live_nextjs_differential_executed": false,
-  "sql_migration_count": 66,
-  "sql_migrations_hash_equal_to_source": true,
+  "historical_sql_count": 66,
+  "post_audit_main_additive_sql_count": 5,
+  "riwi_additive_sql_count": 3,
+  "current_total_sql_count": 74,
+  "current_total_journal_entry_count": 74,
+  "reserved_skipped_prefixes": [
+    "0070"
+  ],
   "sql_sha256_by_filename": {
     "0000_upload_intents.sql": "d149017a39cfaf517789938cb802ba79120bdab1a3f0c498fd670a75c0a48c69",
     "0001_speaking_practice.sql": "190c03262689fe1e2b3d19f36301325a7371ac417533eb01e5d5430f9549a2e4",
@@ -77,19 +75,19 @@
     "0064_dictionary_r2.sql": "3ce16fe6d85b90b3de85316cbd87cb5d9e85845d0dac82c79ac6fb08f876fee3",
     "0065_dictionary_worker_index.sql": "cae12e2b7f4cbb8ae8ef3130f58de727175a522dadd36fd0529500f72a2c54df"
   },
-  "limitations": [
-    "265/265 indicates registered HTTP method coverage, not independently certified 1:1 business behavior.",
-    "Dictionary R2 immutable shards, worker index, leased background publish, rollback and retry have been ported and locally unit-tested, but not against a live PostgreSQL/R2/Dictionary Worker stack.",
-    "The 17 draft type writers, canonical/legacy Listening imports, and content conversion require live SQL/storage and differential Next.js requests for parity certification.",
-    "No live PostgreSQL, R2, Dictionary Worker, external AI or deployed Next.js differential E2E tests ran in this environment.",
-    "Local security, validation, inventory, checksum and mocked transition tests pass. This is not production readiness certification."
-  ],
-  "local_tests_passed": 597,
-  "last_five_http_methods": [
-    "POST /api/admin/content/drafts",
-    "POST /api/admin/content/import",
-    "POST /api/admin/listening/import",
-    "POST /api/admin/listening/tests/{id}/convert",
-    "POST /api/owner/dictionary/{action:path}"
-  ]
+  "post_audit_main_additive_sql_sha256_by_filename": {
+    "0066_notification_event_idempotency.sql": "b3900206718fdd3bae5867bde61221578a7e0e7b43eefd1f58202b7598aa1984",
+    "0067_assignment_deadline_indexes.sql": "4cb10a096e82e04a91a16259febad43074236df05cd7e1651a1a71eb7813a94a",
+    "0068_writing_model_pattern_capacity.sql": "1dcfc4af7b7021ac2eaf1f51bb3dd28e23713f2577ccaef059af746de75d8f31",
+    "0069_video_progress_playback_duration.sql": "7ae9c08a9ffc07662ac81589f2c1f24800f60d81894ff878cf08dd786a5c7ea5",
+    "0071_shared_abuse_limits.sql": "4a4d15599cfad8569c7798ec6a7b2ab5a41c99913cea70b4775fa6c51bf4e5e3"
+  },
+  "riwi_additive_sql_sha256_by_filename": {
+    "0072_riwi_core_and_governance.sql": "0007b0f95a2142bcc0d6df9bc2fb812cee2a6ac02d00f6ef5e71fb40dbf03076",
+    "0073_riwi_assessments_and_security_signals.sql": "f9631873a72b6744a719d0b1d3cb8d9840486c3e502af2f563227744154d31e5",
+    "0074_riwi_speaking_sessions_and_activity_indexes.sql": "e783715795eeba85f8e3a9f3542f69937ddc935836100a8538f733bea03d71c8"
+  },
+  "source_commit": "cb6b3cdfdab8909c8d172df4714dba2bfe1a7b2e",
+  "source_archive_sha256": "6265490a87351a69cb97d579f18c3038eaedff0d7f40846f98b469ab8726124a",
+  "sql_migration_count": 66
 }

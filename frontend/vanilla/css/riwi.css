@@ -1,0 +1,42 @@
+:root,
+[data-theme="day"] {
+  --riwi-bg: #f8fafc;
+  --riwi-surface: #ffffff;
+  --riwi-text: #0f172a;
+  --riwi-muted: #475569;
+  --riwi-border: #e2e8f0;
+  --riwi-accent: #1d4ed8;
+  --riwi-badge-bg: #dbeafe;
+  --riwi-badge-text: #1e40af;
+}
+
+[data-theme="night"],
+[data-theme="dark"] {
+  --riwi-bg: #0f172a;
+  --riwi-surface: #1e293b;
+  --riwi-text: #f8fafc;
+  --riwi-muted: #94a3b8;
+  --riwi-border: #334155;
+  --riwi-accent: #3b82f6;
+  --riwi-badge-bg: #1e3a8a;
+  --riwi-badge-text: #dbeafe;
+}
+
+.riwi-workspace,
+.riwi-owner-room {
+  background: var(--riwi-bg);
+  color: var(--riwi-text);
+  border: 1px solid var(--riwi-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .riwi-workspace,
+  .riwi-owner-room {
+    padding: 0.75rem;
+  }
+}

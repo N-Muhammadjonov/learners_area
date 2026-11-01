@@ -44,6 +44,11 @@ def test_sql_migrations_unchanged_from_original_sha256():
         '0071_shared_abuse_limits.sql',
         '0072_ai_provider_admission.sql',
         '0073_live_classes_youtube_chat_attendance.sql',
+        '0075_riwi_core_and_governance.sql',
+        '0076_riwi_assessments_and_security_signals.sql',
+        '0077_riwi_speaking_sessions_and_activity_indexes.sql',
+        '0078_riwi_server_only_tables.sql',
+        '0079_riwi_canonical_task_metadata.sql',
     }
     assert set(actual) - set(expected) == approved_additions
     assert len(actual) == len(expected) + len(approved_additions)

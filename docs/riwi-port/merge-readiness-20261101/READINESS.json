@@ -1,0 +1,25 @@
+{
+  "main_sha": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "riwi_sha": "b6434d1afa9ff3cfa8d53598f83b2cc34576f65c",
+  "previous_independent_checkpoint": "3f7bdaa9a086cd51f21fd0cedac560763fd5d410",
+  "merge_base": "1415ceee45a3fc18583a3b780fffd5cd6c519ae4",
+  "riwi_changed_paths": 106,
+  "overlap_paths": 25,
+  "basebook_contracts": 68,
+  "registry_keys": 105,
+  "metadata_differences_unresolved": 271,
+  "environment": "unavailable",
+  "new_backend_tests_executed": false,
+  "main_merge_performed": false,
+  "production_deployment_performed": false,
+  "merge_ready": false,
+  "production_ready": false,
+  "source_access": {
+    "full_named_conversation": "unavailable; app thread reader failed and native app access was denied",
+    "full_phase_a_to_j_continuation_prompt": "not_recovered",
+    "master_prompt": "read",
+    "fastapi_v2_prompt": "read",
+    "basebook": "full_text_recovered_and_all_68_task_definitions_parsed",
+    "recovery_transcripts": "two excerpts recovered, not represented as the complete conversation"
+  }
+}

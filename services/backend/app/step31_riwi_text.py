@@ -21,8 +21,8 @@ def count(text):return len(text.strip().split()) if text.strip() else 0
 def sentences(text):return [x.strip() for x in re.split(r'(?<=[.!?])\s+',text) if x.strip()]
 def tokens(text):return [s for s in re.sub(r"[^a-z0-9'\s]",' ',text.lower()).split() if s]
 def excerpt(text,cap=200):
-    val=' '.join(text.strip().split())
-    return val[:cap-1]+'…' if len(val)>cap else val
+    # A quote must remain a literal substring, including original whitespace.
+    return text.strip()[:cap]
 
 def containing(text,index):
     cursor=0
@@ -44,6 +44,11 @@ def diagnostics(text):
         if w not in AN_VOWEL and w[0] not in 'aeiou' and not re.fullmatch(r'[A-Z]{1,4}',m.group(1)):
             article.append(issue('GRAMMAR_ARTICLE',f'"an" before a consonant sound: "{m.group(0)}"',containing(text,m.start()),f'Use "a {w}".','medium'))
     sva=[]
+    # Bare sentence-initial "people" is plural. Do not match "a people"
+    # (an ethnic group), or infer agreement across arbitrary noun phrases.
+    for m in re.finditer(r'(?:^|(?<=[.!?])\s+)(people\s+(?:is|was|has|does))\b',text,re.I):
+        sva.append(issue('GRAMMAR_SVA',f'Subject–verb agreement: "{m.group(1)}"',
+            containing(text,m.start()),'Plural people takes are / were / have / do.','high'))
     for pat,description in SVA:
         for m in re.finditer(pat,text,re.I):sva.append(issue('GRAMMAR_SVA',f'Subject–verb agreement: "{m.group(0).strip()}"',containing(text,m.start()),description,'high'))
     tense=[]
