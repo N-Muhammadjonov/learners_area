@@ -264,9 +264,13 @@ export const mockGradingMount = mountStaff({
     const commitBtn = el('button', {type: 'button', class: 'btn-primary btn-sm', disabled: true, 'data-import-commit-btn': ''}, L.commitBtn);
 
     let lastValidatedPayload = null;
+    let validationGeneration=0;
+    const invalidateImport=()=>{validationGeneration++;lastValidatedPayload=null;commitBtn.disabled=true;dryRunReportHost.replaceChildren();};
+    listen(jsonTextarea,'input',invalidateImport,signal);
+    listen(batchSelectForImport,'change',invalidateImport,signal);
     listen(validateBtn, 'click', async () => {
-      dryRunReportHost.replaceChildren();
-      commitBtn.disabled = true;
+      invalidateImport();
+      const generation=validationGeneration;
       let parsed;
       try {
         parsed = JSON.parse(jsonTextarea.value);
@@ -279,7 +283,7 @@ export const mockGradingMount = mountStaff({
         gradingJson: parsed,
       };
       const res = await rawJson('POST', '/api/staff/mocks/grade-imports/validate', reqBody, signal);
-      if (signal?.aborted) return;
+      if (signal?.aborted||generation!==validationGeneration) return;
       const rep = res.data?.report;
       if (!res.ok || !rep) {
         showNotice(res.data?.error?.message || 'Validation failed.', true);

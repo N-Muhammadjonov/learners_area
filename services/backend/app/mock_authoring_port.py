@@ -13,7 +13,7 @@ import re
 from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from starlette.datastructures import UploadFile
 from fastapi.responses import Response
 
@@ -231,6 +231,10 @@ async def upload_mock_material(req: Request):
     if err: return err
     try:
         form=await req.form(max_files=2,max_fields=5,max_part_size=MAX_MOCK_DOCUMENT_BYTES)
+    except HTTPException as exc:
+        if exc.status_code==413:
+            return mock._err('material_too_large','The complete material upload exceeds 49 MB.',413)
+        raise
     except Exception:
         return mock._err('invalid_upload', 'Expected a JSON material and optional audio/image.', 422)
     slot=str(form.get('slot') or '')
@@ -301,49 +305,19 @@ async def get_mock_material_media(req: Request, versionId: str):
     if not vid: return mock._err('not_found','Media not found.',404)
     db=await core.pool()
     async with db.acquire() as con:
-        row=await con.fetchrow("""SELECT content_snapshot,created_by_user_id FROM content_versions
+        row=await con.fetchrow("""SELECT content_snapshot FROM content_versions
          WHERE id=$1 AND module='mock' AND publication_state='published'""",vid)
-        if row and user['role']!='owner' and row.get('created_by_user_id')!=user['id']:
-            if user['role'] not in ('student','teacher'):
-                return mock._err('forbidden','You cannot access this Mock material.',403)
-            linked=await con.fetchval("""SELECT EXISTS(
-              SELECT 1 FROM mock_attempts a,
-              LATERAL jsonb_array_elements(a.mock_snapshot->'sections') s
-              WHERE s->>'contentVersionId'=$1 AND
-              (a.user_id=$2 OR ($3::bool AND EXISTS(SELECT 1 FROM teacher_student_links l
-                WHERE l.teacher_user_id=$2 AND l.student_user_id=a.user_id))))""",
-              str(vid),user['id'],user['role']=='teacher')
-            if not linked:return mock._err('forbidden','This material is not assigned to you.',403)
     if not row: return mock._err('not_found','Media not found.',404)
     payload=row['content_snapshot']
     if isinstance(payload,str): payload=json.loads(payload)
-    if not isinstance(payload,dict): return mock._err('not_found','Media not found.',404)
-    key=payload.get('mediaObjectKey')
+    key=payload.get('mediaObjectKey') if isinstance(payload,dict) else None
     if not isinstance(key,str) or not key.startswith(f'mock/materials/{vid}/'):
         return mock._err('not_found','Media not found.',404)
-    try: raw=await mock.read_object(key)
-    except Exception: return mock._err('storage_unavailable','Media unavailable.',503)
-    if raw is None: return mock._err('not_found','Media not found.',404)
-    if hashlib.sha256(raw).hexdigest()!=payload.get('mediaSha256'):
-        return mock._err('media_corrupt','Media integrity check failed.',503)
-    mime=payload.get('mediaMimeType','application/octet-stream')
-    headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Accept-Ranges':'bytes'}
-    # Safari and other browsers may request byte ranges while playing long audio.
-    requested=req.headers.get('range','')
-    if requested.startswith('bytes='):
-        m=re.fullmatch(r'bytes=(\d*)-(\d*)',requested)
-        if not m or (not m.group(1) and not m.group(2)):
-            return Response(status_code=416,headers={**headers,'Content-Range':f'bytes */{len(raw)}'})
-        if not m.group(1):
-            size=int(m.group(2));start=max(0,len(raw)-size);end=len(raw)-1
-        else:
-            start=int(m.group(1));end=int(m.group(2)) if m.group(2) else len(raw)-1
-        if start>=len(raw) or end<start:
-            return Response(status_code=416,headers={**headers,'Content-Range':f'bytes */{len(raw)}'})
-        end=min(end,len(raw)-1)
-        headers['Content-Range']=f'bytes {start}-{end}/{len(raw)}'
-        return Response(content=raw[start:end+1],media_type=mime,status_code=206,headers=headers)
-    return Response(content=raw,media_type=mime,headers=headers)
+    # Use the same current-session/roster checks, private Worker capabilities and
+    # bounded Range streaming as every other private resource. Immutable upload
+    # keys are validated on ingestion and checked again for complete exports.
+    from .step20_media_port import deliver
+    return await deliver(req,key,False)
 
 
 async def _speaking_version(con, user, topics: dict, track: str, title: str):

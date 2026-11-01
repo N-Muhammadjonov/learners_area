@@ -168,6 +168,9 @@ async def exam_draft(req:Request,id:str):
             updated=await conn.fetchrow('''UPDATE writing_exam_paper_entries SET draft_revision=$3,saved_at=NOW()
                   WHERE paper_id=$1 AND position=$2 AND draft_revision<$3 RETURNING saved_at''',id,body['position'],body['revision'])
             if not updated:
+                current_content=await conn.fetchval('SELECT content FROM writing_submissions WHERE id=$1',row['submissionId'])
+                if current_content!=body['content']:
+                    return err('draft_conflict','A newer answer is already saved. Copy your local text before reloading.',409,retryable=False)
                 return core.j({'ok':True,'revision':row['current'], 'savedAt':datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z'),'stale':True})
             await conn.execute('''UPDATE writing_submissions SET content=$2,word_count=$3,updated_at=NOW()
                   WHERE id=$1''',row['submissionId'],body['content'],count_essay_words(body['content']))
