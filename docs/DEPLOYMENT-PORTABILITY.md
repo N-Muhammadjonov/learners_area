@@ -1,180 +1,125 @@
-# Deployment portability — Work QA 2
+# Native deployment portability
 
-Vercel remains the production host. No domain purchase, DNS change, production
-promotion, database migration or storage migration was performed in this pass.
-`learnersarea.uz` is only a possible future domain, not an active authority.
+The application is Python FastAPI/ASGI plus the packaged Vanilla JS frontend.
+The same `app.asgi:application` runs on Vercel, Railway and other Python/container
+hosts. There is no Next.js, React or Node backend. Node is used only for optional
+local test/database tooling, not for the Python asset build or serving requests.
 
-## Public origin and environment
+## Build and start
 
-`src/lib/config/site.ts` is the URL authority. `PUBLIC_BASE_URL` wins over the
-legacy `NEXT_PUBLIC_APP_URL`. New deployments should set only `PUBLIC_BASE_URL`.
-It must be a complete HTTP(S) origin with no credentials, path, query or fragment.
-Invalid explicit configuration fails rather than silently choosing another host.
-A generated `VERCEL_URL` never becomes the canonical origin.
+- Install Python dependencies from `services/backend/requirements.txt` (the root
+  `requirements.txt` is the Vercel mirror). The container uses Python 3.14.
+- Build: `python3 scripts/build_native_assets.py`. Keep the complete repository
+  layout or the equivalent layout packaged by `services/backend/Dockerfile`.
+- Container/generic host: `HOST=0.0.0.0 PORT=<host-port> APP_ENV=production python3 scripts/serve.py`.
+  `BACKEND_PYTHON` may select a virtual environment. The launcher uses one Uvicorn
+  worker, bounded admission and graceful shutdown; scale replicas with a reviewed
+  total database budget rather than changing the worker count blindly.
+- Vercel: `server.py` mounts the same ASGI application and owns its lifespan;
+  `vercel.json` selects FastAPI and the native Python asset build. Do not restore
+  a retired framework based on an old dashboard label.
+- `/healthz` is process liveness; `/readyz` also checks PostgreSQL, the shared rate
+  store/AI claim function and the asset manifest. `/api/version` reports release
+  identity only. Configure `APP_COMMIT_SHA` and optionally `APP_REGION` on a host
+  without the provider's commit/region variables.
 
-Home canonical/OpenGraph metadata, root metadataBase, robots and sitemap use this
-same value. Canonical metadata is intentionally limited to the public home page;
-private paths have noindex and are absent from the sitemap. Sitemap/robots are
-dynamic so their origin is evaluated by the running deployment. Rebuild and
-redeploy when changing the legacy NEXT_PUBLIC alias, as Next may inline it.
+## Environment identity and public URLs
 
-Use `APP_ENV=development|preview|production`. Vercel's `VERCEL_ENV` is a fallback,
-not a requirement. On generic hosts set APP_ENV explicitly, particularly preview:
-`NODE_ENV=production` describes an optimized build, not resource isolation.
-Preview robots disallow all paths, preview metadata is noindex, and its sitemap
-is empty. It may retain the configured production canonical without adopting its
-own transient hostname as production.
+Set `APP_ENV=production` or `preview` explicitly on a generic host. Accepted modes
+are `development`, `test`, `preview`, `production`. Managed Vercel production and
+preview flags, or Railway's production/non-development environment name, cannot
+be downgraded to development by an accidental `APP_ENV=development`. Invalid mode
+values fail closed. `NODE_ENV` does not select Python security behavior.
 
-Same-origin UI/API links and Telegram callback paths remain relative. Redirects
-use the incoming request URL, not a fixed production domain. Upload objects are
-identified by opaque keys and `/api/resources/<key>`, not by the web host.
+`PUBLIC_BASE_URL` is the explicit HTTP(S) public origin, with no credentials,
+path (other than `/`), query, fragment or whitespace. It wins over the legacy
+`NEXT_PUBLIC_APP_URL`; leave that alias empty on new deployments. The legacy
+`https://learnersarea.uz/` default remains for compatibility. Set the real public
+origin before a host/domain cutover. A generated preview URL or incoming Host/
+forwarded-host header never becomes canonical authority.
 
-## Security and reverse proxies
+The public home canonical, OpenGraph/JSON-LD URLs, robots and sitemap read the
+same runtime setting. Invalid explicit origins return a no-store 503 instead of
+silently falling back. Preview denies indexing and serves an empty sitemap.
+Private documents strip public content/metadata and retain noindex, authentication
+and role checks. Same-origin UI/API routes remain relative; changing a host does
+not rewrite stored media keys or learner records.
 
-CSRF compares scheme, host and port; HTTP and HTTPS on the same host are not the
-same origin. `TRUSTED_ORIGINS` is an explicit comma-separated allowlist; the
-configured canonical origin is also trusted. Do not add a wildcard. A cross-site
-browser request with neither Origin nor Referer is rejected using Fetch Metadata.
-Headerless non-browser clients still require each route's normal authentication.
+## Database, storage and secrets
 
-Plain Node ignores forwarded Host/Proto for the CSRF origin. Behind your own TLS
-proxy set `TRUST_PROXY_HEADERS=true` only if the proxy overwrites those headers
-and direct access to the Node listener is blocked. Vercel's managed proxy is
-recognized by its deployment flag. Configure the proxy to preserve the public
-Host and send the public scheme; this also matters for framework redirects and
-Secure cookies. Test through the public HTTPS URL, not just the internal port.
+Keep `DATABASE_URL`, `AUTH_SECRET` (at least 16 characters), storage/provider
+credentials and external provider secrets server-side. Use separate credentials,
+database/buckets and signing keys for preview; the application cannot prove that
+a supplied preview DSN is not the production database. Do not seed production.
 
-Session cookies remain HttpOnly and host-only (no fixed Domain). HTTPS uses the
-existing Secure/Partitioned/SameSite=None policy required by embedded previews;
-HTTP local testing uses SameSite=Lax. CSRF validation remains mandatory. Moving to
-another domain requires signing in again: a host-only cookie is not transferable.
-`AUTH_SECRET` is stable across replicas of one environment and separate between
-production and preview. Never copy production cookies into preview.
+`asyncpg` uses `DATABASE_POOL_MAX=5` by default (range 1–20), a five-second acquire
+bound (`DATABASE_POOL_ACQUIRE_TIMEOUT`, 0.05–20 seconds), eight-second connection
+and twenty-second query bounds. Size the sum of all replica/function pools against
+the available PostgreSQL/Supabase connection budget. Supabase direct/session and
+transaction pooler connections use verified TLS and disabled statement caching;
+do not bypass certificate verification or add spaces before a DSN password. URI
+reserved characters in credentials need percent encoding, not literal whitespace.
 
-Framing defaults to self on every host. An embedding shell must be named explicitly
-in `ALLOWED_FRAME_ANCESTORS`; merely being a preview/custom host no longer permits
-all HTTPS sites to frame the application.
+Use `RATE_LIMIT_BACKEND=postgres` in deployed environments. The operational table
+from migration 0071 and AI claim function from 0072 must already exist. Memory
+limits are for database-free development only and are rejected in preview and
+production. See [rate-limit boundary](RATE-LIMIT-DEPLOYMENT-BOUNDARY.md).
 
-The audit found that the previous reset endpoint returned its raw token in every
-environment. This Work change gates that shortcut to `next dev` AND
-`ALLOW_DEV_RESET_LINKS=true`. Production/preview return the same 503 for every
-email until actual email delivery is implemented; the UI shows a localized
-unavailable message. This closes a credential leak, but email recovery remains an
-OPEN functional requirement. Never re-enable raw token responses as a workaround.
+Set `STORAGE_PROVIDER=r2` with the existing private R2 configuration, or an
+explicit supported `s3` provider. A missing provider fails closed on managed or
+explicit deployed environments. Local storage is an explicit development/durable
+single-node option; ephemeral function/container disks are not persistent media.
+`STORAGE_LOCAL_DIR` must not be publicly served. Preserve object keys and bucket
+permissions; align CORS with the new exact website origins when a cutover is
+approved. A hosting-only move requires no application schema migration.
 
-## Custom domain on Vercel (future operator actions)
+## Proxy and authentication boundary
 
-1. Buy the chosen domain and add it to the existing Vercel project.
-2. Use the exact DNS records Vercel displays for that domain; do not copy stale
-   example A/CNAME records from a document.
-3. Verify ownership and HTTPS certificate issuance. Keep the old URL available
-   while testing; configure the desired canonical redirect at the hosting layer.
-4. Set production PUBLIC_BASE_URL to the new HTTPS origin; remove or align the
-   legacy alias. Audit explicit trusted origins and iframe allowlists.
-5. Add the new origin to the private R2 bucket's CORS policy for signed PUT/GET,
-   preserving methods/headers required by the upload flow.
-6. Update Telegram's allowed website domain and any configured website/bot
-   PUBLIC_SITE_URL, INTERNAL_API_URL, WEBHOOK_BASE_URL as applicable. This pass
-   did not touch the separate bot branch. Email sender/provider and external
-   callback allowlists must also be updated when those integrations exist.
-7. Redeploy, then verify sign-in/out, admission, direct URLs, uploads/downloads,
-   canonical/OpenGraph, sitemap/robots, and reset delivery availability.
+By default, CSRF uses the request's origin. Set `TRUST_PROXY_HEADERS=true` only
+when an exclusive trusted proxy overwrites forwarded Host/Proto and direct
+listener access is blocked. It is not automatically enabled by a hosting label.
+`TRUSTED_ORIGINS` adds exact CSRF origins; no wildcards. Cookies stay host-only:
+a new domain requires signing in again. Preserve HTTPS and stable signing keys
+across replicas. Embedding requires explicit `ALLOWED_FRAME_ANCESTORS`; default
+framing is self only. Production/preview disable development diagnostics, eval
+permissions and raw password-reset-token responses. Email/password login and
+password-reset delivery are separate capabilities; production reset delivery is
+not implemented and returns `reset_unavailable`, never a raw token.
 
-No application feature rewrite or R2 object relocation is needed for this switch.
+`CLOUDFLARE_ORIGIN_SECRET` is optional. When enabled, the edge must overwrite
+`X-LA-Origin-Verify` with the same strong secret and every normal public request
+must pass that edge; health/readiness probes have bounded exceptions. Do not copy
+that setting onto a new direct Vercel/generic URL without its matching route, or
+public requests will correctly be refused. Only this verified boundary permits
+`CF-Connecting-IP` to identify a client. Otherwise the ASGI peer address is used;
+a shared hosting proxy can therefore share an IP bucket. Do not trust arbitrary
+forwarding headers to avoid that conservative behavior.
 
-## Another Node host (future operator actions)
+Keep email/password access available while the separate Telegram bot is offline.
+Preserve bot identity, service credentials, callbacks and saved intents when
+restoring it. No hosting migration, DNS change, bot creation or secret rotation is
+performed by this source repair.
 
-- Runtime tested in this workspace: Node 24.21.0 (`.nvmrc`), npm lockfile install.
-- Install: `npm ci`; build: `npm run build`; serve: `npm run start -- --hostname
-  0.0.0.0 --port 3000` (choose the provider's port). Keep `.next`, `public`, package
-  files and production dependencies. No Vercel CLI or API is needed to start.
-- Run under a process manager/container with restart policy and graceful shutdown.
-  Terminate HTTPS at a trusted reverse proxy; expose only the proxy publicly.
-- Configure PUBLIC_BASE_URL, APP_ENV, AUTH_SECRET, DATABASE_URL, STORAGE_PROVIDER
-  and the existing R2 credentials/endpoint/bucket. Match optional AI/STT/email and
-  Telegram configuration to the intended environment. Keep secrets server-side.
-- `/api/version` is a lightweight liveness/build-identity endpoint, not a database
-  readiness check. APP_COMMIT_SHA and APP_REGION are portable metadata; Vercel
-  values are optional fallbacks. Confirm readiness using authenticated page/API
-  smoke tests and a separate private DB check. Never expose database credentials.
-- PostgreSQL/Supabase connects through DATABASE_URL using pg/Drizzle. Size the
-  per-process pool against the total replica count. Use the provider's supported
-  TLS/pooler settings; never disable certificate verification as a migration fix.
-- The private R2/S3 bucket stays where it is. Its signed URLs depend on storage
-  credentials/endpoint, not the web host. Keep CORS aligned with website origins.
-  R2/S3 origins are allowed for browser connection and signed media playback.
-- Set STORAGE_PROVIDER explicitly. Unknown or missing production configuration
-  fails closed instead of silently falling back to ephemeral local disk. Local
-  storage is only an explicit development or durable single-node option outside
-  `public/`, with a backed-up mounted volume; the intended production remains R2.
-- Do not run db:seed or db:push against production. A hosting-only move requires
-  no schema migration. Any separately required migration needs review, backup
-  and the user's production approval.
+## Move, restart and rollback
 
-`vercel.json` (region `sin1`) is provider deployment configuration and may be
-ignored on another host. VERCEL_REGION / VERCEL_GIT_COMMIT_SHA are optional log or
-version metadata; business logic has no Vercel KV/Blob/API dependency. The only
-Edge component is standard Next middleware, supported by `next start`; DB work
-runs in Node. No cron service is silently assumed: schedule retention explicitly.
+1. Package a tested commit and record its SHA, required configuration names and
+   existing migration compatibility. Retain the prior image/artifact and secret
+   version in the owner's protected operations store.
+2. Build/start against isolated preview resources, then verify the essential
+   automated tests and liveness/readiness. Manual device/learner checks belong to
+   the owner. Never load-test production as a substitute for an isolated test.
+3. At an approved cutover, configure the exact public origin, HTTPS/proxy trust,
+   media CORS and external callbacks. Keep a working email login path. Switch
+   routing only after readiness and release identity are verified.
+4. Roll back application code/config to the retained compatible release if
+   readiness fails. Code rollback does not undo database writes or restore R2.
+   Keep additive 0071/0072 while any runtime depends on them; prefer reviewed
+   forward repair to schema deletion. Never run migrations from application startup.
+5. Use the existing [recovery package](PLATFORM-RECOVERY-20261029.md) for isolated
+   encrypted DB/media restoration and reference reconciliation. Production restore
+   is a separate incident action, not part of a normal code rollback.
 
-## Environment separation and operational boundaries
-
-The app cannot infer whether two independently supplied DB credentials point to
-the same production database. Operators must provide separate preview DB, R2
-bucket/credentials, AUTH_SECRET and external service credentials. Never seed or
-run destructive retention against a production-connected preview. This pass did
-not inspect/change the deployment provider's secret settings and makes no claim
-that the existing remote preview is isolated.
-
-Current rate limits are process-local. A multi-replica deployment must add a
-shared enforcement layer or an equivalent gateway limit before claiming global
-abuse resistance. Retention concurrency, backup/restore drills, R2 lifecycle and
-full QA acceptance are still tracked in the original QA2 work; portability is
-not evidence that those separate requirements passed.
-
-## Hard-coded host inventory
-
-Search scope: runtime src, next.config, scripts, tests, README, docs and tracked
-configuration (not dependency/build output or private .env). Classification:
-
-| Match location | Class | Decision |
-|---|---|---|
-| docs/PRODUCTION-MIGRATSIYA.md | A: historical deployment evidence/examples | Preserve historical Vercel URL; not runtime authority |
-| docs/MANUAL-CHECK.md | A: historical production verification | Preserve measured target and explicit example command |
-| docs/READING-PRODUCTION-STABILITY.md | A: incident and measurement evidence | Preserve original host; do not rewrite history |
-| scripts/verify-production-reading.mjs | A: operational test; former unsafe default removed | Require explicit PROD_BASE_URL or PUBLIC_BASE_URL; example remains |
-| tests/cookie-policy.test.ts, tests/security-http.test.ts | B: localhost fixtures | Retain; not a production redirect |
-| tests/deployment-portability.test.ts | B: generated-preview and custom-domain fixtures | Assert no VERCEL_URL canonical fallback |
-| README.md localhost URLs/CORS sample | C: local run/test instructions | Retain examples; production CORS must use actual origin |
-| scripts/verify-uploads.mjs localhost comment | C: local testing | Retain |
-| next.config.mjs allowedDevOrigins | C: Next dev/legacy Arena preview only | No production effect |
-| .env.example legacy localhost canonical default | C: removed ambiguous default | Both public-origin variables now blank with explicit setup guidance |
-| src/instrumentation.ts and api/version | A: optional platform diagnostics | Generic version fields added; no business dependency |
-| src/lib/http/request-origin.ts host-only comparison | D: runtime security defect | Compare complete origins; forwarded headers require trusted proxy |
-| src/lib/config/site.ts permissive normalization/framing | D: runtime deployment security defect | Validate origins, explicit embedders, one canonical configuration |
-| reset endpoint unconditional raw token | D: runtime authentication defect | Development-only opt-in; production unavailable until delivery exists |
-
-There is no hard-coded Vercel production origin in runtime application links.
-Provider URLs for YouTube, Telegram widget and R2/S3 are service endpoints, not
-Learners Area's canonical domain. Website callbacks are relative; bot variables
-are an integration contract, not newly implemented bot work.
-
-## Domain migration checklist / rollback
-
-Record old/new public origin, build SHA and provider settings. Verify DB and R2
-backups independently; do not claim a backup exists from this document. Provision
-TLS, configure trusted proxy/origins/CORS, redeploy, and check both locales/theme,
-auth, secure host-only cookies, roles, private resource access, direct URLs and
-canonical tags. Reauthenticate on the new host. Keep old-host rollback available
-until acceptance; rolling back web hosting must not revert or re-seed the DB.
-
-Zero-rewrite scope: changing a web host/domain needs deployment configuration,
-not rewriting learning features. Remaining source work (email delivery, global
-rate limiting if multiple replicas, and unresolved QA2 defects) is explicitly
-separate and must not be mistaken for completed production readiness.
-
-## Verification record
-
-See docs/WORK-FINAL-AUDIT.md for exact fresh command outcomes. Acceptance is not
-claimed until current typecheck, lint, tests, production build/start and direct
-URL/browser checks have passed. No production promotion was performed.
+The controlled 200/500/1000-learner measurements are documented separately in
+[load validation](PLATFORM-LOAD-VALIDATION-20261101.md). They establish the tested
+resource/workload envelope, not unlimited capacity on every hosting plan. A new
+host still needs its own connection/CPU/memory/concurrency budget.
