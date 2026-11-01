@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import os
 from urllib.parse import urlsplit
+from .runtime_config import development
 from fastapi import APIRouter, Request, HTTPException
 from . import main as core
 from .auth_google_start_port import google_config
@@ -16,7 +17,7 @@ STAFF = frozenset(('teacher', 'admin', 'owner'))
 
 
 def diagnostics_enabled():
-    return os.getenv('APP_ENV') != 'production' and os.getenv('PERFORMANCE_DIAGNOSTICS') == 'true'
+    return development() and os.getenv('PERFORMANCE_DIAGNOSTICS') == 'true'
 
 
 def public_config():

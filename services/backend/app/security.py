@@ -16,6 +16,7 @@ import secrets
 import time
 import uuid
 from urllib.parse import urlsplit
+from .runtime_config import environment, development
 from fastapi import Request
 from fastapi.responses import Response
 
@@ -177,7 +178,7 @@ def write_cookie(response: Response, req: Request, name: str, value: str, ttl: i
 
 
 def build_csp(req: Request, nonce: str) -> str:
-    secure, dev = is_https(req), (os.environ.get('APP_ENV') != 'production')
+    secure, dev = is_https(req), development()
     def origins(name): return [n for v in os.environ.get(name, '').split(',') if (n := normalize_origin(v))]
     storage = [n for s in (os.environ.get('R2_ENDPOINT'), os.environ.get('S3_ENDPOINT')) if (n := normalize_origin(s))]
     media = normalize_origin(os.environ.get('AUTHORIZED_MEDIA_ORIGIN'))
@@ -214,5 +215,5 @@ def add_security_headers(response: Response, req: Request) -> None:
     response.headers['referrer-policy'] = 'strict-origin-when-cross-origin'
     response.headers['permissions-policy'] = 'camera=(), geolocation=(), payment=(), usb=(), microphone=(self)'
     response.headers['x-dns-prefetch-control'] = 'off'
-    if is_https(req) and os.environ.get('APP_ENV') == 'production':
+    if is_https(req) and environment() == 'production':
         response.headers['strict-transport-security'] = 'max-age=15552000; includeSubDomains'

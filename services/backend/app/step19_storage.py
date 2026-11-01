@@ -2,6 +2,7 @@
 Private object keys remain validated and never become public URLs.
 """
 from __future__ import annotations
+from .runtime_config import development
 import os,re
 from pathlib import Path
 from .request_lifecycle import run_io
@@ -31,7 +32,7 @@ async def presigned_read_url(key,etag=None):
     return await run_io(task)
 
 def provider():
-    selected=(os.getenv('STORAGE_PROVIDER') or ('' if os.getenv('APP_ENV')=='production' else 'local')).lower().strip()
+    selected=(os.getenv('STORAGE_PROVIDER') or ('' if not development() else 'local')).lower().strip()
     if selected not in ('local','r2','s3'):
         raise RuntimeError('STORAGE_PROVIDER must be local, r2 or s3')
     return selected
