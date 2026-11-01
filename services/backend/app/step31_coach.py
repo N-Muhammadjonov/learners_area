@@ -49,6 +49,13 @@ def valid(p):
     return True
 
 def internal(kind,data):
+    if os.getenv('RIWI_EVALUATION_MODE') == 'independent-v1' and kind in ('writing', 'speaking'):
+        from .riwi_evaluation.independent import evaluate_writing, evaluate_speaking
+        if kind == 'writing':
+            return evaluate_writing(task_type=data['taskType'], prompt=data['prompt'], content=data['content'],
+                                    target_words=data['targetWordCount'])['evaluation']
+        return evaluate_speaking(transcript=data['transcript'], part=data['part'], duration_ms=data.get('durationMs'),
+                                 prompt=data.get('promptText') or '', origin=data.get('transcriptOrigin') or 'manual')['evaluation']
     if kind=='grammar':return gval(**data)
     if kind=='vocabulary':return vval(**data)
     if kind=='assignment':
@@ -110,6 +117,18 @@ def meta(kind,provider=None,model=None,fallback=False,from_provider=None):
             'promptVersion':'external-adapter-v1','rubricVersion':'ielts-public-criteria-v1','fallbackUsed':False,'fallbackFrom':None}
 
 async def resolve(kind,input,language):
+    # Explicit Mode B is server-configured and cannot fall through to a paid
+    # provider, even if the Owner's usual Coach provider is external.
+    if os.getenv('RIWI_EVALUATION_MODE') == 'independent-v1':
+        try:
+            result = internal(kind, input)
+            if not valid(result):return None,'invalid_evaluation'
+            info = meta(kind)
+            info['promptVersion'] = 'riwi-independent-evidence-v1'
+            info['rubricVersion'] = 'pattern-feedback-unvalidated-v1'
+            return result, info
+        except (ValueError, KeyError, TypeError):
+            return None, 'evaluation_unavailable'
     conf=await status();effective=conf['effective'];registered={x['id']:x for x in conf['providers']};pid=effective['providerId'];own=conf['owner'];fallback=effective['fallback']
     if pid!='riwi' and pid in registered:
         p=registered[pid]

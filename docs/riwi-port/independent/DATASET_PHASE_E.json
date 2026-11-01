@@ -1,0 +1,24 @@
+{
+  "total_cases": 336,
+  "unique_source_families": 24,
+  "split_counts": {
+    "training": 84,
+    "calibration": 84,
+    "validation": 84,
+    "final_holdout": 84
+  },
+  "domain_counts": {
+    "reading": 96,
+    "listening": 96,
+    "grammar": 48,
+    "vocabulary": 48,
+    "writing": 24,
+    "speaking": 24
+  },
+  "cross_split_source_families": 0,
+  "cross_split_exact_duplicates": 0,
+  "subjective_band_labels": 0,
+  "independent_language_benchmark": false,
+  "limitation": "Question templates are shared. Family separation alone does not establish semantic or statistical independence.",
+  "jsonl_sha256": "f26ec4dac882e8b81436571ffc5c8a791ee51d040345e15db56511278cb94ee5"
+}

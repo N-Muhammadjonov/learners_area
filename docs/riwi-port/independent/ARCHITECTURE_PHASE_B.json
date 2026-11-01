@@ -1,0 +1,177 @@
+{
+  "base_sha": "bf7319a3418e918a84d50fd2c451e32e4b687015",
+  "audit_checkout_head": "bf7319a3418e918a84d50fd2c451e32e4b687015",
+  "measured_at": "2026-11-01T13:26:56.986434+00:00",
+  "inventory_claimed_method_count": 304,
+  "runtime_registered_api_methods": 304,
+  "runtime_riwi_routes": [
+    [
+      "DELETE",
+      "/api/riwi/conversations/{conversation_id}"
+    ],
+    [
+      "GET",
+      "/api/riwi/conversations/{conversation_id}"
+    ],
+    [
+      "GET",
+      "/api/riwi/learning-signals"
+    ],
+    [
+      "GET",
+      "/api/riwi/learning-signals/{signal_id}"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/assessment-policies"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/audit"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/diagnostics"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/knowledge"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/knowledge/conflicts"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/knowledge/{source_id}"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/provider-lab"
+    ],
+    [
+      "GET",
+      "/api/riwi/owner/security-signals"
+    ],
+    [
+      "GET",
+      "/api/riwi/targets"
+    ],
+    [
+      "POST",
+      "/api/riwi/chat"
+    ],
+    [
+      "POST",
+      "/api/riwi/feedback"
+    ],
+    [
+      "POST",
+      "/api/riwi/learning-signals"
+    ],
+    [
+      "POST",
+      "/api/riwi/learning-signals/{signal_id}/knowledge"
+    ],
+    [
+      "POST",
+      "/api/riwi/learning-signals/{signal_id}/review"
+    ],
+    [
+      "POST",
+      "/api/riwi/objective-explanation"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/assessment-policies"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/assessment-policies/preview"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/assessment-policies/{version_id}/approve"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/assessment-policies/{version_id}/reject"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/assessment-policies/{version_id}/rollback"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/knowledge"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/knowledge/{source_id}/approve"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/knowledge/{source_id}/promote"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/knowledge/{source_id}/reject"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/provider-lab"
+    ],
+    [
+      "POST",
+      "/api/riwi/owner/security-signals/{signal_id}/review"
+    ],
+    [
+      "POST",
+      "/api/riwi/presence"
+    ]
+  ],
+  "runtime_import_error": null,
+  "provenance_review": {
+    "metadata_differences": 271,
+    "resolved": 0,
+    "fully_resolved": false
+  },
+  "findings": [
+    {
+      "finding": "Writing uses surface patterns and word/paragraph counts. The task prompt is not used to establish semantic relevance.",
+      "evidence": {
+        "path": "services/backend/app/step32_writing_riwi.py",
+        "line": 13,
+        "sha256": "5980305371a22f7339fbcfe0f957115277339eaf9058e4d6d8698acb44470e32"
+      },
+      "independent_band_accuracy": "unverified"
+    },
+    {
+      "finding": "Speaking consumes transcript text and optional duration. Pronunciation is explicitly unassessed.",
+      "evidence": {
+        "path": "services/backend/app/step31_riwi_evaluators.py",
+        "line": 77,
+        "sha256": "61a09906cd4a6f79b0b70356b3c8131f23482fd402ed87989c745b6ee7a49837"
+      },
+      "audio_inference": false
+    },
+    {
+      "finding": "External RIWI chat requires both rollout configuration and an injected transport.",
+      "evidence": {
+        "path": "services/backend/app/riwi_gateway.py",
+        "line": 261,
+        "sha256": "dfd1c66e5fa6c5632c299833fe1a9ae8a5734864f5ff71da24619ec44284f5f1"
+      }
+    },
+    {
+      "finding": "The opt-in independent-v1 Coach path returns pattern feedback without subjective bands and bypasses provider lookup.",
+      "evidence": {
+        "path": "services/backend/app/step31_coach.py",
+        "line": 119,
+        "sha256": "653c3af293ebfe0296b690ed421a49587b4b4af73bfc3769ee70684bf9279e7c"
+      }
+    }
+  ],
+  "live_database_parity_executed": false,
+  "production_readiness_certified": false
+}
