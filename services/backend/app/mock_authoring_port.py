@@ -130,7 +130,7 @@ def _content_hash(payload: dict) -> str:
                                       separators=(',', ':')).encode()).hexdigest()
 
 
-def _validate_material_payload(slot: str, payload: dict, has_media: bool) -> tuple[str | None, str | None]:
+def _validate_material_payload(slot: str, payload: dict, has_media: bool, track: str = 'academic') -> tuple[str | None, str | None]:
     if not isinstance(payload, dict):
         return 'invalid_document', 'JSON must be an object.'
     if slot in ('listening','reading'):
@@ -138,22 +138,25 @@ def _validate_material_payload(slot: str, payload: dict, has_media: bool) -> tup
         if not isinstance(qs, list) or len(qs) != 40:
             return 'invalid_question_count', 'Exactly 40 genuine questions are required.'
         ids = [q.get('id') for q in qs if isinstance(q, dict)]
-        if len(ids) != 40 or len(set(map(str,ids))) != 40:
+        if (len(ids) != 40 or len(set(map(str,ids))) != 40 or
+            any(type(qid) not in (str,int) or not str(qid).strip() or len(str(qid))>120 for qid in ids)):
             return 'invalid_question_ids', '40 unique question IDs are required.'
         from .mock_system_port import _question_has_answer_key
-        if any(not isinstance(q,dict) or not (q.get('questionText') or q.get('question_text')) or
+        if any(not isinstance(q,dict) or not isinstance(q.get('questionText') or q.get('question_text'),str) or
+               not (q.get('questionText') or q.get('question_text')).strip() or
                not _question_has_answer_key(q) for q in qs):
             return 'missing_keys', 'Each question needs prompt text and an official answer key.'
     if slot == 'listening' and not has_media:
         return 'missing_audio', 'Upload the actual Listening recording with the JSON.'
     if slot == 'reading':
         ps=payload.get('passages')
-        if not isinstance(ps,list) or not ps or any(not isinstance(x,dict) or not
-            str(x.get('bodyText') or x.get('body_text') or '').strip() for x in ps):
+        if not isinstance(ps,list) or not ps or any(not isinstance(x,dict) or
+            not isinstance(x.get('bodyText') or x.get('body_text'),str) or
+            not (x.get('bodyText') or x.get('body_text')).strip() for x in ps):
             return 'missing_passages', 'Reading JSON must contain genuine passages with bodyText.'
-    if slot.startswith('writing') and not str(payload.get('prompt') or '').strip():
+    if slot.startswith('writing') and (not isinstance(payload.get('prompt'),str) or not payload['prompt'].strip()):
         return 'missing_prompt', 'Writing material needs a real prompt.'
-    if slot == 'writingTask1' and not has_media:
+    if slot == 'writingTask1' and track == 'academic' and not has_media:
         return 'missing_task1_visual', 'Upload the Task 1 image, or include an authorized image reference.'
     return None, None
 
@@ -195,11 +198,14 @@ async def bind_existing_exam_material(req: Request):
             snapshot=await source_snapshot(con,slot,source_id)
             if snapshot is None:
                 return mock._err('unavailable_exam_material','The selected published Exam material is not complete.',422)
-            source_ref=f'exam:{slot}:{source_id}'
+            # A teacher's immutable clone is owned by that teacher. Reusing a
+            # different teacher's clone fails the draft ownership gate.
+            source_ref=f'exam:{slot}:{uuid.uuid5(source_id,str(user["id"]))}'
             old=await con.fetchrow("""SELECT id FROM content_versions WHERE module='mock'
                  AND content_type=$1 AND track=$2 AND source_ref=$3
-                 AND publication_state='published' AND content_hash=$4 LIMIT 1""",
-                 MOCK_MATERIAL_TYPES[slot],track,source_ref,_content_hash(snapshot))
+                 AND publication_state='published' AND content_hash=$4
+                 AND ($5::bool OR created_by_user_id=$6) LIMIT 1""",
+                 MOCK_MATERIAL_TYPES[slot],track,source_ref,_content_hash(snapshot),user['role']=='owner',user['id'])
             if old:
                 vid=old['id']
             else:
@@ -246,7 +252,7 @@ async def upload_mock_material(req: Request):
         # Never trust media references or object keys embedded in imported JSON.
         for key in ('audioUrl','audio_url','mediaRef','mediaObjectKey','mediaSha256','mediaMimeType'):
             payload.pop(key,None)
-    problem,description=_validate_material_payload(slot,payload,has_media)
+    problem,description=_validate_material_payload(slot,payload,has_media,track)
     if problem: return mock._err(problem,description,422)
     if has_media and slot not in ('listening','writingTask1'):
         return mock._err('unexpected_media','Only Listening audio and Task 1 images can be attached.',422)
@@ -295,8 +301,19 @@ async def get_mock_material_media(req: Request, versionId: str):
     if not vid: return mock._err('not_found','Media not found.',404)
     db=await core.pool()
     async with db.acquire() as con:
-        row=await con.fetchrow("""SELECT content_snapshot FROM content_versions
+        row=await con.fetchrow("""SELECT content_snapshot,created_by_user_id FROM content_versions
          WHERE id=$1 AND module='mock' AND publication_state='published'""",vid)
+        if row and user['role']!='owner' and row.get('created_by_user_id')!=user['id']:
+            if user['role'] not in ('student','teacher'):
+                return mock._err('forbidden','You cannot access this Mock material.',403)
+            linked=await con.fetchval("""SELECT EXISTS(
+              SELECT 1 FROM mock_attempts a,
+              LATERAL jsonb_array_elements(a.mock_snapshot->'sections') s
+              WHERE s->>'contentVersionId'=$1 AND
+              (a.user_id=$2 OR ($3::bool AND EXISTS(SELECT 1 FROM teacher_student_links l
+                WHERE l.teacher_user_id=$2 AND l.student_user_id=a.user_id))))""",
+              str(vid),user['id'],user['role']=='teacher')
+            if not linked:return mock._err('forbidden','This material is not assigned to you.',403)
     if not row: return mock._err('not_found','Media not found.',404)
     payload=row['content_snapshot']
     if isinstance(payload,str): payload=json.loads(payload)

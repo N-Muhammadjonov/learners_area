@@ -567,7 +567,9 @@ def compute_attempt_schedule_plan(
             continue
         sec = int(s.get('seconds') or DEFAULT_SECTION_SECONDS.get(sk, 1800))
         if seen_skills and seen_skills[-1][0] == sk:
-            # Merge two Writing task rows into one 60-minute Writing section window if needed
+            # Task 1 + Task 2 share one Writing section, including BOTH durations.
+            if sk == 'writing':
+                seen_skills[-1] = (sk, seen_skills[-1][1] + sec)
             continue
         seen_skills.append((sk, sec))
 

@@ -86,7 +86,7 @@ export const mockCreateMount=mountStaff({
         if(state.busy||signal.aborted)return;
         const document=file.files?.[0];
         if(!document){notify(`${label}: ${L.json}`,true);return;}
-        if((key==='listening'||key==='writingTask1')&&!media?.files?.[0]){
+        if((key==='listening'||key==='writingTask1'&&state.track==='academic')&&!media?.files?.[0]){
           notify(`${label}: ${L.media}`,true);return;}
         state.busy=true;upload.disabled=true;
         try{

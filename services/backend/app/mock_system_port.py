@@ -761,14 +761,15 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
                 t_type = 'task1' if idx_w == 1 or w_sec.get('content_type') == 'task1' else 'task2'
                 await con.execute(
                     """INSERT INTO mock_writing_answers
-                       (attempt_id, task_type, prompt_snapshot_id, prompt_text, content, media_ref, word_count)
-                       VALUES ($1, $2, $3, $4, '', $5, 0)
+                       (attempt_id, task_type, prompt_snapshot_id, prompt_text, content, media_ref, media_sha256, word_count)
+                       VALUES ($1, $2, $3, $4, '', $5, $6, 0)
                        ON CONFLICT (attempt_id, task_type) DO NOTHING""",
                     attempt_id,
                     t_type,
                     w_sec.get('content_version_id'),
                     str(w_content.get('prompt') or ''),
                     w_content.get('mediaObjectKey') or w_content.get('mediaRef'),
+                    w_content.get('mediaSha256'),
                 )
 
             await _log_mock_audit(
@@ -813,7 +814,7 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
             aid,
         )
         writing_rows = await con.fetch(
-            """SELECT task_type, prompt_text, content, media_ref, word_count, draft_revision, finalized_at
+            """SELECT task_type, prompt_snapshot_id, prompt_text, content, media_ref, word_count, draft_revision, finalized_at
                FROM mock_writing_answers WHERE attempt_id = $1 ORDER BY task_type""",
             aid,
         )
@@ -886,7 +887,8 @@ async def get_mock_attempt_snapshot(req: Request, id: str):
             'taskType': w['task_type'],
             'prompt': w['prompt_text'],
             'content': w['content'],
-            'mediaUrl': (f"/api/resources/{w['media_ref']}" if not str(w['media_ref']).startswith('/') else w['media_ref']) if w['media_ref'] else None,
+            'mediaUrl': (f"/api/mocks/media/{w['prompt_snapshot_id']}" if str(w['media_ref']).startswith('mock/materials/') and w.get('prompt_snapshot_id')
+                         else f"/api/resources/{w['media_ref']}" if not str(w['media_ref']).startswith('/') else w['media_ref']) if w['media_ref'] else None,
             'wordCount': w['word_count'],
             'draftRevision': w['draft_revision'],
             'finalizedAt': _iso(w['finalized_at']),
@@ -2186,13 +2188,24 @@ async def create_staff_mock_export_batch(req: Request):
     include_exported = bool(body.get('includePreviouslyExported', False))
     date_from = body.get('dateFrom')
     date_to = body.get('dateTo')
-    max_per_batch = int(body.get('maxPerBatch') or MAX_BATCH_SIZE_DEFAULT)
-    max_per_batch = max(1, min(50, max_per_batch))
+    max_per_batch = body.get('maxPerBatch', MAX_BATCH_SIZE_DEFAULT)
+    if type(max_per_batch) is not int or not 1 <= max_per_batch <= 50:
+        return _err('invalid_input', 'maxPerBatch must be an integer from 1 to 50.', 400)
+    try:
+        for value in (date_from,date_to):
+            if value is not None and (not isinstance(value,str) or date.fromisoformat(value).isoformat()!=value):
+                return _err('invalid_input','Use a valid calendar date in YYYY-MM-DD format.',400)
+    except ValueError:
+        return _err('invalid_input','Use a valid calendar date in YYYY-MM-DD format.',400)
+    if date_from and date_to and date_from>date_to:
+        return _err('invalid_input','Date from must not follow date to.',400)
 
     requested_ids = body.get('attemptIds')
+    if requested_ids is not None and (not isinstance(requested_ids,list) or len(requested_ids)>200):
+        return _err('invalid_input','Supply at most 200 attempt IDs.',400)
     explicit_attempt_ids: list[uuid.UUID] = []
     if isinstance(requested_ids, list) and requested_ids:
-        for x in requested_ids[:200]:
+        for x in requested_ids:
             u_id = core.uuid_value(x)
             if not u_id:
                 return _err('invalid_input', 'Invalid attemptId in attemptIds.', 400)
@@ -2216,6 +2229,18 @@ async def create_staff_mock_export_batch(req: Request):
                     return _err('forbidden', 'One or more requested student attempts are outside your assigned scope.', 403)
                 args.append(explicit_attempt_ids)
                 conds.append(f's.attempt_id = ANY(${len(args)}::uuid[])')
+
+            student_filter=body.get('student')
+            if student_filter:
+                if not isinstance(student_filter,str) or len(student_filter)>200:
+                    return _err('invalid_input','Invalid student filter.',400)
+                args.append('%'+student_filter.strip()+'%')
+                conds.append(f'EXISTS(SELECT 1 FROM users u WHERE u.id=a.user_id AND (u.name ILIKE ${len(args)} OR u.id::text ILIKE ${len(args)}))')
+            weekly_filter=body.get('weeklySlot')
+            if weekly_filter:
+                if not isinstance(weekly_filter,str) or not re.fullmatch(r'\d{4}-W\d{2}',weekly_filter):
+                    return _err('invalid_input','Invalid weekly slot.',400)
+                args.append(weekly_filter);conds.append(f'a.weekly_slot=${len(args)}')
 
             if isinstance(date_from, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', date_from):
                 args.append(date.fromisoformat(date_from))
@@ -2464,22 +2489,37 @@ async def download_staff_mock_export(req: Request, batchId: str):
         if section == 'writing':
             for entry in manifest.get('entries', []):
                 media_ref = entry.get('task1MediaRef')
-                if isinstance(media_ref, str) and valid_key(media_ref):
-                    img_bytes = await read_object(media_ref)
-                    if img_bytes:
-                        entry['task1MediaBytes'] = img_bytes
+                if media_ref:
+                    key=media_ref.removeprefix('/api/resources/') if isinstance(media_ref,str) else None
+                    if not key or not valid_key(key):
+                        return _err('export_media_unavailable','The pinned Task 1 image cannot be resolved.',409)
+                    from .writing_exam_bank import graph_bytes as exam_graph_bytes
+                    from .writing_source_materials import graph_bytes as source_graph_bytes
+                    img_bytes=exam_graph_bytes(key) or source_graph_bytes(key) or await read_object(key)
+                    if not img_bytes:
+                        return _err('export_media_unavailable','Task 1 image is missing; an incomplete DOCX was not created.',503)
+                    if entry.get('task1MediaSha256') and sha256_hex(img_bytes)!=entry['task1MediaSha256']:
+                        return _err('export_media_changed','Task 1 image does not match the frozen source.',409)
+                    entry['task1MediaBytes'] = img_bytes
             payload_bytes = await core.run_blocking(render_writing_batch_docx, manifest)
             media_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             filename = f'{batch_code}_Writing_Batch.docx'
         else:
             audio_blobs: dict[str, bytes] = {}
+            total_audio_bytes=0
             for entry in manifest.get('entries', []):
                 for p in entry.get('parts', []):
                     okey = p.get('objectKey')
                     if isinstance(okey, str) and valid_key(okey) and okey not in audio_blobs:
+                        total_audio_bytes+=int(p.get('bytes') or 0)
+                        if total_audio_bytes>64*1024*1024:
+                            return _err('export_too_large','Select a smaller Speaking batch (audio limit: 64 MB).',413)
                         raw = await read_object(okey)
-                        if raw:
-                            audio_blobs[okey] = raw
+                        if not raw or len(raw)!=p.get('bytes') or sha256_hex(raw)!=p.get('sha256'):
+                            return _err('export_audio_unavailable','Original audio is missing or changed; an incomplete ZIP was not created.',503)
+                        audio_blobs[okey] = raw
+                    elif not isinstance(okey,str) or not valid_key(okey):
+                        return _err('export_audio_unavailable','Invalid pinned audio reference.',409)
             payload_bytes = await core.run_blocking(render_speaking_batch_zip, manifest, audio_blobs)
             media_type = 'application/zip'
             filename = f'{batch_code}_Speaking_Audio.zip'

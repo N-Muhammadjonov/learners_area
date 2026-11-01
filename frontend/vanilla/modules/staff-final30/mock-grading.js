@@ -498,6 +498,8 @@ export const mockGradingMount = mountStaff({
         includePreviouslyExported: true,
         dateFrom: filters.dateFrom || null,
         dateTo: filters.dateTo || null,
+        student: filters.student || null,
+        weeklySlot: filters.weeklySlot || null,
       }, signal);
       if (signal?.aborted) return;
       if (!res.ok) {
