@@ -75,6 +75,14 @@ async def summary_sequential(con, uid):
 
 
 async def dashboard(req, con, uid):
+    from .browser_dashboard_snapshot import dashboard_snapshot
+    try:
+        return await dashboard_snapshot(con,uid)
+    except Exception:
+        return await dashboard_sequential(req,con,uid)
+
+
+async def dashboard_sequential(req, con, uid):
     from .step31_coach import decoded, PUBLIC
     from .browser_optional import OptionalReads
     read=OptionalReads()

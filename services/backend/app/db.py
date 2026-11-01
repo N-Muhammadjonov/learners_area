@@ -158,7 +158,10 @@ def db_failure(exc: Exception) -> JSONResponse:
     reason = reasons.get(code, 'unreachable')
     hint = ('The database has not received this deployment\'s migrations.' if reason in ('schema_missing', 'column_missing')
             else 'The database is not reachable with the configured credentials.')
-    LOG.warning('Database unavailable: %s', reason)
+    # Log diagnostic classes/codes, never the exception message or DSN: those
+    # can contain credentials. Public responses keep the existing safe hint.
+    LOG.warning('Database unavailable: %s exception=%s sqlstate=%s errno=%s',
+                reason, type(exc).__name__, code, getattr(exc,'errno',None))
     return JSONResponse({'error': 'service_unavailable', 'reason': reason, 'hint': hint}, status_code=503)
 
 

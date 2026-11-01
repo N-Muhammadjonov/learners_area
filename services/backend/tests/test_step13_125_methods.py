@@ -227,7 +227,7 @@ def test_125_unique_route_keys():
     for route in core.app.routes:
         if not route.path.startswith('/api/'):
             continue
-        for method in route.methods or ():
+        for method in getattr(route,'methods',()) or ():
             if method in {'GET','POST','PUT','PATCH','DELETE'}:
                 assert (method,route.path) not in seen,(method,route.path)
                 seen.add((method,route.path))

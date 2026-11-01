@@ -1,0 +1,1466 @@
+{
+  "task": 13,
+  "result": "PASS_CONTROLLED_LOCAL_SCOPE",
+  "recorded_at": "2026-11-01T08:00:01.006832+00:00",
+  "main_base": "2da939fea47b3bb688b99de4a1588cd0966d9518",
+  "sustainable_measured_concurrent_learners": 1000,
+  "steady_seconds": 60,
+  "action_period_seconds": 10,
+  "frontend_manual_acceptance": "owner responsibility",
+  "production_load_requests": 0,
+  "paid_provider_calls": 0,
+  "reports": {
+    "baseline20": {
+      "label": "baseline-20",
+      "users": 20,
+      "steady_seconds": 60.0,
+      "think_seconds": 2.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 469,
+      "achieved_rps": 7.817,
+      "p50_ms": 1354.914,
+      "p95_ms": 4893.599,
+      "statuses": {
+        "200": 425,
+        "204": 39,
+        "206": 5
+      },
+      "error_percent": 0.0,
+      "errors": {},
+      "per_api": {
+        "vocabulary": {
+          "requests": 86,
+          "p50_ms": 765.314,
+          "p95_ms": 3113.322
+        },
+        "reading": {
+          "requests": 73,
+          "p50_ms": 1192.977,
+          "p95_ms": 2922.682
+        },
+        "dashboard": {
+          "requests": 92,
+          "p50_ms": 1029.337,
+          "p95_ms": 3277.24
+        },
+        "ai": {
+          "requests": 10,
+          "p50_ms": 1006.871,
+          "p95_ms": 2235.227
+        },
+        "presence": {
+          "requests": 39,
+          "p50_ms": 1188.134,
+          "p95_ms": 2873.428
+        },
+        "progress": {
+          "requests": 45,
+          "p50_ms": 1575.428,
+          "p95_ms": 2713.723
+        },
+        "writing_save": {
+          "requests": 44,
+          "p50_ms": 1406.121,
+          "p95_ms": 2666.305
+        },
+        "listening": {
+          "requests": 70,
+          "p50_ms": 4429.279,
+          "p95_ms": 6192.58
+        },
+        "objective_grade": {
+          "requests": 5,
+          "p50_ms": 1300.503,
+          "p95_ms": 2040.114
+        },
+        "media": {
+          "requests": 5,
+          "p50_ms": 2557.321,
+          "p95_ms": 2632.017
+        }
+      },
+      "confirmed_draft_owners": 20,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 14,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 6,
+      "failures": [],
+      "pool_wait_p95_ms": 1930.517,
+      "pool_waiters_peak": 15,
+      "http_inflight_peak": 21,
+      "provider_peak": 1,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 5,
+      "rss_start_bytes": 98029568,
+      "rss_end_bytes": 99876864,
+      "rss_peak_bytes": 99876864,
+      "cgroup_memory_peak_bytes": 133099520,
+      "cpu_average_cores": 0.238,
+      "burst_statuses": {
+        "200": 20
+      },
+      "burst_p95_ms": 324.34,
+      "recovery_statuses": {
+        "200": 40
+      },
+      "recovery_p95_ms": 99.915,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224887311
+      },
+      "functional_pass": true,
+      "sustainable_pass": false,
+      "source_commit": "7e916a02ef7be3192f42bfd054fcf432318fbb47",
+      "image_id": "sha256:d4a9b3df413b57b2e2387bd1923f1e1435ef289cf8fb201552de7581cf77c0ff",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    },
+    "current20": {
+      "label": "current-20",
+      "users": 20,
+      "steady_seconds": 60.0,
+      "think_seconds": 2.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 599,
+      "achieved_rps": 9.983,
+      "p50_ms": 74.005,
+      "p95_ms": 127.225,
+      "statuses": {
+        "200": 547,
+        "204": 45,
+        "206": 7
+      },
+      "error_percent": 0.0,
+      "errors": {},
+      "per_api": {
+        "listening": {
+          "requests": 90,
+          "p50_ms": 115.16,
+          "p95_ms": 127.593
+        },
+        "progress": {
+          "requests": 59,
+          "p50_ms": 38.577,
+          "p95_ms": 47.949
+        },
+        "writing_save": {
+          "requests": 61,
+          "p50_ms": 37.229,
+          "p95_ms": 43.055
+        },
+        "reading": {
+          "requests": 89,
+          "p50_ms": 77.204,
+          "p95_ms": 85.141
+        },
+        "dashboard": {
+          "requests": 120,
+          "p50_ms": 92.644,
+          "p95_ms": 103.463
+        },
+        "presence": {
+          "requests": 45,
+          "p50_ms": 46.229,
+          "p95_ms": 52.773
+        },
+        "vocabulary": {
+          "requests": 108,
+          "p50_ms": 40.832,
+          "p95_ms": 51.856
+        },
+        "objective_grade": {
+          "requests": 8,
+          "p50_ms": 227.938,
+          "p95_ms": 240.706
+        },
+        "ai": {
+          "requests": 12,
+          "p50_ms": 233.186,
+          "p95_ms": 251.016
+        },
+        "media": {
+          "requests": 7,
+          "p50_ms": 119.75,
+          "p95_ms": 129.73
+        }
+      },
+      "confirmed_draft_owners": 20,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 17,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 9,
+      "failures": [],
+      "pool_wait_p95_ms": 0.087,
+      "pool_waiters_peak": 2,
+      "http_inflight_peak": 6,
+      "provider_peak": 1,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 1,
+      "rss_start_bytes": 97607680,
+      "rss_end_bytes": 99373056,
+      "rss_peak_bytes": 99373056,
+      "cgroup_memory_peak_bytes": 87785472,
+      "cpu_average_cores": 0.108,
+      "burst_statuses": {
+        "200": 20
+      },
+      "burst_p95_ms": 321.806,
+      "recovery_statuses": {
+        "200": 40
+      },
+      "recovery_p95_ms": 101.387,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224944655
+      },
+      "functional_pass": true,
+      "sustainable_pass": true,
+      "source_commit": "af3c565dac58613b5f1d1019ec25759c33f27c5a",
+      "image_id": "sha256:d4a9b3df413b57b2e2387bd1923f1e1435ef289cf8fb201552de7581cf77c0ff",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    },
+    "baseline200": {
+      "label": "baseline-200",
+      "users": 200,
+      "steady_seconds": 60.0,
+      "think_seconds": 10.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 601,
+      "achieved_rps": 10.017,
+      "p50_ms": 20006.68,
+      "p95_ms": 20012.802,
+      "statuses": {
+        "0": 597,
+        "200": 4
+      },
+      "error_percent": 99.334,
+      "errors": {
+        "vocabulary:ReadTimeout": 113,
+        "presence:ReadTimeout": 47,
+        "listening:ReadTimeout": 91,
+        "reading:ReadTimeout": 89,
+        "objective_grade:ReadTimeout": 7,
+        "progress:ReadTimeout": 59,
+        "dashboard:ReadTimeout": 312,
+        "writing_save:ReadTimeout": 61,
+        "ai:ReadTimeout": 13,
+        "media:ReadTimeout": 6
+      },
+      "per_api": {
+        "vocabulary": {
+          "requests": 113,
+          "p50_ms": 20006.803,
+          "p95_ms": 20012.802
+        },
+        "presence": {
+          "requests": 47,
+          "p50_ms": 20007.677,
+          "p95_ms": 20012.783
+        },
+        "listening": {
+          "requests": 91,
+          "p50_ms": 20006.493,
+          "p95_ms": 20012.192
+        },
+        "reading": {
+          "requests": 90,
+          "p50_ms": 20006.493,
+          "p95_ms": 20012.665
+        },
+        "objective_grade": {
+          "requests": 7,
+          "p50_ms": 20006.305,
+          "p95_ms": 20008.617
+        },
+        "progress": {
+          "requests": 59,
+          "p50_ms": 20006.78,
+          "p95_ms": 20011.859
+        },
+        "dashboard": {
+          "requests": 115,
+          "p50_ms": 20006.493,
+          "p95_ms": 20012.661
+        },
+        "writing_save": {
+          "requests": 60,
+          "p50_ms": 20006.387,
+          "p95_ms": 20010.893
+        },
+        "ai": {
+          "requests": 13,
+          "p50_ms": 20006.576,
+          "p95_ms": 20009.93
+        },
+        "media": {
+          "requests": 6,
+          "p50_ms": 20005.241,
+          "p95_ms": 20008.044
+        }
+      },
+      "confirmed_draft_owners": 47,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 7,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 3,
+      "failures": [],
+      "pool_wait_p95_ms": 20926.637,
+      "pool_waiters_peak": 321,
+      "http_inflight_peak": 326,
+      "provider_peak": 1,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 5,
+      "rss_start_bytes": 110182400,
+      "rss_end_bytes": 127356928,
+      "rss_peak_bytes": 127356928,
+      "cgroup_memory_peak_bytes": 130015232,
+      "cpu_average_cores": 0.253,
+      "burst_statuses": {
+        "0": 200
+      },
+      "burst_p95_ms": 20211.642,
+      "recovery_statuses": {
+        "0": 1,
+        "200": 39
+      },
+      "recovery_p95_ms": 98.005,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224895503
+      },
+      "functional_pass": false,
+      "sustainable_pass": false,
+      "source_commit": "7e916a02ef7be3192f42bfd054fcf432318fbb47",
+      "image_id": "sha256:1971c5d880ac4afabd3abac1932c02324350be53db98985079d497f8f41e73e5",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    },
+    "current200": {
+      "label": "current-200",
+      "users": 200,
+      "steady_seconds": 60.0,
+      "think_seconds": 10.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 1187,
+      "achieved_rps": 19.783,
+      "p50_ms": 68.704,
+      "p95_ms": 121.348,
+      "statuses": {
+        "200": 1079,
+        "204": 97,
+        "206": 11
+      },
+      "error_percent": 0.0,
+      "errors": {},
+      "per_api": {
+        "progress": {
+          "requests": 121,
+          "p50_ms": 37.288,
+          "p95_ms": 46.381
+        },
+        "vocabulary": {
+          "requests": 211,
+          "p50_ms": 38.699,
+          "p95_ms": 50.687
+        },
+        "listening": {
+          "requests": 177,
+          "p50_ms": 110.3,
+          "p95_ms": 127.038
+        },
+        "reading": {
+          "requests": 179,
+          "p50_ms": 73.806,
+          "p95_ms": 87.38
+        },
+        "dashboard": {
+          "requests": 238,
+          "p50_ms": 87.529,
+          "p95_ms": 100.455
+        },
+        "presence": {
+          "requests": 97,
+          "p50_ms": 43.381,
+          "p95_ms": 52.566
+        },
+        "writing_save": {
+          "requests": 117,
+          "p50_ms": 36.01,
+          "p95_ms": 45.811
+        },
+        "ai": {
+          "requests": 26,
+          "p50_ms": 229.093,
+          "p95_ms": 245.829
+        },
+        "media": {
+          "requests": 11,
+          "p50_ms": 108.309,
+          "p95_ms": 115.325
+        },
+        "objective_grade": {
+          "requests": 10,
+          "p50_ms": 220.705,
+          "p95_ms": 229.198
+        }
+      },
+      "confirmed_draft_owners": 137,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 36,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 17,
+      "failures": [],
+      "pool_wait_p95_ms": 0.064,
+      "pool_waiters_peak": 2,
+      "http_inflight_peak": 6,
+      "provider_peak": 1,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 2,
+      "rss_start_bytes": 103653376,
+      "rss_end_bytes": 104640512,
+      "rss_peak_bytes": 104640512,
+      "cgroup_memory_peak_bytes": 94404608,
+      "cpu_average_cores": 0.172,
+      "burst_statuses": {
+        "200": 77,
+        "503": 123
+      },
+      "burst_p95_ms": 1149.122,
+      "recovery_statuses": {
+        "200": 40
+      },
+      "recovery_p95_ms": 100.699,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224920079
+      },
+      "functional_pass": true,
+      "sustainable_pass": true,
+      "source_commit": "c6a48a8fabe51d8d252bcdc1b00c2ec7de679901",
+      "image_id": "sha256:1971c5d880ac4afabd3abac1932c02324350be53db98985079d497f8f41e73e5",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    },
+    "current500": {
+      "label": "current-500",
+      "users": 500,
+      "steady_seconds": 60.0,
+      "think_seconds": 10.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 2971,
+      "achieved_rps": 49.517,
+      "p50_ms": 71.036,
+      "p95_ms": 168.716,
+      "statuses": {
+        "200": 2704,
+        "204": 237,
+        "206": 30
+      },
+      "error_percent": 0.0,
+      "errors": {},
+      "per_api": {
+        "vocabulary": {
+          "requests": 535,
+          "p50_ms": 35.01,
+          "p95_ms": 100.347
+        },
+        "reading": {
+          "requests": 446,
+          "p50_ms": 69.178,
+          "p95_ms": 125.831
+        },
+        "listening": {
+          "requests": 445,
+          "p50_ms": 98.347,
+          "p95_ms": 167.018
+        },
+        "progress": {
+          "requests": 296,
+          "p50_ms": 34.247,
+          "p95_ms": 91.251
+        },
+        "dashboard": {
+          "requests": 595,
+          "p50_ms": 82.211,
+          "p95_ms": 157.089
+        },
+        "writing_save": {
+          "requests": 296,
+          "p50_ms": 33.61,
+          "p95_ms": 102.473
+        },
+        "presence": {
+          "requests": 237,
+          "p50_ms": 41.353,
+          "p95_ms": 92.615
+        },
+        "ai": {
+          "requests": 62,
+          "p50_ms": 225.122,
+          "p95_ms": 346.572
+        },
+        "objective_grade": {
+          "requests": 29,
+          "p50_ms": 202.267,
+          "p95_ms": 250.768
+        },
+        "media": {
+          "requests": 30,
+          "p50_ms": 104.392,
+          "p95_ms": 191.495
+        }
+      },
+      "confirmed_draft_owners": 333,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 89,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 43,
+      "failures": [],
+      "pool_wait_p95_ms": 24.128,
+      "pool_waiters_peak": 59,
+      "http_inflight_peak": 65,
+      "provider_peak": 2,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 5,
+      "rss_start_bytes": 103010304,
+      "rss_end_bytes": 105574400,
+      "rss_peak_bytes": 105574400,
+      "cgroup_memory_peak_bytes": 99303424,
+      "cpu_average_cores": 0.283,
+      "burst_statuses": {
+        "200": 64,
+        "503": 436
+      },
+      "burst_p95_ms": 5069.345,
+      "recovery_statuses": {
+        "200": 40
+      },
+      "recovery_p95_ms": 89.018,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224854543
+      },
+      "worker_active_peak": 13,
+      "overload_metrics_observed": true,
+      "functional_pass": true,
+      "sustainable_pass": true,
+      "source_commit": "d2c3cfbe31b85387ffe474b101860ec493af892e",
+      "image_id": "sha256:1971c5d880ac4afabd3abac1932c02324350be53db98985079d497f8f41e73e5",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    },
+    "current1000_before": {
+      "label": "current-1000",
+      "users": 1000,
+      "steady_seconds": 60.0,
+      "think_seconds": 10.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 5942,
+      "achieved_rps": 99.033,
+      "p50_ms": 634.535,
+      "p95_ms": 956.518,
+      "statuses": {
+        "503": 443,
+        "200": 5005,
+        "204": 435,
+        "206": 59
+      },
+      "error_percent": 7.455,
+      "errors": {
+        "listening:503:busy": 50,
+        "objective_grade:503:busy": 4,
+        "presence:503:busy": 40,
+        "vocabulary:503:busy": 83,
+        "progress:503:busy": 57,
+        "reading:503:busy": 62,
+        "dashboard:503:busy": 99,
+        "writing_save:503:busy": 40,
+        "ai:503:busy": 8
+      },
+      "per_api": {
+        "listening": {
+          "requests": 888,
+          "p50_ms": 663.664,
+          "p95_ms": 908.669
+        },
+        "objective_grade": {
+          "requests": 57,
+          "p50_ms": 766.736,
+          "p95_ms": 845.992
+        },
+        "presence": {
+          "requests": 475,
+          "p50_ms": 614.085,
+          "p95_ms": 900.61
+        },
+        "vocabulary": {
+          "requests": 1071,
+          "p50_ms": 607.701,
+          "p95_ms": 868.384
+        },
+        "progress": {
+          "requests": 592,
+          "p50_ms": 608.543,
+          "p95_ms": 896.97
+        },
+        "reading": {
+          "requests": 894,
+          "p50_ms": 642.489,
+          "p95_ms": 846.479
+        },
+        "writing_save": {
+          "requests": 596,
+          "p50_ms": 610.674,
+          "p95_ms": 800.084
+        },
+        "dashboard": {
+          "requests": 1190,
+          "p50_ms": 653.088,
+          "p95_ms": 923.508
+        },
+        "media": {
+          "requests": 59,
+          "p50_ms": 999.68,
+          "p95_ms": 1271.873
+        },
+        "ai": {
+          "requests": 120,
+          "p50_ms": 1682.147,
+          "p95_ms": 2018.112
+        }
+      },
+      "confirmed_draft_owners": 632,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 164,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 81,
+      "failures": [],
+      "pool_wait_p95_ms": 384.693,
+      "pool_waiters_peak": 62,
+      "http_inflight_peak": 68,
+      "provider_peak": 2,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 4,
+      "rss_start_bytes": 112414720,
+      "rss_end_bytes": 117944320,
+      "rss_peak_bytes": 117944320,
+      "cgroup_memory_peak_bytes": 105512960,
+      "cpu_average_cores": 0.344,
+      "burst_statuses": {
+        "200": 187,
+        "503": 813
+      },
+      "burst_p95_ms": 2006.049,
+      "recovery_statuses": {
+        "200": 40
+      },
+      "recovery_p95_ms": 93.561,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224887311
+      },
+      "worker_active_peak": 64,
+      "overload_metrics_observed": true,
+      "functional_pass": true,
+      "sustainable_pass": false,
+      "source_commit": "d2c3cfbe31b85387ffe474b101860ec493af892e",
+      "image_id": "sha256:1971c5d880ac4afabd3abac1932c02324350be53db98985079d497f8f41e73e5",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    },
+    "current1000_after": {
+      "label": "current-1000",
+      "users": 1000,
+      "steady_seconds": 60.0,
+      "think_seconds": 10.0,
+      "ramp_seconds": 15.0,
+      "warmup_seconds": 15.0,
+      "requests": 5942,
+      "achieved_rps": 99.033,
+      "p50_ms": 70.671,
+      "p95_ms": 211.066,
+      "statuses": {
+        "200": 5408,
+        "204": 475,
+        "206": 59
+      },
+      "error_percent": 0.0,
+      "errors": {},
+      "per_api": {
+        "writing_save": {
+          "requests": 596,
+          "p50_ms": 51.346,
+          "p95_ms": 151.897
+        },
+        "dashboard": {
+          "requests": 1190,
+          "p50_ms": 48.069,
+          "p95_ms": 154.476
+        },
+        "vocabulary": {
+          "requests": 1071,
+          "p50_ms": 49.877,
+          "p95_ms": 174.665
+        },
+        "listening": {
+          "requests": 888,
+          "p50_ms": 108.342,
+          "p95_ms": 203.65
+        },
+        "reading": {
+          "requests": 894,
+          "p50_ms": 81.899,
+          "p95_ms": 198.562
+        },
+        "presence": {
+          "requests": 475,
+          "p50_ms": 55.937,
+          "p95_ms": 157.376
+        },
+        "progress": {
+          "requests": 592,
+          "p50_ms": 48.892,
+          "p95_ms": 165.373
+        },
+        "ai": {
+          "requests": 120,
+          "p50_ms": 258.8,
+          "p95_ms": 483.8
+        },
+        "media": {
+          "requests": 59,
+          "p50_ms": 132.897,
+          "p95_ms": 292.987
+        },
+        "objective_grade": {
+          "requests": 57,
+          "p50_ms": 209.863,
+          "p95_ms": 294.13
+        }
+      },
+      "confirmed_draft_owners": 661,
+      "lost_confirmed_writes": 0,
+      "completed_ai_submissions": 175,
+      "incorrect_ai_scores": 0,
+      "duplicate_ai_requests": 0,
+      "completed_objective_submissions": 86,
+      "failures": [],
+      "pool_wait_p95_ms": 141.78,
+      "pool_waiters_peak": 61,
+      "http_inflight_peak": 67,
+      "provider_peak": 2,
+      "peak_backend_connections": 5,
+      "peak_active_backend_connections": 4,
+      "rss_start_bytes": 112074752,
+      "rss_end_bytes": 112209920,
+      "rss_peak_bytes": 112209920,
+      "cgroup_memory_peak_bytes": 98897920,
+      "cpu_average_cores": 0.338,
+      "burst_statuses": {
+        "200": 865,
+        "503": 135
+      },
+      "burst_p95_ms": 5315.015,
+      "recovery_statuses": {
+        "200": 40
+      },
+      "recovery_p95_ms": 45.263,
+      "synthetic_only": true,
+      "paid_provider_calls": 0,
+      "database_volume": {
+        "users": 1006,
+        "dictionary_entries": 322263,
+        "lexemes": 8200,
+        "user_vocabulary": 50000,
+        "reading_passages": 105,
+        "reading_questions": 1406,
+        "listening_tests": 62,
+        "listening_questions": 1430,
+        "writing_submissions": 1001,
+        "database_bytes": 224920079
+      },
+      "worker_active_peak": 64,
+      "overload_metrics_observed": true,
+      "functional_pass": true,
+      "sustainable_pass": true,
+      "source_commit": "a5998fab2ed77f24a56106e384a7acfc7bb4aa76",
+      "image_id": "sha256:1971c5d880ac4afabd3abac1932c02324350be53db98985079d497f8f41e73e5",
+      "resources": {
+        "app_cpus": 1,
+        "app_memory_bytes": 536870912,
+        "postgres_cpus": 1,
+        "postgres_memory_bytes": 1073741824,
+        "replicas": 1,
+        "workers": 1,
+        "pool_max": 5,
+        "database_max_connections": 60
+      },
+      "injected_query_delay_ms": 5,
+      "network": "Docker internal; no published ports; no outbound provider calls"
+    }
+  },
+  "differential_checks": {
+    "listening": {
+      "migrations": 74,
+      "typedTables": 137,
+      "readModelChecks": 72,
+      "replicas": 1,
+      "measurements": [
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "academic_full_test",
+          "cards": 7,
+          "before_queries": 61,
+          "after_queries": 8
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "academic_full_test",
+          "cards": 7,
+          "before_queries": 61,
+          "after_queries": 8
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "academic_full_test",
+          "cards": 7,
+          "before_queries": 68,
+          "after_queries": 7
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "version fallback, draft counts, activity stages, user scope",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "academic_full_test",
+          "cards": 8,
+          "before_queries": 71,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "academic_full_test",
+          "cards": 8,
+          "before_queries": 70,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "academic_full_test",
+          "cards": 8,
+          "before_queries": 77,
+          "after_queries": 7
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy submitted runtime",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "academic_full_test",
+          "cards": 8,
+          "before_queries": 71,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "academic_full_test",
+          "cards": 8,
+          "before_queries": 70,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "academic_full_test",
+          "cards": 8,
+          "before_queries": 77,
+          "after_queries": 7
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "legacy NULL submission ordering",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "academic_full_test",
+          "cards": 68,
+          "before_queries": 671,
+          "after_queries": 8
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "student",
+          "actor": "d600552a-9c4d-50ef-a468-9a77a23fc123",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "academic_full_test",
+          "cards": 68,
+          "before_queries": 670,
+          "after_queries": 8
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "student",
+          "actor": "e3385453-3bfe-5c36-8e5d-762342868b47",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "academic_full_test",
+          "cards": 68,
+          "before_queries": 677,
+          "after_queries": 7
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "general_section",
+          "cards": 7,
+          "before_queries": 41,
+          "after_queries": 8
+        },
+        {
+          "phase": "sixty additional materials",
+          "role": "teacher",
+          "actor": "d5489cc6-361f-5016-8dd1-b0a1ddb3cf17",
+          "product": "question_type_practice",
+          "cards": 0,
+          "before_queries": 3,
+          "after_queries": 3
+        }
+      ],
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    },
+    "dashboard": {
+      "migrations": 74,
+      "typedTables": 137,
+      "readModelChecks": 24,
+      "replicas": 1,
+      "measurements": [
+        {
+          "phase": "empty learner and peer histories",
+          "actor": "snapshot-user",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "empty learner and peer histories",
+          "actor": "other-student",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "empty learner and peer histories",
+          "actor": "teacher",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "scoped counts, private evaluations, ordered due dates and streak",
+          "actor": "snapshot-user",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "scoped counts, private evaluations, ordered due dates and streak",
+          "actor": "other-student",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "scoped counts, private evaluations, ordered due dates and streak",
+          "actor": "teacher",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "Writing becomes latest activity; timestamp precision and zone",
+          "actor": "snapshot-user",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "Writing becomes latest activity; timestamp precision and zone",
+          "actor": "other-student",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "Writing becomes latest activity; timestamp precision and zone",
+          "actor": "teacher",
+          "before_queries": 8,
+          "after_queries": 1
+        },
+        {
+          "phase": "optional evaluation table outage",
+          "actor": "snapshot-user",
+          "before_queries": 8,
+          "after_queries": 9
+        },
+        {
+          "phase": "optional evaluation table outage",
+          "actor": "other-student",
+          "before_queries": 8,
+          "after_queries": 9
+        },
+        {
+          "phase": "optional evaluation table outage",
+          "actor": "teacher",
+          "before_queries": 8,
+          "after_queries": 9
+        }
+      ],
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    }
+  },
+  "critical_api_comparisons": {
+    "20": {
+      "dashboard": {
+        "before_p95_ms": 3277.24,
+        "after_p95_ms": 103.463,
+        "change_percent": -96.84,
+        "before_samples": 92,
+        "after_samples": 120
+      },
+      "reading": {
+        "before_p95_ms": 2922.682,
+        "after_p95_ms": 85.141,
+        "change_percent": -97.09,
+        "before_samples": 73,
+        "after_samples": 89
+      },
+      "listening": {
+        "before_p95_ms": 6192.58,
+        "after_p95_ms": 127.593,
+        "change_percent": -97.94,
+        "before_samples": 70,
+        "after_samples": 90
+      },
+      "vocabulary": {
+        "before_p95_ms": 3113.322,
+        "after_p95_ms": 51.856,
+        "change_percent": -98.33,
+        "before_samples": 86,
+        "after_samples": 108
+      },
+      "progress": {
+        "before_p95_ms": 2713.723,
+        "after_p95_ms": 47.949,
+        "change_percent": -98.23,
+        "before_samples": 45,
+        "after_samples": 59
+      },
+      "writing_save": {
+        "before_p95_ms": 2666.305,
+        "after_p95_ms": 43.055,
+        "change_percent": -98.39,
+        "before_samples": 44,
+        "after_samples": 61
+      },
+      "presence": {
+        "before_p95_ms": 2873.428,
+        "after_p95_ms": 52.773,
+        "change_percent": -98.16,
+        "before_samples": 39,
+        "after_samples": 45
+      }
+    },
+    "200": {
+      "dashboard": {
+        "before_p95_ms": 20012.661,
+        "after_p95_ms": 100.455,
+        "change_percent": -99.5,
+        "before_samples": 115,
+        "after_samples": 238
+      },
+      "reading": {
+        "before_p95_ms": 20012.665,
+        "after_p95_ms": 87.38,
+        "change_percent": -99.56,
+        "before_samples": 90,
+        "after_samples": 179
+      },
+      "listening": {
+        "before_p95_ms": 20012.192,
+        "after_p95_ms": 127.038,
+        "change_percent": -99.37,
+        "before_samples": 91,
+        "after_samples": 177
+      },
+      "vocabulary": {
+        "before_p95_ms": 20012.802,
+        "after_p95_ms": 50.687,
+        "change_percent": -99.75,
+        "before_samples": 113,
+        "after_samples": 211
+      },
+      "progress": {
+        "before_p95_ms": 20011.859,
+        "after_p95_ms": 46.381,
+        "change_percent": -99.77,
+        "before_samples": 59,
+        "after_samples": 121
+      },
+      "writing_save": {
+        "before_p95_ms": 20010.893,
+        "after_p95_ms": 45.811,
+        "change_percent": -99.77,
+        "before_samples": 60,
+        "after_samples": 117
+      },
+      "presence": {
+        "before_p95_ms": 20012.783,
+        "after_p95_ms": 52.566,
+        "change_percent": -99.74,
+        "before_samples": 47,
+        "after_samples": 97
+      }
+    }
+  },
+  "limitations": [
+    "Controlled 1 CPU / 512 MiB app and 1 CPU / 1 GiB PostgreSQL caps, not verified Vercel resource/instance limits.",
+    "Five milliseconds per SQL call is an injected sensitivity assumption, not measured production network latency.",
+    "The sixty-second paced tests are not endurance or real paid-provider quota certification.",
+    "Baseline was already unsustainable at 200; higher baseline overload runs were omitted.",
+    "Baseline 200 error breakdown includes burst/recovery transport failures in its original runner; steady statuses and error percentage are separate and valid.",
+    "The 200 run observer stopped before burst; the 500/1000 observer includes overload/recovery.",
+    "Four frontend editorial/source failures reproduce on exact current main; no lexical content rewritten."
+  ]
+}

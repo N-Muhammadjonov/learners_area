@@ -8,6 +8,7 @@ from .browser_common import camel, identifier, live, number, safe_resource
 from .step17_mcq_port import available_set, sequence, programme_snapshot, staff, live as is_live
 from .step17_listening_course_port import runtime_source, SPEC, current_work, course_status
 from .listening_order import material_order
+from .browser_listening_catalogue import catalogue_facts
 
 PRODUCT_SQL = """CASE WHEN t.program_ref IS NOT NULL THEN 'mcq_programme'
  WHEN p.payload->>'collection'='mcq' THEN 'mcq_programme'
@@ -101,10 +102,13 @@ async def days(con, user, q, ordinal=None):
             'hasNextPage':start+page_size<visible_days,'visibleDays':visible_days}
 
 
-async def facts(con, uid, id, p):
-    exam = await con.fetchrow("SELECT id,score,total_questions FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='completed' ORDER BY submitted_at DESC NULLS LAST LIMIT 1",uid,id)
-    runs = await con.fetch('SELECT activity,answers,completed,score,total FROM listening_activity_runs WHERE user_id=$1 AND test_id=$2 ORDER BY created_at DESC',uid,id)
-    missed = await con.fetchval('SELECT count(*)::int FROM listening_answers WHERE attempt_id=$1 AND is_correct=false',exam['id']) if exam else 0
+async def facts(con, uid, id, p, *, prefetched=None):
+    if prefetched is None:
+        exam = await con.fetchrow("SELECT id,score,total_questions FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='completed' ORDER BY submitted_at DESC NULLS LAST LIMIT 1",uid,id)
+        runs = await con.fetch('SELECT activity,answers,completed,score,total FROM listening_activity_runs WHERE user_id=$1 AND test_id=$2 ORDER BY created_at DESC',uid,id)
+        missed = await con.fetchval('SELECT count(*)::int FROM listening_answers WHERE attempt_id=$1 AND is_correct=false',exam['id']) if exam else 0
+    else:
+        exam=prefetched['exams'].get(id);runs=prefetched['runs'].get(id,[]);missed=exam['missed'] if exam else 0
     spec = p.get('studyPack') or {}; qs = p.get('questions') or []
     script = any(s.get('transcript','').strip() and s.get('gaps') for s in spec.get('scriptParts',[]))
     authored = spec.get('activities')
@@ -119,7 +123,7 @@ async def facts(con, uid, id, p):
         relevant = [r for r in runs if str(r['activity'])==path and not (r['answers'] or {}).get('_practice')] if path.isdigit() else [r for r in runs if (r['answers'] or {}).get('_practice')==key]
         if key=='exam': done = bool(exam)
         elif key=='mcq':
-            questions = await mcq_rows(con,uid,id)
+            questions = await mcq_rows(con,uid,id) if prefetched is None else prefetched['mcq'].get(id,[])
             done = bool(questions) and all(q['stage']=='reasoned' for q in questions)
         else: done = any(r['completed'] for r in relevant)
         latest = {'score':relevant[0]['score'],'total':relevant[0]['total']} if relevant else None
@@ -144,35 +148,36 @@ async def catalogue(con, user, product, q):
       ELSE (SELECT count(DISTINCT x.question_id)::int FROM listening_answers x WHERE x.attempt_id=a.id AND btrim(coalesce(x.user_answer,''))<>'') END answered_count
       FROM latest a LEFT JOIN listening_drafts d ON d.attempt_id=a.id""",user['id'],[r['id'] for r in rows])
     answer_progress={r['test_id']:r for r in progress_rows}
+    batch=await catalogue_facts(con,user['id'],[r['id'] for r in rows],sections=product=='general_section')
     cards = []
     for t in sorted(rows,key=material_order):
         p = payload(t); id = t['id']
-        exam = await con.fetchrow("SELECT score,total_questions FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='completed' ORDER BY submitted_at DESC NULLS LAST LIMIT 1",user['id'],id)
-        started = bool(await con.fetchval('SELECT 1 FROM listening_attempts WHERE user_id=$1 AND test_id=$2 LIMIT 1',user['id'],id))
+        exam = batch['exams'].get(id)
+        started = id in answer_progress
         if product=='general_section':
-            count = len(await available_set(con,id))
+            count = batch['questions'].get(id,0)
             section_no = (p.get('sections') or [{}])[0].get('number')
             if section_no is None:
-                raw = await con.fetchval("SELECT content_snapshot->>'sectionNo' FROM content_versions WHERE module='listening' AND target_id=$1 ORDER BY version_no DESC LIMIT 1",id)
+                raw = batch['sections'].get(id)
                 section_no = int(raw) if raw and raw.isdigit() and 1<=int(raw)<=4 else None
             cards.append({'testId':str(id),'title':t['title'],'questionCount':count,'sectionNo':section_no,'durationSec':p.get('audio',{}).get('durationSec'),'started':started,'completed':bool(exam),'lastScore':exam['score'] if exam else None,'lastTotal':exam['total_questions'] if exam else None})
         else:
             saved=answer_progress.get(id)
-            question_total=(saved['total_questions'] if saved else 0) or len(p.get('questions',[])) or len(await available_set(con,id))
+            question_total=(saved['total_questions'] if saved else 0) or len(p.get('questions',[])) or batch['questions'].get(id,0)
             answer_state={'state':saved['status'] if saved else 'not_started','answeredCount':min(question_total,saved['answered_count']) if saved else 0,'totalQuestions':question_total}
-            activities, exam = await facts(con,user['id'],id,p)
+            activities, exam = await facts(con,user['id'],id,p,prefetched=batch)
             completed, count = sum(a['complete'] for a in activities),len(activities)
             if runtime_source(str(id),t['source_id']) and t['source_id'] in SPEC:
-                values = await con.fetchval('SELECT values FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2',user['id'],id) or {}
+                values = batch['checkpoints'].get(id) or {}
                 if isinstance(values,str): values=json.loads(values)
-                status = course_status(SPEC[t['source_id']],await current_work(con,user['id'],str(id),t['source_id'],values))
+                status = course_status(SPEC[t['source_id']],await current_work(con,user['id'],str(id),t['source_id'],values,completed_attempts=batch['work_exams']))
                 completed,count = status['completed'],status['total']
                 started = started or bool(values)
             # An exited/graded exam is not completion of the whole Listening course.
             # Visiting or saving a draft can only enter the in-progress state.
             answer_state['state'] = ('completed' if count > 0 and completed == count else
                 'in_progress' if started or completed or saved else 'not_started')
-            cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or len(await available_set(con,id)),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'answerProgress':answer_state,'started':started,'locked':not await sequence(con,user,t,access_cache),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
+            cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or batch['questions'].get(id,0),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'answerProgress':answer_state,'started':started,'locked':not await sequence(con,user,t,access_cache),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
     return {'cards':cards,'total':total,'page':1,'pageSize':max(1,len(cards)),'hasMore':False}
 
 

@@ -182,7 +182,10 @@ def test_summary_and_dashboard_reduce_database_round_trips_without_shared_privat
         after=Connection();await summary_snapshot(after,A)
         assert len(after.calls)==1
         dashboard=Counted();data=await browser_activity.dashboard(request(),dashboard,A)
-        assert len(dashboard.calls)==8
+        # This legacy double cannot return the JSON snapshot. Its fallback
+        # retains eight isolated reads after one bounded snapshot attempt.
+        assert len(dashboard.calls)==9
+        assert 'jsonb_build_object' in dashboard.calls[0][0]
         assert data['skillCounts']=={'reading':0,'listening':0,'speaking':0,'writing':0}
         for sql,args in dashboard.calls:
             if 'FROM live_classes' not in sql:

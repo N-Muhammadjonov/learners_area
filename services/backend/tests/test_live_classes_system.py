@@ -1930,7 +1930,7 @@ asyncio.run(main())
 
             port_a = _free_tcp_port()
             port_b = _free_tcp_port()
-            env = {**os.environ, "PYTHONPATH": "/tmp/py_shims:services/backend"}
+            env = {**os.environ, "PYTHONPATH": str(pathlib.Path(__file__).resolve().parents[1])}
             proc_a = subprocess.Popen([sys.executable, script_path, db_path, str(port_a), "worker-a"], env=env)
             proc_b = subprocess.Popen([sys.executable, script_path, db_path, str(port_b), "worker-b"], env=env)
             assert proc_a.pid != proc_b.pid, "Worker A and Worker B must be distinct OS processes"
