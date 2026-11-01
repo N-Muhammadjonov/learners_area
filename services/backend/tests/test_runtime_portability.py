@@ -42,6 +42,8 @@ def test_deployed_context_fails_closed_without_shared_limits_or_storage(monkeypa
     req=Request({'type':'http','method':'GET','path':'/','scheme':'https','headers':[(b'host',b'portable.example')],'server':('portable.example',443)})
     csp=security.build_csp(req,'isolated-nonce')
     assert "'unsafe-eval'" not in csp and "frame-ancestors 'self'" in csp
+    connections=next(part.strip().split()[1:] for part in csp.split(';') if part.strip().startswith('connect-src '))
+    assert 'wss://portable.example' in connections and 'wss:' not in connections and 'ws:' not in connections
     monkeypatch.setenv('RATE_LIMIT_BACKEND','postgres');monkeypatch.setenv('STORAGE_PROVIDER','r2')
     assert rate_limit.backend()=='postgres' and step19_storage.provider()=='r2'
     if runtime_config.environment()=='production':

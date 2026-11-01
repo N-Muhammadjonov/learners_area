@@ -185,6 +185,11 @@ def build_csp(req: Request, nonce: str) -> str:
     worker = normalize_origin(os.environ.get('MEDIA_WORKER_URL'))
     worker = worker if worker == 'https://learnersarea-media.owneruchunla.workers.dev' else None
     connect = list(dict.fromkeys(origins('CSP_CONNECT_SRC') + storage + ([worker] if worker else [])))
+    # Explicit same-origin WebSocket permission keeps Live Classes available
+    # without the development-only ws:/wss: wildcard on deployed hosts.
+    authority = urlsplit(request_origin(req)).netloc
+    if re.fullmatch(r'[A-Za-z0-9.\[\]:-]+', authority):
+        connect.append(('wss' if secure else 'ws') + '://' + authority)
     signal = os.environ.get('LIVE_PARTNER_SIGNAL_URL', '')
     if signal.startswith('wss://'):
         try:
