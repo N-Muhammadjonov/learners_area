@@ -68,5 +68,15 @@
     "Send overlapped by floating tools on narrow screens",
     "Clipped structured lesson leaking through topicless fallback"
   ],
-  "approvalBoundary": "Owner permission required before main merge or production deployment."
+  "approvalBoundary": "Owner permission required before main merge or production deployment.",
+  "mainCompatibility": {
+    "mainCommit": "adca5ec47afadda30b65d70f051c10f1f0c2afec",
+    "mergeBase": "cb3a331112bff58b889eb4b23bc0b950425985ed",
+    "mainOnlyCommits": 1,
+    "mainChangedFiles": [
+      "prototype_redesign.html"
+    ],
+    "overlappingChangedFiles": [],
+    "method": "Fresh origin/main fetch, merge-base and per-path comparison; no merge, rebase or main write performed."
+  }
 }

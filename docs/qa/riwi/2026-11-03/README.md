@@ -48,7 +48,7 @@ Primary references were consulted for factual checks. The explanations and examp
 - [OpenStax Writing Guide](https://openstax.org/books/writing-guide/pages/1-5-writing-process-thinking-critically-about-a-text)
 - [Uzbek educational corpus](https://uzschoolcorpara.uz/uz/Dictionary?q=imlo)
 
-Main was not merged and production was not deployed. Owner permission is required for those next steps. The last verified main ref was `cb3a331112bff58b889eb4b23bc0b950425985ed`; the branch was ahead with no missing main commits.
+Main was not merged and production was not deployed. Owner permission is required for those next steps. During the final remote check, main advanced independently to `adca5ec47afadda30b65d70f051c10f1f0c2afec`. That commit only adds `prototype_redesign.html`; its changed paths do not overlap RIWI. The branch has one newer main commit outside its ancestry. This was checked by fetching origin/main and comparing paths from the merge base; no merge or rebase was performed.
 
 Evidence:
 
