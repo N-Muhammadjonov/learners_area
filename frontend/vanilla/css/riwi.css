@@ -50,3 +50,5 @@
 @keyframes riwi-pulse{0%,80%,100%{opacity:.4;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 @media(prefers-reduced-motion:reduce){.riwi-typing span{animation:none}}
 @media(max-width:600px){.riwi-workspace{border-radius:1.2rem;margin-bottom:5rem}.riwi-chat-header{padding:.8rem .85rem}.riwi-chat-identity p{font-size:.7rem}.riwi-clear{max-width:6.5rem;font-size:.66rem;padding:.4rem}.riwi-transcript{height:58dvh;min-height:20rem;padding:1rem .85rem;gap:.85rem}.riwi-msg{max-width:94%;padding:.8rem .9rem .4rem}.riwi-msg--user{max-width:86%}.riwi-msg__body{font-size:.96rem;line-height:1.8}.riwi-composer{padding:.6rem .6rem .5rem}.riwi-composer__hint{font-size:.6rem}}
+/* The site's floating study tools must not obscure Send on narrow screens. */
+@media(max-width:1000px){.riwi-composer{padding-right:5rem}}
