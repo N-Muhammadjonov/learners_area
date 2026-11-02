@@ -39,9 +39,14 @@ class RiwiPhase6FrontendBuildTest(unittest.TestCase):
 
     def test_day_and_night_theme_tokens_and_responsive_layout_present(self) -> None:
         css_text = (FRONTEND_DIR / "css" / "riwi.css").read_text(encoding="utf-8")
-        self.assertIn('[data-theme="day"]', css_text)
-        self.assertIn('[data-theme="night"]', css_text)
-        self.assertIn("@media (max-width: 768px)", css_text)
+        palette = (FRONTEND_DIR / "css" / "campus.css").read_text(encoding="utf-8")
+        # RIWI inherits both site palettes. Requiring its old local theme
+        # selectors would encourage pinning the chat independently of the site.
+        for token in ('--workspace-paper', '--workspace-sunken', '--workspace-ink'):
+            self.assertTrue(token in css_text and token in palette, f"Missing inherited palette token: {token}")
+        for theme in ('day', 'night'):
+            self.assertTrue(f'[data-theme="{theme}"]' in palette, f"Missing site palette: {theme}")
+        self.assertTrue(re.search(r'@media\s*\(max-width:\s*\d+px\)', css_text), "Missing narrow-screen layout")
 
 
 if __name__ == "__main__":
