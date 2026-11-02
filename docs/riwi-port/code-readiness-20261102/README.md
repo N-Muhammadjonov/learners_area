@@ -66,10 +66,19 @@ snapshot verified eleven tables because that database also had a legacy table.
    remain open as recorded in the earlier audits. No destructive policy is
    selected by this checkpoint.
 
-The Safari runner pins the previously tested preview and commit `8054d759`.
-It does not silently switch to a new deployment. A later candidate preview must
-be identified and verified before changing that target. Sites remains private
-and unpublished; no deployment-protection bypass credential was created.
+The Safari runner now pins preview `learners-area-kmmgxbz7p-learners-area.vercel.app`
+at commit `761f760e815ab9ef35ec8a2b86480039d89ac030`, Vercel deployment
+`dpl_DStQUb9rvWqmTnaa9N9KCRT2tsaX`. The Vercel API confirmed READY, the exact
+branch/commit and Preview target before this follow-up target change. Existing
+code-check receipts describe the earlier tested source hashes; the follow-up
+changes only the runner's fixed origin/commit constants and this paragraph.
+No HTTP success is inferred from READY. Browser control is not exposed in this
+chat even though the Owner has signed into the in-app Vercel dashboard.
+Run the fixed script in the Owner's Terminal with the exact preview open in
+Safari. A full run requests the normal QA Owner password without displaying or
+saving it. `--session-only` requires that preview's existing Owner session.
+Sites remains private and unpublished; no deployment-protection bypass
+credential was created.
 
 ## Resume after Safari reconnects
 

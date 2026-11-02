@@ -18,8 +18,8 @@ from datetime import datetime, timedelta, timezone
 from urllib.parse import urlsplit
 import uuid
 
-ORIGIN = "https://learners-area-gb825uhb9-learners-area.vercel.app"
-COMMIT = "8054d75905e962c390ef2924a143c27f79bb3d7e"
+ORIGIN = "https://learners-area-kmmgxbz7p-learners-area.vercel.app"
+COMMIT = "761f760e815ab9ef35ec8a2b86480039d89ac030"
 EMAIL = "qa-owner@learnersarea.test"
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "qa" / "riwi-safari-smoke-last.json"
