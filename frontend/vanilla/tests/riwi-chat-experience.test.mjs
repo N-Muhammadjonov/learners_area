@@ -2,7 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
-import {mount} from '../modules/riwi/index.js';
+import {mount,createRiwiWorkspaceController} from '../modules/riwi/index.js';
+import {RIWI_I18N} from '../js/i18n/riwi_i18n.js';
 
 test('native page loads chat styles after the shared campus palette',()=>{
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
@@ -56,5 +57,43 @@ test('Enter sends, Shift+Enter and composition preserve editing, and clearing re
   input.dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));await tick(6);
   assert.equal(h.calls.filter(x=>x.path==='/api/riwi/chat').length,1);
   h.click(h.q('.riwi-clear'));await tick(6);assert.equal(h.qa('[data-riwi-role]').length,0);assert(h.q('.riwi-welcome'));
+ }finally{h.dispose()}
+});
+
+test('slash commands reset context, preserve reply language and never delete or send control commands',async()=>{
+ const calls=[];let count=0;
+ const c=createRiwiWorkspaceController({locale:'uz',role:'owner',adapter:{
+  sendChat:async payload=>{calls.push(payload);return {conversationId:ID(++count),answer:'Approved lesson'};},
+  deleteConversation:async()=>{throw Error('control commands must not delete records');}
+ }});
+ await c.sendMessage('Present perfect');const first=c.state.conversationId;
+ await c.sendMessage('/ language eng');assert.equal(c.state.replyLocale,'en');assert.equal(c.state.locale,'uz');
+ await c.sendMessage('/examples');assert.equal(calls[1].conversationId,first);assert.equal(calls[1].replyLocale,'en');assert(calls[1].message.includes('three more examples'));
+ await c.sendMessage('/clear');assert.equal(c.state.conversationId,null);assert.equal(c.state.messages.length,1);assert(!c.state.messages[0].content.includes('Approved lesson'));
+ await c.sendMessage('/examples');assert.equal(calls.length,2);assert(c.state.messages.at(-1).content.includes('first'));
+ await c.sendMessage('Articles');assert.equal(calls[2].conversationId,undefined);assert.equal(calls[2].replyLocale,'en');
+ await c.sendMessage('/new chat');assert.equal(c.state.conversationId,null);assert.equal(c.state.replyLocale,'en');
+ await c.sendMessage('/ language uz');assert.equal(c.state.replyLocale,'uz');
+ await c.sendMessage('/language ru');assert.equal(c.state.replyLocale,'uz');assert.equal(c.state.messages.at(-1).localActions.length,2);
+ await c.sendMessage('/clear extra');assert(c.state.messages.at(-1).content.includes('/help'));
+ await c.sendMessage('/help');assert(c.state.messages.at(-1).content.includes('/new chat'));
+ assert.equal(calls.length,3);
+ assert.deepEqual(Object.keys(RIWI_I18N.en).sort(),Object.keys(RIWI_I18N.uz).sort());
+});
+
+test('language chooser and command menu work in the mounted chat while the site locale stays Uzbek',async()=>{
+ const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
+ try{
+  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(9),answer:'English explanation',citations:[]}});
+  await mount(h.ctx);
+  h.click(h.q('.riwi-reply-language'));await tick(3);
+  h.click(h.qa('.riwi-command-actions button').find(x=>x.textContent==='English'));await tick(3);
+  assert(h.q('.riwi-reply-language').textContent.endsWith('EN'));
+  assert(h.q('h1').textContent==='RIWI');assert(h.q('textarea').getAttribute('placeholder').includes('yozing'));
+  h.input(h.q('textarea'),'Explain articles');h.submit(h.q('form'));await tick(5);
+  const call=h.calls.find(x=>x.path==='/api/riwi/chat');assert.equal(call.body.replyLocale,'en');
+  h.click(h.qa('.riwi-command-menu button').find(x=>x.textContent==='/clear'));await tick(3);
+  assert(!h.ctx.root.textContent.includes('English explanation'));assert(h.ctx.root.textContent.includes('Chat cleared'));
+  assert.equal(h.calls.filter(x=>x.method==='DELETE').length,0);
  }finally{h.dispose()}
 });

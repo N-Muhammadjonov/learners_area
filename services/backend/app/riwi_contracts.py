@@ -201,7 +201,7 @@ FORBIDDEN_REQUEST_KEYS: Final[frozenset[str]] = frozenset({
 def validate_riwi_chat_request(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise RiwiContractError("invalid_input")
-    allowed_keys = {"message", "conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId"}
+    allowed_keys = {"message", "conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId", "replyLocale"}
     extra_keys = set(payload.keys()) - allowed_keys
     if extra_keys & FORBIDDEN_REQUEST_KEYS:
         raise RiwiContractError("forbidden_override_field")
@@ -216,6 +216,10 @@ def validate_riwi_chat_request(payload: Any) -> dict[str, Any]:
         raise RiwiContractError("invalid_input")
 
     result: dict[str, Any] = {"message": trimmed}
+    if 'replyLocale' in payload:
+        if payload['replyLocale'] not in ('uz', 'en'):
+            raise RiwiContractError("invalid_input")
+        result['replyLocale'] = payload['replyLocale']
     for uuid_field in ("conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId"):
         val = payload.get(uuid_field)
         if val is not None:

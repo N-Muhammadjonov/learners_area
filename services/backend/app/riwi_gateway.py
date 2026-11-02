@@ -72,7 +72,7 @@ async def handle_riwi_chat(
         raise RiwiGatewayError("forbidden", 403)
 
     req = validate_riwi_chat_request(raw_payload)
-    locale = riwi_presentation_locale(cookie_locale, actor.locale)
+    locale = req.get('replyLocale') or riwi_presentation_locale(cookie_locale, actor.locale)
     correlation_id = str(uuid.uuid4())
     message = req["message"]
     conversation_id = req.get("conversationId")

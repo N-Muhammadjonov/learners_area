@@ -9,6 +9,7 @@ from app import riwi_curriculum as c,riwi_teaching_details as d
 from app.riwi_internal_tutor import correction_request,format_correction,smalltalk
 from app.riwi_capabilities import RiwiActor
 from app.riwi_gateway import handle_riwi_chat
+from app.riwi_contracts import validate_riwi_chat_request,RiwiContractError
 from app.riwi_knowledge import chunk_knowledge_text,collect_knowledge_conflicts,KnowledgeServiceError
 ACTOR=RiwiActor('11111111-1111-4111-8111-111111111111','owner',locale='uz')
 CID='22222222-2222-4222-8222-222222222222'
@@ -151,3 +152,16 @@ def test_greetings_and_unknowns_are_honest():
     assert '🙂' in smalltalk('raxmat','uz')
     assert smalltalk('What is the capital of Mars?','en') is None
     assert correction_request('Teach grammar error correction.') is None
+
+@pytest.mark.parametrize('invalid',['eng','ru','',None,True,{},[]])
+def test_reply_locale_is_a_bounded_preference_not_an_arbitrary_override(invalid):
+    with pytest.raises(RiwiContractError):validate_riwi_chat_request({'message':'Hello','replyLocale':invalid})
+
+@pytest.mark.asyncio
+async def test_explicit_reply_language_wins_over_site_cookie_without_changing_actor():
+    assert validate_riwi_chat_request({'message':'Hello','replyLocale':'en'})['replyLocale']=='en'
+    with patch('app.riwi_curriculum.retrieve_lesson',AsyncMock(return_value=lesson('grammar.articles'))):
+        result=await handle_riwi_chat(None,ACTOR,{'message':'Explain articles','replyLocale':'en'},
+                                     cookie_locale='uz',env={'RIWI_EXTERNAL_AI_ENABLED':'false'})
+    assert 'Three examples:' in result['answer'] and '\n   — ' not in result['answer']
+    assert ACTOR.locale=='uz' and ACTOR.role=='owner'

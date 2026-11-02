@@ -22,6 +22,7 @@ export function createRiwiWorkspaceController({
   const state = {
     role,
     locale: locale === "en" ? "en" : "uz",
+    replyLocale: locale === "en" ? "en" : "uz",
     theme: theme === "night" ? "night" : "day",
     conversationId: null,
     targetUserId: null,
@@ -88,13 +89,49 @@ export function createRiwiWorkspaceController({
     </section>`;
   }
 
+  function newConversation() {
+    state.conversationId = null;
+    state.messages = [];
+    state.feedbackSubmitted = false;
+    state.targetUserId = null;
+    state.error = null;
+  }
+
+  function localReply(key, actions = []) {
+    state.messages.push({role: 'assistant', content: tRiwi(`riwi.command.${key}`, state.replyLocale),
+      createdAt: new Date().toISOString(), localActions: actions});
+    return {ok: true, localCommand: true};
+  }
+
   async function sendMessage(text) {
     const trimmed = String(text || "").trim();
     if (!trimmed) return null;
+    if (state.loading) return null;
+    let learningMessage = trimmed;
+    if (trimmed.startsWith('/')) {
+      const command = trimmed.slice(1).trim().toLowerCase().replace(/\s+/g, ' ');
+      if (command === 'clear' || ['new', 'newchat', 'new chat'].includes(command)) {
+        newConversation();
+        return localReply(command === 'clear' ? 'cleared' : 'newChat');
+      }
+      if (command === 'language' || command.startsWith('language ')) {
+        const value = command.split(' ')[1];
+        if (['en', 'eng', 'english', 'uz', 'uzbek'].includes(value) && command.split(' ').length === 2) {
+          state.replyLocale = ['en', 'eng', 'english'].includes(value) ? 'en' : 'uz';
+          return localReply('languageChanged');
+        }
+        return localReply(value ? 'languageInvalid' : 'languagePrompt', ['/language uz', '/language eng']);
+      }
+      if (['help', 'commands', '?'].includes(command)) return localReply('help');
+      if (['examples', 'simple'].includes(command)) {
+        if (!state.conversationId) return localReply('noTopic');
+        learningMessage = tRiwi(`riwi.command.${command}Prompt`, state.replyLocale);
+      } else return localReply('unknown');
+    }
     state.loading = true;
     state.error = null;
     try {
-      const payload = { message: trimmed };
+      const payload = { message: learningMessage, replyLocale: state.replyLocale };
       if (state.conversationId) payload.conversationId = state.conversationId;
       if (state.targetUserId && (state.role === "teacher" || state.role === "owner")) {
         payload.targetUserId = state.targetUserId;
@@ -140,9 +177,7 @@ export function createRiwiWorkspaceController({
     if (state.conversationId && typeof adapter.deleteConversation === "function") {
       await adapter.deleteConversation(state.conversationId);
     }
-    state.conversationId = null;
-    state.messages = [];
-    state.feedbackSubmitted = false;
+    newConversation();
   }
 
   async function submitFeedback({ helpful, reason = "" }) {
@@ -169,6 +204,7 @@ export function createRiwiWorkspaceController({
     sendMessage,
     loadTargets,
     clearConversation,
+    newConversation,
     submitFeedback,
     touchPresence
   };
@@ -191,12 +227,21 @@ export function mount(ctx) {
     h('svg', {viewBox:'0 0 24 24',width:'22',height:'22','aria-hidden':'true',fill:'none',stroke:'currentColor','stroke-width':'2.5','stroke-linecap':'round','stroke-linejoin':'round'},
       h('path',{d:'M12 19V5m-6 6 6-6 6 6'})));
   const status = h('p', {class:'riwi-status',role:'alert',hidden:true});
-  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:async()=>{
+  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:()=>{
     if(ctrl.state.loading)return;
-    try{await ctrl.clearConversation();renderMessages();status.hidden=true;input.focus();}
-    catch{status.textContent=text('deleteError');status.hidden=false;}
-  }}, tRiwi('riwi.clear',locale));
+    ctrl.newConversation();renderMessages();status.hidden=true;input.focus();
+  }}, tRiwi('riwi.command.newChatButton',locale));
   let pending='';
+  const runCommand = command => {
+    if(ctrl.state.loading)return;
+    input.value=command;commandMenu.open=false;form.requestSubmit();input.focus();
+  };
+  const commandMenu=h('details',{class:'riwi-command-menu'},
+    h('summary',{},tRiwi('riwi.command.menu',locale)),
+    h('div',{},...['/new chat','/clear','/language','/examples','/simple','/help'].map(command=>
+      h('button',{type:'button',onClick:()=>runCommand(command)},command))));
+  const languageBtn=h('button',{type:'button',class:'riwi-reply-language',
+    onClick:()=>runCommand('/language')});
   const greeting = () => h('div',{class:'riwi-welcome'},
     h('span',{class:'riwi-welcome__mark','aria-hidden':'true'},'R'),
     h('h2',{},text('welcome')),
@@ -212,6 +257,9 @@ export function mount(ctx) {
       h('ul',{},...m.citations.map(c=>h('li',{},typeof c==='string'?c:`${c.ref||'K'} · ${c.title||text('source')}`)))) : null;
     return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
       h('div',{class:'riwi-msg__body'},m.content),citations,
+      m.localActions?.length ? h('div',{class:'riwi-command-actions'},...m.localActions.map(command=>
+        h('button',{type:'button',disabled:ctrl.state.loading,onClick:()=>runCommand(command)},
+          command.endsWith(' uz')?'O‘zbekcha':'English'))) : null,
       clock?h('time',{class:'riwi-msg__time',datetime:m.createdAt},clock):null);
   };
   function renderMessages(){
@@ -226,18 +274,22 @@ export function mount(ctx) {
     }
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     sendBtn.disabled=ctrl.state.loading;clearBtn.disabled=ctrl.state.loading;input.readOnly=ctrl.state.loading;
+    languageBtn.disabled=ctrl.state.loading;
+    languageBtn.textContent=`${tRiwi('riwi.command.replyLanguage',locale)}: ${ctrl.state.replyLocale.toUpperCase()}`;
+    commandMenu.querySelectorAll('button').forEach(button=>{button.disabled=ctrl.state.loading;});
     transcript.scrollTop=transcript.scrollHeight;
   }
   const form=h('form',{class:'riwi-composer',onSubmit:async e=>{
     e.preventDefault();
     if(ctrl.state.loading)return;
     const msg=input.value.trim();if(!msg)return;
-    input.value='';input.style.height='auto';pending=msg;status.hidden=true;
+    input.value='';input.style.height='auto';pending=msg.startsWith('/')?'':msg;status.hidden=true;
     const work=ctrl.sendMessage(msg);renderMessages();
     try{await work;}
     catch{input.value=msg;status.textContent=text('sendError');status.hidden=false;}
     finally{pending='';renderMessages();}
   }},h('div',{class:'riwi-composer__field'},input,sendBtn),
+    h('div',{class:'riwi-composer__toolbar'},commandMenu,languageBtn),
     h('p',{class:'riwi-composer__hint'},text('hint')));
   root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
     h('header',{class:'riwi-chat-header'},
