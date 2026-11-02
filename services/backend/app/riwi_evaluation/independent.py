@@ -12,7 +12,8 @@ import re
 import unicodedata
 
 from . import VERSION
-from ..step31_riwi_evaluators import sval
+from ..step31_riwi_evaluators import sval, vval
+from ..step31_riwi_text import contains_form
 from ..step32_writing_riwi import wval
 
 
@@ -63,6 +64,39 @@ def _withhold_bands(evaluation: dict) -> dict:
     result["nextActions"] = ["Use these pattern observations for practice. IELTS band scoring has not been independently validated.",
                              *result["nextActions"]][:5]
     return result
+
+
+def evaluate_vocabulary(*, target_word: str, definition: str, sentence: str) -> dict:
+    """Report form observations without certifying an unverified word sense."""
+    _text(target_word, max_chars=2000)
+    _text(definition, max_chars=4000)
+    _text(sentence)
+    if not target_word.strip() or not definition.strip():
+        raise ValueError("invalid_vocabulary_task")
+    used = contains_form(sentence, target_word)
+    result = vval(target_word, definition, sentence)
+    # Word presence and sentence patterns cannot distinguish a financial bank
+    # from a river bank. Neither a clean pattern check nor a matching definition
+    # is evidence of correct meaning in the submitted sentence.
+    result["confidence"] = 0.0
+    if result["verdict"] != "needs_correction":
+        result["verdict"] = None
+    result["criteria"] = [c for c in result["criteria"] if c["key"] != "verdict"]
+    for criterion in result["criteria"]:
+        criterion["limited"] = True
+        if criterion["key"] == "active_use":
+            criterion["note"] = ("Target form detected; meaning in context has not been verified."
+                                 if used else "Target form was not detected in the sentence.")
+    result["criteria"].append({"key": "meaning_in_context", "label": "Meaning in context", "band": None,
+                               "limited": True, "note": "Alignment with the supplied definition requires semantic evaluation."})
+    # Keep observations grounded in the form detector, not claims about the
+    # student's intended meaning or ownership of the wording.
+    result["strengths"] = ["A target word form was detected in the sentence."] if used else []
+    result["nextActions"] = ["Check that the sentence uses the meaning in the supplied definition.",
+                              *[action for action in result["nextActions"]
+                                if not action.startswith("Use the same word in tomorrow")]][:4]
+    return {"evaluation": result, "status": "vocabulary_pattern_feedback_only", "model_version": VERSION,
+            "limitations": ["semantic_relevance_unverified", "confidence_uncalibrated"]}
 
 
 def evaluate_writing(*, task_type: str, prompt: str, content: str, target_words: int = 250,

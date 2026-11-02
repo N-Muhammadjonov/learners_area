@@ -40,6 +40,33 @@ class IndependentCoachTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(reason, "evaluation_unavailable")
         forbidden.assert_not_awaited()
 
+    async def test_mode_b_does_not_certify_an_unverified_vocabulary_sense(self):
+        forbidden = AsyncMock(side_effect=AssertionError("external/provider lookup attempted"))
+        with patch.dict(os.environ, {"RIWI_EVALUATION_MODE": "independent-v1"}), \
+                patch.object(coach, "status", forbidden), patch.object(coach, "vendor", forbidden):
+            for sentence in ["The bank is covered with grass beside the river.",
+                             "She deposited her savings in the bank yesterday."]:
+                with self.subTest(sentence=sentence):
+                    result, _ = await coach.resolve("vocabulary", {
+                        "targetWord": "bank", "definition": "a financial institution that holds money",
+                        "studentSentence": sentence}, "en")
+                    self.assertTrue(coach.valid(result))
+                    self.assertIsNone(result["verdict"])
+                    self.assertEqual(result["confidence"], 0)
+                    self.assertTrue(all(c.get("limited") for c in result["criteria"]))
+                    self.assertIn("requires semantic evaluation", result["criteria"][-1]["note"])
+        forbidden.assert_not_awaited()
+
+    async def test_mode_b_still_reports_a_missing_vocabulary_word(self):
+        with patch.dict(os.environ, {"RIWI_EVALUATION_MODE": "independent-v1"}):
+            result, _ = await coach.resolve("vocabulary", {
+                "targetWord": "bank", "definition": "a financial institution that holds money",
+                "studentSentence": "She deposited her savings yesterday."}, "en")
+        self.assertTrue(coach.valid(result))
+        self.assertEqual(result["verdict"], "needs_correction")
+        self.assertEqual(result["strengths"], [])
+        self.assertIn("not detected", next(c["note"] for c in result["criteria"] if c["key"] == "active_use"))
+
     def test_unconfigured_mode_preserves_existing_internal_path(self):
         with patch.dict(os.environ, {"RIWI_EVALUATION_MODE": ""}), \
                 patch("app.step32_writing_riwi.wval", return_value={"sentinel": True}) as baseline:

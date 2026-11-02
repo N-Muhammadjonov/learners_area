@@ -71,6 +71,10 @@ def valid_teaching(value):
 
 def internal(kind,data):
     data={k:v for k,v in data.items() if k not in ('writingSubtype','grammarKind','vocabularyTask')}
+    if os.getenv('RIWI_EVALUATION_MODE') == 'independent-v1' and kind == 'vocabulary':
+        from .riwi_evaluation.independent import evaluate_vocabulary
+        return evaluate_vocabulary(target_word=data['targetWord'], definition=data['definition'],
+                                   sentence=data['studentSentence'])['evaluation']
     if os.getenv('RIWI_EVALUATION_MODE') == 'independent-v1' and kind in ('writing', 'speaking'):
         from .riwi_evaluation.independent import evaluate_writing, evaluate_speaking
         if kind == 'writing':

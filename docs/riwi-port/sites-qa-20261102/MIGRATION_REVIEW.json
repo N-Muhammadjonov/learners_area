@@ -1,0 +1,103 @@
+{
+  "target": {
+    "supabase_project": "bpexpsugmuhwmztacbqd",
+    "name": "learners-area-qa"
+  },
+  "baseline": {
+    "journalEntries": 66,
+    "allHashesAndTimestampsMatch": true,
+    "latestTimestamp": 1792460000000,
+    "existingUserCount": 1
+  },
+  "approvalStatus": "automatic_review_rejected_not_applied",
+  "journal": [
+    {
+      "idx": 66,
+      "path": "drizzle/0066_notification_event_idempotency.sql",
+      "when": 1793164198221,
+      "sha256": "b3900206718fdd3bae5867bde61221578a7e0e7b43eefd1f58202b7598aa1984"
+    },
+    {
+      "idx": 67,
+      "path": "drizzle/0067_assignment_deadline_indexes.sql",
+      "when": 1793164199221,
+      "sha256": "4cb10a096e82e04a91a16259febad43074236df05cd7e1651a1a71eb7813a94a"
+    },
+    {
+      "idx": 68,
+      "path": "drizzle/0068_writing_model_pattern_capacity.sql",
+      "when": 1793164200221,
+      "sha256": "1dcfc4af7b7021ac2eaf1f51bb3dd28e23713f2577ccaef059af746de75d8f31"
+    },
+    {
+      "idx": 69,
+      "path": "drizzle/0069_video_progress_playback_duration.sql",
+      "when": 1793164201221,
+      "sha256": "7ae9c08a9ffc07662ac81589f2c1f24800f60d81894ff878cf08dd786a5c7ea5"
+    },
+    {
+      "idx": 70,
+      "path": "drizzle/0071_shared_abuse_limits.sql",
+      "when": 1793241854800,
+      "sha256": "4a4d15599cfad8569c7798ec6a7b2ab5a41c99913cea70b4775fa6c51bf4e5e3"
+    },
+    {
+      "idx": 71,
+      "path": "drizzle/0072_ai_provider_admission.sql",
+      "when": 1793370499000,
+      "sha256": "69115873db05746128e5885fc3101d916d3307e9d9b0b2aa6f35706c72525e8e"
+    },
+    {
+      "idx": 72,
+      "path": "drizzle/0073_live_classes_youtube_chat_attendance.sql",
+      "when": 1793370500000,
+      "sha256": "70726841b2dc2d52bb8fbf13be3d3ad7e6d61ab8d0fb2dae918846342b96b47b"
+    },
+    {
+      "idx": 73,
+      "path": "drizzle/0074_mock_hybrid_grading_system.sql",
+      "when": 1793370501000,
+      "sha256": "16338cf06c2d025b2294c662775d302e209600151a2f2e312731e550163ef635"
+    },
+    {
+      "idx": 74,
+      "path": "drizzle/0075_riwi_core_and_governance.sql",
+      "when": 1793370501001,
+      "sha256": "0007b0f95a2142bcc0d6df9bc2fb812cee2a6ac02d00f6ef5e71fb40dbf03076"
+    },
+    {
+      "idx": 75,
+      "path": "drizzle/0076_riwi_assessments_and_security_signals.sql",
+      "when": 1793370501002,
+      "sha256": "f9631873a72b6744a719d0b1d3cb8d9840486c3e502af2f563227744154d31e5"
+    },
+    {
+      "idx": 76,
+      "path": "drizzle/0077_riwi_speaking_sessions_and_activity_indexes.sql",
+      "when": 1793370501003,
+      "sha256": "98582f29ed7a7eff000c440b839ad23e22ac55d290d59f95d46983a1d973cf6a"
+    },
+    {
+      "idx": 77,
+      "path": "drizzle/0078_riwi_server_only_tables.sql",
+      "when": 1793370501004,
+      "sha256": "e2ba1edf433eb633e238ba1c09b2b262902afc6b587f64d5ad52a71366cfd9c6"
+    },
+    {
+      "idx": 78,
+      "path": "drizzle/0079_riwi_canonical_task_metadata.sql",
+      "when": 1793370501005,
+      "sha256": "f5c3f763fdad955fb47e270222d7ca7eba050a2aba3fc82e02e3b4459b904cb5"
+    }
+  ],
+  "platform": [
+    {
+      "path": "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql",
+      "sha256": "a2efbff7a359a8bd3180b2ba6cb5cd59113c20383326447b999afdf77ea97681"
+    },
+    {
+      "path": "supabase/migrations/20261101134624_mock_speaking_question_captures.sql",
+      "sha256": "2d4add99e0d45ec3d7df2c443390dc5b2a8e6f88b1b2558379c28eea7f120bb0"
+    }
+  ]
+}
