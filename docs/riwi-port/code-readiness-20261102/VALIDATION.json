@@ -111,11 +111,15 @@
     "provider_network_calls": 0
   },
   "live_browser": {
-    "post_upgrade_smoke": "pending",
+    "post_upgrade_smoke": "passed",
     "visual_qa": "pending",
     "owner_deferred_reconnection": true,
     "four_owner_routes_local_http": 200,
-    "local_success_is_live_acceptance": false
+    "local_success_is_live_acceptance": false,
+    "evidence": "SAFARI_SMOKE_PASS.json",
+    "verified_commit": "761f760e815ab9ef35ec8a2b86480039d89ac030",
+    "verified_time": "2026-11-02T14:14:29.071253+05:00",
+    "conversation_flow": "pending"
   },
   "tested_source_sha256": {
     "services/backend/app/step27_retention_policy.py": "6aec57c1498128b6fca77311d3c0cd05f93d8e1a97e855560758290bafcbee2d",
@@ -143,5 +147,16 @@
   "merge_ready": false,
   "production_ready": false,
   "main_modified": false,
-  "shared_database_modified_this_checkpoint": false
+  "shared_database_modified_this_checkpoint": false,
+  "conversation_runner_followup": {
+    "command": "node --test qa/riwi-sites-20261102/test-safari-conversation-runner.mjs",
+    "runner_tests_passed": 12,
+    "failed": 0,
+    "live_conversation_flow": "pending",
+    "browser_or_network_used_in_runner_tests": false,
+    "source_sha256": {
+      "scripts/riwi-safari-conversation-smoke.py": "bce1e0f9561957ff422443be0944e3b7b3959c840633e7f22911cb228aea09b4",
+      "qa/riwi-sites-20261102/test-safari-conversation-runner.mjs": "2cd5d0d0a4a4dc998f75856f285ead8bd4ee35ea6c2b10b906fce89898787aea"
+    }
+  }
 }

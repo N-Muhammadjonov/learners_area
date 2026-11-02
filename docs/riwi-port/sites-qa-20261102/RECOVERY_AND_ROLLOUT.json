@@ -65,10 +65,13 @@
     "status": "pass"
   },
   "acceptance": {
-    "postUpgradeSafariHttp": "pending",
+    "postUpgradeSafariHttp": "passed",
     "fullBrowserQA": "not_performed",
     "semanticModelTraining": "not_validated",
-    "mainMergeReady": false
+    "mainMergeReady": false,
+    "postUpgradeEvidence": "../code-readiness-20261102/SAFARI_SMOKE_PASS.json",
+    "postUpgradePreviewCommit": "761f760e815ab9ef35ec8a2b86480039d89ac030",
+    "postUpgradeSafariTime": "2026-11-02T14:14:29.071253+05:00"
   },
-  "environment": "Local execution environment disconnected after cloud database verification."
+  "environment": "Owner-run Safari verified all eight fixed preview API checks after the QA schema repair. Direct browser control from the chat remains unavailable."
 }

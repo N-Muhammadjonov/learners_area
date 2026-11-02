@@ -1,6 +1,6 @@
 # RIWI QA database repair — 2026-11-02
 
-**QA schema repaired. A fresh authenticated Safari retest is pending. Full RIWI
+**QA schema repaired. The authenticated Safari API retest passed. Full RIWI
 acceptance, semantic training and the main merge gate remain incomplete.**
 
 The deployment tested by the Owner is `8054d75905e962c390ef2924a143c27f79bb3d7e`
@@ -49,10 +49,12 @@ tracked with this checkpoint.
 
 ## Remaining verification
 
-The local execution environment disconnected after the database checks. A fresh
-Safari HTTP result has **not** yet been collected. Rerun the existing Owner-run
-`scripts/riwi-safari-smoke.py` on the same preview; never mark the four repaired
-routes 200 until the actual results arrive.
+The Owner ran the Safari helper at `2026-11-02T14:14:29+05:00` on the newer
+`761f760` preview. Public config, password login, the expected active Owner
+session, targets and all four previously failing Owner reads returned 200.
+`../code-readiness-20261102/SAFARI_SMOKE_PASS.json` preserves the sanitized report.
+This closes the observed schema-missing HTTP failure. Chat persistence, task
+evaluation, role acceptance and visual browser QA remain separate checks.
 
 The Python Safari runner, its local ignore entry and the offline recovery helper
 were subsequently preserved and integrated with current main. See

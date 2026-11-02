@@ -53,3 +53,4 @@ __pycache__/
 
 # Owner-run Safari QA runtime output
 /qa/riwi-safari-smoke-last.json
+/qa/riwi-safari-conversation-last.json

@@ -52,10 +52,10 @@ snapshot verified eleven tables because that database also had a legacy table.
 
 ## Remaining gates
 
-1. The Owner deferred reconnecting Safari. After reconnection, run the existing
-   fixed-preview smoke runner and collect fresh HTTP statuses; its prior 503
-   report predates the QA repair. Then test real navigation, role boundaries and
-   task persistence. Local HTTP/SQL success does not certify the live deployment.
+1. The Owner's Safari run at `2026-11-02T14:14:29+05:00` passed all eight checks on
+   preview `761f760`; the four repaired Owner reads now return 200. See
+   `SAFARI_SMOKE_PASS.json`. Real navigation, role boundaries, chat and task
+   persistence remain open. Successful API reads do not certify those flows.
 2. No trained language model, parameter-training receipt or independently
    validated subjective benchmark is present. The capability audit still exits
    1: legacy Writing relevance and Vocabulary sense counterexamples remain.
@@ -79,6 +79,38 @@ Safari. A full run requests the normal QA Owner password without displaying or
 saving it. `--session-only` requires that preview's existing Owner session.
 Sites remains private and unpublished; no deployment-protection bypass
 credential was created.
+
+## Live conversation follow-up
+
+The API-read smoke passed in the Owner's Safari. The conversation flow is still
+pending. The next Owner-run command uses that same preview's existing session:
+
+```sh
+python3 scripts/riwi-safari-conversation-smoke.py
+```
+
+The runner checks the expected active QA Owner and disabled external AI before
+posting any message. It creates one synthetic conversation, verifies exact
+round trips for three turns (including a fixed prompt-injection refusal), then
+deletes only its newly returned conversation ID and verifies 404. It never
+exports cookies, credentials or conversation text, and does not retry a POST.
+QA audit/security test records remain. If no conversation ID is returned, the
+runner cannot infer whether a failed server request wrote partial data; it does
+not search for or delete other conversations.
+
+`normalAnswerAvailable` is recorded separately. A transport/persistence pass
+with provenance `unavailable` does not establish useful tutoring. Semantic
+quality and full acceptance remain unvalidated regardless of transport status.
+No visual browser checks or cross-account role certification are claimed.
+
+The runner's request sequence passes twelve isolated Node VM tests, including
+wrong-origin/actor/provider gates, altered transcripts, foreign reply IDs, POST
+failures, missing answers, refusal failures and cleanup failures. These are
+runner tests with mocked requests, not a live conversation result:
+
+```sh
+node --test qa/riwi-sites-20261102/test-safari-conversation-runner.mjs
+```
 
 ## Resume after Safari reconnects
 

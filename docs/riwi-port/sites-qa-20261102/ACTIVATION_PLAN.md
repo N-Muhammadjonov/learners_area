@@ -5,10 +5,9 @@ The QA database recovery and guarded migration steps are complete. See
 
 1. Reconnect Safari. The workspace code, Safari runner, ignore entry and offline
    rehearsal helper are preserved in the latest code-readiness checkpoint.
-2. Rerun the fixed Safari API smoke against the pinned protected preview.
-   Confirm login/session/targets and the four previously failing Owner APIs.
-   Capture actual statuses and safe error codes. Do not infer HTTP success
-   solely from successful SQL.
+2. Completed: the Owner's Safari API smoke on preview `761f760` returned 200 for
+   public config, login/session/targets and all four previously failing Owner
+   APIs. Evidence: `../code-readiness-20261102/SAFARI_SMOKE_PASS.json`.
 3. Exercise actual RIWI chat and task-evaluation flows with synthetic material.
    Verify persistence, expired/missing sessions, student self-scope, assigned
    teachers, Admin operational-only access and Owner centre scope. Keep current
