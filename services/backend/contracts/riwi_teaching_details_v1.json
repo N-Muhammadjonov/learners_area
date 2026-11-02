@@ -760,8 +760,8 @@
           "uz": "Avtobus kechikdi, shuning uchun piyoda bordim."
         },
         {
-          "en": "The room was full. However, we found two seats.",
-          "uz": "Xona to‘la edi. Shunga qaramay, ikkita joy topdik."
+          "en": "The room was crowded. However, we found two seats.",
+          "uz": "Xona gavjum edi. Shunga qaramay, ikkita bo‘sh joy topdik."
         },
         {
           "en": "She practised daily. Therefore, she became more confident.",
@@ -1409,7 +1409,7 @@
         },
         {
           "en": "I would avoid assuming that every resident wants the same facilities.",
-          "uz": "Har bir aholi bir xil qulaylikni xohlaydi deb taxmin qilmagan bo‘lardim."
+          "uz": "Hududdagi hamma bir xil qulaylikni xohlaydi deb taxmin qilmagan bo‘lardim."
         }
       ]
     },
@@ -2637,7 +2637,7 @@
       "examples": [
         {
           "en": "The project was a success.",
-          "uz": "Loyiha muvaffaqiyat bo‘ldi. Success — ot."
+          "uz": "Loyiha muvaffaqiyatli bo‘ldi. Success — ot."
         },
         {
           "en": "She hopes to succeed.",
