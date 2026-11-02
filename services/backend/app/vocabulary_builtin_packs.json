@@ -11662,5 +11662,896 @@
         "example": "Use a potholder when removing the pan."
       }
     ]
+  },
+  {
+    "id": "media",
+    "label": {
+      "en": "Media",
+      "uz": "Media"
+    },
+    "words": [
+      {
+        "term": "post a video",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish a video on an online platform.",
+        "translationUz": "videoni internet platformasiga joylamoq",
+        "example": "She will post a video about her art project."
+      },
+      {
+        "term": "share a post",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make another user's published content available to your own audience.",
+        "translationUz": "boshqa foydalanuvchining postini ulashmoq",
+        "example": "You can share a post with your friends."
+      },
+      {
+        "term": "update your status",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish new information about what you are doing or thinking on a social platform.",
+        "translationUz": "ijtimoiy tarmoqdagi holatini yangilamoq",
+        "example": "You can update your status after the event."
+      },
+      {
+        "term": "send a friend request",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Ask to connect with another user on a social platform.",
+        "translationUz": "do‘stlik so‘rovi yubormoq",
+        "example": "You can send a friend request to someone you know."
+      },
+      {
+        "term": "subscribe to a channel",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Sign up to receive or follow content from a particular online channel. Usage: Subscribe can mean follow updates without paying. In a newspaper subscription, it often involves payment.",
+        "translationUz": "kanalga obuna bo‘lmoq",
+        "example": "I decided to subscribe to a channel about science."
+      },
+      {
+        "term": "follow someone",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Choose to receive or see updates from a particular user.",
+        "translationUz": "kimnidir ijtimoiy tarmoqda kuzatib bormoq",
+        "example": "You can follow someone whose posts interest you."
+      },
+      {
+        "term": "create a profile",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Set up a page containing information about a user.",
+        "translationUz": "profil yaratmoq",
+        "example": "You need to create a profile before joining the group."
+      },
+      {
+        "term": "upload a photo",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Transfer an image from your device to an online service.",
+        "translationUz": "suratni internetga yuklamoq",
+        "example": "Please upload a photo for your profile."
+      },
+      {
+        "term": "post updates",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish new information regularly or as events develop.",
+        "translationUz": "yangiliklarni post qilib turmoq",
+        "example": "The team will post updates during the journey."
+      },
+      {
+        "term": "share links",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Pass on clickable connections to websites or online content.",
+        "translationUz": "havolalarni ulashmoq",
+        "example": "Students can share links to useful articles."
+      },
+      {
+        "term": "comment on",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Write a response beneath or in relation to online content.",
+        "translationUz": "biror postga yoki videoga izoh yozmoq",
+        "example": "You can comment on the video after watching it."
+      },
+      {
+        "term": "rate a video",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give a video a score to show how good you think it is.",
+        "translationUz": "videoga baho bermoq",
+        "example": "Viewers can rate a video from one to five stars."
+      },
+      {
+        "term": "get views",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Receive instances of people watching a video or viewing content.",
+        "translationUz": "ko‘rishlar sonini yig‘moq",
+        "example": "A clear title can help a video get views."
+      },
+      {
+        "term": "get likes",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Receive positive reactions through a platform's like function.",
+        "translationUz": "layklar olmoq",
+        "example": "The photographer hopes the picture will get likes."
+      },
+      {
+        "term": "like a post",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Indicate approval of online content by using the like function.",
+        "translationUz": "postga layk bosmoq",
+        "example": "You can like a post without writing a comment."
+      },
+      {
+        "term": "turn off notifications",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Stop receiving automated alerts from an app or service.",
+        "translationUz": "bildirishnomalarni o‘chirmoq",
+        "example": "I turn off notifications while I study."
+      },
+      {
+        "term": "social media app",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A software application used to share content or interact with other users.",
+        "translationUz": "ijtimoiy tarmoq ilovasi",
+        "example": "The club uses a social media app to announce events."
+      },
+      {
+        "term": "a round-up",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A summary bringing together the main items on a subject.",
+        "translationUz": "asosiy yangiliklar sharhi; qisqacha jamlanma",
+        "example": "The magazine publishes a round-up of new apps."
+      },
+      {
+        "term": "a link",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A clickable connection to another page or online resource.",
+        "translationUz": "havola",
+        "example": "She sent me a link to the article."
+      },
+      {
+        "term": "a view",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "One recorded instance of someone viewing online content.",
+        "translationUz": "bir marta ko‘rish; ko‘rish holati",
+        "example": "The platform recorded each view of the video."
+      },
+      {
+        "term": "a like",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A positive reaction recorded through a platform's like function.",
+        "translationUz": "layk; ijobiy reaksiya",
+        "example": "The photo received a like from my teacher."
+      },
+      {
+        "term": "a comment",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A written response to a post or other online content.",
+        "translationUz": "izoh; kommentariya",
+        "example": "He left a comment beneath the video."
+      },
+      {
+        "term": "a notification",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An automated message alerting a user that something has happened.",
+        "translationUz": "bildirishnoma",
+        "example": "I received a notification about a new message."
+      },
+      {
+        "term": "personal information",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Details relating to an individual, such as their name or date of birth.",
+        "translationUz": "shaxsiy ma’lumotlar",
+        "example": "The form asks for personal information."
+      },
+      {
+        "term": "create an account",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Register to use an online service by setting up a user identity.",
+        "translationUz": "hisob qaydnomasi yaratmoq",
+        "example": "You may need to create an account to save your work."
+      },
+      {
+        "term": "privacy settings",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Options controlling who can access or interact with your information and content.",
+        "translationUz": "maxfiylik sozlamalari",
+        "example": "Check your privacy settings before publishing the photo."
+      },
+      {
+        "term": "a profile picture",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The image used to represent a user on their account.",
+        "translationUz": "profil rasmi",
+        "example": "She chose a landscape as her profile picture."
+      },
+      {
+        "term": "a timeline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A page or feed presenting a sequence of posts and other activity.",
+        "translationUz": "postlar ketma-ketligi; vaqt tasmasi",
+        "example": "The announcement appeared on my timeline."
+      },
+      {
+        "term": "private",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Restricted to a particular person or selected audience rather than available to everyone.",
+        "translationUz": "shaxsiy; faqat tanlanganlarga ochiq",
+        "example": "She keeps her account private."
+      },
+      {
+        "term": "public",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Available for people generally to see or access.",
+        "translationUz": "ommaviy; hammaga ochiq",
+        "example": "The event page is public."
+      },
+      {
+        "term": "tag someone",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Add a reference or link identifying a user in a post or photo.",
+        "translationUz": "post yoki suratda kimnidir belgilamoq",
+        "example": "Ask before you tag someone in a photograph."
+      },
+      {
+        "term": "remove a tag",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Delete a reference linking a person to a post or photo.",
+        "translationUz": "belgini olib tashlamoq",
+        "example": "She asked him to remove a tag from the picture."
+      },
+      {
+        "term": "a direct message",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A message sent to specified users rather than published to a general audience. Usage: Sent to selected recipients rather than a public feed. This does not guarantee confidentiality: recipients may copy or share it.",
+        "translationUz": "shaxsiy xabar",
+        "example": "Please send the meeting details in a direct message."
+      },
+      {
+        "term": "delete an account",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Remove a registered user account from a service.",
+        "translationUz": "hisob qaydnomasini o‘chirmoq",
+        "example": "He decided to delete an account he no longer used."
+      },
+      {
+        "term": "default settings",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The options applied automatically unless the user changes them.",
+        "translationUz": "standart sozlamalar",
+        "example": "The default settings may not match your preferences."
+      },
+      {
+        "term": "a talk show",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme in which a host interviews guests or leads discussion.",
+        "translationUz": "suhbat ko‘rsatuvi",
+        "example": "The actor appeared on a talk show."
+      },
+      {
+        "term": "a cartoon",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An animated film or programme using drawn or digitally created characters.",
+        "translationUz": "multfilm",
+        "example": "The children watched a cartoon after lunch."
+      },
+      {
+        "term": "a game show",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme in which contestants compete, often to win prizes.",
+        "translationUz": "teleo‘yin; viktorina ko‘rsatuvi",
+        "example": "The contestants answered questions on a game show."
+      },
+      {
+        "term": "a soap opera",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A continuing drama following the lives of a recurring group of characters.",
+        "translationUz": "davomli teleserial; melodramatik serial",
+        "example": "She watches a soap opera set in a small town."
+      },
+      {
+        "term": "a documentary",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A factual programme or film exploring a real subject.",
+        "translationUz": "hujjatli film",
+        "example": "We watched a documentary about ocean life."
+      },
+      {
+        "term": "a sitcom",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A comedy series featuring recurring characters and situations.",
+        "translationUz": "vaziyatli komediya seriali",
+        "example": "The sitcom follows three friends sharing a flat."
+      },
+      {
+        "term": "a sports programme",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A broadcast devoted to sporting events, reports or analysis.",
+        "translationUz": "sport ko‘rsatuvi",
+        "example": "The sports programme included highlights of the final."
+      },
+      {
+        "term": "a weather forecast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A report predicting weather conditions.",
+        "translationUz": "ob-havo prognozi",
+        "example": "We checked the weather forecast before travelling."
+      },
+      {
+        "term": "current affairs",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Important political and social events happening at the present time, considered as a subject of reporting.",
+        "translationUz": "dolzarb siyosiy va ijtimoiy voqealar",
+        "example": "The programme discusses current affairs with expert guests."
+      },
+      {
+        "term": "a presenter",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who introduces and leads a television or radio programme.",
+        "translationUz": "teleko‘rsatuv yoki radio boshlovchisi",
+        "example": "The presenter introduced the next guest."
+      },
+      {
+        "term": "a host",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who leads a show and welcomes or interviews its guests.",
+        "translationUz": "dastur boshlovchisi",
+        "example": "The host asked the author about her new book."
+      },
+      {
+        "term": "an episode",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "One instalment of a continuing programme or story.",
+        "translationUz": "serial yoki dasturning bir qismi",
+        "example": "The next episode will explain the mystery."
+      },
+      {
+        "term": "a detective drama",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A fictional programme centred on investigators solving crimes.",
+        "translationUz": "detektiv drama; jinoyatni tergov qilish haqidagi serial",
+        "example": "We watched a detective drama set in a coastal town."
+      },
+      {
+        "term": "TV listings",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A schedule showing which programmes are being shown and when.",
+        "translationUz": "teledasturlar jadvali",
+        "example": "Check the TV listings to find the start time."
+      },
+      {
+        "term": "a repeat",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme broadcast again after an earlier showing.",
+        "translationUz": "ko‘rsatuvning takroriy efiri",
+        "example": "The channel showed a repeat of last week's match."
+      },
+      {
+        "term": "the mass media",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Communication services and organisations that reach large audiences. Usage: Media is traditionally plural: the media are. Collective singular agreement also occurs, especially with social media. Use one consistent style.",
+        "translationUz": "ommaviy axborot vositalari",
+        "example": "The mass media influence public discussion."
+      },
+      {
+        "term": "a means of communication",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A method or channel used to exchange information. Usage: Means has the same form in the singular and plural: a means; several means.",
+        "translationUz": "aloqa vositasi",
+        "example": "Radio remains a useful means of communication."
+      },
+      {
+        "term": "subtitles",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Written text on screen representing speech, sometimes translated.",
+        "translationUz": "subtitrlar",
+        "example": "I watched the film with subtitles."
+      },
+      {
+        "term": "a dubbed film",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A film whose original spoken dialogue has been replaced with recorded dialogue, often in another language.",
+        "translationUz": "ovozli tarjima qilingan film",
+        "example": "They watched a dubbed film instead of reading subtitles."
+      },
+      {
+        "term": "a satellite dish",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A dish-shaped aerial used to receive signals from satellites.",
+        "translationUz": "sun’iy yo‘ldosh antennasi",
+        "example": "There is a satellite dish on the roof."
+      },
+      {
+        "term": "a TV channel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service that broadcasts or supplies a particular stream of television programmes.",
+        "translationUz": "telekanal",
+        "example": "The TV channel specialises in history programmes."
+      },
+      {
+        "term": "a commercial",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An advertisement broadcast on television or radio.",
+        "translationUz": "televideniye yoki radiodagi reklama",
+        "example": "A commercial interrupted the programme."
+      },
+      {
+        "term": "stream a programme",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Watch or listen to a programme online as its data is received.",
+        "translationUz": "dasturni internet orqali tomosha qilmoq yoki tinglamoq",
+        "example": "You can stream a programme on your tablet."
+      },
+      {
+        "term": "a broadcast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme or message transmitted to an audience by radio, television or a similar service.",
+        "translationUz": "efir; translyatsiya",
+        "example": "The broadcast included interviews with local residents."
+      },
+      {
+        "term": "catch-up TV",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service allowing viewers to watch programmes after their scheduled broadcast. Usage: Catch-up services offer previously broadcast programmes; TV on demand is broader and may include content never broadcast on a schedule.",
+        "translationUz": "o‘tib ketgan teleko‘rsatuvni keyin ko‘rish xizmati",
+        "example": "I used catch-up TV to watch the programme I missed."
+      },
+      {
+        "term": "TV on demand",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service allowing viewers to choose programmes to watch when they want.",
+        "translationUz": "istalgan vaqtda teleko‘rsatuvni tanlab ko‘rish xizmati",
+        "example": "TV on demand lets us choose the evening's entertainment."
+      },
+      {
+        "term": "a podcast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme or series distributed online, usually as audio, for streaming or downloading.",
+        "translationUz": "podkast",
+        "example": "She listened to a podcast about journalism."
+      },
+      {
+        "term": "download a broadcast",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Save a transmitted programme from an online service onto a device.",
+        "translationUz": "efir dasturini qurilmaga yuklab olmoq",
+        "example": "I will download a broadcast to listen to during the journey."
+      },
+      {
+        "term": "broadcast",
+        "partOfSpeech": "verb",
+        "definitionEn": "Transmit a programme or message to a wide audience.",
+        "translationUz": "efirga uzatmoq",
+        "example": "The station will broadcast the interview tonight."
+      },
+      {
+        "term": "televise",
+        "partOfSpeech": "verb",
+        "definitionEn": "Transmit an event or programme on television.",
+        "translationUz": "televizorda namoyish qilmoq",
+        "example": "The channel will televise the final."
+      },
+      {
+        "term": "shoot a film on location",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Record a film in a real setting rather than entirely in a studio.",
+        "translationUz": "filmni studiyadan tashqarida, haqiqiy joyda suratga olmoq",
+        "example": "The crew plans to shoot a film on location by the sea."
+      },
+      {
+        "term": "be set in",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Have a particular place or period as the setting of a fictional story.",
+        "translationUz": "voqealari ma’lum joy yoki davrda kechmoq",
+        "example": "The drama will be set in a mountain village."
+      },
+      {
+        "term": "tweet about",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish a short social-media message about something, using the terminology of the source unit. Usage: Platform-specific terminology used in the source. Post about is a more general equivalent.",
+        "translationUz": "biror narsa haqida tvit yozmoq",
+        "example": "Fans began to tweet about the result."
+      },
+      {
+        "term": "a tabloid newspaper",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A newspaper often associated with compact pages and popular, attention-grabbing reporting. Usage: Tabloid can refer to page size or a style of reporting. A compact format alone does not determine journalistic quality.",
+        "translationUz": "tabloid; ommabop gazeta",
+        "example": "The tabloid newspaper printed a large celebrity photograph."
+      },
+      {
+        "term": "a quality newspaper",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A newspaper regarded as offering substantial, serious news reporting and analysis. Usage: An evaluative label for serious reporting; it is not a guarantee of accuracy or a strict definition by page size.",
+        "translationUz": "jiddiy tahliliy materiallar chop etadigan gazeta",
+        "example": "She reads a quality newspaper for political analysis."
+      },
+      {
+        "term": "focus on",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give particular attention to a subject.",
+        "translationUz": "biror mavzuga e’tibor qaratmoq",
+        "example": "The report will focus on housing costs."
+      },
+      {
+        "term": "sensation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Strong public excitement or interest caused by something striking or unusual.",
+        "translationUz": "shov-shuv; kuchli jamoatchilik qiziqishi",
+        "example": "The paper was criticised for pursuing sensation rather than careful reporting."
+      },
+      {
+        "term": "a scandal",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An event or behaviour causing public shock or strong disapproval.",
+        "translationUz": "janjalli voqea; mojaro",
+        "example": "The newspaper investigated a funding scandal."
+      },
+      {
+        "term": "journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The work of gathering, checking and presenting news or information to the public.",
+        "translationUz": "jurnalistika",
+        "example": "She wants a career in journalism."
+      },
+      {
+        "term": "an in-depth article",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A written report examining a subject carefully and in considerable detail.",
+        "translationUz": "mavzuni batafsil yorituvchi maqola",
+        "example": "The website published an in-depth article about local transport."
+      },
+      {
+        "term": "pay a subscription",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Pay regularly for access to a publication or service.",
+        "translationUz": "obuna uchun to‘lov qilmoq",
+        "example": "Readers pay a subscription to access the archive."
+      },
+      {
+        "term": "celebrity news",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Reports about the lives and activities of famous people.",
+        "translationUz": "mashhurlar haqidagi yangiliklar",
+        "example": "The entertainment page carries celebrity news."
+      },
+      {
+        "term": "political debate",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Discussion involving different views on political issues.",
+        "translationUz": "siyosiy munozara",
+        "example": "The programme hosted a political debate about education."
+      },
+      {
+        "term": "an in-depth review",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A detailed critical assessment of a book, film or other work.",
+        "translationUz": "batafsil taqriz; chuqur tahliliy sharh",
+        "example": "The magazine published an in-depth review of the novel."
+      },
+      {
+        "term": "a headline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The title of a news story, usually designed to attract attention.",
+        "translationUz": "sarlavha",
+        "example": "The headline summarised the report's main finding."
+      },
+      {
+        "term": "sensational",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Presented or characterised in a way that causes strong excitement or shock.",
+        "translationUz": "shov-shuvli; kuchli taassurot uyg‘otadigan",
+        "example": "The editor rejected the sensational headline."
+      },
+      {
+        "term": "investigate",
+        "partOfSpeech": "verb",
+        "definitionEn": "Examine something systematically to discover facts about it.",
+        "translationUz": "tekshirib o‘rganmoq; tergov qilmoq",
+        "example": "The journalists will investigate the complaint."
+      },
+      {
+        "term": "news",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Information or reports about recent events. Usage: Uncountable and grammatically singular: some news; the news is. For one report, say a news item or a piece of news.",
+        "translationUz": "yangiliklar; xabarlar",
+        "example": "The news is available on the station's website."
+      },
+      {
+        "term": "print journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting produced for printed newspapers or magazines.",
+        "translationUz": "bosma matbuot jurnalistikasi",
+        "example": "She began her career in print journalism."
+      },
+      {
+        "term": "broadcast journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting produced for radio or television.",
+        "translationUz": "radio va televideniye jurnalistikasi",
+        "example": "His course includes training in broadcast journalism."
+      },
+      {
+        "term": "online journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting published through websites or other online channels.",
+        "translationUz": "onlayn jurnalistika",
+        "example": "Online journalism allows rapid updates to a story."
+      },
+      {
+        "term": "citizen journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting carried out by members of the public rather than solely by professional journalists.",
+        "translationUz": "fuqarolik jurnalistikasi",
+        "example": "Witnesses contributed photographs through citizen journalism."
+      },
+      {
+        "term": "gather news",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Collect information about events for reporting.",
+        "translationUz": "xabar uchun ma’lumot to‘plamoq",
+        "example": "Reporters gather news from interviews and documents."
+      },
+      {
+        "term": "a pressure group",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An organised group seeking to influence public opinion, policy or decisions on an issue.",
+        "translationUz": "qarorlarga ta’sir o‘tkazishga intiluvchi jamoat guruhi",
+        "example": "A pressure group called for cleaner transport."
+      },
+      {
+        "term": "air your views",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Express your opinions openly, often in public.",
+        "translationUz": "fikrlarini ochiq bildirmoq",
+        "example": "The debate offers a chance to air your views."
+      },
+      {
+        "term": "a press conference",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An event at which someone gives information and answers journalists' questions.",
+        "translationUz": "matbuot anjumani",
+        "example": "The organisers held a press conference before the opening."
+      },
+      {
+        "term": "issue a statement",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make a formal announcement or declaration.",
+        "translationUz": "rasmiy bayonot bermoq",
+        "example": "The organisation will issue a statement later today."
+      },
+      {
+        "term": "a press release",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An official written announcement supplied to news organisations.",
+        "translationUz": "matbuot uchun rasmiy xabar",
+        "example": "The museum sent a press release about the exhibition."
+      },
+      {
+        "term": "seek publicity",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Try to attract public or media attention.",
+        "translationUz": "ommaviy e’tiborni jalb qilishga intilmoq",
+        "example": "The campaign will seek publicity for the new service."
+      },
+      {
+        "term": "a soundbite",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A short, memorable extract from speech that can be repeated in news reports.",
+        "translationUz": "nutqdan olingan qisqa va esda qolarli parcha",
+        "example": "The interview produced a memorable soundbite."
+      },
+      {
+        "term": "hunt for a story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Search actively for an event or issue worth reporting.",
+        "translationUz": "yoritishga arziydigan yangilikni izlamoq",
+        "example": "The reporter spent the morning trying to hunt for a story."
+      },
+      {
+        "term": "tap useful sources",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make use of people or organisations that can supply relevant information.",
+        "translationUz": "foydali axborot manbalaridan foydalanmoq",
+        "example": "Reporters need to tap useful sources while checking their claims."
+      },
+      {
+        "term": "monitor news agencies",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Regularly check organisations that gather and supply news.",
+        "translationUz": "axborot agentliklari xabarlarini kuzatmoq",
+        "example": "Editors monitor news agencies for developing stories."
+      },
+      {
+        "term": "airtime",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The amount of time given to content on radio or television.",
+        "translationUz": "efir vaqti",
+        "example": "The issue received several minutes of airtime."
+      },
+      {
+        "term": "column inches",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The amount of space devoted to a subject in a publication, originally measured in newspaper columns.",
+        "translationUz": "gazetada ajratilgan ustun joyi miqdori",
+        "example": "The election received more column inches than other stories."
+      },
+      {
+        "term": "media coverage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Reporting and discussion of a subject across news or other media.",
+        "translationUz": "ommaviy axborot vositalarida yoritilishi",
+        "example": "The event received extensive media coverage."
+      },
+      {
+        "term": "paparazzi",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Photographers who pursue famous people for pictures, often intrusively. Usage: Plural; singular paparazzo. The term often implies intrusive pursuit of celebrities.",
+        "translationUz": "mashhurlarni kuzatib suratga oluvchi fotograflar",
+        "example": "The actor complained about the paparazzi outside her home."
+      },
+      {
+        "term": "a rag",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An informal, disapproving word for a newspaper regarded as poor quality. Usage: Disparaging and informal; avoid using it as a neutral label in a professional context.",
+        "translationUz": "sifatsiz deb kamsitilgan gazeta",
+        "example": "He dismissed the newspaper as a rag."
+      },
+      {
+        "term": "the gutter press",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A strongly disapproving term for publications regarded as intrusive or sensationalist.",
+        "translationUz": "shov-shuv va shaxsiy hayotni kavlashga moyil matbuot",
+        "example": "She accused the gutter press of invading her privacy."
+      },
+      {
+        "term": "produce copy",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Prepare written material for publication or broadcast. Usage: Copy is uncountable in this publishing sense: prepare copy, not produce a copy unless you mean a duplicate.",
+        "translationUz": "nashr uchun matn tayyorlamoq",
+        "example": "Reporters must produce copy before the editor's deadline."
+      },
+      {
+        "term": "a tight deadline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A time limit allowing very little time to complete work.",
+        "translationUz": "juda qisqa muddat; tig‘iz topshirish vaqti",
+        "example": "The team worked to a tight deadline."
+      },
+      {
+        "term": "go to press",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Reach the stage when a publication is sent for printing.",
+        "translationUz": "nashrni bosmaga yubormoq",
+        "example": "The paper will go to press at midnight."
+      },
+      {
+        "term": "back copies",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Copies of earlier issues of a publication.",
+        "translationUz": "gazeta yoki jurnalning oldingi sonlari",
+        "example": "The library keeps back copies of the magazine."
+      },
+      {
+        "term": "an online archive",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A digital collection of stored material from the past.",
+        "translationUz": "onlayn arxiv",
+        "example": "The newspaper has an online archive of earlier reports."
+      },
+      {
+        "term": "an exclusive / a scoop",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A news story obtained and reported ahead of competing outlets. Usage: Close equivalents here. Exclusive emphasises access unique to an outlet; scoop often emphasises being first with important news.",
+        "translationUz": "boshqalardan avval qo‘lga kiritilgan eksklyuziv xabar",
+        "example": "The reporter secured an exclusive about the planned merger."
+      },
+      {
+        "term": "run a story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish or broadcast a news report.",
+        "translationUz": "xabarni nashr etmoq yoki efirga uzatmoq",
+        "example": "The editor decided to run a story about the school."
+      },
+      {
+        "term": "hit the headlines",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Become a prominent subject of news reporting.",
+        "translationUz": "yangiliklar sarlavhalariga chiqmoq",
+        "example": "The discovery could hit the headlines tomorrow."
+      },
+      {
+        "term": "a story breaks",
+        "partOfSpeech": "clause",
+        "definitionEn": "News about an event becomes public or is first reported.",
+        "translationUz": "yangi xabar ilk bor oshkor bo‘lmoq",
+        "example": "When a story breaks, the newsroom checks the facts quickly."
+      },
+      {
+        "term": "public knowledge",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Information that is generally known or publicly available.",
+        "translationUz": "hamma biladigan yoki ommaga ochiq ma’lumot",
+        "example": "The decision became public knowledge after the announcement."
+      },
+      {
+        "term": "libel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A published defamatory statement in written or another lasting form; the word is often used for a damaging false publication. Usage: A vocabulary definition, not a complete legal test. The source calls libel and defamation two crimes; libel is commonly treated as a form of defamation, and legal classification varies by jurisdiction.",
+        "translationUz": "yozma yoki boshqa barqaror shakldagi tuhmat",
+        "example": "The editor checked the allegation because it could lead to a claim of libel."
+      },
+      {
+        "term": "defamation of character",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Communication that damages a person's reputation through a defamatory allegation. Usage: Defamation is the broader reputational concept. Do not treat libel and defamation as two wholly separate offences.",
+        "translationUz": "shaxsning obro‘siga putur yetkazuvchi tuhmat",
+        "example": "The article prompted a complaint about defamation of character."
+      },
+      {
+        "term": "political persuasion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person's political beliefs or general political position.",
+        "translationUz": "siyosiy qarashlar; siyosiy yo‘nalish",
+        "example": "The panel included journalists of different political persuasions."
+      },
+      {
+        "term": "put a spin on a story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Present a report in a particular way to influence how people interpret it. Usage: The source also uses put your own gloss on a story. Spin often implies a selective or persuasive presentation.",
+        "translationUz": "xabarni o‘z manfaatiga mos talqin qilib ko‘rsatmoq",
+        "example": "A campaign may put a spin on a story to favour its position."
+      },
+      {
+        "term": "muck-raking",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Searching for and publicising scandal or embarrassing information, often with a disapproving implication. Usage: Often disapproving in the source, though historically muckraking can also refer to investigative reporting exposing wrongdoing.",
+        "translationUz": "mojaro va sharmandali ma’lumotlarni kovlab yoritish",
+        "example": "The columnist was accused of muck-raking."
+      },
+      {
+        "term": "media attention",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Notice and interest given to a person or subject by media organisations.",
+        "translationUz": "ommaviy axborot vositalari e’tibori",
+        "example": "The project attracted media attention."
+      },
+      {
+        "term": "media interest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Curiosity or concern shown by journalists and media outlets.",
+        "translationUz": "ommaviy axborot vositalarining qiziqishi",
+        "example": "The announcement generated considerable media interest."
+      },
+      {
+        "term": "media hype",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Intense or exaggerated promotion and attention in the media.",
+        "translationUz": "OAVdagi bo‘rttirilgan shov-shuv",
+        "example": "The film failed to live up to the media hype."
+      },
+      {
+        "term": "media reports",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Accounts of events published or broadcast by media organisations.",
+        "translationUz": "ommaviy axborot vositalarining xabarlari",
+        "example": "The statement responded to media reports about the closure."
+      },
+      {
+        "term": "heroic",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Showing or involving exceptional courage, sometimes used for dramatic effect in reporting.",
+        "translationUz": "qahramonona; jasorat ko‘rsatadigan",
+        "example": "The newspaper described the rescue as heroic."
+      },
+      {
+        "term": "a triumph",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A major success or victory, sometimes used emphatically in reporting.",
+        "translationUz": "katta g‘alaba yoki yutuq",
+        "example": "The headline called the team's performance a triumph."
+      },
+      {
+        "term": "an occurrence",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An event or something that happens.",
+        "translationUz": "voqea; sodir bo‘lish holati",
+        "example": "The reporter said such delays were a daily occurrence."
+      }
+    ]
   }
 ]
