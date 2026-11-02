@@ -1,0 +1,1325 @@
+{
+  "schemaVersion": 1,
+  "version": "riwi-original-curriculum-v1",
+  "authorship": {
+    "kind": "original_assistant_authored",
+    "ownerInstructionDate": "2026-11-02",
+    "instruction": "Teach RIWI as much as possible using your own knowledge.",
+    "rightsClass": "internal_permission",
+    "modelParameterTraining": false,
+    "independentExaminerReference": false
+  },
+  "entries": [
+    {
+      "id": "grammar.present-simple",
+      "aliases": [
+        "present simple",
+        "simple present",
+        "hozirgi oddiy zamon"
+      ],
+      "title": "Present simple",
+      "explanationEn": "Use present simple for routines, general facts and stable states. He/she/it normally takes -s in affirmative statements. After does, use the base verb.",
+      "explanationUz": "Odat, umumiy haqiqat va doimiy holat uchun ishlating. He/she/it bilan tasdiqda odatda -s keladi. Does dan keyin asosiy fe’l shakli ishlatiladi.",
+      "example": "She studies every evening. Does she study on Friday?",
+      "pitfall": "Does she studies? -> Does she study?",
+      "practice": "Write a routine, then make a question. Bir odat yozib, undan savol tuzing."
+    },
+    {
+      "id": "grammar.present-continuous",
+      "aliases": [
+        "present continuous",
+        "present progressive",
+        "hozirgi davomiy zamon"
+      ],
+      "title": "Present continuous",
+      "explanationEn": "Use am/is/are + -ing for an activity happening now or a temporary situation. State verbs such as know normally use a simple form in their usual state meaning.",
+      "explanationUz": "Hozirgi ish yoki vaqtinchalik vaziyat uchun am/is/are + -ing ishlating. Know kabi holat fe’llari odatiy ma’nosida ko‘pincha simple shaklda keladi.",
+      "example": "I am reading now. My cousin is staying with us this week. I know the answer.",
+      "pitfall": "I reading -> I am reading.",
+      "practice": "Describe one temporary activity. Vaqtinchalik bir ishni tasvirlang."
+    },
+    {
+      "id": "grammar.past-simple",
+      "aliases": [
+        "past simple",
+        "simple past",
+        "o‘tgan oddiy zamon",
+        "otgan oddiy zamon"
+      ],
+      "title": "Past simple",
+      "explanationEn": "Use past simple for completed events in a finished past context. Regular verbs often take -ed. Learn irregular forms separately. After did, use the base verb.",
+      "explanationUz": "Tugagan o‘tgan vaqtdagi ish uchun ishlating. Oddiy fe’llarda ko‘pincha -ed keladi. Irregular shakllar alohida o‘rganiladi. Did dan keyin asosiy shakl keladi.",
+      "example": "We visited the museum yesterday. Did you go? I did not buy a ticket online.",
+      "pitfall": "Did you went? -> Did you go?",
+      "practice": "Describe a completed event and say when. Tugagan voqeani va vaqtini yozing."
+    },
+    {
+      "id": "grammar.past-continuous",
+      "aliases": [
+        "past continuous",
+        "past progressive",
+        "o‘tgan davomiy zamon"
+      ],
+      "title": "Past continuous",
+      "explanationEn": "Use was/were + -ing for an activity in progress at a past time. It can provide background to a shorter event in the past simple.",
+      "explanationUz": "O‘tmishdagi bir paytda davom etayotgan ish uchun was/were + -ing ishlating. U past simple dagi qisqaroq voqeaga fon bo‘lishi mumkin.",
+      "example": "I was cooking when the phone rang. At eight, they were waiting outside.",
+      "pitfall": "Choose the tense from the time relationship, not just the word when.",
+      "practice": "Write a background activity and a shorter event. Davomiy ish va qisqaroq voqeani yozing."
+    },
+    {
+      "id": "grammar.present-perfect",
+      "aliases": [
+        "present perfect",
+        "hozirgi tugallangan zamon"
+      ],
+      "title": "Present perfect",
+      "explanationEn": "Use have/has + past participle for experience up to now, a present result, or a situation continuing to now. Finished-time phrases such as yesterday normally use past simple.",
+      "explanationUz": "Tajriba, hozirgi natija yoki hozirgacha davom etgan holat uchun have/has + past participle ishlating. Yesterday kabi tugagan vaqt odatda past simple bilan keladi.",
+      "example": "I have lost my key, so I cannot open the door. She has lived here since 2022.",
+      "pitfall": "I have seen him yesterday -> I saw him yesterday.",
+      "practice": "Give a present result of a past action. O‘tgan ishning hozirgi natijasini yozing."
+    },
+    {
+      "id": "grammar.past-simple-vs-present-perfect",
+      "aliases": [
+        "past simple and present perfect",
+        "present perfect and past simple",
+        "past simple vs present perfect",
+        "present perfect vs past simple",
+        "past simple bilan present perfect",
+        "present perfect bilan past simple"
+      ],
+      "title": "Past simple and present perfect",
+      "explanationEn": "Past simple locates an event in a finished past context. Present perfect links experience or a situation to now without placing it at a finished past time. Check the intended time meaning.",
+      "explanationUz": "Past simple voqeani tugagan o‘tgan vaqtga joylaydi. Present perfect tajriba yoki holatni hozir bilan bog‘laydi. Avval vaqt tugaganmi va hozir bilan aloqa bormi, tekshiring.",
+      "example": "I visited Bukhara in 2023. I have visited Bukhara twice. The first gives a finished time; the second gives experience up to now.",
+      "pitfall": "Do not use a finished past time with present perfect in this ordinary meaning.",
+      "practice": "Write a sentence with yesterday and one about experience. Yesterday va tajriba bilan bittadan gap yozing."
+    },
+    {
+      "id": "grammar.present-perfect-continuous",
+      "aliases": [
+        "present perfect continuous",
+        "present perfect progressive"
+      ],
+      "title": "Present perfect continuous",
+      "explanationEn": "Use have/has been + -ing to emphasise an activity continuing to now or recently ending with a present result. Present perfect simple can focus on a completed result.",
+      "explanationUz": "Hozirgacha davom etgan yoki hozirgi izi qolgan faoliyat uchun have/has been + -ing ishlating. Present perfect simple esa tugallangan natijaga urg‘u berishi mumkin.",
+      "example": "I have been revising for an hour. I have completed two exercises.",
+      "pitfall": "I have been known her -> I have known her.",
+      "practice": "Contrast time spent with a completed result. Sarflangan vaqt va natijani solishtiring."
+    },
+    {
+      "id": "grammar.past-perfect",
+      "aliases": [
+        "past perfect",
+        "o‘tgan tugallangan zamon"
+      ],
+      "title": "Past perfect",
+      "explanationEn": "Use had + past participle to look back from a past point to an earlier event. It clarifies the order when needed; not every earlier action requires it.",
+      "explanationUz": "Bir o‘tgan paytdan oldingi voqeaga qarash uchun had + past participle ishlating. U zarur bo‘lsa ketma-ketlikni aniqlashtiradi; har oldingi ishga majburiy emas.",
+      "example": "When we reached the station, the train had already left.",
+      "pitfall": "Had went -> had gone.",
+      "practice": "Show which of two past events happened first. Ikki o‘tgan voqeaning tartibini ko‘rsating."
+    },
+    {
+      "id": "grammar.future-forms",
+      "aliases": [
+        "future forms",
+        "will and going to",
+        "kelasi zamon"
+      ],
+      "title": "Future forms",
+      "explanationEn": "Will can express a prediction or a decision made now. Be going to often expresses an existing intention or evidence-based prediction. Present continuous can express an arrangement.",
+      "explanationUz": "Will taxmin yoki hozirgi qarorni bildirishi mumkin. Be going to oldingi niyat yoki dalilga asoslangan taxmin uchun keladi. Kelishilgan reja present continuous bilan ham aytiladi.",
+      "example": "I will carry that bag. I am going to practise tonight. We are meeting at six.",
+      "pitfall": "These forms are not interchangeable in every context.",
+      "practice": "Give a new decision and an existing arrangement. Yangi qaror va kelishilgan rejani yozing."
+    },
+    {
+      "id": "grammar.articles",
+      "aliases": [
+        "articles",
+        "a an the",
+        "artikl",
+        "artikllar"
+      ],
+      "title": "Articles: a, an, the",
+      "explanationEn": "A/an introduces a non-specific singular countable item. Choose a/an by sound. The marks an identifiable referent. General plural and uncountable nouns often take no article.",
+      "explanationUz": "A/an noma’lum birlik sanaladigan narsani tanishtiradi. Tanlov tovushga bog‘liq. The aniqlash mumkin bo‘lgan narsaga ishora qiladi. Umumiy ko‘plik va sanalmaydigan otlarda artikl bo‘lmasligi mumkin.",
+      "example": "A university; an hour. I bought a book. The book is useful. Water is essential.",
+      "pitfall": "An university -> a university: university starts with a /j/ sound.",
+      "practice": "Introduce one object, then mention it again. Narsani tanishtirib, keyin yana eslang."
+    },
+    {
+      "id": "grammar.countability",
+      "aliases": [
+        "countable and uncountable",
+        "countability",
+        "sanaladigan va sanalmaydigan"
+      ],
+      "title": "Countable and uncountable nouns",
+      "explanationEn": "Singular countable nouns normally need a determiner. Uncountable uses normally do not take a/an or a regular plural. Some nouns change countability with meaning.",
+      "explanationUz": "Birlik sanaladigan otga odatda aniqlovchi kerak. Sanalmaydigan qo‘llanish odatda a/an yoki oddiy ko‘plikni olmaydi. Ayrim otlarning sanalishi ma’noga bog‘liq.",
+      "example": "I need a chair. I need some advice. Two pieces of advice helped me.",
+      "pitfall": "An advice -> some advice or a piece of advice.",
+      "practice": "Use information and suggestion in sentences. Ikkala ot bilan mos gap tuzing."
+    },
+    {
+      "id": "grammar.quantifiers",
+      "aliases": [
+        "quantifiers",
+        "much many",
+        "few and little",
+        "miqdor bildiruvchi"
+      ],
+      "title": "Quantifiers",
+      "explanationEn": "Many/few normally go with plural countable nouns; much/little with uncountable uses. A few/a little usually signal some amount, while few/little often emphasise a shortage.",
+      "explanationUz": "Many/few ko‘plik sanaladigan, much/little sanalmaydigan ot bilan keladi. A few/a little mavjud oz miqdorni, few/little esa ko‘pincha yetishmaslikni ta’kidlaydi.",
+      "example": "A few students stayed. We have little time, but a little help would be useful.",
+      "pitfall": "Many information -> much information.",
+      "practice": "Contrast few friends and a few friends. Ikki iboradagi farqni gapda ko‘rsating."
+    },
+    {
+      "id": "grammar.subject-verb-agreement",
+      "aliases": [
+        "subject verb agreement",
+        "subject-verb agreement",
+        "ega kesim mosligi"
+      ],
+      "title": "Subject–verb agreement",
+      "explanationEn": "Match the verb to the head of the subject. A phrase between the head and verb normally does not change agreement. Check tense as well.",
+      "explanationUz": "Fe’lni eganing asosiy so‘ziga moslang. Ega bilan fe’l orasidagi qo‘shimcha ibora odatda moslikni o‘zgartirmaydi. Zamonni ham tekshiring.",
+      "example": "The list of activities is short. The students in this group are ready.",
+      "pitfall": "The list of activities are -> The list of activities is.",
+      "practice": "Write a subject with an of-phrase and choose its verb. Of-iborali ega bilan gap tuzing."
+    },
+    {
+      "id": "grammar.prepositions",
+      "aliases": [
+        "prepositions",
+        "predlog",
+        "predloglar"
+      ],
+      "title": "Prepositions and verb patterns",
+      "explanationEn": "Learn a preposition with its word and meaning. A single translation does not work everywhere. Some verbs take a preposition and others take a direct object.",
+      "explanationUz": "Predlogni so‘z va ma’no bilan birga o‘rganing. Bitta tarjima barcha vaziyatga mos emas. Ayrim fe’llar predlog, boshqalari bevosita to‘ldiruvchi oladi.",
+      "example": "Depend on a plan; interested in music; discuss the plan; at six on Monday in May.",
+      "pitfall": "Discuss about the problem -> discuss the problem.",
+      "practice": "Use depend on and interested in in your own sentences. Har biriga shaxsiy gap yozing."
+    },
+    {
+      "id": "grammar.modals",
+      "aliases": [
+        "modal verbs",
+        "modals",
+        "must have to should",
+        "modal fellar"
+      ],
+      "title": "Modal verbs",
+      "explanationEn": "Core modals normally take a base verb without to. Distinguish advice, possibility and obligation. Must not forbids; do not have to means there is no obligation.",
+      "explanationUz": "Asosiy modal fe’ldan keyin odatda to siz asosiy fe’l keladi. Maslahat, ehtimol va majburiyatni ajrating. Must not taqiq, do not have to majburiyat yo‘qligini bildiradi.",
+      "example": "You should rest. You must not enter. You do not have to stay.",
+      "pitfall": "Do not confuse a prohibition with something optional.",
+      "practice": "Write a rule and an optional action. Bir qoida va bir ixtiyoriy ish yozing."
+    },
+    {
+      "id": "grammar.real-conditionals",
+      "aliases": [
+        "zero conditional",
+        "first conditional",
+        "real conditionals",
+        "haqiqiy shart gap",
+        "real conditional"
+      ],
+      "title": "Real conditionals",
+      "explanationEn": "Zero conditionals often give a general relationship. First conditionals often give a possible future condition and result. An ordinary future if-clause normally uses a present form.",
+      "explanationUz": "Zero conditional umumiy bog‘lanishni, first conditional mumkin bo‘lgan kelajak sharti va natijani bildiradi. Oddiy kelajak shartining if-qismida odatda hozirgi shakl keladi.",
+      "example": "If water freezes, it expands. If it rains tomorrow, we will practise indoors.",
+      "pitfall": "If it will rain tomorrow -> If it rains tomorrow in this ordinary condition.",
+      "practice": "Write a possible condition for tomorrow. Ertaga mumkin bo‘lgan shartni yozing."
+    },
+    {
+      "id": "grammar.unreal-conditionals",
+      "aliases": [
+        "second conditional",
+        "third conditional",
+        "unreal conditionals",
+        "tasavvuriy shart",
+        "unreal conditional"
+      ],
+      "title": "Unreal conditionals",
+      "explanationEn": "Second conditionals typically imagine a present/future situation: if + past, would + base. Third conditionals imagine a different past: if + past perfect, would have + participle.",
+      "explanationUz": "Second conditional hozirgi yoki kelajak tasavvurini if + past, would + fe’l bilan beradi. Third conditional o‘tmishning boshqacha bo‘lishini if + past perfect, would have + participle bilan aytadi.",
+      "example": "If I had time, I would read more. If I had left earlier, I would have caught the bus.",
+      "pitfall": "A past form can mark an imagined situation, not a real past event.",
+      "practice": "Write a present wish and an imagined past change. Hozirgi va o‘tgan tasavvurni yozing."
+    },
+    {
+      "id": "grammar.passive",
+      "aliases": [
+        "passive voice",
+        "majhul nisbat"
+      ],
+      "title": "Passive voice",
+      "explanationEn": "Use a suitable form of be plus a past participle when the receiver or process is the focus. Preserve tense and meaning. Add a by-agent only when useful.",
+      "explanationUz": "E’tibor ishni qabul qiluvchi narsa yoki jarayonda bo‘lsa be ning mos shakli + past participle ishlating. Zamon va ma’noni saqlang. Bajaruvchini faqat kerak bo‘lsa qo‘shing.",
+      "example": "Workers inspect the machines. The machines are inspected every week.",
+      "pitfall": "The machines are inspect -> The machines are inspected.",
+      "practice": "Turn an active sentence into passive without changing tense. Zamonni saqlab passive tuzing."
+    },
+    {
+      "id": "grammar.relative-clauses",
+      "aliases": [
+        "relative clauses",
+        "who which that",
+        "nisbiy gap"
+      ],
+      "title": "Relative clauses",
+      "explanationEn": "A relative clause identifies or adds information about a noun. Defining information is normally not separated by commas. Non-defining clauses use commas and normally not that.",
+      "explanationUz": "Relative clause otni aniqlaydi yoki unga qo‘shimcha ma’lumot beradi. Zarur aniqlovchi qism odatda vergulsiz, qo‘shimcha qism vergul bilan yoziladi. Non-defining da odatda that ishlatilmaydi.",
+      "example": "The book that I borrowed is useful. My tutor, who lives nearby, helped me.",
+      "pitfall": "Decide whether removing the clause changes which person or thing is meant.",
+      "practice": "Join two facts about a book. Kitob haqidagi ikki fikrni birlashtiring."
+    },
+    {
+      "id": "grammar.comparatives",
+      "aliases": [
+        "comparatives",
+        "superlatives",
+        "qiyosiy daraja"
+      ],
+      "title": "Comparatives and superlatives",
+      "explanationEn": "Comparatives compare items. Superlatives identify an extreme within a group. Make the comparison set clear and use the appropriate adjective form.",
+      "explanationUz": "Comparative narsalarni solishtiradi. Superlative guruhdagi eng yuqori yoki past darajani ko‘rsatadi. Guruhni aniq qilib, sifatning mos shaklini ishlating.",
+      "example": "This route is shorter than the other one. It is the shortest of the three routes.",
+      "pitfall": "More cheaper -> cheaper.",
+      "practice": "Compare two study locations with one reason. Ikki o‘qish joyini bir sabab bilan solishtiring."
+    },
+    {
+      "id": "grammar.gerunds-infinitives",
+      "aliases": [
+        "gerunds and infinitives",
+        "gerund",
+        "infinitive",
+        "ing or to"
+      ],
+      "title": "Gerunds and infinitives",
+      "explanationEn": "Learn the complement with the preceding verb. Some verbs take -ing, others to + base, and some allow both with a meaning change. Prepositions normally take a noun or -ing.",
+      "explanationUz": "Keyingi shaklni oldingi fe’l bilan o‘rganing. Ayrimlari -ing, boshqalari to + fe’l oladi; ba’zilarida ma’no o‘zgaradi. Predlogdan keyin odatda ot yoki -ing keladi.",
+      "example": "I enjoy reading. I decided to read. I am interested in learning.",
+      "pitfall": "Enjoy to read -> enjoy reading.",
+      "practice": "Use enjoy and decide in two sentences. Ikki fe’lning shaklini ajrating."
+    },
+    {
+      "id": "grammar.reported-speech",
+      "aliases": [
+        "reported speech",
+        "indirect speech",
+        "o‘zlashtirma gap",
+        "ozlashtirma gap"
+      ],
+      "title": "Reported speech",
+      "explanationEn": "Report meaning while adjusting pronouns and time references to the situation. Backshift is common after past reporting verbs, but still-true facts may keep their tense.",
+      "explanationUz": "Ma’noni yetkazib, olmosh va vaqt so‘zlarini vaziyatga moslang. O‘tgan reporting verb dan keyin zamon ko‘pincha siljiydi, ammo hali ham rost fakt zamonini saqlashi mumkin.",
+      "example": "Mina said, “I am tired.” Later: Mina said that she was tired.",
+      "pitfall": "Do not change every pronoun or tense mechanically.",
+      "practice": "Report a short statement made yesterday. Kechagi qisqa gapni yetkazing."
+    },
+    {
+      "id": "grammar.linking",
+      "aliases": [
+        "linking words",
+        "cohesive devices",
+        "although and because",
+        "bog‘lovchi",
+        "boglovchi"
+      ],
+      "title": "Linking ideas",
+      "explanationEn": "Because gives a reason, although introduces contrast, and therefore signals a result. Select a linker for a real logical relationship, not just variety.",
+      "explanationUz": "Because sabab, although zidlik, therefore natijani bildiradi. Bog‘lovchini rang-baranglik uchun emas, haqiqiy mantiqiy munosabat uchun tanlang.",
+      "example": "Although the library is small, it has a quiet room. I go there because it is quiet.",
+      "pitfall": "Avoid although ... but in the same standard clause pattern.",
+      "practice": "Write one reason and one contrast. Sabab va zidlikdan bittadan gap yozing."
+    },
+    {
+      "id": "grammar.punctuation",
+      "aliases": [
+        "punctuation",
+        "comma splice",
+        "tinish belgilari"
+      ],
+      "title": "Sentence punctuation",
+      "explanationEn": "Do not join independent clauses with only a comma. Use a full stop, an appropriate conjunction, or a correctly formed semicolon construction. Punctuation supports clause structure.",
+      "explanationUz": "Ikki mustaqil gapni faqat vergul bilan ulamang. Nuqta yoki mos bog‘lovchidan foydalaning. Tinish belgilari gapning tuzilishiga mos bo‘lsin.",
+      "example": "The room was noisy. I moved upstairs. The room was noisy, so I moved upstairs.",
+      "pitfall": "The room was noisy, I moved upstairs is a comma splice.",
+      "practice": "Repair a comma splice in two ways. Xato ulangan gapni ikki usulda tuzating."
+    },
+    {
+      "id": "writing.task1.line_graph",
+      "aliases": [
+        "line graph",
+        "line chart",
+        "chiziqli grafik"
+      ],
+      "title": "Writing Task 1 — Line Graph",
+      "explanationEn": "Describe the overall trends first, then compare selected starting/ending values, turning points and major gaps. Preserve dates, units and the scale.",
+      "explanationUz": "Avval umumiy tendensiyani ayting. Keyin boshlanish, yakun, burilish va katta farqlarni tanlab solishtiring. Sana, birlik va masshtabni saqlang.",
+      "example": "Original data: cyclists rose from 40 in 2020 to 90 in 2024; bus users stayed near 120. Overview: cycling increased while bus use was broadly stable.",
+      "pitfall": "Do not list every point or invent a reason for a change.",
+      "practice": "Write an overview and one supported numerical comparison. Umumiy xulosa va bitta raqamli solishtirish yozing."
+    },
+    {
+      "id": "writing.task1.bar_chart",
+      "aliases": [
+        "bar chart",
+        "bar graph",
+        "ustunli diagramma"
+      ],
+      "title": "Writing Task 1 — Bar Chart",
+      "explanationEn": "Group comparable categories and report the largest, smallest and meaningful differences. A static chart calls for comparisons, not an invented time trend.",
+      "explanationUz": "O‘xshash toifalarni guruhlang, eng katta, eng kichik va muhim farqlarni yozing. Vaqt ko‘rsatilmagan diagrammaga vaqt tendensiyasini qo‘shmang.",
+      "example": "Original data: reading 60%, sport 30%, music 10%. Reading was twice as common as sport in this sample.",
+      "pitfall": "Distinguish a percentage-point gap from a percentage increase.",
+      "practice": "Compare two categories and state the unit. Ikki toifani birlik bilan solishtiring."
+    },
+    {
+      "id": "writing.task1.pie_chart",
+      "aliases": [
+        "pie chart",
+        "pie charts",
+        "doiraviy diagramma"
+      ],
+      "title": "Writing Task 1 — Pie Chart",
+      "explanationEn": "Describe dominant and minor shares and meaningful changes across charts. Use the same denominator when comparing proportions.",
+      "explanationUz": "Asosiy va kichik ulushlarni, bir necha diagrammada esa muhim o‘zgarishni ayting. Ulushlar taqqoslanganda umumiy asos bir xil bo‘lsin.",
+      "example": "Original shares: rent 50%, food 30%, travel 20%. Rent accounted for half of the budget, exceeding food by 20 percentage points.",
+      "pitfall": "A 20-point difference is not automatically a 20% relative increase.",
+      "practice": "Summarise the largest share and one comparison. Eng katta ulush va bir solishtirish yozing."
+    },
+    {
+      "id": "writing.task1.table",
+      "aliases": [
+        "table task 1",
+        "writing table",
+        "jadval"
+      ],
+      "title": "Writing Task 1 — Table",
+      "explanationEn": "Look for groups, extremes and exceptions before selecting figures. Check row/column headings and units so that a comparison refers to the same measure.",
+      "explanationUz": "Raqam tanlashdan oldin guruhlar, eng yuqori/past qiymat va istisnoni toping. Bir xil o‘lchovni taqqoslayotganingizni sarlavha va birlikdan tekshiring.",
+      "example": "Original table: town A, 12 minutes; town B, 18 minutes; town C, 30 minutes. A had the shortest journey, while C took two and a half times as long.",
+      "pitfall": "Do not turn each table cell into a separate sentence.",
+      "practice": "Write one overview and group two related rows. Umumiy xulosa yozib, mos qatorlarni guruhlang."
+    },
+    {
+      "id": "writing.task1.mixed",
+      "aliases": [
+        "mixed charts",
+        "mixed chart",
+        "aralash diagramma"
+      ],
+      "title": "Writing Task 1 — Mixed Charts",
+      "explanationEn": "Give an integrated overview and explain relevant links between the visuals. Keep different units distinct and only connect measures when the data support the link.",
+      "explanationUz": "Birlashtirilgan umumiy xulosa bering. Turli birliklarni ajrating va ko‘rsatkichlarni faqat ma’lumot bog‘lashga imkon bersa ulang.",
+      "example": "Original visuals: visitor numbers rose, while the share using cars fell. These can be described together without assuming that the absolute number of car visitors fell.",
+      "pitfall": "A falling percentage can coexist with a rising absolute count.",
+      "practice": "Explain one supported relationship between two visuals. Ikki tasvir orasidagi asosli bog‘lanishni yozing."
+    },
+    {
+      "id": "writing.task1.process",
+      "aliases": [
+        "process diagram",
+        "writing process",
+        "jarayon diagrammasi"
+      ],
+      "title": "Writing Task 1 — Process",
+      "explanationEn": "Identify the start, end and main stages. Follow the shown order, describe essential inputs/outputs and use passive forms when the process, not the actor, is central.",
+      "explanationUz": "Boshlanish, yakun va asosiy bosqichlarni toping. Ko‘rsatilgan tartib, kiruvchi va chiquvchi mahsulotlarni ayting. Zarur bo‘lsa passive ishlating.",
+      "example": "Original process: rainwater is collected, filtered and stored. It then passes through a final filter before use.",
+      "pitfall": "Do not add unshown machinery or causes.",
+      "practice": "Describe a three-stage process with sequence markers. Uch bosqichli jarayon yozing."
+    },
+    {
+      "id": "writing.task1.map",
+      "aliases": [
+        "map task 1",
+        "writing maps",
+        "map comparison",
+        "xarita tasviri"
+      ],
+      "title": "Writing Task 1 — Maps",
+      "explanationEn": "Summarise the overall transformation, then organise changes by area or function. Distinguish features added, removed, expanded and relocated.",
+      "explanationUz": "Umumiy o‘zgarishni ayting, keyin hudud yoki vazifa bo‘yicha tartiblang. Qo‘shilgan, olib tashlangan, kengaygan va ko‘chgan joylarni ajrating.",
+      "example": "Original maps: a car park east of the library was replaced by a garden, while the library building stayed in the same place.",
+      "pitfall": "Do not invent compass directions when the source does not establish them.",
+      "practice": "Describe one replacement and one unchanged feature. Almashgan va o‘zgarmagan joydan bittadan yozing."
+    },
+    {
+      "id": "writing.task2.opinion",
+      "aliases": [
+        "opinion essay",
+        "agree disagree",
+        "fikr inshosi"
+      ],
+      "title": "Writing Task 2 — Opinion",
+      "explanationEn": "Answer the precise opinion question with a clear position. Develop each main reason with explanation and a relevant example, and keep the conclusion consistent.",
+      "explanationUz": "Aniq savolga ravshan pozitsiya bilan javob bering. Har sababni tushuntirish va mos misol bilan rivojlantiring. Xulosa shu fikrga mos bo‘lsin.",
+      "example": "Original claim: cities should improve buses. Reason: frequent services reduce waiting. Example: workers on early shifts can reach jobs without owning a car.",
+      "pitfall": "A memorised introduction cannot replace a relevant argument.",
+      "practice": "Write a position and one developed supporting paragraph. Pozitsiya va rivojlantirilgan bir paragraf yozing."
+    },
+    {
+      "id": "writing.task2.discussion",
+      "aliases": [
+        "discussion essay",
+        "discuss both views",
+        "ikki qarash"
+      ],
+      "title": "Writing Task 2 — Discuss Both Views",
+      "explanationEn": "Explain both views fairly and give your own opinion when asked. Show why someone could hold each view before evaluating the stronger position.",
+      "explanationUz": "Har ikki qarashni adolatli tushuntiring. So‘ralgan bo‘lsa o‘z fikringizni ham ayting. Baholashdan oldin har tomonning sababini oching.",
+      "example": "Original topic: shared study rooms versus studying alone. Shared rooms allow peer questions; studying alone can reduce interruptions. Choose a position with reasons.",
+      "pitfall": "Do not replace the opposing view with an obviously weak version.",
+      "practice": "Develop one reason for each view, then state your opinion. Ikki tomon sababini va o‘z fikringizni yozing."
+    },
+    {
+      "id": "writing.task2.advantages_disadvantages",
+      "aliases": [
+        "advantages disadvantages",
+        "advantages and disadvantages",
+        "outweigh",
+        "afzallik kamchilik"
+      ],
+      "title": "Writing Task 2 — Advantages/Disadvantages",
+      "explanationEn": "Cover both required sides. If asked whether benefits outweigh drawbacks, compare their importance or extent instead of merely counting points.",
+      "explanationUz": "So‘ralgan har ikki tomonni qamrang. Outweigh so‘ralsa, fikrlar sonini emas, ularning ahamiyati yoki ta’sirini taqqoslang.",
+      "example": "Original topic: online courses. Flexibility can help workers; limited live interaction can make immediate clarification harder. Explain which matters more in the stated context.",
+      "pitfall": "Two advantages do not automatically outweigh one serious drawback.",
+      "practice": "Write one benefit, one drawback and a reasoned judgement. Afzallik, kamchilik va asosli xulosa yozing."
+    },
+    {
+      "id": "writing.task2.problem_solution",
+      "aliases": [
+        "problem solution essay",
+        "causes solutions",
+        "causes and solutions",
+        "muammo yechim"
+      ],
+      "title": "Writing Task 2 — Problems/Causes/Solutions",
+      "explanationEn": "Identify exactly whether the prompt asks for causes, problems, solutions or effects. Link each proposed solution to a stated mechanism or cause.",
+      "explanationUz": "Savol sabab, muammo, yechim yoki oqibatdan nimani so‘rayotganini aniqlang. Har yechimni muammoning mexanizmi yoki sababiga bog‘lang.",
+      "example": "Original cause: unreliable buses encourage car use. Linked solution: a reliable timetable makes the alternative more practical.",
+      "pitfall": "A generic demand to raise awareness may not address the stated cause.",
+      "practice": "Write one cause and a directly connected solution. Sabab va unga mos yechim yozing."
+    },
+    {
+      "id": "writing.task2.two_part",
+      "aliases": [
+        "two part essay",
+        "two-part question",
+        "two questions essay",
+        "ikki savolli insho"
+      ],
+      "title": "Writing Task 2 — Two-Part Questions",
+      "explanationEn": "Separate the two explicit questions and plan an answer to each. Develop both parts and check that the conclusion does not ignore either.",
+      "explanationUz": "Ikki savolni ajratib, har biriga javob rejalang. Ikkalasini ham rivojlantiring va xulosada birini tashlab ketmang.",
+      "example": "Original prompt: Why do people learn online, and how can teachers support them? Explain flexibility, then discuss support such as clear schedules and feedback.",
+      "pitfall": "A strong answer to the first question does not compensate for omitting the second.",
+      "practice": "Underline both questions and draft a topic sentence for each. Har savolga asosiy gap yozing."
+    },
+    {
+      "id": "writing.task2.positive_negative",
+      "aliases": [
+        "positive negative development",
+        "positive or negative",
+        "ijobiy salbiy rivojlanish"
+      ],
+      "title": "Writing Task 2 — Positive/Negative Development",
+      "explanationEn": "Make a judgement about the development and explain the criteria behind it. Weigh consequences rather than writing an unrelated list of pros and cons.",
+      "explanationUz": "O‘zgarish haqida xulosa qilib, uning mezonlarini tushuntiring. Aloqasiz afzallik-kamchilik sanog‘i o‘rniga oqibatlarni baholang.",
+      "example": "Original development: more libraries offer evening access. A positive judgement could be supported by access for people who work during the day.",
+      "pitfall": "Keep the judgement consistent unless you explicitly explain a qualified position.",
+      "practice": "Judge one change and support it with a concrete consequence. Bir o‘zgarishni oqibati bilan baholang."
+    },
+    {
+      "id": "writing.check.translation",
+      "aliases": [
+        "translation check",
+        "writing translation",
+        "tarjimani tekshirish"
+      ],
+      "title": "Writing Translation Check",
+      "explanationEn": "Compare the learner version with the source meaning, including time, quantity, negation and emphasis. A reference translation is one possible wording, not the only valid answer.",
+      "explanationUz": "Tarjimada zamon, miqdor, inkor va urg‘u saqlanganini tekshiring. Namuna tarjima yagona to‘g‘ri ibora emas.",
+      "example": "Original source: U hali kelmadi. One natural version: He has not arrived yet. He never arrives changes the meaning.",
+      "pitfall": "Do not reject an accurate paraphrase merely because it differs from the sample.",
+      "practice": "Translate a sentence and explain one meaning choice. Gapni tarjima qilib, bir tanlovni izohlang."
+    },
+    {
+      "id": "writing.check.activation",
+      "aliases": [
+        "vocabulary activation writing",
+        "activate vocabulary",
+        "so‘zni yozuvda qo‘llash"
+      ],
+      "title": "Writing Vocabulary Activation",
+      "explanationEn": "Use the target word in its intended sense with a suitable form and collocation. A sentence should establish a meaningful context, not merely contain the spelling.",
+      "explanationUz": "So‘zni ko‘zlangan ma’noda, mos shakl va birikmada ishlating. Gap so‘zning yozilishinigina emas, ma’noli vaziyatni ko‘rsatsin.",
+      "example": "Target bank: a financial institution. Example: She deposited her wages in the bank. A grassy river bank uses a different sense.",
+      "pitfall": "Word presence does not verify the intended sense.",
+      "practice": "Write a new context for a chosen sense. Tanlangan ma’noga mos yangi vaziyat yozing."
+    },
+    {
+      "id": "writing.check.pattern",
+      "aliases": [
+        "pattern adaptation",
+        "writing pattern",
+        "gap qolipi"
+      ],
+      "title": "Writing Pattern Adaptation",
+      "explanationEn": "Keep the useful grammatical relationship while changing the content meaningfully. Check that the new subjects, verbs and references remain compatible.",
+      "explanationUz": "Foydali grammatik munosabatni saqlab, mazmunni yangilang. Yangi ega, fe’l va ishoralar bir-biriga mos bo‘lsin.",
+      "example": "Pattern: Although X is costly, it saves time. Adaptation: Although the train is expensive, it saves me an hour.",
+      "pitfall": "Replacing nouns mechanically can produce an illogical contrast.",
+      "practice": "Adapt a contrast pattern to your own study routine. Zidlik qolipini o‘qish odatingizga moslang."
+    },
+    {
+      "id": "speaking.part1",
+      "aliases": [
+        "speaking part 1",
+        "speaking part one",
+        "speaking p1",
+        "speaking birinchi qism"
+      ],
+      "title": "Speaking Part 1",
+      "explanationEn": "Answer the personal question directly, then add a reason or a small relevant detail. Natural development matters more than a memorised long speech.",
+      "explanationUz": "Shaxsiy savolga bevosita javob bering, keyin sabab yoki mos tafsilot qo‘shing. Yodlangan uzun nutqdan ko‘ra tabiiy rivojlantirish muhim.",
+      "example": "Question: Do you like your neighbourhood? Example: Yes, especially in the morning, because the streets are quiet and I can walk to the library.",
+      "pitfall": "Do not force an unrelated story into every short question.",
+      "practice": "Answer a familiar question with an answer and reason. Tanish savolga javob va sabab bering."
+    },
+    {
+      "id": "speaking.part2",
+      "aliases": [
+        "speaking part 2",
+        "speaking part two",
+        "cue card",
+        "speaking p2",
+        "speaking ikkinchi qism"
+      ],
+      "title": "Speaking Part 2",
+      "explanationEn": "Use the cue card to organise a connected account. Develop concrete details and explain why the event, person or object matters to you.",
+      "explanationUz": "Cue card asosida bog‘langan hikoya tuzing. Aniq tafsilotlar va voqea, inson yoki narsaning siz uchun ahamiyatini oching.",
+      "example": "Original plan for a useful object: an old notebook -> who gave it -> how I use it -> why its notes matter.",
+      "pitfall": "A list of cue-card bullet answers may lack a connected account.",
+      "practice": "Plan four linked points about a useful object. Foydali narsa haqida to‘rtta bog‘langan fikr tuzing."
+    },
+    {
+      "id": "speaking.part3",
+      "aliases": [
+        "speaking part 3",
+        "speaking part three",
+        "speaking p3",
+        "speaking uchinchi qism"
+      ],
+      "title": "Speaking Part 3",
+      "explanationEn": "Discuss broader ideas with a claim, explanation and relevant example. Qualify generalisations and consider conditions or another perspective.",
+      "explanationUz": "Kengroq fikrni da’vo, izoh va misol bilan oching. Keskin umumlashtirishni yumshatib, shart yoki boshqa qarashni ko‘rib chiqing.",
+      "example": "Original question: Why do cities need public spaces? Claim: they support interaction. Explanation: people can meet without paying for a private venue.",
+      "pitfall": "Avoid saying all people behave the same way without support.",
+      "practice": "Give a claim, reason and qualification about a city issue. Shahar masalasida fikr, sabab va cheklov ayting."
+    },
+    {
+      "id": "speaking.full_mock",
+      "aliases": [
+        "speaking full mock",
+        "full speaking mock",
+        "to‘liq speaking",
+        "toliq speaking"
+      ],
+      "title": "Speaking Full Mock",
+      "explanationEn": "Practise the progression from personal questions to a sustained individual answer and a broader discussion. Keep observations separate for content, organisation and language.",
+      "explanationUz": "Shaxsiy savoldan davomli javobga va kengroq muhokamaga o‘tishni mashq qiling. Mazmun, tartib va til haqidagi kuzatuvlarni ajrating.",
+      "example": "Original practice sequence: your reading habits -> describe a useful book -> discuss how libraries can serve communities.",
+      "pitfall": "A transcript alone cannot establish pronunciation quality.",
+      "practice": "Record a practice sequence, then compare your transcript with the recording. Yozuv va transkriptni solishtiring."
+    },
+    {
+      "id": "speaking.coach_answer",
+      "aliases": [
+        "speaking coach answer",
+        "extend an answer",
+        "javobni kengaytirish"
+      ],
+      "title": "Speaking Coach Answer",
+      "explanationEn": "Improve an answer by clarifying its message, adding a relevant reason and replacing unclear wording. Preserve the learner’s intended meaning.",
+      "explanationUz": "Javobning ma’nosini aniqlashtiring, mos sabab qo‘shing va noaniq iborani tuzating. O‘quvchining asl ma’nosini saqlang.",
+      "example": "Short answer: I like the park. Expanded example: I like the park because its paths are quiet, so I can think while I walk.",
+      "pitfall": "Do not invent personal experiences for the learner or claim audio-based judgements from text.",
+      "practice": "Expand a short answer with one real reason. Qisqa javobni bitta haqiqiy sabab bilan kengaytiring."
+    },
+    {
+      "id": "reading.tfng",
+      "aliases": [
+        "true false not given",
+        "tfng",
+        "t f ng",
+        "true false notgiven"
+      ],
+      "title": "Reading TRUE/FALSE/NOT GIVEN",
+      "explanationEn": "TRUE means the statement agrees with the text. FALSE needs a contradiction. NOT GIVEN means the text does not settle the claim. Use textual evidence, not outside knowledge.",
+      "explanationUz": "TRUE matnga mos keladi. FALSE uchun qarama-qarshi dalil kerak. NOT GIVEN da matn da’voni hal qilmaydi. Tashqi bilimga tayanmang.",
+      "example": "Original text: The clinic opens at nine on weekdays. Claim: It opens at ten on weekdays -> FALSE. Claim: It opens on Sunday -> NOT GIVEN.",
+      "pitfall": "Not mentioned is not the same as contradicted.",
+      "practice": "Create one contradicted claim and one undecided claim from the text. Bitta FALSE va bitta NOT GIVEN da’vo tuzing."
+    },
+    {
+      "id": "reading.ynng",
+      "aliases": [
+        "yes no not given",
+        "ynng",
+        "y n ng"
+      ],
+      "title": "Reading YES/NO/NOT GIVEN",
+      "explanationEn": "Compare a statement with the writer’s view or claim. YES agrees, NO contradicts, and NOT GIVEN means that view is not established by the text.",
+      "explanationUz": "Da’voni muallif fikri bilan solishtiring. YES moslik, NO zidlik, NOT GIVEN esa bu fikr matnda aniqlanmaganini bildiradi.",
+      "example": "Original writer: Expanding libraries is a better use of funds than adding parking. Claim: The writer prefers spending on parking -> NO.",
+      "pitfall": "Do not replace the writer’s view with your own opinion.",
+      "practice": "Explain the phrase that shows the writer’s position. Muallif pozitsiyasini ko‘rsatgan iborani izohlang."
+    },
+    {
+      "id": "reading.matching_headings",
+      "aliases": [
+        "matching headings",
+        "reading headings",
+        "sarlavha moslash"
+      ],
+      "title": "Reading Matching Headings",
+      "explanationEn": "Choose a heading for the paragraph’s central purpose, not a striking example or repeated word. Summarise the whole paragraph before comparing headings.",
+      "explanationUz": "Paragrafning bir misoli yoki takroriy so‘zini emas, asosiy vazifasini toping. Sarlavhalarni tanlashdan oldin butun paragrafni qisqa jamlang.",
+      "example": "Original paragraph explains how tree shade lowers pavement heat, then gives two street examples. Suitable heading: How trees cool streets.",
+      "pitfall": "A detail about one street may be too narrow for the whole paragraph.",
+      "practice": "Write a five-word summary before selecting a heading. Avval qisqa asosiy fikr yozing."
+    },
+    {
+      "id": "reading.matching_information",
+      "aliases": [
+        "matching information",
+        "reading information",
+        "ma’lumotni paragrafga moslash"
+      ],
+      "title": "Reading Matching Information",
+      "explanationEn": "Locate the requested detail or function, such as an example, comparison or explanation. The right paragraph may contain a paraphrase rather than the question’s words.",
+      "explanationUz": "So‘ralgan tafsilot yoki vazifani toping: misol, taqqoslash yoki izoh. Mos paragrafda savolning aynan so‘zlari emas, qayta ifodasi bo‘lishi mumkin.",
+      "example": "Original request: a reason a plan was delayed. Evidence: The work began later because materials arrived late.",
+      "pitfall": "Match the complete requested information, not one shared word.",
+      "practice": "Identify the exact evidence span for a requested reason. Sababni tasdiqlovchi qismini toping."
+    },
+    {
+      "id": "reading.matching_features",
+      "aliases": [
+        "matching features",
+        "matching people",
+        "reading features"
+      ],
+      "title": "Reading Matching Features",
+      "explanationEn": "Track which person, group or category is linked to each claim. Separate a view someone reports from a view they personally endorse.",
+      "explanationUz": "Har fikr qaysi inson yoki toifaga tegishli ekanini kuzating. Odam keltirgan boshqa fikrni uning o‘z qarashi deb olmang.",
+      "example": "Original text: Ali favours smaller classes. Dina favours longer lessons. Statement: supports reducing class size -> Ali.",
+      "pitfall": "Do not assign every nearby claim to the nearest name.",
+      "practice": "Make a person-to-claim table using only stated links. Faqat matndagi bog‘lanishlarni jadvalga yozing."
+    },
+    {
+      "id": "reading.matching_sentence_endings",
+      "aliases": [
+        "matching sentence endings",
+        "sentence endings reading"
+      ],
+      "title": "Reading Matching Sentence Endings",
+      "explanationEn": "Use the passage to match the intended meaning, then check grammar across the sentence boundary. A grammatically possible ending may still be unsupported.",
+      "explanationUz": "Avval matndagi ma’noga mos yakunni tanlang, keyin butun gap grammatikasini tekshiring. Grammatik moslikning o‘zi yetmaydi.",
+      "example": "Original text: New insulation reduced heat loss. Start: The building used less energy because... Ending: its insulation was improved.",
+      "pitfall": "Do not choose an ending only because it forms a natural sentence.",
+      "practice": "Explain both the evidence and the completed sentence’s meaning. Dalil va to‘liq gap ma’nosini ayting."
+    },
+    {
+      "id": "reading.mcq_single",
+      "aliases": [
+        "reading multiple choice",
+        "reading mcq single",
+        "reading mcq",
+        "reading variant tanlash"
+      ],
+      "title": "Reading MCQ Single",
+      "explanationEn": "Find the text supporting the complete option and reject distractors that change time, cause, quantity or certainty. Select the requested number of answers.",
+      "explanationUz": "Variantning butun mazmunini tasdiqlovchi dalilni toping. Vaqt, sabab, miqdor yoki ishonchni o‘zgartirgan chalg‘ituvchini rad eting.",
+      "example": "Original text: Costs fell after insulation was added. Supported: insulation helped reduce costs. Unsupported: costs disappeared completely.",
+      "pitfall": "One matching word does not validate an entire option.",
+      "practice": "For each option, identify support or one precise mismatch. Har variantga dalil yoki aniq xato toping."
+    },
+    {
+      "id": "reading.mcq_multiple",
+      "aliases": [
+        "reading mcq multiple",
+        "reading choose two",
+        "reading multiple answers"
+      ],
+      "title": "Reading MCQ Multiple",
+      "explanationEn": "Treat each option as a separate claim and verify every selected option. Follow the instruction’s required number of choices.",
+      "explanationUz": "Har variantni alohida da’vo deb tekshiring. Tanlovlar soni topshiriq ko‘rsatmasiga mos bo‘lsin.",
+      "example": "Original text: The course offers evening classes and online notes, but no weekend sessions. Supported benefits: evening classes and online notes.",
+      "pitfall": "Do not stop after finding one true option when two are required.",
+      "practice": "Write a support phrase for every selected option. Har tanlangan variantga dalil yozing."
+    },
+    {
+      "id": "reading.sentence_completion",
+      "aliases": [
+        "reading sentence completion",
+        "reading gap sentence"
+      ],
+      "title": "Reading Sentence Completion",
+      "explanationEn": "Predict the grammatical type of the gap, locate the relevant wording and obey the stated word limit. Preserve the passage’s required form.",
+      "explanationUz": "Bo‘shliqning grammatik turini taxmin qiling, mos iborani toping va so‘z chegarasiga rioya qiling. Kerakli so‘z shaklini saqlang.",
+      "example": "Original text: The roof collects rainwater. Gap: The roof collects _____. With a one-word limit: rainwater.",
+      "pitfall": "Extra articles can break a one-word limit.",
+      "practice": "Check meaning, grammar and the word count. Ma’no, grammatika va so‘z sonini tekshiring."
+    },
+    {
+      "id": "reading.summary_completion",
+      "aliases": [
+        "reading summary completion",
+        "summary gap reading"
+      ],
+      "title": "Reading Summary Completion",
+      "explanationEn": "Follow the summary’s argument and locate its corresponding passage section. Check whether answers come from the passage or a supplied list.",
+      "explanationUz": "Summary mantiqini kuzatib, matnning mos qismini toping. Javob matndan olinadimi yoki berilgan ro‘yxatdanmi, aniqlang.",
+      "example": "Original text: Shade lowered surface temperatures. Summary: Tree shade reduced surface _____. One-word answer: temperatures.",
+      "pitfall": "Do not transfer an idea from a different part merely because its word fits.",
+      "practice": "Map each gap to a supporting sentence. Har bo‘shliqni dalil gapiga bog‘lang."
+    },
+    {
+      "id": "reading.note_completion",
+      "aliases": [
+        "reading note completion",
+        "notes reading"
+      ],
+      "title": "Reading Note Completion",
+      "explanationEn": "Use headings and note structure to locate the relevant information. Check parallel categories and the grammatical form each gap needs.",
+      "explanationUz": "Sarlavha va konspekt tuzilishidan foydalaning. Yonma-yon toifalar va bo‘shliqqa kerakli shaklni tekshiring.",
+      "example": "Original text: The workshop provides gloves and masks. Notes: Equipment supplied: gloves and _____. Answer: masks.",
+      "pitfall": "An omitted verb in notes does not license an invented answer.",
+      "practice": "Locate the list in the source and copy the needed item. Manbadagi ro‘yxatdan kerakli so‘zni oling."
+    },
+    {
+      "id": "reading.table_completion",
+      "aliases": [
+        "reading table completion",
+        "table gap reading"
+      ],
+      "title": "Reading Table Completion",
+      "explanationEn": "Read row and column labels before locating the value. Match the correct category, unit and comparison period.",
+      "explanationUz": "Avval qator va ustun nomlarini o‘qing. To‘g‘ri toifa, birlik va davrga mos qiymatni toping.",
+      "example": "Original text: The north route takes 12 minutes; the south route takes 20. Table row north, time in minutes -> 12.",
+      "pitfall": "Do not place a correct value in the wrong row.",
+      "practice": "Verify the row label and unit for every gap. Har bo‘shliqning qatori va birligini tekshiring."
+    },
+    {
+      "id": "reading.flowchart_completion",
+      "aliases": [
+        "reading flowchart",
+        "reading flow chart",
+        "reading flow-chart"
+      ],
+      "title": "Reading Flow-chart Completion",
+      "explanationEn": "Trace the stated sequence and locate the step between its neighbours. Use the instructions to decide whether to choose or copy words.",
+      "explanationUz": "Ko‘rsatilgan ketma-ketlikni kuzatib, bosqichni ikki yonidagi ish orasidan toping. So‘zni tanlash yoki ko‘chirish kerakligini ko‘rsatmadan biling.",
+      "example": "Original sequence: sort paper -> remove metal -> press sheets. The step after sorting is removing metal.",
+      "pitfall": "Do not add a plausible process stage absent from the passage.",
+      "practice": "Explain why the chosen step belongs at that position. Bosqich o‘rnini dalil bilan izohlang."
+    },
+    {
+      "id": "reading.diagram_label",
+      "aliases": [
+        "reading diagram label",
+        "reading labelling",
+        "diagramma belgilash"
+      ],
+      "title": "Reading Diagram Label",
+      "explanationEn": "Locate the source description and map its spatial relationships to the diagram. Check the arrow’s endpoint and required label form.",
+      "explanationUz": "Manbadagi tavsifni topib, joylashuv munosabatlarini diagrammaga ko‘chiring. Strelka uchi va yoziladigan shaklni tekshiring.",
+      "example": "Original description: A filter sits above the storage tank. A label pointing to the upper component is filter, not tank.",
+      "pitfall": "A nearby object may not be the one the arrow identifies.",
+      "practice": "Trace each arrow before choosing the source phrase. Strelka qaysi qismga ketganini tekshiring."
+    },
+    {
+      "id": "reading.short_answer",
+      "aliases": [
+        "reading short answer",
+        "reading short-answer"
+      ],
+      "title": "Reading Short Answer",
+      "explanationEn": "Answer the precise question from the relevant text and stay within the word limit. Check whether it asks who, where, when, how many or why.",
+      "explanationUz": "Savolning aniq turiga matndan javob bering. Kim, qayerda, qachon, nechta yoki nima sababdan so‘ralganini va so‘z chegarasini tekshiring.",
+      "example": "Original text: The team met at the library. Question: Where did the team meet? A two-word limit permits the library.",
+      "pitfall": "Do not answer a location question with a time or a full unrelated sentence.",
+      "practice": "Underline the question word and identify the matching fact. Savol so‘zi va mos faktni toping."
+    },
+    {
+      "id": "listening.mcq_single",
+      "aliases": [
+        "listening multiple choice",
+        "listening mcq single",
+        "listening mcq"
+      ],
+      "title": "Listening MCQ Single",
+      "explanationEn": "Listen for the speaker’s final intended meaning and compare complete options. A repeated option word can be a distractor, correction or rejected suggestion.",
+      "explanationUz": "Gapiruvchining yakuniy ma’nosini tinglang va to‘liq variantlarni solishtiring. Takrorlangan so‘z chalg‘ituvchi, tuzatish yoki rad etilgan taklif bo‘lishi mumkin.",
+      "example": "Original script: We considered Friday, but the tutor is busy, so the session is on Monday. Correct day: Monday.",
+      "pitfall": "Do not select the first day mentioned.",
+      "practice": "Mark the correction and the final decision. Tuzatish va yakuniy qarorni ajrating."
+    },
+    {
+      "id": "listening.mcq_multiple",
+      "aliases": [
+        "listening mcq multiple",
+        "listening choose two",
+        "listening multiple answers"
+      ],
+      "title": "Listening MCQ Multiple",
+      "explanationEn": "Check each option against what is actually included, recommended or decided. Follow the requested number of answers and track negatives.",
+      "explanationUz": "Har variant haqiqatan kiritilganmi, tavsiya etilganmi yoki tanlanganmi, tekshiring. Kerakli son va inkorlarga e’tibor bering.",
+      "example": "Original script: The fee covers materials and lunch, but transport is separate. Included: materials and lunch.",
+      "pitfall": "Mentioning transport does not mean it is included.",
+      "practice": "Give evidence for both selected options. Har tanlovni tasdiqlovchi iborani toping."
+    },
+    {
+      "id": "listening.form_completion",
+      "aliases": [
+        "listening form completion",
+        "form filling listening"
+      ],
+      "title": "Listening Form Completion",
+      "explanationEn": "Use the field label to predict the kind of information, then listen for spelling, numbers and corrections. Keep to the stated format.",
+      "explanationUz": "Maydon nomidan kerakli ma’lumot turini biling. Imlo, raqam va tuzatishni tinglang. So‘ralgan formatni saqlang.",
+      "example": "Original script: The booking is under Lina, spelled L-I-N-A. Name field: Lina.",
+      "pitfall": "Do not assume a familiar spelling when the speaker spells a name.",
+      "practice": "Practise spelling a short name from a script. Qisqa ismni harflab yozishni mashq qiling."
+    },
+    {
+      "id": "listening.note_completion",
+      "aliases": [
+        "listening note completion",
+        "listening notes"
+      ],
+      "title": "Listening Note Completion",
+      "explanationEn": "Follow the note headings, predict the missing grammatical type and listen for paraphrases. Notes may omit function words, but the answer must still fit.",
+      "explanationUz": "Konspekt sarlavhasini kuzating, bo‘shliq turini biling va qayta ifodalarni tinglang. Konspekt qisqa bo‘lsa ham javob mos bo‘lishi kerak.",
+      "example": "Original script: Bring a notebook and a pencil. Note: Bring: notebook and _____. Answer: pencil.",
+      "pitfall": "Do not copy an entire spoken phrase when one word is required.",
+      "practice": "Check the final word against the note’s meaning and limit. Ma’no va chegarani tekshiring."
+    },
+    {
+      "id": "listening.table_completion",
+      "aliases": [
+        "listening table completion",
+        "listening table"
+      ],
+      "title": "Listening Table Completion",
+      "explanationEn": "Track the row and column while listening. Distinguish values for different groups, dates or locations and pay attention to corrected numbers.",
+      "explanationUz": "Tinglashda qator va ustunni kuzating. Guruh, sana va joy qiymatlarini ajrating. Tuzatilgan raqamga e’tibor bering.",
+      "example": "Original script: Group A starts at nine; group B at ten. Row B, starting time -> ten.",
+      "pitfall": "The right number for group A is still wrong in group B’s row.",
+      "practice": "Say which category each number belongs to. Har raqamning toifasini yozing."
+    },
+    {
+      "id": "listening.flowchart_completion",
+      "aliases": [
+        "listening flowchart",
+        "listening flow chart",
+        "listening flow-chart"
+      ],
+      "title": "Listening Flow-chart Completion",
+      "explanationEn": "Follow the described sequence and use transition signals to locate each step. Choose only actions stated in the recording.",
+      "explanationUz": "Aytilgan ketma-ketlik va o‘tish iboralarini kuzating. Faqat yozuvda aytilgan ishni tanlang.",
+      "example": "Original script: First register, then collect a badge, and finally enter the hall. Middle step: collect a badge.",
+      "pitfall": "General knowledge about the process cannot replace the recording.",
+      "practice": "Reconstruct three stated steps in order. Aytilgan uch bosqichni tartiblang."
+    },
+    {
+      "id": "listening.sentence_completion",
+      "aliases": [
+        "listening sentence completion",
+        "listening sentence gap"
+      ],
+      "title": "Listening Sentence Completion",
+      "explanationEn": "Listen for the idea completing the sentence and the exact needed words. Check grammar, spelling and the instruction’s word limit.",
+      "explanationUz": "Gapni tugatuvchi fikr va kerakli so‘zlarni tinglang. Grammatika, imlo va so‘z chegarasini tekshiring.",
+      "example": "Original script: The room is heated using solar energy. Sentence: The room uses _____ energy. Answer: solar.",
+      "pitfall": "Do not add energy twice if it is already printed after the gap.",
+      "practice": "Read the whole completed sentence aloud. To‘ldirilgan gapni butun o‘qing."
+    },
+    {
+      "id": "listening.short_answer",
+      "aliases": [
+        "listening short answer",
+        "listening short-answer"
+      ],
+      "title": "Listening Short Answer",
+      "explanationEn": "Identify what the question asks and record the relevant spoken fact concisely. Follow the word and number limits exactly.",
+      "explanationUz": "Savol nimani so‘rayotganini aniqlab, mos aytilgan faktni qisqa yozing. So‘z va raqam chegarasini saqlang.",
+      "example": "Original script: The meeting takes place in Room 12. Question: Which room? Answer in the required format: Room 12.",
+      "pitfall": "Do not add an explanation when the task needs only an identifier.",
+      "practice": "Match who/where/when to the right spoken fact. Savol turiga mos faktni tanlang."
+    },
+    {
+      "id": "listening.map_plan_label",
+      "aliases": [
+        "listening map",
+        "listening plan",
+        "map labelling",
+        "plan labelling",
+        "xaritani tinglash"
+      ],
+      "title": "Listening Map/Plan Labelling",
+      "explanationEn": "Establish the starting point and orientation, then follow direction and position phrases. Distinguish the speaker’s movement from locations on the plan.",
+      "explanationUz": "Boshlanish nuqtasi va yo‘nalishni aniqlang. Harakat va joylashuv iboralarini kuzating. Gapiruvchining yurishi bilan xaritadagi joyni ajrating.",
+      "example": "Original plan: enter at the south door; the desk is immediately on your left. Identify the desk relative to that entrance.",
+      "pitfall": "Left depends on the stated orientation, not your guess.",
+      "practice": "Draw a route from a fixed entrance using two directions. Belgilangan kirishdan ikki yo‘nalishli yo‘l chizing."
+    },
+    {
+      "id": "listening.matching",
+      "aliases": [
+        "listening matching",
+        "matching listening",
+        "tinglash moslashtirish"
+      ],
+      "title": "Listening Matching",
+      "explanationEn": "Track the relationship between each item and the descriptions. Watch for contrasts, rejected options and whether options may be reused.",
+      "explanationUz": "Har narsa bilan uning tavsifi orasidagi bog‘lanishni kuzating. Zidlik, rad etilgan variant va variantni qayta ishlatish ko‘rsatmasini tekshiring.",
+      "example": "Original script: The morning tour focuses on gardens; the afternoon tour focuses on historic buildings. Match afternoon -> historic buildings.",
+      "pitfall": "Do not attach a later speaker’s preference to the earlier item.",
+      "practice": "Write one evidence phrase beside each match. Har moslikka bitta dalil iborasi yozing."
+    },
+    {
+      "id": "grammar.error_correction",
+      "aliases": [
+        "grammar error correction",
+        "correct it",
+        "correct this grammar",
+        "grammatik xatoni tuzatish"
+      ],
+      "title": "Grammar Error Correction",
+      "explanationEn": "Locate the exact error and explain the smallest correction that preserves the intended meaning. Distinguish an error from a possible stylistic alternative.",
+      "explanationUz": "Aniq xatoni topib, asl ma’noni saqlaydigan eng kichik tuzatishni izohlang. Xato bilan shunchaki boshqa uslubni ajrating.",
+      "example": "Original error: People is waiting outside. Correction: People are waiting outside. People is plural in this use.",
+      "pitfall": "Do not rewrite every sentence just to sound different.",
+      "practice": "Correct one agreement error and state the rule. Bitta moslik xatosini qoida bilan tuzating."
+    },
+    {
+      "id": "grammar.transformation",
+      "aliases": [
+        "sentence transformation",
+        "grammar transformation",
+        "gapni o‘zgartirish"
+      ],
+      "title": "Grammar Sentence Transformation",
+      "explanationEn": "Preserve the specified meaning while meeting the target structure and any word limit. Check tense, agents, negation and reference after changing the form.",
+      "explanationUz": "Ma’noni saqlab, so‘ralgan tuzilish va chegaraga amal qiling. O‘zgartirgandan keyin zamon, bajaruvchi, inkor va ishoralarni tekshiring.",
+      "example": "Original: The team built the bridge. Passive: The bridge was built by the team.",
+      "pitfall": "A grammatical result can still change the original meaning.",
+      "practice": "Transform one active sentence to passive without changing time. Vaqtni saqlab passive yozing."
+    },
+    {
+      "id": "grammar.fill_gap",
+      "aliases": [
+        "grammar fill gap",
+        "grammar gap fill",
+        "grammatika bo‘shliq"
+      ],
+      "title": "Grammar Fill Gap",
+      "explanationEn": "Identify the grammatical relationship around the gap. Use subject, time context and complement pattern together; do not rely on the nearest word alone.",
+      "explanationUz": "Bo‘shliq atrofidagi grammatik munosabatni aniqlang. Ega, vaqt va fe’l birikmasini birga tekshiring. Faqat eng yaqin so‘zga tayanmang.",
+      "example": "Original: She ___ to school every day. With the verb walk: walks, because she is third-person singular in a routine.",
+      "pitfall": "An answer key may permit only the task’s specified forms.",
+      "practice": "Explain the form needed in a routine sentence. Odat gapiga kerakli shaklni izohlang."
+    },
+    {
+      "id": "grammar.controlled_production",
+      "aliases": [
+        "controlled production",
+        "activate it grammar",
+        "target structure",
+        "nazoratli gap tuzish"
+      ],
+      "title": "Grammar Controlled Production",
+      "explanationEn": "Produce your own meaningful sentence while satisfying the given structure. Check form and intended meaning separately.",
+      "explanationUz": "Berilgan tuzilishni saqlab, o‘zingizning ma’noli gapingizni tuzing. Shakl va ko‘zlangan ma’noni alohida tekshiring.",
+      "example": "Target: although + contrast. Example: Although I was tired, I finished my homework.",
+      "pitfall": "Inserting although into an unrelated sentence does not establish a contrast.",
+      "practice": "Use although to express a real contrast. Although bilan haqiqiy zidlik yozing."
+    },
+    {
+      "id": "grammar.free_production",
+      "aliases": [
+        "free production grammar",
+        "free grammar practice",
+        "erkin gap tuzish"
+      ],
+      "title": "Grammar Free Production",
+      "explanationEn": "Choose structures that fit your message and context, then review one grammatical focus at a time. A clean pattern check does not prove that every sentence is accurate.",
+      "explanationUz": "Fikr va vaziyatga mos tuzilishni tanlang. Keyin bittadan grammatik yo‘nalishni tekshiring. Oddiy tekshiruv barcha gaplar to‘g‘riligini isbotlamaydi.",
+      "example": "Original task: describe a recent change. Example: I used to travel by car, but I now walk to work.",
+      "pitfall": "Do not add a target structure when it changes what you mean.",
+      "practice": "Write three connected sentences about a real change. Haqiqiy o‘zgarish haqida uch bog‘langan gap yozing."
+    },
+    {
+      "id": "grammar.explanation",
+      "aliases": [
+        "grammar rule explanation",
+        "explain a grammar rule",
+        "grammatika qoidasini tushuntirish"
+      ],
+      "title": "Grammar Rule Explanation",
+      "explanationEn": "Explain meaning, form and use, then contrast a common error with a suitable example. State relevant limits instead of presenting a rough pattern as an exceptionless rule.",
+      "explanationUz": "Ma’no, shakl va qo‘llanishni tushuntiring. Keyin xato va mos misolni solishtiring. Taxminiy qolipni istisnosiz qoida deb bermang.",
+      "example": "Original explanation: after did in an ordinary question, use the base verb: Did she go? not Did she went?",
+      "pitfall": "Choose a specific grammar topic when a question is too broad.",
+      "practice": "Explain one form using a correct example and a correction. Qoida, to‘g‘ri misol va tuzatish yozing."
+    },
+    {
+      "id": "grammar.retention",
+      "aliases": [
+        "grammar retention",
+        "grammar review",
+        "grammatika takrorlash"
+      ],
+      "title": "Grammar Retention Review",
+      "explanationEn": "Recall a rule without first reading it, produce an example and check it against a trusted reference. Revisit recurring error patterns rather than only rereading notes.",
+      "explanationUz": "Avval qoidani qaramasdan eslang, misol tuzing va ishonchli namuna bilan tekshiring. Faqat qayta o‘qish o‘rniga qaytalanuvchi xatoni mashq qiling.",
+      "example": "Original recall cue: after does in a question. Retrieved rule: use the base verb. Example: Does he work here?",
+      "pitfall": "Remembering a definition is not the same as using the form accurately.",
+      "practice": "Close your notes and write one new example. Konspektni yopib, yangi misol yozing."
+    },
+    {
+      "id": "vocabulary.meaning",
+      "aliases": [
+        "vocabulary meaning",
+        "word meaning",
+        "so‘z ma’nosi",
+        "soz manosi"
+      ],
+      "title": "Vocabulary Meaning",
+      "explanationEn": "Explain the selected sense with a clear definition and an example. A word can have several senses, so do not merge meanings simply because the spelling is identical.",
+      "explanationUz": "Tanlangan ma’noni aniq ta’rif va misol bilan tushuntiring. Bir xil yozilish turli ma’nolarni birlashtirish uchun asos emas.",
+      "example": "Original contrast: a bank can be a financial institution or the land beside a river. Depositing money identifies the financial sense.",
+      "pitfall": "An unverified definition must not be presented as a canonical dictionary record.",
+      "practice": "Give an example that disambiguates one sense. Bir ma’noni aniq qiladigan misol yozing."
+    },
+    {
+      "id": "vocabulary.contextual_meaning",
+      "aliases": [
+        "contextual meaning",
+        "meaning in context",
+        "context vocabulary",
+        "kontekstdagi ma’no"
+      ],
+      "title": "Vocabulary Contextual Meaning",
+      "explanationEn": "Use the surrounding sentence to determine the intended sense. Check the action, participants and topic rather than only the target word.",
+      "explanationUz": "Ko‘zlangan ma’noni atrofdagi gapdan biling. So‘zning o‘zigina emas, harakat, ishtirokchilar va mavzuni tekshiring.",
+      "example": "Original sentence: They sat on the bank beside the river. Bank here means the river edge, not a financial institution.",
+      "pitfall": "Word presence alone cannot establish correct sense use.",
+      "practice": "Underline the context words that identify the sense. Ma’noni aniqlagan so‘zlarni belgilang."
+    },
+    {
+      "id": "vocabulary.translation",
+      "aliases": [
+        "vocabulary translation",
+        "translate a word",
+        "so‘zni tarjima",
+        "soz tarjimasi"
+      ],
+      "title": "Vocabulary Translation",
+      "explanationEn": "Translate the intended sense and phrase, not an isolated spelling. Preserve register and grammatical role; a single translation may not fit every context.",
+      "explanationUz": "Alohida yozilishni emas, ko‘zlangan ma’no va iborani tarjima qiling. Uslub va grammatik vazifani saqlang. Bitta tarjima hamma vaziyatga mos emas.",
+      "example": "Original contrast: light can describe illumination or something not heavy. The sentence determines which translation is appropriate.",
+      "pitfall": "Do not choose a familiar translation without checking the sentence.",
+      "practice": "Compare two senses of one word in separate sentences. Bir so‘zning ikki ma’nosini gaplarda solishtiring."
+    },
+    {
+      "id": "vocabulary.collocation",
+      "aliases": [
+        "collocation",
+        "word partnership",
+        "so‘z birikmasi",
+        "soz birikmasi"
+      ],
+      "title": "Vocabulary Collocation",
+      "explanationEn": "Learn words with natural partners and the intended sense. Some combinations are conventional even when a different verb seems logically possible.",
+      "explanationUz": "So‘zni tabiiy sherigi va ma’nosi bilan o‘rganing. Ayrim birikmalar an’anaviy bo‘lib, mantiqan boshqa fe’l mosdek tuyulishi mumkin.",
+      "example": "Original examples: make a decision; do homework; heavy rain. She made a careful decision.",
+      "pitfall": "Literal translation can create an unnatural word partnership.",
+      "practice": "Write a personal sentence with make a decision. Shu birikma bilan shaxsiy gap yozing."
+    },
+    {
+      "id": "vocabulary.word_form",
+      "aliases": [
+        "word form",
+        "word formation",
+        "so‘z shakli",
+        "soz shakli"
+      ],
+      "title": "Vocabulary Word Form",
+      "explanationEn": "Choose the grammatical form required by the sentence and check meaning. A noun, verb, adjective and adverb from one family may have different patterns.",
+      "explanationUz": "Gap talab qilgan grammatik shaklni va ma’noni tekshiring. Bir oiladagi ot, fe’l, sifat va ravish turli qolipda ishlatilishi mumkin.",
+      "example": "Original family: success, succeed, successful, successfully. The team completed the task successfully.",
+      "pitfall": "Do not add a suffix without checking the resulting word and its use.",
+      "practice": "Use success and successful in two sentences. Ikki shaklni o‘rniga mos ishlating."
+    },
+    {
+      "id": "vocabulary.synonym_choice",
+      "aliases": [
+        "synonym choice",
+        "choose a synonym",
+        "sinonim tanlash"
+      ],
+      "title": "Vocabulary Synonym Choice",
+      "explanationEn": "Choose a word matching the sense, register and collocation in this sentence. Synonyms are rarely interchangeable in every context.",
+      "explanationUz": "Shu gapdagi ma’no, uslub va birikmaga mos sinonimni tanlang. Sinonimlar har vaziyatda bir-birini almashtirmaydi.",
+      "example": "Original contrast: a big mistake and a large building are natural, but large mistake is not the usual partnership.",
+      "pitfall": "Shared dictionary meaning does not guarantee identical usage.",
+      "practice": "Explain why a synonym fits one sentence but not another. Sinonimning vaziyatga mosligini izohlang."
+    },
+    {
+      "id": "vocabulary.paraphrase",
+      "aliases": [
+        "vocabulary paraphrase",
+        "paraphrasing",
+        "qayta ifodalash"
+      ],
+      "title": "Vocabulary Paraphrase",
+      "explanationEn": "Restate the same meaning using a suitable change in wording or structure. Preserve quantity, certainty, time and cause instead of mechanically replacing each word.",
+      "explanationUz": "Bir xil ma’noni mos so‘z yoki tuzilish bilan qayta ayting. Miqdor, ishonch, vaqt va sababni saqlang. Har so‘zni majburan almashtirmang.",
+      "example": "Original: The number of cyclists increased. Paraphrase: More people travelled by bicycle. Context must support the same population and period.",
+      "pitfall": "May increase and will increase express different certainty.",
+      "practice": "Paraphrase a short claim and check what stayed the same. Qisqa fikrni ma’nosini saqlab qayta yozing."
+    },
+    {
+      "id": "vocabulary.activation",
+      "aliases": [
+        "vocabulary activation",
+        "activate a word",
+        "so‘zni faollashtirish"
+      ],
+      "title": "Vocabulary Activation",
+      "explanationEn": "Move from recognising a word to retrieving it in a meaningful context. Select the intended sense, use a natural form and review the sentence against that definition.",
+      "explanationUz": "So‘zni tanishdan ma’noli vaziyatda eslab qo‘llashga o‘ting. Ma’no va mos shaklni tanlab, gapni ta’rif bilan solishtiring.",
+      "example": "Target reliable: consistently dependable. Original example: A reliable timetable helps me plan my journey.",
+      "pitfall": "Copying the example does not demonstrate independent productive use.",
+      "practice": "Write a new situation for reliable. Reliable uchun yangi vaziyat yozing."
+    },
+    {
+      "id": "vocabulary.productive_use",
+      "aliases": [
+        "productive use",
+        "use a word in a sentence",
+        "so‘z bilan gap",
+        "soz bilan gap"
+      ],
+      "title": "Vocabulary Productive Use",
+      "explanationEn": "Use a word to communicate a specific idea rather than to display its spelling. Check its sense, grammatical role, collocation and surrounding context.",
+      "explanationUz": "So‘zning yozilishinigina ko‘rsatish emas, aniq fikrni yetkazish uchun ishlating. Ma’no, vazifa, birikma va kontekstni tekshiring.",
+      "example": "Original example: The repair was expensive, but it made the bicycle reliable again.",
+      "pitfall": "A complete sentence can still use a word in the wrong sense.",
+      "practice": "Use a target word with a reason or consequence. So‘zni sabab yoki oqibat bilan ishlating."
+    },
+    {
+      "id": "retention.reading_recall",
+      "aliases": [
+        "reading recall",
+        "retention reading",
+        "matnni eslash"
+      ],
+      "title": "Retention Reading Recall",
+      "explanationEn": "Recall the passage’s central claim and supporting details, then compare your recall with the source. Mark additions and omissions separately.",
+      "explanationUz": "Asosiy fikr va dalillarni eslab yozing, keyin manba bilan solishtiring. Qo‘shib yuborilgan va tushib qolgan ma’lumotni ajrating.",
+      "example": "Original source: Shade reduced heat on two streets. Recall: Trees cooled every street invents a broader result.",
+      "pitfall": "Fluent recall can still contain invented facts.",
+      "practice": "Recall a short paragraph, then check each claim. Qisqa matnni eslab, da’volarni tekshiring."
+    },
+    {
+      "id": "retention.vocabulary_recall",
+      "aliases": [
+        "vocabulary recall",
+        "retention vocabulary",
+        "lug‘atni eslash"
+      ],
+      "title": "Retention Vocabulary Recall",
+      "explanationEn": "Retrieve the word from a meaning or context cue before checking the answer. Separate recognition, recall and successful use in a new sentence.",
+      "explanationUz": "Javobga qarashdan oldin ma’no yoki vaziyatdan so‘zni eslang. Tanish, eslash va yangi gapda ishlatishni ajrating.",
+      "example": "Original cue: dependable over time. Possible target: reliable. Then write a new sentence to show the intended sense.",
+      "pitfall": "Recognising an answer among options does not prove free recall.",
+      "practice": "Hide the target, retrieve it and use it in a fresh context. So‘zni yashirib, eslab yangi gapda qo‘llang."
+    },
+    {
+      "id": "retention.error_pattern",
+      "aliases": [
+        "error pattern review",
+        "recurring errors",
+        "takroriy xato"
+      ],
+      "title": "Retention Error Pattern",
+      "explanationEn": "Group repeated errors by a useful rule, practise a contrasting example and revisit the pattern later. Keep the original evidence separate from an inferred cause.",
+      "explanationUz": "Takroriy xatolarni mos qoida bo‘yicha guruhlang. Farqli misolni mashq qilib, keyin qayta tekshiring. Dalil bilan taxminiy sababni ajrating.",
+      "example": "Original errors: Did she went? Did he saw? Shared pattern: after did use the base verb.",
+      "pitfall": "Two errors do not prove a learner’s motive or permanent ability.",
+      "practice": "Write three correct did-questions with different verbs. Turli fe’llarda uch to‘g‘ri savol yozing."
+    },
+    {
+      "id": "tutoring.simple_explanation",
+      "aliases": [
+        "simple explanation",
+        "explain simply",
+        "oddiy tushuntir",
+        "sodda tushuntir"
+      ],
+      "title": "General Simple Explanation",
+      "explanationEn": "Start with the learner’s specific question. Give one clear rule or idea, a short example and a small next action. State missing context when needed.",
+      "explanationUz": "Aniq savoldan boshlang. Bitta tushunarli qoida, qisqa misol va kichik keyingi mashq bering. Kontekst yetishmasa ayting.",
+      "example": "Original mini-lesson: After does, use the base verb. Does she work? Now make a question with study.",
+      "pitfall": "Do not pretend that a brief rule covers every exception.",
+      "practice": "Explain one idea in two sentences and add one practice cue. Ikki gap va bitta mashq bilan izohlang."
+    },
+    {
+      "id": "tutoring.compare_concepts",
+      "aliases": [
+        "compare concepts",
+        "compare two concepts",
+        "farqini tushuntir",
+        "solishtirish"
+      ],
+      "title": "General Compare Concepts",
+      "explanationEn": "Compare the concepts on a common dimension, explain the difference and use paired examples. If either concept is unspecified, ask for the missing context rather than inventing it.",
+      "explanationUz": "Tushunchalarni umumiy mezonda solishtiring. Farqni ikki mos misol bilan oching. Tushuncha noaniq bo‘lsa uni o‘ylab topmang.",
+      "example": "Original contrast: I saw her yesterday places the event in finished time. I have seen her before gives experience up to now.",
+      "pitfall": "Two definitions alone may not explain when to choose each form.",
+      "practice": "Write paired examples showing one meaningful difference. Bitta farqni ko‘rsatadigan ikki misol yozing."
+    },
+    {
+      "id": "reporting.progress_explanation",
+      "aliases": [
+        "progress explanation",
+        "explain my report",
+        "hisobotni tushuntirish"
+      ],
+      "title": "Progress/Report Explanation",
+      "explanationEn": "Explain only the metrics and period actually present in an authorised report. Distinguish a saved result, a trend supported by comparable observations and an uncertain interpretation.",
+      "explanationUz": "Faqat ruxsat etilgan hisobotdagi davr va o‘lchovlarni izohlang. Saqlangan natija, mos kuzatuvlar ko‘rsatgan tendensiya va taxminni ajrating.",
+      "example": "Original example: Two recorded sessions were completed this week. That count alone does not prove a rise in language proficiency.",
+      "pitfall": "Do not invent marks, trends or another learner’s results.",
+      "practice": "Explain a displayed count and name one conclusion it cannot support. Ko‘rsatilgan sondan kelmaydigan xulosani ayting."
+    }
+  ]
+}

@@ -25,6 +25,7 @@ MODEL_ID_RE: Final[re.Pattern[str]] = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{1
 CITATION_REF_RE: Final[re.Pattern[str]] = re.compile(r"^K[1-5]$")
 
 PROVIDER_ALLOWED_HOSTS: Final[dict[str, frozenset[str]]] = {
+    "vercel": frozenset({"ai-gateway.vercel.sh"}),
     "openai": frozenset({"api.openai.com"}),
     "gemini": frozenset({"generativelanguage.googleapis.com"}),
     "anthropic": frozenset({"api.anthropic.com"}),
@@ -44,6 +45,12 @@ class RegisteredProviderSpec:
 
 
 REGISTERED_PROVIDERS: Final[tuple[RegisteredProviderSpec, ...]] = (
+    RegisteredProviderSpec(
+        id="vercel", display_name="Vercel AI Gateway", type="external",
+        default_model=None, model_env_var="AI_GATEWAY_MODEL", required_secrets=(),
+        capabilities=("riwi-assistant",),
+        allowed_hosts=PROVIDER_ALLOWED_HOSTS["vercel"],
+    ),
     RegisteredProviderSpec(
         id="riwi",
         display_name="RIWI Deterministic Engine",
@@ -99,11 +106,25 @@ class RiwiProviderRouterError(ValueError):
         self.code = code
 
 
+def valid_provider_model(provider_id: str, model: str) -> bool:
+    if provider_id == "vercel":
+        from .riwi_ai_gateway import MODEL_RE
+        return bool(MODEL_RE.fullmatch(model))
+    return bool(MODEL_ID_RE.fullmatch(model))
+
+
+def provider_missing_configuration(spec: RegisteredProviderSpec, source: Mapping[str, str]) -> list[str]:
+    if spec.id == "vercel":
+        from .riwi_ai_gateway import missing_configuration
+        return missing_configuration(source)
+    return [name for name in spec.required_secrets if not (source.get(name) or "").strip()]
+
+
 def _resolve_provider_model(spec: RegisteredProviderSpec, source: Mapping[str, str]) -> str | None:
     model_val = spec.default_model
     if spec.model_env_var and (source.get(spec.model_env_var) or "").strip():
         candidate = source[spec.model_env_var].strip()
-        if MODEL_ID_RE.match(candidate):
+        if valid_provider_model(spec.id, candidate):
             model_val = candidate
     return model_val
 
@@ -247,7 +268,7 @@ def provider_readiness_snapshot(env: Mapping[str, str] | None = None) -> list[di
     source = env if env is not None else os.environ
     items: list[dict[str, Any]] = []
     for spec in REGISTERED_PROVIDERS:
-        missing = [name for name in spec.required_secrets if not (source.get(name) or "").strip()]
+        missing = provider_missing_configuration(spec, source)
         model_val = _resolve_provider_model(spec, source)
         items.append({
             "id": spec.id,
@@ -283,7 +304,7 @@ async def dispatch_external_riwi_provider(
         raise RiwiProviderRouterError("external_ai_disabled")
 
     source_env = env if env is not None else os.environ
-    missing_secrets = [s for s in spec.required_secrets if not (source_env.get(s) or "").strip()]
+    missing_secrets = provider_missing_configuration(spec, source_env)
     if missing_secrets:
         raise RiwiProviderRouterError("credentials_missing")
 

@@ -1,0 +1,170 @@
+"""Owner-authorized original lessons, activated through knowledge governance.
+
+This is a teaching library, not a neural language model or validated examiner.
+"""
+from __future__ import annotations
+from functools import lru_cache
+import hashlib
+import json
+from pathlib import Path
+import re
+import unicodedata
+
+VERSION="riwi-original-curriculum-v1"
+MODEL_PREFIX="riwi-curriculum-v1:"
+SOURCE_TITLE="RIWI Original Learning Library v1"
+SOURCE_PROVENANCE=("Original assistant-authored English/Uzbek explanations, examples and practice, "
+                   "prepared under the Owner's 2 November 2026 instruction. No copied course text, "
+                   "parameter-training claim, or independent examiner band labels.")
+
+def normalize(text):
+    return " ".join(re.findall(r"[^\W_]+",unicodedata.normalize("NFKC",str(text)).casefold()))
+
+def unit_text(entry):
+    return json.dumps({"id":entry["id"],"en":entry["explanationEn"],"uz":entry["explanationUz"],
+                       "example":entry["example"],"pitfall":entry["pitfall"],"practice":entry["practice"]},
+                      ensure_ascii=False,separators=(",",":"))
+
+@lru_cache(maxsize=1)
+def library():
+    path=Path(__file__).resolve().parents[1]/"contracts/riwi_original_curriculum_v1.json"
+    pack=json.loads(path.read_text(encoding="utf-8"))
+    if pack.get("schemaVersion")!=1 or pack.get("version")!=VERSION:
+        raise ValueError("invalid_curriculum_version")
+    entries=pack.get("entries")
+    if not isinstance(entries,list) or not 1<=len(entries)<=150:
+        raise ValueError("invalid_curriculum_entries")
+    result={}
+    for entry in entries:
+        if not isinstance(entry,dict) or not re.fullmatch(r"[a-z0-9._-]{3,90}",entry.get("id","")):
+            raise ValueError("invalid_curriculum_entry")
+        if entry["id"] in result or not isinstance(entry.get("aliases"),list) or not entry["aliases"]:
+            raise ValueError("invalid_curriculum_entry")
+        for key in ("title","explanationEn","explanationUz","example","pitfall","practice"):
+            if not isinstance(entry.get(key),str) or not entry[key].strip():
+                raise ValueError("invalid_curriculum_text")
+        if any(not isinstance(alias,str) or not normalize(alias) for alias in entry["aliases"]):
+            raise ValueError("invalid_curriculum_alias")
+        if len(unit_text(entry))>1200:
+            raise ValueError("curriculum_unit_too_large")
+        result[entry["id"]]=entry
+    return result
+
+@lru_cache(maxsize=1)
+def library_texts():
+    return frozenset(unit_text(entry) for entry in library().values())
+
+def is_library_text(text):
+    return isinstance(text,str) and text in library_texts()
+
+def source_content():
+    return "\n\n".join("# "+entry["id"]+" | "+entry["title"]+"\n\n"+unit_text(entry)
+                       for entry in library().values())
+
+def source_checksum():
+    return hashlib.sha256(source_content().encode("utf-8")).hexdigest()
+
+def installation_payload():
+    return {"sourceType":"course_document","title":SOURCE_TITLE,"provenance":SOURCE_PROVENANCE,
+            "rightsClass":"internal_permission","scope":{"kind":"global"},"content":source_content()}
+
+def is_followup(message):
+    query=normalize(message)
+    return len(query)<=220 and bool(
+        re.search(r"\b(example|examples|practice|misol|mashq|simpler|shorter|soddaroq|qisqaroq)\b",query)
+        and re.search(r"\b(this|that|it|another|again|shu|shunga|bunga|buni|yana|mavzu|topic)\b",query))
+
+def choose_entry(message):
+    query=" "+normalize(message)+" "
+    candidates=[]
+    tasks={"grammar.error_correction","grammar.transformation","grammar.fill_gap",
+           "grammar.controlled_production","grammar.free_production","grammar.explanation","grammar.retention"}
+    for entry in library().values():
+        score=0
+        for alias in entry["aliases"]:
+            phrase=normalize(alias)
+            if " "+phrase+" " in query:
+                weight=len(phrase.split())*10+min(len(phrase),90)/100
+                if entry["id"].startswith("grammar.") and entry["id"] not in tasks:
+                    weight+=10
+                score=max(score,weight)
+        if score:
+            candidates.append((score,entry["id"]))
+    candidates.sort(reverse=True)
+    if not candidates or (len(candidates)>1 and abs(candidates[0][0]-candidates[1][0])<0.001):
+        return None
+    return candidates[0][1]
+
+async def previous_topic(conn,actor,conversation_id):
+    from .riwi_contracts import UUID_RE
+    if not isinstance(conversation_id,str) or not UUID_RE.fullmatch(conversation_id):
+        return None
+    row=await conn.fetchrow("""
+        SELECT m.metadata FROM riwi_conversation_messages m
+        JOIN riwi_conversations c ON c.id=m.conversation_id
+        WHERE c.id=$1::uuid AND c.user_id=$2::uuid AND c.role_at_creation=$3::role
+          AND c.deleted_at IS NULL AND c.expires_at>now() AND m.role='assistant'
+          AND m.created_at>=now()-interval '30 days'
+        ORDER BY m.created_at DESC,m.id DESC LIMIT 1
+        """,conversation_id,actor.id,actor.role)
+    if not row:
+        return None
+    metadata=row["metadata"]
+    if isinstance(metadata,str):
+        try:metadata=json.loads(metadata)
+        except ValueError:return None
+    if not isinstance(metadata,dict):
+        return None
+    provider=metadata.get("provider")
+    if not isinstance(provider,dict) or provider.get("id")!="riwi":
+        return None
+    model=provider.get("model")
+    if not isinstance(model,str) or not model.startswith(MODEL_PREFIX):
+        return None
+    key=model[len(MODEL_PREFIX):]
+    return key if key in library() else None
+
+async def retrieve_lesson(conn,actor,message,conversation_id=None):
+    from .riwi_capabilities import authorize_capability
+    if conn is None or not hasattr(conn,"fetchrow") or not authorize_capability(actor,"riwi.knowledge.read_approved").allowed:
+        return None
+    key=choose_entry(message)
+    if key is None and conversation_id and is_followup(message):
+        key=await previous_topic(conn,actor,conversation_id)
+    if key is None:
+        return None
+    entry=library()[key]
+    content=unit_text(entry)
+    row=await conn.fetchrow("""
+        SELECT s.id::text AS source_id,s.title,s.authority,s.version,
+               u.id::text AS unit_id,u.content
+        FROM riwi_knowledge_sources s JOIN riwi_knowledge_units u ON u.source_id=s.id
+        WHERE s.source_type='course_document' AND s.state='active' AND s.checksum=$1
+          AND u.content_hash=$2 AND
+          (s.scope='global' OR (s.scope='role' AND s.scope_role=$3::role)
+           OR (s.scope='user' AND s.scope_user_id=$4::uuid))
+        ORDER BY s.version DESC,u.ordinal ASC LIMIT 1
+        """,source_checksum(),hashlib.sha256(content.encode("utf-8")).hexdigest(),actor.role,actor.id)
+    if not row or row["content"]!=content:
+        return None
+    return {"ref":"K1","sourceId":row["source_id"],"unitId":row["unit_id"],"title":entry["title"],
+            "text":content,"authority":int(row["authority"]),"version":int(row["version"]),
+            "curriculumId":key}
+
+def format_lesson(unit,message,locale):
+    key=unit.get("curriculumId")
+    entry=library().get(key)
+    if entry is None or unit.get("text")!=unit_text(entry):
+        return None
+    uz=locale=="uz"
+    practice=entry["practice"].split(". ",1)
+    practice_text=practice[-1] if uz and len(practice)==2 else practice[0]+("." if len(practice)==2 else "")
+    example_only=is_followup(message) and bool(re.search(r"\b(example|examples|misol)\b",normalize(message)))
+    lines=[entry["title"]]
+    if not example_only:
+        lines.append(entry["explanationUz"] if uz else entry["explanationEn"])
+    lines.append(("Misol: " if uz else "Example: ")+entry["example"])
+    if not uz and not example_only:
+        lines.append("Check: "+entry["pitfall"])
+    lines.append(("Mashq: " if uz else "Practice: ")+practice_text)
+    return "\n\n".join(lines)[:5500]

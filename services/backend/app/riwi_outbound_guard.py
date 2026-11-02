@@ -23,7 +23,7 @@ SECRET_PATTERN_RE: Final[re.Pattern[str]] = re.compile(
     r"\bAIza[0-9A-Za-z_-]{20,}\b|"
     r"\bBearer\s+[A-Za-z0-9._-]{16,}\b|"
     r"\bpostgres(?:ql)?://[^\s'\"]+|"
-    r"\b(?:DATABASE_URL|JWT_SECRET|OPENAI_API_KEY|GEMINI_API_KEY|ANTHROPIC_API_KEY|R2_SECRET_ACCESS_KEY)\s*=\s*[^\s]+)",
+    r"\b(?:DATABASE_URL|JWT_SECRET|OPENAI_API_KEY|GEMINI_API_KEY|ANTHROPIC_API_KEY|AI_GATEWAY_API_KEY|VERCEL_OIDC_TOKEN|R2_SECRET_ACCESS_KEY)\s*=\s*[^\s]+)",
     re.IGNORECASE,
 )
 CONTROL_CHARS_RE: Final[re.Pattern[str]] = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")

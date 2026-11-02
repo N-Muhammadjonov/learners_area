@@ -5,14 +5,26 @@ from __future__ import annotations
 import json
 import os
 from .ai_runtime import request_json
-from .riwi_provider_router import MODEL_ID_RE,PROVIDER_MAP,validate_provider_endpoint,RiwiProviderRouterError
+from .riwi_provider_router import PROVIDER_MAP,validate_provider_endpoint,RiwiProviderRouterError,valid_provider_model
 
 
 def create_riwi_transport(actor_id):
     async def transport(provider_id,model,payload):
         spec=PROVIDER_MAP.get(provider_id)
-        if spec is None or spec.type!='external' or not MODEL_ID_RE.fullmatch(model):
+        if spec is None or spec.type!='external' or not valid_provider_model(provider_id,model):
             raise RiwiProviderRouterError('invalid_provider')
+        if provider_id=='vercel':
+            from .riwi_ai_gateway import completion,URL
+            system=payload.get('instructions')
+            if not isinstance(system,str) or not system:
+                raise RiwiProviderRouterError('missing_server_contract')
+            validate_provider_endpoint(provider_id,URL)
+            try:
+                answer,usage=await completion(actor_id,model,system,
+                    {k:v for k,v in payload.items() if k!='instructions'},max_tokens=900)
+            except ValueError as exc:
+                raise RiwiProviderRouterError(str(exc)) from None
+            return {'answer':answer,'usage':usage}
         key=os.getenv(spec.required_secrets[0])
         if not key:raise RiwiProviderRouterError('credentials_missing')
         system=payload.get('instructions')

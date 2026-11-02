@@ -241,7 +241,16 @@ async def handle_riwi_chat(
             raise RiwiGatewayError("forbidden", 403) from exc
         raise RiwiGatewayError(exc.code, 400) from exc
 
-    knowledge_units = await retrieve_active_knowledge_for_actor(conn, actor, message)
+    # This release is usable only after the normal Owner knowledge workflow
+    # activates it. Follow-ups read only this actor's conversation metadata.
+    from .riwi_curriculum import retrieve_lesson, format_lesson, is_library_text, MODEL_PREFIX
+    lesson = None
+    if not answer_text and intent_info.intent in ("grammar_help", "general_learning_question"):
+        lesson = await retrieve_lesson(conn, actor, message, conversation_id)
+    knowledge_units = ([lesson] if lesson else [
+        unit for unit in await retrieve_active_knowledge_for_actor(conn, actor, message)
+        if not is_library_text(unit.get("text"))
+    ])
     if knowledge_units:
         citations = [
             {
@@ -256,7 +265,10 @@ async def handle_riwi_chat(
         ]
         if not answer_text:
             top = knowledge_units[0]
-            answer_text = f"[{top['ref']}] {top['title']}: {top['text']}"
+            authored = format_lesson(top, message, locale) if top.get("curriculumId") else None
+            answer_text = authored or f"[{top['ref']}] {top['title']}: {top['text']}"
+            if authored:
+                provider_meta = {"id": "riwi", "model": MODEL_PREFIX + top["curriculumId"]}
             provenance = "approved_knowledge"
 
     rollout = read_riwi_rollout(env)
