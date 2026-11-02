@@ -9,7 +9,7 @@
     "latestTimestamp": 1792460000000,
     "existingUserCount": 1
   },
-  "approvalStatus": "automatic_review_rejected_not_applied",
+  "approvalStatus": "applied_after_verified_private_recovery_and_atomic_guards",
   "journal": [
     {
       "idx": 66,
@@ -99,5 +99,22 @@
       "path": "supabase/migrations/20261101134624_mock_speaking_question_captures.sql",
       "sha256": "2d4add99e0d45ec3d7df2c443390dc5b2a8e6f88b1b2558379c28eea7f120bb0"
     }
-  ]
+  ],
+  "applied": {
+    "journalEntries": 79,
+    "recoverySchema": "riwi_qa_recovery_20261102",
+    "recoveryTablesVerified": 11,
+    "atomicSingleDoStatement": true,
+    "requiredRiwiTables": 16,
+    "rlsEnabledTables": 16,
+    "directClientReadsDenied": true,
+    "preservedRows": {
+      "users": 1,
+      "speaking_attempts": 1,
+      "evaluations": 3,
+      "video_lesson_progress": 2
+    },
+    "safariHttpRetest": "pending",
+    "productionTouched": false
+  }
 }
