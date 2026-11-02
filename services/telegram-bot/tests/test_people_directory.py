@@ -1,0 +1,209 @@
+"""People browsing, search, navigation and permission regressions."""
+import os
+import sys
+from types import SimpleNamespace
+from unittest.mock import AsyncMock, patch
+
+import pytest
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+from handlers import panel
+
+ACCESS = {"permissions": ["VIEW_USERS"]}
+
+
+def person(index, telegram=False, **extra):
+    return {
+        "id": f"account-{index}",
+        "entryType": "telegram_contact" if telegram else "website_user",
+        "telegramUserId": str(5000 + index),
+        "name": f"Person {index}",
+        "username": f"person_{index:02}",
+        **extra,
+    }
+
+
+def page(number=1, total=23):
+    start = (number - 1) * 10
+    return {
+        "items": [person(i, telegram=i % 2 == 0) for i in range(start + 1, min(start + 10, total) + 1)],
+        "page": number,
+        "pageSize": 10,
+        "total": total,
+    }
+
+
+def callback(data="o:users"):
+    return SimpleNamespace(
+        data=data,
+        from_user=SimpleNamespace(id=12345, language_code="uz"),
+        message=SimpleNamespace(edit_text=AsyncMock()),
+        answer=AsyncMock(),
+    )
+
+
+@pytest.mark.parametrize("number,expected_range,arrows", [
+    (1, "1 - 10", ["→"]),
+    (2, "11 - 20", ["←", "→"]),
+    (3, "21 - 23", ["←"]),
+])
+def test_numbered_pages_and_range_navigation(number, expected_range, arrows):
+    _, markup = panel._directory_view(page(number), "uz")
+    people, nav = markup.inline_keyboard[:-2], markup.inline_keyboard[-2]
+    assert len(people) == (3 if number == 3 else 10)
+    assert people[0][0].text.startswith(f"{(number - 1) * 10 + 1}. ")
+    assert [b.text for b in nav if b.callback_data != "users:range"] == arrows
+    assert [b.text for b in nav if b.callback_data == "users:range"] == [expected_range]
+
+
+@pytest.mark.parametrize("total", [0, 1, 10, 20])
+def test_last_page_has_no_next_arrow(total):
+    number = max(1, (total + 9) // 10)
+    _, markup = panel._directory_view(page(number, total), "en")
+    assert "→" not in [b.text for b in markup.inline_keyboard[-2]]
+    if not total:
+        assert markup.inline_keyboard[-2][0].text == "0 - 0"
+
+
+def test_name_and_username_label_keeps_details_inside_profile():
+    button = panel._directory_button(person(1, name="Nurmuhammad", username="@uzriw", email="private@example.com"), 1)
+    assert button.text == "1. Nurmuhammad - @uzriw"
+    assert button.callback_data == "usr:account-1"
+    assert "account-1" not in button.text
+    assert "private" not in button.text
+    contact = panel._directory_button(person(2, telegram=True, name="A★ B", username="hello"), 12)
+    assert contact.text == "12. A★ B - @hello"
+    assert contact.callback_data == "tgc:5002"
+
+
+def test_missing_username_shows_name_without_id():
+    button = panel._directory_button(person(1, name="Nurmuhammad", username=None), 21)
+    assert button.text == "21. Nurmuhammad"
+    assert "account-1" not in button.text
+
+
+def test_long_name_keeps_username_visible():
+    button = panel._directory_button(person(1, name="A" * 100, username="u" * 32), 100)
+    assert len(button.text) <= 64
+    assert button.text.endswith(" - @" + "u" * 32)
+
+
+@pytest.mark.asyncio
+async def test_home_opens_first_page_without_search():
+    event, state = callback(), AsyncMock()
+    with patch.object(panel.api_client, "search_users", AsyncMock(return_value=(200, page()))) as search:
+        await panel.users_home(event, state, bot_access=ACCESS)
+    search.assert_awaited_once_with("12345", "", 1)
+    markup = event.message.edit_text.await_args.kwargs["reply_markup"]
+    assert len(markup.inline_keyboard[:-2]) == 10
+    state.update_data.assert_awaited_once_with(users_return="usp:1")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("home", [True, False])
+@pytest.mark.parametrize("backend_error", [False, True])
+async def test_directory_access_fails_closed(home, backend_error):
+    event, state = callback("o:users" if home else "usp:2"), AsyncMock()
+    with patch.object(panel.api_client, "search_users", AsyncMock()) as search:
+        handler = panel.users_home if home else panel.users_page
+        await handler(event, state, bot_access=None, backend_error=backend_error)
+    search.assert_not_awaited()
+    event.message.edit_text.assert_not_awaited()
+    assert event.answer.await_args.kwargs["show_alert"] is True
+
+
+@pytest.mark.asyncio
+async def test_browse_second_page_and_profile_return():
+    event, state = callback("usp:2"), AsyncMock()
+    with patch.object(panel.api_client, "search_users", AsyncMock(return_value=(200, page(2)))):
+        await panel.users_page(event, state, bot_access=ACCESS)
+    state.update_data.assert_awaited_once_with(users_return="usp:2")
+    state.get_data.return_value = {"users_return": "usp:2"}
+    event = callback("usr:account-11")
+    with patch.object(panel.api_client, "user_detail", AsyncMock(return_value=(200, {"user": {"name": "Person 11"}}))):
+        await panel.user_card(event, state, bot_access=ACCESS)
+    markup = event.message.edit_text.await_args.kwargs["reply_markup"]
+    assert markup.inline_keyboard[-1][0].callback_data == "usp:2"
+    state.set_state.assert_awaited_with(None)
+
+
+@pytest.mark.asyncio
+async def test_telegram_contact_opens_detail_and_returns_to_same_page():
+    event, state = callback("tgc:5002"), AsyncMock()
+    state.get_data.return_value = {"users_return": "usp:2"}
+    detail = {"contact": {"firstName": "Nurmuhammad", "username": "uzriw"}}
+    with patch.object(panel.api_client, "get_user", AsyncMock(return_value=detail)):
+        await panel.telegram_contact_card(event, state, bot_access=ACCESS)
+    assert "Nurmuhammad" in event.message.edit_text.await_args.args[0]
+    markup = event.message.edit_text.await_args.kwargs["reply_markup"]
+    assert markup.inline_keyboard[-1][0].callback_data == "usp:2"
+
+
+@pytest.mark.asyncio
+async def test_search_results_still_paginate_with_actor_bound_draft():
+    event, state = callback("usq:draft-1:2"), AsyncMock()
+    with patch.object(panel.api_client, "read_draft", AsyncMock(return_value=(200, {"kind": "search", "payload": {"q": "abc"}}))) as draft:
+        with patch.object(panel.api_client, "search_users", AsyncMock(return_value=(200, page(2)))) as search:
+            await panel.users_page(event, state, bot_access=ACCESS)
+    draft.assert_awaited_once_with("12345", "draft-1")
+    search.assert_awaited_once_with("12345", "abc", 2)
+    nav = event.message.edit_text.await_args.kwargs["reply_markup"].inline_keyboard[-2]
+    assert [b.callback_data for b in nav] == ["usq:draft-1:1", "users:range", "usq:draft-1:3"]
+
+
+@pytest.mark.asyncio
+async def test_typed_search_shows_numbered_name_username_results():
+    message, state = callback(), AsyncMock()
+    message.text, message.answer = "abc", AsyncMock()
+    with patch.object(panel.api_client, "search_users", AsyncMock(return_value=(200, page()))):
+        with patch.object(panel.api_client, "save_draft", AsyncMock(return_value=(200, {"id": "draft-1"}))):
+            await panel.users_search(message, state, bot_access=ACCESS)
+    markup = message.answer.await_args.kwargs["reply_markup"]
+    assert markup.inline_keyboard[0][0].text == "1. Person 1 - @person_01"
+    assert markup.inline_keyboard[-2][-1].callback_data == "usq:draft-1:2"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("data", ["usp:bad", "usp:0", "usp:-1", "usp:1:2", "usq:broken"])
+async def test_invalid_page_callback_does_not_query_directory(data):
+    event = callback(data)
+    with patch.object(panel.api_client, "search_users", AsyncMock()) as search:
+        await panel.users_page(event, AsyncMock(), bot_access=ACCESS)
+    search.assert_not_awaited()
+    event.message.edit_text.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_expired_search_draft_does_not_query_directory():
+    event = callback("usq:expired:2")
+    with patch.object(panel.api_client, "read_draft", AsyncMock(return_value=(404, {}))):
+        with patch.object(panel.api_client, "search_users", AsyncMock()) as search:
+            await panel.users_page(event, AsyncMock(), bot_access=ACCESS)
+    search.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_removed_last_page_falls_back_to_existing_page():
+    replies = [(200, page(3, 10)), (200, page(1, 10))]
+    with patch.object(panel.api_client, "search_users", AsyncMock(side_effect=replies)) as search:
+        status, data = await panel._directory_page("12345", "", 3)
+    assert status == 200 and data["page"] == 1
+    assert search.await_args.args == ("12345", "", 1)
+
+
+@pytest.mark.asyncio
+async def test_range_button_only_acknowledges_callback():
+    event = callback("users:range")
+    await panel.users_range(event, bot_access=ACCESS)
+    event.answer.assert_awaited_once_with()
+    event.message.edit_text.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_directory_outage_shows_error_without_replacing_list():
+    event = callback()
+    with patch.object(panel.api_client, "search_users", AsyncMock(side_effect=RuntimeError("offline"))):
+        await panel.users_home(event, AsyncMock(), bot_access=ACCESS)
+    event.message.edit_text.assert_not_awaited()
+    assert event.answer.await_args.kwargs["show_alert"] is True

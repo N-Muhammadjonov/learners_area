@@ -1,5 +1,5 @@
 import "server-only";
-import { and, desc, eq, ilike, isNull, or, sql } from "drizzle-orm";
+import { and, asc, eq, ilike, isNull, or, sql, type SQL } from "drizzle-orm";
 import { createHash, randomInt } from "node:crypto";
 import { db } from "@/db/client";
 import { telegramContacts, telegramDeletionIntents, users } from "@/db/schema";
@@ -14,9 +14,14 @@ import { isTelegramUserId } from "./ids";
 import { isEffectivePrimaryOwner } from "./owner-store";
 import { removeContactFromBot } from "./contacts";
 import { unlinkTelegramFromUser } from "./identity";
+import { compareDirectoryEntries } from "./directory-order";
 
 function like(value: string) {
   return `%${value.replace(/[\\%_]/g, (char) => `\\${char}`)}%`;
+}
+
+function usernameSortKey(value: SQL) {
+  return sql`nullif(lower(ltrim(btrim(${value}), '@')), '') collate "C"`;
 }
 
 export async function searchDirectory(input: {
@@ -26,8 +31,9 @@ export async function searchDirectory(input: {
   page: number;
   pageSize: number;
 }) {
-  const pageSize = Math.min(Math.max(input.pageSize || 10, 1), 20);
-  const page = Math.max(input.page || 1, 1);
+  const pageSize = Number.isFinite(input.pageSize)
+    ? Math.min(Math.max(Math.trunc(input.pageSize) || 10, 1), 20) : 10;
+  const page = Number.isSafeInteger(input.page) ? Math.max(input.page, 1) : 1;
   const offset = (page - 1) * pageSize;
   const fetchLimit = page * pageSize;
 
@@ -65,6 +71,15 @@ export async function searchDirectory(input: {
 
   const userWhere = userFilters.length ? and(...userFilters) : undefined;
 
+  // Use a scalar lookup to avoid duplicating website users when contacts are
+  // linked by account ID or Telegram ID. This also matches userDetail's lookup.
+  const userUsername = sql<string | null>`(
+    select c.username from telegram_contacts c
+    where c.linked_user_id = ${users.id} or c.telegram_user_id = ${users.telegramId}
+    order by (c.telegram_user_id = ${users.telegramId}) desc nulls last, c.id
+    limit 1
+  )`;
+
   const userRows = await db
     .select({
       id: users.id,
@@ -73,11 +88,12 @@ export async function searchDirectory(input: {
       role: users.role,
       accountStatus: users.accountStatus,
       telegramId: users.telegramId,
+      username: userUsername,
       createdAt: users.createdAt,
     })
     .from(users)
     .where(userWhere)
-    .orderBy(desc(users.createdAt))
+    .orderBy(sql`${usernameSortKey(userUsername)} asc nulls last`, asc(users.id))
     .limit(fetchLimit);
 
   const [userCountRow] = await db
@@ -122,7 +138,10 @@ export async function searchDirectory(input: {
             })
             .from(telegramContacts)
             .where(contactWhere)
-            .orderBy(desc(telegramContacts.lastSeenAt))
+            .orderBy(
+              sql`${usernameSortKey(sql`${telegramContacts.username}`)} asc nulls last`,
+              asc(telegramContacts.id)
+            )
             .limit(fetchLimit);
 
           const [countRow] = await db
@@ -155,7 +174,7 @@ export async function searchDirectory(input: {
       username: row.username,
       name:
         fullName ||
-        (row.username ? `@${row.username}` : row.telegramUserId),
+        (row.username ? `@${row.username}` : "—"),
       email: null,
       role: null,
       accountStatus: null,
@@ -166,14 +185,10 @@ export async function searchDirectory(input: {
     };
   });
 
-  const timestamp = (value: unknown) => {
-    if (value instanceof Date) return value.getTime();
-    if (typeof value === "string") return Date.parse(value) || 0;
-    return 0;
-  };
-
+  // Each source must be ordered before LIMIT, then merged with the same order.
+  // Sorting a single date-ordered page would only alphabetize that page.
   const merged = [...websiteItems, ...telegramItems]
-    .sort((a, b) => timestamp(b.createdAt) - timestamp(a.createdAt))
+    .sort(compareDirectoryEntries)
     .slice(offset, offset + pageSize);
 
   return {
@@ -409,3 +424,4 @@ export function canSearchRole(value: string | null): value is Role | null {
 }
 
 export { isTelegramUserId };
+
