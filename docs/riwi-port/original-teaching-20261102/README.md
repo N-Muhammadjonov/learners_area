@@ -33,6 +33,8 @@ fine-tuned or transferred.
 - This provider is registered for assistant chat. No subjective evaluator is
   switched to it; independent-v1 score withholding remains in force.
 - The outbound secret detector also rejects Gateway key and OIDC assignments.
+- Vercel Functions explicitly includes services/backend/contracts/** so the
+  teaching library and existing Basebook contracts are packaged with Python.
 
 No environment variables, credentials, production data, model credits or Owner
 switches were changed while preparing this increment.
@@ -58,7 +60,10 @@ activation or a full database regression run.
 
 The VM used Python 3.14.4 and asyncpg 0.31.0; repository runtime pins were not
 changed. Full backend/frontend suites and the frontend build were not rerun in
-the disconnected local workspace. Earlier 3359 backend / 1270 frontend results
+the disconnected local workspace. Vercel subsequently built commit 7c1ae05 successfully:
+513 static files, 125 routes and Python bytecode compilation; deployment
+https://learners-area-hia1hjzl2-learners-area.vercel.app reached READY.
+This verifies the build, not authenticated lesson activation. Earlier 3359 backend / 1270 frontend results
 belong to the preceding checkpoint, not this new change.
 
 The topic and factual checks were authored by the same assistant as the lessons.

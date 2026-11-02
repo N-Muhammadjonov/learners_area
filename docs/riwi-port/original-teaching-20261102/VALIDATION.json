@@ -24,7 +24,7 @@
     "liveSafariNewLibrary": "not_performed",
     "liveLanguageModel": "not_performed",
     "fullBackendSuiteAfterTheseChanges": "not_rerun",
-    "frontendBuildAfterTheseChanges": "not_rerun"
+    "frontendBuildAfterTheseChanges": "Vercel native asset build passed on 7c1ae05: 513 files / 125 routes"
   },
   "runtime": {
     "python": "3.14.4",
@@ -99,5 +99,19 @@
     "providerSecretsCreated": false,
     "providerRequestsMade": 0,
     "providerCreditsPurchased": false
+  },
+  "deployment": {
+    "codeCommit": "7c1ae05db3349848de64ccf125db3531728d1bba",
+    "id": "dpl_GPM29FJMjYzGtbK4v5aPSUasFMcx",
+    "origin": "https://learners-area-hia1hjzl2-learners-area.vercel.app",
+    "state": "READY",
+    "target": "preview",
+    "productionPromoted": false,
+    "staticFiles": 513,
+    "routes": 125,
+    "pythonBytecodeCompiled": true,
+    "nativeBuildSeconds": 10,
+    "authenticatedRuntime": "not_tested",
+    "note": "A subsequent packaging-only change explicitly includes contracts/** and requires its own successful preview build."
   }
 }
