@@ -1,7 +1,15 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
 import {mount} from '../modules/riwi/index.js';
+
+test('native page loads chat styles after the shared campus palette',()=>{
+ const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+ const styles=[...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)].map(x=>x[1]);
+ assert(styles.includes('/css/riwi.css'));
+ assert(styles.indexOf('/css/riwi.css')>styles.indexOf('/css/campus.css'));
+});
 
 test('pending chat shows the user bubble, prevents duplicate sends, and renders safe multiline sources',async()=>{
  const h=setup({path:'/app/riwi',role:'owner',locale:'uz',theme:'night'});
