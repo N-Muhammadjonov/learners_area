@@ -17,7 +17,7 @@ OLD_WORK=[('writing_submissions','greatest(t.created_at,t.updated_at,t.submitted
  ('listening_attempts','greatest(t.started_at,t.submitted_at)',['listening_attempt'],'listening'),
  ('grammar_attempts','t.attempted_at',['grammar_attempt'],'grammar'),
  ('vocabulary_usages','t.created_at',['vocabulary_usage'],'vocabulary'),
- ('assignment_responses','greatest(t.created_at,t.updated_at)',['assignment'],'assignments'),
+ ('assignment_responses','greatest(t.created_at,t.updated_at)',['assignment','assignment_response'],'assignments'),
  ('typing_runs','t.created_at',[],'typing'),
  ('mock_attempts','greatest(t.started_at,t.finished_at)',['mock_attempt'],'mocks'),
  ('speaking_attempts','greatest(t.created_at,t.submitted_at)',['speaking_attempt'],'speaking')]
@@ -117,6 +117,10 @@ async def recordings(con,dry,cutoff,size):
 def work_filter(table,column,protected):
     veto=(" AND NOT EXISTS (SELECT 1 FROM evaluations e WHERE e.source_type IN ("+
        ','.join("'"+name+"'" for name in protected)+") AND e.source_id=t.id)") if protected else ''
+    if table=='assignment_responses':
+        # Historical evaluations used the parent assignment as their source.
+        # Retain that learner's response while its legacy evaluation exists.
+        veto+=" AND NOT EXISTS (SELECT 1 FROM evaluations e WHERE e.source_type='assignment' AND e.source_id=t.assignment_id AND e.user_id=t.user_id)"
     if table=='speaking_attempts':
         veto+=''' AND t.recording_object_key IS NULL AND NOT EXISTS(
           SELECT 1 FROM upload_intents u WHERE u.speaking_attempt_id=t.id AND u.purpose='speaking_recording'

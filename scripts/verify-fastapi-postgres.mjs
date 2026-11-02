@@ -64,6 +64,7 @@ try {
   if(replicas===2 && reports.reduce((n,r)=>n+(r.allowed??0),0)!==8)throw Error('Replica counters diverged');
   const checks=reports.reduce((n,r)=>n+r.checks,0);
   const checkKinds=report.probeKind==='read_model'?{readModelChecks:checks}:
+    report.probeKind==='riwi_assignments'?{integrationChecks:checks}:
     ['riwi_policy','riwi_domain','riwi_contracts'].includes(report.probeKind)?{storeChecks:report.storeChecks,httpChecks:report.httpChecks}:{httpChecks:checks};
   console.log(JSON.stringify({ migrations: applied, typedTables, ...checkKinds, replicas, admitted:replicas===2?reports.reduce((n,r)=>n+r.allowed,0):undefined, measurements:report.measurements, database: 'embedded PostgreSQL', result: 'passed' }));
   if (process.env.FASTAPI_WIRE_FIXTURE) {

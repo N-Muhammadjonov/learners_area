@@ -7,1012 +7,2118 @@
     },
     "words": [
       {
-        "term": "To feel drained",
+        "term": "Staple food",
         "partOfSpeech": "",
-        "definitionEn": "to feel completely exhausted, with no energy left",
-        "translationUz": "juda holdan toyganini his qilmoq",
-        "example": "After working a 12-hour shift, she felt completely drained and went straight to bed."
+        "definitionEn": "A basic food eaten regularly and in large amounts in a particular place.",
+        "translationUz": "asosiy kundalik oziq-ovqat",
+        "example": "Rice is a staple food in many households."
       },
       {
-        "term": "Citrus",
+        "term": "Be chronically underfed",
         "partOfSpeech": "",
-        "definitionEn": "a group of fruits including oranges, lemons, limes, and grapefruits",
-        "translationUz": "sitrus mevalar; sitrus turkumiga mansub meva",
-        "example": "Citrus fruits are rich in vitamin C and antioxidants."
+        "definitionEn": "Regularly receive less food than the body needs over a long period.",
+        "translationUz": "uzoq vaqt davomida yetarlicha ovqatlanmaslik",
+        "example": "Families with very low incomes may be chronically underfed."
       },
       {
-        "term": "A healthy dose of vitamin C",
+        "term": "World hunger",
         "partOfSpeech": "",
-        "definitionEn": "a good, beneficial amount of vitamin C",
-        "translationUz": "C vitaminining foydali miqdori",
-        "example": "Drinking orange juice gives you a healthy dose of vitamin C to fight off colds."
+        "definitionEn": "The problem of people around the world not having enough food.",
+        "translationUz": "dunyodagi ochlik muammosi",
+        "example": "Better access to affordable food is essential for tackling world hunger."
       },
       {
-        "term": "To boost energy",
+        "term": "Scarcity of food",
         "partOfSpeech": "",
-        "definitionEn": "to increase or raise energy levels",
-        "translationUz": "quvvatni oshirmoq",
-        "example": "A short walk in the afternoon can boost your energy better than a cup of coffee."
+        "definitionEn": "A situation in which there is not enough food available.",
+        "translationUz": "oziq-ovqat tanqisligi",
+        "example": "The drought caused a scarcity of food in nearby villages."
       },
       {
-        "term": "To make someone more alert",
+        "term": "Food trade",
         "partOfSpeech": "",
-        "definitionEn": "to increase someone's awareness and mental sharpness",
-        "translationUz": "kimnidir hushyorroq qilmoq",
-        "example": "A cold shower in the morning can make you more alert and focused."
+        "definitionEn": "The buying and selling of food between places or countries.",
+        "translationUz": "oziq-ovqat savdosi",
+        "example": "Food trade allows the country to import rice when local harvests fail."
       },
       {
-        "term": "Chances are",
+        "term": "Subsistence farmers",
         "partOfSpeech": "",
-        "definitionEn": "it is likely that; probably",
-        "translationUz": "katta ehtimol bilan; ehtimolki",
-        "example": "Chances are you're not drinking enough water if you feel tired all the time."
+        "definitionEn": "Farmers who mainly produce food for themselves and their families.",
+        "translationUz": "o‘z ehtiyoji uchun mahsulot yetishtiruvchi dehqonlar",
+        "example": "Many subsistence farmers sell only what their families do not need."
       },
       {
-        "term": "To be dehydrated",
+        "term": "Grow food",
         "partOfSpeech": "",
-        "definitionEn": "to have lost too much water from the body",
-        "translationUz": "organizm suvsizlangan bo‘lmoq",
-        "example": "If your urine is dark yellow, you're probably dehydrated."
+        "definitionEn": "Produce crops that people can eat.",
+        "translationUz": "oziq-ovqat yetishtirmoq",
+        "example": "We grow food in a small garden behind our house."
       },
       {
-        "term": "To be a treat for sth",
+        "term": "Store food",
         "partOfSpeech": "",
-        "definitionEn": "to be a pleasure or delight for something (e.g. the senses)",
-        "translationUz": "biror narsa uchun chinakam huzur manbai bo‘lmoq",
-        "example": "Fresh mango is a real treat for the taste buds on a hot summer day."
+        "definitionEn": "Keep food for later use under suitable conditions.",
+        "translationUz": "oziq-ovqatni saqlamoq",
+        "example": "The village needs better facilities to store food after the harvest."
       },
       {
-        "term": "Nutrient",
+        "term": "Genetically engineered varieties of food",
         "partOfSpeech": "",
-        "definitionEn": "a substance that provides nourishment essential for growth and health",
-        "translationUz": "ozuqa moddasi",
-        "example": "Spinach is packed with nutrients including iron, calcium, and vitamins A and K."
+        "definitionEn": "Crop varieties whose genetic material has been changed using genetic engineering; often called genetically modified varieties.",
+        "translationUz": "genetik muhandislik yordamida yaratilgan oziq-ovqat navlari",
+        "example": "Researchers are studying genetically engineered varieties of food that can tolerate drought."
       },
       {
-        "term": "To boost memory",
+        "term": "High-performance maize",
         "partOfSpeech": "",
-        "definitionEn": "to improve or strengthen the ability to remember things",
-        "translationUz": "xotirani yaxshilamoq",
-        "example": "Regular exercise has been shown to boost memory and cognitive function."
+        "definitionEn": "Maize developed or selected to grow well or produce high yields under particular conditions; not necessarily genetically modified.",
+        "translationUz": "serhosil makkajo‘xori navi",
+        "example": "The farmers tested high-performance maize on a small part of their land."
       },
       {
-        "term": "Mental awareness",
+        "term": "Vigor or vigour",
         "partOfSpeech": "",
-        "definitionEn": "the state of being conscious, attentive, and mentally sharp",
-        "translationUz": "aqliy hushyorlik; ongli idrok",
-        "example": "Meditation can improve mental awareness and help you concentrate better."
+        "definitionEn": "Strength, energy or healthy growth; vigor is American spelling and vigour is British.",
+        "translationUz": "kuch-quvvat; o‘sish salohiyati",
+        "example": "The young plants showed remarkable vigour after the rain."
       },
       {
-        "term": "Freshly brewed coffee",
+        "term": "Seed",
         "partOfSpeech": "",
-        "definitionEn": "coffee that has just been made by passing hot water through ground beans",
-        "translationUz": "hozirgina damlangan qahva",
-        "example": "Nothing beats the smell of freshly brewed coffee first thing in the morning."
+        "definitionEn": "The part of a plant from which a new plant can grow.",
+        "translationUz": "urug‘",
+        "example": "She planted each seed in moist soil."
       },
       {
-        "term": "Serving",
+        "term": "Intensify",
         "partOfSpeech": "",
-        "definitionEn": "a single portion of food or drink as recommended or consumed",
-        "translationUz": "bir porsiya; bir martalik iste’mol miqdori",
-        "example": "The label says one serving contains 200 calories."
+        "definitionEn": "Increase the amount, strength or activity of something.",
+        "translationUz": "kuchaytirmoq; jadallashtirmoq",
+        "example": "Some growers want to intensify food production on their existing land."
       },
       {
-        "term": "Dark chocolate",
+        "term": "Commercial farming",
         "partOfSpeech": "",
-        "definitionEn": "chocolate with a high cocoa content and little or no milk",
-        "translationUz": "qora shokolad",
-        "example": "Dark chocolate contains antioxidants that may benefit heart health."
+        "definitionEn": "Producing crops or raising animals mainly to sell them for profit.",
+        "translationUz": "tijorat maqsadidagi dehqonchilik",
+        "example": "Commercial farming supplies vegetables to supermarkets across the region."
       },
       {
-        "term": "To be chock-full of sth",
+        "term": "Carbon footprint",
         "partOfSpeech": "",
-        "definitionEn": "to be completely full of something; packed with",
-        "translationUz": "biror narsaga liq to‘la bo‘lmoq",
-        "example": "Blueberries are chock-full of antioxidants and vitamins."
+        "definitionEn": "The total greenhouse gas emissions associated with a person, activity or product.",
+        "translationUz": "uglerod izi; issiqxona gazlari chiqindilari miqdori",
+        "example": "The company is measuring the carbon footprint of its food deliveries."
       },
       {
-        "term": "To fortify the immune system",
+        "term": "Sugar cane",
         "partOfSpeech": "",
-        "definitionEn": "to strengthen the body's natural defences against illness",
-        "translationUz": "immun tizimini mustahkamlamoq",
-        "example": "Getting enough sleep and eating well helps fortify the immune system."
+        "definitionEn": "A tall tropical plant whose stems are used to produce sugar.",
+        "translationUz": "shakarqamish",
+        "example": "Farmers grow sugar cane in the warmer parts of the country."
       },
       {
-        "term": "To relax blood vessels",
+        "term": "Sugar beet",
         "partOfSpeech": "",
-        "definitionEn": "to cause blood vessels to widen, improving blood flow",
-        "translationUz": "qon tomirlarini bo‘shashtirmoq",
-        "example": "Dark chocolate contains compounds that relax blood vessels and lower blood pressure."
+        "definitionEn": "A root crop grown to produce sugar.",
+        "translationUz": "qand lavlagi",
+        "example": "This factory processes sugar beet from nearby farms."
       },
       {
-        "term": "To have bad breath",
+        "term": "Truck vegetables",
         "partOfSpeech": "",
-        "definitionEn": "to have an unpleasant smell coming from the mouth",
-        "translationUz": "og‘izdan noxush hid kelmoq",
-        "example": "Eating raw garlic can give you bad breath for hours."
+        "definitionEn": "Transport vegetables by truck; especially American usage.",
+        "translationUz": "sabzavotlarni yuk mashinasida tashimoq",
+        "example": "Suppliers truck vegetables from rural farms to city markets."
       },
       {
-        "term": "To be super chill",
+        "term": "Heated greenhouses",
         "partOfSpeech": "",
-        "definitionEn": "(informal) to be very relaxed, calm, and easy-going",
-        "translationUz": "juda xotirjam bo‘lmoq (so‘zlashuv)",
-        "example": "Chamomile tea is super chill — it calms your nerves without any side effects."
+        "definitionEn": "Glass or plastic growing structures warmed by a heating system.",
+        "translationUz": "isitiladigan issiqxonalar",
+        "example": "The tomatoes are grown in heated greenhouses during winter."
       },
       {
-        "term": "To promote sleep",
+        "term": "Food chain",
         "partOfSpeech": "",
-        "definitionEn": "to encourage or support better, deeper sleep",
-        "translationUz": "uyquni yaxshilashga yordam bermoq",
-        "example": "Warm milk contains tryptophan, which promotes sleep."
+        "definitionEn": "In this topic, the stages food passes through from production to consumption; also an ecological feeding relationship.",
+        "translationUz": "oziq-ovqat ta’minoti zanjiri",
+        "example": "Temperature control matters at every stage of the food chain."
       },
       {
-        "term": "Daily intake",
+        "term": "Decarbonize fuel",
         "partOfSpeech": "",
-        "definitionEn": "the total amount of something consumed in a single day",
-        "translationUz": "sutkalik iste’mol miqdori",
-        "example": "The recommended daily intake of sugar for adults is no more than 30g."
+        "definitionEn": "Reduce the carbon emissions associated with fuel; decarbonize transport or switch to lower-carbon fuels is often more natural.",
+        "translationUz": "yoqilg‘i bilan bog‘liq uglerod chiqindilarini kamaytirmoq",
+        "example": "To decarbonize transport, the supplier is switching some delivery vans to electricity."
       },
       {
-        "term": "To calm your mind",
+        "term": "Ironic",
         "partOfSpeech": "",
-        "definitionEn": "to reduce mental stress, worry, or mental activity",
-        "translationUz": "ongni tinchlantirmoq; fikrni xotirjamlashtirmoq",
-        "example": "Reading before bed is a great way to calm your mind after a stressful day."
+        "definitionEn": "Unexpected in a way that contrasts with what someone would normally expect.",
+        "translationUz": "kutilmaganda teskari holatni ifodalovchi; istehzoli",
+        "example": "It is ironic that the town exports fruit while some local families cannot afford it."
       },
       {
-        "term": "Brain-soothing hormones",
+        "term": "Increase self-sufficiency",
         "partOfSpeech": "",
-        "definitionEn": "chemicals produced by the body that reduce stress and promote relaxation",
-        "translationUz": "miyani tinchlantiruvchi gormonlar",
-        "example": "Exercise triggers the release of brain-soothing hormones like serotonin and dopamine."
+        "definitionEn": "Become more able to meet your own needs without relying on outside supplies.",
+        "translationUz": "o‘zini o‘zi ta’minlash darajasini oshirmoq",
+        "example": "The community hopes to increase self-sufficiency by growing more vegetables."
       },
       {
-        "term": "To relax muscles",
+        "term": "Cultivation",
         "partOfSpeech": "",
-        "definitionEn": "to reduce tension in the muscles",
-        "translationUz": "mushaklarni bo‘shashtirmoq",
-        "example": "A warm bath with Epsom salts can help relax muscles after exercise."
+        "definitionEn": "The preparation and use of land for growing crops.",
+        "translationUz": "ekin ekish va parvarishlash; yetishtirish",
+        "example": "The land has been under cultivation for several generations."
       },
       {
-        "term": "To snack",
+        "term": "Traditional cropping",
         "partOfSpeech": "",
-        "definitionEn": "to eat small amounts of food between main meals",
-        "translationUz": "ovqatlar orasida yengil tamaddi qilmoq",
-        "example": "Instead of snacking on crisps, try nuts or fruit for a healthier option."
+        "definitionEn": "Growing crops using methods established over generations in a community.",
+        "translationUz": "an’anaviy ekin yetishtirish usuli",
+        "example": "Traditional cropping in this village includes growing several crops together."
       },
       {
-        "term": "To set standards",
+        "term": "Fell trees",
         "partOfSpeech": "",
-        "definitionEn": "to establish rules or levels of quality that must be met",
-        "translationUz": "standartlarni belgilamoq",
-        "example": "The government sets standards for food hygiene that all restaurants must follow."
+        "definitionEn": "Cut down trees.",
+        "translationUz": "daraxtlarni kesib yiqitmoq",
+        "example": "Some farmers fell trees to create more space for crops."
       },
       {
-        "term": "Food industry",
+        "term": "Pollard trees",
         "partOfSpeech": "",
-        "definitionEn": "the businesses and companies involved in producing, processing, and selling food",
-        "translationUz": "oziq-ovqat sanoati",
-        "example": "The food industry is under increasing pressure to reduce plastic packaging."
+        "definitionEn": "Cut back a tree's upper branches to encourage new growth at the top.",
+        "translationUz": "daraxtning yuqori shoxlarini kesib shakllantirmoq",
+        "example": "Workers pollard the trees to manage their size and collect branches."
       },
       {
-        "term": "To carry out a risk assessment",
+        "term": "Regenerate",
         "partOfSpeech": "",
-        "definitionEn": "to identify and evaluate potential dangers in a process",
-        "translationUz": "xavfni baholash jarayonini o‘tkazmoq",
-        "example": "Food manufacturers must carry out risk assessments before launching new products."
+        "definitionEn": "Grow again or restore something to a healthy condition.",
+        "translationUz": "qayta o‘smoq; tiklanmoq",
+        "example": "The project gives damaged woodland time to regenerate."
       },
       {
-        "term": "To be susceptible to harmful bacteria",
+        "term": "Cereal",
         "partOfSpeech": "",
-        "definitionEn": "to be at risk of being affected by dangerous microorganisms",
-        "translationUz": "zararli bakteriyalar ta’siriga moyil bo‘lmoq",
-        "example": "Raw chicken is highly susceptible to harmful bacteria like salmonella."
+        "definitionEn": "A grain crop such as wheat or maize; also a breakfast food made from processed grains.",
+        "translationUz": "donli ekin; don mahsulotidan tayyorlangan nonushta",
+        "example": "Millet is a cereal that farmers grow in this area."
       },
       {
-        "term": "To store products",
+        "term": "Millet",
         "partOfSpeech": "",
-        "definitionEn": "to keep goods in a suitable place until needed",
-        "translationUz": "mahsulotlarni saqlamoq",
-        "example": "Always store products in a cool, dry place away from direct sunlight."
+        "definitionEn": "A group of cereal crops with small grains used as food or animal feed.",
+        "translationUz": "tariq",
+        "example": "The family uses millet to make porridge."
       },
       {
-        "term": "Warehouse",
+        "term": "Sweet potato",
         "partOfSpeech": "",
-        "definitionEn": "a large building for storing goods before distribution",
-        "translationUz": "omborxona",
-        "example": "The food was stored in a refrigerated warehouse before being shipped to supermarkets."
+        "definitionEn": "A sweet-tasting edible root, often with orange, white or purple flesh.",
+        "translationUz": "batat; shirin kartoshka",
+        "example": "We roasted a sweet potato for lunch."
       },
       {
-        "term": "Cold store",
+        "term": "Groundnut or peanut",
         "partOfSpeech": "",
-        "definitionEn": "a refrigerated room or building for keeping food fresh",
-        "translationUz": "sovutkichli ombor; sovuq saqlash xonasi",
-        "example": "Fresh fish must be kept in a cold store at the correct temperature."
+        "definitionEn": "An edible seed that develops underground in a pod; groundnut is another name for peanut.",
+        "translationUz": "yeryong‘oq",
+        "example": "The farmer sells groundnuts at the local market."
       },
       {
-        "term": "Frozen foods",
+        "term": "Beans",
         "partOfSpeech": "",
-        "definitionEn": "food that has been preserved by freezing",
-        "translationUz": "muzlatilgan oziq-ovqat mahsulotlari",
-        "example": "Frozen foods can be convenient, but they often contain more salt than fresh alternatives."
+        "definitionEn": "Edible seeds or pods of several plants, often used as a source of protein.",
+        "translationUz": "loviya; dukkakli donlar",
+        "example": "She added beans to the vegetable stew."
       },
       {
-        "term": "To defrost",
+        "term": "Leafy vegetables",
         "partOfSpeech": "",
-        "definitionEn": "to allow frozen food to thaw; to remove ice from a freezer",
-        "translationUz": "muzdan tushirmoq; eritmoq",
-        "example": "Always defrost chicken in the fridge, never on the kitchen counter."
+        "definitionEn": "Vegetables whose leaves are eaten, such as spinach and lettuce.",
+        "translationUz": "bargli sabzavotlar",
+        "example": "The garden provides leafy vegetables for the family."
       },
       {
-        "term": "To keep foods past their expiry date",
+        "term": "Harvesting",
         "partOfSpeech": "",
-        "definitionEn": "to consume or store food beyond the date it is safe to eat",
-        "translationUz": "oziq-ovqatni yaroqlilik muddati o‘tganidan keyin saqlamoq",
-        "example": "Keeping foods past their expiry date can cause serious food poisoning."
+        "definitionEn": "Collecting crops when they are ready to be used.",
+        "translationUz": "hosilni yig‘ib olish",
+        "example": "Harvesting begins once the grain is ripe."
       },
       {
-        "term": "To handle food at home",
+        "term": "Weeding",
         "partOfSpeech": "",
-        "definitionEn": "to prepare, store, or cook food in a domestic setting",
-        "translationUz": "uyda oziq-ovqat bilan ishlamoq; uni tayyorlamoq va saqlamoq",
-        "example": "Washing your hands before handling food at home reduces the risk of contamination."
+        "definitionEn": "Removing unwanted plants from a growing area.",
+        "translationUz": "begona o‘tlarni yulish",
+        "example": "Regular weeding gives the young crops more space to grow."
       },
       {
-        "term": "Additives",
+        "term": "Nutrients",
         "partOfSpeech": "",
-        "definitionEn": "substances added to food to preserve, colour, or enhance flavour",
-        "translationUz": "oziq-ovqat qo‘shimchalari",
-        "example": "Some parents avoid products with artificial additives in their children's food."
+        "definitionEn": "Substances that living things need for growth and health.",
+        "translationUz": "ozuqa moddalari",
+        "example": "Plants absorb nutrients from the soil."
       },
       {
-        "term": "Shelf life",
+        "term": "Annual crops",
         "partOfSpeech": "",
-        "definitionEn": "the length of time a product can be stored before it becomes unsafe or unfit",
-        "translationUz": "saqlanish muddati",
-        "example": "Adding preservatives extends the shelf life of bread from a few days to several weeks."
+        "definitionEn": "Crops that complete their life cycle within one growing season.",
+        "translationUz": "bir mavsumda o‘sib tugaydigan ekinlar",
+        "example": "Many annual crops must be planted again each year."
       },
       {
-        "term": "Substandard",
+        "term": "Exhausted soil",
         "partOfSpeech": "",
-        "definitionEn": "below the required or expected level of quality",
-        "translationUz": "standartga javob bermaydigan; sifatsiz",
-        "example": "Substandard food products were removed from shelves after failing safety inspections."
+        "definitionEn": "Soil that has lost much of its fertility, often through repeated cropping without replacement of nutrients.",
+        "translationUz": "unumdorligi kamaygan tuproq",
+        "example": "The farmer added organic matter to improve the exhausted soil."
       },
       {
-        "term": "Phenomenal expansion",
+        "term": "Water table",
         "partOfSpeech": "",
-        "definitionEn": "extremely rapid and impressive growth",
-        "translationUz": "nihoyatda tez o‘sish; hayratlanarli kengayish",
-        "example": "The fast-food sector has seen phenomenal expansion in developing countries over the past decade."
+        "definitionEn": "The upper level of groundwater in the ground.",
+        "translationUz": "yerosti suvlari sathi",
+        "example": "The water table fell during the long dry season."
       },
       {
-        "term": "Organic food",
+        "term": "Agroforestry",
         "partOfSpeech": "",
-        "definitionEn": "food produced without artificial chemicals, pesticides, or fertilisers",
-        "translationUz": "organik oziq-ovqat",
-        "example": "Organic food is often more expensive, but many people believe it tastes better."
+        "definitionEn": "A farming system that combines trees with crops or livestock on the same land.",
+        "translationUz": "daraxtlar bilan ekin yoki chorvani birga yetishtirish tizimi",
+        "example": "Agroforestry allows the family to grow fruit trees alongside food crops."
       },
       {
-        "term": "Upscale",
+        "term": "Irrigate",
         "partOfSpeech": "",
-        "definitionEn": "high-end; catering to wealthy customers; luxurious",
-        "translationUz": "yuqori darajadagi; qimmatbaho segmentga mo‘ljallangan",
-        "example": "The supermarket redesigned its stores to appeal to upscale shoppers."
+        "definitionEn": "Supply water to land or crops artificially.",
+        "translationUz": "sun’iy sug‘ormoq",
+        "example": "Farmers use water from the reservoir to irrigate their fields."
       },
       {
-        "term": "To get top billing",
+        "term": "Year-round fishing",
         "partOfSpeech": "",
-        "definitionEn": "to receive the most prominent position or greatest attention",
-        "translationUz": "eng muhim o‘rinni egallamoq; eng ko‘p e’tibor olmoq",
-        "example": "Health and sustainability now get top billing in many supermarket marketing campaigns."
+        "definitionEn": "Fishing that takes place throughout the year, rather than only in one season.",
+        "translationUz": "yil davomida baliq ovlash",
+        "example": "The report examines whether year-round fishing is possible on the lake."
       },
       {
-        "term": "Nutrition",
+        "term": "Salmon",
         "partOfSpeech": "",
-        "definitionEn": "the process of obtaining food and the nutrients needed for health",
-        "translationUz": "ovqatlanish va oziqlanish jarayoni",
-        "example": "Good nutrition in early childhood is essential for healthy development."
+        "definitionEn": "A fish often eaten for its pink or orange flesh; many salmon migrate between rivers and the sea.",
+        "translationUz": "losos balig‘i",
+        "example": "We ordered grilled salmon with vegetables."
       },
       {
-        "term": "Food safety education",
+        "term": "Crop husbandry",
         "partOfSpeech": "",
-        "definitionEn": "teaching people how to handle, store, and prepare food safely",
-        "translationUz": "oziq-ovqat xavfsizligi bo‘yicha ta’lim",
-        "example": "Food safety education in schools could significantly reduce cases of food poisoning."
+        "definitionEn": "The care and management of crops during their growth.",
+        "translationUz": "ekinlarni parvarishlash va boshqarish",
+        "example": "Good crop husbandry includes timely planting and weeding."
       },
       {
-        "term": "Nutritional food labels",
+        "term": "Bean or maize grower",
         "partOfSpeech": "",
-        "definitionEn": "information printed on packaging showing a food's nutritional content",
-        "translationUz": "oziqaviy qiymat ko‘rsatilgan yorliqlar",
-        "example": "Nutritional food labels help consumers make informed choices about what they eat."
+        "definitionEn": "A farmer who produces beans or maize.",
+        "translationUz": "loviya yoki makkajo‘xori yetishtiruvchi dehqon",
+        "example": "The maize grower bought new equipment for harvesting."
       },
       {
-        "term": "Allergy",
+        "term": "Grazing",
         "partOfSpeech": "",
-        "definitionEn": "an adverse immune reaction to a substance, often food",
-        "translationUz": "allergiya",
-        "example": "The packaging must clearly state if the product contains nuts due to allergy risks."
+        "definitionEn": "The activity of animals eating grass or other low-growing plants.",
+        "translationUz": "chorvaning o‘t yeyishi; yaylovda boqish",
+        "example": "The cattle spend most of the day grazing."
       },
       {
-        "term": "Packaging",
+        "term": "Plough land",
         "partOfSpeech": "",
-        "definitionEn": "the materials used to wrap, contain, or protect a product",
-        "translationUz": "qadoqlash; qadoq materiallari",
-        "example": "Sustainable packaging is becoming a priority for environmentally conscious food brands."
+        "definitionEn": "Turn over and loosen soil with a plough before planting; plow is American spelling.",
+        "translationUz": "yerni haydamoq",
+        "example": "The farmer will plough the land before sowing wheat."
       },
       {
-        "term": "Low in fat",
+        "term": "Freely roaming chickens",
         "partOfSpeech": "",
-        "definitionEn": "containing a small amount of fat",
-        "translationUz": "yog‘i kam; kam yog‘li",
-        "example": "Many people choose low in fat options without realising the product may be high in sugar."
+        "definitionEn": "Chickens that can move around freely; free-roaming chickens is a more natural expression.",
+        "translationUz": "erkin yuradigan tovuqlar",
+        "example": "Free-roaming chickens searched for food around the yard."
       },
       {
-        "term": "To be high in calories",
+        "term": "Slaughter chickens or goats",
         "partOfSpeech": "",
-        "definitionEn": "to contain a large amount of energy per serving",
-        "translationUz": "kaloriyasi yuqori bo‘lmoq",
-        "example": "Processed snacks tend to be high in calories but low in nutritional value."
+        "definitionEn": "Kill chickens or goats for meat.",
+        "translationUz": "go‘sht uchun tovuq yoki echki so‘ymoq",
+        "example": "The farm sends its goats to a licensed facility to be slaughtered."
       },
       {
-        "term": "A real eye-opener",
+        "term": "Leached soil",
         "partOfSpeech": "",
-        "definitionEn": "something that is surprising and reveals new information",
-        "translationUz": "ko‘zni ochadigan, yangi narsani anglatadigan holat",
-        "example": "Reading food labels for the first time can be a real eye-opener about hidden sugars."
+        "definitionEn": "Soil from which water has washed away soluble substances, including some nutrients.",
+        "translationUz": "oziq moddalari yuvilib ketgan tuproq",
+        "example": "Heavy rainfall can leave farmers with leached soil."
       },
       {
-        "term": "Nutritional value",
+        "term": "Fisheries",
         "partOfSpeech": "",
-        "definitionEn": "the amount of nutrients a food provides relative to its energy content",
-        "translationUz": "ozuqaviy qiymat",
-        "example": "Fast food is often high in calories but has very little nutritional value."
+        "definitionEn": "Areas, industries or activities concerned with catching or raising fish commercially.",
+        "translationUz": "baliqchilik xo‘jaliklari; baliqchilik sohasi",
+        "example": "Local fisheries provide jobs as well as food."
       },
       {
-        "term": "Transparent",
+        "term": "Promote organic food",
         "partOfSpeech": "",
-        "definitionEn": "open, honest, and easy to understand; not hiding information",
-        "translationUz": "oshkora; shaffof; yashirin ma’lumotsiz",
-        "example": "Consumers are demanding that food companies be more transparent about their ingredients."
+        "definitionEn": "Encourage people to buy or support food produced under organic farming standards.",
+        "translationUz": "organik oziq-ovqatni targ‘ib qilmoq",
+        "example": "The campaign aims to promote organic food in local shops."
       },
       {
-        "term": "Food manufacturers",
+        "term": "Natural farming methods",
         "partOfSpeech": "",
-        "definitionEn": "companies that produce and process food products",
-        "translationUz": "oziq-ovqat ishlab chiqaruvchilar",
-        "example": "Food manufacturers are required by law to list all ingredients on the label."
+        "definitionEn": "A broad expression for farming that relies on natural processes; not a precise certification term.",
+        "translationUz": "tabiiy dehqonchilik usullari",
+        "example": "The grower describes composting as one of her natural farming methods."
       },
       {
-        "term": "Labelling system",
+        "term": "Pesticide",
         "partOfSpeech": "",
-        "definitionEn": "a structured method of displaying information on product packaging",
-        "translationUz": "yorliqlash tizimi",
-        "example": "A clear, standardised labelling system would make it easier for shoppers to compare products."
+        "definitionEn": "A substance used to control pests, such as insects, weeds or fungi.",
+        "translationUz": "zararkunandalarga qarshi vosita; pestitsid",
+        "example": "The farmer checked whether the pesticide was approved for that crop."
       },
       {
-        "term": "Intake",
+        "term": "Eat organic",
         "partOfSpeech": "",
-        "definitionEn": "the amount of a substance consumed over a period of time",
-        "translationUz": "iste’mol miqdori; organizmga kirgan miqdor",
-        "example": "Reducing your daily intake of salt can lower blood pressure significantly."
+        "definitionEn": "Choose to eat organically produced food; a common informal expression.",
+        "translationUz": "organik mahsulotlar bilan ovqatlanmoq",
+        "example": "She tries to eat organic when suitable products fit her budget."
       },
       {
-        "term": "Crisps",
+        "term": "Junk-food scoffing masses",
         "partOfSpeech": "",
-        "definitionEn": "thin slices of potato fried until crispy, sold as a snack (British English)",
-        "translationUz": "kartoshka chipslari (Britaniya inglizchasi)",
-        "example": "A standard bag of crisps can contain more salt than the recommended daily intake."
-      },
-      {
-        "term": "To get away with",
-        "partOfSpeech": "",
-        "definitionEn": "to avoid punishment or consequences for something questionable",
-        "translationUz": "jazodan yoki salbiy oqibatdan qutulib qolmoq",
-        "example": "Some food companies get away with misleading labelling because regulations are too weak."
-      },
-      {
-        "term": "Additives",
-        "partOfSpeech": "",
-        "definitionEn": "substances added to food to improve taste, appearance, or shelf life",
-        "translationUz": "oziq-ovqat qo‘shimchalari",
-        "example": "The product contains several artificial additives that may cause hyperactivity in children."
-      },
-      {
-        "term": "To colour-code",
-        "partOfSpeech": "",
-        "definitionEn": "to use different colours to categorise or communicate information",
-        "translationUz": "rangli kodlar bilan belgilamoq",
-        "example": "The traffic-light system colour-codes nutrient levels so shoppers can see at a glance if a product is healthy."
-      },
-      {
-        "term": "To be adopted universally",
-        "partOfSpeech": "",
-        "definitionEn": "to be accepted and used by everyone, everywhere",
-        "translationUz": "hamma joyda umumiy qabul qilinmoq",
-        "example": "A single labelling system should be adopted universally across all EU member states."
-      },
-      {
-        "term": "To flag up",
-        "partOfSpeech": "",
-        "definitionEn": "to draw attention to something; to highlight a concern",
-        "translationUz": "e’tiborni qaratmoq; muhim masalani ko‘rsatmoq",
-        "example": "The new labelling system will flag up products that are high in sugar or salt."
-      },
-      {
-        "term": "To have deep reservations about sth",
-        "partOfSpeech": "",
-        "definitionEn": "to have serious doubts or concerns about something",
-        "translationUz": "biror narsa haqida jiddiy shubhalari bo‘lmoq",
-        "example": "Many nutritionists have deep reservations about allowing companies to self-regulate labelling."
-      },
-      {
-        "term": "Socioeconomic groups",
-        "partOfSpeech": "",
-        "definitionEn": "categories of people based on their social and economic status",
-        "translationUz": "ijtimoiy-iqtisodiy guruhlar",
-        "example": "Unhealthy diets disproportionately affect lower socioeconomic groups."
-      },
-      {
-        "term": "To volunteer",
-        "partOfSpeech": "",
-        "definitionEn": "to offer to do something freely, without being required to",
-        "translationUz": "ko‘ngilli ravishda ishtirok etmoq",
-        "example": "Several major supermarkets volunteered to adopt the new labelling scheme ahead of legislation."
-      },
-      {
-        "term": "Organic food",
-        "partOfSpeech": "",
-        "definitionEn": "food produced using natural methods without synthetic chemicals",
-        "translationUz": "organik oziq-ovqat",
-        "example": "Organic food sales have doubled in the past decade as consumers become more health-conscious."
-      },
-      {
-        "term": "Organic farming methods",
-        "partOfSpeech": "",
-        "definitionEn": "agricultural techniques that avoid artificial chemicals and prioritise sustainability",
-        "translationUz": "organik dehqonchilik usullari",
-        "example": "Organic farming methods rely on crop rotation and natural pest control rather than chemicals."
-      },
-      {
-        "term": "Pesticides",
-        "partOfSpeech": "",
-        "definitionEn": "chemicals used to kill insects or weeds that damage crops",
-        "translationUz": "pestitsidlar; zararkunandalarga qarshi kimyoviy vositalar",
-        "example": "Organic produce is grown without pesticides, which some studies suggest may be harmful."
-      },
-      {
-        "term": "To eat organic",
-        "partOfSpeech": "",
-        "definitionEn": "to choose and consume food produced by organic methods",
-        "translationUz": "organik usulda yetishtirilgan oziq-ovqatni iste’mol qilmoq",
-        "example": "More families are trying to eat organic, but the cost remains a barrier for many."
-      },
-      {
-        "term": "Junk-food-scoffing masses",
-        "partOfSpeech": "",
-        "definitionEn": "(informal, slightly humorous) the large proportion of people who eat unhealthy processed food",
-        "translationUz": "zararli tez tayyor ovqatlarni ko‘p yeydigan omma (muallifona ibora)",
-        "example": "Organic food advocates often struggle to convince the junk-food-scoffing masses to change their habits."
-      },
-      {
-        "term": "To feel closer to the source",
-        "partOfSpeech": "",
-        "definitionEn": "to feel more connected to where food originally comes from",
-        "translationUz": "oziq-ovqatning kelib chiqish manbasiga yaqinroq his qilmoq",
-        "example": "Growing your own vegetables makes you feel closer to the source of what you eat."
+        "definitionEn": "A mocking expression for large numbers of people who eat lots of junk food; avoid it in neutral writing.",
+        "translationUz": "tez tayyor ovqatni ko‘p yeydigan ommani masxaralovchi ibora",
+        "example": "The writer calls customers the “junk-food scoffing masses,” which makes the article sound judgmental."
       },
       {
         "term": "Conventional farming",
         "partOfSpeech": "",
-        "definitionEn": "standard modern agriculture using synthetic chemicals and intensive methods",
-        "translationUz": "an’anaviy intensiv dehqonchilik",
-        "example": "Conventional farming produces higher yields but is often criticised for its environmental impact."
+        "definitionEn": "Widely used farming methods that are not restricted to organic standards.",
+        "translationUz": "an’anaviy, organik standartlarga bog‘lanmagan dehqonchilik",
+        "example": "The report compares conventional farming with organic farming."
       },
       {
-        "term": "Man-made fertilisers",
+        "term": "Man-made fertilizers",
         "partOfSpeech": "",
-        "definitionEn": "synthetic chemicals added to soil to increase crop growth",
+        "definitionEn": "Manufactured substances added to soil or crops to supply nutrients; synthetic fertilizers is a more precise term.",
         "translationUz": "sun’iy ishlab chiqarilgan o‘g‘itlar",
-        "example": "Man-made fertilisers boost yields dramatically but can pollute rivers and groundwater."
+        "example": "The farm uses man-made fertilizers to replace nutrients removed by crops."
       },
       {
         "term": "Crop rotation",
         "partOfSpeech": "",
-        "definitionEn": "the practice of growing different crops on the same land in successive seasons",
+        "definitionEn": "Growing different crops on the same land in a planned sequence.",
         "translationUz": "almashlab ekish",
-        "example": "Crop rotation naturally restores soil nutrients and reduces the need for chemical fertilisers."
+        "example": "The farmer uses crop rotation instead of planting wheat every season."
       },
       {
-        "term": "To improve soil quality",
+        "term": "Organic farmers",
         "partOfSpeech": "",
-        "definitionEn": "to enhance the health, fertility, and structure of soil",
-        "translationUz": "tuproq sifatini yaxshilamoq",
-        "example": "Adding compost and practising crop rotation are effective ways to improve soil quality."
+        "definitionEn": "Farmers who follow organic production standards, which restrict many synthetic inputs.",
+        "translationUz": "organik dehqonchilik bilan shug‘ullanuvchilar",
+        "example": "Organic farmers may use crop rotation and compost to manage soil fertility."
       },
       {
-        "term": "Organic farmer",
+        "term": "Food production",
         "partOfSpeech": "",
-        "definitionEn": "a person who grows food using organic methods without synthetic inputs",
-        "translationUz": "organik usulda dehqonchilik qiluvchi fermer",
-        "example": "The organic farmer uses ladybirds to control aphids instead of pesticides."
+        "definitionEn": "The activities involved in producing food, including farming and processing.",
+        "translationUz": "oziq-ovqat ishlab chiqarish",
+        "example": "Water shortages can make food production more difficult."
       },
       {
-        "term": "Organic produce",
+        "term": "Transport food",
         "partOfSpeech": "",
-        "definitionEn": "fruit and vegetables grown using organic farming methods",
-        "translationUz": "organik yetishtirilgan mahsulotlar",
-        "example": "Organic produce often has more flavour because it grows more slowly and naturally."
-      },
-      {
-        "term": "Organic crops",
-        "partOfSpeech": "",
-        "definitionEn": "plants cultivated using organic farming practices",
-        "translationUz": "organik ekinlar",
-        "example": "Organic crops take longer to grow and produce lower yields, which raises the cost."
-      },
-      {
-        "term": "Conventional crops",
-        "partOfSpeech": "",
-        "definitionEn": "plants grown using standard intensive farming with synthetic chemicals",
-        "translationUz": "an’anaviy usulda yetishtirilgan ekinlar",
-        "example": "Conventional crops are typically cheaper to produce but may contain pesticide residues."
-      },
-      {
-        "term": "Conventional farming",
-        "partOfSpeech": "",
-        "definitionEn": "standard agricultural practice using chemical inputs and intensive techniques",
-        "translationUz": "an’anaviy intensiv dehqonchilik",
-        "example": "Conventional farming feeds most of the world's population but degrades soil over time."
+        "definitionEn": "Move food from one place to another.",
+        "translationUz": "oziq-ovqatni tashimoq",
+        "example": "Refrigerated vehicles transport food to the supermarkets."
       },
       {
         "term": "Nutritious",
         "partOfSpeech": "",
-        "definitionEn": "providing the body with essential nutrients needed for good health",
-        "translationUz": "oziq moddaga boy; to‘yimli",
-        "example": "A nutritious diet includes a variety of vegetables, proteins, and whole grains."
+        "definitionEn": "Providing useful nutrients that the body needs.",
+        "translationUz": "to‘yimli; ozuqa moddalariga boy",
+        "example": "Lentil soup can be a nutritious and affordable meal."
       },
       {
-        "term": "Health value",
+        "term": "Health value of foods",
         "partOfSpeech": "",
-        "definitionEn": "the degree to which a food benefits one's physical wellbeing",
-        "translationUz": "salomatlik uchun foydalilik darajasi",
-        "example": "The health value of ultra-processed foods is questionable despite their convenience."
+        "definitionEn": "How foods contribute to health; nutritional value is often the more precise expression.",
+        "translationUz": "oziq-ovqatning salomatlik uchun foydasi",
+        "example": "The lesson explores the health value of foods we eat regularly."
       },
       {
-        "term": "Manure",
+        "term": "Fertilize with manure",
         "partOfSpeech": "",
-        "definitionEn": "animal waste used as a natural fertiliser",
-        "translationUz": "go‘ng; tabiiy o‘g‘it",
-        "example": "Organic farmers use manure to enrich the soil instead of synthetic fertilisers."
+        "definitionEn": "Add animal waste to the soil to supply nutrients and organic matter.",
+        "translationUz": "go‘ng bilan o‘g‘itlamoq",
+        "example": "The growers fertilize their fields with manure before planting."
       },
       {
-        "term": "To dig up a carrot",
+        "term": "Organic or non-organic system of production",
         "partOfSpeech": "",
-        "definitionEn": "to pull a root vegetable out of the ground; to harvest it",
-        "translationUz": "sabzini yerdan kavlab olmoq",
-        "example": "She let the children dig up a carrot from the vegetable patch to show them where food comes from."
-      },
-      {
-        "term": "Non-organic system of production",
-        "partOfSpeech": "",
-        "definitionEn": "a method of farming that uses synthetic chemicals and intensive techniques",
-        "translationUz": "noorganik qishloq xo‘jaligi ishlab chiqarish tizimi",
-        "example": "In a non-organic system of production, pesticides are routinely sprayed to maximise yield."
+        "definitionEn": "A way of producing food that either follows organic standards or does not.",
+        "translationUz": "organik yoki noorganik ishlab chiqarish tizimi",
+        "example": "The study compares an organic system of production with a non-organic one."
       },
       {
         "term": "Toxins",
         "partOfSpeech": "",
-        "definitionEn": "poisonous substances that are harmful to the body",
-        "translationUz": "zaharli moddalar; toksinlar",
-        "example": "Supporters of organic food argue that conventional produce exposes consumers to harmful toxins."
+        "definitionEn": "Poisonous substances produced by living organisms; sometimes used more loosely for harmful substances.",
+        "translationUz": "tirik organizmlar ishlab chiqaradigan zaharli moddalar",
+        "example": "Some moulds can produce toxins in food."
       },
       {
-        "term": "To breed out harmful traits",
+        "term": "Toast bread",
         "partOfSpeech": "",
-        "definitionEn": "to remove undesirable characteristics through selective breeding",
-        "translationUz": "zararli belgilarni seleksiya yo‘li bilan yo‘qotmoq",
-        "example": "Scientists have tried to breed out harmful traits in certain crops to make them safer to eat."
+        "definitionEn": "Brown bread using dry heat.",
+        "translationUz": "nonni qizartirib qovurmoq",
+        "example": "I usually toast bread for breakfast."
+      },
+      {
+        "term": "Breed out harmful traits",
+        "partOfSpeech": "",
+        "definitionEn": "Use selective breeding over generations to reduce or remove undesirable inherited characteristics.",
+        "translationUz": "seleksiya orqali zararli irsiy xususiyatlarni kamaytirmoq",
+        "example": "Plant breeders hope to breed out harmful traits from the variety."
       },
       {
         "term": "Additives",
         "partOfSpeech": "",
-        "definitionEn": "substances added to food to alter flavour, colour, or preservation",
+        "definitionEn": "Substances added to food for a purpose, such as preservation, colour, flavour or texture.",
         "translationUz": "oziq-ovqat qo‘shimchalari",
-        "example": "Organic certified products must be free from artificial additives."
+        "example": "The label lists the additives used in the sauce."
       },
       {
-        "term": "To be symptomatic of sth",
+        "term": "GM crops",
         "partOfSpeech": "",
-        "definitionEn": "to be a sign or indication of a deeper problem",
-        "translationUz": "biror chuqurroq muammoning belgisi bo‘lmoq",
-        "example": "Rising demand for organic food is symptomatic of growing distrust in industrial farming."
+        "definitionEn": "Genetically modified crops, whose genetic material has been altered using genetic engineering.",
+        "translationUz": "genetik modifikatsiyalangan ekinlar",
+        "example": "The class discussed arguments for and against growing GM crops."
       },
       {
-        "term": "Organic farming movement",
+        "term": "Well-manicured Europe",
         "partOfSpeech": "",
-        "definitionEn": "a collective effort to promote and spread organic agricultural practices",
-        "translationUz": "organik dehqonchilik harakati",
-        "example": "The organic farming movement gained momentum in the 1970s as a reaction to industrial agriculture."
+        "definitionEn": "A figurative description of Europe's neatly maintained landscapes; a broad rhetorical generalization, not a technical term.",
+        "translationUz": "Yevropaning saranjom-sarishta manzaralarini tasvirlovchi ibora",
+        "example": "The article contrasts “well-manicured Europe” with areas where farming conditions are harsher."
       },
       {
-        "term": "Yield",
+        "term": "Yields",
         "partOfSpeech": "",
-        "definitionEn": "the amount of crop produced from a given area of land",
-        "translationUz": "hosildorlik; hosil miqdori",
-        "example": "Organic farming typically produces a lower yield than conventional methods."
+        "definitionEn": "The amounts of crops or other products obtained from a farm or area.",
+        "translationUz": "hosildorlik; olingan hosil miqdori",
+        "example": "The farmers hope better irrigation will increase their yields."
       },
       {
-        "term": "To starve",
+        "term": "Starved land",
         "partOfSpeech": "",
-        "definitionEn": "to suffer or die from lack of food; to deprive of food",
-        "translationUz": "och qolmoq; ochlikdan aziyat chekmoq",
-        "example": "Critics argue that switching entirely to organic farming would cause millions to starve due to lower yields."
+        "definitionEn": "A figurative expression for land lacking nutrients or other resources needed for growth.",
+        "translationUz": "oziq moddalarga kambag‘al yer",
+        "example": "After years without replenishment, the starved land produced very little."
       },
       {
         "term": "Farming techniques",
         "partOfSpeech": "",
-        "definitionEn": "methods and practices used in agriculture",
+        "definitionEn": "Practical methods used to grow crops or raise animals.",
         "translationUz": "dehqonchilik usullari",
-        "example": "New farming techniques are being developed to combine high yields with environmental sustainability."
+        "example": "Students compared traditional and modern farming techniques."
       },
       {
         "term": "Nutritional information",
         "partOfSpeech": "",
-        "definitionEn": "data about the nutrients contained in a food product",
-        "translationUz": "ozuqaviy tarkib haqidagi ma’lumot",
-        "example": "Always check the nutritional information before buying a product marketed as \"healthy.\""
+        "definitionEn": "Details about a food's energy content and nutrients, usually shown on its label.",
+        "translationUz": "oziqlanish tarkibi haqidagi ma’lumotlar",
+        "example": "I checked the nutritional information before choosing a cereal."
       },
       {
-        "term": "Kitchen pantry",
+        "term": "Kitchen pantry or pantry",
         "partOfSpeech": "",
-        "definitionEn": "a small room or cupboard where food and kitchen supplies are stored",
-        "translationUz": "oshxona omborchasi; oziq-ovqat saqlanadigan javon",
-        "example": "She keeps dried pasta, tinned tomatoes, and spices in her kitchen pantry."
+        "definitionEn": "A cupboard or small room used to store food and kitchen supplies.",
+        "translationUz": "oshxona oziq-ovqat javoni; omborcha",
+        "example": "Our kitchen pantry contains rice, beans and dried herbs."
       },
       {
         "term": "Ingredient",
         "partOfSpeech": "",
-        "definitionEn": "any individual food item used in the preparation of a dish",
-        "translationUz": "tarkibiy masalliq; ingredient",
-        "example": "The only ingredients in this bread are flour, water, salt, and yeast."
+        "definitionEn": "One of the foods or substances used to make a dish or product.",
+        "translationUz": "masalliq; tarkibiy qism",
+        "example": "Tomato is the main ingredient in this sauce."
       },
       {
         "term": "Health watchdogs",
         "partOfSpeech": "",
-        "definitionEn": "independent organisations that monitor and regulate health-related industries",
-        "translationUz": "sog‘liqni saqlash sohasini nazorat qiluvchi tashkilotlar",
-        "example": "Health watchdogs have called on the government to ban misleading food marketing."
+        "definitionEn": "Organizations that monitor health-related issues and raise concerns; a journalistic expression.",
+        "translationUz": "sog‘liq masalalarini kuzatuvchi tashkilotlar",
+        "example": "Health watchdogs called for clearer information on food packaging."
       },
       {
         "term": "Nutritionist",
         "partOfSpeech": "",
-        "definitionEn": "a person who studies and advises on food and its effects on health",
-        "translationUz": "ovqatlanish bo‘yicha mutaxassis; nutritsiolog",
-        "example": "The nutritionist recommended cutting refined sugar and increasing fibre intake."
+        "definitionEn": "A person who studies or advises on nutrition; qualifications and title regulation vary by country.",
+        "translationUz": "ovqatlanish bo‘yicha mutaxassis",
+        "example": "The school invited a nutritionist to discuss food choices."
       },
       {
         "term": "Cholesterol",
         "partOfSpeech": "",
-        "definitionEn": "a fatty substance in the blood; high levels can increase heart disease risk",
+        "definitionEn": "A waxy, fat-like substance made by the body and found in animal-derived foods.",
         "translationUz": "xolesterin",
-        "example": "Eating too many animal products can raise your cholesterol levels dangerously."
+        "example": "The article explains the difference between cholesterol in food and cholesterol in the blood."
       },
       {
         "term": "Animal-sourced products",
         "partOfSpeech": "",
-        "definitionEn": "food items derived from animals",
+        "definitionEn": "Foods or other products obtained from animals; animal-source foods is common in nutrition contexts.",
         "translationUz": "hayvonlardan olinadigan mahsulotlar",
-        "example": "Vegans avoid all animal-sourced products, including dairy, eggs, and meat."
+        "example": "Eggs and milk are animal-sourced products."
       },
       {
         "term": "Egg yolk",
         "partOfSpeech": "",
-        "definitionEn": "the yellow, fatty part at the centre of an egg",
+        "definitionEn": "The yellow or orange central part of an egg.",
         "translationUz": "tuxum sarig‘i",
-        "example": "Egg yolk is rich in vitamins D and B12 but also high in cholesterol."
+        "example": "Whisk the egg yolk into the sauce."
       },
       {
         "term": "Beef",
         "partOfSpeech": "",
-        "definitionEn": "meat from a cow",
+        "definitionEn": "Meat from cattle.",
         "translationUz": "mol go‘shti",
-        "example": "Beef production has a significantly higher carbon footprint than poultry or vegetables."
+        "example": "He ordered beef with rice and vegetables."
       },
       {
         "term": "Poultry",
         "partOfSpeech": "",
-        "definitionEn": "domesticated birds raised for meat and eggs, such as chicken and turkey",
-        "translationUz": "parranda go‘shti; uy parrandalari",
-        "example": "Poultry is generally lower in saturated fat than red meat."
+        "definitionEn": "Birds raised for meat or eggs, or their meat, such as chicken and turkey.",
+        "translationUz": "parranda; parranda go‘shti",
+        "example": "The shop sells fresh poultry and fish."
       },
       {
         "term": "Shrimp",
         "partOfSpeech": "",
-        "definitionEn": "a small shellfish eaten as seafood (called prawns in British English)",
+        "definitionEn": "A small shellfish commonly eaten as seafood.",
         "translationUz": "krevetka",
-        "example": "Shrimp is high in protein and low in calories, making it popular in healthy diets."
+        "example": "She added shrimp to the noodles."
       },
       {
         "term": "Pork",
         "partOfSpeech": "",
-        "definitionEn": "meat from a pig",
+        "definitionEn": "Meat from pigs.",
         "translationUz": "cho‘chqa go‘shti",
-        "example": "Pork is one of the most widely consumed meats in the world."
+        "example": "This dish contains pork, so it is unsuitable for some diners."
       },
       {
         "term": "Cottonseed oil",
         "partOfSpeech": "",
-        "definitionEn": "oil extracted from the seeds of the cotton plant, used in cooking and food processing",
+        "definitionEn": "Oil obtained from cotton seeds and used in some foods.",
         "translationUz": "paxta chigiti yog‘i",
-        "example": "Cottonseed oil is widely used in the production of snack foods and fried items."
+        "example": "Cottonseed oil appears in the product's ingredient list."
       },
       {
         "term": "Beef tallow",
         "partOfSpeech": "",
-        "definitionEn": "fat rendered from beef, traditionally used for frying and cooking",
-        "translationUz": "eritib olingan mol yog‘i",
-        "example": "McDonald's originally fried its chips in beef tallow before switching to vegetable oil."
+        "definitionEn": "Rendered fat from cattle, used in cooking and other products.",
+        "translationUz": "eritilgan mol yog‘i",
+        "example": "The traditional recipe uses beef tallow for frying."
       },
       {
         "term": "Vegetable oil",
         "partOfSpeech": "",
-        "definitionEn": "oil extracted from plants, used widely in cooking",
-        "translationUz": "o‘simlik moyi",
-        "example": "Most processed foods are made with cheap vegetable oils rather than butter or olive oil."
+        "definitionEn": "Oil obtained from plants and used in cooking or food production.",
+        "translationUz": "o‘simlik yog‘i",
+        "example": "Heat a little vegetable oil in the pan."
       },
       {
         "term": "Aroma",
         "partOfSpeech": "",
-        "definitionEn": "a distinctive, typically pleasant smell associated with food or drink",
-        "translationUz": "xushbo‘y hid; ifor",
-        "example": "The aroma of freshly baked bread is one of the most universally comforting smells."
+        "definitionEn": "A noticeable, usually pleasant smell, especially from food or drink.",
+        "translationUz": "xushbo‘y hid",
+        "example": "The aroma of fresh bread filled the kitchen."
       },
       {
         "term": "Bland",
         "partOfSpeech": "",
-        "definitionEn": "lacking strong flavour or interest; tasteless",
-        "translationUz": "bemaza; ta’mi sust",
-        "example": "Hospital food is often described as bland and unappetising."
+        "definitionEn": "Having little flavour or excitement; usually mildly negative when describing food.",
+        "translationUz": "bemaza; ta’mi kuchsiz",
+        "example": "The soup was bland until we added herbs."
       },
       {
         "term": "Preservatives",
         "partOfSpeech": "",
-        "definitionEn": "substances added to food to prevent spoilage and extend shelf life",
-        "translationUz": "konservantlar; saqlanishini uzaytiruvchi moddalar",
-        "example": "The product is free from artificial preservatives, colours, and flavourings."
+        "definitionEn": "Substances added to slow spoilage and help food remain usable for longer.",
+        "translationUz": "saqlash muddatini uzaytiruvchi moddalar",
+        "example": "The packaging states that no preservatives have been added."
       },
       {
         "term": "Soybean oil",
         "partOfSpeech": "",
-        "definitionEn": "oil extracted from soybeans, one of the most widely used cooking oils",
+        "definitionEn": "Vegetable oil extracted from soybeans.",
         "translationUz": "soya yog‘i",
-        "example": "Soybean oil is found in a huge proportion of processed foods in the United States."
+        "example": "The dressing is made with soybean oil."
       },
       {
         "term": "Component",
         "partOfSpeech": "",
-        "definitionEn": "an individual part or element of something larger",
+        "definitionEn": "One part of a larger mixture, system or product.",
         "translationUz": "tarkibiy qism",
-        "example": "Salt is a key component in most processed foods, often used to enhance flavour."
+        "example": "Oil is an important component of this dressing."
       },
       {
-        "term": "To enter a diet",
+        "term": "Enter a diet",
         "partOfSpeech": "",
-        "definitionEn": "to become part of what a person or population regularly eats",
-        "translationUz": "odatiy ratsion tarkibiga kirmoq",
-        "example": "Processed foods entered the Western diet on a large scale in the mid-20th century."
+        "definitionEn": "Become part of what someone eats; enter someone's diet is more natural.",
+        "translationUz": "odamning kundalik ratsioniga kirib kelmoq",
+        "example": "Ready-made meals entered his diet when he started working longer hours."
       },
       {
         "term": "Processed foods",
         "partOfSpeech": "",
-        "definitionEn": "food that has been altered from its natural state through industrial methods",
+        "definitionEn": "Foods changed from their original state through methods such as cooking, freezing, canning or drying.",
         "translationUz": "qayta ishlangan oziq-ovqatlar",
-        "example": "Processed foods are convenient but often contain excessive salt, sugar, and fat."
+        "example": "Canned beans and frozen vegetables are examples of processed foods."
       },
       {
-        "term": "To box",
+        "term": "Box food",
         "partOfSpeech": "",
-        "definitionEn": "to put food into boxes for packaging and sale",
-        "translationUz": "qutiga joylamoq",
-        "example": "The factory boxes thousands of cereals every hour for distribution."
+        "definitionEn": "Put food into boxes for storage or sale.",
+        "translationUz": "oziq-ovqatni qutilarga joylamoq",
+        "example": "Workers box the biscuits before they are shipped."
       },
       {
-        "term": "To can",
+        "term": "Can food",
         "partOfSpeech": "",
-        "definitionEn": "to preserve food by sealing it in airtight metal tins",
-        "translationUz": "konserva qilmoq; tunuka idishga yopmoq",
-        "example": "Canning is one of the oldest methods of preserving food for long-term storage."
+        "definitionEn": "Preserve food in sealed cans or jars using an appropriate processing method.",
+        "translationUz": "oziq-ovqatni konserva qilmoq",
+        "example": "The factory cans tomatoes during the harvest season."
       },
       {
-        "term": "To package",
+        "term": "Package food",
         "partOfSpeech": "",
-        "definitionEn": "to put food into containers or wrapping for sale",
-        "translationUz": "qadoqlamoq",
-        "example": "The company packages its products in recyclable materials to reduce environmental impact."
+        "definitionEn": "Put food into containers or wrapping for storage, transport or sale.",
+        "translationUz": "oziq-ovqatni qadoqlamoq",
+        "example": "The company packages its snacks in small bags."
       },
       {
         "term": "Label",
         "partOfSpeech": "",
-        "definitionEn": "a piece of material attached to a product providing information",
-        "translationUz": "yorliq; mahsulotga ilova qilingan belgi",
-        "example": "The label claims the product is \"natural\" but it contains twelve different additives."
+        "definitionEn": "Information attached to a product; also, to attach identifying information.",
+        "translationUz": "yorliq; yorliq qo‘ymoq",
+        "example": "Read the label to see which ingredients the soup contains."
       },
       {
         "term": "Food processing",
         "partOfSpeech": "",
-        "definitionEn": "the transformation of raw ingredients into packaged food products",
+        "definitionEn": "Changing raw food through physical, biological or chemical methods to make food products.",
         "translationUz": "oziq-ovqatni qayta ishlash",
-        "example": "Food processing extends shelf life but often reduces nutritional value."
+        "example": "Drying fruit is one form of food processing."
       },
       {
-        "term": "To bleach",
+        "term": "Bleach",
         "partOfSpeech": "",
-        "definitionEn": "to whiten or lighten using chemicals; used industrially on flour and some foods",
-        "translationUz": "oqartirmoq; kimyoviy yo‘l bilan oqartirmoq",
-        "example": "White flour is bleached to give it a brighter colour and finer texture."
+        "definitionEn": "Make something whiter or lighter, often using a chemical treatment.",
+        "translationUz": "oqartirmoq",
+        "example": "Some producers bleach flour during processing."
       },
       {
-        "term": "To stabilise",
+        "term": "Stabilize",
         "partOfSpeech": "",
-        "definitionEn": "to prevent a substance from changing or separating",
-        "translationUz": "barqarorlashtirmoq",
-        "example": "Emulsifiers are added to stabilise the mixture and prevent the oil from separating."
+        "definitionEn": "Help a mixture maintain its texture or prevent its components from separating.",
+        "translationUz": "barqarorlashtirmoq; ajralib ketishiga yo‘l qo‘ymaslik",
+        "example": "The manufacturer uses an ingredient that helps stabilize the sauce."
       },
       {
-        "term": "To dehydrate",
+        "term": "Dehydrate",
         "partOfSpeech": "",
-        "definitionEn": "to remove water from food to preserve it",
-        "translationUz": "suvsizlantirmoq; namini ketkazmoq",
-        "example": "Fruits are dehydrated to create raisins, dried apricots, and other long-lasting snacks."
+        "definitionEn": "Remove most of the water from something.",
+        "translationUz": "suvini quritmoq; suvsizlantirmoq",
+        "example": "The company dehydrates fruit to make lightweight snacks."
       },
       {
-        "term": "To odour-conceal",
+        "term": "Odor-conceal",
         "partOfSpeech": "",
-        "definitionEn": "to mask or hide unpleasant smells in food products",
-        "translationUz": "yoqimsiz hidni yashirmoq (nostandart ibora)",
-        "example": "Artificial flavourings are sometimes used to odour-conceal the smell of low-quality ingredients."
+        "definitionEn": "An uncommon wording meaning hide an odour; conceal or mask an odour is more natural.",
+        "translationUz": "yoqimsiz hidni yashirmoq",
+        "example": "The added flavouring can mask an unpleasant odour."
       },
       {
-        "term": "To sweeten",
+        "term": "Sweeten",
         "partOfSpeech": "",
-        "definitionEn": "to add sugar or sweeteners to make food taste sweet",
+        "definitionEn": "Make food or drink sweeter.",
         "translationUz": "shirinlashtirmoq",
-        "example": "Manufacturers sweeten low-fat yoghurt heavily to compensate for the loss of flavour."
+        "example": "She uses a little honey to sweeten her tea."
       },
       {
-        "term": "To sap the original flavour out of a product",
+        "term": "Sap the original flavour out of a product",
         "partOfSpeech": "",
-        "definitionEn": "to drain or remove the natural taste from food",
-        "translationUz": "mahsulotning tabiiy ta’mini yo‘qotib yubormoq",
-        "example": "Intensive processing can completely sap the original flavour out of a product."
+        "definitionEn": "Gradually remove or weaken a product's original flavour; an expressive, critical phrase.",
+        "translationUz": "mahsulotning asl ta’mini yo‘qotmoq",
+        "example": "The reviewer complained that excessive processing had sapped the original flavour out of the product."
       },
       {
         "term": "Barley",
         "partOfSpeech": "",
-        "definitionEn": "a cereal grain used in bread, soups, and beer production",
+        "definitionEn": "A cereal grain used in food, animal feed and drink production.",
         "translationUz": "arpa",
-        "example": "Barley is one of the oldest cultivated grains and is still used in traditional soups."
+        "example": "We added barley to the vegetable soup."
       },
       {
         "term": "Hand-ground spices",
         "partOfSpeech": "",
-        "definitionEn": "spices crushed manually, preserving their natural oils and aroma",
-        "translationUz": "qo‘lda tuyilgan ziravorlar",
-        "example": "Hand-ground spices have a far more intense and complex flavour than pre-packaged powder."
+        "definitionEn": "Spices crushed or powdered manually, for example with a mortar and pestle.",
+        "translationUz": "qo‘lda maydalangan ziravorlar",
+        "example": "The cook used hand-ground spices in the curry."
       },
       {
         "term": "Dried herbs",
         "partOfSpeech": "",
-        "definitionEn": "herbs that have been dehydrated to preserve them for cooking",
-        "translationUz": "quritilgan ko‘katlar va ziravorlar",
-        "example": "A jar of dried herbs loses much of its potency after six months."
+        "definitionEn": "Plant leaves used for flavour after their moisture has been removed.",
+        "translationUz": "quritilgan ko‘katlar; xushbo‘y o‘tlar",
+        "example": "Keep dried herbs in tightly closed containers."
       },
       {
         "term": "Culinary",
         "partOfSpeech": "",
-        "definitionEn": "relating to cooking and the preparation of food",
-        "translationUz": "oshpazlikka oid; pazandachilikka oid",
-        "example": "She enrolled in a culinary school to pursue her passion for professional cooking."
+        "definitionEn": "Related to cooking or preparing food.",
+        "translationUz": "pazandalikka oid",
+        "example": "She wants to improve her culinary skills."
       },
       {
         "term": "Naturally squeezed orange juice",
         "partOfSpeech": "",
-        "definitionEn": "juice made by pressing oranges without industrial processing",
+        "definitionEn": "An unusual phrase for juice obtained by squeezing oranges; freshly squeezed orange juice is more idiomatic when made recently.",
         "translationUz": "yangi siqilgan apelsin sharbati",
-        "example": "Naturally squeezed orange juice retains far more vitamins than the concentrated variety."
+        "example": "We served freshly squeezed orange juice with breakfast."
       },
       {
         "term": "Wood-smoked aroma of barbecue sauce",
         "partOfSpeech": "",
-        "definitionEn": "the distinctive smell of sauce flavoured by wood smoke",
-        "translationUz": "barbekyu sousining yog‘och tutuniga xos ifori",
-        "example": "The wood-smoked aroma of barbecue sauce is nearly impossible to replicate artificially."
+        "definitionEn": "A smell resembling smoke from burning wood in a barbecue sauce; it does not prove actual wood-smoking.",
+        "translationUz": "barbekyu sousining yog‘och tutuniga o‘xshash hidi",
+        "example": "I noticed the wood-smoked aroma of the barbecue sauce immediately."
       },
       {
         "term": "Creamy taste",
         "partOfSpeech": "",
-        "definitionEn": "a rich, smooth, velvety flavour sensation",
-        "translationUz": "qaymoqsimon mayin ta’m",
-        "example": "Full-fat yoghurt has a creamy taste that low-fat versions simply cannot match."
+        "definitionEn": "A taste or overall eating quality resembling cream; creamy often describes a smooth, rich texture.",
+        "translationUz": "qaymoqsimon ta’m",
+        "example": "The soup has a creamy taste even without added cream."
       },
       {
         "term": "Buttery taste",
         "partOfSpeech": "",
-        "definitionEn": "a rich, smooth flavour reminiscent of real butter",
-        "translationUz": "sariyog‘simon ta’m",
-        "example": "The croissant had a genuine buttery taste that only comes from using quality ingredients."
+        "definitionEn": "A flavour resembling butter.",
+        "translationUz": "sariyog‘ga o‘xshash ta’m",
+        "example": "The biscuits have a rich, buttery taste."
       },
       {
         "term": "Dairy products",
         "partOfSpeech": "",
-        "definitionEn": "food made from animal milk, such as cheese, butter, and yoghurt",
+        "definitionEn": "Foods made from animal milk, such as cheese, butter and yogurt.",
         "translationUz": "sut mahsulotlari",
-        "example": "Dairy products are an important source of calcium and protein in many diets."
+        "example": "The fridge has a separate shelf for dairy products."
       },
       {
         "term": "Sun-drenched meadows",
         "partOfSpeech": "",
-        "definitionEn": "fields bathed in abundant sunlight; often used evocatively in food marketing",
-        "translationUz": "quyosh nuri tushib turadigan yam-yashil o‘tloqlar",
-        "example": "The packaging shows cows grazing in sun-drenched meadows, creating an image of natural purity."
+        "definitionEn": "Grassy fields receiving a lot of sunlight; a descriptive, evocative phrase.",
+        "translationUz": "quyoshga to‘yingan o‘tloqlar",
+        "example": "The advertisement showed cows in sun-drenched meadows."
       },
       {
         "term": "Backyard grills",
         "partOfSpeech": "",
-        "definitionEn": "outdoor cooking equipment used at home; associated with informal, authentic cooking",
-        "translationUz": "hovlidagi grill qurilmalari",
-        "example": "The advert evokes the smell of backyard grills to sell a sauce that is entirely factory-made."
+        "definitionEn": "Outdoor cooking equipment used behind a home; especially American usage.",
+        "translationUz": "hovlidagi grillar",
+        "example": "The smell of food rose from backyard grills across the neighbourhood."
       },
       {
         "term": "Potent chemicals",
         "partOfSpeech": "",
-        "definitionEn": "powerful synthetic substances with strong effects",
-        "translationUz": "kuchli ta’sir etuvchi kimyoviy moddalar",
-        "example": "Some food dyes are potent chemicals that have been linked to hyperactivity in children."
+        "definitionEn": "Chemical substances that can have strong effects in small amounts; potent does not itself mean harmful.",
+        "translationUz": "oz miqdorda ham kuchli ta’sir qiluvchi kimyoviy moddalar",
+        "example": "The article describes flavour compounds as potent chemicals because tiny amounts can affect aroma."
       },
       {
         "term": "Olfactory senses",
         "partOfSpeech": "",
-        "definitionEn": "the sense of smell; the sensory system responsible for detecting odours",
+        "definitionEn": "The ability to detect smells; the sense of smell is the usual everyday expression.",
         "translationUz": "hid bilish sezgisi",
-        "example": "Food manufacturers manipulate our olfactory senses through artificial aromas to trigger hunger."
+        "example": "Our olfactory senses help us recognise familiar food aromas."
       },
       {
         "term": "Assault on health",
         "partOfSpeech": "",
-        "definitionEn": "a serious, aggressive threat to physical wellbeing",
-        "translationUz": "sog‘liqqa jiddiy tahdid",
-        "example": "A diet of ultra-processed food is little short of an assault on health."
+        "definitionEn": "A strong figurative expression for something presented as seriously damaging to health.",
+        "translationUz": "salomatlikka jiddiy zarar; obrazli ibora",
+        "example": "The columnist described the diet as an “assault on health.”"
       },
       {
         "term": "A health risk",
         "partOfSpeech": "",
-        "definitionEn": "something that poses a danger to physical wellbeing",
-        "translationUz": "salomatlik uchun xavf",
-        "example": "Eating foods high in trans fats is a serious health risk associated with heart disease."
-      },
-      {
-        "term": "Nutritious",
-        "partOfSpeech": "",
-        "definitionEn": "providing the body with the nutrients it needs to function well",
-        "translationUz": "oziq moddaga boy; to‘yimli",
-        "example": "A nutritious meal doesn't have to be expensive — beans, rice, and vegetables are very affordable."
+        "definitionEn": "Something that may harm a person's health.",
+        "translationUz": "sog‘liq uchun xavf",
+        "example": "Poor food storage can be a health risk."
       },
       {
         "term": "Culprit",
         "partOfSpeech": "",
-        "definitionEn": "the person or thing responsible for a problem or wrongdoing",
-        "translationUz": "muammoning aybdori; asosiy sababchi",
-        "example": "Sugar is the main culprit behind the rise in childhood obesity."
+        "definitionEn": "The person or thing responsible for a problem; often informal or figurative.",
+        "translationUz": "muammoning aybdori; sababchisi",
+        "example": "A faulty fridge was the culprit behind the spoiled food."
       },
       {
-        "term": "Staple food",
+        "term": "Keep us going throughout the day",
         "partOfSpeech": "",
-        "definitionEn": "a basic food that forms the dominant part of a population's diet",
-        "translationUz": "asosiy oziq-ovqat mahsuloti",
-        "example": "Rice is a staple food for more than half the world's population."
+        "definitionEn": "Give us enough energy to continue our usual activities.",
+        "translationUz": "kun davomida kuch-quvvat berib turmoq",
+        "example": "A filling breakfast helps keep us going throughout the day."
+      },
+      {
+        "term": "Noodles",
+        "partOfSpeech": "",
+        "definitionEn": "Long, thin pieces of dough cooked in liquid and eaten in many dishes.",
+        "translationUz": "ugra; lapsha",
+        "example": "We had noodles with vegetables for lunch."
+      },
+      {
+        "term": "Nectarines",
+        "partOfSpeech": "",
+        "definitionEn": "Smooth-skinned fruits similar to peaches.",
+        "translationUz": "nektarin mevalari",
+        "example": "The fruit salad contains nectarines and grapes."
+      },
+      {
+        "term": "Tortillas",
+        "partOfSpeech": "",
+        "definitionEn": "Thin, round flatbreads, usually made from maize or wheat flour.",
+        "translationUz": "tortilya; yupqa yassi non",
+        "example": "We filled the tortillas with beans and salad."
+      },
+      {
+        "term": "Tofu",
+        "partOfSpeech": "",
+        "definitionEn": "A food made by coagulating soy milk and pressing the curds.",
+        "translationUz": "tofu; soya pishlog‘i",
+        "example": "She added tofu to the vegetable stir-fry."
+      },
+      {
+        "term": "Fruit group",
+        "partOfSpeech": "",
+        "definitionEn": "The category of fruit in a food-group system.",
+        "translationUz": "mevalar guruhi",
+        "example": "Apples and nectarines belong to the fruit group."
+      },
+      {
+        "term": "Canned",
+        "partOfSpeech": "",
+        "definitionEn": "Preserved and sold in a sealed can, usually after heat processing.",
+        "translationUz": "konservalangan",
+        "example": "Canned tomatoes are useful for making sauces."
+      },
+      {
+        "term": "Frozen",
+        "partOfSpeech": "",
+        "definitionEn": "Kept at a low enough temperature to freeze, usually for preservation.",
+        "translationUz": "muzlatilgan",
+        "example": "We always keep frozen vegetables at home."
+      },
+      {
+        "term": "Raisins",
+        "partOfSpeech": "",
+        "definitionEn": "Dried grapes.",
+        "translationUz": "mayiz",
+        "example": "He sprinkled raisins over his oatmeal."
+      },
+      {
+        "term": "Prunes",
+        "partOfSpeech": "",
+        "definitionEn": "Dried plums.",
+        "translationUz": "quritilgan olxo‘ri",
+        "example": "She added chopped prunes to the cake mixture."
+      },
+      {
+        "term": "Dried-up plums",
+        "partOfSpeech": "",
+        "definitionEn": "Plums that have lost moisture; dried plums is the normal food term, while dried-up can sound unappealing.",
+        "translationUz": "namligini yo‘qotgan olxo‘rilar; noqulay ifoda",
+        "example": "Prunes are dried plums; “dried-up plums” is a less natural food description."
+      },
+      {
+        "term": "Grains",
+        "partOfSpeech": "",
+        "definitionEn": "Seeds of cereal crops, or the crops that produce them.",
+        "translationUz": "don mahsulotlari",
+        "example": "Whole grains are used in this bread."
+      },
+      {
+        "term": "Oats",
+        "partOfSpeech": "",
+        "definitionEn": "A cereal grain often used to make porridge and breakfast foods.",
+        "translationUz": "suli donlari",
+        "example": "She soaked the oats overnight."
+      },
+      {
+        "term": "Wheat",
+        "partOfSpeech": "",
+        "definitionEn": "A cereal crop whose grain is widely used to make flour.",
+        "translationUz": "bug‘doy",
+        "example": "Most of the bread in this shop is made from wheat."
+      },
+      {
+        "term": "Oatmeal",
+        "partOfSpeech": "",
+        "definitionEn": "A food made from oats; in American English, often cooked oat porridge.",
+        "translationUz": "suli bo‘tqasi; suli yormasi",
+        "example": "I had oatmeal with banana for breakfast."
+      },
+      {
+        "term": "A head of lettuce",
+        "partOfSpeech": "",
+        "definitionEn": "One whole lettuce plant sold as a tightly grouped set of leaves.",
+        "translationUz": "bir bosh salat bargi",
+        "example": "Please buy a head of lettuce for the salad."
+      },
+      {
+        "term": "Crunchy leaves",
+        "partOfSpeech": "",
+        "definitionEn": "Leaves that are firm and make a slight cracking sound when eaten.",
+        "translationUz": "qarsildoq barglar",
+        "example": "The sandwich was filled with crunchy leaves and sliced cucumber."
+      },
+      {
+        "term": "Asparagus",
+        "partOfSpeech": "",
+        "definitionEn": "A vegetable with long, tender green, white or purple shoots.",
+        "translationUz": "sarsabil",
+        "example": "We served grilled asparagus with dinner."
+      },
+      {
+        "term": "Split this group",
+        "partOfSpeech": "",
+        "definitionEn": "Divide a category into smaller categories.",
+        "translationUz": "ushbu guruhni bo‘lib chiqmoq",
+        "example": "We can split this group into leafy and starchy vegetables."
+      },
+      {
+        "term": "Spinach",
+        "partOfSpeech": "",
+        "definitionEn": "A vegetable with dark green edible leaves.",
+        "translationUz": "ismaloq",
+        "example": "She stirred fresh spinach into the soup."
+      },
+      {
+        "term": "Starchy",
+        "partOfSpeech": "",
+        "definitionEn": "Containing a lot of starch, a type of carbohydrate.",
+        "translationUz": "kraxmalga boy",
+        "example": "Potatoes are often described as a starchy food."
+      },
+      {
+        "term": "Beets or beetroot",
+        "partOfSpeech": "",
+        "definitionEn": "Edible roots that are commonly dark red; beets is American usage.",
+        "translationUz": "lavlagi",
+        "example": "Roasted beets added colour to the salad."
+      },
+      {
+        "term": "Just to name a few",
+        "partOfSpeech": "",
+        "definitionEn": "Used after examples to show that there are many more.",
+        "translationUz": "bir nechtasini sanab o‘tadigan bo‘lsak",
+        "example": "We grow carrots, spinach and beans, just to name a few."
+      },
+      {
+        "term": "Protein",
+        "partOfSpeech": "",
+        "definitionEn": "A nutrient needed to build and maintain body tissues, found in foods such as beans, eggs and meat.",
+        "translationUz": "oqsil",
+        "example": "Lentils provide protein in this meal."
+      },
+      {
+        "term": "Tuna",
+        "partOfSpeech": "",
+        "definitionEn": "A large sea fish commonly sold fresh or canned.",
+        "translationUz": "tunets balig‘i",
+        "example": "I made a tuna sandwich for lunch."
+      },
+      {
+        "term": "Dairy group",
+        "partOfSpeech": "",
+        "definitionEn": "The category containing milk and related foods in some food-group systems.",
+        "translationUz": "sut mahsulotlari guruhi",
+        "example": "Yogurt and cheese are usually placed in the dairy group."
+      },
+      {
+        "term": "Yogurt or yoghurt",
+        "partOfSpeech": "",
+        "definitionEn": "A food made by fermenting milk with bacteria.",
+        "translationUz": "yogurt; qatiqsimon sut mahsuloti",
+        "example": "She served plain yogurt with fruit."
+      },
+      {
+        "term": "A slice of pineapple",
+        "partOfSpeech": "",
+        "definitionEn": "A flat piece cut from a pineapple.",
+        "translationUz": "bir tilim ananas",
+        "example": "He added a slice of pineapple to his plate."
+      },
+      {
+        "term": "Macaroni",
+        "partOfSpeech": "",
+        "definitionEn": "Small pieces of pasta, often shaped like short tubes.",
+        "translationUz": "makaronning kalta naychasimon turi",
+        "example": "The children had macaroni with tomato sauce."
+      },
+      {
+        "term": "Snack",
+        "partOfSpeech": "",
+        "definitionEn": "A small amount of food eaten between meals; also, to eat between meals.",
+        "translationUz": "yengil tamaddi; tamaddi qilmoq",
+        "example": "I took an apple as a snack."
+      },
+      {
+        "term": "Dietitian or dietician",
+        "partOfSpeech": "",
+        "definitionEn": "A trained professional who assesses diets and advises on nutrition; dietitian is the usual professional spelling.",
+        "translationUz": "diyetolog; ovqatlanish bo‘yicha malakali mutaxassis",
+        "example": "The hospital dietitian discussed meal options with the patient."
+      },
+      {
+        "term": "Stay within your budget",
+        "partOfSpeech": "",
+        "definitionEn": "Spend no more than the amount of money available or planned.",
+        "translationUz": "belgilangan budjetdan oshmaslik",
+        "example": "Planning meals can help you stay within your budget."
+      },
+      {
+        "term": "Well-balanced diet",
+        "partOfSpeech": "",
+        "definitionEn": "An overall eating pattern providing a suitable variety and balance of foods and nutrients.",
+        "translationUz": "muvozanatli ovqatlanish ratsioni",
+        "example": "A well-balanced diet can include many different cuisines."
+      },
+      {
+        "term": "Vitamin pills",
+        "partOfSpeech": "",
+        "definitionEn": "Tablets containing one or more vitamins.",
+        "translationUz": "vitamin tabletkalari",
+        "example": "She asked a professional whether she needed vitamin pills."
+      },
+      {
+        "term": "Vitamins",
+        "partOfSpeech": "",
+        "definitionEn": "Organic substances needed in small amounts for normal growth and health.",
+        "translationUz": "vitaminlar",
+        "example": "Different foods provide different vitamins."
+      },
+      {
+        "term": "Intake",
+        "partOfSpeech": "",
+        "definitionEn": "The amount of something eaten or drunk over a period.",
+        "translationUz": "iste’mol miqdori",
+        "example": "The diary helped him track his daily water intake."
+      },
+      {
+        "term": "Establish new eating habits",
+        "partOfSpeech": "",
+        "definitionEn": "Develop new, regular ways of choosing and eating food.",
+        "translationUz": "yangi ovqatlanish odatlarini shakllantirmoq",
+        "example": "Preparing lunch at home helped her establish new eating habits."
+      },
+      {
+        "term": "Servings",
+        "partOfSpeech": "",
+        "definitionEn": "Portions or measured amounts of food given to one person.",
+        "translationUz": "porsiyalar; taom ulushlari",
+        "example": "The recipe makes four servings."
+      },
+      {
+        "term": "Eat in moderation",
+        "partOfSpeech": "",
+        "definitionEn": "Eat reasonable amounts without having too much.",
+        "translationUz": "me’yorida ovqatlanmoq",
+        "example": "He enjoys cake but tries to eat it in moderation."
+      },
+      {
+        "term": "Lean meat",
+        "partOfSpeech": "",
+        "definitionEn": "Meat with relatively little fat.",
+        "translationUz": "yog‘i kam go‘sht",
+        "example": "The recipe suggests using lean meat."
+      },
+      {
+        "term": "Food safety standards",
+        "partOfSpeech": "",
+        "definitionEn": "Requirements or benchmarks intended to ensure food is safe to eat.",
+        "translationUz": "oziq-ovqat xavfsizligi standartlari",
+        "example": "The factory trains workers to follow food safety standards."
+      },
+      {
+        "term": "Set standards",
+        "partOfSpeech": "",
+        "definitionEn": "Establish the level or rules that people or products should meet.",
+        "translationUz": "standartlarni belgilamoq",
+        "example": "Authorities set standards for food handling."
+      },
+      {
+        "term": "Food industry",
+        "partOfSpeech": "",
+        "definitionEn": "Businesses involved in producing, processing, distributing and selling food.",
+        "translationUz": "oziq-ovqat sanoati",
+        "example": "Many local people work in the food industry."
+      },
+      {
+        "term": "Carry out a risk assessment",
+        "partOfSpeech": "",
+        "definitionEn": "Identify possible hazards and evaluate how likely and serious the harm could be.",
+        "translationUz": "xavflarni baholashni amalga oshirmoq",
+        "example": "The manager must carry out a risk assessment before changing the storage system."
+      },
+      {
+        "term": "Be susceptible to harmful bacteria",
+        "partOfSpeech": "",
+        "definitionEn": "Be vulnerable to contamination or effects caused by harmful bacteria; the precise meaning depends on the subject.",
+        "translationUz": "zararli bakteriyalarga ta’sirchan yoki moyil bo‘lmoq",
+        "example": "Food kept in unsuitable conditions may be susceptible to contamination by harmful bacteria."
+      },
+      {
+        "term": "Store products",
+        "partOfSpeech": "",
+        "definitionEn": "Keep goods in a place until they are used or sold.",
+        "translationUz": "mahsulotlarni saqlamoq",
+        "example": "The shop stores products according to the instructions on their labels."
+      },
+      {
+        "term": "Warehouse",
+        "partOfSpeech": "",
+        "definitionEn": "A large building where goods are stored before sale or distribution.",
+        "translationUz": "omborxona",
+        "example": "The deliveries are checked at the warehouse."
+      },
+      {
+        "term": "Cold store",
+        "partOfSpeech": "",
+        "definitionEn": "A refrigerated room or building used to keep perishable goods cold.",
+        "translationUz": "sovuq ombor; sovitkichli saqlash xonasi",
+        "example": "The dairy products are waiting in the cold store."
+      },
+      {
+        "term": "Frozen foods",
+        "partOfSpeech": "",
+        "definitionEn": "Foods preserved or sold in a frozen state.",
+        "translationUz": "muzlatilgan oziq-ovqatlar",
+        "example": "The supermarket has an aisle for frozen foods."
+      },
+      {
+        "term": "Defrost",
+        "partOfSpeech": "",
+        "definitionEn": "Allow or cause frozen food to thaw; also, remove ice from a freezer.",
+        "translationUz": "muzdan tushirmoq; eritmoq",
+        "example": "Check the instructions before you defrost the fish."
+      },
+      {
+        "term": "Keep foods past their expiry date",
+        "partOfSpeech": "",
+        "definitionEn": "Retain food after its stated expiry date; use-by and best-before labels have different meanings.",
+        "translationUz": "yaroqlilik muddati o‘tgan oziq-ovqatni saqlab qo‘ymoq",
+        "example": "The survey asked whether households keep foods past their expiry date."
+      },
+      {
+        "term": "Handle food at home",
+        "partOfSpeech": "",
+        "definitionEn": "Prepare, touch, move and store food in a household setting.",
+        "translationUz": "uyda oziq-ovqat bilan xavfsiz muomala qilmoq",
+        "example": "Students learn how to handle food at home safely."
+      },
+      {
+        "term": "Shelf life",
+        "partOfSpeech": "",
+        "definitionEn": "The time a product can be stored under stated conditions while remaining suitable for use.",
+        "translationUz": "saqlanish muddati",
+        "example": "Packaging can affect a product's shelf life."
+      },
+      {
+        "term": "Substandard",
+        "partOfSpeech": "",
+        "definitionEn": "Below an acceptable or required level of quality.",
+        "translationUz": "talab darajasidan past; sifatsiz",
+        "example": "Inspectors found substandard storage facilities."
+      },
+      {
+        "term": "Phenomenal expansion",
+        "partOfSpeech": "",
+        "definitionEn": "Extremely large or impressive growth.",
+        "translationUz": "juda katta kengayish; keskin o‘sish",
+        "example": "The town has seen a phenomenal expansion in food delivery services."
+      },
+      {
+        "term": "Organic food",
+        "partOfSpeech": "",
+        "definitionEn": "Food produced under organic standards, which restrict many synthetic inputs and specify production practices.",
+        "translationUz": "organik oziq-ovqat",
+        "example": "The shop sells both organic food and conventionally produced food."
+      },
+      {
+        "term": "Upscale",
+        "partOfSpeech": "",
+        "definitionEn": "Designed for wealthier customers or associated with higher prices; especially American usage.",
+        "translationUz": "qimmatbaho; yuqori darajali mijozlarga mo‘ljallangan",
+        "example": "They booked a table at an upscale restaurant."
+      },
+      {
+        "term": "Get top billing",
+        "partOfSpeech": "",
+        "definitionEn": "Receive the most prominent attention or position; figurative.",
+        "translationUz": "eng ko‘zga ko‘rinarli o‘rinni egallamoq",
+        "example": "Local vegetables get top billing on the restaurant's menu."
+      },
+      {
+        "term": "Nutrition",
+        "partOfSpeech": "",
+        "definitionEn": "The study or process of obtaining and using food for growth and health.",
+        "translationUz": "ovqatlanish; oziqlanish haqidagi fan",
+        "example": "The course introduces the basics of nutrition."
+      },
+      {
+        "term": "Food safety education",
+        "partOfSpeech": "",
+        "definitionEn": "Teaching people how to prevent food-related illness through safe practices.",
+        "translationUz": "oziq-ovqat xavfsizligini o‘rgatish",
+        "example": "Food safety education is part of the staff training programme."
+      },
+      {
+        "term": "Hot or spicy",
+        "partOfSpeech": "",
+        "definitionEn": "Containing spices that create a burning sensation in the mouth; hot can also mean high in temperature.",
+        "translationUz": "achchiq; ziravorli",
+        "example": "The curry was too spicy for me, so I ordered something milder."
+      },
+      {
+        "term": "Mild",
+        "partOfSpeech": "",
+        "definitionEn": "Not strongly spicy or intense in flavour.",
+        "translationUz": "ta’mi yumshoq; uncha achchiq emas",
+        "example": "The children prefer a mild curry."
+      },
+      {
+        "term": "Salty",
+        "partOfSpeech": "",
+        "definitionEn": "Tasting strongly of salt.",
+        "translationUz": "sho‘r",
+        "example": "The soup was so salty that I could not finish it."
+      },
+      {
+        "term": "Sugary",
+        "partOfSpeech": "",
+        "definitionEn": "Containing or tasting of a lot of sugar.",
+        "translationUz": "shakarli; juda shirin",
+        "example": "I find this breakfast cereal too sugary."
+      },
+      {
+        "term": "Sickly",
+        "partOfSpeech": "",
+        "definitionEn": "Unpleasantly sweet or rich.",
+        "translationUz": "haddan tashqari shirin va ko‘ngilni aynitadigan",
+        "example": "The icing had a sickly taste."
+      },
+      {
+        "term": "Savoury",
+        "partOfSpeech": "",
+        "definitionEn": "Salty or spicy rather than sweet; savory is American spelling.",
+        "translationUz": "shirin bo‘lmagan; tuzli yoki ziravorli",
+        "example": "I prefer savoury snacks, such as crackers and cheese."
+      },
+      {
+        "term": "Sour",
+        "partOfSpeech": "",
+        "definitionEn": "Having a sharp, acidic taste like lemon.",
+        "translationUz": "nordon",
+        "example": "The sauce was sour, so she adjusted the recipe."
+      },
+      {
+        "term": "Bitter",
+        "partOfSpeech": "",
+        "definitionEn": "Having a strong, sharp taste like unsweetened coffee or some dark chocolate.",
+        "translationUz": "taxir; achchiqroq ta’mli",
+        "example": "The coffee tasted bitter without milk."
+      },
+      {
+        "term": "Tasty",
+        "partOfSpeech": "",
+        "definitionEn": "Having a pleasant flavour.",
+        "translationUz": "mazali",
+        "example": "The vegetable curry was surprisingly tasty."
+      },
+      {
+        "term": "Tasteless",
+        "partOfSpeech": "",
+        "definitionEn": "Having little or no flavour.",
+        "translationUz": "ta’msiz",
+        "example": "The rice was tasteless until we added some sauce."
+      },
+      {
+        "term": "Moreish",
+        "partOfSpeech": "",
+        "definitionEn": "So pleasant to eat that you want more; informal British English.",
+        "translationUz": "yeging kelaveradigan darajada mazali",
+        "example": "These roasted nuts are very moreish."
+      },
+      {
+        "term": "Overcooked or overdone",
+        "partOfSpeech": "",
+        "definitionEn": "Cooked for too long.",
+        "translationUz": "ortiqcha pishirilgan",
+        "example": "The pasta was overcooked and too soft."
+      },
+      {
+        "term": "Undercooked or underdone",
+        "partOfSpeech": "",
+        "definitionEn": "Not cooked enough.",
+        "translationUz": "yetarlicha pishirilmagan",
+        "example": "She returned the undercooked chicken to the kitchen."
+      },
+      {
+        "term": "Ripe",
+        "partOfSpeech": "",
+        "definitionEn": "Fully developed and ready to eat, especially fruit.",
+        "translationUz": "pishgan; yetilgan",
+        "example": "The peaches are ripe and ready to eat."
+      },
+      {
+        "term": "Unripe",
+        "partOfSpeech": "",
+        "definitionEn": "Not yet fully developed or ready to eat.",
+        "translationUz": "xom; hali pishmagan",
+        "example": "The unripe mango was hard and sharp-tasting."
+      },
+      {
+        "term": "In season",
+        "partOfSpeech": "",
+        "definitionEn": "Naturally ready to harvest and commonly available at a particular time of year.",
+        "translationUz": "mavsumida; hosil mavsumida",
+        "example": "Strawberries are cheaper when they are in season."
+      },
+      {
+        "term": "Go off",
+        "partOfSpeech": "",
+        "definitionEn": "Become spoiled and no longer suitable to eat; informal British English.",
+        "translationUz": "aynimoq; buzilmoq",
+        "example": "The milk has gone off."
+      },
+      {
+        "term": "Heavy food or a heavy meal",
+        "partOfSpeech": "",
+        "definitionEn": "Food that feels very filling and may be difficult to digest.",
+        "translationUz": "og‘ir, to‘yimli ovqat",
+        "example": "I do not want a heavy meal before travelling."
+      },
+      {
+        "term": "Light food or a light meal",
+        "partOfSpeech": "",
+        "definitionEn": "A small or easily digested meal that does not feel too filling.",
+        "translationUz": "yengil ovqat",
+        "example": "We had a light meal of soup and bread."
+      },
+      {
+        "term": "Stodgy",
+        "partOfSpeech": "",
+        "definitionEn": "Heavy and filling, often because it contains a lot of starch; usually negative, especially British.",
+        "translationUz": "og‘ir va kraxmalli; hazmi qiyin",
+        "example": "The pudding was a bit stodgy for my taste."
+      },
+      {
+        "term": "Balanced diet",
+        "partOfSpeech": "",
+        "definitionEn": "An eating pattern with an appropriate variety and balance of foods and nutrients; also well-balanced diet.",
+        "translationUz": "muvozanatli ovqatlanish",
+        "example": "She is trying to maintain a balanced diet while studying."
+      },
+      {
+        "term": "Junk food",
+        "partOfSpeech": "",
+        "definitionEn": "An informal term for foods typically high in sugar, salt or fat and offering limited nutritional value.",
+        "translationUz": "zararli tez tayyor ovqatlar",
+        "example": "He wants to replace some of his junk food snacks with fruit."
+      },
+      {
+        "term": "Wholesome",
+        "partOfSpeech": "",
+        "definitionEn": "Suggesting that food is good for you; often a broad description rather than a precise claim.",
+        "translationUz": "foydali va sog‘lomdek ko‘ringan; tabiiy",
+        "example": "The café advertises wholesome homemade lunches."
+      },
+      {
+        "term": "Farm fresh",
+        "partOfSpeech": "",
+        "definitionEn": "A marketing phrase suggesting that food has recently come from a farm; its meaning may be vague.",
+        "translationUz": "fermadan yangi kelgan deb ta’riflangan",
+        "example": "The box says “farm fresh,” but I still check the storage instructions."
+      },
+      {
+        "term": "Homemade",
+        "partOfSpeech": "",
+        "definitionEn": "Made at home; in marketing, sometimes used to suggest a home-style recipe.",
+        "translationUz": "uyda tayyorlangan",
+        "example": "She brought homemade bread to the picnic."
+      },
+      {
+        "term": "Wholefoods",
+        "partOfSpeech": "",
+        "definitionEn": "Foods that retain most of their natural components and are usually minimally processed.",
+        "translationUz": "kam qayta ishlangan tabiiy oziq-ovqatlar",
+        "example": "The shop sells wholefoods such as oats, nuts and dried beans."
+      },
+      {
+        "term": "Unprocessed foods",
+        "partOfSpeech": "",
+        "definitionEn": "Foods that have undergone little or no processing; the exact meaning depends on context.",
+        "translationUz": "qayta ishlanmagan oziq-ovqatlar",
+        "example": "The lesson compares unprocessed foods with ready-made meals."
+      },
+      {
+        "term": "Natural foods",
+        "partOfSpeech": "",
+        "definitionEn": "A broad description suggesting limited artificial intervention; natural alone does not establish safety or nutritional quality.",
+        "translationUz": "tabiiy oziq-ovqatlar",
+        "example": "The shop promotes natural foods, but customers still need clear ingredient information."
+      },
+      {
+        "term": "Free-range eggs or products",
+        "partOfSpeech": "",
+        "definitionEn": "Eggs or other animal products from animals allowed outdoor access under the relevant production system.",
+        "translationUz": "erkin yaylovda boqilgan hayvon mahsulotlari; erkin yuruvchi tovuq tuxumi",
+        "example": "The recipe uses free-range eggs."
+      },
+      {
+        "term": "Gluten-free",
+        "partOfSpeech": "",
+        "definitionEn": "Containing no gluten within the relevant standard; gluten is a protein found in wheat, barley and rye.",
+        "translationUz": "glyutensiz",
+        "example": "My guest needs gluten-free bread."
+      },
+      {
+        "term": "Artificial colours",
+        "partOfSpeech": "",
+        "definitionEn": "Manufactured colouring substances added to change a food's appearance.",
+        "translationUz": "sun’iy rang beruvchi moddalar",
+        "example": "The label says the drink contains no artificial colours."
+      },
+      {
+        "term": "Contains no artificial colours or preservatives",
+        "partOfSpeech": "",
+        "definitionEn": "A product claim saying that neither artificial colouring nor preservatives have been added or are present as specified.",
+        "translationUz": "sun’iy bo‘yoq yoki konservantlar yo‘q",
+        "example": "The soup label reads “contains no artificial colours or preservatives.”"
+      },
+      {
+        "term": "Food allergy",
+        "partOfSpeech": "",
+        "definitionEn": "An immune-system reaction to a particular food; different from food intolerance.",
+        "translationUz": "oziq-ovqat allergiyasi",
+        "example": "He told the waiter about his food allergy."
+      },
+      {
+        "term": "Allergic to",
+        "partOfSpeech": "",
+        "definitionEn": "Having an allergy caused by a particular substance.",
+        "translationUz": "...ga allergiyasi bor",
+        "example": "She is allergic to peanuts."
+      },
+      {
+        "term": "Vegetarian",
+        "partOfSpeech": "",
+        "definitionEn": "A person who does not eat meat or fish; also describes food suitable for such a person.",
+        "translationUz": "go‘sht va baliq yemaydigan kishi; vegetarian",
+        "example": "The restaurant offers a vegetarian main course."
+      },
+      {
+        "term": "Vegan",
+        "partOfSpeech": "",
+        "definitionEn": "A person who avoids animal-derived foods and typically other animal products; also describes suitable food.",
+        "translationUz": "hayvon mahsulotlarini iste’mol qilmaydigan kishi; vegan",
+        "example": "We made a vegan curry with chickpeas and coconut milk."
+      },
+      {
+        "term": "Non-meat-eater",
+        "partOfSpeech": "",
+        "definitionEn": "Someone who does not eat meat; ask about fish and other requirements rather than assuming.",
+        "translationUz": "go‘sht yemaydigan kishi",
+        "example": "As a non-meat-eater, she always checks the menu before booking."
+      },
+      {
+        "term": "Animal welfare",
+        "partOfSpeech": "",
+        "definitionEn": "The well-being and humane treatment of animals.",
+        "translationUz": "hayvonlar farovonligi",
+        "example": "Animal welfare influences his choice of eggs."
+      },
+      {
+        "term": "Battery farming",
+        "partOfSpeech": "",
+        "definitionEn": "An intensive system associated especially with keeping laying hens in rows of cages.",
+        "translationUz": "parrandalarni qafaslarda intensiv boqish",
+        "example": "The article discusses animal welfare concerns linked to battery farming."
+      },
+      {
+        "term": "Convenience foods",
+        "partOfSpeech": "",
+        "definitionEn": "Foods designed to require little time or effort to prepare.",
+        "translationUz": "tayyorlashga qulay oziq-ovqatlar",
+        "example": "Convenience foods are useful when people have limited time to cook."
+      },
+      {
+        "term": "Ready-made meals",
+        "partOfSpeech": "",
+        "definitionEn": "Meals prepared in advance and sold ready to eat or heat.",
+        "translationUz": "oldindan tayyorlangan taomlar",
+        "example": "She keeps a few ready-made meals for busy evenings."
+      },
+      {
+        "term": "Obesity",
+        "partOfSpeech": "",
+        "definitionEn": "A condition involving excessive body fat that can impair health.",
+        "translationUz": "semizlik; ortiqcha yog‘ to‘planishi",
+        "example": "The lecture discussed obesity as a complex public health issue."
+      },
+      {
+        "term": "Nutrition labels",
+        "partOfSpeech": "",
+        "definitionEn": "Labels giving information about a food's energy and nutrient content.",
+        "translationUz": "ozuqa tarkibi yorliqlari",
+        "example": "Nutrition labels help shoppers compare similar products."
+      },
+      {
+        "term": "Traffic-light labelling",
+        "partOfSpeech": "",
+        "definitionEn": "A system using red, amber and green to indicate high, medium and low levels of selected nutrients.",
+        "translationUz": "svetofor ranglari bilan oziqlanish qiymatini belgilash",
+        "example": "Traffic-light labelling makes it easier to compare salt levels."
+      },
+      {
+        "term": "Fair trade",
+        "partOfSpeech": "",
+        "definitionEn": "Trading arrangements intended to support fairer terms and conditions for producers; certification schemes set specific requirements.",
+        "translationUz": "adolatli savdo",
+        "example": "She looks for fair trade coffee when shopping."
+      },
+      {
+        "term": "Book a table or make a reservation",
+        "partOfSpeech": "",
+        "definitionEn": "Arrange in advance to have a table kept for you at a restaurant.",
+        "translationUz": "restoranda oldindan stol band qilmoq",
+        "example": "We should book a table for Saturday evening."
+      },
+      {
+        "term": "Cancel a booking or reservation",
+        "partOfSpeech": "",
+        "definitionEn": "Tell a restaurant that you no longer need the arrangement you made.",
+        "translationUz": "band qilingan stolni bekor qilmoq",
+        "example": "I called to cancel our reservation because two guests were ill."
+      },
+      {
+        "term": "Course",
+        "partOfSpeech": "",
+        "definitionEn": "One stage of a meal, served separately from the others.",
+        "translationUz": "taom berilish bosqichi; taom turi",
+        "example": "The restaurant offers a three-course lunch."
+      },
+      {
+        "term": "Starter or appetiser",
+        "partOfSpeech": "",
+        "definitionEn": "A small dish served before the main part of a meal.",
+        "translationUz": "asosiy taomdan oldingi yengil taom",
+        "example": "I ordered soup as a starter."
+      },
+      {
+        "term": "Main course",
+        "partOfSpeech": "",
+        "definitionEn": "The principal dish in a meal.",
+        "translationUz": "asosiy taom",
+        "example": "For my main course, I chose grilled fish."
+      },
+      {
+        "term": "Dessert",
+        "partOfSpeech": "",
+        "definitionEn": "Sweet food served at the end of a meal.",
+        "translationUz": "desert; shirinlik",
+        "example": "We shared a chocolate dessert."
+      },
+      {
+        "term": "Side dish",
+        "partOfSpeech": "",
+        "definitionEn": "A smaller dish served alongside the main dish.",
+        "translationUz": "yoniga beriladigan qo‘shimcha taom",
+        "example": "Would you like a vegetable side dish with your chicken?"
+      },
+      {
+        "term": "Set menu",
+        "partOfSpeech": "",
+        "definitionEn": "A fixed selection of dishes offered for a set price.",
+        "translationUz": "belgilangan narxdagi tayyor menyu",
+        "example": "The set menu includes a starter and a main course."
+      },
+      {
+        "term": "Order à la carte",
+        "partOfSpeech": "",
+        "definitionEn": "Choose separately priced dishes from the menu rather than a fixed meal.",
+        "translationUz": "menyudan taomlarni alohida tanlab buyurtma qilmoq",
+        "example": "We decided to order à la carte."
+      },
+      {
+        "term": "Specials",
+        "partOfSpeech": "",
+        "definitionEn": "Dishes offered in addition to the regular menu, often for a limited time.",
+        "translationUz": "kunlik maxsus taomlar",
+        "example": "Ask the waiter what today's specials are."
+      },
+      {
+        "term": "Cater for vegetarians or vegans",
+        "partOfSpeech": "",
+        "definitionEn": "Provide food suitable for people with those dietary preferences or requirements.",
+        "translationUz": "vegetarian yoki veganlarga mos ovqat taklif qilmoq",
+        "example": "The café caters for vegans as well as vegetarians."
+      },
+      {
+        "term": "Host",
+        "partOfSpeech": "",
+        "definitionEn": "A person who invites and looks after guests.",
+        "translationUz": "mehmonlarni kutib oluvchi mezbon",
+        "example": "Our host offered us another serving of soup."
+      },
+      {
+        "term": "Seconds",
+        "partOfSpeech": "",
+        "definitionEn": "An additional helping of food after the first; informal.",
+        "translationUz": "ovqatdan yana bir porsiya",
+        "example": "The stew was so good that everyone wanted seconds."
+      },
+      {
+        "term": "Help yourself",
+        "partOfSpeech": "",
+        "definitionEn": "Take the food or drink you want without waiting to be served.",
+        "translationUz": "o‘zingiz xohlagancha olib yeng",
+        "example": "Please help yourself to some salad."
+      },
+      {
+        "term": "Keep room for dessert",
+        "partOfSpeech": "",
+        "definitionEn": "Avoid eating so much that you cannot enjoy dessert; often keep a bit of room for pudding.",
+        "translationUz": "desertga ham joy qoldirmoq",
+        "example": "Keep room for dessert because we have made an apple pie."
+      },
+      {
+        "term": "Pudding or a sweet or afters",
+        "partOfSpeech": "",
+        "definitionEn": "British terms for dessert; afters is informal, and pudding can also name particular dishes.",
+        "translationUz": "desert; shirinlikning britancha nomlari",
+        "example": "What are we having for pudding?"
+      },
+      {
+        "term": "Refill someone's glass",
+        "partOfSpeech": "",
+        "definitionEn": "Fill a person's glass again or add more drink.",
+        "translationUz": "birovning stakanini yana to‘ldirmoq",
+        "example": "Can I refill your glass with water?"
+      },
+      {
+        "term": "Say when",
+        "partOfSpeech": "",
+        "definitionEn": "Tell me when to stop pouring or serving; informal.",
+        "translationUz": "yetarli bo‘lganda ayting",
+        "example": "I will pour the juice; say when."
+      },
+      {
+        "term": "When",
+        "partOfSpeech": "",
+        "definitionEn": "An informal response to say when, meaning that enough has been served.",
+        "translationUz": "bo‘ldi, yetarli; quyishni to‘xtating",
+        "example": "“Say when.” “When! That is enough, thank you.”"
+      },
+      {
+        "term": "Cutlery",
+        "partOfSpeech": "",
+        "definitionEn": "Utensils used for eating, especially knives, forks and spoons.",
+        "translationUz": "pichoq, sanchqi va qoshiqlar",
+        "example": "Could we have some clean cutlery, please?"
+      },
+      {
+        "term": "Napkin",
+        "partOfSpeech": "",
+        "definitionEn": "A small cloth or paper used to protect clothing and wipe the mouth during a meal.",
+        "translationUz": "salfetka",
+        "example": "He placed his napkin on his lap."
+      },
+      {
+        "term": "Split the bill",
+        "partOfSpeech": "",
+        "definitionEn": "Divide the cost of a meal between the people eating.",
+        "translationUz": "hisobni bo‘lib to‘lamoq",
+        "example": "Shall we split the bill equally?"
+      },
+      {
+        "term": "Lunch or dinner is on me",
+        "partOfSpeech": "",
+        "definitionEn": "I will pay for the meal; informal.",
+        "translationUz": "tushlik yoki kechki ovqat hisobini men to‘layman",
+        "example": "You paid last time, so dinner is on me tonight."
+      },
+      {
+        "term": "Let me get this",
+        "partOfSpeech": "",
+        "definitionEn": "Let me pay for this; informal.",
+        "translationUz": "buning pulini men to‘lay",
+        "example": "Put your wallet away; let me get this."
+      },
+      {
+        "term": "Join us for dinner",
+        "partOfSpeech": "",
+        "definitionEn": "Eat dinner together with us.",
+        "translationUz": "bizga kechki ovqatga qo‘shiling",
+        "example": "Would you like to join us for dinner tomorrow?"
+      },
+      {
+        "term": "Be our guest",
+        "partOfSpeech": "",
+        "definitionEn": "Accept our invitation, often with the implication that we will pay; polite.",
+        "translationUz": "mehmonimiz bo‘ling",
+        "example": "Please be our guest for lunch after the meeting."
+      },
+      {
+        "term": "Be wined and dined",
+        "partOfSpeech": "",
+        "definitionEn": "Be entertained with generous meals and drinks, often by a host or organization.",
+        "translationUz": "hashamatli taom va ichimliklar bilan mehmon qilinmoq",
+        "example": "The visiting team was wined and dined by the organizers."
+      },
+      {
+        "term": "Impeccable service",
+        "partOfSpeech": "",
+        "definitionEn": "Service so good that it is difficult to find fault with it.",
+        "translationUz": "nuqsonsiz xizmat",
+        "example": "The restaurant is known for its impeccable service."
+      },
+      {
+        "term": "Sluggish service",
+        "partOfSpeech": "",
+        "definitionEn": "Service that is unusually slow.",
+        "translationUz": "sust; juda sekin xizmat",
+        "example": "The food was excellent, but the service was sluggish."
+      },
+      {
+        "term": "Courteous",
+        "partOfSpeech": "",
+        "definitionEn": "Polite and respectful.",
+        "translationUz": "xushmuomala; muloyim",
+        "example": "The waiter was courteous even when the restaurant became busy."
+      },
+      {
+        "term": "Overbearing",
+        "partOfSpeech": "",
+        "definitionEn": "Too controlling, forceful or insistent in dealing with others.",
+        "translationUz": "haddan tashqari hukmronlik qiluvchi; bosim o‘tkazuvchi",
+        "example": "The waiter was helpful without being overbearing."
+      },
+      {
+        "term": "Sullen",
+        "partOfSpeech": "",
+        "definitionEn": "Looking unhappy or bad-tempered and unwilling to speak.",
+        "translationUz": "tumtaygan; badqovoq",
+        "example": "The server seemed sullen throughout the meal."
+      },
+      {
+        "term": "Brusque",
+        "partOfSpeech": "",
+        "definitionEn": "Abrupt in speech or manner, sometimes seeming rude.",
+        "translationUz": "qo‘rs; keskin gapiradigan",
+        "example": "The manager gave us a brusque reply."
+      },
+      {
+        "term": "Off-putting",
+        "partOfSpeech": "",
+        "definitionEn": "Making someone feel less interested or comfortable; informal.",
+        "translationUz": "ko‘ngilni sovutadigan; yoqimsiz",
+        "example": "The dirty tables were rather off-putting."
+      },
+      {
+        "term": "Go out of your way",
+        "partOfSpeech": "",
+        "definitionEn": "Make a special effort to help or please someone.",
+        "translationUz": "kim uchundir alohida harakat qilmoq",
+        "example": "The staff went out of their way to accommodate our group."
+      },
+      {
+        "term": "Have a sweet tooth",
+        "partOfSpeech": "",
+        "definitionEn": "Like sweet foods very much.",
+        "translationUz": "shirinlikni juda yaxshi ko‘rmoq",
+        "example": "I have a sweet tooth, so choosing dessert is easy."
+      },
+      {
+        "term": "Count the calories",
+        "partOfSpeech": "",
+        "definitionEn": "Pay close attention to the energy content of what you eat.",
+        "translationUz": "kaloriyalarni hisoblab yurmoq",
+        "example": "She reads labels carefully when she is counting the calories."
+      },
+      {
+        "term": "Calorie-conscious",
+        "partOfSpeech": "",
+        "definitionEn": "Aware of and attentive to the calories in food.",
+        "translationUz": "kaloriyaga e’tibor beradigan",
+        "example": "The menu includes smaller portions for calorie-conscious diners."
+      },
+      {
+        "term": "Portion",
+        "partOfSpeech": "",
+        "definitionEn": "An amount of food served to one person.",
+        "translationUz": "porsiya; taom ulushi",
+        "example": "Could I have a smaller portion of rice?"
+      },
+      {
+        "term": "Fussy eater",
+        "partOfSpeech": "",
+        "definitionEn": "Someone who is very particular about food and rejects many foods; informal.",
+        "translationUz": "ovqat tanlaydigan; injiq ovqatlanuvchi",
+        "example": "My brother is a fussy eater who dislikes most sauces."
+      },
+      {
+        "term": "Teetotal",
+        "partOfSpeech": "",
+        "definitionEn": "Never drinking alcohol.",
+        "translationUz": "umuman spirtli ichimlik ichmaydigan",
+        "example": "He is teetotal, so we ordered sparkling water."
+      },
+      {
+        "term": "Dietary requirements",
+        "partOfSpeech": "",
+        "definitionEn": "Specific needs or restrictions affecting what someone can eat.",
+        "translationUz": "ovqatlanishga doir maxsus talablar",
+        "example": "Please tell us about any dietary requirements before the event."
+      },
+      {
+        "term": "Overdo it",
+        "partOfSpeech": "",
+        "definitionEn": "Have or do more than is sensible; informal.",
+        "translationUz": "haddan tashqari oshirib yubormoq",
+        "example": "The cake is delicious, but I do not want to overdo it."
+      },
+      {
+        "term": "Take pot luck",
+        "partOfSpeech": "",
+        "definitionEn": "Accept whatever food is available without choosing or expecting special preparation; informal British usage.",
+        "translationUz": "bor ovqatga qanoat qilmoq; nima chiqsa shuni yemoq",
+        "example": "Come over for dinner, but you will have to take pot luck."
+      },
+      {
+        "term": "Bring a bottle",
+        "partOfSpeech": "",
+        "definitionEn": "Bring a bottle of drink to a gathering, usually wine unless another drink is specified.",
+        "translationUz": "ziyofatga bir shisha ichimlik olib kelmoq",
+        "example": "They asked us to bring a bottle to the dinner party."
+      },
+      {
+        "term": "Dinner party",
+        "partOfSpeech": "",
+        "definitionEn": "A social event at someone's home where guests are served dinner.",
+        "translationUz": "uydagi kechki ovqat ziyofati",
+        "example": "They invited six friends to a dinner party."
+      },
+      {
+        "term": "Informal get-together",
+        "partOfSpeech": "",
+        "definitionEn": "A relaxed social meeting or gathering.",
+        "translationUz": "norasmiy uchrashuv",
+        "example": "We are having an informal get-together with a few snacks."
+      },
+      {
+        "term": "Nibbles",
+        "partOfSpeech": "",
+        "definitionEn": "Small snacks, often served before a meal or with drinks; informal.",
+        "translationUz": "yengil gazaklar",
+        "example": "There are some nibbles on the table."
+      },
+      {
+        "term": "Grab a bite to eat",
+        "partOfSpeech": "",
+        "definitionEn": "Have something to eat quickly; informal.",
+        "translationUz": "tezda biror nima yeb olmoq",
+        "example": "We can grab a bite to eat before class."
+      },
+      {
+        "term": "Get a takeaway",
+        "partOfSpeech": "",
+        "definitionEn": "Buy a prepared meal to eat elsewhere; British English, takeout in American English.",
+        "translationUz": "tayyor ovqatni olib ketib yemoq",
+        "example": "We were too tired to cook, so we got a takeaway."
+      },
+      {
+        "term": "A recipe for disaster",
+        "partOfSpeech": "",
+        "definitionEn": "A combination of conditions likely to lead to a very bad result.",
+        "translationUz": "falokatga olib kelishi aniq bo‘lgan holat",
+        "example": "Inviting twenty people without planning the food is a recipe for disaster."
+      },
+      {
+        "term": "A recipe for success",
+        "partOfSpeech": "",
+        "definitionEn": "A combination of conditions likely to produce a good result.",
+        "translationUz": "muvaffaqiyatga eltuvchi omillar yig‘indisi",
+        "example": "Clear goals and regular practice are a recipe for success."
+      },
+      {
+        "term": "Cook up a story",
+        "partOfSpeech": "",
+        "definitionEn": "Invent an explanation, often a dishonest one; informal.",
+        "translationUz": "to‘qima voqea o‘ylab topmoq",
+        "example": "He cooked up a story about why he had missed the lesson."
+      },
+      {
+        "term": "Have all the ingredients of",
+        "partOfSpeech": "",
+        "definitionEn": "Contain the features needed for a particular result; figurative.",
+        "translationUz": "biror natija uchun zarur barcha jihatlarga ega bo‘lmoq",
+        "example": "The café has all the ingredients of a successful business."
+      },
+      {
+        "term": "Let someone stew or stew in your own juice",
+        "partOfSpeech": "",
+        "definitionEn": "Leave someone to worry about a problem, especially one they caused; informal.",
+        "translationUz": "kimnidir o‘z muammosi bilan yolg‘iz qoldirmoq",
+        "example": "After his rude remark, she let him stew for a while."
+      },
+      {
+        "term": "Not my cup of tea",
+        "partOfSpeech": "",
+        "definitionEn": "Not something I enjoy or find interesting; informal.",
+        "translationUz": "menga yoqmaydigan narsa",
+        "example": "Very formal dinner parties are not my cup of tea."
+      },
+      {
+        "term": "Grill someone",
+        "partOfSpeech": "",
+        "definitionEn": "Question someone intensely; informal figurative meaning, alongside the literal cooking meaning.",
+        "translationUz": "kimnidir qattiq so‘roqqa tutmoq",
+        "example": "My friends grilled me about the restaurant I had visited."
+      },
+      {
+        "term": "A half-baked idea or scheme",
+        "partOfSpeech": "",
+        "definitionEn": "An idea that has not been thought through properly; informal and critical.",
+        "translationUz": "puxta o‘ylanmagan g‘oya yoki reja",
+        "example": "Opening a café without a budget sounded like a half-baked idea."
+      },
+      {
+        "term": "Spice something up",
+        "partOfSpeech": "",
+        "definitionEn": "Make something more lively or interesting; informal figurative meaning.",
+        "translationUz": "biror narsani qiziqarliroq qilmoq",
+        "example": "We added a cooking challenge to spice up the lesson."
+      },
+      {
+        "term": "Unsavoury characters",
+        "partOfSpeech": "",
+        "definitionEn": "People whose behaviour seems dishonest or morally unpleasant; negative.",
+        "translationUz": "shubhali; axloqan yoqimsiz odamlar",
+        "example": "The story involves a restaurant owner and several unsavoury characters."
+      },
+      {
+        "term": "Turn sour",
+        "partOfSpeech": "",
+        "definitionEn": "Become unpleasant or unsuccessful after starting well.",
+        "translationUz": "yomon tomonga o‘zgarmoq",
+        "example": "Their business relationship turned sour over money."
+      },
+      {
+        "term": "Juicy gossip",
+        "partOfSpeech": "",
+        "definitionEn": "Interesting or exciting stories about other people's private lives; informal.",
+        "translationUz": "qiziqarli shaxsiy g‘iybatlar",
+        "example": "They exchanged juicy gossip over lunch."
+      },
+      {
+        "term": "Food groups",
+        "partOfSpeech": "",
+        "definitionEn": "Categories of foods with shared nutritional or other characteristics.",
+        "translationUz": "oziq-ovqat guruhlari",
+        "example": "The students sorted the ingredients into food groups."
+      },
+      {
+        "term": "Aroma and flavour",
+        "partOfSpeech": "",
+        "definitionEn": "Aroma is smell; flavour is the combined experience of taste, smell and other sensations when eating.",
+        "translationUz": "hid va ta’m",
+        "example": "The bread's aroma was inviting, but its flavour was disappointing."
+      },
+      {
+        "term": "Harmful bacteria",
+        "partOfSpeech": "",
+        "definitionEn": "Microscopic organisms that can cause harm, including some that cause foodborne illness.",
+        "translationUz": "zararli bakteriyalar",
+        "example": "Safe food handling helps prevent the spread of harmful bacteria."
+      },
+      {
+        "term": "Use-by date",
+        "partOfSpeech": "",
+        "definitionEn": "A date indicating when food should be used for safety under the stated storage conditions.",
+        "translationUz": "xavfsiz iste’mol qilishning oxirgi sanasi",
+        "example": "Check the use-by date and storage instructions on the chicken."
+      },
+      {
+        "term": "Best-before date",
+        "partOfSpeech": "",
+        "definitionEn": "A date indicating how long a product is expected to retain its stated quality under proper storage.",
+        "translationUz": "eng yaxshi sifat saqlanadigan muddat sanasi",
+        "example": "The biscuit packet has a best-before date."
+      },
+      {
+        "term": "Contamination",
+        "partOfSpeech": "",
+        "definitionEn": "The presence or introduction of unwanted harmful substances or organisms.",
+        "translationUz": "ifloslanish; zararli modda aralashishi",
+        "example": "The training explains how to prevent contamination in the kitchen."
+      },
+      {
+        "term": "Spoilage",
+        "partOfSpeech": "",
+        "definitionEn": "Changes that make food unsuitable or unpleasant to eat.",
+        "translationUz": "oziq-ovqatning buzilishi",
+        "example": "Proper storage helps reduce food spoilage."
+      },
+      {
+        "term": "Ready-made food",
+        "partOfSpeech": "",
+        "definitionEn": "Food prepared in advance and sold ready to eat or heat.",
+        "translationUz": "oldindan tayyorlab sotiladigan ovqat",
+        "example": "Ready-made food saves her time on busy evenings."
+      },
+      {
+        "term": "Stabilizers",
+        "partOfSpeech": "",
+        "definitionEn": "Food additives that help maintain texture, consistency or a stable mixture.",
+        "translationUz": "barqarorlashtiruvchi oziq-ovqat qo‘shimchalari",
+        "example": "The ice cream label lists several stabilizers."
+      },
+      {
+        "term": "Have a carbon footprint",
+        "partOfSpeech": "",
+        "definitionEn": "Be associated with greenhouse gas emissions from production, use or other stages.",
+        "translationUz": "uglerod izi; issiqxona gazlari chiqindisi bilan bog‘liq bo‘lmoq",
+        "example": "Both growing and transporting food have a carbon footprint."
       }
     ]
   },
@@ -10554,6 +11660,897 @@
         "definitionEn": "A padded item used to hold hot pots and pans safely.",
         "translationUz": "issiq idish tutqichi",
         "example": "Use a potholder when removing the pan."
+      }
+    ]
+  },
+  {
+    "id": "media",
+    "label": {
+      "en": "Media",
+      "uz": "Media"
+    },
+    "words": [
+      {
+        "term": "post a video",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish a video on an online platform.",
+        "translationUz": "videoni internet platformasiga joylamoq",
+        "example": "She will post a video about her art project."
+      },
+      {
+        "term": "share a post",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make another user's published content available to your own audience.",
+        "translationUz": "boshqa foydalanuvchining postini ulashmoq",
+        "example": "You can share a post with your friends."
+      },
+      {
+        "term": "update your status",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish new information about what you are doing or thinking on a social platform.",
+        "translationUz": "ijtimoiy tarmoqdagi holatini yangilamoq",
+        "example": "You can update your status after the event."
+      },
+      {
+        "term": "send a friend request",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Ask to connect with another user on a social platform.",
+        "translationUz": "do‘stlik so‘rovi yubormoq",
+        "example": "You can send a friend request to someone you know."
+      },
+      {
+        "term": "subscribe to a channel",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Sign up to receive or follow content from a particular online channel. Usage: Subscribe can mean follow updates without paying. In a newspaper subscription, it often involves payment.",
+        "translationUz": "kanalga obuna bo‘lmoq",
+        "example": "I decided to subscribe to a channel about science."
+      },
+      {
+        "term": "follow someone",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Choose to receive or see updates from a particular user.",
+        "translationUz": "kimnidir ijtimoiy tarmoqda kuzatib bormoq",
+        "example": "You can follow someone whose posts interest you."
+      },
+      {
+        "term": "create a profile",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Set up a page containing information about a user.",
+        "translationUz": "profil yaratmoq",
+        "example": "You need to create a profile before joining the group."
+      },
+      {
+        "term": "upload a photo",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Transfer an image from your device to an online service.",
+        "translationUz": "suratni internetga yuklamoq",
+        "example": "Please upload a photo for your profile."
+      },
+      {
+        "term": "post updates",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish new information regularly or as events develop.",
+        "translationUz": "yangiliklarni post qilib turmoq",
+        "example": "The team will post updates during the journey."
+      },
+      {
+        "term": "share links",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Pass on clickable connections to websites or online content.",
+        "translationUz": "havolalarni ulashmoq",
+        "example": "Students can share links to useful articles."
+      },
+      {
+        "term": "comment on",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Write a response beneath or in relation to online content.",
+        "translationUz": "biror postga yoki videoga izoh yozmoq",
+        "example": "You can comment on the video after watching it."
+      },
+      {
+        "term": "rate a video",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give a video a score to show how good you think it is.",
+        "translationUz": "videoga baho bermoq",
+        "example": "Viewers can rate a video from one to five stars."
+      },
+      {
+        "term": "get views",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Receive instances of people watching a video or viewing content.",
+        "translationUz": "ko‘rishlar sonini yig‘moq",
+        "example": "A clear title can help a video get views."
+      },
+      {
+        "term": "get likes",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Receive positive reactions through a platform's like function.",
+        "translationUz": "layklar olmoq",
+        "example": "The photographer hopes the picture will get likes."
+      },
+      {
+        "term": "like a post",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Indicate approval of online content by using the like function.",
+        "translationUz": "postga layk bosmoq",
+        "example": "You can like a post without writing a comment."
+      },
+      {
+        "term": "turn off notifications",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Stop receiving automated alerts from an app or service.",
+        "translationUz": "bildirishnomalarni o‘chirmoq",
+        "example": "I turn off notifications while I study."
+      },
+      {
+        "term": "social media app",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A software application used to share content or interact with other users.",
+        "translationUz": "ijtimoiy tarmoq ilovasi",
+        "example": "The club uses a social media app to announce events."
+      },
+      {
+        "term": "a round-up",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A summary bringing together the main items on a subject.",
+        "translationUz": "asosiy yangiliklar sharhi; qisqacha jamlanma",
+        "example": "The magazine publishes a round-up of new apps."
+      },
+      {
+        "term": "a link",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A clickable connection to another page or online resource.",
+        "translationUz": "havola",
+        "example": "She sent me a link to the article."
+      },
+      {
+        "term": "a view",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "One recorded instance of someone viewing online content.",
+        "translationUz": "bir marta ko‘rish; ko‘rish holati",
+        "example": "The platform recorded each view of the video."
+      },
+      {
+        "term": "a like",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A positive reaction recorded through a platform's like function.",
+        "translationUz": "layk; ijobiy reaksiya",
+        "example": "The photo received a like from my teacher."
+      },
+      {
+        "term": "a comment",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A written response to a post or other online content.",
+        "translationUz": "izoh; kommentariya",
+        "example": "He left a comment beneath the video."
+      },
+      {
+        "term": "a notification",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An automated message alerting a user that something has happened.",
+        "translationUz": "bildirishnoma",
+        "example": "I received a notification about a new message."
+      },
+      {
+        "term": "personal information",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Details relating to an individual, such as their name or date of birth.",
+        "translationUz": "shaxsiy ma’lumotlar",
+        "example": "The form asks for personal information."
+      },
+      {
+        "term": "create an account",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Register to use an online service by setting up a user identity.",
+        "translationUz": "hisob qaydnomasi yaratmoq",
+        "example": "You may need to create an account to save your work."
+      },
+      {
+        "term": "privacy settings",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Options controlling who can access or interact with your information and content.",
+        "translationUz": "maxfiylik sozlamalari",
+        "example": "Check your privacy settings before publishing the photo."
+      },
+      {
+        "term": "a profile picture",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The image used to represent a user on their account.",
+        "translationUz": "profil rasmi",
+        "example": "She chose a landscape as her profile picture."
+      },
+      {
+        "term": "a timeline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A page or feed presenting a sequence of posts and other activity.",
+        "translationUz": "postlar ketma-ketligi; vaqt tasmasi",
+        "example": "The announcement appeared on my timeline."
+      },
+      {
+        "term": "private",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Restricted to a particular person or selected audience rather than available to everyone.",
+        "translationUz": "shaxsiy; faqat tanlanganlarga ochiq",
+        "example": "She keeps her account private."
+      },
+      {
+        "term": "public",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Available for people generally to see or access.",
+        "translationUz": "ommaviy; hammaga ochiq",
+        "example": "The event page is public."
+      },
+      {
+        "term": "tag someone",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Add a reference or link identifying a user in a post or photo.",
+        "translationUz": "post yoki suratda kimnidir belgilamoq",
+        "example": "Ask before you tag someone in a photograph."
+      },
+      {
+        "term": "remove a tag",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Delete a reference linking a person to a post or photo.",
+        "translationUz": "belgini olib tashlamoq",
+        "example": "She asked him to remove a tag from the picture."
+      },
+      {
+        "term": "a direct message",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A message sent to specified users rather than published to a general audience. Usage: Sent to selected recipients rather than a public feed. This does not guarantee confidentiality: recipients may copy or share it.",
+        "translationUz": "shaxsiy xabar",
+        "example": "Please send the meeting details in a direct message."
+      },
+      {
+        "term": "delete an account",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Remove a registered user account from a service.",
+        "translationUz": "hisob qaydnomasini o‘chirmoq",
+        "example": "He decided to delete an account he no longer used."
+      },
+      {
+        "term": "default settings",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The options applied automatically unless the user changes them.",
+        "translationUz": "standart sozlamalar",
+        "example": "The default settings may not match your preferences."
+      },
+      {
+        "term": "a talk show",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme in which a host interviews guests or leads discussion.",
+        "translationUz": "suhbat ko‘rsatuvi",
+        "example": "The actor appeared on a talk show."
+      },
+      {
+        "term": "a cartoon",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An animated film or programme using drawn or digitally created characters.",
+        "translationUz": "multfilm",
+        "example": "The children watched a cartoon after lunch."
+      },
+      {
+        "term": "a game show",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme in which contestants compete, often to win prizes.",
+        "translationUz": "teleo‘yin; viktorina ko‘rsatuvi",
+        "example": "The contestants answered questions on a game show."
+      },
+      {
+        "term": "a soap opera",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A continuing drama following the lives of a recurring group of characters.",
+        "translationUz": "davomli teleserial; melodramatik serial",
+        "example": "She watches a soap opera set in a small town."
+      },
+      {
+        "term": "a documentary",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A factual programme or film exploring a real subject.",
+        "translationUz": "hujjatli film",
+        "example": "We watched a documentary about ocean life."
+      },
+      {
+        "term": "a sitcom",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A comedy series featuring recurring characters and situations.",
+        "translationUz": "vaziyatli komediya seriali",
+        "example": "The sitcom follows three friends sharing a flat."
+      },
+      {
+        "term": "a sports programme",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A broadcast devoted to sporting events, reports or analysis.",
+        "translationUz": "sport ko‘rsatuvi",
+        "example": "The sports programme included highlights of the final."
+      },
+      {
+        "term": "a weather forecast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A report predicting weather conditions.",
+        "translationUz": "ob-havo prognozi",
+        "example": "We checked the weather forecast before travelling."
+      },
+      {
+        "term": "current affairs",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Important political and social events happening at the present time, considered as a subject of reporting.",
+        "translationUz": "dolzarb siyosiy va ijtimoiy voqealar",
+        "example": "The programme discusses current affairs with expert guests."
+      },
+      {
+        "term": "a presenter",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who introduces and leads a television or radio programme.",
+        "translationUz": "teleko‘rsatuv yoki radio boshlovchisi",
+        "example": "The presenter introduced the next guest."
+      },
+      {
+        "term": "a host",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who leads a show and welcomes or interviews its guests.",
+        "translationUz": "dastur boshlovchisi",
+        "example": "The host asked the author about her new book."
+      },
+      {
+        "term": "an episode",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "One instalment of a continuing programme or story.",
+        "translationUz": "serial yoki dasturning bir qismi",
+        "example": "The next episode will explain the mystery."
+      },
+      {
+        "term": "a detective drama",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A fictional programme centred on investigators solving crimes.",
+        "translationUz": "detektiv drama; jinoyatni tergov qilish haqidagi serial",
+        "example": "We watched a detective drama set in a coastal town."
+      },
+      {
+        "term": "TV listings",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A schedule showing which programmes are being shown and when.",
+        "translationUz": "teledasturlar jadvali",
+        "example": "Check the TV listings to find the start time."
+      },
+      {
+        "term": "a repeat",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme broadcast again after an earlier showing.",
+        "translationUz": "ko‘rsatuvning takroriy efiri",
+        "example": "The channel showed a repeat of last week's match."
+      },
+      {
+        "term": "the mass media",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Communication services and organisations that reach large audiences. Usage: Media is traditionally plural: the media are. Collective singular agreement also occurs, especially with social media. Use one consistent style.",
+        "translationUz": "ommaviy axborot vositalari",
+        "example": "The mass media influence public discussion."
+      },
+      {
+        "term": "a means of communication",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A method or channel used to exchange information. Usage: Means has the same form in the singular and plural: a means; several means.",
+        "translationUz": "aloqa vositasi",
+        "example": "Radio remains a useful means of communication."
+      },
+      {
+        "term": "subtitles",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Written text on screen representing speech, sometimes translated.",
+        "translationUz": "subtitrlar",
+        "example": "I watched the film with subtitles."
+      },
+      {
+        "term": "a dubbed film",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A film whose original spoken dialogue has been replaced with recorded dialogue, often in another language.",
+        "translationUz": "ovozli tarjima qilingan film",
+        "example": "They watched a dubbed film instead of reading subtitles."
+      },
+      {
+        "term": "a satellite dish",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A dish-shaped aerial used to receive signals from satellites.",
+        "translationUz": "sun’iy yo‘ldosh antennasi",
+        "example": "There is a satellite dish on the roof."
+      },
+      {
+        "term": "a TV channel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service that broadcasts or supplies a particular stream of television programmes.",
+        "translationUz": "telekanal",
+        "example": "The TV channel specialises in history programmes."
+      },
+      {
+        "term": "a commercial",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An advertisement broadcast on television or radio.",
+        "translationUz": "televideniye yoki radiodagi reklama",
+        "example": "A commercial interrupted the programme."
+      },
+      {
+        "term": "stream a programme",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Watch or listen to a programme online as its data is received.",
+        "translationUz": "dasturni internet orqali tomosha qilmoq yoki tinglamoq",
+        "example": "You can stream a programme on your tablet."
+      },
+      {
+        "term": "a broadcast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme or message transmitted to an audience by radio, television or a similar service.",
+        "translationUz": "efir; translyatsiya",
+        "example": "The broadcast included interviews with local residents."
+      },
+      {
+        "term": "catch-up TV",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service allowing viewers to watch programmes after their scheduled broadcast. Usage: Catch-up services offer previously broadcast programmes; TV on demand is broader and may include content never broadcast on a schedule.",
+        "translationUz": "o‘tib ketgan teleko‘rsatuvni keyin ko‘rish xizmati",
+        "example": "I used catch-up TV to watch the programme I missed."
+      },
+      {
+        "term": "TV on demand",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service allowing viewers to choose programmes to watch when they want.",
+        "translationUz": "istalgan vaqtda teleko‘rsatuvni tanlab ko‘rish xizmati",
+        "example": "TV on demand lets us choose the evening's entertainment."
+      },
+      {
+        "term": "a podcast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A programme or series distributed online, usually as audio, for streaming or downloading.",
+        "translationUz": "podkast",
+        "example": "She listened to a podcast about journalism."
+      },
+      {
+        "term": "download a broadcast",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Save a transmitted programme from an online service onto a device.",
+        "translationUz": "efir dasturini qurilmaga yuklab olmoq",
+        "example": "I will download a broadcast to listen to during the journey."
+      },
+      {
+        "term": "broadcast",
+        "partOfSpeech": "verb",
+        "definitionEn": "Transmit a programme or message to a wide audience.",
+        "translationUz": "efirga uzatmoq",
+        "example": "The station will broadcast the interview tonight."
+      },
+      {
+        "term": "televise",
+        "partOfSpeech": "verb",
+        "definitionEn": "Transmit an event or programme on television.",
+        "translationUz": "televizorda namoyish qilmoq",
+        "example": "The channel will televise the final."
+      },
+      {
+        "term": "shoot a film on location",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Record a film in a real setting rather than entirely in a studio.",
+        "translationUz": "filmni studiyadan tashqarida, haqiqiy joyda suratga olmoq",
+        "example": "The crew plans to shoot a film on location by the sea."
+      },
+      {
+        "term": "be set in",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Have a particular place or period as the setting of a fictional story.",
+        "translationUz": "voqealari ma’lum joy yoki davrda kechmoq",
+        "example": "The drama will be set in a mountain village."
+      },
+      {
+        "term": "tweet about",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish a short social-media message about something, using the terminology of the source unit. Usage: Platform-specific terminology used in the source. Post about is a more general equivalent.",
+        "translationUz": "biror narsa haqida tvit yozmoq",
+        "example": "Fans began to tweet about the result."
+      },
+      {
+        "term": "a tabloid newspaper",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A newspaper often associated with compact pages and popular, attention-grabbing reporting. Usage: Tabloid can refer to page size or a style of reporting. A compact format alone does not determine journalistic quality.",
+        "translationUz": "tabloid; ommabop gazeta",
+        "example": "The tabloid newspaper printed a large celebrity photograph."
+      },
+      {
+        "term": "a quality newspaper",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A newspaper regarded as offering substantial, serious news reporting and analysis. Usage: An evaluative label for serious reporting; it is not a guarantee of accuracy or a strict definition by page size.",
+        "translationUz": "jiddiy tahliliy materiallar chop etadigan gazeta",
+        "example": "She reads a quality newspaper for political analysis."
+      },
+      {
+        "term": "focus on",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give particular attention to a subject.",
+        "translationUz": "biror mavzuga e’tibor qaratmoq",
+        "example": "The report will focus on housing costs."
+      },
+      {
+        "term": "sensation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Strong public excitement or interest caused by something striking or unusual.",
+        "translationUz": "shov-shuv; kuchli jamoatchilik qiziqishi",
+        "example": "The paper was criticised for pursuing sensation rather than careful reporting."
+      },
+      {
+        "term": "a scandal",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An event or behaviour causing public shock or strong disapproval.",
+        "translationUz": "janjalli voqea; mojaro",
+        "example": "The newspaper investigated a funding scandal."
+      },
+      {
+        "term": "journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The work of gathering, checking and presenting news or information to the public.",
+        "translationUz": "jurnalistika",
+        "example": "She wants a career in journalism."
+      },
+      {
+        "term": "an in-depth article",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A written report examining a subject carefully and in considerable detail.",
+        "translationUz": "mavzuni batafsil yorituvchi maqola",
+        "example": "The website published an in-depth article about local transport."
+      },
+      {
+        "term": "pay a subscription",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Pay regularly for access to a publication or service.",
+        "translationUz": "obuna uchun to‘lov qilmoq",
+        "example": "Readers pay a subscription to access the archive."
+      },
+      {
+        "term": "celebrity news",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Reports about the lives and activities of famous people.",
+        "translationUz": "mashhurlar haqidagi yangiliklar",
+        "example": "The entertainment page carries celebrity news."
+      },
+      {
+        "term": "political debate",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Discussion involving different views on political issues.",
+        "translationUz": "siyosiy munozara",
+        "example": "The programme hosted a political debate about education."
+      },
+      {
+        "term": "an in-depth review",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A detailed critical assessment of a book, film or other work.",
+        "translationUz": "batafsil taqriz; chuqur tahliliy sharh",
+        "example": "The magazine published an in-depth review of the novel."
+      },
+      {
+        "term": "a headline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The title of a news story, usually designed to attract attention.",
+        "translationUz": "sarlavha",
+        "example": "The headline summarised the report's main finding."
+      },
+      {
+        "term": "sensational",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Presented or characterised in a way that causes strong excitement or shock.",
+        "translationUz": "shov-shuvli; kuchli taassurot uyg‘otadigan",
+        "example": "The editor rejected the sensational headline."
+      },
+      {
+        "term": "investigate",
+        "partOfSpeech": "verb",
+        "definitionEn": "Examine something systematically to discover facts about it.",
+        "translationUz": "tekshirib o‘rganmoq; tergov qilmoq",
+        "example": "The journalists will investigate the complaint."
+      },
+      {
+        "term": "news",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Information or reports about recent events. Usage: Uncountable and grammatically singular: some news; the news is. For one report, say a news item or a piece of news.",
+        "translationUz": "yangiliklar; xabarlar",
+        "example": "The news is available on the station's website."
+      },
+      {
+        "term": "print journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting produced for printed newspapers or magazines.",
+        "translationUz": "bosma matbuot jurnalistikasi",
+        "example": "She began her career in print journalism."
+      },
+      {
+        "term": "broadcast journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting produced for radio or television.",
+        "translationUz": "radio va televideniye jurnalistikasi",
+        "example": "His course includes training in broadcast journalism."
+      },
+      {
+        "term": "online journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting published through websites or other online channels.",
+        "translationUz": "onlayn jurnalistika",
+        "example": "Online journalism allows rapid updates to a story."
+      },
+      {
+        "term": "citizen journalism",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "News reporting carried out by members of the public rather than solely by professional journalists.",
+        "translationUz": "fuqarolik jurnalistikasi",
+        "example": "Witnesses contributed photographs through citizen journalism."
+      },
+      {
+        "term": "gather news",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Collect information about events for reporting.",
+        "translationUz": "xabar uchun ma’lumot to‘plamoq",
+        "example": "Reporters gather news from interviews and documents."
+      },
+      {
+        "term": "a pressure group",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An organised group seeking to influence public opinion, policy or decisions on an issue.",
+        "translationUz": "qarorlarga ta’sir o‘tkazishga intiluvchi jamoat guruhi",
+        "example": "A pressure group called for cleaner transport."
+      },
+      {
+        "term": "air your views",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Express your opinions openly, often in public.",
+        "translationUz": "fikrlarini ochiq bildirmoq",
+        "example": "The debate offers a chance to air your views."
+      },
+      {
+        "term": "a press conference",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An event at which someone gives information and answers journalists' questions.",
+        "translationUz": "matbuot anjumani",
+        "example": "The organisers held a press conference before the opening."
+      },
+      {
+        "term": "issue a statement",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make a formal announcement or declaration.",
+        "translationUz": "rasmiy bayonot bermoq",
+        "example": "The organisation will issue a statement later today."
+      },
+      {
+        "term": "a press release",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An official written announcement supplied to news organisations.",
+        "translationUz": "matbuot uchun rasmiy xabar",
+        "example": "The museum sent a press release about the exhibition."
+      },
+      {
+        "term": "seek publicity",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Try to attract public or media attention.",
+        "translationUz": "ommaviy e’tiborni jalb qilishga intilmoq",
+        "example": "The campaign will seek publicity for the new service."
+      },
+      {
+        "term": "a soundbite",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A short, memorable extract from speech that can be repeated in news reports.",
+        "translationUz": "nutqdan olingan qisqa va esda qolarli parcha",
+        "example": "The interview produced a memorable soundbite."
+      },
+      {
+        "term": "hunt for a story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Search actively for an event or issue worth reporting.",
+        "translationUz": "yoritishga arziydigan yangilikni izlamoq",
+        "example": "The reporter spent the morning trying to hunt for a story."
+      },
+      {
+        "term": "tap useful sources",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make use of people or organisations that can supply relevant information.",
+        "translationUz": "foydali axborot manbalaridan foydalanmoq",
+        "example": "Reporters need to tap useful sources while checking their claims."
+      },
+      {
+        "term": "monitor news agencies",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Regularly check organisations that gather and supply news.",
+        "translationUz": "axborot agentliklari xabarlarini kuzatmoq",
+        "example": "Editors monitor news agencies for developing stories."
+      },
+      {
+        "term": "airtime",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The amount of time given to content on radio or television.",
+        "translationUz": "efir vaqti",
+        "example": "The issue received several minutes of airtime."
+      },
+      {
+        "term": "column inches",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The amount of space devoted to a subject in a publication, originally measured in newspaper columns.",
+        "translationUz": "gazetada ajratilgan ustun joyi miqdori",
+        "example": "The election received more column inches than other stories."
+      },
+      {
+        "term": "media coverage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Reporting and discussion of a subject across news or other media.",
+        "translationUz": "ommaviy axborot vositalarida yoritilishi",
+        "example": "The event received extensive media coverage."
+      },
+      {
+        "term": "paparazzi",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Photographers who pursue famous people for pictures, often intrusively. Usage: Plural; singular paparazzo. The term often implies intrusive pursuit of celebrities.",
+        "translationUz": "mashhurlarni kuzatib suratga oluvchi fotograflar",
+        "example": "The actor complained about the paparazzi outside her home."
+      },
+      {
+        "term": "a rag",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An informal, disapproving word for a newspaper regarded as poor quality. Usage: Disparaging and informal; avoid using it as a neutral label in a professional context.",
+        "translationUz": "sifatsiz deb kamsitilgan gazeta",
+        "example": "He dismissed the newspaper as a rag."
+      },
+      {
+        "term": "the gutter press",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A strongly disapproving term for publications regarded as intrusive or sensationalist.",
+        "translationUz": "shov-shuv va shaxsiy hayotni kavlashga moyil matbuot",
+        "example": "She accused the gutter press of invading her privacy."
+      },
+      {
+        "term": "produce copy",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Prepare written material for publication or broadcast. Usage: Copy is uncountable in this publishing sense: prepare copy, not produce a copy unless you mean a duplicate.",
+        "translationUz": "nashr uchun matn tayyorlamoq",
+        "example": "Reporters must produce copy before the editor's deadline."
+      },
+      {
+        "term": "a tight deadline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A time limit allowing very little time to complete work.",
+        "translationUz": "juda qisqa muddat; tig‘iz topshirish vaqti",
+        "example": "The team worked to a tight deadline."
+      },
+      {
+        "term": "go to press",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Reach the stage when a publication is sent for printing.",
+        "translationUz": "nashrni bosmaga yubormoq",
+        "example": "The paper will go to press at midnight."
+      },
+      {
+        "term": "back copies",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Copies of earlier issues of a publication.",
+        "translationUz": "gazeta yoki jurnalning oldingi sonlari",
+        "example": "The library keeps back copies of the magazine."
+      },
+      {
+        "term": "an online archive",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A digital collection of stored material from the past.",
+        "translationUz": "onlayn arxiv",
+        "example": "The newspaper has an online archive of earlier reports."
+      },
+      {
+        "term": "an exclusive / a scoop",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A news story obtained and reported ahead of competing outlets. Usage: Close equivalents here. Exclusive emphasises access unique to an outlet; scoop often emphasises being first with important news.",
+        "translationUz": "boshqalardan avval qo‘lga kiritilgan eksklyuziv xabar",
+        "example": "The reporter secured an exclusive about the planned merger."
+      },
+      {
+        "term": "run a story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publish or broadcast a news report.",
+        "translationUz": "xabarni nashr etmoq yoki efirga uzatmoq",
+        "example": "The editor decided to run a story about the school."
+      },
+      {
+        "term": "hit the headlines",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Become a prominent subject of news reporting.",
+        "translationUz": "yangiliklar sarlavhalariga chiqmoq",
+        "example": "The discovery could hit the headlines tomorrow."
+      },
+      {
+        "term": "a story breaks",
+        "partOfSpeech": "clause",
+        "definitionEn": "News about an event becomes public or is first reported.",
+        "translationUz": "yangi xabar ilk bor oshkor bo‘lmoq",
+        "example": "When a story breaks, the newsroom checks the facts quickly."
+      },
+      {
+        "term": "public knowledge",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Information that is generally known or publicly available.",
+        "translationUz": "hamma biladigan yoki ommaga ochiq ma’lumot",
+        "example": "The decision became public knowledge after the announcement."
+      },
+      {
+        "term": "libel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A published defamatory statement in written or another lasting form; the word is often used for a damaging false publication. Usage: A vocabulary definition, not a complete legal test. The source calls libel and defamation two crimes; libel is commonly treated as a form of defamation, and legal classification varies by jurisdiction.",
+        "translationUz": "yozma yoki boshqa barqaror shakldagi tuhmat",
+        "example": "The editor checked the allegation because it could lead to a claim of libel."
+      },
+      {
+        "term": "defamation of character",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Communication that damages a person's reputation through a defamatory allegation. Usage: Defamation is the broader reputational concept. Do not treat libel and defamation as two wholly separate offences.",
+        "translationUz": "shaxsning obro‘siga putur yetkazuvchi tuhmat",
+        "example": "The article prompted a complaint about defamation of character."
+      },
+      {
+        "term": "political persuasion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person's political beliefs or general political position.",
+        "translationUz": "siyosiy qarashlar; siyosiy yo‘nalish",
+        "example": "The panel included journalists of different political persuasions."
+      },
+      {
+        "term": "put a spin on a story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Present a report in a particular way to influence how people interpret it. Usage: The source also uses put your own gloss on a story. Spin often implies a selective or persuasive presentation.",
+        "translationUz": "xabarni o‘z manfaatiga mos talqin qilib ko‘rsatmoq",
+        "example": "A campaign may put a spin on a story to favour its position."
+      },
+      {
+        "term": "muck-raking",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Searching for and publicising scandal or embarrassing information, often with a disapproving implication. Usage: Often disapproving in the source, though historically muckraking can also refer to investigative reporting exposing wrongdoing.",
+        "translationUz": "mojaro va sharmandali ma’lumotlarni kovlab yoritish",
+        "example": "The columnist was accused of muck-raking."
+      },
+      {
+        "term": "media attention",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Notice and interest given to a person or subject by media organisations.",
+        "translationUz": "ommaviy axborot vositalari e’tibori",
+        "example": "The project attracted media attention."
+      },
+      {
+        "term": "media interest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Curiosity or concern shown by journalists and media outlets.",
+        "translationUz": "ommaviy axborot vositalarining qiziqishi",
+        "example": "The announcement generated considerable media interest."
+      },
+      {
+        "term": "media hype",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Intense or exaggerated promotion and attention in the media.",
+        "translationUz": "OAVdagi bo‘rttirilgan shov-shuv",
+        "example": "The film failed to live up to the media hype."
+      },
+      {
+        "term": "media reports",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Accounts of events published or broadcast by media organisations.",
+        "translationUz": "ommaviy axborot vositalarining xabarlari",
+        "example": "The statement responded to media reports about the closure."
+      },
+      {
+        "term": "heroic",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Showing or involving exceptional courage, sometimes used for dramatic effect in reporting.",
+        "translationUz": "qahramonona; jasorat ko‘rsatadigan",
+        "example": "The newspaper described the rescue as heroic."
+      },
+      {
+        "term": "a triumph",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A major success or victory, sometimes used emphatically in reporting.",
+        "translationUz": "katta g‘alaba yoki yutuq",
+        "example": "The headline called the team's performance a triumph."
+      },
+      {
+        "term": "an occurrence",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An event or something that happens.",
+        "translationUz": "voqea; sodir bo‘lish holati",
+        "example": "The reporter said such delays were a daily occurrence."
       }
     ]
   }

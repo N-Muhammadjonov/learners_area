@@ -54,9 +54,9 @@ Safari HTTP result has **not** yet been collected. Rerun the existing Owner-run
 `scripts/riwi-safari-smoke.py` on the same preview; never mark the four repaired
 routes 200 until the actual results arrive.
 
-The Python Safari runner and its local ignore entry were prepared in the shared
-working copy before disconnection; they are not part of this remote checkpoint.
-Preserve that uncommitted work when reconnecting/synchronizing.
+The Python Safari runner, its local ignore entry and the offline recovery helper
+were subsequently preserved and integrated with current main. See
+`../code-readiness-20261102/README.md` for the latest code and test checkpoint.
 
 Sites project `appgprj_6ae812aa05a48191a4cca62debe8de65` is still unpublished
 (version 0, no live URL). No seven-day Vercel bypass credential was created.

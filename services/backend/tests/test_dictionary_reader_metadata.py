@@ -69,13 +69,31 @@ def test_original_named_source_groups_keep_all_words_and_private_assessments():
         parts=cards.named_parts(list(reversed(rows)))
         ids=[id for _,part in parts for id in part]
         assert len(ids)==len(rows) and len(set(ids))==len(rows)
-        assert all(label for label,_ in parts)
+        if pack['id'] not in ('food','media'):assert all(label for label,_ in parts)
         plan=cards.batch_plan(ids,{id:'known' for id in parts[0][1]},parts)
         assert plan[0]['complete'] and plan[1]['unlocked'] and not plan[2]['unlocked']
         assert cards.group_ids(ids,plan,1)==parts[1][1]
-        if pack['id']=='food':
-            assert [label for label,_ in parts]==['FOOD, ENERGY & NUTRITION','FOOD SAFETY','FOOD LABELLING','ORGANIC FOOD','FOOD PROCESSING & FLAVOUR']
-            assert [len(part) for _,part in parts]==[25,20,20,28,51]
+
+def test_historical_food_headings_keep_their_exact_senses_after_pack_replacement():
+    groups=json.loads((ROOT/'app/vocabulary_pack_groups.json').read_text())['food']
+    rows=[{'id':str(i),'topic_pack':'food','sense_key':key}
+          for i,key in enumerate(key for g in groups for key in g['senseKeys'])]
+    parts=cards.named_parts(list(reversed(rows)))
+    assert [label for label,_ in parts]==['FOOD, ENERGY & NUTRITION','FOOD SAFETY','FOOD LABELLING','ORGANIC FOOD','FOOD PROCESSING & FLAVOUR']
+    assert [len(part) for _,part in parts]==[25,20,20,28,51]
+    assert [id for _,part in parts for id in part]==[str(i) for i in range(144)]
+
+def test_new_pack_words_do_not_inherit_old_offset_headings_and_unknown_rows_survive():
+    packs=json.loads((ROOT/'app/vocabulary_builtin_packs.json').read_text())
+    lookup=cards.source_groups()
+    for name in ('food','media'):
+        pack=next(p for p in packs if p['id']==name)
+        rows=[{'id':str(i),'topic_pack':name,'sense_key':sense_key(w)} for i,w in enumerate(pack['words'])]
+        parts=cards.named_parts(list(reversed(rows)))
+        unheaded=[id for label,part in parts if label is None for id in part]
+        assert unheaded==[r['id'] for r in rows if (name,r['sense_key']) not in lookup]
+        assert len(unheaded)>0
+    assert cards.named_parts([{'id':'unknown','topic_pack':'custom','sense_key':'unmapped'}])==[(None,['unknown'])]
 
 def test_all_bundled_shards_have_verified_checksums_and_legal_cefr():
     count=0
