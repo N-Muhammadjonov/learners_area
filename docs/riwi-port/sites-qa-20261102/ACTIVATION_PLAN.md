@@ -8,7 +8,9 @@ The QA database recovery and guarded migration steps are complete. See
 2. Completed: the Owner's Safari API smoke on preview `761f760` returned 200 for
    public config, login/session/targets and all four previously failing Owner
    APIs. Evidence: `../code-readiness-20261102/SAFARI_SMOKE_PASS.json`.
-3. Exercise actual RIWI chat and task-evaluation flows with synthetic material.
+3. The live chat transport/persistence/refusal/cleanup checks passed, while its
+   normal answer was unavailable. Exercise task-evaluation flows and useful
+   tutoring with suitable canonical content and a configured reasoning engine.
    Verify persistence, expired/missing sessions, student self-scope, assigned
    teachers, Admin operational-only access and Owner centre scope. Keep current
    authorization rules.

@@ -54,8 +54,9 @@ snapshot verified eleven tables because that database also had a legacy table.
 
 1. The Owner's Safari run at `2026-11-02T14:14:29+05:00` passed all eight checks on
    preview `761f760`; the four repaired Owner reads now return 200. See
-   `SAFARI_SMOKE_PASS.json`. Real navigation, role boundaries, chat and task
-   persistence remain open. Successful API reads do not certify those flows.
+   `SAFARI_SMOKE_PASS.json`. A subsequent live run passed ten conversation
+   transport/persistence/refusal/cleanup checks. Real navigation, cross-account
+   role acceptance, task persistence and useful tutoring remain open.
 2. No trained language model, parameter-training receipt or independently
    validated subjective benchmark is present. The capability audit still exits
    1: legacy Writing relevance and Vocabulary sense counterexamples remain.
@@ -82,8 +83,13 @@ credential was created.
 
 ## Live conversation follow-up
 
-The API-read smoke passed in the Owner's Safari. The conversation flow is still
-pending. The next Owner-run command uses that same preview's existing session:
+The Owner's Safari conversation run at `2026-11-02T09:28:42Z` passed ten transport,
+persistence, refusal and cleanup checks on preview `761f760`. The saved finding
+is `SAFARI_CONVERSATION_PASS_LIMITED.json`. The normal answer had provenance
+`unavailable` and `normalAnswerAvailable=false`. Useful tutoring failed this
+check; transport success does not close that capability gate.
+
+Reproduce the conversation transport run using the same preview's session:
 
 ```sh
 python3 scripts/riwi-safari-conversation-smoke.py
@@ -102,6 +108,29 @@ not search for or delete other conversations.
 with provenance `unavailable` does not establish useful tutoring. Semantic
 quality and full acceptance remain unvalidated regardless of transport status.
 No visual browser checks or cross-account role certification are claimed.
+
+The QA database was inspected with one aggregate read-only query: zero grammar
+topics, zero published grammar topics and zero active knowledge sources. No
+lesson, knowledge approval, provider configuration or shared database row was
+changed during this diagnosis. The repository's small grammar foundation bundle
+is explicitly an AI draft for Owner review; it was not silently published to
+make the live question pass.
+
+A second defect was found in literal grammar retrieval: it searched for the
+whole question inside a title and truncated the question to 80 characters. The
+follow-up code matches bounded normalized literal phrases in either direction,
+keeps the 300-character input boundary and treats `%`/`_` as punctuation. It
+filters unpublished/empty lessons, prefers an exact topic title and returns
+unavailable for multiple remaining matches instead of choosing an arbitrary
+row. Explicit topic IDs remain authoritative. This retrieves published lesson
+text; it does not synthesize comparisons or infer answers to arbitrary questions.
+
+The lookup repair passes 21 isolated PostgreSQL store checks and five API checks,
+including a saved and deleted conversation using explicit published context.
+The full backend regression remains 3359 tests plus 38 subtests passed. No
+shared QA lesson data or training artifacts were introduced. A live retest of
+this repair needs a suitable published content source and its candidate preview;
+the existing Safari helper continues to pin the already tested `761f760`.
 
 The runner's request sequence passes twelve isolated Node VM tests, including
 wrong-origin/actor/provider gates, altered transcripts, foreign reply IDs, POST

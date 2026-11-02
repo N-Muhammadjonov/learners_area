@@ -53,8 +53,11 @@ The Owner ran the Safari helper at `2026-11-02T14:14:29+05:00` on the newer
 `761f760` preview. Public config, password login, the expected active Owner
 session, targets and all four previously failing Owner reads returned 200.
 `../code-readiness-20261102/SAFARI_SMOKE_PASS.json` preserves the sanitized report.
-This closes the observed schema-missing HTTP failure. Chat persistence, task
-evaluation, role acceptance and visual browser QA remain separate checks.
+This closes the observed schema-missing HTTP failure. A subsequent Owner-run
+Safari conversation test passed ten transport/persistence/refusal/cleanup
+checks, but its normal tutoring answer was `unavailable`. See
+`../code-readiness-20261102/SAFARI_CONVERSATION_PASS_LIMITED.json`. Task evaluation,
+cross-account role acceptance, useful tutoring and visual QA remain open.
 
 The Python Safari runner, its local ignore entry and the offline recovery helper
 were subsequently preserved and integrated with current main. See

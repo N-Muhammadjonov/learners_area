@@ -119,7 +119,11 @@
     "evidence": "SAFARI_SMOKE_PASS.json",
     "verified_commit": "761f760e815ab9ef35ec8a2b86480039d89ac030",
     "verified_time": "2026-11-02T14:14:29.071253+05:00",
-    "conversation_flow": "pending"
+    "conversation_flow": "transport_and_persistence_passed",
+    "conversation_evidence": "SAFARI_CONVERSATION_PASS_LIMITED.json",
+    "normal_answer_available": false,
+    "normal_answer_provenance": "unavailable",
+    "semantic_quality": "not_validated"
   },
   "tested_source_sha256": {
     "services/backend/app/step27_retention_policy.py": "6aec57c1498128b6fca77311d3c0cd05f93d8e1a97e855560758290bafcbee2d",
@@ -158,5 +162,48 @@
       "scripts/riwi-safari-conversation-smoke.py": "bce1e0f9561957ff422443be0944e3b7b3959c840633e7f22911cb228aea09b4",
       "qa/riwi-sites-20261102/test-safari-conversation-runner.mjs": "2cd5d0d0a4a4dc998f75856f285ead8bd4ee35ea6c2b10b906fce89898787aea"
     }
+  },
+  "grammar_lookup_followup": {
+    "backend_regression": {
+      "command": "cd services/backend && .venv/bin/python -m pytest -q",
+      "passed": 3359,
+      "subtests_passed": 38,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "isolated_postgresql": {
+      "command": "POSTGRES_PROBE=tests/riwi_grammar_lookup_postgres_probe.py node --import tsx scripts/verify-fastapi-postgres.mjs",
+      "receipt": {
+        "migrations": 80,
+        "typedTables": 154,
+        "storeChecks": 21,
+        "httpChecks": 5,
+        "replicas": 1,
+        "measurements": {
+          "sharedDatabaseTouched": false,
+          "providerNetworkCalls": 0,
+          "fixturesAreTrainingData": false,
+          "semanticQualityValidated": false
+        },
+        "database": "embedded PostgreSQL",
+        "result": "passed"
+      },
+      "exit_code": 0
+    },
+    "tested_source_sha256": {
+      "services/backend/app/riwi_tools_domain.py": "eebe36f1bbfb6940d890125460e0d3cf5606373be852c896331c34d0c56731ff",
+      "services/backend/tests/riwi_grammar_lookup_postgres_probe.py": "08ecec1346924cca89742af5443aece0cdbcc0aaf92d7e5c11777a6ac41feb54",
+      "scripts/verify-fastapi-postgres.mjs": "b059f8ea5378ca3274423bf4ae3aede47aac19185824d5579296e3c66f037d63"
+    },
+    "qa_content_read_only": {
+      "project": "bpexpsugmuhwmztacbqd",
+      "grammar_topics": 0,
+      "published_grammar_topics": 0,
+      "active_knowledge_sources": 0
+    },
+    "shared_database_modified": false,
+    "live_fix_retest": "pending_content_and_candidate_deployment",
+    "model_training_performed": false,
+    "full_readiness": false
   }
 }

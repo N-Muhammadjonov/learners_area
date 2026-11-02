@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .riwi_audit import record_riwi_audit
@@ -145,21 +146,42 @@ async def lookup_canonical_grammar(conn: Any, actor: RiwiActor, data: dict[str, 
                 """
                 SELECT id::text AS id, title, explanation AS rule_summary, NULL::text AS common_mistake, NULL::text AS example_sentence
                 FROM grammar_topics
-                WHERE id = $1::uuid AND publication_state='published'
+                WHERE id = $1::uuid AND publication_state='published' AND btrim(explanation)<>''
                 LIMIT 1
                 """,
                 topic_id,
             )
         elif query:
-            row = await conn.fetchrow(
-                """
-                SELECT id::text AS id, title, explanation AS rule_summary, NULL::text AS common_mistake, NULL::text AS example_sentence
-                FROM grammar_topics
-                WHERE publication_state='published' AND lower(title) LIKE '%' || $1 || '%'
+            # The question contains the topic name, not the other way around.
+            # Literal normalized phrases also prevent %/_ becoming wildcards.
+            phrase = ' '.join(re.findall(r'[^\W_]+', query.lower()[:300]))
+            if phrase and phrase not in {'the','and','how','what','why','please','explain','english','grammar','topic'}:
+                row = await conn.fetchrow(
+                    """
+                    WITH published AS (
+                    SELECT id::text AS id,title,explanation AS rule_summary,
+                        btrim(regexp_replace(lower(title),'[^[:alnum:]]+',' ','g')) AS topic_phrase
+                    FROM grammar_topics
+                    WHERE publication_state='published' AND btrim(explanation)<>''
+                ), candidates AS (
+                    SELECT * FROM published WHERE topic_phrase<>'' AND
+                        (strpos(' ' || $1 || ' ',' ' || topic_phrase || ' ')>0 OR
+                         strpos(' ' || topic_phrase || ' ',' ' || $1 || ' ')>0)
+                ), selected AS (
+                    SELECT * FROM candidates WHERE topic_phrase=$1 OR
+                        NOT EXISTS(SELECT 1 FROM candidates WHERE topic_phrase=$1)
+                )
+                SELECT id,title,rule_summary,NULL::text AS common_mistake,NULL::text AS example_sentence,
+                    count(*) OVER() AS match_count
+                FROM selected ORDER BY title,id
                 LIMIT 1
-                """,
-                query.lower()[:80],
-            )
+                    """,
+                    phrase,
+                )
+    if row and int(row.get('match_count',1))>1:
+        return {'resolved':False,'provenance':'unavailable','reason':'ambiguous_topic',
+                'summary':('Several published grammar topics match. Ask about one topic or open its lesson.'
+                           if locale=='en' else "Bir nechta grammatika mavzusi topildi. Bitta mavzuni aniq yozing yoki darsni oching.")}
     if not row:
         return {
             "resolved": False,
