@@ -60,6 +60,10 @@ def is_library_text(text):
     if text in library_texts():return True
     # Supplementary structured lessons must never leak as raw JSON through
     # generic keyword retrieval when their topic was not selected.
+    # Generic retrieval truncates snippets. Parsing the entire JSON would fail
+    # open for a clipped lesson and expose its raw internal representation.
+    identifier=re.match(r'^\{\s*"id"\s*:\s*"([^"]+)"',text)
+    if identifier and identifier.group(1) in library():return True
     if text.startswith('{"id":'):
         try:
             item=json.loads(text)

@@ -72,6 +72,21 @@ def test_pack_parser_preserves_original_library_and_does_not_relax_generic_uploa
     old=chunk_knowledge_text(c.source_content())
     assert not collect_knowledge_conflicts(units,[{'sourceId':CID,'unitId':str(i),'text':u['text']} for i,u in enumerate(old)])
 
+def test_clipped_lesson_snippets_never_leak_as_raw_json():
+    for key,entry in d.library().items():
+        assert c.is_library_text(d.unit_text(entry)[:1200]),key
+        assert c.is_library_text(c.unit_text(c.library()[key])[:1200]),key
+
+@pytest.mark.asyncio
+async def test_topicless_followup_after_a_reset_does_not_choose_a_raw_library_snippet():
+    with patch('app.riwi_curriculum.retrieve_lesson',AsyncMock(return_value=None)), \
+         patch('app.riwi_gateway.retrieve_active_knowledge_for_actor',AsyncMock(return_value=[
+             {'text':d.unit_text(d.library()['grammar.past-simple-vs-present-perfect'])[:1200]}])):
+        result=await handle_riwi_chat(None,ACTOR,{'message':'Shu mavzu uchun 3 ta misol ber.','replyLocale':'en'},
+                                     env={'RIWI_EXTERNAL_AI_ENABLED':'false'})
+    assert result['provenance']=='unavailable' and 'Could you name the topic' in result['answer']
+    assert '{"id"' not in result['answer'] and result['citations']==[]
+
 @pytest.mark.asyncio
 async def test_details_require_exact_active_checksum_and_actor_scope():
     key='grammar.articles';entry=d.library()[key]
