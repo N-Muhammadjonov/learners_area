@@ -740,7 +740,7 @@
       "title": "Reading Matching Sentence Endings",
       "explanationEn": "Use the passage to match the intended meaning, then check grammar across the sentence boundary. A grammatically possible ending may still be unsupported.",
       "explanationUz": "Avval matndagi ma’noga mos yakunni tanlang, keyin butun gap grammatikasini tekshiring. Grammatik moslikning o‘zi yetmaydi.",
-      "example": "Original text: New insulation reduced heat loss. Start: The building used less energy because... Ending: its insulation was improved.",
+      "example": "Original text: Improved insulation reduced the building’s energy use. Start: The building used less energy because... Ending: its insulation was improved.",
       "pitfall": "Do not choose an ending only because it forms a natural sentence.",
       "practice": "Explain both the evidence and the completed sentence’s meaning. Dalil va to‘liq gap ma’nosini ayting."
     },
@@ -755,7 +755,7 @@
       "title": "Reading MCQ Single",
       "explanationEn": "Find the text supporting the complete option and reject distractors that change time, cause, quantity or certainty. Select the requested number of answers.",
       "explanationUz": "Variantning butun mazmunini tasdiqlovchi dalilni toping. Vaqt, sabab, miqdor yoki ishonchni o‘zgartirgan chalg‘ituvchini rad eting.",
-      "example": "Original text: Costs fell after insulation was added. Supported: insulation helped reduce costs. Unsupported: costs disappeared completely.",
+      "example": "Original text: Improved insulation reduced heating costs. Supported: insulation helped reduce heating costs. Unsupported: costs disappeared completely.",
       "pitfall": "One matching word does not validate an entire option.",
       "practice": "For each option, identify support or one precise mismatch. Har variantga dalil yoki aniq xato toping."
     },

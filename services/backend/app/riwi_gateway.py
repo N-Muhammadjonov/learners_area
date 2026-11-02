@@ -20,7 +20,7 @@ from .riwi_contracts import (
     riwi_presentation_locale,
     validate_riwi_chat_request,
 )
-from .riwi_conversations import append_conversation_turn
+from .riwi_conversations import append_conversation_turn, get_tutoring_history
 from .riwi_knowledge import retrieve_active_knowledge_for_actor
 from .riwi_provider_router import dispatch_external_riwi_provider
 from .riwi_role_surface import (
@@ -273,6 +273,7 @@ async def handle_riwi_chat(
 
     rollout = read_riwi_rollout(env)
     if rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
+        history = await get_tutoring_history(conn, actor, conversation_id, now=now) if conversation_id else []
         task_key = "grammar.explanation" if intent_info.intent == "grammar_help" else select_instruction_task(message)
         import os
         provider_id = str((env if env is not None else os.environ).get("RIWI_PRIMARY_PROVIDER") or "openai").strip().lower()
@@ -284,6 +285,7 @@ async def handle_riwi_chat(
             payload={
                 "language": locale,
                 "message": message,
+                "history": history,
                 "instructions": compose_teaching_prompt(get_assessment_contract(task_key)),
                 "knowledge": [
                     {

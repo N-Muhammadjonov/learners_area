@@ -145,6 +145,31 @@ async def get_conversation_transcript(
     }
 
 
+async def get_tutoring_history(
+    conn: Any, actor: RiwiActor, conversation_id: str,
+    *, now: datetime | None = None,
+) -> list[dict[str, str]]:
+    """Reuse transcript ownership/retention checks before a paid follow-up.
+
+    Only paired teaching turns are eligible. Reports and security decisions
+    stay inside the site; the external payload guard still redacts this text.
+    This context limit does not change stored conversation retention.
+    """
+    transcript = await get_conversation_transcript(conn, actor, conversation_id, now=now)
+    messages = transcript["messages"][-12:]
+    allowed = {"canonical_dictionary", "canonical_grammar", "approved_knowledge", "external_provider"}
+    history = []
+    for user, answer in zip(messages, messages[1:]):
+        if (user["role"] == "user" and answer["role"] == "assistant"
+                and user.get("correlationId")
+                and user["correlationId"] == answer.get("correlationId")
+                and answer.get("provenance") in allowed
+                and not answer.get("reportSnapshot")):
+            history.extend({"role": item["role"], "content": item["content"][:1000]}
+                           for item in (user, answer))
+    return history[-6:]
+
+
 async def delete_conversation(
     conn: Any,
     actor: RiwiActor,

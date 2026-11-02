@@ -77,20 +77,35 @@ def is_followup(message):
 def choose_entry(message):
     query=" "+normalize(message)+" "
     candidates=[]
+    matches=[]
     tasks={"grammar.error_correction","grammar.transformation","grammar.fill_gap",
            "grammar.controlled_production","grammar.free_production","grammar.explanation","grammar.retention"}
     for entry in library().values():
         score=0
         for alias in entry["aliases"]:
             phrase=normalize(alias)
-            if " "+phrase+" " in query:
+            spans=list(re.finditer(r"(?<!\w)"+re.escape(phrase)+r"(?!\w)",query))
+            if spans:
                 weight=len(phrase.split())*10+min(len(phrase),90)/100
                 if entry["id"].startswith("grammar.") and entry["id"] not in tasks:
                     weight+=10
                 score=max(score,weight)
+                matches.extend((m.start(),m.end(),entry["id"]) for m in spans)
         if score:
             candidates.append((score,entry["id"]))
     candidates.sort(reverse=True)
+    # Nested names belong to the longer topic (present perfect continuous is
+    # not a second request for present perfect). Disjoint grammar topics need
+    # their comparison lesson or an open tutoring response, not an arbitrary
+    # winner based on the length of a topic name.
+    topics={key for start,end,key in matches
+            if key.startswith("grammar.") and key not in tasks and
+            not any(a<=start and end<=b and (a<start or end<b) and other!=key
+                    for a,b,other in matches)}
+    if topics=={"grammar.past-simple","grammar.present-perfect"}:
+        return "grammar.past-simple-vs-present-perfect"
+    if len(topics)>1:
+        return None
     if not candidates or (len(candidates)>1 and abs(candidates[0][0]-candidates[1][0])<0.001):
         return None
     return candidates[0][1]
