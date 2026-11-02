@@ -119,6 +119,11 @@ def choose_entry(message):
                 matches.extend((m.start(),m.end(),entry["id"]) for m in spans)
         if score:
             candidates.append((score,entry["id"]))
+    # "Explain simply" describes how to answer, not a competing subject.
+    # Keep the explicit subject even when the presentation alias is longer.
+    presentation={'tutoring.simple_explanation','tutoring.compare_concepts'}
+    specific=[candidate for candidate in candidates if candidate[1] not in presentation]
+    candidates=specific or candidates
     candidates.sort(reverse=True)
     # Nested names belong to the longer topic (present perfect continuous is
     # not a second request for present perfect). Disjoint grammar topics need

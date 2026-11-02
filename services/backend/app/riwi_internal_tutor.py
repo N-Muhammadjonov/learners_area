@@ -21,6 +21,7 @@ def correction_request(message):
     def apply(pattern,forms,key,uz,en):
         nonlocal corrected,topic
         def replace(match):
+            nonlocal topic
             word=match.group('verb');base=forms.get(word.lower())
             if base is None:return match.group(0)
             if word.isupper():base=base.upper()

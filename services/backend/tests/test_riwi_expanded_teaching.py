@@ -30,6 +30,10 @@ def lesson(key='grammar.past-simple-vs-present-perfect',variant=0):
  ('few va a few farqi nima','grammar.quantifiers'),
  ('although nima','grammar.linking'),
  ('How should I use past perfect?','grammar.past-perfect'),
+ ('Artikllarni sodda tushuntir.','grammar.articles'),
+ ('Passive ni oddiy tushuntir.','grammar.passive'),
+ ('Explain articles simply.','grammar.articles'),
+ ('Explain simply how to describe a line graph.','writing.task1.line_graph'),
  ('Give a few examples of a line graph.','writing.task1.line_graph'),
  ('What is the capital of Mars?',None),
  ('How do articles and countability interact?',None),
@@ -105,6 +109,10 @@ def test_targeted_corrections_preserve_correct_and_ambiguous_writing(original,co
     assert original in answer and answer.count('\n   — ')==3
     if original==corrected:assert not result['reasons']
     else:assert result['reasons'] and corrected in answer
+
+def test_known_verb_corrections_select_the_relevant_lesson():
+    assert correction_request('Shu gapni tekshir: She does not goes to school.')['topic']=='grammar.present-simple'
+    assert correction_request('Please correct this grammar: Did they studied yesterday?')['topic']=='grammar.past-simple'
 
 @pytest.mark.asyncio
 async def test_gateway_uses_original_and_supplement_citations_without_a_provider():
