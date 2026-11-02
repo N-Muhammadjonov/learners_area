@@ -1,5 +1,7 @@
 # RIWI current-main candidate — NO-GO for release
 
+Latest status: [2026-11-02 completion/training review](../completion-20261102/README.md). Conditional merge authorization has been received; the full-capability condition is still unsatisfied. The validation below is the earlier frozen checkpoint's evidence.
+
 The audited RIWI checkpoint has been integrated into an isolated branch based on current main `d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec`. The latest local code checkpoint is `0828ef56111b46b65abc399a58ea66542379bdce`. During review main advanced by four commits through PR #110. All 38 changed main files, including the new private Mock Speaking capture migration, were retained and the combined candidate was tested again. No merge into main, production deployment, shared database migration, object-store write or paid provider call was performed.
 
 The earlier [source-only review](../merge-readiness-20261101/README.md) remains historical evidence. This report supersedes its execution/integration status, while preserving its source snapshots and unresolved evidence.
@@ -44,6 +46,6 @@ The migration preservation fixture seeds one learner and one historical content 
 3. Recover the full named conversation and exact Phase A–J continuation prompt, verify the Basebook binary source identity and reconcile recorded Owner decisions D01–D08. Full master/FastAPI/Basebook extracted text was read; partial recovery transcripts are not represented as the full conversation.
 4. Validate independent subjective assessment with an appropriate calibrated model and independent examiner evidence. Authored synthetic objective cases cannot establish IELTS band accuracy.
 5. Complete specifically scoped live provider, four-role browser/microphone, dictionary Worker/R2, real portability destination/restore, backup/PITR and RPO/RTO acceptance.
-6. Obtain the Owner's explicit permission **before merging this exact reviewed candidate into main**. Production deployment also remains unauthorized.
+6. The Owner has since authorized merging after completion and successful validation. That condition remains unsatisfied; see the current review. Production deployment remains unauthorized.
 
 There is no readiness percentage or “100% complete” claim. This branch is a concrete review candidate with substantial local implementation and validation; mandatory release evidence is still incomplete.

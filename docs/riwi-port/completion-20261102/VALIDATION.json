@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-02",
+  "tested_code_commit": "9d5512d01d1901c09dcf91c6c2c4d6c98ae807c6",
+  "main_baseline": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
+  "backend": {
+    "passed": 3353,
+    "failed": 2,
+    "subtests_passed": 36,
+    "exit_code": 1,
+    "reason": "Both real TCP/WebSocket tests fail at socket.bind due to host restrictions; Unix socket bind is also denied."
+  },
+  "frontend": {
+    "passed": 1270,
+    "failed": 0,
+    "skipped": 11,
+    "reason": "Original private Listening_Test_1.html fixture unavailable."
+  },
+  "checks": {
+    "riwi-contracts-20261102.log": {
+      "migrations": 80,
+      "typedTables": 154,
+      "storeChecks": 14,
+      "httpChecks": 2,
+      "replicas": 1,
+      "measurements": {
+        "providerNetworkCalls": 0,
+        "semanticBandAccuracyClaimed": false
+      },
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    },
+    "riwi-domain-20261102.log": {
+      "migrations": 80,
+      "typedTables": 154,
+      "storeChecks": 32,
+      "httpChecks": 7,
+      "replicas": 1,
+      "measurements": {
+        "httpRequests": 5,
+        "providerNetworkCalls": 0
+      },
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    },
+    "riwi-policy-20261102.log": {
+      "migrations": 80,
+      "typedTables": 154,
+      "storeChecks": 14,
+      "httpChecks": 5,
+      "replicas": 1,
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    },
+    "riwi-build-20261102.log": {
+      "staticBuild": true,
+      "runtime": "Python FastAPI",
+      "files": 513,
+      "routes": 125,
+      "nodeRequired": false,
+      "revision": "a21fb4c3543fed2d9394",
+      "inputBytes": 16253982,
+      "transferBytes": 13017584,
+      "minifiedFiles": 179
+    }
+  },
+  "capability_gate": {
+    "exit_code": 1,
+    "passed": false,
+    "reference": "CAPABILITY_AUDIT.json"
+  },
+  "training": {
+    "executed": false,
+    "parameter_count": null,
+    "weights": null,
+    "reason": "No language model / fine-tuning stack or validated subjective benchmark in this candidate. Prompt composition and generated exercises are not model training."
+  },
+  "source": {
+    "library_file_id": "libfile_ef36714def108191b7ecdfc263559f43",
+    "version": "1.0 — 2026-10-04",
+    "extracted_text_sha256": "7b78fbae566e1b055a6a5406b193c14a11c6f49f28a43fdde02a96443ab5c2fc",
+    "exact_binary_hash_verified": false,
+    "compliance_certified": false,
+    "reconfirmed_library_file_id": "libfile_656f1e6af07c8191a4bf7bc90886468a",
+    "reconfirmed_file_id": "file_0000000031d082108ed90f731f7de19a",
+    "reconfirmed_on": "2026-11-02",
+    "read_utf8_bytes": 114387,
+    "read_lines": 3909,
+    "read_content_matches_prior": true,
+    "downloaded_binary_verified": false
+  },
+  "raw_log_sha256": {
+    "riwi-backend-20261102.log": "649c0a490c8b1f3532a8890596e8ffe48d51d5296f010f510d603ede59f15f42",
+    "riwi-frontend-20261102.log": "faf9ea0a3dc28e8e79101af85a45aa39aedc4711320d2b64092a4de3a2157f1a",
+    "riwi-contracts-20261102.log": "322d336d2c4c00cfb7bff54adbb2092ca2fc533b65cc130e58d6d9e23b26f31f",
+    "riwi-domain-20261102.log": "0bde608907722268266836758d557969d8dc09894f2c5af265f86bc691f2131d",
+    "riwi-policy-20261102.log": "05c64a9f941bbbb7640a8af7ad98c71da291f090124c1243640b66a2884fe0ea",
+    "riwi-capability-20261102.log": "186e0131c0bbb4827c2db7dacf531cd4576e4f19f22a392c9ea82a1e2d266276",
+    "riwi-build-20261102.log": "0083b696c6785648d3024da3e89fdba452cd07dd1498caa96a359a70a1457d24"
+  },
+  "merge_authorized_conditionally": true,
+  "merge_conditions_satisfied": false,
+  "main_merge_performed": false,
+  "production_deployment_performed": false
+}

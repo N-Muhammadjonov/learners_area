@@ -256,7 +256,8 @@ async def evaluate(user_id,kind,source_type,source_id,params,language='en'):
     async with db.acquire() as con:overlay,scope,version=await active(con,contract.key)
     resolved,metadata=await resolve(kind,params,language,user_id=user_id,contract=contract,overlay=overlay,policy_version=version)
     if not resolved:return {'ok':False,'error':metadata}
-    metadata.update(assessmentContractKey=contract.key,ownerPolicyScope=scope,ownerPolicyVersion=version,promptVersion=contract.version)
+    metadata.update(assessmentContractKey=contract.key,ownerPolicyScope=scope,ownerPolicyVersion=version,
+                    promptVersion=contract.version,rubricVersion=contract.rubric_version)
     metadata['processedInMs']=max(0,min(600000,int((time.monotonic()-start)*1000)))
     row,created=await persist(user_id,kind,source_type,source_id,resolved,metadata)
     if not row:return {'ok':False,'error':'not_found'}

@@ -77,8 +77,11 @@ def evaluate_writing(*, task_type: str, prompt: str, content: str, target_words:
     if general_training:
         words = len(content.split())
         result = {"overallEstimate": None, "confidence": 0.0, "verdict": None,
-                  "criteria": [{"key": "task_achievement", "label": "Task Achievement", "band": None,
-                                "limited": True, "note": "Letter purpose, register and bullet coverage require semantic evaluation."}],
+                  "criteria": [{"key": key, "label": label, "band": None, "limited": True,
+                                "note": "Letter purpose, register and bullet coverage require semantic evaluation." if key=='task_achievement'
+                                        else "This criterion has not been independently validated for this response."}
+                               for key,label in [('task_achievement','Task Achievement'),('coherence_cohesion','Coherence & Cohesion'),
+                                                 ('lexical_resource','Lexical Resource'),('grammatical_range_accuracy','Grammatical Range & Accuracy')]],
                   "strengths": [], "weaknesses": [], "issues": [], "nextActions": [], "recommendedExercises": []}
         if words < target_words:
             result["weaknesses"].append(f"Response contains {words} words against the {target_words}-word target.")

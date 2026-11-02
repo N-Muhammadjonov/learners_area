@@ -10,7 +10,7 @@ def test_source_focus_method_and_guard_are_composed(task):
     contract=contracts.get_assessment_contract(task['key'])
     assert contract is not None
     assert all(rule in contract.task_rules for rule in (task['focus'],task['method'],task['guard']))
-    assert contract.version.endswith('-v2')
+    assert contract.version.endswith('-v3')
     assert contracts.get_assessment_contract(task['aliases'][0]) is contract
     prompt=(contracts.compose_assessment_prompt(contract) if contract.execution=='coach_evaluation'
             else contracts.compose_teaching_prompt(contract))

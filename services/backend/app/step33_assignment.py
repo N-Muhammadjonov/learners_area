@@ -7,6 +7,7 @@ from .step31_learning_production import _language
 from .step31_riwi_text import analyse,LINK
 from . import step31_coach as coach
 from .rate_limit import evaluation_limit
+from .riwi_assessment_contracts import canonical_writing_subtype
 router=APIRouter()
 
 WRITING_REASON='The assignment is linked to a writing prompt, so the writing rubric applies.'
@@ -93,7 +94,7 @@ async def assignment_evaluate(req:Request,id:str):
             prompt=await con.fetchrow('SELECT * FROM writing_prompts WHERE id=$1',submission['prompt_id'])
             if not prompt:return core.j({'error':'prompt_missing'},500)
         outcome=await coach.evaluate(subject,'writing','writing_submission',submission['id'],
-            {'taskType':prompt['task_type'],'prompt':prompt['prompt'],'content':submission['content'],'targetWordCount':prompt['target_word_count']},_language(req))
+            {'taskType':prompt['task_type'],'prompt':prompt['prompt'],'content':submission['content'],'targetWordCount':prompt['target_word_count'],'writingSubtype':canonical_writing_subtype(prompt)},_language(req))
         if not outcome['ok']:return core.j({'error':outcome['error']},502)
         await completed(aid,subject)
         return core.j({'ok':True,'dispatchedTo':'writing','evaluationId':outcome['evaluation']['id'],'checkedBy':'RIWI','reason':WRITING_REASON})

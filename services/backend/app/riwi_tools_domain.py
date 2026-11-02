@@ -541,6 +541,8 @@ async def explain_objective_question(
     learner_ans = str(row.get("learner_answer") or "").strip()
     authored = str(row.get("authored_explanation") or "").strip()
     is_correct = row.get("is_correct") if type(row.get("is_correct")) is bool else None
+    from .riwi_assessment_contracts import derive_objective_contract
+    contract=derive_objective_contract(module,(question.get('typeCode') or question.get('type')) if question else None)
 
     await record_riwi_audit(
         conn,
@@ -572,6 +574,9 @@ async def explain_objective_question(
         "isCorrect": is_correct,
         "officialAnswer": official,
         "sourceRevisionId":str(version) if version else None,
+        "assessmentContractKey":contract.key if contract else None,
+        "promptVersion":contract.version if contract else None,
+        "rubricVersion":contract.rubric_version if contract else None,
         "explanationAvailable":question is not None,
         "learnerAnswer": learner_ans,
         "explanation": explanation,

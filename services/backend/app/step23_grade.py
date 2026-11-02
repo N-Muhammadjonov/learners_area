@@ -8,6 +8,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
 from .rate_limit import evaluation_limit
+from .riwi_assessment_contracts import canonical_writing_subtype
 router=APIRouter()
 LABELS={'task_achievement':'Task Achievement','task_response':'Task Response','coherence_cohesion':'Coherence & Cohesion','lexical_resource':'Lexical Resource','grammatical_range_accuracy':'Grammatical Range & Accuracy'}
 
@@ -48,9 +49,13 @@ async def run_grade(db,req_id,user_id,language):
                     await con.execute('''UPDATE writing_grade_requests SET status='evaluated',claimed_at=NULL,evaluated_at=NOW() WHERE id=$1''',req_id)
                     return {'ok':True}
                 raise ValueError('invalid_evaluation')
+            prompt_meta=None
+            if dict(row).get('prompt_id'):
+                prompt_meta=await con.fetchrow('SELECT task_type,category,task_category FROM writing_prompts WHERE id=$1',row['prompt_id'])
         task=row['task_type']
-        contract=ai.derive_coach_contract('writing',{'taskType':task,'writingSubtype':dict(row).get('task_category')})
-        p,err=await ai.evaluate(language,'writing',{'taskType':task,'question':row['question_text'],'essay':row['essay_text'],'wordCount':row['word_count']},ai.grade_system(task,dict(row).get('task_category')),5000,user_id=user_id,contract=contract)
+        subtype=canonical_writing_subtype(prompt_meta) if prompt_meta else None
+        contract=ai.derive_coach_contract('writing',{'taskType':task,'writingSubtype':subtype})
+        p,err=await ai.evaluate(language,'writing',{'taskType':task,'question':row['question_text'],'essay':row['essay_text'],'wordCount':row['word_count']},ai.grade_system(task,subtype),5000,user_id=user_id,contract=contract)
         if err:return await failure(db,req_id,'external_required' if err=='unavailable' else 'evaluation_unavailable')
         norm=criteria(task,p['data']['criteria'])
         if not norm:return await failure(db,req_id,'invalid_evaluation')

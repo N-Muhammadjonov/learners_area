@@ -1,12 +1,13 @@
-# RIWI current-main QA — 2026-11-01
+# RIWI current-main QA — 2026-11-02
 
-The exact local code checkpoint is `0828ef56111b46b65abc399a58ea66542379bdce`. The full [validation report](docs/riwi-port/current-main-integration-20261101/README.md) and [machine receipt](docs/riwi-port/current-main-integration-20261101/VALIDATION.json) govern this candidate.
+Latest completion/training status is in the [2026-11-02 review](docs/riwi-port/completion-20261102/README.md). The capability gate fails; no trained language model is claimed. The full [validation report](docs/riwi-port/current-main-integration-20261101/README.md) and [machine receipt](docs/riwi-port/completion-20261102/VALIDATION.json) govern this candidate.
 
 | Check | Result |
 | --- | --- |
-| Backend | 3308 passed, 36 subtests passed; 2 real TCP/WebSocket tests failed because the host denies `socket.bind`. Overall exit 1. |
+| Backend | 3353 passed, 36 subtests passed; 2 real TCP/WebSocket tests failed because the host denies `socket.bind`. Overall exit 1. |
 | Frontend | 1270 passed, 0 failed, 11 skipped for the unavailable original Listening fixture. |
 | Build | Passed using the project Python venv; 513 assets, 125 browser routes. |
+| New contract persistence probe | 14 store checks + 2 HTTP checks passed. |
 | Owner policy PostgreSQL | 14 store checks and 5 HTTP checks passed. |
 | Canonical domain PostgreSQL | 32 store checks and 7 HTTP assertions passed; 5 requests, zero provider network calls. |
 | Current-main Mock / Writing PostgreSQL | 91 Mock and 19 Writing HTTP checks passed. |
