@@ -1038,6 +1038,28 @@
         "created_at"
       ]
     },
+    "mock_speaking_question_captures": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "part",
+        "question_id",
+        "question_ids",
+        "object_key",
+        "codec",
+        "mime_type",
+        "bytes",
+        "duration_ms",
+        "sha256",
+        "capture_status",
+        "transcript_capture",
+        "started_at",
+        "ended_at",
+        "finalized_at",
+        "created_at"
+      ]
+    },
     "mock_tests": {
       "classification": "site",
       "columns": [

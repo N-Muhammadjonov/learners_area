@@ -118,6 +118,27 @@ async def owner_access(con,user,typ,id):
 
 async def allow_resource(con,user,key):
     # No fallback from private ownership to a guessed filename.
+    if key.startswith('mock/materials/'):
+        pieces=key.split('/')
+        vid=core.uuid_value(pieces[2]) if len(pieces)==4 else None
+        if not vid:return 'not_found'
+        row=await con.fetchrow("""SELECT content_snapshot,created_by_user_id FROM content_versions
+            WHERE id=$1 AND module='mock' AND publication_state='published'""",vid)
+        if not row:return 'not_found'
+        payload=row['content_snapshot']
+        if isinstance(payload,str):payload=json.loads(payload)
+        if not isinstance(payload,dict) or payload.get('mediaObjectKey')!=key:return 'not_found'
+        if user['role']=='owner':return 'allowed'
+        if user['role'] not in ('student','teacher'):return 'forbidden'
+        if user['role']=='teacher' and row['created_by_user_id']==user['id']:return 'allowed'
+        linked=await con.fetchval("""SELECT EXISTS(
+            SELECT 1 FROM mock_attempts a,
+            LATERAL jsonb_array_elements(a.mock_snapshot->'sections') s
+            WHERE s->>'contentVersionId'=$1 AND
+            (a.user_id=$2 OR ($3::bool AND EXISTS(SELECT 1 FROM teacher_student_links l
+              WHERE l.teacher_user_id=$2 AND l.student_user_id=a.user_id))))""",
+            str(vid),user['id'],user['role']=='teacher')
+        return 'allowed' if linked else 'forbidden'
     block=await con.fetchrow('SELECT material_id FROM material_blocks WHERE object_key=$1 LIMIT 1',key)
     primary=await con.fetchrow('SELECT id FROM speaking_materials WHERE primary_object_key=$1 LIMIT 1',key) if not block else None
     mid=block['material_id'] if block else primary['id'] if primary else None
@@ -134,7 +155,18 @@ async def allow_resource(con,user,key):
     block=await con.fetchrow('SELECT owner_type,owner_id FROM resource_blocks WHERE object_key=$1 LIMIT 1',key)
     if block and block['owner_type'] in ('lesson','reading','listening','writing','speaking','grammar','assignment','live_class'):
         return (await owner_access(con,user,block['owner_type'],block['owner_id'])) or 'not_found'
-    attempt=await con.fetchrow('SELECT user_id FROM speaking_attempts WHERE recording_object_key=$1 LIMIT 1',key)
+    if key.startswith('mock/responses/'):
+        try:
+            attempt=await con.fetchrow('''SELECT a.user_id FROM mock_speaking_question_captures r
+                JOIN mock_attempts a ON a.id=r.attempt_id WHERE r.object_key=$1 LIMIT 1''',key)
+        except Exception as exc:
+            if getattr(exc,'sqlstate',None)!='42P01':raise
+            return 'not_found'
+    else:
+        attempt=await con.fetchrow('SELECT user_id FROM speaking_attempts WHERE recording_object_key=$1 LIMIT 1',key)
+        if not attempt and key.startswith('speaking/attempts/'):
+            attempt=await con.fetchrow('''SELECT a.user_id FROM mock_speaking_audio r
+              JOIN mock_attempts a ON a.id=r.attempt_id WHERE r.object_key=$1 LIMIT 1''',key)
     if not attempt:return 'not_found'
     if user['role']=='owner':return 'allowed'
     if user['role']=='student':return 'allowed' if attempt['user_id']==user['id'] else 'forbidden'

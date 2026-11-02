@@ -23,6 +23,7 @@ class Conn:
  async def execute(self,q,*args):self.calls.append(('execute',q,args))
  async def fetchval(self,q,*args):
   self.calls.append(('fetchval',q,args))
+  if 'SELECT content FROM writing_submissions' in q:return 'Hi there'
   if 'FROM writing_prompts' in q:return None
   return None
 

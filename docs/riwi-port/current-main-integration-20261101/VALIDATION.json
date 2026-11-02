@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "executed_at_utc": "2026-11-01T18:17:28.588327+00:00",
-  "local_code_checkpoint": "dd7bd2b01f61912b5a61ff28e01766a25a6a6311",
-  "main_sha": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "executed_at_utc": "2026-11-01T18:29:20.687796+00:00",
+  "local_code_checkpoint": "0828ef56111b46b65abc399a58ea66542379bdce",
+  "main_sha": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
   "audit_parent": "eb7c58fda50f8186397133c9eb6372e66e62c486",
   "branch": "feature/riwi-current-main-integration-20261101",
   "merge_ready": false,
@@ -12,7 +12,7 @@
   "backend": {
     "command": "cd services/backend && .venv/bin/python -m pytest -q --tb=short",
     "exit_code": 1,
-    "passed": 3306,
+    "passed": 3308,
     "subtests_passed": 36,
     "failed": 2,
     "failures": [
@@ -31,7 +31,7 @@
   "frontend": {
     "command": "npm test",
     "exit_code": 0,
-    "passed": 1262,
+    "passed": 1270,
     "failed": 0,
     "skipped": 11,
     "skip_reason": "LEGACY_LISTENING_FIXTURE=Listening_Test_1.html unavailable; exact filename search in Downloads and Codex workspaces returned no match"
@@ -42,21 +42,21 @@
     "result": {
       "staticBuild": true,
       "runtime": "Python FastAPI",
-      "files": 512,
+      "files": 513,
       "routes": 125,
       "nodeRequired": false,
-      "revision": "3b872ebba350b24caf02",
-      "inputBytes": 16247887,
-      "transferBytes": 13015510,
-      "minifiedFiles": 178
+      "revision": "a21fb4c3543fed2d9394",
+      "inputBytes": 16253982,
+      "transferBytes": 13017584,
+      "minifiedFiles": 179
     },
     "environment_note": "Unactivated host python lacked declared rcssmin; the project venv includes pinned rcssmin/rjsmin and built successfully."
   },
   "domain_postgres": {
     "command": "POSTGRES_PROBE=tests/riwi_domain_postgres_probe.py node --import tsx scripts/verify-fastapi-postgres.mjs",
     "result": {
-      "migrations": 79,
-      "typedTables": 153,
+      "migrations": 80,
+      "typedTables": 154,
       "storeChecks": 32,
       "httpChecks": 7,
       "replicas": 1,
@@ -72,8 +72,8 @@
   "owner_policy_postgres": {
     "command": "POSTGRES_PROBE=tests/riwi_postgres_probe.py node --import tsx scripts/verify-fastapi-postgres.mjs",
     "result": {
-      "migrations": 79,
-      "typedTables": 153,
+      "migrations": 80,
+      "typedTables": 154,
       "storeChecks": 14,
       "httpChecks": 5,
       "replicas": 1,
@@ -82,12 +82,16 @@
     }
   },
   "migrations": {
-    "executed_at": "2026-11-01T18:11:37.278Z",
+    "executed_at": "2026-11-01T18:25:51.704Z",
     "engine": "PGlite PostgreSQL WASM",
     "native_server": false,
-    "source_main": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+    "source_main": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
     "main_prefix_unchanged": true,
     "journal_entries": 79,
+    "platform_migrations": [
+      "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql",
+      "supabase/migrations/20261101134624_mock_speaking_question_captures.sql"
+    ],
     "suffix": [
       {
         "tag": "0075_riwi_core_and_governance",
@@ -112,7 +116,7 @@
     ],
     "fresh_install": "pass",
     "populated_upgrade": "pass",
-    "preserved_existing_tables": 151,
+    "preserved_existing_tables": 152,
     "privacy_tables": 16,
     "direct_client_read_denied": true,
     "shared_database_touched": false,
@@ -400,8 +404,9 @@
     "frontend/vanilla/modules/live-classes/resources.js": "d79a475cb74db6677c630bd51af449da2e8d7658ddf737f0d5fd1511e55cd811",
     "frontend/vanilla/modules/live-classes/room.js": "25a173613935457f5ecbfa0f6538474d16b2a934829d8fa3d7a636069f8b83ff",
     "frontend/vanilla/modules/media/material-player.js": "c9cee8aca9481575d8abe218d7cc1af6adb1524e0c49c048d0fcc09193612633",
+    "frontend/vanilla/modules/mocks/local-transcript.js": "b607f059be6ec2211a699e436aacb6f33b14544bc9b83d7d3bcc00153170ddcd",
     "frontend/vanilla/modules/mocks/page.js": "7a1b00e1818574e2288a6999989062b562c4d25c0d604baae47c2b4d5b91e652",
-    "frontend/vanilla/modules/mocks/runner.js": "ecb4b72ca924fdcce7ae972d3ac37948505df2b012c57aa688c594d3325e6996",
+    "frontend/vanilla/modules/mocks/runner.js": "8beee4330ecbdeea944f0a9245214621b20c93e63152a909564c2ce8d2e55f77",
     "frontend/vanilla/modules/not-found.js": "7ed45f33d5397406f5d24a9f1c0bcba7285e8fe21cdfa1c17aa91f14e3f903d8",
     "frontend/vanilla/modules/notes/lesson-notes.js": "f998ed650d1bd327a7e3db8af88a8862ba9841eccf6a8de0769395742514ceb5",
     "frontend/vanilla/modules/notifications/page.js": "e00e31403b2cceace2d2abbd843c0cf9f7462203ff9a85a03c22fe0229b8fb40",
@@ -495,8 +500,8 @@
     "frontend/vanilla/modules/staff-final30/listening.js": "064ffeb0b23dd69a0714084c69cfc519609346931c330a7e639e2e25e3905728",
     "frontend/vanilla/modules/staff-final30/management-hub.js": "b717444b22484b2b77fd7e087447c0fb83ed44dad080becee84cf14c226e7fed",
     "frontend/vanilla/modules/staff-final30/materials.js": "3b08d485b88028eca09b89c9d38dc50de9d5ca72b5afeb022cec1cfa32322c3d",
-    "frontend/vanilla/modules/staff-final30/mock-create.js": "23ef7b101c7962365af8fd5b278317f3e17e8f4159de10dd3c2c56154ada5c9e",
-    "frontend/vanilla/modules/staff-final30/mock-grading.js": "009bcb27b8b6509849bb61d2291981a29a4c993da1936f310080fa86b3d0aac6",
+    "frontend/vanilla/modules/staff-final30/mock-create.js": "6d49db124dea6d1025e1338f7c1352ac8503c487f0b68829611080505892fa4c",
+    "frontend/vanilla/modules/staff-final30/mock-grading.js": "86cd9ec7c2a22c2987ca7d3c62de5c93f5f185f9ffcd9bbbf598935ef16d5f16",
     "frontend/vanilla/modules/staff-final30/mock-management.js": "8e88e887bc2219685c0923c1ad238d22e07994ffc52deb1fcde80b651cbfaf1d",
     "frontend/vanilla/modules/staff-final30/mock-summary.js": "d70998225c4aff87c6f293477f9a3934409c7b31c00b67f0cb1355efd113840b",
     "frontend/vanilla/modules/staff-final30/monitoring-strings.js": "97085f62a8910e5e404273abadee53bc360fa887a8cd2949b3a079136ee28fac",
@@ -559,7 +564,7 @@
     "frontend/vanilla/modules/writing/exam-classification.js": "ab24e7170beffa9491118b1ae9def9c639fc6b331410f44ea2fc81ded8dd4a93",
     "frontend/vanilla/modules/writing/exam-picker.js": "80e57f7c6ac640b14532c5a54ae3de9108aa988d8c465111739d5a111c990248",
     "frontend/vanilla/modules/writing/exam-practice.js": "5e7a4514994c2834763fa9e8042de93301b322af4cdefb095741e6d102ca73aa",
-    "frontend/vanilla/modules/writing/exam.js": "f59890f95e9efb55a5f16da86126bd498dbdc63f008b3380cc783a5cb15ac0f3",
+    "frontend/vanilla/modules/writing/exam.js": "bcdcb216fbe9568eca993684589e97cc42497c947a637a0a62a0e6cb96ea8711",
     "frontend/vanilla/modules/writing/grade-form.js": "13ab45c8743e699a826f47f40df8ab3024275313c3d97ff9aba2fca0146e1c1f",
     "frontend/vanilla/modules/writing/grade.js": "ac5d8b27659218cb9a827993b9d95dfac50307e006a03bbd892553aab8d45504",
     "frontend/vanilla/modules/writing/home.js": "986aaffd494224122cb8d77cec150320fe807456e4c5379c7d725ac67f3f6fa6",
@@ -628,7 +633,7 @@
     "services/backend/app/dictionary_reader_metadata.py": "8eb33a60e54b3bd86c5c271893e0653af1fb9ce68cbdb5f326deb54ee6fec403",
     "services/backend/app/dictionary_unicode16_overrides.json": "cd6e8e761fb6cd9166fd51476536a152cfdd3112704c0a469eabdbcb7e1b546f",
     "services/backend/app/editorial_revisions.py": "e0c3a7c23fb52fe2022a8c00fa768af6c5f3b1cfd828ba299249c7fc1eb030f3",
-    "services/backend/app/exam_lifecycle_port.py": "03af440394fe895bed62d8dd7db401d079fe60dd9c0d4727dcfece7ce5ce82ba",
+    "services/backend/app/exam_lifecycle_port.py": "981fffe48e605c7956d7c5f2a48c1506c8298d718118dd23b0d5d01489ae50a1",
     "services/backend/app/frontend_static.py": "41009557f35257f0c4ba399663f6c58970f609807c10b0bdfc6778c7c61640f1",
     "services/backend/app/grammar_bundle_import_port.py": "0e443a15d0263f84a198e28476fb86e67a22480a93703425032275573f60c42e",
     "services/backend/app/import_templates_source.json": "3d14944ae3926f89fa13f626f3b69de2ccdde6928108fbd97d6dbd51e4c25480",
@@ -644,11 +649,12 @@
     "services/backend/app/main.py": "a3c30b0e85623701af90a302d1b18e0a16955942284cddf4c8fa6355f698aa44",
     "services/backend/app/media_streaming.py": "f81ed1ac82ec45e8b24ddbf0ec1c51bcd5d40e91a74a3496b0d177a58631b450",
     "services/backend/app/migration_phase2.py": "55e7a2a1470d60f9f7ca5a63a02046fc7cbca2bf27e573b5828bd49b77f52c87",
-    "services/backend/app/mock_authoring_port.py": "97ec7da56c27b04e429536b8e5aa982ef4724a8135a4c4651567748d12c70781",
+    "services/backend/app/mock_authoring_port.py": "a8089f797b032ae71c7547904b9e247fee6d6af78c742a2bb77ac7cc18f32b97",
     "services/backend/app/mock_existing_sources.py": "50ee2d3f3e479ca281c6df3d6623d1a2ceb1cc0ddbfcca5d951be2939aa6f3a2",
-    "services/backend/app/mock_exports_and_prompts.py": "f3ab3ea7a14940cd106cac92c8dffc0a18e174a663c6e7c65e16862e67bc219b",
-    "services/backend/app/mock_scoring_engine.py": "71e972ba4cb679a1af206c459cf6c18a39936a14d3c3d0fb48a79ad01b893899",
-    "services/backend/app/mock_system_port.py": "3cc45452d52ac7149ad58fe46a43c5bd6fb741276c9b671e02ae6ba7d1ebfb4e",
+    "services/backend/app/mock_exports_and_prompts.py": "f594581f368a1a39c8841e3f43fd9ccbe066918d8120ad24209763a313846124",
+    "services/backend/app/mock_scoring_engine.py": "c2a08abbc217f137a219810f1670862410a81c2f659d63a51fe409b0b6006942",
+    "services/backend/app/mock_speaking_questions.py": "d032ecebeed179b962360180869d7b1126ee1cb19b05813a0137701f7251c7e8",
+    "services/backend/app/mock_system_port.py": "4ff12733347624a9e1f1c224d597fabb1fff32df94c1bd166f6534a1c5835514",
     "services/backend/app/notification_events.py": "ce00f0482e76b849f16800e00c41c0fb258c708834b856ed1e8ee17c31dd8c10",
     "services/backend/app/origin_boundary.py": "dba26d70a8619a25099057cd5d816fffabab5201f94e17d748c392189a08f9a8",
     "services/backend/app/original_listening_catalogue.json": "90409db6672f950cc9d97919e332f47cc671f80adf4df3c3caf9b0f4183ca972",
@@ -659,7 +665,7 @@
     "services/backend/app/reading_question_types.json": "5c3a68879b7e3105bac2eb349fceb165c4094886fa477a8c8e32a0302eaa3467",
     "services/backend/app/reading_schedules.py": "7dae4e7bf69c8794453288dad81d86bb580d049adcbbcde71c618e29480f056f",
     "services/backend/app/report_metric_specs.json": "a82ab32f51bc3186bbbac7b57bc7e6b3f53d8244408ca58f27d8ba6cd0ae89b1",
-    "services/backend/app/request_lifecycle.py": "19d98788399adf768a64be5390509353693d4c8334121574570bfd5ead526538",
+    "services/backend/app/request_lifecycle.py": "62387deddd563c0fa06a6a60de5b2db1b74ea4c64a767d64bb98f6444ce7b70c",
     "services/backend/app/retention_admin_port.py": "f93bb9ff0d6b22e7030a26c128dc97e71a5a772afe425dbc0b663a8388b37967",
     "services/backend/app/retention_authoring_port.py": "858dfccfb7658a6409f7d5ac4cbb869c2f6a48391d6ab0fdc43d6ccbb4dffa73",
     "services/backend/app/retention_meaning.py": "8b80bada2fae3c401ccd72a6bea974fcb11eea66482571471e7852dc74014771",
@@ -723,7 +729,7 @@
     "services/backend/app/step19_vocab_games_port.py": "68902f46f16cc342cb450ddbbfc0a8813fe04854d70ccf782785b5a50a0ef3eb",
     "services/backend/app/step19_vocab_srs_port.py": "f1096f094b3ba54c9aac8cd911d3d66aa31786e2121558335bf68bee5ab77a3f",
     "services/backend/app/step20_lesson_editor_port.py": "7dcd0da60765764908910c69c61dafa70d4e5d83216b47d873c44db1cf4feab6",
-    "services/backend/app/step20_media_port.py": "b69603e241532386f37bb7d9687ef15b7b1815cd8f73b2fda0f1d6c4b9b0dffb",
+    "services/backend/app/step20_media_port.py": "4f57ad86b44734e48c6c083a706f2470630ad6d18879403383acdf03940cb1bb",
     "services/backend/app/step20_retention_transitions_port.py": "6f6926888824613a33550f6576e56eed0b07a5f85692a99414cd44c041eccb50",
     "services/backend/app/step20_upload_finalize_port.py": "5f575a278bd773b36aa82dc06d4077acf34018017fe083e7c732ce1fcf1244c4",
     "services/backend/app/step21_academic_start_port.py": "932a1ba710e8ef8a1d64f4a2b1731ea632f94445b48f8e1b52958ae7dfe7ded6",
@@ -822,7 +828,7 @@
     "services/backend/app/writing_admin_content_port.py": "59fc28a222a956d448ab06eb86b0e31ac1b46cdb9c7ca648319885c82c85f654",
     "services/backend/app/writing_exam_bank.json": "f8f9d0b01b65fa9ca462233894161d6e8479c0ce1ac4588401bef9ca5817e1de",
     "services/backend/app/writing_exam_bank.py": "71cc514c1fa4fcaf195a62ed247610d7c52f33e928368b8b63fd511181de4f22",
-    "services/backend/app/writing_exam_read_port.py": "070da0b21a0087ab2500a19da28ddd29f97cf53acb14400f07226adf2ee8abe7",
+    "services/backend/app/writing_exam_read_port.py": "c8e9d0de2c78a1b7b74e24bd3b144666750095e264fd4d1e14106ee4229c3a07",
     "services/backend/app/writing_source_materials.json": "38fb4a1601c03752ca69abb1774e329f260313220487e9d644d42232c8727c4e",
     "services/backend/app/writing_source_materials.py": "b7a97899e39bafc26c8fd4e1f14a5deacc238fb4b32f8805fc650b0907112d82",
     "services/backend/app/writing_stealing_collection.json": "cf4ee3dac2178270ee1e997ef3481aa72a60d4db7cefb9f4f3ba9b29a486c420",
@@ -841,32 +847,40 @@
     "services/backend/contracts/preview-adaptation.json": "3f9b3a7eb657fd267693566dbabc69f94da7e0eaff04492bbbfefff3dc06ba09",
     "services/backend/contracts/read-wire-fixture.json": "649976ceaef1dbee95e789ba2e7dafc1d50cce785ea231c9cb43881ed769c543",
     "services/backend/contracts/riwi_basebook_v1.json": "d179a34ddeb85a7e47edcd8c3ec17b64c5b74f0774b945e1ccd7dfaff30aa398",
-    "services/backend/contracts/riwi_portability_tables.json": "740d9353e687f4f5c0409502fe922c7cdd98762d961f43f43a6d7326b5cf7b5f"
+    "services/backend/contracts/riwi_portability_tables.json": "2bfddb0aaaa50dc3223d4eb2f5e6ffcbf04083a8684de6d0cbe11af49fcc7949"
   },
   "raw_workspace_log_receipts": {
-    "riwi-backend-final.log": {
-      "sha256": "6efff452c6dcd17f8dd3e9046ebaaf74bb3c43753a7649d6cc8558778ad6e20c",
+    "riwi-backend-latest.log": {
+      "sha256": "74a5b54de6afad52a9142b5e18a7fec32c1209e27306bbe2c391c1f101081f69",
       "bytes": 6976
     },
-    "riwi-frontend-final.log": {
-      "sha256": "3a2cf32c8db4b034c312f4127f6f69e9b13103c47404ef37c05de018ce207263",
-      "bytes": 309732
+    "riwi-frontend-latest.log": {
+      "sha256": "f961f57404ee3b0fa14085b756acce568cb33bb12115c2a765c0995a9682f47c",
+      "bytes": 311732
     },
-    "riwi-build-final.log": {
-      "sha256": "15f829117bff372c69f36e407417a3da46d6eb5c6b3646f42cc737d0ec4db4cd",
+    "riwi-build-latest.log": {
+      "sha256": "0083b696c6785648d3024da3e89fdba452cd07dd1498caa96a359a70a1457d24",
       "bytes": 212
     },
-    "riwi-migrations-final.log": {
-      "sha256": "76334f1fb48b190d0c28a3749232ca4e4415ae2a766b30bd4c91b6812b5bdb96",
-      "bytes": 1145
+    "riwi-migrations-latest.log": {
+      "sha256": "d326a391da511931d249d4974176e02df7c95fdc29091656c0e67658db21cf14",
+      "bytes": 1310
     },
-    "riwi-domain-postgres.log": {
-      "sha256": "2c7531b27c1e5acbdcc070384c195391a4e012adf803b22c83c38dfad65b2b4d",
+    "riwi-domain-postgres-latest.log": {
+      "sha256": "0bde608907722268266836758d557969d8dc09894f2c5af265f86bc691f2131d",
       "bytes": 191
     },
-    "riwi-policy-postgres.log": {
-      "sha256": "bc0edbb27134148849eb69762dc6984a4ec89511198a918ac9aed386a7f98aaf",
+    "riwi-policy-postgres-latest.log": {
+      "sha256": "05c64a9f941bbbb7640a8af7ad98c71da291f090124c1243640b66a2884fe0ea",
       "bytes": 132
+    },
+    "riwi-mock-postgres-latest.log": {
+      "sha256": "b4c380f236407b9d7173ed9ae7b7dce96558ead83a2ec749c57d3927a20ccb66",
+      "bytes": 116
+    },
+    "riwi-writing-postgres-latest.log": {
+      "sha256": "5a5c422e5d2d127cf676711f6888af091d67f29548a58673a4963997aea4638c",
+      "bytes": 116
     }
   },
   "open_gates": [
@@ -879,5 +893,37 @@
     "live external-provider acceptance",
     "four-role real browser/microphone/object-store acceptance",
     "native database Mode A/B/C import/export and destination restore with backup/RPO/RTO evidence"
-  ]
+  ],
+  "main_drift_reconciliation": {
+    "previous_main": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+    "current_main": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
+    "commits_added": 4,
+    "changed_main_files_retained": 38,
+    "main_routes": 309,
+    "combined_routes": 340,
+    "tables_classified": 168,
+    "published_feature_parent": "74c16ad0e98971b4a3ac6b3290a85f20cf03e9eb"
+  },
+  "current_main_mock_postgres": {
+    "command": "POSTGRES_PROBE=tests/mock_upload_export_probe.py node --import tsx scripts/verify-fastapi-postgres.mjs",
+    "result": {
+      "migrations": 80,
+      "typedTables": 154,
+      "httpChecks": 91,
+      "replicas": 1,
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    }
+  },
+  "current_main_writing_postgres": {
+    "command": "POSTGRES_PROBE=tests/writing_exam_integrity_probe.py node --import tsx scripts/verify-fastapi-postgres.mjs",
+    "result": {
+      "migrations": 80,
+      "typedTables": 154,
+      "httpChecks": 19,
+      "replicas": 1,
+      "database": "embedded PostgreSQL",
+      "result": "passed"
+    }
+  }
 }

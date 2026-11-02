@@ -23,7 +23,7 @@ assert.match(source('typing'),/generation!==requestGeneration/);
 assert.match(source('typing'),/function graphSvg\(/);
 assert.match(source('exam'),/data-exam-combined/);
 assert.match(source('exam'),/const revision=s\.revision,content=s\.text/);
-assert.match(source('exam'),/savedRevision=Math\.max\(latest\.savedRevision,revision\)/);
+// Save acknowledgements and concurrent edits are exercised by writing-practice-isolation.test.mjs.
 assert.match(source('exam'),/g1\+2\*g2/);
 assert.match(source('exam'),/data-exam-grade/);
 assert.match(source('translation'),/data-translation-fixes/);

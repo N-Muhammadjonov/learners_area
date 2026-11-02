@@ -38,6 +38,7 @@ class RiwiPhase7PortabilityRetentionTest(unittest.TestCase):
             "riwi_conversations":[{"id":"c1","user_id":"u1","locale":"uz","expires_at":"2099-01-01T00:00:00Z"},
                                   {"id":"expired","user_id":"u1","expires_at":"2000-01-01T00:00:00Z"}],
             "users":[{"id":"u1","name":"Learner","password_hash":"secret-canary"}],
+            "mock_speaking_question_captures":[{"id":"capture1","transcript_capture":{"text":"private speech canary","status":"browser_unverified"}}],
             "riwi_action_confirmations":[{"id":"confirmation"}],
         }
         key=base64.b64encode(bytes(range(32))).decode()
@@ -54,16 +55,19 @@ class RiwiPhase7PortabilityRetentionTest(unittest.TestCase):
             self.assertTrue(load(archive,dry_run=False,target_store=store)['applied'])
             self.assertNotIn('riwi_action_confirmations',store)
             if mode=='A':
+                self.assertIn('mock_speaking_question_captures',store)
                 self.assertEqual(len(store['riwi_knowledge_sources']),3)
                 self.assertEqual([x['id'] for x in store['riwi_conversations']],['c1'])
                 self.assertNotIn('password_hash',store['users'][0])
             elif mode=='B':
+                self.assertNotIn('mock_speaking_question_captures',store)
                 self.assertNotIn('users',store);self.assertNotIn('riwi_conversations',store)
                 self.assertEqual([x['id'] for x in store['riwi_knowledge_sources']],['k1'])
                 self.assertEqual(store['riwi_knowledge_sources'][0]['state'],'candidate')
                 self.assertIsNone(store['riwi_knowledge_sources'][0]['created_by_user_id'])
                 self.assertEqual([x['id'] for x in store['riwi_knowledge_units']],['unit1'])
             else:
+                self.assertIn('mock_speaking_question_captures',store)
                 self.assertIn('users',store)
                 self.assertFalse(any(x.startswith('riwi_') for x in store))
             # Idempotent fixture reapply; conflicting destination remains untouched.

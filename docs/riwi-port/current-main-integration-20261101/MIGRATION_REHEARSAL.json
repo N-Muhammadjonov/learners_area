@@ -1,10 +1,14 @@
 {
-  "executed_at": "2026-11-01T18:11:37.278Z",
+  "executed_at": "2026-11-01T18:25:51.704Z",
   "engine": "PGlite PostgreSQL WASM",
   "native_server": false,
-  "source_main": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "source_main": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
   "main_prefix_unchanged": true,
   "journal_entries": 79,
+  "platform_migrations": [
+    "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql",
+    "supabase/migrations/20261101134624_mock_speaking_question_captures.sql"
+  ],
   "suffix": [
     {
       "tag": "0075_riwi_core_and_governance",
@@ -29,7 +33,7 @@
   ],
   "fresh_install": "pass",
   "populated_upgrade": "pass",
-  "preserved_existing_tables": 151,
+  "preserved_existing_tables": 152,
   "privacy_tables": 16,
   "direct_client_read_denied": true,
   "shared_database_touched": false,

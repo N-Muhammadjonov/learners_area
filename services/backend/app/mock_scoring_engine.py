@@ -526,6 +526,7 @@ def compute_speaking_source_sha256(
     parts: list[dict[str, Any]],
 ) -> str:
     """Compute deterministic canonical SHA-256 digest for a 3-part Speaking submission."""
+    question_capture=any(p.get('question_id') for p in parts)
     normalized_parts = [
         {
             'part': str(p.get('part') or ''),
@@ -533,11 +534,13 @@ def compute_speaking_source_sha256(
             'bytes': int(p.get('bytes') or 0),
             'duration_ms': int(p.get('duration_ms') or p.get('durationMs') or 0),
             'question_ids': [str(q) for q in (p.get('question_ids') or p.get('questionIds') or [])],
+            **({'transcript_sha256':canonical_json_sha256(p.get('transcript_capture') or {})}
+               if question_capture else {}),
         }
-        for p in sorted(parts, key=lambda x: str(x.get('part') or ''))
+        for p in sorted(parts, key=lambda x: (str(x.get('part') or ''),str(x.get('question_id') or '')))
     ]
     return canonical_json_sha256({
-        'schema': 'la.mock.speaking.source.v1',
+        'schema': 'la.mock.speaking.source.v2' if question_capture else 'la.mock.speaking.source.v1',
         'attempt_id': str(attempt_id),
         'parts': normalized_parts,
     })
@@ -567,7 +570,9 @@ def compute_attempt_schedule_plan(
             continue
         sec = int(s.get('seconds') or DEFAULT_SECTION_SECONDS.get(sk, 1800))
         if seen_skills and seen_skills[-1][0] == sk:
-            # Merge two Writing task rows into one 60-minute Writing section window if needed
+            # Task 1 + Task 2 share one Writing section, including BOTH durations.
+            if sk == 'writing':
+                seen_skills[-1] = (sk, seen_skills[-1][1] + sec)
             continue
         seen_skills.append((sk, sec))
 

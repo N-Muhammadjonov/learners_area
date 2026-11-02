@@ -2384,6 +2384,28 @@ export const mockSpeakingAudio = pgTable(
   (table) => [uniqueIndex("mock_speaking_audio_attempt_part_uq").on(table.attemptId, table.part)],
 );
 
+/** Immutable per-question original audio. Recognition text is explicitly unverified. */
+export const mockSpeakingQuestionCaptures = pgTable("mock_speaking_question_captures", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  attemptId: uuid("attempt_id").notNull().references(() => mockAttempts.id, { onDelete: "cascade" }),
+  part: varchar("part", { length: 8 }).notNull(),
+  questionId: uuid("question_id").notNull(),
+  questionIds: jsonb("question_ids").$type<string[]>().notNull(),
+  objectKey: text("object_key").notNull(),
+  codec: varchar("codec", { length: 64 }).notNull(),
+  mimeType: varchar("mime_type", { length: 120 }).notNull(),
+  bytes: integer("bytes").notNull(),
+  durationMs: integer("duration_ms").notNull(),
+  sha256: varchar("sha256", { length: 64 }).notNull(),
+  captureStatus: varchar("capture_status", { length: 32 }).notNull().default("finalized"),
+  transcriptCapture: jsonb("transcript_capture").$type<{text: string; status: string}>().notNull().default({text:"",status:"unavailable"}),
+  startedAt: timestamp("started_at", { withTimezone: true }),
+  endedAt: timestamp("ended_at", { withTimezone: true }),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [uniqueIndex("mock_question_capture_identity").on(table.attemptId,table.part,table.questionId),
+  uniqueIndex("mock_question_capture_key").on(table.objectKey)]);
+
 export const mockGradingBatches = pgTable(
   "mock_grading_batches",
   {

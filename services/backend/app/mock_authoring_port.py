@@ -13,7 +13,7 @@ import re
 from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from starlette.datastructures import UploadFile
 from fastapi.responses import Response
 
@@ -130,7 +130,7 @@ def _content_hash(payload: dict) -> str:
                                       separators=(',', ':')).encode()).hexdigest()
 
 
-def _validate_material_payload(slot: str, payload: dict, has_media: bool) -> tuple[str | None, str | None]:
+def _validate_material_payload(slot: str, payload: dict, has_media: bool, track: str = 'academic') -> tuple[str | None, str | None]:
     if not isinstance(payload, dict):
         return 'invalid_document', 'JSON must be an object.'
     if slot in ('listening','reading'):
@@ -138,22 +138,25 @@ def _validate_material_payload(slot: str, payload: dict, has_media: bool) -> tup
         if not isinstance(qs, list) or len(qs) != 40:
             return 'invalid_question_count', 'Exactly 40 genuine questions are required.'
         ids = [q.get('id') for q in qs if isinstance(q, dict)]
-        if len(ids) != 40 or len(set(map(str,ids))) != 40:
+        if (len(ids) != 40 or len(set(map(str,ids))) != 40 or
+            any(type(qid) not in (str,int) or not str(qid).strip() or len(str(qid))>120 for qid in ids)):
             return 'invalid_question_ids', '40 unique question IDs are required.'
         from .mock_system_port import _question_has_answer_key
-        if any(not isinstance(q,dict) or not (q.get('questionText') or q.get('question_text')) or
+        if any(not isinstance(q,dict) or not isinstance(q.get('questionText') or q.get('question_text'),str) or
+               not (q.get('questionText') or q.get('question_text')).strip() or
                not _question_has_answer_key(q) for q in qs):
             return 'missing_keys', 'Each question needs prompt text and an official answer key.'
     if slot == 'listening' and not has_media:
         return 'missing_audio', 'Upload the actual Listening recording with the JSON.'
     if slot == 'reading':
         ps=payload.get('passages')
-        if not isinstance(ps,list) or not ps or any(not isinstance(x,dict) or not
-            str(x.get('bodyText') or x.get('body_text') or '').strip() for x in ps):
+        if not isinstance(ps,list) or not ps or any(not isinstance(x,dict) or
+            not isinstance(x.get('bodyText') or x.get('body_text'),str) or
+            not (x.get('bodyText') or x.get('body_text')).strip() for x in ps):
             return 'missing_passages', 'Reading JSON must contain genuine passages with bodyText.'
-    if slot.startswith('writing') and not str(payload.get('prompt') or '').strip():
+    if slot.startswith('writing') and (not isinstance(payload.get('prompt'),str) or not payload['prompt'].strip()):
         return 'missing_prompt', 'Writing material needs a real prompt.'
-    if slot == 'writingTask1' and not has_media:
+    if slot == 'writingTask1' and track == 'academic' and not has_media:
         return 'missing_task1_visual', 'Upload the Task 1 image, or include an authorized image reference.'
     return None, None
 
@@ -195,11 +198,14 @@ async def bind_existing_exam_material(req: Request):
             snapshot=await source_snapshot(con,slot,source_id)
             if snapshot is None:
                 return mock._err('unavailable_exam_material','The selected published Exam material is not complete.',422)
-            source_ref=f'exam:{slot}:{source_id}'
+            # A teacher's immutable clone is owned by that teacher. Reusing a
+            # different teacher's clone fails the draft ownership gate.
+            source_ref=f'exam:{slot}:{uuid.uuid5(source_id,str(user["id"]))}'
             old=await con.fetchrow("""SELECT id FROM content_versions WHERE module='mock'
                  AND content_type=$1 AND track=$2 AND source_ref=$3
-                 AND publication_state='published' AND content_hash=$4 LIMIT 1""",
-                 MOCK_MATERIAL_TYPES[slot],track,source_ref,_content_hash(snapshot))
+                 AND publication_state='published' AND content_hash=$4
+                 AND ($5::bool OR created_by_user_id=$6) LIMIT 1""",
+                 MOCK_MATERIAL_TYPES[slot],track,source_ref,_content_hash(snapshot),user['role']=='owner',user['id'])
             if old:
                 vid=old['id']
             else:
@@ -225,6 +231,10 @@ async def upload_mock_material(req: Request):
     if err: return err
     try:
         form=await req.form(max_files=2,max_fields=5,max_part_size=MAX_MOCK_DOCUMENT_BYTES)
+    except HTTPException as exc:
+        if exc.status_code==413:
+            return mock._err('material_too_large','The complete material upload exceeds 49 MB.',413)
+        raise
     except Exception:
         return mock._err('invalid_upload', 'Expected a JSON material and optional audio/image.', 422)
     slot=str(form.get('slot') or '')
@@ -246,7 +256,7 @@ async def upload_mock_material(req: Request):
         # Never trust media references or object keys embedded in imported JSON.
         for key in ('audioUrl','audio_url','mediaRef','mediaObjectKey','mediaSha256','mediaMimeType'):
             payload.pop(key,None)
-    problem,description=_validate_material_payload(slot,payload,has_media)
+    problem,description=_validate_material_payload(slot,payload,has_media,track)
     if problem: return mock._err(problem,description,422)
     if has_media and slot not in ('listening','writingTask1'):
         return mock._err('unexpected_media','Only Listening audio and Task 1 images can be attached.',422)
@@ -300,33 +310,14 @@ async def get_mock_material_media(req: Request, versionId: str):
     if not row: return mock._err('not_found','Media not found.',404)
     payload=row['content_snapshot']
     if isinstance(payload,str): payload=json.loads(payload)
-    if not isinstance(payload,dict): return mock._err('not_found','Media not found.',404)
-    key=payload.get('mediaObjectKey')
+    key=payload.get('mediaObjectKey') if isinstance(payload,dict) else None
     if not isinstance(key,str) or not key.startswith(f'mock/materials/{vid}/'):
         return mock._err('not_found','Media not found.',404)
-    try: raw=await mock.read_object(key)
-    except Exception: return mock._err('storage_unavailable','Media unavailable.',503)
-    if raw is None: return mock._err('not_found','Media not found.',404)
-    if hashlib.sha256(raw).hexdigest()!=payload.get('mediaSha256'):
-        return mock._err('media_corrupt','Media integrity check failed.',503)
-    mime=payload.get('mediaMimeType','application/octet-stream')
-    headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Accept-Ranges':'bytes'}
-    # Safari and other browsers may request byte ranges while playing long audio.
-    requested=req.headers.get('range','')
-    if requested.startswith('bytes='):
-        m=re.fullmatch(r'bytes=(\d*)-(\d*)',requested)
-        if not m or (not m.group(1) and not m.group(2)):
-            return Response(status_code=416,headers={**headers,'Content-Range':f'bytes */{len(raw)}'})
-        if not m.group(1):
-            size=int(m.group(2));start=max(0,len(raw)-size);end=len(raw)-1
-        else:
-            start=int(m.group(1));end=int(m.group(2)) if m.group(2) else len(raw)-1
-        if start>=len(raw) or end<start:
-            return Response(status_code=416,headers={**headers,'Content-Range':f'bytes */{len(raw)}'})
-        end=min(end,len(raw)-1)
-        headers['Content-Range']=f'bytes {start}-{end}/{len(raw)}'
-        return Response(content=raw[start:end+1],media_type=mime,status_code=206,headers=headers)
-    return Response(content=raw,media_type=mime,headers=headers)
+    # Use the same current-session/roster checks, private Worker capabilities and
+    # bounded Range streaming as every other private resource. Immutable upload
+    # keys are validated on ingestion and checked again for complete exports.
+    from .step20_media_port import deliver
+    return await deliver(req,key,False)
 
 
 async def _speaking_version(con, user, topics: dict, track: str, title: str):

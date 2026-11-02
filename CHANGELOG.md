@@ -2,7 +2,7 @@
 
 ## Current-main candidate — 2026-11-01
 
-Integrated the audited checkpoint with main `9ad7a8b4`, appended collision-free RIWI migrations 0075–0079, corrected encrypted A/B/C portability, composed all 68 Basebook rule sets, added transactional exact-hash Owner overlays, and wired actor-aware providers and canonical learning data. See the [validation report](docs/riwi-port/current-main-integration-20261101/README.md). Release remains **NO-GO**.
+Integrated the audited checkpoint with main `d62a2302` (including PR #110 Mock/Writing fixes), appended collision-free RIWI migrations 0075–0079, corrected encrypted A/B/C portability, composed all 68 Basebook rule sets, added transactional exact-hash Owner overlays, and wired actor-aware providers and canonical learning data. See the [validation report](docs/riwi-port/current-main-integration-20261101/README.md). Release remains **NO-GO**.
 
 ## Historical source-branch claims — not current acceptance (`feature/riwi-fastapi-integration-20261029`)
 - ** Baseline**: Integrated onto `main` (`1415ceee45a3fc18583a3b780fffd5cd6c519ae4`) and reconciled with PR #86 (`feat: bound AI provider concurrency and deduplicate paid requests`).

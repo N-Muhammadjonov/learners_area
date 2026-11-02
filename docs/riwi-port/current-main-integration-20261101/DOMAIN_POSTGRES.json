@@ -1,6 +1,6 @@
 {
-  "migrations": 79,
-  "typedTables": 153,
+  "migrations": 80,
+  "typedTables": 154,
   "storeChecks": 32,
   "httpChecks": 7,
   "replicas": 1,

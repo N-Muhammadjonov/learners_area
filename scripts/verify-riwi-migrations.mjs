@@ -12,6 +12,7 @@ const journal=JSON.parse(readFileSync('drizzle/meta/_journal.json'));
 const hash=x=>createHash('sha256').update(x).digest('hex');
 assert.deepEqual(journal.entries.slice(0,baseline.entries.length),baseline.entries);
 for(const [path,sha] of Object.entries(baseline.sql_sha256))assert.equal(hash(readFileSync(path)),sha,path);
+for(const [path,sha] of Object.entries(baseline.platform_sql_sha256||{}))assert.equal(hash(readFileSync(path)),sha,path);
 const suffix=journal.entries.slice(baseline.entries.length);
 assert.deepEqual(suffix.map(e=>e.tag.slice(0,4)),['0075','0076','0077','0078','0079']);
 for(const entry of suffix)assert.equal(readFileSync(`drizzle/${entry.tag}.sql`,'utf8'),readFileSync(`services/backend/migrations/${entry.tag}.sql`,'utf8'));
@@ -26,6 +27,14 @@ async function apply(db,entries){
   }
 }
 async function catalog(db){return (await db.query("SELECT table_name,column_name,data_type,is_nullable,column_default FROM information_schema.columns WHERE table_schema='public' ORDER BY table_name,ordinal_position")).rows;}
+async function applyPlatform(db){
+  for(const path of baseline.platform_execution_paths||[]){
+    assert.match(path,/^supabase\/migrations\/[a-z0-9_]+\.sql$/);
+    await db.exec('BEGIN');
+    try{await db.exec(readFileSync(path,'utf8'));await db.exec('COMMIT');}
+    catch(error){await db.exec('ROLLBACK');throw error;}
+  }
+}
 async function snapshot(db){
   const tables=(await db.query("SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename")).rows;
   const rows={};
@@ -35,7 +44,9 @@ async function snapshot(db){
 const fresh=new PGlite(),upgrade=new PGlite();
 try{
   await apply(fresh,journal.entries);
+  await applyPlatform(fresh);
   await apply(upgrade,baseline.entries);
+  await applyPlatform(upgrade);
   const uid='00000000-0000-4000-8000-000000000001';
   await upgrade.query("INSERT INTO users(id,name,email,password_hash,role,account_status,last_active_at) VALUES($1,'RIWI isolated learner','riwi-migration@example.invalid','test-only','student','active','2026-01-01T00:00:00Z')",[uid]);
   await upgrade.query("INSERT INTO content_versions(module,content_type,source_ref,version_no,status,title,content_hash,semantic_hash,answer_key_hash,created_by_user_id) VALUES('reading','passage','riwi-upgrade',1,'published','Historical revision',$1,$1,$1,$2)",['a'.repeat(64),uid]);
@@ -65,6 +76,7 @@ try{
   await upgrade.exec('RESET ROLE');
   const receipt={executed_at:new Date().toISOString(),engine:'PGlite PostgreSQL WASM',native_server:false,
     source_main:baseline.main_sha,main_prefix_unchanged:true,journal_entries:journal.entries.length,
+    platform_migrations:baseline.platform_execution_paths||[],
     suffix:suffix.map(e=>({tag:e.tag,sha256:hash(readFileSync(`drizzle/${e.tag}.sql`))})),
     fresh_install:'pass',populated_upgrade:'pass',preserved_existing_tables:Object.keys(before).length,
     privacy_tables:secure.length,direct_client_read_denied:true,shared_database_touched:false,

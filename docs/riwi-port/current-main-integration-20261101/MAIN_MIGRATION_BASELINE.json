@@ -1,5 +1,5 @@
 {
-  "main_sha": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "main_sha": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
   "journal_sha256": "647cc5d7f5dd59e9cf7225f8dac6bb9b41a0c84dc8f3b89dbde3bd70471ad4bd",
   "entries": [
     {
@@ -596,5 +596,13 @@
     "drizzle/0072_ai_provider_admission.sql": "69115873db05746128e5885fc3101d916d3307e9d9b0b2aa6f35706c72525e8e",
     "drizzle/0073_live_classes_youtube_chat_attendance.sql": "70726841b2dc2d52bb8fbf13be3d3ad7e6d61ab8d0fb2dae918846342b96b47b",
     "drizzle/0074_mock_hybrid_grading_system.sql": "16338cf06c2d025b2294c662775d302e209600151a2f2e312731e550163ef635"
-  }
+  },
+  "platform_sql_sha256": {
+    "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql": "a2efbff7a359a8bd3180b2ba6cb5cd59113c20383326447b999afdf77ea97681",
+    "supabase/migrations/20261101134624_mock_speaking_question_captures.sql": "2d4add99e0d45ec3d7df2c443390dc5b2a8e6f88b1b2558379c28eea7f120bb0"
+  },
+  "platform_execution_paths": [
+    "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql",
+    "supabase/migrations/20261101134624_mock_speaking_question_captures.sql"
+  ]
 }

@@ -1,3 +1,4 @@
 [
-  "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql"
+  "supabase/migrations/20261030230000_mock_hybrid_grading_system.sql",
+  "supabase/migrations/20261101134624_mock_speaking_question_captures.sql"
 ]
