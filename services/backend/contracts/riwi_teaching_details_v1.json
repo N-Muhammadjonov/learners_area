@@ -1,0 +1,2985 @@
+{
+  "schemaVersion": 1,
+  "version": "riwi-teaching-details-v1",
+  "authorship": {
+    "kind": "original_assistant_authored",
+    "rightsClass": "internal_permission",
+    "ownerInstructionDate": "2026-11-02",
+    "copiedSourceText": false,
+    "modelParameterTraining": false,
+    "reviewStatus": "agent_reviewed_not_human_certified"
+  },
+  "referenceChecks": [
+    {
+      "id": "british-council-grammar",
+      "url": "https://learnenglish.britishcouncil.org/free-resources/grammar/b1-b2",
+      "use": "Grammar fact checks; original explanations and examples, no copied course text."
+    },
+    {
+      "id": "ielts-reading",
+      "url": "https://ielts.org/take-a-test/test-types/ielts-academic-test/ielts-academic-format-reading",
+      "use": "Question-type and evidence boundaries."
+    },
+    {
+      "id": "ielts-writing",
+      "url": "https://ielts.org/take-a-test/test-types/ielts-academic-test/ielts-academic-format-writing",
+      "use": "Task boundaries; no examiner-score labels."
+    },
+    {
+      "id": "uzbek-orthography",
+      "url": "https://uzschoolcorpara.uz/uz/Dictionary?q=imlo",
+      "use": "Consulted Uzbek dictionary and spelling material. Query aliases and Cyrillic handling are authored heuristics, not corpus training."
+    },
+    {
+      "id": "openstax-writing-guide",
+      "url": "https://openstax.org/books/writing-guide/pages/1-5-writing-process-thinking-critically-about-a-text",
+      "use": "Concept check for summary versus paraphrase. No textbook passages, images, exercises, or distinctive examples copied or adapted."
+    }
+  ],
+  "entries": [
+    {
+      "id": "grammar.present-simple",
+      "explanationUz": "Odat yoki qayta-qayta bo‘ladigan ishni aytsangiz, present simple ishlating. I/you/we/they bilan fe’lning oddiy shakli keladi: work. He/she/it bilan tasdiq gapda ko‘pincha -s qo‘shiladi: works. Savolda does ishlatilsa, -s fe’lga yana qo‘shilmaydi.",
+      "tipUz": "Does she work? — to‘g‘ri. Does she works? — xato: -s vazifasini does bajaryapti.",
+      "practiceUz": "Har kuni qiladigan uchta ishingizni yozing. Keyin bittasini savolga aylantiring.",
+      "examples": [
+        {
+          "en": "I read every evening.",
+          "uz": "Men har oqshom kitob o‘qiyman."
+        },
+        {
+          "en": "She reads before bed.",
+          "uz": "U uxlashdan oldin kitob o‘qiydi."
+        },
+        {
+          "en": "Does she read at home?",
+          "uz": "U uyda kitob o‘qiydimi?"
+        },
+        {
+          "en": "We do not work on Sundays.",
+          "uz": "Biz yakshanba kunlari ishlamaymiz."
+        },
+        {
+          "en": "My brother takes the bus.",
+          "uz": "Akam avtobusda qatnaydi."
+        },
+        {
+          "en": "Do you drink tea in the morning?",
+          "uz": "Ertalab choy ichasizmi?"
+        }
+      ]
+    },
+    {
+      "id": "grammar.present-continuous",
+      "explanationUz": "Hozir davom etayotgan ish uchun am/is/are + fe’l-ing ishlatiladi. Bu shakl vaqtinchalik holatni ham bildiradi: masalan, shu hafta boshqa joyda yashash. I bilan am, he/she/it bilan is, qolgan shaxslar bilan are keladi. Know kabi ayrim holat fe’llari odatiy ma’nosida bu shaklda kelmaydi.",
+      "tipUz": "I reading emas, I am reading deb yozing. I know — bilaman; odatiy ma’noda I am knowing deyilmaydi.",
+      "practiceUz": "Hozir nima qilyapsiz? O‘zingiz va yana ikki inson haqida bittadan gap yozing.",
+      "examples": [
+        {
+          "en": "I am cooking now.",
+          "uz": "Men hozir ovqat pishiryapman."
+        },
+        {
+          "en": "She is talking to her teacher.",
+          "uz": "U o‘qituvchisi bilan gaplashyapti."
+        },
+        {
+          "en": "They are waiting outside.",
+          "uz": "Ular tashqarida kutishyapti."
+        },
+        {
+          "en": "We are staying with our aunt this week.",
+          "uz": "Biz shu hafta xolamiznikida turibmiz."
+        },
+        {
+          "en": "Are you listening to the recording?",
+          "uz": "Siz audioyozuvni tinglayapsizmi?"
+        },
+        {
+          "en": "He is not using his phone now.",
+          "uz": "U hozir telefonini ishlatmayapti."
+        }
+      ]
+    },
+    {
+      "id": "grammar.past-simple",
+      "explanationUz": "Past simple — tugagan o‘tgan voqea haqida gapirish usuli. Yesterday, last week, in 2023 kabi vaqtlar ko‘pincha shu zamonni talab qiladi. Muntazam fe’llarga -ed qo‘shiladi; go kabi fe’llarning alohida shakli bor: went. Savol va inkorda did kelsa, asosiy fe’l yana oddiy shaklga qaytadi.",
+      "tipUz": "Did you go? — to‘g‘ri. Did you went? — xato. Went dagi o‘tgan zamon vazifasini did bajargan.",
+      "practiceUz": "Kecha qilgan uchta ishingizni yozing. Har birida vaqtni ko‘rsating.",
+      "examples": [
+        {
+          "en": "I visited my grandmother yesterday.",
+          "uz": "Men kecha buvimni ko‘rgani bordim."
+        },
+        {
+          "en": "She went home at six.",
+          "uz": "U soat oltida uyiga ketdi."
+        },
+        {
+          "en": "Did you finish the exercise?",
+          "uz": "Mashqni tugatdingizmi?"
+        },
+        {
+          "en": "We did not watch television last night.",
+          "uz": "Biz kecha kechqurun televizor ko‘rmadik."
+        },
+        {
+          "en": "They bought a new table in May.",
+          "uz": "Ular may oyida yangi stol sotib olishdi."
+        },
+        {
+          "en": "He studied in Bukhara in 2023.",
+          "uz": "U 2023-yilda Buxoroda o‘qidi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.past-continuous",
+      "explanationUz": "O‘tmishdagi ma’lum paytda ish davom etayotgan bo‘lsa, was/were + fe’l-ing ishlating. I/he/she/it bilan was, you/we/they bilan were keladi. Davom etayotgan ish orasida boshqa voqea sodir bo‘lishi mumkin: uzunroq ish past continuous, kirib kelgan voqea past simple bilan beriladi.",
+      "tipUz": "When so‘zining o‘zi zamonni hal qilmaydi. Qaysi ish davom etayotganini, qaysi voqea sodir bo‘lganini tekshiring.",
+      "practiceUz": "Kecha soat sakkizda nimalar bo‘layotganini uchta gap bilan ayting.",
+      "examples": [
+        {
+          "en": "I was reading at eight.",
+          "uz": "Men soat sakkizda kitob o‘qiyotgan edim."
+        },
+        {
+          "en": "She was cooking when I arrived.",
+          "uz": "Men kelganimda u ovqat pishirayotgan edi."
+        },
+        {
+          "en": "They were playing while we were studying.",
+          "uz": "Biz o‘qiyotganimizda ular o‘ynayotgan edi."
+        },
+        {
+          "en": "It was raining when the bus came.",
+          "uz": "Avtobus kelganida yomg‘ir yog‘ayotgan edi."
+        },
+        {
+          "en": "Were you sleeping at midnight?",
+          "uz": "Yarim tunda uxlayotgan edingizmi?"
+        },
+        {
+          "en": "He was not listening during the explanation.",
+          "uz": "Tushuntirish paytida u tinglamayotgan edi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.present-perfect",
+      "explanationUz": "Present perfect o‘tgan ishni hozir bilan bog‘laydi. Have/has + fe’lning uchinchi shakli ishlatiladi: have seen, has gone. Muhim narsa — hozirgi natija, shu paytgacha bo‘lgan tajriba yoki hozirgacha davom etgan holat. Agar yesterday kabi tugagan vaqtni aniq aytsangiz, odatda past simple kerak bo‘ladi.",
+      "tipUz": "I have seen him yesterday emas, I saw him yesterday. Ammo I have seen him before — oldin ko‘rganman — tabiiy gap.",
+      "practiceUz": "Hozir natijasi ko‘rinib turgan bitta ish, bitta tajriba va davom etayotgan bitta holat haqida yozing.",
+      "examples": [
+        {
+          "en": "I have lost my key.",
+          "uz": "Kalitimni yo‘qotib qo‘ydim; hozir uni topa olmayapman."
+        },
+        {
+          "en": "She has visited Samarkand twice.",
+          "uz": "U shu paytgacha Samarqandga ikki marta borgan."
+        },
+        {
+          "en": "We have lived here since 2020.",
+          "uz": "Biz 2020-yildan beri shu yerda yashaymiz."
+        },
+        {
+          "en": "Have you ever tried this dish?",
+          "uz": "Bu taomni hech tatib ko‘rganmisiz?"
+        },
+        {
+          "en": "He has not finished yet.",
+          "uz": "U hali tugatgani yo‘q."
+        },
+        {
+          "en": "They have already arrived.",
+          "uz": "Ular allaqachon yetib kelishgan."
+        }
+      ]
+    },
+    {
+      "id": "grammar.past-simple-vs-present-perfect",
+      "explanationUz": "Farqni bitta savol bilan tekshiring: «Ish qachon bo‘lganini tugagan vaqt bilan aytyapmanmi?» Ha bo‘lsa, odatda past simple: yesterday, last year. Faqat shu paytgacha bo‘lgan tajribani yoki hozirgi natijani aytsangiz, present perfect keladi. Past simple: I went. Present perfect: I have gone. Ikki shakl ham o‘tgan ishga tegishli bo‘lishi mumkin; e’tibor berilgan vaqt ma’nosi farq qiladi.",
+      "tipUz": "Yesterday bilan I saw ishlating. Ever, never yoki before bilan tajriba aytilganda have/has + uchinchi shaklni tekshiring.",
+      "practiceUz": "Kecha bo‘lgan ishni bir gapda, shu paytgacha bo‘lgan tajribani boshqa gapda ayting. Nega ikki xil zamon ishlatdingiz?",
+      "examples": [
+        {
+          "en": "I saw that film yesterday.",
+          "uz": "Men o‘sha filmni kecha ko‘rdim. Kecha — tugagan vaqt: past simple."
+        },
+        {
+          "en": "I have seen that film before.",
+          "uz": "Men o‘sha filmni oldin ko‘rganman. Qachonligi emas, tajriba muhim: present perfect."
+        },
+        {
+          "en": "She has lost her key, so she cannot get in.",
+          "uz": "U kalitini yo‘qotgan, shuning uchun hozir kira olmayapti. Hozirgi natija muhim."
+        },
+        {
+          "en": "We visited Bukhara in 2023.",
+          "uz": "Biz 2023-yilda Buxoroga bordik. Aniq tugagan vaqt berilgan."
+        },
+        {
+          "en": "We have visited Bukhara three times.",
+          "uz": "Biz shu paytgacha Buxoroga uch marta borganmiz. Bu — tajriba."
+        },
+        {
+          "en": "He has not finished his homework yet.",
+          "uz": "U hali uy vazifasini tugatgani yo‘q. Hozirgacha natija yo‘q."
+        }
+      ]
+    },
+    {
+      "id": "grammar.present-perfect-continuous",
+      "explanationUz": "Ishning qancha vaqt davom etganiga e’tibor bersangiz, have/has been + fe’l-ing ishlatiladi. Ish hali davom etayotgan yoki hozirgina tugab, izi bilinayotgan bo‘lishi mumkin. Natija soni muhim bo‘lsa, present perfect simple ko‘proq mos keladi: uchta mashqni tugatdim. Vaqt sarfi muhim bo‘lsa: bir soatdan beri mashq qilyapman.",
+      "tipUz": "Know holat fe’li: I have known her for years. Oddiy «taniyman» ma’nosida have been knowing ishlatmang.",
+      "practiceUz": "Davomiylik haqida uchta gap yozing. Bittasini tugallangan natija haqidagi gap bilan solishtiring.",
+      "examples": [
+        {
+          "en": "I have been studying for an hour.",
+          "uz": "Men bir soatdan beri o‘qiyapman."
+        },
+        {
+          "en": "She has been working here since May.",
+          "uz": "U may oyidan beri shu yerda ishlab kelmoqda."
+        },
+        {
+          "en": "It has been raining all morning.",
+          "uz": "Ertalabdan beri yomg‘ir yog‘moqda."
+        },
+        {
+          "en": "We have been waiting for twenty minutes.",
+          "uz": "Biz yigirma daqiqadan beri kutyapmiz."
+        },
+        {
+          "en": "He has been running, so he is tired.",
+          "uz": "U yugurgan, shuning uchun hozir charchagan."
+        },
+        {
+          "en": "I have completed three exercises.",
+          "uz": "Men uchta mashqni tugatdim. Bu gapda natija soni muhim, shuning uchun simple shakl ishlatilgan."
+        }
+      ]
+    },
+    {
+      "id": "grammar.past-perfect",
+      "explanationUz": "O‘tmishdagi bir nuqtadan undan ham oldingi ishga qarash uchun had + uchinchi shakl ishlatiladi. «Men yetib kelganimda, ish allaqachon tugagan edi» degan ma’noni tasavvur qiling. Past perfect voqealar tartibini aniqlashtiradi; o‘tmishdagi har bir birinchi ishga uni majburan qo‘llash shart emas.",
+      "tipUz": "Had went emas, had gone. Had dan keyin fe’lning uchinchi shakli kerak.",
+      "practiceUz": "Ikki o‘tgan voqeani yozing va qaysi biri oldin bo‘lganini ko‘rsating.",
+      "examples": [
+        {
+          "en": "The bus had left when I arrived.",
+          "uz": "Men kelganimda avtobus ketib bo‘lgan edi."
+        },
+        {
+          "en": "She had finished before dinner.",
+          "uz": "U kechki ovqatdan oldin tugatib bo‘lgan edi."
+        },
+        {
+          "en": "We had never met before that day.",
+          "uz": "Biz o‘sha kungacha hech uchrashmagan edik."
+        },
+        {
+          "en": "He was hungry because he had not eaten.",
+          "uz": "U ovqat yemagani uchun och edi."
+        },
+        {
+          "en": "Had you seen the message before the meeting?",
+          "uz": "Yig‘ilishdan oldin xabarni ko‘rganmidingiz?"
+        },
+        {
+          "en": "They had booked the room before the price rose.",
+          "uz": "Narx oshishidan oldin ular xonani band qilib bo‘lishgan edi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.future-forms",
+      "explanationUz": "Kelajak haqida bir necha shaklda gapiriladi. Hozir qabul qilingan qaror yoki va’da uchun will ko‘p ishlatiladi. Oldindan bo‘lgan niyat yoki ko‘rinib turgan dalilga tayangan taxmin uchun be going to keladi. Vaqti yoki boshqa tomoni kelishilgan shaxsiy reja present continuous bilan ham aytiladi.",
+      "tipUz": "Barcha kelajak gaplariga will qo‘yish shart emas. Avval qaror hozir bo‘ldimi yoki oldindan rejalanganmi, aniqlang.",
+      "practiceUz": "Bir va’da, bir oldingi niyat va bir kelishilgan reja yozing.",
+      "examples": [
+        {
+          "en": "I will help you with that bag.",
+          "uz": "Men o‘sha sumkani ko‘tarishda yordam beraman. Hozir qaror qildim."
+        },
+        {
+          "en": "I am going to study tonight.",
+          "uz": "Men bugun kechqurun o‘qimoqchiman. Bu — oldingi niyatim."
+        },
+        {
+          "en": "We are meeting the tutor at six.",
+          "uz": "Biz soat oltida ustoz bilan uchrashyapmiz. Vaqt kelishilgan."
+        },
+        {
+          "en": "Look at those clouds. It is going to rain.",
+          "uz": "Ana u bulutlarga qarang. Yomg‘ir yog‘adiganga o‘xshaydi."
+        },
+        {
+          "en": "I think the journey will be easier.",
+          "uz": "Menimcha, safar osonroq bo‘ladi. Bu — taxmin."
+        },
+        {
+          "en": "She is flying to Tashkent on Friday.",
+          "uz": "U juma kuni Toshkentga uchadi. Safar rejasi kelishilgan."
+        }
+      ]
+    },
+    {
+      "id": "grammar.articles",
+      "explanationUz": "A/an bitta sanaladigan narsani hali aniq tanitmasdan aytganda ishlatiladi: bir kitob. The esa suhbatdagilar qaysi narsa nazarda tutilganini bilganida keladi: o‘sha kitob. A yoki an tanlash harfga emas, talaffuzdagi birinchi tovushga bog‘liq. Umumiy ma’nodagi ko‘plik va sanalmaydigan ot ko‘pincha artiklsiz keladi.",
+      "tipUz": "A university: boshida /y/ tovushi bor. An hour: h talaffuz qilinmaydi. Suvni umumiy aytsangiz, Water is important.",
+      "practiceUz": "Bir narsani birinchi marta a/an bilan tanishtiring, keyingi gapda the bilan yana eslang.",
+      "examples": [
+        {
+          "en": "I bought a book.",
+          "uz": "Men bir kitob sotib oldim. Qaysi kitobligi hali tanishtirilmadi."
+        },
+        {
+          "en": "The book is on my desk.",
+          "uz": "O‘sha kitob stolim ustida. Endi qaysi kitobligi ma’lum."
+        },
+        {
+          "en": "She waited for an hour.",
+          "uz": "U bir soat kutdi. Hour unli tovush bilan boshlanadi."
+        },
+        {
+          "en": "He studies at a university.",
+          "uz": "U universitetda o‘qiydi. University /y/ tovushi bilan boshlanadi."
+        },
+        {
+          "en": "Children need sleep.",
+          "uz": "Bolalarga uyqu kerak. Bu yerda bolalar umumiy ma’noda."
+        },
+        {
+          "en": "Water is essential for life.",
+          "uz": "Suv hayot uchun zarur. Suv umumiy ma’noda aytilgan."
+        }
+      ]
+    },
+    {
+      "id": "grammar.countability",
+      "explanationUz": "Sanaladigan otni dona bilan sanash mumkin: a chair, two chairs. Sanalmaydigan ma’noda ishlatilgan ot odatda a/an yoki oddiy -s ko‘pligini olmaydi: advice, information. Miqdor kerak bo‘lsa, a piece of information kabi birlik qo‘shiladi. Ayrim ot bir ma’noda sanaladigan, boshqa ma’noda sanalmaydigan bo‘lishi mumkin.",
+      "tipUz": "An advice va informations demang. Some advice yoki two pieces of information ishlating.",
+      "practiceUz": "Information, suggestion va chair bilan bittadan to‘g‘ri gap tuzing.",
+      "examples": [
+        {
+          "en": "I need a chair.",
+          "uz": "Menga bitta stul kerak. Chair sanaladi."
+        },
+        {
+          "en": "We bought two chairs.",
+          "uz": "Biz ikkita stul sotib oldik."
+        },
+        {
+          "en": "She gave me some advice.",
+          "uz": "U menga maslahat berdi. Advice bu ma’noda sanalmaydi."
+        },
+        {
+          "en": "That is a useful suggestion.",
+          "uz": "Bu foydali taklif. Suggestion sanaladigan ot."
+        },
+        {
+          "en": "I found a piece of information.",
+          "uz": "Men bir ma’lumot topdim. Miqdor piece of orqali berilgan."
+        },
+        {
+          "en": "There is little water in the bottle.",
+          "uz": "Shishada suv oz. Water bu yerda sanalmaydi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.quantifiers",
+      "explanationUz": "Many va few ko‘plikdagi sanaladigan ot bilan keladi: many books. Much va little sanalmaydigan ma’no bilan keladi: much time. A few/a little — oz bo‘lsa ham bor degani. Few/little ko‘pincha yetishmayapti degan salbiyroq ma’noni beradi. Shuning uchun a so‘zi gapning ma’nosiga ta’sir qiladi.",
+      "tipUz": "Many information emas, much information. Few friends — do‘stlari juda kam; a few friends — bir nechta do‘sti bor.",
+      "practiceUz": "Few/a few va little/a little bilan ma’nosi farqlanadigan uchta gap yozing.",
+      "examples": [
+        {
+          "en": "I have a few friends here.",
+          "uz": "Bu yerda bir nechta do‘stim bor. Oz bo‘lsa ham borligiga urg‘u berilgan."
+        },
+        {
+          "en": "I have few friends here.",
+          "uz": "Bu yerda do‘stlarim juda kam. Yetishmaslik seziladi."
+        },
+        {
+          "en": "We have a little time.",
+          "uz": "Bizda biroz vaqt bor."
+        },
+        {
+          "en": "We have little time.",
+          "uz": "Bizda vaqt juda oz; shoshilishimiz kerak bo‘lishi mumkin."
+        },
+        {
+          "en": "How many books do you need?",
+          "uz": "Sizga nechta kitob kerak?"
+        },
+        {
+          "en": "How much information did you find?",
+          "uz": "Qancha ma’lumot topdingiz?"
+        }
+      ]
+    },
+    {
+      "id": "grammar.subject-verb-agreement",
+      "explanationUz": "Ega — gap kim yoki nima haqida ekanini bildiradigan qism. Fe’lni eganing asosiy so‘ziga moslang. The list of books birikmasida asosiy so‘z books emas, list: shu sabab is keladi. They bilan are, he/she/it bilan is ishlatiladi. Zamonni ham saqlang: hozir are bo‘lsa, o‘tmishda were bo‘lishi mumkin.",
+      "tipUz": "Ega bilan fe’l orasidagi uzun ibora sizni chalg‘itmasin. The list of activities is short — ro‘yxat bitta.",
+      "practiceUz": "The box of pencils, the students va my sister bilan bittadan gap yozing.",
+      "examples": [
+        {
+          "en": "The list of books is short.",
+          "uz": "Kitoblar ro‘yxati qisqa. Asosiy so‘z list, shuning uchun is."
+        },
+        {
+          "en": "The students are ready.",
+          "uz": "Talabalar tayyor. Students ko‘plik."
+        },
+        {
+          "en": "My sister has a bicycle.",
+          "uz": "Opamning velosipedi bor."
+        },
+        {
+          "en": "The boxes near the door are heavy.",
+          "uz": "Eshik yonidagi qutilar og‘ir. Asosiy so‘z boxes."
+        },
+        {
+          "en": "Everyone is here.",
+          "uz": "Hamma shu yerda. Everyone grammatik jihatdan birlik."
+        },
+        {
+          "en": "People are waiting outside.",
+          "uz": "Odamlar tashqarida kutishyapti. Bu ma’noda people ko‘plik."
+        }
+      ]
+    },
+    {
+      "id": "grammar.prepositions",
+      "explanationUz": "Predlog — on, in, at kabi so‘zlarni bog‘laydigan kichik so‘z. Uni yolg‘iz tarjima bilan emas, butun birikma bilan o‘rganish osonroq: depend on, interested in. Ayrim fe’ldan keyin predlog kerak emas: discuss the problem. Vaqt uchun at six, on Monday, in May kabi birikmalarni alohida eslab qoling.",
+      "tipUz": "Discuss about the problem o‘rniga discuss the problem. Ammo har bir fe’lga shu qoidani tatbiq qilmang: talk about tabiiy birikma.",
+      "practiceUz": "Depend on, interested in va on Monday bilan uchta shaxsiy gap yozing.",
+      "examples": [
+        {
+          "en": "The result depends on practice.",
+          "uz": "Natija mashqqa bog‘liq."
+        },
+        {
+          "en": "I am interested in music.",
+          "uz": "Men musiqaga qiziqaman."
+        },
+        {
+          "en": "We discussed the problem.",
+          "uz": "Biz muammoni muhokama qildik."
+        },
+        {
+          "en": "The lesson starts at six.",
+          "uz": "Dars soat oltida boshlanadi."
+        },
+        {
+          "en": "I will call you on Monday.",
+          "uz": "Men sizga dushanba kuni qo‘ng‘iroq qilaman."
+        },
+        {
+          "en": "She moved here in May.",
+          "uz": "U bu yerga may oyida ko‘chib keldi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.modals",
+      "explanationUz": "Can, should, must kabi modal fe’llar ishga bo‘lgan munosabatni bildiradi: imkon, maslahat yoki majburiyat. Ulardan keyin odatda fe’lning oddiy shakli keladi: should rest. Must not — qilish taqiqlangan. Do not have to — qilish majburiy emas, xohlasangiz qilishingiz mumkin. Bu ikki ma’noni ajratish juda muhim.",
+      "tipUz": "You must not go — borish mumkin emas. You do not have to go — borishingiz shart emas.",
+      "practiceUz": "Bitta maslahat, bitta taqiq va bitta ixtiyoriy ish haqida gap yozing.",
+      "examples": [
+        {
+          "en": "You should rest today.",
+          "uz": "Siz bugun dam olganingiz ma’qul. Bu — maslahat."
+        },
+        {
+          "en": "You must wear a seat belt.",
+          "uz": "Xavfsizlik kamarini taqishingiz shart."
+        },
+        {
+          "en": "You must not enter this room.",
+          "uz": "Bu xonaga kirishingiz mumkin emas."
+        },
+        {
+          "en": "You do not have to stay.",
+          "uz": "Qolishingiz shart emas; ketishingiz ham mumkin."
+        },
+        {
+          "en": "She can swim well.",
+          "uz": "U yaxshi suza oladi."
+        },
+        {
+          "en": "It might rain later.",
+          "uz": "Keyinroq yomg‘ir yog‘ishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "grammar.real-conditionals",
+      "explanationUz": "Shart gapda bir holat va uning natijasi bog‘lanadi. Umumiy qoida uchun ko‘pincha if + present simple, present simple ishlatiladi. Kelajakdagi mumkin bo‘lgan vaziyat uchun if + present, will + oddiy fe’l kelishi mumkin. Oddiy kelajak shartining if qismiga will qo‘yilmaydi.",
+      "tipUz": "If it rains tomorrow, we will stay home. Ertaga bo‘lsa ham if qismida rains ishlatilgan.",
+      "practiceUz": "Bitta umumiy qoida va ertaga bo‘lishi mumkin bo‘lgan ikkita shart yozing.",
+      "examples": [
+        {
+          "en": "If water freezes, it expands.",
+          "uz": "Suv muzlasa, hajmi ortadi. Bu — umumiy holat."
+        },
+        {
+          "en": "If I do not sleep enough, I feel tired.",
+          "uz": "Yetarli uxlamasam, charchoq sezaman."
+        },
+        {
+          "en": "If it rains tomorrow, we will stay home.",
+          "uz": "Ertaga yomg‘ir yog‘sa, uyda qolamiz."
+        },
+        {
+          "en": "If you practise, you will improve.",
+          "uz": "Mashq qilsangiz, yaxshilanasiz."
+        },
+        {
+          "en": "We will call you if the time changes.",
+          "uz": "Vaqt o‘zgarsa, sizga qo‘ng‘iroq qilamiz."
+        },
+        {
+          "en": "If she arrives early, she can help us.",
+          "uz": "U erta kelsa, bizga yordam bera oladi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.unreal-conditionals",
+      "explanationUz": "Hozirgi yoki kelajakdagi tasavvur uchun if + past, would + oddiy fe’l ko‘p ishlatiladi. Bu yerdagi past shakl doim o‘tgan voqeani anglatmaydi. Bo‘lib o‘tgan voqeani boshqacha tasavvur qilsangiz, if + had + uchinchi shakl, would have + uchinchi shakl keladi. Avval gap hozirgi tasavvurmi yoki o‘tgan imkoniyatmi, aniqlang.",
+      "tipUz": "If I had time — hozir vaqtim bo‘lganida. If I had left earlier — o‘tmishda ertaroq ketganimda.",
+      "practiceUz": "Hozirgi tasavvur haqida ikki gap va o‘tgan voqeaning boshqacha natijasi haqida bir gap yozing.",
+      "examples": [
+        {
+          "en": "If I had more time, I would read more.",
+          "uz": "Vaqtim ko‘proq bo‘lganida, ko‘proq kitob o‘qirdim."
+        },
+        {
+          "en": "If I were you, I would ask the teacher.",
+          "uz": "Sizning o‘rningizda bo‘lganimda, ustozdan so‘rardim."
+        },
+        {
+          "en": "She would travel more if tickets were cheaper.",
+          "uz": "Chiptalar arzonroq bo‘lganida, u ko‘proq sayohat qilardi."
+        },
+        {
+          "en": "If I had left earlier, I would have caught the bus.",
+          "uz": "Ertaroq chiqqanimda, avtobusga ulgurgan bo‘lardim."
+        },
+        {
+          "en": "We would have helped if we had known.",
+          "uz": "Bilganimizda, yordam bergan bo‘lardik."
+        },
+        {
+          "en": "If he had studied, he might have passed.",
+          "uz": "U o‘qiganida, o‘tishi mumkin edi. Bu aniq natija deb aytilmayapti."
+        }
+      ]
+    },
+    {
+      "id": "grammar.passive",
+      "explanationUz": "Passive gapda e’tibor ishni kim qilganiga emas, ish bajarilgan narsa yoki insonga qaratiladi. Tuzilishi: be ning zamonga mos shakli + fe’lning uchinchi shakli. Is cleaned — tozalanadi; was cleaned — tozalandi. By orqali bajaruvchini aytish mumkin, lekin u ma’lum bo‘lmasa yoki kerak bo‘lmasa, qo‘shish shart emas.",
+      "tipUz": "Zamonni yo‘qotmang: built o‘tgan zamon bo‘lsa, passive shakli was built bo‘ladi, is built emas.",
+      "practiceUz": "Bir ishni avval bajaruvchi bilan, keyin o‘sha ish bajarilgan narsadan boshlab yozing.",
+      "examples": [
+        {
+          "en": "The room is cleaned every day.",
+          "uz": "Xona har kuni tozalanadi."
+        },
+        {
+          "en": "The bridge was built in 2010.",
+          "uz": "Ko‘prik 2010-yilda qurilgan."
+        },
+        {
+          "en": "The letters were sent yesterday.",
+          "uz": "Xatlar kecha yuborildi."
+        },
+        {
+          "en": "English is spoken in many countries.",
+          "uz": "Ko‘plab mamlakatlarda ingliz tilida gaplashiladi."
+        },
+        {
+          "en": "The window has been repaired.",
+          "uz": "Deraza ta’mirlab qo‘yilgan."
+        },
+        {
+          "en": "The homework must be submitted today.",
+          "uz": "Uy vazifasi bugun topshirilishi kerak."
+        }
+      ]
+    },
+    {
+      "id": "grammar.relative-clauses",
+      "explanationUz": "Relative clause ot haqida qo‘shimcha aniqlik beradi: qaysi odam yoki qaysi narsa? Who odamlarga, which narsalarga ishlatiladi; defining gapda that ham kelishi mumkin. Kerakli aniqlovchi qism odatda vergulsiz yoziladi. Allaqachon aniq odam yoki narsa haqida ortiqcha ma’lumot bersangiz, vergul ishlatiladi va that qo‘yilmaydi.",
+      "tipUz": "My brother, who lives in Samarkand, ... — qo‘shimcha ma’lumot. Vergulli shu tuzilishda who o‘rniga that ishlatmang.",
+      "practiceUz": "Who bilan odamni, that bilan narsani aniqlaydigan gap yozing. So‘ng vergulli bitta qo‘shimcha ma’lumot bering.",
+      "examples": [
+        {
+          "en": "The woman who teaches us is kind.",
+          "uz": "Bizga dars beradigan ayol mehribon."
+        },
+        {
+          "en": "The book that I borrowed is useful.",
+          "uz": "Men olib turgan kitob foydali."
+        },
+        {
+          "en": "This is the place where we met.",
+          "uz": "Bu — biz uchrashgan joy."
+        },
+        {
+          "en": "My tutor, who lives nearby, helped me.",
+          "uz": "Yaqinda yashaydigan ustozim menga yordam berdi. Uning yashash joyi qo‘shimcha ma’lumot."
+        },
+        {
+          "en": "The phone which I bought works well.",
+          "uz": "Men sotib olgan telefon yaxshi ishlaydi."
+        },
+        {
+          "en": "I know a student whose sister is a doctor.",
+          "uz": "Men opasi shifokor bo‘lgan bir talabani taniyman."
+        }
+      ]
+    },
+    {
+      "id": "grammar.comparatives",
+      "explanationUz": "Ikki narsa yoki holatni solishtirishda comparative ishlatiladi: shorter, more useful. Bir guruhdagi eng yuqori yoki past darajani aytishda superlative keladi: the shortest, the most useful. Qaysi narsalar solishtirilayotganini aniq qiling. Ko‘pincha qisqa sifat -er/-est, uzun sifat more/most bilan keladi; irregular shakllar ham bor: good, better, best.",
+      "tipUz": "More cheaper demang: cheaper yetarli. Than — «...ga qaraganda» ma’nosini beradi.",
+      "practiceUz": "Ikki joyni solishtiring. So‘ng uchta variant orasidan eng mosini bitta sabab bilan ayting.",
+      "examples": [
+        {
+          "en": "This road is shorter than that one.",
+          "uz": "Bu yo‘l unisiga qaraganda qisqaroq."
+        },
+        {
+          "en": "The train is more comfortable than the bus.",
+          "uz": "Poyezd avtobusga qaraganda qulayroq."
+        },
+        {
+          "en": "It is the quietest room in the building.",
+          "uz": "Bu binodagi eng sokin xona."
+        },
+        {
+          "en": "Your second answer is clearer.",
+          "uz": "Ikkinchi javobingiz tushunarliroq."
+        },
+        {
+          "en": "This is the best option for me.",
+          "uz": "Bu men uchun eng yaxshi variant."
+        },
+        {
+          "en": "The journey takes less time now.",
+          "uz": "Hozir safarga kamroq vaqt ketadi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.gerunds-infinitives",
+      "explanationUz": "Ba’zi fe’ldan keyin -ing, boshqasidan keyin to + oddiy fe’l keladi. Buni oldingi fe’l bilan birga o‘rganing: enjoy reading, decide to read. Predlogdan keyin fe’l kelsa, odatda -ing shakli kerak: interested in learning. Ayrim fe’llar ikkala shaklni oladi, lekin ma’no farqlanishi mumkin.",
+      "tipUz": "Enjoy to read emas, enjoy reading. Bitta fe’lning qolipini boshqa barcha fe’llarga ko‘chirmang.",
+      "practiceUz": "Enjoy, decide va interested in bilan bittadan shaxsiy gap yozing.",
+      "examples": [
+        {
+          "en": "I enjoy reading stories.",
+          "uz": "Men hikoya o‘qishni yoqtiraman."
+        },
+        {
+          "en": "She decided to leave early.",
+          "uz": "U erta ketishga qaror qildi."
+        },
+        {
+          "en": "We are interested in learning languages.",
+          "uz": "Biz til o‘rganishga qiziqamiz."
+        },
+        {
+          "en": "He avoided answering the question.",
+          "uz": "U savolga javob berishdan qochdi."
+        },
+        {
+          "en": "I hope to see you soon.",
+          "uz": "Sizni tez orada ko‘rishga umid qilaman."
+        },
+        {
+          "en": "They finished cleaning the room.",
+          "uz": "Ular xonani tozalashni tugatishdi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.reported-speech",
+      "explanationUz": "Boshqa odamning gapini yetkazganda uning ma’nosini saqlang. Olmosh, vaqt va joy so‘zlarini yangi vaziyatga moslang: I kimni bildirganini aniqlang. O‘tgan zamondagi said dan keyin zamon ko‘pincha orqaga siljiydi: am → was. Lekin hali ham rost faktning zamoni saqlanishi ham mumkin; har so‘zni avtomatik o‘zgartirish kerak emas.",
+      "tipUz": "To‘g‘ridan-to‘g‘ri gapdagi I har doim yetkazayotgan odamni anglatmaydi. Avval kim gapirganini aniqlang.",
+      "practiceUz": "Uchta qisqa gapni kechagi suhbatdan bugun aytayotgandek yetkazing.",
+      "examples": [
+        {
+          "en": "Mina said that she was tired.",
+          "uz": "Mina charchaganini aytdi."
+        },
+        {
+          "en": "He told me that he had finished.",
+          "uz": "U menga tugatganini aytdi."
+        },
+        {
+          "en": "She asked where I lived.",
+          "uz": "U qayerda yashashimni so‘radi."
+        },
+        {
+          "en": "He asked me to wait.",
+          "uz": "U mendan kutib turishni so‘radi."
+        },
+        {
+          "en": "They said they would call later.",
+          "uz": "Ular keyinroq qo‘ng‘iroq qilishlarini aytishdi."
+        },
+        {
+          "en": "The teacher said that water boils at 100°C at sea level.",
+          "uz": "Ustoz dengiz sathida suv 100°C da qaynashini aytdi. Umumiy faktning hozirgi zamoni saqlangan."
+        }
+      ]
+    },
+    {
+      "id": "grammar.linking",
+      "explanationUz": "Bog‘lovchi gaplar orasidagi munosabatni ko‘rsatadi. Because — sabab; although — kutilgan natijaga zid holat; therefore — natija. Ularni faqat chiroyli ko‘rinishi uchun qo‘shmang: ikki fikr orasida o‘sha munosabat haqiqatan bo‘lsin. Ikki mustaqil gapni however bilan bog‘laganda tinish belgilariga ham e’tibor bering.",
+      "tipUz": "Although ... but ni odatiy bitta gapda qo‘shib ishlatmang. Although I was tired, I continued — yetarli.",
+      "practiceUz": "Because bilan sabab, although bilan zidlik va therefore bilan natija yozing.",
+      "examples": [
+        {
+          "en": "I stayed home because I was ill.",
+          "uz": "Kasal bo‘lganim uchun uyda qoldim."
+        },
+        {
+          "en": "Although it was cold, we went outside.",
+          "uz": "Sovuq bo‘lsa ham, tashqariga chiqdik."
+        },
+        {
+          "en": "The bus was late, so I walked.",
+          "uz": "Avtobus kechikdi, shuning uchun piyoda bordim."
+        },
+        {
+          "en": "The room was full. However, we found two seats.",
+          "uz": "Xona to‘la edi. Shunga qaramay, ikkita joy topdik."
+        },
+        {
+          "en": "She practised daily. Therefore, she became more confident.",
+          "uz": "U har kuni mashq qildi. Natijada o‘ziga ishonchi ortdi."
+        },
+        {
+          "en": "I like the course because the examples are clear.",
+          "uz": "Misollari tushunarli bo‘lgani uchun bu kursni yoqtiraman."
+        }
+      ]
+    },
+    {
+      "id": "grammar.punctuation",
+      "explanationUz": "Nuqta va vergul gapning tuzilishini ko‘rsatadi. Ikki alohida to‘liq gapni faqat vergul bilan ulash odatda xato: I was tired, I slept. Ularni nuqta bilan ajrating yoki so kabi mos bog‘lovchi qo‘shing. Verguldan keyin odatda bo‘sh joy bo‘ladi. Matnning ma’nosiga qarab tinish belgisini tanlang.",
+      "tipUz": "I was tired, so I slept. — to‘g‘ri. Nuqta bilan ikki alohida gap qilish ham mumkin.",
+      "practiceUz": "«The room was noisy, I moved upstairs.» gapini uch xil to‘g‘ri usulda yozib ko‘ring.",
+      "examples": [
+        {
+          "en": "The room was noisy. I moved upstairs.",
+          "uz": "Xona shovqinli edi. Men yuqori qavatga o‘tdim. Ikki alohida gap."
+        },
+        {
+          "en": "The room was noisy, so I moved upstairs.",
+          "uz": "Xona shovqinli edi, shuning uchun yuqori qavatga o‘tdim."
+        },
+        {
+          "en": "The room was noisy; I moved upstairs.",
+          "uz": "O‘zaro bog‘liq ikki mustaqil gap nuqtali vergul bilan ajratilgan."
+        },
+        {
+          "en": "When the lesson ended, we went home.",
+          "uz": "Dars tugagach, uyga ketdik."
+        },
+        {
+          "en": "I brought a pen, a notebook and a ruler.",
+          "uz": "Ruchka, daftar va chizg‘ich olib keldim."
+        },
+        {
+          "en": "Are you ready?",
+          "uz": "Tayyormisiz? Savol gap oxirida so‘roq belgisi bor."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.line_graph",
+      "explanationUz": "Chiziqli grafik vaqt davomida nima o‘zgarganini ko‘rsatadi. Avval o‘qlar, sana va o‘lchov birligini o‘qing. Keyin umumiy manzarani ayting: nima oshdi, nima kamaydi yoki o‘zgarmadi? Tafsilotlarda asosiy boshlanish-yakun qiymatlari va katta farqlarni solishtiring. Quyidagi sonlar mashq uchun tuzilgan, haqiqiy statistika emas.",
+      "tipUz": "Grafikda berilmagan sababni o‘ylab topmang. «Oshdi» boshqa, «ikki baravar oshdi» boshqa: hisobni tekshiring.",
+      "practiceUz": "Quyidagi misollardan umumiy xulosa va ikkita raqamli solishtirish yozing.",
+      "examples": [
+        {
+          "en": "The number of cyclists rose from 40 to 90 between 2020 and 2024.",
+          "uz": "Velosipedchilar soni 2020–2024-yillarda 40 dan 90 ga ko‘tarildi."
+        },
+        {
+          "en": "Bus use remained close to 120 throughout the period.",
+          "uz": "Davr davomida avtobusdan foydalanish ko‘rsatkichi 120 atrofida saqlandi."
+        },
+        {
+          "en": "Overall, cycling increased while bus use was broadly stable.",
+          "uz": "Umuman, velosipeddan foydalanish oshdi, avtobus ko‘rsatkichi esa deyarli o‘zgarmadi."
+        },
+        {
+          "en": "The figure peaked at 80 in 2022 before falling to 60.",
+          "uz": "Ko‘rsatkich 2022-yilda 80 ga yetib, so‘ng 60 gacha tushdi. Bu — boshqa mashq ma’lumoti."
+        },
+        {
+          "en": "Sales doubled from 20 to 40 units.",
+          "uz": "Savdo 20 donadan 40 donaga chiqib, ikki baravar bo‘ldi."
+        },
+        {
+          "en": "By the end of the period, A was 15 units higher than B.",
+          "uz": "Davr oxirida A ko‘rsatkichi B dan 15 birlik yuqori edi. Birlikni manbadan oling."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.bar_chart",
+      "explanationUz": "Ustunli diagrammada avval nimaning miqdori berilganini biling. Toifalar bir vaqtdami yoki turli yillardami? Vaqt bo‘lmasa, oshish-kamayish haqida hikoya to‘qimang; toifalarni taqqoslang. Eng katta, eng kichik va muhim farqlarni guruhlang. Quyidagi sonlar faqat mashq misollaridir.",
+      "tipUz": "60% va 30% orasida 30 foiz punkt farq bor; 60% ikkinchi qiymatdan ikki baravar katta.",
+      "practiceUz": "Uchta toifadan eng katta va eng kichigini ayting, keyin bitta hisobli solishtirish yozing.",
+      "examples": [
+        {
+          "en": "Reading was the most popular activity, at 60%.",
+          "uz": "O‘qish 60% bilan eng ommabop faoliyat bo‘ldi."
+        },
+        {
+          "en": "Sport accounted for 30%, three times the share of music.",
+          "uz": "Sport 30% bo‘lib, musiqa ulushidan uch baravar ko‘p edi. Bu mashqda musiqa 10%."
+        },
+        {
+          "en": "Category A was 20 units higher than category B.",
+          "uz": "A toifasi B dan 20 birlik yuqori edi."
+        },
+        {
+          "en": "The smallest group contained 12 people.",
+          "uz": "Eng kichik guruhda 12 kishi bor edi."
+        },
+        {
+          "en": "Both categories recorded similar figures.",
+          "uz": "Ikkala toifa o‘xshash ko‘rsatkich qayd etdi."
+        },
+        {
+          "en": "Unlike A, B changed very little between the two years.",
+          "uz": "Ikki yil orasida A dan farqli ravishda B juda kam o‘zgardi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.pie_chart",
+      "explanationUz": "Doiraviy diagramma bir butunning ulushlarini ko‘rsatadi. Eng katta va eng kichik qismlarni aniqlang, keyin muhim farqlarni ayting. Ikki diagramma bo‘lsa, davr yoki guruhlar farqini tekshiring. Foiz kamayishi odamlar soni ham kamayganini o‘z-o‘zidan isbotlamaydi: umumiy son o‘zgargan bo‘lishi mumkin.",
+      "tipUz": "50% — yarim. 50% dan 30% ga farq 20 foiz punkt; bu avtomatik ravishda 20% nisbiy o‘zgarish degani emas.",
+      "practiceUz": "Ijara 50%, ovqat 30%, yo‘l 20% bo‘lgan mashq diagrammasini uchta gapda tasvirlang.",
+      "examples": [
+        {
+          "en": "Rent accounted for half of the budget.",
+          "uz": "Ijara budjetning yarmini tashkil etdi."
+        },
+        {
+          "en": "Food represented 30% of total spending.",
+          "uz": "Ovqat jami xarajatning 30% ini tashkil etdi."
+        },
+        {
+          "en": "Travel made up the remaining 20%.",
+          "uz": "Qolgan 20% yo‘l xarajatiga to‘g‘ri keldi."
+        },
+        {
+          "en": "The share of rent was 20 percentage points higher than that of food.",
+          "uz": "Ijara ulushi ovqat ulushidan 20 foiz punkt yuqori edi."
+        },
+        {
+          "en": "Together, food and travel accounted for half of the total.",
+          "uz": "Ovqat va yo‘l birgalikda jami xarajatning yarmini tashkil etdi."
+        },
+        {
+          "en": "The largest share went to rent.",
+          "uz": "Eng katta ulush ijaraga to‘g‘ri keldi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.table",
+      "explanationUz": "Jadvalda har bir katakni alohida gapga aylantirish shart emas. Qator va ustun nomlari nimani o‘lchayotganini aniqlang. Eng katta, eng kichik va bir-biriga o‘xshash qiymatlarni tanlang. Solishtirishda o‘lchov va davr bir xil bo‘lsin. Quyidagi mashqda A shahri 12, B 18, C 30 daqiqalik yo‘lga ega.",
+      "tipUz": "30 daqiqa 12 daqiqadan ikki yarim baravar ko‘p. «Ikki yarim baravar uzoq» bilan «2,5 daqiqa uzoq»ni aralashtirmang.",
+      "practiceUz": "Uch shahar haqida bitta umumiy xulosa va ikkita solishtirish yozing.",
+      "examples": [
+        {
+          "en": "Town A had the shortest journey, at 12 minutes.",
+          "uz": "A shahri 12 daqiqa bilan eng qisqa yo‘l vaqtiga ega edi."
+        },
+        {
+          "en": "The journey in B took 18 minutes.",
+          "uz": "B dagi yo‘l 18 daqiqa davom etdi."
+        },
+        {
+          "en": "Town C recorded the longest travel time, at 30 minutes.",
+          "uz": "C shahri 30 daqiqa bilan eng uzoq vaqtni qayd etdi."
+        },
+        {
+          "en": "Travelling in C took two and a half times as long as in A.",
+          "uz": "C dagi yo‘lga A dagiga qaraganda ikki yarim baravar ko‘p vaqt ketdi."
+        },
+        {
+          "en": "B was six minutes slower than A.",
+          "uz": "B dagi yo‘l A dagidan olti daqiqa ko‘proq davom etdi."
+        },
+        {
+          "en": "Overall, A was the quickest and C the slowest option.",
+          "uz": "Umuman, A eng tez, C esa eng sekin variant edi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.mixed",
+      "explanationUz": "Ikki xil diagramma berilganda har birining o‘lchovini alohida tekshiring: biri odamlar soni, boshqasi foiz bo‘lishi mumkin. Umumiy xulosada ikkisini bog‘laydigan asosiy holatni ayting. Faqat ma’lumot ruxsat bergan bog‘lanishni ko‘rsating. Foiz va mutlaq miqdorni bir-birining o‘rniga ishlatmang.",
+      "tipUz": "Mehmonlar soni oshib, avtomobil ulushi pasaysa ham avtomobilda kelganlar soni oshgan bo‘lishi mumkin.",
+      "practiceUz": "Umumiy son oshgan, bir toifa ulushi kamaygan vaziyatni tushuntiring. Qaysi xulosani chiqarib bo‘lmaydi?",
+      "examples": [
+        {
+          "en": "Visitor numbers increased, while the share arriving by car fell.",
+          "uz": "Mehmonlar soni oshdi, avtomobilda kelganlar ulushi esa kamaydi."
+        },
+        {
+          "en": "The chart shows percentages, whereas the table gives total numbers.",
+          "uz": "Diagramma foizlarni, jadval esa umumiy sonlarni ko‘rsatadi."
+        },
+        {
+          "en": "A smaller share does not necessarily mean fewer people.",
+          "uz": "Kichikroq ulush doim kamroq odam degani emas."
+        },
+        {
+          "en": "The two visuals cover the same five-year period.",
+          "uz": "Ikkala tasvir bir xil besh yillik davrni qamraydi."
+        },
+        {
+          "en": "Bus travel became more common as the total number of visitors grew.",
+          "uz": "Jami mehmonlar ortgan davrda avtobusdan foydalanish ko‘proq uchray boshladi."
+        },
+        {
+          "en": "Overall, participation rose and the distribution between groups changed.",
+          "uz": "Umuman, ishtirok oshdi va guruhlar o‘rtasidagi taqsimot o‘zgardi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.process",
+      "explanationUz": "Jarayon tasvirida nima boshlanishi, qanday bosqichlardan o‘tishi va nima bilan tugashini toping. Bosqichlarni rasmdagi tartibda tushuntiring. Bajaruvchi kimligi muhim bo‘lmasa, passive ishlatish tabiiy: is collected — yig‘iladi. Rasmdagi jihoz yoki sababni o‘zingiz qo‘shmang. Quyidagi yomg‘ir suvi jarayoni mashq uchun tuzilgan.",
+      "tipUz": "First, next, finally yordam beradi, ammo ular har bir gapda majburiy emas. Asosiy narsa — to‘g‘ri ketma-ketlik.",
+      "practiceUz": "Suvni yig‘ish, filtrlash va saqlash bosqichlarini uchta gapda yozing.",
+      "examples": [
+        {
+          "en": "First, rainwater is collected from the roof.",
+          "uz": "Avval yomg‘ir suvi tomdan yig‘iladi."
+        },
+        {
+          "en": "It then passes through a filter.",
+          "uz": "So‘ng u filtrdan o‘tadi."
+        },
+        {
+          "en": "The filtered water is stored in a tank.",
+          "uz": "Filtrlangan suv idishda saqlanadi."
+        },
+        {
+          "en": "Before use, the water passes through a final filter.",
+          "uz": "Ishlatishdan oldin suv so‘nggi filtrdan o‘tadi."
+        },
+        {
+          "en": "The process begins with collection and ends with water being ready for use.",
+          "uz": "Jarayon yig‘ish bilan boshlanib, suv ishlatishga tayyor bo‘lishi bilan tugaydi."
+        },
+        {
+          "en": "At this stage, the material is heated and shaped.",
+          "uz": "Bu bosqichda material isitiladi va shakllantiriladi. Faqat rasmda berilgan bo‘lsa yoziladi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task1.map",
+      "explanationUz": "Xaritalarda umumiy o‘zgarishni toping: hudud ko‘proq uy-joylimi, yashilmi yoki xizmat ko‘rsatishga moslashganmi? Keyin o‘zgarishlarni hududlar bo‘yicha tartiblang. Qo‘shildi, olib tashlandi, kengaydi va ko‘chirildi ma’nolarini ajrating. Shimol-janubni xarita ko‘rsatmasa, taxmin qilmang.",
+      "tipUz": "Replaced by — o‘rniga boshqasi qurildi. Relocated — o‘sha joy boshqa yerga ko‘chirildi. Bu bir xil emas.",
+      "practiceUz": "Bitta almashtirilgan, bitta kengaygan va bitta o‘zgarmagan joyni tasvirlang.",
+      "examples": [
+        {
+          "en": "The car park was replaced by a garden.",
+          "uz": "Avtoturargoh o‘rniga bog‘ barpo etildi."
+        },
+        {
+          "en": "The library remained in the same location.",
+          "uz": "Kutubxona o‘sha joyida qoldi."
+        },
+        {
+          "en": "A new entrance was added on the east side.",
+          "uz": "Sharq tomonda yangi kirish qo‘shildi. Yo‘nalish xaritada berilgan bo‘lishi kerak."
+        },
+        {
+          "en": "The sports hall was expanded.",
+          "uz": "Sport zali kengaytirildi."
+        },
+        {
+          "en": "The café was moved closer to the main gate.",
+          "uz": "Kafe asosiy darvozaga yaqinroq joyga ko‘chirildi."
+        },
+        {
+          "en": "Overall, the area gained more public facilities.",
+          "uz": "Umuman, hududda aholiga xizmat qiladigan joylar ko‘paydi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task2.opinion",
+      "explanationUz": "Opinion inshosida savolning aynan qaysi fikriga munosabat bildirish so‘ralganini aniqlang. Pozitsiyangiz ravshan bo‘lsin. Har asosiy sababni «nega?» va «qanday?» orqali oching, keyin mos misol bering. Xulosada avvalgi pozitsiyani saqlang; yodlangan kirish savolga javobning o‘rnini bosa olmaydi.",
+      "tipUz": "Misolning vazifasi fikrni tushuntirish. O‘ylab topilgan raqam yoki tadqiqotni haqiqiy dalil sifatida yozmang.",
+      "practiceUz": "«Shaharlarda avtobuslar yaxshilanishi kerak» fikriga pozitsiya va bitta rivojlantirilgan sabab yozing.",
+      "examples": [
+        {
+          "en": "I believe cities should invest more in reliable buses.",
+          "uz": "Menimcha, shaharlar ishonchli avtobus qatnoviga ko‘proq mablag‘ ajratishi kerak."
+        },
+        {
+          "en": "Frequent services reduce the time passengers spend waiting.",
+          "uz": "Tez-tez qatnaydigan avtobuslar yo‘lovchining kutish vaqtini kamaytiradi."
+        },
+        {
+          "en": "This is especially useful for people who start work early.",
+          "uz": "Bu ayniqsa ishni erta boshlaydiganlar uchun foydali."
+        },
+        {
+          "en": "For example, an early service can help workers reach a hospital shift.",
+          "uz": "Masalan, erta qatnov shifoxona xodimlariga smenaga yetib borishda yordam beradi."
+        },
+        {
+          "en": "However, spending should reflect the needs of each district.",
+          "uz": "Biroq xarajat har bir tuman ehtiyojini hisobga olishi kerak."
+        },
+        {
+          "en": "For these reasons, improving bus reliability should be a priority.",
+          "uz": "Shu sabablarga ko‘ra avtobusning ishonchli qatnovini yaxshilash ustuvor bo‘lishi kerak."
+        }
+      ]
+    },
+    {
+      "id": "writing.task2.discussion",
+      "explanationUz": "«Discuss both views» topshirig‘ida ikkala tomonning fikrini adolatli tushuntiring. Bir tomonni ataylab kuchsiz ko‘rsatish muhokama bo‘lmaydi. Savol o‘z fikringizni ham so‘rasa, uni ravshan ayting va sababini bering. Har qarashning nega odamga ma’qul ko‘rinishini oching, so‘ng baholang.",
+      "tipUz": "Faqat «birinchi tomon yaxshi, ikkinchisi yomon» demang. Har biri uchun vaziyat va sabab bering.",
+      "practiceUz": "Guruhda o‘qish va yolg‘iz o‘qishning bittadan kuchli tomonini izohlab, o‘z fikringizni ayting.",
+      "examples": [
+        {
+          "en": "Some students prefer studying with others because they can share ideas.",
+          "uz": "Ayrim talabalar fikr almashish uchun boshqalar bilan o‘qishni afzal ko‘radi."
+        },
+        {
+          "en": "Others work alone to avoid interruptions.",
+          "uz": "Boshqalar chalg‘imaslik uchun yolg‘iz ishlaydi."
+        },
+        {
+          "en": "Group study can be helpful when a problem needs several perspectives.",
+          "uz": "Masalaga turli qarash kerak bo‘lsa, guruhda o‘qish foydali bo‘lishi mumkin."
+        },
+        {
+          "en": "Individual study allows learners to choose their own pace.",
+          "uz": "Yolg‘iz o‘qish o‘quvchiga o‘z tezligini tanlash imkonini beradi."
+        },
+        {
+          "en": "In my view, the better choice depends on the task.",
+          "uz": "Menimcha, yaxshi variant vazifaga bog‘liq."
+        },
+        {
+          "en": "A mixture of both approaches can meet different needs.",
+          "uz": "Ikkala usulni uyg‘unlashtirish turli ehtiyojlarni qondirishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "writing.task2.advantages_disadvantages",
+      "explanationUz": "Afzallik va kamchiliklarni savol talab qilgan darajada qamrang. Agar «outweigh» so‘ralsa, afzalliklar kamchiliklardan ustunmi, degan baho kerak. Fikrlar sonini sanash yetmaydi: ularning kimga, qanchalik va qanday sharoitda ta’sir qilishini tushuntiring. Quyidagi gaplar onlayn dars haqidagi mashq misollaridir.",
+      "tipUz": "Ikki kichik afzallik bitta juda jiddiy kamchilikdan avtomatik ustun bo‘lmaydi.",
+      "practiceUz": "Bir afzallik, bir kamchilik va ularning ahamiyatini solishtirgan bitta xulosa yozing.",
+      "examples": [
+        {
+          "en": "Online lessons allow some workers to study after their shifts.",
+          "uz": "Onlayn dars ayrim ishlaydigan odamlarga smenadan keyin o‘qish imkonini beradi."
+        },
+        {
+          "en": "Recorded explanations can be watched again.",
+          "uz": "Yozib olingan tushuntirishni qayta ko‘rish mumkin."
+        },
+        {
+          "en": "However, limited live interaction can delay feedback.",
+          "uz": "Biroq jonli muloqot kamligi fikr-mulohazani kechiktirishi mumkin."
+        },
+        {
+          "en": "This drawback matters more for learners who need immediate clarification.",
+          "uz": "Bu kamchilik darhol izohga muhtoj o‘quvchilar uchun muhimroq."
+        },
+        {
+          "en": "Flexibility is valuable, but it does not solve every learning difficulty.",
+          "uz": "Qulay jadval foydali, lekin barcha o‘qish qiyinchiliklarini hal qilmaydi."
+        },
+        {
+          "en": "The benefits are stronger when courses also provide timely support.",
+          "uz": "Kurs o‘z vaqtida yordam ham bersa, uning afzalliklari kuchliroq bo‘ladi."
+        }
+      ]
+    },
+    {
+      "id": "writing.task2.problem_solution",
+      "explanationUz": "Savolni qismlarga ajrating: sababmi, muammomi, oqibatmi yoki yechimmi so‘ralgan? Sabab — muammo nimadan kelib chiqishi; oqibat — keyin nima bo‘lishi. Har yechim qaysi sabab yoki to‘siqni kamaytirishini tushuntiring. «Odamlarni ogohlantirish kerak» kabi umumiy gapni aniq mexanizmsiz qoldirmang.",
+      "tipUz": "Sababi transport ishonchsizligi bo‘lsa, yechimning avtobus ishonchliligiga qanday ta’sir qilishini ko‘rsating.",
+      "practiceUz": "Bitta muammo, uning bitta sababi va sababga bevosita bog‘langan yechim yozing.",
+      "examples": [
+        {
+          "en": "Unreliable buses can make driving a more practical choice.",
+          "uz": "Ishonchsiz avtobus qatnovi avtomobilda yurishni qulayroq tanlovga aylantirishi mumkin."
+        },
+        {
+          "en": "A predictable timetable reduces uncertainty for passengers.",
+          "uz": "Oldindan ma’lum jadval yo‘lovchining noaniqligini kamaytiradi."
+        },
+        {
+          "en": "Adding services at busy times can reduce overcrowding.",
+          "uz": "Gavjum paytda qatnovni ko‘paytirish tirband avtobus muammosini kamaytirishi mumkin."
+        },
+        {
+          "en": "The solution should address the stated cause.",
+          "uz": "Yechim aytilgan sababga ta’sir qilishi kerak."
+        },
+        {
+          "en": "A general campaign may have little effect if no alternative exists.",
+          "uz": "Boshqa imkoniyat bo‘lmasa, umumiy targ‘ibotning ta’siri kam bo‘lishi mumkin."
+        },
+        {
+          "en": "Better maintenance can prevent some avoidable service failures.",
+          "uz": "Yaxshiroq texnik xizmat oldini olish mumkin bo‘lgan ayrim nosozliklarni kamaytirishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "writing.task2.two_part",
+      "explanationUz": "Ikki savolli inshoda avval ikkala savolni alohida belgilang. Har biriga qanday javob berishingizni bir jumlada rejalang. Keyin har javobni sabab, izoh va mos misol bilan oching. Birinchi qism kuchli chiqsa ham, ikkinchi savolni tashlab ketish vazifani to‘liq bajarganingizni anglatmaydi.",
+      "tipUz": "Why savoliga sabab kerak; how can teachers help savoliga esa yordam usullari kerak. Bir xil paragraf ikkisini avtomatik qoplamaydi.",
+      "practiceUz": "Nega odamlar onlayn o‘qiydi va ustozlar ularga qanday yordam bera oladi? Har savolga bittadan paragraf rejalang.",
+      "examples": [
+        {
+          "en": "Many adults choose online learning because it fits around work.",
+          "uz": "Ko‘p katta yoshdagilar ishiga mos kelgani uchun onlayn o‘qishni tanlaydi."
+        },
+        {
+          "en": "Another reason is that travel may be difficult.",
+          "uz": "Yana bir sabab — qatnov qiyin bo‘lishi mumkin."
+        },
+        {
+          "en": "Teachers can help by providing clear weekly plans.",
+          "uz": "Ustozlar aniq haftalik reja bilan yordam bera oladi."
+        },
+        {
+          "en": "Short feedback sessions can identify misunderstandings early.",
+          "uz": "Qisqa fikr-mulohaza suhbatlari noto‘g‘ri tushunishni erta aniqlashi mumkin."
+        },
+        {
+          "en": "The first question concerns motivation; the second concerns support.",
+          "uz": "Birinchi savol sababga, ikkinchisi yordamga tegishli."
+        },
+        {
+          "en": "Both parts need relevant development.",
+          "uz": "Ikkala qism ham mavzuga mos ravishda rivojlantirilishi kerak."
+        }
+      ]
+    },
+    {
+      "id": "writing.task2.positive_negative",
+      "explanationUz": "Bu topshiriqda o‘zgarishni ijobiymi yoki salbiymi deb baholaysiz. Nima mezon bilan baholayotganingizni ko‘rsating: imkoniyat, qulaylik, tenglik yoki boshqa natija. Har xulosani oqibat bilan asoslang. Aralash pozitsiya mumkin, lekin qaysi sharoitda qanday baho berayotganingiz ravshan bo‘lsin.",
+      "tipUz": "Aloqasiz afzallik-kamchilik ro‘yxati o‘rniga aynan savoldagi o‘zgarishga munosabat bildiring.",
+      "practiceUz": "Kutubxonaning kechqurun ham ochilishi haqida pozitsiya va ikki sabab yozing.",
+      "examples": [
+        {
+          "en": "Longer library hours can improve access for people who work during the day.",
+          "uz": "Kutubxonaning uzoqroq ochiqligi kunduzi ishlaydiganlar imkoniyatini oshirishi mumkin."
+        },
+        {
+          "en": "Students may have a quiet place to study after school.",
+          "uz": "O‘quvchilar maktabdan keyin sokin o‘qish joyiga ega bo‘lishi mumkin."
+        },
+        {
+          "en": "However, the change also requires staffing and maintenance.",
+          "uz": "Biroq o‘zgarish xodim va xizmat xarajatlarini ham talab qiladi."
+        },
+        {
+          "en": "I consider it positive when the service matches local demand.",
+          "uz": "Xizmat mahalliy talabga mos bo‘lsa, men buni ijobiy deb bilaman."
+        },
+        {
+          "en": "The effect depends partly on how the policy is implemented.",
+          "uz": "Ta’sir qisman siyosat qanday amalga oshirilishiga bog‘liq."
+        },
+        {
+          "en": "A useful judgement should explain both the outcome and its importance.",
+          "uz": "Foydali baho natijani ham, uning ahamiyatini ham tushuntiradi."
+        }
+      ]
+    },
+    {
+      "id": "writing.check.translation",
+      "explanationUz": "Tarjimani tekshirishda faqat bir xil so‘zlarni qidirmang: asl ma’no saqlanganmi? Vaqt, inkor, miqdor va urg‘uni solishtiring. Bitta o‘zbekcha gapning bir nechta tabiiy inglizcha tarjimasi bo‘lishi mumkin. Bir namuna bilan farq qilgani uchun boshqa to‘g‘ri variantni xato deb bo‘lmaydi.",
+      "tipUz": "«U hali kelmadi»ni «U hech qachon kelmaydi»ga aylantirish — so‘zlarni almashtirish emas, ma’noni o‘zgartirish.",
+      "practiceUz": "Bitta o‘zbekcha gapga ikki tabiiy inglizcha variant yozing. Ikkalasida nima saqlanganini ayting.",
+      "examples": [
+        {
+          "en": "He has not arrived yet.",
+          "uz": "U hali yetib kelmadi."
+        },
+        {
+          "en": "He has not come yet.",
+          "uz": "U hali kelmadi. Vaziyatga qarab birinchi gapga mos boshqa ifoda bo‘lishi mumkin."
+        },
+        {
+          "en": "She left early yesterday.",
+          "uz": "U kecha erta ketdi. Tugagan vaqt saqlangan."
+        },
+        {
+          "en": "Only two students came.",
+          "uz": "Faqat ikkita talaba keldi. Only miqdorga qo‘yilgan cheklovni saqlaydi."
+        },
+        {
+          "en": "I might call you tonight.",
+          "uz": "Bugun kechqurun sizga qo‘ng‘iroq qilishim mumkin. Bu va’da emas."
+        },
+        {
+          "en": "We no longer live there.",
+          "uz": "Biz endi u yerda yashamaymiz. Holat o‘zgargani aytilgan."
+        }
+      ]
+    },
+    {
+      "id": "writing.check.activation",
+      "explanationUz": "Yozuvda yangi so‘zni ishlatish — uni gapga shunchaki kiritish emas. Avval qaysi ma’nosi kerakligini tanlang. Keyin grammatik shakli va tabiiy birikmasini tekshiring. Gapdagi vaziyat o‘sha ma’noni ko‘rsatishi kerak. Masalan, bank moliyaviy muassasami yoki daryo qirg‘og‘imi — atrofdagi so‘zlardan bilinadi.",
+      "tipUz": "Target ma’no moliyaviy bank bo‘lsa, daryo bo‘yidagi bank haqidagi gap boshqa ma’noga tegishli.",
+      "practiceUz": "Bank, reliable va decision so‘zlarining bittadan aniq ma’nosiga mos gap tuzing.",
+      "examples": [
+        {
+          "en": "She deposited her wages in the bank.",
+          "uz": "U ish haqini bankka qo‘ydi. Bu moliyaviy bank."
+        },
+        {
+          "en": "They sat on the river bank.",
+          "uz": "Ular daryo qirg‘og‘ida o‘tirishdi. Bu boshqa ma’no."
+        },
+        {
+          "en": "A reliable timetable helps me plan my journey.",
+          "uz": "Ishonchli jadval safarimni rejalashga yordam beradi."
+        },
+        {
+          "en": "We made a decision after the meeting.",
+          "uz": "Yig‘ilishdan keyin qaror qabul qildik."
+        },
+        {
+          "en": "The repair was expensive but necessary.",
+          "uz": "Ta’mirlash qimmat, ammo zarur edi."
+        },
+        {
+          "en": "Regular practice helped me use the phrase naturally.",
+          "uz": "Muntazam mashq iborani tabiiy qo‘llashimga yordam berdi."
+        }
+      ]
+    },
+    {
+      "id": "writing.check.pattern",
+      "explanationUz": "Gap qolipini o‘zlashtirganda foydali grammatik tuzilishni saqlab, mazmunni o‘zingizga moslang. Faqat otlarni almashtirish yetmaydi: sabab, zidlik va ishoralar ham mantiqli bo‘lsin. Masalan, although ikki fikr orasidagi kutilmagan zidlikni ko‘rsatadi. Yangi gapda zamon va ega-fe’l mosligini qayta tekshiring.",
+      "tipUz": "Although ishlatilgan gapda zidlik bo‘lmasa, qolip grammatik ko‘rinsa ham mazmun zaif bo‘ladi.",
+      "practiceUz": "Although, because va so that qoliplarini o‘zingizning o‘qish odatingizga moslab yozing.",
+      "examples": [
+        {
+          "en": "Although the train is expensive, it saves me an hour.",
+          "uz": "Poyezd qimmat bo‘lsa ham, bir soat vaqtimni tejaydi."
+        },
+        {
+          "en": "Although I was tired, I finished my homework.",
+          "uz": "Charchagan bo‘lsam ham, uy vazifamni tugatdim."
+        },
+        {
+          "en": "I study early because the house is quiet.",
+          "uz": "Uy sokin bo‘lgani uchun erta o‘qiyman."
+        },
+        {
+          "en": "I take notes so that I can review the lesson.",
+          "uz": "Darsni takrorlay olishim uchun qaydlar yozaman."
+        },
+        {
+          "en": "The more I practise, the more confident I feel.",
+          "uz": "Ko‘proq mashq qilgan sari o‘zimga ishonchim ortadi."
+        },
+        {
+          "en": "If I do not understand a rule, I ask for an example.",
+          "uz": "Qoidani tushunmasam, misol so‘rayman."
+        }
+      ]
+    },
+    {
+      "id": "speaking.part1",
+      "explanationUz": "Part 1 da odatda o‘zingizga tanish mavzu haqida savol beriladi. Avval savolga bevosita javob bering, keyin bitta sabab yoki aniq tafsilot qo‘shing. Har savolga yodlangan uzun nutqni ulash kerak emas. Quyidagi gaplar o‘rganish uchun namunalar; o‘zingizga to‘g‘ri kelmagan tajribani haqiqiy deb aytmang.",
+      "tipUz": "«Do you like…?» savoliga avval yoqtirishingizni ayting. Keyin nega yoki qaysi holatda ekanini tushuntiring.",
+      "practiceUz": "O‘zingiz yashaydigan joy, sevimli mashg‘ulot va o‘qish odatingiz haqida bittadan qisqa javob bering.",
+      "examples": [
+        {
+          "en": "I like my neighbourhood because it is quiet in the morning.",
+          "uz": "Mahallamni ertalab sokin bo‘lgani uchun yoqtiraman."
+        },
+        {
+          "en": "I usually read before bed because it helps me relax.",
+          "uz": "Odatda uxlashdan oldin o‘qiyman, chunki bu dam olishimga yordam beradi."
+        },
+        {
+          "en": "I prefer studying at home, where I can choose my own schedule.",
+          "uz": "O‘z jadvalimni tanlay olganim uchun uyda o‘qishni afzal ko‘raman."
+        },
+        {
+          "en": "I do not cook every day, but I enjoy making simple meals.",
+          "uz": "Har kuni ovqat qilmayman, lekin sodda taom tayyorlashni yoqtiraman."
+        },
+        {
+          "en": "My favourite place nearby is a small park.",
+          "uz": "Yaqin atrofdagi sevimli joyim kichik bog‘."
+        },
+        {
+          "en": "I take the bus because the stop is close to my house.",
+          "uz": "Bekat uyimga yaqin bo‘lgani uchun avtobusda yuraman."
+        }
+      ]
+    },
+    {
+      "id": "speaking.part2",
+      "explanationUz": "Part 2 da berilgan mavzu bo‘yicha bog‘langan davomli javob tuzasiz. Rejada kim yoki nima, qachon, qayerda va nima uchun muhimligini bog‘lang. Tayyorlanish vaqtida butun matnni yozishga urinish o‘rniga qisqa tayanch so‘zlar tanlang. Tafsilot bir fikrdan ikkinchisiga tabiiy o‘tishga yordam bersin.",
+      "tipUz": "Cue card dagi bandlarni alohida ro‘yxat kabi o‘qib chiqishdan ko‘ra bir butun voqea qilib ayting.",
+      "practiceUz": "Foydali narsa haqida to‘rtta tayanch so‘z yozing, keyin ulardan bog‘langan hikoya tuzing.",
+      "examples": [
+        {
+          "en": "I would like to describe a notebook that my sister gave me.",
+          "uz": "Opam bergan daftar haqida gapirmoqchiman."
+        },
+        {
+          "en": "She gave it to me when I started a new course.",
+          "uz": "Yangi kurs boshlaganimda u menga shu daftarni berdi."
+        },
+        {
+          "en": "I use it to record useful phrases and short examples.",
+          "uz": "Unda foydali ibora va qisqa misollarni yozaman."
+        },
+        {
+          "en": "What makes it special is that it shows my progress over time.",
+          "uz": "Uning men uchun alohida jihati — vaqt o‘tishi bilan o‘sishimni ko‘rsatishi."
+        },
+        {
+          "en": "I first used it during a lesson I found difficult.",
+          "uz": "Uni dastlab menga qiyin tuyulgan darsda ishlatganman."
+        },
+        {
+          "en": "Even now, I often return to its earliest pages.",
+          "uz": "Hozir ham uning dastlabki sahifalariga tez-tez qaytaman."
+        }
+      ]
+    },
+    {
+      "id": "speaking.part3",
+      "explanationUz": "Part 3 savollari ko‘proq jamiyat yoki umumiy g‘oya haqida bo‘ladi. Fikrni ayting, nega shunday deb o‘ylashingizni oching va mos misol keltiring. «Hamma doim shunday qiladi» kabi keskin umumlashtirishdan ehtiyot bo‘ling. Holatga bog‘liq cheklov yoki boshqa qarashni aytish javobni aniqroq qiladi.",
+      "tipUz": "Misol bitta vaziyatni tushuntiradi; u butun aholi haqida isbot bo‘lib qolmaydi.",
+      "practiceUz": "Shaharlar nima uchun jamoat joylariga muhtoj? Fikr, sabab va cheklov bilan javob bering.",
+      "examples": [
+        {
+          "en": "Public spaces give people places to meet without paying for a private venue.",
+          "uz": "Jamoat joylari xususiy joy uchun pul to‘lamay uchrashish imkonini beradi."
+        },
+        {
+          "en": "This can be particularly helpful for families with limited incomes.",
+          "uz": "Bu daromadi cheklangan oilalar uchun ayniqsa foydali bo‘lishi mumkin."
+        },
+        {
+          "en": "However, a space must be safe and accessible to be useful.",
+          "uz": "Biroq joy foydali bo‘lishi uchun xavfsiz va borish qulay bo‘lishi kerak."
+        },
+        {
+          "en": "The needs of a small town may differ from those of a large city.",
+          "uz": "Kichik shahar ehtiyojlari katta shaharnikidan farq qilishi mumkin."
+        },
+        {
+          "en": "For instance, a local square can host community activities.",
+          "uz": "Masalan, mahalliy maydonda jamoaviy tadbirlar o‘tkazish mumkin."
+        },
+        {
+          "en": "I would avoid assuming that every resident wants the same facilities.",
+          "uz": "Har bir aholi bir xil qulaylikni xohlaydi deb taxmin qilmagan bo‘lardim."
+        }
+      ]
+    },
+    {
+      "id": "speaking.full_mock",
+      "explanationUz": "To‘liq Speaking mashqi uch qismning o‘zgarishini his qilishga yordam beradi: tanish shaxsiy savollar, davomli yakka javob va kengroq muhokama. Javob mazmuni, tartibi va tilini alohida ko‘rib chiqing. Audio bo‘lmasa talaffuz sifatini ishonchli baholab bo‘lmaydi; transkript faqat yozilgan so‘zlarni ko‘rsatadi.",
+      "tipUz": "Yozma matndan ovoz balandligi, tovush yoki haqiqiy pauzalarni o‘ylab topmang.",
+      "practiceUz": "Kitob o‘qish odati, foydali kitob va kutubxonalar roli haqida ketma-ket gapiring. So‘ng audio bilan transkriptni solishtiring.",
+      "examples": [
+        {
+          "en": "I usually read in the evening.",
+          "uz": "Men odatda kechqurun kitob o‘qiyman. Bu tanish shaxsiy javob."
+        },
+        {
+          "en": "The book I want to describe helped me organise my study time.",
+          "uz": "Tasvirlamoqchi bo‘lgan kitobim o‘qish vaqtimni tartiblashga yordam berdi."
+        },
+        {
+          "en": "I remember using its advice before an important course.",
+          "uz": "Muhim kurs oldidan uning maslahatidan foydalanganim esimda."
+        },
+        {
+          "en": "Libraries can provide resources that some families cannot afford.",
+          "uz": "Kutubxonalar ayrim oilalar sotib ololmaydigan manbalarni taqdim eta oladi."
+        },
+        {
+          "en": "The transcript shows my wording but not the quality of every sound.",
+          "uz": "Transkript tanlagan so‘zlarimni ko‘rsatadi, har tovushning sifatini emas."
+        },
+        {
+          "en": "On the recording, I can check where I paused or restarted.",
+          "uz": "Audioyozuvdan qayerda to‘xtaganim yoki qayta boshlaganimni tekshira olaman."
+        }
+      ]
+    },
+    {
+      "id": "speaking.coach_answer",
+      "explanationUz": "Javobni kengaytirish uchun murakkab so‘zlar bilan to‘ldirish shart emas. Asosiy fikrni aniq qiling, unga haqiqiy sabab va bitta mos tafsilot qo‘shing. O‘quvchining asl ma’nosini saqlang. «Yaxshiroq gap» deb uning boshidan o‘tmagan voqeani o‘ylab topish to‘g‘ri emas.",
+      "tipUz": "Qisqa javobni avval «nega?» bilan oching. Keyin «masalan?» savolini bering.",
+      "practiceUz": "«I like the park» javobini o‘zingizga tegishli haqiqiy sabab va tafsilot bilan kengaytiring.",
+      "examples": [
+        {
+          "en": "I like the park because its paths are quiet.",
+          "uz": "Yo‘laklari sokin bo‘lgani uchun bog‘ni yoqtiraman."
+        },
+        {
+          "en": "I often go there after a busy day.",
+          "uz": "Band kundan keyin u yerga tez-tez boraman."
+        },
+        {
+          "en": "Walking there helps me think without many interruptions.",
+          "uz": "U yerda yurish ko‘p chalg‘imasdan o‘ylashimga yordam beradi."
+        },
+        {
+          "en": "I prefer the library, especially when I need to concentrate.",
+          "uz": "Ayniqsa diqqatni jamlash kerak bo‘lsa, kutubxonani afzal ko‘raman."
+        },
+        {
+          "en": "One reason is that I can work away from my phone.",
+          "uz": "Sabablardan biri — telefonimdan uzoqroq ishlay olishim."
+        },
+        {
+          "en": "I would keep this detail only if it reflects my real experience.",
+          "uz": "Bu tafsilot haqiqiy tajribamga mos bo‘lsagina uni saqlagan bo‘lardim."
+        }
+      ]
+    },
+    {
+      "id": "reading.tfng",
+      "explanationUz": "TRUE — da’vo matndagi ma’lumotga mos. FALSE — matnda da’voga zid ma’lumot bor. NOT GIVEN — matn bu da’voni na tasdiqlaydi, na inkor qiladi. «Aytmagan» bilan «qarama-qarshi aytgan»ni ajrating. Hayotdagi bilimingiz to‘g‘ri bo‘lsa ham, javobni aynan berilgan matndan oling.",
+      "tipUz": "Matn «dushanba kuni ochiq» desa, yakshanba haqida xulosa chiqarib bo‘lmaydi. Bu yo‘qlikni FALSE deb olmang.",
+      "practiceUz": "«The clinic opens at nine on weekdays.» matnidan bitta TRUE, bitta FALSE va bitta NOT GIVEN da’vo tuzing.",
+      "examples": [
+        {
+          "en": "The clinic opens at nine on weekdays.",
+          "uz": "Matndagi shu ma’lumot bilan bir xil da’vo — TRUE."
+        },
+        {
+          "en": "The clinic opens at ten on weekdays.",
+          "uz": "Matn to‘qqiz desa, o‘n degan da’vo — FALSE."
+        },
+        {
+          "en": "The clinic opens on Sunday.",
+          "uz": "Yakshanba aytilmagan bo‘lsa, bu da’vo — NOT GIVEN."
+        },
+        {
+          "en": "The course lasts six weeks.",
+          "uz": "Matnda kurs olti hafta deyilgan bo‘lsa, shu da’vo — TRUE."
+        },
+        {
+          "en": "The course lasts eight weeks.",
+          "uz": "Olti haftalik kursni sakkiz hafta deyish — FALSE."
+        },
+        {
+          "en": "The course was designed by a doctor.",
+          "uz": "Kim tuzgani matnda aytilmagan bo‘lsa — NOT GIVEN."
+        }
+      ]
+    },
+    {
+      "id": "reading.ynng",
+      "explanationUz": "YES/NO/NOT GIVEN muallifning fikri yoki da’vosiga tegishli. YES — muallif bunga qo‘shiladi. NO — muallif qarama-qarshi fikr bildirgan. NOT GIVEN — bu masaladagi qarashi matndan aniqlanmaydi. Boshqa odamning fikrini keltirish muallifning o‘zi ham unga qo‘shilganini anglatmaydi.",
+      "tipUz": "O‘z fikringizni javobga qo‘shmang. «Men bunga rozi emasman» degani muallif ham rozi emas degani emas.",
+      "practiceUz": "Muallif «Kutubxonalarga mablag‘ ajratish avtoturargoh qo‘shishdan yaxshiroq» desa, uch xil da’vo tuzing.",
+      "examples": [
+        {
+          "en": "The writer prefers investment in libraries to more parking.",
+          "uz": "Muallif kutubxonani afzal ko‘rgan bo‘lsa — YES."
+        },
+        {
+          "en": "The writer thinks parking should receive more money than libraries.",
+          "uz": "Bu qarama-qarshi pozitsiya — NO."
+        },
+        {
+          "en": "The writer visits a library every week.",
+          "uz": "Muallifning shaxsiy odati aytilmagan bo‘lsa — NOT GIVEN."
+        },
+        {
+          "en": "The author considers the proposal useful.",
+          "uz": "Matnda taklif foydali deb baholangan bo‘lsa — YES."
+        },
+        {
+          "en": "The author believes the proposal has no value.",
+          "uz": "Muallif foydali degan bo‘lsa, «umuman foydasiz» da’vosi — NO."
+        },
+        {
+          "en": "The author helped write the proposal.",
+          "uz": "Taklifni kim yozgani ko‘rsatilmagan bo‘lsa — NOT GIVEN."
+        }
+      ]
+    },
+    {
+      "id": "reading.matching_headings",
+      "explanationUz": "Sarlavha paragrafning butun asosiy maqsadiga mos bo‘lishi kerak. Bitta qiziqarli misol yoki takrorlangan so‘zga yopishib olmang. Avval paragraf «asosan nimani tushuntiryapti?» degan savolga qisqa javob bering. Keyin sarlavhalarni solishtiring; juda tor yoki matnda yo‘q g‘oyali variantni chiqarib tashlang.",
+      "tipUz": "Ikki ko‘cha misoli daraxt soyasining ta’sirini tushuntirsa, sarlavha faqat bir ko‘cha nomi haqida bo‘lmasin.",
+      "practiceUz": "Bir paragrafni 5–8 so‘z bilan jamlang. So‘ng shu mazmunga mos sarlavha tanlang.",
+      "examples": [
+        {
+          "en": "The paragraph explains how trees cool city streets.",
+          "uz": "Paragraf shahar ko‘chalarini daraxtlar qanday salqinlatishini tushuntiradi."
+        },
+        {
+          "en": "The street example supports the main explanation.",
+          "uz": "Ko‘cha misoli asosiy tushuntirishni qo‘llab-quvvatlaydi."
+        },
+        {
+          "en": "A heading about one tree would be too narrow.",
+          "uz": "Faqat bitta daraxt haqidagi sarlavha juda tor bo‘ladi."
+        },
+        {
+          "en": "The paragraph compares two ways of saving water.",
+          "uz": "Bu boshqa paragraf suv tejashning ikki usulini solishtiradi."
+        },
+        {
+          "en": "A suitable heading should reflect that comparison.",
+          "uz": "Mos sarlavha o‘sha solishtirishni aks ettirishi kerak."
+        },
+        {
+          "en": "Repeated vocabulary alone does not prove a match.",
+          "uz": "Faqat bir xil so‘zning takrorlanishi moslikni isbotlamaydi."
+        }
+      ]
+    },
+    {
+      "id": "reading.matching_information",
+      "explanationUz": "Bu savolda paragrafning umumiy mavzusini emas, aniq ma’lumot yoki vazifani qidirasiz: sabab, taqqoslash, misol yoki izoh. Savoldagi ibora matnda boshqa so‘zlar bilan aytilgan bo‘lishi mumkin. Har tanlov uchun «aynan qaysi jumla buni ko‘rsatadi?» deb tekshiring.",
+      "tipUz": "«Reja nega kechikdi?» savoliga rejaning foydasi haqidagi paragraf mos bo‘lmaydi, mavzu bir xil bo‘lsa ham.",
+      "practiceUz": "Berilgan matndan bir sabab, bir misol va bir taqqoslashni dalil jumlasi bilan ajrating.",
+      "examples": [
+        {
+          "en": "The work began late because the materials had not arrived.",
+          "uz": "Ish materiallar kelmagani uchun kech boshlandi. Bu — kechikish sababi."
+        },
+        {
+          "en": "One example is a school that collects rainwater.",
+          "uz": "Misollardan biri yomg‘ir suvi yig‘adigan maktab. Bu — misol."
+        },
+        {
+          "en": "The new method uses less energy than the old one.",
+          "uz": "Yangi usul eskisidan kamroq energiya sarflaydi. Bu — taqqoslash."
+        },
+        {
+          "en": "The next sentence explains how the filter works.",
+          "uz": "Keyingi gap filtr qanday ishlashini tushuntiradi. Bu — ishlash izohi."
+        },
+        {
+          "en": "This paragraph describes a difficulty with maintenance.",
+          "uz": "Bu paragraf texnik xizmatdagi qiyinchilikni tasvirlaydi."
+        },
+        {
+          "en": "The same idea may appear without the question’s exact words.",
+          "uz": "Shu fikr savoldagi aynan so‘zlarsiz ham berilishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "reading.matching_features",
+      "explanationUz": "Qaysi fikr qaysi odam, guruh yoki toifaga tegishli ekanini kuzating. Ismning yonida turgan har gap o‘sha odamning shaxsiy fikri bo‘lavermaydi. U boshqa odamning qarashini keltirayotgan yoki uni rad etayotgan bo‘lishi mumkin. Matndagi bog‘lanishni kichik «ism → fikr» jadvaliga yozish yordam beradi.",
+      "tipUz": "Variantni qayta ishlatish mumkinmi, ko‘rsatmadan tekshiring. Yaqin turgan ismning o‘zi dalil emas.",
+      "practiceUz": "Ikki insonning qarashlarini matndan ajratib, har biriga dalil iborasi yozing.",
+      "examples": [
+        {
+          "en": "Ali supports smaller classes.",
+          "uz": "Ali sinflarda o‘quvchilar soni kamroq bo‘lishini qo‘llab-quvvatlaydi."
+        },
+        {
+          "en": "Dina argues for longer lessons.",
+          "uz": "Dina darslar uzoqroq bo‘lishi tarafdori."
+        },
+        {
+          "en": "Reducing class size is therefore linked to Ali.",
+          "uz": "Shuning uchun sinf hajmini kamaytirish Ali bilan bog‘lanadi."
+        },
+        {
+          "en": "The writer reports Dina’s view without endorsing it.",
+          "uz": "Muallif Dina fikrini keltiryapti, lekin unga qo‘shilganini bildirmayapti."
+        },
+        {
+          "en": "A rejected suggestion is not the speaker’s final position.",
+          "uz": "Rad etilgan taklif gapiruvchining yakuniy pozitsiyasi emas."
+        },
+        {
+          "en": "Each match needs a clear textual connection.",
+          "uz": "Har moslikka matndan aniq bog‘lanish kerak."
+        }
+      ]
+    },
+    {
+      "id": "reading.matching_sentence_endings",
+      "explanationUz": "Gap boshlanishiga yakun tanlaganda ikki tekshiruv kerak: to‘liq gap grammatik jihatdan mosmi va matndagi ma’noni saqlaydimi? Tabiiy eshitilgan, ammo matnda dalili yo‘q yakun to‘g‘ri bo‘lib qolmaydi. Sabab, vaqt va miqdordagi kichik o‘zgarishni ham tekshiring.",
+      "tipUz": "«Keyin sodir bo‘ldi» degan ma’lumot «shu sababli sodir bo‘ldi» degani emas. Sabab matnda qo‘llab-quvvatlangan bo‘lsin.",
+      "practiceUz": "«Improved insulation reduced the building’s energy use.» matni asosida sababli gapni tugating.",
+      "examples": [
+        {
+          "en": "The building used less energy because its insulation was improved.",
+          "uz": "Bino izolyatsiyasi yaxshilangani sabab energiyani kamroq ishlatdi. Berilgan matnda sabab bor."
+        },
+        {
+          "en": "The new filter was installed to remove small particles.",
+          "uz": "Yangi filtr mayda zarrachalarni olib tashlash uchun o‘rnatildi. Maqsad matnda aytilgan bo‘lishi kerak."
+        },
+        {
+          "en": "The project was delayed because the materials arrived late.",
+          "uz": "Materiallar kech kelgani uchun loyiha kechikdi."
+        },
+        {
+          "en": "A natural ending can still change the original claim.",
+          "uz": "Tabiiy yakun ham asl da’voni o‘zgartirishi mumkin."
+        },
+        {
+          "en": "The ending must complete both the grammar and the meaning.",
+          "uz": "Yakun grammatika va ma’noni birga to‘ldirishi kerak."
+        },
+        {
+          "en": "Check the whole sentence after selecting an ending.",
+          "uz": "Yakunni tanlagach, butun gapni qayta tekshiring."
+        }
+      ]
+    },
+    {
+      "id": "reading.mcq_single",
+      "explanationUz": "Bitta javobli tanlovda butun variant ma’nosini tekshiring. Matndagi bitta so‘zning takrorlanishi yetarli emas. Chalg‘ituvchi variant vaqtni, sababni, miqdorni yoki ishonch darajasini o‘zgartirishi mumkin. To‘g‘ri variantga dalil toping, qolganlariga aniq nomoslikni ko‘rsating.",
+      "tipUz": "«Xarajat kamaydi»ni «barcha xarajat yo‘qoldi»ga aylantirmang. «Keyin»dan avtomatik sabab chiqarmang.",
+      "practiceUz": "«Improved insulation reduced heating costs.» matniga bitta mos va ikkita noto‘g‘ri variant tuzing.",
+      "examples": [
+        {
+          "en": "Improved insulation reduced heating costs.",
+          "uz": "Yaxshiroq izolyatsiya isitish xarajatini kamaytirdi. Bu — berilgan manba gapi."
+        },
+        {
+          "en": "The improvement helped lower heating expenses.",
+          "uz": "Yaxshilanish isitish xarajatini tushirishga yordam berdi. Bu mos qayta ifoda."
+        },
+        {
+          "en": "All costs disappeared completely.",
+          "uz": "Barcha xarajat butunlay yo‘qoldi. Bu matndan ortiq xulosa."
+        },
+        {
+          "en": "The insulation made heating more expensive.",
+          "uz": "Izolyatsiya isitishni qimmatlashtirdi. Bu manbadagi fikrga zid."
+        },
+        {
+          "en": "Only the full supported option should be selected.",
+          "uz": "Faqat butun mazmuni qo‘llab-quvvatlangan variant tanlanadi."
+        },
+        {
+          "en": "A shared keyword does not make an option correct.",
+          "uz": "Bir xil kalit so‘z variantni to‘g‘ri qilib qo‘ymaydi."
+        }
+      ]
+    },
+    {
+      "id": "reading.mcq_multiple",
+      "explanationUz": "Bir nechta javob so‘ralganda har variantni alohida da’vo deb oling. Masalan, ikkita javob kerak bo‘lsa, ikkalasiga ham matndan dalil toping. Bir to‘g‘ri variant topilgach to‘xtamang. Ko‘rsatilgan sondan ortiq javobni ham belgilamang; aynan savol ko‘rsatmasiga rioya qiling.",
+      "tipUz": "Bir xizmatning matnda tilga olinishi uning narxga kirishini isbotlamaydi. Inkor va cheklovlarga qarang.",
+      "practiceUz": "Kursda kechki dars va onlayn qaydlar bor, dam olish kuni dars yo‘q. Ikkita mos javob va bitta chalg‘ituvchi tuzing.",
+      "examples": [
+        {
+          "en": "The course offers evening classes and online notes.",
+          "uz": "Kurs kechki dars va onlayn qaydlarni taklif qiladi."
+        },
+        {
+          "en": "Weekend sessions are not available.",
+          "uz": "Dam olish kunlari dars yo‘q."
+        },
+        {
+          "en": "Evening classes are a supported benefit.",
+          "uz": "Kechki dars mavjud afzallik sifatida matnda tasdiqlangan."
+        },
+        {
+          "en": "Online notes are also supported.",
+          "uz": "Onlayn qaydlar ham tasdiqlangan."
+        },
+        {
+          "en": "Weekend classes should not be selected.",
+          "uz": "Dam olish kuni darsi tanlanmasligi kerak."
+        },
+        {
+          "en": "Both chosen options need their own evidence.",
+          "uz": "Tanlangan ikkala variantga ham alohida dalil kerak."
+        }
+      ]
+    },
+    {
+      "id": "reading.sentence_completion",
+      "explanationUz": "Avval bo‘shliqqa qanday so‘z kerakligini biling: otmi, fe’lmi, sonmi? Keyin matndan savolga mos dalilni toping. Ko‘rsatma so‘zni matndan olishni talab qilsa, uning shaklini o‘zboshimchalik bilan o‘zgartirmang. So‘z chegarasini tekshiring: ortiqcha artikl ham chegaradan oshirishi mumkin.",
+      "tipUz": "Gapga tabiiy sig‘adigan har so‘z to‘g‘ri javob emas. Aynan manbadagi ma’lumot kerak.",
+      "practiceUz": "«The roof collects rainwater.» matni va «The roof collects ___.» gapini bir so‘z bilan to‘ldiring.",
+      "examples": [
+        {
+          "en": "The roof collects rainwater.",
+          "uz": "Manba: tom yomg‘ir suvini yig‘adi. Bo‘shliqqa rainwater kerak."
+        },
+        {
+          "en": "The centre closes at seven.",
+          "uz": "Manbada shu vaqt bo‘lsa, yopilish haqidagi bo‘shliqqa seven mos keladi."
+        },
+        {
+          "en": "The project needs careful planning.",
+          "uz": "Manbada planning aytilgan bo‘lsa, uning o‘rniga plan deb shaklni o‘zgartirmang."
+        },
+        {
+          "en": "The answer must fit the complete sentence.",
+          "uz": "Javob butun gapning grammatikasiga mos bo‘lishi kerak."
+        },
+        {
+          "en": "An extra word can exceed the stated limit.",
+          "uz": "Bitta ortiqcha so‘z ham ko‘rsatilgan chegaradan oshirishi mumkin."
+        },
+        {
+          "en": "The relevant phrase may be introduced by a paraphrase.",
+          "uz": "Savoldagi fikr matnda boshqa ibora bilan tanishtirilishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "reading.summary_completion",
+      "explanationUz": "Qisqa mazmun matnning qaysi qismini jamlayotganini toping. Har bo‘shliqni shu qismdagi dalilga bog‘lang. Javoblar matndan olinadimi yoki berilgan so‘zlar ro‘yxatidanmi, ko‘rsatmani o‘qing. Gapning mantiqi va grammatikasi birga mos bo‘lsin; tasodifan sig‘gan so‘zni tanlamang.",
+      "tipUz": "Summary ko‘pincha butun matnni emas, ma’lum bir bo‘limni jamlaydi. Javoblar doim matn tartibida bo‘lavermaydi.",
+      "practiceUz": "«Shade lowered surface temperatures.» matniga mos «Tree shade reduced surface ___.» bo‘shlig‘ini to‘ldiring.",
+      "examples": [
+        {
+          "en": "Shade lowered surface temperatures.",
+          "uz": "Soyaning sirt haroratini pasaytirgani aytilgan."
+        },
+        {
+          "en": "Tree shade reduced surface temperatures.",
+          "uz": "Summary da shu fikr qayta ifodalangan; temperatures mos javob."
+        },
+        {
+          "en": "The summary focuses on the cooling effect of trees.",
+          "uz": "Qisqa mazmun daraxtlarning salqinlatish ta’siriga qaratilgan."
+        },
+        {
+          "en": "The next gap needs a plural noun.",
+          "uz": "Keyingi bo‘shliqqa ko‘plikdagi ot kerak. Buni gapdan tekshirasiz."
+        },
+        {
+          "en": "A word from another section may fit the grammar but not the meaning.",
+          "uz": "Boshqa bo‘limdagi so‘z grammatik sig‘sa ham, ma’noga mos bo‘lmasligi mumkin."
+        },
+        {
+          "en": "Each answer should have a supporting passage phrase.",
+          "uz": "Har javobni tasdiqlaydigan matn iborasi bo‘lsin."
+        }
+      ]
+    },
+    {
+      "id": "reading.note_completion",
+      "explanationUz": "Konspekt qisqa yoziladi: ayrim yordamchi so‘zlar tushirilishi mumkin. Sarlavha va yonidagi toifalar nimani qidirish kerakligini ko‘rsatadi. Manbadan kerakli ro‘yxat, xususiyat yoki tafsilotni toping. Gap qisqartirilgani javobni o‘ylab topishga ruxsat bermaydi.",
+      "tipUz": "«Equipment» ostidagi bo‘shliq odatda jihoz nomini talab qiladi; sabab yoki sanani qo‘yib yubormang.",
+      "practiceUz": "«The workshop provides gloves and masks.» matnidan jihozlar konspektini to‘ldiring.",
+      "examples": [
+        {
+          "en": "The workshop provides gloves and masks.",
+          "uz": "Mashg‘ulot qo‘lqop va niqob beradi. Manbada ikki jihoz bor."
+        },
+        {
+          "en": "Equipment supplied: gloves and masks.",
+          "uz": "Beriladigan jihozlar: qo‘lqop va niqob. Konspektda gap qisqargan."
+        },
+        {
+          "en": "The heading tells us which information to look for.",
+          "uz": "Sarlavha qaysi ma’lumotni qidirishni aytadi."
+        },
+        {
+          "en": "Parallel notes should describe parallel categories.",
+          "uz": "Yonma-yon qaydlar mos toifalarga tegishli bo‘lsin."
+        },
+        {
+          "en": "The missing item must come from the stated list.",
+          "uz": "Yetishmagan narsa berilgan ro‘yxatdan olinishi kerak."
+        },
+        {
+          "en": "A shorter note still needs an accurate answer.",
+          "uz": "Qisqaroq qaydga ham aniq javob kerak."
+        }
+      ]
+    },
+    {
+      "id": "reading.table_completion",
+      "explanationUz": "Jadvaldagi bo‘shliqqa qarashdan oldin qator va ustun nomini o‘qing. Masalan, qator north route, ustun minutes bo‘lsa, shimoliy yo‘lning daqiqadagi vaqtini izlaysiz. To‘g‘ri sonni boshqa qatorga yozish ham xato. Ko‘rsatma talab qilgan so‘z yoki raqam shaklini saqlang.",
+      "tipUz": "Birlikni adashtirmang: 12 daqiqa bilan 12 kilometr bir xil ma’lumot emas.",
+      "practiceUz": "Shimoliy yo‘l 12, janubiy yo‘l 20 daqiqa davom etsa, har qatorga mos vaqtni yozing.",
+      "examples": [
+        {
+          "en": "The north route takes 12 minutes.",
+          "uz": "Shimoliy yo‘l 12 daqiqa davom etadi."
+        },
+        {
+          "en": "The south route takes 20 minutes.",
+          "uz": "Janubiy yo‘l 20 daqiqa davom etadi."
+        },
+        {
+          "en": "The value for the north row is 12.",
+          "uz": "North qatoriga 12 yoziladi."
+        },
+        {
+          "en": "The column heading gives the unit.",
+          "uz": "Ustun sarlavhasi o‘lchov birligini beradi."
+        },
+        {
+          "en": "A correct number in the wrong row is not a correct answer.",
+          "uz": "To‘g‘ri son boshqa qatorga yozilsa, javob to‘g‘ri bo‘lmaydi."
+        },
+        {
+          "en": "Check the category before copying the figure.",
+          "uz": "Sonni ko‘chirishdan oldin toifani tekshiring."
+        }
+      ]
+    },
+    {
+      "id": "reading.flowchart_completion",
+      "explanationUz": "Oqim sxemasi bosqichlar tartibini ko‘rsatadi. Bo‘sh bosqichdan oldin va keyin nima bo‘lishini tekshiring, keyin matndan shu oraliqdagi ishni toping. So‘zni ko‘chirish yoki variant tanlash kerakligini ko‘rsatmadan biling. Hayotda mantiqli tuyulgan, ammo matnda yo‘q bosqichni qo‘shmang.",
+      "tipUz": "Saralash → metallni olib tashlash → presslash tartibida o‘rtadagi bosqichni joyidan siljitmang.",
+      "practiceUz": "Uch bosqichli matnni chizing va o‘rtadagi bo‘shliq uchun dalil jumlasini belgilang.",
+      "examples": [
+        {
+          "en": "First, the paper is sorted.",
+          "uz": "Avval qog‘oz saralanadi."
+        },
+        {
+          "en": "Next, metal pieces are removed.",
+          "uz": "Keyin metall qismlar olib tashlanadi."
+        },
+        {
+          "en": "Finally, the paper is pressed into sheets.",
+          "uz": "Oxirida qog‘oz varaqlar ko‘rinishida presslanadi."
+        },
+        {
+          "en": "Removing metal comes between sorting and pressing.",
+          "uz": "Metallni olib tashlash saralash bilan presslash orasida turadi."
+        },
+        {
+          "en": "The arrow shows the stated order of events.",
+          "uz": "Strelka berilgan voqealar tartibini ko‘rsatadi."
+        },
+        {
+          "en": "A plausible extra stage must not be invented.",
+          "uz": "Mantiqli tuyulgan qo‘shimcha bosqichni o‘ylab topmaslik kerak."
+        }
+      ]
+    },
+    {
+      "id": "reading.diagram_label",
+      "explanationUz": "Diagrammaga nom yozish uchun manbadagi joylashuv tavsifini o‘qing. Strelkaning aynan uchi qaysi qismga tegayotganini tekshiring. Above, below, inside, next to kabi munosabatlarni rasmdagi joyga bog‘lang. Javob so‘zi va uning shakli ko‘rsatmaga mos bo‘lsin.",
+      "tipUz": "Strelka yonidagi eng yaqin so‘zni emas, strelka ko‘rsatgan qismni nomlang.",
+      "practiceUz": "Filtr idishning tepasida, quvur uning ostida bo‘lgan kichik diagramma chizing va uch qismni nomlang.",
+      "examples": [
+        {
+          "en": "The filter sits above the tank.",
+          "uz": "Filtr idishning tepasida joylashgan."
+        },
+        {
+          "en": "A pipe connects the tank to the outlet.",
+          "uz": "Quvur idishni chiqish joyiga ulaydi."
+        },
+        {
+          "en": "The label points to the upper component.",
+          "uz": "Belgi yuqoridagi qismni ko‘rsatmoqda."
+        },
+        {
+          "en": "Water enters through the opening on the left.",
+          "uz": "Suv chap tomondagi teshikdan kiradi."
+        },
+        {
+          "en": "The lower arrow identifies the storage tank.",
+          "uz": "Pastdagi strelka saqlash idishini ko‘rsatadi."
+        },
+        {
+          "en": "The answer must match the arrow’s endpoint.",
+          "uz": "Javob strelkaning uchiga mos kelishi kerak."
+        }
+      ]
+    },
+    {
+      "id": "reading.short_answer",
+      "explanationUz": "Savol turini aniqlang: kim, qayer, qachon, nechta yoki nega? Javobning turini shundan taxmin qiling. So‘ng matndan tegishli faktni topib, so‘z chegarasida yozing. Savol qisqa nom yoki joyni so‘rasa, keraksiz uzun tushuntirish qo‘shmang.",
+      "tipUz": "Where savoliga joy, when savoliga vaqt kerak. O‘xshash kalit so‘z ko‘rib, boshqa faktni ko‘chirmang.",
+      "practiceUz": "«The team met at the library at six.» matniga where, when va who savollarini tuzing.",
+      "examples": [
+        {
+          "en": "The team met at the library.",
+          "uz": "Guruh kutubxonada uchrashdi. Joy so‘ralsa, the library javobi mos."
+        },
+        {
+          "en": "The meeting started at six.",
+          "uz": "Uchrashuv oltida boshlandi. Vaqt so‘ralsa, six kerak."
+        },
+        {
+          "en": "Mina organised the event.",
+          "uz": "Tadbirni Mina tashkil qildi. Kim so‘ralsa, Mina kerak."
+        },
+        {
+          "en": "Twelve students joined the course.",
+          "uz": "Kursga o‘n ikki talaba qo‘shildi. How many savoliga twelve mos."
+        },
+        {
+          "en": "The room was closed for repairs.",
+          "uz": "Xona ta’mirlash uchun yopildi. Sabab matnda shu tarzda berilgan."
+        },
+        {
+          "en": "Keep the answer within the stated limit.",
+          "uz": "Javobni belgilangan chegarada saqlang."
+        }
+      ]
+    },
+    {
+      "id": "listening.mcq_single",
+      "explanationUz": "Variantdagi tanish so‘zni eshitishning o‘zi yetmaydi. Gapiruvchi taklifni rad etishi, vaqtni tuzatishi yoki oxirida boshqa qarorga kelishi mumkin. Butun ma’noni va yakuniy tanlovni tinglang. Har bir variant qaysi sabab bilan mos yoki nomosligini tekshiring.",
+      "tipUz": "Friday aytilib, keyin «but ... Monday» deyilsa, birinchi eshitgan kunni avtomatik tanlamang.",
+      "practiceUz": "Juma taklifi rad etilib, dushanba tanlangan qisqa dialog tuzing. Yakuniy qarorni belgilang.",
+      "examples": [
+        {
+          "en": "We considered Friday, but the tutor is busy.",
+          "uz": "Juma kunini o‘yladik, ammo ustoz band. Bu rad etilayotgan variant."
+        },
+        {
+          "en": "The session will therefore be on Monday.",
+          "uz": "Shuning uchun mashg‘ulot dushanba bo‘ladi. Yakuniy tanlov — Monday."
+        },
+        {
+          "en": "I first thought of the morning, but the afternoon works better.",
+          "uz": "Avval ertalabni o‘yladim, lekin tushdan keyin qulayroq."
+        },
+        {
+          "en": "The cheap ticket does not include lunch.",
+          "uz": "Arzon chipta tushlikni o‘z ichiga olmaydi. Inkorni eshiting."
+        },
+        {
+          "en": "We will take the train rather than the bus.",
+          "uz": "Avtobus o‘rniga poyezdda boramiz."
+        },
+        {
+          "en": "The speaker’s final decision is more important than the first suggestion.",
+          "uz": "Birinchi taklifdan ko‘ra gapiruvchining yakuniy qarori muhim."
+        }
+      ]
+    },
+    {
+      "id": "listening.mcq_multiple",
+      "explanationUz": "Bir nechta javobda har variantga alohida dalil kerak. Savol nimani so‘rayapti: narxga kiradigan xizmatlarmi, tavsiya qilingan ishlarmi yoki yakuniy tanlovlarmi? Inkor va istisnoni kuzating. Nechta javob belgilash kerakligini oldindan ko‘ring.",
+      "tipUz": "«Transport ham aytildi» degani u narxga kiradi degani emas. It is separate kabi iborani o‘tkazib yubormang.",
+      "practiceUz": "Material va tushlik narxga kirib, transport alohida to‘lanadigan dialogdan ikkita javob tanlang.",
+      "examples": [
+        {
+          "en": "The fee covers materials and lunch.",
+          "uz": "To‘lov material va tushlikni qoplaydi."
+        },
+        {
+          "en": "Transport must be paid for separately.",
+          "uz": "Transport uchun alohida haq to‘lanadi."
+        },
+        {
+          "en": "Materials are one of the included services.",
+          "uz": "Materiallar narxga kiradigan xizmatlardan biri."
+        },
+        {
+          "en": "Lunch is the second supported choice.",
+          "uz": "Tushlik ikkinchi dalilli tanlov."
+        },
+        {
+          "en": "The speaker recommends bringing a pen and a notebook.",
+          "uz": "Gapiruvchi ruchka va daftar olib kelishni tavsiya qiladi."
+        },
+        {
+          "en": "Every selected option needs a spoken support phrase.",
+          "uz": "Har tanlangan variantga audiodan tasdiqlovchi ibora kerak."
+        }
+      ]
+    },
+    {
+      "id": "listening.form_completion",
+      "explanationUz": "Forma maydoni qanday ma’lumot kerakligini bildiradi: ism, telefon, sana yoki manzil. Ism harflab aytilsa, tanish taxminingizga emas, aytilgan harflarga tayaning. Raqam va sananing keyin tuzatilganini ham tinglang. So‘z va raqam chegarasini ko‘rsatmadan tekshiring.",
+      "tipUz": "«No, sorry...» dan keyin tuzatilgan ma’lumot kelsa, dastlabki noto‘g‘ri variantni qoldirmang.",
+      "practiceUz": "Ism, sana va xona raqami uchun uch maydonli kichik forma tuzing.",
+      "examples": [
+        {
+          "en": "The booking is under Lina, spelled L-I-N-A.",
+          "uz": "Buyurtma Lina nomiga; ism harflab aytilgan."
+        },
+        {
+          "en": "The contact number ends in four seven.",
+          "uz": "Aloqa raqami four seven, ya’ni 4 va 7 bilan tugaydi."
+        },
+        {
+          "en": "The appointment is on the fifteenth of May.",
+          "uz": "Uchrashuv o‘n beshinchi may kuni."
+        },
+        {
+          "en": "The room number is twelve, not twenty.",
+          "uz": "Xona raqami o‘n ikki, yigirma emas."
+        },
+        {
+          "en": "Please write Green Street in the address field.",
+          "uz": "Manzil maydoniga Green Street yozing."
+        },
+        {
+          "en": "The field label tells you which kind of detail to record.",
+          "uz": "Maydon nomi qaysi turdagi tafsilotni yozishni ko‘rsatadi."
+        }
+      ]
+    },
+    {
+      "id": "listening.note_completion",
+      "explanationUz": "Konspekt sarlavhasini kuzatib, bo‘shliqqa qanday turdagi so‘z kerakligini oldindan taxmin qiling. Audio savoldagi aynan iborani emas, shu ma’noni boshqacha aytishi mumkin. Qisqa qaydda yordamchi so‘zlar tushirilsa ham, javob ma’noga va so‘z chegarasiga mos bo‘lsin.",
+      "tipUz": "Bir so‘z kerak bo‘lsa, butun aytilgan iborani yozmang. Bosma qismda bor so‘zni yana qo‘shib yubormang.",
+      "practiceUz": "«Bring a notebook and a pencil.» audiosidan «Bring: notebook and ___.» qaydini to‘ldiring.",
+      "examples": [
+        {
+          "en": "Bring a notebook and a pencil.",
+          "uz": "Daftar va qalam olib keling."
+        },
+        {
+          "en": "The note already contains the word notebook.",
+          "uz": "Qaydda notebook so‘zi allaqachon bor."
+        },
+        {
+          "en": "The missing item is pencil.",
+          "uz": "Yetishmayotgan narsa pencil — qalam."
+        },
+        {
+          "en": "The talk then moves to safety instructions.",
+          "uz": "Keyin nutq xavfsizlik ko‘rsatmalariga o‘tadi."
+        },
+        {
+          "en": "The heading helps us follow the change of topic.",
+          "uz": "Sarlavha mavzu almashganini kuzatishga yordam beradi."
+        },
+        {
+          "en": "Check the completed note against the recording.",
+          "uz": "To‘ldirilgan qaydni audio bilan tekshiring."
+        }
+      ]
+    },
+    {
+      "id": "listening.table_completion",
+      "explanationUz": "Tinglayotganda jadvalning to‘g‘ri qatorida ekaningizni kuzating. Bir guruh uchun aytilgan vaqt keyingi guruhga tegishli bo‘lmasligi mumkin. Ustun nomi son nimani anglatishini aytadi. Gapiruvchi raqamni tuzatsa, yakuniy qiymatni yozing.",
+      "tipUz": "A guruhi uchun nine, B uchun ten aytilsa, B qatoriga nine yozish — to‘g‘ri eshitilgan, lekin noto‘g‘ri joylangan javob.",
+      "practiceUz": "Ikki guruhning vaqti va joyini alohida qatorlarga yozib mashq qiling.",
+      "examples": [
+        {
+          "en": "Group A starts at nine.",
+          "uz": "A guruhi soat to‘qqizda boshlaydi."
+        },
+        {
+          "en": "Group B starts at ten.",
+          "uz": "B guruhi soat o‘nda boshlaydi."
+        },
+        {
+          "en": "The second group meets in Room 4.",
+          "uz": "Ikkinchi guruh 4-xonada uchrashadi."
+        },
+        {
+          "en": "The price is thirty pounds, not thirteen.",
+          "uz": "Narx o‘ttiz funt, o‘n uch emas."
+        },
+        {
+          "en": "The column heading refers to starting time.",
+          "uz": "Ustun sarlavhasi boshlanish vaqtiga tegishli."
+        },
+        {
+          "en": "Write each figure beside the correct category.",
+          "uz": "Har sonni o‘z toifasi yoniga yozing."
+        }
+      ]
+    },
+    {
+      "id": "listening.flowchart_completion",
+      "explanationUz": "Audio jarayondagi bosqichlarni qanday tartibda aytayotganini kuzating. First, then, after that, finally kabi iboralar yo‘l ko‘rsatadi. Bo‘sh bosqichni qo‘shni bosqichlar bilan solishtiring. O‘sha ish hayotda odatiy bo‘lsa ham, audioda aytilmagan bosqichni kiritmang.",
+      "tipUz": "O‘zingiz biladigan jarayon bilan audiojarayonni aralashtirmang. Javob manbaga bog‘liq.",
+      "practiceUz": "Ro‘yxatdan o‘tish, belgi olish va zalga kirish ketma-ketligini uchta gapda tiklang.",
+      "examples": [
+        {
+          "en": "First, register at the front desk.",
+          "uz": "Avval qabul stolida ro‘yxatdan o‘ting."
+        },
+        {
+          "en": "Then collect a badge.",
+          "uz": "Keyin nishon yoki belgi oling."
+        },
+        {
+          "en": "Finally, enter the main hall.",
+          "uz": "Oxirida asosiy zalga kiring."
+        },
+        {
+          "en": "Collecting the badge is the middle step.",
+          "uz": "Belgini olish o‘rtadagi bosqich."
+        },
+        {
+          "en": "After the form is checked, the card is printed.",
+          "uz": "Forma tekshirilgach, karta chop etiladi."
+        },
+        {
+          "en": "The next stage follows the instruction in the recording.",
+          "uz": "Keyingi bosqich audioyozuvdagi ko‘rsatmaga mos keladi."
+        }
+      ]
+    },
+    {
+      "id": "listening.sentence_completion",
+      "explanationUz": "Avval bosma gapni to‘liq o‘qing. Bo‘shliqqa yetishmayotgan ma’no va grammatik shaklni aniqlang. Audio tugagach javobni butun gap ichida qayta tekshiring: so‘z takrorlanmadimi, birlik-ko‘plik mosmi, chegara saqlandimi? Imlo ham muhim.",
+      "tipUz": "Gapda energy so‘zi allaqachon bo‘lsa, solar energy deb ikkalasini yozib, energyni ikki marta takrorlamang.",
+      "practiceUz": "«The room is heated using solar energy.» audiosidan «The room uses ___ energy.» gapini to‘ldiring.",
+      "examples": [
+        {
+          "en": "The room is heated using solar energy.",
+          "uz": "Xona quyosh energiyasi bilan isitiladi."
+        },
+        {
+          "en": "The room uses solar energy.",
+          "uz": "To‘ldirilgan gapda bo‘shliqqa solar yoziladi."
+        },
+        {
+          "en": "The tickets are available online.",
+          "uz": "Chiptalar onlayn mavjud. Gap nimani so‘rayotganini tekshiring."
+        },
+        {
+          "en": "The course begins in September.",
+          "uz": "Kurs sentabrda boshlanadi."
+        },
+        {
+          "en": "The answer must fit what is already printed.",
+          "uz": "Javob bosma qismga mos tushishi kerak."
+        },
+        {
+          "en": "Reading the whole sentence can reveal a repeated word.",
+          "uz": "Butun gapni o‘qish takrorlangan so‘zni ko‘rsatishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "listening.short_answer",
+      "explanationUz": "Savoldagi who, where, when, how many yoki why so‘zini ajrating. Qaysi turdagi ma’lumotni kutayotganingiz aniq bo‘lsa, tinglash osonlashadi. Aytilgan faktni qisqa va talab qilingan shaklda yozing. Qo‘shimcha izoh foydali ko‘rinsa ham, so‘z chegarasini buzmasin.",
+      "tipUz": "Which room savoli xona nomi yoki raqamini so‘raydi; uchrashuv vaqtini yozmang.",
+      "practiceUz": "Xona, boshlanish vaqti va ishtirokchilar soniga bittadan savol tuzing.",
+      "examples": [
+        {
+          "en": "The meeting is in Room 12.",
+          "uz": "Uchrashuv 12-xonada."
+        },
+        {
+          "en": "It starts at half past six.",
+          "uz": "U olti yarimda boshlanadi."
+        },
+        {
+          "en": "Twenty students have registered.",
+          "uz": "Yigirma talaba ro‘yxatdan o‘tgan."
+        },
+        {
+          "en": "Mina will lead the session.",
+          "uz": "Mashg‘ulotni Mina olib boradi."
+        },
+        {
+          "en": "The event moved because the first room was too small.",
+          "uz": "Birinchi xona kichik bo‘lgani uchun tadbir boshqa joyga ko‘chirildi."
+        },
+        {
+          "en": "The question determines which detail is relevant.",
+          "uz": "Qaysi tafsilot kerakligini savol belgilaydi."
+        }
+      ]
+    },
+    {
+      "id": "listening.map_plan_label",
+      "explanationUz": "Xaritani tinglashdan oldin boshlanish nuqtasi va qarash yo‘nalishini toping. Left/right qaysi tomonga qarab turganingizga bog‘liq. Along, opposite, next to, at the end kabi iboralarni yo‘l bo‘ylab kuzating. Gapiruvchi yurayotgan yo‘l bilan joylarning doimiy o‘rnini ajrating.",
+      "tipUz": "Qaysi kirishdan boshlangani aytilmasa, chap-o‘ngni o‘zingiz taxmin qilmang.",
+      "practiceUz": "Bir kirishdan boshlanadigan yo‘lni ikki burilish va bitta aniq joy bilan tasvirlang.",
+      "examples": [
+        {
+          "en": "Enter through the south door.",
+          "uz": "Janubiy eshikdan kiring. Boshlanish joyi belgilandi."
+        },
+        {
+          "en": "The desk is immediately on your left.",
+          "uz": "Stol darhol chap tomoningizda."
+        },
+        {
+          "en": "Walk along the corridor to the end.",
+          "uz": "Yo‘lak bo‘ylab oxirigacha yuring."
+        },
+        {
+          "en": "The café is opposite the library.",
+          "uz": "Kafe kutubxonaning ro‘parasida."
+        },
+        {
+          "en": "Turn right at the stairs.",
+          "uz": "Zinapoya yonida o‘ngga buriling."
+        },
+        {
+          "en": "The entrance is next to the small garden.",
+          "uz": "Kirish kichik bog‘ yonida."
+        }
+      ]
+    },
+    {
+      "id": "listening.matching",
+      "explanationUz": "Har bir narsa yoki vaqtga qaysi tavsif bog‘langanini kuzating. Taklif qilingan, lekin rad etilgan variantni yakuniy moslik deb olmang. Bir variantni qayta ishlatish mumkinligini ko‘rsatmadan tekshiring. Har moslik yoniga bitta qisqa dalil iborasi yozish foydali.",
+      "tipUz": "Bir odamning keyingi gapi oldingi toifaga emas, yangi toifaga tegishli bo‘lishi mumkin.",
+      "practiceUz": "Ertalabki sayohat bog‘lar, tushdan keyingisi tarixiy binolar haqida bo‘lgan dialogni moslashtiring.",
+      "examples": [
+        {
+          "en": "The morning tour focuses on gardens.",
+          "uz": "Ertalabki sayohat bog‘larga qaratilgan."
+        },
+        {
+          "en": "The afternoon tour covers historic buildings.",
+          "uz": "Tushdan keyingi sayohat tarixiy binolarni qamraydi."
+        },
+        {
+          "en": "The evening walk is suitable for families.",
+          "uz": "Kechki sayr oilalar uchun mos."
+        },
+        {
+          "en": "This option was considered but later rejected.",
+          "uz": "Bu variant o‘ylangan, lekin keyin rad etilgan."
+        },
+        {
+          "en": "The description belongs to the second activity.",
+          "uz": "Tavsif ikkinchi faoliyatga tegishli."
+        },
+        {
+          "en": "A correct match follows the speaker’s final meaning.",
+          "uz": "To‘g‘ri moslik gapiruvchining yakuniy ma’nosiga ergashadi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.error_correction",
+      "explanationUz": "Gapni tuzatish uchun avval aynan qaysi bo‘lakda muammo borligini toping. Eng kichik kerakli o‘zgarishni qiling va nega kerakligini tushuntiring. To‘g‘ri gapni faqat boshqa uslub yoqqani uchun xato deb olmang. Ichki qoida tekshiruvi cheklangan: xato topilmagani barcha ma’no va uslub to‘liq tekshirildi degani emas.",
+      "tipUz": "Asl gapni saqlang. Taxminiy muammoni aniq isbotlangan xato kabi ko‘rsatmang.",
+      "practiceUz": "Bitta xatoli va ikkita to‘g‘ri gap yozing. Qaysi o‘zgarish zarur, qaysisi faqat uslub ekanini ayting.",
+      "examples": [
+        {
+          "en": "She does not go to work on Sundays.",
+          "uz": "U yakshanba kunlari ishga bormaydi. Does not dan keyin go, goes emas."
+        },
+        {
+          "en": "Did he finish the task?",
+          "uz": "U vazifani tugatdimi? Did bilan finish ishlatilgan."
+        },
+        {
+          "en": "People are waiting outside.",
+          "uz": "Odamlar tashqarida kutishyapti. Bu ma’noda people ko‘plik."
+        },
+        {
+          "en": "She went home yesterday.",
+          "uz": "U kecha uyiga ketdi. Bu tugagan o‘tgan vaqtga mos to‘g‘ri gap."
+        },
+        {
+          "en": "I have known her for years.",
+          "uz": "Men uni yillardan beri taniyman. Know holat ma’nosida simple shaklda."
+        },
+        {
+          "en": "We discussed the problem.",
+          "uz": "Biz muammoni muhokama qildik. Discuss dan keyin about kerak emas."
+        }
+      ]
+    },
+    {
+      "id": "grammar.transformation",
+      "explanationUz": "Gap shaklini o‘zgartirsangiz ham berilgan ma’noni saqlash kerak. Avval kim nima qilyapti, qachon, inkor bormi, shart bormi — belgilang. Keyin so‘ralgan yangi tuzilishga o‘ting. Oxirida yangi gap ayni voqeani aytyaptimi va so‘z chegarasiga mosmi, tekshiring.",
+      "tipUz": "Grammatik jihatdan to‘g‘ri yangi gap ham asl zamon yoki bajaruvchini o‘zgartirsa, topshiriqqa mos kelmasligi mumkin.",
+      "practiceUz": "Bitta active gapni passive qiling. Yana ikkita gapni inkor va savol shakliga o‘zgartiring.",
+      "examples": [
+        {
+          "en": "The team built the bridge.",
+          "uz": "Jamoa ko‘prikni qurdi. Bu active gap."
+        },
+        {
+          "en": "The bridge was built by the team.",
+          "uz": "Ko‘prik jamoa tomonidan qurildi. Zamon va bajaruvchi saqlangan."
+        },
+        {
+          "en": "She works here.",
+          "uz": "U shu yerda ishlaydi. Tasdiq gap."
+        },
+        {
+          "en": "She does not work here.",
+          "uz": "U shu yerda ishlamaydi. Inkor va fe’lning oddiy shakliga e’tibor bering."
+        },
+        {
+          "en": "Does she work here?",
+          "uz": "U shu yerda ishlaydimi? Savol shakli."
+        },
+        {
+          "en": "Although it was cold, we continued.",
+          "uz": "Sovuq bo‘lsa ham davom etdik. Zidlik ma’nosi saqlanishi kerak."
+        }
+      ]
+    },
+    {
+      "id": "grammar.fill_gap",
+      "explanationUz": "Bo‘shliq yonidagi bitta so‘zga qarab javob bermang. Ega kim, vaqt qachon va oldingi fe’l qanday keyingi shaklni talab qilayotganini birga tekshiring. Topshiriqda fe’l berilgan bo‘lsa, o‘sha fe’lning mos shaklini tanlang. Bir nechta grammatik variant mumkin bo‘lsa, kontekst yoki javob kalitidagi ruxsatni ko‘rish kerak.",
+      "tipUz": "Every day odatga ishora qiladi, lekin yakuniy tanlov butun gapga mos bo‘lsin.",
+      "practiceUz": "Walk, go va read fe’llarini ega va vaqtga moslab uchta bo‘shliqda ishlating.",
+      "examples": [
+        {
+          "en": "She walks to school every day.",
+          "uz": "U har kuni maktabga piyoda boradi. She bilan odatda walks."
+        },
+        {
+          "en": "They walk to school every day.",
+          "uz": "Ular har kuni maktabga piyoda boradi. They bilan walk."
+        },
+        {
+          "en": "Did he go home?",
+          "uz": "U uyiga ketdimi? Did dan keyin go."
+        },
+        {
+          "en": "I am reading now.",
+          "uz": "Men hozir o‘qiyapman. Am bilan -ing shakli."
+        },
+        {
+          "en": "She has finished the task.",
+          "uz": "U vazifani tugatgan. Has bilan uchinchi shakl."
+        },
+        {
+          "en": "We were waiting at six.",
+          "uz": "Biz soat oltida kutayotgan edik. Were bilan -ing shakli."
+        }
+      ]
+    },
+    {
+      "id": "grammar.controlled_production",
+      "explanationUz": "Berilgan grammatik tuzilma bilan o‘zingizning ma’noli gapingizni tuzing. Ikki narsani alohida tekshiring: shakl to‘g‘rimi va shu shakl ko‘zlangan ma’noni berdimi? Masalan, although shunchaki gapga qo‘shiladigan bezak emas — zidlik bo‘lishi kerak. Gap o‘quvchining o‘z vaziyatiga mos bo‘lsa, qolipni faol ishlatish osonlashadi.",
+      "tipUz": "Tuzilma to‘g‘ri ko‘ringani mantiq ham to‘g‘ri degani emas. Bir-biriga aloqasiz ikki fikrni majburan bog‘lamang.",
+      "practiceUz": "Although bilan zidlik, because bilan sabab va if bilan shart ifodalang.",
+      "examples": [
+        {
+          "en": "Although I was tired, I finished my homework.",
+          "uz": "Charchagan bo‘lsam ham, uy vazifamni tugatdim."
+        },
+        {
+          "en": "Although the room was small, it was comfortable.",
+          "uz": "Xona kichik bo‘lsa ham, qulay edi."
+        },
+        {
+          "en": "I study early because the house is quiet.",
+          "uz": "Uy sokin bo‘lgani uchun erta o‘qiyman."
+        },
+        {
+          "en": "If it rains, we will practise indoors.",
+          "uz": "Yomg‘ir yog‘sa, ichkarida mashq qilamiz."
+        },
+        {
+          "en": "I have lived here for two years.",
+          "uz": "Ikki yildan beri shu yerda yashayman."
+        },
+        {
+          "en": "The room is cleaned every evening.",
+          "uz": "Xona har oqshom tozalanadi."
+        }
+      ]
+    },
+    {
+      "id": "grammar.free_production",
+      "explanationUz": "Erkin yozishda avval nima demoqchi ekaningizni aniqlang. Keyin shu ma’noga mos zamon va tuzilmani tanlang. Tayyor gapga murakkab grammatika qo‘shish uchun ma’noni buzish kerak emas. Tekshirayotganda bittadan jihatga qarang: zamon, ega-fe’l mosligi, artikl, bog‘lanish.",
+      "tipUz": "Oddiy tekshiruvdan o‘tgan gap barcha jihatdan mukammal degani emas. Tahlilning chegarasini saqlang.",
+      "practiceUz": "Haqiqiy hayotingizdagi bir o‘zgarish haqida uchta bog‘langan gap yozing.",
+      "examples": [
+        {
+          "en": "I used to travel by car, but now I walk to work.",
+          "uz": "Oldin mashinada qatnardim, hozir esa ishga piyoda boraman."
+        },
+        {
+          "en": "The change saves me money.",
+          "uz": "Bu o‘zgarish pulimni tejaydi."
+        },
+        {
+          "en": "It also gives me time to think before work.",
+          "uz": "Ishdan oldin o‘ylab olishga ham vaqt beradi."
+        },
+        {
+          "en": "I started a new course last month.",
+          "uz": "O‘tgan oy yangi kurs boshladim."
+        },
+        {
+          "en": "Since then, I have practised every evening.",
+          "uz": "O‘shandan beri har oqshom mashq qilib kelaman."
+        },
+        {
+          "en": "I still find some tasks difficult, so I ask for examples.",
+          "uz": "Ayrim vazifalar hali qiyin, shuning uchun misol so‘rayman."
+        }
+      ]
+    },
+    {
+      "id": "grammar.explanation",
+      "explanationUz": "Qoidani tushuntirishda uch savolga javob bering: nima ma’no beradi, qanday tuziladi va qachon ishlatiladi? Keyin to‘g‘ri misol va keng tarqalgan xatoni solishtiring. Istisnosi bor qolipni «har doim» deb taqdim etmang. Savol juda umumiy bo‘lsa, aniq mavzuni tanlash kerak.",
+      "tipUz": "Qoidaning nomini aytish tushuntirishning o‘rnini bosmaydi. O‘quvchi misoldagi tanlovning sababini ko‘ra olsin.",
+      "practiceUz": "Bitta qoidani sodda o‘zbekcha izoh, to‘g‘ri misol va xato-tuzatish bilan tushuntiring.",
+      "examples": [
+        {
+          "en": "After does in a question, use the base verb.",
+          "uz": "Does bilan savolda fe’lning oddiy shakli ishlatiladi."
+        },
+        {
+          "en": "Does she work here?",
+          "uz": "U shu yerda ishlaydimi? Work to‘g‘ri shakl."
+        },
+        {
+          "en": "Did he go home?",
+          "uz": "U uyiga ketdimi? Did dan keyin go kerak."
+        },
+        {
+          "en": "She has finished her work.",
+          "uz": "U ishini tugatgan. Has dan keyin uchinchi shakl kelgan."
+        },
+        {
+          "en": "The meaning of the time phrase helps us choose the tense.",
+          "uz": "Vaqt iborasining ma’nosi zamonni tanlashga yordam beradi."
+        },
+        {
+          "en": "One short rule may need a clear limit or exception.",
+          "uz": "Bitta qisqa qoidaga cheklov yoki istisno izohi kerak bo‘lishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "grammar.retention",
+      "explanationUz": "Qoidani eslab qolish uchun uni yana o‘qishning o‘zi yetmasligi mumkin. Avval konspektni yopib, qoidani va yangi misolni xotiradan yozing. Keyin ishonchli namuna bilan tekshiring. Bir xil xato qaytalansa, uni to‘g‘ri shakl bilan yonma-yon mashq qiling va keyinroq yana eslab ko‘ring.",
+      "tipUz": "Ta’rifni tanib olish bilan mustaqil gap tuzish — ikki xil ko‘nikma. Ikkalasini alohida tekshiring.",
+      "practiceUz": "Konspektni yopib does haqidagi qoidani eslang va uchta yangi savol yozing.",
+      "examples": [
+        {
+          "en": "Does he work here?",
+          "uz": "U shu yerda ishlaydimi? Does dan keyin work."
+        },
+        {
+          "en": "Does she study every evening?",
+          "uz": "U har oqshom o‘qiydimi? Study ga -s qo‘shilmagan."
+        },
+        {
+          "en": "Does it open at nine?",
+          "uz": "U soat to‘qqizda ochiladimi? Open oddiy shaklda."
+        },
+        {
+          "en": "I recalled the rule before checking my notes.",
+          "uz": "Konspektga qarashdan oldin qoidani esladim."
+        },
+        {
+          "en": "I then wrote a new example with a different verb.",
+          "uz": "Keyin boshqa fe’l bilan yangi misol yozdim."
+        },
+        {
+          "en": "Repeating the correct pattern can help me notice my recurring error.",
+          "uz": "To‘g‘ri qolipni mashq qilish takroriy xatoni payqashimga yordam berishi mumkin."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.meaning",
+      "explanationUz": "Bitta yozilish bir nechta ma’noga ega bo‘lishi mumkin. Avval gapdagi qaysi ma’no nazarda tutilganini toping, keyin sodda ta’rif va mos misol bilan tushuntiring. Bank pul saqlanadigan muassasa ham, daryo qirg‘og‘i ham bo‘la oladi. Turli ma’nolarni bitta o‘zbekcha tarjimaga majburan birlashtirmang.",
+      "tipUz": "Kontekst bo‘lmasa, bitta ma’noni aniq deb tanlash o‘rniga gapni so‘rang. Tasdiqlanmagan ta’rifni rasmiy lug‘at yozuvi deb belgilamang.",
+      "practiceUz": "Bank, light va match so‘zlari uchun ma’noni aniq ko‘rsatadigan bittadan gap yozing.",
+      "examples": [
+        {
+          "en": "She put her savings in the bank.",
+          "uz": "U jamg‘armasini bankka qo‘ydi. Moliyaviy muassasa nazarda tutilgan."
+        },
+        {
+          "en": "We walked along the river bank.",
+          "uz": "Daryo qirg‘og‘i bo‘ylab yurdik. Bank bu yerda qirg‘oq."
+        },
+        {
+          "en": "This bag is light.",
+          "uz": "Bu sumka yengil. Og‘irlik haqida gap ketmoqda."
+        },
+        {
+          "en": "Please turn on the light.",
+          "uz": "Iltimos, chiroqni yoqing. Yorug‘lik manbai nazarda tutilgan."
+        },
+        {
+          "en": "We watched the football match.",
+          "uz": "Futbol o‘yinini ko‘rdik. Match bu yerda o‘yin."
+        },
+        {
+          "en": "He lit a match.",
+          "uz": "U gugurt chaqdi. Match bu yerda gugurt donasi."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.contextual_meaning",
+      "explanationUz": "So‘zning shu gapdagi ma’nosini uning yonidagi harakat, narsalar va mavzudan aniqlang. So‘zning eng tanish tarjimasini darhol tanlab qo‘ymang. River bilan kelgan bank odatda qirg‘oq; savings bilan kelgani moliyaviy bank bo‘ladi. Tanlovingizga qaysi so‘zlar yordam berganini ham ayta oling.",
+      "tipUz": "Bir xil so‘z boshqa gapda boshqa ma’noda kelishi mumkin. Faqat yozilishning mosligi ma’no mosligini isbotlamaydi.",
+      "practiceUz": "Quyidagi misollarda ma’noni aniqlashtirgan so‘zlarni belgilang.",
+      "examples": [
+        {
+          "en": "They sat on the bank beside the river.",
+          "uz": "Ular daryo qirg‘og‘ida o‘tirishdi. River ma’noni ochadi."
+        },
+        {
+          "en": "She withdrew money from the bank.",
+          "uz": "U bankdan pul oldi. Money moliyaviy ma’noni ko‘rsatadi."
+        },
+        {
+          "en": "The room was full of light.",
+          "uz": "Xona yorug‘likka to‘la edi. Bu og‘irlik emas."
+        },
+        {
+          "en": "I need a light jacket for spring.",
+          "uz": "Bahor uchun yengil kurtka kerak. Bu yerda light kiyimning yengilligini bildiradi."
+        },
+        {
+          "en": "The plant needs water.",
+          "uz": "O‘simlikka suv kerak. Water va needs o‘simlik ma’nosini ko‘rsatadi."
+        },
+        {
+          "en": "The new plant makes bicycles.",
+          "uz": "Yangi zavod velosiped ishlab chiqaradi. Makes bicycles ishlab chiqarish joyini anglatadi."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.translation",
+      "explanationUz": "Tarjimani alohida yozilishdan emas, gapdagi ma’nodan boshlang. So‘z otmi, fe’lmi yoki sifatmi — aniqlang. Keyin vaziyat va uslubga mos o‘zbekcha ifodani tanlang. Bir so‘zga doim bitta tarjima yopishtirish noto‘g‘ri ma’noga olib kelishi mumkin.",
+      "tipUz": "Light ni har doim «yorug‘lik» demang: light bag — yengil sumka. Gap bo‘lmasa, aniqlashtirish foydali.",
+      "practiceUz": "Light, bank va break so‘zlarini ikkita ma’noda qo‘llab, tarjimasini taqqoslang.",
+      "examples": [
+        {
+          "en": "The bag is light.",
+          "uz": "Sumka yengil."
+        },
+        {
+          "en": "The light is bright.",
+          "uz": "Chiroq yorug‘ yonib turibdi."
+        },
+        {
+          "en": "He works at a bank.",
+          "uz": "U bankda ishlaydi."
+        },
+        {
+          "en": "They rested on the river bank.",
+          "uz": "Ular daryo qirg‘og‘ida dam olishdi."
+        },
+        {
+          "en": "Let us take a short break.",
+          "uz": "Keling, qisqa tanaffus qilaylik."
+        },
+        {
+          "en": "Do not break the glass.",
+          "uz": "Stakanni sindirmang."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.collocation",
+      "explanationUz": "Ayrim so‘zlar ingliz tilida birga tabiiy ishlatiladi. Bunday birikmani butun holda o‘rganing: make a decision — qaror qabul qilmoq, do homework — uy vazifasini bajarmoq. O‘zbekchadagi bitta fe’lni har joyda aynan bir inglizcha fe’l bilan almashtirish mumkin emas. Misolni o‘zingizga mos vaziyatda ishlatib ko‘ring.",
+      "tipUz": "Make homework odatiy birikma emas; do homework tabiiy. Lekin make a plan — to‘g‘ri.",
+      "practiceUz": "Make a decision, do homework va heavy rain bilan bittadan shaxsiy gap yozing.",
+      "examples": [
+        {
+          "en": "We made a decision after the meeting.",
+          "uz": "Yig‘ilishdan keyin qaror qabul qildik."
+        },
+        {
+          "en": "I do my homework after dinner.",
+          "uz": "Uy vazifamni kechki ovqatdan keyin bajaraman."
+        },
+        {
+          "en": "Heavy rain delayed the journey.",
+          "uz": "Kuchli yomg‘ir safarni kechiktirdi."
+        },
+        {
+          "en": "She made a useful suggestion.",
+          "uz": "U foydali taklif bildirdi."
+        },
+        {
+          "en": "Please pay attention to the ending.",
+          "uz": "Iltimos, gapning oxiriga e’tibor bering."
+        },
+        {
+          "en": "He took a short break.",
+          "uz": "U qisqa tanaffus qildi."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.word_form",
+      "explanationUz": "Bir so‘z oilasidagi ot, fe’l, sifat va ravish gapda turli vazifani bajaradi. Bo‘shliqqa qaysi vazifa kerakligini oldingi va keyingi so‘zdan aniqlang. Success — ot, succeed — fe’l, successful — sifat, successfully — ravish. Qo‘shimcha qo‘shishdan oldin hosil bo‘lgan shakl haqiqatan mavjudmi va ma’noga mosmi, tekshiring.",
+      "tipUz": "A successful student deyiladi; a successfully student emas. Otdan oldin bu yerda sifat kerak.",
+      "practiceUz": "Success, successful va successfully bilan uchta turli gap tuzing.",
+      "examples": [
+        {
+          "en": "The project was a success.",
+          "uz": "Loyiha muvaffaqiyat bo‘ldi. Success — ot."
+        },
+        {
+          "en": "She hopes to succeed.",
+          "uz": "U muvaffaqiyatga erishishga umid qiladi. Succeed — fe’l."
+        },
+        {
+          "en": "He is a successful student.",
+          "uz": "U muvaffaqiyatli talaba. Successful — sifat."
+        },
+        {
+          "en": "They completed the task successfully.",
+          "uz": "Ular vazifani muvaffaqiyatli bajarishdi. Successfully ishning qanday bajarilganini aytadi."
+        },
+        {
+          "en": "Practice can improve accuracy.",
+          "uz": "Mashq aniqlikni yaxshilashi mumkin. Accuracy — ot."
+        },
+        {
+          "en": "She answered accurately.",
+          "uz": "U aniq javob berdi. Accurately — ravish."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.synonym_choice",
+      "explanationUz": "Sinonim tanlashda faqat umumiy ta’rifga qaramang. Shu gapdagi aniq ma’no, rasmiylik va tabiiy birikma ham mos kelishi kerak. Big va large ayrim joyda yaqin, ammo hamma joyda bir-birini almashtirmaydi. Ma’noni saqlaydigan eng tabiiy variantni tanlang.",
+      "tipUz": "A big mistake tabiiy; large mistake odatiy birikma emas. Bu large so‘zi umuman xato degani emas: a large building to‘g‘ri.",
+      "practiceUz": "Big, large va serious bilan uchta tabiiy birikma tuzing. Qaysi so‘zni qayerda almashtira olmasligingizni ayting.",
+      "examples": [
+        {
+          "en": "That was a big mistake.",
+          "uz": "Bu katta xato edi. Big mistake tabiiy birikma."
+        },
+        {
+          "en": "They live in a large building.",
+          "uz": "Ular katta binoda yashaydi. Large building tabiiy."
+        },
+        {
+          "en": "The error had serious consequences.",
+          "uz": "Xato jiddiy oqibatlarga olib keldi."
+        },
+        {
+          "en": "She gave a clear explanation.",
+          "uz": "U tushunarli izoh berdi."
+        },
+        {
+          "en": "The road was narrow, not merely short.",
+          "uz": "Yo‘l tor edi, shunchaki qisqa emas. Bu ikki sifat ma’nodosh emas."
+        },
+        {
+          "en": "A suitable synonym must preserve the intended meaning.",
+          "uz": "Mos sinonim ko‘zlangan ma’noni saqlashi kerak."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.paraphrase",
+      "explanationUz": "Qayta ifodalash — bir xil ma’noni boshqa so‘z yoki tuzilishda aytish. Har so‘zni sinonim bilan majburan almashtirish shart emas. Vaqt, miqdor, inkor, sabab va ishonch darajasi saqlanganini tekshiring. May increase — oshishi mumkin; will increase — oshadi. Bularni bir xil deb olmang.",
+      "tipUz": "Fikrning ehtimolini aniq natijaga, kichik guruhni barcha odamlarga aylantirib yubormang.",
+      "practiceUz": "Bitta qisqa da’voni uch xil usulda ayting va har birida ma’no o‘zgarmaganini tekshiring.",
+      "examples": [
+        {
+          "en": "The number of cyclists increased.",
+          "uz": "Velosipedchilar soni oshdi."
+        },
+        {
+          "en": "More people travelled by bicycle.",
+          "uz": "Ko‘proq odam velosipedda yura boshladi. Bir xil guruh va davr nazarda tutilsa, oldingi gapga mos qayta ifoda."
+        },
+        {
+          "en": "The library is open until eight.",
+          "uz": "Kutubxona soat sakkizgacha ochiq."
+        },
+        {
+          "en": "The library closes at eight.",
+          "uz": "Kutubxona soat sakkizda yopiladi. Shu vaziyatda oldingi ma’noni qayta beradi."
+        },
+        {
+          "en": "The plan may reduce costs.",
+          "uz": "Reja xarajatni kamaytirishi mumkin. Bu — ehtimol."
+        },
+        {
+          "en": "The plan will reduce costs.",
+          "uz": "Reja xarajatni kamaytiradi. Ishonch darajasi kuchliroq, shuning uchun may bilan aynan bir xil emas."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.activation",
+      "explanationUz": "So‘zni ko‘rganda tanish boshqa, uni kerak paytda mustaqil eslab qo‘llash boshqa. Avval ma’no yoki vaziyatdan so‘zni eslang. Keyin tabiiy birikma va to‘g‘ri grammatik shaklda yangi gap tuzing. Namuna gapni ko‘chirish mashq bo‘lishi mumkin, ammo mustaqil qo‘llashni alohida tekshirish kerak.",
+      "tipUz": "Target reliable bo‘lsa, shunchaki spellingni gapga joylashtirmang; nima uchun ishonchli ekanini vaziyat ko‘rsatsin.",
+      "practiceUz": "Reliable so‘zini uchta yangi vaziyatda ishlating. Har birida unga qaysi narsa ishonchli ekanini ko‘rsating.",
+      "examples": [
+        {
+          "en": "A reliable timetable helps me plan my journey.",
+          "uz": "Ishonchli jadval safarimni rejalashga yordam beradi."
+        },
+        {
+          "en": "She is a reliable colleague who keeps her promises.",
+          "uz": "U va’dasida turadigan ishonchli hamkasb."
+        },
+        {
+          "en": "We need reliable information before making a decision.",
+          "uz": "Qaror qilishdan oldin ishonchli ma’lumot kerak."
+        },
+        {
+          "en": "The repair made the bicycle reliable again.",
+          "uz": "Ta’mirlash velosipedni yana ishonchli holatga keltirdi."
+        },
+        {
+          "en": "I recalled the word without looking at my notes.",
+          "uz": "Konspektga qaramasdan so‘zni esladim."
+        },
+        {
+          "en": "I then used it in a situation from my own life.",
+          "uz": "Keyin uni o‘z hayotimdagi vaziyatda ishlatdim."
+        }
+      ]
+    },
+    {
+      "id": "vocabulary.productive_use",
+      "explanationUz": "So‘zni gapda qo‘llashning maqsadi yozilishini ko‘rsatish emas, aniq fikr yetkazish. Uning kerakli ma’nosi, gapdagi vazifasi va tabiiy sheriklarini tekshiring. Gap to‘liq bo‘lsa ham so‘z noto‘g‘ri ma’noda ishlatilgan bo‘lishi mumkin. Sabab yoki oqibat qo‘shsangiz, ma’no ko‘proq ochiladi.",
+      "tipUz": "Bir xil yozilishdagi boshqa ma’noni target ma’noga teng deb olmang. Gapdagi vaziyatni izohlang.",
+      "practiceUz": "Tanlangan uchta so‘z bilan bittadan yangi gap yozing. Har gapga sabab yoki oqibat qo‘shing.",
+      "examples": [
+        {
+          "en": "The repair was expensive, but it made the bicycle reliable again.",
+          "uz": "Ta’mirlash qimmat bo‘ldi, ammo velosipedni yana ishonchli qildi."
+        },
+        {
+          "en": "I made a plan so that I could use my time better.",
+          "uz": "Vaqtimni yaxshiroq ishlatish uchun reja tuzdim."
+        },
+        {
+          "en": "The room is suitable for study because it is quiet.",
+          "uz": "Xona sokin bo‘lgani uchun o‘qishga mos."
+        },
+        {
+          "en": "She avoided the road because it was crowded.",
+          "uz": "Yo‘l gavjum bo‘lgani uchun u undan bormadi."
+        },
+        {
+          "en": "The example shows the word’s meaning in a clear situation.",
+          "uz": "Misol so‘zning ma’nosini aniq vaziyatda ko‘rsatadi."
+        },
+        {
+          "en": "Using a word naturally takes more than copying its spelling.",
+          "uz": "So‘zni tabiiy ishlatish uning yozilishini ko‘chirishdan ko‘ra ko‘proq narsani talab qiladi."
+        }
+      ]
+    },
+    {
+      "id": "retention.reading_recall",
+      "explanationUz": "Matnni yopib, avval asosiy fikr va muhim tafsilotlarni eslab yozing. Keyin asl matn bilan solishtiring. Siz qo‘shib yuborgan yangi fakt bilan tushirib qoldirgan faktni alohida belgilang. Ravon hikoya ham manbada bo‘lmagan ma’lumotni o‘z ichiga olishi mumkin.",
+      "tipUz": "«Ikki ko‘chada» degan natijani «barcha ko‘chalarda»ga kengaytirmang. Chegara ham esda saqlanishi kerak.",
+      "practiceUz": "Bir qisqa paragrafni o‘qib yoping. Uchta da’voni eslab yozing va har birini manbaga qayta tekshiring.",
+      "examples": [
+        {
+          "en": "Shade reduced heat on two streets.",
+          "uz": "Soya ikki ko‘chadagi issiqlikni kamaytirdi. Manba chegarasi — ikki ko‘cha."
+        },
+        {
+          "en": "Trees cooled every street.",
+          "uz": "Daraxtlar barcha ko‘chani salqinlatdi. Bu oldingi manbadan ortiq xulosa."
+        },
+        {
+          "en": "The study compared two small areas.",
+          "uz": "Tadqiqot ikki kichik hududni solishtirdi."
+        },
+        {
+          "en": "My recall omitted the comparison period.",
+          "uz": "Eslab yozganimda solishtirish davrini tushirib qoldirdim."
+        },
+        {
+          "en": "I added a reason that the passage did not state.",
+          "uz": "Matnda aytilmagan sababni qo‘shib yubordim."
+        },
+        {
+          "en": "I corrected the recall after checking the source.",
+          "uz": "Manbani tekshirgach, eslab yozganimni tuzatdim."
+        }
+      ]
+    },
+    {
+      "id": "retention.vocabulary_recall",
+      "explanationUz": "Avval so‘zni yashiring va ma’no yoki vaziyatdan eslab topishga harakat qiling. Keyin javobni tekshiring. So‘zni variantlar orasidan tanish, qaramasdan eslash va yangi gapda ishlatishni alohida tekshiring. Bittasidagi muvaffaqiyat qolgan ikkitasi ham tayyor degani emas.",
+      "tipUz": "Variantni ko‘rib tanigan bo‘lsangiz, keyingi safar javobsiz ma’no ishorasidan eslashni sinang.",
+      "practiceUz": "«Vaqt o‘tsa ham suyanish mumkin bo‘lgan» ishorasidan so‘zni eslang. So‘ng uchta yangi gap tuzing.",
+      "examples": [
+        {
+          "en": "Reliable means consistently dependable.",
+          "uz": "Reliable — izchil ravishda ishonch bildirish mumkin bo‘lgan."
+        },
+        {
+          "en": "A reliable friend keeps a promise.",
+          "uz": "Ishonchli do‘st va’dasida turadi."
+        },
+        {
+          "en": "We need a reliable source of information.",
+          "uz": "Bizga ishonchli ma’lumot manbasi kerak."
+        },
+        {
+          "en": "I recognised the word when I saw it.",
+          "uz": "So‘zni ko‘rganimda tanidim."
+        },
+        {
+          "en": "I recalled it later without seeing the answer.",
+          "uz": "Keyin javobni ko‘rmasdan uni esladim."
+        },
+        {
+          "en": "I used it in a new sentence about my work.",
+          "uz": "Uni ishim haqidagi yangi gapda ishlatdim."
+        }
+      ]
+    },
+    {
+      "id": "retention.error_pattern",
+      "explanationUz": "Takroriy xatolarni bir xil foydali qoida bo‘yicha guruhlang. Masalan, Did she went? va Did he saw? gaplarida did dan keyingi shakl muammosi bor. Qoidani eslang, to‘g‘ri qarama-qarshi misollar tuzing va keyinroq yana tekshiring. Ikki xato odamning niyati yoki doimiy qobiliyati haqida hukm chiqarishga yetmaydi.",
+      "tipUz": "Xatodagi aniq dalil bilan «nega shunday qilgan bo‘lishi mumkin» degan taxminni aralashtirmang.",
+      "practiceUz": "Did bilan uchta yangi savol yozing. Keyin does bilan uchta savolga o‘ting.",
+      "examples": [
+        {
+          "en": "Did she go home?",
+          "uz": "U uyiga ketdimi? Did dan keyin go."
+        },
+        {
+          "en": "Did he see the message?",
+          "uz": "U xabarni ko‘rdimi? Did dan keyin see."
+        },
+        {
+          "en": "Did they finish the exercise?",
+          "uz": "Ular mashqni tugatdimi? Did dan keyin finish."
+        },
+        {
+          "en": "Does she study at home?",
+          "uz": "U uyda o‘qiydimi? Does dan keyin study."
+        },
+        {
+          "en": "Does he work on Fridays?",
+          "uz": "U juma kunlari ishlaydimi? Work ga -s qo‘shilmaydi."
+        },
+        {
+          "en": "Does it open at nine?",
+          "uz": "U soat to‘qqizda ochiladimi? Open oddiy shaklda."
+        }
+      ]
+    },
+    {
+      "id": "tutoring.simple_explanation",
+      "explanationUz": "Murakkab mavzuni tushuntirganda avval o‘quvchi aynan nimani bilmayotganini aniqlang. Bitta asosiy fikrni sodda tilda ayting, keyin aniq misollar bilan ko‘rsating. Atamani aytsangiz, ma’nosini ham izohlang. «Tushunmadim» deyilsa, ayni gapni takrorlash o‘rniga fikrni mayda qadamga bo‘ling.",
+      "tipUz": "Bitta qisqa qoida barcha istisnoni qoplaydi deb ko‘rsatmang. Kerakli chegarani ayting.",
+      "practiceUz": "Bir qoidani ikki sodda gap bilan izohlang va uchta yangi misol yozing.",
+      "examples": [
+        {
+          "en": "After does, use the base verb.",
+          "uz": "Does dan keyin fe’lning oddiy shaklini ishlating."
+        },
+        {
+          "en": "Does she work here?",
+          "uz": "U shu yerda ishlaydimi? Work oddiy shaklda."
+        },
+        {
+          "en": "Does he study every day?",
+          "uz": "U har kuni o‘qiydimi? Study ga -s qo‘shilmagan."
+        },
+        {
+          "en": "Does it help you?",
+          "uz": "Bu sizga yordam beradimi? Help oddiy shaklda."
+        },
+        {
+          "en": "First, find the subject.",
+          "uz": "Avval gap kim yoki nima haqida ekanini toping."
+        },
+        {
+          "en": "Then check the verb form.",
+          "uz": "Keyin fe’l shaklini tekshiring."
+        }
+      ]
+    },
+    {
+      "id": "tutoring.compare_concepts",
+      "explanationUz": "Ikki tushunchani solishtirish uchun ularni bir xil mezonda ko‘ring. Faqat ikkita ta’rifni sanash yetmaydi: qachon qaysi biri tanlanishini ko‘rsating. Juft misolda o‘zgargan bo‘lakka e’tibor bering. Tushunchalardan biri aytilmagan bo‘lsa, uni o‘ylab topmay, aniqlashtiring.",
+      "tipUz": "Farqni nomlar emas, gapdagi ma’no ko‘rsatsin. Bir vaqtning o‘zida juda ko‘p yangi atama qo‘shmang.",
+      "practiceUz": "Past simple va present perfect ni vaqt ma’nosi bo‘yicha uchta juft misolda solishtiring.",
+      "examples": [
+        {
+          "en": "I saw her yesterday.",
+          "uz": "Men uni kecha ko‘rdim. Tugagan vaqt aytilgan."
+        },
+        {
+          "en": "I have seen her before.",
+          "uz": "Men uni oldin ko‘rganman. Hozirgacha bo‘lgan tajriba muhim."
+        },
+        {
+          "en": "She lived here in 2020.",
+          "uz": "U 2020-yilda shu yerda yashagan. O‘tgan davr haqida gap."
+        },
+        {
+          "en": "She has lived here since 2020.",
+          "uz": "U 2020-yildan beri shu yerda yashaydi. Holat hozirgacha davom etgan."
+        },
+        {
+          "en": "I finished the exercise at six.",
+          "uz": "Mashqni soat oltida tugatdim. Aniq tugagan vaqt."
+        },
+        {
+          "en": "I have finished the exercise, so I can rest now.",
+          "uz": "Mashqni tugatdim, shuning uchun hozir dam olsam bo‘ladi. Hozirgi natija muhim."
+        }
+      ]
+    },
+    {
+      "id": "reporting.progress_explanation",
+      "explanationUz": "O‘zlashtirishni faqat sizga ruxsat berilgan haqiqiy hisobotdagi ma’lumot bilan tushuntirish kerak. Avval davr, o‘lchov va namunalar sonini tekshiring. Saqlangan natija bilan til qobiliyati haqidagi taxminni ajrating. Ikki mashg‘ulot bajarilgani o‘zi bilan til darajasi oshganini isbotlamaydi.",
+      "tipUz": "Yo‘q ball, boshqa o‘quvchining natijasi yoki yetarli taqqoslashsiz tendensiya o‘ylab topilmasin. Quyidagilar faqat tushuntirish namunalari.",
+      "practiceUz": "Bir ko‘rsatilgan sonni izohlang va o‘sha sondan chiqarib bo‘lmaydigan ikkita xulosani ayting.",
+      "examples": [
+        {
+          "en": "Two sessions were completed this week.",
+          "uz": "Shu hafta ikkita mashg‘ulot bajarilgan. Bu faqat qayd etilgan son."
+        },
+        {
+          "en": "That count alone does not establish a higher language level.",
+          "uz": "O‘sha sonning o‘zi til darajasi yuqorilaganini isbotlamaydi."
+        },
+        {
+          "en": "The report covers the last seven days.",
+          "uz": "Hisobot oxirgi yetti kunni qamraydi."
+        },
+        {
+          "en": "No comparable earlier result is available.",
+          "uz": "Oldingi mos taqqoslash natijasi mavjud emas."
+        },
+        {
+          "en": "An average based on very few attempts needs careful interpretation.",
+          "uz": "Juda kam urinishga tayangan o‘rtacha qiymatni ehtiyotkor izohlash kerak."
+        },
+        {
+          "en": "Only authorised learner data should appear in this explanation.",
+          "uz": "Bu izohda faqat ruxsat berilgan o‘quvchi ma’lumoti bo‘lishi kerak."
+        }
+      ]
+    }
+  ]
+}

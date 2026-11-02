@@ -219,6 +219,9 @@ def chunk_knowledge_text(content: str) -> list[dict[str, Any]]:
     normalized = unicodedata.normalize("NFC", content or "").replace("\r\n", "\n").replace("\r", "\n").strip()
     if not normalized or len(normalized) > 200_000:
         raise KnowledgeServiceError("invalid_input")
+    from .riwi_teaching_details import structured_units
+    structured=structured_units(normalized)
+    if structured is not None:return structured
     paragraphs = [p.strip() for p in re.split(r"\n{2,}", normalized) if p.strip()]
     if not paragraphs:
         raise KnowledgeServiceError("invalid_input")

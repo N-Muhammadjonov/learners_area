@@ -150,6 +150,7 @@ class CurriculumTest(unittest.TestCase):
             conn=SimpleNamespace(fetchrow=AsyncMock(side_effect=[
                 {"metadata":{"provider":{"id":"riwi","model":curriculum.MODEL_PREFIX+entry["id"]}}},
                 {"source_id":CONVERSATION,"unit_id":CONVERSATION,"content":content,"authority":75,"version":1},
+                None,  # supplementary details have not been activated in this fixture
             ]))
             unit=await curriculum.retrieve_lesson(conn,ACTOR,"Give one short English practice example for this grammar topic.",CONVERSATION)
             self.assertEqual(unit["curriculumId"],entry["id"])

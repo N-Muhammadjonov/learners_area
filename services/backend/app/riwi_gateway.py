@@ -243,11 +243,19 @@ async def handle_riwi_chat(
 
     # This release is usable only after the normal Owner knowledge workflow
     # activates it. Follow-ups read only this actor's conversation metadata.
-    from .riwi_curriculum import retrieve_lesson, format_lesson, is_library_text, MODEL_PREFIX
+    from .riwi_curriculum import retrieve_lesson, format_lesson, is_library_text, choose_entry, MODEL_PREFIX
+    from .riwi_internal_tutor import correction_request, format_correction, smalltalk
+    correction=correction_request(message)
     lesson = None
-    if not answer_text and intent_info.intent in ("grammar_help", "general_learning_question"):
-        lesson = await retrieve_lesson(conn, actor, message, conversation_id)
-    knowledge_units = ([lesson] if lesson else [
+    canonical_grammar = provenance == "canonical_grammar"
+    if (not answer_text or canonical_grammar) and intent_info.intent in ("grammar_help", "general_learning_question"):
+        # A published topic remains authoritative. Enrich it only when its own
+        # title resolves to a supported lesson, including explicit topic links.
+        topic_key = choose_entry(out.get('title', '')) if canonical_grammar else (correction['topic'] if correction else None)
+        if not canonical_grammar or topic_key:
+            lesson = await retrieve_lesson(conn, actor, message, conversation_id,
+                                          **({'topic_key':topic_key} if topic_key else {}))
+    knowledge_units = ([lesson]+([lesson['supplement']] if lesson.get('supplement') else []) if lesson else [
         unit for unit in await retrieve_active_knowledge_for_actor(conn, actor, message)
         if not is_library_text(unit.get("text"))
     ])
@@ -263,13 +271,21 @@ async def handle_riwi_chat(
             }
             for u in knowledge_units[:4]
         ]
-        if not answer_text:
+        if not answer_text or (canonical_grammar and lesson and lesson.get('supplement')):
             top = knowledge_units[0]
             authored = format_lesson(top, message, locale) if top.get("curriculumId") else None
-            answer_text = authored or f"[{top['ref']}] {top['title']}: {top['text']}"
+            if authored and correction and not canonical_grammar:authored=format_correction(correction,authored,locale)
+            if canonical_grammar:
+                if authored:
+                    answer_text += "\n\n" + authored
+            else:
+                answer_text = authored or f"[{top['ref']}] {top['title']}: {top['text']}"
             if authored:
-                provider_meta = {"id": "riwi", "model": MODEL_PREFIX + top["curriculumId"]}
-            provenance = "approved_knowledge"
+                provider_meta = {"id": "riwi", "model": MODEL_PREFIX + top["curriculumId"],
+                                 'lessonVariant':top.get('lessonVariant',0),
+                                 'teachingEdition':'details-v1' if top.get('supplement') else 'compact-v1'}
+            if not canonical_grammar:
+                provenance = "approved_knowledge"
 
     rollout = read_riwi_rollout(env)
     if rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
@@ -314,16 +330,11 @@ async def handle_riwi_chat(
             citations = [allowed_map[r] for r in ext_res["citations"] if r in allowed_map]
 
     if not answer_text:
+        dialogue=smalltalk(message,locale)
         if locale == "en":
-            answer_text = (
-                "I processed your learning question using internal deterministic RIWI. "
-                "Ask about a specific dictionary headword, grammar topic, approved course note, or your progress report."
-            )
+            answer_text = dialogue or "I could not find a reliable match in my learning material 🤔\n\nCould you name the topic or share the full example? You can ask about present perfect, TRUE/FALSE/NOT GIVEN, or collocations. I will say when I do not have enough information."
         else:
-            answer_text = (
-                "Savolingiz ichki RIWI tizimi orqali ko'rib chiqildi. Aniq lug'at so'zi, grammatika mavzusi, "
-                "tasdiqlangan dars materiali yoki o'zlashtirish hisobotingiz haqida so'rashingiz mumkin."
-            )
+            answer_text = dialogue or "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nMavzu nomini yoki to‘liq misolni yozib bera olasizmi? Masalan, «present perfect», «TRUE/FALSE/NOT GIVEN» yoki «so‘z birikmasi». Bilmagan joyimda taxminni qoida deb bermayman."
         provenance = "unavailable"
 
     saved_conv_id = await append_conversation_turn(

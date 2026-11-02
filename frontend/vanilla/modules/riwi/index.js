@@ -56,7 +56,7 @@ export function createRiwiWorkspaceController({
           ? `<span class="riwi-provenance-badge">${escapeHtml(tRiwi(provKey, state.locale))}</span>`
           : "";
         const citationsHtml = msg.role === "assistant" && Array.isArray(msg.citations) && msg.citations.length
-          ? `<footer class="riwi-msg__citations">${msg.citations.map((c) => `<span class="riwi-citation-chip">[${escapeHtml(c)}]</span>`).join(" ")}</footer>`
+          ? `<footer class="riwi-msg__citations">${msg.citations.map((c) => `<span class="riwi-citation-chip">[${escapeHtml(typeof c === "string" ? c : c.ref || c.title || "K")}]</span>`).join(" ")}</footer>`
           : "";
         return `<article class="riwi-msg riwi-msg--${escapeHtml(msg.role)}">
           <header class="riwi-msg__meta">${badge}</header>
@@ -102,10 +102,11 @@ export function createRiwiWorkspaceController({
       const res = await adapter.sendChat(payload);
       state.conversationId = res.conversationId;
       state.messages.push(
-        { role: "user", content: trimmed },
+        { role: "user", content: trimmed, createdAt: new Date().toISOString() },
         {
           role: "assistant",
           content: res.answer,
+          createdAt: new Date().toISOString(),
           provenance: res.provenance,
           citations: res.citations || [],
           reportSnapshot: res.reportSnapshot || null
@@ -174,54 +175,74 @@ export function createRiwiWorkspaceController({
 }
 
 export function mount(ctx) {
-  const {root, locale = 'uz', session} = ctx;
+  const {root, locale = 'uz', session, signal} = ctx;
   const role = session?.user?.role || 'student';
   const ctrl = createRiwiWorkspaceController({role, locale});
-  const transcript = h('div', {class: 'riwi-transcript flex flex-col gap-3', role: 'log', 'aria-live': 'polite'});
-  const input = h('textarea', {class: 'input', maxlength: '4000', placeholder: tRiwi('riwi.input.placeholder', locale)});
-  const sendBtn = h('button', {type: 'submit', class: 'btn-primary'}, tRiwi('riwi.send', locale));
-  const clearBtn = h('button', {
-    type: 'button',
-    class: 'btn-secondary',
-    onClick: async () => {
-      await ctrl.clearConversation();
-      transcript.replaceChildren();
+  const text = key => tRiwi(`riwi.chat.${key}`, locale);
+  const transcript = h('div', {class: 'riwi-transcript', role: 'log', 'aria-live': 'polite', 'aria-label': text('conversation')});
+  const input = h('textarea', {class: 'riwi-chat-input', rows: '1', maxlength: '4000',
+    'aria-label': text('message'), placeholder: text('placeholder'),
+    onInput: () => {input.style.height='auto';input.style.height=Math.min(input.scrollHeight,144)+'px';},
+    onKeyDown: e => {
+      if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();form.requestSubmit();}
     }
-  }, tRiwi('riwi.clear', locale));
-
-  const renderMessages = () => {
-    transcript.replaceChildren(
-      ...ctrl.state.messages.map((m) =>
-        h('article', {class: 'card p-3', 'data-riwi-role': m.role},
-          m.role === 'assistant' && m.provenance
-            ? h('div', {class: 'text-xs font-medium text-ink-500 mb-1'}, tRiwi(`riwi.provenance.${m.provenance}`, locale))
-            : null,
-          h('p', {class: 'text-sm text-ink-900'}, m.content)
-        )
-      )
-    );
+  });
+  const sendBtn = h('button', {type: 'submit', class: 'riwi-send', 'aria-label': tRiwi('riwi.send', locale)},
+    h('svg', {viewBox:'0 0 24 24',width:'22',height:'22','aria-hidden':'true',fill:'none',stroke:'currentColor','stroke-width':'2.5','stroke-linecap':'round','stroke-linejoin':'round'},
+      h('path',{d:'M12 19V5m-6 6 6-6 6 6'})));
+  const status = h('p', {class:'riwi-status',role:'alert',hidden:true});
+  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:async()=>{
+    if(ctrl.state.loading)return;
+    try{await ctrl.clearConversation();renderMessages();status.hidden=true;input.focus();}
+    catch{status.textContent=text('deleteError');status.hidden=false;}
+  }}, tRiwi('riwi.clear',locale));
+  let pending='';
+  const greeting = () => h('div',{class:'riwi-welcome'},
+    h('span',{class:'riwi-welcome__mark','aria-hidden':'true'},'R'),
+    h('h2',{},text('welcome')),
+    h('p',{},text('welcomeBody')),
+    h('div',{class:'riwi-suggestions'},...['suggestGrammar','suggestReading','suggestVocabulary'].map(key=>
+      h('button',{type:'button',class:'riwi-suggestion',onClick:()=>{input.value=text(key);input.focus();}},text(key)))));
+  const bubble = m => {
+    const isAssistant=m.role==='assistant';
+    const time=new Date(m.createdAt);
+    const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
+    const citations=isAssistant&&m.citations?.length ? h('details',{class:'riwi-sources'},
+      h('summary',{},text('sources')),
+      h('ul',{},...m.citations.map(c=>h('li',{},typeof c==='string'?c:`${c.ref||'K'} · ${c.title||text('source')}`)))) : null;
+    return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
+      h('div',{class:'riwi-msg__body'},m.content),citations,
+      clock?h('time',{class:'riwi-msg__time',datetime:m.createdAt},clock):null);
   };
-
-  const form = h('form', {
-    class: 'card flex flex-col gap-3 p-4',
-    onSubmit: async (e) => {
-      e.preventDefault();
-      const msg = input.value.trim();
-      if (!msg) return;
-      input.value = '';
-      await ctrl.sendMessage(msg);
-      renderMessages();
+  function renderMessages(){
+    if(signal?.aborted)return;
+    const messages=ctrl.state.messages;
+    transcript.replaceChildren(...(messages.length||pending
+      ? [h('div',{class:'riwi-date'},text('today')),...messages.map(bubble)]
+      : [greeting()]));
+    if(pending){
+      transcript.append(bubble({role:'user',content:pending,createdAt:new Date().toISOString()}),
+        h('div',{class:'riwi-typing',role:'status','aria-label':text('thinking')},h('span',{}),h('span',{}),h('span',{})));
     }
-  }, input, h('div', {class: 'flex gap-2'}, sendBtn, clearBtn));
-
-  root.append(
-    h('section', {class: 'mx-auto flex w-full max-w-4xl flex-col gap-6', 'data-route-usable': 'riwi'},
-      h('header', {},
-        h('h1', {class: 'font-display text-2xl text-ink-900'}, tRiwi('riwi.title', locale)),
-        h('p', {class: 'text-sm text-ink-500'}, tRiwi(`riwi.subtitle.${role}`, locale))
-      ),
-      transcript,
-      form
-    )
-  );
+    transcript.setAttribute('aria-busy',String(ctrl.state.loading));
+    sendBtn.disabled=ctrl.state.loading;clearBtn.disabled=ctrl.state.loading;input.readOnly=ctrl.state.loading;
+    transcript.scrollTop=transcript.scrollHeight;
+  }
+  const form=h('form',{class:'riwi-composer',onSubmit:async e=>{
+    e.preventDefault();
+    if(ctrl.state.loading)return;
+    const msg=input.value.trim();if(!msg)return;
+    input.value='';input.style.height='auto';pending=msg;status.hidden=true;
+    const work=ctrl.sendMessage(msg);renderMessages();
+    try{await work;}
+    catch{input.value=msg;status.textContent=text('sendError');status.hidden=false;}
+    finally{pending='';renderMessages();}
+  }},h('div',{class:'riwi-composer__field'},input,sendBtn),
+    h('p',{class:'riwi-composer__hint'},text('hint')));
+  root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
+    h('header',{class:'riwi-chat-header'},
+      h('div',{class:'riwi-chat-identity'},h('span',{class:'riwi-avatar','aria-hidden':'true'},'R'),
+        h('div',{},h('h1',{},'RIWI'),h('p',{},text('subtitle')))),clearBtn),
+    transcript,status,form));
+  renderMessages();
 }

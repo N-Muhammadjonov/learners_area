@@ -18,7 +18,8 @@ SOURCE_PROVENANCE=("Original assistant-authored English/Uzbek explanations, exam
                    "parameter-training claim, or independent examiner band labels.")
 
 def normalize(text):
-    return " ".join(re.findall(r"[^\W_]+",unicodedata.normalize("NFKC",str(text)).casefold()))
+    from .riwi_uzbek import normalize_query
+    return normalize_query(text)
 
 def unit_text(entry):
     return json.dumps({"id":entry["id"],"en":entry["explanationEn"],"uz":entry["explanationUz"],
@@ -55,7 +56,16 @@ def library_texts():
     return frozenset(unit_text(entry) for entry in library().values())
 
 def is_library_text(text):
-    return isinstance(text,str) and text in library_texts()
+    if not isinstance(text,str):return False
+    if text in library_texts():return True
+    # Supplementary structured lessons must never leak as raw JSON through
+    # generic keyword retrieval when their topic was not selected.
+    if text.startswith('{"id":'):
+        try:
+            item=json.loads(text)
+            return item.get('id') in library() and ('examples' in item or 'example' in item)
+        except (ValueError,AttributeError):pass
+    return False
 
 def source_content():
     return "\n\n".join("# "+entry["id"]+" | "+entry["title"]+"\n\n"+unit_text(entry)
@@ -70,9 +80,25 @@ def installation_payload():
 
 def is_followup(message):
     query=normalize(message)
-    return len(query)<=220 and bool(
+    if len(query)>220:return False
+    if query in ('yana','davom et','tushunmadim','soddaroq','batafsil','oddiyroq'):return True
+    return bool(
         re.search(r"\b(example|examples|practice|misol|mashq|simpler|shorter|soddaroq|qisqaroq)\b",query)
-        and re.search(r"\b(this|that|it|another|again|shu|shunga|bunga|buni|yana|mavzu|topic)\b",query))
+        and (re.search(r"\b(this|that|it|another|again|shu|shunga|bunga|buni|yana|mavzu|topic)\b",query)
+             or len(query.split())<=7)) or bool(re.search(r'\b(tushunmadim|soddaroq|oddiyroq|batafsil)\b',query))
+
+EXTRA_ALIASES={
+ 'grammar.quantifiers':('few and a few','few va a few','few vs a few','a little and little','much and many','few nima'),
+ 'grammar.linking':('although','because','therefore'),
+ 'grammar.modals':('must not','do not have to','should nima'),
+ 'grammar.present-simple':('oddiy hozirgi zamon',),
+ 'grammar.past-simple-vs-present-perfect':('past simple present perfect farq',),
+ 'grammar.passive':('passive','majhul nisbat'),
+ 'grammar.articles':('artikl','artikllar'),
+ 'grammar.subject-verb-agreement':('ega va kesim mosligi','ega fel mosligi'),
+ 'vocabulary.collocation':('collocations','soz birikmasi','birikmalar'),
+ 'reading.tfng':('true false va not given','true false ng'),
+}
 
 def choose_entry(message):
     query=" "+normalize(message)+" "
@@ -82,7 +108,7 @@ def choose_entry(message):
            "grammar.controlled_production","grammar.free_production","grammar.explanation","grammar.retention"}
     for entry in library().values():
         score=0
-        for alias in entry["aliases"]:
+        for alias in (*entry["aliases"],*EXTRA_ALIASES.get(entry['id'],())):
             phrase=normalize(alias)
             spans=list(re.finditer(r"(?<!\w)"+re.escape(phrase)+r"(?!\w)",query))
             if spans:
@@ -110,7 +136,7 @@ def choose_entry(message):
         return None
     return candidates[0][1]
 
-async def previous_topic(conn,actor,conversation_id):
+async def previous_lesson_context(conn,actor,conversation_id):
     from .riwi_contracts import UUID_RE
     if not isinstance(conversation_id,str) or not UUID_RE.fullmatch(conversation_id):
         return None
@@ -137,15 +163,21 @@ async def previous_topic(conn,actor,conversation_id):
     if not isinstance(model,str) or not model.startswith(MODEL_PREFIX):
         return None
     key=model[len(MODEL_PREFIX):]
-    return key if key in library() else None
+    if key not in library():return None
+    variant=provider.get('lessonVariant',0)
+    return {'key':key,'variant':variant if type(variant) is int and 0<=variant<=1000000 else 0}
 
-async def retrieve_lesson(conn,actor,message,conversation_id=None):
+async def previous_topic(conn,actor,conversation_id):
+    context=await previous_lesson_context(conn,actor,conversation_id)
+    return context['key'] if context else None
+
+async def retrieve_lesson(conn,actor,message,conversation_id=None,*,topic_key=None):
     from .riwi_capabilities import authorize_capability
     if conn is None or not hasattr(conn,"fetchrow") or not authorize_capability(actor,"riwi.knowledge.read_approved").allowed:
         return None
-    key=choose_entry(message)
-    if key is None and conversation_id and is_followup(message):
-        key=await previous_topic(conn,actor,conversation_id)
+    key=topic_key if topic_key in library() else choose_entry(message)
+    previous=await previous_lesson_context(conn,actor,conversation_id) if conversation_id else None
+    if key is None and previous and is_followup(message):key=previous['key']
     if key is None:
         return None
     entry=library()[key]
@@ -162,15 +194,21 @@ async def retrieve_lesson(conn,actor,message,conversation_id=None):
         """,source_checksum(),hashlib.sha256(content.encode("utf-8")).hexdigest(),actor.role,actor.id)
     if not row or row["content"]!=content:
         return None
+    from .riwi_teaching_details import retrieve_details
+    supplement=await retrieve_details(conn,actor,key)
     return {"ref":"K1","sourceId":row["source_id"],"unitId":row["unit_id"],"title":entry["title"],
             "text":content,"authority":int(row["authority"]),"version":int(row["version"]),
-            "curriculumId":key}
+            "curriculumId":key,'supplement':supplement,
+            'lessonVariant':previous['variant']+1 if previous and previous['key']==key else 0}
 
 def format_lesson(unit,message,locale):
     key=unit.get("curriculumId")
     entry=library().get(key)
     if entry is None or unit.get("text")!=unit_text(entry):
         return None
+    from .riwi_teaching_details import format_details
+    expanded=format_details(unit,message,locale,entry,unit.get('lessonVariant',0))
+    if expanded:return expanded
     uz=locale=="uz"
     practice=entry["practice"].split(". ",1)
     practice_text=practice[-1] if uz and len(practice)==2 else practice[0]+("." if len(practice)==2 else "")
