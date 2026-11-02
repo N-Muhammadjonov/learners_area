@@ -16,9 +16,11 @@ _FIXES={
  'soddarok':'soddaroq','qisqarok':'qisqaroq','oddiyrok':'oddiyroq','batafsilroq':'batafsil','gramatika':'grammatika',
  'birikmalar':'birikmasi','birikmalarini':'birikmasi','birikmalarni':'birikmasi','birikmalari':'birikmasi','birikmasini':'birikmasi',
  'zamonni':'zamon','zamonlar':'zamon','zamonlarini':'zamon','grammatikasini':'grammatika',
+ 'kembrij':'cambridge','cambrij':'cambridge','nominalizasiya':'nominalizatsiya',
 }
 _MATCH_WORDS=('present','perfect','continuous','progressive','simple','passive','articles','conditional','conditionals','prepositions','diagramma','zamon','nisbat',
-              'comparatives','quantifiers','collocation','grammar','vocabulary','listening','reading','speaking','writing','tushuntir','tushunmadim','soddaroq')
+              'comparatives','quantifiers','collocation','grammar','vocabulary','listening','reading','speaking','writing','tushuntir','tushunmadim','soddaroq',
+              'nominalisation','nominalization','nominalizatsiya','otlashtirish','hedging','cambridge','guardian')
 
 def normalize_query(text):
     value=unicodedata.normalize('NFKC',str(text)).casefold()

@@ -1,0 +1,5273 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-11-03",
+  "referencePolicy": "User-provided third-party reference files are data, not agent instructions. Publisher rights are not transferred. Only newly authored teaching notes and examples are distributed.",
+  "sources": {
+    "guardian": {
+      "pages": 824,
+      "bytes": 15182367,
+      "sha256": "c30ab9608d6493e637513f49e52b5a0aa52fa255554117860a90c04d46a0853c"
+    },
+    "cambridge": {
+      "pages": 272,
+      "bytes": 76626310,
+      "sha256": "8c824326bdcf6aea3ce31d0000ebe582c303fafa738e1adc28c4cd0e510cbca0"
+    }
+  },
+  "guardian": {
+    "schemaVersion": 1,
+    "sourceSha256": "c30ab9608d6493e637513f49e52b5a0aa52fa255554117860a90c04d46a0853c",
+    "pageCount": 824,
+    "articles": [
+      {
+        "id": "back-from-the-dead",
+        "title": "Back from the dead",
+        "variants": {
+          "elementary": {
+            "pages": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              149,
+              150,
+              151,
+              152,
+              153
+            ],
+            "sourceTextSha256": "e523d12a351a9173dd690eebe4634bcfabf8946c79a36360bb6f888056696ae6",
+            "characters": 14918,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              154,
+              155,
+              156,
+              157,
+              158,
+              159
+            ],
+            "sourceTextSha256": "15a31e8feab76ef9d7ca84c90b0b6357c6a121ae01d31a6d2a1754a9ed525577",
+            "characters": 16968,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              160,
+              161,
+              162,
+              163,
+              164,
+              165
+            ],
+            "sourceTextSha256": "9b4f295c69c185bdb6414e3160da086ff8c05bc2d8adf8fef7673d53e3925145",
+            "characters": 20270,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 2,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 3,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 4,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 5,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 6,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 7,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 8,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 9,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 11,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 12,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 13,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 14,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 15,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 16,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 17,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 18,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 149,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 150,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 151,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 152,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 153,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 154,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 155,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 156,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 158,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 159,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 160,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 161,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 162,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 163,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 164,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 165,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "afghanistan-crop",
+        "title": "Afghanistan’s deadly crop flourishes again",
+        "variants": {
+          "elementary": {
+            "pages": [
+              19,
+              20,
+              21,
+              22,
+              23
+            ],
+            "sourceTextSha256": "6dc98751fb785a8c6fd31d36c7f03d553834723834430685971105fe34ead928",
+            "characters": 7883,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              24,
+              25,
+              26,
+              27,
+              28
+            ],
+            "sourceTextSha256": "ebb0a90a8bfc40008059cf9db831efd30d149b7354f50db48fb1587c8ceb0338",
+            "characters": 8557,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              29,
+              30,
+              31,
+              32
+            ],
+            "sourceTextSha256": "671969d88a7fef67d283b6ed7fe604c326afbd421fc921f93f7a2673041a4e6f",
+            "characters": 9250,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 19,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 20,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 21,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 22,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 23,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 24,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 25,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 26,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 27,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 28,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 29,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 30,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 31,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 32,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "afghan-airlines",
+        "title": "Afghan airlines",
+        "variants": {
+          "elementary": {
+            "pages": [
+              33,
+              34,
+              35,
+              36,
+              37,
+              38
+            ],
+            "sourceTextSha256": "8d2ea692d488caaf3ff512b28c9aae89c7026c7a346529cb4cac85a472e11d3d",
+            "characters": 8292,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45
+            ],
+            "sourceTextSha256": "fcd675038f49cf54c5b347023b8ea3d1b9883ef89bfc3710af7187b325337e5c",
+            "characters": 9760,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52
+            ],
+            "sourceTextSha256": "d8a412c09553c2bbc057a4c189e7a493c249bebb0e0224f49f9f23ce1a557a3e",
+            "characters": 10501,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 33,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 34,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 35,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 36,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 37,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 38,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 39,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 40,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 41,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 42,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 43,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 44,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 45,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 46,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 47,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 48,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 49,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 50,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 51,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 52,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "fair-trade",
+        "title": "The world’s rich nations miss a golden opportunity to back fair trade",
+        "variants": {
+          "elementary": {
+            "pages": [
+              54,
+              55,
+              56,
+              57,
+              58
+            ],
+            "sourceTextSha256": "599e379bd20b4b5c503bb22672e643a5fd5bb0850c70adf262b84aaa934e6e66",
+            "characters": 7807,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              59,
+              60,
+              61,
+              62,
+              63
+            ],
+            "sourceTextSha256": "83e537e262c9fc94363573779f50d5de991a887b0e86f53ddbed0972ab382ad7",
+            "characters": 9058,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              64,
+              65,
+              66,
+              67,
+              68
+            ],
+            "sourceTextSha256": "18ce13597be7b9b9baff62d8f9660d134a370e5b6314ee3ad8799881c03d088c",
+            "characters": 10186,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 54,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 55,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 56,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 57,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 58,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 59,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 60,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 61,
+            "printedLabel": "Level 2| intermediate"
+          },
+          {
+            "page": 62,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 63,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 64,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 65,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 66,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 67,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 68,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "airline-security",
+        "title": "Airline Security",
+        "variants": {
+          "elementary": {
+            "pages": [
+              69,
+              70,
+              71
+            ],
+            "sourceTextSha256": "1706f35efe623d53ccf0e48d3200b261a88cdd4cb4d90a911ba1c36b676cddad",
+            "characters": 6224,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              72,
+              73,
+              74
+            ],
+            "sourceTextSha256": "e3d3f0b5d11c6075f2457d45ef488b502787b2ac9345e6cd89c0d877939dbc5a",
+            "characters": 8636,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              75,
+              76,
+              77,
+              78
+            ],
+            "sourceTextSha256": "f94c8028e7c1df6067be17318e3bde6d6a7db50927022159c699a85ca2dc76c9",
+            "characters": 10560,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 69,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 70,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 71,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 72,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 73,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 74,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 75,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 76,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 77,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "superjet",
+        "title": "Superjet launches sky wars",
+        "variants": {
+          "elementary": {
+            "pages": [
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85
+            ],
+            "sourceTextSha256": "e7dc3097c4cad266c2c3f792d1d442f813e38e5f7e05ff329170bf3edb67197f",
+            "characters": 13245,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              86,
+              87,
+              88,
+              89,
+              90,
+              91
+            ],
+            "sourceTextSha256": "e720a41dee1d074896b08aba485f0d3ec49a47930f6f6fe85ac5ae8457efad11",
+            "characters": 5875,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              92,
+              93,
+              94,
+              95,
+              96
+            ],
+            "sourceTextSha256": "367c06d42d2e8ce3e9fc3a08958a8ced04f459885463397edf40623513a67d9c",
+            "characters": 8715,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 79,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 80,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 81,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 82,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 83,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 86,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 88,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 92,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 93,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 94,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 95,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "amazon-forest",
+        "title": "Demand for beef speeds destruction of Amazon forest",
+        "variants": {
+          "elementary": {
+            "pages": [
+              98,
+              99,
+              100,
+              101,
+              110
+            ],
+            "sourceTextSha256": "4d5b89b9f9ed4061777d640991a5522ece413fa6a2df9995d136421cb7d45899",
+            "characters": 6555,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              102,
+              103,
+              104,
+              105,
+              111
+            ],
+            "sourceTextSha256": "e3fcd3d87425250335e7253feb9ab492f1389977c58743cf40ef36c3754c3e79",
+            "characters": 7793,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              106,
+              107,
+              108,
+              109,
+              112
+            ],
+            "sourceTextSha256": "4ac585cce99f49a9d571456fda3e5fd96d0d33cda495820bf811d1e2f9690857",
+            "characters": 8126,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 98,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 99,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 100,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 101,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 102,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 103,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 104,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 105,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 106,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 107,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 108,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 109,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 110,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 111,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 112,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "argentina",
+        "title": "Spare a tear for Argentina",
+        "variants": {
+          "elementary": {
+            "pages": [
+              114,
+              115,
+              116,
+              117,
+              118
+            ],
+            "sourceTextSha256": "6ec24cd633f94f8e55d56da6318f088547a51ff05c8e440b9f48315c13dcbce1",
+            "characters": 8431,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              119,
+              120,
+              121,
+              122,
+              123,
+              124
+            ],
+            "sourceTextSha256": "da7195cf78e85c9545ec739dfe9a8a1bce3153fc5f755830c954b7ce6f5e28cb",
+            "characters": 10144,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              125,
+              126,
+              127,
+              128,
+              129,
+              130
+            ],
+            "sourceTextSha256": "618c18b79e41d17715e8ca47a1d572d9da6786defbc5f3e30ea571614af264b7",
+            "characters": 11859,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 114,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 115,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 116,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 117,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 118,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 119,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 120,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 121,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 122,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 123,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 124,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 125,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 126,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 127,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 128,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 129,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 130,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "axles-of-evil",
+        "title": "Axles of Evil",
+        "variants": {
+          "elementary": {
+            "pages": [
+              132,
+              133,
+              134,
+              135,
+              136
+            ],
+            "sourceTextSha256": "6d0800510cc5a9a338fe6a47ede084df0564eb5a58c86f16f7dd060245ba98e1",
+            "characters": 7169,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              137,
+              138,
+              139,
+              140,
+              141,
+              142
+            ],
+            "sourceTextSha256": "07afa8031070fe8017cfa91eff78a2130204c13687ad70c412f2f273ec4c03a0",
+            "characters": 8106,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              143,
+              144,
+              145,
+              146,
+              147,
+              148
+            ],
+            "sourceTextSha256": "5dd930d8b776473e908b7ff8c198e3d1ac5bafc7a4312c2de33967e807e09f6a",
+            "characters": 9038,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 132,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 133,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 134,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 135,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 136,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 137,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 138,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 139,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 140,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 141,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 142,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 143,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 144,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 145,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 146,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 147,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 148,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "working-the-land",
+        "title": "Working the land to feed the people",
+        "variants": {
+          "elementary": {
+            "pages": [
+              168,
+              169,
+              170,
+              171,
+              172
+            ],
+            "sourceTextSha256": "5e8bec00a691807440114c50e3f353e63d340dd99d9ef047c9fd1015c4e03392",
+            "characters": 8244,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              173,
+              174,
+              175,
+              176,
+              177
+            ],
+            "sourceTextSha256": "459c62458151c6ee3e1d51309ad6a43034bb8bcea50590cc71826b71fe606394",
+            "characters": 9666,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              178,
+              179,
+              180,
+              181,
+              182,
+              183
+            ],
+            "sourceTextSha256": "af4417233713b5f10379b81fbd5500de11720212e1e6b168c792b5d118aab772",
+            "characters": 11550,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 168,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 169,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 170,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 171,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 172,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 173,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 174,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 175,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 176,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 177,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 178,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 179,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 180,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 181,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 182,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 183,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "cloning",
+        "title": "Koreans succeed in cloning human embryos",
+        "variants": {
+          "elementary": {
+            "pages": [
+              185,
+              186,
+              187,
+              188,
+              189
+            ],
+            "sourceTextSha256": "fe62501ffa1af784b781993a9e3b021d30413d18b68214f1ad96aae57491be82",
+            "characters": 6111,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              190,
+              191,
+              192,
+              193,
+              194
+            ],
+            "sourceTextSha256": "2a970258fe11429a3fccb0cb96e3b1594b798882efc06f2bf505cd21114d706f",
+            "characters": 6326,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              195,
+              196,
+              197,
+              198,
+              199
+            ],
+            "sourceTextSha256": "498b428c07d45cf968d36d622f6ae6e4c491faf48cf7f509c0e6f8d988a98ad2",
+            "characters": 7080,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 185,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 186,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 187,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 188,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 189,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 190,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 191,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 192,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 193,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 194,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 195,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 196,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 197,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 198,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 199,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "drowning-in-money",
+        "title": "Drowning in money",
+        "variants": {
+          "elementary": {
+            "pages": [
+              201,
+              202,
+              203,
+              204,
+              205,
+              206
+            ],
+            "sourceTextSha256": "f9821655986927b95a294f17773bc7913c39e5b62d7545ca4968fccb44bf8fd9",
+            "characters": 7779,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              207,
+              208,
+              209,
+              210,
+              211,
+              212
+            ],
+            "sourceTextSha256": "753acbbbafd2f8020c6644e718ff45d669dd23f71c7519f55344247640a3c4d8",
+            "characters": 8836,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              213,
+              214,
+              215,
+              216,
+              217,
+              218
+            ],
+            "sourceTextSha256": "3a7c1f17179d0bdc123f40dab8b5632b15ffcacd022e76d8a6dbfb93a24599f3",
+            "characters": 9486,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 201,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 202,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 203,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 204,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 205,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 206,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 207,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 208,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 209,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 210,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 211,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 212,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 213,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 214,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 215,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 216,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 217,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 218,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "europe",
+        "title": "‘Old’ Europe reuniting East with West",
+        "variants": {
+          "elementary": {
+            "pages": [
+              219,
+              220,
+              221,
+              222,
+              223
+            ],
+            "sourceTextSha256": "d84f562caaf69e897c43511743381db0ef0ec16aaf2479340cbdfc8c1c459a8a",
+            "characters": 7448,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              224,
+              225,
+              226,
+              227,
+              228
+            ],
+            "sourceTextSha256": "fdc757670940f98754d34e883bdd627f2a30e76e8bb029612dcea3a61f8ceca0",
+            "characters": 8594,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              229,
+              230,
+              231,
+              232,
+              233
+            ],
+            "sourceTextSha256": "83e34374eafb875873c6af83d3c37c5158fc0221421758cc146c26d996555141",
+            "characters": 9323,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 219,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 220,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 221,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 222,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 223,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 224,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 225,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 226,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 227,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 228,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 229,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 230,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 231,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 232,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 233,
+            "printedLabel": "Level 3| Advanced"
+          }
+        ]
+      },
+      {
+        "id": "hunting",
+        "title": "Parliament brings end to 700 years of hunting",
+        "variants": {
+          "elementary": {
+            "pages": [
+              236,
+              237,
+              238,
+              239,
+              240,
+              241
+            ],
+            "sourceTextSha256": "ff857fa203bdf80ffb94ee763b810e6126ceba311e932411b5150653151e55c9",
+            "characters": 8565,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              242,
+              243,
+              244,
+              245,
+              246,
+              247
+            ],
+            "sourceTextSha256": "72fd730d7c115ba7b2b9f99aee030df2031c31748f5009ea05b5ac1550e4b3e9",
+            "characters": 8536,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              248,
+              249,
+              250,
+              251
+            ],
+            "sourceTextSha256": "271aac26ebbe879f71f90d7c7a9d6317684927eb912f72b2759c56004d7f32dc",
+            "characters": 7824,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 236,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 237,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 238,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 239,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 240,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 242,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 243,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 245,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 248,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 249,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 250,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "suburbs",
+        "title": "Explosion in the suburbs",
+        "variants": {
+          "elementary": {
+            "pages": [
+              252,
+              253,
+              254,
+              255,
+              256,
+              267,
+              268,
+              269,
+              270,
+              271
+            ],
+            "sourceTextSha256": "e3a992882670428a3df51f578dd875410e46f708ee4bf5c8535c077653ba0123",
+            "characters": 13372,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              257,
+              258,
+              259,
+              260,
+              261
+            ],
+            "sourceTextSha256": "8e269003da2f84aee3d071515b1e5b6098e0c97b70f7d7c689e62e99ff99ad71",
+            "characters": 8213,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              262,
+              263,
+              264,
+              265,
+              266
+            ],
+            "sourceTextSha256": "6146214d1d4869b04cfb043d6e05f1ea0fea86a36d63a509357bf9745079e374",
+            "characters": 8364,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 252,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 253,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 254,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 255,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 256,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 257,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 258,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 259,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 260,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 261,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 262,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 263,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 264,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 265,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 267,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 268,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 269,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 270,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 271,
+            "printedLabel": "Level 1 | Elementary"
+          }
+        ]
+      },
+      {
+        "id": "fur",
+        "title": "Fur flies as Christmas sales take off",
+        "variants": {
+          "elementary": {
+            "pages": [
+              273,
+              274,
+              275,
+              276,
+              277
+            ],
+            "sourceTextSha256": "41319143281eb47f8078fb7fd6545b3ebdc9d0c6d243254ffda09868ddc9152d",
+            "characters": 7027,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              278,
+              279,
+              280,
+              281,
+              282
+            ],
+            "sourceTextSha256": "aa63ed348fcdc0effb9ac9035f8ab1d50366abaa2db88009f4944a6734337460",
+            "characters": 7323,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              283,
+              284,
+              285,
+              286,
+              287
+            ],
+            "sourceTextSha256": "c60c79d74b8f93344637f17a2c2e14115ade6f3583c2523d7f837ccde8554c5e",
+            "characters": 9384,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 273,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 274,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 275,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 276,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 277,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 278,
+            "printedLabel": "LEVEL TWO = INTERMEDIATE"
+          },
+          {
+            "page": 279,
+            "printedLabel": "LEVEL TWO = INTERMEDIATE"
+          },
+          {
+            "page": 280,
+            "printedLabel": "LEVEL TWO = INTERMEDIATE"
+          },
+          {
+            "page": 281,
+            "printedLabel": "LEVEL TWO = INTERMEDIATE"
+          },
+          {
+            "page": 282,
+            "printedLabel": "LEVEL TWO = INTERMEDIATE"
+          },
+          {
+            "page": 283,
+            "printedLabel": "LEVEL THREE ~ ADVANCED"
+          },
+          {
+            "page": 285,
+            "printedLabel": "LEVEL THREE ~ ADVANCED"
+          },
+          {
+            "page": 286,
+            "printedLabel": "LEVEL THREE ~ ADVANCED"
+          },
+          {
+            "page": 287,
+            "printedLabel": "LEVEL THREE ~ ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "zoos",
+        "title": "The future of zoos / Is it closing time for the big game attractions?",
+        "variants": {
+          "pre-intermediate": {
+            "pages": [
+              288,
+              289
+            ],
+            "sourceTextSha256": "45467bee92c27a2259af836bd1c40a5e1b69ee26e4d2e80f3e76b9f10d464701",
+            "characters": 3830,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              290,
+              291,
+              292
+            ],
+            "sourceTextSha256": "83f538f9363ee9316dbc83492d6a6c95b730be97fc95ab6521c4c3e3facebf31",
+            "characters": 6693,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              293,
+              294,
+              295
+            ],
+            "sourceTextSha256": "acdd035d2a5317c125223fb3bc213c7b98c7070bee6b304162039500a05d3b13",
+            "characters": 10267,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 288,
+            "printedLabel": "Level 1 Pre-Intermediate"
+          },
+          {
+            "page": 293,
+            "printedLabel": "Level 3 Advanced"
+          }
+        ]
+      },
+      {
+        "id": "global-warming",
+        "title": "Global warming threatens to kill off a million species",
+        "variants": {
+          "elementary": {
+            "pages": [
+              297,
+              298,
+              299,
+              300,
+              309
+            ],
+            "sourceTextSha256": "ab7aa829c27ed609e2bc991ec20923ba90b8491675465edbeee8b5599cfdfd38",
+            "characters": 7376,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              301,
+              302,
+              303,
+              304,
+              310
+            ],
+            "sourceTextSha256": "7852676a1e26840726990c784e3dc70ee23eb41ead235ad7a84190145cda0d22",
+            "characters": 7016,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              305,
+              306,
+              307,
+              308,
+              311
+            ],
+            "sourceTextSha256": "7f37b1019de4c765697de65af7cc4c47fa7ee6067ed6733a961b15c58f9c7a8e",
+            "characters": 8331,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 297,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 298,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 299,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 300,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 301,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 302,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 303,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 304,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 305,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 306,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 307,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 308,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 309,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 310,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 311,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "religious-dress",
+        "title": "France to ban pupils’ religious dress",
+        "variants": {
+          "elementary": {
+            "pages": [
+              313,
+              314,
+              315,
+              316,
+              317
+            ],
+            "sourceTextSha256": "45ed8600673d684c469924f26a60b20e0c11e4656a5d18645aab5bb91fac9df0",
+            "characters": 6142,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              318,
+              319,
+              320,
+              321,
+              322
+            ],
+            "sourceTextSha256": "6d71da4447ebfc31a33f645f1b279896933e085140ada1767815b8eb37fa937c",
+            "characters": 6610,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              323,
+              324,
+              325,
+              326,
+              327
+            ],
+            "sourceTextSha256": "5b8357387c0f148eeb490e6f66fe1c346e1a0a57161087f60816b38b4402e033",
+            "characters": 7146,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 313,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 314,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 315,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 316,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 317,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 318,
+            "printedLabel": "Level 2|| Intermediate"
+          },
+          {
+            "page": 319,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 320,
+            "printedLabel": "Level 2| intermediate"
+          },
+          {
+            "page": 321,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 322,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 323,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 324,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 325,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 326,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 327,
+            "printedLabel": "Level 3| Advanced"
+          }
+        ]
+      },
+      {
+        "id": "bill-gates",
+        "title": "World’s richest man gives $100m gift",
+        "variants": {
+          "advanced": {
+            "pages": [
+              329,
+              330,
+              331,
+              332,
+              333
+            ],
+            "sourceTextSha256": "4563a5a67d217e5bdb31e7c64bbb94aa73c48110ba4f6ef601a7c86fff652887",
+            "characters": 8628,
+            "historicalText": true
+          },
+          "elementary": {
+            "pages": [
+              776,
+              777,
+              778,
+              779
+            ],
+            "sourceTextSha256": "40c80627c443a0d373808fe224ec7dde3d3ebbe968ceed8f879e71af62d83513",
+            "characters": 5623,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              780,
+              781,
+              782,
+              783,
+              784
+            ],
+            "sourceTextSha256": "cd8257d84e186b00929145b21c03331a3fbb193b137ae323ecfce7766da8dd9b",
+            "characters": 7343,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 329,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 330,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 331,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 332,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 333,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 776,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 777,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 778,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 779,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 780,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 781,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 782,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 783,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 784,
+            "printedLabel": "Level 2 | Intermediate"
+          }
+        ]
+      },
+      {
+        "id": "bali",
+        "title": "Bali bomber to face firing squad",
+        "variants": {
+          "elementary": {
+            "pages": [
+              335,
+              336,
+              337,
+              338,
+              339
+            ],
+            "sourceTextSha256": "e3e9635d0e34dd5db017ecf8c14524c8ef7eb25b9f56674c5dfc35687fbcd57c",
+            "characters": 6627,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              340,
+              341,
+              342,
+              343,
+              344
+            ],
+            "sourceTextSha256": "e200f97966af9fe309d27766dc5534fa3f4d099edeef6379c4edee7c257ef265",
+            "characters": 6033,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              345,
+              346,
+              347,
+              348
+            ],
+            "sourceTextSha256": "3fd0a2f995ef6e5d02e5174e59870222f35fc3ac39f9c1ddb85d1300d330747c",
+            "characters": 6028,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 335,
+            "printedLabel": "Level 1 Elementary"
+          },
+          {
+            "page": 336,
+            "printedLabel": "Level 1 Elementary"
+          },
+          {
+            "page": 337,
+            "printedLabel": "Level 1 Elementary"
+          },
+          {
+            "page": 338,
+            "printedLabel": "Level 1 Elementary"
+          },
+          {
+            "page": 339,
+            "printedLabel": "Level 1 Elementary"
+          },
+          {
+            "page": 340,
+            "printedLabel": "Level 2 Intermediate"
+          },
+          {
+            "page": 341,
+            "printedLabel": "Level 2 Intermediate"
+          },
+          {
+            "page": 342,
+            "printedLabel": "Level 2 Intermediate"
+          },
+          {
+            "page": 343,
+            "printedLabel": "Level 2 Intermediate"
+          },
+          {
+            "page": 344,
+            "printedLabel": "Level 2 Intermediate"
+          },
+          {
+            "page": 345,
+            "printedLabel": "Level 3 Advanced"
+          },
+          {
+            "page": 346,
+            "printedLabel": "Level 3 Advanced"
+          },
+          {
+            "page": 347,
+            "printedLabel": "Level 3 Advanced"
+          },
+          {
+            "page": 348,
+            "printedLabel": "Level 3 Advanced"
+          }
+        ]
+      },
+      {
+        "id": "iraq-war",
+        "title": "America’s crude tactics for Iraq war",
+        "variants": {
+          "elementary": {
+            "pages": [
+              350,
+              351,
+              352,
+              353,
+              354
+            ],
+            "sourceTextSha256": "3795cd20b9265cafeec2322ac636c31fd3501be20592f24a663ba93e6ab738d2",
+            "characters": 6319,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              355,
+              356,
+              357,
+              358,
+              359
+            ],
+            "sourceTextSha256": "e8e27309ab05c902f8ef40f9dc62d911cc632df7a6d5509a93d7122a58ef3793",
+            "characters": 7369,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              360,
+              361,
+              362,
+              363,
+              364
+            ],
+            "sourceTextSha256": "8c9ba9849d1b606198d0ade92e5cf2cf05e851e2e9afb56001c4a5104d9269f9",
+            "characters": 8038,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 350,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 351,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 352,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 353,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 354,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 355,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 356,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 357,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 358,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 359,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 360,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 361,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 362,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 363,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 364,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "ivory",
+        "title": "We need a total ban on ivory sales",
+        "variants": {
+          "elementary": {
+            "pages": [
+              365,
+              366,
+              367,
+              368,
+              369
+            ],
+            "sourceTextSha256": "ca2904a3ca9b8e21427433c33fbcc519abedaef42f5e8645e912454a0b7c4a50",
+            "characters": 7317,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              370,
+              371,
+              372,
+              373,
+              374,
+              375
+            ],
+            "sourceTextSha256": "a7078c5f94a95434070d2805684035fdea8d542844e0b47ea54e0dac7dfe0d92",
+            "characters": 9542,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              376,
+              377,
+              378,
+              379
+            ],
+            "sourceTextSha256": "a73905293d6ed144f752952544f17851f294c338249bfccb4032653d0dd6a371",
+            "characters": 7036,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 365,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 366,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 367,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 368,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 369,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 370,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 371,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 372,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 376,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 377,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "aid-iraq",
+        "title": "Aid agencies warn of Iraq pullout",
+        "variants": {
+          "elementary": {
+            "pages": [
+              382,
+              383,
+              384,
+              385,
+              386
+            ],
+            "sourceTextSha256": "cc55acfa8046ee802c127b19ceb6c99dc4286cd749a6d12b108bea69ba4ba242",
+            "characters": 7599,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              387,
+              388,
+              389,
+              390,
+              391
+            ],
+            "sourceTextSha256": "f65ea4fa0a0f02d45223212da33d2108b736a3fbc406e988f0f7e38595007aec",
+            "characters": 7217,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              392,
+              393,
+              394,
+              395,
+              396,
+              397
+            ],
+            "sourceTextSha256": "d7e2a7fd378d6083ad1ec71a73e93f7efdcca962cdb59a24482d6ab248ea4e46",
+            "characters": 8626,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 382,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 383,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 384,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 385,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 386,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 387,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 388,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 389,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 390,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 391,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 392,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 393,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 394,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 395,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 396,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 397,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "life-expectancy",
+        "title": "Health crisis looms as life expectancy soars",
+        "variants": {
+          "elementary": {
+            "pages": [
+              399,
+              400,
+              401,
+              402
+            ],
+            "sourceTextSha256": "4281256ef9ca6a5ba8e17be1e40b99c132acd011bf9abfa61c087bc89dfadbf7",
+            "characters": 6070,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              403,
+              404,
+              405,
+              406,
+              407
+            ],
+            "sourceTextSha256": "6f874cd92974e2b5e926b5b684ff681eaa04e574158cc62ca3bc51bc5e653689",
+            "characters": 9281,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              408,
+              409,
+              410,
+              411,
+              412
+            ],
+            "sourceTextSha256": "ea7187f56020c14148b827b2953080348896d02a125de5648aa94db0478387d6",
+            "characters": 11035,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 399,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 400,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 401,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 402,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 403,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 404,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 405,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 406,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 407,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 408,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 409,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 410,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 411,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 412,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "gender-equality",
+        "title": "Where men are men ... and women don’t know the recipe for equality",
+        "variants": {
+          "elementary": {
+            "pages": [
+              413,
+              414,
+              415
+            ],
+            "sourceTextSha256": "14e157c1bd3a6cf0c9bad48a97aa67233f5d263f9c769ec2f8ca45c9f21f88a0",
+            "characters": 5419,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              416,
+              417,
+              418
+            ],
+            "sourceTextSha256": "0d30635932cb97de1acae08821f0fa331e3142ff91a7ca4f5a0b628e375a3789",
+            "characters": 7004,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              419,
+              420,
+              421,
+              422,
+              424
+            ],
+            "sourceTextSha256": "cca3ad953897ad009ded6c73f43fc14efaeba6ede9f58a95e9009f108422751a",
+            "characters": 10058,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 413,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 414,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 415,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 416,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 417,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 418,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 419,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 420,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 421,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "bridge",
+        "title": "Bridge cannot span the divide",
+        "variants": {
+          "elementary": {
+            "pages": [
+              425,
+              426,
+              427,
+              428
+            ],
+            "sourceTextSha256": "b0e708d3ab37033a36eff65ef047d5eb173ba5cbb056ee773b22af82ea281b24",
+            "characters": 5167,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              429,
+              430,
+              431,
+              432,
+              433
+            ],
+            "sourceTextSha256": "f636abc3242225dc1146a8ca67bc98d50ede60b5d4b0ea660b142c92dbe77973",
+            "characters": 8295,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              434,
+              435,
+              436,
+              437,
+              438,
+              439
+            ],
+            "sourceTextSha256": "7db897c3e9f4e6f7f11f675d6efb8d6a66a623f2c46229b064d24d60df52b103",
+            "characters": 10836,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 425,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 427,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 429,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 430,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 431,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 432,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 433,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 434,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 435,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 436,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 437,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 438,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 439,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "nasa",
+        "title": "NASA gladly loses a spacecraft",
+        "variants": {
+          "elementary": {
+            "pages": [
+              441,
+              442,
+              443,
+              444,
+              445
+            ],
+            "sourceTextSha256": "f1d2833a18c9c0d38a672e12935d8ec3812ec185ad1b369297dee977d0cc205a",
+            "characters": 7003,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              446,
+              447,
+              448,
+              449,
+              450
+            ],
+            "sourceTextSha256": "3354242647773079b157feaceb65b676868daa9e81fb3c4471c18187d478abc2",
+            "characters": 7844,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              451,
+              452,
+              453,
+              454,
+              455
+            ],
+            "sourceTextSha256": "1d12ec6c389596a5c19751d2f3018d0b7aad00c043877ff200e158a95fa95a30",
+            "characters": 9034,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 441,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 442,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 443,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 444,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 445,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 446,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 447,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 448,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 449,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 450,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 451,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 452,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 453,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 454,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 455,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "gun-lobby",
+        "title": "Gun lobby fires shot for free speech",
+        "variants": {
+          "elementary": {
+            "pages": [
+              457,
+              458,
+              459,
+              460,
+              461
+            ],
+            "sourceTextSha256": "f6c03f1f5f81cde53a6d4cfbfddc7611bf5969e727fd1be03e29bf3c39b47a74",
+            "characters": 7020,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              462,
+              463,
+              464,
+              465,
+              466
+            ],
+            "sourceTextSha256": "f89469e9a8a7108f7aff2bceb9fe72ad88cd84f5ba5bde2633a54cda96a5f13c",
+            "characters": 8131,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              467,
+              468,
+              469,
+              470,
+              471,
+              472
+            ],
+            "sourceTextSha256": "0ad9cb452070bf6fccbd979b0adc569556b1dbfdd5a371e4587a7cc38477b424",
+            "characters": 8605,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 457,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 458,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 459,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 460,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 461,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 462,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 463,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 464,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 465,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 466,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 467,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 468,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 469,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 470,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 471,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 472,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "portuguese-nurse",
+        "title": "Portuguese nurse who ran abortion clinic jailed",
+        "variants": {
+          "elementary": {
+            "pages": [
+              473,
+              474,
+              475,
+              476
+            ],
+            "sourceTextSha256": "db2632117888328bb870d28614adfc1af7e0e52bf6c5818931492cd256c051db",
+            "characters": 6441,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              477,
+              478,
+              479,
+              480
+            ],
+            "sourceTextSha256": "536252978b8cb24b4b53718a5f8f6447ee9f2fc527b2a3e4899dcee218b34d2e",
+            "characters": 8123,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              481,
+              482,
+              483,
+              484,
+              485,
+              486,
+              488
+            ],
+            "sourceTextSha256": "07481db8019493840e0da6d1d779d64590cca6adebbbeab1ce1d3dd5738cd9e3",
+            "characters": 10654,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 473,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 474,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 475,
+            "printedLabel": "LEVEL ONE ~ ELEMENTARY"
+          },
+          {
+            "page": 476,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 477,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 478,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 479,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 480,
+            "printedLabel": "LEVEL TWO ~ INTERMEDIATE"
+          },
+          {
+            "page": 481,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 482,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 483,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 484,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "reich-land",
+        "title": "Rebirth of the Reich land",
+        "variants": {
+          "elementary": {
+            "pages": [
+              489,
+              490,
+              491,
+              492,
+              493
+            ],
+            "sourceTextSha256": "a37af79a056995ebe16cbf710a6e3b23cd2c133c6007638c71fb183ff23f9de0",
+            "characters": 7220,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              494,
+              495,
+              496,
+              497,
+              498,
+              499
+            ],
+            "sourceTextSha256": "dfa494b9f54b960f4d967c99c50a4b00734d0aac4e37c203553cdc11c75994c8",
+            "characters": 8759,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              500,
+              501,
+              502,
+              503,
+              504,
+              505,
+              506
+            ],
+            "sourceTextSha256": "5a6cb61efddd36def7f7fa1bb76b55b632e2c241435f758ede52243fb47eb1df",
+            "characters": 9584,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 489,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 490,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 491,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 492,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 493,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 494,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 495,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 496,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 497,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 498,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 499,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 500,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 501,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 502,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 503,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 504,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 505,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 506,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "rio",
+        "title": "Police accused of Rio massacre",
+        "variants": {
+          "elementary": {
+            "pages": [
+              508,
+              509,
+              510,
+              511,
+              512,
+              513
+            ],
+            "sourceTextSha256": "eb38053eaff00486a7f450299ec9087b570a1be3369f608cdbb9895dfbaaba4a",
+            "characters": 8512,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              514,
+              515,
+              516,
+              517,
+              518
+            ],
+            "sourceTextSha256": "40d55afa6a34170b6a0b924c3c27e0c3e537c88ea793bfc0361a9de7e0bf203d",
+            "characters": 8483,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              519,
+              520,
+              521,
+              522,
+              523
+            ],
+            "sourceTextSha256": "82644bbb7abc791dfdfa152e27cad304be3814b1412623a5ead5e18ae7fe3c7c",
+            "characters": 7114,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 508,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 509,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 510,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 511,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 512,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 514,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 519,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 520,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "rwanda",
+        "title": "Rwanda / Second-class justice system",
+        "variants": {
+          "elementary": {
+            "pages": [
+              524,
+              525,
+              526,
+              527
+            ],
+            "sourceTextSha256": "548be96a03bbba6467de340de28b86cb0d52a3ccc302fc681d156958ca6ea884",
+            "characters": 6470,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              528,
+              529,
+              530,
+              531
+            ],
+            "sourceTextSha256": "747f8000c25898535800c5dc2877332fd590530ec48e8bb8dbe4455fee581150",
+            "characters": 8251,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              532,
+              533,
+              534,
+              535,
+              536
+            ],
+            "sourceTextSha256": "26f13e7ba607d683642737a07513822714a80fac51e7bb7d7e19759747a1bf19",
+            "characters": 10052,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 524,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 525,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 527,
+            "printedLabel": "LEVEL ONE - ELEMENTARY"
+          },
+          {
+            "page": 528,
+            "printedLabel": "LEVEL ONE - INTERMEDIATE"
+          },
+          {
+            "page": 529,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 530,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 531,
+            "printedLabel": "LEVEL TWO - INTERMEDIATE"
+          },
+          {
+            "page": 532,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 533,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 534,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 535,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          },
+          {
+            "page": 536,
+            "printedLabel": "LEVEL THREE - ADVANCED"
+          }
+        ]
+      },
+      {
+        "id": "sars",
+        "title": "Doctor who identified SARS becomes its victim",
+        "variants": {
+          "elementary": {
+            "pages": [
+              538,
+              539,
+              540,
+              541,
+              542
+            ],
+            "sourceTextSha256": "2d288ce78e354582dd18d728f17e003671a630462bdfb6dbfd66d9fa67c5c122",
+            "characters": 5972,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              543,
+              544,
+              545,
+              546,
+              547
+            ],
+            "sourceTextSha256": "8ca6e9afafd9b0eb35b1d0f9d31baf4bd726ee52859c5bf405b97813945bc011",
+            "characters": 6451,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              548,
+              549,
+              550,
+              551,
+              552
+            ],
+            "sourceTextSha256": "7a2e032e99bc1f2381bbb7beede6060ad76a9f035c618e5e0742a465284f05db",
+            "characters": 6702,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 538,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 539,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 540,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 541,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 542,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 543,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 544,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 545,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 546,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 547,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 548,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 549,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 550,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 551,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 552,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "julia-roberts",
+        "title": "Send Julia Roberts, not tanks",
+        "variants": {
+          "elementary": {
+            "pages": [
+              554,
+              555,
+              556,
+              557,
+              558
+            ],
+            "sourceTextSha256": "c5fc38f0702c50a32be7d2ed19e73465d66bb19b59ae57ac1df8e8561dfe39a2",
+            "characters": 7022,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              559,
+              560,
+              561,
+              562,
+              563,
+              564
+            ],
+            "sourceTextSha256": "f159fa1eab939640ce49e1a0410e57197f7c9e9b75d365f5e23d4670e590b50b",
+            "characters": 9338,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              565,
+              566,
+              567,
+              568,
+              569,
+              570
+            ],
+            "sourceTextSha256": "38dfe5b21eefe830eec430b37b9533565ef0c6cfd4df7686ae85910286f0eb3f",
+            "characters": 9795,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 554,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 555,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 556,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 557,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 558,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 559,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 560,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 561,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 562,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 563,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 565,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 567,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 568,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "busy-skies",
+        "title": "Safety fears over Europe’s busy skies",
+        "variants": {
+          "elementary": {
+            "pages": [
+              572,
+              573,
+              574,
+              575,
+              576
+            ],
+            "sourceTextSha256": "b2551bc2eaf2eaf2589e5fba174ba74b3a87356d445e347239263b5257f7aced",
+            "characters": 8304,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              577,
+              578,
+              579,
+              580,
+              581
+            ],
+            "sourceTextSha256": "90a9e280da9fad6b9d02d971c84cce73c52577b7245673ab44232da38a7e1dfb",
+            "characters": 9711,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              582,
+              583,
+              584,
+              585,
+              586
+            ],
+            "sourceTextSha256": "41b02b72f608062c9a2acfffe5542f2c69aec3ff74040c1a63551279eca4486c",
+            "characters": 11050,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 572,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 573,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 574,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 575,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 576,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 577,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 578,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 579,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 580,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 581,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 582,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 583,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 584,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 585,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 586,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "spain",
+        "title": "Angry Spain ousts ruling party",
+        "variants": {
+          "elementary": {
+            "pages": [
+              588,
+              589,
+              590,
+              591,
+              592
+            ],
+            "sourceTextSha256": "e4b8178ebfb1957247d801ace7d7f95cc478ed5c881a6d80e425efd197fdc874",
+            "characters": 6128,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              593,
+              594,
+              595,
+              596,
+              597,
+              598
+            ],
+            "sourceTextSha256": "dbbaf12762977dadf4d7b9d2bf66e7244c26e8fc722b73e6cc74b23462c71457",
+            "characters": 7959,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              599,
+              600,
+              601,
+              602,
+              603,
+              604
+            ],
+            "sourceTextSha256": "e42009b1169a1f4554b616bb58522ec17baf4979c7cd9e878dcc097c7c424140",
+            "characters": 7812,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 588,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 589,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 590,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 591,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 592,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 593,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 594,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 595,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 596,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 597,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 598,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 599,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 600,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 601,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 602,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 603,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 604,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "tag-workers",
+        "title": "Firms tag workers to improve efficiency",
+        "variants": {
+          "elementary": {
+            "pages": [
+              607,
+              608,
+              609,
+              610,
+              611
+            ],
+            "sourceTextSha256": "d740fb3a25d9477b435cb807ca63071c9565c91e63dcf84bbbfe2c9ebc223719",
+            "characters": 7299,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              612,
+              613,
+              614,
+              615,
+              616,
+              617
+            ],
+            "sourceTextSha256": "a97bd562cb9daedc2e7ccf50edb146bd7c37ba69bc7816138e065703875496ea",
+            "characters": 7882,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              618,
+              619,
+              620,
+              621,
+              622,
+              623
+            ],
+            "sourceTextSha256": "ed8c4610a3abe5b5db317c741f37b0c82183ccebbbede0ff624d88401af5a1b1",
+            "characters": 8271,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 607,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 608,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 609,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 610,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 611,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 612,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 613,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 614,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 615,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 616,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 617,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 618,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 619,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 620,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 621,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 622,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 623,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "dirty-war",
+        "title": "The Dirty War",
+        "variants": {
+          "elementary": {
+            "pages": [
+              625,
+              626,
+              627,
+              628,
+              629
+            ],
+            "sourceTextSha256": "8c7e27ffbdfc42a1310e8e3452a205d945a511f03b3384f9c9bb010f9f4a3aea",
+            "characters": 7320,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              630,
+              631,
+              632,
+              633,
+              634
+            ],
+            "sourceTextSha256": "3ede235a344b2b7752bf7ae603aa8ecf4b916872e0629d09a4bfb7077a7ccdec",
+            "characters": 7601,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              635,
+              636,
+              637,
+              638,
+              639
+            ],
+            "sourceTextSha256": "9f3b743f34762cfd7973bc0687b4dabc58add8008950aaa034a650da3c73cad3",
+            "characters": 10434,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 625,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 626,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 627,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 628,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 629,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 630,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 631,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 632,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 633,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 634,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 635,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 636,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 637,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 638,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 639,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "whale",
+        "title": "Savouring the whale",
+        "variants": {
+          "elementary": {
+            "pages": [
+              640,
+              641,
+              642,
+              643,
+              644
+            ],
+            "sourceTextSha256": "46a89748da60bd44ab8eeee601ea737441409eda21b3cb4bd9d495328a370e7f",
+            "characters": 6727,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              645,
+              646,
+              647,
+              648,
+              649
+            ],
+            "sourceTextSha256": "b14ff58481bc64534a0dc3329f86d939a992375d3bf4d4123ff38fb5c7789a80",
+            "characters": 9093,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              650,
+              651,
+              652,
+              653,
+              654,
+              655
+            ],
+            "sourceTextSha256": "c210c6e48ecb827fbb7a6c84e2cf9510fc4ea89e5b3c88df5b7b8f7f908095bf",
+            "characters": 10246,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 640,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 641,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 642,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 643,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 644,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 645,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 646,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 647,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 648,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 649,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 650,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 651,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 652,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 653,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 654,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 655,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "wind-farms",
+        "title": "Offshore wind farms in Britain",
+        "variants": {
+          "elementary": {
+            "pages": [
+              657,
+              658,
+              659,
+              660,
+              661
+            ],
+            "sourceTextSha256": "b5241a74823c144ee80274c35830c85003a28991b0f72483ef892cc412244f15",
+            "characters": 4958,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              662,
+              663,
+              664,
+              665,
+              666
+            ],
+            "sourceTextSha256": "1f8d4df8e86a6fe31cbc60eaa2db01c08d1b0fc76aad72a3c0a2433e4b0f7362",
+            "characters": 6999,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              667,
+              668,
+              669,
+              670,
+              671
+            ],
+            "sourceTextSha256": "dda28efb4e59794776f56d97a8a3f14e3a284a6f6122a678162903ebf0cece0d",
+            "characters": 6850,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 657,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 658,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 659,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 660,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 661,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 662,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 663,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 664,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 665,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 666,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 667,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 668,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 669,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 670,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 671,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "wmd",
+        "title": "Search for WMD draws a blank",
+        "variants": {
+          "elementary": {
+            "pages": [
+              673,
+              674,
+              675,
+              676,
+              677
+            ],
+            "sourceTextSha256": "4b31b240e7389965c85ec8e14197b53f79541f75ee1aef7f002ea70fb00ca0b4",
+            "characters": 6059,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              678,
+              679,
+              680,
+              681,
+              682
+            ],
+            "sourceTextSha256": "63e75924a8473181ee334e8847f72c6cc7eb032bb892bd92a95bbf9ebd5fd6f0",
+            "characters": 6691,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              683,
+              684,
+              685,
+              686,
+              687
+            ],
+            "sourceTextSha256": "00ee50a3785e423ab26c7fda828ab241978dcb51ee06e1ca0360ebf3230c8b36",
+            "characters": 7127,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 673,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 674,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 675,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 676,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 677,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 678,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 679,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 680,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 681,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 682,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 683,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 684,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 685,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 686,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 687,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "women-mps",
+        "title": "Women MPs bullied and abused in Commons",
+        "variants": {
+          "elementary": {
+            "pages": [
+              689,
+              690,
+              691,
+              692,
+              693,
+              694
+            ],
+            "sourceTextSha256": "1df74ab579d27c8a5e750cc72fb1dedcccc88ede90843f015bfa26b861dfd280",
+            "characters": 8350,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              695,
+              696,
+              697,
+              698,
+              699
+            ],
+            "sourceTextSha256": "83a377eddeed4c83804a6f639fafcc6b94b4fe3b5a33e611389254b43a44060b",
+            "characters": 8017,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              700,
+              701,
+              702,
+              703,
+              704
+            ],
+            "sourceTextSha256": "d1d4189d9fd4e8c94e4b813792804db78f986fe406ad6f0c87703e76dc06d604",
+            "characters": 7975,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 689,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 690,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 691,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 692,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 693,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 695,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 700,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 702,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "vatican",
+        "title": "A woman’s talent is to listen, says the Vatican",
+        "variants": {
+          "elementary": {
+            "pages": [
+              706,
+              707,
+              708,
+              709,
+              710
+            ],
+            "sourceTextSha256": "ab727b4e656c31b88a7a550192458045405820a424d81838721fdb3a4d7073cb",
+            "characters": 6698,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              711,
+              712,
+              713,
+              714,
+              715
+            ],
+            "sourceTextSha256": "3097e7ef22f7df6f464b18421ac21843b78bd858ddce6fac71115e2025aed931",
+            "characters": 7635,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              716,
+              717,
+              718,
+              719,
+              720,
+              721
+            ],
+            "sourceTextSha256": "2f1939315bd6d3da7d3c5bcb85d30a341ceb32a478bc7fd1613bec31bdfeaba9",
+            "characters": 9243,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 706,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 707,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 708,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 709,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 710,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 711,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 712,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 713,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 714,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 715,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 716,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 717,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 718,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 719,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 720,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 721,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "words",
+        "title": "Words are weapons",
+        "variants": {
+          "elementary": {
+            "pages": [
+              723,
+              724,
+              725,
+              726,
+              727
+            ],
+            "sourceTextSha256": "dc5656ca1108b834f12dd7b341cd45f9faef0b34b42537991644c660747aa857",
+            "characters": 8130,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              728,
+              729,
+              730,
+              731,
+              732
+            ],
+            "sourceTextSha256": "cb329db59860baf850fa8deffe91bfce5a0457a7b095bd1b831abb4dd0ab1c4f",
+            "characters": 8599,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              733,
+              734,
+              735,
+              736,
+              737
+            ],
+            "sourceTextSha256": "76c500134564293cbf2e3cebcad26d9a93e4e13544fa7857eacd88620eebb6da",
+            "characters": 9614,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 723,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 724,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 725,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 726,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 727,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 728,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 729,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 730,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 731,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 732,
+            "printedLabel": "Level 2| Intermediate"
+          },
+          {
+            "page": 733,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 734,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 735,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 736,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 737,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "waste",
+        "title": "Radical plans for waste / A big clean-up",
+        "variants": {
+          "intermediate": {
+            "pages": [
+              739,
+              740,
+              741,
+              742,
+              743
+            ],
+            "sourceTextSha256": "2b794f4e069d7eb0b211d8caeca38cfeb4682539bbf721e5d44204e6e2e8d3e4",
+            "characters": 7477,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              744,
+              745,
+              746,
+              747,
+              748
+            ],
+            "sourceTextSha256": "edc975dc423cc6d02ee74d8e6d6d2249bbf0f6176ea70d8bbe2625af7a480816",
+            "characters": 8703,
+            "historicalText": true
+          },
+          "elementary": {
+            "pages": [
+              799,
+              800,
+              801,
+              802,
+              803
+            ],
+            "sourceTextSha256": "148fc4eb4eeaef762dddf41f654eb9209c618f58040887735daddca8781733a4",
+            "characters": 6483,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 739,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 740,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 741,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 742,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 743,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 744,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 745,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 746,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 747,
+            "printedLabel": "Level 3| Advanced"
+          },
+          {
+            "page": 748,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 799,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 800,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 801,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 802,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 803,
+            "printedLabel": "Level 1 | Elementary"
+          }
+        ]
+      },
+      {
+        "id": "giving-power",
+        "title": "Giving power to the people",
+        "variants": {
+          "elementary": {
+            "pages": [
+              749,
+              750,
+              751,
+              752
+            ],
+            "sourceTextSha256": "fa783974c5729aee3b59c54a8c4424b648fb73eff6acbc3a7a3c0e9772f4226a",
+            "characters": 5802,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              753,
+              754,
+              755,
+              756,
+              757
+            ],
+            "sourceTextSha256": "63ecf576d7d5edf6052726a497c616c503c0ca4a575d40dd4b9fc2d60b2c821b",
+            "characters": 7159,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              758,
+              759,
+              760,
+              761,
+              762
+            ],
+            "sourceTextSha256": "f0238d47951c3f2ff348cff0ef9b7fca32f2d070f97d110eea6d0b13068194e6",
+            "characters": 8334,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 749,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 750,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 751,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 752,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 753,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 754,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 755,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 756,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 757,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 758,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 759,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 760,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 761,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 762,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "america-war",
+        "title": "America wants to wage war on all of us",
+        "variants": {
+          "elementary": {
+            "pages": [
+              763,
+              764,
+              765,
+              766
+            ],
+            "sourceTextSha256": "0ef8f3c16f70f6e0ee8cebc63247e46a1c5015562439362ac7c01e0d073f7d97",
+            "characters": 5856,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              767,
+              768,
+              769,
+              770
+            ],
+            "sourceTextSha256": "8d54dda7ab2c7554fc2c2bd7bce75b0c154db5faa91c274e9bb4e1f798e4a712",
+            "characters": 6836,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              771,
+              772,
+              773,
+              774,
+              775
+            ],
+            "sourceTextSha256": "e9f34298574925a9c469c77c3af43eb727fa89d9f2c3dec267d72fdc510088ff",
+            "characters": 8822,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 763,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 764,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 765,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 766,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 767,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 768,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 769,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 770,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 771,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 772,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 773,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 774,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 775,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "drug-patents",
+        "title": "A chance to save millions of lives by freeing up drug patents",
+        "variants": {
+          "intermediate": {
+            "pages": [
+              785,
+              786,
+              787,
+              788,
+              789
+            ],
+            "sourceTextSha256": "f6e64e6dfe16a97f9b92d1db9f936014d8f369c585fe2b65ea4108052d631b83",
+            "characters": 8545,
+            "historicalText": true
+          },
+          "elementary": {
+            "pages": [
+              790,
+              791,
+              792,
+              793
+            ],
+            "sourceTextSha256": "53f950b70a1bd88c9b6d103c23db1c07a6240bc3dce810f608ffbc71128c2bbe",
+            "characters": 5777,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              794,
+              795,
+              796,
+              797,
+              798
+            ],
+            "sourceTextSha256": "33e0334412dadf869991db8fdcd252ceec718a819cf1cad7debe84ece31515e0",
+            "characters": 8593,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 785,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 786,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 787,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 788,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 789,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 790,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 791,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 792,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 793,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 794,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 795,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 796,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 797,
+            "printedLabel": "Level 3 | Advanced"
+          },
+          {
+            "page": 798,
+            "printedLabel": "Level 3 | Advanced"
+          }
+        ]
+      },
+      {
+        "id": "colas",
+        "title": "Battle of the colas",
+        "variants": {
+          "elementary": {
+            "pages": [
+              805,
+              806,
+              807,
+              808,
+              809,
+              810
+            ],
+            "sourceTextSha256": "3ce00ceadb229af54f19b6612b51bebdeebc78020d5ae993cf9f9257182c314f",
+            "characters": 7481,
+            "historicalText": true
+          },
+          "intermediate": {
+            "pages": [
+              811,
+              812,
+              813,
+              814,
+              815,
+              816,
+              817
+            ],
+            "sourceTextSha256": "7f7e170f3f994a4ce49194be9c005b851fa8639885143681a429ce6f4ac4c0b3",
+            "characters": 9153,
+            "historicalText": true
+          },
+          "advanced": {
+            "pages": [
+              818,
+              819,
+              820,
+              821,
+              822,
+              823,
+              824
+            ],
+            "sourceTextSha256": "0b5b8d249736e6039ada993dd43c0aa5273bea172db802eb0e15270f2e228717",
+            "characters": 9815,
+            "historicalText": true
+          }
+        },
+        "headers": [
+          {
+            "page": 805,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 806,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 807,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 808,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 809,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 810,
+            "printedLabel": "Level 1 | Elementary"
+          },
+          {
+            "page": 811,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 812,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 813,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 814,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 815,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 816,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 817,
+            "printedLabel": "Level 2 | Intermediate"
+          },
+          {
+            "page": 818,
+            "printedLabel": "Level 3 | [Advanced"
+          },
+          {
+            "page": 819,
+            "printedLabel": "Level 3 | [Advanced"
+          },
+          {
+            "page": 820,
+            "printedLabel": "Level 3 | [Advanced"
+          },
+          {
+            "page": 821,
+            "printedLabel": "Level 3 | [Advanced"
+          },
+          {
+            "page": 822,
+            "printedLabel": "Level 3 | [Advanced"
+          },
+          {
+            "page": 823,
+            "printedLabel": "Level 3 | [Advanced"
+          },
+          {
+            "page": 824,
+            "printedLabel": "Level 3 | [Advanced"
+          }
+        ]
+      }
+    ],
+    "unassignedPages": [
+      1,
+      53,
+      97,
+      113,
+      131,
+      166,
+      167,
+      184,
+      200,
+      234,
+      235,
+      272,
+      296,
+      312,
+      328,
+      334,
+      349,
+      380,
+      381,
+      398,
+      423,
+      440,
+      456,
+      487,
+      507,
+      537,
+      553,
+      571,
+      587,
+      605,
+      606,
+      624,
+      656,
+      672,
+      688,
+      705,
+      722,
+      738,
+      804
+    ],
+    "issues": [],
+    "overviewPages": [
+      166,
+      167,
+      53,
+      97,
+      113,
+      131,
+      184,
+      200,
+      234,
+      235,
+      272,
+      296,
+      312,
+      328,
+      334,
+      349,
+      380,
+      381,
+      398,
+      423,
+      440,
+      456,
+      487,
+      507,
+      537,
+      553,
+      571,
+      587,
+      605,
+      606,
+      624,
+      656,
+      672,
+      688,
+      705,
+      722,
+      738,
+      804
+    ],
+    "rights": "third_party_reference",
+    "redistributionLicenseGranted": false,
+    "note": "Local extraction for original study notes; not a licensed republishing of the supplied PDF. Publisher exercise keys are not a global answer source."
+  },
+  "cambridge": {
+    "units": 25,
+    "ocrPages": 272,
+    "copyrightYear": 2007,
+    "audioCdSupplied": false
+  },
+  "extraction": {
+    "guardianTextPages": 824,
+    "guardianHeaderFooterOcrPages": 824,
+    "cambridgeOcrPages": 272,
+    "ocrEngine": "Tesseract 5.5.4 local",
+    "ocrHumanChecked": "Covers, contents, article-level headers, source excerpts and grammar reference sections; not a verbatim proofread of every OCR token."
+  }
+}

@@ -17,6 +17,9 @@ async function requestJson(url, options = {}) {
 }
 
 export const RiwiClientAdapter = {
+  listMaterials(kind, query = '') {
+    return requestJson('/api/riwi/materials?' + new URLSearchParams({kind, q: query}));
+  },
   sendChat(payload) {
     return requestJson("/api/riwi/chat", {
       method: "POST",

@@ -37,6 +37,7 @@ from .riwi_tools_domain import explain_objective_question
 
 
 RIWI_API_ROUTES: tuple[tuple[str, str, str], ...] = (
+    ("GET", "/api/riwi/materials", "get_riwi_materials"),
     ("POST", "/api/riwi/chat", "post_riwi_chat"),
     ("GET", "/api/riwi/conversations/{conversation_id}", "get_riwi_conversation"),
     ("DELETE", "/api/riwi/conversations/{conversation_id}", "delete_riwi_conversation"),
@@ -69,6 +70,11 @@ RIWI_API_ROUTES: tuple[tuple[str, str, str], ...] = (
     ("POST", "/api/riwi/owner/assessment-policies/{version_id}/reject", "post_riwi_owner_assessment_policy_reject"),
     ("POST", "/api/riwi/owner/assessment-policies/{version_id}/rollback", "post_riwi_owner_assessment_policy_rollback"),
 )
+
+
+async def get_riwi_materials(conn: Any, actor: RiwiActor, *, kind='reading', query=''):
+    from .riwi_materials import list_materials
+    return await list_materials(conn, actor, kind, query)
 
 
 async def post_riwi_chat(
@@ -370,6 +376,21 @@ async def _http_post_riwi_chat(req: Request):
         res = await post_riwi_chat(RiwiQueryPool(db), actor, body, cookie_locale=req.cookies.get("la_locale"),
                                    external_runner=create_riwi_transport(actor.id))
         return _core().j(res, 200, _core().PRIVATE)
+    except Exception as exc:
+        return _riwi_error_response(exc)
+
+
+@router.get('/api/riwi/materials')
+async def _http_get_riwi_materials(req: Request):
+    actor = await _require_riwi_actor(req)
+    if not actor: return _core().auth_error()
+    from .riwi_rollout import riwi_enabled_for_role
+    if not riwi_enabled_for_role(actor.role):
+        return _core().j({'ok':False,'error':'riwi_disabled_for_role'},503,_core().PRIVATE)
+    try:
+        db = await _core().pool()
+        result = await get_riwi_materials(RiwiQueryPool(db),actor,kind=req.query_params.get('kind','reading'),query=req.query_params.get('q',''))
+        return _core().j(result,200,_core().PRIVATE)
     except Exception as exc:
         return _riwi_error_response(exc)
 

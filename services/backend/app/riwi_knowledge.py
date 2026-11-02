@@ -222,6 +222,9 @@ def chunk_knowledge_text(content: str) -> list[dict[str, Any]]:
     from .riwi_teaching_details import structured_units
     structured=structured_units(normalized)
     if structured is not None:return structured
+    from .riwi_study_library import structured_units as study_units
+    structured=study_units(normalized)
+    if structured is not None:return structured
     paragraphs = [p.strip() for p in re.split(r"\n{2,}", normalized) if p.strip()]
     if not paragraphs:
         raise KnowledgeServiceError("invalid_input")

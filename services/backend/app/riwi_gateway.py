@@ -187,8 +187,35 @@ async def handle_riwi_chat(
     report_snapshot: dict[str, Any] | None = None
     provider_meta: dict[str, Any] = {"id": "riwi", "model": "deterministic-v1"}
 
+    material_item = None
+    if req.get('material'):
+        from .riwi_materials import read_material, teach_material
+        try:
+            material_item = await read_material(conn, actor, req['material'])
+        except PermissionError as exc:
+            raise RiwiGatewayError(str(exc), 403) from exc
+        except LookupError as exc:
+            raise RiwiGatewayError(str(exc), 404) from exc
+        from .riwi_curriculum import retrieve_lesson as material_lesson, format_lesson as material_explanation
+        related = await material_lesson(conn,actor,message)
+        extra = material_explanation(related,message,locale) if related else None
+        answer_text = teach_material(material_item, message, locale, supplement=extra)
+        provenance = 'deterministic_learning_data'
+        provider_meta = {'id':'riwi','model':'riwi-material-v1','material':req['material'],
+                         'contentHash':material_item['contentHash']}
+        citations = [{'ref':'S1','sourceId':str(material_item['id']),
+                      'unitId':req['material']['kind']+':'+str(material_item['id']),
+                      'title':str(material_item['title']),'authority':'75','version':1,
+                      'contentHash':material_item['contentHash']}]
+        if related:
+            citations += [{k:related[k] for k in ('ref','sourceId','unitId','title','authority','version')}]
+            if related.get('supplement'):
+                citations += [{k:related['supplement'][k] for k in ('ref','sourceId','unitId','title','authority','version')}]
+
     try:
-        if intent_info.intent == "dictionary_lookup" or req.get("occurrenceId"):
+        if material_item:
+            pass
+        elif intent_info.intent == "dictionary_lookup" or req.get("occurrenceId"):
             term = intent_info.extracted_term or message.strip(" ?.!\"'")[:60]
             out = await tool_broker.execute(
                 conn,
@@ -245,7 +272,17 @@ async def handle_riwi_chat(
     # activates it. Follow-ups read only this actor's conversation metadata.
     from .riwi_curriculum import retrieve_lesson, format_lesson, is_library_text, choose_entry, MODEL_PREFIX
     from .riwi_internal_tutor import correction_request, format_correction, smalltalk
+    from .riwi_study_library import retrieve_lesson as retrieve_study, format_lesson as format_study, MODEL_PREFIX as STUDY_PREFIX
     correction=correction_request(message)
+    study = None
+    if not answer_text and intent_info.intent in ('grammar_help','general_learning_question'):
+        study = await retrieve_study(conn,actor,message,conversation_id)
+        if study:
+            answer_text = format_study(study,message,locale)
+            provenance = 'approved_knowledge'
+            provider_meta = {'id':'riwi','model':STUDY_PREFIX+study['studyId'],
+                             'lessonVariant':study['lessonVariant'],'teachingEdition':'study-v1'}
+            citations = [{key:study[key] for key in ('ref','sourceId','unitId','title','authority','version')}]
     lesson = None
     canonical_grammar = provenance == "canonical_grammar"
     if (not answer_text or canonical_grammar) and intent_info.intent in ("grammar_help", "general_learning_question"):
@@ -255,7 +292,7 @@ async def handle_riwi_chat(
         if not canonical_grammar or topic_key:
             lesson = await retrieve_lesson(conn, actor, message, conversation_id,
                                           **({'topic_key':topic_key} if topic_key else {}))
-    knowledge_units = ([lesson]+([lesson['supplement']] if lesson.get('supplement') else []) if lesson else [
+    knowledge_units = [] if material_item or study else ([lesson]+([lesson['supplement']] if lesson.get('supplement') else []) if lesson else [
         unit for unit in await retrieve_active_knowledge_for_actor(conn, actor, message)
         if not is_library_text(unit.get("text"))
     ])
@@ -288,7 +325,7 @@ async def handle_riwi_chat(
                 provenance = "approved_knowledge"
 
     rollout = read_riwi_rollout(env)
-    if rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
+    if not material_item and not study and rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
         history = await get_tutoring_history(conn, actor, conversation_id, now=now) if conversation_id else []
         task_key = "grammar.explanation" if intent_info.intent == "grammar_help" else select_instruction_task(message)
         import os

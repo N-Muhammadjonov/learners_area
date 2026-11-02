@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-03",
+  "baseCommit": "93673b7815b229bf644113b81d0e8838c7bdaa7a",
+  "branch": "arena/learners-area-next",
+  "testedSourceDigest": "822184f2eaf955c6e0c9e306db7aded0149e2b4b746c8cbd6f1575301e78146d",
+  "backend": {
+    "tests": 313,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "tests": 13,
+    "passed": 13,
+    "failures": 0
+  },
+  "nativeBuild": {
+    "staticBuild": true,
+    "runtime": "Python FastAPI",
+    "files": 513,
+    "routes": 125,
+    "nodeRequired": false,
+    "revision": "1f3be18f5eb4752973a4",
+    "inputBytes": 16275213,
+    "transferBytes": 13024040,
+    "minifiedFiles": 179
+  },
+  "originalStudyGuides": 175,
+  "guardianArticleGroups": 50,
+  "guardianLevelGuides": 150,
+  "cambridgeUnits": 25,
+  "knowledgeSources": [
+    {
+      "kind": "guardian",
+      "title": "RIWI Original Guardian Study Notes v1",
+      "checksum": "b86b97e101009596944c6d3ff86d477bf2122638d60386ea5c3da84fa4ef8d20",
+      "units": 154,
+      "characters": 183574,
+      "rightsClass": "internal_permission"
+    },
+    {
+      "kind": "cambridge",
+      "title": "RIWI Original Cambridge Grammar Study Notes v1",
+      "checksum": "23d259dca56eb93f765b565f2ead7493750cf6bbe2bfcf404d487856cb041ddc",
+      "units": 25,
+      "characters": 58002,
+      "rightsClass": "internal_permission"
+    }
+  ],
+  "sourceRights": "Original notes only; publisher PDFs and exercise keys are not redistributed.",
+  "liveSafariQa": {
+    "status": "pending",
+    "reason": "Mac locked after verified existing QA Owner control; manual unlock requested."
+  },
+  "qaKnowledgeActivation": "pending_owner_authenticated_workflow",
+  "productionWrites": false,
+  "mainMerged": false,
+  "productionDeployed": false
+}

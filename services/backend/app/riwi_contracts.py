@@ -201,7 +201,7 @@ FORBIDDEN_REQUEST_KEYS: Final[frozenset[str]] = frozenset({
 def validate_riwi_chat_request(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise RiwiContractError("invalid_input")
-    allowed_keys = {"message", "conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId", "replyLocale"}
+    allowed_keys = {"message", "conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId", "replyLocale", "material"}
     extra_keys = set(payload.keys()) - allowed_keys
     if extra_keys & FORBIDDEN_REQUEST_KEYS:
         raise RiwiContractError("forbidden_override_field")
@@ -216,6 +216,12 @@ def validate_riwi_chat_request(payload: Any) -> dict[str, Any]:
         raise RiwiContractError("invalid_input")
 
     result: dict[str, Any] = {"message": trimmed}
+    if 'material' in payload:
+        from .riwi_materials import validate_reference
+        try: result['material'] = validate_reference(payload['material'])
+        except ValueError as exc: raise RiwiContractError('invalid_material_reference') from exc
+        if any(payload.get(k) is not None for k in ('targetUserId','occurrenceId','topicId','lessonId','attemptId')):
+            raise RiwiContractError('ambiguous_learning_context')
     if 'replyLocale' in payload:
         if payload['replyLocale'] not in ('uz', 'en'):
             raise RiwiContractError("invalid_input")

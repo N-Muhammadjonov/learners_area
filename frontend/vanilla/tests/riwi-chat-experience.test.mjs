@@ -97,3 +97,27 @@ test('language chooser and command menu work in the mounted chat while the site 
   assert.equal(h.calls.filter(x=>x.method==='DELETE').length,0);
  }finally{h.dispose()}
 });
+
+test('material picker sends only its scoped reference and clear forgets the material',async()=>{
+ const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
+ try{
+  h.stub({'/api/riwi/materials*':{items:[{id:ID(21),kind:'reading',title:'Source <img src=x>'}],hasMore:false},
+   '/api/riwi/chat':{ok:true,conversationId:ID(22),answer:'Source-backed study',citations:[]}});
+  await mount(h.ctx);
+  h.click(h.q('.riwi-material-picker button'));await tick(6);
+  assert(h.q('.riwi-material-picker select[aria-label="Topilgan materiallar"]'));
+  const use=h.qa('.riwi-material-picker button').find(b=>b.textContent==='Shu material bilan ishlash');
+  h.click(use);await tick(2);
+  assert(h.q('.riwi-material-selected').textContent.includes('Source <img src=x>'));
+  assert.equal(h.q('.riwi-material-picker img'),null);
+  h.input(h.q('textarea'),'Mavzuni tushuntir');h.submit(h.q('form'));await tick(6);
+  const sent=h.calls.find(x=>x.path==='/api/riwi/chat');
+  assert.deepEqual(sent.body.material,{kind:'reading',id:ID(21)});
+  assert.equal(sent.body.conversationId,undefined);
+  h.input(h.q('textarea'),'/clear');h.submit(h.q('form'));await tick(3);
+  assert(h.q('.riwi-material-selected').hidden);
+  h.input(h.q('textarea'),'Explain articles');h.submit(h.q('form'));await tick(6);
+  const next=h.calls.filter(x=>x.path==='/api/riwi/chat')[1];
+  assert.equal(next.body.material,undefined);assert.equal(next.body.conversationId,undefined);
+ }finally{h.dispose()}
+});
