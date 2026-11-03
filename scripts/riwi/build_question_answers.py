@@ -700,6 +700,11 @@ add('homework-draft','extra:274','Eslatma namunasi: «Salom! Keyingi darsgacha b
  'Draft reminder: Hello! Before the next lesson, write three original sentences using today’s rule and mark where you used it. Deadline: [date/time]. Include any question you still have. Replace the placeholders with the real deadline and submission place. I have not sent this message.')
 
 
+add('outdoor-plan','',
+ 'Tabiat qo‘ynida piknik uchun joy tanlashni so‘rayapsiz 🙂 Landscape bu yerda manzara yoki tabiiy muhit ma’nosida. Hozir joylarning ochiqligi, yo‘l holati yoki xavfsizligini jonli tekshira olmayman, shuning uchun aniq joylar ro‘yxatini uydirmayman. Tanlash uchun uch mezon: 1) borib-qaytish vaqti va transport; 2) ruxsatli dam olish hududi, soya va suv; 3) ob-havo, chiqindi va mahalliy cheklovlar. Qachon va qanday transportda borishni rejalayapsiz?',
+ 'You are asking about outdoor places for a picnic 🙂 Landscape here means scenery or the natural surroundings. I cannot verify current opening, roads or safety, so I will not invent a venue list. Compare travel time/transport, permitted recreation facilities and shade/water, then weather and local restrictions. When would you go, and how would you travel?',kind='clarify')
+
+
 def compile_pack():
     corpus=json.loads((ROOT/'services/backend/contracts/riwi_question_corpus_v1.json').read_text())
     assert len(corpus['entries'])==1640

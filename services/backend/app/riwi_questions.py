@@ -46,7 +46,26 @@ def indexes():
 def match_question(message):
     query=key(message);exact,bags=indexes()
     matches=exact.get(query) or bags.get(frozenset(query.split()),[])
-    if not matches:return None
+    if not matches:
+        # Curated intent anchors allow mixed control language without treating
+        # arbitrary token overlap as semantic similarity or dropping numbers.
+        profiles=[(('although','despite'),'although-despite'),(('borrow','lend'),'borrow-lend'),
+                  (('fun','funny'),'fun-funny'),(('big','large'),'large-big'),
+                  (('job','work'),'job-work'),(('eventually','finally'),'eventually'),
+                  (('look','forward'),'look-forward'),(('question','tag'),'question-tags')]
+        words=set(query.split());candidates=[]
+        if words & {'picnic','piknik','landscape'} and words & {'joy','joylar','joylarni','place','places','royxat','royxatini','tabiat'}:
+            return {'id':'mixed.outdoor','responseId':'outdoor-plan','decision':'answer','semanticMatch':True}
+        if words & {'farq','difference','explain','tushuntir','nima','qanday','vs','between','meaning'}:
+            for anchors,profile in profiles:
+                if all(a in words or a+'s' in words for a in anchors):candidates.append(profile)
+        if len(set(candidates))==1:
+            profile=candidates[0]
+            return {**next(e for e in library()['entries'] if e.get('responseId')==profile),'semanticMatch':True}
+        if query in ('who are you','what can you do','how can you help me','what is your name','sen kimsiz','siz kimsiz'):
+            profile='platform' if 'help' in query or 'do' in query else 'identity'
+            return next(e for e in library()['entries'] if e.get('responseId')==profile)
+        return None
     # Collisions never weaken a restriction or choose between different answers.
     denied=[e for e in matches if e['decision']=='deny']
     if denied:return denied[0]
@@ -57,7 +76,7 @@ def match_question(message):
 
 def guard_profile(message):
     entry=match_question(message)
-    if entry:
+    if entry and not entry.get('semanticMatch'):
         response=library()['responses'].get(entry.get('responseId'),{})
         return entry['responseId'] if response.get('kind')=='deny' else None
     q=normalize_query(message)

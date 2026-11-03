@@ -115,6 +115,12 @@ class IntentAssessment:
 
 
 def _extract_dictionary_term(message: str) -> str | None:
+    from .riwi_uzbek import normalize_query
+    query=normalize_query(message)
+    mixed=re.fullmatch(r'([a-z][a-z -]{0,58}?)\s+(?:sozi\s+)?(?:nima degani|nimani anglatadi|meaning(?:i|ini)?(?: nima| ayt)?|mean qiladi|uzbekchasi(?: nima)?|manosi(?: nima|ni ayt)?)',query)
+    if mixed and 1<=len(mixed[1].split())<=5:
+        from .riwi_curriculum import choose_entry
+        if not choose_entry(mixed[1]):return mixed[1].strip()
     text = message.strip()
     patterns = (
         r"what\s+does\s+['\"]?([A-Za-z][A-Za-z -]{1,58})['\"]?\s+mean",
@@ -151,12 +157,13 @@ def assess_riwi_intent(message: str) -> IntentAssessment:
         signal='secret_extraction' if guard=='deny-secrets' else 'idor' if guard=='deny-private' else 'role_spoof' if guard=='deny-role' else 'tool_injection' if guard=='deny-falsification' else 'exam_bypass'
         return IntentAssessment(intent="general_learning_question",is_adversarial=True,attack_type=signal)
 
-    if DICTIONARY_RE.search(normalized):
+    dictionary_term=_extract_dictionary_term(normalized)
+    if DICTIONARY_RE.search(normalized) or dictionary_term:
         return IntentAssessment(
             intent="dictionary_lookup",
             is_adversarial=False,
             attack_type=None,
-            extracted_term=_extract_dictionary_term(normalized),
+            extracted_term=dictionary_term,
         )
     if REPORT_RE.search(normalized):
         return IntentAssessment(intent="report_self", is_adversarial=False, attack_type=None)

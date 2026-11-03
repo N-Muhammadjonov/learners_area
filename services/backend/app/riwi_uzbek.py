@@ -22,16 +22,34 @@ _MATCH_WORDS=('present','perfect','continuous','progressive','simple','passive',
               'comparatives','quantifiers','collocation','grammar','vocabulary','listening','reading','speaking','writing','tushuntir','tushunmadim','soddaroq',
               'nominalisation','nominalization','nominalizatsiya','otlashtirish','hedging','cambridge','guardian')
 
+# Closed loan-word roots: remove Uzbek suffixes only from a known English root,
+# never from arbitrary names or Uzbek words (e.g. landscape+ni, picnic+ga).
+_LOANS=frozenset(_MATCH_WORDS)|frozenset(_FIXES)|frozenset(('although despite borrow lend fun funny big large actually eventually finally '
+ 'interested decision information homework overview essay thesis paragraph sentence word meaning example examples '
+ 'landscape picnic podcast transcript grammar article noun verb adjective adverb phrasal collocation '
+ 'education environment opportunity achievement reliable relevant efficient evidence approach outcome '
+ 'speaking writing reading listening retention vocabulary dictionary question answer test skill plan').split())
+_SUFFIXES=('laringizdan','laringizni','laringiz','larimizni','larimiz','laridan','larining','laridagi','larida','larini',
+           'larning','lardan','larga','dagi','ning','dan','larni','lari','lar','imiz','ingiz','imni','imga','im','ni','ga','ka','da')
+
+
+def loan_root(word):
+    if word in _LOANS:return word
+    for suffix in _SUFFIXES:
+        if word.endswith(suffix) and word[:-len(suffix)] in _LOANS:return word[:-len(suffix)]
+    return word
+
 def normalize_query(text):
     value=unicodedata.normalize('NFKC',str(text)).casefold()
     value=''.join(_CYRILLIC.get(c,c) for c in value)
     value=value.translate(str.maketrans('','',_APOSTROPHES))
-    value=re.sub(r'\bpresentperfect\b','present perfect',value)
-    value=re.sub(r'\bpastsimple\b','past simple',value)
+    value=re.sub(r'\bpresentperfect','present perfect',value)
+    value=re.sub(r'\bpastsimple','past simple',value)
     tokens=re.findall(r'[^\W_]+',value)
     result=[]
     for token in tokens:
-        word=_FIXES.get(token,token)
+        root=loan_root(token)
+        word=loan_root(_FIXES.get(root,root))
         for suffix in ('ning','dan','ni','ga'):
             if word.endswith(suffix) and word[:-len(suffix)] in _MATCH_WORDS:
                 word=word[:-len(suffix)];break

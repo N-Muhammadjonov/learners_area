@@ -9,7 +9,11 @@ from .riwi_uzbek import normalize_query
 
 def text_request(message):
     match=re.fullmatch(r'(.{1,110}?)[:：]\s*(.{1,1200})',message.strip(),re.S)
-    if not match:return None
+    if not match:
+        quoted=re.search(r'[“"]([^”"]{3,1200})[”"]',message)
+        if quoted and len(quoted[1].split())>=3 and re.search(r'\b(tarjima\w*|translate|tahlil\w*|explain)\b',normalize_query(message[:quoted.start()]+message[quoted.end():])):
+            return quoted[1],normalize_query(message[:quoted.start()]+message[quoted.end():])
+        return None
     head,value=match.groups();q=normalize_query(head)
     if not re.search(r'\b(tarjima\w*|translate|translation|tahlil\w*|analyse|analyze|explain this sentence|gapni tushuntir)\b',q):return None
     return value.strip().strip('“”"'),q
