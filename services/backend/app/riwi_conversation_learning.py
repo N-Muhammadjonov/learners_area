@@ -41,7 +41,7 @@ PAIR_SQL='''SELECT u.content AS question,a.metadata FROM riwi_conversation_messa
 async def attach_clarification_alias(conn,actor,conversation_id,message,provider):
     if not (conn is not None and hasattr(conn,'fetchrow') and conversation_id and UUID_RE.fullmatch(conversation_id)):
         return provider
-    if not provider.get('model','').startswith('riwi-curriculum-v1:'):return provider
+    if not provider.get('model','').startswith(('riwi-curriculum-v1:','riwi-reference-v1:')):return provider
     if not re.search(r'\b(?:nazarda|demoqchi|demokchi|i mean|i meant)\b',normalize_query(message)):return provider
     row=await conn.fetchrow(PAIR_SQL,conversation_id,actor.id,actor.role)
     if not row:return provider

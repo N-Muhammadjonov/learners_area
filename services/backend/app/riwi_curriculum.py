@@ -57,6 +57,8 @@ def library_texts():
 
 def is_library_text(text):
     if not isinstance(text,str):return False
+    from .riwi_grammar_reference import is_reference_text
+    if is_reference_text(text):return True
     from .riwi_study_library import is_study_text
     if is_study_text(text):return True
     if text in library_texts():return True

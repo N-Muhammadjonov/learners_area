@@ -23,7 +23,7 @@ from .riwi_provider_router import validate_riwi_provider_answer
 
 RIWI_UNIT_MAX_CHARS: Final[int] = 1200
 RIWI_MAX_UNITS: Final[int] = 160
-RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS: Final[int] = 500
+RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS: Final[int] = 1000
 RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE: Final[int] = 1000
 
 KNOWLEDGE_SOURCE_TYPES: Final[tuple[str, ...]] = (
@@ -225,6 +225,9 @@ def chunk_knowledge_text(content: str) -> list[dict[str, Any]]:
     from .riwi_study_library import structured_units as study_units
     structured=study_units(normalized)
     if structured is not None:return structured
+    from .riwi_grammar_reference import structured_units as reference_units
+    structured=reference_units(normalized)
+    if structured is not None:return structured
     paragraphs = [p.strip() for p in re.split(r"\n{2,}", normalized) if p.strip()]
     if not paragraphs:
         raise KnowledgeServiceError("invalid_input")
@@ -304,15 +307,20 @@ def collect_knowledge_conflicts(
     if len(active_units) > RIWI_KNOWLEDGE_CONFLICT_SCAN_MAX_ACTIVE_UNITS:
         raise KnowledgeServiceError("analysis_capacity_exceeded")
     conflicts: list[dict[str, str]] = []
+    # Normalise each unit once. The larger bounded library must not repeatedly
+    # parse every active unit for every candidate comparison.
+    active_profiles=[(act,_normalize_claim(str(act.get('text') or act.get('content') or '')),
+                      _keywords(str(act.get('text') or act.get('content') or ''))) for act in active_units]
     for cand in candidate_units:
         cand_text = str(cand.get("content") or cand.get("text") or "")
-        for act in active_units:
-            act_text = str(act.get("text") or act.get("content") or "")
-            if not detect_knowledge_overlap(cand_text, act_text):
+        norm=_normalize_claim(cand_text);words=_keywords(cand_text)
+        for act,act_norm,act_words in active_profiles:
+            shared=words & act_words
+            if not norm or not act_norm or norm==act_norm or not words or not act_words or len(shared)/min(len(words),len(act_words))<.72:
                 continue
             if len(conflicts) >= RIWI_KNOWLEDGE_MAX_CONFLICTS_PER_CANDIDATE:
                 raise KnowledgeServiceError("analysis_capacity_exceeded")
-            shared_words = sorted(_keywords(cand_text) & _keywords(act_text))
+            shared_words = sorted(shared)
             key = hashlib.sha256(" ".join(shared_words).encode("utf-8")).hexdigest()
             conflicts.append({
                 "candidateUnitId": str(cand["id"]),

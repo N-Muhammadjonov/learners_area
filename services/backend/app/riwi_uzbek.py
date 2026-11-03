@@ -17,6 +17,7 @@ _FIXES={
  'birikmalar':'birikmasi','birikmalarini':'birikmasi','birikmalarni':'birikmasi','birikmalari':'birikmasi','birikmasini':'birikmasi',
  'zamonni':'zamon','zamonlar':'zamon','zamonlarini':'zamon','grammatikasini':'grammatika',
  'kembrij':'cambridge','cambrij':'cambridge','nominalizasiya':'nominalizatsiya',
+ 'deontik':'deontic','epistemik':'epistemic','inversiya':'inversion','inversiyani':'inversion',
 }
 _MATCH_WORDS=('present','perfect','continuous','progressive','simple','passive','articles','conditional','conditionals','prepositions','diagramma','zamon','nisbat',
               'comparatives','quantifiers','collocation','grammar','vocabulary','listening','reading','speaking','writing','tushuntir','tushunmadim','soddaroq',
@@ -27,7 +28,8 @@ _MATCH_WORDS=('present','perfect','continuous','progressive','simple','passive',
 _LOANS=frozenset(_MATCH_WORDS)|frozenset(_FIXES)|frozenset(('although despite borrow lend fun funny big large actually eventually finally '
  'interested decision information homework overview essay thesis paragraph sentence word meaning example examples '
  'landscape picnic podcast transcript grammar article noun verb adjective adverb phrasal collocation '
- 'education environment opportunity achievement reliable relevant efficient evidence approach outcome '
+ 'education environment opportunity achievement reliable relevant efficient evidence approach outcome inversion cleft ellipsis '
+ 'finite nonfinite subjunctive determiner pronoun quantifier clause participle deontic epistemic telicity '
  'speaking writing reading listening retention vocabulary dictionary question answer test skill plan').split())
 _SUFFIXES=('laringizdan','laringizni','laringiz','larimizni','larimiz','laridan','larining','laridagi','larida','larini',
            'larning','lardan','larga','dagi','ning','dan','larni','lari','lar','imiz','ingiz','imni','imga','im','ni','ga','ka','da')

@@ -101,9 +101,15 @@ async def explain_request(conn,actor,message,locale,broker):
             from .riwi_material_search import clarification
             return {'answer':clarification('active_exam_lookup_forbidden',locale),'provenance':'policy_refusal','citations':[]}
     analysis=analyse_sentence(value)
+    from .riwi_grammar_reference import translate_example,format_lesson as format_reference
+    reference=await translate_example(conn,actor,value)
     lines=[('Gapni birga ko‘rib chiqamiz 🙂\n\n' if uz else 'Let’s look at the sentence 🙂\n\n')+value]
     citations=[]
-    if analysis:
+    if reference:
+        lines.append(('Ma’nosi: ' if uz else 'Meaning: ')+reference['translation'])
+        lines.append(format_reference(reference['unit'],message,locale))
+        citations=[{k:reference['unit'][k] for k in ('ref','sourceId','unitId','title','authority','version')}]
+    elif analysis:
         lines.append(('Ma’nosi: ' if uz else 'Meaning: ')+analysis['translation'])
         lines.append(analysis['noteUz' if uz else 'noteEn'])
         from .riwi_curriculum import retrieve_lesson,format_lesson
@@ -122,4 +128,4 @@ async def explain_request(conn,actor,message,locale,broker):
                 lines.append(out['summary'])
         lines.append('Qaysi so‘z yoki gap bo‘lagi qiyinligini ayting; qismlarga ajratib ishlaymiz.' if uz else
                      'Tell me which word or clause is difficult, and we can work through it in parts.')
-    return {'answer':'\n\n'.join(lines)[:5800],'provenance':'deterministic_learning_data' if analysis else 'unavailable','citations':citations}
+    return {'answer':'\n\n'.join(lines)[:5800],'provenance':'deterministic_learning_data' if analysis or reference else 'unavailable','citations':citations}

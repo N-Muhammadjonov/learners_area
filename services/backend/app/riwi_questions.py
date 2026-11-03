@@ -101,7 +101,7 @@ async def answer_question(conn,actor,message,locale,conversation_id=None):
         from .riwi_material_search import previous_context
         previous=await previous_context(conn,actor,conversation_id)
         model=previous.get('model','')
-        if isinstance(model,str) and model.startswith(('riwi-curriculum-v1:','riwi-study-v1:','riwi-material-v1')):
+        if isinstance(model,str) and model.startswith(('riwi-curriculum-v1:','riwi-study-v1:','riwi-reference-v1:','riwi-material-v1')):
             return None # let the original tutor recheck its active source
         profile=previous.get('responseId') if model=='riwi-questions-v1' else None
         response=library()['responses'].get(profile,{})
