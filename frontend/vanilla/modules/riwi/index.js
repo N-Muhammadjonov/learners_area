@@ -265,6 +265,7 @@ export function mount(ctx) {
           h('span',{class:'riwi-thinking-label'},text('thinking')),
           h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'})));
     }
+    transcript.append(h('p',{class:'riwi-transcript__notice','aria-live':'off'},'RIWI is AI and can make mistakes, please check important info!'));
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     sendBtn.disabled=ctrl.state.loading;clearBtn.disabled=ctrl.state.loading;input.readOnly=ctrl.state.loading;
     languageSummary.setAttribute('aria-disabled',String(ctrl.state.loading));
@@ -286,9 +287,7 @@ export function mount(ctx) {
     catch{input.value=msg;status.textContent=text('sendError');status.hidden=false;}
     finally{pending='';renderMessages();}
   }},h('div',{class:'riwi-composer__field'},input,sendBtn),
-    h('div',{class:'riwi-composer__toolbar'},commandMenu,languageMenu),
-    h('p',{class:'riwi-composer__hint'},text('hint')),
-    h('p',{class:'riwi-composer__notice'},'RIWI is AI and can make mistakes, please check important info!'));
+    h('div',{class:'riwi-composer__toolbar'},commandMenu,languageMenu));
   root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
     h('header',{class:'riwi-chat-header'},
       h('div',{class:'riwi-chat-identity'},h('span',{class:'riwi-avatar','aria-hidden':'true'},'R'),
