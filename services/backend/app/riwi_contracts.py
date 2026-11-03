@@ -145,6 +145,12 @@ def assess_riwi_intent(message: str) -> IntentAssessment:
     if PROMPT_INJECTION_RE.search(normalized):
         return IntentAssessment(intent="general_learning_question", is_adversarial=True, attack_type="prompt_injection")
 
+    from .riwi_questions import guard_profile
+    guard=guard_profile(normalized)
+    if guard:
+        signal='secret_extraction' if guard=='deny-secrets' else 'idor' if guard=='deny-private' else 'role_spoof' if guard=='deny-role' else 'tool_injection' if guard=='deny-falsification' else 'exam_bypass'
+        return IntentAssessment(intent="general_learning_question",is_adversarial=True,attack_type=signal)
+
     if DICTIONARY_RE.search(normalized):
         return IntentAssessment(
             intent="dictionary_lookup",
