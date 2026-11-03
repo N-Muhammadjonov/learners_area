@@ -87,7 +87,9 @@ def installation_payload():
 def is_followup(message):
     query=normalize(message)
     if len(query)>220:return False
-    if query in ('yana','davom et','tushunmadim','soddaroq','batafsil','oddiyroq'):return True
+    if query in ('yana','davom et','tushunmadim','soddaroq','batafsil','oddiyroq','qanday qilib','nega bunday boldi',
+                 'boshqa yoli bormi','keyingisini ber','oxirgi gapingni qaytar','tushunmadim yana ayt','qisqaroq ayta olasanmi'):return True
+    if re.search(r'\b(oldingi|yuqoridagi|javobing\w*|shu joyini)\b',query) and re.search(r'\b(qisqartir\w*|sodda\w*|misol\w*|kengaytir\w*|takror\w*|qaytar\w*)\b',query):return True
     return bool(
         re.search(r"\b(example|examples|practice|misol|mashq|simpler|shorter|soddaroq|qisqaroq)\b",query)
         and (re.search(r"\b(this|that|it|another|again|shu|shunga|bunga|buni|yana|mavzu|topic)\b",query)
@@ -176,7 +178,9 @@ async def previous_lesson_context(conn,actor,conversation_id):
     key=model[len(MODEL_PREFIX):]
     if key not in library():return None
     variant=provider.get('lessonVariant',0)
-    return {'key':key,'variant':variant if type(variant) is int and 0<=variant<=1000000 else 0}
+    aliases=provider.get('queryAliases',[])
+    return {'key':key,'variant':variant if type(variant) is int and 0<=variant<=1000000 else 0,
+            'aliases':[x for x in aliases if isinstance(x,str) and 5<=len(x)<=300][:3] if isinstance(aliases,list) else []}
 
 async def previous_topic(conn,actor,conversation_id):
     context=await previous_lesson_context(conn,actor,conversation_id)
@@ -188,7 +192,7 @@ async def retrieve_lesson(conn,actor,message,conversation_id=None,*,topic_key=No
         return None
     key=topic_key if topic_key in library() else choose_entry(message)
     previous=await previous_lesson_context(conn,actor,conversation_id) if conversation_id else None
-    if key is None and previous and is_followup(message):key=previous['key']
+    if key is None and previous and (is_followup(message) or normalize(message) in previous['aliases']):key=previous['key']
     if key is None:
         return None
     entry=library()[key]
@@ -210,7 +214,8 @@ async def retrieve_lesson(conn,actor,message,conversation_id=None,*,topic_key=No
     return {"ref":"K1","sourceId":row["source_id"],"unitId":row["unit_id"],"title":entry["title"],
             "text":content,"authority":int(row["authority"]),"version":int(row["version"]),
             "curriculumId":key,'supplement':supplement,
-            'lessonVariant':previous['variant']+1 if previous and previous['key']==key else 0}
+            'lessonVariant':previous['variant']+1 if previous and previous['key']==key else 0,
+            'queryAliases':previous['aliases'] if previous and previous['key']==key else []}
 
 def format_lesson(unit,message,locale):
     key=unit.get("curriculumId")

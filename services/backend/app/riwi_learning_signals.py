@@ -24,6 +24,7 @@ LEARNING_SIGNAL_TYPES: Final[tuple[str, ...]] = (
     "provider_disagreement",
     "low_confidence_eval",
     "repeated_user_confusion",
+    "retrieval_failure",
     "hallucination_report",
     "manual_qa_finding",
     "rubric_reference",
@@ -36,6 +37,7 @@ PRODUCER_REQUIRED: Final[dict[str, str]] = {
     "provider_disagreement": "provider_lab",
     "low_confidence_eval": "evaluation_service",
     "repeated_user_confusion": "gateway",
+    "retrieval_failure": "gateway",
 }
 
 SUCCESSFUL_RESPONSE_SOURCES: Final[frozenset[str]] = frozenset({

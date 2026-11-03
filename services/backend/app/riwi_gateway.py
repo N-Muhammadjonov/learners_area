@@ -351,6 +351,7 @@ async def handle_riwi_chat(
             if authored:
                 provider_meta = {"id": "riwi", "model": MODEL_PREFIX + top["curriculumId"],
                                  'lessonVariant':top.get('lessonVariant',0),
+                                 'queryAliases':top.get('queryAliases',[]),
                                  'teachingEdition':'details-v1' if top.get('supplement') else 'compact-v1'}
             if not canonical_grammar:
                 provenance = "approved_knowledge"
@@ -405,6 +406,8 @@ async def handle_riwi_chat(
             answer_text = dialogue or "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nMavzu nomini yoki to‘liq misolni yozib bera olasizmi? Masalan, «present perfect», «TRUE/FALSE/NOT GIVEN» yoki «so‘z birikmasi». Bilmagan joyimda taxminni qoida deb bermayman."
         provenance = "unavailable"
 
+    from .riwi_conversation_learning import attach_clarification_alias,capture_safely
+    provider_meta=await attach_clarification_alias(conn,actor,conversation_id,message,provider_meta)
     saved_conv_id = await append_conversation_turn(
         conn,
         actor=actor,
@@ -432,6 +435,7 @@ async def handle_riwi_chat(
             "status": "succeeded",
         },
     )
+    review_capture = await capture_safely(conn,actor,saved_conv_id,message) if provenance=='unavailable' and not faq else None
     return {
         "ok": True,
         "conversationId": saved_conv_id,
@@ -443,4 +447,5 @@ async def handle_riwi_chat(
         "citations": citations,
         "reportSnapshot": report_snapshot,
         "roleSurface": role_surface,
+        "learningReview": review_capture,
     }

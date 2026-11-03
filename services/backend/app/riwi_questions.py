@@ -96,6 +96,23 @@ def guard_reply(message,locale):
 
 async def answer_question(conn,actor,message,locale,conversation_id=None):
     entry=match_question(message)
+    from .riwi_curriculum import is_followup
+    if conversation_id and conn is not None and hasattr(conn,'fetchrow') and is_followup(message) and (not entry or entry.get('responseId')=='question-style'):
+        from .riwi_material_search import previous_context
+        previous=await previous_context(conn,actor,conversation_id)
+        model=previous.get('model','')
+        if isinstance(model,str) and model.startswith(('riwi-curriculum-v1:','riwi-study-v1:','riwi-material-v1')):
+            return None # let the original tutor recheck its active source
+        profile=previous.get('responseId') if model=='riwi-questions-v1' else None
+        response=library()['responses'].get(profile,{})
+        if response.get('kind')=='answer':
+            body=response[locale]
+            summary=body.split('🧩',1)[0].strip()
+            examples='\n\n🧩'+body.split('🧩',1)[1] if '🧩' in body else ''
+            prefix='Asosiy fikrga qaytamiz 🙂\n\n' if locale=='uz' else 'Let’s return to the key point 🙂\n\n'
+            practice='\n\nEndi bitta o‘z misolingizni yozing; qaysi qismi qiyinligini birga tekshiramiz.' if locale=='uz' else '\n\nTry one example of your own and tell me which part is difficult.'
+            return {'answer':prefix+summary+examples+practice,'provenance':'deterministic_learning_data','citations':[],
+                    'provider':{'id':'riwi','model':'riwi-questions-v1','responseId':profile}}
     if not entry:return None
     if entry.get('lessonId'):
         from .riwi_curriculum import retrieve_lesson,format_lesson,MODEL_PREFIX
@@ -106,7 +123,7 @@ async def answer_question(conn,actor,message,locale,conversation_id=None):
                     'provenance':'unavailable','citations':[],'provider':{'id':'riwi','model':'riwi-questions-v1'}}
         return {'answer':format_lesson(lesson,message,locale),'provenance':'approved_knowledge',
                 'citations':[{k:lesson[k] for k in ('ref','sourceId','unitId','title','authority','version')}],
-                'provider':{'id':'riwi','model':MODEL_PREFIX+entry['lessonId'],'lessonVariant':lesson.get('lessonVariant',0)}}
+                'provider':{'id':'riwi','model':MODEL_PREFIX+entry['lessonId'],'lessonVariant':lesson.get('lessonVariant',0),'queryAliases':lesson.get('queryAliases',[])}}
     response=library()['responses'][entry['responseId']]
     return {'answer':response[locale],
             'provenance':'policy_refusal' if response['kind']=='deny' else 'unavailable' if response['kind'] in ('conditional','clarify') else 'deterministic_learning_data',
