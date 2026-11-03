@@ -49,7 +49,7 @@ def test_owner_gets_code_grounded_architecture_and_exact_observed_button_not_inv
     assert 'FastAPI' in architecture and 'History API' in architecture
     answer=s.answer_site_question('owner','Main tugmasi qayerda, rangi va vazifasi qanday?','uz',[surface()])
     assert 'kampusga' in answer and 'rgb(238, 236, 244)' in answer and 'yuqori chap' in answer
-    assert 'Havola yo‘li: /app.' in answer
+    assert s.site_response('owner','Main tugmasi qayerda?','uz',[surface()])['navigationLinks']==[{'href':'/app','label':'Main'}]
     unseen=s.answer_site_question('owner','Saqlash tugmasi rangi qanday?','uz')
     assert 'taxmin qilmayman' in unseen and 'rgb(' not in unseen
 
@@ -107,3 +107,32 @@ async def test_site_gateway_has_no_external_or_shared_learning_write():
             env={'RIWI_EXTERNAL_AI_ENABLED':'false'},external_runner=external)
         assert result['provider']['model']=='riwi-site-guide-v1' and not result['citations']
         assert external.await_count==0 and 'siteContext' not in saved.await_args.kwargs
+
+
+@pytest.mark.parametrize('message',['Vocabulary tizimi qanday ishlaydi?','Saytdagi vocabulary system qanday ishlaydi',
+    'How does Vocabulary work?', 'Lug‘atdan qanday foydalanaman?', 'vocab tizimi qanday ishlaydi?'])
+def test_module_workflows_do_not_require_the_word_website(message):
+    result=s.site_response('student',message,'uz')
+    assert 'Dictionary' in result['answer'] and 'Revision' in result['answer']
+    assert '/app/' not in result['answer']
+    assert result['navigationLinks']==[{'href':'/app/vocabulary','label':'Vocabulary'},
+        {'href':'/app/vocabulary/games','label':'Vocabulary · Games'}]
+    assert s.answer_site_question('student','Readingda true false qanday yechiladi?','uz') is None
+
+
+def test_navigation_rejects_foreign_privileged_and_parameter_placeholder_routes():
+    values=[{'href':'https://evil.invalid','label':'Outside'}, {'href':'/app/owner','label':'Owner'},
+        {'href':'/app/reading/academic/:setId','label':'Unbound test'},
+        {'href':'/app/vocabulary','label':'Vocabulary'}, {'href':'/api/secrets','label':'Secrets'}]
+    assert s.safe_navigation('student',values)==[{'href':'/app/vocabulary','label':'Vocabulary'}]
+
+
+@pytest.mark.asyncio
+async def test_site_gateway_returns_and_saves_clickable_navigation_metadata():
+    from app.riwi_gateway import handle_riwi_chat
+    with patch('app.riwi_gateway.get_riwi_role_surface',AsyncMock(return_value={})), \
+         patch('app.riwi_gateway.append_conversation_turn',AsyncMock(return_value=OWNER.id)) as saved, \
+         patch('app.riwi_gateway.record_riwi_audit',AsyncMock()):
+        result=await handle_riwi_chat(None,OWNER,{'message':'Vocabulary tizimi qanday ishlaydi?'},env={'RIWI_EXTERNAL_AI_ENABLED':'false'})
+        assert result['navigationLinks'][0]['href']=='/app/vocabulary'
+        assert saved.await_args.kwargs['navigation_links']==result['navigationLinks']

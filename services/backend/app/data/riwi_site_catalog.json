@@ -1592,7 +1592,7 @@
     "frontend/vanilla/js/return-navigation.js": "e977d3baff6521633a6d8e034d27618dc553de53a7fcedef37eabcb3e722dbbd",
     "frontend/vanilla/js/riwi-dictation.js": "837f1fbf5d096c8997450a2237b2f5380f33e7609b02daf2e89a1fa20e36ae89",
     "frontend/vanilla/js/riwi-files.js": "63e58253c21cf3e665f4e84adcd3b90bf9bea3cd1330adc63a699be229ba0009",
-    "frontend/vanilla/js/riwi-site-context.js": "2009fd2ed760168472eb3a879f9f430677c9c27a0f81c5dfb4ace058d79e36e7",
+    "frontend/vanilla/js/riwi-site-context.js": "c284417e8c36c5a47c59ed131b81890dd9e6580637b869be9c9d04752e6fe7da",
     "frontend/vanilla/js/riwi-speech-assets.js": "25bec87624cb9e7361cd1bd619c8fa1f42eb338f8b8d191751e32ef2eb19b9a0",
     "frontend/vanilla/js/riwi-speech-worker.js": "affc9a73ba50dbf5b7d4e032c8dda14be93e3c8380f6f41dea9a384dc2f83350",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
@@ -1729,7 +1729,7 @@
     "frontend/vanilla/modules/reading/workspace.js": "df33c00a34ac5684d13862d806657e2a99464a7989a93f26720d5b40a61a8fd6",
     "frontend/vanilla/modules/recovery.js": "fb1139343691dbaac145c11297e95207959b3d32d4507ee59fdf43b5f5666d4c",
     "frontend/vanilla/modules/reports.js": "4dc6fb29b4c106fdbc4fa80f655d61574bad2f7342fbfcad1d3908af26049329",
-    "frontend/vanilla/modules/riwi/index.js": "2b08ce7e5680f151b0f713dd95207385df2fb0ffceb372993314a418a8bc385b",
+    "frontend/vanilla/modules/riwi/index.js": "203cec2a7bb2c5a360ce67ccae5ebd7e229f5183bc94a22d8055c844ff575a16",
     "frontend/vanilla/modules/riwi/objective-explanation.js": "ffda8c524f1bf812ed9ec4335645bbb78a6fc3e08fabc76af53f7efaf72c4d25",
     "frontend/vanilla/modules/shared/async-action.js": "69c89ae62cddd403b3c05fa541c9652ef0a969450025298af6a92bb954d714b8",
     "frontend/vanilla/modules/shared/band-axis.js": "276e8e6620bd87a986c29858f76883487da3c5b86574ad66f715043102e45015",
@@ -1874,12 +1874,12 @@
     "frontend/vanilla/css/campus.css": "918cef92c8b25f5399f42e83f776658ad649047a92f16db43c4222d2d3686005",
     "frontend/vanilla/css/fonts.css": "8a8864318038a94325b7afa7a13eac144fbaef27eba925c528767dae2b33e7d4",
     "frontend/vanilla/css/global.css": "747b2954f459088aa243b291983d4ebeef39bdd65b4830a10b2c66474d3a2307",
-    "frontend/vanilla/css/riwi.css": "604bc747475d7b855d1c0504913a7763b6d4f9d73f5eec20e662cbcd3492f34f",
+    "frontend/vanilla/css/riwi.css": "461ac7d257f6dc69970840b71181364765777a0ab7ceb0ad4ea040c14c5cb0e8",
     "frontend/vanilla/css/source.css": "088124cd84c17755f50bf59c241f518d7d26f04b03086a78521199e452040f16",
     "services/backend/app/browser_staff.py": "03eb0f32d0dc05d6b28420aab3545ed500ee1720e81fd8910d3009ef99e6d01d",
     "services/backend/app/browser_authoring.py": "b115e2b037f61b165852e3c0f06e84a280f9288e8a51f9fda0118e810983ecdc",
     "services/backend/app/admin_authoring_port.py": "c89f731cf17b0b576455b9f61c9b7a47801786ed96e59a3e5b2bfa7bb24ebedf",
     "services/backend/app/riwi_capabilities.py": "b28c78ef4421d32d4775d586076b9f104dc27dfc753d81d0d9bc5f92be612385",
-    "services/backend/app/riwi_site.py": "1bb885fb164bc50b26214eed7a1621a32c5111fe25c150b61e1744ef13a33ab2"
+    "services/backend/app/riwi_site.py": "d371fb5e34ae9def12355a0be5c58718edcea3cb88d7924eaf6bf22a144fff19"
   }
 }

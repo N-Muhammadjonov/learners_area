@@ -26,6 +26,9 @@
 .riwi-msg--user::after{left:auto;right:-.4rem;transform:scaleX(-1)}
 .riwi-msg__body{white-space:pre-wrap;overflow-wrap:anywhere;font-size:1rem;line-height:1.8}
 .riwi-msg__time{display:block;text-align:right;font-size:.66rem;line-height:1.7;opacity:.72;margin-top:.25rem}
+.riwi-navigation{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+.riwi-navigation a{display:inline-flex;align-items:center;min-height:2.3rem;padding:.4rem .75rem;border-radius:1rem;background:var(--riwi-bg);color:var(--riwi-text);font-size:.85rem;text-decoration:underline;text-underline-offset:.2em}
+.riwi-navigation a:hover{filter:brightness(.96)}
 .riwi-sources{font-size:.72rem;color:var(--riwi-muted);margin-top:.8rem;padding-top:.5rem;border-top:0}
 .riwi-sources summary{cursor:pointer;list-style:revert}
 .riwi-sources ul{padding-left:1rem;margin-top:.35rem;list-style:disc}

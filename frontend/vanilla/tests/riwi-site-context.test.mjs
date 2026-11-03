@@ -64,3 +64,20 @@ test('navigation observes the outgoing page before abort removes its controls',a
  try{await router.start();await router.go('/app/riwi');assert.deepEqual(seen,[{path:'/app/reading/lessons',text:'/app/reading/lessons'}]);}
  finally{router.destroy();h.dispose()}
 });
+
+test('module questions recognize mixed Uzbek/English and show safe clickable section links',async()=>{
+ const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
+ try{
+  assert(siteQuestion('Vocabulary tizimi qanday ishlaydi?'));assert(siteQuestion('How does Vocabulary work?'));
+  assert(!siteQuestion('Readingda true false qanday yechiladi?'));
+  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(2),answer:'Vocabulary izohi.',navigationLinks:[
+   {href:'/app/vocabulary',label:'Vocabulary'}, {href:'javascript:alert(1)',label:'Unsafe'},
+   {href:'https://outside.invalid/app',label:'Outside'}, {href:'/api/secrets',label:'Private endpoint'},
+   {href:'/app/vocabulary/games',label:'Vocabulary · Games'}]}});
+  const {mount}=await import('../modules/riwi/index.js');await mount(h.ctx);
+  h.input(h.q('.riwi-chat-input'),'Vocabulary tizimi qanday ishlaydi?');h.submit(h.q('form'));await new Promise(r=>setTimeout(r,20));
+  assert.deepEqual(h.qa('.riwi-navigation a').map(x=>[x.textContent,x.getAttribute('href')]),[
+   ['Vocabulary','/app/vocabulary'],['Vocabulary · Games','/app/vocabulary/games']]);
+  assert(!h.q('.riwi-msg--assistant').textContent.includes('/app/'));assert(!h.q('.riwi-msg--assistant').textContent.includes('Unsafe'));
+ }finally{h.dispose()}
+});

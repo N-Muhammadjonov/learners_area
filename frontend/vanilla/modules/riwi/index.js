@@ -3,7 +3,7 @@ import {RiwiClientAdapter} from '../../js/adapters/riwi.js';
 import {tRiwi} from '../../js/i18n/riwi_i18n.js';
 import {FILE_ACCEPT,stageFile,readFile,exportPayload,fileError} from '../../js/riwi-files.js';
 import {anySignal} from '../../js/signals.js';
-import {siteQuestion,siteContext} from '../../js/riwi-site-context.js';
+import {siteQuestion,siteContext,safeNavigation} from '../../js/riwi-site-context.js';
 import {createLocalDictation,dictationError} from '../../js/riwi-dictation.js';
 
 export const RIWI_WORKSPACE_ROUTE = "/app/riwi";
@@ -155,6 +155,7 @@ export function createRiwiWorkspaceController({
           document: documentResult, documentError, documentAction:res.documentAction,
           provenance: res.provenance,
           citations: res.citations || [],
+          navigationLinks: safeNavigation(res.navigationLinks),
           reportSnapshot: res.reportSnapshot || null
         }
       );
@@ -325,6 +326,8 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
     return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
       h('div',{class:'riwi-msg__body'},m.content),
+      safeNavigation(m.navigationLinks).length?h('nav',{class:'riwi-navigation','aria-label':uz?'Bo‘limni ochish':'Open a section'},
+        ...safeNavigation(m.navigationLinks).map(item=>h('a',{href:item.href},item.label))):null,
       m.files?.length?h('div',{class:'riwi-message-files'},...m.files.map(item=>{
         const f=typeof item==='string'?{name:item}:item;
         return f.previewUrl?h('figure',{class:'riwi-message-image'},h('img',{src:f.previewUrl,alt:f.name}),h('figcaption',{},f.name)):

@@ -127,6 +127,7 @@ async def get_conversation_transcript(
         if isinstance(created_at, datetime) and created_at.tzinfo is None:
             created_at = created_at.replace(tzinfo=timezone.utc)
         prov = meta.get("provenance")
+        from .riwi_site import safe_navigation
         messages.append({
             "role": row["role"],
             "content": str(row["content"])[:RIWI_MAX_ANSWER_CHARS],
@@ -136,6 +137,7 @@ async def get_conversation_transcript(
             "provider": meta.get("provider") if isinstance(meta.get("provider"), dict) else None,
             "citations": meta.get("citations") if isinstance(meta.get("citations"), list) else [],
             "reportSnapshot": meta.get("reportSnapshot") if isinstance(meta.get("reportSnapshot"), dict) else None,
+            "navigationLinks": safe_navigation(actor.role, meta.get("navigationLinks")),
         })
 
     return {
@@ -219,6 +221,7 @@ async def append_conversation_turn(
     provider: dict[str, Any] | None,
     citations: list[dict[str, Any]],
     report_snapshot: dict[str, Any] | None = None,
+    navigation_links: list[dict[str, str]] | None = None,
     now: datetime | None = None,
 ) -> str:
     current = await _verify_active_actor_and_online_window(conn, actor, now=now, touch_online=True)
@@ -291,6 +294,9 @@ async def append_conversation_turn(
         "citations": citations[:8],
         "reportSnapshot": report_snapshot,
     }
+    if navigation_links:
+        from .riwi_site import safe_navigation
+        assistant_meta['navigationLinks']=safe_navigation(actor.role,navigation_links)
     await conn.execute(
         """
         INSERT INTO riwi_conversation_messages (id, conversation_id, role, content, metadata, created_at)

@@ -146,20 +146,21 @@ async def handle_riwi_chat(
             )
             raise RiwiGatewayError(exc.code, 403 if exc.code == "forbidden" else 400) from exc
 
-    from .riwi_site import answer_site_question
-    site_answer = (answer_site_question(actor.role, message, locale, req.get('siteContext', []))
+    from .riwi_site import site_response
+    site_reply = (site_response(actor.role, message, locale, req.get('siteContext', []))
         if not any(req.get(k) for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')) else None)
-    if site_answer:
+    if site_reply:
+        site_answer=site_reply['answer'];site_links=site_reply['navigationLinks']
         meta = {'id':'riwi','model':'riwi-site-guide-v1'}
         saved = await append_conversation_turn(conn, actor=actor, conversation_id=conversation_id,
             user_message=message, assistant_answer=site_answer, correlation_id=correlation_id,
-            provenance='deterministic_learning_data',provider=meta,citations=[],report_snapshot=None,now=now)
+            provenance='deterministic_learning_data',provider=meta,citations=[],report_snapshot=None,navigation_links=site_links,now=now)
         await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
             target_type='riwi_conversation',target_id=saved,
             metadata={'role':actor.role,'intent':intent_info.intent,'provenance':'deterministic_learning_data','providerId':'riwi','status':'succeeded'})
         return {'ok':True,'conversationId':saved,'correlationId':correlation_id,'intent':intent_info.intent,
             'answer':site_answer,'provenance':'deterministic_learning_data','provider':meta,'citations':[],
-            'reportSnapshot':None,'roleSurface':role_surface}
+            'reportSnapshot':None,'roleSurface':role_surface,'navigationLinks':site_links}
 
     from .riwi_documents import answer_request as document_answer, gate as document_gate
     document = document_answer(message, req.get('attachments', []), locale)

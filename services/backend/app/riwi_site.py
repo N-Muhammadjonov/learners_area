@@ -88,9 +88,9 @@ TOPICS = [
     _topic('grammar','grammar grammatika dars lesson author', ['/app/grammar','/app/grammar/lessons'],
         'Grammar mavzular va darslar kutubxonasiga bo‘lingan. Mavzu yoki dars tanlansa uning sahifasi ochiladi. Mualliflik va nashr qilish o‘quvchi tugmalari emas; xodim ruxsati bilan boshqariladi.',
         'Grammar separates topics and lessons. Selecting an item opens its detail page. Authoring and publication are staff-controlled operations.'),
-    _topic('vocabulary','vocabulary lug‘at dictionary revision flashcard game so‘z', ['/app/vocabulary','/app/vocabulary/games'],
-        'Vocabulary so‘z va iboralar bilan ishlash, takrorlash va o‘yinlarni birlashtiradi. Review eski yo‘li revision tabiga yo‘naltiriladi. So‘z ma’nolari va so‘z turkumlari alohida; bir ma’noni boshqa kontekstga avtomatik ko‘chirmang.',
-        'Vocabulary combines words/phrases, revision and games. The old Review URL redirects to the revision tab. Meanings and parts of speech remain distinct; one sense does not automatically fit every context.'),
+    _topic('vocabulary','vocabulary vocab lug‘at dictionary revision flashcard game so‘z', ['/app/vocabulary','/app/vocabulary/games'],
+        'Vocabulary — shaxsiy so‘z va iboralar kutubxonangiz 📚\n\n1. Dictionary’da inglizcha yoki o‘zbekcha so‘z qidiring. Natijada kerakli ma’no va so‘z turkumini tanlang; bir so‘zning hamma ma’nosi bir xil emas.\n2. Kerakli so‘zni papkaga saqlang. Saqlangan so‘zlar Words’da turadi; matndagi bog‘langan so‘zni bosib ham lug‘at panelini ochish mumkin.\n3. Revision’da avval saqlagan so‘zlarni eslab, takrorlang. Eski Review havolasi shu joyga olib keladi.\n4. Use’da so‘zlarni qo‘llashni mashq qiling; Games’da esa turli o‘yinlar bilan mustahkamlang. Board qayd etilgan natijalarni ko‘rsatadi.\n\nMasalan, yangi so‘z topdingiz → ma’nosini tekshirasiz → papkaga saqlaysiz → keyin Revision’da eslaysiz. So‘zning boshqa gapda ishlatilishini uning kontekstiga qarab tekshiring.',
+        'Vocabulary is your personal word and phrase library 📚\n\n1. Search English or Uzbek words in Dictionary. Choose the intended meaning and part of speech; different senses are not interchangeable.\n2. Save the chosen word to a folder. Saved entries appear in Words. Bound words in reading material also open a dictionary panel.\n3. Recall saved words in Revision. The old Review link redirects there.\n4. Practise using them in Use and reinforce them in Games. Board shows recorded results.\n\nFor example: find a word → check its meaning → save it to a folder → recall it later in Revision. Check the context before using a different sense.'),
     _topic('course','course roadmap kurs ielts yo‘l xaritasi', ['/app/courses/ielts'], 'Kurs xaritasi bo‘lim va darslarga olib boradi. Dars ochilganda shu dars sahifasi yuklanadi; mavjudlik va ruxsat serverdan keladi.', 'The course roadmap links to sections and lessons. Opening a lesson loads its page; availability and access come from the server.'),
     _topic('video','video lesson videodars', ['/app/video-lessons'], 'Videodarslar kutubxonasidan dars tanlanadi, batafsil sahifadagi player video ijrosini boshqaradi.', 'Select a video in the lesson library; its detail-page player controls playback.'),
     _topic('mocks','mock mocks imtihon exam', ['/app/mocks'], 'Mock testlar sahifasi mavjud sinovlarni ochadi. Faol sinovning vaqt va topshirish qoidalari server holatiga bog‘liq; RIWI yashirin javob kalitini bermaydi.', 'Mocks opens available assessments. Timing and submission depend on server state; RIWI does not reveal hidden answer keys.'),
@@ -126,7 +126,10 @@ CONTROLS = [
 
 
 def is_site_question(message):
-    return bool(re.search(r'sayt|website|web\s*site|tugma|button|sahifa|bo[‘\x27’ʻ]?lim|navigation|navigats|interfeys|interface|qidiruv|search|yuklash|upload|menu|menyu|architecture|arxitektur|/app\b',message,re.I))
+    if re.search(r'sayt|website|web\s*site|tugma|button|sahifa|bo[‘\x27’ʻ]?lim|navigation|navigats|interfeys|interface|qidiruv|search|yuklash|upload|menu|menyu|architecture|arxitektur|/app\b',message,re.I): return True
+    q=_normal(message)
+    module=re.search(r'\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|shadowing|mock|progress|live class)\w*',q)
+    return bool(module and re.search(r'(?:qanday|qanaqa).{0,30}(?:ishla|foydalan|och|kir)|qayer|nima qil|nima uchun kerak|tizim|system|how.{0,30}(?:work|use|open|access)|where|ochish|ishlat|foydalan',q))
 
 
 def _normal(text):
@@ -134,7 +137,38 @@ def _normal(text):
     return normalize_query(text)
 
 
-def answer_site_question(role, message, locale, context=()):
+# Only reviewed, concrete application destinations can become chat links.
+_LABELS={'app':'Main','dashboard':'Dashboard','reading':'Reading','listening':'Listening',
+    'writing':'Writing','speaking':'Speaking','grammar':'Grammar','vocabulary':'Vocabulary',
+    'games':'Games','lessons':'Lessons','academic':'Academic','general':'General','retention':'Retention',
+    'history':'History','tests':'Tests','mcq':'MCQ','practice':'Practice','shadowing':'Shadowing',
+    'ielts':'IELTS course','video-lessons':'Video lessons','mocks':'Mock tests','assignments':'Assignments',
+    'coach':'Coach','progress':'Progress','live-classes':'Live Classes','support':'Support','reports':'Reports',
+    'profile':'Profile','notifications':'Notifications','management':'Management','people':'People',
+    'roster':'Roster','admissions':'Admissions','students':'My Students','homework':'Homework',
+    'materials':'Materials','content':'Content','owner':'Owner','integrations':'Integrations',
+    'transfer':'Ownership transfer','audit':'Audit','dictionary':'Dictionary','riwi':'RIWI','statistics':'Statistics'}
+
+
+def safe_navigation(role, values):
+    result=[]
+    for item in values if isinstance(values,list) else []:
+        if not isinstance(item,dict): continue
+        path=item.get('href');label=item.get('label')
+        if not isinstance(path,str) or not isinstance(label,str) or not 1<=len(label)<=100: continue
+        page=route(path)
+        if not page or ':' in path or role not in page['roles'] or any(x['href']==path for x in result): continue
+        result.append({'href':path,'label':label})
+        if len(result)==32: break
+    return result
+
+
+def site_response(role,message,locale,context=()):
+    links=[];answer=answer_site_question(role,message,locale,context,_navigation=links)
+    return {'answer':answer,'navigationLinks':safe_navigation(role,links)} if answer else None
+
+
+def answer_site_question(role, message, locale, context=(), *, _navigation=None):
     if not is_site_question(message): return None
     # Quoted example sentences and dictionary terms are learning requests, even
     # when they contain words such as "button", "website" or "search".
@@ -160,6 +194,7 @@ def answer_site_question(role, message, locale, context=()):
     if role not in STAFF and re.search(r'material.*(?:nashr|publish|muallif)|content.*(?:publish|author)|import.*(?:reading|listening)|(?:reading|listening).*import',q): return denied
     if role not in ADMIN and re.search(r'(?:reading|listening).*import|import.*(?:reading|listening)|(?:material|content|dars).*(?:nashr|publish)',q): return denied
     parts=[architecture_text] if architecture_text else []
+    link_paths=[]
     control=next((c for c in CONTROLS if re.search(c[1],q,re.I)),None)
     if control: parts.append(control[3 if uz else 4])
     matches=[]
@@ -176,7 +211,8 @@ def answer_site_question(role, message, locale, context=()):
     paths=[r for r in catalog()['routes'] if role in r['roles']]
     if re.search(r'sayt.*(?:hamma|barcha|bolim|tuzil)|site map|all.*(?:page|module)|qaysi.*bolim',q) and not parts:
         visible=[t for t in TOPICS if role in t['roles']]
-        parts.append(('Sizga tegishli bo‘limlar 🧭' if uz else 'Your site areas 🧭')+'\n\n'+'\n'.join(t['id']+' — '+t['paths'][0] for t in visible))
+        parts.append(('Sizga tegishli bo‘limlar 🧭' if uz else 'Your site areas 🧭')+'\n\n'+' · '.join(_LABELS.get(t['paths'][0].split('/')[-1],t['id'].title()) for t in visible))
+        link_paths.extend(t['paths'][0] for t in visible)
     # A label match can describe the observed control, never execute it or trust its role claims.
     observed=[]
     for surface in context:
@@ -194,10 +230,11 @@ def answer_site_question(role, message, locale, context=()):
         _,surface,c=observed[0]
         zones={'top':'yuqori','middle':'o‘rta','bottom':'past','left':'chap','center':'markaz','right':'o‘ng'}
         zone=' '.join(zones[x] for x in c['zone'].split('-')) if uz else c['zone'].replace('-',' ')
-        detail=(f'Brauzerning shu sessiyada ko‘rilgan holati: «{c["label"]}», {surface["path"]}, {zone}. Matn rangi: {c["color"]}; fon: {c["background"]}. ' if uz else
-                f'Browser observation in this session: “{c["label"]}”, {surface["path"]}, {zone}. Text: {c["color"]}; background: {c["background"]}. ')
+        page_label=_LABELS.get(surface['path'].split('/')[-1],'Sahifa' if uz else 'Page')
+        detail=(f'Brauzerning shu sessiyada ko‘rilgan holati: «{c["label"]}», {page_label}, {zone}. Matn rangi: {c["color"]}; fon: {c["background"]}. ' if uz else
+                f'Browser observation in this session: “{c["label"]}”, {page_label}, {zone}. Text: {c["color"]}; background: {c["background"]}. ')
         if c['disabled']: detail+=('Hozir faol emas. ' if uz else 'Currently disabled. ')
-        if c['href']: detail+=('Havola yo‘li: ' if uz else 'Link destination: ')+c['href']+'.'
+        if c['href']: link_paths.append(c['href'])
         if role=='owner' and c.get('action') and re.search(r'kod|code|orqa|behind|navigation|navigats|amal|action|qanday.*ishla|how.*work',q):
             detail+=(' Brauzerda ulangan handler kodi (qiymatlar bajarilmagan): ' if uz else ' Attached browser handler (not executed, no closure values): ')+c['action']
         if not parts and not c['href']: detail+=('Bu tugmaning ichki amalini faqat nomidan taxmin qilmayman; qaysi vazifani bajarayotganingizni yozing.' if uz else 'I cannot infer its internal action from its label alone; describe the task you are doing.')
@@ -209,5 +246,15 @@ def answer_site_question(role, message, locale, context=()):
         return 'Qaysi sahifa yoki tugmani nazarda tutyapsiz? Uning ko‘rinib turgan nomi yoki /app/… manzilini yozing; bilmagan vazifani taxmin qilib bermayman.' if uz else 'Which page or control do you mean? Give its visible label or /app/… path; I will not guess unknown behaviour.'
     if selected and not control:
         allowed=[p for p in selected['paths'] if any(r['path']==p for r in paths)]
-        if allowed: parts.append(('Ochish yo‘llari: ' if uz else 'Open: ')+' · '.join(allowed))
+        link_paths.extend(allowed)
+    if control and not link_paths:
+        if control[0]=='main': link_paths.append('/app')
+        elif control[0] in ('reply','new','attach','send','commands'): link_paths.append('/app/riwi')
+    if _navigation is not None:
+        for path in dict.fromkeys(link_paths):
+            segments=path.split('/');leaf=segments[-1]
+            label=_LABELS.get(leaf,leaf.replace('-',' ').title())
+            if leaf in ('lessons','history','academic','general','retention','tests','mcq','practice','shadowing','games') and len(segments)>3:
+                label=_LABELS.get(segments[-2],segments[-2].title())+' · '+label
+            _navigation.append({'href':path,'label':label})
     return '\n\n'.join(parts)[:6000]
