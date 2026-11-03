@@ -245,9 +245,7 @@ export function mount(ctx) {
   const greeting = () => h('div',{class:'riwi-welcome'},
     h('span',{class:'riwi-welcome__mark','aria-hidden':'true'},'R'),
     h('h2',{},text('welcome')),
-    h('p',{},text('welcomeBody')),
-    h('div',{class:'riwi-suggestions'},...['suggestGrammar','suggestReading','suggestVocabulary'].map(key=>
-      h('button',{type:'button',class:'riwi-suggestion',onClick:()=>{input.value=text(key);input.focus();}},text(key)))));
+    h('p',{},text('welcomeBody')));
   const bubble = m => {
     const time=new Date(m.createdAt);
     const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
