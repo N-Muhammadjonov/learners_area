@@ -63,6 +63,8 @@ async def previous_context(conn,actor,conversation_id):
 
 
 async def resolve_material(conn,actor,message,conversation_id=None):
+    from .riwi_understanding import text_request
+    if text_request(message):return None
     if conn is None or not hasattr(conn,'fetch') or not hasattr(conn,'fetchrow'):return None
     from .riwi_curriculum import choose_entry as curriculum, is_followup
     from .riwi_study_library import choose_entry as guide

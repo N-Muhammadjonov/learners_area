@@ -263,7 +263,9 @@ export function mount(ctx) {
       : [greeting()]));
     if(pending){
       transcript.append(bubble({role:'user',content:pending,createdAt:new Date().toISOString()}),
-        h('div',{class:'riwi-typing',role:'status','aria-label':text('thinking')},h('span',{}),h('span',{}),h('span',{})));
+        h('div',{class:'riwi-typing',role:'status'},
+          h('span',{class:'riwi-thinking-label'},text('thinking')),
+          h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'})));
     }
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     sendBtn.disabled=ctrl.state.loading;clearBtn.disabled=ctrl.state.loading;input.readOnly=ctrl.state.loading;

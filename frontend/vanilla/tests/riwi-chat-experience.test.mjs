@@ -20,6 +20,7 @@ test('pending chat prevents duplicate sends and renders safe multiline replies w
   h.input(h.q('textarea'),'Misollar ber');h.submit(h.q('form'));h.submit(h.q('form'));
   assert.equal(h.calls.filter(x=>x.path==='/api/riwi/chat').length,1);
   assert(h.q('.riwi-msg--user'));assert(h.q('.riwi-typing'));assert(h.q('button[type=submit]').disabled);
+  assert.equal(h.q('.riwi-thinking-label').textContent,'O‘ylayapman…');
   release({ok:true,conversationId:ID(2),answer:'Oddiy izoh 🙂\n\n1) First.\n2) Second.\n3) Third.\n<img src=x onerror=alert(1)>',provenance:'approved_knowledge',citations:[{ref:'K2',title:'Tasdiqlangan misollar'}]});
   await tick(7);
   assert.equal(h.qa('[data-riwi-role]').length,2);
