@@ -1,0 +1,72 @@
+{
+  "testedApplicationCommit": "d3ef66d6144d4a287c844dedd079d22ef550dae9",
+  "baseCheckpoint": "ff4536bf972d296d8d998473fbfa7eb51b3ff49f",
+  "branch": "arena/learners-area-next",
+  "comparedMain": "cb3a331112bff58b889eb4b23bc0b950425985ed",
+  "localEqualsRemote": true,
+  "mergeTreeConflictFree": true,
+  "mainMergePerformed": false,
+  "productionDeployPerformed": false,
+  "productionWritesPerformed": false,
+  "newSchemaMigration": false,
+  "externalAi": false,
+  "checks": {
+    "riwiBackendPassed": 2647,
+    "corePassed": 37,
+    "frontendPassed": 1292,
+    "frontendSkipped": 11,
+    "frontendFailed": 0,
+    "staticBuildFiles": 724,
+    "staticBuildRoutes": 125,
+    "nodeRequiredForBuild": false
+  },
+  "preview": {
+    "id": "dpl_FcWXaN6ejA8NhfHZBXbDQJRxqnxb",
+    "state": "READY",
+    "url": "https://learners-area-c10ssr1b5-learners-area.vercel.app",
+    "stable": "https://learners-area-git-arena-learners-area-next-learners-area.vercel.app/app/riwi"
+  },
+  "liveRole": "owner",
+  "otherRoles": "automated actor/contract tests; no authenticated teacher/admin/student Safari acceptance claimed",
+  "fileLimits": "OCR text, not general photo scene reasoning. Exact supported PDF text objects only; DOCX exact text replacement preserves structure; unsupported PDF layout has separate new-copy fallback.",
+  "browserLimits": "Mounted drop path and actual picker tested; native drag gesture not performed. Configured Safari responsive sizes are not physical iPhone/keyboard/microphone acceptance.",
+  "runtimeErrorQuery": {
+    "deployment": "dpl_FcWXaN6ejA8NhfHZBXbDQJRxqnxb",
+    "since": "30m",
+    "query": "/api/riwi",
+    "levels": [
+      "error",
+      "fatal"
+    ],
+    "result": "No logs found for specified criteria; not a complete application error certificate"
+  },
+  "sourceHashes": {
+    "frontend/vanilla/css/riwi.css": "fc62de8f4a27531159383ff56c6936b36fbf0f4d01b63755d5ed0e43b2c098cb",
+    "frontend/vanilla/css/campus.css": "918cef92c8b25f5399f42e83f776658ad649047a92f16db43c4222d2d3686005",
+    "frontend/vanilla/modules/riwi/index.js": "ae13dfefd89b449b8aa3ff4cf57849146ea700f5fcbae8933358bcc51a26b048",
+    "frontend/vanilla/js/riwi-files.js": "b34a9545785ffefe073e01c60e376954616128ab9e35e3762bba4b8f9b6aaaf5",
+    "frontend/vanilla/js/riwi-site-context.js": "2009fd2ed760168472eb3a879f9f430677c9c27a0f81c5dfb4ace058d79e36e7",
+    "frontend/vanilla/js/control-help.js": "61c1f23afcd9f4e8d8560ae72fd72dcd6bb83c3ddbf40460569490f536708349",
+    "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
+    "scripts/build_native_assets.py": "3e6a0337a9157ecfb26d626deb7ecf25ed48ba8be794a4cc3e64d8208351fb06",
+    "scripts/riwi-site-catalog.mjs": "a23b2fddb33f7d94d1a5323364f27a64f8a1619c85dd29da36da29b33d9c2982",
+    "services/backend/app/data/riwi_site_catalog.json": "3f260cb77da5b5bb00ffef9abe47798f97e43cfe5fcb5dcc1635e4cf7f9409cc",
+    "services/backend/app/riwi_site.py": "1bb885fb164bc50b26214eed7a1621a32c5111fe25c150b61e1744ef13a33ab2",
+    "services/backend/app/riwi_documents.py": "be872256a39bb7007b93f253faa718625bec8688ba29cd4d68be8e979114f60b",
+    "services/backend/app/riwi_gateway.py": "d30aac1dc9fd4a172cbe2c5e597f9308dfdd7a6c652df130bb7fe7137efd6038",
+    "services/backend/app/riwi_contracts.py": "f5b956ef94c220ea184b42ebadcfe993e3d9f95308d372be07505bf1d490e205",
+    "services/backend/app/riwi_port.py": "2bfad2ae911925e0e7bc7737df1c3599b7b60a61c509f0487cae93ecd904c3d3",
+    "requirements.txt": "22150faaa8bbf8ccf10b0fe89a658a35d70ea94a669df40c44befdbad74b3a6c",
+    "services/backend/requirements.txt": "492d27b78134c3673932c6044cb6d513f019ea16939ef149a5acb9e7c4378ca8",
+    "services/backend/tests/test_riwi_documents.py": "6ad6bdbae8a3f9e1961fb9601b8483c531ddd6fa1ec3681543fe80aee7eab951",
+    "services/backend/tests/test_riwi_site.py": "2b55c8b3ff1f20e8d3fb27a8ad147dc6e2bb2e9bc8cb5dfc573967583d69bbc5",
+    "frontend/vanilla/tests/riwi-chat-experience.test.mjs": "1869e68cde93b353f3bbfe4793c9ab0530c5d9adc5bf9987521bdcb409c5b141",
+    "frontend/vanilla/tests/riwi-files.test.mjs": "f32edfa8e0dcb2d2ee526f0a05e11003b1fd0e87b023c5f3d12b18688914b546",
+    "frontend/vanilla/tests/riwi-site-context.test.mjs": "db064ea0763ac1c06384f40dc3d93fb0fc1512ace42d51159bb86bb90cb45d6b"
+  },
+  "logHashes": {
+    "final-d3ef66d6-backend.log": "35110c992244ffa107e84f621fa4698ce4d71651c55eb8914c806ebee47d11aa",
+    "final-d3ef66d6-ui.log": "9b535e873cdd38060bd1a658896d38a6c24a9efaf73178b6df75076b1ef3102b",
+    "footer-fix-ui.log": "a5a06db81878ace4f4d82dc525fb295eb18849f2493c3f17ce8b65c205ddf273"
+  }
+}

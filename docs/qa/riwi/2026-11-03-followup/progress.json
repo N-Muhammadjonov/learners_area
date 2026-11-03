@@ -1,0 +1,85 @@
+{
+  "branch": "arena/learners-area-next",
+  "base": "ff4536bf972d296d8d998473fbfa7eb51b3ff49f",
+  "checkout": "/Users/macbookair/Documents/ChatGPT/Riwi/work/learners_area",
+  "sequential": true,
+  "externalAi": false,
+  "mainMerge": false,
+  "productionDeploy": false,
+  "steps": [
+    {
+      "number": 1,
+      "task": "Restore unknown-answer introductory sentence",
+      "status": "complete",
+      "commit": "b0d0aa8d",
+      "tests": "51 affected backend passed"
+    },
+    {
+      "number": 2,
+      "task": "Move accuracy notice into transcript and remove keyboard instructions",
+      "status": "complete",
+      "commit": "ad49257f",
+      "tests": "13 chat UI passed",
+      "finalCommit": "d3ef66d6",
+      "live": "Permanent conversation footer outside message scroll and composer; visible while scrollTop=0"
+    },
+    {
+      "number": 3,
+      "task": "Remove decorative green frames across site and chat",
+      "status": "complete",
+      "commit": "703bd803",
+      "tests": "36 affected chat/shell/palette UI passed"
+    },
+    {
+      "number": 4,
+      "task": "Platform search shortcut without Ctrl K badge",
+      "status": "complete",
+      "commit": "e763f495",
+      "tests": "25 affected UI passed including Mac/Windows find shortcut"
+    },
+    {
+      "number": 5,
+      "task": "Read drag/drop images and supported documents; edit/download DOCX/PDF/TXT",
+      "status": "complete",
+      "commit": "984463e9",
+      "tests": {
+        "backendRiwiPassed": 2636,
+        "frontendPassed": 1286,
+        "frontendSkipped": 11,
+        "corePassed": 37,
+        "buildPassed": true,
+        "documentTests": 15,
+        "fileAndChatUiTests": 20
+      },
+      "visualFixtures": "One-page edited DOCX and new Unicode PDF rendered and inspected; layout/table/image and Uzbek glyphs correct.",
+      "live": "Safari Owner at 984463e9: DOCX/PDF preserve edit, image+scan OCR, inert HTML, new PDF/DOCX/TXT downloads roundtripped, new chat clears files",
+      "limits": "OCR text only; precise PDF text-object edits only; native drag gesture not performed (mounted drop test passed)"
+    },
+    {
+      "number": 6,
+      "task": "Role-scoped site and UI knowledge",
+      "status": "complete",
+      "commit": "ada2f5f3",
+      "tests": "2647 backend, 1290 UI, 11 existing skips; final affected 43 backend + 19 UI; core 37; native build passed",
+      "live": "Safari Owner ada2f5f3: actual Main colors/position/link, architecture, real New Chat handler, previous Reading page Academic Reading link",
+      "finalCommit": "380e6dd0"
+    },
+    {
+      "number": 7,
+      "task": "Integrated checks, Preview, Safari Owner QA and checkpoint",
+      "status": "complete",
+      "commit": "d3ef66d6144d4a287c844dedd079d22ef550dae9",
+      "tests": {
+        "riwiBackendPassed": 2647,
+        "corePassed": 37,
+        "frontendPassed": 1292,
+        "frontendSkipped": 11,
+        "frontendFailed": 0,
+        "staticBuildFiles": 724,
+        "staticBuildRoutes": 125,
+        "nodeRequiredForBuild": false
+      },
+      "live": "Safari Owner final version, external AI off, 3 translated examples, future-only language, persistent footer at 389x843 day/night and 1439x900 night; previous-page site controls verified at ada2f5f3"
+    }
+  ]
+}

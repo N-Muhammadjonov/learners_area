@@ -1,0 +1,144 @@
+{
+  "version": {
+    "commit": "d3ef66d6144d4a287c844dedd079d22ef550dae9",
+    "shortCommit": "d3ef66d",
+    "region": "sin1",
+    "environment": "preview"
+  },
+  "externalAi": false,
+  "answers": [
+    "Keling, sodda qilib ko‘rib chiqamiz 🙂\n\n📘 Past simple and present perfect\n\nFarqni bitta savol bilan tekshiring: «Ish qachon bo‘lganini tugagan vaqt bilan aytyapmanmi?» Ha bo‘lsa, odatda past simple: yesterday, last year. Faqat shu paytgacha bo‘lgan tajribani yoki hozirgi natijani aytsangiz, present perfect keladi. Past simple: I went. Present perfect: I have gone. Ikki shakl ham o‘tgan ishga tegishli bo‘lishi mumkin; e’tibor berilgan vaqt ma’nosi farq qiladi.\n\n🧩 3 ta misol:\n\n1) I saw that film yesterday.\n   — Men o‘sha filmni kecha ko‘rdim. Kecha — tugagan vaqt: past simple.\n\n2) I have seen that film before.\n   — Men o‘sha filmni oldin ko‘rganman. Qachonligi emas, tajriba muhim: present perfect.\n\n3) She has lost her key, so she cannot get in.\n   — U kalitini yo‘qotgan, shuning uchun hozir kira olmayapti. Hozirgi natija muhim.\n\n💡 Esda tuting: Yesterday bilan I saw ishlating. Ever, never yoki before bilan tajriba aytilganda have/has + uchinchi shaklni tekshiring.\n\n✍️ Kichik mashq: Kecha bo‘lgan ishni bir gapda, shu paytgacha bo‘lgan tajribani boshqa gapda ayting. Nega ikki xil zamon ishlatdingiz?20:21"
+  ],
+  "samples": [
+    {
+      "width": 390,
+      "height": 900,
+      "theme": "day",
+      "overflow": false,
+      "noticeOutsideScroller": true,
+      "noticeAtConversationEnd": true,
+      "noticeVisible": true,
+      "noticeAboveComposer": true,
+      "inputVisible": true,
+      "noticeY": 734.875,
+      "noticeBottom": 766.84375,
+      "transcriptBottom": 734.875,
+      "chatBackground": "rgb(255, 255, 255)",
+      "chatColor": "rgb(16, 39, 64)",
+      "chatBorder": "0px",
+      "inputBorder": "0px"
+    },
+    {
+      "width": 389,
+      "height": 843,
+      "theme": "day",
+      "overflow": false,
+      "noticeOutsideScroller": true,
+      "noticeAtConversationEnd": true,
+      "noticeVisible": true,
+      "noticeAboveComposer": true,
+      "inputVisible": true,
+      "noticeY": 661.09375,
+      "noticeBottom": 709.84375,
+      "transcriptBottom": 661.09375,
+      "chatBackground": "rgb(255, 255, 255)",
+      "chatColor": "rgb(16, 39, 64)",
+      "chatBorder": "0px",
+      "inputBorder": "0px"
+    },
+    {
+      "width": 389,
+      "height": 843,
+      "theme": "night",
+      "overflow": false,
+      "noticeOutsideScroller": true,
+      "noticeAtConversationEnd": true,
+      "noticeVisible": true,
+      "noticeAboveComposer": true,
+      "inputVisible": true,
+      "noticeY": 661.09375,
+      "noticeBottom": 709.84375,
+      "transcriptBottom": 661.09375,
+      "chatBackground": "rgb(26, 22, 37)",
+      "chatColor": "rgb(243, 238, 245)",
+      "chatBorder": "0px",
+      "inputBorder": "0px"
+    },
+    {
+      "width": 1440,
+      "height": 844,
+      "theme": "night",
+      "overflow": false,
+      "noticeOutsideScroller": true,
+      "noticeAtConversationEnd": true,
+      "noticeVisible": true,
+      "noticeAboveComposer": true,
+      "inputVisible": true,
+      "noticeY": 659.265625,
+      "noticeBottom": 691.234375,
+      "transcriptBottom": 659.265625,
+      "chatBackground": "rgb(26, 22, 37)",
+      "chatColor": "rgb(243, 238, 245)",
+      "chatBorder": "0px",
+      "inputBorder": "0px"
+    },
+    {
+      "width": 1439,
+      "height": 900,
+      "theme": "night",
+      "overflow": false,
+      "noticeOutsideScroller": true,
+      "noticeAtConversationEnd": true,
+      "noticeVisible": true,
+      "noticeAboveComposer": true,
+      "inputVisible": true,
+      "noticeY": 715.28125,
+      "noticeBottom": 747.25,
+      "transcriptBottom": 715.28125,
+      "chatBackground": "rgb(26, 22, 37)",
+      "chatColor": "rgb(243, 238, 245)",
+      "chatBorder": "0px",
+      "inputBorder": "0px"
+    },
+    {
+      "width": 1439,
+      "height": 900,
+      "theme": "night",
+      "overflow": false,
+      "noticeOutsideScroller": true,
+      "noticeAtConversationEnd": true,
+      "noticeVisible": true,
+      "noticeAboveComposer": true,
+      "inputVisible": true,
+      "noticeY": 715.28125,
+      "noticeBottom": 747.25,
+      "transcriptBottom": 715.28125,
+      "chatBackground": "rgb(26, 22, 37)",
+      "chatColor": "rgb(243, 238, 245)",
+      "chatBorder": "0px",
+      "inputBorder": "0px"
+    }
+  ],
+  "calls": [
+    {
+      "question": "How does the reply language button work?",
+      "answer": "Reply language below the composer opens upward. UZ/EN sends no chat message and does not retranslate history; it selects the language for future replies.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-site-guide-v1"
+      }
+    }
+  ],
+  "scrollFixture": "scrollTop=0 after long reply; persistent footer is outside scroller",
+  "configuredViewports": [
+    [
+      390,
+      844
+    ],
+    [
+      1440,
+      900
+    ]
+  ],
+  "viewportNote": "Safari scaled emulation reports one-pixel rounding; configured and measured sizes retained separately."
+}

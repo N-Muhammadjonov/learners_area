@@ -1,0 +1,127 @@
+{
+  "version": {
+    "commit": "0ca628b6c97cef8b90a223c531c068ab0cac73a8",
+    "shortCommit": "0ca628b",
+    "region": "sin1",
+    "environment": "preview"
+  },
+  "role": "owner",
+  "externalAi": false,
+  "calls": [
+    {
+      "path": "/api/riwi/chat",
+      "question": "Rasmdagi matnni o‘qib mazmunini ko‘rsat.",
+      "attachments": [
+        {
+          "name": "ocr-lesson.png",
+          "kind": "image",
+          "text": "Present perfect\n| have finished my homework.\nMen uy vazifamni tugatdim."
+        }
+      ],
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 1
+      },
+      "answer": "Fayldagi matndan ajratilgan mazmun 🙂\n\nPresent perfect\n\n| have finished my homework.\n\nMen uy vazifamni tugatdim.\n\nBu fayldan olingan matn; uning da’volarini mustaqil tekshirilgan fakt deb olmayman.",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/chat",
+      "question": "layout-source.docx faylida “I am agree.” ni “I agree.” ga almashtir.",
+      "attachments": [
+        {
+          "name": "ocr-lesson.png",
+          "kind": "image",
+          "text": "Present perfect\n| have finished my homework.\nMen uy vazifamni tugatdim."
+        },
+        {
+          "name": "layout-source.docx",
+          "kind": "docx",
+          "text": "English and Uzbek lesson\nI am agree.\nO‘zbekcha: Men bu fikrga qo‘shilaman.\nEnglish\nO‘zbekcha\nA useful lesson\nFoydali dars"
+        }
+      ],
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 2
+      },
+      "answer": "1 ta almashtirish tayyorlandi. Tahrirlangan nusxa alohida fayl bo‘ladi.",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/documents/export",
+      "format": "docx",
+      "mode": "replace",
+      "document": {
+        "name": "RIWI-document.docx",
+        "replacementCount": 1,
+        "layoutPreserved": true
+      }
+    },
+    {
+      "path": "/api/riwi/chat",
+      "question": "source.pdf faylida “I am agree.” ni “I agree.” ga almashtir.",
+      "attachments": [
+        {
+          "name": "ocr-lesson.png",
+          "kind": "image",
+          "text": "Present perfect\n| have finished my homework.\nMen uy vazifamni tugatdim."
+        },
+        {
+          "name": "layout-source.docx",
+          "kind": "docx",
+          "text": "English and Uzbek lesson\nI am agree.\nO‘zbekcha: Men bu fikrga qo‘shilaman.\nEnglish\nO‘zbekcha\nA useful lesson\nFoydali dars"
+        },
+        {
+          "name": "source.pdf",
+          "kind": "pdf",
+          "text": "I am agree."
+        }
+      ],
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 3
+      },
+      "answer": "1 ta almashtirish tayyorlandi. Tahrirlangan nusxa alohida fayl bo‘ladi.",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/chat",
+      "question": "lesson.html faylida deadline qaysi kuni?",
+      "attachments": [
+        {
+          "name": "ocr-lesson.png",
+          "kind": "image",
+          "text": "Present perfect\n| have finished my homework.\nMen uy vazifamni tugatdim."
+        },
+        {
+          "name": "layout-source.docx",
+          "kind": "docx",
+          "text": "English and Uzbek lesson\nI am agree.\nO‘zbekcha: Men bu fikrga qo‘shilaman.\nEnglish\nO‘zbekcha\nA useful lesson\nFoydali dars"
+        },
+        {
+          "name": "source.pdf",
+          "kind": "pdf",
+          "text": "I am agree."
+        },
+        {
+          "name": "lesson.html",
+          "kind": "html",
+          "text": "Lesson plan\nDeadline: Friday.\nI have finished my homework."
+        }
+      ],
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 4
+      },
+      "answer": "Savolingizga yaqin matn bo‘laklari 🙂\n\nLesson plan\n\nDeadline: Friday.\n\nBu fayldan olingan matn; uning da’volarini mustaqil tekshirilgan fakt deb olmayman.",
+      "document": null
+    }
+  ],
+  "htmlScriptExecuted": false,
+  "htmlExternalResource": false,
+  "pdfExportFailure": "0ca628b6 HTTP 500, root pypdfium2 dependency absent; fixed in 984463e9"
+}
