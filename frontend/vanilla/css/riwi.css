@@ -75,3 +75,9 @@
 .riwi-material-fields button { font: inherit; padding: .45rem .7rem; }
 .riwi-material-status { margin: .3rem 0; }
 .riwi-material-selected { margin: 0 1rem .5rem; font-size: .85rem; overflow-wrap: anywhere; }
+/* Keep composer settings and the accuracy notice visible while only messages scroll. */
+[data-shell-main]:has(.riwi-workspace)>div{height:100%;min-height:0}
+[data-shell-main]:has(.riwi-workspace) :is([data-workspace-transition],[data-outgoing-workspace],[data-workspace-content]){height:100%;min-height:0}
+[data-shell-main] .riwi-workspace{height:100%;min-height:0;margin-bottom:0}
+[data-shell-main] .riwi-transcript{flex:1;min-height:0;height:auto}
+.riwi-chat-header,.riwi-composer,.riwi-status{flex-shrink:0}
