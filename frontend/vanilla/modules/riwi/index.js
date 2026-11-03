@@ -1,7 +1,7 @@
 import {h} from '../../js/native.js';
 import {RiwiClientAdapter} from '../../js/adapters/riwi.js';
 import {tRiwi} from '../../js/i18n/riwi_i18n.js';
-import {FILE_ACCEPT,readFile,exportPayload,fileError} from '../../js/riwi-files.js';
+import {FILE_ACCEPT,stageFile,readFile,exportPayload,fileError} from '../../js/riwi-files.js';
 import {anySignal} from '../../js/signals.js';
 import {siteQuestion,siteContext} from '../../js/riwi-site-context.js';
 
@@ -146,7 +146,7 @@ export function createRiwiWorkspaceController({
       }
       state.conversationId = res.conversationId;
       state.messages.push(
-        { role: "user", content: trimmed, files:state.attachments.map(f=>f.name), createdAt: new Date().toISOString() },
+        { role: "user", content: trimmed, files:state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})), createdAt: new Date().toISOString() },
         {
           role: "assistant",
           content: res.answer,
@@ -157,6 +157,7 @@ export function createRiwiWorkspaceController({
           reportSnapshot: res.reportSnapshot || null
         }
       );
+      state.attachments.forEach(item=>{item.sent=true;});
       if (res.roleSurface && Array.isArray(res.roleSurface.targetOptions)) {
         state.targetOptions = res.roleSurface.targetOptions;
         state.nextTargetCursor = res.roleSurface.nextCursor || null;
@@ -219,14 +220,14 @@ export function createRiwiWorkspaceController({
   };
 }
 
-export function mount(ctx) {
+export function mount(ctx,{readAttachment=readFile}={}) {
   const {root, locale = 'uz', session, signal} = ctx;
   const role = session?.user?.role || 'student';
   const ctrl = createRiwiWorkspaceController({role, locale,readSiteContext:()=>siteContext(root.ownerDocument,window,role==='owner')});
   const text = key => tRiwi(`riwi.chat.${key}`, locale);
   const uz=locale==='uz';
   let filesReading=false,readAbort,lastFileCount=0;
-  const downloadURLs=new Map();
+  const downloadURLs=new Map(),attachmentURLs=new Set();
   const transcript = h('div', {class: 'riwi-transcript', role: 'log', 'aria-live': 'polite', 'aria-label': text('conversation')});
   const conversation = h('div',{class:'riwi-conversation'},transcript,
     h('p',{class:'riwi-transcript__notice','aria-live':'off'},'RIWI is AI and can make mistakes, please check important info!'));
@@ -245,7 +246,7 @@ export function mount(ctx) {
     if(ctrl.state.loading||filesReading)return;
     ctrl.newConversation();renderMessages();status.hidden=true;input.focus();
   }}, tRiwi('riwi.command.newChatButton',locale));
-  let pending='';
+  let pending=null,readProgress='';
   const runCommand = command => {
     if(ctrl.state.loading)return;
     input.value=command;commandMenu.open=false;form.requestSubmit();input.focus();
@@ -287,7 +288,11 @@ export function mount(ctx) {
     const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
     return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
       h('div',{class:'riwi-msg__body'},m.content),
-      m.files?.length?h('div',{class:'riwi-message-files'},m.files.join(' · ')):null,
+      m.files?.length?h('div',{class:'riwi-message-files'},...m.files.map(item=>{
+        const f=typeof item==='string'?{name:item}:item;
+        return f.previewUrl?h('figure',{class:'riwi-message-image'},h('img',{src:f.previewUrl,alt:f.name}),h('figcaption',{},f.name)):
+          h('span',{class:'riwi-message-file'},f.name);
+      })):null,
       downloadLink(m),
       m.documentError?h('div',{class:'riwi-document-error'},
         h('p',{},fileError(m.documentError,locale)),
@@ -324,32 +329,44 @@ export function mount(ctx) {
   function renderFiles(){
     if(lastFileCount>0&&!ctrl.state.attachments.length&&!filesReading){fileStatus.hidden=true;editor.open=false;}
     lastFileCount=ctrl.state.attachments.length;
-    filesList.replaceChildren(...ctrl.state.attachments.map((item,index)=>h('div',{class:'riwi-file-chip'},
+    filesList.replaceChildren(...ctrl.state.attachments.flatMap((item,index)=>item.sent?[]:[h('div',{class:'riwi-file-chip'},
+      item.previewUrl?h('img',{class:'riwi-file-preview',src:item.previewUrl,alt:item.name}):null,
       h('span',{},item.name),h('button',{type:'button',disabled:ctrl.state.loading||filesReading,'aria-label':(uz?'Olib tashlash: ':'Remove: ')+item.name,
-        onClick:()=>{ctrl.state.attachments.splice(index,1);renderMessages();}},'×'))));
-    editor.hidden=!ctrl.state.attachments.length;
+        onClick:()=>{ctrl.state.attachments.splice(index,1);renderMessages();}},'×'))]));
+    editor.hidden=!ctrl.state.attachments.some(item=>typeof item.text==='string'&&item.text.length);
     const selected=Math.min(Number(editorSelect.value)||0,Math.max(0,ctrl.state.attachments.length-1));
     editorSelect.replaceChildren(...ctrl.state.attachments.map((item,index)=>h('option',{value:String(index),selected:index===selected},item.name)));
     if(document.activeElement!==editorInput)editorInput.value=ctrl.state.attachments[selected]?.text??'';
     attachButton.disabled=ctrl.state.loading||filesReading;cancelRead.hidden=!filesReading;
     editor.querySelectorAll('button,select,textarea').forEach(n=>{n.disabled=ctrl.state.loading||filesReading;});
   }
-  async function addFiles(files){
+  function addFiles(files){
     if(ctrl.state.loading||filesReading||!files.length)return;
     if(ctrl.state.attachments.length+files.length>4){fileStatus.hidden=false;fileStatus.textContent=uz?'Bir vaqtda 4 tagacha fayl yuboring.':'Attach up to 4 files at a time.';return;}
-    readAbort=new AbortController();const lifetime=signal?anySignal([signal,readAbort.signal]):readAbort.signal;
-    const timer=setTimeout(()=>readAbort.abort(),180000);filesReading=true;fileStatus.hidden=false;renderMessages();
     try{
-      for(const file of files){
-        const item=await readFile(file,{signal:lifetime,onProgress:progress=>{
-          if(!lifetime.aborted)fileStatus.textContent=(uz?'O‘qilyapti: ':'Reading: ')+file.name+(progress.page?` · ${progress.page}/${progress.pages}`:` · ${Math.round((progress.progress??0)*100)}%`);
-        }});
-        if(ctrl.state.attachments.reduce((n,f)=>n+f.text.length,0)+item.text.length>120000)throw Error('file_text_limit');
-        ctrl.state.attachments.push(item);
+      const staged=files.map(stageFile);
+      for(const item of staged)if(item.kind==='image'){
+        try{item.previewUrl=URL.createObjectURL(item.file);attachmentURLs.add(item.previewUrl);}catch{}
       }
-      fileStatus.textContent=uz?'Fayl matni o‘qildi. Savolingizni yozing yoki matnni tekshirib tahrirlang.':'File text read. Ask your question or review and edit the text.';
-    }catch(error){if(!signal?.aborted)fileStatus.textContent=error?.name==='AbortError'?(uz?'O‘qish to‘xtatildi.':'Reading cancelled.'):fileError(error?.message,locale);}
-    finally{clearTimeout(timer);filesReading=false;renderMessages();}
+      ctrl.state.attachments.push(...staged);
+      fileStatus.hidden=true;renderMessages();
+    }catch(error){fileStatus.hidden=false;fileStatus.textContent=fileError(error.message,locale);}
+  }
+  async function prepareFiles(){
+    if(!ctrl.state.attachments.some(item=>item.text===null))return;
+    readAbort=new AbortController();const lifetime=signal?anySignal([signal,readAbort.signal]):readAbort.signal;
+    const timer=setTimeout(()=>readAbort.abort(),180000);filesReading=true;fileStatus.hidden=true;renderMessages();
+    try{
+      for(const item of ctrl.state.attachments){
+        if(item.text!==null)continue;
+        readProgress=item.name;renderMessages();
+        try{Object.assign(item,await readAttachment(item.file,{signal:lifetime,onProgress:progress=>{
+          if(!lifetime.aborted){readProgress=item.name+(progress.page?` · ${progress.page}/${progress.pages}`:` · ${Math.round((progress.progress??0)*100)}%`);renderMessages();}
+        }}));}
+        catch(error){if(item.kind==='image'&&['file_no_text','invalid_image'].includes(error.message)){item.text='';}else throw error;}
+        if(ctrl.state.attachments.reduce((n,f)=>n+(f.text?.length??0),0)>120000)throw Error('file_text_limit');
+      }
+    }finally{clearTimeout(timer);filesReading=false;readProgress='';}
   }
   function renderMessages(){
     if(signal?.aborted)return;
@@ -358,10 +375,10 @@ export function mount(ctx) {
       ? [h('div',{class:'riwi-date'},text('today')),...messages.map(bubble)]
       : [greeting()]));
     if(pending){
-      transcript.append(bubble({role:'user',content:pending,createdAt:new Date().toISOString()}),
+      transcript.append(bubble(pending),
         h('div',{class:'riwi-typing',role:'status'},
-          h('span',{class:'riwi-thinking-label'},text('thinking')),
-          h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'})));
+          h('span',{class:'riwi-thinking-label'},text('thinking')+(filesReading&&readProgress?' '+readProgress:'')),
+          h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),cancelRead));
     }
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     const busy=ctrl.state.loading||filesReading;
@@ -375,18 +392,27 @@ export function mount(ctx) {
     commandMenu.querySelectorAll('button').forEach(button=>{button.disabled=busy;});
     transcript.scrollTop=messages.length||pending?transcript.scrollHeight:0;
     for(const [message,url]of downloadURLs)if(!messages.includes(message)){URL.revokeObjectURL(url);downloadURLs.delete(message);}
+    const used=new Set([...ctrl.state.attachments,...messages.flatMap(m=>m.files??[]),...(pending?.files??[])].map(f=>f?.previewUrl).filter(Boolean));
+    for(const url of attachmentURLs)if(!used.has(url)){URL.revokeObjectURL(url);attachmentURLs.delete(url);}
     renderFiles();
   }
   const form=h('form',{class:'riwi-composer',onSubmit:async e=>{
     e.preventDefault();
-    if(ctrl.state.loading||filesReading)return;
-    const msg=input.value.trim()||(ctrl.state.attachments.length?(uz?'Faylni o‘qib, asosiy mazmunini ko‘rsat.':'Read the file and show its main content.'):'');if(!msg)return;
-    input.value='';input.style.height='auto';pending=msg.startsWith('/')?'':msg;status.hidden=true;
-    const work=ctrl.sendMessage(msg);renderMessages();
-    try{await work;}
-    catch{input.value=msg;status.textContent=text('sendError');status.hidden=false;}
-    finally{pending='';renderMessages();}
-  }},filesList,fileStatus,cancelRead,h('div',{class:'riwi-composer__field'},attachButton,input,sendBtn),fileInput,editor,
+    if(ctrl.state.loading||filesReading||pending)return;
+    const msg=input.value.trim()||(ctrl.state.attachments.some(f=>!f.sent)?(uz?'Faylni o‘qib, asosiy mazmunini ko‘rsat.':'Read the file and show its main content.'):'');if(!msg)return;
+    input.value='';input.style.height='auto';pending=msg.startsWith('/')?null:{role:'user',content:msg,files:ctrl.state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})),createdAt:new Date().toISOString()};status.hidden=true;
+    // Publish the user's bubble and Thinking before loading parsers/OCR.
+    filesReading=!!pending&&ctrl.state.attachments.some(item=>item.text===null);renderMessages();
+    try{if(pending&&ctrl.state.attachments.some(item=>item.text===null))await prepareFiles();const work=ctrl.sendMessage(msg);renderMessages();await work;}
+    catch(error){
+      if(signal?.aborted)return;
+      input.value=msg;
+      if(pending&&!ctrl.state.loading&&ctrl.state.attachments.some(item=>item.text===null)){
+        ctrl.state.messages.push(pending,{role:'assistant',content:error?.name==='AbortError'?(uz?'Faylni o‘qish to‘xtatildi.':'File reading was cancelled.'):fileError(error?.message,locale),createdAt:new Date().toISOString()});
+      }else{status.textContent=text('sendError');status.hidden=false;}
+    }
+    finally{pending=null;filesReading=false;renderMessages();}
+  }},filesList,fileStatus,h('div',{class:'riwi-composer__field'},attachButton,input,sendBtn),fileInput,editor,
     h('div',{class:'riwi-composer__toolbar'},commandMenu,languageMenu));
   root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
     h('header',{class:'riwi-chat-header'},
@@ -398,6 +424,6 @@ export function mount(ctx) {
   dropHost.addEventListener('dragleave',event=>{if(!dropHost.contains(event.relatedTarget))dropHost.classList.remove('riwi-drop-active');},{signal});
   dropHost.addEventListener('drop',event=>{if(event.dataTransfer?.files?.length){event.preventDefault();dropHost.classList.remove('riwi-drop-active');void addFiles([...event.dataTransfer.files]);}},{signal});
   input.addEventListener('paste',event=>{if(event.clipboardData?.files?.length){event.preventDefault();void addFiles([...event.clipboardData.files]);}},{signal});
-  signal?.addEventListener('abort',()=>{readAbort?.abort();for(const url of downloadURLs.values())URL.revokeObjectURL(url);downloadURLs.clear();},{once:true});
+  signal?.addEventListener('abort',()=>{readAbort?.abort();for(const url of [...downloadURLs.values(),...attachmentURLs])URL.revokeObjectURL(url);downloadURLs.clear();attachmentURLs.clear();},{once:true});
   renderMessages();
 }

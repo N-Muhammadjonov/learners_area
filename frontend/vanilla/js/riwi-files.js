@@ -6,6 +6,17 @@ export const MAX_SOURCE_BYTES=3000000;
 const extension=name=>String(name).split('.').at(-1).toLowerCase();
 const stopped=signal=>{if(signal?.aborted)throw new DOMException('Aborted','AbortError');};
 const fail=code=>{throw Error(code);};
+export function stageFile(file){
+ const ext=extension(file.name),kind=({png:'image',jpg:'image',jpeg:'image',webp:'image',htm:'html'})[ext]??ext;
+ if(!FILE_ACCEPT.split(',').includes('.'+ext))fail('unsupported_file');
+ if(!file.size||file.size>MAX_FILE_BYTES)fail('file_size_limit');
+ return {name:file.name,kind,file,text:null};
+}
+function ocrText(result){
+ if(typeof result==='string')return result;
+ if(!result||typeof result.text!=='string'||Number.isFinite(result.confidence)&&result.confidence<45)fail('file_no_text');
+ return result.text;
+}
 const decode=bytes=>{
  if(bytes[0]===255&&bytes[1]===254)return new TextDecoder('utf-16le',{fatal:true}).decode(bytes.subarray(2));
  if(bytes[0]===254&&bytes[1]===255)return new TextDecoder('utf-16be',{fatal:true}).decode(bytes.subarray(2));
@@ -79,14 +90,12 @@ async function makeOCR(onProgress,signal){
  creating.then(w=>{if(signal?.aborted)void w.terminate();},()=>{});
  let worker;try{worker=await Promise.race([creating,cancelled]);}finally{signal?.removeEventListener('abort',stopInit);}
  const abort=()=>{void worker.terminate();};signal?.addEventListener('abort',abort,{once:true});
- return {async read(image){stopped(signal);const result=await worker.recognize(image);stopped(signal);return result.data.text;},
+ return {async read(image){stopped(signal);const result=await worker.recognize(image);stopped(signal);return {text:result.data.text,confidence:result.data.confidence};},
   async close(){signal?.removeEventListener('abort',abort);await worker.terminate();}};
 }
 
 export async function readFile(file,{signal,onProgress,ocrFactory=makeOCR}={}){
- const ext=extension(file.name),kind=({png:'image',jpg:'image',jpeg:'image',webp:'image',htm:'html'})[ext]??ext;
- if(!FILE_ACCEPT.split(',').includes('.'+ext))fail('unsupported_file');
- if(!file.size||file.size>MAX_FILE_BYTES)fail('file_size_limit');
+ const {kind}=stageFile(file);
  stopped(signal);const bytes=new Uint8Array(await file.arrayBuffer());stopped(signal);let text='',ocr;
  const getOCR=async()=>ocr??=await ocrFactory(onProgress,signal);
  try{
@@ -95,7 +104,7 @@ export async function readFile(file,{signal,onProgress,ocrFactory=makeOCR}={}){
    const webp=String.fromCharCode(...bytes.subarray(0,4))==='RIFF'&&String.fromCharCode(...bytes.subarray(8,12))==='WEBP';
    if(!png&&!jpeg&&!webp)fail('invalid_image');
    if(png&&bytes.length>=24){const v=new DataView(bytes.buffer);if(v.getUint32(16)*v.getUint32(20)>32000000)fail('image_pixel_limit');}
-   const bitmap=await createImageBitmap(file);try{text=await(await getOCR()).read(bitmapCanvas(bitmap));}finally{bitmap.close();}
+   const bitmap=await createImageBitmap(file);try{text=ocrText(await(await getOCR()).read(bitmapCanvas(bitmap)));}finally{bitmap.close();}
   }else if(kind==='pdf'){
    if(decode(bytes.subarray(0,5))!=='%PDF-')fail('invalid_pdf');
    const root=new URL('./vendor/riwi-files/pdf/',import.meta.url),pdfjs=await import(new URL('pdf.min.mjs',root).href);
@@ -111,7 +120,7 @@ export async function readFile(file,{signal,onProgress,ocrFactory=makeOCR}={}){
      if(pageText.trim().length<8){
       const natural=page.getViewport({scale:1}),viewport=page.getViewport({scale:Math.min(2,2400/Math.max(natural.width,natural.height))});
       const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-      await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;pageText=await(await getOCR()).read(canvas);
+      await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;pageText=ocrText(await(await getOCR()).read(canvas));
      }
      pages.push(pageText);if(pages.join('\n\n').length>MAX_FILE_TEXT)fail('file_text_limit');page.cleanup();
     }

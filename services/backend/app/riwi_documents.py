@@ -25,7 +25,7 @@ def validate_attachments(value):
         if (not isinstance(name, str) or not 1 <= len(name) <= 160
                 or any(ord(c) < 32 for c in name) or '/' in name or '\\' in name
                 or kind not in KINDS or not isinstance(text, str)
-                or not text.strip() or len(text) > 60_000 or '\x00' in text):
+                or not text.strip() and kind != 'image' or len(text) > 60_000 or '\x00' in text):
             raise ValueError('invalid_attachments')
         result.append({'name': name, 'kind': kind, 'text': text})
     if sum(len(x['text']) for x in result) > MAX_TEXT:
@@ -73,12 +73,15 @@ def answer_request(message, attachments, locale):
                 return {'answer': 'Yangi hujjat matni tayyor 🙂' if uz else 'The new document text is ready 🙂',
                         'action': {'mode': 'create', 'format': fmt, 'text': text}}
         return None
-    selected = 0
+    selected = len(attachments)-1
     for i, item in enumerate(attachments):
         if item['name'].casefold() in message.casefold():
             selected = i
             break
     item = attachments[selected]
+    if item['kind']=='image' and not item['text'].strip():
+        return {'answer': ('Rasmni tushuna olmadim 🤔 Undan ishonchli matnni o‘qiy olmadim, rasm mazmunini erkin tahlil qilish uchun bilimim yetarli emas. Tiniqroq rasm yuboring yoki unda nima borligini va savolingizni matn bilan yozing.' if uz else
+                           'I could not understand this image 🤔 I could not read reliable text from it, and my knowledge is not sufficient for general image analysis. Send a clearer image or describe it and your question in text.')}
     # Explicit standalone sentences retain the canonical tutor, even with a file staged.
     file_reference = re.search(r'fayl|hujjat|rasm|matn|\bfile\b|document|image|pdf|docx',message,re.I) or any(x['name'].casefold() in message.casefold() for x in attachments)
     if not file_reference:
@@ -128,6 +131,11 @@ def answer_request(message, attachments, locale):
                           'Specify the sentence or issue you want to discuss.')}
     heading = ('Fayldagi matndan ajratilgan mazmun' if summary else 'Savolingizga yaqin matn bo‘laklari') if uz else (
         'Extracted file content' if summary else 'Passages related to your question')
+    if item['kind']=='image':
+        heading='Rasmdan o‘qilgan matn' if uz else 'Text read from the image'
+        note=('Rasmdagi matn bilan yordam bera olaman; rasmning barcha obyekt va holatlarini erkin tahlil qilish bilim doiramdan tashqarida.' if uz else
+              'I can help with the image’s text; freely analysing every object and scene is outside my knowledge.')
+        return {'answer':heading+' 🙂\n\n'+'\n\n'.join(x[:1000] for x in chosen)[:4800]+'\n\n'+note}
     note = ('Bu fayldan olingan matn; uning da’volarini mustaqil tekshirilgan fakt deb olmayman.' if uz else
             'These are excerpts from your file; its claims have not been independently verified.')
     return {'answer': heading + ' 🙂\n\n' + '\n\n'.join(x[:1000] for x in chosen)[:4800] + '\n\n' + note}

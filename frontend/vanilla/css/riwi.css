@@ -86,6 +86,13 @@
 .riwi-file-chip{display:flex;align-items:center;gap:.4rem;max-width:100%;padding:.3rem .55rem;background:var(--riwi-surface);border-radius:.65rem;font-size:.75rem}
 .riwi-file-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:16rem}
 .riwi-file-chip button{border:0;background:transparent;color:var(--riwi-muted);font-size:1rem}
+.riwi-file-preview{width:3.5rem;height:3.5rem;object-fit:cover;border-radius:.5rem}
+.riwi-message-files{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.45rem}
+.riwi-message-image{max-width:100%;margin:0}
+.riwi-message-image img{display:block;max-width:100%;max-height:20rem;object-fit:contain;border-radius:.8rem}
+.riwi-message-image figcaption,.riwi-message-file{font-size:.7rem;line-height:1.5;overflow-wrap:anywhere;opacity:.85}
+.riwi-typing{flex-wrap:wrap;max-width:100%}
+.riwi-typing button{font:inherit;border:0;border-radius:.6rem;background:var(--riwi-bg);color:var(--riwi-text);padding:.25rem .5rem}
 .riwi-file-status{font-size:.75rem;color:var(--riwi-muted);margin:.3rem 0;overflow-wrap:anywhere}
 .riwi-file-editor-panel{margin:.4rem 0;font-size:.75rem;color:var(--riwi-muted)}
 .riwi-file-editor-panel summary{cursor:pointer;padding:.3rem 0}

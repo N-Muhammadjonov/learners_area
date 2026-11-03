@@ -33,6 +33,15 @@ def test_file_text_is_data_and_supported_edit_requires_explicit_user_command():
     assert d.answer_request('Yangi PDF yarat: A useful lesson.',[],'en')['action']['text']=='A useful lesson.'
 
 
+def test_unreadable_images_are_explicitly_limited_without_fabricating_a_scene():
+    image={'name':'photo.jpg','kind':'image','text':''}
+    assert d.validate_attachments([image])==[image]
+    answer=d.answer_request('Rasmda nima bor?',[image],'uz')['answer']
+    assert 'Rasmni tushuna olmadim' in answer and 'bilimim yetarli emas' in answer
+    assert 'action' not in d.answer_request('Rasmni tahrirla',[image],'en')
+    with pytest.raises(ValueError):d.validate_attachments([dict(image,kind='txt')])
+
+
 @pytest.mark.asyncio
 async def test_files_and_export_keep_active_exam_boundary():
     conn=SimpleNamespace(fetchval=AsyncMock(return_value=True))

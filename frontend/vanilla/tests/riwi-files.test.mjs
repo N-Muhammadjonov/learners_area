@@ -74,6 +74,33 @@ test('drop accepts text into chat, preserves it on sending and clears it with ne
  }finally{h.dispose()}
 });
 
+test('image is staged without reading, appears in the sent bubble, then reads under Thinking',async()=>{
+ const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});let reads=0,release;
+ const image=new Blob([new Uint8Array([255,216,255,217])],{type:'image/jpeg'});Object.defineProperty(image,'name',{value:'question.jpg'});
+ try{
+  const reading=new Promise(resolve=>{release=resolve;});
+  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(4),answer:'Image text understood',citations:[]}});
+  await mount(h.ctx,{readAttachment:async f=>{reads++;await reading;return {name:f.name,kind:'image',text:'A useful lesson.',file:f};}});
+  const drop=new window.Event('drop',{bubbles:true,cancelable:true});Object.defineProperty(drop,'dataTransfer',{value:{files:[image],types:['Files']}});h.q('.riwi-workspace').dispatchEvent(drop);await tick(2);
+  assert.equal(reads,0);assert(h.q('.riwi-file-preview'));assert.equal(h.q('.riwi-typing'),null);
+  h.input(h.q('.riwi-chat-input'),'Rasmni o‘qib ber');h.submit(h.q('form'));h.submit(h.q('form'));
+  assert.equal(reads,1);assert(h.q('.riwi-msg--user img'));assert(h.q('.riwi-thinking-label').textContent.includes('O‘ylayapman'));assert.equal(h.calls.length,0);
+  release();await tick(7);assert.equal(h.calls.length,1);assert(h.q('.riwi-msg--user img'));assert.equal(h.q('.riwi-typing'),null);assert.equal(h.q('.riwi-file-preview'),null);
+  assert(!JSON.stringify(h.calls[0].body).includes('blob:'));
+ }finally{release?.();h.dispose()}
+});
+
+test('unreadable image reaches a guarded knowledge-gap answer instead of claiming scene understanding',async()=>{
+ const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
+ try{
+  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(5),answer:'Rasmni tushuna olmadim. Bilimim yetarli emas.',citations:[]}});
+  await mount(h.ctx,{readAttachment:async()=>{throw Error('file_no_text');}});
+  const drop=new window.Event('drop',{bubbles:true,cancelable:true});Object.defineProperty(drop,'dataTransfer',{value:{files:[file('photo.jpg',new Uint8Array([255,216]))],types:['Files']}});h.q('.riwi-workspace').dispatchEvent(drop);
+  h.submit(h.q('form'));await tick(7);
+  assert.equal(h.calls[0].body.attachments[0].text,'');assert(h.q('.riwi-msg--assistant').textContent.includes('Bilimim yetarli emas'));
+ }finally{h.dispose()}
+});
+
 test('ZIP drop reports an unsupported format without a chat request',async()=>{
  const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});try{
   await mount(h.ctx);const drop=new window.Event('drop',{bubbles:true,cancelable:true});Object.defineProperty(drop,'dataTransfer',{value:{files:[file('archive.zip',bytes('PK invalid'))],types:['Files']}});h.q('.riwi-workspace').dispatchEvent(drop);await tick(6);
