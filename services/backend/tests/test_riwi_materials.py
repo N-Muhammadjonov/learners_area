@@ -106,9 +106,9 @@ def test_source_excerpts_are_labelled_and_not_misrepresented_as_generated_answer
     item={'id':OTHER,'title':'A source','kind':'reading','text':'The study compared two groups. The second group practised every day. The report did not give their ages.','attribution':'Published centre material'}
     uz=m.teach_material(item,'group','uz')
     en=m.teach_material(item,'group','en')
-    assert 'xulosa yoki javob kaliti emas' in uz and 'not a summary or answer key' in en
+    assert 'Tahlil qilinadigan gaplar:' in uz and 'Sentences to study:' in en
     assert all(f'{i}) ' in uz for i in (1,2,3)) and uz.count('\n   — ')==3
-    assert 'Published centre material' in uz
+    assert 'Published centre material' not in uz and 'Manba:' not in uz and 'Source:' not in en
     assert m.plain('<p>Visible</p><script>private()</script><p>Next</p>').split()==['Visible','Next']
     assert m.transcript_text({'answerKey':'secret'})==''
     assert m.transcript_text([{'text':'Only source text','answer':'secret'}])=='Only source text'

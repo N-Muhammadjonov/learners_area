@@ -202,12 +202,12 @@ def teach_material(item, message, locale, *, supplement=None):
     uz = locale == 'uz'
     evidence = select_evidence(item['text'], message)
     lines = [('Keling, shu material bilan ishlaymiz 🙂' if uz else 'Let’s work with this material 🙂'),
-             '📘 '+str(item['title'])]
+             '📘 '+('Matn bilan mashq' if uz else 'Text practice')]
     if item['kind'] == 'speaking':
-        lines.append(('Bu — mashq savoli va mavjud bo‘lsa, markaz bergan namuna javob. Namunadagi hayotiy voqeani o‘zingizniki deb yodlamang: uning tuzilishidan foydalaning. Matndan talaffuz yoki band ballini aniqlab bo‘lmaydi.' if uz else
-                      'This is a practice prompt with the centre’s model answer when available. Learn from its structure and use your own experience. Text alone does not establish pronunciation or an IELTS band.'))
+        lines.append(('Bu — mashq savoli va mavjud bo‘lsa, namuna javob. Namunadagi hayotiy voqeani o‘zingizniki deb yodlamang: uning tuzilishidan foydalaning. Matndan talaffuz yoki band ballini aniqlab bo‘lmaydi.' if uz else
+                      'This is a practice prompt with a model answer when available. Learn from its structure and use your own experience. Text alone does not establish pronunciation or an IELTS band.'))
     if evidence:
-        lines.append(('🔎 Manbadan tanlangan parchalar (xulosa yoki javob kaliti emas):' if uz else '🔎 Selected source excerpts (not a summary or answer key):')+'\n'+
+        lines.append(('🔎 Tahlil qilinadigan gaplar:' if uz else '🔎 Sentences to study:')+'\n'+
                      '\n'.join(f'{i+1}) “{s}”' for i, s in enumerate(evidence)))
     from .riwi_uzbek import normalize_query
     query=' '+normalize_query(message)+' '
@@ -220,7 +220,6 @@ def teach_material(item, message, locale, *, supplement=None):
                          ('\n'+word['exampleSentence'] if word['exampleSentence'] else ''))
     if supplement:
         lines.append(supplement)
-        if item.get('attribution'):lines.append(('Manba: ' if uz else 'Source: ')+str(item['attribution'])[:400])
         return '\n\n'.join(lines)
     if item['kind'] in ('writing','language-stealing'):
         explanation = ('Avval gap qanday vazifa bajarayotganini belgilang: fikr bildirish, sabab, misol yoki qarama-qarshilik. So‘ng qolipdagi o‘zgaruvchan qismlarni almashtiring. Ma’nosini bilmay turib uzun iborani yodlamang; yangi gapingiz asl qolipning vazifasini saqlasin.' if uz else
@@ -240,9 +239,8 @@ def teach_material(item, message, locale, *, supplement=None):
         examples = [('The writer gives a reason for the change.','Muallif o‘zgarishning sababini keltiradi.'),
                     ('This example supports the main point.','Bu misol asosiy fikrni dalillaydi.'),
                     ('The passage does not state when it happened.','Matnda bu qachon sodir bo‘lgani aytilmagan.')]
-    lines.append(('🧩 3 ta yangi misol (manbadan ko‘chirilmagan):' if uz else '🧩 Three original example sentences:')+'\n'+
+    lines.append(('🧩 3 ta misol:' if uz else '🧩 Three example sentences:')+'\n'+
                  '\n'.join(f'{i+1}) {en}'+('\n   — '+tr if uz else '') for i,(en,tr) in enumerate(examples)))
     lines.append(('✍️ Mashq: tanlangan parchadan bitta fikrni o‘z so‘zingiz bilan ayting va uni qaysi jumla tasdiqlashini ko‘rsating.' if uz else
                   '✍️ Practice: restate one source point in your own words and identify the sentence that supports it.'))
-    if item.get('attribution'): lines.append(('Manba: ' if uz else 'Source: ')+str(item['attribution'])[:400])
     return '\n\n'.join(lines)

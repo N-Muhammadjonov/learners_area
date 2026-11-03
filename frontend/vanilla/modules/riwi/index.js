@@ -53,17 +53,8 @@ export function createRiwiWorkspaceController({
 
     const messagesHtml = state.messages
       .map((msg) => {
-        const provKey = msg.provenance ? `riwi.provenance.${msg.provenance}` : "riwi.provenance.unavailable";
-        const badge = msg.role === "assistant"
-          ? `<span class="riwi-provenance-badge">${escapeHtml(tRiwi(provKey, state.locale))}</span>`
-          : "";
-        const citationsHtml = msg.role === "assistant" && Array.isArray(msg.citations) && msg.citations.length
-          ? `<footer class="riwi-msg__citations">${msg.citations.map((c) => `<span class="riwi-citation-chip">[${escapeHtml(typeof c === "string" ? c : c.ref || c.title || "K")}]</span>`).join(" ")}</footer>`
-          : "";
         return `<article class="riwi-msg riwi-msg--${escapeHtml(msg.role)}">
-          <header class="riwi-msg__meta">${badge}</header>
           <div class="riwi-msg__body">${escapeHtml(msg.content)}</div>
-          ${citationsHtml}
         </article>`;
       })
       .join("");
@@ -287,14 +278,10 @@ export function mount(ctx) {
     h('div',{class:'riwi-suggestions'},...['suggestGrammar','suggestReading','suggestVocabulary'].map(key=>
       h('button',{type:'button',class:'riwi-suggestion',onClick:()=>{input.value=text(key);input.focus();}},text(key)))));
   const bubble = m => {
-    const isAssistant=m.role==='assistant';
     const time=new Date(m.createdAt);
     const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
-    const citations=isAssistant&&m.citations?.length ? h('details',{class:'riwi-sources'},
-      h('summary',{},text('sources')),
-      h('ul',{},...m.citations.map(c=>h('li',{},typeof c==='string'?c:`${c.ref||'K'} · ${c.title||text('source')}`)))) : null;
     return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
-      h('div',{class:'riwi-msg__body'},m.content),citations,
+      h('div',{class:'riwi-msg__body'},m.content),
       m.localActions?.length ? h('div',{class:'riwi-command-actions'},...m.localActions.map(command=>
         h('button',{type:'button',disabled:ctrl.state.loading,onClick:()=>runCommand(command)},
           command.endsWith(' uz')?'O‘zbekcha':'English'))) : null,

@@ -12,7 +12,7 @@ test('native page loads chat styles after the shared campus palette',()=>{
  assert(styles.indexOf('/css/riwi.css')>styles.indexOf('/css/campus.css'));
 });
 
-test('pending chat shows the user bubble, prevents duplicate sends, and renders safe multiline sources',async()=>{
+test('pending chat prevents duplicate sends and renders safe multiline replies without source branding',async()=>{
  const h=setup({path:'/app/riwi',role:'owner',locale:'uz',theme:'night'});
  let release;const response=new Promise(r=>{release=r});
  try{
@@ -27,7 +27,8 @@ test('pending chat shows the user bubble, prevents duplicate sends, and renders 
   assert(h.q('.riwi-msg__body').textContent.includes('Misollar ber'));
   assert(h.q('.riwi-msg--assistant .riwi-msg__body').textContent.includes('\n\n1)'));
   assert.equal(h.q('.riwi-msg img'),null);
-  assert(h.q('.riwi-sources').textContent.includes('K2 · Tasdiqlangan misollar'));
+  assert.equal(h.q('.riwi-sources'),null);
+  assert(!h.ctx.root.textContent.includes('Tasdiqlangan misollar'));
   assert(!h.ctx.root.textContent.includes('[object Object]'));
   assert.equal(h.q('[data-route-usable]').hasAttribute('data-theme'),false);
  }finally{h.dispose()}

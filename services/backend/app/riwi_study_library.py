@@ -186,10 +186,10 @@ def format_lesson(unit,message,locale):
     intros=('Keling, shu mavzuni birga ko‘rib chiqamiz 🙂','Endi boshqa misollar bilan mashq qilamiz 🙂','Yana bir qadam oldinga o‘tamiz 👇') if uz else (
             'Let’s study this topic together 🙂','Let’s practise with different examples 🙂','Let’s take the next step 👇')
     chosen=entry['examples'][3*(variant%2):3*(variant%2)+3]
-    pages=entry['source']['pages']
-    location=('PDF sahifalar: ' if uz else 'PDF pages: ')+', '.join(map(str,pages))
+    # Bibliographic identity stays in governed metadata, outside learner prose.
+    title=entry['title'].split(': ',1)[-1] if entry['id'].startswith('study.cambridge.') else entry['title']
     explanation=entry['explanationUz' if uz else 'explanationEn']
-    lines=[('Bitta qoidadan boshlab, qadam-baqadam ko‘ramiz 🙂' if uz else 'Let’s take one rule at a time 🙂') if simpler else intros[variant%3],'📘 '+entry['title']]
+    lines=[('Bitta qoidadan boshlab, qadam-baqadam ko‘ramiz 🙂' if uz else 'Let’s take one rule at a time 🙂') if simpler else intros[variant%3],'📘 '+title]
     if simpler:
         # Change the presentation without dropping qualifications or inventing
         # an unapproved paraphrase. Each step is an intact approved sentence.
@@ -199,8 +199,7 @@ def format_lesson(unit,message,locale):
         lines.append(explanation)
     lines.extend([('🧩 3 ta misol:' if uz else '🧩 Three examples:')+'\n'+
            '\n'.join(f'{i+1}) {x["en"]}'+('\n   — '+x['uz'] if uz else '') for i,x in enumerate(chosen)),
-           '💡 '+entry['tipUz' if uz else 'tipEn'],
-           '✍️ '+entry['practiceUz' if uz else 'practiceEn'],location])
+           '✍️ '+entry['practiceUz' if uz else 'practiceEn']])
     if entry['source'].get('historical'):
         lines.append('⏳ Bu tarixiy matn. Undagi raqam, mansabdor, qonun yoki tibbiy da’voni bugungi fakt deb olmang.' if uz else
                      '⏳ This is a historical text. Its figures, officeholders, laws and medical claims are not verified current facts.')

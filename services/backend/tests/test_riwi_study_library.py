@@ -35,6 +35,7 @@ def test_source_identity_levels_and_original_content_are_preserved():
             assert a!=b and all(f'{n}) ' in a for n in (1,2,3))
             assert (a.count('\n   — ')==3)==(locale=='uz')
             assert len(a)<5500
+            assert not any(label in a.lower() for label in ('cambridge','guardian','macmillan','pdf','study guide','manba:','source:'))
             if e in guardian:assert ('tarixiy' in a if locale=='uz' else 'historical' in a)
 
 

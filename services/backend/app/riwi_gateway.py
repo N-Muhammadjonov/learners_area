@@ -316,7 +316,7 @@ async def handle_riwi_chat(
                 if authored:
                     answer_text += "\n\n" + authored
             else:
-                answer_text = authored or f"[{top['ref']}] {top['title']}: {top['text']}"
+                answer_text = authored or str(top['text'])
             if authored:
                 provider_meta = {"id": "riwi", "model": MODEL_PREFIX + top["curriculumId"],
                                  'lessonVariant':top.get('lessonVariant',0),

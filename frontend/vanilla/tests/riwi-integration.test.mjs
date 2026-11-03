@@ -82,7 +82,8 @@ test('RIWI workspace and objective explanation widgets escape untrusted HTML and
   const html = ctrl.renderHtml();
   assert(html.includes('&lt;img src=x onerror=alert(1)&gt;'));
   assert(!html.includes('<img src=x'));
-  assert(html.includes('[K1]'));
+  assert(!html.includes('[K1]'));
+  assert.deepEqual(ctrl.state.messages.at(-1).citations,['K1']);
 
   const fb = await ctrl.submitFeedback({helpful: false, reason: 'Need more examples'});
   assert.equal(fb.ok, true);
