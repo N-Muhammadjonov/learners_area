@@ -1,0 +1,26 @@
+[
+  {
+    "file": "uz_uz.wav",
+    "language": "uz",
+    "expected": "bir kunda bor-yoʻgʻi oʻn sakkizta medal boʻlgani sababli bir qator mamlakatlar medal shohsupasiga koʻtarila olmadi",
+    "dataset": "google/fleurs",
+    "split": "validation",
+    "row": 0,
+    "id": 1658,
+    "source": "https://huggingface.co/datasets/google/fleurs/viewer/uz_uz/validation",
+    "license": "CC-BY-4.0",
+    "sha256": "6768d8daf91e204d9760c603ade6b4f9ea9000ff31fc5eda860059bef6021814"
+  },
+  {
+    "file": "en_us.wav",
+    "language": "en",
+    "expected": "when you call someone who is thousands of miles away you are using a satellite",
+    "dataset": "google/fleurs",
+    "split": "validation",
+    "row": 0,
+    "id": 1548,
+    "source": "https://huggingface.co/datasets/google/fleurs/viewer/en_us/validation",
+    "license": "CC-BY-4.0",
+    "sha256": "048169439c0328b758349af74aeb54a82a7a476e309709eb791dced06db25d48"
+  }
+]

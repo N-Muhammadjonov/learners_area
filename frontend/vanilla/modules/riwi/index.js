@@ -4,6 +4,7 @@ import {tRiwi} from '../../js/i18n/riwi_i18n.js';
 import {FILE_ACCEPT,stageFile,readFile,exportPayload,fileError} from '../../js/riwi-files.js';
 import {anySignal} from '../../js/signals.js';
 import {siteQuestion,siteContext} from '../../js/riwi-site-context.js';
+import {createLocalDictation,dictationError} from '../../js/riwi-dictation.js';
 
 export const RIWI_WORKSPACE_ROUTE = "/app/riwi";
 
@@ -220,13 +221,13 @@ export function createRiwiWorkspaceController({
   };
 }
 
-export function mount(ctx,{readAttachment=readFile}={}) {
+export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalDictation}={}) {
   const {root, locale = 'uz', session, signal} = ctx;
   const role = session?.user?.role || 'student';
   const ctrl = createRiwiWorkspaceController({role, locale,readSiteContext:()=>siteContext(root.ownerDocument,window,role==='owner')});
   const text = key => tRiwi(`riwi.chat.${key}`, locale);
   const uz=locale==='uz';
-  let filesReading=false,readAbort,lastFileCount=0;
+  let filesReading=false,readAbort,lastFileCount=0,voiceBusy=false,voicePhase='idle',voiceProgress=0;
   const downloadURLs=new Map(),attachmentURLs=new Set();
   const transcript = h('div', {class: 'riwi-transcript', role: 'log', 'aria-live': 'polite', 'aria-label': text('conversation')});
   const conversation = h('div',{class:'riwi-conversation'},transcript,
@@ -242,13 +243,49 @@ export function mount(ctx,{readAttachment=readFile}={}) {
     h('svg', {viewBox:'0 0 24 24',width:'22',height:'22','aria-hidden':'true',fill:'none',stroke:'currentColor','stroke-width':'2.5','stroke-linecap':'round','stroke-linejoin':'round'},
       h('path',{d:'M12 19V5m-6 6 6-6 6 6'})));
   const status = h('p', {class:'riwi-status',role:'alert',hidden:true});
-  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:()=>{
+  const voiceLabel=h('span'),voiceMeter=h('progress',{max:'1',value:'0','aria-label':uz?'Nutq modeli yuklanmoqda':'Loading local speech model'});
+  const voiceDraft=h('textarea',{class:'riwi-voice-draft',readonly:true,hidden:true,'aria-label':uz?'Ovozdan olingan uzun matn':'Long voice transcript'});
+  let dictation;
+  const voiceLanguage=h('select',{'aria-label':uz?'Ovoz tili':'Voice language',onChange:()=>dictation.setLanguage(voiceLanguage.value)},
+    ...[['auto',uz?'Til: avto':'Language: auto'],['uz',uz?'O‘zbekcha (sinov)':'Uzbek (experimental)'],['en','English']].map(([value,label])=>h('option',{value},label)));
+  const voicePanel=h('div',{class:'riwi-voice-panel',role:'status',hidden:true},voiceLabel,voiceLanguage,voiceMeter,voiceDraft);
+  const micButton=h('button',{type:'button',class:'riwi-microphone','aria-label':uz?'Ovoz bilan yozish':'Voice input',onClick:()=>{
     if(ctrl.state.loading||filesReading)return;
+    if(dictation.phase==='recording')void dictation.stop();else if(dictation.phase==='idle')void dictation.start();
+  }});
+  function drawMic(){
+    micButton.replaceChildren(h('svg',{viewBox:'0 0 24 24',width:'21',height:'21',fill:'none',stroke:'currentColor','stroke-width':'1.8','stroke-linecap':'round','aria-hidden':'true'},
+      ...(voicePhase==='recording'?[h('rect',{x:'6',y:'6',width:'12',height:'12',rx:'2',fill:'currentColor',stroke:'none'})]:
+        [h('rect',{x:'9',y:'2',width:'6',height:'12',rx:'3'}),h('path',{d:'M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-4 0h8'})])));
+    micButton.setAttribute('aria-label',voicePhase==='recording'?(uz?'Yozishni to‘xtatish':'Stop recording'):(uz?'Ovoz bilan yozish':'Voice input'));
+    micButton.setAttribute('aria-pressed',String(voicePhase==='recording'));micButton.classList.toggle('is-recording',voicePhase==='recording');
+    micButton.disabled=ctrl.state.loading||filesReading||['opening','transcribing'].includes(voicePhase);
+  }
+  dictation=dictationFactory({signal,onState:state=>{
+    const changed=voicePhase!==state.phase;voicePhase=state.phase;voiceBusy=voicePhase!=='idle';
+    if(Number.isFinite(state.progress))voiceProgress=state.progress;
+    voicePanel.hidden=!voiceBusy&&!state.error;voiceDraft.hidden=true;voiceLanguage.hidden=!voiceBusy;
+    voiceLanguage.disabled=voicePhase==='transcribing';voiceMeter.hidden=!voiceBusy||voiceProgress>=1;voiceMeter.value=voiceProgress;
+    const elapsed=Math.max(0,Math.floor((state.elapsedMs??0)/1000)),clock=`${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`;
+    voiceLabel.textContent=state.error?dictationError(state.error,locale):voicePhase==='opening'?(uz?'Mikrofon ochilmoqda…':'Opening microphone…'):
+      voicePhase==='recording'?(uz?`Yozilmoqda ${clock}`:`Recording ${clock}`):(uz?'Qurilmada matnga aylantiryapman…':'Transcribing on this device…');
+    if(voiceBusy&&voiceProgress<1)voiceLabel.textContent+=(uz?' · Nutq modeli ':' · Speech model ')+Math.round(voiceProgress*100)+'%';
+    drawMic();if(changed||state.error)renderMessages();
+  },onText:text=>{
+    const next=[input.value.trim(),text.trim()].filter(Boolean).join(' ');
+    if(next.length>4000){voicePanel.hidden=false;voiceLanguage.hidden=true;voiceMeter.hidden=true;voiceDraft.hidden=false;voiceDraft.value=text;voiceLabel.textContent=uz?'Matn yozish chegarasidan oshdi. Ovoz matnidan kerakli qismini ko‘chiring.':'The draft would exceed the limit. Copy the needed part of the voice transcript.';return;}
+    input.value=next;input.style.height='auto';input.style.height=Math.min(input.scrollHeight,144)+'px';input.focus();
+    voicePanel.hidden=false;voiceLanguage.hidden=true;voiceMeter.hidden=true;
+    voiceLabel.textContent=uz?'Matn qurilmada tayyorlandi. Yuborishdan oldin tekshiring; o‘zbekcha ovozda xatolar ko‘proq bo‘lishi mumkin.':'Transcribed on this device. Review before sending; Uzbek speech may contain more errors.';
+  }});
+  drawMic();
+  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:()=>{
+    if(ctrl.state.loading||filesReading||voiceBusy)return;
     ctrl.newConversation();renderMessages();status.hidden=true;input.focus();
   }}, tRiwi('riwi.command.newChatButton',locale));
   let pending=null,readProgress='';
   const runCommand = command => {
-    if(ctrl.state.loading)return;
+    if(ctrl.state.loading||voiceBusy)return;
     input.value=command;commandMenu.open=false;form.requestSubmit();input.focus();
   };
   const commandMenu=h('details',{class:'riwi-command-menu'},
@@ -277,7 +314,7 @@ export function mount(ctx,{readAttachment=readFile}={}) {
       (uz?'Yuklab olish: ':'Download: ')+value.name);
   }
   async function rebuildDocument(m){
-    if(ctrl.state.loading||filesReading)return;
+    if(ctrl.state.loading||filesReading||voiceBusy)return;
     ctrl.state.loading=true;renderMessages();
     try{m.document=(await RiwiClientAdapter.exportDocument({mode:'create',format:m.documentAction.format,text:m.documentAction.text})).document;m.documentError=null;}
     catch(error){m.documentError=error?.code||error?.message;}
@@ -308,7 +345,7 @@ export function mount(ctx,{readAttachment=readFile}={}) {
     editorInput.value=ctrl.state.attachments[Number(editorSelect.value)]?.text??'';
   }});
   async function exportEditor(format){
-    if(ctrl.state.loading||filesReading)return;
+    if(ctrl.state.loading||filesReading||voiceBusy)return;
     ctrl.state.loading=true;renderMessages();
     try{
       const result=await RiwiClientAdapter.exportDocument({mode:'create',format,text:editorInput.value});
@@ -337,11 +374,11 @@ export function mount(ctx,{readAttachment=readFile}={}) {
     const selected=Math.min(Number(editorSelect.value)||0,Math.max(0,ctrl.state.attachments.length-1));
     editorSelect.replaceChildren(...ctrl.state.attachments.map((item,index)=>h('option',{value:String(index),selected:index===selected},item.name)));
     if(document.activeElement!==editorInput)editorInput.value=ctrl.state.attachments[selected]?.text??'';
-    attachButton.disabled=ctrl.state.loading||filesReading;cancelRead.hidden=!filesReading;
-    editor.querySelectorAll('button,select,textarea').forEach(n=>{n.disabled=ctrl.state.loading||filesReading;});
+    attachButton.disabled=ctrl.state.loading||filesReading||voiceBusy;cancelRead.hidden=!filesReading;
+    editor.querySelectorAll('button,select,textarea').forEach(n=>{n.disabled=ctrl.state.loading||filesReading||voiceBusy;});
   }
   function addFiles(files){
-    if(ctrl.state.loading||filesReading||!files.length)return;
+    if(ctrl.state.loading||filesReading||voiceBusy||!files.length)return;
     if(ctrl.state.attachments.length+files.length>4){fileStatus.hidden=false;fileStatus.textContent=uz?'Bir vaqtda 4 tagacha fayl yuboring.':'Attach up to 4 files at a time.';return;}
     try{
       const staged=files.map(stageFile);
@@ -381,8 +418,8 @@ export function mount(ctx,{readAttachment=readFile}={}) {
           h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),cancelRead));
     }
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
-    const busy=ctrl.state.loading||filesReading;
-    sendBtn.disabled=busy;clearBtn.disabled=busy;input.readOnly=busy;
+    const busy=ctrl.state.loading||filesReading||voiceBusy;
+    sendBtn.disabled=busy;clearBtn.disabled=busy;input.readOnly=ctrl.state.loading||filesReading;drawMic();
     languageSummary.setAttribute('aria-disabled',String(busy));
     languageSummary.textContent=`${tRiwi('riwi.command.replyLanguage',locale)}: ${ctrl.state.replyLocale==='en'?'ENG':'UZ'}`;
     languageMenu.querySelectorAll('button').forEach(button=>{
@@ -398,7 +435,7 @@ export function mount(ctx,{readAttachment=readFile}={}) {
   }
   const form=h('form',{class:'riwi-composer',onSubmit:async e=>{
     e.preventDefault();
-    if(ctrl.state.loading||filesReading||pending)return;
+    if(ctrl.state.loading||filesReading||voiceBusy||pending)return;
     const msg=input.value.trim()||(ctrl.state.attachments.some(f=>!f.sent)?(uz?'Faylni o‘qib, asosiy mazmunini ko‘rsat.':'Read the file and show its main content.'):'');if(!msg)return;
     input.value='';input.style.height='auto';pending=msg.startsWith('/')?null:{role:'user',content:msg,files:ctrl.state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})),createdAt:new Date().toISOString()};status.hidden=true;
     // Publish the user's bubble and Thinking before loading parsers/OCR.
@@ -412,7 +449,7 @@ export function mount(ctx,{readAttachment=readFile}={}) {
       }else{status.textContent=text('sendError');status.hidden=false;}
     }
     finally{pending=null;filesReading=false;renderMessages();}
-  }},filesList,fileStatus,h('div',{class:'riwi-composer__field'},attachButton,input,sendBtn),fileInput,editor,
+  }},filesList,fileStatus,h('div',{class:'riwi-composer__field'},attachButton,input,micButton,sendBtn),voicePanel,fileInput,editor,
     h('div',{class:'riwi-composer__toolbar'},commandMenu,languageMenu));
   root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
     h('header',{class:'riwi-chat-header'},
@@ -424,6 +461,6 @@ export function mount(ctx,{readAttachment=readFile}={}) {
   dropHost.addEventListener('dragleave',event=>{if(!dropHost.contains(event.relatedTarget))dropHost.classList.remove('riwi-drop-active');},{signal});
   dropHost.addEventListener('drop',event=>{if(event.dataTransfer?.files?.length){event.preventDefault();dropHost.classList.remove('riwi-drop-active');void addFiles([...event.dataTransfer.files]);}},{signal});
   input.addEventListener('paste',event=>{if(event.clipboardData?.files?.length){event.preventDefault();void addFiles([...event.clipboardData.files]);}},{signal});
-  signal?.addEventListener('abort',()=>{readAbort?.abort();for(const url of [...downloadURLs.values(),...attachmentURLs])URL.revokeObjectURL(url);downloadURLs.clear();attachmentURLs.clear();},{once:true});
+  signal?.addEventListener('abort',()=>{dictation.cancel();readAbort?.abort();for(const url of [...downloadURLs.values(),...attachmentURLs])URL.revokeObjectURL(url);downloadURLs.clear();attachmentURLs.clear();},{once:true});
   renderMessages();
 }
