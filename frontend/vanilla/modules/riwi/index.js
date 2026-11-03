@@ -90,10 +90,16 @@ export function createRiwiWorkspaceController({
     state.error = null;
   }
 
-  function localReply(key, actions = []) {
+  function localReply(key) {
     state.messages.push({role: 'assistant', content: tRiwi(`riwi.command.${key}`, state.replyLocale),
-      createdAt: new Date().toISOString(), localActions: actions});
+      createdAt: new Date().toISOString()});
     return {ok: true, localCommand: true};
+  }
+
+  function setReplyLocale(value) {
+    if (state.loading || !['en','uz'].includes(value)) return false;
+    state.replyLocale=value;
+    return true;
   }
 
   async function sendMessage(text) {
@@ -106,14 +112,6 @@ export function createRiwiWorkspaceController({
       if (command === 'clear' || ['new', 'newchat', 'new chat'].includes(command)) {
         newConversation();
         return localReply(command === 'clear' ? 'cleared' : 'newChat');
-      }
-      if (command === 'language' || command.startsWith('language ')) {
-        const value = command.split(' ')[1];
-        if (['en', 'eng', 'english', 'uz', 'uzbek'].includes(value) && command.split(' ').length === 2) {
-          state.replyLocale = ['en', 'eng', 'english'].includes(value) ? 'en' : 'uz';
-          return localReply('languageChanged');
-        }
-        return localReply(value ? 'languageInvalid' : 'languagePrompt', ['/language uz', '/language eng']);
       }
       if (['help', 'commands', '?'].includes(command)) return localReply('help');
       if (['examples', 'simple'].includes(command)) {
@@ -199,6 +197,7 @@ export function createRiwiWorkspaceController({
     loadTargets,
     clearConversation,
     newConversation,
+    setReplyLocale,
     submitFeedback,
     touchPresence
   };
@@ -232,10 +231,17 @@ export function mount(ctx) {
   };
   const commandMenu=h('details',{class:'riwi-command-menu'},
     h('summary',{},tRiwi('riwi.command.menu',locale)),
-    h('div',{},...['/new chat','/clear','/language','/examples','/simple','/help'].map(command=>
+    h('div',{},...['/new chat','/clear','/examples','/simple','/help'].map(command=>
       h('button',{type:'button',onClick:()=>runCommand(command)},command))));
-  const languageBtn=h('button',{type:'button',class:'riwi-reply-language',
-    onClick:()=>runCommand('/language')});
+  const languageSummary=h('summary',{class:'riwi-reply-language',onClick:e=>{
+    if(ctrl.state.loading)e.preventDefault();
+  }});
+  const languageMenu=h('details',{class:'riwi-language-menu'},languageSummary,
+    h('div',{},...[['uz','O‘zbekcha'],['en','English']].map(([value,label])=>
+      h('button',{type:'button','data-riwi-locale':value,onClick:()=>{
+        if(!ctrl.setReplyLocale(value))return;
+        languageMenu.open=false;renderMessages();languageSummary.focus();
+      }},label))));
   const uz=locale!=='en';
   const sourceStatus=h('p',{class:'riwi-material-status',role:'status'});
   const sourceKind=h('select',{'aria-label':uz?'Material turi':'Material type'},
@@ -282,9 +288,6 @@ export function mount(ctx) {
     const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
     return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
       h('div',{class:'riwi-msg__body'},m.content),
-      m.localActions?.length ? h('div',{class:'riwi-command-actions'},...m.localActions.map(command=>
-        h('button',{type:'button',disabled:ctrl.state.loading,onClick:()=>runCommand(command)},
-          command.endsWith(' uz')?'O‘zbekcha':'English'))) : null,
       clock?h('time',{class:'riwi-msg__time',datetime:m.createdAt},clock):null);
   };
   function renderMessages(){
@@ -299,8 +302,12 @@ export function mount(ctx) {
     }
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     sendBtn.disabled=ctrl.state.loading;clearBtn.disabled=ctrl.state.loading;input.readOnly=ctrl.state.loading;
-    languageBtn.disabled=ctrl.state.loading;
-    languageBtn.textContent=`${tRiwi('riwi.command.replyLanguage',locale)}: ${ctrl.state.replyLocale.toUpperCase()}`;
+    languageSummary.setAttribute('aria-disabled',String(ctrl.state.loading));
+    languageSummary.textContent=`${tRiwi('riwi.command.replyLanguage',locale)}: ${ctrl.state.replyLocale==='en'?'ENG':'UZ'}`;
+    languageMenu.querySelectorAll('button').forEach(button=>{
+      button.disabled=ctrl.state.loading;
+      button.setAttribute('aria-pressed',String(button.dataset.riwiLocale===ctrl.state.replyLocale));
+    });
     sourceSelected.textContent=ctrl.state.material ? `${uz?'Material':'Material'}: ${ctrl.state.material.title}` : '';
     sourceSelected.hidden=!ctrl.state.material;
     sourcePanel.querySelectorAll('input,select,button').forEach(el=>{el.disabled=ctrl.state.loading;});
@@ -317,7 +324,7 @@ export function mount(ctx) {
     catch{input.value=msg;status.textContent=text('sendError');status.hidden=false;}
     finally{pending='';renderMessages();}
   }},h('div',{class:'riwi-composer__field'},input,sendBtn),
-    h('div',{class:'riwi-composer__toolbar'},commandMenu,languageBtn),
+    h('div',{class:'riwi-composer__toolbar'},commandMenu,languageMenu),
     h('p',{class:'riwi-composer__hint'},text('hint')));
   root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
     h('header',{class:'riwi-chat-header'},

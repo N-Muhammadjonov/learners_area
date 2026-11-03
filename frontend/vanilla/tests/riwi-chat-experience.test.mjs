@@ -68,31 +68,42 @@ test('slash commands reset context, preserve reply language and never delete or 
   deleteConversation:async()=>{throw Error('control commands must not delete records');}
  }});
  await c.sendMessage('Present perfect');const first=c.state.conversationId;
- await c.sendMessage('/ language eng');assert.equal(c.state.replyLocale,'en');assert.equal(c.state.locale,'uz');
+ const messages=c.state.messages.length;assert(c.setReplyLocale('en'));assert.equal(c.state.messages.length,messages);assert.equal(c.state.replyLocale,'en');assert.equal(c.state.locale,'uz');
  await c.sendMessage('/examples');assert.equal(calls[1].conversationId,first);assert.equal(calls[1].replyLocale,'en');assert(calls[1].message.includes('three more examples'));
  await c.sendMessage('/clear');assert.equal(c.state.conversationId,null);assert.equal(c.state.messages.length,1);assert(!c.state.messages[0].content.includes('Approved lesson'));
  await c.sendMessage('/examples');assert.equal(calls.length,2);assert(c.state.messages.at(-1).content.includes('first'));
  await c.sendMessage('Articles');assert.equal(calls[2].conversationId,undefined);assert.equal(calls[2].replyLocale,'en');
  await c.sendMessage('/new chat');assert.equal(c.state.conversationId,null);assert.equal(c.state.replyLocale,'en');
- await c.sendMessage('/ language uz');assert.equal(c.state.replyLocale,'uz');
- await c.sendMessage('/language ru');assert.equal(c.state.replyLocale,'uz');assert.equal(c.state.messages.at(-1).localActions.length,2);
+ assert(c.setReplyLocale('uz'));assert.equal(c.state.replyLocale,'uz');
+ assert.equal(c.setReplyLocale('ru'),false);assert.equal(c.state.replyLocale,'uz');
  await c.sendMessage('/clear extra');assert(c.state.messages.at(-1).content.includes('/help'));
  await c.sendMessage('/help');assert(c.state.messages.at(-1).content.includes('/new chat'));
  assert.equal(calls.length,3);
  assert.deepEqual(Object.keys(RIWI_I18N.en).sort(),Object.keys(RIWI_I18N.uz).sort());
 });
 
-test('language chooser and command menu work in the mounted chat while the site locale stays Uzbek',async()=>{
+test('reply language opens upward without a chat turn, translating history or losing a draft',async()=>{
  const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
  try{
-  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(9),answer:'English explanation',citations:[]}});
+  h.stub({'/api/riwi/chat':(_p,options)=>({ok:true,conversationId:ID(9),answer:options.body.replyLocale==='en'?'English explanation':'O‘zbekcha javob',citations:[]})});
   await mount(h.ctx);
-  h.click(h.q('.riwi-reply-language'));await tick(3);
-  h.click(h.qa('.riwi-command-actions button').find(x=>x.textContent==='English'));await tick(3);
-  assert(h.q('.riwi-reply-language').textContent.endsWith('EN'));
+  h.input(h.q('textarea'),'Articles');h.submit(h.q('form'));await tick(6);
+  const oldTranscript=h.q('.riwi-transcript').textContent;
+  h.input(h.q('textarea'),'My unfinished question');
+  h.click(h.q('.riwi-reply-language'));await tick(2);
+  h.click(h.q('.riwi-language-menu button[data-riwi-locale="en"]'));await tick(3);
+  assert.equal(h.q('.riwi-transcript').textContent,oldTranscript);
+  assert.equal(h.q('textarea').value,'My unfinished question');
+  assert.equal(h.calls.filter(x=>x.path==='/api/riwi/chat').length,1);
+  assert(h.q('.riwi-reply-language').textContent.endsWith('ENG'));
+  assert.equal(h.q('.riwi-language-menu').open,false);
+  assert(!h.qa('.riwi-command-menu button').some(b=>b.textContent==='/language'));
+  assert(!RIWI_I18N.uz['riwi.command.help'].includes('/language'));
   assert(h.q('h1').textContent==='RIWI');assert(h.q('textarea').getAttribute('placeholder').includes('yozing'));
-  h.input(h.q('textarea'),'Explain articles');h.submit(h.q('form'));await tick(5);
-  const call=h.calls.find(x=>x.path==='/api/riwi/chat');assert.equal(call.body.replyLocale,'en');
+  h.input(h.q('textarea'),'Explain articles');h.submit(h.q('form'));await tick(6);
+  const calls=h.calls.filter(x=>x.path==='/api/riwi/chat');assert.equal(calls[1].body.replyLocale,'en');assert.equal(calls[1].body.conversationId,ID(9));
+  assert(h.q('.riwi-transcript').textContent.includes('O‘zbekcha javob'));
+  assert(h.q('.riwi-transcript').textContent.includes('English explanation'));
   h.click(h.qa('.riwi-command-menu button').find(x=>x.textContent==='/clear'));await tick(3);
   assert(!h.ctx.root.textContent.includes('English explanation'));assert(h.ctx.root.textContent.includes('Chat cleared'));
   assert.equal(h.calls.filter(x=>x.method==='DELETE').length,0);
