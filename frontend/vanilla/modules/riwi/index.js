@@ -264,7 +264,6 @@ export function mount(ctx) {
         languageMenu.open=false;renderMessages();languageSummary.focus();
       }},label))));
   const greeting = () => h('div',{class:'riwi-welcome'},
-    h('span',{class:'riwi-welcome__mark','aria-hidden':'true'},'R'),
     h('h2',{},text('welcome')),
     h('p',{},text('welcomeBody')));
   function downloadLink(m){

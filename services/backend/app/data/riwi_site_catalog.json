@@ -1726,7 +1726,7 @@
     "frontend/vanilla/modules/reading/workspace.js": "df33c00a34ac5684d13862d806657e2a99464a7989a93f26720d5b40a61a8fd6",
     "frontend/vanilla/modules/recovery.js": "fb1139343691dbaac145c11297e95207959b3d32d4507ee59fdf43b5f5666d4c",
     "frontend/vanilla/modules/reports.js": "4dc6fb29b4c106fdbc4fa80f655d61574bad2f7342fbfcad1d3908af26049329",
-    "frontend/vanilla/modules/riwi/index.js": "ae13dfefd89b449b8aa3ff4cf57849146ea700f5fcbae8933358bcc51a26b048",
+    "frontend/vanilla/modules/riwi/index.js": "d07ba0eabf01343ccd75d73fc627ae9fe0d6d4ee2f5172834e20cf33f377d87e",
     "frontend/vanilla/modules/riwi/objective-explanation.js": "ffda8c524f1bf812ed9ec4335645bbb78a6fc3e08fabc76af53f7efaf72c4d25",
     "frontend/vanilla/modules/shared/async-action.js": "69c89ae62cddd403b3c05fa541c9652ef0a969450025298af6a92bb954d714b8",
     "frontend/vanilla/modules/shared/band-axis.js": "276e8e6620bd87a986c29858f76883487da3c5b86574ad66f715043102e45015",
