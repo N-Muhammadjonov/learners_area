@@ -120,7 +120,7 @@ export async function readFile(file,{signal,onProgress,ocrFactory=makeOCR}={}){
   }else if(kind==='docx')text=await docxText(bytes,signal);
   else{const source=decode(bytes);if(/\x00|[\x01-\x08\x0e-\x1f]/.test(source))fail('invalid_text_file');text=kind==='html'?htmlText(source):source;}
  }finally{if(ocr)await ocr.close();}
- stopped(signal);text=text.trim();if(!text)fail('file_no_text');if(text.length>MAX_FILE_TEXT)fail('file_text_limit');
+ stopped(signal);if(ocr)text=text.replace(/^\s*\|(?=\s+(?:am|have|had|was|will|would|can|could|do|did)\b)/gm,'I');text=text.trim();if(!text)fail('file_no_text');if(text.length>MAX_FILE_TEXT)fail('file_text_limit');
  return {name:file.name,kind,text,file,ocrUsed:Boolean(ocr)};
 }
 

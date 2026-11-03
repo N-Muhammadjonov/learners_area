@@ -46,8 +46,8 @@ test('image pipeline uses local OCR and closes its worker after reading',async()
  const get=h.dom.window.HTMLCanvasElement.prototype.getContext;h.dom.window.HTMLCanvasElement.prototype.getContext=()=>({fillRect(){},drawImage(){}});
  try{
   const jpeg=new Uint8Array([255,216,255,217]);
-  const result=await readFile(file('lesson.jpg',jpeg),{ocrFactory:async()=>({read:async()=>'O‘zbekcha matn',close:async()=>{closed++}})});
-  assert.equal(result.text,'O‘zbekcha matn');assert.equal(closed,1);assert.equal(bitmapClosed,1);
+  const result=await readFile(file('lesson.jpg',jpeg),{ocrFactory:async()=>({read:async()=>'| have finished.\nO‘zbekcha matn',close:async()=>{closed++}})});
+  assert.equal(result.text,'I have finished.\nO‘zbekcha matn');assert.equal(closed,1);assert.equal(bitmapClosed,1);
  }finally{globalThis.createImageBitmap=old;h.dom.window.HTMLCanvasElement.prototype.getContext=get;h.dispose()}
 });
 

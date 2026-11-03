@@ -181,7 +181,7 @@ const en = {
         back: "Back",
         search: "Search",
         searchPlaceholder: "Search Learners Area…",
-        searchHint: "Type to search, or press Ctrl+K",
+        searchHint: "Type to search",
         searching: "Searching…",
         noResults: "No results found",
         noResultsHint: "Try a different word, or clear the filters.",

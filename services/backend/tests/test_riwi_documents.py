@@ -115,3 +115,20 @@ async def test_attachment_gateway_does_not_call_external_provider_or_capture_sha
     {'mode':'create','format':'txt','text':'a','url':'http://localhost'}])
 def test_export_rejects_unsupported_formats_oversized_sources_and_url_fetching(payload):
     with pytest.raises(ValueError):d.export_document(payload)
+
+
+def test_staged_files_do_not_hijack_explicit_sentence_translation_and_output_format_is_last():
+    files=[{'name':'lesson.txt','kind':'txt','text':'I wrote a letter yesterday.'}]
+    assert d.answer_request('Tarjima qil: I wrote a letter yesterday.',files,'uz') is None
+    assert d.requested_format('source.pdf ni DOCX qilib ber')=='docx'
+    assert d.requested_format('Word fayl yarat: My lesson')=='docx'
+    assert d.requested_format('PDFni yarat: My lesson')=='pdf'
+    assert 'Qaysi jumlani' in d.answer_request('Faylni tarjima qil',files,'uz')['answer']
+
+
+def test_deployment_and_backend_dependency_pins_match():
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[3]
+    def pins(path):return {line.strip() for line in path.read_text().splitlines() if line.strip() and not line.startswith('#')}
+    assert pins(root/'requirements.txt')==pins(root/'services/backend/requirements.txt')
+    assert 'pypdfium2==5.14.0' in pins(root/'requirements.txt')

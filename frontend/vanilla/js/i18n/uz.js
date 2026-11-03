@@ -181,7 +181,7 @@ export default {
         "back": "Orqaga",
         "search": "Qidirish",
         "searchPlaceholder": "Learners Area bo'ylab qidirish…",
-        "searchHint": "Qidirish uchun yozing yoki Ctrl+K bosing",
+        "searchHint": "Qidirish uchun yozing",
         "searching": "Qidiruv…",
         "noResults": "Hech narsa topilmadi",
         "noResultsHint": "Boshqa so'z bilan urinib ko'ring yoki filtrlarni tozalang.",

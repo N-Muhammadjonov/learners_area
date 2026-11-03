@@ -44,8 +44,10 @@ async def gate(conn, actor):
 
 
 def requested_format(message):
-    match = re.search(r'\b(pdf|docx|txt)\b', message, re.I)
+    matches = list(re.finditer(r'\b(pdf|docx|txt)(?:ni|ga|da|dan|lar(?:ni|ga|da)?)?\b', message, re.I))
+    match = matches[-1] if matches else None
     action = re.search(r'yarat|tayyorla|qilib\s*ber|chiqar|yukla|create|export|download|make|save|convert', message, re.I)
+    if action and re.search(r'\bword(?:ni|ga|da)?\b',message,re.I) and re.search(r'fayl|hujjat|file|document',message,re.I): return 'docx'
     return match.group(1).lower() if match and action else None
 
 
@@ -77,6 +79,15 @@ def answer_request(message, attachments, locale):
             selected = i
             break
     item = attachments[selected]
+    # Explicit standalone sentences retain the canonical tutor, even with a file staged.
+    file_reference = re.search(r'fayl|hujjat|rasm|matn|\bfile\b|document|image|pdf|docx',message,re.I) or any(x['name'].casefold() in message.casefold() for x in attachments)
+    if not file_reference:
+        from .riwi_understanding import text_request
+        from .riwi_internal_tutor import correction_request
+        if text_request(message) or correction_request(message): return None
+    if re.search(r'tarjima|translate',message,re.I) and not ':' in message:
+        return {'answer': ('Qaysi jumlani tarjima qilay? Fayldagi jumlani tanlab chatga yozing. Yangi uzun matnni erkin tarjima qilish bilim doiramdan tashqarida; bilgan tuzilma va lug‘at bilan yordam beraman.' if uz else
+                          'Which sentence should I translate? Copy it from the file into chat. Free translation of a new long document is outside my current rule library; I can help with supported structures and vocabulary.')}
     change = replacement_request(message)
     if change:
         old, new = change

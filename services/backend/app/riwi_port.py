@@ -396,6 +396,10 @@ async def _http_export_riwi_document(req: Request):
         return _core().j({'ok':True,'document':result},200,_core().PRIVATE)
     except (ValueError, PermissionError) as exc:
         return _core().j({'ok':False,'error':str(exc)},403 if isinstance(exc,PermissionError) else 400,_core().PRIVATE)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).error('RIWI document export failed: %s',type(exc).__name__)
+        return _core().j({'ok':False,'error':'document_export_unavailable'},503,_core().PRIVATE)
 
 
 @router.get('/api/riwi/materials')
