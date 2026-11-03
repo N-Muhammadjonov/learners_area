@@ -49,12 +49,18 @@ def selection(kind):
             WHERE g.passage_id=p.id AND s.publication_state='published'
             AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||s.id::text)::uuid AND d.type='CONTENT_DELETED'))"""
     if kind == 'listening':
-        return """SELECT t.id,t.title,coalesce(nullif(t.transcript,''),
+        return """SELECT t.id,t.title,coalesce(CASE WHEN t.transcript ~ '[^[:space:]]' THEN t.transcript END,
           (SELECT string_agg(section->>'transcript',E'\\n') FROM jsonb_array_elements(
             CASE WHEN jsonb_typeof(p.payload->'sections')='array' THEN p.payload->'sections' ELSE '[]'::jsonb END) section
             WHERE jsonb_typeof(section->'transcript')='string'),'') AS text,t.source_ref AS attribution
           FROM listening_tests t LEFT JOIN listening_packages p ON p.test_id=t.id
           WHERE t.publication_state='published' AND t.is_active
+          AND ($2::text IN ('owner','teacher') OR EXISTS(
+            SELECT 1 FROM listening_attempts a WHERE a.test_id=t.id AND a.user_id=$1::uuid
+              AND a.status='completed' AND a.content_version_id IS NOT NULL
+              AND a.content_version_id=(SELECT v.id FROM content_versions v
+                WHERE v.module='listening' AND v.target_type='listening_test' AND v.target_id=t.id
+                  AND v.status='published' ORDER BY v.version_no DESC LIMIT 1)))
           AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||t.id::text)::uuid AND d.type='CONTENT_DELETED')"""
     if kind == 'writing':
         return """SELECT id,title,body AS text,provenance AS attribution FROM writing_model_texts
@@ -68,7 +74,7 @@ def selection(kind):
           source_class AS attribution FROM speaking_prompts
           WHERE publication_state='published' AND is_active AND available_in @> '["practice_alone"]'::jsonb"""
     if kind == 'podcast':
-        return """SELECT v.id,v.title,coalesce(nullif(v.transcript_text,''),
+        return """SELECT v.id,v.title,coalesce(CASE WHEN v.transcript_text ~ '[^[:space:]]' THEN v.transcript_text END,
           (SELECT string_agg(segment->>'text',E'\\n') FROM jsonb_array_elements(
             CASE WHEN jsonb_typeof(v.transcript)='array' THEN v.transcript ELSE '[]'::jsonb END) segment),'') AS text,
           v.transcript_attribution AS attribution FROM video_lessons v
@@ -100,7 +106,7 @@ async def list_materials(conn, actor, kind, query=''):
         raise ValueError('invalid_material_query')
     query = query.strip()
     rows = await conn.fetch(_base(kind) + '''SELECT id::text,title FROM material
-      WHERE btrim(coalesce(text,''))<>'' AND ($3::text='' OR strpos(lower(title),lower($3))>0)
+      WHERE coalesce(text,'') ~ '[^[:space:]]' AND ($3::text='' OR strpos(lower(title),lower($3))>0)
       ORDER BY title,id LIMIT 31''', actor.id, actor.role, query)
     return {'items': [{'id': str(r['id']), 'kind': kind, 'title': str(r['title'])[:240]} for r in rows[:30]],
             'hasMore': len(rows) > 30}

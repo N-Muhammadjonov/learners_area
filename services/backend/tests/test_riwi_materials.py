@@ -47,7 +47,11 @@ def test_source_selectors_keep_publication_membership_and_version_guards():
     assert "p.publication_state='published'" in reading and 'general_reading_sets' in reading and 'CONTENT_DELETED' in reading
     listening=m.selection('listening')
     assert 'listening_packages' in listening and "section->>'transcript'" in listening
+    assert "CASE WHEN t.transcript ~ '[^[:space:]]'" in listening
     assert 'correct_answer' not in listening and 'questions' not in listening
+    assert "a.status='completed'" in listening and 'a.user_id=$1::uuid' in listening
+    assert 'a.content_version_id IS NOT NULL' in listening and 'a.content_version_id=(SELECT v.id' in listening
+    assert "v.status='published'" in listening and "v.target_type='listening_test'" in listening
     speaking=m.selection('speaking')
     assert "study_support->>'modelAnswerHtml'" in speaking and 'available_in @>' in speaking
     assert 'speaking_attempts' not in speaking
@@ -55,6 +59,7 @@ def test_source_selectors_keep_publication_membership_and_version_guards():
     assert 'a.user_id=$1::uuid' in retention and "a.status IN ('completed','timed_out')" in retention
     assert "t.current_version_id=v.id" in retention and 'scoring_structure' not in retention
     assert 'enrollments' in m.selection('podcast')
+    assert "CASE WHEN v.transcript_text ~ '[^[:space:]]'" in m.selection('podcast')
     assert all('writing_pattern_bank' not in m.selection(k) for k in m.KINDS)
 
 
@@ -66,6 +71,7 @@ async def test_catalogue_is_bounded_and_search_is_literal():
     assert len(result['items'])==30 and result['hasMore']
     sql,*args=conn.fetch.call_args.args
     assert 'strpos(lower(title),lower($3))' in sql and 'LIMIT 31' in sql
+    assert "coalesce(text,'') ~ '[^[:space:]]'" in sql
     assert args==[ID,'owner','%_']
 
 
@@ -77,6 +83,15 @@ async def test_missing_text_never_becomes_an_invented_transcript():
             await m.read_material(conn,OWNER,{'kind':'listening','id':OTHER})
         assert str(content.call_args.args[2])==OTHER
         assert content.call_args.args[1]=={'id':ID,'role':'owner'}
+
+
+@pytest.mark.asyncio
+async def test_whitespace_legacy_transcript_does_not_hide_package_text():
+    conn=SimpleNamespace(fetchrow=AsyncMock(return_value={'id':OTHER,'title':'Test','text':'','attribution':'source'}))
+    with patch('app.browser_listening.content',new=AsyncMock(return_value=(
+      {'transcript':'\n\n\t '},{'sections':[{'transcript':'The speaker explains how to check a summary against its source.'}]}))):
+        item=await m.read_material(conn,OWNER,{'kind':'listening','id':OTHER})
+    assert item['text']=='The speaker explains how to check a summary against its source.'
 
 
 @pytest.mark.asyncio

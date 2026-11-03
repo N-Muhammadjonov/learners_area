@@ -13,8 +13,8 @@
     {
       "kind": "listening",
       "material_count": 61,
-      "text_ready": 31,
-      "text_characters": 484455
+      "text_ready": 30,
+      "text_characters": 484449
     },
     {
       "kind": "writing",
@@ -47,5 +47,6 @@
       "text_characters": 122701
     }
   ],
-  "notDeployedToProduction": true
+  "notDeployedToProduction": true,
+  "correction": "Whitespace-only legacy transcripts are not text coverage; live QA correction."
 }

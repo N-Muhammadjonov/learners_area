@@ -52,7 +52,10 @@ No neural language model, external provider, general free-form semantic parser,
 automatic translation of arbitrary passages or certified IELTS score is implied.
 
 Publication, Reading set membership, Listening sequence availability and course
-enrollment checks apply on the server. Student assistance is blocked during
+enrollment checks apply on the server. Students can read a full Listening
+transcript only after completing the exact current published revision; missing
+or historical revision identity does not reveal today’s transcript. Student
+material assistance is blocked during
 active Reading/Listening exams and Retention reading/recall. Retention students
 can retrieve only their already finished version, including its historical
 version identity. Unfinished memory-test material and scoring claims stay hidden.
@@ -61,7 +64,7 @@ not a shared knowledge source. Objective answer explanations keep their existing
 post-submission, owner/roster and exact-attempt-version gates.
 
 Production read-only inventory on 2026-11-03: 105 Reading passages; 61 published
-Listening tests, of which 31 have nonempty transcript text; 15 Writing models;
+Listening tests, of which 30 have nonempty transcript text; 15 Writing models;
 150 Language Stealing patterns; 1,694 Speaking prompts with model answers;
 25 TED/video transcripts; and 75 active Retention texts. Empty transcript fields
 are not training evidence. This inventory is not evidence of production
