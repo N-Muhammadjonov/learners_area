@@ -214,7 +214,7 @@ FORBIDDEN_REQUEST_KEYS: Final[frozenset[str]] = frozenset({
 def validate_riwi_chat_request(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise RiwiContractError("invalid_input")
-    allowed_keys = {"message", "conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId", "replyLocale", "material", "attachments"}
+    allowed_keys = {"message", "conversationId", "targetUserId", "occurrenceId", "topicId", "lessonId", "attemptId", "replyLocale", "material", "attachments", "siteContext"}
     extra_keys = set(payload.keys()) - allowed_keys
     if extra_keys & FORBIDDEN_REQUEST_KEYS:
         raise RiwiContractError("forbidden_override_field")
@@ -229,6 +229,12 @@ def validate_riwi_chat_request(payload: Any) -> dict[str, Any]:
         raise RiwiContractError("invalid_input")
 
     result: dict[str, Any] = {"message": trimmed}
+    if 'siteContext' in payload:
+        from .riwi_site import validate_context
+        try: result['siteContext'] = validate_context(payload['siteContext'])
+        except (ValueError, TypeError, KeyError) as exc: raise RiwiContractError('invalid_site_context') from exc
+        if any(payload.get(k) is not None for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')):
+            raise RiwiContractError('ambiguous_learning_context')
     if 'attachments' in payload:
         from .riwi_documents import validate_attachments
         try: result['attachments'] = validate_attachments(payload['attachments'])

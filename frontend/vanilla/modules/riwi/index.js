@@ -3,6 +3,7 @@ import {RiwiClientAdapter} from '../../js/adapters/riwi.js';
 import {tRiwi} from '../../js/i18n/riwi_i18n.js';
 import {FILE_ACCEPT,readFile,exportPayload,fileError} from '../../js/riwi-files.js';
 import {anySignal} from '../../js/signals.js';
+import {siteQuestion,siteContext} from '../../js/riwi-site-context.js';
 
 export const RIWI_WORKSPACE_ROUTE = "/app/riwi";
 
@@ -19,7 +20,8 @@ export function createRiwiWorkspaceController({
   role = "student",
   locale = "uz",
   theme = "day",
-  adapter = RiwiClientAdapter
+  adapter = RiwiClientAdapter,
+  readSiteContext = () => []
 } = {}) {
   const state = {
     role,
@@ -133,6 +135,9 @@ export function createRiwiWorkspaceController({
         payload.targetUserId = state.targetUserId;
       }
       if(state.attachments.length)payload.attachments=state.attachments.map(({name,kind,text})=>({name,kind,text}));
+      if(siteQuestion(learningMessage)&&!state.attachments.length&&!state.material&&!state.targetUserId){
+        const surfaces=readSiteContext();if(surfaces.length)payload.siteContext=surfaces;
+      }
       const res = await adapter.sendChat(payload);
       let documentResult=null,documentError=null;
       if(res.documentAction){
@@ -217,7 +222,7 @@ export function createRiwiWorkspaceController({
 export function mount(ctx) {
   const {root, locale = 'uz', session, signal} = ctx;
   const role = session?.user?.role || 'student';
-  const ctrl = createRiwiWorkspaceController({role, locale});
+  const ctrl = createRiwiWorkspaceController({role, locale,readSiteContext:()=>siteContext(root.ownerDocument,window,role==='owner')});
   const text = key => tRiwi(`riwi.chat.${key}`, locale);
   const uz=locale==='uz';
   let filesReading=false,readAbort,lastFileCount=0;

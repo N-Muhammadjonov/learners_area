@@ -60,6 +60,12 @@ def optimize(temporary, files):
 
 def build(base=BASE):
     base=Path(base)
+    if base.resolve() == BASE.resolve():
+        catalogue=ROOT/'services/backend/app/data/riwi_site_catalog.json'
+        for source, expected in json.loads(catalogue.read_text())['sources'].items():
+            path=ROOT/source
+            if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=expected:
+                raise ValueError('Stale RIWI site catalogue; run node scripts/riwi-site-catalog.mjs: '+source)
     for required in ('index.html','js/main.js','js/generated/view-registry.js','css/global.css','routes.json'):
         if not (base/required).is_file(): raise ValueError('Missing frontend input: '+required)
     routes=json.loads((base/'routes.json').read_text())

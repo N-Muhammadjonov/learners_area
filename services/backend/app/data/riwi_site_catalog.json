@@ -1,0 +1,1882 @@
+{
+  "version": 1,
+  "routes": [
+    {
+      "path": "/app/dashboard",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/dashboard.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/statistics",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/statistics.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/reading/retention/staged",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/retention.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/lessons/author",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/lesson-authoring.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/content/workspace",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/content-workspace.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/reading/retention",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/retention.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/listening/import",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/listening-import.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/grammar/lessons/author",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/lesson-authoring.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/lessons/author",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/lesson-authoring.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/question-types",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/writing-prompts",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/legacy-redirect.js",
+      "focus": false,
+      "redirect": true
+    },
+    {
+      "path": "/app/speaking/live-partner",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/reading/import",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/reading-import.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/live-classes",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/teacher-live.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/video-lessons",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/video-lessons.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/academic",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/catalogue-v10.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/owner/integrations",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/owner-integrations.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/speaking/shadowing",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/reset-password/confirm",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/auth/public.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/general",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/catalogue-v9.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/history",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/catalogue-v10.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/lessons",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/lessons.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/retention",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/speaking/practice",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/vocabulary/review",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/legacy-redirect.js",
+      "focus": false,
+      "redirect": true
+    },
+    {
+      "path": "/app/admin/admissions",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/admissions.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/import",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/legacy-redirect.js",
+      "focus": false,
+      "redirect": true
+    },
+    {
+      "path": "/app/owner/dictionary",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/owner-dictionary.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/academic",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/speaking/history",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/speaking/lessons",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/speaking",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/speaking.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/students",
+      "roles": [
+        "teacher",
+        "owner"
+      ],
+      "module": "modules/staff-final30/teacher.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/vocabulary/games",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/vocabulary/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/listening",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/listening.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/materials",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/shared/route-view.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/grammar/lessons",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/grammar/lessons.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/owner/retention",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/owner-retention.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/general",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/history",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/lessons",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/support",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/teacher.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/history",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/owner/transfer",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/owner-transfer.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/content",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/shared/route-view.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/grammar",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/grammar.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/reading",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/reading.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/writing",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/writing.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/courses/ielts",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/courses/roadmap.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/mcq",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/mcq-index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/notifications",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/notifications/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/video-lessons",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/video/library.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/people",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/people.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/roster",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/roster.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/live-classes",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/live-classes/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/live-classes/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/live-classes/room.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/users",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/legacy-redirect.js",
+      "focus": false,
+      "redirect": true
+    },
+    {
+      "path": "/app/assignments",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/assignments/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/owner/audit",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/shared/route-view.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/speaking/ai",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/management",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/management-hub.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/vocabulary",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/vocabulary/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/reset-password",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/auth/public.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/landing.js",
+      "focus": false,
+      "redirect": true
+    },
+    {
+      "path": "/auth/recovery",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/recovery.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/progress",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/progress/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/speaking",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/speaking/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/grammar",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/grammar/topics.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/profile",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/profile/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reports",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reports.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/support",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/support/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/onboarding",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/auth/account.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/coach",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/coach/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/riwi",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/riwi/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/owner/riwi",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/owner-riwi.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/mocks",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/mocks/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/owner",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/owner-overview.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/register",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/auth/public.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/pending",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/auth/account.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/login",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/auth/public.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/campus/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/landing.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/retention/results/:attemptId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/attempts/:id/revision",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/route-v7.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/courses/ielts/lessons/:lessonId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/courses/lesson.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/language-stealing/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/general/:sectionId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/catalogue-v9.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/lessons/:lessonId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/lessons.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/academic/:testId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/catalogue-v9.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/tests/:id/study",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/route-v7.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/grammar/lessons/:lessonId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/grammar/lesson.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/lessons/:lessonId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/live-classes/:id",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/teacher-live.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/vocabulary/games/:gameId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/vocabulary/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/tests/:id/mcq",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/route-v7.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/writing/:kind/new",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/writing.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/academic/:setId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/submissions/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/translation/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/attempts/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/route-v7.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/mcq/day/:day",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/mcq-day.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/general/:setId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/materials/:type",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/materials.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/attempts/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/assessments/:studentId/:module/:attemptId",
+      "roles": [
+        "teacher",
+        "owner"
+      ],
+      "module": "modules/staff-final30/homework.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/homework",
+      "roles": [
+        "teacher",
+        "owner"
+      ],
+      "module": "modules/staff-final30/homework.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/students/:id/assignments/:assignmentId",
+      "roles": [
+        "teacher",
+        "owner"
+      ],
+      "module": "modules/staff-final30/homework.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/teacher/students/:id",
+      "roles": [
+        "teacher",
+        "owner"
+      ],
+      "module": "modules/staff-final30/teacher.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/tests",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/tests-catalogue.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/tests/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/hub.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/listening/:id",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/listening.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/lessons/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/grammar/:id",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/grammar.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/reading/:id",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/reading.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/video-lessons/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/video/detail.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/grade/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/people/:id",
+      "roles": [
+        "owner"
+      ],
+      "module": "modules/staff-final30/people-detail.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/grammar/:topicId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/grammar/topic.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/exam/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/listening/tests/:id/:activity",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/listening/route-v7.js",
+      "focus": true,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/materials/:type/:id",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/materials.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/admin/writing/:kind/:id",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/writing.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/writing/prompts/:id",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/writing/index.js",
+      "focus": false,
+      "redirect": false
+    }
+  ],
+  "sources": {
+    "frontend/vanilla/js/adapters/account.js": "f162d2e02cdff80e5a23c75a1f9750391e5f588b01d56938118fc9ff25c1ea2a",
+    "frontend/vanilla/js/adapters/assignments.js": "a8667d3a26a699a400c7fe057a7df70950e78476f9fb356dd9a7d4e17cd6505f",
+    "frontend/vanilla/js/adapters/authored-v7.js": "61d39f762b3f0a6783b35ae1d7ec81e690a6f9cf9d31f9227de1b44c0c0d4543",
+    "frontend/vanilla/js/adapters/coach.js": "75913c04a9c2ea04f83bbf24b939f5ba5c68aaa6a4c9739bb69e529608f7c704",
+    "frontend/vanilla/js/adapters/course-lesson-v36.js": "78ae94a7377736bc4edf4a4095645791e4f1058c679cadc76afbcbe29e59129c",
+    "frontend/vanilla/js/adapters/dashboard.js": "e92346396c56eb28502fd41f761544784aa2d78b26dea8ee7050f8daf0d3199f",
+    "frontend/vanilla/js/adapters/entry-routes-v35.js": "0bbeb3de5743925220e27aa41679c261435cfc053b19f73d2fdd2cfe6d7263d0",
+    "frontend/vanilla/js/adapters/frontend.js": "0d8e3923dbe9dbdd95775aab1f3a98f6bdaad45168b3945e912508c1260e51f9",
+    "frontend/vanilla/js/adapters/grammar-v48.js": "124a06688eb7d9191cd4e7ddb51b0a26ef85bab56d898bae0e8c72deee824a51",
+    "frontend/vanilla/js/adapters/listening-activity-v8.js": "efbd95b37afcbd3a7e70a09ad081e33cb8e1754cc9a46a4a9a50f83c30c81d1e",
+    "frontend/vanilla/js/adapters/listening-lessons-v10.js": "d52ec4b8b89693da05ee62fd61e52070573a1aa7856e65154d321fd37a99ef7e",
+    "frontend/vanilla/js/adapters/listening-v10.js": "d4135e02d6e237f733f2a607c40c6cb274b276a7dde86eff7dd2930d28b0b062",
+    "frontend/vanilla/js/adapters/listening-v7.js": "52ac482cb5e2896ed5c01d68e8082afd6e960518f4e7ca8b099b6ce50024cef2",
+    "frontend/vanilla/js/adapters/listening-v9.js": "a7c90d7b1bcf6d10dd3ded94097c108ac6f74668d87f1fdaae9dcbe656a4ed50",
+    "frontend/vanilla/js/adapters/mcq.js": "947e0439211cbd1ee0eaa6ca1f3a2e0681180f7451ce4e97c8967b9285054764",
+    "frontend/vanilla/js/adapters/media-v9.js": "04c21cd7a295253244ab5799ecfdd3efcf41baafc536767676acf506c54624dd",
+    "frontend/vanilla/js/adapters/notifications.js": "b3502bec86911b01fd5e954871d8cb40fb4ab8b3ab364109130c07f2206d0f9c",
+    "frontend/vanilla/js/adapters/progress-v54.js": "26853c43471bff6fb4ef391020c4c56a6d9ed4ec79735074f4e1165430da9bbe",
+    "frontend/vanilla/js/adapters/reading-v44.js": "c03a912a78f9e30a4a49a3397fe106c7b578e8167e7c2f9aa84f7588a47780f8",
+    "frontend/vanilla/js/adapters/reports.js": "40a1f29a0317344a1f6b74a13404c3326834b5f029e91fe57b6cb5167e3aa35c",
+    "frontend/vanilla/js/adapters/riwi.js": "71fd048a27e10e6d92f08fc8872985dfb70a90e3e792a74858625d2e28395b89",
+    "frontend/vanilla/js/adapters/staff-final30/content.js": "10eb958617115ff4b17d0abbc9ecc6755e2f9c0ebcf9369d9f3c2cd161645c69",
+    "frontend/vanilla/js/adapters/staff-final30/core.js": "62aaed7987ca308f575c9e161af6979eefdaceaa5bfdcad905fb1dbc6ed452dd",
+    "frontend/vanilla/js/adapters/staff-final30/dictionary.js": "8cc9737146090b5dde7b6a013368168ab0fdfba3d4d067b889a17033e67f0ef4",
+    "frontend/vanilla/js/adapters/staff-final30/grammar.js": "dd0b259947e43384b4d7ceef31eb2e1ef376a7e26ce3379f8fc3b6827086778f",
+    "frontend/vanilla/js/adapters/staff-final30/listening-import.js": "c002010f3918afcb8690c32d98e4cac4aa79480d14ed1dbebed510766e2482c7",
+    "frontend/vanilla/js/adapters/staff-final30/listening-legacy.js": "4f16136abb4046dee4fcf25549c5dc7335cb424b3489dad134a7233b1717a0e5",
+    "frontend/vanilla/js/adapters/staff-final30/listening.js": "a7767edd7fc287c19935a647f24f7e88bced9bc78e7761b227a3c927aca2e493",
+    "frontend/vanilla/js/adapters/staff-final30/owner.js": "c3b1c7b7ab13f10f5986d050690b8f4a80d08edec02e1d5563a93ceecd1b9df1",
+    "frontend/vanilla/js/adapters/staff-final30/people.js": "e60dcf00a1b2fb720113be2da645e3e972034ea70318c689570e745069c7c28f",
+    "frontend/vanilla/js/adapters/staff-final30/reading-import.js": "0c997bc2bce9a26e69139e93ca936e7acfe4653e15bda720eb2621edd239b36c",
+    "frontend/vanilla/js/adapters/staff-final30/reading.js": "dc85e1ea1b88edc39305718fb6704622371949db0bf037667cfa88aa878e3161",
+    "frontend/vanilla/js/adapters/staff-final30/retention.js": "5ef78a4d2843f3c77de986775f91be7d14179ee52d056420c43e4268c23b7aa6",
+    "frontend/vanilla/js/adapters/staff-final30/speaking.js": "78b8f40eefbce56cf43ed22aac6bfa342caabc19bc40cc682c64291e1ba8154d",
+    "frontend/vanilla/js/adapters/staff-final30/statistics.js": "5b24d86ca4e4d8cbd50e751bf6aff3bbede0ae2940152a0bbbc018f4b6e2f1af",
+    "frontend/vanilla/js/adapters/staff-final30/study-html.js": "4f645e227ff672b3081c247ef089dcf22586a55917b057a93e2ec7f89ca2b33e",
+    "frontend/vanilla/js/adapters/staff-final30/teacher.js": "367bbd286440b891657188a448af4e4585bf49a010665be796b9069f881bfe86",
+    "frontend/vanilla/js/adapters/staff-final30/uploads.js": "78552077f6eade97e767adb7873cf2ed6412bf65b195178da8bf17d9056e9732",
+    "frontend/vanilla/js/adapters/staff-final30/video.js": "d8f672d30c9a409297f2ccbb7e2accde3206ac7ad23db327d2829d5abc005543",
+    "frontend/vanilla/js/adapters/staff-final30/writing.js": "0ba218ed9281ff9f2c5f52e2a9129d5ab9f6daef2693c53291ce40c97841cad0",
+    "frontend/vanilla/js/adapters/video-v47.js": "42ddbf78a1121d60484b70d41a4fe219386897f8ee21e9a5bc4563b20e816743",
+    "frontend/vanilla/js/adapters/view-region.js": "2c5b03b66e82b07f903260ac6a95817ab058177c1e1c0076bd46142b67fcaa55",
+    "frontend/vanilla/js/api-client.js": "7544da0f292c97bec99e5fffb6a4e592db7a645a3324a98e6b778dab90279285",
+    "frontend/vanilla/js/api-error-message.js": "767e5a10313acdc92e138f5aaa474ac96d1985e9ece7d6a95bdb28b5370bd26c",
+    "frontend/vanilla/js/authority.js": "e5af4b58c95f3712f0f0c8dfb153d555725462e2d7645c239c8561840283a58b",
+    "frontend/vanilla/js/cache-policy.js": "c96533f2dd11a4f9c3ed4b8cee83b8db5c6a48c5047e0d521bc3324e7101616e",
+    "frontend/vanilla/js/catalogue-cache.js": "745e3878e6d1ff764e9a72e641544872c9a383f51749b7562d4919e95c4f028e",
+    "frontend/vanilla/js/components/auth-shell.js": "8b1b4d03da6973acbffe3806f89f971f0f0d5a633da7aae173e661ea539e2cbc",
+    "frontend/vanilla/js/components/brand.js": "ebae33ec1fd3d8d7ab7edfbe2225c396d9bf4f25b673132852c02591ec3198b8",
+    "frontend/vanilla/js/components/controls.js": "465db853b16e613dd1bf26d95bd78fc343bab2fd3d07135d984b6f7ba40aa503",
+    "frontend/vanilla/js/components/landscape.js": "16d4803011b0f67acfb534fb7d69add1384a673ab046d7b4c6e742b574c8e1d7",
+    "frontend/vanilla/js/components/marks.js": "10edc05903068475b79bdec34721e7eb2e3346b86f8740832ab1e54756602316",
+    "frontend/vanilla/js/control-help.js": "61c1f23afcd9f4e8d8560ae72fd72dcd6bb83c3ddbf40460569490f536708349",
+    "frontend/vanilla/js/diagnostics.js": "b29428a80d563dc39e74b8eefd0e0047d333b721208cae04472f13f5a0304cf5",
+    "frontend/vanilla/js/dom.js": "ef112e22a4b969b534cb3a9af2a5b299422a2a9429b060979ad6cff790922596",
+    "frontend/vanilla/js/focus-entry.js": "d253fd7fb3a9ccba5afca75f81f85e9324d76e5664ddb5c9c6c85e045c284eb1",
+    "frontend/vanilla/js/focus-restore.js": "73f601a1eeb3a1eb94df21cafafa70992f9c2d5e22996f9472326ae812fe8f32",
+    "frontend/vanilla/js/generated/AcademicListeningTestPage-v9.js": "0034ce6ea1d9f2957109de469b446748f2c18f8e30c1e8bdd6e229f4c0740898",
+    "frontend/vanilla/js/generated/AppError.js": "b8389afe943beb81997f1ba8db947015a199f4a5e3cfe041155eadb26e7b559d",
+    "frontend/vanilla/js/generated/authored-helpers.js": "d56da034e2edf68269694acc618ba4f9026b9b6e689a1d1ef4c9f818120198ea",
+    "frontend/vanilla/js/generated/authored-media-bridge.js": "feb5a5a03a8bfaabf8d085a55e1cf84096dc0c71b9eca8b437259177b35f9350",
+    "frontend/vanilla/js/generated/authored-media-controller.js": "a17893e2e024a40a5c29b379c3ba559ffcb959f3ecccf1a1888f15ccd0377684",
+    "frontend/vanilla/js/generated/authored-sandbox.js": "acf14e1286b5fa74ce91f514470cb570ffa49f01fe4046c84dfd8e39d9590a39",
+    "frontend/vanilla/js/generated/badges.js": "87b6981f589f4c067a4911e05afd6e16fccd0d334ca48e0606cf3d20b0f878d0",
+    "frontend/vanilla/js/generated/breadcrumbs.js": "c067df2f82ff5e96b77c87b30822426be95d5dd297511f7c3cab307863ba9fde",
+    "frontend/vanilla/js/generated/course-lesson-v36.js": "8b52e9750f173263252ee1e4c4f0897dea9bb64c7b37b1fd3e5e59526bf19324",
+    "frontend/vanilla/js/generated/course-roadmap-v35.js": "f5ea15ebe335ff58d86027beaf9b6ffffefeb317dfaecb6ec6c658dc93a7d767",
+    "frontend/vanilla/js/generated/course-workspace-v36.js": "7a95ddc6d50cf385c642c9bbda530f2c030ed100e554a66a68f1a11a5514ef58",
+    "frontend/vanilla/js/generated/dashboard.js": "588cbc25bd12fa1e258acc1ade2d0c3944c85c551b94f7898fdc3a1663ba2a34",
+    "frontend/vanilla/js/generated/FullExamStart-v7.js": "c3cff52351a3fbfbfc8b107a4f5336436fd8a682f73303a1c3e1ac6175c4847d",
+    "frontend/vanilla/js/generated/FullListeningActivity-v8.js": "ba1e3f7fdd815405d066edd247566ae4a0f0c81613f6a4f8d718247e3459a705",
+    "frontend/vanilla/js/generated/FullListeningStudy-v8.js": "644ba18d345c49b5ad8adbfce02d1fd6de81505db3289851995d9b4663a18b8a",
+    "frontend/vanilla/js/generated/GeneralListeningSectionPage-v9.js": "166c6dbfc3ec34d47b8bf7d3b2a467aba58eb3a6bf546ccab43b8ed36126ecd7",
+    "frontend/vanilla/js/generated/global-diagnostics.js": "69b3d41a61bb015c1e31e7ba8cf1ea9fbf09b732f4b920bb4394cb8b58f1fd98",
+    "frontend/vanilla/js/generated/grammar-topics-v35.js": "5efdc6356b0858a28a4e868ac6f0cbf267938a6a44a702c04a2f90d64f3f4c7f",
+    "frontend/vanilla/js/generated/icons.js": "f036d0054e8b67941977c46635967d4ba150bfd0985834676a5bbf36dee6336d",
+    "frontend/vanilla/js/generated/intent-prefetch.js": "e3ebab112028a5b3d60fb77fb1251a06c1319cc7c1db32cf2c4a2a4a85940cdb",
+    "frontend/vanilla/js/generated/interaction-navigation.js": "78c48bd0ef594e3d90de5b1d993d4e64645c1876ac89c778cb101e358e4145de",
+    "frontend/vanilla/js/generated/lesson-authoring-constants.js": "4a90a83dfcf728981897bc8065f4fb423ed9a73dd40836845de886a9aaa3436f",
+    "frontend/vanilla/js/generated/LessonNotesPanel-v10.js": "d338eb3a52b2d98a2152017565e70aaf09ccbc13d91f470548999dfcb50f1f62",
+    "frontend/vanilla/js/generated/LessonQuizBlock-v10.js": "927d9cc83ba65b075f2015a505bdd6a53b331f7ee143e7da61bb08834f6305b7",
+    "frontend/vanilla/js/generated/lexical-text-helpers.js": "b212d28802b756c69fd35aa891c390b10e8311fb31359cb468c76ff43f413360",
+    "frontend/vanilla/js/generated/listening-analysis.js": "2ef3f4794c6f8338b0723922a533cdb8a23c9e6be9d67602207344a8cb7c959d",
+    "frontend/vanilla/js/generated/listening-attempt-local.js": "5aee4208d08b028481983730c7d006ad06b4f87efc6afbd67f76f069e6385439",
+    "frontend/vanilla/js/generated/listening-hub.js": "28ac1387b81975fb7803d34e72766bc8c5536fdba3d50662c0916739d44f2d46",
+    "frontend/vanilla/js/generated/listening-locked.js": "f0344d14ac6013a839974a5fd449985ef7c51d0e9ccc823b6ed6bfd85ff71089",
+    "frontend/vanilla/js/generated/listening-map.js": "f38c0a82e3ba6075899736fa1730ccd55f5f7f83af8cc88493d9b97ca55b54f1",
+    "frontend/vanilla/js/generated/listening-occurrence-spans.js": "b600556b6cf8c0c754a6ea2b646972d17e19de61e7dfac8365dd96f648d97bc3",
+    "frontend/vanilla/js/generated/listening-section-heading.js": "a3039768b285f246e417aa45a5f81880944f3efed54717e4fffb5ba7a1948069",
+    "frontend/vanilla/js/generated/ListeningAttemptPage-v8.js": "df55dec51cec7e678713a8522c91cc1df6eb3f4b73506b32987cb5ec45c3a4eb",
+    "frontend/vanilla/js/generated/ListeningExam-v8.js": "3e8b2eaeb5492a0d96397cb508b231f7fbc070b446bc0b69362dcf2d3b7a50e8",
+    "frontend/vanilla/js/generated/ListeningLessonBody-v10.js": "b8528d2899dc243988678ba636a14e7dc2a5ca6cf1c7a953b7c32210effe6c37",
+    "frontend/vanilla/js/generated/ListeningLessonPage-v10.js": "a37e230e2086b03691802b618ae496993a1eea6b19aaeb9b367c7bd2ec9faf18",
+    "frontend/vanilla/js/generated/ListeningMcqDayPage.js": "18541fd4d7bae281b79e30ab51a1dc96364f8978cf3b17bbcda3856546b7efa4",
+    "frontend/vanilla/js/generated/ListeningPractice-v7.js": "2042a0cdc933f246235f7322addb93163c836dc30b62fc1964d55319e86a090e",
+    "frontend/vanilla/js/generated/ListeningRevisionPage-v8.js": "204f0903a4a075f37336f6579bbaba5128dedd42484394ad8999bc5328d84c37",
+    "frontend/vanilla/js/generated/ListeningSpeedPractice-v8.js": "3e0828a48b5f03b3887b4c7ec141377a512d47d0554d70902f78d485af9d666e",
+    "frontend/vanilla/js/generated/LoginForm.js": "fc4dc553f0410c7edf312bdf9c864f8533f11f02e5fd05d8a89be3483113d31f",
+    "frontend/vanilla/js/generated/mcq-position.js": "61d41a92b092caaae2f94312e5d96ce0e1b7ba56fe7ce1cb72de282b9bdaffe1",
+    "frontend/vanilla/js/generated/McqMastery.js": "2e844c189774927aa37b823cd665f1e4bcc99649f85e7f43b6627b1ef70c5f2c",
+    "frontend/vanilla/js/generated/mock-band.js": "4aa2c820416081eb61574c91b176117a119c079bb315a9c25d41a073bdf2c73e",
+    "frontend/vanilla/js/generated/mock-summary.js": "7d394947f23a0629af3316e77ce07d831881d50c2036c37a2d5dd07a7596da3d",
+    "frontend/vanilla/js/generated/mocks.js": "8a71325e85b854a20ab3edd8b66e78b9e974c4601ffd8dda6e8065dcfcec0697",
+    "frontend/vanilla/js/generated/module-context-heading.js": "201d4da6c62ee2a6c940a31b49e7fe4ac233554765e77a87a03532b69c58e2b2",
+    "frontend/vanilla/js/generated/module-emoji.js": "8dea9a5b6d8dcd9eb641b70050ccd5a0305bb3a5fd1555c696cdc416b02f6575",
+    "frontend/vanilla/js/generated/module-navigation.js": "29a7e9236bc7f82b4df59cd97f608ed87e35f0c449f375b34d272ba57bf5bbd4",
+    "frontend/vanilla/js/generated/module-section-nav.js": "65616ed81cf88f04f68cf6cfb5e7eef9ead7ba7ccf92c951023359c8bf4b99bd",
+    "frontend/vanilla/js/generated/NativeListeningExam-v7.js": "ee927188b42b4c4044aa8c4c7bce7936f395811724f7cb041d6af0202d2cc2dd",
+    "frontend/vanilla/js/generated/nav-routes.js": "5c4bde21dc2c57211fa81bfb967e216d47f1d0fbc11d3b7312485fe307588c0e",
+    "frontend/vanilla/js/generated/performance-diagnostics.js": "e58e2cbc6de041a328d16282857a92ea2bd0d0dd5d8348b72b51532a4d581441",
+    "frontend/vanilla/js/generated/private-resource.js": "518400b4af09f9d90fafb563fabe88ab935f200bf40dc115e916c673f0381828",
+    "frontend/vanilla/js/generated/reading-destinations.js": "e4169d84b316320a5c8c5169c536f1af1021d315a35e8f9d29c239e4aa89bc44",
+    "frontend/vanilla/js/generated/reading-lib/academic-selection.js": "d432597a9222cb7107b021c8b10018275e28598b0670c8d283ea7fbbc5dbacd2",
+    "frontend/vanilla/js/generated/reading-lib/dropdowns.js": "691294e3d934f2595632dca3fd36d7a671418b4d88606ec1b7119713c3bd27f9",
+    "frontend/vanilla/js/generated/reading-lib/grading.js": "a5dfe134ec8c382bf2411dd77019d66246ca7666314d19668f9be438b58c2a2f",
+    "frontend/vanilla/js/generated/reading-lib/occurrence-spans.js": "1e939b0062f07af486ac59ea9405838f5e8674cc0f92d333cf4fa246f3a404a6",
+    "frontend/vanilla/js/generated/reading-lib/phrase-target.js": "f48c62b6596be9dc6b5c61ff0885603e0cb27792b38445178ea7b81e9cecee13",
+    "frontend/vanilla/js/generated/reading-lib/question-model.js": "05916f01afcfe4815b6f346bc71f1b7a7dc6d4d29995b280d2032409b34afdc8",
+    "frontend/vanilla/js/generated/reading-lib/question-types.js": "d02e6628b5e829e52ea00147c69272126b6d7d68e7889a22a09257da10a14354",
+    "frontend/vanilla/js/generated/reading-lib/reading-choices.js": "b4141d88764614c553af8265a7bb566334b2abea7da823a5261f439fddcda574",
+    "frontend/vanilla/js/generated/reading-lib/reading-labels.js": "5ce82553ec4265898bec69fe6c2c27c7b1e95b0effa0d6cf0f416c6bdf570828",
+    "frontend/vanilla/js/generated/reading-lib/stimulus.js": "b72442966373ebd821810edc26bb7bd96ad48cd9d5f85779098f98802797927d",
+    "frontend/vanilla/js/generated/reading-lib/timer.js": "f9ecf29df437a69a431c95c120b56e302e00656c9400fef1d46a84f11689deca",
+    "frontend/vanilla/js/generated/reading-lib/unstated.js": "e2e814b019f6e58f1f4f5a6b5008a337223dadd96c1e4539b482794901d5c5b4",
+    "frontend/vanilla/js/generated/RegisterForm.js": "c63e7259705e6362920b2b961b93f97c31685ff13971756531065856fd0c4d11",
+    "frontend/vanilla/js/generated/report-period.js": "3261f4f67c4a204e18dc2e85d3eeb68d36ebc9d0a482fbd420648d0622005a25",
+    "frontend/vanilla/js/generated/ReportProblem.js": "a320521f71ce28636372ac392f8f6a2d2eb1a3abb0ea695d2bfe588a40c7e8ad",
+    "frontend/vanilla/js/generated/reports.js": "d3c1df75d168bb81588bf2c60fd994bd14c0c53d3d4284bdc009ece6c0d02ef4",
+    "frontend/vanilla/js/generated/ResetConfirmForm.js": "0252099d15340c8eb03e95770f384555e114df0ebcd32bd02e8e54c2809ce725",
+    "frontend/vanilla/js/generated/ResetRequestForm.js": "63963c407793d2bd7e47a1e96990e3b7838056ad39548ec0edd29dc0e2dec720",
+    "frontend/vanilla/js/generated/ResourceBlocks-v8.js": "9572bc04369e802b61211f0b19d1989a9db86322192757219b1433f2e56a7d6f",
+    "frontend/vanilla/js/generated/search-states.js": "fbdacc0533ff3092230d4e1f559fc685e5c7db25b2d382c21ba0a2d2ebc66418",
+    "frontend/vanilla/js/generated/section-entry.js": "b6f77bd585ae6fa55c13110af9a903344d7d52b012ecaebd75e425e5e4b805c8",
+    "frontend/vanilla/js/generated/SectionEntryFrame.js": "9cac5360491415e9ea7c8939880a8ef3516e3a9856ab62bfddee31253c817bd4",
+    "frontend/vanilla/js/generated/ShellUtilities.js": "b02e10fb95bc1303974d1f0fce4ccc969be79d3f48b6e8585e79102827d3a3f2",
+    "frontend/vanilla/js/generated/sidebar.js": "1a805196bae22be83d404cc5c5830354be043b353e909e220d20e5b6a5d3a69b",
+    "frontend/vanilla/js/generated/SpeedTrainer-v8.js": "866599aaaffa3b77f8d1db24ec9ebf8f83b5c4c18de260b71f8ceeaf9d2a9521",
+    "frontend/vanilla/js/generated/tablist.js": "b4edad2a9289cdc8497376c88c0e4c001b45a81b94941a9a25fb6e8c271937c9",
+    "frontend/vanilla/js/generated/time.js": "e776030fabb30e1caa8df066f11517a854fa819300847bcb65b1f7bcad9a4af2",
+    "frontend/vanilla/js/generated/ui.js": "3e24f22a9ad676a4e3c62df0cd1d5283edc0eac2033361d34a736a31e7d735f5",
+    "frontend/vanilla/js/generated/view-registry.js": "db1f8651a94f360b6570eda19315c5f8c70a66cfaa0e6b3ce92ad37d5b70a83c",
+    "frontend/vanilla/js/generated/views/admin-content.js": "7b15f3f563cd4c41f67bc7d8f0f213e814c7aa4b0e8c10bf71e33831f35aeff2",
+    "frontend/vanilla/js/generated/views/admin-materials.js": "23a4accd089c2df98e9b086f8518b17e413284a696bf58ea2af7cf4a4870d862",
+    "frontend/vanilla/js/generated/views/grammar-lessons.js": "5da9091ce343c0a040240b0cf181fe9451e3d2e428c1e989702385ab8d734cee",
+    "frontend/vanilla/js/generated/views/listening-academic.js": "23c383f39ded5dfe3c1e4dd81e86f2668ee539991a8f159929bc134628cbe3a8",
+    "frontend/vanilla/js/generated/views/listening-general.js": "9c66dd61cc4b102d2a9f261971e2d267acfe3aac3af0b95ed86f163a1869f801",
+    "frontend/vanilla/js/generated/views/listening-history.js": "f64a08679043202b10a093658171be1a04445ee8f51ef570dfa0ec1001389c65",
+    "frontend/vanilla/js/generated/views/listening-lessons.js": "9097485371658bdf538449b699b29d7762462fee346d237d5b322f53f632b93f",
+    "frontend/vanilla/js/generated/views/listening-mcq.js": "b7eea7c146dc747286368003848e82ef4ff8b56abc827f6225b0dc5a90bbec0c",
+    "frontend/vanilla/js/generated/views/management.js": "ef101da44c78f97934d0406f5127419a8e04fab52dad71f56ea6c91fc098a085",
+    "frontend/vanilla/js/generated/views/notifications.js": "41a9679702fc45d08efe4fd1bb854ed3c33db528967e78c8a77f323869f24083",
+    "frontend/vanilla/js/generated/views/owner-audit.js": "b274e909d3df943d7753f5e3aa2b2b6e22803ae15e465ee15402d954e39e10b0",
+    "frontend/vanilla/js/generated/views/reading-academic.js": "20e2a0a20d2a37b6a90c4ffa717ff34f99bef591514f6e6f387fcf04517d57e9",
+    "frontend/vanilla/js/generated/views/reading-history.js": "7f631007f6f48803fa3275faf9034baaa446a9f5713702d41088dda1e249a3b1",
+    "frontend/vanilla/js/generated/views/reading-lessons.js": "4ee062ed57b6a553de092838059f01f032bfc60175288d4273b6e906733aeb89",
+    "frontend/vanilla/js/generated/views/speaking.js": "a936088a53b548c7494d37f8ea480600a179a3bd4eddf1e1dc39015196a9aea3",
+    "frontend/vanilla/js/generated/word-popover.js": "45aca6ac40a939b126e0b32c125df76b3046a85f625f79031ff8ff00e662e600",
+    "frontend/vanilla/js/i18n/en.js": "3fa60e4636996802623f9e13907c54d42eb02af11e4f77e137a3ddac51e2c4a7",
+    "frontend/vanilla/js/i18n/overlay-v59.js": "db335e2b9625bfa1bae671e2c2ccddaa615ab2db4eb2954f85f90a5714d9f57b",
+    "frontend/vanilla/js/i18n/reading-en.js": "959c7e3cd3d2c09adc709247f6613100e94e96aa1256abffe26edd2a9ad84d49",
+    "frontend/vanilla/js/i18n/reading-uz.js": "30448bbd195ce0573b5a9864dc5824e7ce7de9c0292432a6e323864ba65de3ed",
+    "frontend/vanilla/js/i18n/riwi_i18n.js": "9e05ad22658563fefce1087ab005ce66b12fa55e192298bbf64a3de1e4a430cc",
+    "frontend/vanilla/js/i18n/uz.js": "3742f0d59a888a6f04853ca179fa14b33befc08af17ed28cb8c41baac3b0af9f",
+    "frontend/vanilla/js/i18n/with-overlays.js": "9cf263284877f8918a5cf5d0225266133de974821bab730c9e94d614773e06d3",
+    "frontend/vanilla/js/main.js": "7478f30e0d94a79a5722468c2f0e5c730e4af7b17d2ab56cc8268000b21e0f04",
+    "frontend/vanilla/js/module-prewarm.js": "2010ae9f2280dfdee97328f4ef762ef38c079cdc074764c4c9ecef10ba613809",
+    "frontend/vanilla/js/mutation-lifetime.js": "72836f3e765ed2f5427ac02a85411977b57029ed10223d15ef90d7c956b11124",
+    "frontend/vanilla/js/native.js": "8e1712f3e79647291e955310bd63b2930a81da8d520722f151e9a39a589d1592",
+    "frontend/vanilla/js/navigation-intent.js": "6a15005a0420c16f70a09386024609da0f1af466d4b901cba6f01243af00dac0",
+    "frontend/vanilla/js/navigation-metrics.js": "93562d6fa2e788eab12242caf0d0810a1aa1c4536c20d87ffe0b13c4b8a64f95",
+    "frontend/vanilla/js/navigation.js": "6fe8fdde47a6abcca2738a1572b6595e789547008afc2bfb897f4c3ceb36cc0b",
+    "frontend/vanilla/js/preferences.js": "b27b327a69bff777cac303c4945e28613cea1af17f9a33c1f3f61c8c725a6493",
+    "frontend/vanilla/js/presence.js": "1868d38808bb1dcbb35f3f9ccbf3a1efac5fc16cf1b7c334259108075989273f",
+    "frontend/vanilla/js/private-modules.js": "e9e4fc1464421a53b810b59cb53ae0d335e0446cd53cd60b5da2a0c3ae24d882",
+    "frontend/vanilla/js/private-scope.js": "c856a1d8f7bd75dbfc9a0100e080d9eea9f1a103ccf1c8ea3e3ae792aa05caed",
+    "frontend/vanilla/js/reading-destinations.js": "86a73119f6cefae061c1af603096579b2f3518a722c2ca03ac80601ad2e638bc",
+    "frontend/vanilla/js/request-errors.js": "0b87186996216df3860e1c8f228814f7c96d0fda084815eb28906bb8e6212606",
+    "frontend/vanilla/js/return-navigation.js": "e977d3baff6521633a6d8e034d27618dc553de53a7fcedef37eabcb3e722dbbd",
+    "frontend/vanilla/js/riwi-files.js": "b34a9545785ffefe073e01c60e376954616128ab9e35e3762bba4b8f9b6aaaf5",
+    "frontend/vanilla/js/riwi-site-context.js": "2009fd2ed760168472eb3a879f9f430677c9c27a0f81c5dfb4ace058d79e36e7",
+    "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
+    "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
+    "frontend/vanilla/js/routes.js": "43f9aba7479c8bccd46a97c207acdcd0d364a7fd0de23cd2af3a452f8c4f94ce",
+    "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
+    "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
+    "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
+    "frontend/vanilla/js/session.js": "a52e1c1bef3152d23e8aa42c9268b2a467bbd2c971503d8f3517d2bb31855440",
+    "frontend/vanilla/js/signals.js": "e436de0ad182af00fa9a5f43dde02e657d5e773970ab0434e055f432b28c6d01",
+    "frontend/vanilla/js/view-prewarm.js": "794919dd18749f8c0864e2d76148de011ab20453e1f869afeb643a0110c2f8f5",
+    "frontend/vanilla/js/workspace.js": "003d99a7c5c8a19099c06f0b95cb8fda003ced7cd1db88d28fb8a1c08084405c",
+    "frontend/vanilla/modules/assignments/card.js": "22bc22e2cc62c8bd40f8c14320e245d280321c6decc43ca518525126ac06329d",
+    "frontend/vanilla/modules/assignments/index.js": "7601059671c21a3f3745c8f1f5526d335431f9724f9dfa217d7e36bfb0198474",
+    "frontend/vanilla/modules/auth/account.js": "56a9ab61ab0bee672550357aa41a8a6808fffb4ff6072f47ca35619887d4746d",
+    "frontend/vanilla/modules/auth/onboarding.js": "1e9dfea7b5c4d58af7ab2b412bc821ddd9f37b4c5e816222f584bb253d3d765d",
+    "frontend/vanilla/modules/auth/password-form.js": "d7ea61e1bfac19588f1f2ed4f9391b45d12be52e645e8a4de4d0a089f2eea1ef",
+    "frontend/vanilla/modules/auth/pending.js": "6fb85f3919e6e7c11be2187021d574fd354c319a9b4b4c950f95c0debb50b777",
+    "frontend/vanilla/modules/auth/public.js": "9e64d0c7ef075b4103eae37e70a976e0348bafe70e69ca7395144800b77d59fb",
+    "frontend/vanilla/modules/auth/study-form.js": "9252a26f44015ede4c786581a89b68a8b965f35c013640086622d6a23b608dcb",
+    "frontend/vanilla/modules/auth/telegram.js": "3bfd20ac053819078fb1f98f3ec4fca4d263dc306d7eef5fce5809024086ddd5",
+    "frontend/vanilla/modules/campus/chrome.js": "c95b5f04a582e6b46b1e71aab34c76eb8f97b2a7702aea31bdba579118c36898",
+    "frontend/vanilla/modules/campus/page.js": "1092e01bfa763fbb25ff3472effbeea76eca928068dd2aeed6cbbb86245a9df1",
+    "frontend/vanilla/modules/campus/return-policy.js": "ba2b96c7a4aba6243a72d53ac53be73c2520c455301b7d9f01d6c79b37b3f95d",
+    "frontend/vanilla/modules/campus/workspace-palette.js": "dbd3b23d390678a509f1a6d74d3f9b78c9cbd2662fadcd118ddc6133a9cfca88",
+    "frontend/vanilla/modules/coach/index.js": "22e27d64a2abe6407335afe3f3b2cfa72b13eddfe06bf926c99e34e7d70476a2",
+    "frontend/vanilla/modules/coach/sections.js": "046abf0194fdeb14c9503c684cdd73fed73cdce250462f75acb96cefb49c9695",
+    "frontend/vanilla/modules/courses/lesson.js": "b7ee0c92dffc2ade734da3ac1a2ebf688e107be3b0cf3f4f7365640495a3c727",
+    "frontend/vanilla/modules/courses/roadmap.js": "6be62154dfeb04746469d79989bf680c8fa459f65f9e3d7fc94954fd8b5f4f78",
+    "frontend/vanilla/modules/courses/workspace.js": "6289a4cae4b4875c4b1c0996b5fb285f8dbe41321bf74878e8bddcddc9140f18",
+    "frontend/vanilla/modules/dashboard.js": "967a6b19e67127c83d9140086a56611b15c1a5e115219de4283182598bfe3d9f",
+    "frontend/vanilla/modules/error.js": "6bb3b35edb07f7c159c61e987ac62ee0262d182b55a31fc6b80924fc06d5c994",
+    "frontend/vanilla/modules/grammar/lesson.js": "b05d4f9733df8627593e349f22b259393b6ab29c375fc9d4bfff536ec73240a9",
+    "frontend/vanilla/modules/grammar/lessons.js": "62d07c63419ba7e82fe08076deb6c8c9035ec1a3358c32fe88fd060dc0b068fe",
+    "frontend/vanilla/modules/grammar/mastery.js": "a0914487d606f69ee08bab9ea7164d041044fc816c011e9da7ad7d2dfd73ec1f",
+    "frontend/vanilla/modules/grammar/practice.js": "05d43811137827d5fc6a882055049f1caf09b49eae5e923020853bbfe2e3e1cf",
+    "frontend/vanilla/modules/grammar/production.js": "522e5c90253d6ae00c7c8d7f2d4f33c73956775f2b8e2bc4d948f4b2891a2dcf",
+    "frontend/vanilla/modules/grammar/quiz.js": "f6214c284d77b7308c33f51e88b01d042ac61c87b9fb337626be7a41c0d0b8fd",
+    "frontend/vanilla/modules/grammar/request.js": "c40f82d5953650d066fc92cb82eef41dc3a29e5b15bba1cd1aaaab03fc366a01",
+    "frontend/vanilla/modules/grammar/topic.js": "7b65f9558967313254c401de807d4be768c39343a24b301e241c47b017f2e78d",
+    "frontend/vanilla/modules/grammar/topics.js": "926727308f8c828071d1ea47c9f84f7a240813491dd112f183f72a921451e194",
+    "frontend/vanilla/modules/landing.js": "6d5575cc6f0934d652149f71b064b12bcd22a179c584eedfd26111fc0b76ce79",
+    "frontend/vanilla/modules/legacy-redirect.js": "21827010c8027114504e1f32eb8e1fd2f3feee0ded80e7f158d561bcf8c03c8f",
+    "frontend/vanilla/modules/listening/authored-errors-v15.js": "278ea4f4e1a89e155976a19c8b206e47a7e694413cce067c4679a4df687e0c12",
+    "frontend/vanilla/modules/listening/authored-progressive.js": "12be2e97acbf4f6bc50a83d3fbc00281491e2daa53e12d61db17216d27df903f",
+    "frontend/vanilla/modules/listening/authored.js": "435f5f0764cddfd1759183d8bf4841917b785c2e983ef65f76b12fb522597c4a",
+    "frontend/vanilla/modules/listening/catalogue-v10.js": "3adec23421ecabd5d1646b85267d1c329066f4b5c9ccec0066b05d975e5d347d",
+    "frontend/vanilla/modules/listening/catalogue-v9.js": "f6187e4a02c8fea86699475df6e12fd2404004ce4a9bb89d07be934b7383cfb9",
+    "frontend/vanilla/modules/listening/checkpoint-notice-v14.js": "a2dedb96d3ba6473613b5b361974e7300d6dcc9e85e97c1899b5e5291104ce4c",
+    "frontend/vanilla/modules/listening/checkpoint-v14.js": "4c00705ffd43aa5f4c3c3b8c281b40815db3fde39df27a0cf0c906e879888461",
+    "frontend/vanilla/modules/listening/draft-scope-v15.js": "749967c177655bb394c60b1cbad08cfeb965d6b7919f5ad5a6c4781d151af9a0",
+    "frontend/vanilla/modules/listening/exam-start.js": "df6f658257df6755ba51d694fd3b9dade9e6b280bb6ff86429427ae719728e9f",
+    "frontend/vanilla/modules/listening/exam-tools-v15.js": "56a9b9c887c6f4f0e9a6e1519000f7c4493e3ac0ecd9a895f9cb6e69754fc2e6",
+    "frontend/vanilla/modules/listening/exam-validation-v15.js": "9cededcf1dfabcc41136f53c521e17a295211f49bbd6b282bd95f7ae4057f3c8",
+    "frontend/vanilla/modules/listening/exam.js": "b7480ad7afc127cad2328742a9c50cb9eef9272759e28f3f9f514534bf7dc8f1",
+    "frontend/vanilla/modules/listening/full-activity.js": "770749aab1bd1657ec365616f071fd2e4b66be4b72605d2acca95ad25709a1d6",
+    "frontend/vanilla/modules/listening/hub.js": "b5a5657a685661df8a2b762a42ec8f2e48e0d737459b76134c32b434f8c5c6a3",
+    "frontend/vanilla/modules/listening/landing.js": "fe1dc1f37575107217cfb8ab48d7eefce934f96077457104d41149db2ea815b2",
+    "frontend/vanilla/modules/listening/legacy.js": "d1388ac7b54e00c017e4fc3805bbedad7e3caf0d460da80a0db19329c1bf9960",
+    "frontend/vanilla/modules/listening/lesson-authoring.js": "e896cde39f41fa24a949e601c0d4055b3e8debdda564d7bdbafed0a413e00f52",
+    "frontend/vanilla/modules/listening/lesson-quiz.js": "6707a0c138184c302e42b78dc918ccf1dfe63bd00138c5bad0be0685addbe20e",
+    "frontend/vanilla/modules/listening/lessons.js": "a9c83a52f819897bf998ef7bac59322c6d77a24a1d479d1d67f5b1c58666d1b3",
+    "frontend/vanilla/modules/listening/mcq-day.js": "2633b1866e0d746716676aa4c6fd88f9e8fd6aec7aca86a4dc9cf9ae396817d3",
+    "frontend/vanilla/modules/listening/mcq-index.js": "4575756f27092dd6a9731314e26cc8d11337e1bb9ad29bb9561990914515fd5b",
+    "frontend/vanilla/modules/listening/mcq.js": "6bd2c5f619612ea2db2fb7aac7fadf3e30a7c2b3d08def91b14979d056fe9446",
+    "frontend/vanilla/modules/listening/media/opaque-range-v11.js": "3f9cdf9913a926cac876753a6f66b4903488659c78e1854a2eea87aa64f82788",
+    "frontend/vanilla/modules/listening/media/range-v11.js": "f29dba9014d0a2c3668e718c08eac9f611726435dc722d87b98559147b2a249c",
+    "frontend/vanilla/modules/listening/media/seek-ready-v16.js": "1f8fc3e7dcdca7f8be18811b26cd358d23b227017d4ed0a06e0a140090f4331a",
+    "frontend/vanilla/modules/listening/media/shared-v11.js": "46a16f4320bc765a2058261f9725ef0188cd30b2bc02546e8863234465821b95",
+    "frontend/vanilla/modules/listening/original-exam-v13.js": "331341d53df70f05d3338dcd23855142c1e869def6f89dc1e15fe62a25f82684",
+    "frontend/vanilla/modules/listening/original-policy-v11.js": "7d2548d767661944aa5fb2420966b7c83b53deda53589b85e63d5aaddde88ea6",
+    "frontend/vanilla/modules/listening/original-practice-v11.js": "2b543c9c1d7af2350c39d0de0d6402771ffb93db8f4c40ea65aa1d91a6a7d1d9",
+    "frontend/vanilla/modules/listening/original-retry-v11.js": "298a6157ef4f72994ee2031d3a3a64f7e492beee08beacc80f7037d734692b07",
+    "frontend/vanilla/modules/listening/original-retry-v12.js": "24d3cff58f686952a74e2ef6f4179864bad2ba2a8c2f2f606faa6578a47dfc3b",
+    "frontend/vanilla/modules/listening/original-review-v15.js": "433a9c675fb9941832f8b38e98ecd6eac9d45402e7ba9bf056de138a137919bf",
+    "frontend/vanilla/modules/listening/practice.js": "b6793a2d5d8c31aec16554efc69e48f5cf600a57519d68523f7a2070d700503e",
+    "frontend/vanilla/modules/listening/review-authority-v20.js": "a106c45b894e334b0d15d17301e19ceeaa4c6e726d2268fb4967ae998ae01f6b",
+    "frontend/vanilla/modules/listening/review-discovery-v19.js": "8814d95200f3a2558be73e740ab276098b04030a7f2ba334b6ca3575eab7c247",
+    "frontend/vanilla/modules/listening/review-lexical-v17.js": "31a219178b79c947716f79b19e899be4a56e19ad8c2955501aabb8673d9bb158",
+    "frontend/vanilla/modules/listening/review-modal-v26.js": "7f8cf47ad13070ddb9614f052ee42db1cd08567904e36002dc6e9f59770b11c9",
+    "frontend/vanilla/modules/listening/review-navigation-v21.js": "d04ce5cd04cc94dfd15557ed1bf64a7c1ec277bc36c2886de6282294f0739a77",
+    "frontend/vanilla/modules/listening/review-recovery-v17.js": "d48346e0358b735b3bae344b0b6f82920f3d589732e4f3f3b6e8e00ddcfec345",
+    "frontend/vanilla/modules/listening/review-v16.js": "7cd21a8b6f58a59c5b7ef575c756a434cddb87c25b998a76b07ca167d83da892",
+    "frontend/vanilla/modules/listening/revision.js": "86720770d494b1fb9025cc18c58685bb610bfad76293266d237242976e0ebce0",
+    "frontend/vanilla/modules/listening/route-v7.js": "f9fa08f743ce3652099ede372164afa53bbec7c40dd0385a50a4f55fa170522e",
+    "frontend/vanilla/modules/listening/script-v37.js": "733b543ba12187922fea8b2f86c18934e60a377f19b94292d3238c9af099c8f1",
+    "frontend/vanilla/modules/listening/section-activity.js": "e6d1d47e65e2d5eef4c91891a00dc8720a2f0b4bc187e7c2c8a6db0f856bb8f8",
+    "frontend/vanilla/modules/listening/section.js": "12ff860ec3688e8567185be0c3438be66c3e958ba3fda47fadd254476f6a5ac0",
+    "frontend/vanilla/modules/listening/speed-practice.js": "04e68c186a85b76eec3844e1895328bd63947ceffe67228975c3ac2a01aa72c3",
+    "frontend/vanilla/modules/listening/start-attempt.js": "dc7713893288fda0fe40bd23a1f407ae8aebfc99007c4b7a8c264e458cc7061e",
+    "frontend/vanilla/modules/listening/study.js": "a75957a82bc053280e36f2ebbf09c4d7b4a1cb8305b32aa4f2968704b2f41a21",
+    "frontend/vanilla/modules/listening/test-mcq.js": "16f4cbb666bec4c444b11375ab08e60e65e1fa7e09fb12e5b4723c95e4d4830f",
+    "frontend/vanilla/modules/listening/tests-catalogue.js": "529c0899ebd57cec85287ea761a320874b51b74fa5765961c2709f8352886530",
+    "frontend/vanilla/modules/listening/view-lifetime.js": "427adea32d17d46609983252a15b88b193b6efc4b7fb7d9431143fdfd3528302",
+    "frontend/vanilla/modules/live-classes/contract.js": "929fcd249a438a343da5d1f56e84099c766102ed847baccd5de37ac645fee8b4",
+    "frontend/vanilla/modules/live-classes/join.js": "41e5a8d2ba1f10a351f60cdbbce343d444c2b8734a1911c7769f134045075f7f",
+    "frontend/vanilla/modules/live-classes/page.js": "7001f399ad41fcbc8f1fad2759eb66e1045d60f8979a873607e39254532c491e",
+    "frontend/vanilla/modules/live-classes/resources.js": "d79a475cb74db6677c630bd51af449da2e8d7658ddf737f0d5fd1511e55cd811",
+    "frontend/vanilla/modules/live-classes/room.js": "25a173613935457f5ecbfa0f6538474d16b2a934829d8fa3d7a636069f8b83ff",
+    "frontend/vanilla/modules/media/material-player.js": "c9cee8aca9481575d8abe218d7cc1af6adb1524e0c49c048d0fcc09193612633",
+    "frontend/vanilla/modules/mocks/local-transcript.js": "b607f059be6ec2211a699e436aacb6f33b14544bc9b83d7d3bcc00153170ddcd",
+    "frontend/vanilla/modules/mocks/page.js": "7a1b00e1818574e2288a6999989062b562c4d25c0d604baae47c2b4d5b91e652",
+    "frontend/vanilla/modules/mocks/runner.js": "8beee4330ecbdeea944f0a9245214621b20c93e63152a909564c2ce8d2e55f77",
+    "frontend/vanilla/modules/not-found.js": "7ed45f33d5397406f5d24a9f1c0bcba7285e8fe21cdfa1c17aa91f14e3f903d8",
+    "frontend/vanilla/modules/notes/lesson-notes.js": "f998ed650d1bd327a7e3db8af88a8862ba9841eccf6a8de0769395742514ceb5",
+    "frontend/vanilla/modules/notifications/page.js": "e00e31403b2cceace2d2abbd843c0cf9f7462203ff9a85a03c22fe0229b8fb40",
+    "frontend/vanilla/modules/profile/page.js": "b8baa3c3fdded94a5565040fc957f97491f7375387c7b37ca862d9656f255c1f",
+    "frontend/vanilla/modules/profile/photo-image.js": "e696a21037ac1ba8c04997a08f0174c5ee01a6d6fc351fcc80aa9e37faf86856",
+    "frontend/vanilla/modules/progress/mock-summary.js": "e431451c5926852a389d8f623c080779f6f89a2dcc8f3f7d9d015449ce8f2979",
+    "frontend/vanilla/modules/progress/mocks.js": "5096d6c6e62b7a3ea4d7d4b680330f120ae620e1d020382122befd7ab168d3c5",
+    "frontend/vanilla/modules/progress/page.js": "0ed48270bf7504b203e000f2b90f601bfac63ae187de21a5da0af520dac48727",
+    "frontend/vanilla/modules/progress/shared.js": "18f5d5ccd74ab3225443f7bce036c07d021b98bce2db72536b3e62c81c3810ed",
+    "frontend/vanilla/modules/progress/skills.js": "110ade16c6af89b430188bbae64dffafe7a71a5372d39dafb634fd5ef05dfd30",
+    "frontend/vanilla/modules/progress/summary.js": "b64812eef6bbaaa91dd92e16f3a236f1abdae22d2c97425588c05e5257b4466f",
+    "frontend/vanilla/modules/progress/trends.js": "286fa9627b68012db6190d84160da0ae497c4332283ed7b30ff088d1764a24ea",
+    "frontend/vanilla/modules/reading/academic-workspace.js": "27f96f20878e17d5c594f603636b9e473a9aea7ae2a2b695facb5ae7ef614c1b",
+    "frontend/vanilla/modules/reading/academic.js": "9c470f4a98443274fc648473ed2c5ec093d46c52d799c04057bf2e8aa5ebd2ae",
+    "frontend/vanilla/modules/reading/analysis.js": "fc3fd2acdded06a2410bb35d5f3ec2ccc7d0fab8effbb83822019dc57ca4fb19",
+    "frontend/vanilla/modules/reading/attempt.js": "910c628643b18781dd65e7496b760a6d3eceaa935bb719c58d0cb3a6f28fac5e",
+    "frontend/vanilla/modules/reading/dictionary.js": "03e606b166e4c0756a7ff94812e64573c84888d2d362e32a37142b1cf2ece7ca",
+    "frontend/vanilla/modules/reading/exam.js": "6f211078a55b1d463342e3f786cf26d559169000e2461727ceb4526c3713c0ba",
+    "frontend/vanilla/modules/reading/general-session.js": "79ff7ef976bc8bdc0803fcd5f99fc4e6ceb1a415f107e22c751c4ff5833e2a72",
+    "frontend/vanilla/modules/reading/general.js": "d0e9ea657f9178df99fd7886feb1707647625e73c5d87c6a71ed37382883ce8c",
+    "frontend/vanilla/modules/reading/history.js": "db39d31d2718a7aa281280adf1475bc92085ad059195e153981413ee255c3432",
+    "frontend/vanilla/modules/reading/index.js": "c4867eec031c73704a3592da5801eda0203a9bff48288041d52989cd8aac905d",
+    "frontend/vanilla/modules/reading/lesson-text.js": "c96328d1a914863e1bd327dce9353232dc84cbadea9486d0f596b4d33fd2992c",
+    "frontend/vanilla/modules/reading/lessons.js": "d5e116a5d7147b5421f2cffddb7317e9bad2de48ae9f9b52730eef2637beee4c",
+    "frontend/vanilla/modules/reading/questions.js": "033056152883534fa931b2acede78ee1b7d4dc36b799837e04883c53631d8138",
+    "frontend/vanilla/modules/reading/reading-popover.css": "7fa030e9f3e28f43a93a22c957c453e721d290836feeac4165852f4cbef1cc05",
+    "frontend/vanilla/modules/reading/reading-workspace.css": "001be7249a558c3156f2944c801071c8564de6515d82fc29ae1e74263a4c5c54",
+    "frontend/vanilla/modules/reading/retention-check.js": "09206b5fcfc6ffe5c82f15562d3f71274c741f180942bbce3ffc406edbdcbcb8",
+    "frontend/vanilla/modules/reading/retention.js": "f83a5ae1b6571e2fcfd9b4cb578a7e7282fa368b6d13d82d83bd93b5f974d0b5",
+    "frontend/vanilla/modules/reading/start.js": "db17f57a39706da0f7c950cc4e5e7c2a8acbd883904a77499e8c88bad08fb860",
+    "frontend/vanilla/modules/reading/workspace.js": "df33c00a34ac5684d13862d806657e2a99464a7989a93f26720d5b40a61a8fd6",
+    "frontend/vanilla/modules/recovery.js": "fb1139343691dbaac145c11297e95207959b3d32d4507ee59fdf43b5f5666d4c",
+    "frontend/vanilla/modules/reports.js": "4dc6fb29b4c106fdbc4fa80f655d61574bad2f7342fbfcad1d3908af26049329",
+    "frontend/vanilla/modules/riwi/index.js": "bf4cb79536412958cffc9a29f3a6c0d634a2d146f5dd6b1783e314358b7b50a2",
+    "frontend/vanilla/modules/riwi/objective-explanation.js": "ffda8c524f1bf812ed9ec4335645bbb78a6fc3e08fabc76af53f7efaf72c4d25",
+    "frontend/vanilla/modules/shared/async-action.js": "69c89ae62cddd403b3c05fa541c9652ef0a969450025298af6a92bb954d714b8",
+    "frontend/vanilla/modules/shared/band-axis.js": "276e8e6620bd87a986c29858f76883487da3c5b86574ad66f715043102e45015",
+    "frontend/vanilla/modules/shared/confirm-action.js": "7dd9a2ecec6c5bb460643beaa9fb6e8b9738401114d6f3f8b8795abed2ea24cb",
+    "frontend/vanilla/modules/shared/confirm-select.js": "8a5cae7faded4efbfe637ba43db2cfc0e701e6b86622dcd0bab4f8da430e8734",
+    "frontend/vanilla/modules/shared/dates.js": "3d02eff1e9b851b8bde7cb431baae61fb09e5d559e81368a177989e65cf305df",
+    "frontend/vanilla/modules/shared/events.js": "bdd5d2beac9405cad39e4dfb11d3b3d3b52de6dbf9f1f522bb4176b12cae369d",
+    "frontend/vanilla/modules/shared/forms.js": "9c785f87363521beec62ab6d948e5d85460b81cb9a2e985bcf30ac70e0105b1f",
+    "frontend/vanilla/modules/shared/inputs.js": "51d62ff7df436c1d135089d27278a5944dbca7a3a72ea77c05d1b485960f9402",
+    "frontend/vanilla/modules/shared/notification-read.js": "15ef8af71d396bd0de4dad5571c77edf78bb75e40f73beb8fccf2821747c6644",
+    "frontend/vanilla/modules/shared/presentation.js": "f22a167fd0243ae58ae6e7736a137f1dcb1ac434fdddf96fbd8d9b6e218b95d4",
+    "frontend/vanilla/modules/shared/progress.js": "1f00bced9599e48a0e25a845713fa8c923b21d85684afe858e153fafc52b618a",
+    "frontend/vanilla/modules/shared/recording-playback.js": "31d5948284abd13a1ffa9a81de94d5c1c7d3d1b781199bb3995c58869afb3452",
+    "frontend/vanilla/modules/shared/recording-preview.js": "f40d314ee475b4bf537dfc5114814d6a9cc03101e0adb478f4c92d765a05bd5c",
+    "frontend/vanilla/modules/shared/region.js": "1383760b6d2c673dd1f0c04d7830741b0db39a64c79fb3bd9c119b55da95e4b6",
+    "frontend/vanilla/modules/shared/report.js": "26b1d30e3c774bdf87fb958994693349d3f42a0c262a8350b4880101374f4420",
+    "frontend/vanilla/modules/shared/route-view.js": "d4e2a8220a7cbe15232ea00d55c36f393b6b2da7a999c67f8c6ce3f6c9533df4",
+    "frontend/vanilla/modules/shell/layout.js": "8430b3a58572e2306a5a02278a3da6dcf90f6f434323cc5967567fa743f8ca9c",
+    "frontend/vanilla/modules/shell/link-pending.js": "685e44749534b1c61b3f96ed6576b037410320a8cd44d6372d958a548bda98da",
+    "frontend/vanilla/modules/shell/module-layout.js": "103d74abfecdd5960b3166f87d5645b064ca56e1cff0a81cc87b22802e6a3ec8",
+    "frontend/vanilla/modules/shell/notifications.js": "e0dc4fa10d646f1f3a93e0dc91a0b44add47b7b9fa3149b0a4a33e4fb097a0ed",
+    "frontend/vanilla/modules/shell/profile.js": "f1224b51fb8f9012700c77395302d59e68d264aadfc1c1140a6a791601ca1162",
+    "frontend/vanilla/modules/shell/search.js": "a1f40f2befd96a11e1747f163265a15e016794b474c8cf067bea862d7a3074e1",
+    "frontend/vanilla/modules/shell/section-header.js": "7f8d407009194411f2c260a75d0e615252a7f41eed2e619802ed865edd57f59c",
+    "frontend/vanilla/modules/shell/transition.js": "76208814cce45e1d50e35d073b21803d02e2e21ee97a52fd1dc6a3461aef6da6",
+    "frontend/vanilla/modules/shell/utilities.js": "c81982db6e3a166ca6eb8b556d01108c6abf977be7df890d829f6d423be699bd",
+    "frontend/vanilla/modules/speaking/ai.js": "e2112249d11561c657b10a16490d30c00817d5201a0e0cc5b84a6aeffbc057b5",
+    "frontend/vanilla/modules/speaking/call-engine.js": "060071aa9f3da707a3c8c69c03e20c943c9d952ce3fca108add0c064a414d6e0",
+    "frontend/vanilla/modules/speaking/evaluation.js": "5f683b6e1c9418bacf6718e88ce04c27d80963928e52af9601bb9a47047febe8",
+    "frontend/vanilla/modules/speaking/history.js": "ad998775b5a0aea1bfe1e6b87a541997bd6538f44b6053a07a86cacdfab67666",
+    "frontend/vanilla/modules/speaking/hub.js": "2231e2b9ab0356483741ef2484f6f1efac5aff1e7c92d800a0d9f23581bee4a2",
+    "frontend/vanilla/modules/speaking/index.js": "94891dfc433d7ae03d4f258882e0f1bcf034fdb4ddecf3b22d3fe4b6ae8b96a1",
+    "frontend/vanilla/modules/speaking/lessons.js": "5a0e9e9a55b8a8634bcad49a1f1db60f9cc68c667020a622419c13b7c2f91867",
+    "frontend/vanilla/modules/speaking/live-partner.js": "c6f641acae0b06809868a625d4da725cdf23cfa91569e62c7ca5ea97589e7c2c",
+    "frontend/vanilla/modules/speaking/media.js": "b15ddbc0a2cf4119cb480735789777f809243ab532dc4fc41106891ef13b2b5f",
+    "frontend/vanilla/modules/speaking/microphone.js": "997460b24c6a85c861ee7a39f6fdd9510f604596b92e99ad48a6bdc2a1a7b96a",
+    "frontend/vanilla/modules/speaking/practice.js": "adabe8a16fe41ca249d2d16142f6fb303ff631ff567dfa618e78c29bd5148222",
+    "frontend/vanilla/modules/speaking/recorder.js": "97b1b9b3b6534f3308ca35f4cccdc565de17bca004244482f256b025eb728bad",
+    "frontend/vanilla/modules/speaking/situations-shopping.js": "11c506a39c875af53e84a0767bc8eea197a9270285958f73b84747692743175e",
+    "frontend/vanilla/modules/speaking/situations.js": "e04be15387ec6d6e46f6a4e706d377979ef05aae2ff203ad07509664c596ace8",
+    "frontend/vanilla/modules/speaking/speaking.css": "b558700bdc738e92b69df0ceaa4fb254cbc797c9c74878879f4bb6ccd9fbb851",
+    "frontend/vanilla/modules/speaking/study-rich.js": "8c1f697dfb70414910d37e8ffb7e759d1ab4d7d5c49918a27c1b62837f6466a9",
+    "frontend/vanilla/modules/speaking/topic-categories.js": "6f774ca6d350a98f401b6985eebf9271c62e2117eac6fee62571cbc0b054ad02",
+    "frontend/vanilla/modules/speaking/upload.js": "0c9cfccec5000b710ed18047ff1e1a2a2413d6325383683dee9dfdaafbc0af9f",
+    "frontend/vanilla/modules/speaking/vocabulary-save.js": "f8e0c4899203d551a196bb0714ef4e530b4790ea89f5b7e26d19ef7a456be4d8",
+    "frontend/vanilla/modules/staff-final30/admissions.js": "5f9d5ab60d31952a891a085d0dba035091e4813574ef3f37331ab0fae8958b4d",
+    "frontend/vanilla/modules/staff-final30/content-compat.js": "b0c12db781e3905250ede91e4da3d40d84ccff7dbbf24c6b0955195290bacfb0",
+    "frontend/vanilla/modules/staff-final30/content-workspace.js": "9462ca4a1cb6f6b56fa029e145a83eb79c25f564214e268b799cb40047bcf715",
+    "frontend/vanilla/modules/staff-final30/delete-material.js": "f8904995ff2f82b0e4f71efc3f65921cc659c3a69e93fa4e0892037c43d09bdd",
+    "frontend/vanilla/modules/staff-final30/dictionary-panel.js": "d3cb98ffc8e32acbcf1749c272c138bcb2685db673e77c011193bfcf019dc3be",
+    "frontend/vanilla/modules/staff-final30/grammar.js": "ead5687bd41e458e91b0b8ed92fa0d16dfa4b3f79450e62020d5c16ef49f399f",
+    "frontend/vanilla/modules/staff-final30/homework.js": "2f047d7e35b21ef3dc5c3920ae7236af1af6ca26962ede65aa602c1faf535137",
+    "frontend/vanilla/modules/staff-final30/kit.js": "2f4335db2d03f565fe40676f0050dcdb0d9615b65d222a0788e43d5ebf166d6b",
+    "frontend/vanilla/modules/staff-final30/learning-results.js": "763d7add0649b462aea708bc9a1fe38dc9a6e311225c2e91b5c7baf09de64907",
+    "frontend/vanilla/modules/staff-final30/listening-import.js": "9cfbdde9f57bf6fe7182cd6a982cc5f0460251159b67337649f97349bc35b517",
+    "frontend/vanilla/modules/staff-final30/listening-legacy-import.js": "0f107a2345b8ca17e377daad8bc5d6a410867babee32aa2a4324e30470fd4bdd",
+    "frontend/vanilla/modules/staff-final30/listening.js": "064ffeb0b23dd69a0714084c69cfc519609346931c330a7e639e2e25e3905728",
+    "frontend/vanilla/modules/staff-final30/management-hub.js": "b717444b22484b2b77fd7e087447c0fb83ed44dad080becee84cf14c226e7fed",
+    "frontend/vanilla/modules/staff-final30/materials.js": "3b08d485b88028eca09b89c9d38dc50de9d5ca72b5afeb022cec1cfa32322c3d",
+    "frontend/vanilla/modules/staff-final30/mock-create.js": "6d49db124dea6d1025e1338f7c1352ac8503c487f0b68829611080505892fa4c",
+    "frontend/vanilla/modules/staff-final30/mock-grading.js": "86cd9ec7c2a22c2987ca7d3c62de5c93f5f185f9ffcd9bbbf598935ef16d5f16",
+    "frontend/vanilla/modules/staff-final30/mock-management.js": "8e88e887bc2219685c0923c1ad238d22e07994ffc52deb1fcde80b651cbfaf1d",
+    "frontend/vanilla/modules/staff-final30/mock-summary.js": "d70998225c4aff87c6f293477f9a3934409c7b31c00b67f0cb1355efd113840b",
+    "frontend/vanilla/modules/staff-final30/monitoring-strings.js": "97085f62a8910e5e404273abadee53bc360fa887a8cd2949b3a079136ee28fac",
+    "frontend/vanilla/modules/staff-final30/owner-dictionary.js": "c14dbbcd7c6cec9d5d423f391e4ba9da17856ae13810d5f1774977659befefe5",
+    "frontend/vanilla/modules/staff-final30/owner-integrations.js": "3ac4b4ef9cd5e206dd9d307b15b3d3145cba87954e34850853f362fd1daf7d8f",
+    "frontend/vanilla/modules/staff-final30/owner-overview.js": "15bc5895f029aa1ef15faa86a8cef68b6405bb6d7339d2df31e12e0adfaefbb7",
+    "frontend/vanilla/modules/staff-final30/owner-retention.js": "2bf9da084d23e198c7f815772193a24b591dde718321087a2aed84ebcb2f3a58",
+    "frontend/vanilla/modules/staff-final30/owner-riwi.js": "9c7bc85f77c44dc53e9ff32655598f2f6cbe13c5db4eb6d0a0ec1ac39c40a334",
+    "frontend/vanilla/modules/staff-final30/owner-transfer.js": "b6efa82d81e8728098f8a98b5d3037213ab9f41ca56035e96cc3b875cd4e8db6",
+    "frontend/vanilla/modules/staff-final30/people-detail.js": "6d8073cfdc206be778fa6f7b5ab78a930334728c030e88d1821010a16c4c8922",
+    "frontend/vanilla/modules/staff-final30/people.js": "20578b9a1ff64268a4a0ba3c57a74c6ecf91f7eff87dbcb53beaaae654590881",
+    "frontend/vanilla/modules/staff-final30/reading-import.js": "ce6c0c321ddd721937cc40a23f4fffcd90d5fac131f32db41f4ba1ad72530d35",
+    "frontend/vanilla/modules/staff-final30/reading.js": "53c1b4e97eba41dcfabb985618f615e1d8e3c01765c6d5e70d77d013a9c35721",
+    "frontend/vanilla/modules/staff-final30/resource-composer.js": "2930365cf936d13c6c87ce270089bc43495356bb6f9112d9084e778a73116ed0",
+    "frontend/vanilla/modules/staff-final30/retention-delete-strings.js": "ba095ac6079ce65f32753bbb586ac100b4730bd811c0ee759469211484e4fa1c",
+    "frontend/vanilla/modules/staff-final30/retention.js": "9da0302683697632fd203470f12c6e7ee2e9e932b4b66a3afd8984a5d4a99ddc",
+    "frontend/vanilla/modules/staff-final30/roster.js": "f3343cddc15099693a18fe8ed04b4b7a535bef01308e44e63a696705633cea5b",
+    "frontend/vanilla/modules/staff-final30/routes.js": "459a92363b8e2db4a4fc388251e8d284030c0643e6147edf0f3ba0e79cade7a6",
+    "frontend/vanilla/modules/staff-final30/speaking.js": "fd18a2dbe9230fddaad27b1699b904e67a6eaf8c5621f7276b44ab5deab1077c",
+    "frontend/vanilla/modules/staff-final30/statistics-strings.js": "4fb6aed2a7320d944b27e21db2c086d7916c1bd636176270654d37919e40c8ea",
+    "frontend/vanilla/modules/staff-final30/statistics.js": "5449f3baf312e979200358d6417a6ca68b33b509cf9e32bdb7eff052f5053918",
+    "frontend/vanilla/modules/staff-final30/teacher-live.js": "5a59c0185ce4bcf6e791ab63a959baf0b5445bfad5c28276bfabc62021fd5152",
+    "frontend/vanilla/modules/staff-final30/teacher.js": "d4360535a44720b15235f2969f5554960a6d414bdec6d49edd38ed5d8b8baec6",
+    "frontend/vanilla/modules/staff-final30/video-lessons.js": "ab76e274774ff97cbc7708bdc6401770a0136299c225d9ee3875dc14e4240c82",
+    "frontend/vanilla/modules/staff-final30/writing.js": "5c259a06a8aab793023e046071eb254d0a47b35ba2e57972469fbe66c6db828d",
+    "frontend/vanilla/modules/support/page.js": "442dfbd1613571b81bdde8d2dc8b00641937217775b9e5f9e9e9474b9b717dd0",
+    "frontend/vanilla/modules/unavailable.js": "513206635a5987d77a997c39ed7b004ba076bbafa4e171db4d2f4b342d2993d6",
+    "frontend/vanilla/modules/video/detail.js": "b9bcc0777c73200d8d824a69d373c50605d717d0f4e084e49d6d616365d16aaa",
+    "frontend/vanilla/modules/video/direct-player.js": "3656a3e8fbdeb7e8033db253e79caf216471f79d47fef91fc0595d17ae6d4b7f",
+    "frontend/vanilla/modules/video/library.js": "5e462c5fbf5cb2f53c7093fbc884ffa6f9d5def532282fa69256f73ff50aa055",
+    "frontend/vanilla/modules/video/provider.js": "460f21fd969c680d4dc3072c8182594c3a6c09485462bc3c0d8003b45d02d3e9",
+    "frontend/vanilla/modules/video/reflection-recorder.js": "976f5766d34ab498dfe36a5f3e9a38451cf82af8d5f0ae7317996bf8a0844590",
+    "frontend/vanilla/modules/video/studio.js": "c5bd0a99495f60dc2c027151e14daf37df9ac58432a437765538c9e1a89d7ab2",
+    "frontend/vanilla/modules/video/study-pack-data.js": "b5e4c68159114b047ddd5ab0ff0322d24c81dfe2c460c789a8af6f21fb370c8e",
+    "frontend/vanilla/modules/video/study-practice.js": "bd21b6cddc362b590ad216b5d59749147a7f6b76aa456fe7d18dec793cd59eca",
+    "frontend/vanilla/modules/video/transcript-dialog.js": "48035ddb9ad39bd748a69400f17f375ac430501ffcd38a60e25058684b86b5b0",
+    "frontend/vanilla/modules/video/video.css": "5b650a025c2a714fb1cff2ca1e1822cd85a56d54fa108a9078b085965d6788f6",
+    "frontend/vanilla/modules/video/vocabulary.js": "4ec253e6e3924ae7ee9df7659b801b44b1ff0d06b39e2d8aef99e951dc01b320",
+    "frontend/vanilla/modules/vocabulary/board.js": "5d150b82d15f20eb9afcb6eb79a6cd7606286683ccc160e2886475742906e04b",
+    "frontend/vanilla/modules/vocabulary/clickable-text.js": "fe1404b58a700b63dd39f0408847589456616d621907d23c476069801edd7553",
+    "frontend/vanilla/modules/vocabulary/contextual-popover.js": "3ce0950d95098ecdd9b276405ccf3fcc3a6daf875b030b6460e54bc2fcc32d5a",
+    "frontend/vanilla/modules/vocabulary/copy.js": "c0ebbdfa1df68dfbd415049febc265d78fd93b6b9d7c495314152fe3b2a8168a",
+    "frontend/vanilla/modules/vocabulary/dictionary-learner-ui.js": "8e63064e9f93087bb34e7becfa441cf539fda94284c116e42f3bb507b5e50ced",
+    "frontend/vanilla/modules/vocabulary/dictionary.js": "e6aa91f423fedddb73cc4fb935bc6824d3403b51c509492ccc0df50202d644ae",
+    "frontend/vanilla/modules/vocabulary/game-classic.js": "ba2cefb9e64650a4606490e9e731c785098d09707c37cdf3000b233c95f3bb83",
+    "frontend/vanilla/modules/vocabulary/game-common.js": "6adfa9a7848c4eee7e1bcf91dcf6aa6621441fa90655130881fd14ba002f721d",
+    "frontend/vanilla/modules/vocabulary/game-flashcards.js": "a4608649b967d413c5fecb82502bacf1a59f4cca9215bff5c166c15615cfe80a",
+    "frontend/vanilla/modules/vocabulary/game-race.js": "ec4e446d9c856a2ec370e9d43386573a6e17e292c1ff05fbd70c01c930a7d5d1",
+    "frontend/vanilla/modules/vocabulary/games.js": "a0df8005e1f9ecceb0cdcf8a7f712897c327805f3e9a5d132d0b782e635328e2",
+    "frontend/vanilla/modules/vocabulary/index.js": "ba7b102480edd1185911432c0a96f0f0379fbe04e9da08aa44dbef740e6048c9",
+    "frontend/vanilla/modules/vocabulary/manage-dialog.js": "caa802223972004fe5eb731f2505978b8fa3ffe9d45a063e81264e80a10bbd60",
+    "frontend/vanilla/modules/vocabulary/revision.js": "e395cc0babc57d1dc0c787173d57fec9e739276901bd39dd0ad4ce6f0ef4a5e0",
+    "frontend/vanilla/modules/vocabulary/search.js": "9c57035ec3f88915c4073834a004d4bfec37402cb73f962f1d8de3f797a11728",
+    "frontend/vanilla/modules/vocabulary/shared.js": "068e0dcd6a551c9e12485c79f791ee0d00fe159cb9706769f96a7a7963a94346",
+    "frontend/vanilla/modules/vocabulary/use.js": "6ca6769ea91286164686321e1586b0651dfc0209990f6bf27de03ee1f638032f",
+    "frontend/vanilla/modules/vocabulary/word-popover.js": "62ddb0b654ad1982f4d0c628d8c5bf998e2fb05d32645672a5341155b3b8c483",
+    "frontend/vanilla/modules/vocabulary/words.js": "c7a4a1d2002a9aa8fe0603ef228fb40a5fef36a0f79a46b6f6823df0049c2252",
+    "frontend/vanilla/modules/writing/activation-ui.js": "d9516ace8ec22272fadfc3cd8eb2ec4433fc8f0d0c6a45d89e9030a8eb4b2825",
+    "frontend/vanilla/modules/writing/activation.js": "58ddebc60867c432913033fbcf5aea61c6219b5f436c5a59b83b8f235132a658",
+    "frontend/vanilla/modules/writing/exam-classification.js": "ab24e7170beffa9491118b1ae9def9c639fc6b331410f44ea2fc81ded8dd4a93",
+    "frontend/vanilla/modules/writing/exam-picker.js": "80e57f7c6ac640b14532c5a54ae3de9108aa988d8c465111739d5a111c990248",
+    "frontend/vanilla/modules/writing/exam-practice.js": "5e7a4514994c2834763fa9e8042de93301b322af4cdefb095741e6d102ca73aa",
+    "frontend/vanilla/modules/writing/exam.js": "bcdcb216fbe9568eca993684589e97cc42497c947a637a0a62a0e6cb96ea8711",
+    "frontend/vanilla/modules/writing/grade-form.js": "13ab45c8743e699a826f47f40df8ab3024275313c3d97ff9aba2fca0146e1c1f",
+    "frontend/vanilla/modules/writing/grade.js": "ac5d8b27659218cb9a827993b9d95dfac50307e006a03bbd892553aab8d45504",
+    "frontend/vanilla/modules/writing/home.js": "986aaffd494224122cb8d77cec150320fe807456e4c5379c7d725ac67f3f6fa6",
+    "frontend/vanilla/modules/writing/index.js": "39c665cd0892722a2b498fc10deeb0b9bd5362828ea5693b4cb71ef205909fc3",
+    "frontend/vanilla/modules/writing/lessons.js": "7804343c57398e5bb7c1aa4f1434303ee175fab5d529b363802d46beb5eb972b",
+    "frontend/vanilla/modules/writing/pattern-actions.js": "99124ea0779120ba13fce5ad43199e55f3900c4ac90c5ea1839dc40663e05278",
+    "frontend/vanilla/modules/writing/pattern-vocabulary.js": "0294168c9392171cbecbaea248df76351d0df1e241d5bc93b8ef36c1a043a9b6",
+    "frontend/vanilla/modules/writing/shared.js": "5056c515f406b976de8ce6892b6efa58ca4ad80dcfc42d88e2811667bda0bb68",
+    "frontend/vanilla/modules/writing/source-study.js": "178339e353df1d7c46f1efb7472b89af9c6580d40b9245124a0aeb8060005d74",
+    "frontend/vanilla/modules/writing/stealing-copy.js": "f5e0d24e3b3b25b227a0ec4f5619dc5da124a7ca49a0979e98cb83e978496777",
+    "frontend/vanilla/modules/writing/stealing.js": "f99a9ee0b761ff938e8c49ea6d900025893aeb0211417b5a6f4d488b2cf1812e",
+    "frontend/vanilla/modules/writing/submissions.js": "7a2fc316efecbd22169b263fb77258ee4dcdf6f3342569c329e7677e35e86be6",
+    "frontend/vanilla/modules/writing/topic.js": "c77e42a7502defc5ecf3e9bd05f7833eb3605384fe3a403962072d8747f7e568",
+    "frontend/vanilla/modules/writing/translation.js": "288dd073fe5e43dd0941b68d781327021e8874c6fd6559fb11cb651128f37eb6",
+    "frontend/vanilla/modules/writing/typing-controls.js": "4ae4575116b1810f6a349dcd6d6287c047180c7ebb7ae092b7cf918890f6512c",
+    "frontend/vanilla/modules/writing/typing.js": "59bc6e18ab20484aaca7fd97df96ea110d67be86e4e7815adcb6aa8aaed59b93",
+    "frontend/vanilla/modules/writing/writing.css": "7986f936e26f9a798540ceff7fe4e1b6da2273d6c5219b0c2e285477ea2a6ea5",
+    "frontend/vanilla/css/campus.css": "918cef92c8b25f5399f42e83f776658ad649047a92f16db43c4222d2d3686005",
+    "frontend/vanilla/css/fonts.css": "8a8864318038a94325b7afa7a13eac144fbaef27eba925c528767dae2b33e7d4",
+    "frontend/vanilla/css/global.css": "747b2954f459088aa243b291983d4ebeef39bdd65b4830a10b2c66474d3a2307",
+    "frontend/vanilla/css/riwi.css": "b1789c76714f0c119713a698d0772c1556005c7247a8dde740e1081d3ffeb9d1",
+    "frontend/vanilla/css/source.css": "088124cd84c17755f50bf59c241f518d7d26f04b03086a78521199e452040f16",
+    "services/backend/app/browser_staff.py": "03eb0f32d0dc05d6b28420aab3545ed500ee1720e81fd8910d3009ef99e6d01d",
+    "services/backend/app/browser_authoring.py": "b115e2b037f61b165852e3c0f06e84a280f9288e8a51f9fda0118e810983ecdc",
+    "services/backend/app/admin_authoring_port.py": "c89f731cf17b0b576455b9f61c9b7a47801786ed96e59a3e5b2bfa7bb24ebedf",
+    "services/backend/app/riwi_capabilities.py": "b28c78ef4421d32d4775d586076b9f104dc27dfc753d81d0d9bc5f92be612385",
+    "services/backend/app/riwi_site.py": "35e19adb3db4270b99b3f9f153dbdc3b49156f236a2ff0cf3bec10dd2ab853df"
+  }
+}
