@@ -1,19 +1,29 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "date": "2026-11-03",
-  "baseCommit": "93673b7815b229bf644113b81d0e8838c7bdaa7a",
   "branch": "arena/learners-area-next",
-  "testedSourceDigest": "822184f2eaf955c6e0c9e306db7aded0149e2b4b746c8cbd6f1575301e78146d",
-  "backend": {
-    "tests": 313,
-    "failures": 0,
-    "errors": 0,
-    "skipped": 0
+  "testedCommit": "b8cc3da70d611d1fee71cb2a8e2160bac6e3ce95",
+  "testedSourceDigest": "e450ee31cb93850ea04a024d9afa45ec4eb7242501e5003eabe30cd93522e4ed",
+  "backendRiwi": {
+    "passed": 317,
+    "failed": 0
   },
-  "frontend": {
-    "tests": 13,
+  "backendMainCore": {
+    "passed": 37,
+    "failed": 0
+  },
+  "frontendRiwi": {
     "passed": 13,
-    "failures": 0
+    "failed": 0,
+    "includedInFullSuite": true
+  },
+  "frontendFull": {
+    "tests": 1288,
+    "passed": 1277,
+    "failed": 0,
+    "skipped": 11,
+    "skipReason": "Existing legacy Listening importer tests require LEGACY_LISTENING_FIXTURE; no owner fixture was supplied for these tests.",
+    "environment": "Existing QA jsdom plus lockfile-pinned PostCSS 8.5.28 and postcss-selector-parser 6.1.4 in /private/tmp; temporary repo symlink removed."
   },
   "nativeBuild": {
     "staticBuild": true,
@@ -21,39 +31,20 @@
     "files": 513,
     "routes": 125,
     "nodeRequired": false,
-    "revision": "1f3be18f5eb4752973a4",
-    "inputBytes": 16275213,
-    "transferBytes": 13024040,
+    "revision": "b1e713b5f1a579ff1171",
+    "inputBytes": 16275435,
+    "transferBytes": 13024052,
     "minifiedFiles": 179
   },
   "originalStudyGuides": 175,
   "guardianArticleGroups": 50,
   "guardianLevelGuides": 150,
   "cambridgeUnits": 25,
-  "knowledgeSources": [
-    {
-      "kind": "guardian",
-      "title": "RIWI Original Guardian Study Notes v1",
-      "checksum": "b86b97e101009596944c6d3ff86d477bf2122638d60386ea5c3da84fa4ef8d20",
-      "units": 154,
-      "characters": 183574,
-      "rightsClass": "internal_permission"
-    },
-    {
-      "kind": "cambridge",
-      "title": "RIWI Original Cambridge Grammar Study Notes v1",
-      "checksum": "23d259dca56eb93f765b565f2ead7493750cf6bbe2bfcf404d487856cb041ddc",
-      "units": 25,
-      "characters": 58002,
-      "rightsClass": "internal_permission"
-    }
-  ],
-  "sourceRights": "Original notes only; publisher PDFs and exercise keys are not redistributed.",
-  "liveSafariQa": {
-    "status": "pending",
-    "reason": "Mac locked after verified existing QA Owner control; manual unlock requested."
-  },
-  "qaKnowledgeActivation": "pending_owner_authenticated_workflow",
+  "qaActiveKnowledgeUnits": 363,
+  "qaKnowledgeActivation": "completed through authenticated Owner candidate, approval and promotion",
+  "liveSafariQa": "completed in Owner QA; see live-acceptance.json for exact checks and limits",
+  "physicalIphoneAcceptance": false,
+  "externalAiEnabled": false,
   "productionWrites": false,
   "mainMerged": false,
   "productionDeployed": false
