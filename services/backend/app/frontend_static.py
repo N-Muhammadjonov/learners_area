@@ -101,6 +101,8 @@ class StaticFrontend:
                     response=RedirectResponse(target_path+('?' + urlencode(params) if params else ''),307,headers=core.PRIVATE)
                 name = path.lstrip('/')
                 versioned = False
+                if re.fullmatch(r'riwi-speech-assets/parts/[a-f0-9]{16}-\d{3}\.bin',name):
+                    name='js/vendor/riwi-speech/'+name.removeprefix('riwi-speech-assets/');versioned=True
                 if name.startswith('assets/'):
                     parts = name.split('/',2)
                     if len(parts)!=3 or parts[1]!=manifest.get('revision'):

@@ -20,6 +20,7 @@ dist/
 .data/uploads/
 # legacy root: objects used to be written inside public/ (see README, "Storage")
 public/uploads/
+/public/riwi-speech-assets/
 
 # drizzle local artifacts
 drizzle/meta/_journal.json.bak

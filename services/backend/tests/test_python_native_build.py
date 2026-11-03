@@ -34,3 +34,16 @@ def test_real_build_without_node(monkeypatch):
     assert summary['nodeRequired'] is False and summary['routes']>100
     manifest=json.loads((ROOT/'frontend/vanilla/build/asset-manifest.json').read_text())
     assert all(not name.startswith(('src/','node_modules/')) for name in manifest['files'])
+
+
+def test_speech_parts_are_copied_to_cdn_without_publishing_private_or_non_model_files(tmp_path):
+    build_root=tmp_path/'build';source=build_root/'js/vendor/riwi-speech/parts';source.mkdir(parents=True)
+    name='a'*16+'-000.bin';(source/name).write_bytes(b'public model fixture')
+    (source/'private.txt').write_text('never publish')
+    result=builder.publish_speech_parts(build_root,tmp_path/'public')
+    public=tmp_path/'public/riwi-speech-assets/parts'
+    assert sorted(p.name for p in public.iterdir())==[name]
+    assert (public/name).read_bytes()==(source/name).read_bytes()
+    assert result['cdnSpeechFiles']==1
+    config=json.loads((ROOT/'vercel.json').read_text())
+    assert 'frontend/vanilla/build/js/vendor/riwi-speech/parts' in config['functions']['server.py']['excludeFiles']

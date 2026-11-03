@@ -351,5 +351,6 @@
   "runtimeHashes": {
     "transformers.min.js": "aa5002b70e789798da263f5f99c62bd3e8fcd0c119258a493c40c180648365fa",
     "ort-wasm-simd-threaded.jsep.mjs": "08fb86ec433c78bfb032c5d84a68b8e8e5a8d81268fa39e24314179a5767a5b9"
-  }
+  },
+  "partsBase": "/riwi-speech-assets/"
 }

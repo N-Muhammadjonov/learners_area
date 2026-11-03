@@ -68,7 +68,7 @@ def main():
     (TARGET/'LICENSE.model').write_bytes(get('https://www.apache.org/licenses/LICENSE-2.0.txt'))
     upstream=json.loads(get('https://api.github.com/repos/openai/whisper/commits/main'))['sha']
     (TARGET/'LICENSE.upstream').write_bytes(get('https://raw.githubusercontent.com/openai/whisper/'+upstream+'/LICENSE'))
-    manifest={'version':1,'runtimeVersion':info['version'],'model':MODEL,'modelRevision':revision,
+    manifest={'version':1,'partsBase':'/riwi-speech-assets/','runtimeVersion':info['version'],'model':MODEL,'modelRevision':revision,
         'upstreamLicenseRevision':upstream,'ortRevision':ort_revision,'modelLicense':api.get('cardData',{}).get('license'),
         'totalBinaryBytes':sum(row['bytes'] for row in assets.values()),'assets':assets,
         'runtimeHashes':{name:hashlib.sha256((TARGET/name).read_bytes()).hexdigest() for name in ('transformers.min.js','ort-wasm-simd-threaded.jsep.mjs')}}

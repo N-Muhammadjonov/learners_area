@@ -81,3 +81,10 @@ test('module questions recognize mixed Uzbek/English and show safe clickable sec
   assert(!h.q('.riwi-msg--assistant').textContent.includes('/app/'));assert(!h.q('.riwi-msg--assistant').textContent.includes('Unsafe'));
  }finally{h.dispose()}
 });
+
+test('a previously sent image cannot hijack a later module question, but remains available for file followups',async()=>{
+ const calls=[],ctrl=createRiwiWorkspaceController({role:'owner',readSiteContext:()=>[{path:'/app/riwi',theme:'day',controls:[]}],adapter:{sendChat:async body=>{calls.push(body);return {conversationId:ID(2),answer:'Answer'};}}});
+ ctrl.state.attachments=[{name:'image.png',kind:'image',text:'',sent:true,sentAt:new Date().toISOString()}];
+ await ctrl.sendMessage('Vocabulary tizimi qanday ishlaydi?');assert(calls[0].siteContext);assert(!calls[0].attachments);
+ await ctrl.sendMessage('Rasmdagi yozuvni tushuntir');assert(calls[1].attachments);assert(!calls[1].siteContext);
+});

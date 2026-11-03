@@ -4,6 +4,7 @@ import hashlib
 import gzip
 from importlib.metadata import version
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -16,6 +17,20 @@ ALLOWED = ('index.html', 'js', 'modules', 'css/global.css', 'css/fonts.css',
 EXTENSIONS = {'.html','.js','.mjs','.css','.json','.woff','.woff2','.ttf','.png','.jpg',
               '.wasm','.bin','.gz','.bcmap','.pfb','.jpeg','.webp','.svg','.avif','.ico','.mp4','.webm','.mp3','.ogg','.wav','.m4a'}
 FORBIDDEN = {'package.json','package-lock.json','node_modules','scripts','tests','docs'}
+
+
+def publish_speech_parts(build_root,public_root):
+    """Public model bytes belong on the CDN, outside the Python function bundle."""
+    source=Path(build_root)/'js/vendor/riwi-speech/parts'
+    if not source.is_dir(): return {'cdnSpeechBytes':0,'cdnSpeechFiles':0}
+    destination=Path(public_root)/'riwi-speech-assets'
+    if destination.exists(): shutil.rmtree(destination)
+    target=destination/'parts';target.mkdir(parents=True)
+    total=count=0
+    for part in sorted(source.glob('*.bin')):
+        if not re.fullmatch(r'[a-f0-9]{16}-\d{3}\.bin',part.name) or part.is_symlink(): raise ValueError('Invalid speech part')
+        shutil.copyfile(part,target/part.name);total+=part.stat().st_size;count+=1
+    return {'cdnSpeechBytes':total,'cdnSpeechFiles':count}
 
 
 def optimize(temporary, files):
@@ -94,6 +109,12 @@ def build(base=BASE):
         target=base/'build'
         if target.exists(): shutil.rmtree(target)
         temporary.rename(target)
+        if base.resolve()==BASE.resolve():
+            stats.update(publish_speech_parts(target,ROOT/'public'))
+            if os.environ.get('VERCEL')=='1':
+                # Keep the function comfortably below the observed 225 MiB limit,
+                # even if its bundler changes include/exclude glob precedence.
+                shutil.rmtree(target/'js/vendor/riwi-speech/parts',ignore_errors=True)
     finally:
         if temporary.exists(): shutil.rmtree(temporary)
     return {'staticBuild':True,'runtime':'Python FastAPI','files':len(files),'routes':len(routes['routes']),'nodeRequired':False,'revision':revision,**stats}

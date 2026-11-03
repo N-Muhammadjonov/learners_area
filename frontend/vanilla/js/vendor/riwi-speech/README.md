@@ -10,8 +10,10 @@ stored alongside the assets. Refresh with `scripts/riwi-speech-assets.py` using
 the pinned package. The script reuses verified downloaded weights and does not
 silently change an existing model revision.
 
-Binary assets total 101,260,210 bytes. They are served in 2 MiB chunks to fit the
-existing function response budget. The worker verifies each chunk and assembled
+Binary assets total 101,260,210 bytes. The Python-only builder publishes them in
+`public/riwi-speech-assets/parts/` for same-origin CDN delivery and excludes them
+from the Python function. Local non-Vercel builds retain an allowlisted fallback.
+They are served in 2 MiB chunks. The worker verifies each chunk and assembled
 asset, disallows remote models, sets one WASM thread, and rejects any non-GET or
 off-origin fetch. Only public model/runtime bytes are fetched. No audio, speech
 transcript or microphone blob is transmitted during dictation to a browser

@@ -8,7 +8,18 @@
   "functions": {
     "server.py": {
       "includeFiles": "{services/backend/app/**,services/backend/contracts/**,services/backend/assets/**,frontend/vanilla/build/**}",
-      "excludeFiles": "{node_modules,.next,src,tests,docs,scripts,content,data,reference,workers,public,drizzle,services/{telegram-bot,live-signal,backend/tests},frontend/vanilla/{js,modules,css,campus,fonts,brand,images,tests,docs,scripts,node_modules,deliverables}}/**"
+      "excludeFiles": "{node_modules,.next,src,tests,docs,scripts,content,data,reference,workers,public,drizzle,services/{telegram-bot,live-signal,backend/tests},frontend/vanilla/{js,modules,css,campus,fonts,brand,images,tests,docs,scripts,node_modules,deliverables},frontend/vanilla/build/js/vendor/riwi-speech/parts}/**"
     }
-  }
+  },
+  "headers": [
+    {
+      "source": "/riwi-speech-assets/parts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }

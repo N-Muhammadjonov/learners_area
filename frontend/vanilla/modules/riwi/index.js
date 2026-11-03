@@ -51,7 +51,7 @@ export function createRiwiWorkspaceController({
     if(before&&!state.messages.length){state.conversationId=null;state.material=null;state.targetUserId=null;state.feedbackSubmitted=false;}
     return before!==state.messages.length;
   }
-  function nextExpiry(){return state.messages.length?Math.min(...state.messages.map(m=>Date.parse(m.createdAt)))+RIWI_MESSAGE_TTL_MS-currentTime():null;}
+  function nextExpiry(){return state.messages.length?state.messages.reduce((oldest,m)=>Math.min(oldest,Date.parse(m.createdAt)),Infinity)+RIWI_MESSAGE_TTL_MS-currentTime():null;}
 
   function getSubtitleKey() {
     if (state.role === "teacher") return "riwi.subtitle.teacher";
@@ -155,8 +155,11 @@ export function createRiwiWorkspaceController({
       if (state.targetUserId && (state.role === "teacher" || state.role === "owner")) {
         payload.targetUserId = state.targetUserId;
       }
-      if(state.attachments.length)payload.attachments=state.attachments.map(({name,kind,text})=>({name,kind,text}));
-      if(siteQuestion(learningMessage)&&!state.attachments.length&&!state.material&&!state.targetUserId){
+      const websiteQuestion=siteQuestion(learningMessage);
+      const fileQuestion=/fayl(?:dagi|ni|dan|ning)|rasm(?:dagi|ni|dan|ning)|\b(?:this|attached|uploaded).{0,20}(?:file|image|photo|document)|\bpdf\b|\bdocx\b/i.test(learningMessage);
+      const useFiles=state.attachments.length&&(!websiteQuestion||fileQuestion||state.attachments.some(f=>!f.sent));
+      if(useFiles)payload.attachments=state.attachments.map(({name,kind,text})=>({name,kind,text}));
+      if(websiteQuestion&&!useFiles&&!state.material&&!state.targetUserId){
         const surfaces=readSiteContext();if(surfaces.length)payload.siteContext=surfaces;
       }
       const res = await adapter.sendChat(payload);
