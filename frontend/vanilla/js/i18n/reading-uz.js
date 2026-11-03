@@ -170,7 +170,7 @@ const uz = {
     },
     shell: {
         telegramBrand: "Learners Area Telegram kanalini ochish",
-        searchShortcut: "Ctrl K",
+        searchShortcut: "Ctrl F",
         learningNav: "O'qish bo'limlari",
         managementNav: "Boshqaruv bo'limlari",
         utilities: "O'quv vositalari",

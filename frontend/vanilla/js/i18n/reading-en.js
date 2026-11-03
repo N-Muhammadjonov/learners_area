@@ -170,7 +170,7 @@ const en = {
     },
     shell: {
         telegramBrand: "Open Learners Area Telegram channel",
-        searchShortcut: "Ctrl K",
+        searchShortcut: "Ctrl F",
         learningNav: "Learning sections",
         managementNav: "Management sections",
         utilities: "Study tools",
