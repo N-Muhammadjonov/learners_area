@@ -78,13 +78,17 @@ def test_clipped_lesson_snippets_never_leak_as_raw_json():
         assert c.is_library_text(c.unit_text(c.library()[key])[:1200]),key
 
 @pytest.mark.asyncio
-async def test_topicless_followup_after_a_reset_does_not_choose_a_raw_library_snippet():
+@pytest.mark.parametrize('locale,expected', [
+    ('uz', "Savolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"),
+    ('en', 'Could you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!'),
+])
+async def test_topicless_followup_after_a_reset_does_not_choose_a_raw_library_snippet(locale,expected):
     with patch('app.riwi_curriculum.retrieve_lesson',AsyncMock(return_value=None)), \
          patch('app.riwi_gateway.retrieve_active_knowledge_for_actor',AsyncMock(return_value=[
              {'text':d.unit_text(d.library()['grammar.past-simple-vs-present-perfect'])[:1200]}])):
-        result=await handle_riwi_chat(None,ACTOR,{'message':'Shu mavzu uchun 3 ta misol ber.','replyLocale':'en'},
+        result=await handle_riwi_chat(None,ACTOR,{'message':'Shu mavzu uchun 3 ta misol ber.','replyLocale':locale},
                                      env={'RIWI_EXTERNAL_AI_ENABLED':'false'})
-    assert result['provenance']=='unavailable' and 'Could you name the topic' in result['answer']
+    assert result['provenance']=='unavailable' and result['answer']==expected
     assert '{"id"' not in result['answer'] and result['citations']==[]
 
 @pytest.mark.asyncio
