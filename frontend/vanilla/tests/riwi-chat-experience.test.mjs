@@ -12,6 +12,22 @@ test('native page loads chat styles after the shared campus palette',()=>{
  assert(styles.indexOf('/css/riwi.css')>styles.indexOf('/css/campus.css'));
 });
 
+test('accuracy notice remains at the chat footer outside scrolling messages and composer',async()=>{
+ const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
+ try{
+  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(2),answer:'A long answer.\n'.repeat(80),citations:[]}});
+  await mount(h.ctx);
+  const footer=h.q('.riwi-transcript__notice'),area=h.q('.riwi-conversation');
+  assert.equal(area.lastElementChild,footer);assert.equal(footer.closest('.riwi-composer'),null);
+  assert.equal(footer.closest('.riwi-transcript'),null);
+  h.input(h.q('.riwi-chat-input'),'Explain this');h.submit(h.q('form'));await tick(7);
+  assert.equal(h.q('.riwi-transcript__notice'),footer);
+  assert.equal(area.lastElementChild,footer);
+  const css=readFileSync(new URL('../css/riwi.css',import.meta.url),'utf8');
+  assert(css.includes('.riwi-conversation{display:flex;flex-direction:column;flex:1;min-height:0;min-width:0}'));
+ }finally{h.dispose()}
+});
+
 test('pending chat prevents duplicate sends and renders safe multiline replies without source branding',async()=>{
  const h=setup({path:'/app/riwi',role:'owner',locale:'uz',theme:'night'});
  let release;const response=new Promise(r=>{release=r});

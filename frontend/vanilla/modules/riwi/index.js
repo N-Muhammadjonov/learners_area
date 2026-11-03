@@ -228,6 +228,8 @@ export function mount(ctx) {
   let filesReading=false,readAbort,lastFileCount=0;
   const downloadURLs=new Map();
   const transcript = h('div', {class: 'riwi-transcript', role: 'log', 'aria-live': 'polite', 'aria-label': text('conversation')});
+  const conversation = h('div',{class:'riwi-conversation'},transcript,
+    h('p',{class:'riwi-transcript__notice','aria-live':'off'},'RIWI is AI and can make mistakes, please check important info!'));
   const input = h('textarea', {class: 'riwi-chat-input', rows: '1', maxlength: '4000',
     'aria-label': text('message'), placeholder: text('placeholder'),
     onInput: () => {input.style.height='auto';input.style.height=Math.min(input.scrollHeight,144)+'px';},
@@ -362,7 +364,6 @@ export function mount(ctx) {
           h('span',{class:'riwi-thinking-label'},text('thinking')),
           h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'}),h('span',{class:'riwi-typing-dot','aria-hidden':'true'})));
     }
-    transcript.append(h('p',{class:'riwi-transcript__notice','aria-live':'off'},'RIWI is AI and can make mistakes, please check important info!'));
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     const busy=ctrl.state.loading||filesReading;
     sendBtn.disabled=busy;clearBtn.disabled=busy;input.readOnly=busy;
@@ -392,7 +393,7 @@ export function mount(ctx) {
     h('header',{class:'riwi-chat-header'},
       h('div',{class:'riwi-chat-identity'},h('span',{class:'riwi-avatar','aria-hidden':'true'},'R'),
         h('div',{},h('h1',{},'RIWI'),h('p',{},text('subtitle')))),clearBtn),
-    transcript,status,form));
+    conversation,status,form));
   const dropHost=root.querySelector('.riwi-workspace');
   dropHost.addEventListener('dragover',event=>{if([...event.dataTransfer?.types??[]].includes('Files')){event.preventDefault();dropHost.classList.add('riwi-drop-active');}},{signal});
   dropHost.addEventListener('dragleave',event=>{if(!dropHost.contains(event.relatedTarget))dropHost.classList.remove('riwi-drop-active');},{signal});
