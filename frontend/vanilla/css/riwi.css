@@ -63,7 +63,8 @@
 .riwi-material-picker { margin: 0 1rem .5rem; font-size: .88rem; }
 .riwi-material-picker summary { cursor: pointer; padding: .5rem 0; }
 .riwi-material-fields { display: flex; flex-wrap: wrap; gap: .5rem; padding: .5rem 0; }
-.riwi-material-fields input,.riwi-material-fields select { min-width: 0; max-width: 100%; flex: 1 1 12rem; font: inherit; }
+.riwi-material-fields input,.riwi-material-fields select { min-width: 0; max-width: 100%; flex: 1 1 12rem; font: inherit; background: var(--riwi-surface); color: var(--riwi-text); border: 1px solid var(--riwi-line); border-radius: .6rem; padding: .45rem .6rem; }
+.riwi-material-fields input::placeholder { color: var(--riwi-muted); opacity: 1; }
 .riwi-material-fields button { font: inherit; padding: .45rem .7rem; }
 .riwi-material-status { margin: .3rem 0; }
 .riwi-material-selected { margin: 0 1rem .5rem; font-size: .85rem; overflow-wrap: anywhere; }
