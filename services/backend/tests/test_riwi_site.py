@@ -55,7 +55,8 @@ def test_owner_gets_code_grounded_architecture_and_exact_observed_button_not_inv
 
 
 def test_bilingual_role_workflows_and_tutor_boundary():
-    assert 'future replies' in s.answer_site_question('student','How does the reply language button work?','en')
+    english=s.answer_site_question('student','How does the reply language button work?','en')
+    assert 'future replies' in english and 'open that page' not in english
     assert 'keyingi javoblar' in s.answer_site_question('student','Javob tili tugmasi qanday ishlaydi?','uz')
     assert 'biriktirilgan' in s.answer_site_question('teacher','My Students sahifasi nima qiladi?','uz')
     assert 'o‘qituvchi' in s.answer_site_question('teacher','Materiallar bo‘limi qanday ishlaydi?','uz').lower()

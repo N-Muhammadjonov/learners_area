@@ -1877,6 +1877,6 @@
     "services/backend/app/browser_authoring.py": "b115e2b037f61b165852e3c0f06e84a280f9288e8a51f9fda0118e810983ecdc",
     "services/backend/app/admin_authoring_port.py": "c89f731cf17b0b576455b9f61c9b7a47801786ed96e59a3e5b2bfa7bb24ebedf",
     "services/backend/app/riwi_capabilities.py": "b28c78ef4421d32d4775d586076b9f104dc27dfc753d81d0d9bc5f92be612385",
-    "services/backend/app/riwi_site.py": "35e19adb3db4270b99b3f9f153dbdc3b49156f236a2ff0cf3bec10dd2ab853df"
+    "services/backend/app/riwi_site.py": "1bb885fb164bc50b26214eed7a1621a32c5111fe25c150b61e1744ef13a33ab2"
   }
 }

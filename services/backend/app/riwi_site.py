@@ -203,7 +203,7 @@ def answer_site_question(role, message, locale, context=()):
         if not parts and not c['href']: detail+=('Bu tugmaning ichki amalini faqat nomidan taxmin qilmayman; qaysi vazifani bajarayotganingizni yozing.' if uz else 'I cannot infer its internal action from its label alone; describe the task you are doing.')
         detail+=(' Ekran/mavzu o‘zgarsa joylashuv va rang ham o‘zgaradi.' if uz else 'Layout and colours change with screen size/theme.')
         parts.append(detail)
-    elif control or re.search(r'rang|color|qayer|where|tugma|button',q):
+    elif re.search(r'rang|colou?r|qayer|where|joylash|position|background',q):
         parts.append('Aniq rang va joyni aytish uchun shu brauzerda tegishli sahifani ochib, keyin RIWI’ga qayting. Ko‘rmagan holatimni taxmin qilmayman.' if uz else 'For exact colour/location, open that page in this browser and return to RIWI. I will not invent an unseen state.')
     if not parts:
         return 'Qaysi sahifa yoki tugmani nazarda tutyapsiz? Uning ko‘rinib turgan nomi yoki /app/… manzilini yozing; bilmagan vazifani taxmin qilib bermayman.' if uz else 'Which page or control do you mean? Give its visible label or /app/… path; I will not guess unknown behaviour.'
