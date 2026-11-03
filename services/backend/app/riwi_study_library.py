@@ -177,17 +177,30 @@ async def retrieve_lesson(conn,actor,message,conversation_id=None):
 
 
 def format_lesson(unit,message,locale):
+    from .riwi_curriculum import is_followup
+    from .riwi_uzbek import normalize_query
     entry=library()[unit['studyId']];uz=locale=='uz';variant=unit.get('lessonVariant',0)
+    query=normalize_query(message)
+    simpler=bool(re.search(r'\b(soddaroq|oddiyroq|tushunmadim|simpler|simply|shorter)\b',query))
+    examples_only=variant>0 and not simpler and is_followup(message) and bool(re.search(r'\b(example|examples|misol)\b',query))
     intros=('Keling, shu mavzuni birga ko‘rib chiqamiz 🙂','Endi boshqa misollar bilan mashq qilamiz 🙂','Yana bir qadam oldinga o‘tamiz 👇') if uz else (
             'Let’s study this topic together 🙂','Let’s practise with different examples 🙂','Let’s take the next step 👇')
     chosen=entry['examples'][3*(variant%2):3*(variant%2)+3]
     pages=entry['source']['pages']
     location=('PDF sahifalar: ' if uz else 'PDF pages: ')+', '.join(map(str,pages))
-    lines=[intros[variant%3],'📘 '+entry['title'],entry['explanationUz' if uz else 'explanationEn'],
-           ('🧩 3 ta yangi misol:' if uz else '🧩 Three original examples:')+'\n'+
+    explanation=entry['explanationUz' if uz else 'explanationEn']
+    lines=[('Bitta qoidadan boshlab, qadam-baqadam ko‘ramiz 🙂' if uz else 'Let’s take one rule at a time 🙂') if simpler else intros[variant%3],'📘 '+entry['title']]
+    if simpler:
+        # Change the presentation without dropping qualifications or inventing
+        # an unapproved paraphrase. Each step is an intact approved sentence.
+        parts=[p.strip() for p in re.split(r'(?<=[.!?])\s+|\n+',explanation) if p.strip()]
+        lines.append('\n'.join((f'{i+1}-qadam: ' if uz else f'Step {i+1}: ')+part for i,part in enumerate(parts)))
+    elif not examples_only:
+        lines.append(explanation)
+    lines.extend([('🧩 3 ta misol:' if uz else '🧩 Three examples:')+'\n'+
            '\n'.join(f'{i+1}) {x["en"]}'+('\n   — '+x['uz'] if uz else '') for i,x in enumerate(chosen)),
            '💡 '+entry['tipUz' if uz else 'tipEn'],
-           '✍️ '+entry['practiceUz' if uz else 'practiceEn'],location]
+           '✍️ '+entry['practiceUz' if uz else 'practiceEn'],location])
     if entry['source'].get('historical'):
         lines.append('⏳ Bu tarixiy matn. Undagi raqam, mansabdor, qonun yoki tibbiy da’voni bugungi fakt deb olmang.' if uz else
                      '⏳ This is a historical text. Its figures, officeholders, laws and medical claims are not verified current facts.')

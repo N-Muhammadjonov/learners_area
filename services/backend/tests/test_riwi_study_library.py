@@ -128,6 +128,25 @@ def test_semantic_contracts_preserve_meaning_and_avoid_false_exam_claims():
     assert 'Market value' in colas and 'sales' in colas and 'bir ko‘rsatkich emas' in colas
 
 
+@pytest.mark.parametrize('locale,message,step',[('uz','Shu mavzuni soddaroq tushuntir va uchta misol ber.','1-qadam:'),
+ ('en','Explain this topic more simply with three examples.','Step 1:')])
+def test_simple_followup_is_readable_steps_and_keeps_the_modal_contrast(locale,message,step):
+    entry=s.library()['study.cambridge.unit-14']
+    answer=s.format_lesson({'studyId':entry['id'],'lessonVariant':2},message,locale)
+    assert step in answer and 'Mustn’t' in answer and 'Don’t have to' in answer
+    assert entry['explanationUz' if locale=='uz' else 'explanationEn'] not in answer
+    assert all(f'{n}) ' in answer for n in (1,2,3))
+
+
+def test_more_examples_does_not_repeat_the_whole_explanation_or_claim_an_unlimited_new_set():
+    entry=s.library()['study.cambridge.unit-25']
+    unit={'studyId':entry['id'],'lessonVariant':3}
+    answer=s.format_lesson(unit,'Shu mavzu uchun yana uchta misol va kichik mashq ber.','uz')
+    assert entry['explanationUz'] not in answer and '3 ta yangi misol' not in answer
+    assert all(x['en'] in answer for x in entry['examples'][3:6])
+    assert entry['explanationUz'] in s.format_lesson({**unit,'lessonVariant':0},'Nominalisation nima?','uz')
+
+
 @pytest.mark.asyncio
 async def test_gateway_delivers_approved_study_guide_with_citation_and_without_provider_calls():
     from app.riwi_gateway import handle_riwi_chat
