@@ -1,0 +1,103 @@
+{
+  "version": {
+    "commit": "7a486ec0934c3c4333213d7e1d455da643c5bb85",
+    "shortCommit": "7a486ec",
+    "region": "sin1",
+    "environment": "preview"
+  },
+  "packs": [
+    {
+      "kind": "foundation",
+      "candidate": {
+        "ok": true,
+        "source": {
+          "id": "05ea6023-04f5-432a-8aee-c73a1fdc1ba0",
+          "version": 1,
+          "unitCount": 110,
+          "state": "candidate",
+          "conflictCount": 0,
+          "checksum": "28b2a8aa20a237bb0c008757cfe1de6546dc64d1a72de8da46926ab38b164788"
+        }
+      },
+      "approval": {
+        "ok": true,
+        "source": {
+          "id": "05ea6023-04f5-432a-8aee-c73a1fdc1ba0",
+          "version": 1,
+          "state": "approved"
+        }
+      },
+      "promotion": {
+        "ok": true,
+        "source": {
+          "id": "05ea6023-04f5-432a-8aee-c73a1fdc1ba0",
+          "version": 1,
+          "state": "active",
+          "regressionEvidenceHash": "4c3e32b0939c874bac1c4cb25adf62f42579af9814323cfa38aa38ed54932492"
+        }
+      }
+    },
+    {
+      "kind": "development",
+      "candidate": {
+        "ok": true,
+        "source": {
+          "id": "1e99284c-afc7-44a7-8e81-92bd73ee9c1d",
+          "version": 1,
+          "unitCount": 110,
+          "state": "candidate",
+          "conflictCount": 0,
+          "checksum": "67e08ac2b32acce31b6daf64c66ab517faa7f05a25007476807aada2a6991b5b"
+        }
+      },
+      "approval": {
+        "ok": true,
+        "source": {
+          "id": "1e99284c-afc7-44a7-8e81-92bd73ee9c1d",
+          "version": 1,
+          "state": "approved"
+        }
+      },
+      "promotion": {
+        "ok": true,
+        "source": {
+          "id": "1e99284c-afc7-44a7-8e81-92bd73ee9c1d",
+          "version": 1,
+          "state": "active",
+          "regressionEvidenceHash": "561224a487f122201c4e619b53f6a90019c6fdb9de912611b07b4d4830b3f970"
+        }
+      }
+    },
+    {
+      "kind": "extension",
+      "candidate": {
+        "ok": true,
+        "source": {
+          "id": "acd328d6-c1ca-42ea-9951-5530eff86be8",
+          "version": 1,
+          "unitCount": 82,
+          "state": "candidate",
+          "conflictCount": 0,
+          "checksum": "d41172c84d9ed2eef3c66acba5b202c75dd3201b818e220445c5e867614ebf03"
+        }
+      },
+      "approval": {
+        "ok": true,
+        "source": {
+          "id": "acd328d6-c1ca-42ea-9951-5530eff86be8",
+          "version": 1,
+          "state": "approved"
+        }
+      },
+      "promotion": {
+        "ok": true,
+        "source": {
+          "id": "acd328d6-c1ca-42ea-9951-5530eff86be8",
+          "version": 1,
+          "state": "active",
+          "regressionEvidenceHash": "26bd17a51bf7428c9d51d91139f3eed0b9197a9a9b0f10bf1703b1e1546a6c8c"
+        }
+      }
+    }
+  ]
+}

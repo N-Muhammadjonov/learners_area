@@ -20,7 +20,7 @@ presented as current medical, legal, scientific or political facts.
 Examples of guide queries: `Cambridge unit 25`, `Nominalizatsiya nima?`,
 `Guardian wind farms intermediate`, and `Guardian zoos level 1`.
 `/examples` continues the selected guide using another example set; `/clear`
-and `/new chat` reset the local conversation context and material selection.
+and `/new chat` reset the local conversation context and automatically resolved material. Reply language is a separate upward UZ/ENG settings menu; changing it creates no chat turn and never retranslates history. `/language` is no longer a command.
 
 ## Activation
 
@@ -38,15 +38,11 @@ retrieval, including truncated snippets.
 
 ## Site material
 
-The chat's **Study a site material** disclosure searches current published
-Reading passages, Listening transcripts, Writing model answers, Language
-Stealing patterns, Speaking model answers, TED/podcast transcripts and finished
-Retention versions. Reads use current canonical tables in place, so future
+RIWI automatically resolves a named material or module from the question and an owned, unexpired conversation. It asks for clarification when a match is ambiguous. There is no manual material picker. Eligible content includes current published Reading passages, Listening transcripts, Writing model answers, Language Stealing patterns, Speaking model answers, TED/podcast transcripts and finished Retention versions. Reads use current canonical tables in place, so future
 published material is available without exporting a global copy. Search is
 literal, bounded to 30 results, and requires narrowing when there are more.
 
-The reply labels selected source excerpts separately from original teaching
-examples. A named supported grammar topic adds the approved grammar lesson.
+The reply uses neutral teaching headings and omits publisher names, PDF/page labels, provenance footers and source buttons. Internal source hashes, rights and citations remain available for governance. A named supported grammar topic adds the approved grammar lesson.
 Speaking vocabulary retains the source's authored Uzbek sense and example.
 No neural language model, external provider, general free-form semantic parser,
 automatic translation of arbitrary passages or certified IELTS score is implied.
@@ -72,3 +68,45 @@ deployment or of the same data being present in the separate QA database.
 
 No schema migration is required. Main merge and production activation remain
 separate from the feature-branch Preview and QA knowledge activation.
+
+
+## Owner-supplied grammar document and question corpus
+
+The November 3 revision adds 290 bilingual teaching cards and 12 support units
+from the Owner-supplied original Grammar_with_Learners_Area.docx. Its SHA256 is
+29bc917a2c5fb6e42696a4aa037eaa86b988ce4825f644ef957126f2baf7f86c.
+Every teaching card has three bilingual examples: 290 supplied examples and 580
+new examples authored for RIWI. Supporting data includes 112 irregular verbs,
+25 error patterns, a 12-form tense map and 22 grammar terms. The original DOCX
+binary is unchanged and not distributed. This is a rule/reference library,
+not neural model training or a CEFR/band certification claim.
+
+Build the three normal Owner payloads with
+`app.riwi_grammar_reference.installation_payload(kind)` for foundation,
+development and extension. Units are preserved only for byte-matched packaged
+content. Exact active source/unit hashes, role/scope, conflict checks, Owner
+approval and regression promotion remain mandatory. The active-unit conflict
+scan is bounded at 1,000 units and still fails closed above that limit.
+All three packs are active in QA (110+110+82 units); the total QA library is 665.
+Production activation has not occurred.
+
+All 1,640 supplied synthetic questions are preserved with file hashes and
+category/permission decisions. They map to 287 authored bilingual response
+profiles and governed lesson references. Repeated questions can share a profile;
+this is not a claim of 1,640 independently generated answers. Full token/phrase
+matching, curated bilingual anchors, closed Uzbek loan-word suffix rules and
+Cyrillic/typo normalisation handle supported variations. Unknown inputs ask for
+clarification without named topic suggestions.
+
+Sentence support uses approved exact example translations, finite basic grammar
+rules and dictionary lookups; arbitrary unseen sentences can remain unsupported.
+Canonical dictionary results take priority over the approved grammar glossary.
+Exact listed error patterns support correction without labelling every stylistic
+alternative an error. Visible Thinking/O‘ylayapman lasts while a request is pending.
+
+Unknown short educational questions can become private, user-scoped
+`retrieval_failure` review signals. Contact details, secrets and sensitive records
+are filtered out. These signals cannot automatically become shared knowledge,
+even after ordinary signal review. An explicit clarification can create a local
+alias within an owned, unexpired conversation; clear/new chat removes its effect.
+Learner claims and private conversations are not automatically adopted as facts.
