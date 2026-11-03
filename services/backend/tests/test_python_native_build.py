@@ -46,4 +46,5 @@ def test_speech_parts_are_copied_to_cdn_without_publishing_private_or_non_model_
     assert (public/name).read_bytes()==(source/name).read_bytes()
     assert result['cdnSpeechFiles']==1
     config=json.loads((ROOT/'vercel.json').read_text())
-    assert 'frontend/vanilla/build/js/vendor/riwi-speech/parts' in config['functions']['server.py']['excludeFiles']
+    assert 'build/**/parts' in config['functions']['server.py']['excludeFiles']
+    assert len(config['functions']['server.py']['excludeFiles'])<=256
