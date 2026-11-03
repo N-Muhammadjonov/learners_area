@@ -418,9 +418,9 @@ async def handle_riwi_chat(
     if not answer_text:
         dialogue=smalltalk(message,locale)
         if locale == "en":
-            answer_text = dialogue or "Could you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!"
+            answer_text = dialogue or "I could not find a reliable match in my learning material 🤔\n\nCould you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!"
         else:
-            answer_text = dialogue or "Savolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"
+            answer_text = dialogue or "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nSavolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"
         provenance = "unavailable"
 
     from .riwi_conversation_learning import attach_clarification_alias,capture_safely

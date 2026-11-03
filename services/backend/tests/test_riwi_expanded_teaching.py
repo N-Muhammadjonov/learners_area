@@ -79,8 +79,8 @@ def test_clipped_lesson_snippets_never_leak_as_raw_json():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('locale,expected', [
-    ('uz', "Savolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"),
-    ('en', 'Could you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!'),
+    ('uz', "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nSavolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"),
+    ('en', 'I could not find a reliable match in my learning material 🤔\n\nCould you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!'),
 ])
 async def test_topicless_followup_after_a_reset_does_not_choose_a_raw_library_snippet(locale,expected):
     with patch('app.riwi_curriculum.retrieve_lesson',AsyncMock(return_value=None)), \
