@@ -5,6 +5,7 @@
   --riwi-text:rgb(var(--workspace-ink,var(--ink-900,16 39 64)));
   --riwi-muted:rgb(var(--workspace-muted,var(--ink-500,71 85 105)));
   --riwi-line:rgb(var(--workspace-line,var(--ink-100,203 213 225)));
+  --riwi-action:linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%);
   color:var(--riwi-text);
 }
 .riwi-owner-room{display:flex;flex-direction:column;gap:1rem}
@@ -15,8 +16,8 @@
 .riwi-avatar{width:2.75rem;height:2.75rem;border-radius:50%;font-size:1.25rem}
 .riwi-chat-identity h1{font-size:1.3rem;line-height:1.25;font-weight:750}
 .riwi-chat-identity p{font-size:.8rem;color:var(--riwi-muted);margin-top:.2rem}
-.riwi-clear{font:inherit;font-size:.75rem;line-height:1.4;color:var(--riwi-muted);padding:.5rem .65rem;border:0;border-radius:.8rem;background:transparent;flex-shrink:0}
-.riwi-clear:hover{background:var(--riwi-surface)}
+.riwi-clear{font:inherit;font-size:.75rem;line-height:1.4;font-weight:650;color:#102740;padding:.55rem .9rem;min-height:2.3rem;border:0;border-radius:1.2rem;background:var(--riwi-action);flex-shrink:0;cursor:pointer}
+.riwi-clear:hover{filter:brightness(1.05)}
 .riwi-transcript{display:flex;flex-direction:column;align-items:stretch;gap:1rem;min-height:22rem;height:min(62dvh,45rem);overflow-y:auto;overscroll-behavior:contain;padding:1.25rem 1.5rem;scrollbar-width:thin}
 .riwi-date{text-align:center;font-size:.75rem;font-weight:600;color:var(--riwi-muted);margin:.15rem 0 .4rem}
 .riwi-msg{--bubble-bg:var(--riwi-surface);position:relative;align-self:flex-start;max-width:88%;min-width:0;padding:.9rem 1.1rem .5rem;background:var(--bubble-bg);color:var(--riwi-text);border-radius:1.45rem 1.45rem 1.45rem .35rem;border:0;box-shadow:none}
@@ -38,17 +39,19 @@
 .riwi-composer__field{display:flex;align-items:flex-end;gap:.6rem;background:var(--riwi-surface);border:0;border-radius:1.65rem;padding:.45rem}
 .riwi-chat-input{display:block;flex:1;min-width:0;min-height:2.5rem;max-height:9rem;resize:none;border:0!important;border-radius:1.2rem;padding:.6rem .7rem;background:transparent!important;color:var(--riwi-text)!important;font:inherit;font-size:1rem;line-height:1.5;box-shadow:none!important;outline-offset:2px}
 .riwi-chat-input::placeholder{color:var(--riwi-muted);opacity:.9}
-.riwi-send{display:grid;place-items:center;flex-shrink:0;width:2.6rem;height:2.6rem;border-radius:50%;background:#4158e5;color:#fff;border:0;margin-bottom:.05rem}
-.riwi-send:hover{background:#3448c9}
+.riwi-send{display:grid;place-items:center;flex-shrink:0;width:2.6rem;height:2.6rem;border-radius:50%;background:var(--riwi-action);color:#102740;border:0;margin-bottom:.05rem;cursor:pointer}
+.riwi-send:hover{filter:brightness(1.05)}
 .riwi-send:disabled,.riwi-clear:disabled{opacity:.45;cursor:wait}
 .riwi-conversation{display:flex;flex-direction:column;flex:1;min-height:0;min-width:0}
 .riwi-transcript__notice{flex-shrink:0;text-align:center;color:var(--riwi-muted);background:var(--riwi-bg);font-size:.7rem;line-height:1.5;margin:0;padding:.2rem 1.2rem .15rem;overflow-wrap:anywhere}
 .riwi-composer__toolbar{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:.5rem;color:var(--riwi-muted);font-size:.72rem}
 .riwi-command-menu,.riwi-language-menu{position:relative;min-width:0}
-.riwi-command-menu summary{cursor:pointer;padding:.25rem .4rem;list-style:revert}
+.riwi-command-menu summary,.riwi-language-menu summary{display:flex;align-items:center;gap:.4rem;cursor:pointer;padding:.5rem .75rem;min-height:2.25rem;list-style:none;border:0;border-radius:1rem;background:var(--riwi-surface);color:var(--riwi-text);font-weight:550}
+.riwi-command-menu summary::-webkit-details-marker,.riwi-language-menu summary::-webkit-details-marker{display:none}
+.riwi-command-menu summary::after,.riwi-language-menu summary::after{content:'⌃';margin-left:.25rem;line-height:1}
+.riwi-command-menu[open] summary::after,.riwi-language-menu[open] summary::after{transform:rotate(180deg)}
 .riwi-command-menu>div,.riwi-language-menu>div{position:absolute;bottom:calc(100% + .5rem);left:0;z-index:5;display:flex;flex-direction:column;gap:.2rem;min-width:12rem;padding:.55rem;background:var(--riwi-bg);border:0;border-radius:.9rem;box-shadow:0 .4rem 1.6rem #0002}
 .riwi-language-menu>div{left:auto;right:0;min-width:9rem}
-.riwi-language-menu summary{cursor:pointer;list-style:revert}
 .riwi-language-menu button{font:inherit;color:var(--riwi-text);background:var(--riwi-surface);border:0;border-radius:.6rem;padding:.4rem .65rem;text-align:left}
 .riwi-language-menu button[aria-pressed=true]{outline:2px solid #3b6cff;outline-offset:-2px}
 .riwi-command-menu button,.riwi-reply-language,.riwi-command-actions button{font:inherit;color:var(--riwi-text);background:var(--riwi-surface);border:0;border-radius:.6rem;padding:.35rem .6rem}
