@@ -77,8 +77,8 @@ def smalltalk(message,locale):
     query=normalize_query(message)
     uz=locale=='uz'
     if query in ('salom','assalomu alaykum','assalom','hello','hi','hey'):
-        return ('Salom! 🙂 Ingliz tilini birga o‘rganamiz. Qaysi joyi qiyin bo‘lyapti?\n\nMasalan:\n• «Present perfect ni sodda tushuntir.»\n• «TRUE/FALSE/NOT GIVEN farqi nima?»\n• «Collocation uchun misollar ber.»' if uz else
-                'Hi! 🙂 What would you like to work on?\n\nYou can ask for a simple grammar explanation, IELTS reading guidance, or vocabulary examples.')
+        return ('Salom! 🙂 Savolingizni yozing, birga tushunib olamiz.' if uz else
+                'Hi! 🙂 Send your question and we will work through it together.')
     if query in ('rahmat','katta rahmat','raxmat','rahmat sizga','thanks','thank you'):
         return 'Arzimaydi 🙂 Tayyor bo‘lsangiz, bitta yangi gap yozib mashq qilib ko‘ramiz!' if uz else 'You’re welcome 🙂 Try a new sentence when you’re ready!'
     return None

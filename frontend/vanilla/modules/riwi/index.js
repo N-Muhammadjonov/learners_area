@@ -274,7 +274,7 @@ export function mount(ctx) {
       button.setAttribute('aria-pressed',String(button.dataset.riwiLocale===ctrl.state.replyLocale));
     });
     commandMenu.querySelectorAll('button').forEach(button=>{button.disabled=ctrl.state.loading;});
-    transcript.scrollTop=transcript.scrollHeight;
+    transcript.scrollTop=messages.length||pending?transcript.scrollHeight:0;
   }
   const form=h('form',{class:'riwi-composer',onSubmit:async e=>{
     e.preventDefault();
