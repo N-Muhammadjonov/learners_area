@@ -242,41 +242,6 @@ export function mount(ctx) {
         if(!ctrl.setReplyLocale(value))return;
         languageMenu.open=false;renderMessages();languageSummary.focus();
       }},label))));
-  const uz=locale!=='en';
-  const sourceStatus=h('p',{class:'riwi-material-status',role:'status'});
-  const sourceKind=h('select',{'aria-label':uz?'Material turi':'Material type'},
-    ...[['reading','Reading'],['listening','Listening'],['writing','Writing models'],['speaking','Speaking answers'],
-      ['language-stealing','Language stealing'],['retention','Retention'],['podcast','TED / Podcast']].map(([value,label])=>h('option',{value},label)));
-  const sourceQuery=h('input',{type:'search',maxlength:'160','aria-label':uz?'Material nomi':'Material title',
-    placeholder:uz?'Material nomidan qidiring…':'Search by material title…'});
-  const sourceResults=h('select',{'aria-label':uz?'Topilgan materiallar':'Matching materials',hidden:true});
-  let sourceItems=[];
-  const sourceSearch=h('button',{type:'button',onClick:async()=>{
-    if(ctrl.state.loading)return;
-    sourceSearch.disabled=true;sourceStatus.textContent=uz?'Qidirilmoqda…':'Searching…';
-    try{
-      const response=await RiwiClientAdapter.listMaterials(sourceKind.value,sourceQuery.value);
-      if(signal?.aborted)return;
-      sourceItems=Array.isArray(response.items)?response.items:[];
-      sourceResults.replaceChildren(...sourceItems.map(item=>h('option',{value:item.id},item.title)));
-      sourceResults.hidden=!sourceItems.length;sourceUse.hidden=!sourceItems.length;
-      sourceStatus.textContent=sourceItems.length
-        ? (response.hasMore?(uz?'Yana natijalar bor. Nomini aniqroq yozing.':'More results exist. Narrow the title search.'):'')
-        : (uz?'Bu turda sizga ochiq matnli material topilmadi.':'No text material is available to you in this category.');
-    }catch{
-      sourceItems=[];sourceResults.hidden=true;sourceUse.hidden=true;
-      sourceStatus.textContent=uz?'Materiallarni yuklab bo‘lmadi. Faol test bo‘lsa, avval uni tugating.':'Could not load materials. Finish an active test before using study assistance.';
-    }finally{sourceSearch.disabled=false;}
-  }},uz?'Qidirish':'Search');
-  const sourceUse=h('button',{type:'button',hidden:true,onClick:()=>{
-    if(ctrl.state.loading)return;
-    const selected=sourceItems.find(item=>item.id===sourceResults.value);if(!selected)return;
-    ctrl.newConversation();ctrl.state.material={...selected};renderMessages();input.focus();
-  }},uz?'Shu material bilan ishlash':'Study this material');
-  const sourceSelected=h('p',{class:'riwi-material-selected'});
-  const sourcePanel=h('details',{class:'riwi-material-picker'},
-    h('summary',{},uz?'📚 Saytdagi material bilan ishlash':'📚 Study a site material'),
-    h('div',{class:'riwi-material-fields'},sourceKind,sourceQuery,sourceSearch,sourceResults,sourceUse),sourceStatus);
   const greeting = () => h('div',{class:'riwi-welcome'},
     h('span',{class:'riwi-welcome__mark','aria-hidden':'true'},'R'),
     h('h2',{},text('welcome')),
@@ -308,9 +273,6 @@ export function mount(ctx) {
       button.disabled=ctrl.state.loading;
       button.setAttribute('aria-pressed',String(button.dataset.riwiLocale===ctrl.state.replyLocale));
     });
-    sourceSelected.textContent=ctrl.state.material ? `${uz?'Material':'Material'}: ${ctrl.state.material.title}` : '';
-    sourceSelected.hidden=!ctrl.state.material;
-    sourcePanel.querySelectorAll('input,select,button').forEach(el=>{el.disabled=ctrl.state.loading;});
     commandMenu.querySelectorAll('button').forEach(button=>{button.disabled=ctrl.state.loading;});
     transcript.scrollTop=transcript.scrollHeight;
   }
@@ -330,6 +292,6 @@ export function mount(ctx) {
     h('header',{class:'riwi-chat-header'},
       h('div',{class:'riwi-chat-identity'},h('span',{class:'riwi-avatar','aria-hidden':'true'},'R'),
         h('div',{},h('h1',{},'RIWI'),h('p',{},text('subtitle')))),clearBtn),
-    sourcePanel,sourceSelected,transcript,status,form));
+    transcript,status,form));
   renderMessages();
 }

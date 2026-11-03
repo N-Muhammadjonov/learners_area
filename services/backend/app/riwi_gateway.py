@@ -188,10 +188,31 @@ async def handle_riwi_chat(
     provider_meta: dict[str, Any] = {"id": "riwi", "model": "deterministic-v1"}
 
     material_item = None
-    if req.get('material'):
+    material_reference=req.get('material')
+    if not material_reference and not any(req.get(k) for k in ('targetUserId','attemptId','topicId','occurrenceId','lessonId')):
+        from .riwi_material_search import resolve_material, clarification
+        try:
+            found=await resolve_material(conn,actor,message,conversation_id)
+        except PermissionError as exc:
+            found={'clarification':str(exc),'kinds':[]}
+        if found and 'clarification' in found:
+            reason=found['clarification'];blocked=reason in ('forbidden','active_exam_lookup_forbidden')
+            text=clarification(reason,locale)
+            meta={'id':'riwi','model':'riwi-material-resolution-v1','materialSearchKinds':found['kinds']}
+            source='policy_refusal' if blocked else 'unavailable'
+            saved=await append_conversation_turn(conn,actor=actor,conversation_id=conversation_id,
+                user_message=message,assistant_answer=text,correlation_id=correlation_id,
+                provenance=source,provider=meta,citations=[],report_snapshot=None,now=now)
+            await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
+                target_type='riwi_conversation',target_id=saved,
+                metadata={'role':actor.role,'intent':intent_info.intent,'provenance':source,'providerId':'riwi','status':'succeeded'})
+            return {'ok':True,'conversationId':saved,'correlationId':correlation_id,'intent':intent_info.intent,
+                'answer':text,'provenance':source,'provider':meta,'citations':[],'reportSnapshot':None,'roleSurface':role_surface}
+        material_reference=found
+    if material_reference:
         from .riwi_materials import read_material, teach_material
         try:
-            material_item = await read_material(conn, actor, req['material'])
+            material_item = await read_material(conn, actor, material_reference)
         except PermissionError as exc:
             raise RiwiGatewayError(str(exc), 403) from exc
         except LookupError as exc:
@@ -201,10 +222,10 @@ async def handle_riwi_chat(
         extra = material_explanation(related,message,locale) if related else None
         answer_text = teach_material(material_item, message, locale, supplement=extra)
         provenance = 'deterministic_learning_data'
-        provider_meta = {'id':'riwi','model':'riwi-material-v1','material':req['material'],
+        provider_meta = {'id':'riwi','model':'riwi-material-v1','material':material_reference,
                          'contentHash':material_item['contentHash']}
         citations = [{'ref':'S1','sourceId':str(material_item['id']),
-                      'unitId':req['material']['kind']+':'+str(material_item['id']),
+                      'unitId':material_reference['kind']+':'+str(material_item['id']),
                       'title':str(material_item['title']),'authority':'75','version':1,
                       'contentHash':material_item['contentHash']}]
         if related:

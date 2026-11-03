@@ -110,26 +110,15 @@ test('reply language opens upward without a chat turn, translating history or lo
  }finally{h.dispose()}
 });
 
-test('material picker sends only its scoped reference and clear forgets the material',async()=>{
- const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
+test('chat has no manual material picker and sends the learner question for scoped automatic resolution',async()=>{
+ const h=setup({path:'/app/riwi',role:'student',locale:'uz'});
  try{
-  h.stub({'/api/riwi/materials*':{items:[{id:ID(21),kind:'reading',title:'Source <img src=x>'}],hasMore:false},
-   '/api/riwi/chat':{ok:true,conversationId:ID(22),answer:'Source-backed study',citations:[]}});
+  h.stub({'/api/riwi/chat':{ok:true,conversationId:ID(22),answer:'Material izohi',citations:[]}});
   await mount(h.ctx);
-  h.click(h.q('.riwi-material-picker button'));await tick(6);
-  assert(h.q('.riwi-material-picker select[aria-label="Topilgan materiallar"]'));
-  const use=h.qa('.riwi-material-picker button').find(b=>b.textContent==='Shu material bilan ishlash');
-  h.click(use);await tick(2);
-  assert(h.q('.riwi-material-selected').textContent.includes('Source <img src=x>'));
-  assert.equal(h.q('.riwi-material-picker img'),null);
-  h.input(h.q('textarea'),'Mavzuni tushuntir');h.submit(h.q('form'));await tick(6);
+  assert.equal(h.q('.riwi-material-picker'),null);assert.equal(h.q('.riwi-material-selected'),null);
+  h.input(h.q('textarea'),'Readingdagi wind farms matnini tushuntir');h.submit(h.q('form'));await tick(6);
   const sent=h.calls.find(x=>x.path==='/api/riwi/chat');
-  assert.deepEqual(sent.body.material,{kind:'reading',id:ID(21)});
-  assert.equal(sent.body.conversationId,undefined);
-  h.input(h.q('textarea'),'/clear');h.submit(h.q('form'));await tick(3);
-  assert(h.q('.riwi-material-selected').hidden);
-  h.input(h.q('textarea'),'Explain articles');h.submit(h.q('form'));await tick(6);
-  const next=h.calls.filter(x=>x.path==='/api/riwi/chat')[1];
-  assert.equal(next.body.material,undefined);assert.equal(next.body.conversationId,undefined);
+  assert.equal(sent.body.message,'Readingdagi wind farms matnini tushuntir');assert.equal(sent.body.material,undefined);
+  assert(!h.calls.some(x=>x.path.startsWith('/api/riwi/materials')));
  }finally{h.dispose()}
 });
