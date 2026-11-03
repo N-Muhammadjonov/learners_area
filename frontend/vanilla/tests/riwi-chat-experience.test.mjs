@@ -102,7 +102,8 @@ test('slash commands reset context, preserve reply language and never delete or 
 test('reply language opens upward without a chat turn, translating history or losing a draft',async()=>{
  const h=setup({path:'/app/riwi',role:'owner',locale:'uz'});
  try{
-  h.stub({'/api/riwi/chat':(_p,options)=>({ok:true,conversationId:ID(9),answer:options.body.replyLocale==='en'?'English explanation':'O‘zbekcha javob',citations:[]})});
+  h.stub({'/api/riwi/chat':(_p,options)=>({ok:true,conversationId:ID(9),answer:options.body.replyLocale==='en'?'English explanation':'O‘zbekcha javob',citations:[]}),
+    [`/api/riwi/conversations/${ID(9)}/archive`]:{ok:true,archived:true}});
   await mount(h.ctx);
   h.input(h.q('textarea'),'Articles');h.submit(h.q('form'));await tick(6);
   const oldTranscript=h.q('.riwi-transcript').textContent;

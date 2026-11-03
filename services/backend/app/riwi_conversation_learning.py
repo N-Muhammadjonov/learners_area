@@ -34,7 +34,7 @@ PAIR_SQL='''SELECT u.content AS question,a.metadata FROM riwi_conversation_messa
     AND u.metadata->>'correlationId'=a.metadata->>'correlationId'
   WHERE c.id=$1::uuid AND c.user_id=$2::uuid AND c.role_at_creation=$3::role
     AND c.deleted_at IS NULL AND c.expires_at>now() AND a.role='assistant'
-    AND a.created_at>=now()-interval '30 days'
+    AND a.created_at>now()-interval '7 days' AND u.created_at>now()-interval '7 days'
   ORDER BY a.created_at DESC,a.id DESC LIMIT 1'''
 
 

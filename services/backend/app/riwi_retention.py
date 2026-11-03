@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any
+from contextlib import asynccontextmanager
 
 from .riwi_audit import record_riwi_audit
 from .riwi_contracts import (
@@ -49,7 +50,28 @@ def is_user_offline_expired(
 def is_message_within_retention_window(created_at: datetime, now: datetime | None = None) -> bool:
     cutoffs = compute_riwi_retention_cutoffs(now)
     ts = created_at if created_at.tzinfo is not None else created_at.replace(tzinfo=timezone.utc)
-    return ts >= cutoffs.message_cutoff
+    return ts > cutoffs.message_cutoff
+
+
+@asynccontextmanager
+async def retention_transaction(conn):
+    if conn is not None and hasattr(conn,'transaction'):
+        async with conn.transaction(): yield
+    else: yield
+
+
+async def purge_actor_expired(conn,user_id,now=None):
+    """Opportunistic physical cleanup, strictly scoped to the verified actor.
+
+    Reads independently enforce deadlines even if the maintenance job is late.
+    Never infer another conversation's expiry from the current chat's age.
+    """
+    if conn is None or not hasattr(conn,'execute'): return
+    cutoffs=compute_riwi_retention_cutoffs(now)
+    await conn.execute('''DELETE FROM riwi_conversations WHERE user_id=$1::uuid
+        AND (deleted_at IS NOT NULL OR expires_at<=$2::timestamptz)''',user_id,cutoffs.now)
+    await conn.execute('''DELETE FROM riwi_conversation_messages m USING riwi_conversations c
+        WHERE c.id=m.conversation_id AND c.user_id=$1::uuid AND m.created_at<=$2::timestamptz''',user_id,cutoffs.message_cutoff)
 
 
 async def touch_riwi_online_activity(conn: Any, user_id: str, now: datetime | None = None) -> bool:
@@ -74,6 +96,11 @@ async def purge_expired_riwi_conversations(
     now: datetime | None = None,
     dry_run: bool = False,
 ) -> dict[str, Any]:
+    async with retention_transaction(conn):
+        return await _purge_expired(conn,now=now,dry_run=dry_run)
+
+
+async def _purge_expired(conn,*,now=None,dry_run=False):
     cutoffs = compute_riwi_retention_cutoffs(now)
     if conn is None or not hasattr(conn, "fetch"):
         return {
@@ -89,25 +116,21 @@ async def purge_expired_riwi_conversations(
         """
         SELECT c.id::text AS id
         FROM riwi_conversations c
-        JOIN users u ON u.id = c.user_id
-        LEFT JOIN LATERAL (
-            SELECT MAX(ae.created_at) AS latest_event_at
-            FROM activity_events ae
-            WHERE ae.user_id = u.id
-        ) ev ON true
         WHERE c.deleted_at IS NOT NULL
            OR c.expires_at <= $1::timestamptz
-           OR GREATEST(u.last_active_at, COALESCE(ev.latest_event_at, u.last_active_at)) <= $2::timestamptz
+           OR NOT EXISTS(SELECT 1 FROM riwi_conversation_messages m
+             WHERE m.conversation_id=c.id AND m.created_at>$2::timestamptz)
+        FOR UPDATE OF c SKIP LOCKED
         """,
         cutoffs.now,
-        cutoffs.offline_cutoff,
+        cutoffs.message_cutoff,
     )
     conv_ids = [r["id"] for r in expired_conv_rows]
     old_msg_row = await conn.fetchrow(
         """
         SELECT count(*)::int AS cnt
         FROM riwi_conversation_messages
-        WHERE created_at < $1::timestamptz
+        WHERE created_at <= $1::timestamptz
            OR conversation_id = ANY($2::uuid[])
         """,
         cutoffs.message_cutoff,
@@ -117,7 +140,7 @@ async def purge_expired_riwi_conversations(
 
     if not dry_run:
         await conn.execute(
-            "DELETE FROM riwi_conversation_messages WHERE created_at < $1::timestamptz",
+            "DELETE FROM riwi_conversation_messages WHERE created_at <= $1::timestamptz",
             cutoffs.message_cutoff,
         )
         if conv_ids:

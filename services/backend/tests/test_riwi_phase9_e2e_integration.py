@@ -294,6 +294,8 @@ class InMemoryE2EConn:
                 "created_at": created,
                 "updated_at": created,
             }
+        elif "WITH old AS" in sql or "riwiArchivedAt" in sql:
+            pass  # Archive semantics have dedicated retention boundary/SQL integration tests.
         elif "UPDATE riwi_conversations" in sql:
             cid, upd, exp = str(args[0]).lower(), args[1], args[2]
             if cid in self.conversations:

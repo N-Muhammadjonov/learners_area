@@ -15,6 +15,7 @@ from .riwi_capabilities import RiwiActor, authorize_capability
 from .riwi_conversations import (
     delete_conversation,
     get_conversation_transcript,
+    archive_conversation,
 )
 from .riwi_gateway import handle_riwi_chat
 from .riwi_knowledge import (
@@ -41,6 +42,7 @@ RIWI_API_ROUTES: tuple[tuple[str, str, str], ...] = (
     ("POST", "/api/riwi/chat", "post_riwi_chat"),
     ("GET", "/api/riwi/conversations/{conversation_id}", "get_riwi_conversation"),
     ("DELETE", "/api/riwi/conversations/{conversation_id}", "delete_riwi_conversation"),
+    ("POST", "/api/riwi/conversations/{conversation_id}/archive", "archive_riwi_conversation"),
     ("GET", "/api/riwi/targets", "get_riwi_targets"),
     ("POST", "/api/riwi/presence", "post_riwi_presence"),
     ("POST", "/api/riwi/feedback", "post_riwi_feedback"),
@@ -86,14 +88,17 @@ async def post_riwi_chat(
     env: Mapping[str, str] | None = None,
     external_runner: Callable[[str, dict[str, Any]], Any] | None = None,
 ) -> dict[str, Any]:
-    return await handle_riwi_chat(
+    started=datetime.now(timezone.utc)
+    result=await handle_riwi_chat(
         conn,
         actor,
         payload,
         cookie_locale=cookie_locale,
         env=env,
         external_runner=external_runner,
+        now=started,
     )
+    return {**result,'messageCreatedAt':started.isoformat(),'serverTime':datetime.now(timezone.utc).isoformat()}
 
 
 async def get_riwi_conversation(conn: Any, actor: RiwiActor, conversation_id: str) -> dict[str, Any]:
@@ -102,6 +107,10 @@ async def get_riwi_conversation(conn: Any, actor: RiwiActor, conversation_id: st
 
 async def delete_riwi_conversation(conn: Any, actor: RiwiActor, conversation_id: str) -> dict[str, Any]:
     return await delete_conversation(conn, actor, conversation_id)
+
+
+async def archive_riwi_conversation(conn: Any, actor: RiwiActor, conversation_id: str) -> dict[str, Any]:
+    return await archive_conversation(conn,actor,conversation_id)
 
 
 async def get_riwi_targets(
@@ -443,6 +452,18 @@ async def _http_delete_riwi_conversation(req: Request, conversation_id: str):
         return _core().j(res, 200, _core().PRIVATE)
     except Exception as exc:
         return _riwi_error_response(exc)
+
+
+@router.post('/api/riwi/conversations/{conversation_id}/archive')
+async def _http_archive_riwi_conversation(req: Request,conversation_id: str):
+    actor=await _require_riwi_actor(req)
+    if not actor: return _core().auth_error()
+    try:
+        db=await _core().pool()
+        async with db.acquire() as conn:
+            result=await archive_riwi_conversation(conn,actor,conversation_id)
+        return _core().j(result,200,_core().PRIVATE)
+    except Exception as exc: return _riwi_error_response(exc)
 
 
 @router.get("/api/riwi/targets")

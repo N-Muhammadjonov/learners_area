@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 from datetime import datetime, timedelta, timezone
 import os
 import unittest
@@ -99,7 +100,7 @@ class FakeRiwiConn:
             cutoff, conv_ids = args[0], set(args[1])
             cnt = sum(
                 1 for m in self.messages
-                if m["created_at"] < cutoff or m["conversation_id"] in conv_ids
+                if m["created_at"] <= cutoff or m["conversation_id"] in conv_ids
             )
             return {"cnt": cnt}
         return None
@@ -109,11 +110,11 @@ class FakeRiwiConn:
             cid, cutoff = args[0], args[1]
             rows = [
                 m for m in self.messages
-                if m["conversation_id"] == cid and m["created_at"] >= cutoff
+                if m["conversation_id"] == cid and m["created_at"] > cutoff
             ]
             rows.sort(key=lambda r: (r["created_at"], r["id"]))
             return rows
-        if "FROM riwi_conversations c" in sql and "JOIN users u" in sql:
+        if "FROM riwi_conversations c" in sql and "FOR UPDATE OF c" in sql:
             now_ts, offline_cutoff = args[0], args[1]
             expired = []
             for cid, c in self.conversations.items():
@@ -124,7 +125,7 @@ class FakeRiwiConn:
                     u["last_active_at"],
                     u.get("latest_event_at") or u["last_active_at"],
                 )
-                if c.get("deleted_at") is not None or c["expires_at"] <= now_ts or last_seen <= offline_cutoff:
+                if c.get("deleted_at") is not None or c["expires_at"] <= now_ts or not any(m["conversation_id"]==cid and m["created_at"]>offline_cutoff for m in self.messages):
                     expired.append({"id": cid})
             return expired
         return []
@@ -146,6 +147,20 @@ class FakeRiwiConn:
                 "created_at": created,
                 "updated_at": created,
             }
+        elif "WITH old AS" in sql:
+            uid,role,current,cid=args
+            for conv in self.conversations.values():
+                if conv['user_id']!=uid or conv['role_at_creation']!=role or cid and conv['id']!=cid: continue
+                dates=[m['created_at'] for m in self.messages if m['conversation_id']==conv['id']]
+                conv['expires_at']=min(conv['expires_at'],min(dates)+timedelta(days=7) if dates else current)
+        elif "UPDATE riwi_conversation_messages" in sql and "riwiArchivedAt" in sql:
+            uid,role,current,cid=args
+            for conv in self.conversations.values():
+                if conv['user_id']!=uid or conv['role_at_creation']!=role or cid and conv['id']!=cid: continue
+                rows=sorted((m for m in self.messages if m['conversation_id']==conv['id']),key=lambda m:(m['created_at'],m['id']))
+                if rows:
+                    meta=json.loads(rows[0]['metadata']) if isinstance(rows[0]['metadata'],str) else dict(rows[0]['metadata'] or {})
+                    rows[0]['metadata']={**meta,'riwiArchivedAt':current};conv['archived']=True
         elif "UPDATE riwi_conversations" in sql:
             cid, upd, exp = args
             if cid in self.conversations:
@@ -168,9 +183,9 @@ class FakeRiwiConn:
             for cid in to_del:
                 self.conversations.pop(cid, None)
             self.messages = [m for m in self.messages if m["conversation_id"] not in set(to_del)]
-        elif "DELETE FROM riwi_conversation_messages WHERE created_at <" in sql:
+        elif "DELETE FROM riwi_conversation_messages WHERE created_at <=" in sql:
             cutoff = args[0]
-            self.messages = [m for m in self.messages if m["created_at"] >= cutoff]
+            self.messages = [m for m in self.messages if m["created_at"] > cutoff]
         elif "DELETE FROM riwi_conversations WHERE id = ANY" in sql:
             cids = set(args[0])
             for cid in cids:
@@ -319,16 +334,16 @@ class RiwiPhase2AuthConversationsTest(unittest.TestCase):
                 encode_riwi_target_cursor(teacher, "ali valiyev", item_id)
             self.assertEqual(ctx2.exception.code, "cursor_secret_not_configured")
 
-    def test_d01_retention_30_day_window_and_7_day_offline_deletion(self) -> None:
-        self.assertEqual(RIWI_CONVERSATION_TTL_DAYS, 30)
+    def test_retention_7_day_window_and_expired_chat_deletion(self) -> None:
+        self.assertEqual(RIWI_CONVERSATION_TTL_DAYS, 7)
         self.assertEqual(RIWI_INACTIVE_OFFLINE_DAYS, 7)
         self.assertEqual(RIWI_OFFLINE_DELETE_DAY, 8)
 
         now = datetime(2026, 10, 28, 12, 0, tzinfo=timezone.utc)
         self.assertFalse(is_user_offline_expired(now - timedelta(days=6, hours=23), None, now))
         self.assertTrue(is_user_offline_expired(now - timedelta(days=7, seconds=1), None, now))
-        self.assertTrue(is_message_within_retention_window(now - timedelta(days=29, hours=23), now))
-        self.assertFalse(is_message_within_retention_window(now - timedelta(days=30, seconds=1), now))
+        self.assertTrue(is_message_within_retention_window(now - timedelta(days=6, hours=23), now))
+        self.assertFalse(is_message_within_retention_window(now - timedelta(days=7, seconds=1), now))
 
         async def run_scenario():
             conn = FakeRiwiConn(now)
@@ -350,7 +365,7 @@ class RiwiPhase2AuthConversationsTest(unittest.TestCase):
             with self.assertRaises(RiwiTargetScopeError):
                 await authorize_target_learner_access(conn, s1, s2.id)
 
-            # Append 35 turns within 30 days -> all 70 messages are retained (no message-count cap)
+            # Append 35 turns within 7 days -> all 70 messages are retained (no message-count cap)
             cid = None
             for i in range(35):
                 cid = await append_conversation_turn(
@@ -374,9 +389,9 @@ class RiwiPhase2AuthConversationsTest(unittest.TestCase):
             with self.assertRaises(RiwiConversationError):
                 await delete_conversation(conn, s2, cid, now=now)
 
-            # Simulate s1 going offline for 8 days -> purge worker deletes conversation
+            # Advance beyond the message deadlines -> purge worker deletes the expired conversation
             conn.users[s1.id]["last_active_at"] = now - timedelta(days=8)
-            purge_res = await purge_expired_riwi_conversations(conn, now=now, dry_run=False)
+            purge_res = await purge_expired_riwi_conversations(conn, now=now+timedelta(days=8), dry_run=False)
             self.assertEqual(purge_res["deletedConversations"], 1)
             self.assertEqual(len(conn.conversations), 0)
 

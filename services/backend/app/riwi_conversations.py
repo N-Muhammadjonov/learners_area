@@ -17,8 +17,8 @@ from .riwi_contracts import (
 from .riwi_retention import (
     compute_riwi_retention_cutoffs,
     is_message_within_retention_window,
-    is_user_offline_expired,
     touch_riwi_online_activity,
+    purge_actor_expired, retention_transaction,
 )
 
 
@@ -56,15 +56,9 @@ async def _verify_active_actor_and_online_window(
         )
         if not user_row or user_row["role"] != actor.role or user_row["account_status"] != "active":
             raise RiwiConversationError("forbidden")
-        if is_user_offline_expired(user_row["last_active_at"], user_row["latest_event_at"], current):
-            await conn.execute(
-                "DELETE FROM riwi_conversations WHERE user_id = $1::uuid",
-                actor.id,
-            )
-            if not touch_online:
-                raise RiwiConversationError("not_found")
         if touch_online:
             await touch_riwi_online_activity(conn, actor.id, current)
+        await purge_actor_expired(conn,actor.id,current)
     return current
 
 
@@ -102,13 +96,13 @@ async def get_conversation_transcript(
     ):
         raise RiwiConversationError("not_found")
 
-    # D-01: Retain all messages within the 30-day window without an arbitrary message-count cap
+    # Each active-chat message expires at its own seven-day deadline.
     rows = await conn.fetch(
         """
         SELECT id::text AS id, role::text AS role, content, metadata, created_at
         FROM riwi_conversation_messages
         WHERE conversation_id = $1::uuid
-          AND created_at >= $2::timestamptz
+          AND created_at > $2::timestamptz
         ORDER BY created_at ASC, id ASC
         """,
         conversation_id,
@@ -209,6 +203,36 @@ async def delete_conversation(
     return {"ok": True, "deleted": True, "conversationId": conversation_id}
 
 
+async def archive_conversation(conn,actor,conversation_id,*,now=None):
+    if not isinstance(conversation_id,str) or not UUID_RE.fullmatch(conversation_id): raise RiwiConversationError('invalid_input')
+    async with retention_transaction(conn):
+        current=await _verify_active_actor_and_online_window(conn,actor,now=now,touch_online=True)
+        if conn is None or not hasattr(conn,'fetchrow'): raise RiwiConversationError('not_found')
+        row=await conn.fetchrow('''SELECT id::text AS id, user_id::text AS user_id, role_at_creation::text AS role_at_creation,
+            deleted_at,expires_at FROM riwi_conversations WHERE id=$1::uuid FOR UPDATE''',conversation_id)
+        if not row or row['user_id']!=actor.id or row['role_at_creation']!=actor.role or row['deleted_at'] is not None or row['expires_at']<=current:
+            raise RiwiConversationError('not_found')
+        await _archive_owned(conn,actor,current,conversation_id)
+        return {'ok':True,'archived':True,'conversationId':conversation_id}
+
+
+async def _archive_owned(conn,actor,current,conversation_id=None):
+    """Freeze whole-chat expiry to its oldest remaining message; no new schema."""
+    await conn.execute('''WITH old AS (
+        SELECT c.id,min(m.created_at) AS first_at FROM riwi_conversations c
+        LEFT JOIN riwi_conversation_messages m ON m.conversation_id=c.id
+        WHERE c.user_id=$1::uuid AND c.role_at_creation=$2::role AND c.deleted_at IS NULL
+          AND ($4::uuid IS NULL OR c.id=$4::uuid) GROUP BY c.id
+      ) UPDATE riwi_conversations c SET expires_at=LEAST(c.expires_at,COALESCE(old.first_at+interval '7 days',$3::timestamptz))
+        FROM old WHERE old.id=c.id''',actor.id,actor.role,current,conversation_id)
+    await conn.execute('''UPDATE riwi_conversation_messages m
+        SET metadata=jsonb_set(COALESCE(m.metadata,'{}'::jsonb),'{riwiArchivedAt}',to_jsonb($3::text))
+        FROM riwi_conversations c WHERE c.user_id=$1::uuid AND c.role_at_creation=$2::role
+          AND c.deleted_at IS NULL AND ($4::uuid IS NULL OR c.id=$4::uuid)
+          AND m.id=(SELECT first.id FROM riwi_conversation_messages first WHERE first.conversation_id=c.id
+              ORDER BY first.created_at,first.id LIMIT 1)''',actor.id,actor.role,current.isoformat(),conversation_id)
+
+
 async def append_conversation_turn(
     conn: Any,
     *,
@@ -224,9 +248,17 @@ async def append_conversation_turn(
     navigation_links: list[dict[str, str]] | None = None,
     now: datetime | None = None,
 ) -> str:
+    async with retention_transaction(conn):
+        return await _append_conversation_turn(conn,actor=actor,conversation_id=conversation_id,user_message=user_message,
+            assistant_answer=assistant_answer,correlation_id=correlation_id,provenance=provenance,provider=provider,
+            citations=citations,report_snapshot=report_snapshot,navigation_links=navigation_links,now=now)
+
+
+async def _append_conversation_turn(conn,*,actor,conversation_id,user_message,assistant_answer,correlation_id,
+    provenance,provider,citations,report_snapshot,navigation_links,now):
     current = await _verify_active_actor_and_online_window(conn, actor, now=now, touch_online=True)
     cutoffs = compute_riwi_retention_cutoffs(current)
-    expires_at = current + timedelta(days=RIWI_CONVERSATION_TTL_DAYS)
+    expires_at = current + timedelta(days=RIWI_CONVERSATION_TTL_DAYS,milliseconds=1)
 
     if conn is None or not hasattr(conn, "fetchrow"):
         return conversation_id or str(uuid.uuid4())
@@ -236,10 +268,12 @@ async def append_conversation_turn(
         existing = await conn.fetchrow(
             """
             SELECT id::text AS id, user_id::text AS user_id, role_at_creation::text AS role_at_creation,
-                   deleted_at, expires_at
+                   deleted_at, expires_at,
+                   EXISTS(SELECT 1 FROM riwi_conversation_messages m WHERE m.conversation_id=riwi_conversations.id
+                     AND m.metadata ? 'riwiArchivedAt') AS archived
             FROM riwi_conversations
             WHERE id = $1::uuid
-            LIMIT 1
+            LIMIT 1 FOR UPDATE
             """,
             target_conv_id,
         )
@@ -249,6 +283,7 @@ async def append_conversation_turn(
             or existing["role_at_creation"] != actor.role
             or existing["deleted_at"] is not None
             or existing["expires_at"] <= cutoffs.now
+            or existing.get('archived',False)
         ):
             raise RiwiConversationError("not_found")
         await conn.execute(
@@ -262,6 +297,7 @@ async def append_conversation_turn(
             expires_at,
         )
     else:
+        await _archive_owned(conn,actor,current)
         target_conv_id = str(uuid.uuid4())
         await conn.execute(
             """

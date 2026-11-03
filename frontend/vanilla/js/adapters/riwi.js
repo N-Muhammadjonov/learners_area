@@ -39,6 +39,9 @@ export const RiwiClientAdapter = {
       method: "DELETE"
     });
   },
+  archiveConversation(conversationId) {
+    return requestJson(`/api/riwi/conversations/${encodeURIComponent(conversationId)}/archive`,{method:'POST',body:{}});
+  },
   listTargets(cursor = null, limit = 25) {
     const params = new URLSearchParams({ limit: String(limit) });
     if (cursor) params.set("cursor", cursor);

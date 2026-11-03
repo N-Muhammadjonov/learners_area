@@ -58,7 +58,7 @@ async def test_followup_uses_only_owned_live_conversation_material_metadata():
     assert await s.resolve_material(c,ACTOR,'Shu matndagi gaplarni tushuntir',CID)==reference
     sql,*args=c.fetchrow.call_args.args
     assert 'c.user_id=$2::uuid' in sql and 'c.role_at_creation=$3::role' in sql
-    assert 'c.deleted_at IS NULL' in sql and 'c.expires_at>now()' in sql and '30 days' in sql
+    assert 'c.deleted_at IS NULL' in sql and 'c.expires_at>now()' in sql and '7 days' in sql
     assert args==[CID,ID,'student'];c.fetch.assert_not_awaited()
     # A conversation reset supplies no ID and cannot recover the old source.
     c.fetchrow.reset_mock();assert (await s.resolve_material(c,ACTOR,'Shu matnni tushuntir'))['clarification']=='name'

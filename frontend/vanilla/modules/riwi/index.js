@@ -7,6 +7,7 @@ import {siteQuestion,siteContext,safeNavigation} from '../../js/riwi-site-contex
 import {createLocalDictation,dictationError} from '../../js/riwi-dictation.js';
 
 export const RIWI_WORKSPACE_ROUTE = "/app/riwi";
+export const RIWI_MESSAGE_TTL_MS=7*24*60*60*1000;
 
 export function escapeHtml(raw) {
   return String(raw ?? "")
@@ -22,7 +23,8 @@ export function createRiwiWorkspaceController({
   locale = "uz",
   theme = "day",
   adapter = RiwiClientAdapter,
-  readSiteContext = () => []
+  readSiteContext = () => [],
+  now = () => Date.now()
 } = {}) {
   const state = {
     role,
@@ -40,6 +42,16 @@ export function createRiwiWorkspaceController({
     feedbackSubmitted: false,
     error: null
   };
+  let serverOffset=0;
+  const currentTime=()=>now()+serverOffset;
+  function expireMessages(){
+    const cutoff=currentTime()-RIWI_MESSAGE_TTL_MS,before=state.messages.length;
+    state.messages=state.messages.filter(m=>Date.parse(m.createdAt)>cutoff);
+    state.attachments=state.attachments.filter(f=>!f.sentAt||Date.parse(f.sentAt)>cutoff);
+    if(before&&!state.messages.length){state.conversationId=null;state.material=null;state.targetUserId=null;state.feedbackSubmitted=false;}
+    return before!==state.messages.length;
+  }
+  function nextExpiry(){return state.messages.length?Math.min(...state.messages.map(m=>Date.parse(m.createdAt)))+RIWI_MESSAGE_TTL_MS-currentTime():null;}
 
   function getSubtitleKey() {
     if (state.role === "teacher") return "riwi.subtitle.teacher";
@@ -87,7 +99,8 @@ export function createRiwiWorkspaceController({
     </section>`;
   }
 
-  function newConversation() {
+  async function newConversation() {
+    const previous=state.conversationId;
     state.conversationId = null;
     state.material = null;
     state.messages = [];
@@ -95,11 +108,17 @@ export function createRiwiWorkspaceController({
     state.feedbackSubmitted = false;
     state.targetUserId = null;
     state.error = null;
+    if(previous&&typeof adapter.archiveConversation==='function'){
+      state.loading=true;
+      try{await adapter.archiveConversation(previous);}
+      catch(error){if(error?.code!=='not_found'){state.error='archive_failed';throw error;}}
+      finally{state.loading=false;}
+    }
   }
 
   function localReply(key) {
     state.messages.push({role: 'assistant', content: tRiwi(`riwi.command.${key}`, state.replyLocale),
-      createdAt: new Date().toISOString()});
+      createdAt: new Date(currentTime()).toISOString()});
     return {ok: true, localCommand: true};
   }
 
@@ -110,6 +129,7 @@ export function createRiwiWorkspaceController({
   }
 
   async function sendMessage(text) {
+    expireMessages();
     const trimmed = String(text || "").trim();
     if (!trimmed) return null;
     if (state.loading) return null;
@@ -117,7 +137,7 @@ export function createRiwiWorkspaceController({
     if (trimmed.startsWith('/')) {
       const command = trimmed.slice(1).trim().toLowerCase().replace(/\s+/g, ' ');
       if (command === 'clear' || ['new', 'newchat', 'new chat'].includes(command)) {
-        newConversation();
+        await newConversation();
         return localReply(command === 'clear' ? 'cleared' : 'newChat');
       }
       if (['help', 'commands', '?'].includes(command)) return localReply('help');
@@ -140,6 +160,8 @@ export function createRiwiWorkspaceController({
         const surfaces=readSiteContext();if(surfaces.length)payload.siteContext=surfaces;
       }
       const res = await adapter.sendChat(payload);
+      const serverTime=Date.parse(res.serverTime);if(Number.isFinite(serverTime))serverOffset=serverTime-now();
+      const createdAt=Number.isFinite(Date.parse(res.messageCreatedAt))?res.messageCreatedAt:new Date(currentTime()).toISOString();
       let documentResult=null,documentError=null;
       if(res.documentAction){
         try{documentResult=(await adapter.exportDocument(await exportPayload(res.documentAction,state.attachments))).document;}
@@ -147,11 +169,11 @@ export function createRiwiWorkspaceController({
       }
       state.conversationId = res.conversationId;
       state.messages.push(
-        { role: "user", content: trimmed, files:state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})), createdAt: new Date().toISOString() },
+        { role: "user", content: trimmed, files:state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})), createdAt },
         {
           role: "assistant",
           content: res.answer,
-          createdAt: new Date().toISOString(),
+          createdAt: new Date(Date.parse(createdAt)+1).toISOString(),
           document: documentResult, documentError, documentAction:res.documentAction,
           provenance: res.provenance,
           citations: res.citations || [],
@@ -159,7 +181,7 @@ export function createRiwiWorkspaceController({
           reportSnapshot: res.reportSnapshot || null
         }
       );
-      state.attachments.forEach(item=>{item.sent=true;});
+      state.attachments.forEach(item=>{item.sent=true;item.sentAt??=createdAt;});
       if (res.roleSurface && Array.isArray(res.roleSurface.targetOptions)) {
         state.targetOptions = res.roleSurface.targetOptions;
         state.nextTargetCursor = res.roleSurface.nextCursor || null;
@@ -188,7 +210,7 @@ export function createRiwiWorkspaceController({
     if (state.conversationId && typeof adapter.deleteConversation === "function") {
       await adapter.deleteConversation(state.conversationId);
     }
-    newConversation();
+    state.conversationId=null;await newConversation();
   }
 
   async function submitFeedback({ helpful, reason = "" }) {
@@ -218,17 +240,18 @@ export function createRiwiWorkspaceController({
     newConversation,
     setReplyLocale,
     submitFeedback,
-    touchPresence
+    touchPresence,
+    expireMessages,nextExpiry
   };
 }
 
-export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalDictation}={}) {
+export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalDictation,now=()=>Date.now()}={}) {
   const {root, locale = 'uz', session, signal} = ctx;
   const role = session?.user?.role || 'student';
-  const ctrl = createRiwiWorkspaceController({role, locale,readSiteContext:()=>siteContext(root.ownerDocument,window,role==='owner')});
+  const ctrl = createRiwiWorkspaceController({role, locale,now,readSiteContext:()=>siteContext(root.ownerDocument,window,role==='owner')});
   const text = key => tRiwi(`riwi.chat.${key}`, locale);
   const uz=locale==='uz';
-  let filesReading=false,readAbort,lastFileCount=0,voiceBusy=false,voicePhase='idle',voiceProgress=0;
+  let filesReading=false,readAbort,lastFileCount=0,voiceBusy=false,voicePhase='idle',voiceProgress=0,expiryTimer;
   let slashIndex=0,slashItems=[],slashDismissed=false;
   const commands=['/new chat','/clear','/examples','/simple','/help'];
   const commandHints=uz?['Oldingi kontekstsiz yangi suhbat','Suhbat kontekstini tozalash','Avvalgi mavzudan misollar','Avvalgi mavzuni soddaroq tushuntirish','RIWI buyruqlari haqida yordam']:
@@ -311,9 +334,12 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     voiceLabel.textContent=uz?'Matn qurilmada tayyorlandi. Yuborishdan oldin tekshiring; o‘zbekcha ovozda xatolar ko‘proq bo‘lishi mumkin.':'Transcribed on this device. Review before sending; Uzbek speech may contain more errors.';
   }});
   drawMic();
-  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:()=>{
+  const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:async()=>{
     if(ctrl.state.loading||filesReading||voiceBusy)return;
-    ctrl.newConversation();renderMessages();status.hidden=true;input.focus();
+    input.value='';slashDismissed=true;voicePanel.hidden=true;
+    const clearing=ctrl.newConversation();renderMessages();status.hidden=true;
+    try{await clearing;}catch{status.textContent=uz?'Yangi suhbat ochildi. Oldingi chatni arxivlash uchun ulanishni tekshiring.':'New chat opened. Check your connection to archive the previous chat.';status.hidden=false;}
+    finally{renderMessages();input.focus();}
   }}, tRiwi('riwi.command.newChatButton',locale));
   let pending=null,readProgress='';
   const runCommand = command => {
@@ -441,6 +467,8 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
   }
   function renderMessages(){
     if(signal?.aborted)return;
+    clearTimeout(expiryTimer);ctrl.expireMessages();const deadline=ctrl.nextExpiry();
+    if(deadline!==null)expiryTimer=setTimeout(()=>renderMessages(),Math.max(1,deadline));
     const messages=ctrl.state.messages;
     transcript.replaceChildren(...(messages.length||pending
       ? [h('div',{class:'riwi-date'},text('today')),...messages.map(bubble)]
@@ -498,6 +526,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
   dropHost.addEventListener('drop',event=>{if(event.dataTransfer?.files?.length){event.preventDefault();dropHost.classList.remove('riwi-drop-active');void addFiles([...event.dataTransfer.files]);}},{signal});
   input.addEventListener('paste',event=>{if(event.clipboardData?.files?.length){event.preventDefault();void addFiles([...event.clipboardData.files]);}},{signal});
   document.addEventListener('pointerdown',event=>{if(!form.contains(event.target)){slashDismissed=true;drawSlash();}},{signal});
-  signal?.addEventListener('abort',()=>{dictation.cancel();readAbort?.abort();for(const url of [...downloadURLs.values(),...attachmentURLs])URL.revokeObjectURL(url);downloadURLs.clear();attachmentURLs.clear();},{once:true});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderMessages();},{signal});
+  signal?.addEventListener('abort',()=>{clearTimeout(expiryTimer);dictation.cancel();readAbort?.abort();for(const url of [...downloadURLs.values(),...attachmentURLs])URL.revokeObjectURL(url);downloadURLs.clear();attachmentURLs.clear();},{once:true});
   renderMessages();
 }

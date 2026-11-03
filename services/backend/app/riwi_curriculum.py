@@ -160,7 +160,7 @@ async def previous_lesson_context(conn,actor,conversation_id):
         JOIN riwi_conversations c ON c.id=m.conversation_id
         WHERE c.id=$1::uuid AND c.user_id=$2::uuid AND c.role_at_creation=$3::role
           AND c.deleted_at IS NULL AND c.expires_at>now() AND m.role='assistant'
-          AND m.created_at>=now()-interval '30 days'
+          AND m.created_at>now()-interval '7 days'
         ORDER BY m.created_at DESC,m.id DESC LIMIT 1
         """,conversation_id,actor.id,actor.role)
     if not row:
