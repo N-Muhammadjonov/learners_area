@@ -132,7 +132,7 @@ const routes = [
 const PROGRESSIVE_SAFE_ROUTES=new Set([
  // Passive catalogues and learner overviews. These render a route-owned loading
  // shell before requesting private DTOs; no focused exam/player/recorder is opted in.
- '/app/dashboard','/app/progress','/app/mocks','/app/assignments',
+ '/app','/app/dashboard','/app/progress','/app/mocks','/app/assignments',
  '/app/notifications','/app/live-classes','/app/speaking',
  '/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/reading/history',
  '/app/listening/lessons','/app/listening/academic','/app/listening/history',
@@ -140,7 +140,7 @@ const PROGRESSIVE_SAFE_ROUTES=new Set([
  '/app/grammar','/app/grammar/lessons','/app/courses/ielts',
  '/app/video-lessons'
 ]);
-export default routes.map(route=>{if(route.pattern==="/app")return {...route,protected:true,load:()=>import('../modules/campus/page.js')};/* STAFF V57 DISPATCH: original source main b62b78f */
+export default routes.map(route=>{if(route.pattern==="/app")return {...route,protected:true,load:()=>import('../modules/dashboard.js')};/* STAFF V57 DISPATCH: original source main b62b78f */
  const staff=staffRoutes.find(s=>s.pattern===route.pattern);
  if(staff)return {...route,...staff,protected:true};
 /* V51 SPEAKING + WRITING DISPATCH */

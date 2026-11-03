@@ -26,9 +26,9 @@ test('date parts preserve a partial draft and reject impossible dates before sub
   const remount=studyForm(h.ctx,{profile:true,initial:study});assert.equal(remount.querySelector('[aria-label=Day]').value,'');assert.equal(remount.querySelector('[aria-label=Month]').value,'2');
  }finally{h.dispose();}
 });
-test('topbar orders Main, module identity and search; the campus hides both return controls',()=>{
+test('topbar keeps module identity and search; module roots have no Main control',()=>{
  const h=setup({path:'/app/reading/academic'});
- try{const header=document.createElement('header'),search=document.createElement('input');header.append(search);const chrome=campusHeader(header,h.ctx);chrome.update(h.ctx.url);assert.equal(header.children[1].textContent,'←Main');assert.equal(header.children[2].textContent,h.ctx.dict.nav.reading);assert.equal(header.children[3],search);
+ try{const header=document.createElement('header'),search=document.createElement('input');header.append(search);const chrome=campusHeader(header,h.ctx);chrome.update(h.ctx.url);assert(header.children[1].hidden);assert.equal(header.querySelector('[data-campus-main-link]'),null);assert.equal(header.children[2].textContent,h.ctx.dict.nav.reading);assert.equal(header.children[3],search);
   chrome.update(new URL('/app','https://fixture.invalid'));assert(header.children[1].hidden);assert(header.children[2].hidden);assert(!header.children[0].hidden);
  }finally{h.dispose();}
 });

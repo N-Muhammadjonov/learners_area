@@ -8,6 +8,8 @@ export function render(scope) {
     const { dict, on, open, setOpen, useful, pathname, applyFocus, ReportProblem, containerRef, launcherRef } = scope;
     return (h("div", { ref: containerRef, className: "pointer-events-none fixed bottom-4 right-4 flex flex-col items-end gap-2", style: { zIndex: "var(--z-sticky)" }, "data-shell-utilities": true },
         open && (h("div", { id: "shell-utilities-panel", role: "group", "aria-label": dict.shell.utilities, "data-shell-utilities-panel": true, className: "pointer-events-auto flex flex-col items-end gap-2" },
+            useful && h("button", { type: "button", "data-focus-toggle": true, "aria-pressed": on, onClick: applyFocus, className: "btn-secondary flex min-h-[46px] items-center gap-2 rounded-full px-4" },
+                h(IconTarget, { className: "text-[18px]" }), h("span", null, on ? dict.focus.exit : dict.focus.enter)),
             pathname !== "/app/coach" && (h(Link, { href: "/app/coach", "data-coach-fab": true, className: "flex min-h-[46px] items-center gap-2 rounded-full border border-gold/45 bg-paper-raised px-4 text-[0.9375rem] font-medium text-ink-700 shadow-card transition-colors hover:bg-paper-sunken hover:text-ink-900" },
                 h(IconSparkles, { className: "text-[18px] text-gold" }),
                 h("span", null, dict.nav.coach))),

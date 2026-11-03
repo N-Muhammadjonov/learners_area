@@ -16,15 +16,15 @@ function shellFixture(path){
  h.ctx.session=fixtureSession('owner').session;h.stub({'/api/notifications':{unread:0}});
  const shell=createShell(h.ctx);h.ctx.root.append(shell.host);return {h,shell};
 }
-test('every ordinary module and Management share one Main control with no sidebar or hamburger',async()=>{
+test('ordinary modules and Management use the Dock without a Main control, sidebar or hamburger',async()=>{
  const {h,shell}=shellFixture('/app/management');
  try{
   assert.equal(h.q('[data-shell-sidebar]'),null);assert.equal(h.q('[data-mobile-nav-toggle]'),null);
-  const main=h.q('[data-campus-main-link]');assert.equal(main.hidden,false);assert.equal(main.getAttribute('href'),'/app');
+  assert.equal(h.q('[data-campus-main-link]'),null);assert.equal(h.q('[data-module-dock]').hidden,false);
   const top=h.q('[data-shell-topbar]');
-  for(const selector of ['[data-campus-main-link]','[data-campus-header-search]','[data-campus-header-preferences]','[data-campus-header-profile]'])assert.equal(top.querySelector(selector).parentElement,top);
-  shell.update(new URL('/app','https://fixture.invalid'));assert.equal(main.hidden,true);
-  shell.update(new URL('/app/reading/lessons','https://fixture.invalid'));assert.equal(main.hidden,false);
+  for(const selector of ['[data-campus-back-link]','[data-campus-header-search]','[data-campus-header-preferences]','[data-campus-header-profile]'])assert.equal(top.querySelector(selector).parentElement,top);
+  shell.update(new URL('/app','https://fixture.invalid'));assert.equal(h.q('[data-campus-back-link]').hidden,true);
+  shell.update(new URL('/app/reading/lessons','https://fixture.invalid'));assert.equal(h.q('[data-campus-back-link]').hidden,true);
   assert.equal(h.q('[data-module-section-heading]').textContent,h.ctx.dict.readingV4.products.lessons.title);
  }finally{h.dispose();}
 });

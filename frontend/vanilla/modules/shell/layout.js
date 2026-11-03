@@ -14,6 +14,7 @@ import {profileMenu} from './profile.js';
 import {shellUtilities} from './utilities.js';
 import {sectionHeader} from './section-header.js';
 import {notificationBell} from './notifications.js';
+import {moduleDock} from './dock.js';
 
 /** Shared controls for ordinary workspaces and detached focus route frames. */
 export function createTopbar(context){
@@ -30,18 +31,18 @@ export function createTopbar(context){
 /** Reading's timed exam already owns its viewport/header; other focus details
  * get the same topbar without remounting their data, media, timers or drafts. */
 export function focusFrame(context,staging){
- if(staging.querySelector('.reading-workspace-header'))return staging;
+ if(staging.querySelector('.reading-workspace-header')){staging.append(shellUtilities(context).node);return staging;}
  const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'',class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
  frame.style.setProperty('--workspace-accent',workspaceAccent(context.url));
  const {top}=createTopbar(context),body=el('div',{'data-shell-main':'',class:'min-h-0 flex-1 overflow-auto'});
- body.append(...staging.childNodes);frame.append(top,body);return frame;
+ body.append(...staging.childNodes);frame.append(top,body,shellUtilities(context).node);return frame;
 }
 
-/** Persistent native controls. Navigation lives in the campus and Management cards. */
+/** Persistent controls and Dock; Management keeps its existing cards. */
 export function createShell(context){
  const {signal}=context;
  if(context.session.diagnostics||rootDiagnosticsEnabled())void enableDiagnostics(signal,{shell:true});
- const host=el('div',{'data-shell':'','data-campus-shell':'',class:'flex h-dvh overflow-hidden bg-paper'});
+ const host=el('div',{'data-shell':'','data-campus-shell':'','data-dock-shell':'',class:'flex h-dvh overflow-hidden bg-paper'});
  // Kept detached for the workspace scroll-state contract; no sidebar is rendered.
  const sidebar=el('aside');
  const column=el('div',{class:'flex min-h-0 min-w-0 flex-1 flex-col'});
@@ -51,15 +52,15 @@ export function createShell(context){
  const transition=workspaceTransition(context);outlet.append(transition.node);main.append(outlet);
  const sections=sectionHeader(context);
  const band=el('div',{'data-workspace-header':''},top,sections.node);column.append(band,main);host.append(column);
- const utilities=shellUtilities(context);host.append(utilities.node);
- function update(url,user,state){host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);}
+ const utilities=shellUtilities(context),dock=moduleDock(context);host.append(dock.node,utilities.node);
+ function update(url,user,state){host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);dock.update(url);}
  let stopPending=()=>{};
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});
  modulePrewarm({root:host,routes,signal});viewPrewarm({root:host,signal});navigationIntent({root:host,signal});update(context.url);
- return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);},
+ return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,openModule:url=>dock.open(transition.content,url),preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);dock.update(url);},
   begin:(url,flight,source)=>{end();profile.close();search.close(false);
    const anchor=source?.isConnected?source:null;const stop=beginLinkPending(anchor,flight);
    const restore=()=>{stop();flight.removeEventListener('abort',restore);stopPending=()=>{};};
-   stopPending=restore;flight.addEventListener('abort',restore,{once:true});transition.begin(url,flight);},end};
+   stopPending=restore;flight.addEventListener('abort',restore,{once:true});dock.begin(url,flight,source);transition.begin(url,flight);},end};
 }
