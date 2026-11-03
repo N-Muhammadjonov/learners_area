@@ -380,6 +380,24 @@ async def _http_post_riwi_chat(req: Request):
         return _riwi_error_response(exc)
 
 
+@router.post('/api/riwi/documents/export')
+async def _http_export_riwi_document(req: Request):
+    actor = await _require_riwi_actor(req)
+    if not actor: return _core().auth_error()
+    from .riwi_rollout import riwi_enabled_for_role
+    from .riwi_documents import gate, export_document
+    if not riwi_enabled_for_role(actor.role):
+        return _core().j({'ok':False,'error':'riwi_disabled_for_role'},503,_core().PRIVATE)
+    try:
+        body = await _core().payload(req)
+        db = await _core().pool()
+        await gate(RiwiQueryPool(db), actor)
+        result = await _core().run_blocking(export_document, body)
+        return _core().j({'ok':True,'document':result},200,_core().PRIVATE)
+    except (ValueError, PermissionError) as exc:
+        return _core().j({'ok':False,'error':str(exc)},403 if isinstance(exc,PermissionError) else 400,_core().PRIVATE)
+
+
 @router.get('/api/riwi/materials')
 async def _http_get_riwi_materials(req: Request):
     actor = await _require_riwi_actor(req)

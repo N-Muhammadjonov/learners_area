@@ -17,6 +17,9 @@ async function requestJson(url, options = {}) {
 }
 
 export const RiwiClientAdapter = {
+  exportDocument(body) {
+    return requestJson('/api/riwi/documents/export', {method:'POST',body});
+  },
   listMaterials(kind, query = '') {
     return requestJson('/api/riwi/materials?' + new URLSearchParams({kind, q: query}));
   },

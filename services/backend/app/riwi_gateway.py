@@ -146,6 +146,22 @@ async def handle_riwi_chat(
             )
             raise RiwiGatewayError(exc.code, 403 if exc.code == "forbidden" else 400) from exc
 
+    from .riwi_documents import answer_request as document_answer, gate as document_gate
+    document = document_answer(message, req.get('attachments', []), locale)
+    if document:
+        await document_gate(conn, actor)
+        text = document['answer'][:RIWI_MAX_ANSWER_CHARS]
+        meta = {'id':'riwi','model':'riwi-document-v1','fileCount':len(req.get('attachments', []))}
+        saved = await append_conversation_turn(conn, actor=actor, conversation_id=conversation_id,
+            user_message=message, assistant_answer=text, correlation_id=correlation_id,
+            provenance='deterministic_learning_data',provider=meta,citations=[],report_snapshot=None,now=now)
+        await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
+            target_type='riwi_conversation',target_id=saved,
+            metadata={'role':actor.role,'intent':intent_info.intent,'provenance':'deterministic_learning_data','providerId':'riwi','status':'succeeded'})
+        return {'ok':True,'conversationId':saved,'correlationId':correlation_id,'intent':intent_info.intent,
+            'answer':text,'provenance':'deterministic_learning_data','provider':meta,'citations':[],
+            'reportSnapshot':None,'roleSurface':role_surface,'documentAction':document.get('action')}
+
     if actor.role == "owner":
         policy_draft = parse_owner_assessment_policy_message(message)
         if policy_draft is not None:
@@ -453,10 +469,15 @@ async def handle_riwi_chat(
         },
     )
     review_capture = await capture_safely(conn,actor,saved_conv_id,message) if provenance=='unavailable' and not faq else None
+    from .riwi_documents import requested_format
+    document_format = requested_format(message)
+    document_action = ({'mode':'create','format':document_format,'text':answer_text[:RIWI_MAX_ANSWER_CHARS]}
+                       if document_format and provenance not in ('unavailable','policy_refusal') else None)
     return {
         "ok": True,
         "conversationId": saved_conv_id,
         "correlationId": correlation_id,
+        "documentAction": document_action,
         "intent": intent_info.intent,
         "answer": answer_text[:RIWI_MAX_ANSWER_CHARS],
         "provenance": provenance,
