@@ -75,6 +75,7 @@ async def handle_riwi_chat(
     locale = req.get('replyLocale') or riwi_presentation_locale(cookie_locale, actor.locale)
     correlation_id = str(uuid.uuid4())
     message = req["message"]
+    original_message=message
     conversation_id = req.get("conversationId")
     target_user_id = req.get("targetUserId")
 
@@ -107,7 +108,7 @@ async def handle_riwi_chat(
             conn,
             actor=actor,
             conversation_id=conversation_id,
-            user_message=message,
+            user_message=original_message,
             assistant_answer=refusal_text,
             correlation_id=correlation_id,
             provenance="policy_refusal",
@@ -146,6 +147,27 @@ async def handle_riwi_chat(
             )
             raise RiwiGatewayError(exc.code, 403 if exc.code == "forbidden" else 400) from exc
 
+    if not any(req.get(k) for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')):
+        from .riwi_language_memory import proposal_for_message,learn_proposal,learning_ack,resolve_private_language,MODEL as LANGUAGE_MODEL
+        from .riwi_retention import retention_transaction
+        proposal=await proposal_for_message(conn,actor,message,conversation_id)
+        if proposal is not None:
+            async with retention_transaction(conn) as active:
+                learned=await learn_proposal(active,actor,proposal,now=now)
+                answer=learning_ack(proposal,learned,locale)
+                source='deterministic_learning_data' if learned.get('saved') or learned.get('reason')=='already_known' else 'unavailable'
+                meta={'id':'riwi','model':LANGUAGE_MODEL}
+                saved=await append_conversation_turn(active,actor=actor,conversation_id=conversation_id,user_message=original_message,
+                    assistant_answer=answer,correlation_id=correlation_id,provenance=source,provider=meta,citations=[],now=now)
+            if source=='unavailable':
+                from .riwi_conversation_learning import capture_safely
+                await capture_safely(conn,actor,saved,original_message)
+            return {'ok':True,'conversationId':saved,'correlationId':correlation_id,'intent':intent_info.intent,
+                'answer':answer,'provenance':source,'provider':meta,'citations':[],'reportSnapshot':None,'roleSurface':role_surface,'learning':learned}
+        mapped=await resolve_private_language(conn,actor,message)
+        if mapped:
+            message=mapped;intent_info=assess_riwi_intent(message)
+
     from .riwi_site import site_response
     site_reply = (site_response(actor.role, message, locale, req.get('siteContext', []))
         if not any(req.get(k) for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')) else None)
@@ -153,7 +175,7 @@ async def handle_riwi_chat(
         site_answer=site_reply['answer'];site_links=site_reply['navigationLinks']
         meta = {'id':'riwi','model':'riwi-site-guide-v1'}
         saved = await append_conversation_turn(conn, actor=actor, conversation_id=conversation_id,
-            user_message=message, assistant_answer=site_answer, correlation_id=correlation_id,
+            user_message=original_message, assistant_answer=site_answer, correlation_id=correlation_id,
             provenance='deterministic_learning_data',provider=meta,citations=[],report_snapshot=None,navigation_links=site_links,now=now)
         await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
             target_type='riwi_conversation',target_id=saved,
@@ -169,7 +191,7 @@ async def handle_riwi_chat(
         text = document['answer'][:RIWI_MAX_ANSWER_CHARS]
         meta = {'id':'riwi','model':'riwi-document-v1','fileCount':len(req.get('attachments', []))}
         saved = await append_conversation_turn(conn, actor=actor, conversation_id=conversation_id,
-            user_message=message, assistant_answer=text, correlation_id=correlation_id,
+            user_message=original_message, assistant_answer=text, correlation_id=correlation_id,
             provenance='deterministic_learning_data',provider=meta,citations=[],report_snapshot=None,now=now)
         await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
             target_type='riwi_conversation',target_id=saved,
@@ -191,7 +213,7 @@ async def handle_riwi_chat(
                 conn,
                 actor=actor,
                 conversation_id=conversation_id,
-                user_message=message,
+                user_message=original_message,
                 assistant_answer=ans,
                 correlation_id=correlation_id,
                 provenance="approved_knowledge",
@@ -253,7 +275,7 @@ async def handle_riwi_chat(
             meta={'id':'riwi','model':'riwi-material-resolution-v1','materialSearchKinds':found['kinds']}
             source='policy_refusal' if blocked else 'unavailable'
             saved=await append_conversation_turn(conn,actor=actor,conversation_id=conversation_id,
-                user_message=message,assistant_answer=text,correlation_id=correlation_id,
+                user_message=original_message,assistant_answer=text,correlation_id=correlation_id,
                 provenance=source,provider=meta,citations=[],report_snapshot=None,now=now)
             await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
                 target_type='riwi_conversation',target_id=saved,
@@ -461,7 +483,7 @@ async def handle_riwi_chat(
         conn,
         actor=actor,
         conversation_id=conversation_id,
-        user_message=message,
+        user_message=original_message,
         assistant_answer=answer_text[:RIWI_MAX_ANSWER_CHARS],
         correlation_id=correlation_id,
         provenance=provenance,
@@ -484,7 +506,7 @@ async def handle_riwi_chat(
             "status": "succeeded",
         },
     )
-    review_capture = await capture_safely(conn,actor,saved_conv_id,message) if provenance=='unavailable' and not faq else None
+    review_capture = await capture_safely(conn,actor,saved_conv_id,original_message) if provenance=='unavailable' and not faq else None
     from .riwi_documents import requested_format
     document_format = requested_format(message)
     document_action = ({'mode':'create','format':document_format,'text':answer_text[:RIWI_MAX_ANSWER_CHARS]}

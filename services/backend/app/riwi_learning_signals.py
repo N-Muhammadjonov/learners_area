@@ -74,6 +74,8 @@ async def create_learning_signal(
 ) -> dict[str, Any]:
     if not authorize_capability(actor, "riwi.chat.self").allowed:
         raise LearningServiceError("forbidden")
+    if isinstance(model,str) and model.startswith('riwi-private-language-'):
+        raise LearningServiceError('invalid_input') # Reserved for the bounded internal selector.
     if signal_type not in LEARNING_SIGNAL_TYPES:
         raise LearningServiceError("invalid_input")
     if not isinstance(source_id, str) or not UUID_RE.match(source_id):

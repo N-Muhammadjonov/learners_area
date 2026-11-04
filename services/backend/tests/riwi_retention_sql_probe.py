@@ -49,6 +49,9 @@ CREATE TEMP TABLE audit_log(LIKE public.audit_log INCLUDING DEFAULTS INCLUDING C
  await archive_conversation(c,A,old,now=START+timedelta(days=2))
  check(f"(SELECT expires_at FROM pg_temp.riwi_conversations WHERE id={literal(old)})={literal(START+timedelta(days=2,minutes=30))}::timestamptz",'archive did not set thirty-minute deadline')
  check(f"EXISTS(SELECT 1 FROM pg_temp.riwi_conversation_messages WHERE conversation_id={literal(old)} AND metadata ? 'riwiArchivedAt')",'archive marker missing')
+ check(f"EXISTS(SELECT 1 FROM pg_temp.riwi_conversation_messages WHERE conversation_id={literal(old)} AND metadata ? 'riwiLearningReviewedAt')",'retirement learning review was not marked')
+ await archive_conversation(c,A,old,now=START+timedelta(days=2,minutes=10))
+ check(f"(SELECT expires_at FROM pg_temp.riwi_conversations WHERE id={literal(old)})={literal(START+timedelta(days=2,minutes=30))}::timestamptz",'repeated archive extended deadline')
  try:await turn(START+timedelta(days=2,minutes=10),old)
  except RiwiConversationError:pass
  fresh=await turn(START+timedelta(days=2));foreign=await turn(START+timedelta(days=2),actor=B)
