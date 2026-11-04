@@ -38,7 +38,7 @@ def validate(row: dict, i: int) -> list[str]:
         errs.append(f"#{i}: noma'lum source {row.get('source')!r}")
     if len(str(row.get("assistant", "")).strip()) < 20:
         errs.append(f"#{i}: assistant javobi juda qisqa")
-    if len(str(row.get("user", "")) + len(str(row.get("assistant", ""))) > 6000:
+    if len(str(row.get("user", ""))) + len(str(row.get("assistant", ""))) > 6000:
         errs.append(f"#{i}: juda uzun (>6000 belgi)")
     return errs
 
