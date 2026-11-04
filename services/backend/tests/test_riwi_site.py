@@ -48,7 +48,7 @@ def test_owner_gets_code_grounded_architecture_and_exact_observed_button_not_inv
     architecture=s.answer_site_question('owner','Sayt arxitekturasi qanday ishlaydi?','uz')
     assert 'FastAPI' in architecture and 'History API' in architecture
     answer=s.answer_site_question('owner','Main tugmasi qayerda, rangi va vazifasi qanday?','uz',[surface()])
-    assert 'kampusga' in answer and 'rgb(238, 236, 244)' in answer and 'yuqori chap' in answer
+    assert 'Dock' in answer and 'rgb(238, 236, 244)' in answer and 'yuqori chap' in answer
     assert s.site_response('owner','Main tugmasi qayerda?','uz',[surface()])['navigationLinks']==[{'href':'/app','label':'Main'}]
     unseen=s.answer_site_question('owner','Saqlash tugmasi rangi qanday?','uz')
     assert 'taxmin qilmayman' in unseen and 'rgb(' not in unseen

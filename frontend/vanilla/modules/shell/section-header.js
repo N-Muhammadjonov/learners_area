@@ -7,7 +7,7 @@ const WRITING=['lessons','exam','translation','typing','grade','activation','lan
 export function sectionIdentity(url,dict){
  const path=url.pathname,module=path.split('/')[2],tab=url.searchParams.get('tab');
  if(!['listening','reading','grammar','writing','vocabulary','video-lessons'].includes(module))return null;
- if(module==='video-lessons')return {module,key:'library',title:dict.videoLessons.title,index:path==='/app/video-lessons'};
+ if(module==='video-lessons'){const index=path==='/app/video-lessons';return {module,key:index?'library':'detail',title:index?dict.videoLessons.title:'',index};}
  if(module==='vocabulary'){
   const key=path.startsWith('/app/vocabulary/games')?'games':path==='/app/vocabulary'?(['revision','use','board','dictionary'].includes(tab)?tab:'words'):null;
   return key?{module,key,title:dict.vocabulary.tab[key],index:path==='/app/vocabulary'||path==='/app/vocabulary/games'}:null;
@@ -31,7 +31,12 @@ export function sectionHeader(context){
   if(!activeModule)return;
   const existing=content.querySelector('[data-module-sections], [data-writing-tablist], [data-video-header-sections]');
   if(existing)nav.replaceChildren(existing);
-  // Main puts module identity in the pinned blue header. Detail headings remain in content.
+  // A TED detail uses its actual video title in the pinned heading band.
+  if(identity?.module==='video-lessons'&&identity.key==='detail'){
+   const heading=content.querySelector('[data-video-detail-heading]'),name=heading?.textContent.trim();
+   if(name){const shown=title.querySelector('[data-module-section-heading="video-lessons:detail"]');if(shown?.textContent!==name)title.replaceChildren(el('h1',{'data-module-section-heading':'video-lessons:detail',class:'native-module-title'},name));heading.hidden=true;}
+  }
+  // Other detail headings retain their existing content position.
   if(identity?.index)for(const heading of content.querySelectorAll('h1')){
    if(heading.textContent.trim()===identity.title)heading.hidden=true;
   }
@@ -42,7 +47,7 @@ export function sectionHeader(context){
   if(!['listening','reading','grammar','writing','vocabulary','video-lessons'].includes(activeModule))activeModule=null;
   node.hidden=!activeModule;title.replaceChildren();nav.replaceChildren();
   if(!activeModule)return;
-  if(identity)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
+  if(identity?.title)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
   if(['listening','reading','grammar','vocabulary'].includes(activeModule)){
    const refs={current:[]},menu=sectionNav({module:activeModule,label:dict.nav[activeModule],links:navigationLinks({module:activeModule,dict}),pathname:url.pathname,query:url.searchParams,refs});
    if(menu){refs.current=[...menu.querySelectorAll('a')];nav.append(menu);}
@@ -55,7 +60,8 @@ export function sectionHeader(context){
   const nextIdentity=sectionIdentity(next,dict);
   if(next.pathname.split('/')[2]!==activeModule){update(next);return;}
   url=next;identity=nextIdentity;title.replaceChildren();
-  if(identity)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
+  if(identity?.title)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
+  if(activeModule==='video-lessons'&&content)attach(content);
   if(activeModule==='vocabulary'){const refs={current:[]},menu=sectionNav({module:activeModule,label:dict.nav[activeModule],links:navigationLinks({module:activeModule,dict}),pathname:next.pathname,query:next.searchParams,refs});if(menu)nav.replaceChildren(menu);}
  }
  update(context.url);return {node,update,updateLocation,attach:watch};

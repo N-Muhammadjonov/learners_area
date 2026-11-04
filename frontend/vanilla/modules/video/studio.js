@@ -51,7 +51,7 @@ export function createVideoStudio(context,{mode,video}){
 
  // ---- DOM skeleton (built once; only the visible panel and small status nodes change later) ----
  const section=el('section',{class:'video-studio','data-video-lesson':lesson.id,'data-video-state':state});
- const stage=el('div',{class:'overflow-hidden rounded-lg border border-ink-200 bg-ink-950'});
+ const stage=el('div',{class:'overflow-hidden rounded-lg border border-ink-200 bg-ink-950','data-video-stage':''});
  const blockedNote=el('p',{class:'rounded-md border border-warn-500/40 bg-warn-50 px-3 py-2 text-sm text-warn-800','data-video-blocked':''},t.blocked);
  blockedNote.hidden=true;
  const liveLabel=el('span',{class:'text-xs text-ink-500','data-video-live-transcript':'no'},t.liveTrackingOff);

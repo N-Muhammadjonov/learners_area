@@ -1,0 +1,25 @@
+import {listen} from '../../js/dom.js';
+
+const STUDY_MODULES=new Set(['live-classes','assignments','mocks','video-lessons','listening','reading','writing','grammar','vocabulary','courses','coach']);
+export const supportsStudyFocus=url=>STUDY_MODULES.has(url.pathname.split('/')[2]);
+
+/** Presentation only: toggling never refreshes a route or touches an attempt.
+ * F is intentionally undocumented in the interface. Text entry owns its keys. */
+export function studyFocus({signal},changed=()=>{}){
+ const html=document.documentElement;let useful=false,on=false,location=null;
+ function apply(next){
+  on=useful&&Boolean(next);html.dataset.studyFocus=on?'on':'off';
+  if(html.dataset.retentionFocus!=='on')html.dataset.focus=on?'on':'off';
+  changed();
+ }
+ const typing=node=>node?.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="textbox"],[role="combobox"],dialog[open],[role="dialog"]');
+ listen(document,'keydown',event=>{
+  if(!useful||event.defaultPrevented||event.repeat||event.isComposing||event.ctrlKey||event.metaKey||event.altKey||typing(event.target)||typing(document.activeElement))return;
+  if(event.key.toLowerCase()==='f'){event.preventDefault();apply(!on);}
+ },signal);
+ signal.addEventListener('abort',()=>{useful=false;apply(false);},{once:true});
+ return {get on(){return on;},get useful(){return useful;},toggle(){apply(!on);},update(url){
+  const next=url.pathname+url.search;if(location===next)return;
+  location=next;useful=supportsStudyFocus(url);apply(false);
+ }};
+}
