@@ -29,5 +29,5 @@ globalThis.onmessage=async({data})=>{
   postMessage({type:'result',id:data.id,text});
  }catch(error){postMessage({type:'error',id:data.id,code:/^(asr_asset_|asr_network_|dictation_)/.test(error.message)?error.message:'dictation_unavailable',
    ...(data.diagnostic===true?{diagnostic:String(error.message??error).slice(0,300)}:{})});}
- finally{if(data.type==='transcribe')busy=false;}
+ finally{if(data.type==='transcribe'){if(data.audio instanceof Float32Array)data.audio.fill(0);busy=false;}}
 };

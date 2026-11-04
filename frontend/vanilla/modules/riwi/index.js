@@ -282,7 +282,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
   const downloadURLs=new Map(),attachmentURLs=new Set();
   const transcript = h('div', {class: 'riwi-transcript', role: 'log', 'aria-live': 'polite', 'aria-label': text('conversation')});
   const conversation = h('div',{class:'riwi-conversation'},transcript,
-    h('p',{class:'riwi-transcript__notice','aria-live':'off'},'RIWI is AI and can make mistakes, please check important info!'));
+    h('p',{class:'riwi-transcript__notice','aria-live':'off'},'RIWI is AI and can make mistakes, please double check important info!'));
   const input = h('textarea', {class: 'riwi-chat-input', rows: '1', maxlength: '4000',
     'aria-label': text('message'), placeholder: text('placeholder'),
     'aria-autocomplete':'list','aria-controls':'riwi-slash-suggestions','aria-expanded':'false',
