@@ -6,8 +6,21 @@ import unicodedata
 _CYRILLIC=dict(zip('абвгдеёжзийклмнопрстуфхцчшъыьэюяқғҳў',
     ('a','b','v','g','d','e','yo','j','z','i','y','k','l','m','n','o','p','r','s','t','u','f','x','ts','ch','sh','','i','','e','yu','ya','q','g','h','o')))
 _APOSTROPHES="'‘’ʻʼ`´ʹ"
+# Reviewed informal forms. These affect retrieval only, never quoted source
+# text, the displayed question, permissions or the original learner draft.
+_DIALECT_WORDS={'raxmat':'rahmat','rahmattt':'rahmat','qalesan':'qalaysan','qalesiz':'qalaysiz',
+    'qaleysan':'qalaysan','qaleysiz':'qalaysiz','bilmiman':'bilmayman','bilmiyman':'bilmayman',
+    'tushunmiman':'tushunmayman','chunmadim':'tushunmadim','chunmadm':'tushunmadim',
+    'tushunmadm':'tushunmadim','soddaro':'soddaroq','soddaroqchi':'soddaroq'}
+_DIALECT_PHRASES=(
+    (r'\bsan\s+(?=kimsan\b|kimsen\b)','sen '),
+    (r'\b(?:sen\s+)?kimsen\b','sen kimsan'),
+    (r'\b(?:nima|nma)\s*(?:qilissan|qilissiz|qilyapsen|qilyabsan|qilvosan|qilvossan|qivossan|qilyabssan|qilayapsan)\b','nima qilyapsan'),
+    (r'\b(?:nima|nma)\s*(?:qilvossiz|qivossiz|qilyabsiz|qilayapsiz)\b','nima qilyapsiz'),
+    (r'\bsalom{2,6}\b','salom'),
+)
 _FIXES={
- 'prezent':'present','presnt':'present','prsent':'present','presen':'present','perfekt':'perfect','perfct':'perfect','prfct':'perfect','perefect':'perfect',
+ 'prezent':'present','presnt':'present','prsent':'present','presen':'present','perfekt':'perfect','perfct':'perfect','perfkt':'perfect','prfct':'perfect','perefect':'perfect',
  'simpl':'simple','simpel':'simple','kontinius':'continuous','kontinuous':'continuous','continous':'continuous','countinous':'continuous',
  'pasiv':'passive','passiv':'passive','artikl':'articles','artikllar':'articles','artikllarni':'articles','article':'articles',
  'farqi':'farq','farqini':'farq','farki':'farq','farkini':'farq','tushintir':'tushuntir','tushintr':'tushuntir','tushuntr':'tushuntir',
@@ -45,12 +58,13 @@ def normalize_query(text):
     value=unicodedata.normalize('NFKC',str(text)).casefold()
     value=''.join(_CYRILLIC.get(c,c) for c in value)
     value=value.translate(str.maketrans('','',_APOSTROPHES))
+    for pattern,replacement in _DIALECT_PHRASES:value=re.sub(pattern,replacement,value)
     value=re.sub(r'\bpresentperfect','present perfect',value)
     value=re.sub(r'\bpastsimple','past simple',value)
     tokens=re.findall(r'[^\W_]+',value)
     result=[]
     for token in tokens:
-        root=loan_root(token)
+        root=loan_root(_DIALECT_WORDS.get(token,token))
         word=loan_root(_FIXES.get(root,root))
         for suffix in ('ning','dan','ni','ga'):
             if word.endswith(suffix) and word[:-len(suffix)] in _MATCH_WORDS:

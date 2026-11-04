@@ -10,6 +10,17 @@ from pathlib import Path
 import re
 from .riwi_uzbek import normalize_query
 
+SOCIAL_RESPONSES={
+    'presence':{'kind':'answer','uz':'Shu yerdaman, savolingizga yordam berishga tayyorman 🙂 Tushunmagan gap, mavzu yoki sayt bo‘yicha savolingizni yozing — birga ko‘rib chiqamiz.',
+        'en':'I’m here and ready to help 🙂 Share a confusing sentence, topic or question about the website, and we can work through it.'},
+    'wellbeing':{'kind':'answer','uz':'Yordam berishga tayyorman 🙂 O‘zingiz qalaysiz? Bugun qaysi savolni birga ko‘ramiz?',
+        'en':'I’m ready to help 🙂 How are you? What would you like to work on today?'},
+}
+SOCIAL_QUERIES={**dict.fromkeys(('nima qilyapsan','nima qilyapsiz','sen nima qilyapsan','what are you doing'),'presence'),
+    **dict.fromkeys(('qalaysan','qalaysiz','yaxshimisan','yaxshimisiz','how are you'),'wellbeing'),
+    **dict.fromkeys(('salom','salom riwi','assalomu alaykum','hello','hi'),'greeting'),
+    **dict.fromkeys(('rahmat','katta rahmat','thank you','thanks','xayr'),'thanks-bye')}
+
 
 def key(text):
     return re.sub(r'\biltimos\b','',normalize_query(text)).strip()
@@ -33,6 +44,10 @@ def library():
     return data
 
 
+def response_for(profile):
+    return SOCIAL_RESPONSES.get(profile) or library()['responses'].get(profile,{})
+
+
 @lru_cache(maxsize=1)
 def indexes():
     exact={};bags={}
@@ -47,6 +62,8 @@ def match_question(message):
     query=key(message);exact,bags=indexes()
     matches=exact.get(query) or bags.get(frozenset(query.split()),[])
     if not matches:
+        if query in SOCIAL_QUERIES:
+            return {'id':'social.'+SOCIAL_QUERIES[query],'responseId':SOCIAL_QUERIES[query],'decision':'answer','semanticMatch':True}
         # Curated intent anchors allow mixed control language without treating
         # arbitrary token overlap as semantic similarity or dropping numbers.
         profiles=[(('although','despite'),'although-despite'),(('borrow','lend'),'borrow-lend'),
@@ -77,7 +94,7 @@ def match_question(message):
 def guard_profile(message):
     entry=match_question(message)
     if entry and not entry.get('semanticMatch'):
-        response=library()['responses'].get(entry.get('responseId'),{})
+        response=response_for(entry.get('responseId'))
         return entry['responseId'] if response.get('kind')=='deny' else None
     q=normalize_query(message)
     request=bool(re.search(r'\b(?:korsat\w*|chiqar\w*|yubor\w*|ber|top\w*|och\w*|ayt\w*|reveal|dump|show|send|leak)\b',q))
@@ -104,7 +121,7 @@ async def answer_question(conn,actor,message,locale,conversation_id=None):
         if isinstance(model,str) and model.startswith(('riwi-curriculum-v1:','riwi-study-v1:','riwi-reference-v1:','riwi-material-v1')):
             return None # let the original tutor recheck its active source
         profile=previous.get('responseId') if model=='riwi-questions-v1' else None
-        response=library()['responses'].get(profile,{})
+        response=response_for(profile)
         if response.get('kind')=='answer':
             body=response[locale]
             summary=body.split('🧩',1)[0].strip()
@@ -124,7 +141,7 @@ async def answer_question(conn,actor,message,locale,conversation_id=None):
         return {'answer':format_lesson(lesson,message,locale),'provenance':'approved_knowledge',
                 'citations':[{k:lesson[k] for k in ('ref','sourceId','unitId','title','authority','version')}],
                 'provider':{'id':'riwi','model':MODEL_PREFIX+entry['lessonId'],'lessonVariant':lesson.get('lessonVariant',0),'queryAliases':lesson.get('queryAliases',[])}}
-    response=library()['responses'][entry['responseId']]
+    response=response_for(entry['responseId'])
     return {'answer':response[locale],
             'provenance':'policy_refusal' if response['kind']=='deny' else 'unavailable' if response['kind'] in ('conditional','clarify') else 'deterministic_learning_data',
             'citations':[],'provider':{'id':'riwi','model':'riwi-questions-v1','questionId':entry['id'],'responseId':entry['responseId']}}
