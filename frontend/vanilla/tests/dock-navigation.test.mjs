@@ -33,11 +33,12 @@ for(const role of ['student','teacher','admin','owner'])test(`${role}: Dock pres
   const entries=h.qa('[data-dock-module]'),keys=entries.map(a=>a.dataset.dockModule);
   assert.deepEqual(keys.slice(0,12),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress']);
   assert.equal(keys.includes('management'),role!=='student');
+  assert.equal(keys.length,role==='student'?13:14);
+  for(const removed of ['/app/courses/ielts','/app/coach','/app/reports'])assert(!entries.some(a=>a.getAttribute('href')===removed));
   if(role!=='student')assert.equal(keys.at(-1),'management');
   assert(!entries.some(a=>/^\/app\/(admin|teacher|owner)(?:\/|$)/.test(a.getAttribute('href'))));
   for(const a of entries){assert(a.getAttribute('aria-label'));assert(a.getAttribute('href').startsWith('/app'));}
   assert.equal(entries[0].getAttribute('aria-current'),'page');dock.update(url('/app/dashboard'));assert.equal(entries[0].getAttribute('aria-current'),'page');
-  const riwi=h.q('[data-dock-module="coach"]');assert.equal(riwi.getAttribute('href'),'/app/riwi');assert.equal(riwi.getAttribute('aria-label'),'RIWI');dock.update(url('/app/riwi'));assert.equal(riwi.getAttribute('aria-current'),'page');
  }finally{h.dispose();}
 });
 test('Back pages hide Dock on direct entry and on same-document updates; returning restores it',()=>{
@@ -120,8 +121,8 @@ test('opening animation belongs only to the current Dock flight and always plays
   link.getBoundingClientRect=()=>({left:500,top:700,width:48,height:58});content.getBoundingClientRect=()=>({left:0,top:68,width:1000,height:600});
   const calls=[];let cancellations=0;content.animate=(frames,options)=>{calls.push({frames,options});return {cancel(){cancellations++;}};};
   const cancelled=new AbortController();dock.begin(url('/app/writing'),cancelled.signal,link);cancelled.abort();dock.open(content,url('/app/writing'));assert.equal(calls.length,0);
-  dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);assert.match(calls[0].frames[0].transform,/scale/);assert.equal(calls[0].frames.at(-1).opacity,1);
-  assert(calls[0].frames.every(frame=>frame.clipPath.startsWith('polygon(')));assert.notEqual(calls[0].frames[1].clipPath,calls[0].frames.at(-1).clipPath);assert.equal(new Set(calls[0].frames.map(frame=>frame.clipPath.split(',').length)).size,1);
+  dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);assert.equal(calls[0].options.duration,400);assert.equal(calls[0].frames.at(-1).opacity,0);
+  assert(document.querySelector('[data-dock-opening]'));assert(document.querySelector('.dock-opening-band'));
   dock.begin(url('/app/writing'),new AbortController().signal,link);assert.equal(cancellations,1);dock.open(content,url('/app/reading/lessons'));assert.equal(calls.length,1);
   window.matchMedia=()=>({matches:true});dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,2);
  }finally{h.dispose();}

@@ -9,7 +9,7 @@ for(const language of ['en','uz'])document.getElementById(language).onclick=asyn
    const timeout=setTimeout(()=>reject(Error('fixture_timeout')),240000);
    worker.onmessage=({data})=>{if(data.type==='progress'){progress.value=data.progress;result.textContent=`Downloading local model: ${Math.round(data.progress*100)}%`;}if(data.type==='ready'){progress.value=1;result.textContent='Transcribing locally…';}if(['result','error'].includes(data.type)){clearTimeout(timeout);resolve(data);}};
    worker.onerror=event=>{clearTimeout(timeout);reject(Error(event.message));};
-   worker.postMessage({type:'transcribe',id:language,language,audio},[audio.buffer]);
+   worker.postMessage({type:'transcribe',id:language,language,audio,diagnostic:true},[audio.buffer]);
   });
   result.textContent=JSON.stringify({language,expected:fixture.expected,...data,elapsedMs:Math.round(performance.now()-start)},null,2);
  }catch(error){result.textContent='ERROR: '+error.message;worker?.terminate();worker=null;}

@@ -14,7 +14,7 @@ test('ASR fetch is GET-only and same-origin, validates hashes and cannot transmi
  const f=createSpeechAssetFetch({root:'https://qa.invalid/assets/speech/',crypto:webcrypto,
   manifest:{partsBase:'/riwi-speech-assets/',totalBinaryBytes:3,assets:{'model.onnx':asset}},fetch:async(url,options)=>{calls.push({url:String(url),options});return new Response(raw);}});
  assert.deepEqual(new Uint8Array(await(await f('model.onnx')).arrayBuffer()),raw);
- assert(calls[0].url.startsWith('https://qa.invalid/riwi-speech-assets/parts/'));assert.equal(calls[0].options.method,'GET');assert.equal(calls[0].options.credentials,'omit');
+ assert(calls[0].url.startsWith('https://qa.invalid/riwi-speech-assets/parts/'));assert.equal(calls[0].options.method,'GET');assert.equal(calls[0].options.credentials,'same-origin');assert.equal(calls[0].options.redirect,'error');
  assert.throws(()=>createSpeechAssetFetch({root:'https://qa.invalid/speech/',manifest:{partsBase:'https://vendor.invalid/'}}),/network_forbidden/);
  for(const [url,options]of [['https://other.invalid/upload',{}],['https://qa.invalid/api/riwi',{}],['model.onnx',{method:'POST',body:raw}],['model.onnx',{body:raw}]])await assert.rejects(()=>f(url,options),/network_forbidden/);
  assert.equal(calls.length,1);assert.equal((await f('unknown.json')).status,404);

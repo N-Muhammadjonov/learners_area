@@ -8,7 +8,7 @@ export function createSpeechAssetFetch({root,manifest,fetch:read,crypto:hashes=g
   const result=new Uint8Array(asset.bytes);let at=0;
   for(const part of asset.parts){
    if(!/^parts\/[a-f0-9]{16}-\d{3}\.bin$/.test(part.path)||part.bytes>2*1024*1024)throw Error('asr_asset_invalid');
-   const response=await read(new URL(part.path,partsBase),{method:'GET',credentials:'omit',cache:'force-cache',redirect:'error'});
+   const response=await read(new URL(part.path,partsBase),{method:'GET',credentials:'same-origin',cache:'force-cache',redirect:'error'});
    if(!response.ok)throw Error('asr_asset_unavailable');const bytes=new Uint8Array(await response.arrayBuffer());
    if(bytes.length!==part.bytes||at+bytes.length>result.length||await digest(bytes)!==part.sha256)throw Error('asr_asset_integrity');
    result.set(bytes,at);at+=bytes.length;

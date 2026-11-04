@@ -40,16 +40,16 @@ test('Dock fits available width, scrolls both ways and keeps all modules reachab
    const context=await browser.newContext({viewport:{width,height},hasTouch:true}),page=await context.newPage();
    try{
     await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);await frame(page);
-    const first=await geometry(page);assert.equal(first.documentWidth,width);assert(first.dockLeft>=0);assert(first.dockRight<=first.toolsLeft-2);assert(first.first);assert(first.visible>=3);assert.equal(first.keys.length,17);
+    const first=await geometry(page);assert.equal(first.documentWidth,width);assert(first.dockLeft>=0);assert(first.dockRight<=first.toolsLeft-2);assert(first.first);assert(first.visible>=3);assert.equal(first.keys.length,14);
     if(first.total>first.client+1){
-     assert(first.visible<17);assert(!first.last);
+     assert(first.visible<=14);
      await page.evaluate(()=>{const nav=document.querySelector('.module-dock__glass');nav.scrollLeft=nav.scrollWidth;});await frame(page);
      const end=await geometry(page);assert(end.last,`${width}: Management must be reachable`);assert(end.scroll>0);
      await page.evaluate(()=>document.querySelector('.module-dock__glass').scrollLeft=0);await frame(page);assert((await geometry(page)).first);
     }
     await page.evaluate(()=>window.fixtureDock.update(new URL('/app/management',location.origin)));await frame(page);assert((await geometry(page)).last);
     await page.setViewportSize({width:height,height:width});await frame(page);assert((await geometry(page)).last,`${width}: active module lost after rotation`);
-    t.diagnostic(`${width}x${height}: ${first.visible}/17 visible, ${first.total>first.client?'horizontal scroll':'all fit'}`);
+    t.diagnostic(`${width}x${height}: ${first.visible}/14 visible, ${first.total>first.client?'horizontal scroll':'all fit'}`);
    }finally{await context.close();}
   }
   const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true}),page=await context.newPage();

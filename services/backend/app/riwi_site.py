@@ -69,8 +69,8 @@ def _topic(id, aliases, paths, uz, en, roles=ALL):
 
 TOPICS = [
     _topic('campus','main campus bosh sahifa xarita home dock', ['/app'],
-        'Main bosh sahifasi Dashboard’ni ochadi. Pastdagi Dock ikonkalari o‘quv bo‘limlarini ochadi; tor ekranda panelni yon tomonga surish mumkin. Boshqaruv belgisi faqat xodim rollariga ko‘rinadi. RIWI belgisi shu chatni ochadi. Tafsilot yoki focus sahifalarida Dock yashiriladi; Back ota sahifaga qaytaradi.',
-        'Main opens Dashboard. The bottom Dock icons open learning modules; on narrow screens the Dock scrolls sideways. Management is shown only to staff roles. RIWI opens this chat. Detail/focus pages hide the Dock; Back returns to the parent page.'),
+        'Main bosh sahifasi Dashboard’ni ochadi. Pastdagi Dock ikonkalari o‘quv bo‘limlarini ochadi; tor ekranda panelni yon tomonga surish mumkin. Boshqaruv belgisi faqat xodim rollariga ko‘rinadi. Pastdagi O‘quv vositalari menyusidagi AI Coach shu RIWI chatini ochadi. Tafsilot yoki focus sahifalarida Dock yashiriladi; Back ota sahifaga qaytaradi.',
+        'Main opens Dashboard. The bottom Dock icons open learning modules; on narrow screens the Dock scrolls sideways. Management is shown only to staff roles. AI Coach in the bottom study-tools menu opens this RIWI chat. Detail/focus pages hide the Dock; Back returns to the parent page.'),
     _topic('dashboard','dashboard panel ko‘rsatkich', ['/app/dashboard'],
         'Dashboard shaxsiy o‘quv ko‘rsatkichlarini ko‘rsatadi. Main va Dashboard manzillari shu bosh sahifani ochadi; bo‘limlar pastdagi Dock’dan tanlanadi.', 'Dashboard shows personal learning metrics. Main and Dashboard addresses open this home page; choose modules in the bottom Dock.'),
     _topic('reading','reading o‘qish retention passage', ['/app/reading','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/reading/retention','/app/reading/history'],
