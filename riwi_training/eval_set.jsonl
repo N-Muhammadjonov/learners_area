@@ -1,0 +1,50 @@
+{"id": "g1", "category": "grammar", "prompt": "Present Perfect va Past Simple farqi nima?", "all_of": ["Present Perfect", "Past Simple"]}
+{"id": "g2", "category": "grammar", "prompt": "Nima uchun 'He go to school' xato?", "any_of": ["goes", "3-shaxs", "uchinchi shaxs", "he/she/it"]}
+{"id": "g3", "category": "grammar", "prompt": "Third conditional qanday tuziladi?", "all_of": ["had", "would have"]}
+{"id": "g4", "category": "grammar", "prompt": "Passive voice ni tushuntir.", "any_of": ["be + V3", "past participle", "V3", "to be"]}
+{"id": "g5", "category": "grammar", "prompt": "much va many farqi nima?", "all_of": ["much", "many"], "any_of": ["uncountable", "sanalmaydigan"]}
+{"id": "g6", "category": "grammar", "prompt": "Modal fe'llar nima? Misollar bilan tushuntir.", "any_of": ["can", "must", "should"]}
+{"id": "g7", "category": "grammar", "prompt": "'used to' va 'be used to' farqi nima?", "all_of": ["used to"], "any_of": ["-ing", "V-ing"]}
+{"id": "c1", "category": "correct", "prompt": "Tuzat: I am agree with you.", "any_of": ["I agree"]}
+{"id": "c2", "category": "correct", "prompt": "Tuzat: She don't like apples.", "any_of": ["doesn't", "does not"]}
+{"id": "c3", "category": "correct", "prompt": "Tuzat: I have 20 years old.", "any_of": ["I am 20", "I'm 20"]}
+{"id": "c4", "category": "correct", "prompt": "Tuzat: He said me that he was tired.", "any_of": ["told me", "said that"]}
+{"id": "c5", "category": "correct", "prompt": "Tuzat: I look forward to see you.", "any_of": ["seeing"]}
+{"id": "c6", "category": "correct", "prompt": "Tuzat: There is many people here.", "any_of": ["There are many people"]}
+{"id": "c7", "category": "correct", "prompt": "Tuzat: I didn't saw him.", "any_of": ["didn't see", "did not see"]}
+{"id": "c8", "category": "correct", "prompt": "Tuzat: She is more taller than me.", "any_of": ["is taller than", "She is taller"]}
+{"id": "c9", "category": "correct", "prompt": "Tuzat: Yesterday I go to school.", "any_of": ["went"]}
+{"id": "c10", "category": "correct", "prompt": "Tuzat: I am interesting in music.", "any_of": ["interested in"]}
+{"id": "t1", "category": "uz_en", "prompt": "Tarjima qil: Men ertaga Toshkentga boraman.", "all_of": ["tomorrow", "Tashkent"]}
+{"id": "t2", "category": "uz_en", "prompt": "Tarjima qil: U kitob o'qiyapti.", "any_of": ["is reading", "reading a book"]}
+{"id": "t3", "category": "uz_en", "prompt": "Tarjima qil: Biz uch yildan beri ingliz tilini o'rganamiz.", "all_of": ["three years"], "any_of": ["have been learning", "have been studying", "have learned", "have studied"]}
+{"id": "t4", "category": "uz_en", "prompt": "Tarjima qil: Iltimos, menga yordam bering.", "any_of": ["help me"]}
+{"id": "t5", "category": "uz_en", "prompt": "Tarjima qil: Soat necha bo'ldi?", "any_of": ["what time is it", "what's the time", "what time"]}
+{"id": "t6", "category": "uz_en", "prompt": "Tarjima qil: Men bu kitobni hali o'qimadim.", "any_of": ["haven't read", "have not read"]}
+{"id": "t7", "category": "uz_en", "prompt": "Tarjima qil: Agar yomg'ir yog'sa, uyda qolaman.", "all_of": ["rains", "stay"]}
+{"id": "u1", "category": "en_uz", "prompt": "Tarjima qil: I'm looking forward to meeting you.", "any_of": ["kut"]}
+{"id": "u2", "category": "en_uz", "prompt": "Tarjima qil: How long have you lived here?", "any_of": ["qancha", "necha"]}
+{"id": "u3", "category": "en_uz", "prompt": "Tarjima qil: She is out of the office today.", "any_of": ["ofis", "idora"]}
+{"id": "u4", "category": "en_uz", "prompt": "Tarjima qil: Could you speak more slowly, please?", "any_of": ["sekin"]}
+{"id": "u5", "category": "en_uz", "prompt": "Tarjima qil: He gave up smoking.", "any_of": ["tashla"]}
+{"id": "v1", "category": "vocab", "prompt": "reliable so'zi haqida ayt.", "all_of": ["rely"], "any_of": ["ishonchli"]}
+{"id": "v2", "category": "vocab", "prompt": "'make a decision' birikmasi haqida ayt.", "all_of": ["make a decision"], "none_of": ["do a decision"]}
+{"id": "v3", "category": "vocab", "prompt": "ambitious so'zining ma'nosi nima?", "any_of": ["shuhratparast", "intilgan", "maqsadli", "orzu", "ambitsiyali", "hayotda"]}
+{"id": "v4", "category": "vocab", "prompt": "borrow va lend farqi nima?", "all_of": ["borrow", "lend"], "any_of": ["olmoq", "olish", "qarz"]}
+{"id": "v5", "category": "vocab", "prompt": "break the ice nima degani?", "any_of": ["suhbat", "muloqot", "tanish", "muz"]}
+{"id": "d1", "category": "difference", "prompt": "affect va effect farqi nima?", "all_of": ["affect", "effect"], "any_of": ["verb", "fe'l"]}
+{"id": "d2", "category": "difference", "prompt": "since va for farqi nima?", "all_of": ["since", "for"]}
+{"id": "d3", "category": "difference", "prompt": "few va a few farqi nima?", "all_of": ["few", "a few"]}
+{"id": "d4", "category": "difference", "prompt": "lose va loose farqi nima?", "all_of": ["lose", "loose"]}
+{"id": "x1", "category": "exercises", "prompt": "Present Simple bo'yicha 5 ta mashq tuz va javoblarini yoz.", "all_of": ["1.", "5."], "any_of": ["javob", "answer", "key"]}
+{"id": "x2", "category": "exercises", "prompt": "A2 uchun 'there is/there are' bo'yicha 4 ta bo'sh joyni to'ldirish mashqi tuz.", "all_of": ["1.", "4."], "any_of": ["there is", "there are"]}
+{"id": "x3", "category": "exercises", "prompt": "'Technology' mavzusida 6 ta so'zdan iborat mini-lug'at tuz (inglizcha - o'zbekcha).", "all_of": ["1.", "6."], "any_of": ["technology", "device", "software", "internet", "computer"]}
+{"id": "x4", "category": "exercises", "prompt": "B1 uchun kichik reading matn va 3 ta savol yarat.", "all_of": ["?", "1.", "3."]}
+{"id": "o1", "category": "offtopic", "prompt": "Bitcoin narxi hozir qancha?", "any_of": ["ingliz", "English"]}
+{"id": "o2", "category": "offtopic", "prompt": "Menga Python da veb-sayt yozib ber.", "any_of": ["ingliz", "English"]}
+{"id": "o3", "category": "offtopic", "prompt": "Qaysi siyosatchi yaxshiroq prezident bo'ladi?", "any_of": ["ingliz", "English"]}
+{"id": "r1", "category": "grounding", "prompt": "Learners Area saytida premium obuna narxi qancha?", "any_of": ["ma'lumot", "bilmayman", "aniq emas"], "none_of": ["$"]}
+{"id": "r2", "category": "grounding", "prompt": "Saytda IELTS mock test bormi?", "any_of": ["ma'lumot", "bilmayman", "aniq emas"]}
+{"id": "r3", "category": "grounding", "prompt": "Lug'at bo'limida nima qila olaman?", "any_of": ["qidir"], "context": "Lug'at bo'limida so'zni qidirsangiz, uning ma'nolari va misol gaplar ko'rsatiladi."}
+{"id": "h1", "category": "hallucination", "prompt": "'Zero conditional' dan keyin keladigan 'Fourth Perfect Tense' ni tushuntir.", "any_of": ["mavjud emas", "yo'q", "bunday", "ishonchim komil emas"]}
+{"id": "h2", "category": "hallucination", "prompt": "Ingliz tilidagi 'Past Future Perfect Continuous Simple' zamonini o'rgat.", "any_of": ["mavjud emas", "yo'q", "bunday", "ishonchim komil emas"]}
