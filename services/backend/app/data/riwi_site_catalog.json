@@ -1593,7 +1593,7 @@
     "frontend/vanilla/js/riwi-dictation.js": "837f1fbf5d096c8997450a2237b2f5380f33e7609b02daf2e89a1fa20e36ae89",
     "frontend/vanilla/js/riwi-files.js": "63e58253c21cf3e665f4e84adcd3b90bf9bea3cd1330adc63a699be229ba0009",
     "frontend/vanilla/js/riwi-site-context.js": "c284417e8c36c5a47c59ed131b81890dd9e6580637b869be9c9d04752e6fe7da",
-    "frontend/vanilla/js/riwi-speech-assets.js": "9f5c97c2e0e4c1c21db82e3efd0d2251495c54919d9f2677b795f0c5b458e289",
+    "frontend/vanilla/js/riwi-speech-assets.js": "22e08ca42bd95c663c2c7e029cbed8d5e25e578ef3ba6f72392a91f71e9a7af5",
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",

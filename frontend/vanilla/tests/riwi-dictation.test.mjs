@@ -20,6 +20,10 @@ test('ASR fetch is GET-only and same-origin, validates hashes and cannot transmi
  assert.equal(calls.length,1);assert.equal((await f('unknown.json')).status,404);
  const broken=createSpeechAssetFetch({root:'https://qa.invalid/assets/speech/',crypto:webcrypto,manifest:{totalBinaryBytes:3,assets:{'model.onnx':asset}},fetch:async()=>new Response(new Uint8Array([1,2,4]))});
  await assert.rejects(()=>broken('model.onnx'),/integrity/);
+ const retries=[];const restored=createSpeechAssetFetch({root:'https://qa.invalid/speech/',crypto:webcrypto,
+  manifest:{totalBinaryBytes:3,assets:{'model.onnx':asset}},fetch:async(url,options)=>{retries.push(options);return retries.length===1?new Response('',{status:404}):new Response(raw);}});
+ assert.deepEqual(new Uint8Array(await(await restored('model.onnx')).arrayBuffer()),raw);
+ assert.deepEqual(retries.map(x=>x.cache),['force-cache','reload']);assert(retries.every(x=>x.method==='GET'&&x.credentials==='same-origin'&&x.redirect==='error'));
 });
 
 test('record, stop and local worker result release microphone and never auto-submit a prompt',async()=>{
