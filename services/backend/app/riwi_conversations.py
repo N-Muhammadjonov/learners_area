@@ -9,6 +9,7 @@ from .riwi_audit import record_riwi_audit
 from .riwi_capabilities import RiwiActor, authorize_capability
 from .riwi_contracts import (
     RIWI_CONVERSATION_TTL_DAYS,
+    RIWI_CONVERSATION_MAX_CHARS,
     RIWI_MAX_ANSWER_CHARS,
     RIWI_MAX_MESSAGE_CHARS,
     RIWI_PROVENANCE,
@@ -205,7 +206,7 @@ async def delete_conversation(
 
 async def archive_conversation(conn,actor,conversation_id,*,now=None):
     if not isinstance(conversation_id,str) or not UUID_RE.fullmatch(conversation_id): raise RiwiConversationError('invalid_input')
-    async with retention_transaction(conn):
+    async with retention_transaction(conn) as conn:
         current=await _verify_active_actor_and_online_window(conn,actor,now=now,touch_online=True)
         if conn is None or not hasattr(conn,'fetchrow'): raise RiwiConversationError('not_found')
         row=await conn.fetchrow('''SELECT id::text AS id, user_id::text AS user_id, role_at_creation::text AS role_at_creation,
@@ -249,8 +250,8 @@ async def append_conversation_turn(
     navigation_links: list[dict[str, str]] | None = None,
     now: datetime | None = None,
 ) -> str:
-    async with retention_transaction(conn):
-        return await _append_conversation_turn(conn,actor=actor,conversation_id=conversation_id,user_message=user_message,
+    async with retention_transaction(conn) as active:
+        return await _append_conversation_turn(active,actor=actor,conversation_id=conversation_id,user_message=user_message,
             assistant_answer=assistant_answer,correlation_id=correlation_id,provenance=provenance,provider=provider,
             citations=citations,report_snapshot=report_snapshot,navigation_links=navigation_links,now=now)
 
@@ -313,6 +314,11 @@ async def _append_conversation_turn(conn,*,actor,conversation_id,user_message,as
             current,
         )
 
+    used=await conn.fetchrow('''SELECT COALESCE(sum(char_length(content)),0)::bigint AS used_chars
+        FROM riwi_conversation_messages WHERE conversation_id=$1::uuid AND created_at>$2::timestamptz''',target_conv_id,cutoffs.message_cutoff)
+    used_chars=int(used['used_chars']) if used and used.get('used_chars') is not None else 0
+    added=len(user_message[:RIWI_MAX_MESSAGE_CHARS])+len(assistant_answer[:RIWI_MAX_ANSWER_CHARS])
+    if used_chars+added>RIWI_CONVERSATION_MAX_CHARS: raise RiwiConversationError('conversation_limit_reached')
     await conn.execute(
         """
         INSERT INTO riwi_conversation_messages (id, conversation_id, role, content, metadata, created_at)
@@ -346,3 +352,15 @@ async def _append_conversation_turn(conn,*,actor,conversation_id,user_message,as
         current + timedelta(milliseconds=1),
     )
     return target_conv_id
+
+
+async def get_conversation_sizing(conn,actor,conversation_id):
+    row=None
+    if conn is not None and hasattr(conn,'fetchrow'):
+        row=await conn.fetchrow('''SELECT COALESCE(sum(char_length(m.content)),0)::bigint AS used_chars
+            FROM riwi_conversations c JOIN riwi_conversation_messages m ON m.conversation_id=c.id
+            WHERE c.id=$1::uuid AND c.user_id=$2::uuid AND c.role_at_creation=$3::role
+              AND c.deleted_at IS NULL AND c.expires_at>now() AND m.created_at>now()-interval '7 days' ''',conversation_id,actor.id,actor.role)
+    used=max(0,int(row['used_chars'])) if row and row.get('used_chars') is not None else 0
+    return {'usedChars':used,'maxChars':RIWI_CONVERSATION_MAX_CHARS,'estimatedTokens':(used+3)//4,
+        'tokenCountIsEstimate':True,'full':used>=RIWI_CONVERSATION_MAX_CHARS}

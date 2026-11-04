@@ -8,6 +8,7 @@ import {createLocalDictation,dictationError} from '../../js/riwi-dictation.js';
 
 export const RIWI_WORKSPACE_ROUTE = "/app/riwi";
 export const RIWI_MESSAGE_TTL_MS=7*24*60*60*1000;
+export const RIWI_CONVERSATION_MAX_CHARS=128000;
 
 export function escapeHtml(raw) {
   return String(raw ?? "")
@@ -38,6 +39,8 @@ export function createRiwiWorkspaceController({
     nextTargetCursor: null,
     messages: [],
     attachments: [],
+    chatSizing:null,
+    limitReached:false,
     loading: false,
     feedbackSubmitted: false,
     error: null
@@ -47,11 +50,18 @@ export function createRiwiWorkspaceController({
   function expireMessages(){
     const cutoff=currentTime()-RIWI_MESSAGE_TTL_MS,before=state.messages.length;
     state.messages=state.messages.filter(m=>Date.parse(m.createdAt)>cutoff);
+    if(before!==state.messages.length){state.chatSizing=null;state.limitReached=false;}
     state.attachments=state.attachments.filter(f=>!f.sentAt||Date.parse(f.sentAt)>cutoff);
     if(before&&!state.messages.length){state.conversationId=null;state.material=null;state.targetUserId=null;state.feedbackSubmitted=false;}
     return before!==state.messages.length;
   }
   function nextExpiry(){return state.messages.length?state.messages.reduce((oldest,m)=>Math.min(oldest,Date.parse(m.createdAt)),Infinity)+RIWI_MESSAGE_TTL_MS-currentTime():null;}
+  function getChatSizing(){
+    const local=state.messages.reduce((n,m)=>n+[...String(m.content??'')].length,0),max=state.chatSizing?.maxChars??RIWI_CONVERSATION_MAX_CHARS;
+    const used=Math.max(local,state.chatSizing?.usedChars??0);
+    return {usedChars:used,maxChars:max,estimatedTokens:Math.ceil(used/4),full:state.limitReached||used>=max};
+  }
+  function limitError(){state.limitReached=true;const error=new Error('conversation_limit_reached');error.code=error.message;return error;}
 
   function getSubtitleKey() {
     if (state.role === "teacher") return "riwi.subtitle.teacher";
@@ -105,6 +115,7 @@ export function createRiwiWorkspaceController({
     state.material = null;
     state.messages = [];
     state.attachments = [];
+    state.chatSizing=null;state.limitReached=false;
     state.feedbackSubmitted = false;
     state.targetUserId = null;
     state.error = null;
@@ -117,7 +128,9 @@ export function createRiwiWorkspaceController({
   }
 
   function localReply(key) {
-    state.messages.push({role: 'assistant', content: tRiwi(`riwi.command.${key}`, state.replyLocale),
+    const content=tRiwi(`riwi.command.${key}`, state.replyLocale),sizing=getChatSizing();
+    if(sizing.usedChars+[...content].length>sizing.maxChars)throw limitError();
+    state.messages.push({role: 'assistant', content,
       createdAt: new Date(currentTime()).toISOString()});
     return {ok: true, localCommand: true};
   }
@@ -146,6 +159,8 @@ export function createRiwiWorkspaceController({
         learningMessage = tRiwi(`riwi.command.${command}Prompt`, state.replyLocale);
       } else return localReply('unknown');
     }
+    const sizing=getChatSizing();
+    if(sizing.full||sizing.usedChars+[...learningMessage].length>sizing.maxChars)throw limitError();
     state.loading = true;
     state.error = null;
     try {
@@ -163,6 +178,9 @@ export function createRiwiWorkspaceController({
         const surfaces=readSiteContext();if(surfaces.length)payload.siteContext=surfaces;
       }
       const res = await adapter.sendChat(payload);
+      if(Number.isSafeInteger(res.chatSizing?.usedChars)&&Number.isSafeInteger(res.chatSizing?.maxChars)&&res.chatSizing.usedChars>=0&&res.chatSizing.maxChars>0){
+        state.chatSizing=res.chatSizing;state.limitReached=!!res.chatSizing.full;
+      }
       const serverTime=Date.parse(res.serverTime);if(Number.isFinite(serverTime))serverOffset=serverTime-now();
       const createdAt=Number.isFinite(Date.parse(res.messageCreatedAt))?res.messageCreatedAt:new Date(currentTime()).toISOString();
       let documentResult=null,documentError=null;
@@ -191,6 +209,7 @@ export function createRiwiWorkspaceController({
       }
       return res;
     } catch (err) {
+      if(err?.code==='conversation_limit_reached')state.limitReached=true;
       state.error = err?.message || "request_failed";
       throw err;
     } finally {
@@ -244,7 +263,7 @@ export function createRiwiWorkspaceController({
     setReplyLocale,
     submitFeedback,
     touchPresence,
-    expireMessages,nextExpiry
+    expireMessages,nextExpiry,getChatSizing
   };
 }
 
@@ -301,6 +320,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     h('svg', {viewBox:'0 0 24 24',width:'22',height:'22','aria-hidden':'true',fill:'none',stroke:'currentColor','stroke-width':'2.5','stroke-linecap':'round','stroke-linejoin':'round'},
       h('path',{d:'M12 19V5m-6 6 6-6 6 6'})));
   const status = h('p', {class:'riwi-status',role:'alert',hidden:true});
+  const sizeLabel=h('span',{class:'riwi-chat-size',hidden:true});
   const voiceLabel=h('span'),voiceMeter=h('progress',{max:'1',value:'0','aria-label':uz?'Nutq modeli yuklanmoqda':'Loading local speech model'});
   const voiceDraft=h('textarea',{class:'riwi-voice-draft',readonly:true,hidden:true,'aria-label':uz?'Ovozdan olingan uzun matn':'Long voice transcript'});
   let dictation;
@@ -339,7 +359,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
   drawMic();
   const clearBtn = h('button', {type:'button',class:'riwi-clear',onClick:async()=>{
     if(ctrl.state.loading||filesReading||voiceBusy)return;
-    input.value='';slashDismissed=true;voicePanel.hidden=true;
+    input.value=ctrl.getChatSizing().full?input.value:'';slashDismissed=true;voicePanel.hidden=true;
     const clearing=ctrl.newConversation();renderMessages();status.hidden=true;
     try{await clearing;}catch{status.textContent=uz?'Yangi suhbat ochildi. Oldingi chatni arxivlash uchun ulanishni tekshiring.':'New chat opened. Check your connection to archive the previous chat.';status.hidden=false;}
     finally{renderMessages();input.focus();}
@@ -484,7 +504,10 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     }
     transcript.setAttribute('aria-busy',String(ctrl.state.loading));
     const busy=ctrl.state.loading||filesReading||voiceBusy;
-    sendBtn.disabled=busy;clearBtn.disabled=busy;input.readOnly=ctrl.state.loading||filesReading;drawMic();
+    const sizing=ctrl.getChatSizing();sizeLabel.hidden=!messages.length&&!sizing.full;
+    sizeLabel.textContent=(uz?'Suhbat hajmi: ':'Chat size: ')+Math.min(100,Math.floor(sizing.usedChars/sizing.maxChars*100))+'%';
+    sizeLabel.title=uz?`${sizing.usedChars.toLocaleString('uz-UZ')} / ${sizing.maxChars.toLocaleString('uz-UZ')} belgi; taxminan ${sizing.estimatedTokens} token. Limitda yangi suhbat oching.`:`${sizing.usedChars.toLocaleString('en-GB')} / ${sizing.maxChars.toLocaleString('en-GB')} characters; about ${sizing.estimatedTokens} tokens. Start a new chat at the limit.`;
+    sendBtn.disabled=busy||sizing.full;clearBtn.disabled=busy;input.readOnly=ctrl.state.loading||filesReading;drawMic();
     languageSummary.setAttribute('aria-disabled',String(busy));
     languageSummary.textContent=`${tRiwi('riwi.command.replyLanguage',locale)}: ${ctrl.state.replyLocale==='en'?'ENG':'UZ'}`;
     languageMenu.querySelectorAll('button').forEach(button=>{
@@ -504,6 +527,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     if(ctrl.state.loading||filesReading||voiceBusy||pending)return;
     slashDismissed=true;drawSlash();
     const msg=input.value.trim()||(ctrl.state.attachments.some(f=>!f.sent)?(uz?'Faylni o‘qib, asosiy mazmunini ko‘rsat.':'Read the file and show its main content.'):'');if(!msg)return;
+    if(ctrl.getChatSizing().full&&!msg.startsWith('/')){status.textContent=text('chatLimit');status.hidden=false;return;}
     input.value='';input.style.height='auto';pending=msg.startsWith('/')?null:{role:'user',content:msg,files:ctrl.state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})),createdAt:new Date().toISOString()};status.hidden=true;
     // Publish the user's bubble and Thinking before loading parsers/OCR.
     filesReading=!!pending&&ctrl.state.attachments.some(item=>item.text===null);renderMessages();
@@ -513,7 +537,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
       input.value=msg;
       if(pending&&!ctrl.state.loading&&ctrl.state.attachments.some(item=>item.text===null)){
         ctrl.state.messages.push(pending,{role:'assistant',content:error?.name==='AbortError'?(uz?'Faylni o‘qish to‘xtatildi.':'File reading was cancelled.'):fileError(error?.message,locale),createdAt:new Date().toISOString()});
-      }else{status.textContent=text('sendError');status.hidden=false;}
+      }else{status.textContent=text(error?.code==='conversation_limit_reached'?'chatLimit':'sendError');status.hidden=false;}
     }
     finally{pending=null;filesReading=false;renderMessages();}
   }},slashList,filesList,fileStatus,h('div',{class:'riwi-composer__field'},attachButton,input,micButton,sendBtn),voicePanel,fileInput,editor,
@@ -521,7 +545,7 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
   root.append(h('section',{class:'riwi-workspace','data-route-usable':'riwi'},
     h('header',{class:'riwi-chat-header'},
       h('div',{class:'riwi-chat-identity'},h('span',{class:'riwi-avatar','aria-hidden':'true'},'R'),
-        h('div',{},h('h1',{},'RIWI'),h('p',{},text('subtitle')))),clearBtn),
+        h('div',{},h('h1',{},'RIWI'),h('p',{},text('subtitle')))),h('div',{class:'riwi-chat-actions'},clearBtn,sizeLabel)),
     conversation,status,form));
   const dropHost=root.querySelector('.riwi-workspace');
   dropHost.addEventListener('dragover',event=>{if([...event.dataTransfer?.types??[]].includes('Files')){event.preventDefault();dropHost.classList.add('riwi-drop-active');}},{signal});

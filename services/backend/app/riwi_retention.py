@@ -55,9 +55,11 @@ def is_message_within_retention_window(created_at: datetime, now: datetime | Non
 
 @asynccontextmanager
 async def retention_transaction(conn):
-    if conn is not None and hasattr(conn,'transaction'):
-        async with conn.transaction(): yield
-    else: yield
+    if conn is not None and hasattr(conn,'retention_connection'):
+        async with conn.retention_connection() as active: yield active
+    elif conn is not None and hasattr(conn,'transaction'):
+        async with conn.transaction(): yield conn
+    else: yield conn
 
 
 async def purge_actor_expired(conn,user_id,now=None):
@@ -96,8 +98,8 @@ async def purge_expired_riwi_conversations(
     now: datetime | None = None,
     dry_run: bool = False,
 ) -> dict[str, Any]:
-    async with retention_transaction(conn):
-        return await _purge_expired(conn,now=now,dry_run=dry_run)
+    async with retention_transaction(conn) as active:
+        return await _purge_expired(active,now=now,dry_run=dry_run)
 
 
 async def _purge_expired(conn,*,now=None,dry_run=False):

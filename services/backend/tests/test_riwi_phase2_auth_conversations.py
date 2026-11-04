@@ -65,6 +65,12 @@ class FakeRiwiConn:
         self.audits: list[dict] = []
 
     async def fetchrow(self, sql: str, *args):
+        if 'AS used_chars' in sql:
+            cid=args[0]
+            if len(args)==3:
+                conv=self.conversations.get(cid)
+                if not conv or conv['user_id']!=args[1] or conv['role_at_creation']!=args[2]:return {'used_chars':0}
+            return {'used_chars':sum(len(m['content']) for m in self.messages if m['conversation_id']==cid)}
         if "FROM users u" in sql and "latest_event_at" in sql:
             uid = args[0]
             u = self.users.get(uid)

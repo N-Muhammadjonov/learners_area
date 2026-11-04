@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from contextlib import asynccontextmanager
 import json
 from typing import Any, Callable, Mapping
 import uuid
@@ -16,6 +17,7 @@ from .riwi_conversations import (
     delete_conversation,
     get_conversation_transcript,
     archive_conversation,
+    get_conversation_sizing,
 )
 from .riwi_gateway import handle_riwi_chat
 from .riwi_knowledge import (
@@ -98,7 +100,8 @@ async def post_riwi_chat(
         external_runner=external_runner,
         now=started,
     )
-    return {**result,'messageCreatedAt':started.isoformat(),'serverTime':datetime.now(timezone.utc).isoformat()}
+    sizing=await get_conversation_sizing(conn,actor,result['conversationId'])
+    return {**result,'messageCreatedAt':started.isoformat(),'serverTime':datetime.now(timezone.utc).isoformat(),'chatSizing':sizing}
 
 
 async def get_riwi_conversation(conn: Any, actor: RiwiActor, conversation_id: str) -> dict[str, Any]:
@@ -327,6 +330,11 @@ from .db import PooledReads
 
 
 class RiwiQueryPool(PooledReads):
+    @asynccontextmanager
+    async def retention_connection(self):
+        async with self.pool.acquire() as conn:
+            async with conn.transaction(): yield conn
+
     async def execute(self,query,*args):
         async with self.pool.acquire() as conn:
             return await conn.execute(query,*args)
@@ -369,6 +377,8 @@ def _riwi_error_response(exc: Exception):
             return _core().j({"ok": False, "error": "forbidden"}, 403, _core().PRIVATE)
         if code == "not_found":
             return _core().j({"ok": False, "error": "not_found"}, 404, _core().PRIVATE)
+        if code=='conversation_limit_reached':
+            return _core().j({'ok':False,'error':code},409,_core().PRIVATE)
         return _core().j({"ok": False, "error": code}, 400, _core().PRIVATE)
     raise exc
 
