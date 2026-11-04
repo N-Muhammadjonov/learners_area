@@ -11,6 +11,8 @@ html[data-theme] #root .module-dock::before{border-color:rgba(255,255,255,.38)!i
 .module-dock__icon .module-emoji{display:grid;place-items:center;width:70%;height:70%;color:white!important;background:none!important;border:0!important;box-shadow:none!important;filter:drop-shadow(0 1px 1px rgba(0,0,0,.18))}
 .module-dock__icon svg{width:100%;height:100%}
 .module-dock__icon .dock-artwork{position:relative;z-index:1;display:block;filter:none}
+.module-dock__icon--reference{background:none!important;box-shadow:none!important;border-radius:0}
+.module-dock__icon--reference:before{display:none}
 .module-dock__dot{width:4px;height:4px;margin-top:4px;border-radius:50%;background:currentColor;color:#203954;visibility:hidden}
 .module-dock__item[aria-current="page"] .module-dock__dot{visibility:visible}
 .module-dock__item:focus-visible .module-dock__icon{transform:translateY(-3px) scale(1.1)}

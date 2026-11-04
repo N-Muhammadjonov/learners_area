@@ -31,7 +31,7 @@ export function moduleDock(context){
  const nav=el('nav',{'aria-label':dict.shell.learningNav,class:'module-dock__glass'});
  const tooltip=el('span',{class:'module-dock__label','aria-hidden':'true',hidden:true});
  const items=dockItems(dict,session.user.role),links=items.map(item=>{
-  const icon=el('span',{class:'module-dock__icon'},dockIcon(item.key));
+  const artwork=dockIcon(item.key),icon=el('span',{class:'module-dock__icon'+(artwork.hasAttribute('data-dock-reference')?' module-dock__icon--reference':'')},artwork);
   icon.style.setProperty('--dock-top',item.top);icon.style.setProperty('--dock-bottom',item.bottom);
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });

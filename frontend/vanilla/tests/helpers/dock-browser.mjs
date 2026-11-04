@@ -46,7 +46,7 @@ export async function withDockBrowser(run,fixtures={'/dock-fixture':dockFixture}
   if(fixtures[req.url]){res.writeHead(200,{'Content-Type':'text/html'});res.end(fixtures[req.url]);return;}
   const file=path.resolve(root,decodeURIComponent(req.url.split('?')[0]).slice(1));
   if(!file.startsWith(root)){res.writeHead(403);res.end();return;}
-  try{const bytes=await readFile(file);res.writeHead(200,{'Content-Type':file.endsWith('.js')||file.endsWith('.mjs')?'application/javascript':file.endsWith('.css')?'text/css':'application/octet-stream'});res.end(bytes);}catch{res.writeHead(404);res.end();}
+  try{const bytes=await readFile(file);res.writeHead(200,{'Content-Type':file.endsWith('.js')||file.endsWith('.mjs')?'application/javascript':file.endsWith('.css')?'text/css':file.endsWith('.jpg')?'image/jpeg':'application/octet-stream'});res.end(bytes);}catch{res.writeHead(404);res.end();}
  });
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));let browser;
  try{browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE}:{channel:'chrome'})});await run(browser,'http://127.0.0.1:'+server.address().port);}

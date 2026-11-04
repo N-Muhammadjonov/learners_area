@@ -101,7 +101,7 @@ test('study tools stay above Dock, Focus matches other actions and its active ba
  },{'/app':shellFixture});
 });
 
-test('every Dock module has distinct complete artwork with unique SVG resources',async()=>{
+test('the thirteen reference photographs keep the requested mapping, load successfully and hide the outer scene',async()=>{
  await withDockBrowser(async(browser,origin)=>{
   const context=await browser.newContext({viewport:{width:1680,height:700}}),page=await context.newPage();
   try{
@@ -109,6 +109,12 @@ test('every Dock module has distinct complete artwork with unique SVG resources'
    const artwork=await page.evaluate(()=>[...document.querySelectorAll('[data-dock-module]')].map(a=>({key:a.dataset.dockModule,art:a.querySelector('svg')?.dataset.dockArtwork,label:a.getAttribute('aria-label')})));
    assert.equal(artwork.length,14);assert(artwork.every(a=>a.key===a.art&&a.label));
    assert(!artwork.some(a=>['courses','coach','reports'].includes(a.key)));
+   const references=await page.evaluate(async()=>{
+    const pictures=[...document.querySelectorAll('[data-dock-reference]')];
+    return Promise.all(pictures.map(async svg=>{const href=svg.querySelector('image').getAttribute('href'),image=new Image();image.src=href;await image.decode();const container=svg.parentElement;return {key:svg.dataset.dockArtwork,href,width:image.naturalWidth,height:image.naturalHeight,viewBox:svg.getAttribute('viewBox'),background:getComputedStyle(container).backgroundImage,overlay:getComputedStyle(container,'::before').display};}));
+   });
+   assert.deepEqual(references.map(r=>r.key),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','management']);
+   for(const ref of references){assert.equal(ref.href,'/images/dock/neon/'+ref.key+'.jpg');assert.equal(ref.width,1408);assert.equal(ref.height,768);assert.equal(ref.viewBox,'434 109 541 555');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');}
    const ids=await page.evaluate(()=>[...document.querySelectorAll('[data-module-dock] [id]')].map(n=>n.id));assert.equal(new Set(ids).size,ids.length);
    await page.locator('[data-module-dock]').screenshot({path:'/tmp/la-premium-dock.png'});
   }finally{await context.close();}
