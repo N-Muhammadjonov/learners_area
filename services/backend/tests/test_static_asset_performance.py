@@ -1,6 +1,7 @@
 import asyncio
 import importlib.util
 import json
+import re
 from pathlib import Path
 
 import httpx
@@ -19,6 +20,7 @@ def fixture(tmp_path):
         'js/main.js':"import {value} from './child.js'; console.log(value);",
         'js/child.js':'/*! retained license */\nexport const value = '+json.dumps('abc'*2000)+';',
         'js/generated/view-registry.js':'export default [];',
+        'js/vendor/riwi-speech/qa/index.html':'<!doctype html><script type="module" src="probe.js"></script>',
         'css/global.css':'/* removable */\n.a { color: green; margin: 0; }\n'*50,
         'css/fonts.css':'body { font-family: sans-serif; }',
         'routes.json':json.dumps({'version':1,'routes':['/app/test'],'redirects':[]})}
@@ -72,5 +74,10 @@ def test_static_headers_gzip_etag_range_and_stale_deployment(tmp_path,monkeypatc
             assert document.headers['cache-control']=='private, no-store'
             assert 'Content-Security-Policy' in document.headers
             assert 'nonce=' in document.text
+            probe=await client.get('/js/vendor/riwi-speech/qa/index.html')
+            nonce=re.search(r'nonce="([a-f0-9]+)"',probe.text)[1]
+            assert "'nonce-"+nonce+"'" in probe.headers['content-security-policy']
+            assert "'strict-dynamic'" in probe.headers['content-security-policy']
+            assert probe.headers['cache-control']=='private, no-store'
             assert (await client.get('/assets/'+info['revision']+'/.gzip/js/child.js.gz')).status_code==404
     asyncio.run(run())

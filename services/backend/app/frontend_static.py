@@ -126,7 +126,14 @@ class StaticFrontend:
                         headers={'Cache-Control':cache,'ETag':etag,'Vary':'Accept-Encoding','X-Learners-Asset-Version':manifest.get('revision','')}
                         media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream'
                         range_hdr=req.headers.get('range','')
-                        if etag in [value.strip() for value in req.headers.get('if-none-match','').split(',')]:
+                        if name=='js/vendor/riwi-speech/qa/index.html':
+                            # Trusted public fixture page uses the same strict nonce
+                            # policy as the app, without a cacheable per-request nonce.
+                            nonce=secrets.token_hex(16)
+                            html=re.sub(r'<script\b',f'<script nonce="{nonce}"',target.read_text())
+                            response=Response(html,media_type='text/html',headers={
+                                **core.PRIVATE,'Content-Security-Policy':build_csp(req,nonce)})
+                        elif etag in [value.strip() for value in req.headers.get('if-none-match','').split(',')]:
                             response=Response(status_code=304,headers=headers)
                         elif compressed:
                             response=FileResponse(compressed,media_type=media_type,headers={**headers,'Content-Encoding':'gzip'})
