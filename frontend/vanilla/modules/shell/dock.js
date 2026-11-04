@@ -1,5 +1,5 @@
 import {el,listen} from '../../js/dom.js';
-import {ModuleEmoji} from '../../js/generated/module-emoji.js';
+import {dockIcon} from './dock-icons.js';
 import {returnForWindow} from '../campus/return-policy.js';
 
 /** Only module entries live here. Management keeps its role-scoped cards. */
@@ -33,14 +33,13 @@ export function moduleDock(context){
  const nav=el('nav',{'aria-label':dict.shell.learningNav,class:'module-dock__glass'});
  const tooltip=el('span',{class:'module-dock__label','aria-hidden':'true',hidden:true});
  const items=dockItems(dict,session.user.role),links=items.map(item=>{
-  const icon=el('span',{class:'module-dock__icon'},ModuleEmoji({kind:item.icon}));
+  const icon=el('span',{class:'module-dock__icon'},dockIcon(item.key));
   icon.style.setProperty('--dock-top',item.top);icon.style.setProperty('--dock-bottom',item.bottom);
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });
  nav.append(...links);node.append(nav,tooltip);
  let current=context.url,frame=0,layoutFrame=0,pointer=null,pending=null,opening=null;
  const win=document.defaultView;
- const reduced=()=>win.matchMedia?.('(prefers-reduced-motion: reduce)').matches===true;
  function reset(){
   if(frame)win.cancelAnimationFrame(frame);frame=0;pointer=null;tooltip.hidden=true;
   for(const link of links){link.style.removeProperty('--dock-scale');link.style.removeProperty('--dock-lift');}
@@ -56,11 +55,11 @@ export function moduleDock(context){
   frame=0;if(pointer===null||node.hidden)return;
   const centers=links.map(link=>{const box=link.getBoundingClientRect();return box.left+box.width/2;});
   links.forEach((link,index)=>{const amount=Math.max(0,1-Math.abs(pointer-centers[index])/100);
-   link.style.setProperty('--dock-scale',String(1+.25*amount*amount));
+   link.style.setProperty('--dock-scale',String(1+.3*amount*amount));
    link.style.setProperty('--dock-lift',String(-9*amount*amount)+'px');
   });
  }
- listen(nav,'pointermove',event=>{if(event.pointerType==='touch'||reduced())return;pointer=event.clientX;if(!frame)frame=win.requestAnimationFrame(magnify);},signal);
+ listen(nav,'pointermove',event=>{if(event.pointerType==='touch')return;pointer=event.clientX;if(!frame)frame=win.requestAnimationFrame(magnify);},signal);
  listen(nav,'pointerover',event=>{const link=event.target.closest?.('[data-dock-module]');if(link)showLabel(link);},signal);
  listen(node,'pointerleave',reset,signal);
  listen(nav,'scroll',reset,signal);
@@ -103,7 +102,7 @@ export function moduleDock(context){
   pending=intent;flight.addEventListener('abort',()=>{if(pending===intent)pending=null;},{once:true});
  }
  function open(content,url){
-  const intent=pending;pending=null;if(!intent||intent.path!==url.pathname+url.search||reduced()||typeof content.animate!=='function')return;
+  const intent=pending;pending=null;if(!intent||intent.path!==url.pathname+url.search||typeof content.animate!=='function')return;
   const box=content.getBoundingClientRect();if(!box.width||!box.height)return;
   const x=intent.x-box.left-box.width/2,y=intent.y-box.top-box.height;
   const neck=Math.max(6,Math.min(94,(intent.x-box.left)/box.width*100));
@@ -119,7 +118,8 @@ export function moduleDock(context){
    {offset:.35,opacity:1,transform:`translate(${x*.18}px,${y*.12}px) scale(.82,.62)`,clipPath:funnel(neck,.08),transformOrigin:'50% 100%'},
    {offset:.7,opacity:1,transform:'translate(0,0) scale(1,1)',clipPath:funnel(neck,.52),transformOrigin:'50% 100%'},
    {opacity:1,transform:'translate(0,0) scale(1,1)',clipPath:funnel(neck,1),transformOrigin:'50% 100%'}
-  ],{duration:420,easing:'cubic-bezier(.2,.65,.25,1)'});
+  ],{duration:520,easing:'cubic-bezier(.2,.65,.25,1)'});
+  opening.id='dock-genie';
  }
  signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);opening?.cancel();pending=null;node.remove();},{once:true});
  update(current);return {node,update,begin,open};

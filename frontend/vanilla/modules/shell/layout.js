@@ -58,7 +58,7 @@ export function createShell(context){
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});
  modulePrewarm({root:host,routes,signal});viewPrewarm({root:host,signal});navigationIntent({root:host,signal});update(context.url);
- return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,openModule:url=>dock.open(transition.content,url),preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);dock.update(url);},
+ return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,openModule:url=>dock.open(main,url),preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);dock.update(url);},
   begin:(url,flight,source)=>{end();profile.close();search.close(false);
    const anchor=source?.isConnected?source:null;const stop=beginLinkPending(anchor,flight);
    const restore=()=>{stop();flight.removeEventListener('abort',restore);stopPending=()=>{};};

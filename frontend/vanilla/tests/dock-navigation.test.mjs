@@ -58,7 +58,7 @@ for(const locale of ['en','uz'])test(`${locale}: eject menu and F toggle focus w
  try{
   const shell=createShell(h.ctx);h.ctx.root.append(shell.host);const draft=document.createElement('textarea');draft.value='My unfinished answer';shell.outlet.append(draft);
   h.click(h.q('[data-utilities-launcher]'));const toggle=h.q('[data-focus-toggle]');assert(toggle);assert.equal(toggle.getAttribute('aria-pressed'),'false');assert.equal(toggle.textContent,h.ctx.dict.focus.enter);
-  h.click(toggle);await tick();assert.equal(document.documentElement.dataset.studyFocus,'on');assert(h.q('[data-module-dock]').hidden);assert.equal(h.q('[data-focus-toggle]').getAttribute('aria-pressed'),'true');
+  h.click(toggle);await tick();assert.equal(document.documentElement.dataset.studyFocus,'on');assert(h.q('[data-module-dock]').hidden);assert.equal(h.q('[data-focus-indicator]').textContent,'Focus');assert.equal(h.q('[data-shell-utilities-panel]'),null);h.click(h.q('[data-utilities-launcher]'));assert.equal(h.q('[data-focus-toggle]').getAttribute('aria-pressed'),'true');
   press(h,'F');await tick();assert.equal(document.documentElement.dataset.studyFocus,'off');assert(!h.q('[data-module-dock]').hidden);
   assert.equal(shell.outlet.querySelector('textarea'),draft);assert.equal(draft.value,'My unfinished answer');assert.equal(h.nav.length,0);assert(!h.calls.some(c=>c.method!=='GET'));
   shell.update(url('/app/speaking'));h.click(h.q('[data-utilities-launcher]'));assert.equal(h.q('[data-focus-toggle]'),null);press(h);assert.equal(document.documentElement.dataset.studyFocus,'off');
@@ -112,7 +112,7 @@ test('Dock tooltip, magnification and keyboard navigation work without route mut
   first.focus();press(h,'ArrowLeft',{target:first});assert.equal(document.activeElement,last);press(h,'Home',{target:last});assert.equal(document.activeElement,first);assert.equal(h.nav.length,0);
  }finally{h.dispose();}
 });
-test('opening animation belongs only to the current Dock flight and respects reduced motion',()=>{
+test('opening animation belongs only to the current Dock flight and always plays with either motion preference',()=>{
  const h=fixture();
  try{
   const dock=moduleDock(h.ctx);h.ctx.root.append(dock.node);const link=h.q('[data-dock-module="writing"]'),content=document.createElement('article');
@@ -122,7 +122,7 @@ test('opening animation belongs only to the current Dock flight and respects red
   dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);assert.match(calls[0].frames[0].transform,/scale/);assert.equal(calls[0].frames.at(-1).opacity,1);
   assert(calls[0].frames.every(frame=>frame.clipPath.startsWith('polygon(')));assert.notEqual(calls[0].frames[1].clipPath,calls[0].frames.at(-1).clipPath);assert.equal(new Set(calls[0].frames.map(frame=>frame.clipPath.split(',').length)).size,1);
   dock.begin(url('/app/writing'),new AbortController().signal,link);assert.equal(cancellations,1);dock.open(content,url('/app/reading/lessons'));assert.equal(calls.length,1);
-  window.matchMedia=()=>({matches:true});dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);
+  window.matchMedia=()=>({matches:true});dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,2);
  }finally{h.dispose();}
 });
 test('glass styles ship in the Python native build and reserve space for mobile scrolling',()=>{
