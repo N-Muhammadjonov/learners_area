@@ -20,7 +20,7 @@ import {api} from '/js/api-client.js';
 import {fixtureSession} from '/tests/fixtures.mjs';
 document.cookie='la_locale=en';
 api.request=async path=>path==='/api/frontend/session'?fixtureSession('owner'):path.startsWith('/api/notifications')?{unread:0}:path==='/api/auth/state'?{role:'owner',accountStatus:'active',expiresAt:Math.floor(Date.now()/1000)+3600}:{ok:true};
-const root=document.querySelector('#root'),workspace=createWorkspace(root);
+const root=document.querySelector('#root'),workspace=createWorkspace(root);window.fixtureWorkspace=workspace;
 const routes=['/app','/app/progress','/app/writing','/app/speaking','/app/live-classes'].map(pattern=>({pattern,protected:true,progressiveMount:true,match:compilePattern(pattern),load:async()=>({mount(context){const article=document.createElement('article');article.style.minHeight='300px';article.dataset.fixturePage=context.url.pathname;const heading=document.createElement('h1');heading.textContent='Fixture '+context.url.pathname;article.append(heading);context.root.append(article);}})}));
 window.fixtureErrors=[];
 window.fixtureRouter=createRouter({root,window,routes,reuse:createRouteReuse(),prepare:context=>workspace.prepare(context),commit:(staging,context)=>workspace.commit(staging,context),onStart:(url,{signal,source})=>workspace.begin(url,signal,source),onUpdate:context=>workspace.updateLocation(context),notFound:()=>({mount(){}}),onError:error=>fixtureErrors.push(error.message)});

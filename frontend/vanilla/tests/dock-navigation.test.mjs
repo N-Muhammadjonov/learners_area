@@ -121,8 +121,8 @@ test('opening animation belongs only to the current Dock flight and always plays
   link.getBoundingClientRect=()=>({left:500,top:700,width:48,height:58});content.getBoundingClientRect=()=>({left:0,top:68,width:1000,height:600});
   const calls=[];let cancellations=0;content.animate=(frames,options)=>{calls.push({frames,options});return {cancel(){cancellations++;}};};
   const cancelled=new AbortController();dock.begin(url('/app/writing'),cancelled.signal,link);cancelled.abort();dock.open(content,url('/app/writing'));assert.equal(calls.length,0);
-  dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);assert.match(calls[0].frames[0].transform,/scale/);assert.equal(calls[0].frames.at(-1).opacity,1);
-  assert(calls[0].frames.every(frame=>frame.clipPath.startsWith('polygon(')));assert.notEqual(calls[0].frames[1].clipPath,calls[0].frames.at(-1).clipPath);assert.equal(new Set(calls[0].frames.map(frame=>frame.clipPath.split(',').length)).size,1);
+  dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);assert.equal(calls[0].options.duration,400);assert.equal(calls[0].frames.at(-1).opacity,0);
+  assert(document.querySelector('[data-dock-opening]'));assert(document.querySelector('.dock-opening-band'));
   dock.begin(url('/app/writing'),new AbortController().signal,link);assert.equal(cancellations,1);dock.open(content,url('/app/reading/lessons'));assert.equal(calls.length,1);
   window.matchMedia=()=>({matches:true});dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,2);
  }finally{h.dispose();}

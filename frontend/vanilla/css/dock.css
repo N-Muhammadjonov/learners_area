@@ -1,12 +1,11 @@
 /* Dock geometry is independent of module content and route lifetimes. */
-.module-dock{--dock-size:clamp(38px,3.8vw,52px);--dock-label-offset:47px;box-sizing:border-box;min-width:0;position:fixed;z-index:45;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);max-width:calc(100vw - 148px);width:max-content;isolation:isolate}
+.module-dock{--dock-size:clamp(38px,3.8vw,52px);box-sizing:border-box;min-width:0;position:fixed;z-index:45;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);max-width:calc(100vw - 148px);width:max-content;isolation:isolate}
 .module-dock[hidden]{display:none!important}
 .module-dock::before{content:"";position:absolute;inset:auto 0 0;height:calc(var(--dock-size) + 18px);z-index:-1;border:1px solid rgba(255,255,255,.38);border-radius:22px;background:rgba(236,243,255,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 12px 34px rgba(12,23,45,.23);backdrop-filter:blur(26px) saturate(175%);-webkit-backdrop-filter:blur(26px) saturate(175%);pointer-events:none}
 html[data-theme] #root .module-dock::before{border-color:rgba(255,255,255,.38)!important}
-.module-dock__glass{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:flex-end;gap:9px;padding:48px 13px 6px;width:100%;min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-padding-inline:13px;scrollbar-width:none;border:0;border-radius:22px;background:transparent;box-shadow:none}
+.module-dock__glass{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:flex-end;gap:9px;padding:24px 13px 6px;width:100%;min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-padding-inline:13px;scrollbar-width:none;border:0;border-radius:22px;background:transparent;box-shadow:none}
 .module-dock__glass::-webkit-scrollbar{display:none}
 .module-dock__item{position:relative;display:flex;flex:none;align-items:center;justify-content:flex-end;flex-direction:column;width:var(--dock-size);height:calc(var(--dock-size) + 8px);text-decoration:none;touch-action:pan-x;scroll-snap-align:start;outline-offset:3px;border-radius:14px}
-.module-dock__launch{display:block;flex:none;width:var(--dock-size);height:var(--dock-size);transform-origin:50% 100%}
 .module-dock__icon{position:relative;display:grid;place-items:center;width:var(--dock-size);height:var(--dock-size);flex:none;border-radius:24%;color:white!important;background:linear-gradient(155deg,var(--dock-top),var(--dock-bottom));box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -2px 3px rgba(0,0,0,.15),0 3px 5px rgba(0,0,0,.2);transform:translateY(var(--dock-lift,0px)) scale(var(--dock-scale,1));transform-origin:50% 100%;transition:transform 140ms cubic-bezier(.2,.8,.2,1)}
 .module-dock__icon:before{content:"";position:absolute;inset:1px 1px 52%;border-radius:13px 13px 45% 45%;background:linear-gradient(rgba(255,255,255,.25),rgba(255,255,255,0));pointer-events:none}
 .module-dock__icon .module-emoji{display:grid;place-items:center;width:70%;height:70%;color:white!important;background:none!important;border:0!important;box-shadow:none!important;filter:drop-shadow(0 1px 1px rgba(0,0,0,.18))}
@@ -17,16 +16,28 @@ html[data-theme] #root .module-dock::before{border-color:rgba(255,255,255,.38)!i
 .module-dock__item:focus-visible .module-dock__icon{transform:translateY(-3px) scale(1.1)}
 @media(hover:hover) and (pointer:fine){.module-dock__item:hover .module-dock__icon{transform:translateY(-3px) scale(1.1)}}
 .module-dock__item:active .module-dock__icon{filter:brightness(.9)}
-html[data-theme] #root .module-dock__label{position:absolute;z-index:3;bottom:calc(var(--dock-size) + var(--dock-label-offset));left:50%;transform:translateX(-50%);max-width:min(240px,calc(100vw - 32px));padding:5px 12px;border:1px solid rgba(218,233,255,.4)!important;border-radius:13px;background:rgba(67,94,151,.72)!important;color:#f7faff!important;font-family:inherit;font-size:13px;font-weight:450;line-height:1.4;text-align:center;white-space:nowrap;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 4px 14px rgba(0,0,0,.14);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+html[data-theme] #root .module-dock__label{position:absolute;z-index:3;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%);max-width:min(240px,calc(100vw - 32px));padding:5px 12px;border:1px solid rgba(218,233,255,.4)!important;border-radius:13px;background:rgba(67,94,151,.72)!important;color:#f7faff!important;font-family:inherit;font-size:13px;font-weight:450;line-height:1.4;text-align:center;white-space:nowrap;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 4px 14px rgba(0,0,0,.14);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
 html[data-theme] #root .module-dock__label::after{content:"";position:absolute;left:50%;top:calc(100% + 1px);width:12px;height:7px;transform:translateX(-50%);border:0!important;background:rgba(67,94,151,.85);clip-path:polygon(0 0,100% 0,50% 100%)}
 .module-dock__label[hidden]{display:none}
 html[data-theme="night"] .module-dock::before{background:rgba(32,34,52,.55);border-color:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.19),0 12px 34px rgba(0,0,0,.35)}
 html[data-theme="night"] .module-dock__dot{color:#e5edff}
 [data-dock-shell]:has(.module-dock:not([hidden])) [data-shell-main]{padding-bottom:calc(var(--dock-size,52px) + 62px + env(safe-area-inset-bottom))}
 html[data-study-focus="on"] .module-dock,html[data-retention-focus="on"] .module-dock{display:none!important}
-@media(max-width:1100px){.module-dock{--dock-size:44px;--dock-label-offset:45px;left:calc(10px + env(safe-area-inset-left));right:calc(74px + env(safe-area-inset-right));transform:none;max-width:none;width:auto;bottom:calc(10px + env(safe-area-inset-bottom))}.module-dock__glass{gap:8px;padding:48px 10px 6px;scroll-padding-inline:10px;border-radius:20px}.module-dock::before{border-radius:20px}.module-dock__label{white-space:normal}}
+@media(max-width:1100px){.module-dock{--dock-size:44px;left:calc(10px + env(safe-area-inset-left));right:calc(74px + env(safe-area-inset-right));transform:none;max-width:none;width:auto;bottom:calc(10px + env(safe-area-inset-bottom))}.module-dock__glass{gap:8px;padding:22px 10px 6px;scroll-padding-inline:10px;border-radius:20px}.module-dock::before{border-radius:20px}.module-dock__label{white-space:normal}}
 @media(max-width:480px){.module-dock{--dock-size:40px}}
 @media(prefers-reduced-motion:reduce){.module-dock__icon{transition:none}}
+
+/* Opening-only visual layers; Dock and study tools stay above both windows. */
+.dock-opening-layer{position:fixed;inset:0;z-index:41;pointer-events:none;isolation:isolate}
+.dock-opening-previous,.dock-opening-window{position:fixed;pointer-events:none;overflow:visible}
+.dock-opening-previous{overflow:hidden}
+.dock-opening-window{filter:drop-shadow(0 18px 28px rgba(0,0,0,.34)) drop-shadow(0 0 1px rgba(0,0,0,.5))}
+.dock-opening-sheet{position:absolute;inset:0;overflow:hidden}
+.dock-opening-band{position:absolute;left:0;top:0;overflow:hidden;transform-origin:0 0;will-change:transform;contain:layout paint}
+.dock-opening-outline{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.dock-opening-outline path{fill:none;stroke:rgba(255,255,255,.58);stroke-width:1;vector-effect:non-scaling-stroke}
+[data-dock-snapshot]{pointer-events:none!important;user-select:none!important}
+.dock-opening-layer *{animation:none!important;transition:none!important;caret-color:transparent!important}
 
 /* The study tools sit above the Dock and retain the site's action palette. */
 html[data-theme] #root [data-shell-utilities="true"] [data-focus-toggle]{background:linear-gradient(rgb(var(--workspace-raised,var(--paper-raised))),rgb(var(--workspace-raised,var(--paper-raised)))) padding-box,linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%) border-box!important;border:1px solid transparent!important;border-radius:999px!important;color:rgb(var(--workspace-ink,var(--ink-900)))!important}
