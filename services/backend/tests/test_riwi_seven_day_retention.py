@@ -31,7 +31,11 @@ async def test_archived_chat_expires_as_a_whole_and_cannot_be_extended_or_touch_
  foreign=await turn(c,START+timedelta(days=1),actor=OTHER)
  with pytest.raises(RiwiConversationError):await archive_conversation(c,OTHER,old,now=START+timedelta(days=2))
  await archive_conversation(c,ACTOR,old,now=START+timedelta(days=2))
- assert c.conversations[old]['expires_at']==START+timedelta(days=7)
+ assert c.conversations[old]['expires_at']==START+timedelta(days=2,minutes=30)
+ await archive_conversation(c,ACTOR,old,now=START+timedelta(days=2,minutes=10))
+ assert c.conversations[old]['expires_at']==START+timedelta(days=2,minutes=30)
+ assert len((await get_conversation_transcript(c,ACTOR,old,now=START+timedelta(days=2,minutes=30,milliseconds=-1)))['messages'])==4
+ with pytest.raises(RiwiConversationError):await get_conversation_transcript(c,ACTOR,old,now=START+timedelta(days=2,minutes=30))
  with pytest.raises(RiwiConversationError):await turn(c,START+timedelta(days=3),old)
  fresh=await turn(c,START+timedelta(days=2));await turn(c,START+timedelta(days=6),fresh)
  with pytest.raises(RiwiConversationError):await get_conversation_transcript(c,ACTOR,old,now=START+timedelta(days=7))
@@ -42,7 +46,7 @@ async def test_archived_chat_expires_as_a_whole_and_cannot_be_extended_or_touch_
 async def test_new_server_conversation_archives_previous_context_even_if_client_archive_request_was_lost():
  c=fixture();old=await turn(c,START);await turn(c,START+timedelta(days=1),old)
  fresh=await turn(c,START+timedelta(days=2))
- assert c.conversations[old]['archived'] and c.conversations[old]['expires_at']==START+timedelta(days=7)
+ assert c.conversations[old]['archived'] and c.conversations[old]['expires_at']==START+timedelta(days=2,minutes=30)
  assert fresh!=old and not c.conversations[fresh].get('archived',False)
 
 @pytest.mark.asyncio

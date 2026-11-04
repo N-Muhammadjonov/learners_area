@@ -151,8 +151,10 @@ class FakeRiwiConn:
             uid,role,current,cid=args
             for conv in self.conversations.values():
                 if conv['user_id']!=uid or conv['role_at_creation']!=role or cid and conv['id']!=cid: continue
-                dates=[m['created_at'] for m in self.messages if m['conversation_id']==conv['id']]
-                conv['expires_at']=min(conv['expires_at'],min(dates)+timedelta(days=7) if dates else current)
+                metas=[json.loads(m['metadata']) if isinstance(m['metadata'],str) else m['metadata'] or {} for m in self.messages if m['conversation_id']==conv['id']]
+                stamps=[m['riwiArchivedAt'] for m in metas if m.get('riwiArchivedAt')]
+                archive_at=datetime.fromisoformat(max(stamps)) if stamps else current
+                conv['expires_at']=archive_at+timedelta(minutes=30)
         elif "UPDATE riwi_conversation_messages" in sql and "riwiArchivedAt" in sql:
             uid,role,current,cid=args
             for conv in self.conversations.values():
@@ -160,7 +162,7 @@ class FakeRiwiConn:
                 rows=sorted((m for m in self.messages if m['conversation_id']==conv['id']),key=lambda m:(m['created_at'],m['id']))
                 if rows:
                     meta=json.loads(rows[0]['metadata']) if isinstance(rows[0]['metadata'],str) else dict(rows[0]['metadata'] or {})
-                    rows[0]['metadata']={**meta,'riwiArchivedAt':current};conv['archived']=True
+                    rows[0]['metadata']={**meta,'riwiArchivedAt':meta.get('riwiArchivedAt',current)};conv['archived']=True
         elif "UPDATE riwi_conversations" in sql:
             cid, upd, exp = args
             if cid in self.conversations:

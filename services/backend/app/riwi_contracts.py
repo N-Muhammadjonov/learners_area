@@ -6,6 +6,7 @@ import re
 from typing import Any, Final, Literal
 
 RIWI_CONVERSATION_TTL_DAYS: Final[int] = 7
+RIWI_ARCHIVED_CHAT_TTL_MINUTES: Final[int] = 30
 RIWI_INACTIVE_OFFLINE_DAYS: Final[int] = 7
 RIWI_OFFLINE_DELETE_DAY: Final[int] = 8
 RIWI_MAX_MESSAGE_CHARS: Final[int] = 4000

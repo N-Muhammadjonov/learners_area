@@ -217,18 +217,19 @@ async def archive_conversation(conn,actor,conversation_id,*,now=None):
 
 
 async def _archive_owned(conn,actor,current,conversation_id=None):
-    """Freeze whole-chat expiry to its oldest remaining message; no new schema."""
+    """A retired chat expires thirty minutes after its first archive event."""
     await conn.execute('''WITH old AS (
-        SELECT c.id,min(m.created_at) AS first_at FROM riwi_conversations c
+        SELECT c.id,max(m.metadata->>'riwiArchivedAt') AS archived_at FROM riwi_conversations c
         LEFT JOIN riwi_conversation_messages m ON m.conversation_id=c.id
         WHERE c.user_id=$1::uuid AND c.role_at_creation=$2::role AND c.deleted_at IS NULL
           AND ($4::uuid IS NULL OR c.id=$4::uuid) GROUP BY c.id
-      ) UPDATE riwi_conversations c SET expires_at=LEAST(c.expires_at,COALESCE(old.first_at+interval '7 days',$3::timestamptz))
+      ) UPDATE riwi_conversations c SET expires_at=COALESCE(old.archived_at::timestamptz,$3::timestamptz)+interval '30 minutes'
         FROM old WHERE old.id=c.id''',actor.id,actor.role,current,conversation_id)
     await conn.execute('''UPDATE riwi_conversation_messages m
         SET metadata=jsonb_set(COALESCE(m.metadata,'{}'::jsonb),'{riwiArchivedAt}',to_jsonb($3::text))
         FROM riwi_conversations c WHERE c.user_id=$1::uuid AND c.role_at_creation=$2::role
           AND c.deleted_at IS NULL AND ($4::uuid IS NULL OR c.id=$4::uuid)
+          AND NOT (COALESCE(m.metadata,'{}'::jsonb) ? 'riwiArchivedAt')
           AND m.id=(SELECT first.id FROM riwi_conversation_messages first WHERE first.conversation_id=c.id
               ORDER BY first.created_at,first.id LIMIT 1)''',actor.id,actor.role,current.isoformat(),conversation_id)
 
