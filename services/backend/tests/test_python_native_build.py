@@ -1,5 +1,6 @@
 """A deployment can package the site with no Node/npm binaries on PATH."""
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -48,3 +49,18 @@ def test_speech_parts_are_copied_to_cdn_without_publishing_private_or_non_model_
     config=json.loads((ROOT/'vercel.json').read_text())
     assert 'build/**/parts' in config['functions']['server.py']['excludeFiles']
     assert len(config['functions']['server.py']['excludeFiles'])<=256
+
+
+def test_cdn_model_parts_exist_in_the_git_input_before_the_build_command_runs():
+    # Vercel's static collector must see public inputs before our Python build.
+    # Byte-identical Git blobs are shared with the pinned browser source parts.
+    manifest=json.loads((ROOT/'frontend/vanilla/js/vendor/riwi-speech/manifest.json').read_text())
+    tracked=set(subprocess.check_output(['git','ls-files','public/riwi-speech-assets/parts'],cwd=ROOT,text=True).splitlines())
+    expected={}
+    for asset in manifest['assets'].values():
+        for part in asset['parts']:expected['public/riwi-speech-assets/'+part['path']]=part
+    assert tracked==set(expected)
+    for name,part in expected.items():
+        raw=(ROOT/name).read_bytes()
+        assert len(raw)==part['bytes']
+        assert hashlib.sha256(raw).hexdigest()==part['sha256']
