@@ -33,6 +33,8 @@ for(const role of ['student','teacher','admin','owner'])test(`${role}: Dock pres
   const entries=h.qa('[data-dock-module]'),keys=entries.map(a=>a.dataset.dockModule);
   assert.deepEqual(keys.slice(0,12),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress']);
   assert.equal(keys.includes('management'),role!=='student');
+  assert.equal(keys.length,role==='student'?13:14);
+  for(const removed of ['/app/courses/ielts','/app/coach','/app/reports'])assert(!entries.some(a=>a.getAttribute('href')===removed));
   if(role!=='student')assert.equal(keys.at(-1),'management');
   assert(!entries.some(a=>/^\/app\/(admin|teacher|owner)(?:\/|$)/.test(a.getAttribute('href'))));
   for(const a of entries){assert(a.getAttribute('aria-label'));assert(a.getAttribute('href').startsWith('/app'));}

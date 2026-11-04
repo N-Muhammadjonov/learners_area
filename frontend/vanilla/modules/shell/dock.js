@@ -18,9 +18,6 @@ export function dockItems(dict,role){
   ['grammar','/app/grammar/lessons',n.grammar,'grammar','#7baaff','#465ade'],
   ['vocabulary','/app/vocabulary',n.vocabulary,'vocabulary','#ff88ad','#dd376c'],
   ['progress','/app/progress',n.progress,'progress','#a3df7b','#41a954'],
-  ['courses','/app/courses/ielts',n.course,'reading','#7edcd1','#23989b'],
-  ['coach','/app/coach',n.coach,'grammar','#bd9aff','#6b4bdd'],
-  ['reports','/app/reports',dict.reporter.title,'progress','#82c4f5','#3673b5'],
   ['support','/app/support',n.support,'support','#8da6c3','#4b6589'],
  ];
  if(['teacher','admin','owner'].includes(role))items.push(['management','/app/management',n.management,'settings','#a1a9bb','#515d76']);
@@ -55,8 +52,8 @@ export function moduleDock(context){
   frame=0;if(pointer===null||node.hidden)return;
   const centers=links.map(link=>{const box=link.getBoundingClientRect();return box.left+box.width/2;});
   links.forEach((link,index)=>{const amount=Math.max(0,1-Math.abs(pointer-centers[index])/100);
-   link.style.setProperty('--dock-scale',String(1+.3*amount*amount));
-   link.style.setProperty('--dock-lift',String(-9*amount*amount)+'px');
+   link.style.setProperty('--dock-scale',String(1+.1*amount*amount));
+   link.style.setProperty('--dock-lift',String(-3*amount*amount)+'px');
   });
  }
  listen(nav,'pointermove',event=>{if(event.pointerType==='touch')return;pointer=event.clientX;if(!frame)frame=win.requestAnimationFrame(magnify);},signal);
@@ -98,26 +95,35 @@ export function moduleDock(context){
   pending=null;opening?.cancel();opening=null;
   const link=source?.closest?.('[data-dock-module]');
   if(!link||!node.contains(link)||node.hidden||flight.aborted)return;
-  const box=link.getBoundingClientRect();const intent={path:url.pathname+url.search,x:box.left+box.width/2,y:box.top+box.height/2};
+  const artwork=link.querySelector('.module-dock__icon')?.getBoundingClientRect();
+  const box=artwork?.width&&artwork?.height?artwork:link.getBoundingClientRect();
+  const intent={path:url.pathname+url.search,x:box.left+box.width/2,y:box.top+box.height/2,width:box.width,height:box.height};
   pending=intent;flight.addEventListener('abort',()=>{if(pending===intent)pending=null;},{once:true});
  }
  function open(content,url){
   const intent=pending;pending=null;if(!intent||intent.path!==url.pathname+url.search||typeof content.animate!=='function')return;
   const box=content.getBoundingClientRect();if(!box.width||!box.height)return;
-  const x=intent.x-box.left-box.width/2,y=intent.y-box.top-box.height;
-  const neck=Math.max(6,Math.min(94,(intent.x-box.left)/box.width*100));
-  // The reference expands from a narrow Dock neck into the window. Keep the
-  // same polygon vertices in every frame so the curved sides interpolate.
-  function funnel(center,spread){
-   const levels=[0,30,40,50,60,70,80,90,100],left=Math.max(0,center-6)*(1-spread),right=Math.max(0,100-center-6)*(1-spread);
+  const x=intent.x-box.left-box.width/2,y=intent.y+intent.height/2-box.top-box.height;
+  const seedX=Math.min(1,intent.width/box.width),seedY=Math.min(1,intent.height/box.height);
+  // Start at the clicked artwork's exact rectangle. Its narrow neck stays
+  // attached to that icon while the window grows upward, then opens fully.
+  function funnel(center,spread,neck){
+   const levels=[0,30,40,50,60,70,80,90,100],left=Math.max(0,center-neck/2)*(1-spread),right=Math.max(0,100-center-neck/2)*(1-spread);
    const bend=y=>{const t=Math.max(0,(y-30)/70);return t*t*(3-2*t);};
    return 'polygon('+[...levels.map(y=>`${left*bend(y)}% ${y}%`),...levels.slice().reverse().map(y=>`${100-right*bend(y)}% ${y}%`)].join(',')+')';
   }
+  function grow(offset,sx,sy,spread,dy,opacity=1){
+   const expansion=Math.max(0,Math.min(1,(sx-seedX)/Math.max(.001,1-seedX))),dx=x*(1-expansion);
+   const neckCenter=Math.max(0,Math.min(100,50+(x-dx)/(sx*box.width)*100));
+   return {offset,opacity,transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,clipPath:funnel(neckCenter,spread,intent.width/(sx*box.width)*100),transformOrigin:'50% 100%'};
+  }
   opening=content.animate([
-   {opacity:0,transform:`translate(${x}px,${y}px) scale(.12,.025)`,clipPath:funnel(50,0),transformOrigin:'50% 100%'},
-   {offset:.35,opacity:1,transform:`translate(${x*.18}px,${y*.12}px) scale(.82,.62)`,clipPath:funnel(neck,.08),transformOrigin:'50% 100%'},
-   {offset:.7,opacity:1,transform:'translate(0,0) scale(1,1)',clipPath:funnel(neck,.52),transformOrigin:'50% 100%'},
-   {opacity:1,transform:'translate(0,0) scale(1,1)',clipPath:funnel(neck,1),transformOrigin:'50% 100%'}
+   grow(0,seedX,seedY,0,y,.05),
+   grow(.16,Math.min(1,seedX*2.2),Math.min(1,seedY*2.3),0,y),
+   grow(.43,seedX+(1-seedX)*.78,seedY+(1-seedY)*.63,0,y),
+   grow(.68,1,1,.12,y*.5),
+   grow(.86,1,1,.72,0),
+   grow(1,1,1,1,0)
   ],{duration:520,easing:'cubic-bezier(.2,.65,.25,1)'});
   opening.id='dock-genie';
  }
