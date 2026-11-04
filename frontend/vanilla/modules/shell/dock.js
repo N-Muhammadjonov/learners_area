@@ -38,7 +38,7 @@ export function moduleDock(context){
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });
  nav.append(...links);node.append(nav,tooltip);
- let current=context.url,frame=0,pointer=null,pending=null,opening=null;
+ let current=context.url,frame=0,layoutFrame=0,pointer=null,pending=null,opening=null;
  const win=document.defaultView;
  const reduced=()=>win.matchMedia?.('(prefers-reduced-motion: reduce)').matches===true;
  function reset(){
@@ -64,6 +64,17 @@ export function moduleDock(context){
  listen(nav,'pointerover',event=>{const link=event.target.closest?.('[data-dock-module]');if(link)showLabel(link);},signal);
  listen(node,'pointerleave',reset,signal);
  listen(nav,'scroll',reset,signal);
+ function revealActive(){
+  if(layoutFrame)win.cancelAnimationFrame(layoutFrame);
+  layoutFrame=win.requestAnimationFrame(()=>{
+   layoutFrame=0;if(signal.aborted||node.hidden||!node.isConnected)return;
+   const link=links.find(a=>a.getAttribute('aria-current')==='page');if(!link)return;
+   const viewport=nav.getBoundingClientRect(),box=link.getBoundingClientRect();
+   if(box.left<viewport.left+13)nav.scrollLeft-=viewport.left+13-box.left;
+   else if(box.right>viewport.right-13)nav.scrollLeft+=box.right-viewport.right+13;
+  });
+ }
+ listen(win,'resize',revealActive,signal);
  listen(nav,'focusin',event=>{const link=event.target.closest?.('[data-dock-module]');if(link){reset();showLabel(link);}},signal);
  listen(nav,'focusout',event=>{if(!nav.contains(event.relatedTarget))reset();},signal);
  listen(nav,'keydown',event=>{
@@ -74,7 +85,7 @@ export function moduleDock(context){
  },signal);
  function visibility(){
   const hidden=returnForWindow(current).mode==='back'||html.dataset.studyFocus==='on'||html.dataset.retentionFocus==='on';
-  node.hidden=hidden;node.setAttribute('aria-hidden',String(hidden));if(hidden)reset();
+  const wasHidden=node.hidden;node.hidden=hidden;node.setAttribute('aria-hidden',String(hidden));if(hidden)reset();else if(wasHidden)revealActive();
  }
  const observer=new MutationObserver(visibility);
  observer.observe(html,{attributes:true,attributeFilter:['data-study-focus','data-retention-focus']});
@@ -82,7 +93,7 @@ export function moduleDock(context){
   current=url;const segment=url.pathname.split('/')[2]??'dashboard';
   const active=['admin','owner','teacher'].includes(segment)?'management':segment;
   for(const link of links){if(link.dataset.dockModule===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
-  reset();visibility();
+  reset();visibility();revealActive();
  }
  function begin(url,flight,source){
   pending=null;opening?.cancel();opening=null;
@@ -95,11 +106,21 @@ export function moduleDock(context){
   const intent=pending;pending=null;if(!intent||intent.path!==url.pathname+url.search||reduced()||typeof content.animate!=='function')return;
   const box=content.getBoundingClientRect();if(!box.width||!box.height)return;
   const x=intent.x-box.left-box.width/2,y=intent.y-box.top-box.height;
+  const neck=Math.max(6,Math.min(94,(intent.x-box.left)/box.width*100));
+  // The reference expands from a narrow Dock neck into the window. Keep the
+  // same polygon vertices in every frame so the curved sides interpolate.
+  function funnel(center,spread){
+   const levels=[0,30,40,50,60,70,80,90,100],left=Math.max(0,center-6)*(1-spread),right=Math.max(0,100-center-6)*(1-spread);
+   const bend=y=>{const t=Math.max(0,(y-30)/70);return t*t*(3-2*t);};
+   return 'polygon('+[...levels.map(y=>`${left*bend(y)}% ${y}%`),...levels.slice().reverse().map(y=>`${100-right*bend(y)}% ${y}%`)].join(',')+')';
+  }
   opening=content.animate([
-   {opacity:0,transform:`translate(${x}px,${y}px) scale(.18,.04)`,transformOrigin:'50% 100%'},
-   {opacity:1,transform:'translate(0,0) scale(1,1)',transformOrigin:'50% 100%'}
-  ],{duration:380,easing:'cubic-bezier(.16,1,.3,1)'});
+   {opacity:0,transform:`translate(${x}px,${y}px) scale(.12,.025)`,clipPath:funnel(50,0),transformOrigin:'50% 100%'},
+   {offset:.35,opacity:1,transform:`translate(${x*.18}px,${y*.12}px) scale(.82,.62)`,clipPath:funnel(neck,.08),transformOrigin:'50% 100%'},
+   {offset:.7,opacity:1,transform:'translate(0,0) scale(1,1)',clipPath:funnel(neck,.52),transformOrigin:'50% 100%'},
+   {opacity:1,transform:'translate(0,0) scale(1,1)',clipPath:funnel(neck,1),transformOrigin:'50% 100%'}
+  ],{duration:420,easing:'cubic-bezier(.2,.65,.25,1)'});
  }
- signal.addEventListener('abort',()=>{observer.disconnect();reset();opening?.cancel();pending=null;node.remove();},{once:true});
+ signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);opening?.cancel();pending=null;node.remove();},{once:true});
  update(current);return {node,update,begin,open};
 }
