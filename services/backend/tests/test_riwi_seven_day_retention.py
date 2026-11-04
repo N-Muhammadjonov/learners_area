@@ -56,3 +56,16 @@ async def test_stale_online_activity_does_not_delete_a_chat_with_fresh_messages(
  result=await purge_expired_riwi_conversations(c,now=START+timedelta(days=7),dry_run=False)
  assert result['deletedConversations']==0 and cid in c.conversations
  assert len((await get_conversation_transcript(c,ACTOR,cid,now=START+timedelta(days=7)))['messages'])==2
+
+@pytest.mark.asyncio
+async def test_seven_day_boundary_during_retirement_keeps_chat_whole_until_fixed_thirty_minute_deadline():
+ from app.riwi_retention import purge_expired_riwi_conversations
+ c=fixture();old=await turn(c,START);await turn(c,START+timedelta(days=6),old)
+ retired_at=START+timedelta(days=7,minutes=-10)
+ await archive_conversation(c,ACTOR,old,now=retired_at)
+ await purge_expired_riwi_conversations(c,now=START+timedelta(days=7,minutes=1))
+ assert len((await get_conversation_transcript(c,ACTOR,old,now=START+timedelta(days=7,minutes=1)))['messages'])==4
+ await archive_conversation(c,ACTOR,old,now=START+timedelta(days=7,minutes=5))
+ assert c.conversations[old]['expires_at']==retired_at+timedelta(minutes=30)
+ await purge_expired_riwi_conversations(c,now=retired_at+timedelta(minutes=30))
+ assert old not in c.conversations and not c.messages

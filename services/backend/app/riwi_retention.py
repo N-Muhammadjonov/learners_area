@@ -73,7 +73,9 @@ async def purge_actor_expired(conn,user_id,now=None):
     await conn.execute('''DELETE FROM riwi_conversations WHERE user_id=$1::uuid
         AND (deleted_at IS NOT NULL OR expires_at<=$2::timestamptz)''',user_id,cutoffs.now)
     await conn.execute('''DELETE FROM riwi_conversation_messages m USING riwi_conversations c
-        WHERE c.id=m.conversation_id AND c.user_id=$1::uuid AND m.created_at<=$2::timestamptz''',user_id,cutoffs.message_cutoff)
+        WHERE c.id=m.conversation_id AND c.user_id=$1::uuid AND m.created_at<=$2::timestamptz
+          AND NOT EXISTS(SELECT 1 FROM riwi_conversation_messages a
+            WHERE a.conversation_id=c.id AND a.metadata ? 'riwiArchivedAt')''',user_id,cutoffs.message_cutoff)
 
 
 async def touch_riwi_online_activity(conn: Any, user_id: str, now: datetime | None = None) -> bool:
@@ -120,8 +122,10 @@ async def _purge_expired(conn,*,now=None,dry_run=False):
         FROM riwi_conversations c
         WHERE c.deleted_at IS NOT NULL
            OR c.expires_at <= $1::timestamptz
-           OR NOT EXISTS(SELECT 1 FROM riwi_conversation_messages m
+           OR (NOT EXISTS(SELECT 1 FROM riwi_conversation_messages m
              WHERE m.conversation_id=c.id AND m.created_at>$2::timestamptz)
+             AND NOT EXISTS(SELECT 1 FROM riwi_conversation_messages a
+               WHERE a.conversation_id=c.id AND a.metadata ? 'riwiArchivedAt'))
         FOR UPDATE OF c SKIP LOCKED
         """,
         cutoffs.now,
@@ -131,8 +135,9 @@ async def _purge_expired(conn,*,now=None,dry_run=False):
     old_msg_row = await conn.fetchrow(
         """
         SELECT count(*)::int AS cnt
-        FROM riwi_conversation_messages
-        WHERE created_at <= $1::timestamptz
+        FROM riwi_conversation_messages m
+        WHERE (created_at <= $1::timestamptz AND NOT EXISTS(
+            SELECT 1 FROM riwi_conversation_messages a WHERE a.conversation_id=m.conversation_id AND a.metadata ? 'riwiArchivedAt'))
            OR conversation_id = ANY($2::uuid[])
         """,
         cutoffs.message_cutoff,
@@ -142,7 +147,9 @@ async def _purge_expired(conn,*,now=None,dry_run=False):
 
     if not dry_run:
         await conn.execute(
-            "DELETE FROM riwi_conversation_messages WHERE created_at <= $1::timestamptz",
+            """DELETE FROM riwi_conversation_messages WHERE created_at <= $1::timestamptz
+              AND NOT EXISTS(SELECT 1 FROM riwi_conversation_messages a
+                WHERE a.conversation_id=riwi_conversation_messages.conversation_id AND a.metadata ? 'riwiArchivedAt')""",
             cutoffs.message_cutoff,
         )
         if conv_ids:

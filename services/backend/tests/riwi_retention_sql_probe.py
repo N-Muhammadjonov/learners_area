@@ -8,6 +8,7 @@ from datetime import datetime,timedelta,timezone
 from pathlib import Path
 sys.path[:0]=[str(Path(__file__).parents[1]),str(Path(__file__).parent)]
 from app.riwi_conversations import append_conversation_turn,get_conversation_transcript,archive_conversation,RiwiConversationError
+from app.riwi_retention import purge_expired_riwi_conversations
 from app.riwi_capabilities import RiwiActor
 from test_riwi_phase2_auth_conversations import FakeRiwiConn
 
@@ -67,5 +68,20 @@ CREATE TEMP TABLE audit_log(LIKE public.audit_log INCLUDING DEFAULTS INCLUDING C
  check(f"(SELECT count(*) FROM pg_temp.riwi_conversation_messages WHERE conversation_id={literal(fresh)})=3",'exact user deadline not applied')
  await get_conversation_transcript(c,A,fresh,now=START+timedelta(days=9,milliseconds=1))
  check(f"(SELECT count(*) FROM pg_temp.riwi_conversation_messages WHERE conversation_id={literal(fresh)})=2",'exact assistant deadline not applied')
- print("ROLLBACK; SELECT 'passed: archive, IDOR, active-message exact boundary, new-chat isolation; all fixture writes rolled back' AS result;")
+ edge=await turn(START+timedelta(days=9,hours=1));await turn(START+timedelta(days=15),edge)
+ retired=START+timedelta(days=16,minutes=50);deadline=retired+timedelta(minutes=30)
+ await archive_conversation(c,A,edge,now=retired)
+ boundary=START+timedelta(days=16,hours=1,minutes=1)
+ await purge_expired_riwi_conversations(c,now=boundary)
+ await get_conversation_transcript(c,A,edge,now=boundary)
+ check(f"(SELECT count(*) FROM pg_temp.riwi_conversation_messages WHERE conversation_id={literal(edge)})=4",'seven-day cleanup split a retired chat')
+ cron=Path(__file__).parents[3]/'scripts/riwi-chat-retention.sql'
+ command=cron.read_text().replace('public.riwi_','pg_temp.riwi_').replace('CURRENT_TIMESTAMP',literal(boundary)+'::timestamptz')
+ print(command)
+ check(f"(SELECT count(*) FROM pg_temp.riwi_conversation_messages WHERE conversation_id={literal(edge)})=4",'scheduler split a retired chat')
+ await archive_conversation(c,A,edge,now=boundary)
+ check(f"(SELECT expires_at FROM pg_temp.riwi_conversations WHERE id={literal(edge)})={literal(deadline)}::timestamptz",'seven-day boundary reset retired deadline')
+ print(command.replace(literal(boundary)+'::timestamptz',literal(deadline)+'::timestamptz'))
+ check(f"NOT EXISTS(SELECT 1 FROM pg_temp.riwi_conversations WHERE id={literal(edge)})",'scheduler retained expired whole chat')
+ print("ROLLBACK; SELECT 'passed: archive, IDOR, active-message exact boundary, new-chat isolation, retired-chat seven-day boundary and scheduler; all fixture writes rolled back' AS result;")
 asyncio.run(main())

@@ -103,7 +103,8 @@ async def get_conversation_transcript(
         SELECT id::text AS id, role::text AS role, content, metadata, created_at
         FROM riwi_conversation_messages
         WHERE conversation_id = $1::uuid
-          AND created_at > $2::timestamptz
+          AND (created_at > $2::timestamptz OR EXISTS(
+            SELECT 1 FROM riwi_conversation_messages a WHERE a.conversation_id=$1::uuid AND a.metadata ? 'riwiArchivedAt'))
         ORDER BY created_at ASC, id ASC
         """,
         conversation_id,

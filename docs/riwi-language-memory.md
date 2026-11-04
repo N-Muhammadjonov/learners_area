@@ -38,7 +38,9 @@ Translation and sentence-correction requests keep their original source text.
 
 Active-chat messages expire individually at seven days. New Chat archives the old
 conversation once, with a fixed `archivedAt + 30 minutes` deletion deadline.
-Repeated archive requests and later chats do not extend it. Before retirement,
+Repeated archive requests and later chats do not extend it. After retirement,
+the seven-day per-message rule stops applying to that chat; it stays whole until
+its retirement deadline. Before retirement,
 the selector reviews up to 200 recent short user turns and keeps at most 20 valid,
 distinct explicit mappings. It does not copy whole conversations or assistant
 answers. Already reviewed conversations are marked to avoid repeated extraction.

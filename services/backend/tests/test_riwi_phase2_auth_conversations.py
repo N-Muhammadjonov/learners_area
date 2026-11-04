@@ -106,7 +106,7 @@ class FakeRiwiConn:
             cutoff, conv_ids = args[0], set(args[1])
             cnt = sum(
                 1 for m in self.messages
-                if m["created_at"] <= cutoff or m["conversation_id"] in conv_ids
+                if (m["created_at"] <= cutoff and not self.conversations.get(m['conversation_id'],{}).get('archived')) or m["conversation_id"] in conv_ids
             )
             return {"cnt": cnt}
         return None
@@ -116,7 +116,7 @@ class FakeRiwiConn:
             cid, cutoff = args[0], args[1]
             rows = [
                 m for m in self.messages
-                if m["conversation_id"] == cid and m["created_at"] > cutoff
+                if m["conversation_id"] == cid and (m["created_at"] > cutoff or self.conversations[cid].get('archived'))
             ]
             rows.sort(key=lambda r: (r["created_at"], r["id"]))
             return rows
@@ -131,7 +131,7 @@ class FakeRiwiConn:
                     u["last_active_at"],
                     u.get("latest_event_at") or u["last_active_at"],
                 )
-                if c.get("deleted_at") is not None or c["expires_at"] <= now_ts or not any(m["conversation_id"]==cid and m["created_at"]>offline_cutoff for m in self.messages):
+                if c.get("deleted_at") is not None or c["expires_at"] <= now_ts or (not c.get('archived') and not any(m["conversation_id"]==cid and m["created_at"]>offline_cutoff for m in self.messages)):
                     expired.append({"id": cid})
             return expired
         return []
@@ -193,7 +193,7 @@ class FakeRiwiConn:
             self.messages = [m for m in self.messages if m["conversation_id"] not in set(to_del)]
         elif "DELETE FROM riwi_conversation_messages WHERE created_at <=" in sql:
             cutoff = args[0]
-            self.messages = [m for m in self.messages if m["created_at"] > cutoff]
+            self.messages = [m for m in self.messages if m["created_at"] > cutoff or self.conversations.get(m['conversation_id'],{}).get('archived')]
         elif "DELETE FROM riwi_conversations WHERE id = ANY" in sql:
             cids = set(args[0])
             for cid in cids:
