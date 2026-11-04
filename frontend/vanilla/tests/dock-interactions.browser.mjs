@@ -36,9 +36,10 @@ test('real SPA Dock clicks animate the viewport, including cached routes, with e
      const sample=await page.evaluate(()=>{
       const main=document.querySelector('[data-shell-main]'),animation=main.getAnimations().find(a=>a.id==='dock-genie');
       animation.pause();animation.currentTime=0;const seed=main.getBoundingClientRect().toJSON();animation.currentTime=180;const raised=main.getBoundingClientRect().toJSON();animation.play();
-      return {height:main.getBoundingClientRect().height,seed,raised,frames:animation.effect.getKeyframes(),duration:animation.effect.getTiming().duration};
+      return {height:main.getBoundingClientRect().height,seed,raised,frames:animation.effect.getKeyframes(),duration:animation.effect.getTiming().duration,easing:animation.effect.getTiming().easing};
      });
-     assert(sample.height>0);assert.equal(sample.duration,520);assert(sample.frames.every(frame=>frame.clipPath.startsWith('polygon(')));
+     assert(sample.height>0);assert.equal(sample.duration,600);assert.equal(sample.easing,'cubic-bezier(0.25, 0.8, 0.25, 1.1)');assert(sample.frames.every(frame=>frame.clipPath.startsWith('polygon(')));
+     assert(Math.abs(parseFloat(sample.frames[0].transformOrigin)-(source.x+source.width/2))<2,'transform origin follows the clicked icon');
      for(const edge of ['x','y','width','height'])assert(Math.abs(sample.seed[edge]-source[edge])<2,`${key}: opening ${edge} must start at the clicked icon`);
      assert(sample.raised.y<source.y-20,'window must grow upward from the icon');
      assert.notEqual(sample.frames[1].clipPath,sample.frames.at(-1).clipPath);
@@ -106,4 +107,26 @@ test('every Dock module has distinct complete artwork with unique SVG resources'
    await page.locator('[data-module-dock]').screenshot({path:'/tmp/la-premium-dock.png'});
   }finally{await context.close();}
  });
+});
+
+test('launch bounce runs beside navigation, avoids duplicate starts and cleans up without clipping',async()=>{
+ await withDockBrowser(async(browser,origin)=>{
+  for(const reducedMotion of ['reduce','no-preference']){
+   const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion}),page=await context.newPage();
+   try{
+    await page.goto(origin+'/app');await page.waitForFunction(()=>window.fixtureReady);
+    const item=page.locator('[data-dock-module="progress"]');await item.click();await page.locator('[data-fixture-page="/app/progress"]').waitFor();
+    const bounce=await page.evaluate(()=>{
+     const launch=document.querySelector('[data-dock-module="progress"] .module-dock__launch'),a=launch.getAnimations().find(a=>a.id==='dock-bounce');
+     window.firstBounce=a;return {state:a?.playState,timing:a?.effect.getTiming()};
+    });
+    assert.equal(bounce.state,'running','navigation must commit while the bounce is still running');assert.equal(bounce.timing.duration,500);assert.equal(bounce.timing.iterations,2);
+    await page.evaluate(async()=>{const link=document.querySelector('[data-dock-module="progress"]');await fixtureRouter.go('/app/progress',{source:link});});
+    assert(await page.evaluate(()=>document.querySelector('[data-dock-module="progress"] .module-dock__launch').getAnimations().filter(a=>a.id==='dock-bounce').length===1&&document.querySelector('[data-dock-module="progress"] .module-dock__launch').getAnimations().find(a=>a.id==='dock-bounce')===firstBounce));
+    const peak=await page.evaluate(()=>{firstBounce.pause();firstBounce.effect.updateTiming({easing:'linear'});firstBounce.currentTime=150;const icon=document.querySelector('[data-dock-module="progress"] .module-dock__icon').getBoundingClientRect(),nav=document.querySelector('.module-dock__glass').getBoundingClientRect();return {icon:icon.top,viewport:nav.top};});
+    assert(peak.icon>=peak.viewport,'bounce must remain inside the scroll viewport');
+    await page.evaluate(()=>firstBounce.finish());await frames(page);assert.equal(await item.locator('.module-dock__launch').evaluate(node=>node.getAnimations().filter(a=>a.id==='dock-bounce').length),0);
+   }finally{await context.close();}
+  }
+ },{'/app':shellFixture});
 });

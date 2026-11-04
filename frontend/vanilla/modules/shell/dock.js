@@ -32,10 +32,11 @@ export function moduleDock(context){
  const items=dockItems(dict,session.user.role),links=items.map(item=>{
   const icon=el('span',{class:'module-dock__icon'},dockIcon(item.key));
   icon.style.setProperty('--dock-top',item.top);icon.style.setProperty('--dock-bottom',item.bottom);
-  return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
+  return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},el('span',{class:'module-dock__launch'},icon),el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });
  nav.append(...links);node.append(nav,tooltip);
  let current=context.url,frame=0,layoutFrame=0,pointer=null,pending=null,opening=null;
+ const launches=new Map();
  const win=document.defaultView;
  function reset(){
   if(frame)win.cancelAnimationFrame(frame);frame=0;pointer=null;tooltip.hidden=true;
@@ -98,12 +99,28 @@ export function moduleDock(context){
   const artwork=link.querySelector('.module-dock__icon')?.getBoundingClientRect();
   const box=artwork?.width&&artwork?.height?artwork:link.getBoundingClientRect();
   const intent={path:url.pathname+url.search,x:box.left+box.width/2,y:box.top+box.height/2,width:box.width,height:box.height};
+  const launch=link.querySelector('.module-dock__launch');
+  if(typeof launch?.animate==='function'&&!launches.has(launch)){
+   // Adapted from macBounce: play beside navigation, without delaying it.
+   const bounce=launch.animate([
+    {offset:0,transform:'translateY(0) scaleY(1)'},
+    {offset:.3,transform:'translateY(-30px) scaleY(1.1)'},
+    {offset:.5,transform:'translateY(0) scaleY(.85)'},
+    {offset:.7,transform:'translateY(-12px) scaleY(1.05)'},
+    {offset:.9,transform:'translateY(0) scaleY(.95)'},
+    {offset:1,transform:'translateY(0) scaleY(1)'}
+   ],{duration:500,iterations:2,easing:'ease-in-out'});
+   bounce.id='dock-bounce';launches.set(launch,bounce);
+   const release=()=>{if(launches.get(launch)===bounce)launches.delete(launch);};
+   bounce.finished.then(release,release);tooltip.hidden=true;
+  }
   pending=intent;flight.addEventListener('abort',()=>{if(pending===intent)pending=null;},{once:true});
  }
  function open(content,url){
   const intent=pending;pending=null;if(!intent||intent.path!==url.pathname+url.search||typeof content.animate!=='function')return;
   const box=content.getBoundingClientRect();if(!box.width||!box.height)return;
   const x=intent.x-box.left-box.width/2,y=intent.y+intent.height/2-box.top-box.height;
+  const originX=Math.max(0,Math.min(box.width,intent.x-box.left));
   const seedX=Math.min(1,intent.width/box.width),seedY=Math.min(1,intent.height/box.height);
   // Start at the clicked artwork's exact rectangle. Its narrow neck stays
   // attached to that icon while the window grows upward, then opens fully.
@@ -113,20 +130,22 @@ export function moduleDock(context){
    return 'polygon('+[...levels.map(y=>`${left*bend(y)}% ${y}%`),...levels.slice().reverse().map(y=>`${100-right*bend(y)}% ${y}%`)].join(',')+')';
   }
   function grow(offset,sx,sy,spread,dy,opacity=1){
-   const expansion=Math.max(0,Math.min(1,(sx-seedX)/Math.max(.001,1-seedX))),dx=x*(1-expansion);
-   const neckCenter=Math.max(0,Math.min(100,50+(x-dx)/(sx*box.width)*100));
-   return {offset,opacity,transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,clipPath:funnel(neckCenter,spread,intent.width/(sx*box.width)*100),transformOrigin:'50% 100%'};
+   const expansion=Math.max(0,Math.min(1,(sx-seedX)/Math.max(.001,1-seedX))),centerDx=x*(1-expansion);
+   // openApp's dynamic origin, using the actual viewport instead of 15vw/800px.
+   const dx=centerDx+(box.width/2-originX)*(1-sx);
+   const neckCenter=Math.max(0,Math.min(100,50+(x-centerDx)/(sx*box.width)*100));
+   return {offset,opacity,transform:`translate(${dx}px,${dy}px) scale(${sx},${sy}) skewX(0deg)`,clipPath:funnel(neckCenter,spread,intent.width/(sx*box.width)*100),transformOrigin:`${originX}px 100%`};
   }
   opening=content.animate([
-   grow(0,seedX,seedY,0,y,.05),
+   grow(0,seedX,seedY,0,y,0),
    grow(.16,Math.min(1,seedX*2.2),Math.min(1,seedY*2.3),0,y),
    grow(.43,seedX+(1-seedX)*.78,seedY+(1-seedY)*.63,0,y),
    grow(.68,1,1,.12,y*.5),
    grow(.86,1,1,.72,0),
    grow(1,1,1,1,0)
-  ],{duration:520,easing:'cubic-bezier(.2,.65,.25,1)'});
+  ],{duration:600,easing:'cubic-bezier(.25,.8,.25,1.1)'});
   opening.id='dock-genie';
  }
- signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);opening?.cancel();pending=null;node.remove();},{once:true});
+ signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);opening?.cancel();for(const bounce of launches.values())bounce.cancel();launches.clear();pending=null;node.remove();},{once:true});
  update(current);return {node,update,begin,open};
 }
