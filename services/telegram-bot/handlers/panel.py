@@ -1,7 +1,7 @@
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.types import BufferedInputFile, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from copy_format import format_audit, format_settings, format_stats
 from html_text import esc
@@ -189,26 +189,31 @@ async def users_range(callback: CallbackQuery, db_user: dict | None = None, bot_
     await callback.answer()
 
 
-def _user_actions(user_id: str, bot_access: dict | None, lang: str, back_target: str = "o:users") -> list[list[InlineKeyboardButton]]:
+def _user_actions(user_id: str, user: dict, bot_access: dict | None, db_user: dict | None, lang: str, back_target: str = "o:users") -> list[list[InlineKeyboardButton]]:
+    """Only show actions that the target's status and actor's authority permit."""
     rows = []
-    if allows(bot_access, "DIRECT_MESSAGE"):
-        rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dm:{user_id}")])
-    if allows(bot_access, "ADMISSIONS"):
+    status = user.get("accountStatus")
+    if status == "pending" and allows(bot_access, "ADMISSIONS"):
         rows.append([
             InlineKeyboardButton(text=t(lang, "approve"), callback_data=f"ust:approve:{user_id}"),
             InlineKeyboardButton(text=t(lang, "reject"), callback_data=f"ust:reject:{user_id}"),
         ])
     if allows(bot_access, "MANAGE_USERS"):
-        rows.append([
-            InlineKeyboardButton(text=t(lang, "suspend"), callback_data=f"ust:suspend:{user_id}"),
-            InlineKeyboardButton(text=t(lang, "unsuspend"), callback_data=f"ust:unsuspend:{user_id}"),
-        ])
-        rows.append([
-            InlineKeyboardButton(text=t(lang, "unlink"), callback_data=f"ust:unlink:{user_id}"),
-            InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"ust:remove:{user_id}"),
-        ])
-    if allows(bot_access, "DANGEROUS_USER_DELETE"):
-        rows.append([InlineKeyboardButton(text=t(lang, "delete_account"), callback_data=f"ust:delete:{user_id}")])
+        if status == "active":
+            rows.append([InlineKeyboardButton(text=t(lang, "suspend"), callback_data=f"ust:suspend:{user_id}")])
+        elif status == "suspended":
+            rows.append([InlineKeyboardButton(text=t(lang, "unsuspend"), callback_data=f"ust:unsuspend:{user_id}")])
+        if user.get("telegramId") or user.get("telegramLinked"):
+            rows.append([
+                InlineKeyboardButton(text=("🔌 Saytdan uzish" if lang == "uz" else "🔌 Unlink from website"), callback_data=f"ust:unlink:{user_id}"),
+                InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"ust:remove:{user_id}"),
+            ])
+    # An admin's VIEW_USERS right does not grant access to academic data.
+    is_owner = bool((bot_access or {}).get("isPrimaryOwner") and (db_user or {}).get("role") == "owner")
+    is_teacher = bool((db_user or {}).get("role") == "teacher" and
+                      (db_user or {}).get("accountStatus") == "active" and allows(bot_access, "VIEW_USERS"))
+    if user.get("role") == "student" and (is_owner or is_teacher):
+        rows.append([InlineKeyboardButton(text="📊 Natijalar" if lang == "uz" else "📊 Results", callback_data=f"upr:{user_id}")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data=back_target)])
     return rows
 
@@ -241,7 +246,7 @@ async def user_card(callback: CallbackQuery, state: FSMContext, db_user: dict | 
             text += f"\n📞 {esc(phone.get('phoneNumber') or '—')}"
     back_target = (await state.get_data()).get("users_return") or "o:users"
     await state.set_state(None)
-    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, bot_access, lang, back_target)))
+    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, user, bot_access, db_user, lang, back_target)))
     await callback.answer()
 
 
@@ -322,9 +327,13 @@ async def telegram_contact_card(
 
     back_target = (await state.get_data()).get("users_return") or "o:users"
     await state.set_state(None)
+    rows = []
+    if allows(bot_access, "MANAGE_USERS") and not target_contact.get("removed") and not linked_user:
+        rows.append([InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"tgr:{telegram_id}")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data=back_target)])
     await callback.message.edit_text(
         "\n".join(lines),
-        reply_markup=_back(lang, back_target),
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=rows),
     )
     await callback.answer()
 
@@ -332,40 +341,155 @@ async def telegram_contact_card(
 @panel_router.callback_query(F.data.startswith("ust:"))
 async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
-    _prefix, action, user_id = callback.data.split(":", 2)
+    parts = (callback.data or "").split(":", 2)
+    if len(parts) != 3:
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+    _, action, user_id = parts
     actor = str(callback.from_user.id)
+    try:
+        detail_status, detail = await api_client.user_detail(actor, user_id)
+    except Exception:
+        detail_status, detail = 503, {}
+    if detail_status != 200:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    user = detail.get("user") or {}
+    current = user.get("accountStatus")
     if action in {"approve", "reject"}:
-        if not allows(bot_access, "ADMISSIONS"):
+        if not allows(bot_access, "ADMISSIONS") or current != "pending":
             await callback.answer(t(lang, "no_permission"), show_alert=True)
             return
-        success = await api_client.decide_access_request(actor, user_id, "approve" if action == "approve" else "reject")
-        await callback.answer("OK" if success else t(lang, "error"), show_alert=True)
-        return
-    if action == "delete":
-        if not allows(bot_access, "DANGEROUS_USER_DELETE"):
+        try:
+            success = await api_client.decide_access_request(actor, user_id, action)
+        except Exception:
+            success = False
+        if not success:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+    else:
+        if not allows(bot_access, "MANAGE_USERS"):
             await callback.answer(t(lang, "no_permission"), show_alert=True)
             return
-        status, data = await api_client.user_action(user_id, "delete", {"actorTelegramId": actor})
+        if action not in {"suspend", "unsuspend", "unlink", "remove"}:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        if action == "suspend" and current != "active" or action == "unsuspend" and current != "suspended":
+            await callback.answer(t(lang, "no_permission"), show_alert=True)
+            return
+        path = {"suspend": "status", "unsuspend": "status", "unlink": "unlink", "remove": "remove"}[action]
+        payload = {"actorTelegramId": actor}
+        if action in {"suspend", "unsuspend"}:
+            payload["status"] = "suspended" if action == "suspend" else "active"
+        try:
+            status, body = await api_client.user_action(user_id, path, payload)
+        except Exception:
+            status, body = 503, {}
         if status != 200:
-            await callback.answer(t(lang, "no_permission"), show_alert=True)
+            await callback.answer(esc((body or {}).get("error") or t(lang, "error")), show_alert=True)
             return
-        await state.set_state(PanelFlow.delete_code)
-        await state.update_data(user_id=user_id, code=data.get("code"))
-        await callback.message.edit_text(f"Tasdiqlash kodi: {esc(data.get('code'))}\nKodni yuboring. /cancel", reply_markup=_back(lang))
-        await callback.answer()
-        return
-    permission = "MANAGE_USERS"
-    if not allows(bot_access, permission):
+    # Refresh the card so the user can see that the operation took effect.
+    try:
+        refreshed_status, refreshed = await api_client.user_detail(actor, user_id)
+        shown = (refreshed.get("user") or {}) if refreshed_status == 200 else {}
+        if not shown:
+            raise ValueError("missing refreshed user")
+        display = "\n".join([
+            esc(shown.get("name")), esc(shown.get("email") or "—"),
+            f"{esc(shown.get('role'))} · {esc(shown.get('accountStatus'))}",
+            f"telegram: {esc(shown.get('telegramId') or '—')}",
+        ])
+        back = (await state.get_data()).get("users_return") or "o:users"
+        await callback.message.edit_text(display, reply_markup=InlineKeyboardMarkup(
+            inline_keyboard=_user_actions(user_id, shown, bot_access, db_user, lang, back)))
+        await callback.answer("OK")
+    except Exception:
+        await callback.answer("OK", show_alert=True)
+
+
+@panel_router.callback_query(F.data.startswith("tgr:"))
+async def remove_telegram_only_contact(callback: CallbackQuery, state: FSMContext, bot_access: dict | None = None, db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
+    if not allows(bot_access, "MANAGE_USERS"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    path = {"suspend": "status", "unsuspend": "status", "unlink": "unlink", "remove": "remove"}[action]
-    payload = {"actorTelegramId": actor}
-    if action == "suspend":
-        payload["status"] = "suspended"
-    if action == "unsuspend":
-        payload["status"] = "active"
-    status, data = await api_client.user_action(user_id, path, payload)
-    await callback.answer("OK" if status == 200 else esc((data or {}).get("error") or "error"), show_alert=True)
+    telegram_id = (callback.data or "").split(":", 1)[1]
+    if not telegram_id.isdigit():
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+    try:
+        code, body = await api_client.remove_telegram_contact(str(callback.from_user.id), telegram_id)
+    except Exception:
+        code, body = 503, {}
+    if code != 200:
+        await callback.answer(esc((body or {}).get("error") or t(lang, "temporary_error")), show_alert=True)
+        return
+    back = (await state.get_data()).get("users_return") or "o:users"
+    await callback.message.edit_text(
+        ("🚫 Botdan chiqarildi" if lang == "uz" else "🚫 Removed from bot"),
+        reply_markup=_back(lang, back))
+    await callback.answer("OK")
+
+
+@panel_router.callback_query(F.data.startswith("upr:"))
+async def user_results(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
+    user_id = (callback.data or "").split(":", 1)[1]
+    is_owner = bool((bot_access or {}).get("isPrimaryOwner") and (db_user or {}).get("role") == "owner")
+    is_teacher = bool((db_user or {}).get("role") == "teacher" and
+                      (db_user or {}).get("accountStatus") == "active" and allows(bot_access, "VIEW_USERS"))
+    if not (is_owner or is_teacher):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    try:
+        status, body = await api_client.student_results(str(callback.from_user.id), user_id)
+    except Exception:
+        status, body = 503, {}
+    if status != 200:
+        await callback.answer(t(lang, "no_permission") if status in {403, 404}
+                              else t(lang, "temporary_error"), show_alert=True)
+        return
+    counts = (body or {}).get("counts") or {}
+    content = ("📊 Natijalar" if lang == "uz" else "📊 Results") + "\n" + esc((body or {}).get("studentName") or "")
+    for label, number in counts.items():
+        content += f"\n{esc(label)}: {int(number)}"
+    rows = [
+        [InlineKeyboardButton(text="📄 PDF", callback_data=f"upf:pdf:{user_id}"),
+         InlineKeyboardButton(text="📝 DOCX", callback_data=f"upf:docx:{user_id}")],
+        [InlineKeyboardButton(text=t(lang, "back"), callback_data=f"usr:{user_id}")],
+    ]
+    await callback.message.edit_text(content, reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.answer()
+
+
+@panel_router.callback_query(F.data.startswith("upf:"))
+async def download_user_results(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
+    parts = (callback.data or "").split(":", 2)
+    if len(parts) != 3 or parts[1] not in {"pdf", "docx"}:
+        await callback.answer(t(lang, "error"), show_alert=True)
+        return
+    _, fmt, user_id = parts
+    is_owner = bool((bot_access or {}).get("isPrimaryOwner") and (db_user or {}).get("role") == "owner")
+    is_teacher = bool((db_user or {}).get("role") == "teacher" and
+                      (db_user or {}).get("accountStatus") == "active" and allows(bot_access, "VIEW_USERS"))
+    if not (is_owner or is_teacher):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    # Check permission and create the document in the backend on every click.
+    try:
+        status, data = await api_client.student_results_document(str(callback.from_user.id), user_id, fmt)
+    except Exception:
+        status, data = 503, b""
+    if status != 200 or not data:
+        await callback.answer(t(lang, "no_permission") if status in {403, 404}
+                              else t(lang, "temporary_error"), show_alert=True)
+        return
+    await callback.message.answer_document(
+        BufferedInputFile(data, filename=f"student-results-{user_id}.{fmt}"),
+        caption="Learners Area",
+    )
+    await callback.answer()
 
 
 @panel_router.message(PanelFlow.delete_code)
