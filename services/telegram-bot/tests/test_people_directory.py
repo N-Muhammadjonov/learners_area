@@ -369,3 +369,30 @@ async def test_telegram_contact_removal_does_not_call_website_unlink():
     remove.assert_awaited_once_with("12345", "5002")
     website_action.assert_not_awaited()
     assert "Botdan chiqarildi" in event.message.edit_text.await_args.args[0]
+
+
+@pytest.mark.asyncio
+async def test_academic_results_never_render_in_group_chat():
+    event = callback("upr:11111111-1111-4111-8111-111111111111")
+    event.message.chat = SimpleNamespace(type="supergroup")
+    owner_access = {"permissions": ["VIEW_USERS"], "isPrimaryOwner": True}
+    owner = {"role": "owner", "accountStatus": "active"}
+    with patch.object(panel.api_client, "student_results", AsyncMock()) as request:
+        await panel.user_results(event, db_user=owner, bot_access=owner_access)
+    request.assert_not_awaited()
+    event.message.edit_text.assert_not_awaited()
+    assert event.answer.await_args.kwargs["show_alert"] is True
+
+
+@pytest.mark.asyncio
+async def test_academic_documents_never_send_to_group_chat():
+    event = callback("upf:pdf:11111111-1111-4111-8111-111111111111")
+    event.message.chat = SimpleNamespace(type="group")
+    event.message.answer_document = AsyncMock()
+    owner_access = {"permissions": ["VIEW_USERS"], "isPrimaryOwner": True}
+    owner = {"role": "owner", "accountStatus": "active"}
+    with patch.object(panel.api_client, "student_results_document", AsyncMock()) as request:
+        await panel.download_user_results(event, db_user=owner, bot_access=owner_access)
+    request.assert_not_awaited()
+    event.message.answer_document.assert_not_awaited()
+    assert event.answer.await_args.kwargs["show_alert"] is True
