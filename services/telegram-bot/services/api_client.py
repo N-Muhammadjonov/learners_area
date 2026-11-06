@@ -161,12 +161,78 @@ class ApiClient:
     async def support_action(self, thread_id: str, payload: dict[str, Any]) -> tuple[int, Any]:
         return await self._request("POST", f"/support/threads/{thread_id}/actions", json=payload)
 
-    async def search_users(self, actor: str, q: str = "", page: int = 1, status: str = "", role: str = "") -> tuple[int, Any]:
+    async def _raw_search_users(self, actor: str, q: str, page: int, status: str, role: str) -> tuple[int, Any]:
         return await self._request(
             "GET",
             "/directory",
             params={"actorTelegramId": actor, "q": q, "page": page, "status": status, "role": role},
         )
+
+    async def search_users(self, actor: str, q: str = "", page: int = 1, status: str = "", role: str = "") -> tuple[int, Any]:
+        """Hide rejected website accounts without leaving holes in People pagination.
+
+        The backend exposes exact counts for a status-filtered directory. Use
+        that count to keep the total accurate, then walk only the raw pages
+        needed to fill the requested visible page. Never leak rejected rows
+        when one of the count/page requests fails.
+        """
+        page = max(1, int(page))
+        if status == "rejected":
+            # People never presents rejected accounts, including filtered searches.
+            return 200, {"items": [], "page": page, "pageSize": 10, "total": 0}
+        if status in {"active", "pending", "suspended"}:
+            return await self._raw_search_users(actor, q, page, status, role)
+
+        first_status, first = await self._raw_search_users(actor, q, 1, "", role)
+        if first_status != 200 or not isinstance(first, dict):
+            return first_status, first
+
+        rejected_status, rejected = await self._raw_search_users(actor, q, 1, "rejected", role)
+        if rejected_status != 200 or not isinstance(rejected, dict):
+            return 503, {"error": "directory_unavailable"}
+
+        try:
+            raw_total = int(first["total"])
+            rejected_total = int(rejected["total"])
+            page_size = int(first["pageSize"])
+            if raw_total < 0 or not 0 <= rejected_total <= raw_total or page_size != 10:
+                raise ValueError("invalid directory count")
+        except (KeyError, TypeError, ValueError):
+            return 503, {"error": "directory_unavailable"}
+
+        if rejected_total == 0:
+            if page == 1:
+                return first_status, first
+            return await self._raw_search_users(actor, q, page, "", role)
+
+        total = raw_total - rejected_total
+        start = (page - 1) * page_size
+        if start >= total:
+            return 200, {"items": [], "page": page, "pageSize": page_size, "total": total}
+
+        end = min(page * page_size, total)
+        visible = []
+        raw_page = 1
+        response = first
+        while len(visible) < end and (raw_page - 1) * page_size < raw_total:
+            if raw_page > 1:
+                response_status, response = await self._raw_search_users(actor, q, raw_page, "", role)
+                if response_status != 200 or not isinstance(response, dict):
+                    return 503, {"error": "directory_unavailable"}
+            rows = response.get("items")
+            if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows):
+                return 503, {"error": "directory_unavailable"}
+            visible.extend(row for row in rows if row.get("accountStatus") != "rejected")
+            raw_page += 1
+
+        if len(visible) < end:
+            return 503, {"error": "directory_unavailable"}
+        return 200, {
+            "items": visible[start:end],
+            "page": page,
+            "pageSize": page_size,
+            "total": total,
+        }
 
     async def user_detail(self, actor: str, user_id: str) -> tuple[int, Any]:
         return await self._request("GET", f"/directory/{user_id}", params={"actorTelegramId": actor})
