@@ -300,3 +300,72 @@ async def test_directory_no_rejected_accounts_preserves_backend_page():
     assert code == 200
     assert result == _raw_people_page(2, entries)
     assert raw_mock.await_count == 3
+
+
+def test_people_action_buttons_match_account_state():
+    access = {"permissions": ["VIEW_USERS", "MANAGE_USERS", "ADMISSIONS"]}
+    owner = {"role": "owner", "accountStatus": "active"}
+    pending = {"accountStatus": "pending", "role": "student", "telegramId": "12345"}
+    active = {"accountStatus": "active", "role": "student", "telegramId": "12345"}
+    suspended = {"accountStatus": "suspended", "role": "student", "telegramId": "12345"}
+    from functools import partial
+
+    def actions(user):
+        rows = panel._user_actions("account-1", user, access, owner, "uz")
+        return [button.callback_data for row in rows for button in row]
+
+    pending_controls = actions(pending)
+    assert "ust:approve:account-1" in pending_controls
+    assert "ust:reject:account-1" in pending_controls
+    assert "ust:suspend:account-1" not in pending_controls
+    assert "ust:delete:account-1" not in pending_controls
+
+    active_controls = actions(active)
+    assert "ust:suspend:account-1" in active_controls
+    assert "ust:approve:account-1" not in active_controls
+    assert "ust:unsuspend:account-1" not in active_controls
+    assert "ust:unlink:account-1" in active_controls
+    assert "ust:remove:account-1" in active_controls
+
+    suspended_controls = actions(suspended)
+    assert "ust:unsuspend:account-1" in suspended_controls
+    assert "ust:suspend:account-1" not in suspended_controls
+
+
+def test_restricted_bot_admin_cannot_view_academic_results():
+    student = {"role": "student", "accountStatus": "active", "telegramId": "42"}
+    bot_admin = {"role": "admin", "accountStatus": "active"}
+    bot_access = {"permissions": ["VIEW_USERS", "MANAGE_USERS", "ADMISSIONS"]}
+    rows = panel._user_actions("account-1", student, bot_access, bot_admin, "uz")
+    assert not any(btn.callback_data.startswith("upr:") for row in rows for btn in row)
+    owner_access = {"permissions": ["VIEW_USERS"], "isPrimaryOwner": True}
+    owner = {"role": "owner", "accountStatus": "active"}
+    rows = panel._user_actions("account-1", student, owner_access, owner, "uz")
+    assert any(btn.callback_data == "upr:account-1" for row in rows for btn in row)
+    teacher = {"role": "teacher", "accountStatus": "active"}
+    rows = panel._user_actions("account-1", student, bot_access, teacher, "uz")
+    assert any(btn.callback_data == "upr:account-1" for row in rows for btn in row)
+    # Actual teacher/student scope is rechecked server-side on every result request.
+
+
+@pytest.mark.asyncio
+async def test_pending_decision_requires_pending_status():
+    event, state = callback("ust:approve:account-1"), AsyncMock()
+    with patch.object(panel.api_client, "user_detail", AsyncMock(return_value=(200, {"user": {"accountStatus": "active"}}))):
+        with patch.object(panel.api_client, "decide_access_request", AsyncMock()) as decide:
+            await panel.user_status_action(event, state, bot_access={"permissions": ["ADMISSIONS"]})
+    decide.assert_not_awaited()
+    assert event.answer.await_args.kwargs["show_alert"]
+
+
+@pytest.mark.asyncio
+async def test_telegram_contact_removal_does_not_call_website_unlink():
+    event, state = callback("tgr:5002"), AsyncMock()
+    state.get_data.return_value = {"users_return": "usp:1"}
+    access = {"permissions": ["MANAGE_USERS"]}
+    with patch.object(panel.api_client, "remove_telegram_contact", AsyncMock(return_value=(200, {"ok": True}))) as remove:
+        with patch.object(panel.api_client, "user_action", AsyncMock()) as website_action:
+            await panel.remove_telegram_only_contact(event, state, bot_access=access)
+    remove.assert_awaited_once_with("12345", "5002")
+    website_action.assert_not_awaited()
+    assert "Botdan chiqarildi" in event.message.edit_text.await_args.args[0]
