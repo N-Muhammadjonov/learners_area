@@ -98,6 +98,14 @@ class ApiClient:
             return data
         raise RuntimeError(f"admission request failed: {status}")
 
+    async def auth_preflight(self, telegram_user_id: str, token: str = "") -> tuple[int, Any]:
+        # Backend checks durable phone verification and required-channel membership.
+        # Never trust the bot's process memory as proof of a verified phone.
+        return await self._request("POST", "/auth/preflight", json={
+            "telegramUserId": telegram_user_id,
+            "token": token,
+        })
+
     async def ready(self) -> bool:
         status, data = await self._request("GET", "/ready")
         return status == 200 and bool(data.get("ok"))
