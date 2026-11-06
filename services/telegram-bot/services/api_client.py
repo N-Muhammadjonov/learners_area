@@ -1,3 +1,4 @@
+import asyncio
 import aiohttp
 from typing import Any, Optional
 
@@ -191,11 +192,14 @@ class ApiClient:
         if status in {"active", "pending", "suspended"}:
             return await self._raw_search_users(actor, q, page, status, role)
 
-        first_status, first = await self._raw_search_users(actor, q, 1, "", role)
+        # The page and excluded-count queries are independent; overlap their
+        # network/DB latency instead of serially awaiting them.
+        (first_status, first), (rejected_status, rejected) = await asyncio.gather(
+            self._raw_search_users(actor, q, 1, "", role),
+            self._raw_search_users(actor, q, 1, "rejected", role),
+        )
         if first_status != 200 or not isinstance(first, dict):
             return first_status, first
-
-        rejected_status, rejected = await self._raw_search_users(actor, q, 1, "rejected", role)
         if rejected_status != 200 or not isinstance(rejected, dict):
             return 503, {"error": "directory_unavailable"}
 
