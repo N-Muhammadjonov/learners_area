@@ -249,6 +249,37 @@ class ApiClient:
     async def user_detail(self, actor: str, user_id: str) -> tuple[int, Any]:
         return await self._request("GET", f"/directory/{user_id}", params={"actorTelegramId": actor})
 
+    async def remove_telegram_contact(self, actor: str, telegram_id: str) -> tuple[int, Any]:
+        return await self._request("POST", f"/contacts/{telegram_id}/remove", json={
+            "actorTelegramId": actor,
+        })
+
+    async def student_results(self, actor: str, user_id: str) -> tuple[int, Any]:
+        return await self._request("GET", f"/directory/{user_id}/results", params={
+            "actorTelegramId": actor,
+        })
+
+    async def student_results_document(self, actor: str, user_id: str, fmt: str) -> tuple[int, bytes]:
+        if fmt not in ("pdf", "docx"):
+            return 400, b""
+        # Never pass student archives through a public URL or a chat-visible token.
+        session = await self.session()
+        async with session.get(
+            f"{self.base_url}/directory/{user_id}/results",
+            params={"actorTelegramId": actor, "format": fmt},
+            timeout=aiohttp.ClientTimeout(total=45, connect=5),
+        ) as response:
+            if response.status != 200:
+                return response.status, b""
+            expected = "application/pdf" if fmt == "pdf" else "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            if response.content_type != expected:
+                return 502, b""
+            if int(response.headers.get("Content-Length", "0") or "0") > 8 * 1024 * 1024:
+                return 413, b""
+            data = await response.content.read(8 * 1024 * 1024 + 1)
+            return (200, data) if len(data) <= 8 * 1024 * 1024 else (413, b"")
+
+
     async def user_action(self, user_id: str, path: str, payload: dict[str, Any]) -> tuple[int, Any]:
         return await self._request("POST", f"/directory/{user_id}/{path}", json=payload)
 
