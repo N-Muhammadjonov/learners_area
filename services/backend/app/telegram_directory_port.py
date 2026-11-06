@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 from datetime import datetime, timezone
 from fastapi import APIRouter,Request
+from fastapi.responses import Response
 from . import main as core
 from .internal_bot_ready_port import verify_bot
 from .telegram_admins_port import actor_for,denied_response,audit,effective_owner_id
@@ -239,5 +240,121 @@ async def directory_status(req:Request,userId:str):
               '/app' if status=='active' else '/pending')
         return core.j({'ok':True,'status':status})
 
+
+
+@router.post('/api/internal/telegram/contacts/{telegramUserId}/remove')
+async def remove_unlinked_telegram_contact(req:Request, telegramUserId:str):
+    """Deactivate a Telegram-only contact; website accounts are not affected."""
+    denied=verify_bot(req)
+    if denied is not None:return denied
+    from .telegram_preferences_port import valid_actor
+    if not valid_actor(telegramUserId):return core.j({'error':'not_found'},404)
+    body=await core.payload(req);body=body if isinstance(body,dict) else {}
+    db=await core.pool()
+    async with db.acquire() as conn:
+        actor,error=await actor_for(conn,body.get('actorTelegramId'),'MANAGE_USERS',True)
+        if error:return denied_response(error)
+        if telegramUserId==await effective_owner_id(conn):return core.j({'error':'primary_owner_protected'},409)
+        record=await conn.fetchrow('SELECT id,linked_user_id,removed_at FROM telegram_contacts WHERE telegram_user_id=$1',telegramUserId)
+        if not record:return core.j({'error':'not_found'},404)
+        # A linked contact must use /directory/{userId}/remove, which has its
+        # separate protection and account-scoped audit requirements.
+        linked=await conn.fetchval('SELECT id FROM users WHERE telegram_id=$1 LIMIT 1',telegramUserId)
+        if record['linked_user_id'] or linked:return core.j({'error':'account_linked'},409)
+        if record['removed_at']:return core.j({'ok':True,'already':True})
+        async with conn.transaction():
+            await conn.execute('''UPDATE telegram_contacts SET removed_at=NOW(),phone_number=NULL,
+                phone_verified_at=NULL,updated_at=NOW() WHERE telegram_user_id=$1''',telegramUserId)
+            await audit(conn,actor,'telegram.bot_contact_removed','telegram_contact',record['id'],{'targetTelegramId':telegramUserId})
+        return core.j({'ok':True,'removed':True})
+
+
+RESULT_QUERIES={
+    'Listening':"""SELECT score,total_questions,status::text AS status,submitted_at AS happened
+        FROM listening_attempts WHERE user_id=$1 ORDER BY submitted_at DESC NULLS LAST LIMIT 30""",
+    'Reading':"""SELECT score,total_questions,status::text AS status,submitted_at AS happened
+        FROM reading_attempts WHERE user_id=$1 ORDER BY submitted_at DESC NULLS LAST LIMIT 30""",
+    'Writing':"""SELECT word_count,status::text AS status,submitted_at AS happened
+        FROM writing_submissions WHERE user_id=$1 ORDER BY submitted_at DESC NULLS LAST LIMIT 30""",
+    'Speaking':"""SELECT part::text AS part,status::text AS status,submitted_at AS happened
+        FROM speaking_attempts WHERE user_id=$1 ORDER BY submitted_at DESC NULLS LAST LIMIT 30""",
+    'Mock':"""SELECT raw_score,estimated_band,status,submitted_at AS happened
+        FROM mock_attempts WHERE user_id=$1 ORDER BY submitted_at DESC NULLS LAST LIMIT 30""",
+    'Evaluation':"""SELECT source_type,overall_estimate,checked_by_name,created_at AS happened
+        FROM evaluations WHERE user_id=$1 ORDER BY created_at DESC LIMIT 30""",
+}
+
+
+async def _authorized_results(conn,telegram_actor,user_id):
+    """Never infer academic access from bot admin permission alone."""
+    actor,error=await actor_for(conn,telegram_actor,'VIEW_USERS',True)
+    if error:return None,None,denied_response(error)
+    subject=await conn.fetchrow('SELECT id,name,role FROM users WHERE id=$1',user_id)
+    if not subject or subject['role']!='student':return None,None,core.j({'error':'not_found'},404)
+    linked=await conn.fetchrow('SELECT id,role,account_status FROM users WHERE telegram_id=$1',telegram_actor)
+    if not linked or linked['account_status']!='active':
+        return None,None,core.j({'error':'forbidden'},403)
+    if linked['role']=='owner' and actor['isPrimaryOwner']:
+        return actor,subject,None
+    if linked['role']=='teacher':
+        assigned=await conn.fetchval("""SELECT 1 FROM teacher_student_links
+           WHERE teacher_user_id=$1 AND student_user_id=$2 LIMIT 1""",linked['id'],subject['id'])
+        if assigned:return actor,subject,None
+    return None,None,core.j({'error':'forbidden'},403)
+
+
+async def _student_result_lines(conn,subject):
+    from .db import row_to_dict
+    lines=[]
+    counts={}
+    for skill,sql in RESULT_QUERIES.items():
+        rows=await conn.fetch(sql,subject['id'])
+        counts[skill]=len(rows)
+        lines.append(skill+': '+str(len(rows))+' recent records')
+        for row in rows:
+            record=row_to_dict(row)
+            fields=', '.join(k+': '+str(v) for k,v in record.items() if v is not None)
+            lines.append('  '+fields[:450])
+    return counts,lines
+
+
+@router.get('/api/internal/telegram/directory/{userId}/results')
+async def directory_results(req:Request,userId:str):
+    """Owner/assigned-teacher academic summary and on-demand PDF/DOCX export.
+
+    Do not return a public file URL. The bot receives bytes via its shared-secret
+    channel and delivers to the already authorized Telegram actor.
+    """
+    denied=verify_bot(req)
+    if denied is not None:return denied
+    if not uuid_ok(userId):return core.j({'error':'not_found'},404)
+    actor_id=req.query_params.get('actorTelegramId')
+    fmt=req.query_params.get('format') or 'summary'
+    if fmt not in ('summary','pdf','docx'):return core.j({'error':'invalid_format'},400)
+    db=await core.pool()
+    async with db.acquire() as conn:
+        actor,subject,error=await _authorized_results(conn,actor_id,userId)
+        if error is not None:return error
+        if fmt!='summary':
+            from .rate_limit import RULES,async_counter as counter,too_many
+            RULES.setdefault('telegram_results_export',(4,60))
+            limited=await counter('telegram_results_export',actor_id,consume=True)
+            if limited:return too_many(limited)
+        counts,lines=await _student_result_lines(conn,subject)
+        if fmt=='summary':
+            return core.j({'studentName':subject['name'],'counts':counts})
+        from .step36_student_export import pdf_bytes,docx_bytes
+        import uuid
+        title='Learners Area - '+subject['name']+' - academic results'
+        content=pdf_bytes(title,lines,userId) if fmt=='pdf' else docx_bytes(title,lines)
+        # One export request is one auditable disclosure of learner information.
+        import hashlib
+        await audit(conn,actor,'report.downloaded','student',subject['id'],{
+            'format':fmt,'source':'telegram_bot','bytes':len(content),
+            'sha256':hashlib.sha256(content).hexdigest()})
+    media='application/pdf' if fmt=='pdf' else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    return Response(content,media_type=media,headers={
+        'Content-Disposition':f'attachment; filename="student-results-{userId}.{fmt}"',
+        'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'})
 
 def install():core.app.include_router(router)
