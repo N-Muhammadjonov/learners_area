@@ -434,6 +434,10 @@ async def remove_telegram_only_contact(callback: CallbackQuery, state: FSMContex
 @panel_router.callback_query(F.data.startswith("upr:"))
 async def user_results(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
+    # Never disclose private learner information in a group or channel.
+    if getattr(getattr(callback.message, "chat", None), "type", None) != "private":
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
     user_id = (callback.data or "").split(":", 1)[1]
     is_owner = bool((bot_access or {}).get("isPrimaryOwner") and (db_user or {}).get("role") == "owner")
     is_teacher = bool((db_user or {}).get("role") == "teacher" and
@@ -465,6 +469,9 @@ async def user_results(callback: CallbackQuery, db_user: dict | None = None, bot
 @panel_router.callback_query(F.data.startswith("upf:"))
 async def download_user_results(callback: CallbackQuery, bot_access: dict | None = None, db_user: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
+    if getattr(getattr(callback.message, "chat", None), "type", None) != "private":
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
     parts = (callback.data or "").split(":", 2)
     if len(parts) != 3 or parts[1] not in {"pdf", "docx"}:
         await callback.answer(t(lang, "error"), show_alert=True)
