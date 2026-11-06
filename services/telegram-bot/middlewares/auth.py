@@ -86,21 +86,34 @@ class AuthMiddleware(BaseMiddleware):
                 user = payload.get("user")
                 bot_access = payload.get("botAccess") or bot_access
                 contact = payload.get("contact")
+            # Avoid an extra database write for every command and button-like
+            # message. Only refresh contact metadata when absent, changed, or
+            # when /start explicitly reactivates the bot relationship.
             if isinstance(event, Message) and event.chat and not backend_error:
-                try:
-                    await api_client.sync_contact(
-                        {
-                            "telegramUserId": telegram_user_id,
-                            "chatId": str(event.chat.id),
-                            "username": from_user.username,
-                            "firstName": from_user.first_name,
-                            "lastName": from_user.last_name,
-                            "languageCode": from_user.language_code,
-                            "restarted": bool(event.text and event.text.startswith("/start")),
-                        }
-                    )
-                except Exception:
-                    pass
+                is_start = bool(event.text and event.text.split(maxsplit=1)[0].split("@")[0] == "/start")
+                needs_sync = (
+                    is_start or contact is None
+                    or str(contact.get("chatId") or "") != str(event.chat.id)
+                    or (contact.get("username") or None) != (from_user.username or None)
+                    or (contact.get("firstName") or None) != (from_user.first_name or None)
+                    or (contact.get("lastName") or None) != (from_user.last_name or None)
+                    or (contact.get("languageCode") or None) != (from_user.language_code or None)
+                )
+                if needs_sync:
+                    try:
+                        await api_client.sync_contact(
+                            {
+                                "telegramUserId": telegram_user_id,
+                                "chatId": str(event.chat.id),
+                                "username": from_user.username,
+                                "firstName": from_user.first_name,
+                                "lastName": from_user.last_name,
+                                "languageCode": from_user.language_code,
+                                "restarted": is_start,
+                            }
+                        )
+                    except Exception:
+                        pass
         data["db_user"] = user
         data["bot_access"] = bot_access
         data["contact"] = contact
