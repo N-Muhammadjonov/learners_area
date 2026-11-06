@@ -207,3 +207,96 @@ async def test_directory_outage_shows_error_without_replacing_list():
         await panel.users_home(event, AsyncMock(), bot_access=ACCESS)
     event.message.edit_text.assert_not_awaited()
     assert event.answer.await_args.kwargs["show_alert"] is True
+
+
+def _raw_people_page(number, entries, page_size=10):
+    start = (number - 1) * page_size
+    return {
+        "items": entries[start:start + page_size],
+        "page": number,
+        "pageSize": page_size,
+        "total": len(entries),
+    }
+
+
+@pytest.mark.asyncio
+async def test_rejected_accounts_are_omitted_from_people_pages():
+    from services.api_client import api_client
+
+    entries = [person(i, accountStatus="rejected" if i in {2, 5, 11, 19} else "active")
+               for i in range(1, 24)]
+    rejected = [item for item in entries if item["accountStatus"] == "rejected"]
+
+    async def raw(actor, query, number, status, role):
+        assert actor == "12345"
+        if status == "rejected":
+            return 200, _raw_people_page(number, rejected)
+        assert status == ""
+        return 200, _raw_people_page(number, entries)
+
+    with patch.object(api_client, "_raw_search_users", AsyncMock(side_effect=raw)) as mocked:
+        code1, first = await api_client.search_users("12345", "", 1)
+        code2, second = await api_client.search_users("12345", "", 2)
+
+    assert code1 == code2 == 200
+    assert first["total"] == second["total"] == 19
+    assert len(first["items"]) == 10
+    assert len(second["items"]) == 9
+    assert all(row["accountStatus"] != "rejected" for row in first["items"] + second["items"])
+    assert [row["id"] for row in first["items"] + second["items"]] == [
+        row["id"] for row in entries if row["accountStatus"] != "rejected"
+    ]
+    assert mocked.await_count >= 4
+
+
+@pytest.mark.asyncio
+async def test_rejected_directory_search_is_filtered_and_counts_correctly():
+    from services.api_client import api_client
+
+    entries = [person(1, accountStatus="rejected"), person(2, telegram=True),
+               person(3, accountStatus="active")]
+    rejected = [entries[0]]
+
+    async def raw(actor, query, number, status, role):
+        assert query == "abc"
+        return 200, _raw_people_page(number, rejected if status == "rejected" else entries)
+
+    with patch.object(api_client, "_raw_search_users", AsyncMock(side_effect=raw)):
+        code, result = await api_client.search_users("12345", "abc", 1)
+
+    assert code == 200
+    assert result["total"] == 2
+    assert [item["id"] for item in result["items"]] == ["account-2", "account-3"]
+
+
+@pytest.mark.asyncio
+async def test_directory_rejected_filter_failure_does_not_show_users():
+    from services.api_client import api_client
+
+    async def raw(actor, query, number, status, role):
+        if status == "rejected":
+            return 503, {"error": "database_unavailable"}
+        return 200, _raw_people_page(number, [person(1, accountStatus="rejected")])
+
+    with patch.object(api_client, "_raw_search_users", AsyncMock(side_effect=raw)):
+        code, result = await api_client.search_users("12345", "", 1)
+
+    assert code == 503
+    assert not result.get("items")
+
+
+@pytest.mark.asyncio
+async def test_directory_no_rejected_accounts_preserves_backend_page():
+    from services.api_client import api_client
+
+    entries = [person(i, accountStatus="active") for i in range(1, 24)]
+
+    async def raw(actor, query, number, status, role):
+        return 200, _raw_people_page(number, [] if status == "rejected" else entries)
+
+    with patch.object(api_client, "_raw_search_users", AsyncMock(side_effect=raw)) as raw_mock:
+        code, result = await api_client.search_users("12345", "", 2)
+
+    assert code == 200
+    assert result == _raw_people_page(2, entries)
+    assert raw_mock.await_count == 3
