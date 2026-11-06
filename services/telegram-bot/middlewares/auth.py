@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from time import monotonic
 from typing import Any, Awaitable, Callable
 
 from aiogram import BaseMiddleware
@@ -9,6 +10,8 @@ from security_policy import is_sensitive_update
 from services.api_client import api_client
 
 _SEEN: OrderedDict[int, None] = OrderedDict()
+_CONTACT_SYNCED_AT: OrderedDict[str, float] = OrderedDict()
+_CONTACT_SYNC_INTERVAL = 300.0  # Preserve last_seen on active users, not every message.
 
 
 def _remember(update_id: int) -> bool:
@@ -91,8 +94,11 @@ class AuthMiddleware(BaseMiddleware):
             # when /start explicitly reactivates the bot relationship.
             if isinstance(event, Message) and event.chat and not backend_error:
                 is_start = bool(event.text and event.text.split(maxsplit=1)[0].split("@")[0] == "/start")
+                now = monotonic()
+                last_sync = _CONTACT_SYNCED_AT.get(telegram_user_id)
                 needs_sync = (
-                    is_start or contact is None
+                    is_start or contact is None or last_sync is None
+                    or now - last_sync >= _CONTACT_SYNC_INTERVAL
                     or str(contact.get("chatId") or "") != str(event.chat.id)
                     or (contact.get("username") or None) != (from_user.username or None)
                     or (contact.get("firstName") or None) != (from_user.first_name or None)
@@ -112,6 +118,10 @@ class AuthMiddleware(BaseMiddleware):
                                 "restarted": is_start,
                             }
                         )
+                        _CONTACT_SYNCED_AT[telegram_user_id] = now
+                        _CONTACT_SYNCED_AT.move_to_end(telegram_user_id)
+                        while len(_CONTACT_SYNCED_AT) > 5000:
+                            _CONTACT_SYNCED_AT.popitem(last=False)
                     except Exception:
                         pass
         data["db_user"] = user
