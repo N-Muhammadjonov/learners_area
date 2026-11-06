@@ -138,3 +138,37 @@ def test_only_primary_owner_can_manage_channels():
     assert _is_owner({"isPrimaryOwner": False, "permissions": ["BOT_SETTINGS"]}) is False
     assert _is_owner({"isPrimaryOwner": False, "permissions": ["VIEW_USERS"]}) is False
     assert _is_owner(None) is False
+
+
+@pytest.mark.asyncio
+async def test_metadata_sync_is_throttled_without_caching_authority():
+    from datetime import datetime, timezone
+    from middlewares import auth as middleware
+
+    middleware._CONTACT_SYNCED_AT.clear()
+    message = Message(
+        message_id=5,
+        date=datetime.now(timezone.utc),
+        chat=Chat(id=12345, type="private"),
+        from_user=User(id=12345, is_bot=False, first_name="Test", language_code="uz"),
+        text="/menu",
+    )
+    payload = {
+        "user": {"name": "Test", "accountStatus": "active"},
+        "botAccess": {"permissions": []},
+        "contact": {
+            "chatId": "12345", "username": None, "firstName": "Test",
+            "lastName": None, "languageCode": "uz",
+        },
+    }
+    handler = AsyncMock()
+    try:
+        with patch.object(middleware.api_client, "get_user", AsyncMock(return_value=payload)) as getter:
+            with patch.object(middleware.api_client, "sync_contact", AsyncMock(return_value=None)) as sync:
+                auth_middleware = middleware.AuthMiddleware()
+                await auth_middleware(handler, message, {})
+                await auth_middleware(handler, message, {})
+                assert getter.await_count == 2  # Authorization is always freshly checked.
+                assert sync.await_count == 1  # Metadata is not rewritten every update.
+    finally:
+        middleware._CONTACT_SYNCED_AT.clear()
