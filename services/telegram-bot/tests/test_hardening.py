@@ -27,5 +27,8 @@ def test_sensitive_updates_fail_closed_when_dedup_is_unknown():
     assert is_sensitive_update("ust:suspend:1", None) is True
     assert is_sensitive_update("dmok", None) is True
     assert is_sensitive_update("bcok", None) is True
+    assert is_sensitive_update("tgr:123456", None) is True
+    assert is_sensitive_update("upf:pdf:00000000-0000-0000-0000-000000000001", None) is True
+    assert is_sensitive_update("upr:00000000-0000-0000-0000-000000000001", None) is True
     assert is_sensitive_update("m:home", None) is False
     assert is_sensitive_update(None, "/menu") is False
