@@ -26,14 +26,68 @@ def message_with_contact(sender_id=12345, contact_user_id=12345, phone="99890123
 
 
 @pytest.mark.asyncio
-async def test_start_requests_native_contact_immediately():
+async def test_start_requests_own_contact_only_when_phone_not_verified():
     message = message_with_contact()
     state = AsyncMock()
-    await cmd_start(message, CommandObject(command="start", args=None), state=state)
+    with patch("handlers.auth.api_client") as api:
+        api.auth_preflight = AsyncMock(return_value=(403, {"error": "phone_required"}))
+        await cmd_start(message, CommandObject(command="start", args=None), state=state)
+        api.auth_preflight.assert_awaited_once_with("12345", "")
     state.set_state.assert_awaited_once()
     keyboard = message.answer.await_args.kwargs["reply_markup"]
     assert keyboard.keyboard[0][0].request_contact is True
     assert "Telefon" in message.answer.await_args.args[0]
+
+
+@pytest.mark.asyncio
+async def test_repeated_start_preserves_verified_phone_and_shows_home():
+    message = message_with_contact()
+    state = AsyncMock()
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.auth_preflight = AsyncMock(return_value=(200, {"ok": True}))
+        await cmd_start(message, CommandObject(command="start", args=None), state=state)
+        api.save_verified_phone.assert_not_called()
+        home.assert_awaited_once()
+        state.set_state.assert_not_called()
+        assert message.answer.await_args.kwargs["reply_markup"].remove_keyboard is True
+
+
+@pytest.mark.asyncio
+async def test_start_with_verified_phone_confirms_login_intent_without_contact():
+    message = message_with_contact()
+    state = AsyncMock()
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.auth_preflight = AsyncMock(return_value=(200, {"ok": True}))
+        api.confirm_intent = AsyncMock(return_value=True)
+        await cmd_start(message, CommandObject(command="start", args="safe-deeplink"), state=state)
+        api.confirm_intent.assert_awaited_once()
+        state.set_state.assert_not_called()
+        home.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_start_unverified_backend_does_not_reset_verification():
+    message = message_with_contact()
+    state = AsyncMock()
+    with patch("handlers.auth.api_client") as api:
+        api.auth_preflight = AsyncMock(return_value=(503, {"error": "membership_unavailable"}))
+        await cmd_start(message, CommandObject(command="start", args=None), state=state)
+    assert "Telefon" not in message.answer.await_args.args[0]
+    state.set_state.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_start_requires_channels_but_not_phone_for_verified_contact():
+    message = message_with_contact()
+    state = AsyncMock()
+    with patch("handlers.auth.api_client") as api:
+        api.auth_preflight = AsyncMock(return_value=(403, {"error": "not_subscribed", "requiredChannels": [
+            {"id": "-100123456", "title": "Learners", "url": "https://t.me/learners"}
+        ]}))
+        await cmd_start(message, CommandObject(command="start", args=None), state=state)
+    assert "📢" in message.answer.await_args.args[0]
+    state.set_state.assert_not_called()
+    assert message.answer.await_args.kwargs["reply_markup"].inline_keyboard[0][0].url == "https://t.me/learners"
 
 
 @pytest.mark.asyncio
@@ -69,10 +123,11 @@ async def test_forwarded_contact_rejected_even_when_id_matches():
 
 
 @pytest.mark.asyncio
-async def test_web_login_intent_waits_for_contact():
+async def test_web_login_intent_waits_for_unverified_contact():
     message = message_with_contact()
     state = AsyncMock()
     with patch("handlers.auth.api_client") as api:
+        api.auth_preflight = AsyncMock(return_value=(403, {"error": "phone_required"}))
         await cmd_start(message, CommandObject(command="start", args="safe-deeplink"), state=state)
         api.confirm_intent.assert_not_called()
         state.update_data.assert_awaited_once_with(pending_token="safe-deeplink")
