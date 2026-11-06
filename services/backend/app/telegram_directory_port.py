@@ -255,16 +255,19 @@ async def remove_unlinked_telegram_contact(req:Request, telegramUserId:str):
         actor,error=await actor_for(conn,body.get('actorTelegramId'),'MANAGE_USERS',True)
         if error:return denied_response(error)
         if telegramUserId==await effective_owner_id(conn):return core.j({'error':'primary_owner_protected'},409)
-        record=await conn.fetchrow('SELECT id,linked_user_id,removed_at FROM telegram_contacts WHERE telegram_user_id=$1',telegramUserId)
-        if not record:return core.j({'error':'not_found'},404)
-        # A linked contact must use /directory/{userId}/remove, which has its
-        # separate protection and account-scoped audit requirements.
-        linked=await conn.fetchval('SELECT id FROM users WHERE telegram_id=$1 LIMIT 1',telegramUserId)
-        if record['linked_user_id'] or linked:return core.j({'error':'account_linked'},409)
-        if record['removed_at']:return core.j({'ok':True,'already':True})
         async with conn.transaction():
-            await conn.execute('''UPDATE telegram_contacts SET removed_at=NOW(),phone_number=NULL,
-                phone_verified_at=NULL,updated_at=NOW() WHERE telegram_user_id=$1''',telegramUserId)
+            # Lock the target contact before checking its linked identity.
+            # Removing an unlinked contact must never alter a website account.
+            record=await conn.fetchrow('''SELECT id,linked_user_id,removed_at FROM telegram_contacts
+                WHERE telegram_user_id=$1 FOR UPDATE''',telegramUserId)
+            if not record:return core.j({'error':'not_found'},404)
+            linked=await conn.fetchval('SELECT id FROM users WHERE telegram_id=$1 LIMIT 1',telegramUserId)
+            if record['linked_user_id'] or linked:return core.j({'error':'account_linked'},409)
+            if record['removed_at']:return core.j({'ok':True,'already':True})
+            result=await conn.execute('''UPDATE telegram_contacts SET removed_at=NOW(),phone_number=NULL,
+                phone_verified_at=NULL,updated_at=NOW()
+                WHERE telegram_user_id=$1 AND linked_user_id IS NULL''',telegramUserId)
+            if result!='UPDATE 1':return core.j({'error':'account_linked'},409)
             await audit(conn,actor,'telegram.bot_contact_removed','telegram_contact',record['id'],{'targetTelegramId':telegramUserId})
         return core.j({'ok':True,'removed':True})
 
@@ -289,7 +292,7 @@ async def _authorized_results(conn,telegram_actor,user_id):
     """Never infer academic access from bot admin permission alone."""
     actor,error=await actor_for(conn,telegram_actor,'VIEW_USERS',True)
     if error:return None,None,denied_response(error)
-    subject=await conn.fetchrow('SELECT id,name,role FROM users WHERE id=$1',user_id)
+    subject=await conn.fetchrow('SELECT id,name,role FROM users WHERE id=$1',core.uuid_value(user_id))
     if not subject or subject['role']!='student':return None,None,core.j({'error':'not_found'},404)
     linked=await conn.fetchrow('SELECT id,role,account_status FROM users WHERE telegram_id=$1',telegram_actor)
     if not linked or linked['account_status']!='active':
@@ -331,24 +334,33 @@ async def directory_results(req:Request,userId:str):
     actor_id=req.query_params.get('actorTelegramId')
     fmt=req.query_params.get('format') or 'summary'
     if fmt not in ('summary','pdf','docx'):return core.j({'error':'invalid_format'},400)
+    # Do not hold an open DB lease while invoking the rate limiter or
+    # rendering large documents. The limit can acquire its own connection.
+    if fmt!='summary':
+        from .rate_limit import RULES,async_counter as counter,too_many
+        RULES.setdefault('telegram_results_export',(4,60))
+        limited=await counter('telegram_results_export',str(actor_id),consume=True)
+        if limited:return too_many(limited)
     db=await core.pool()
     async with db.acquire() as conn:
         actor,subject,error=await _authorized_results(conn,actor_id,userId)
         if error is not None:return error
-        if fmt!='summary':
-            from .rate_limit import RULES,async_counter as counter,too_many
-            RULES.setdefault('telegram_results_export',(4,60))
-            limited=await counter('telegram_results_export',actor_id,consume=True)
-            if limited:return too_many(limited)
         counts,lines=await _student_result_lines(conn,subject)
-        if fmt=='summary':
-            return core.j({'studentName':subject['name'],'counts':counts})
-        from .step36_student_export import pdf_bytes,docx_bytes
-        import uuid
-        title='Learners Area - '+subject['name']+' - academic results'
+    if fmt=='summary':
+        return core.j({'studentName':subject['name'],'counts':counts},
+                      headers={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'})
+    from .step36_student_export import pdf_bytes,docx_bytes
+    from .rate_limit import RULES
+    import hashlib
+    title='Learners Area - '+subject['name']+' - academic results'
+    try:
         content=pdf_bytes(title,lines,userId) if fmt=='pdf' else docx_bytes(title,lines)
-        # One export request is one auditable disclosure of learner information.
-        import hashlib
+    except Exception:
+        return core.j({'error':'export_unavailable'},503,
+                      {'Cache-Control':'private, no-store'})
+    # Record the disclosure only after successfully producing the document.
+    # Fail closed: if audit persistence fails, do not send learner records.
+    async with db.acquire() as conn:
         await audit(conn,actor,'report.downloaded','student',subject['id'],{
             'format':fmt,'source':'telegram_bot','bytes':len(content),
             'sha256':hashlib.sha256(content).hexdigest()})
