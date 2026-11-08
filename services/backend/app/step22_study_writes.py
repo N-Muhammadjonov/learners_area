@@ -16,37 +16,72 @@ async def save_listening_draft(req:Request,id:str):
     ident=core.uuid_value(id)
     if not ident:return core.j({'error':'not_found'},404)
     b=await core.payload(req)
-    if not isinstance(b,dict) or not isinstance(b.get('answers'),dict) or not all(core.uuid_value(k) and isinstance(v,str) and len(v)<=500 for k,v in b['answers'].items()) or type(b.get('audioPosition')) not in (float,int) or not math.isfinite(b['audioPosition']) or not 0<=b['audioPosition']<=7200 or ('startAudio' in b and type(b['startAudio']) is not bool):
+    if (not isinstance(b,dict) or not isinstance(b.get('answers'),dict)
+        or not all(core.uuid_value(k) and isinstance(v,str) and len(v)<=500 for k,v in b['answers'].items())
+        or type(b.get('audioPosition')) not in (float,int)
+        or not math.isfinite(b['audioPosition']) or not 0<=b['audioPosition']<=7200
+        or ('startAudio' in b and type(b['startAudio']) is not bool)):
         return core.j({'error':'invalid_input'},400)
     db=await core.pool()
     async with db.acquire() as con:
+        # Avoid holding a row lock during content/sequence and answer-ID reads.
+        attempt=await con.fetchrow(
+            'SELECT test_id,content_version_id,status FROM listening_attempts WHERE id=$1 AND user_id=$2',
+            ident,u['id'])
+        if not attempt:return core.j({'error':'not_found'},404,PRIVATE)
+        if attempt['status']!='in_progress':return core.j({'error':'already_submitted'},409,PRIVATE)
+        detail=await test_detail(con,u,str(attempt['test_id']))
+        if detail=='sequence_locked':return core.j({'error':'sequence_locked'},403,PRIVATE)
+        if not detail:return core.j({'error':'not_found'},404,PRIVATE)
+        # JSONB path projection avoids sending/parsing the full package payload.
+        raw_duration=await con.fetchval(
+            "SELECT payload #>> '{audio,durationSec}' FROM listening_packages WHERE test_id=$1",
+            attempt['test_id'])
+        try: duration=float(raw_duration) if raw_duration is not None else None
+        except (ValueError,TypeError,OverflowError):duration=None
+        if duration is not None and math.isfinite(duration) and b['audioPosition']>duration:
+            return core.j({'error':'invalid_input'},400,PRIVATE)
+        if b['answers']:
+            # Same pinned revision -> legacy -> all precedence, in one query.
+            rows=await con.fetch("""
+                WITH mode AS (
+                  SELECT CASE
+                    WHEN $2::uuid IS NOT NULL AND EXISTS (
+                      SELECT 1 FROM listening_questions
+                      WHERE test_id=$1 AND content_version_id=$2
+                    ) THEN 1
+                    WHEN EXISTS (
+                      SELECT 1 FROM listening_questions
+                      WHERE test_id=$1 AND content_version_id IS NULL
+                    ) THEN 2 ELSE 3 END AS choice
+                )
+                SELECT q.id FROM listening_questions q CROSS JOIN mode m
+                WHERE q.test_id=$1
+                  AND (m.choice=3
+                    OR (m.choice=1 AND q.content_version_id=$2)
+                    OR (m.choice=2 AND q.content_version_id IS NULL))
+            """,attempt['test_id'],attempt['content_version_id'])
+            allowed={str(row['id']) for row in rows}
+            if any(k not in allowed for k in b['answers']):
+                return core.j({'error':'invalid_input'},400,PRIVATE)
         async with con.transaction():
-            attempt=await con.fetchrow('SELECT * FROM listening_attempts WHERE id=$1 AND user_id=$2 FOR UPDATE',ident,u['id'])
-            if not attempt:return core.j({'error':'not_found'},404,PRIVATE)
-            # Source gates sequence before parsing answers. This order is equivalent for valid input.
-            detail=await test_detail(con,u,str(attempt['test_id']))
-            if detail=='sequence_locked':return core.j({'error':'sequence_locked'},403)
-            if attempt['status']!='in_progress':return core.j({'error':'already_submitted'},409,PRIVATE)
-            pkg=await con.fetchrow('SELECT payload FROM listening_packages WHERE test_id=$1',attempt['test_id'])
-            content=pkg['payload'] if pkg else None
-            if isinstance(content,str):content=json.loads(content)
-            duration=((content or {}).get('audio') or {}).get('durationSec')
-            if type(duration) in (float,int) and b['audioPosition']>duration:return core.j({'error':'invalid_input'},400,PRIVATE)
-            # The same explicit precedence as listeningQuestionsForAttempt():
-            # bound revision, legacy rows, then all rows. Never mingle revisions.
-            ids=[]
-            if attempt['content_version_id']:
-                ids=await con.fetch('SELECT id FROM listening_questions WHERE test_id=$1 AND content_version_id=$2',attempt['test_id'],attempt['content_version_id'])
-            if not ids:ids=await con.fetch('SELECT id FROM listening_questions WHERE test_id=$1 AND content_version_id IS NULL',attempt['test_id'])
-            if not ids:ids=await con.fetch('SELECT id FROM listening_questions WHERE test_id=$1',attempt['test_id'])
-            allowed={str(r['id']) for r in ids}
-            if any(k not in allowed for k in b['answers']):return core.j({'error':'invalid_input'},400,PRIVATE)
-            old=await con.fetchrow('SELECT audio_started_at,audio_position FROM listening_drafts WHERE attempt_id=$1',ident)
-            await con.execute('''INSERT INTO listening_drafts(attempt_id,answers,audio_position,audio_started_at)
-               VALUES($1,$2::jsonb,$3,CASE WHEN $4 THEN NOW() ELSE NULL END)
-               ON CONFLICT(attempt_id) DO UPDATE SET answers=excluded.answers,
-                 audio_position=GREATEST(listening_drafts.audio_position,excluded.audio_position),
-                 audio_started_at=COALESCE(listening_drafts.audio_started_at,excluded.audio_started_at),updated_at=NOW()''',ident,json.dumps(b['answers']),b['audioPosition'],b.get('startAudio') is True)
+            # Serialize only final status verification and the upsert; a
+            # concurrent submit must not be overwritten by a later draft.
+            locked=await con.fetchrow(
+                'SELECT status FROM listening_attempts WHERE id=$1 AND user_id=$2 FOR UPDATE',
+                ident,u['id'])
+            if not locked:return core.j({'error':'not_found'},404,PRIVATE)
+            if locked['status']!='in_progress':return core.j({'error':'already_submitted'},409,PRIVATE)
+            await con.execute('''INSERT INTO listening_drafts(
+                  attempt_id,answers,audio_position,audio_started_at)
+                VALUES($1,$2::jsonb,$3,CASE WHEN $4 THEN NOW() ELSE NULL END)
+                ON CONFLICT(attempt_id) DO UPDATE SET
+                  answers=excluded.answers,
+                  audio_position=excluded.audio_position,
+                  audio_started_at=COALESCE(
+                    listening_drafts.audio_started_at,excluded.audio_started_at),
+                  updated_at=NOW()''',
+                  ident,json.dumps(b['answers']),b['audioPosition'],b.get('startAudio') is True)
     return core.j({'ok':True},headers=PRIVATE)
 
 def install():core.app.include_router(router)
