@@ -18,6 +18,6 @@ export function authShell(context,{title,subtitle,children,footer}){
  style.rel='stylesheet';style.href='/modules/auth-redesign.css';style.dataset.loginDesign='';document.head.append(style);
  signal?.addEventListener('abort',()=>style.remove(),{once:true});
  const card=el('div',{class:'card p-6 la-auth-card'},el('h1',{class:'font-display text-xl text-ink-900'},title),subtitle?el('p',{'data-auth-subtitle':'',class:'mt-1 text-sm text-ink-500'},subtitle):null,el('div',{class:'mt-5'},children));
- const body=el('div',{class:'la-auth-content'},el('a',{href:'/',class:'la-auth-brand','aria-label':dict.shell.telegramBrand,'data-auth-brand':''},brandBlock('justify-center')),loginSkillIcons(),card,footer?el('div',{class:'la-auth-footer'},footer):null);
+ const body=el('div',{class:'la-auth-content'},el('div',{class:'la-auth-brand','data-auth-brand':''},brandBlock('justify-center')),loginSkillIcons(),card,footer?el('div',{class:'la-auth-footer'},footer):null);
  return el('div',{'data-shell':'','data-auth-shell':'',class:'la-auth-redesign'},landscape(),controls(context,{showTheme:false}),body);
 }
