@@ -1549,7 +1549,9 @@ html[data-theme] #root [data-campus-shell] :is(
   .badge-locked,
   [data-academic-state],
   [data-listening-answer-progress],
-  [data-video-card-progress]
+  [data-video-card-progress],
+  [data-route-usable="speaking-history"] .badge,
+  [data-writing-native] .badge
 ) {
   border: 1px solid #38bdf8 !important;
   border-radius: 9999px;
