@@ -6,17 +6,16 @@ import {readingDurationSeconds,readingRemainingSeconds} from '../../js/generated
 import {readingHighlighted} from './lesson-text.js';
 import {groupHeading,groupQuestions,questionCard} from './questions.js';
 import {Button} from '../shared/presentation.js';
-import {academicWorkspace} from './academic-workspace.js';
+import {createWorkspace} from './workspace.js';
 const SAVE_DEBOUNCE_MS=900;
 const formatDuration=ms=>{const total=Math.max(0,Math.floor(ms/1000)),h=Math.floor(total/3600),m=Math.floor((total%3600)/60),s=total%60,pad=n=>String(n).padStart(2,'0');return h>0?`${h}:${pad(m)}:${pad(s)}`:`${pad(m)}:${pad(s)}`;};
 /** Original ReadingExam.tsx + ReadingWorkspace.tsx as one native controller. Nothing here grades: the server does
  * that once, on submit. Autosave: one PATCH in flight, a change during a save is saved right after, a 409 locks the
  * screen, a 410 freezes it as expired, and the last change is sent with keepalive when the page is hidden. */
 export function mountExam(context,p){
- const {root,signal,dict}=context,t=dict.readingPractice,host=el('div',{'data-native-view':'reading-attempt',class:'flex flex-col gap-4','data-reading-practice':true,'data-attempt':p.attemptId});
+ const {root,signal,dict}=context,t=dict.readingPractice,host=el('div',{'data-native-view':'reading-attempt',class:'reading-fill','data-reading-practice':true,'data-attempt':p.attemptId});
  root.append(host);
  const durationSeconds=readingDurationSeconds(p.suggestedMinutes);
- const startedMs=Date.parse(p.startedAt);
  const state={activePart:0,pending:null,answers:{...p.savedAnswers},pane:'passage',saveState:Object.keys(p.savedAnswers).length?'saved':'idle',savedAt:null,submitting:false,error:null,now:Date.now(),expiredByServer:false,fontSize:16,split:58,locked:false};
  let inFlight=false,dirty=false,timer=null,alive=true,expiredShown=false;
  const remaining=()=>readingRemainingSeconds(p.startedAt,durationSeconds,state.now);
@@ -89,23 +88,61 @@ export function mountExam(context,p){
   return el('span',{class:'flex items-center gap-1.5 text-sm text-ink-500','data-save-state':s},s==='saved'?IconCheck({class:'text-[16px] text-band-good'}):null,label);
  }
 
+
  let passageCache=null;
+ const partLabel=index=>dict.generalReading.passageN.replace('{n}',String(index+1));
+ const activeRange=()=>{
+  const qs=visibleQuestions(),numbers=qs.map(q=>q.questionNo??q.order).filter(n=>Number.isFinite(n));
+  return numbers.length?dict.readingWorkspace.questionRange.replace('{from}',String(Math.min(...numbers))).replace('{to}',String(Math.max(...numbers))):'';
+ };
+ function buildNavigation(){
+  const nav=el('div',{class:'reading-part-navigation','data-academic-exam-navigation':''});
+  const partButtons=el('div',{class:'reading-part-navigation'});
+  for(let i=0;i<(parts.length||1);i++){
+   const button=el('button',{type:'button',class:'reading-part-button','aria-pressed':String(i===state.activePart),'data-academic-part':String(i+1)},partLabel(i));
+   button.addEventListener('click',()=>{if(i===state.activePart)return;state.activePart=i;draw();const pane=ws.root.querySelector('.reading-workspace-questions');if(pane)pane.scrollTop=0;},{signal});
+   partButtons.append(button);
+  }
+  const numbers=el('div',{class:'reading-question-numbers','data-academic-question-numbers':''});
+  for(const q of visibleQuestions()){
+   const no=q.questionNo??q.order,button=el('button',{type:'button','data-reading-question-nav':q.id,'data-answered':(state.answers[q.id]??'').trim()?'true':'false','aria-label':`${dict.reading.yourAnswer} ${no}`},String(no));
+   button.addEventListener('click',()=>focusQuestion(q.id),{signal});
+   numbers.append(button);
+  }
+  nav.append(partButtons,numbers);return nav;
+ }
  function draw(){
   if(signal.aborted)return;
-  const expired=timeExpired();
-  const shownParagraphs=parts[state.activePart]?.paragraphs??p.paragraphs,shownBody=parts[state.activePart]?.body??p.passageBody,shownTitle=parts[state.activePart]?.title??p.passageTitle;
-  const highlightOpts={scope:p.attemptId};
-  const buildPassage=()=>el('div',{class:'contents'},el('div',{class:'flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3'},el('h2',{class:'font-display text-base text-ink-900'},shownTitle)),el('div',{class:'flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2','data-passage-body':true},shownParagraphs.length?shownParagraphs.map(paragraph=>el('div',{class:'flex gap-3','data-paragraph':paragraph.label??'none'},paragraph.label?el('span',{class:'mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700'},paragraph.label):el('span',{class:'w-7 shrink-0','aria-hidden':'true'}),el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:paragraph.id,text:paragraph.text,className:`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote?'italic':''}`})))):el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:`part:${state.activePart}`,text:shownBody,className:'academic-text text-sm leading-relaxed text-ink-700'}))));
-  // The passage text is rebuilt only when the part changes; an answer or a save never rebuilds it.
+  const expired=timeExpired(),current=parts[state.activePart],shownParagraphs=current?.paragraphs??p.paragraphs;
+  const shownBody=current?.body??p.passageBody,shownTitle=current?.title??p.passageTitle;
+  const highlightOpts={scope:p.attemptId},range=activeRange();
+  const buildPassage=()=>el('div',{},
+   el('h2',{class:'reading-pane-heading'},partLabel(state.activePart)),
+   range?el('p',{class:'reading-part-instruction'},range):null,
+   el('h3',{class:'reading-passage-title'},shownTitle),
+   el('div',{class:'reading-passage-text','data-passage-body':true},
+    shownParagraphs.length?shownParagraphs.map(paragraph=>el('div',{class:'reading-paragraph','data-paragraph':paragraph.label??'none'},
+     paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
+     readingHighlighted(context,{...highlightOpts,textKey:paragraph.id,text:paragraph.text,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))):
+     readingHighlighted(context,{...highlightOpts,textKey:`part:${state.activePart}`,text:shownBody,className:'academic-text'})));
   const passagePane=passageCache?.part===state.activePart?passageCache.node:(passageCache={part:state.activePart,node:buildPassage()}).node;
   const orderedNow=orderedBlocks();
-  const answered=p.questions.filter(q=>(state.answers[q.id]??'').trim()!=='').length;
-  const questionsPane=el('div',{class:'contents'},expired?el('p',{role:'status','data-attempt-expired':true,class:'rounded-[12px] border border-band-warn/40 bg-band-warn/10 px-3 py-2 text-sm text-ink-700'},t.timeExpired):null,el('div',{class:'flex flex-col gap-3 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2'},el('fieldset',{class:'flex min-w-0 flex-col gap-3 border-0 p-0',disabled:expired?true:null},orderedNow.blocks.map(({group,questions})=>el('div',{class:'flex flex-col gap-3','data-question-group':group.position},groupHeading(dict,group),groupQuestions(context,{dict,group,questions,answers:state.answers,onChange:setAnswer}))),orderedNow.orphan.length?el('div',{class:'flex flex-col gap-3','data-question-group':'ungrouped'},orderedNow.orphan.map(question=>questionCard(context,{dict,question,group:null,value:state.answers[question.id]??'',onChange:v=>setAnswer(question.id,v),inputId:`answer-${question.id}`}))):null)));
-  const submitButton=Button({variant:'primary',disabled:state.submitting||state.saveState==='locked','data-submit-attempt':true,children:state.submitting?dict.common.loading:dict.reading.submit});
-  submitButton.addEventListener('click',()=>void submit());
+  const questionsPane=el('div',{'data-academic-exam-questions':''},
+   el('h2',{class:'reading-pane-heading'},range||partLabel(state.activePart)),
+   expired?el('p',{role:'status','data-attempt-expired':true,class:'reading-error'},t.timeExpired):null,
+   el('fieldset',{class:'reading-question-blocks',disabled:expired?true:null},
+    orderedNow.blocks.map(({group,questions})=>el('section',{class:'reading-question-group','data-question-group':group.position},
+     groupHeading(dict,group),...groupQuestions(context,{dict,group,questions,answers:state.answers,onChange:setAnswer}))),
+    orderedNow.orphan.length?el('section',{class:'reading-question-group','data-question-group':'ungrouped'},orderedNow.orphan.map(question=>questionCard(context,{dict,question,group:null,value:state.answers[question.id]??'',onChange:v=>setAnswer(question.id,v),inputId:`answer-${question.id}`}))):null));
+  const answered=p.questions.filter(q=>(state.answers[q.id]??'').trim()).length;
   const progress=t.answered.replace('{answered}',String(answered)).replace('{total}',String(p.questions.length));
-  const action=el('div',{class:'flex flex-col gap-2 rounded-[16px] border border-ink-100 bg-paper-raised p-4'},el('div',{class:'flex items-center justify-between text-sm text-ink-700'},el('span',{},progress),state.saveState==='error'?el('span',{class:'text-band-bad'},t.unsavedWarning):null),el('p',{class:'text-xs text-ink-300'},t.submitHint),state.error?el('p',{role:'alert',class:'text-sm text-band-bad'},state.error):null,submitButton);
-  ws.update({passagePane,questionsPane,action,tools:[el('span',{class:'flex items-center gap-2 text-sm text-ink-700','data-practice-timer':true},el('span',{class:'text-ink-300'},t.timerLabel),(()=>{timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());return timerNode;})()),saveBadge()]});
+  const submitButton=Button({variant:'primary',disabled:state.submitting||state.saveState==='locked','data-submit-attempt':true,children:state.submitting?dict.common.loading:dict.reading.submit});
+  submitButton.addEventListener('click',()=>void submit(),{signal});
+  const action=[el('span',{class:'reading-answered','data-exam-answered':''},progress),state.error?el('span',{role:'alert',class:'reading-error'},state.error):null,submitButton];
+  ws.update({passagePane,questionsPane,navigation:buildNavigation(),action,tools:[
+   el('span',{class:'flex items-center gap-2','data-practice-timer':true},el('span',{},t.timerLabel),(()=>{timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());return timerNode;})()),
+   saveBadge(),el('a',{href:'/app/reading/academic',class:'reading-back','data-practice-exit':''},t.exit)
+  ],pane:state.pane});
  }
  function focusQuestion(questionId){
   const input=document.getElementById(`answer-${questionId}`);
@@ -113,7 +150,7 @@ export function mountExam(context,p){
   target?.scrollIntoView?.({block:'center',behavior:'smooth'});
   if(input instanceof HTMLElement)input.focus({preventScroll:true});
  }
- const ws=academicWorkspace(context,p,state,v=>{state.pane=v;draw();},index=>{state.activePart=index;draw();});
+ const ws=createWorkspace({labels:dict.readingWorkspace,title:p.testTitle??p.passageTitle,brand:dict.marketing.title,state,setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:v=>{state.fontSize=Math.max(14,Math.min(22,v));ws.update({});}});
  host.replaceChildren(ws.root);
  draw();
 }
