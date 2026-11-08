@@ -32,3 +32,27 @@
 #root .la-auth-redesign .la-auth-card{padding:25px 19px!important;border-radius:19px!important}
 #root .la-auth-redesign .la-auth-footer{font-size:13px;margin-top:26px}
 }
+
+/* Same floating chip motion as arena/learners-area-next, with staggered phases. */
+@keyframes la-login-chip-float{0%,100%{transform:translate3d(0,1px,0) rotate(-2deg)}50%{transform:translate3d(0,-17px,0) rotate(4deg)}}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip{animation:la-login-chip-float 3.37s ease-in-out infinite!important;animation-play-state:running!important;will-change:transform}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(1){animation-delay:0s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(2){animation-delay:-.62s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(3){animation-delay:-1.24s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(4){animation-delay:-1.86s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(5){animation-delay:-2.48s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(6){animation-delay:-3.1s!important}
+#root .la-auth-redesign .la-auth-footer .auth-switch-pill{border:1px solid #31d98f!important;color:#071b31!important;background:linear-gradient(100deg,#32ded0,#3970ff)!important;box-shadow:0 12px 28px #0f86a545;min-height:48px!important;padding:10px 24px!important;white-space:normal}
+#root .la-auth-redesign [data-locale-switcher] [role=group]{display:flex!important;gap:0!important;border:1px solid #35e3d3!important;border-radius:13px!important;overflow:hidden!important;box-shadow:0 0 0 1px #336df9!important;background:rgba(8,26,45,.9)}
+#root .la-auth-redesign [data-locale-switcher] button{border-radius:0!important;min-height:38px!important;padding:8px 14px!important}
+#root .la-auth-redesign [data-locale-switcher] button:first-child{border-top-left-radius:12px!important;border-bottom-left-radius:12px!important}
+#root .la-auth-redesign [data-locale-switcher] button:last-child{border-top-right-radius:12px!important;border-bottom-right-radius:12px!important}
+#root .la-auth-redesign .la-auth-content .la-auth-brand img{object-fit:contain}
+@media(max-width:767px){
+#root .la-auth-redesign .la-public-background .la-welcome-ring,
+#root .la-auth-redesign .la-public-background .la-welcome-aurora,
+#root .la-auth-redesign .la-public-background .la-welcome-cosmos{animation:none!important;transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+#root .la-auth-redesign .la-login-skills .la-welcome-chip{animation:la-login-chip-float 3.37s ease-in-out infinite!important}
+}
