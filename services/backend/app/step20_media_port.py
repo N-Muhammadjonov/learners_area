@@ -216,7 +216,10 @@ async def deliver(req,key,head):
         stage='media_configuration'
         secret=media_conf()
         want_cap=req.query_params.get('capability')=='1'
-        if secret:
+        # Listening audio uses the existing private R2 transport after this endpoint
+        # has validated the session, content ownership and sequential unlock.
+        # It must not depend on the media Worker's second authorization handshake.
+        if secret and not key.startswith('listening/'):
             token,claims=create_capability(secret,authority['user']['id'],authority['authVersion'],authority['sessionKey'],authority['expiresAt'],key)
             url=media_url(key,token)
             if want_cap:return core.j({'url':url,'expiresAt':claims['exp']*1000,'key':key},headers=PRIVATE)
