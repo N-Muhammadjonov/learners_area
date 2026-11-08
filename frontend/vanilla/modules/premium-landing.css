@@ -242,3 +242,20 @@ html[data-v5-motion-state=paused] .public *:not(.diag-option):not(.diag-level),h
 .la-premium-public .premium-nav-actions{gap:9px!important}
 @media(max-width:1050px){.la-premium-public .premium-lang-switch button{min-height:42px;padding:9px 10px!important;min-width:35px}.la-premium-public .premium-nav-actions{gap:6px!important}}
 @media(max-width:600px){.la-premium-public .premium-brand-mark,.la-premium-public .premium-brand-mark img{width:62px!important;height:52px!important}.la-premium-public .premium-lang-switch button{min-height:38px!important;padding:8px!important;min-width:34px!important}}
+
+
+/* Mobile: keep language selector visible, move login and signup into the dropdown. */
+.la-premium-public .premium-menu-register{display:none!important}
+@media(max-width:900px){
+ .la-premium-public .premium-nav-signin,.la-premium-public .premium-nav-start{display:none!important}
+ .la-premium-public .premium-menu-register{display:inline-flex!important;align-items:center;justify-content:space-between;gap:8px;margin-top:5px;padding:13px 10px!important;font-size:13px;font-weight:750;color:#f4d9a9!important;background:rgba(53,99,158,.14);border-radius:8px;text-decoration:none}
+ .la-premium-public .premium-nav{gap:10px!important}
+ .la-premium-public .premium-nav-actions{margin-left:auto}
+}
+@media(max-width:480px){
+ .la-premium-public .premium-brand-mark,.la-premium-public .premium-brand-mark img{width:46px!important;height:42px!important}
+ .la-premium-public .premium-brand-text{font-size:13px!important}
+ .la-premium-public .premium-brand-text small{font-size:6px!important;letter-spacing:.18em!important}
+ .la-premium-public .premium-lang-switch button{font-size:10px!important;padding:7px!important;min-width:31px!important}
+ .la-premium-public .premium-menu-toggle{width:38px!important;height:38px!important;flex-shrink:0!important}
+}
