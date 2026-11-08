@@ -214,7 +214,9 @@ async def deliver(req,key,head):
             if span:h['Content-Range']=f'bytes {span[0]}-{span[1]}/{size}'
             return Response(None if head else graph[span[0]:span[1]+1] if span else graph,status_code=206 if span else 200,headers=h)
         stage='media_configuration'
-        secret=media_conf()
+        # Listening media is always served by this authenticated same-origin
+        # endpoint after DB ownership/sequence checks, independently of Worker config.
+        secret=None if key.startswith('listening/') else media_conf()
         want_cap=req.query_params.get('capability')=='1'
         # Listening audio uses the existing private R2 transport after this endpoint
         # has validated the session, content ownership and sequential unlock.
