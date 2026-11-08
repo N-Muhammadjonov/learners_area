@@ -37,3 +37,23 @@ async def test_probe_never_logs_configuration_secrets_from_errors(monkeypatch):
  result=await readiness.probe()
  assert result['directError']=='ValueError' and result['workerStatus']=='unconfigured'
  assert 'secret-bearing' not in str(result)
+
+@pytest.mark.asyncio
+async def test_full_probe_checks_all_bytes_hash_and_production_cors(monkeypatch):
+ import hashlib
+ body=b'ID3'+b'0'*16400
+ monkeypatch.setenv('MEDIA_READINESS_FULL','1')
+ monkeypatch.setattr(storage,'head_object',AsyncMock(return_value={'size':len(body),'contentType':'audio/mpeg','etag':hashlib.md5(body).hexdigest()}))
+ monkeypatch.setattr(storage,'read_object',AsyncMock(return_value=body[:16]))
+ monkeypatch.setattr(core,'pool',AsyncMock(return_value=Pool()))
+ monkeypatch.setattr(media,'allow_resource',AsyncMock(return_value='allowed'))
+ monkeypatch.setattr(media,'media_conf',lambda:'synthetic-signing-secret-with-at-least-32-bytes')
+ async def handler(req):
+  if req.headers.get('range'):return httpx.Response(206,content=body[:16],headers={'Content-Type':'audio/mpeg'})
+  assert req.headers['origin']=='https://learnersarea.uz'
+  return httpx.Response(200,content=body,headers={'Access-Control-Allow-Origin':'https://learnersarea.uz'})
+ client=httpx.AsyncClient
+ monkeypatch.setattr(httpx,'AsyncClient',lambda **kwargs:client(transport=httpx.MockTransport(handler),**kwargs))
+ result=await readiness.probe()
+ assert result['fullReady'] and result['fullHashMatches'] and result['corsReady']
+ assert result['fullBytes']==len(body) and result['fullStatus']==200

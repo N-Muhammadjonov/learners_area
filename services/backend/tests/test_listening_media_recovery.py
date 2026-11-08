@@ -108,3 +108,19 @@ async def test_other_resource_capabilities_keep_existing_worker_contract(transpo
  assert result.status_code==200
  assert json.loads(result.body)['url'].startswith(media.ORIGIN+'/v1/media/')
  media.upstream_response.assert_not_awaited()
+
+@pytest.mark.asyncio
+async def test_direct_listening_capability_avoids_relay_after_resource_authorization(transport):
+ result=await media.deliver(request(b'capability=1&direct=1'),KEY,False)
+ assert result.status_code==200
+ grant=json.loads(result.body)
+ assert grant['url'].startswith(media.ORIGIN+'/v1/media/') and grant['key']==KEY
+ media.allow_resource.assert_awaited_once()
+ media.upstream_response.assert_not_awaited();media.head_object.assert_not_awaited()
+
+@pytest.mark.asyncio
+async def test_direct_listening_capability_does_not_bypass_sequence_lock(transport):
+ media.allow_resource.return_value='forbidden'
+ result=await media.deliver(request(b'capability=1&direct=1'),KEY,False)
+ assert result.status_code==403 and 'url' not in json.loads(result.body)
+ media.upstream_response.assert_not_awaited()

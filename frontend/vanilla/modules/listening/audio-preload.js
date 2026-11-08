@@ -18,7 +18,7 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
  function settle(job,url){job.resolve?.(url);job.resolve=null;}
  function trim(incoming,priority){
   const candidates=[...jobs.values()].filter(j=>j.state==='ready'&&!j.pins&&j.priority<=priority).sort((a,b)=>a.priority-b.priority);
-  for(const j of candidates){if(bytes+incoming<=maxBytes)break;bytes-=j.total;revokeURL(j.url);j.url=null;j.state='idle';notify(j);}
+  for(const j of candidates){if(bytes+incoming<=maxBytes)break;bytes-=j.total;revokeURL(j.url);j.url=null;j.blob=null;j.state='idle';notify(j);}
   return bytes+incoming<=maxBytes;
  }
  async function download(job,version){
@@ -27,14 +27,25 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
   const cancel=()=>{void reader?.cancel().catch(()=>{});};controller.signal.addEventListener('abort',cancel,{once:true});
   const current=()=>version===epoch&&owner===scope.scope&&!controller.signal.aborted;
   try{
-   let resource=job.resource;
+   let resource=job.resource,downloadUrl;
    if(!resource){
     const meta=await fetcher('/api/listening/full/'+encodeURIComponent(job.id)+'/authored?warmup=1',{credentials:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,headers:{Accept:'application/json'}});
     if(!meta.ok)throw Error('Audio access unavailable');
-    resource=audioResource((await meta.json()).audioUrl,origin());if(!resource||job.resource&&job.resource!==resource)throw Error('Invalid audio resource');job.resource=resource;
+    const data=await meta.json();resource=audioResource(data.audioUrl,origin());if(!resource||job.resource&&job.resource!==resource)throw Error('Invalid audio resource');job.resource=resource;
+    if(typeof data.downloadUrl==='string')downloadUrl=data.downloadUrl;
    }
    if(!current())throw Error('Cancelled');
-   response=await fetcher(resource+'?stream=1',{credentials:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,headers:{Accept:'audio/*'}});
+   if(!downloadUrl){
+    const access=await fetcher(resource+'?capability=1&direct=1',{credentials:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal});
+    if(access.ok&&access.headers.get('Content-Type')?.includes('application/json'))downloadUrl=(await access.json()).url;
+   }
+   let target;try{target=new URL(downloadUrl,origin());}catch{target=new URL(resource+'?stream=1',origin());}
+   const direct=target.origin==='https://learnersarea-media.owneruchunla.workers.dev'&&target.pathname.startsWith('/v1/media/');
+   if(!direct&&target.origin!==origin())throw Error('Invalid audio origin');
+   if(direct){
+    try{response=await fetcher(target.href,{credentials:'omit',mode:'cors',cache:'no-store',redirect:'error',signal:controller.signal,priority:job.priority>=2?'high':'low',headers:{Accept:'audio/*'}});if(!response.ok){await response.body?.cancel().catch(()=>{});response=null;}}catch(error){if(controller.signal.aborted)throw error;}
+   }
+   if(!response)response=await fetcher(resource+'?stream=1',{credentials:'same-origin',mode:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,priority:job.priority>=2?'high':'low',headers:{Accept:'audio/*'}});
    if(response.status!==200)throw Error('Audio unavailable');
    const mime=(response.headers.get('Content-Type')||'').split(';')[0].trim().toLowerCase(),total=Number(response.headers.get('Content-Length'));
    if(!/^audio\/[a-z0-9.+-]+$/.test(mime)||!Number.isSafeInteger(total)||total<1||total>maxFileBytes)throw Error('Invalid audio response');
@@ -43,7 +54,7 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
    for(;;){const {done,value}=await reader.read();if(!current())throw Error('Cancelled');if(done)break;job.loaded+=value.byteLength;if(job.loaded>total)throw Error('Oversized audio');chunks.push(value);notify(job);}
    if(job.loaded!==total)throw Error('Incomplete audio');
    if(!trim(total,job.priority)){job.state='idle';settle(job,null);notify(job);return;}
-   const blob=new Blob(chunks,{type:mime});job.url=createURL(blob);bytes+=total;job.state='ready';settle(job,job.url);notify(job);
+   const blob=new Blob(chunks,{type:mime});job.blob=blob;job.url=createURL(blob);bytes+=total;job.state='ready';settle(job,job.url);notify(job);
   }catch(error){if(version===epoch){job.state=controller.signal.aborted?'idle':'error';settle(job,null);notify(job);}}
   finally{clearTimeout(timer);controller.signal.removeEventListener('abort',cancel);if(reader){void reader.cancel().catch(()=>{});try{reader.releaseLock();}catch{}}else if(response?.body&&!response.body.locked)void response.body.cancel().catch(()=>{});}
  }
@@ -82,7 +93,7 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
    jobs.delete(job.id);jobs.set(job.id,job);return url;
   }finally{if(cancel)signal?.removeEventListener('abort',cancel);}
  }
- return {warm,status,acquire,release:releaseResource,retry:id=>enqueue(id,{retry:true,priority:5}),
+ return {warm,status,acquire,blob:resource=>[...jobs.values()].find(j=>j.resource===audioResource(resource,origin())&&j.state==='ready')?.blob??null,release:releaseResource,retry:id=>enqueue(id,{retry:true,priority:5}),
   subscribe(fn){listeners.add(fn);return()=>listeners.delete(fn);},get bytes(){return bytes;},clear,
   dispose(){unsubscribe();clear();listeners.clear();}};
 }

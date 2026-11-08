@@ -218,7 +218,7 @@ async def deliver(req,key,head):
         # Worker owns R2 delivery; the app proxies its authorized byte ranges.
         secret=media_conf()
         want_cap=req.query_params.get('capability')=='1'
-        if want_cap and key.startswith('listening/'):
+        if want_cap and key.startswith('listening/') and (req.query_params.get('direct')!='1' or not secret):
             # Native audio issues new Range requests after metadata preload and
             # seeks. Keep its URL session-authenticated rather than handing it a
             # Worker token that expires while the learner is on the test hub.

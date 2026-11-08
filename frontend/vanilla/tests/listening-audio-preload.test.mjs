@@ -9,7 +9,7 @@ const response=(bytes=8,total=bytes,type='audio/mpeg')=>new Response(new Uint8Ar
 const turn=()=>new Promise(r=>setImmediate(r));
 function fixture(read,options={}){
  const scope=createPrivateScope();scope.setScope('user-a');const calls=[],revoked=[];let n=0;
- const pool=createAudioPreloader({scope,origin:()=>origin,fetcher:async(url,init)=>{calls.push({url,init});return read(url,init);},
+ const pool=createAudioPreloader({scope,origin:()=>origin,fetcher:async(url,init)=>{if(url.includes('?capability=1&direct=1'))return Response.json({url:origin+url.split('?')[0]+'?stream=1'});calls.push({url,init});return read(url,init);},
   createURL:()=>`blob:test-${++n}`,revokeURL:url=>revoked.push(url),...options});
  return {pool,scope,calls,revoked};
 }
@@ -81,4 +81,24 @@ test('cached bytes are only resolved after a fresh server authorization succeeds
  const controller=new AuthoredMediaController([{id:'0',url:path('one')}],()=>{},
   {createAudio:()=>new Audio(),fetch:async()=>new Response(null,{status:403}),resolveMediaUrl:()=>{resolved++;return 'blob:private';}});
  await assert.rejects(controller.select('0'));assert.equal(resolved,0);assert.equal(controller.audio.src,undefined);controller.dispose();
+});
+
+test('catalogue transfers the complete recording directly from Cloudflare without a Railway relay',async()=>{
+ const direct='https://learnersarea-media.owneruchunla.workers.dev/v1/media/listening/academic/one/full.mp3?token=synthetic';
+ const {pool,calls,scope}=fixture(async url=>url.includes('/authored?')?Response.json({audioUrl:path('one'),downloadUrl:direct}):response(64));
+ pool.warm([{testId:'one',locked:false}]);assert.equal((await done(pool,'one')).state,'ready');
+ assert.deepEqual(calls.map(c=>c.url),['/api/listening/full/one/authored?warmup=1',direct]);
+ assert.equal(calls[1].init.credentials,'omit');assert.equal(calls[1].init.mode,'cors');assert.equal(calls[1].init.priority,'high');
+ assert.equal(pool.blob(path('one')).size,64);scope.setScope(null);assert.equal(pool.blob(path('one')),null);pool.dispose();
+});
+
+for(const failure of ['network','denied'])test('direct '+failure+' falls back to the authenticated stream',async()=>{
+ const direct='https://learnersarea-media.owneruchunla.workers.dev/v1/media/listening/academic/one/full.mp3?token=synthetic';
+ const {pool,calls}=fixture(async url=>{
+  if(url.includes('/authored?'))return Response.json({audioUrl:path('one'),downloadUrl:direct});
+  if(url===direct){if(failure==='network')throw new TypeError('Failed to fetch');return new Response(null,{status:403});}
+  return response(64);
+ });
+ pool.warm([{testId:'one',locked:false}]);assert.equal((await done(pool,'one')).state,'ready');
+ assert.equal(calls[2].url,path('one')+'?stream=1');assert.equal(calls[2].init.credentials,'same-origin');pool.dispose();
 });

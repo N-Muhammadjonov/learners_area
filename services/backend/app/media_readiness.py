@@ -48,11 +48,23 @@ async def probe():
                         sample=b''
                         async for chunk in reply.aiter_bytes(16):sample+=chunk;break
                         result['workerReady']=len(sample)==16
+            if os.getenv('MEDIA_READINESS_FULL')=='1':
+                started=time.perf_counter();size=0;digest=hashlib.md5(usedforsecurity=False)
+                async with httpx.AsyncClient(timeout=httpx.Timeout(60,connect=5,read=20),follow_redirects=False) as client:
+                    async with client.stream('GET',media.media_url(KEY,token),headers={'Origin':'https://learnersarea.uz'}) as reply:
+                        result['fullStatus']=reply.status_code
+                        result['corsReady']=reply.headers.get('access-control-allow-origin')=='https://learnersarea.uz'
+                        if reply.status_code==200:
+                            async for chunk in reply.aiter_bytes(65536):size+=len(chunk);digest.update(chunk)
+                elapsed=time.perf_counter()-started
+                result.update(fullBytes=size,fullSeconds=round(elapsed,3),fullMbps=round(size*8/elapsed/1e6,2),fullReady=bool(info and size==info['size']))
+                if info and info.get('etag') and '-' not in info['etag']:
+                    result['fullHashMatches']=digest.hexdigest()==info['etag'].strip('"')
     except Exception as exc:result['workerError']=error_code(exc)
     return result
 
 async def log_probe():
     try:
-        async with asyncio.timeout(40):result=await probe()
+        async with asyncio.timeout(90 if os.getenv('MEDIA_READINESS_FULL')=='1' else 40):result=await probe()
     except Exception as exc:result={'event':'listening_media_readiness','error':type(exc).__name__}
     LOG.info('%s',json.dumps(result,separators=(',',':')))
