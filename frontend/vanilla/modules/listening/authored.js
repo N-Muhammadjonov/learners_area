@@ -155,41 +155,10 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  function persistBaseline(){let intent={};try{intent=JSON.parse(draftStorage.getItem(stateKey+':start')||'{}');}catch{}if(intent.attemptKey===canonicalAttempt||!pending)intent={};draftStorage.setItem(stateKey+':start',JSON.stringify({...intent,baseStamp:serverBaseline}));}
  function clearCommonError(){if(failures.any)return;alert.remove();alert.textContent='';host.querySelector('[data-authored-retry]')?.remove();}
  function clearError(){failures.clear('checkpoint');checkpointDetail.remove();host.querySelector('[data-checkpoint-use-server]')?.remove();clearCommonError();}
- // A parent-owned click preserves Safari's media user gesture. The sandbox's
- // postMessage-based play command can arrive after the original click has ended.
- const directAudioButton=el('button',{type:'button',class:'btn-primary px-4 py-2','data-listening-direct-audio':''},'▶ Start audio');
- const directAudioStatus=el('span',{'data-listening-direct-audio-status':'',class:'text-sm text-ink-500',role:'status'});
- const directAudioControls=el('div',{'data-listening-direct-audio-controls':'',class:'flex flex-wrap items-center gap-3 px-3 py-2'},directAudioButton,directAudioStatus);
- directAudioControls.hidden=true;host.append(directAudioControls);
- let audioStarted=false;
- listen(directAudioButton,'click',()=>{
-  if(!media||!media.active||!media.audio.src){
-   directAudioStatus.textContent=document.documentElement.lang.startsWith('uz')?'Audio tayyorlanmoqda. Tugmani qayta bosing.':'Audio is preparing. Press Start audio again.';
-   if(media&&!media.loading)void media.select('0').catch(()=>{directAudioStatus.textContent='Audio unavailable';});
-   return;
-  }
-  if(audioStarted)return;
-  directAudioButton.disabled=true;
-  media.intendedPlaying=true;
-  try{
-   const playback=media.audio.play();
-   Promise.resolve(playback).then(()=>{
-    if(liveSignal.aborted)return;
-    audioStarted=true;directAudioStatus.textContent=document.documentElement.lang.startsWith('uz')?'Audio ijro etilmoqda':'Audio is playing';
-   }).catch(()=>{
-    if(liveSignal.aborted)return;
-    media.intendedPlaying=false;directAudioButton.disabled=false;
-    directAudioStatus.textContent=document.documentElement.lang.startsWith('uz')?'Audio boshlanmadi. Qayta bosing.':'Audio did not start. Try again.';
-   });
-  }catch{
-   media.intendedPlaying=false;directAudioButton.disabled=false;
-   directAudioStatus.textContent='Audio unavailable';
-  }
- },liveSignal);
  function mediaState(packet){
   if(packet.event==='play'||packet.event==='playing'){
    failures.clear('resource');clearCommonError();
-   if(packet.event==='playing'){audioStarted=true;directAudioButton.disabled=true;directAudioStatus.textContent=document.documentElement.lang.startsWith('uz')?'Audio ijro etilmoqda':'Audio is playing';}
+   
   }
   post('learners-area-media-state',packet);
  }
@@ -199,7 +168,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  function cancelRetries(){for(const read of retryReads.values())read.abort();retryReads.clear();}
  async function readBlob(url,signal){if(!url.startsWith('/api/resources/'))throw Error('Invalid authored resource');const r=await fetch(url,{signal:anySignal([liveSignal,...(signal?[signal]:[]),AbortSignal.timeout(25000)]),credentials:'same-origin',cache:'no-store',redirect:'error'});if(r.status===401)window.dispatchEvent(new Event('learners-area:auth-failure'));if(!r.ok)throw Error('Resource unavailable');return r.blob();}
  function selectionClose(){reviewLexicalNotice.remove();reviewLexicalVersion++;reviewLexicalController?.abort();reviewLexicalController=null;popup?.stop();popup=null;dialog?.remove();dialog=null;anchor?.remove();anchor=null;}
- function paint(){if(liveSignal.aborted||!content||!path)return;audioStarted=false;directAudioButton.disabled=false;directAudioControls.hidden=true;directAudioStatus.textContent='';documentVersion++;reviewAction=null;lastReviewAction=0;resetRecoveryReads();token=crypto.randomUUID();reviewEpoch++;reviewView=null;reviewAckVisible=false;reviewWriter.saved=null;selectionClose();vocabularyRead=null;vocabulary=[];invalidateDiscovery();for(const node of host.querySelectorAll('[data-review-recovery],[data-review-retained]'))node.remove();authorityBarrier.supersede();authorityBlocked=false;authorityFocus=false;authorityNotice.remove();navigationNotice.remove();rangeCache=content.nativePersistence?null:rangeMedia?.cachedRanges()??rangeCache;rangeMedia?.dispose();rangeMedia=null;media?.dispose();media=null;lastReviewIntent=0;navigationReady=false;navigationPending=0;clearTimeout(frameReadyTimer);frameReadyTimer=null;frameFailureShown=false;locationRequested=wantedLocation?.activity==='review';navigationAuthority=locationRequested;clearTimeout(navigationTimer);frameAbort?.abort();frameAbort=new AbortController();if(frame){cancelRetries();hubReady=false;stateReady=false;earlyMedia=[];void media?.command({mediaId:media.snapshot().mediaId,action:'pause'});}let html=content.runtime.files[path]??'';for(const [name,url]of Object.entries(assets)){html=html.replaceAll(`[embedded:${name}]`,url);html=html.replace(new RegExp(`(["'])${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\1`,'g'),`"${url}"`);}
+ function paint(){if(liveSignal.aborted||!content||!path)return;documentVersion++;reviewAction=null;lastReviewAction=0;resetRecoveryReads();token=crypto.randomUUID();reviewEpoch++;reviewView=null;reviewAckVisible=false;reviewWriter.saved=null;selectionClose();vocabularyRead=null;vocabulary=[];invalidateDiscovery();for(const node of host.querySelectorAll('[data-review-recovery],[data-review-retained]'))node.remove();authorityBarrier.supersede();authorityBlocked=false;authorityFocus=false;authorityNotice.remove();navigationNotice.remove();rangeCache=content.nativePersistence?null:rangeMedia?.cachedRanges()??rangeCache;rangeMedia?.dispose();rangeMedia=null;media?.dispose();media=null;lastReviewIntent=0;navigationReady=false;navigationPending=0;clearTimeout(frameReadyTimer);frameReadyTimer=null;frameFailureShown=false;locationRequested=wantedLocation?.activity==='review';navigationAuthority=locationRequested;clearTimeout(navigationTimer);frameAbort?.abort();frameAbort=new AbortController();if(frame){cancelRetries();hubReady=false;stateReady=false;earlyMedia=[];void media?.command({mediaId:media.snapshot().mediaId,action:'pause'});}let html=content.runtime.files[path]??'';for(const [name,url]of Object.entries(assets)){html=html.replaceAll(`[embedded:${name}]`,url);html=html.replace(new RegExp(`(["'])${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\1`,'g'),`"${url}"`);}
  html=html.replace(/\b(src|href)=(['"])([^'"]+)\2/gi,(match,attr,quote,value)=>{const asset=assets[resolvePath(path,value)??''];return asset?`${attr}=${quote}${asset}${quote}`:match;});// Native page already has a single accessible parent Back control.
  // Hide the redundant authored activity strip (Activities + Telegram brand).
  if(content.nativePersistence){html=html.replace(/<\/head>/i,'<style id="la-listening-parent-navigation">.activity-top{display:none!important}.exam-header{top:0!important;z-index:1000!important}.exam-interface{min-height:100vh!important}.part-header{scroll-margin-top:65px!important}.questions-section{scroll-margin-top:65px!important}html{scroll-padding-top:65px!important}</style></head>');}
@@ -231,7 +200,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  // barrier and V21 sequence/focus grant. This does not dispose route writers.
  listen(window,'message',event=>{const d=event.data;if(liveSignal.aborted||navigationExpired||event.source!==frame?.contentWindow||d?.channel!=='learners-area-review-intent'||d.token!==token||!Number.isSafeInteger(d.intent)||d.intent<=lastReviewIntent||!Number.isInteger(d.part)||d.part<1||d.part>4||d.question!=null&&(!Number.isInteger(d.question)||d.question<1||d.question>40||Math.ceil(d.question/10)!==d.part))return;lastReviewIntent=d.intent;reviewAction=null;if(!stateReady||authorityBarrier.failed)return;wantedLocation={activity:'review',part:d.part,question:d.question??null};locationRequested=true;navigationAuthority=true;selectionClose();const hash=reviewHash(wantedLocation);if(location.hash!==hash){history.replaceState({...history.state,__laReviewScroll:Number.isFinite(d.previousScroll)&&d.previousScroll>=0&&d.previousScroll<=10000000?d.previousScroll:0},'',location.href);history.pushState({__laEntry:crypto.randomUUID()},'',location.pathname+location.search+hash);}if(examLock){applyLocation();return;}if(!authorityBlocked)authorityBarrier.invalidate();},liveSignal);
  listen(window,'message',event=>{if(!validRuntimeMessage(event,frame?.contentWindow,token)||liveSignal.aborted)return;const d=event.data;try{if(d.op==='storage')runtimeValues(d.values);if(d.op==='course')courseWork(d.activity,d.answers);}catch{return;}
- if(d.op==='view'&&typeof d.hub==='boolean'){/* UI state only; never an ACL grant. */if(d.hub)host.removeAttribute('data-activity-active');else host.setAttribute('data-activity-active','true');directAudioControls.hidden=d.hub||d.navigation?.activity!=='exam';}
+ if(d.op==='view'&&typeof d.hub==='boolean'){/* UI state only; never an ACL grant. */if(d.hub)host.removeAttribute('data-activity-active');else host.setAttribute('data-activity-active','true');}
  if(d.op==='navigate'&&typeof d.path==='string'){const next=resolvePath(path,d.path);if(next&&content?.runtime.files[next]&&/\.html?$/i.test(next)){selectionClose();path=next;paint();}return;}
  if((authorityBlocked||navigationPending||navigationExpired)&&d.op!=='view'){if(d.op==='storage'&&d.values&&JSON.stringify(d.values).length<=100000){pending=d.values;stored=hydration=d.values;const own=JSON.parse(d.values[content.storageKey]||'{}');if(own.attemptStatus==='in_progress'&&own.attemptKey!==canonicalAttempt)draftStorage.setItem(stateKey+':start',JSON.stringify({attemptKey:own.attemptKey,previousKey:canonicalAttempt,baseStamp:serverBaseline}));draftStorage.setItem(stateKey+':pending',JSON.stringify(d.values));}if(d.op==='course'&&d.activity==='review'){const entries=Object.entries(d.answers);if(entries.length&&entries.every(([q])=>/^([1-9]|[1-3][0-9]|40)$/.test(q))){const part=Math.ceil(Number(entries[0][0])/10);if(entries.every(([q])=>Math.ceil(Number(q)/10)===part))try{reviewJournal.stage({part,answers:d.answers},authorityAttempt);}catch{}}}return;}
  if(d.op==='hub-ready'&&content&&!hubReady){hubReady=true;clearTimeout(frameReadyTimer);frameReadyTimer=null;if(frameFailureShown){frameFailureShown=false;navigationNotice.remove();}background?.();if(hydration)post('learners-area-hydrate',{values:hydration,course:hydratedCourse});return;}
