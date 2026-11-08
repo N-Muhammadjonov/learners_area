@@ -1,7 +1,9 @@
 import {el} from '../dom.js';
+/** Shared brand mark for login, header, app shell and dashboard. */
 export function brandBlock(className='',size=44,withTagline=true){
  return el('span',{'data-sidebar-brand':'',class:`flex items-center gap-3 ${className}`},
- el('span',{class:'brand-mark',style:{width:size+'px',height:size+'px'}},
- ...[['day','owner-neon-day',48,48,'light'],['night','owner-v11-night',48,36,'dark']].map(([,file,width,height,theme])=>el('img',{src:`/brand/derived/${file}-96.png`,srcset:`/brand/derived/${file}-96.png 1x, /brand/derived/${file}-192.png 2x`,width,height,alt:'','aria-hidden':'true',decoding:'async',fetchpriority:'high',class:`brand-asset-${theme}`}))),
- el('span',{class:'flex min-w-0 flex-col'},el('span',{class:'brand-name'},'Learners Area'),withTagline?el('span',{class:'brand-tagline'},'Take your learning journey with us'):null));
+  el('span',{class:'brand-mark',style:{width:size+'px',height:size+'px',display:'inline-grid',placeItems:'center',overflow:'visible'}},
+   el('img',{src:'/brand/learners-area-la-glass.svg',width:size,height:size,alt:'', 'aria-hidden':'true',decoding:'async',fetchpriority:'high',style:{width:'100%',height:'100%',objectFit:'contain'}})),
+  el('span',{class:'flex min-w-0 flex-col'},el('span',{class:'brand-name'},'Learners Area'),
+   withTagline?el('span',{class:'brand-tagline'},'Take your learning journey with us'):null));
 }
