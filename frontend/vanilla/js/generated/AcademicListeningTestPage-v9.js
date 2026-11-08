@@ -36,5 +36,5 @@ export function render(scope) {
                     activity.latest && (h("span", { "data-listening-academic-latest": true }, t.latestScore
                         .replace("{score}", String(activity.latest.score ?? "—"))
                         .replace("{total}", String(activity.latest.total ?? "—"))))),
-                h(Link, { className: "btn-secondary mt-2 self-start", href: `/app/listening/tests/${test.testId}/${activity.path}`, "data-listening-academic-run": activity.id }, t.open))))))));
+                h(Link, { className: "btn-primary mt-2 self-start", href: `/app/listening/tests/${test.testId}/${activity.path}`, "data-listening-academic-run": activity.id }, t.open))))))));
 }
