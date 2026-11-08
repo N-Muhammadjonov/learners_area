@@ -1574,3 +1574,26 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] button[data-ret
   content: none !important;
   display: none !important;
 }
+/* Shared action palette, including MCQ and newly added workspaces. Exam papers
+   keep their own CD controls; correctness/error colours remain semantic. */
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-primary,.btn-gold-solid,button.bg-signal-600,a.bg-signal-600)
+ :is(span,strong,small){color:inherit!important}
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-primary,.btn-gold-solid,button.bg-signal-600,a.bg-signal-600):not([data-state="right"]):not([data-state="wrong"]):not([data-cd-exam] *):not([data-reading-full-focus] *){
+ background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%)!important;
+ color:#000!important;border-color:transparent!important;
+}
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *){
+ position:relative;background:rgb(var(--workspace-raised,var(--paper-raised)))!important;
+ color:rgb(var(--workspace-ink,var(--ink-900)))!important;border-color:transparent!important;
+}
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *)::before{
+ content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;
+ background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+ -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+ -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+ mask-composite:exclude;pointer-events:none;
+}
