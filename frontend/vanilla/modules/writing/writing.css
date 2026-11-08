@@ -127,3 +127,21 @@ html[data-theme="night"] #root .writing-question-picker input[data-exam-search] 
 html[data-theme="night"] #root .writing-question-picker input[data-exam-search]::placeholder {
   color: #c5d7ee;
 }
+
+/* Shared form-surface parity: Writing question search, 2026-11. */
+html[data-theme="day"] #root [data-writing-native] .writing-question-picker input[data-exam-search]{
+ background:#f2f7ff!important;color:#122743!important;border:2px solid #3976d9!important;
+ caret-color:#174ab8!important;box-shadow:0 2px 8px #173f8620!important;
+ color-scheme:light!important;border-radius:12px!important;
+}
+html[data-theme="night"] #root [data-writing-native] .writing-question-picker input[data-exam-search]{
+ background:#102640!important;color:#f4f8ff!important;border:2px solid #7ebaff!important;
+ caret-color:#b2ddff!important;box-shadow:0 2px 12px #0005!important;
+ color-scheme:dark!important;border-radius:12px!important;
+}
+html[data-theme="day"] #root [data-writing-native] [data-exam-search]::placeholder{color:#536681!important;opacity:1!important}
+html[data-theme="night"] #root [data-writing-native] [data-exam-search]::placeholder{color:#bfcee2!important;opacity:1!important}
+html[data-theme] #root [data-writing-native] .writing-question-picker :is(input,select,textarea):focus-visible{
+ outline:3px solid #49cddd!important;outline-offset:2px!important;
+}
+html[data-theme] #root [data-writing-native] .writing-question-picker :is(.btn-primary,.btn-secondary,button):disabled{opacity:.55!important;cursor:not-allowed!important}
