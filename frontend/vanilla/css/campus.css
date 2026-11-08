@@ -1560,3 +1560,15 @@ html[data-theme] #root [data-campus-shell] :is(
   .badge-live,
   .badge-locked
 ) { width: fit-content; }
+
+
+/* Retention paginated history: "Load more" matches "Open result". */
+html[data-theme] #root [data-campus-shell] [data-retention-page] button[data-retention-history-more] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] button[data-retention-history-more]::before {
+  content: none !important;
+  display: none !important;
+}
