@@ -33,7 +33,7 @@ const MAPPING={
   "Qaysi darajani": "Which level would you",
   "sinamoqchisiz?": "like to test?",
   "Darajangizni oldindan belgilang. Test shu bosqichdagi real vazifalardan tuziladi va har safar aralashadi.": "Choose a starting level. Each attempt draws a different set of questions suitable for that level.",
-  "15 savol · 5 ko‘nikma · ≈10–15 daqiqa": "15 questions · 5 skill areas · about 10–15 minutes",
+  "15 savol · 5 ko‘nikma · ≈10–15 daqiqa": "15 questions · 5 skills · about 10–15 minutes",
   "Grammar, Vocabulary, Reading, Listening va Use of English — har biridan 3 tadan. Ro‘yxatdan o‘tmasdan ishlaydi.": "3 questions each from grammar, vocabulary, reading, listening, and use of English. No account required.",
   "Natija: tanlangan darajadagi ko‘rsatkich, xatolar va keyingi qadam.": "Results: your performance at the selected level, explanations, and suggested next steps.",
   "15 savolli testni boshlash": "Start 15-question test",
@@ -141,7 +141,22 @@ const MAPPING={
   "Darajani almashtirish": "Change level",
   "Platformaga kirish ↗": "Sign in ↗",
   "Natija:": "Result:",
-  "Javobni matn va kontekst bilan solishtiring.": "Compare the answer with the text and context."
+  "Javobni matn va kontekst bilan solishtiring.": "Compare the answer with the text and context.",
+  "Matnni o‘qing. Mazmunni toping.": "Read carefully. Find the meaning.",
+  "Academic va General Reading, turli question type va Retention mashqlari bilan matnni tahlil qilishni mashq qiling.": "Practise analyzing texts through Academic and General Reading, question types, and retention exercises.",
+  "Fikrni aniq yozishga o‘rganing.": "Learn to express ideas clearly in writing.",
+  "Task 1 va Task 2 uchun exam practice, translation, writing lessons va yozma ishlar tarixi.": "Exam practice, translation, writing lessons, and saved attempts for Task 1 and Task 2.",
+  "Ingliz tilida erkinroq gapiring.": "Speak English with greater confidence.",
+  "Part 1, Part 2 va Part 3 mavzulari, individual practice, speaking lessons hamda javoblaringiz tarixi.": "Part 1, Part 2, and Part 3 topics, individual practice, speaking lessons, and your answer history.",
+  "Tinglash yakunlandi.": "Playback complete.",
+  "Yozuv tugadi. Qayta tinglashingiz mumkin.": "Recording finished. You can listen again.",
+  "Siz ulagan audio yozuvi tinglanmoqda.": "Playing your uploaded recording.",
+  "Ushbu brauzerda ovoz xizmati mavjud emas. Mos MP3 yuklang.": "Your browser does not support speech. Attach a suitable MP3.",
+  "Ushbu brauzerda ovoz xizmati mavjud emas.": "Your browser does not support speech.",
+  "Listening recording": "Listening recording",
+  "Qurilmangizdagi inglizcha ovoz tinglanmoqda. Ovoz sifati tizim sozlamasiga bog‘liq.": "Playing an English voice from your device. Voice quality depends on system settings.",
+  "Ovoz sifati tizim sozlamasiga bog‘liq.": "Voice quality depends on system settings.",
+  "Yangi 15 savolni ishlash ↻": "Try another 15 questions ↻"
 };
 const saved=new WeakMap();
 export function landingLocale(){const c=document.cookie.split(';').map(x=>x.trim()).find(x=>x.startsWith('la_locale='));return c?.slice(10)==='en'?'en':'uz'}
