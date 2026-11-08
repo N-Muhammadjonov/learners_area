@@ -12,7 +12,7 @@ export class NativeFrameMedia {
   const signal=this.abort.signal,fetcher=this.options.fetch??globalThis.fetch.bind(globalThis);
   try{
    // Check the current user/test/sequence again before releasing retained bytes.
-   if(!this.held.has(item.url)){const url=await listeningAudio.acquire(item.url,signal,this.options.testId);if(!url||signal.aborted||this.disposed)throw Error('Audio unavailable');this.held.add(item.url);}
+   if(!this.held.has(item.url)){const url=await listeningAudio.acquire(item.url,signal,this.options.testId);if(!url)throw Error('Audio unavailable');if(signal.aborted||this.disposed){listeningAudio.release(item.url);return;}this.held.add(item.url);}
    const response=await fetcher(item.url+(item.url.includes('?')?'&':'?')+'capability=1',{credentials:'same-origin',cache:'no-store',redirect:'error',signal});
    if(!response.ok)throw Error('Audio access unavailable');
    const grant=await response.json();if(!Number.isFinite(grant.expiresAt)||grant.expiresAt<=Date.now())throw Error('Expired audio access');

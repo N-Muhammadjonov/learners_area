@@ -102,3 +102,12 @@ for(const failure of ['network','denied'])test('direct '+failure+' falls back to
  pool.warm([{testId:'one',locked:false}]);assert.equal((await done(pool,'one')).state,'ready');
  assert.equal(calls[2].url,path('one')+'?stream=1');assert.equal(calls[2].init.credentials,'same-origin');pool.dispose();
 });
+
+test('MCQ recordings with generic private object metadata retain the correct audio MIME',async()=>{
+ const resource='/api/resources/audio/mcq-one.mp3',scope=createPrivateScope();scope.setScope('mcq-user');let reads=0;
+ const pool=createAudioPreloader({scope,origin:()=>origin,createURL:()=> 'blob:mcq',revokeURL:()=>{},fetcher:async url=>{
+  if(url.includes('capability=1'))return Response.json({url:resource+'?stream=1'});
+  reads++;return response(16,16,'application/octet-stream');
+ }});
+ try{pool.warmResources([{url:resource}]);assert.equal((await done(pool,resource)).state,'ready');assert.equal(pool.blob(resource).type,'audio/mpeg');assert.equal(reads,1);}finally{pool.dispose();}
+});

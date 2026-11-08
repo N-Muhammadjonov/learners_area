@@ -9,7 +9,7 @@ import {privateScope} from '../js/private-scope.js';
 const origin='https://learnersarea.uz',resource='/api/resources/listening/academic/one/full.mp3';
 const turn=()=>new Promise(r=>setImmediate(r));
 test('the frame keeps native playback and only enables Start after its authorized Blob is playable',async()=>{
- const dom=new JSDOM('<button id="startTestBtn">Start Test</button><audio id="sharedAudio" src="la-media:0"></audio>',{runScripts:'outside-only',url:origin}),w=dom.window;
+ const dom=new JSDOM('<button id="startTestBtn">Start Test</button><button id="clip" onclick="playWindow(1,5,this)">Listen to evidence window</button><audio id="sharedAudio" src="la-media:0" preload="metadata"></audio>',{runScripts:'outside-only',url:origin}),w=dom.window;
  await new Promise(r=>w.addEventListener('load',r,{once:true}));
  const audio=w.document.getElementById('sharedAudio'),start=w.document.getElementById('startTestBtn');let ready=0,played=0,starts=0;
  const play=function(){played++;return Promise.resolve();},pause=function(){};
@@ -20,11 +20,11 @@ test('the frame keeps native playback and only enables Start after its authorize
  const deliver=(token,source=w.parent)=>w.dispatchEvent(new w.MessageEvent('message',{source,data:{channel:'learners-area-native-audio',token,id:'0',blob:new w.Blob(['mp3'],{type:'audio/mpeg'})}}));
  try{
   assert.equal(w.HTMLMediaElement.prototype.play,play);assert.equal(w.HTMLMediaElement.prototype.pause,pause);
-  assert.equal(start.disabled,true);start.click();assert.equal(starts,0);
+  assert.equal(start.disabled,true);assert.equal(w.document.getElementById('clip').disabled,true);start.click();assert.equal(starts,0);
   deliver('wrong-token');assert.equal(audio.getAttribute('src'),'la-media:0');
   deliver('test-token',{});assert.equal(audio.getAttribute('src'),'la-media:0');
-  deliver('test-token');assert.equal(audio.getAttribute('src'),'blob:opaque-frame');assert.equal(start.disabled,true);
-  ready=4;audio.dispatchEvent(new w.Event('canplay'));assert.equal(start.disabled,false);
+  deliver('test-token');assert.equal(audio.getAttribute('src'),'blob:opaque-frame');assert.equal(audio.preload,'auto');assert.equal(start.disabled,true);
+  ready=4;audio.dispatchEvent(new w.Event('canplay'));assert.equal(start.disabled,false);assert.equal(w.document.getElementById('clip').disabled,false);assert.equal(w.document.getElementById('clip').textContent,'Listen to evidence window');
   start.click();assert.equal(starts,1);assert.equal(played,1);
  }finally{w.dispatchEvent(new w.Event('pagehide'));w.close();}
 });

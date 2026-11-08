@@ -92,7 +92,8 @@ async def days(con, user, q, ordinal=None):
     for row in snapshot:
         status=row['status'];draft=not is_live(row)
         cards.append({'day':row['program_ordinal'],'testId':str(row['id']),'title':row['title'],
-          'questionCount':status['total'],'status':status,'draft':draft,'locked':not staff(user) and not previous_complete})
+          'questionCount':status['total'],'status':status,'draft':draft,'locked':not staff(user) and not previous_complete,
+          'audioUrl':row['audio_url'] if staff(user) or previous_complete else None})
         if not draft:previous_complete=previous_complete and status['state']=='completed'
     progress={'daysPublished':sum(not c['draft'] for c in cards),'daysCompleted':sum(not c['draft'] and c['status']['state']=='completed' for c in cards),
       'questionsPublished':sum(c['questionCount'] for c in cards if not c['draft']),'questionsCompleted':sum(c['status']['completed'] for c in cards if not c['draft'])}

@@ -1,4 +1,5 @@
 import {el} from '../../js/dom.js';
+import {listeningAudio} from './audio-preload.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {uuid} from '../../js/adapters/listening-v7.js';
 import {render} from '../../js/generated/views/listening-mcq.js';
@@ -20,6 +21,7 @@ export function mount(context){
   if(busy||signal.aborted)return;busy=true;host.replaceChildren(el('p',{role:'status'},dict.common.loading));
   try{
    const data=programDTO(await viewData(url.pathname+url.search,signal));if(signal.aborted)return;
+   listeningAudio.warmResources(data.days.filter(day=>!day.locked).map(day=>({url:day.audioUrl,priority:day.status.state==='in_progress'?3:day.status.state==='completed'?1:2})));
    const p=data.progress;
    const heading=el('header',{},BackLink({fallbackHref:'/app/listening',label:dict.listening.practiceTitle}),el('p',{class:'body-text'},t.subtitle),el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-published':p.daysPublished},t.daysPublished.replace('{published}',String(p.daysPublished))),p.daysPublished?el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-completed':p.daysCompleted},t.daysCompleted.replace('{done}',String(p.daysCompleted)).replace('{available}',String(p.daysPublished))):null);
    const cards=render({...data,dict,user:context.session.user,context});

@@ -14,6 +14,11 @@ function runtime(token,media,path){
  const send=(node,event)=>{if(dead)return;parent.postMessage({channel:'learners-area-authored-v1',token,op:'media',action:'native-state',event,
   snapshot:{mediaId:identity(node),currentTime:node.currentTime||0,duration:Number.isFinite(node.duration)?node.duration:0,paused:node.paused,ended:node.ended,readyState:node.readyState,playbackRate:node.playbackRate,volume:node.volume,error:node.error?.code??null}},'*');};
  function startState(){
+  const shared=document.getElementById('sharedAudio'),mediaId=shared?identity(shared):null,playable=!!shared&&!!assets.get(identity(shared))&&shared.readyState>=2&&!shared.error;
+  for(const button of document.querySelectorAll('button[onclick*="playWindow("]')){
+   if(!playable){if(!button.hasAttribute('data-la-audio-pending'))button.dataset.laAudioLabel=button.textContent;button.setAttribute('data-la-audio-pending','');button.disabled=!failed.has(mediaId);const text=failed.has(mediaId)?'Retry audio':'Loading audio…';if(button.textContent!==text)button.textContent=text;}
+   else if(button.hasAttribute('data-la-audio-pending')){button.disabled=false;button.textContent=button.dataset.laAudioLabel;button.removeAttribute('data-la-audio-pending');}
+  }
   const button=document.getElementById('startTestBtn'),node=document.getElementById('sharedAudio');if(!button||!node)return;
   const ready=!!assets.get(identity(node))&&node.readyState>=2&&!node.error;
   button.disabled=!ready&&!failed.has(identity(node));
@@ -26,7 +31,7 @@ function runtime(token,media,path){
   for(const node of document.querySelectorAll('audio,video')){
    const id=identity(node),asset=assets.get(id);if(!id||!asset)continue;
    if(node.getAttribute('src')===asset.url)continue;
-   node.setAttribute('data-la-native-id',id);const time=node.currentTime||0;
+   node.setAttribute('data-la-native-id',id);node.preload='auto';const time=node.currentTime||0;
    nativeSet.set.call(node,asset.url);nativeLoad.call(node);
    if(time>0)node.addEventListener('loadedmetadata',()=>{try{node.currentTime=time;}catch{}},{once:true});
   }
@@ -47,12 +52,12 @@ function runtime(token,media,path){
  // the already-authorized Blob while retaining the browser's native methods.
  Object.defineProperty(HTMLMediaElement.prototype,'src',{configurable:true,get(){return nativeSet.get.call(this);},set(value){
   const id=idOf(value),asset=assets.get(id);if(id)this.setAttribute('data-la-native-id',id);
-  nativeSet.set.call(this,asset?.url||value);if(asset)nativeLoad.call(this);
+  nativeSet.set.call(this,asset?.url||value);if(asset){this.preload='auto';nativeLoad.call(this);}
  }});
  for(const type of ['loadedmetadata','canplay','playing','play','pause','ended','timeupdate','seeked','ratechange','volumechange','error'])
   document.addEventListener(type,event=>{const n=event.target;if(n instanceof HTMLMediaElement&&identity(n)&&assets.has(identity(n))){if(type==='error')failed.add(identity(n));startState();send(n,type);}},true);
  document.addEventListener('click',event=>{
-  if(event.target.closest?.('#startTestBtn')){const a=document.getElementById('sharedAudio');if(!a||!assets.has(identity(a))||a.readyState<2||a.error){event.preventDefault();event.stopImmediatePropagation();if(a&&failed.has(identity(a))){failed.delete(identity(a));parent.postMessage({channel:'learners-area-authored-v1',token,op:'media',action:'native-retry',mediaId:identity(a)},'*');}startState();}}
+  if(event.target.closest?.('#startTestBtn,button[onclick*="playWindow("]')){const a=document.getElementById('sharedAudio');if(!a||!assets.has(identity(a))||a.readyState<2||a.error){event.preventDefault();event.stopImmediatePropagation();if(a&&failed.has(identity(a))){failed.delete(identity(a));parent.postMessage({channel:'learners-area-authored-v1',token,op:'media',action:'native-retry',mediaId:identity(a)},'*');}startState();}}
  },true);
  document.addEventListener('DOMContentLoaded',()=>{observer=new MutationObserver(attach);observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});attach();});
  addEventListener('pagehide',()=>{dead=true;observer?.disconnect();for(const n of document.querySelectorAll('audio,video'))n.pause();for(const url of urls)URL.revokeObjectURL(url);urls.clear();assets.clear();},{once:true});

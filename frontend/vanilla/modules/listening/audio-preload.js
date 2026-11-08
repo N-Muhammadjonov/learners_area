@@ -1,7 +1,7 @@
 import {privateScope} from '../../js/private-scope.js';
 
 export function audioResource(value,origin=globalThis.location?.origin){
- try{const u=new URL(value,origin);if(u.origin!==origin||!u.pathname.startsWith('/api/resources/listening/')||/[\\\s]/.test(value)||/%2f|%5c|%2e/i.test(u.pathname))return null;return u.pathname;}catch{return null;}
+ try{const u=new URL(value,origin);if(u.origin!==origin||!u.pathname.startsWith('/api/resources/')||u.pathname==='/api/resources/'||/[\\\s]/.test(value)||/%2f|%5c|%2e/i.test(u.pathname))return null;return u.pathname;}catch{return null;}
 }
 
 /** Complete recordings shared across catalogue/test routes for one login.
@@ -47,7 +47,11 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
    }
    if(!response)response=await fetcher(resource+'?stream=1',{credentials:'same-origin',mode:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,priority:job.priority>=2?'high':'low',headers:{Accept:'audio/*'}});
    if(response.status!==200)throw Error('Audio unavailable');
-   const mime=(response.headers.get('Content-Type')||'').split(';')[0].trim().toLowerCase(),total=Number(response.headers.get('Content-Length'));
+   const declared=(response.headers.get('Content-Type')||'').split(';')[0].trim().toLowerCase(),total=Number(response.headers.get('Content-Length'));
+   // Older private uploads may have generic object metadata. Preserve their
+   // audio format without accepting HTML/JSON error pages as recordings.
+   const known={mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',ogg:'audio/ogg',opus:'audio/opus'};
+   const mime=['application/octet-stream','binary/octet-stream'].includes(declared)?known[resource.split('.').at(-1).toLowerCase()]??declared:declared;
    if(!/^audio\/[a-z0-9.+-]+$/.test(mime)||!Number.isSafeInteger(total)||total<1||total>maxFileBytes)throw Error('Invalid audio response');
    job.total=total;job.loaded=0;notify(job);reader=response.body?.getReader();if(!reader)throw Error('Missing audio body');
    const chunks=[];
@@ -66,7 +70,7 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
  }
  function enqueue(id,{resource=null,priority=0,retry=false}={}){
   if(!identity()||typeof id!=='string')return null;
-  let job=jobs.get(id);if(job&&resource&&job.resource&&job.resource!==resource)return null;
+  let job=jobs.get(id)||(resource?[...jobs.values()].find(j=>j.resource===resource):null);if(job&&resource&&job.resource&&job.resource!==resource)return null;
   if(!job){job={id,resource,state:'idle',priority,pins:0};jobs.set(id,job);}
   else if(resource&&!job.resource)job.resource=resource;
   job.priority=Math.max(priority,job.priority);
@@ -93,7 +97,8 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
    jobs.delete(job.id);jobs.set(job.id,job);return url;
   }finally{if(cancel)signal?.removeEventListener('abort',cancel);}
  }
- return {warm,status,acquire,blob:resource=>[...jobs.values()].find(j=>j.resource===audioResource(resource,origin())&&j.state==='ready')?.blob??null,release:releaseResource,retry:id=>enqueue(id,{retry:true,priority:5}),
+ function warmResources(items){for(const item of items??[]){const resource=audioResource(typeof item==='string'?item:item?.url,origin());if(!resource)continue;const priority=item?.priority??2,job=enqueue(resource,{resource,priority});if(job){job.basePriority=priority;if(!job.pins)job.priority=priority;}}}
+ return {warm,warmResources,status,acquire,blob:resource=>[...jobs.values()].find(j=>j.resource===audioResource(resource,origin())&&j.state==='ready')?.blob??null,release:releaseResource,retry:id=>enqueue(id,{retry:true,priority:5}),
   subscribe(fn){listeners.add(fn);return()=>listeners.delete(fn);},get bytes(){return bytes;},clear,
   dispose(){unsubscribe();clear();listeners.clear();}};
 }
