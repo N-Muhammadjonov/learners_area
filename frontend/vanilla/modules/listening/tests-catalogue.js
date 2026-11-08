@@ -8,6 +8,7 @@ import {el} from '../../js/dom.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {academicCatalogueDTO} from '../../js/adapters/listening-v10.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
+import {warmUnlockedAudio} from './audio-warmup.js';
 
 export function testsHref(testId) {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(testId))
@@ -59,6 +60,9 @@ export function mount(ctx) {
       const data=catalogueModel(await viewData('/app/listening/academic'+(page?'?page='+encodeURIComponent(page):''),signal));
       if(signal.aborted||ticket!==current)return;
       render(data);
+      // Warm the opening audio ranges for unlocked/in-progress items immediately.
+      // This is transport preparation only; it never changes test progress.
+      void warmUnlockedAudio(data.cards,{signal});
     }catch(e){if(signal.aborted||ticket!==current)return;
       if(e?.status===401){void ctx.navigate('/login',{replace:true});return;}
       host.replaceChildren(RegionFailureNotice({region:'listening-tests',message:dict.auth.errorServer,retryLabel:dict.errorPage.retry,refresh:load}));
