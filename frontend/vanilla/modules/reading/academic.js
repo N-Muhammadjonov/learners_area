@@ -16,10 +16,10 @@ export function mountAcademicCatalogue(context){
   try{
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    const {sets}=readingAcademicCatalogueDTO(raw);const page=Math.max(1,Math.min(10000,parseInt(url.searchParams.get('page')??'1',10)||1));
-   host.replaceChildren(el('div',{class:'mx-auto flex w-full min-w-0 max-w-5xl flex-col gap-5','data-route-usable':'reading-academic'},
+   host.replaceChildren(el('div',{class:'mx-auto flex w-full min-w-0 max-w-7xl flex-col gap-5','data-route-usable':'reading-academic'},
     el('p',{class:'body-text'},dict.readingHub.academicExamHint),
     sets.length===0?el('p',{class:'body-text'},dict.readingHub.academicEmpty):null,
-    el('div',{class:'grid gap-4 sm:grid-cols-2'},sets.slice(0,24).map(set=>el('article',{class:'card flex flex-col gap-3 p-5','data-academic-set':set.id,'data-academic-locked':String(set.locked)},
+    el('div',{class:'grid gap-4 sm:grid-cols-2 lg:grid-cols-3'},sets.slice(0,24).map(set=>el('article',{class:'card flex flex-col gap-3 p-5','data-academic-set':set.id,'data-academic-locked':String(set.locked)},
      el('h2',{class:'card-title'},set.title),
      set.locked?null:el('ol',{},set.passages.map(p=>el('li',{},`${dict.generalReading.passageN.replace('{n}',String(p.passageNo))}: ${p.title}`))),
      answerProgress({state:set.assessmentStatus,done:set.answeredCount,total:set.totalQuestions,label:set.assessmentStatus==='completed'?dict.readingHub.stateCompleted:set.assessmentStatus==='in_progress'?dict.readingHub.stateInProgress:dict.readingHub.stateNotStarted,attrs:{'data-academic-state':set.assessmentStatus}}),
