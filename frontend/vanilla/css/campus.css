@@ -1479,3 +1479,80 @@ html[data-theme] #root :is(
   mask-composite: exclude;
   pointer-events: none;
 }
+
+
+/* 2026-11 unified workspace control and panel surfaces.
+   Scoped to Writing / staff / Retention; avoid exam canvas and modal overlays. */
+html[data-theme="day"] #root [data-campus-shell]{
+ --la-form-fill:#f1f6ff;--la-form-ink:#102740;--la-form-hint:#536783;
+ --la-form-edge:#668cc1;--la-form-focus:#237dce;
+ --la-panel-fill:#edf4ff;--la-panel-ink:#102740;--la-panel-muted:#415976;--la-panel-edge:#83abd5;
+}
+html[data-theme="night"] #root [data-campus-shell]{
+ --la-form-fill:#102640;--la-form-ink:#f3f7fd;--la-form-hint:#c0d0e4;
+ --la-form-edge:#719bc8;--la-form-focus:#69d9e7;
+ --la-panel-fill:#132742;--la-panel-ink:#f3f7fd;--la-panel-muted:#c8d6e8;--la-panel-edge:#426b98;
+}
+/* Management and staff fields must not inherit the page background as their fill. */
+html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-people-directory])
+ :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),textarea,select){
+ box-sizing:border-box;min-height:44px;max-width:100%;
+ background:var(--la-form-fill)!important;color:var(--la-form-ink)!important;
+ border:1.5px solid var(--la-form-edge)!important;border-radius:10px!important;
+ caret-color:var(--la-form-ink)!important;opacity:1!important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-people-directory])
+ :is(input,textarea)::placeholder{color:var(--la-form-hint)!important;opacity:1!important}
+html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-people-directory])
+ :is(input,textarea,select):focus-visible{
+ outline:3px solid var(--la-form-focus)!important;outline-offset:2px!important;
+}
+/* Restore accessible text contrast in Retention overview, history and results. */
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is([data-retention-instructions],[data-retention-summary],[data-retention-history-row],
+     [data-retention-session-region],[data-retention-result-meta],[data-retention-result] .panel){
+ background:var(--la-panel-fill)!important;color:var(--la-panel-ink)!important;
+ border:1px solid var(--la-panel-edge)!important;border-radius:16px!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is([data-retention-instructions],[data-retention-summary],[data-retention-history-row],
+     [data-retention-session-region],[data-retention-result-meta],[data-retention-result] .panel)
+ :is(h1,h2,h3,h4,dt,dd,p,span,strong,label,li){
+ color:inherit!important;opacity:1!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is([data-retention-instructions],[data-retention-summary],[data-retention-history-row],[data-retention-result-meta])
+ :is(.body-text,.meta-text,.page-subtitle){
+ color:var(--la-panel-muted)!important;opacity:1!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select){
+ background:var(--la-form-fill)!important;color:var(--la-form-ink)!important;
+ border:1.5px solid var(--la-form-edge)!important;border-radius:10px!important;
+ caret-color:var(--la-form-ink)!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is(input,textarea)::placeholder{color:var(--la-form-hint)!important;opacity:1!important}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is(input,textarea,select):focus-visible{
+ outline:3px solid var(--la-form-focus)!important;outline-offset:2px!important;
+}
+/* All scoped action controls follow the existing button radius/focus vocabulary. */
+html[data-theme] #root [data-campus-shell]
+ :is([data-management-hub],[data-staff-view],[data-retention-page],[data-writing-native])
+ :is(.btn-primary,.btn-secondary,.btn-ghost):focus-visible{
+ outline:3px solid #45d8db!important;outline-offset:3px!important;
+}
+html[data-theme] #root [data-campus-shell]
+ :is([data-management-hub],[data-staff-view],[data-retention-page])
+ :is(.btn-primary,.btn-secondary,.btn-ghost):disabled{
+ opacity:.55!important;cursor:not-allowed!important;
+}
+@media(max-width:640px){
+ html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-retention-page])
+ :is(input,textarea,select){min-width:0;max-width:100%}
+}
+/* New brand mark has intrinsic padding. Keep full visible area without mobile clipping. */
+html[data-theme] #root [data-campus-shell] [data-campus-topbar-brand] .brand-mark{
+ flex-shrink:0!important;max-width:none!important;
+}
