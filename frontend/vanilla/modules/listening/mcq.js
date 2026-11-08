@@ -4,8 +4,8 @@ import {api} from '../../js/api-client.js';
 import {render,empty} from '../../js/generated/McqMastery.js';
 import {mcqPayload,canAdvance} from '../../js/adapters/mcq.js';
 /** Every transition/reveal/outcome is server-authoritative. No local grading. */
-export function mcqMastery(context,{questions:initial,audioUrl,dayNavigation}){
- const {dict,signal}=context,host=el('div',{'data-native-mcq':''});let questions=initial.map(q=>({...q})),open=null,payload=null,text='',error=null,busy=false,revision=0;
+export function mcqMastery(context,{questions:initial,audioUrl,dayNavigation,autoOpen=false,practice=false}){
+ const {dict,signal}=context,host=el('div',{'data-native-mcq':'',...(practice?{'data-mcq-practice':''}:{})});let questions=initial.map(q=>({...q})),open=null,payload=null,text='',error=null,busy=false,revision=0;
  const media=audioUrl?mcqAudio(context,audioUrl):null;
  function sync(){const b=host.querySelector('[data-mcq-advance]');if(b)b.disabled=busy||!canAdvance(payload,text);host.setAttribute('aria-busy',String(busy));}
  function setText(next){text=next;sync();}
@@ -16,5 +16,5 @@ export function mcqMastery(context,{questions:initial,audioUrl,dayNavigation}){
  async function openDrill(id){if(busy||signal.aborted)return;const version=++revision;busy=true;error=null;text='';draw();try{const data=mcqPayload(await api.request('/api/listening/mcq',{method:'POST',body:{questionId:id},signal}),id);if(version!==revision||signal.aborted)return;payload=data;open=id;}catch(e){if(!signal.aborted)error=dict.common.error;}finally{if(version===revision){busy=false;draw();}}}
  async function advance(){if(busy||signal.aborted||!canAdvance(payload,text))return;busy=true;error=null;const version=++revision,step=payload.next;sync();try{const next=mcqPayload(await api.request(`/api/listening/mcq/${encodeURIComponent(payload.session.id)}`,{method:'PATCH',body:{step:step.to,...(step.field?{text}:{})},signal}),payload.question.id,payload.session.id);if(signal.aborted||version!==revision)return;payload=next;text='';questions=questions.map(q=>q.id===next.question.id?{...q,stage:next.session.stage}:q);if(next.session.stage==='reasoned'&&dayNavigation){/* Original McqMastery: router.replace(currentHref) then router.refresh(). refresh re-derives the day without navigation focus or scroll changes. */const target=new URL(dayNavigation.currentHref,location.origin);if(target.pathname+target.search!==location.pathname+location.search)history.replaceState(history.state,'',target.pathname+target.search+target.hash);void context.refresh();return;}}catch{if(!signal.aborted)error=dict.common.error;}finally{if(version===revision){busy=false;draw();}}}
  function dispose(){revision++;media?.dispose();host.querySelectorAll('audio').forEach(a=>{a.pause();a.removeAttribute('src');a.load();});host.replaceChildren();}
- signal.addEventListener('abort',dispose,{once:true});if(signal.aborted)dispose();else draw();return host;
+ signal.addEventListener('abort',dispose,{once:true});if(signal.aborted)dispose();else{draw();if(autoOpen&&questions[0])void openDrill(questions[0].id);}return host;
 }

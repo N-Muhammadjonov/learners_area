@@ -1597,3 +1597,21 @@ html[data-theme] #root [data-campus-shell]
  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
  mask-composite:exclude;pointer-events:none;
 }
+/* Standalone MCQ uses the Listening activity's practice surface. */
+[data-native-mcq-day]{min-height:100%;background:rgb(var(--workspace-bg,var(--paper)));color:rgb(var(--workspace-ink,var(--ink-900)));padding:26px 22px 60px}
+.mcq-day-workspace{max-width:1160px;margin:auto;display:flex;flex-direction:column;gap:20px}
+[data-listening-mcq-day-title]{font:700 clamp(24px,3vw,32px)/1.2 var(--font-sans),Arial,sans-serif}
+[data-listening-mcq-day-nav]{gap:8px!important}
+[data-listening-mcq-day-nav] a{min-width:40px;min-height:40px;border-radius:8px!important;padding:7px 12px!important}
+[data-mcq-practice]>.card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+[data-mcq-practice]>.card>div:first-child{display:block!important;margin-bottom:18px}
+[data-mcq-practice]>.card>div:first-child h2{font-size:28px;margin-bottom:8px}
+[data-mcq-practice]>.card>div:first-child span{display:block;font-size:16px;line-height:1.5}
+[data-mcq-practice] ul{margin:0!important;display:block!important}
+[data-mcq-practice] li{padding:22px!important;border:1px solid rgb(var(--workspace-line,var(--ink-100)))!important;border-radius:18px;background:rgb(var(--workspace-raised,var(--paper-raised)))}
+[data-mcq-practice] li>div:first-child p:first-child{font-size:22px;font-weight:700;line-height:1.4}
+[data-mcq-practice] li>div:nth-child(2){border:0!important;padding:0!important;background:none!important}
+[data-mcq-practice] textarea{width:100%;min-height:100px;margin:10px 0;padding:10px;border-radius:9px}
+[data-mcq-practice] audio{width:100%;max-width:520px}
+[data-mcq-practice] [data-mcq-options]>label{padding:12px!important;border-radius:10px}
+@media(max-width:640px){[data-native-mcq-day]{padding:20px 14px 40px}[data-mcq-practice] li{padding:16px!important}}

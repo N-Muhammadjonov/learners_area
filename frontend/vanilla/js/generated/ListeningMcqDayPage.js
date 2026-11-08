@@ -6,9 +6,9 @@ import {IconAlert,IconClose,IconTarget,IconSparkles} from './icons.js';
 import {ModuleEmoji} from './module-emoji.js';
 export function render(scope) {
     const { day, dict, t, questions, complete, activeIndex, active, MCQ_FINAL_STAGE, McqMastery } = scope;
-    return (h("div", { className: "mx-auto flex max-w-3xl flex-col gap-6", "data-route-usable": "listening-mcq-day", "data-listening-mcq-day": day.day },
+    return (h("div", { className: "mcq-day-workspace", "data-route-usable": "listening-mcq-day", "data-listening-mcq-day": day.day },
         h("div", null,
-            h(BackLink, { fallbackHref: "/app/listening/mcq", label: t.backToDays, "data-listening-mcq-day-back": true }),
+            
             h("h1", { className: "mt-2 font-display text-2xl text-ink-900", "data-listening-mcq-day-title": true },
                 t.dayLabel.replace("{n}", String(day.day)),
                 " \u00B7 ",
@@ -31,6 +31,6 @@ export function render(scope) {
                 }),
                 complete && (h("span", { className: "text-sm text-band-good", "data-listening-mcq-day-complete": true }, t.practiceComplete))),
             h("p", { className: "text-sm text-ink-500", "data-listening-mcq-day-position": activeIndex + 1 }, t.questionOf.replace("{n}", String(activeIndex + 1)).replace("{total}", String(questions.length))),
-            h(McqMastery, { key: active.id, dict: dict, questions: [{ id: active.id, order: activeIndex + 1, questionText: active.questionText, stage: (active.stage ?? "listen") }], dayNavigation: { currentHref: `/app/listening/mcq/day/${day.day}?q=${activeIndex + 1}`, nextHref: activeIndex + 1 < questions.length ? `/app/listening/mcq/day/${day.day}?q=${activeIndex + 2}` : null }, audioUrl: day.audioUrl }),
+            h(McqMastery, { key: active.id, dict: dict, autoOpen: true, practice: true, questions: [{ id: active.id, order: activeIndex + 1, questionText: active.questionText, stage: (active.stage ?? "listen") }], dayNavigation: { currentHref: `/app/listening/mcq/day/${day.day}?q=${activeIndex + 1}`, nextHref: activeIndex + 1 < questions.length ? `/app/listening/mcq/day/${day.day}?q=${activeIndex + 2}` : null }, audioUrl: day.audioUrl }),
             h("p", { className: "text-xs text-ink-300" }, t.practiceOnly)))));
 }
