@@ -30,7 +30,7 @@ export function mountAttempt(context){
     mountExam({...context,root:body},{
      attemptId:id,testTitle:d.passage.testNo!=null?`Reading Test ${d.passage.testNo}`:d.passage.title,passageTitle:d.passage.title,passageBody:d.passage.bodyText,passageMeta,
      parts:sections.length>1?sections.map(section=>({title:section.passage.title,body:section.passage.bodyText,paragraphs:section.paragraphs.map(publicParagraph),questionIds:section.questions.map(q=>q.id),groupIds:section.groups.map(g=>g.id)})):[],
-     startedAt:d.attempt.startedAt,suggestedMinutes:d.passage.suggestedMinutes,
+     startedAt:d.attempt.startedAt,suggestedMinutes:sections.length>1?60:d.passage.suggestedMinutes,
      groups:d.groups.map(publicGroup),paragraphs:d.paragraphs.map(publicParagraph),
      savedAnswers:Object.fromEntries(d.answers.filter(a=>a.isCorrect===null).map(a=>[a.questionId,a.userAnswer])),
      questions:d.questions.map(publicQuestion)});
