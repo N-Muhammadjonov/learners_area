@@ -5,7 +5,7 @@ import {brandBlock} from '../../js/components/brand.js';
 
 /** Module roots use the Dock. Details keep their existing Back destination. */
 export function campusHeader(header,{dict,back:goBack,signal}={}){
- const brand=el('a',{href:'/app','data-campus-topbar-brand':'','aria-label':'Learners Area'},brandBlock('',36,true));
+ const brand=el('div',{'data-campus-topbar-brand':''},brandBlock('',36,true));
  const back=el('a',{href:'/app','data-campus-back-link':'','aria-label':dict?.common?.back??'Back',class:'btn-secondary'},el('span',{'aria-hidden':'true'},'←'),el('span',{class:'native-return-label','aria-hidden':'true'},'Back'));
  back.addEventListener('click',event=>{if(!back.hasAttribute('data-campus-back-link')||!plainPrimaryClick(event)||!goBack)return;event.preventDefault();goBack(back.getAttribute('href'));},{signal});
  const name=el('span',{'data-campus-module-name':'','aria-current':'location'});
