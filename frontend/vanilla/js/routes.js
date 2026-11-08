@@ -151,7 +151,7 @@ export default routes.map(route=>{if(route.pattern==="/app")return {...route,pro
  if(staff)return {...route,...staff,protected:true};
 /* V51 SPEAKING + WRITING DISPATCH */
 if(["/app/speaking","/app/speaking/lessons","/app/speaking/live-partner","/app/speaking/practice","/app/speaking/ai","/app/speaking/history","/app/speaking/shadowing"].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/speaking/index.js')};
-if(route.pattern==='/app/writing'||route.pattern.startsWith('/app/writing/'))return {...route,protected:true,load:()=>import('../modules/writing/index.js')};
+if(route.pattern==='/app/writing'||route.pattern.startsWith('/app/writing/'))return {...route,protected:true,...(route.pattern==='/app/writing/exam/:id'?{layout:'focus'}:{}),load:()=>import('../modules/writing/index.js')};
 /* V59 ASSIGNMENTS + V60 COACH DISPATCH: native modules, server-only data; teachers/admins never fetch learner data */
 if(route.pattern==='/app/assignments')return {...route,protected:true,load:()=>import('../modules/assignments/index.js')};if(route.pattern==='/app/coach')return {...route,protected:true,load:()=>import('../modules/coach/index.js')};
 /* V63 FOUR ROUTES: shared source-led LessonAuthoringDesk (Grammar/Reading); canonical full-test catalogue; Listening entry. */
