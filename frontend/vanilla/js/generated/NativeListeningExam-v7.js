@@ -44,7 +44,7 @@ export function render(scope) {
             h("label", { className: "block", htmlFor: "listening-notes-text" }, dict.fullListeningHub.examScreen.noteTaking),
             h("textarea", { id: "listening-notes-text", className: "input min-h-40", maxLength: 12000, value: notes, onChange: e => updateNotes(e.target.value) }),
             h("p", { className: "text-xs text-ink-500" }, dict.fullListeningHub.examScreen.notesLocal)),
-        h("audio", { ref: audio, src: audioUrl, preload: "none", onLoadedMetadata: () => {
+        h("audio", { ref: audio, src: audioUrl, preload: sectionMode ? "none" : "auto", onLoadedMetadata: () => {
                 if (audio.current) {
                     audio.current.currentTime = audioPosition;
                     if (duration === undefined && Number.isFinite(audio.current.duration))
