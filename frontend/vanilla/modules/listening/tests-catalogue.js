@@ -44,7 +44,7 @@ export function mount(ctx) {
         el('div',{class:'mt-auto space-y-2','data-listening-test-locked':''},
           el('button',{type:'button',class:'btn-secondary px-3 py-2 text-sm',disabled:true},'🔒 ',t.locked),
           el('p',{class:'text-xs text-ink-500'},t.lockedHint)):
-        el('a',{href:testsHref(card.testId),class:'btn-secondary mt-auto self-start px-3 py-2 text-sm','data-listening-academic-open':''},card.started?t.open:t.openTest);
+        el('a',{href:testsHref(card.testId),class:'btn-primary mt-auto self-start px-3 py-2 text-sm','data-listening-academic-open':''},card.started?t.open:t.openTest);
       grid.append(el('article',{class:'card min-w-0 p-4','data-listening-academic-card':card.testId},
         el('div',{class:'flex h-full flex-col gap-2'},el('h2',{class:'min-w-0 text-base font-semibold leading-snug text-ink-900'},card.title),meta,answerProgress({state:card.answerProgress?.state??'not_started',done:card.answerProgress?.answeredCount,total:card.answerProgress?.totalQuestions,label:card.answerProgress?.state==='completed'?t.complete:card.answerProgress?.state==='in_progress'?dict.readingHub.stateInProgress:t.noProgress,attrs:{'data-listening-answer-progress':''}}),progress,exam,last)));
     }
