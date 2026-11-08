@@ -94,4 +94,6 @@ async def object_response(req,key,info,headers,span,head):
     # API decision rather than exposing the signed URL or arbitrary upstream headers.
     response=await upstream_response('GET',url,signed_headers,headers,object_fallback=True)
     response.headers['Content-Disposition']=headers['Content-Disposition']
+    # BoundedMediaResponse delegates ASGI output to the wrapped response.
+    if hasattr(response,'response'):response.response.headers['Content-Disposition']=headers['Content-Disposition']
     return response
