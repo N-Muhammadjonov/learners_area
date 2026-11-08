@@ -1539,3 +1539,24 @@ html[data-theme] #root [data-campus-shell]
 html[data-theme] #root [data-campus-shell] [data-campus-topbar-brand] .brand-mark{
  flex-shrink:0!important;max-width:none!important;
 }
+
+
+/* Unified cool-blue perimeter for learner progress states, not card or input borders. */
+html[data-theme] #root [data-campus-shell] :is(
+  .learning-progress,
+  .badge-done,
+  .badge-live,
+  .badge-locked,
+  [data-academic-state],
+  [data-listening-answer-progress],
+  [data-video-card-progress]
+) {
+  border: 1px solid #38bdf8 !important;
+  border-radius: 9999px;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  .learning-progress,
+  .badge-done,
+  .badge-live,
+  .badge-locked
+) { width: fit-content; }
