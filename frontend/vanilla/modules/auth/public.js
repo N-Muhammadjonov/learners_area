@@ -12,7 +12,7 @@ export async function mount(context){
  const {root,url,signal,navigate}=context,{locale}=readPreferences(),dict=await dictionary(locale);if(signal.aborted)return;
  const path=url.pathname,register=path==='/register',reset=path.startsWith('/reset-password'),confirm=path.endsWith('/confirm');
  const title=register?dict.auth.registerTitle:reset?confirm?dict.auth.resetConfirmTitle:dict.auth.resetTitle:dict.auth.loginTitle;
- const footer=reset?undefined:[register?dict.auth.haveAccount:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'),' ',el('a',{href:register?'/login':'/landing',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Learners Area bilan tanishing':'Explore Learners Area'))];
+ const footer=reset?undefined:[register?dict.auth.haveAccount:'',el('a',{href:register?'/login':'/landing',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'))];
  const region=el('div',{'data-public-auth':''}),shell=authShell({...context,dict,locale},{title,children:region,footer});root.append(shell);let busy=false;
  async function load(){
   if(busy||signal.aborted)return;busy=true;region.dataset.publicAuth='loading';region.replaceChildren(el('div',{role:'status','aria-busy':'true','aria-label':dict.common.loading,class:'h-32 animate-pulse rounded-xl bg-ink-50'}));
