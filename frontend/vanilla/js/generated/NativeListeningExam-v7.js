@@ -59,7 +59,7 @@ export function render(scope) {
             }, onEnded: () => {
                 setConfirm(true);
             }, onError: () => setError(dict.fullListeningHub.examScreen.recordingUnavailable) }),
-        h("button", { type: "button", className: "btn-primary", onClick: () => void play(), disabled: busy || (mediaDuration > 0 && position >= mediaDuration - 0.5) }, started
+        h("button", { type: "button", className: "btn-primary", "data-listening-start-audio": "", onClick: () => void play(), disabled: busy || (mediaDuration > 0 && position >= mediaDuration - 0.5) }, started
             ? dict.fullListeningHub.examScreen.resume
             : dict.fullListeningHub.examScreen.begin),
         h("p", { role: "status", "data-listening-save-status": "" }, saved),
