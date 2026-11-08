@@ -100,7 +100,7 @@
 [data-root-entry] [data-touch-welcome]{display:block}
 .la-public-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0;background:#0e1a37}
 .la-blue-backdrop{position:absolute;inset:0;z-index:0;background:#0e1a37}
-/* Public artwork keeps its gold lines; workspace control borders stay green. */
+/* Public artwork keeps its original gold accents. */
 #root .la-public-background .la-welcome-ring{border-color:#e5bf5a30!important}
 #root [data-touch-welcome] .la-welcome-orbit .module-emoji{border-color:rgb(var(--gold)/.3)!important}
 .la-landscape{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#101010}
@@ -158,21 +158,6 @@
 [data-campus-shell] [data-shell-main] [data-back-link]{display:none!important}
 [data-campus-shell] [data-vocabulary-title]{display:none}
 
-/* Match the border hue of this module's campus sign in every theme/Focus mode.
-   Keep answer verdicts and selected tabs distinguishable from ordinary controls. */
-[data-campus-shell]:not(:has([data-campus-world])) :is(.card,.panel,.lp-panel,.practice-part-card,.flashcard-face,.flashcard-queue,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,[role="dialog"],dialog,.dropdown-menu,[class~="border"][class*="rounded"],[class*="rounded"]:is([class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper"],[class~="bg-ink-950"])){
- border:1px solid var(--workspace-accent,#00e5ff);
- border-color:var(--workspace-accent,#00e5ff)!important;
- box-shadow:0 0 10px color-mix(in srgb,var(--workspace-accent,#00e5ff) 14%,transparent);
-}
-[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.chip,.badge,.theme-btn,[data-locale-switcher] button,button:not([role="tab"]):not([role="radio"])):not([data-state="right"]):not([data-state="wrong"]){
- border:1px solid var(--workspace-accent,#00e5ff);
- border-color:var(--workspace-accent,#00e5ff)!important;
- box-shadow:0 0 8px color-mix(in srgb,var(--workspace-accent,#00e5ff) 20%,transparent);
-}
-[data-campus-shell] [data-native-module-header] :is(a[aria-current="page"],[aria-selected="true"]){border-bottom-color:var(--workspace-accent,#00e5ff)!important}
-[data-campus-shell]:not(:has([data-campus-world])) :is(button,a,input,textarea,select):focus-visible{outline-color:var(--workspace-accent,#00e5ff)}
-
 /* Focus removes wallpaper/glass and uses Main's flat themed section band. */
 [data-theme][data-focus="on"] [data-native-module-header]{
  background:rgb(var(--paper-raised));color:rgb(var(--ink-900));
@@ -198,7 +183,7 @@
 [data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button):hover:not(:disabled){background:#3042dc!important}
 [data-campus-shell] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button) :is(span,small,strong){color:inherit!important}
 [data-campus-shell] .typing-presets button{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:rgb(var(--ink-500))}
-[data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:var(--workspace-accent);text-underline-offset:8px;text-decoration-thickness:2px}
+[data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:rgb(var(--accent));text-underline-offset:8px;text-decoration-thickness:2px}
 /* Wallpaper workspaces are dark even when Day is selected. Native number/date
    controls must use that surface's scheme rather than the document's scheme. */
 [data-theme]:not([data-focus="on"]) [data-campus-shell] :is(input,select,textarea){color-scheme:dark}
@@ -245,21 +230,19 @@
   justify-content:center;
   min-height:50px;
   padding:10px 24px;
-  border:2px solid #b9f5d8!important;
+  border:2px solid #94b7db!important;
   border-radius:999px!important;
   /* Intentionally preserve the existing btn-secondary background and text colour. */
 }
-[data-auth-shell] .auth-switch-pill:hover {border-color:#e7fff3!important}
+[data-auth-shell] .auth-switch-pill:hover {border-color:#a4e1ff!important}
 
-/* Shared controls: one green edge, readable wrapping, and content-driven height. */
-#root{--workspace-accent:#22c55e;--control-edge:#22c55e}
-#root *,[data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,.interaction-confirm-dialog,[data-global-search-dialog]) *{border-color:#22c55e!important}
+/* Shared controls: readable wrapping and content-driven height. */
 #root :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid){display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-width:0;max-width:100%;min-height:44px;height:auto;white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.4;padding:.65rem 1rem}
 #root :is(.card,.panel,fieldset,[role="dialog"]){min-width:0;max-width:100%;overflow-wrap:anywhere}
 #root :is(input,textarea,select){min-width:0;max-width:100%;box-sizing:border-box;line-height:1.5}
 #root :is(.btn,.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong,small){min-width:0;white-space:inherit;overflow-wrap:inherit}
 #root [data-global-dictionary] [data-dictionary-search]{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;outline:none;padding:.5rem .25rem}
-#root [data-global-dictionary] [data-dictionary-search]:focus-visible{outline:2px solid #22c55e;outline-offset:2px}
+#root [data-global-dictionary] [data-dictionary-search]:focus-visible{outline:2px solid rgb(var(--accent));outline-offset:2px}
 #root [data-global-dictionary]>div:first-child>div{flex-wrap:wrap}
 #root [data-global-dictionary] [data-dictionary-search]{flex-basis:8rem}
 #root [data-game-back],#root [data-games-back-to-vocabulary]{display:inline-flex!important;align-self:flex-start}
@@ -324,10 +307,10 @@ html[data-theme][data-focus="on"]:has([data-campus-shell]) :is([data-workspace-h
  .video-studio[data-transcript-open="true"]{grid-template-columns:minmax(0,1.8fr) minmax(20rem,1fr)}
  .video-transcript-region{position:sticky;top:1rem;max-height:calc(100dvh - 2rem);overflow:auto;overscroll-behavior:contain}
 }
-.learning-progress{display:inline-flex;width:fit-content;max-width:100%;align-items:center;gap:.3rem;border:1px solid currentColor;border-radius:9999px;padding:.25rem .75rem;font-size:.8125rem;font-weight:600;line-height:1.35;color:rgb(var(--ink-700));font-variant-numeric:tabular-nums}
+.learning-progress{display:inline-flex;width:fit-content;max-width:100%;align-items:center;gap:.3rem;border:0;border-radius:9999px;padding:.25rem .75rem;font-size:.8125rem;font-weight:600;line-height:1.35;color:rgb(var(--ink-700));font-variant-numeric:tabular-nums}
 .learning-progress-active{color:rgb(var(--band-good))}
 [data-retention-focus="on"] #root [data-retention-session-region],#root .retention-source{border:0!important;box-shadow:none!important}
-body :is(dialog,[role="dialog"],.dictionary-context-panel,.dictionary-folder-dialog){border-color:#22c55e!important}
+
 #root [data-auth-shell] [data-auth-brand]{--ink-900:248 250 252;--ink-500:203 213 225;--ink-300:203 213 225;color:#f8fafc;text-shadow:0 1px 10px #000}
 [data-auth-shell] .auth-contact-link {
   color:#8de4ee!important;
@@ -603,7 +586,7 @@ html[data-theme] #root [data-campus-shell] [data-utilities-launcher] .module-emo
   color: #000000 !important;
 }
 
-/* Search text fields only: remove inner green rectangle and focus ring.
+/* Search text fields only: leave the inner search element borderless.
    Search containers, layout, dropdowns, other form controls remain untouched. */
 html[data-theme] #root :is(
   [data-global-search-field] input,
@@ -1037,12 +1020,12 @@ html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
   box-shadow: none !important;
 }
 
-/* Vocabulary folder's individual word-selection chips keep the original
-   green outline; exclude them from the new generic pressed-state styling. */
+/* Vocabulary word-selection chips retain their neutral edge and separate
+   selection behavior from generic pressed-state styling. */
 html[data-theme] #root [data-campus-shell]
   #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
   button[data-pick] {
-  border-color: rgb(var(--band-good)) !important;
+  border-color: rgb(var(--workspace-line)) !important;
   box-shadow: none !important;
 }
 html[data-theme] #root [data-campus-shell]
