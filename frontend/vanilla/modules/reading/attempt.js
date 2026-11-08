@@ -23,12 +23,12 @@ export function mountAttempt(context){
    const types=d.questions.map(q=>readingQuestionType(q.typeCode??q.type)?.id);
    const notice=requested&&types.includes(requested)?el('p',{class:'body-text','data-requested-reading-type':requested},`${dict.readingV4.requestedType}: ${questionTypeLabel(requested,locale)}. ${dict.readingV4.wholePassage}`):null;
    host.replaceChildren(notice??'');
-   const body=el('div',{});host.append(body);
+   const body=el('div',{class:d.attempt.status==='in_progress'?'reading-fill':''});host.append(body);
    const passageMeta=d.passage.testNo!=null&&d.passage.passageNo!=null?dict.readingPractice.passageMeta.replace('{test}',String(d.passage.testNo)).replace('{passage}',String(d.passage.passageNo)):null;
    if(d.attempt.status==='in_progress'){
     const sections=d.sections;
     mountExam({...context,root:body},{
-     attemptId:id,passageTitle:d.passage.title,passageBody:d.passage.bodyText,passageMeta,
+     attemptId:id,testTitle:d.passage.testNo!=null?`Reading Test ${d.passage.testNo}`:d.passage.title,passageTitle:d.passage.title,passageBody:d.passage.bodyText,passageMeta,
      parts:sections.length>1?sections.map(section=>({title:section.passage.title,body:section.passage.bodyText,paragraphs:section.paragraphs.map(publicParagraph),questionIds:section.questions.map(q=>q.id),groupIds:section.groups.map(g=>g.id)})):[],
      startedAt:d.attempt.startedAt,suggestedMinutes:d.passage.suggestedMinutes,
      groups:d.groups.map(publicGroup),paragraphs:d.paragraphs.map(publicParagraph),
