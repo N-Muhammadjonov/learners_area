@@ -100,7 +100,7 @@
 [data-root-entry] [data-touch-welcome]{display:block}
 .la-public-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0;background:#0e1a37}
 .la-blue-backdrop{position:absolute;inset:0;z-index:0;background:#0e1a37}
-/* Public artwork retains its own gold lines. */
+/* Public artwork keeps its original gold accents. */
 #root .la-public-background .la-welcome-ring{border-color:#e5bf5a30!important}
 #root [data-touch-welcome] .la-welcome-orbit .module-emoji{border-color:rgb(var(--gold)/.3)!important}
 .la-landscape{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#101010}
@@ -158,10 +158,6 @@
 [data-campus-shell] [data-shell-main] [data-back-link]{display:none!important}
 [data-campus-shell] [data-vocabulary-title]{display:none}
 
-/* Use component borders; reserve accent colour for selection and keyboard focus. */
-[data-campus-shell] [data-native-module-header] :is(a[aria-current="page"],[aria-selected="true"]){border-bottom-color:var(--workspace-accent,#00e5ff)!important}
-[data-campus-shell]:not(:has([data-campus-world])) :is(button,a,input,textarea,select):focus-visible{outline-color:var(--workspace-accent,#00e5ff)}
-
 /* Focus removes wallpaper/glass and uses Main's flat themed section band. */
 [data-theme][data-focus="on"] [data-native-module-header]{
  background:rgb(var(--paper-raised));color:rgb(var(--ink-900));
@@ -187,7 +183,7 @@
 [data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button):hover:not(:disabled){background:#3042dc!important}
 [data-campus-shell] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button) :is(span,small,strong){color:inherit!important}
 [data-campus-shell] .typing-presets button{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:rgb(var(--ink-500))}
-[data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:var(--workspace-accent);text-underline-offset:8px;text-decoration-thickness:2px}
+[data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:rgb(var(--accent));text-underline-offset:8px;text-decoration-thickness:2px}
 /* Wallpaper workspaces are dark even when Day is selected. Native number/date
    controls must use that surface's scheme rather than the document's scheme. */
 [data-theme]:not([data-focus="on"]) [data-campus-shell] :is(input,select,textarea){color-scheme:dark}
@@ -234,19 +230,19 @@
   justify-content:center;
   min-height:50px;
   padding:10px 24px;
-  border:2px solid #b9f5d8!important;
+  border:2px solid #94b7db!important;
   border-radius:999px!important;
   /* Intentionally preserve the existing btn-secondary background and text colour. */
 }
-[data-auth-shell] .auth-switch-pill:hover {border-color:#e7fff3!important}
+[data-auth-shell] .auth-switch-pill:hover {border-color:#a4e1ff!important}
 
-/* Shared controls retain component borders and content-driven height. */
+/* Shared controls: readable wrapping and content-driven height. */
 #root :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid){display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-width:0;max-width:100%;min-height:44px;height:auto;white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.4;padding:.65rem 1rem}
 #root :is(.card,.panel,fieldset,[role="dialog"]){min-width:0;max-width:100%;overflow-wrap:anywhere}
 #root :is(input,textarea,select){min-width:0;max-width:100%;box-sizing:border-box;line-height:1.5}
 #root :is(.btn,.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong,small){min-width:0;white-space:inherit;overflow-wrap:inherit}
 #root [data-global-dictionary] [data-dictionary-search]{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;outline:none;padding:.5rem .25rem}
-#root [data-global-dictionary] [data-dictionary-search]:focus-visible{outline:2px solid #3b6cff;outline-offset:2px}
+#root [data-global-dictionary] [data-dictionary-search]:focus-visible{outline:2px solid rgb(var(--accent));outline-offset:2px}
 #root [data-global-dictionary]>div:first-child>div{flex-wrap:wrap}
 #root [data-global-dictionary] [data-dictionary-search]{flex-basis:8rem}
 #root [data-game-back],#root [data-games-back-to-vocabulary]{display:inline-flex!important;align-self:flex-start}
@@ -311,10 +307,10 @@ html[data-theme][data-focus="on"]:has([data-campus-shell]) :is([data-workspace-h
  .video-studio[data-transcript-open="true"]{grid-template-columns:minmax(0,1.8fr) minmax(20rem,1fr)}
  .video-transcript-region{position:sticky;top:1rem;max-height:calc(100dvh - 2rem);overflow:auto;overscroll-behavior:contain}
 }
-.learning-progress{display:inline-flex;width:fit-content;max-width:100%;align-items:center;gap:.3rem;border:1px solid currentColor;border-radius:9999px;padding:.25rem .75rem;font-size:.8125rem;font-weight:600;line-height:1.35;color:rgb(var(--ink-700));font-variant-numeric:tabular-nums}
+.learning-progress{display:inline-flex;width:fit-content;max-width:100%;align-items:center;gap:.3rem;border:0;border-radius:9999px;padding:.25rem .75rem;font-size:.8125rem;font-weight:600;line-height:1.35;color:rgb(var(--ink-700));font-variant-numeric:tabular-nums}
 .learning-progress-active{color:rgb(var(--band-good))}
 [data-retention-focus="on"] #root [data-retention-session-region],#root .retention-source{border:0!important;box-shadow:none!important}
-body :is(dialog,[role="dialog"],.dictionary-context-panel,.dictionary-folder-dialog){border-color:rgb(var(--ink-100,203 213 225))}
+
 #root [data-auth-shell] [data-auth-brand]{--ink-900:248 250 252;--ink-500:203 213 225;--ink-300:203 213 225;color:#f8fafc;text-shadow:0 1px 10px #000}
 [data-auth-shell] .auth-contact-link {
   color:#8de4ee!important;
@@ -590,7 +586,7 @@ html[data-theme] #root [data-campus-shell] [data-utilities-launcher] .module-emo
   color: #000000 !important;
 }
 
-/* Search text fields only: remove inner green rectangle and focus ring.
+/* Search text fields only: leave the inner search element borderless.
    Search containers, layout, dropdowns, other form controls remain untouched. */
 html[data-theme] #root :is(
   [data-global-search-field] input,
@@ -1024,12 +1020,12 @@ html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
   box-shadow: none !important;
 }
 
-/* Vocabulary folder's individual word-selection chips keep the original
-   green outline; exclude them from the new generic pressed-state styling. */
+/* Vocabulary word-selection chips retain their neutral edge and separate
+   selection behavior from generic pressed-state styling. */
 html[data-theme] #root [data-campus-shell]
   #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
   button[data-pick] {
-  border-color: rgb(var(--band-good)) !important;
+  border-color: rgb(var(--workspace-line)) !important;
   box-shadow: none !important;
 }
 html[data-theme] #root [data-campus-shell]
@@ -1466,3 +1462,156 @@ html[data-theme] #root :is(
   mask-composite: exclude;
   pointer-events: none;
 }
+
+
+/* 2026-11 unified workspace control and panel surfaces.
+   Scoped to Writing / staff / Retention; avoid exam canvas and modal overlays. */
+html[data-theme="day"] #root [data-campus-shell]{
+ --la-form-fill:#f1f6ff;--la-form-ink:#102740;--la-form-hint:#536783;
+ --la-form-edge:#668cc1;--la-form-focus:#237dce;
+ --la-panel-fill:#edf4ff;--la-panel-ink:#102740;--la-panel-muted:#415976;--la-panel-edge:#83abd5;
+}
+html[data-theme="night"] #root [data-campus-shell]{
+ --la-form-fill:#102640;--la-form-ink:#f3f7fd;--la-form-hint:#c0d0e4;
+ --la-form-edge:#719bc8;--la-form-focus:#69d9e7;
+ --la-panel-fill:#132742;--la-panel-ink:#f3f7fd;--la-panel-muted:#c8d6e8;--la-panel-edge:#426b98;
+}
+/* Management and staff fields must not inherit the page background as their fill. */
+html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-people-directory])
+ :is(input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),textarea,select){
+ box-sizing:border-box;min-height:44px;max-width:100%;
+ background:var(--la-form-fill)!important;color:var(--la-form-ink)!important;
+ border:1.5px solid var(--la-form-edge)!important;border-radius:10px!important;
+ caret-color:var(--la-form-ink)!important;opacity:1!important;
+}
+html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-people-directory])
+ :is(input,textarea)::placeholder{color:var(--la-form-hint)!important;opacity:1!important}
+html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-people-directory])
+ :is(input,textarea,select):focus-visible{
+ outline:3px solid var(--la-form-focus)!important;outline-offset:2px!important;
+}
+/* Restore accessible text contrast in Retention overview, history and results. */
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is([data-retention-instructions],[data-retention-summary],[data-retention-history-row],
+     [data-retention-session-region],[data-retention-result-meta],[data-retention-result] .panel){
+ background:var(--la-panel-fill)!important;color:var(--la-panel-ink)!important;
+ border:1px solid var(--la-panel-edge)!important;border-radius:16px!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is([data-retention-instructions],[data-retention-summary],[data-retention-history-row],
+     [data-retention-session-region],[data-retention-result-meta],[data-retention-result] .panel)
+ :is(h1,h2,h3,h4,dt,dd,p,span,strong,label,li){
+ color:inherit!important;opacity:1!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is([data-retention-instructions],[data-retention-summary],[data-retention-history-row],[data-retention-result-meta])
+ :is(.body-text,.meta-text,.page-subtitle){
+ color:var(--la-panel-muted)!important;opacity:1!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select){
+ background:var(--la-form-fill)!important;color:var(--la-form-ink)!important;
+ border:1.5px solid var(--la-form-edge)!important;border-radius:10px!important;
+ caret-color:var(--la-form-ink)!important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is(input,textarea)::placeholder{color:var(--la-form-hint)!important;opacity:1!important}
+html[data-theme] #root [data-campus-shell] [data-retention-page]
+ :is(input,textarea,select):focus-visible{
+ outline:3px solid var(--la-form-focus)!important;outline-offset:2px!important;
+}
+/* All scoped action controls follow the existing button radius/focus vocabulary. */
+html[data-theme] #root [data-campus-shell]
+ :is([data-management-hub],[data-staff-view],[data-retention-page],[data-writing-native])
+ :is(.btn-primary,.btn-secondary,.btn-ghost):focus-visible{
+ outline:3px solid #45d8db!important;outline-offset:3px!important;
+}
+html[data-theme] #root [data-campus-shell]
+ :is([data-management-hub],[data-staff-view],[data-retention-page])
+ :is(.btn-primary,.btn-secondary,.btn-ghost):disabled{
+ opacity:.55!important;cursor:not-allowed!important;
+}
+@media(max-width:640px){
+ html[data-theme] #root [data-campus-shell] :is([data-staff-view],[data-management-hub],[data-retention-page])
+ :is(input,textarea,select){min-width:0;max-width:100%}
+}
+/* New brand mark has intrinsic padding. Keep full visible area without mobile clipping. */
+html[data-theme] #root [data-campus-shell] [data-campus-topbar-brand] .brand-mark{
+ flex-shrink:0!important;max-width:none!important;
+}
+
+
+/* Unified cool-blue perimeter for learner progress states, not card or input borders. */
+html[data-theme] #root [data-campus-shell] :is(
+  .learning-progress,
+  .badge-done,
+  .badge-live,
+  .badge-locked,
+  [data-academic-state],
+  [data-listening-answer-progress],
+  [data-video-card-progress],
+  [data-route-usable="speaking-history"] .badge,
+  [data-writing-native] .badge
+) {
+  border: 1px solid #38bdf8 !important;
+  border-radius: 9999px;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  .learning-progress,
+  .badge-done,
+  .badge-live,
+  .badge-locked
+) { width: fit-content; }
+
+
+/* Retention paginated history: "Load more" matches "Open result". */
+html[data-theme] #root [data-campus-shell] [data-retention-page] button[data-retention-history-more] {
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
+  color: #000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-retention-page] button[data-retention-history-more]::before {
+  content: none !important;
+  display: none !important;
+}
+/* Shared action palette, including MCQ and newly added workspaces. Exam papers
+   keep their own CD controls; correctness/error colours remain semantic. */
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-primary,.btn-gold-solid,button.bg-signal-600,a.bg-signal-600)
+ :is(span,strong,small){color:inherit!important}
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-primary,.btn-gold-solid,button.bg-signal-600,a.bg-signal-600):not([data-state="right"]):not([data-state="wrong"]):not([data-cd-exam] *):not([data-reading-full-focus] *){
+ background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%)!important;
+ color:#000!important;border-color:transparent!important;
+}
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *){
+ position:relative;background:rgb(var(--workspace-raised,var(--paper-raised)))!important;
+ color:rgb(var(--workspace-ink,var(--ink-900)))!important;border-color:transparent!important;
+}
+html[data-theme] #root [data-campus-shell]
+ :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *)::before{
+ content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;
+ background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+ -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+ -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+ mask-composite:exclude;pointer-events:none;
+}
+/* Standalone MCQ uses the Listening activity's practice surface. */
+[data-native-mcq-day]{min-height:100%;background:rgb(var(--workspace-bg,var(--paper)));color:rgb(var(--workspace-ink,var(--ink-900)));padding:26px 22px 60px}
+.mcq-day-workspace{max-width:1160px;margin:auto;display:flex;flex-direction:column;gap:20px}
+[data-listening-mcq-day-title]{font:700 clamp(24px,3vw,32px)/1.2 var(--font-sans),Arial,sans-serif}
+[data-listening-mcq-day-nav]{gap:8px!important}
+[data-listening-mcq-day-nav] a{min-width:40px;min-height:40px;border-radius:8px!important;padding:7px 12px!important}
+[data-mcq-practice]>.card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+[data-mcq-practice]>.card>div:first-child{display:block!important;margin-bottom:18px}
+[data-mcq-practice]>.card>div:first-child h2{font-size:28px;margin-bottom:8px}
+[data-mcq-practice]>.card>div:first-child span{display:block;font-size:16px;line-height:1.5}
+[data-mcq-practice] ul{margin:0!important;display:block!important}
+[data-mcq-practice] li{padding:22px!important;border:1px solid rgb(var(--workspace-line,var(--ink-100)))!important;border-radius:18px;background:rgb(var(--workspace-raised,var(--paper-raised)))}
+[data-mcq-practice] li>div:first-child p:first-child{font-size:22px;font-weight:700;line-height:1.4}
+[data-mcq-practice] li>div:nth-child(2){border:0!important;padding:0!important;background:none!important}
+[data-mcq-practice] textarea{width:100%;min-height:100px;margin:10px 0;padding:10px;border-radius:9px}
+[data-mcq-practice] audio{width:100%;max-width:520px}
+[data-mcq-practice] [data-mcq-options]>label{padding:12px!important;border-radius:10px}
+@media(max-width:640px){[data-native-mcq-day]{padding:20px 14px 40px}[data-mcq-practice] li{padding:16px!important}}

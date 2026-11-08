@@ -5,6 +5,7 @@ COPY scripts/build_native_assets.py ./scripts/build_native_assets.py
 RUN pip install --no-cache-dir rjsmin==1.2.5 rcssmin==1.2.2 && python scripts/build_native_assets.py
 
 FROM python:3.14-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 RUN apt-get update && apt-get install -y --no-install-recommends libicu-dev && rm -rf /var/lib/apt/lists/*
 WORKDIR /srv/app
 COPY services/backend/requirements.txt ./services/backend/requirements.txt

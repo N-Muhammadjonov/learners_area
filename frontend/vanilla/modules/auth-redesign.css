@@ -1,0 +1,58 @@
+/* Scoped Telegram-auth screen. Login transport and permissions remain in auth/public.js. */
+#root .la-auth-redesign{min-height:100dvh;position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;background:#08182d!important;padding:105px max(20px,env(safe-area-inset-left)) 42px max(20px,env(safe-area-inset-right));color:#f3eee5;overflow:hidden}
+#root .la-auth-redesign>.la-public-background{position:fixed;z-index:-1;inset:0}
+#root .la-auth-redesign .la-auth-content{z-index:2;position:relative;display:flex;flex-direction:column;align-items:center;width:min(100%,680px)}
+#root .la-auth-redesign .la-auth-brand{display:inline-flex;align-items:center;justify-content:center;max-width:100%;margin:0 auto 33px;padding:6px 9px;color:#f5f3eb!important;text-decoration:none}
+#root .la-auth-redesign .la-auth-brand .brand-name,#root .la-auth-redesign .la-auth-brand .brand-tagline{color:#f3eee5!important}
+#root .la-auth-redesign .la-login-skills{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2.2vw,24px);flex-wrap:nowrap;max-width:100%;margin:0 auto 32px;pointer-events:none}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip{display:grid;place-items:center;color:#e6b94f;background:#dcb86c19;border:1px solid #e6b94f50;box-shadow:inset 0 0 9px #e6b94f15,0 5px 13px #0003;border-radius:12px;width:46px;height:46px;flex:0 1 auto}
+#root .la-auth-redesign .la-login-skills .module-emoji{width:26px;height:26px;color:inherit!important;background:none!important;border:0!important;box-shadow:none!important}
+#root .la-auth-redesign .la-login-skills svg{width:26px;height:26px;stroke:#e6b94f}
+#root .la-auth-redesign .la-auth-card{position:relative;width:100%;max-width:660px;background:rgba(9,28,55,.88)!important;box-shadow:0 28px 85px #0007,inset 0 1px #ffffff12!important;border:1px solid #32decf!important;border-right-color:#386dff!important;border-bottom-color:#386dff!important;border-radius:24px!important;padding:clamp(25px,3.2vw,42px)!important;color:#f2f3f8!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+#root .la-auth-redesign .la-auth-card h1{color:#fff!important;font-size:clamp(27px,3vw,38px);line-height:1.2;font-weight:750;letter-spacing:-.035em;margin:0 0 14px}
+#root .la-auth-redesign .la-auth-card p,#root .la-auth-redesign .la-auth-card span,#root .la-auth-redesign .la-auth-card label{color:#e3eaf4!important;line-height:1.65}
+#root .la-auth-redesign .la-auth-card a:not(.btn-primary){color:#8ce5e8!important;text-underline-offset:3px}
+#root .la-auth-redesign .la-auth-card :is(input,textarea,select){background:#102747!important;color:#fff!important;border:1px solid #7295ba!important;border-radius:12px!important}
+#root .la-auth-redesign .la-auth-card :is(button,.btn-primary,.btn-secondary){min-height:47px;border-radius:999px!important}
+#root .la-auth-redesign .la-auth-card :is(.btn-primary,.btn-secondary,button[type=submit],[data-telegram-login]){background:linear-gradient(105deg,#32ded0,#3970ff)!important;color:#061a31!important;border:1px solid #31d98f!important;font-weight:700;box-shadow:0 9px 28px #1e83aa29}
+#root .la-auth-redesign .la-auth-footer{font-size:15px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-top:29px;color:#f3eee5!important;text-align:center}
+#root .la-auth-redesign .la-auth-footer>a{color:#f3eee5!important;border-radius:999px!important;background:transparent!important;border:2px solid #32decf!important;padding:10px 23px!important;min-height:47px;font-weight:650}
+#root .la-auth-redesign [data-auth-controls]{position:absolute;inset:0 0 auto;z-index:7;justify-content:flex-end;pointer-events:none}
+#root .la-auth-redesign [data-auth-controls]>*{pointer-events:auto}
+#root .la-auth-redesign [data-auth-controls] :is(button,[role=group]){border-color:#5a8cc4;color:#f8fafc}
+@media(max-width:767px){
+#root .la-auth-redesign .la-public-background,#root .la-auth-redesign .la-public-background *,#root .la-auth-redesign .la-public-background:before,#root .la-auth-redesign .la-public-background:after{animation:none!important;transition:none!important;transform:none!important}
+#root .la-auth-redesign .la-blue-backdrop{display:block!important}
+#root .la-auth-redesign .la-landscape{display:none!important}
+#root .la-auth-redesign{padding-top:110px;padding-bottom:calc(42px + env(safe-area-inset-bottom))}
+#root .la-auth-redesign .la-auth-brand{margin-bottom:24px}
+#root .la-auth-redesign .la-login-skills{gap:clamp(7px,2vw,13px);margin-bottom:24px}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip{height:clamp(32px,9vw,43px);width:clamp(32px,9vw,43px);border-radius:9px}
+#root .la-auth-redesign .la-login-skills .module-emoji,#root .la-auth-redesign .la-login-skills svg{width:23px;height:23px}
+#root .la-auth-redesign .la-auth-card{padding:25px 19px!important;border-radius:19px!important}
+#root .la-auth-redesign .la-auth-footer{font-size:13px;margin-top:26px}
+}
+
+/* Same floating chip motion as arena/learners-area-next, with staggered phases. */
+@keyframes la-login-chip-float{0%,100%{transform:translate3d(0,1px,0) rotate(-2deg)}50%{transform:translate3d(0,-17px,0) rotate(4deg)}}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip{animation:la-login-chip-float 3.37s ease-in-out infinite!important;animation-play-state:running!important;will-change:transform}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(1){animation-delay:0s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(2){animation-delay:-.62s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(3){animation-delay:-1.24s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(4){animation-delay:-1.86s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(5){animation-delay:-2.48s!important}
+#root .la-auth-redesign .la-login-skills .la-welcome-chip:nth-child(6){animation-delay:-3.1s!important}
+#root .la-auth-redesign .la-auth-footer .auth-switch-pill{border:1px solid #31d98f!important;color:#071b31!important;background:linear-gradient(100deg,#32ded0,#3970ff)!important;box-shadow:0 12px 28px #0f86a545;min-height:48px!important;padding:10px 24px!important;white-space:normal}
+#root .la-auth-redesign [data-locale-switcher] [role=group]{display:flex!important;gap:0!important;border:1px solid #35e3d3!important;border-radius:13px!important;overflow:hidden!important;box-shadow:0 0 0 1px #336df9!important;background:rgba(8,26,45,.9)}
+#root .la-auth-redesign [data-locale-switcher] button{border-radius:0!important;min-height:38px!important;padding:8px 14px!important}
+#root .la-auth-redesign [data-locale-switcher] button:first-child{border-top-left-radius:12px!important;border-bottom-left-radius:12px!important}
+#root .la-auth-redesign [data-locale-switcher] button:last-child{border-top-right-radius:12px!important;border-bottom-right-radius:12px!important}
+#root .la-auth-redesign .la-auth-content .la-auth-brand img{object-fit:contain}
+@media(max-width:767px){
+#root .la-auth-redesign .la-public-background .la-welcome-ring,
+#root .la-auth-redesign .la-public-background .la-welcome-aurora,
+#root .la-auth-redesign .la-public-background .la-welcome-cosmos{animation:none!important;transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+#root .la-auth-redesign .la-login-skills .la-welcome-chip{animation:la-login-chip-float 3.37s ease-in-out infinite!important}
+}

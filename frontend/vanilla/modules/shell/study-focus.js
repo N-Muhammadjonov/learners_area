@@ -1,7 +1,8 @@
 import {listen} from '../../js/dom.js';
+import {returnPolicy} from '../campus/return-policy.js';
 
 const STUDY_MODULES=new Set(['live-classes','assignments','mocks','video-lessons','listening','reading','writing','grammar','vocabulary','courses','coach']);
-export const supportsStudyFocus=url=>STUDY_MODULES.has(url.pathname.split('/')[2]);
+export const supportsStudyFocus=url=>STUDY_MODULES.has(url.pathname.split('/')[2])&&returnPolicy(url).mode!=='back';
 
 /** Presentation only: toggling never refreshes a route or touches an attempt.
  * F is intentionally undocumented in the interface. Text entry owns its keys. */

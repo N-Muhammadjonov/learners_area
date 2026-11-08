@@ -49,6 +49,26 @@ def choice_matches(answer,key,options):
   return next((label for value in options for label,body in [choice_shape(value)] if label and body==text),None)
  return option_label(expected)==left if left and expected else option_label(text)==right if text and right else False
 
+def align_source_choices(questions,answers):
+ # A source's Choose TWO/THREE slots are unordered. Match each selected letter
+ # once to its server key, preserving partial credit without duplicate points.
+ result=dict(answers);groups={}
+ for q in questions:
+  key=(q.get('answer_constraint') or {}).get('source_multi_group')
+  if key:groups.setdefault(key,[]).append(q)
+ for rows in groups.values():
+  rows=sorted(rows,key=lambda q:q['question_no']);available=[]
+  for q in rows:
+   value=result.get(str(q['id']),'').strip()
+   if value and value.lower() not in [x.lower() for x in available]:available.append(value)
+  pending=[]
+  for q in rows:
+   match=next((i for i,v in enumerate(available) if choice_matches(v,q['correct_answer'],q.get('options') or [])),None)
+   if match is None:pending.append(q)
+   else:result[str(q['id'])]=available.pop(match)
+  for q in pending:result[str(q['id'])]=available.pop(0) if available else ''
+ return result
+
 def correct(q,answer,choices=None):
  raw=q['accepted_answers'] or []
  constraints=q['answer_constraint'] or {}
@@ -116,6 +136,7 @@ async def general_progress(req:Request):
   answers={k:v[:500] for k,v in b['answers'].items() if k in allowed}
   result=None;score=None;checked=bool(b.get('check'))
   if checked:
+   answers=align_source_choices(qs,answers)
    result=[{'questionId':str(q['id']),'isCorrect':correct(q,answers.get(str(q['id']),'')),
            'correctAnswer':q['correct_answer'],'acceptedAnswers':q['accepted_answers'] or [],
            'evidenceQuote':q['evidence_quote'],'explanation':q['explanation'].strip() if q['explanation'] and q['explanation'].strip() else None} for q in qs]
@@ -160,6 +181,7 @@ async def reading_submit(req:Request,id:str):
    actual=await con.fetch('SELECT question_id,user_answer FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',attempt['id']) if timed_out else []
    by_answer={str(x['question_id']):x['user_answer'] for x in actual} if timed_out else {x['questionId']:x['answer'] for x in entries}
    score=0
+   by_answer=align_source_choices(questions,by_answer)
    await con.execute('DELETE FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',attempt['id'])
    for q in questions:
     ans=by_answer.get(str(q['id']),'')

@@ -31,7 +31,7 @@ export function createTopbar(context){
 /** Reading's timed exam already owns its viewport/header; other focus details
  * get the same topbar without remounting their data, media, timers or drafts. */
 export function focusFrame(context,staging){
- if(staging.querySelector('.reading-workspace-header')){staging.append(shellUtilities(context).node);return staging;}
+ if(staging.querySelector('.reading-workspace-header')||(/^\/app\/reading\/attempts\/[^/]+$/.test(context.url.pathname)&&staging.querySelector('[data-reading-full-focus]'))){staging.append(shellUtilities(context).node);return staging;}
  const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'',class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
  frame.style.setProperty('--workspace-accent',workspaceAccent(context.url));
  const {top}=createTopbar(context),body=el('div',{'data-shell-main':'',class:'min-h-0 flex-1 overflow-auto'});

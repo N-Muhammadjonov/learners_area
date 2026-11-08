@@ -1,3 +1,4 @@
+import {sourceDocument} from './source-layout.js';
 import {el} from '../../js/dom.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {uuid} from '../../js/adapters/listening-v7.js';
@@ -119,7 +120,7 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
    el('h2',{class:'reading-pane-heading'},dict.readingWorkspace.passageHeading.replace('{n}',String(passage.passageNo))),
    el('p',{class:'reading-part-instruction'},range),
    el('h3',{class:'reading-passage-title'},passage.title),
-   el('div',{class:'reading-passage-text','data-passage-body':true},
+   passage.sourceHtml?sourceDocument(passage.sourceHtml,{skipTitle:true}):el('div',{class:'reading-passage-text','data-passage-body':true},
     passage.paragraphs.length?passage.paragraphs.map(paragraph=>el('div',{class:'reading-paragraph'},
      paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
      readingHighlighted(context,{scope:highlightScope,textKey:paragraph.id,text:paragraph.text,lexicalAssistance:true,occurrences:occurrenceSpans(passage.body,paragraph.text,passage.occurrences),sourceId:passageId,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))):

@@ -53,8 +53,10 @@ Do not log request/response objects or caught error payloads.
    exercise authorized and revoked media plus the original Listening controls.
 
 The opaque Listening frame keeps `sandbox="allow-scripts"`, `connect-src 'none'`
-and data/blob media only. Only its trusted parent owns the real native audio and
-short-lived URLs. The original hub paints before audio preparation; authoritative
+and data/blob media only. Its trusted parent downloads and authorizes recordings,
+then passes a Blob to the frame. Playback stays on the frame's real native audio
+element, in the same trusted click as Start Test. No play/pause/seek proxy or
+signed storage URL crosses into the frame. The original hub paints before audio preparation; authoritative
 checkpoint/course hydration gates controls without remounting the document.
 Vocabulary enrichment loads on demand. Preview/staging may leave both Worker
 variables unset and use per-request authenticated streaming; a partial or wrong
@@ -77,6 +79,30 @@ signed S3 URLs are never returned to the browser. Media bodies have a separate
 64-request admission budget so they do not occupy ordinary navigation slots.
 Capability creation remains within the ordinary request budget. Upload APIs,
 the short-lived Worker protocol and existing resource URLs are preserved.
+
+Listening capability responses default to a session-authenticated same-origin
+stream URL. Catalogue warmup and `capability=1&direct=1` return a narrow direct
+Worker grant after the same resource/sequence gates. Complete downloads go
+directly from Cloudflare to the browser, avoiding a Railway byte relay. CORS or
+Worker request failures fall back to the authenticated same-origin stream.
+Worker transport errors use the existing bounded private object fallback.
+A Worker 401/403 first forces a fresh session and resource authorization check;
+revoked sessions and newly locked resources remain denied. Other resource
+capabilities retain their existing direct Worker URL contract.
+
+The Listening Tests catalogue downloads complete unlocked recordings with two
+concurrent transfers into a session-owned 96 MiB memory cache. Transfers survive
+catalogue-to-test navigation. The player obtains a fresh resource grant before
+using a cached Blob, pins the playing recording, and releases it on disposal.
+Logout/account changes abort transfers and revoke all cached URLs. Locked cards
+never enqueue a read. Catalogue cards show download progress and failures.
+
+For a read-only deployment transport check, set `MEDIA_READINESS_CHECK=1` for
+one deployment and then return it to `0`. The startup probe reads 16 bytes of
+the existing first test through private R2 and a narrow, server-authorized Worker
+grant. Optionally set `MEDIA_READINESS_FULL=1` for that deployment to stream the
+complete recording and verify its size, R2 hash, production CORS and throughput. It logs status, size, MIME and range results without tokens, credentials,
+user identities, media bytes, exam starts or database writes.
 
 Bundle with the repository's installed esbuild:
 

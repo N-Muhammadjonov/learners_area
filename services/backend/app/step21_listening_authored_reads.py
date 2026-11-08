@@ -64,6 +64,22 @@ async def authored(req:Request,id:str):
             pkg,err=await get_context(con,user,id)
             if err:return err
             content=pkg['payload'];source=pkg['source_id']
+            # Lightweight, read-only metadata for bounded listing-page media warmup.
+            # get_context already enforces active identity, published test and sequence lock.
+            # Never return media metadata for locked tests or expose R2 public URLs.
+            if req.query_params.get('warmup')=='1':
+                key=pkg.get('audio_object_key')
+                if not isinstance(key,str) or not key.startswith('listening/') or not key.lower().endswith(('.mp3','.m4a','.wav','.aac','.ogg','.opus')):
+                    return core.j({'error':'not_found'},404,AUTHOR_HEADERS)
+                out={'audioUrl':f'/api/resources/{key}?download=1'}
+                from .step20_media_port import media_conf,create_capability,media_url
+                secret=media_conf()
+                if secret:
+                    authority=await core.current_authority(req)
+                    if not authority:return core.j({'error':'unauthenticated'},401,AUTHOR_HEADERS)
+                    token,claims=create_capability(secret,user['id'],authority['authVersion'],authority['sessionKey'],authority['expiresAt'],key)
+                    out.update(downloadUrl=media_url(key,token),expiresAt=claims['exp']*1000)
+                return core.j(out,headers=AUTHOR_HEADERS)
             if req.query_params.get('vocabulary')=='1':
                 return core.j({'vocabulary':await vocabulary_session(con,id,content.get('vocabulary',[]))},headers=AUTHOR_HEADERS)
             original=(source in CATALOGUE or source=='listening-test-1' and id==ORIGINAL1)

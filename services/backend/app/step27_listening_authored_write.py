@@ -90,7 +90,9 @@ async def save(con,u,test_id,values,pkg):
                 await con.execute('''INSERT INTO listening_drafts(attempt_id,answers,audio_position,audio_started_at)
                 VALUES($1,$2::jsonb,$3,NOW()) ON CONFLICT(attempt_id) DO UPDATE SET answers=excluded.answers,
                 audio_position=excluded.audio_position,updated_at=NOW()''',attempt['id'],json.dumps(answers),pos)
-            else:await persist_submit(con,u,attempt_id,questions,answers)
+            elif status=='submitted':await persist_submit(con,u,attempt_id,questions,answers)
+            # 'exited' only saves an unfinished checkpoint. Leaving without
+            # submitting must never generate a completed Listening attempt.
         if status!='in_progress':
             questions=await assigned_questions(con,attempt)
             saved=await con.fetch('SELECT question_id,user_answer,is_correct FROM listening_answers WHERE attempt_id=$1',attempt['id'])

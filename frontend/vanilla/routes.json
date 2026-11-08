@@ -125,7 +125,13 @@
     "/app/listening/tests/[^/]+/[^/]+",
     "/app/admin/materials/[^/]+/[^/]+",
     "/app/admin/writing/[^/]+/[^/]+",
-    "/app/writing/prompts/[^/]+"
+    "/app/writing/prompts/[^/]+",
+    "/method",
+    "/about",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/landing"
   ],
   "redirects": [
     {

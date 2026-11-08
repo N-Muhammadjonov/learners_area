@@ -73,8 +73,11 @@ export class AuthoredMediaController {
             const url = new URL(capability.url, window.location.origin);
             if (typeof capability.url !== 'string' || !capability.url || typeof capability.key !== 'string' || !['https:', 'http:'].includes(url.protocol) || !Number.isFinite(capability.expiresAt) || capability.expiresAt <= (this.options.now ?? Date.now)())
                 throw new Error('Invalid media capability');
+            const playable = this.options.resolveMediaUrl ? await this.options.resolveMediaUrl(item.url,url.href,signal) : url.href;
+            if (this.disposed || signal.aborted || generation !== this.generation)
+                return;
             this.capability = capability;
-            this.audio.src = url.href;
+            this.audio.src = playable;
             this.audio.load();
         })().finally(() => { if (generation === this.generation)
             this.loading = null; });

@@ -19,7 +19,7 @@ const FIELD_LABEL = {
     reasoning: "mcqReasoningLabel",
 };
 export function render(scope) {
-    const { questions, open, payload, text, error, busy, openDrill, advance, setText, dict, dayNavigation, audioUrl } = scope;
+    const { questions, open, payload, text, error, busy, openDrill, advance, setText, dict, dayNavigation, audioUrl, audioSrc=audioUrl } = scope;
     return (h(Card, null,
         h("div", { className: "flex flex-wrap items-center justify-between gap-2" },
             h("h2", { className: "font-display text-lg text-ink-900" }, dict.listening.mcqTitle),
@@ -36,7 +36,7 @@ export function render(scope) {
                         h("p", { className: "text-xs text-ink-300" }, dict.listening[STAGE_LABEL[q.stage]])),
                     !isOpen && (h(Button, { variant: "secondary", onClick: () => openDrill(q.id), disabled: busy, "data-mcq-open": q.id }, q.stage === "listen" ? dict.listening.mcqStart : dict.listening.mcqResume))),
                 isOpen && payload && payload.question.id === q.id && (h("div", { className: "mt-3 rounded-sm border border-ink-100 p-3" },
-                    audioUrl && h("audio", { key: q.id, src: `${audioUrl}#t=${q.at ?? 0}`, controls: true, preload: "none", className: "mb-3 max-w-full", "aria-label": `${dict.fullListeningHub.research.listenPart} · ${q.order}` }),
+                    audioUrl && h("audio", { key: q.id, src: audioSrc ? `${audioSrc}#t=${q.at ?? 0}` : undefined, controls: true, preload: "auto", "data-mcq-audio": q.id, "data-mcq-at": q.at ?? 0, className: "mb-3 max-w-full", "aria-label": `${dict.fullListeningHub.research.listenPart} · ${q.order}` }),
                     !payload.options && (h("p", { className: "mb-2 text-xs text-ink-300", "data-mcq-options-hidden": true }, dict.listening.mcqHiddenNote)),
                     payload.next?.field && payload.next.field !== "chosenAnswer" && (h(fragment, null,
                         h("label", { className: "mb-1 block text-xs font-medium text-ink-500", htmlFor: `mcq-${q.id}` }, dict.listening[FIELD_LABEL[payload.next.field]]),

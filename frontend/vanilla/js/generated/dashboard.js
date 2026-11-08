@@ -189,7 +189,7 @@ export function render(scope) {
         scope.renderers.openLessons = () => DashboardOpenLessonsResolved({ dict, openLessonsPromise });
         scope.renderers.mock = () => MockProgressOverviewResolved({ userId: user.id, locale, dashboard: true });
     }
-    return (h("div", { className: "mx-auto flex max-w-5xl flex-col gap-6", "data-route-usable": "dashboard" },
+    return (h("div", { className: "mx-auto flex w-full max-w-7xl flex-col gap-6", "data-route-usable": "dashboard" },
         h("div", null,
             h("h1", { className: "font-display text-2xl text-ink-900" },
                 dict.dashboard.greeting,

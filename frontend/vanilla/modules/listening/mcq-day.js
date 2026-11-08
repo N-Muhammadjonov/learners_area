@@ -1,5 +1,7 @@
+import {activityBack} from './authored-ui.js';
 import {el} from '../../js/dom.js';import {viewData} from '../../js/adapters/frontend.js';import {mcqDay} from '../../js/adapters/mcq.js';import {render} from '../../js/generated/ListeningMcqDayPage.js';import {mcqActivePosition,MCQ_FINAL_STAGE} from '../../js/generated/mcq-position.js';import {mcqMastery} from './mcq.js';import {ListeningSequenceLocked} from '../../js/generated/listening-locked.js';import {RegionFailureNotice} from '../shared/presentation.js';
 export function mount(context){const {root,dict,url,signal}=context,host=el('div',{'data-native-mcq-day':''},el('p',{role:'status'},dict.common.loading));root.append(host);let busy=false;
+ activityBack({host,signal,active:()=>true,back:()=>context.navigate('/app/listening/mcq')});
  async function missing(){const view=await import('../not-found.js');if(!signal.aborted){host.replaceChildren();await view.mount({...context,root:host});};}
  async function load(){if(busy||signal.aborted)return;busy=true;try{const data=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
   if(data.kind==='locked'){host.replaceChildren(ListeningSequenceLocked({dict,mcq:true}));return;}
