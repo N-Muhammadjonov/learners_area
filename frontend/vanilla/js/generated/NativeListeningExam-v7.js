@@ -6,12 +6,12 @@ export function render(scope) {
     return (h("div", { ref: container, className: "listening-workspace mx-auto max-w-5xl space-y-5 bg-paper p-4 overflow-auto", "data-listening-attempt-mode": sectionMode ? "section" : "full_exam" },
         h("header", { className: "card flex flex-wrap items-center gap-4" },
             h("h1", { className: "font-display text-2xl" }, sectionMode ? title : `${title} · Full Exam`),
-            h("span", null,
+            h("span", { "data-listening-answered-count": "" },
                 answered,
                 " / ",
                 questions.length,
                 " answered"),
-            h("span", null,
+            h("span", { "data-listening-position": "" },
                 Math.floor(position / 60),
                 ":",
                 String(Math.floor(position % 60)).padStart(2, "0"),
@@ -62,8 +62,8 @@ export function render(scope) {
         h("button", { type: "button", className: "btn-primary", onClick: () => void play(), disabled: busy || (mediaDuration > 0 && position >= mediaDuration - 0.5) }, started
             ? dict.fullListeningHub.examScreen.resume
             : dict.fullListeningHub.examScreen.begin),
-        h("p", { role: "status" }, saved),
-        error && h("p", { role: "alert" }, error),
+        h("p", { role: "status", "data-listening-save-status": "" }, saved),
+        error && h("p", { role: "alert", "data-listening-error": "" }, error),
         !sectionMode && (h("nav", { className: "flex flex-wrap gap-2", "aria-label": dict.fullListeningHub.examScreen.sections, "data-listening-exam-sections": true }, [1, 2, 3, 4].map((s) => (h("button", { type: "button", className: section === s ? "btn-primary" : "btn-secondary", key: s, "aria-pressed": section === s, onClick: () => setSection(s) }, dict.fullListeningHub.examScreen.section.replace("{n}", String(s))))))),
         (mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && mapDiagram && h(ListeningMap, { diagram: mapDiagram }),
         (mapSections ?? [HISTORICAL_MAP_PART]).includes(section) && imageUrl && (h("div", { className: "card" },
@@ -102,7 +102,7 @@ export function render(scope) {
                         o));
                 }))) : (h("input", { id: `answer-${q.id}`, className: "input", "data-listening-answer-control": "text", maxLength: 500, value: answers[q.id] ?? "", autoComplete: "off", onChange: (e) => change(q.id, e.target.value) }))));
         }),
-        h("nav", { className: "listening-question-nav", "aria-label": dict.fullListeningHub.examScreen.questionNav }, questions.map((q) => (h("button", { type: "button", className: answers[q.id]?.trim() ? "btn-primary" : "btn-secondary", key: q.id, onClick: () => {
+        h("nav", { className: "listening-question-nav", "aria-label": dict.fullListeningHub.examScreen.questionNav }, questions.map((q) => (h("button", { type: "button", className: answers[q.id]?.trim() ? "btn-primary" : "btn-secondary", "data-listening-question-index": q.id, key: q.id, onClick: () => {
                 setSection(q.section);
                 setTimeout(() => document
                     .getElementById(`question-${q.number}`)
