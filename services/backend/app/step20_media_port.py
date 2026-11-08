@@ -214,18 +214,17 @@ async def deliver(req,key,head):
             if span:h['Content-Range']=f'bytes {span[0]}-{span[1]}/{size}'
             return Response(None if head else graph[span[0]:span[1]+1] if span else graph,status_code=206 if span else 200,headers=h)
         stage='media_configuration'
-        # Listening media is always served by this authenticated same-origin
-        # endpoint after DB ownership/sequence checks, independently of Worker config.
-        secret=None if key.startswith('listening/') else media_conf()
+        # Preserve the user/session/sequence gate above. The configured media
+        # Worker owns R2 delivery; the app proxies its authorized byte ranges.
+        secret=media_conf()
         want_cap=req.query_params.get('capability')=='1'
-        # Listening audio uses the existing private R2 transport after this endpoint
-        # has validated the session, content ownership and sequential unlock.
-        # It must not depend on the media Worker's second authorization handshake.
-        if secret and not key.startswith('listening/'):
+        # The Worker backchannel performs a server-to-server authorization check.
+        # It is not a user-facing prompt or an additional unlock requirement.
+        if secret:
             token,claims=create_capability(secret,authority['user']['id'],authority['authVersion'],authority['sessionKey'],authority['expiresAt'],key)
             url=media_url(key,token)
             if want_cap:return core.j({'url':url,'expiresAt':claims['exp']*1000,'key':key},headers=PRIVATE)
-            if req.query_params.get('download')!='1':
+            if not key.startswith('listening/') and req.query_params.get('download')!='1':
                 return RedirectResponse(url,status_code=302,headers=PRIVATE)
             forwarded={k:req.headers[k] for k in ('range','if-range') if k in req.headers}
             stage='worker_upstream'
@@ -235,6 +234,10 @@ async def deliver(req,key,head):
                 if not key.startswith('listening/'):raise
                 LOG.warning('Listening media Worker transport unavailable; using authorized private object fallback')
                 response=Response(status_code=503,headers=PRIVATE)
+            if response.status_code in (200,206) and key.startswith('listening/'):
+                if response.headers.get('content-type','').lower() in ('application/octet-stream','binary/octet-stream',''):
+                    extension=os.path.splitext(key)[-1].lower()
+                    response.headers['Content-Type']={'.mp3':'audio/mpeg','.m4a':'audio/mp4','.aac':'audio/aac','.wav':'audio/wav','.ogg':'audio/ogg','.opus':'audio/opus'}.get(extension,'application/octet-stream')
             if response.status_code!=503 or not key.startswith('listening/'):return response
             # The current owner/session was verified above. If the Worker
             # backchannel is unavailable, use the existing private R2 transport.
