@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 370" aria-label="Learners Area LA logo">
+<defs>
+<linearGradient id="l" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00b4d8"/><stop offset=".5" stop-color="#00e1d4"/><stop offset="1" stop-color="#03c9b7"/></linearGradient>
+<linearGradient id="f" x1=".15" y1="0" x2=".9" y2="1"><stop stop-color="#48dfff"/><stop offset=".48" stop-color="#20bcf4"/><stop offset="1" stop-color="#00d4ed"/></linearGradient>
+<linearGradient id="r" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06bdf2"/><stop offset=".55" stop-color="#0377f0"/><stop offset="1" stop-color="#103ade"/></linearGradient>
+<linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".75"/><stop offset=".22" stop-color="#8dfaff" stop-opacity=".13"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="g" x="-55%" y="-55%" width="210%" height="210%"><feGaussianBlur stdDeviation="16"/></filter>
+</defs>
+<g filter="url(#g)" opacity=".55"><path d="M104 99Q104 72 135 72H159Q185 72 185 101V262H250Q265 262 265 281V292H134Q104 292 104 262Z" fill="#00e8d9"/><path d="M243 291L318 91Q330 60 351 71Q366 78 375 97L453 266Q465 293 435 293H396Q377 293 368 273L349 230L326 273Q317 292 291 292Z" fill="#046bff"/></g>
+<path d="M110 95Q110 73 135 73H161Q183 73 183 98V251H242Q263 251 263 272V280Q263 298 239 298H143Q110 298 110 263Z" fill="url(#l)" stroke="#00fff0" stroke-width="3"/>
+<path d="M305 242L365 100Q376 76 392 92L456 262Q466 287 442 295H407Q392 294 384 279L366 239H345L326 278Q316 295 295 295H263Q236 289 254 264L301 199" fill="url(#r)" stroke="#40aaff" stroke-width="2.5"/>
+<path d="M247 298Q224 294 238 269L321 93Q332 70 354 71Q383 73 369 107L298 264Q286 293 266 297Z" fill="url(#f)" stroke="#80f7ff" stroke-width="2.4"/>
+<path d="M123 104Q124 86 145 86H158M126 110V256Q126 283 148 283H235" stroke="#8bfff0" stroke-linecap="round" stroke-width="4" fill="none" opacity=".72"/>
+<path d="M256 274L336 96Q344 81 355 86" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".65"/>
+<path d="M375 108L440 268M398 280H436" stroke="#7dccff" stroke-width="3" fill="none" opacity=".58"/>
+<path d="M115 100Q115 79 139 79H161Q177 79 177 99V137H115Z" fill="url(#s)" opacity=".5"/>
+</svg>
