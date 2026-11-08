@@ -95,6 +95,7 @@ export function listeningExam(context,input,composition={}){
    }
    await audio.current.play();
    if(signal.aborted)return;
+   host.querySelector('[data-listening-error]')?.remove();
    playing=true;
    if(!started){started=true;requestSave(0);}
    else if(!startPersisted)requestSave(0);
