@@ -218,6 +218,14 @@ async def deliver(req,key,head):
         # Worker owns R2 delivery; the app proxies its authorized byte ranges.
         secret=media_conf()
         want_cap=req.query_params.get('capability')=='1'
+        if want_cap and key.startswith('listening/'):
+            # Native audio issues new Range requests after metadata preload and
+            # seeks. Keep its URL session-authenticated rather than handing it a
+            # Worker token that expires while the learner is on the test hub.
+            # Each byte request below signs a fresh Worker grant and can use the
+            # existing private fallback without exposing either storage URL.
+            url='/api/resources/'+quote(key,safe='/')+'?stream=1'
+            return core.j({'url':url,'expiresAt':min(int(time.time()*1000)+120000,int(authority['expiresAt'])*1000),'key':key},headers=PRIVATE)
         # The Worker backchannel performs a server-to-server authorization check.
         # It is not a user-facing prompt or an additional unlock requirement.
         if secret:
@@ -242,7 +250,16 @@ async def deliver(req,key,head):
                     # Updating only the outer headers does not alter bytes sent to browsers.
                     response.headers['Content-Type']=mime
                     if hasattr(response,'response'):response.response.headers['Content-Type']=mime
-            if response.status_code!=503 or not key.startswith('listening/'):return response
+            if not key.startswith('listening/') or response.status_code not in (401,403,500,502,503,504):return response
+            if response.status_code in (401,403):
+                # A Worker signing/configuration failure must not masquerade as
+                # revoked learner access. Recheck uncached session and resource
+                # authority before using the private storage transport.
+                authority=await core._load_authority(req)
+                if not authority or authority['user']['account_status']!='active':return core.j({'error':'unauthenticated'},401,PRIVATE)
+                async with db.acquire() as con:
+                    allowed=await allow_resource(con,authority['user'],key)
+                    if allowed!='allowed':return core.j({'error':allowed},403 if allowed=='forbidden' else 404,PRIVATE)
             # The current owner/session was verified above. If the Worker
             # backchannel is unavailable, use the existing private R2 transport.
             # Never return a public/presigned URL to the browser.

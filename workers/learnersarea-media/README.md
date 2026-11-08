@@ -78,6 +78,14 @@ signed S3 URLs are never returned to the browser. Media bodies have a separate
 Capability creation remains within the ordinary request budget. Upload APIs,
 the short-lived Worker protocol and existing resource URLs are preserved.
 
+Listening capability responses use a session-authenticated same-origin stream
+URL. Each native Range request authorizes the learner and signs a fresh Worker
+grant, so metadata preload cannot leave the player using an expired token.
+Worker transport errors use the existing bounded private object fallback.
+A Worker 401/403 first forces a fresh session and resource authorization check;
+revoked sessions and newly locked resources remain denied. Other resource
+capabilities retain their existing direct Worker URL contract.
+
 Bundle with the repository's installed esbuild:
 
 ```sh

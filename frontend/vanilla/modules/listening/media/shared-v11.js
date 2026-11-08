@@ -5,7 +5,45 @@ import {authoredMediaBridge as sourceBridge} from '../../../js/generated/authore
 /** Own source listeners and request/play deadlines without replacing reviewed engine. */
 export class OwnedMediaController extends Base {
  constructor(items,emit,options={}){const listeners=[];let node,add,owner;const create=options.createAudio??(()=>new Audio()),fetcher=options.fetch??globalThis.fetch.bind(globalThis);super(items,p=>{if(owner?.disposed)return;emit(p);if(p.event==='error')options.onError?.();},{...options,fetch:(url,init={})=>fetcher(url,{...init,signal:anySignal([...(init.signal?[init.signal]:[]),AbortSignal.timeout(options.commandTimeout??15000)])}),createAudio:()=>{node=create();add=node.addEventListener;node.addEventListener=function(...args){listeners.push(args);return add.apply(this,args);};return node;}});owner=this;node.addEventListener=add;this.audio.preload='metadata';this.listeners=listeners;this.operations=new Set();this.timeout=options.commandTimeout??15000;this.error=options.onError??(()=>{});}
- async command(command){if(this.disposed)return;if(command.action==='pause')for(const stop of this.operations)if(stop.waiting)stop();const gate=new AbortController(),version=this.playVersion;let timer,stop,cancelledOperation=false;const cancelled=new Promise(resolve=>{stop=(reason='AbortError')=>{if(cancelledOperation)return;cancelledOperation=true;gate.abort();if(command.action==='play'){this.playVersion++;this.intendedPlaying=false;this.audio.pause();}if(command.requestId)this.emit({requestId:command.requestId,ok:false,error:reason});if(reason==='TimeoutError')this.error();resolve();};stop.waiting=command.action==='play';this.operations.add(stop);timer=setTimeout(()=>stop('TimeoutError'),this.timeout);});const run=async()=>{if(command.action==='play'){await Promise.race([this.lastSeek,cancelled]);await seekReady(this,gate.signal);if(this.disposed||version!==this.playVersion)throw new DOMException('Playback cancelled','AbortError');}stop.waiting=false;return super.command(command);};const work=run().catch(error=>{if(command.requestId&&!this.disposed&&!cancelledOperation)this.emit({requestId:command.requestId,ok:false,error:error.name||'NotSupportedError'});if(error.name!=='AbortError'&&!this.disposed&&!cancelledOperation)this.error();});if(command.action==='seek')this.lastSeek=work;try{await Promise.race([work,cancelled]);}finally{gate.abort();clearTimeout(timer);this.operations.delete(stop);}}
+ async command(command){
+  if(this.disposed)return;
+  if(command.action==='pause')for(const stop of this.operations)if(stop.waiting)stop();
+  const gate=new AbortController();let timer,stop,cancelledOperation=false;
+  const cancelled=new Promise(resolve=>{
+   stop=(reason='AbortError')=>{
+    if(cancelledOperation)return;cancelledOperation=true;gate.abort();
+    if(command.action==='play'){this.playVersion++;this.intendedPlaying=false;this.audio.pause();}
+    if(command.requestId)this.emit({requestId:command.requestId,ok:false,error:reason});
+    if(reason==='TimeoutError')this.error();resolve();
+   };
+   stop.waiting=command.action==='play';this.operations.add(stop);
+   timer=setTimeout(()=>stop('TimeoutError'),this.timeout);
+  });
+  const run=async()=>{
+   if(command.action==='play'){
+    await Promise.race([this.lastSeek,cancelled]);
+    if(cancelledOperation||this.disposed)return;
+    // Replace a failed or expired preload before waiting for its seek events.
+    // A failed native element will never emit the successful seek being awaited.
+    const same=this.active===command.mediaId;
+    const renew=same&&(!!this.audio.error||!!this.capability&&this.capability.expiresAt<=(this.options.now??Date.now)()+10000);
+    const saved=renew?{time:this.pendingSeek??this.audio.currentTime,rate:this.audio.playbackRate,volume:this.audio.volume}:null;
+    const selected=this.select(command.mediaId,renew),version=this.playVersion;
+    await Promise.race([selected,cancelled]);
+    if(cancelledOperation||gate.signal.aborted||this.disposed||version!==this.playVersion)throw new DOMException('Playback cancelled','AbortError');
+    if(saved){this.seek(saved.time);this.audio.playbackRate=saved.rate;this.audio.volume=saved.volume;}
+    await seekReady(this,gate.signal);
+    if(cancelledOperation||this.disposed||version!==this.playVersion)throw new DOMException('Playback cancelled','AbortError');
+   }
+   stop.waiting=false;return super.command(command);
+  };
+  const work=run().catch(error=>{
+   if(command.requestId&&!this.disposed&&!cancelledOperation)this.emit({requestId:command.requestId,ok:false,error:error.name||'NotSupportedError'});
+   if(error.name!=='AbortError'&&!this.disposed&&!cancelledOperation)this.error();
+  });
+  if(command.action==='seek')this.lastSeek=work;
+  try{await Promise.race([work,cancelled]);}finally{gate.abort();clearTimeout(timer);this.operations.delete(stop);}
+ }
  async recover(){if(this.disposed||(!this.intendedPlaying&&!this.audio.error))return;try{return await super.recover();}finally{if(this.disposed||!this.intendedPlaying)this.audio.pause();}}
  dispose(){if(this.disposed)return;this.playVersion++;this.intendedPlaying=false;for(const stop of this.operations)stop();this.operations.clear();super.dispose();for(const args of this.listeners)this.audio.removeEventListener(...args);this.listeners=[];}
 }
