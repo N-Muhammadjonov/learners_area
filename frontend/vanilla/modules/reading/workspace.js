@@ -52,7 +52,7 @@ export function createWorkspace({labels,brand,title,state,setPane,setFont}){
   if(parts.title!==undefined&&parts.title!==titleNode.textContent)titleNode.textContent=parts.title;
   if(parts.tools){toolsBox.replaceChildren(...flat(parts.tools),fontControls);}
   if(parts.passagePane&&parts.passagePane!==passageNode){stopHighlights(passageSection);passageSection.replaceChildren(parts.passagePane);passageNode=parts.passagePane;}
-  if(parts.questionsPane!==undefined){stopHighlights(questionsSection);questionsSection.replaceChildren(...flat(parts.questionsPane));}
+  if(parts.questionsPane!==undefined){const top=questionsSection.scrollTop,left=questionsSection.scrollLeft;stopHighlights(questionsSection);questionsSection.replaceChildren(...flat(parts.questionsPane));questionsSection.scrollTop=top;questionsSection.scrollLeft=left;}
   if(parts.navigation!==undefined)navigation.replaceChildren(...flat(parts.navigation));
   if(parts.action!==undefined)action.replaceChildren(...flat(parts.action));
   if(parts.pane!==undefined){
