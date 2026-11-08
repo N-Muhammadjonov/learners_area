@@ -128,7 +128,8 @@
     "/about",
     "/faq",
     "/contact",
-    "/privacy"
+    "/privacy",
+    "/landing"
   ],
   "redirects": [
     {
