@@ -86,6 +86,19 @@ A Worker 401/403 first forces a fresh session and resource authorization check;
 revoked sessions and newly locked resources remain denied. Other resource
 capabilities retain their existing direct Worker URL contract.
 
+The Listening Tests catalogue downloads complete unlocked recordings with two
+concurrent transfers into a session-owned 96 MiB memory cache. Transfers survive
+catalogue-to-test navigation. The player obtains a fresh resource grant before
+using a cached Blob, pins the playing recording, and releases it on disposal.
+Logout/account changes abort transfers and revoke all cached URLs. Locked cards
+never enqueue a read. Catalogue cards show download progress and failures.
+
+For a read-only deployment transport check, set `MEDIA_READINESS_CHECK=1` for
+one deployment and then return it to `0`. The startup probe reads 16 bytes of
+the existing first test through private R2 and a narrow, server-authorized Worker
+grant. It logs status, size, MIME and range results without tokens, credentials,
+user identities, media bytes, exam starts or database writes.
+
 Bundle with the repository's installed esbuild:
 
 ```sh

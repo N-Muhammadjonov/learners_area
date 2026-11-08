@@ -16,10 +16,28 @@ export function originalExamWorkflow() {return `(()=>{
  const remember=()=>{if(!identity())return;localStorage.setItem(draftKey,JSON.stringify({attemptKey:identity(),question:state.currentQ,reviewDeadline}));};
  const oldSave=saveStored;saveStored=function(){remember();return oldSave();};
  const oldBegin=beginExamTimer;
+ let startingAudio=false,audioStarted=false;
+ window.laStartExamAudio=async function(a){
+ if(disposed||startingAudio||state.submitted)return;
+ if(reviewDeadline){beginExamTimer();return;}
+ const status=document.getElementById('examStatus');startingAudio=true;
+ status.textContent='Loading audio…';status.onclick=null;status.style.cursor='default';
+ try{
+  await a.play();
+  if(disposed||state.submitted||!state.examStarted){a.pause();return;}
+  status.textContent='Audio plays once';
+  if(!audioStarted){audioStarted=true;beginExamTimer();}
+ }catch{
+  if(disposed||state.submitted)return;
+  const retry=document.createElement('button');retry.type='button';retry.textContent='Retry audio';
+  retry.className='exam-icon action-label';retry.onclick=()=>window.laStartExamAudio(a);
+  status.replaceChildren(document.createTextNode('Audio could not load. '),retry);
+ }finally{startingAudio=false;}
+ };
  const oldStart=startExam;startExam=function(){
  if(disposed||awaiting||state.examStarted){if(awaiting)toast('Wait for the server result before starting another attempt.');return;}
  const saved=state.attemptStatus==='in_progress'?draft():null;
- reviewDeadline=saved?.reviewDeadline??null;saveSecond=-1;
+ reviewDeadline=saved?.reviewDeadline??null;saveSecond=-1;audioStarted=false;
  // Final review is silent. Do not start the private recording even briefly on resume.
  const a=audio(),play=a.play;
  if(reviewDeadline)a.play=()=>Promise.resolve();

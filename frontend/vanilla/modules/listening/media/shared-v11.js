@@ -1,10 +1,27 @@
 import {anySignal} from '../../../js/signals.js';
+import {listeningAudio,audioResource} from '../audio-preload.js';
 import {seekReady} from './seek-ready-v16.js';
 import {AuthoredMediaController as Base} from '../../../js/generated/authored-media-controller.js';
 import {authoredMediaBridge as sourceBridge} from '../../../js/generated/authored-media-bridge.js';
 /** Own source listeners and request/play deadlines without replacing reviewed engine. */
 export class OwnedMediaController extends Base {
- constructor(items,emit,options={}){const listeners=[];let node,add,owner;const create=options.createAudio??(()=>new Audio()),fetcher=options.fetch??globalThis.fetch.bind(globalThis);super(items,p=>{if(owner?.disposed)return;emit(p);if(p.event==='error')options.onError?.();},{...options,fetch:(url,init={})=>fetcher(url,{...init,signal:anySignal([...(init.signal?[init.signal]:[]),AbortSignal.timeout(options.commandTimeout??15000)])}),createAudio:()=>{node=create();add=node.addEventListener;node.addEventListener=function(...args){listeners.push(args);return add.apply(this,args);};return node;}});owner=this;node.addEventListener=add;this.audio.preload='metadata';this.listeners=listeners;this.operations=new Set();this.timeout=options.commandTimeout??15000;this.error=options.onError??(()=>{});}
+ constructor(items,emit,options={}){
+  const listeners=[],held=new Map();let node,add,owner;
+  const create=options.createAudio??(()=>new Audio()),fetcher=options.fetch??globalThis.fetch.bind(globalThis);
+  const resolveMediaUrl=options.resolveMediaUrl??(async(resource,url,signal)=>{
+   if(!audioResource(resource))return url;
+   if(held.has(resource))return held.get(resource);
+   const cached=await listeningAudio.acquire(resource,signal,options.testId);
+   if(cached)held.set(resource,cached);
+   return cached||url;
+  });
+  super(items,p=>{if(owner?.disposed)return;emit(p);if(p.event==='error')options.onError?.();},{...options,resolveMediaUrl,
+   fetch:(url,init={})=>fetcher(url,{...init,signal:anySignal([...(init.signal?[init.signal]:[]),AbortSignal.timeout(options.commandTimeout??15000)])}),
+   createAudio:()=>{node=create();add=node.addEventListener;node.addEventListener=function(...args){listeners.push(args);return add.apply(this,args);};return node;}});
+  owner=this;node.addEventListener=add;this.audio.preload='auto';this.listeners=listeners;
+  this.operations=new Set();this.timeout=options.commandTimeout??15000;this.error=options.onError??(()=>{});
+  this.releasePreloads=()=>{for(const resource of held.keys())listeningAudio.release(resource);held.clear();};
+ }
  async command(command){
   if(this.disposed)return;
   if(command.action==='pause')for(const stop of this.operations)if(stop.waiting)stop();
@@ -45,7 +62,7 @@ export class OwnedMediaController extends Base {
   try{await Promise.race([work,cancelled]);}finally{gate.abort();clearTimeout(timer);this.operations.delete(stop);}
  }
  async recover(){if(this.disposed||(!this.intendedPlaying&&!this.audio.error))return;try{return await super.recover();}finally{if(this.disposed||!this.intendedPlaying)this.audio.pause();}}
- dispose(){if(this.disposed)return;this.playVersion++;this.intendedPlaying=false;for(const stop of this.operations)stop();this.operations.clear();super.dispose();for(const args of this.listeners)this.audio.removeEventListener(...args);this.listeners=[];}
+ dispose(){if(this.disposed)return;this.playVersion++;this.intendedPlaying=false;for(const stop of this.operations)stop();this.operations.clear();super.dispose();this.releasePreloads();for(const args of this.listeners)this.audio.removeEventListener(...args);this.listeners=[];}
 }
 export function sharedBridge(token,media,path='index.html'){let code=sourceBridge(token,media);code=code.replace('const nativePlay=HTMLMediaElement.prototype.play',`const descriptor=Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype,'src');const select=value=>{let id=String(value).replace(/^la-media:/,'');if(!media.some(m=>m.id===id)){try{if(/^[a-z]+:|^\\//i.test(String(value)))return false;id=media.find(m=>m.path===new URL(String(value),'https://authored.invalid/'+${JSON.stringify(path)}).pathname.slice(1))?.id;}catch{return false;}}if(!media.some(m=>m.id===id))return false;if(id!==active){for(const task of pending.values())task.reject(new DOMException('Source changed','AbortError'));pending.clear();}active=id;state={...state,currentTime:0,duration:media.find(m=>m.id===id).duration||0,paused:true,ended:false,readyState:0};send('load');return true;};Object.defineProperty(HTMLMediaElement.prototype,'src',{configurable:true,get(){return descriptor.get.call(this);},set(value){descriptor.set.call(this,ours(this)&&select(value)?'la-media:'+active:value);}});const nativePlay=HTMLMediaElement.prototype.play`);
  code=code.replace("pending.set(id,{resolve,reject});send('play',undefined,id);","const timer=setTimeout(()=>{pending.delete(id);reject(new DOMException('Audio response timed out','TimeoutError'));},15000);pending.set(id,{resolve:()=>{clearTimeout(timer);resolve();},reject:error=>{clearTimeout(timer);reject(error);}});send('play',undefined,id);");
