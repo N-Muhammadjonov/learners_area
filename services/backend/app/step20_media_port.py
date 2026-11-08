@@ -237,7 +237,11 @@ async def deliver(req,key,head):
             if response.status_code in (200,206) and key.startswith('listening/'):
                 if response.headers.get('content-type','').lower() in ('application/octet-stream','binary/octet-stream',''):
                     extension=os.path.splitext(key)[-1].lower()
-                    response.headers['Content-Type']={'.mp3':'audio/mpeg','.m4a':'audio/mp4','.aac':'audio/aac','.wav':'audio/wav','.ogg':'audio/ogg','.opus':'audio/opus'}.get(extension,'application/octet-stream')
+                    mime={'.mp3':'audio/mpeg','.m4a':'audio/mp4','.aac':'audio/aac','.wav':'audio/wav','.ogg':'audio/ogg','.opus':'audio/opus'}.get(extension,'application/octet-stream')
+                    # BoundedMediaResponse delegates to its inner StreamingResponse.
+                    # Updating only the outer headers does not alter bytes sent to browsers.
+                    response.headers['Content-Type']=mime
+                    if hasattr(response,'response'):response.response.headers['Content-Type']=mime
             if response.status_code!=503 or not key.startswith('listening/'):return response
             # The current owner/session was verified above. If the Worker
             # backchannel is unavailable, use the existing private R2 transport.
