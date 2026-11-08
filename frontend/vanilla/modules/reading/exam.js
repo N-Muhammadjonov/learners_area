@@ -1,3 +1,4 @@
+import {sourceDocument} from './source-layout.js';
 import {el} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {announceFocusEntry} from '../../js/focus-entry.js';
@@ -16,7 +17,7 @@ export function mountExam(context,p){
  const {root,signal,dict}=context,t=dict.readingPractice,host=el('div',{'data-native-view':'reading-attempt',class:'reading-fill','data-reading-practice':true,'data-attempt':p.attemptId});
  root.append(host);
  const durationSeconds=readingDurationSeconds(p.suggestedMinutes);
- const state={activePart:0,pending:null,answers:{...p.savedAnswers},pane:'passage',saveState:Object.keys(p.savedAnswers).length?'saved':'idle',savedAt:null,submitting:false,error:null,now:Date.now(),expiredByServer:false,fontSize:16,split:58,locked:false};
+ const state={activePart:0,pending:null,answers:{...p.savedAnswers},pane:'passage',saveState:Object.keys(p.savedAnswers).length?'saved':'idle',savedAt:null,submitting:false,error:null,now:Date.now(),expiredByServer:false,fontSize:16,split:50,locked:false};
  let inFlight=false,dirty=false,timer=null,alive=true,expiredShown=false;
  const remaining=()=>readingRemainingSeconds(p.startedAt,durationSeconds,state.now);
  const timeExpired=()=>state.expiredByServer||remaining()===0;
@@ -120,7 +121,7 @@ export function mountExam(context,p){
    el('h2',{class:'reading-pane-heading'},partLabel(state.activePart)),
    range?el('p',{class:'reading-part-instruction'},range):null,
    el('h3',{class:'reading-passage-title'},shownTitle),
-   el('div',{class:'reading-passage-text','data-passage-body':true},
+   (current?.sourceHtml??p.passageSourceHtml)?sourceDocument(current?.sourceHtml??p.passageSourceHtml,{skipTitle:true}):el('div',{class:'reading-passage-text','data-passage-body':true},
     shownParagraphs.length?shownParagraphs.map(paragraph=>el('div',{class:'reading-paragraph','data-paragraph':paragraph.label??'none'},
      paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
      readingHighlighted(context,{...highlightOpts,textKey:paragraph.id,text:paragraph.text,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))):

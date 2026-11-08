@@ -50,7 +50,7 @@ export function mountAnalysis(context,p){
    el('p',{class:'mb-1 text-xs font-semibold uppercase tracking-wide text-ink-500'},group.displayTitle??dict.readingPractice.groupQuestions.replace('{from}',String(group.fromQuestionNo??q.questionNo??q.order)).replace('{to}',String(group.toQuestionNo??q.questionNo??q.order))),
    group.sharedChoices.length>0?el('ul',{},group.sharedChoices.map(c=>el('li',{},c))):null,
    group.instructionsText?el('p',{class:'whitespace-pre-line text-sm text-ink-700'},group.instructionsText):null));
-  const card=el('div',{class:`card p-5 ${a?.isCorrect?'border-band-good/40':'border-band-bad/40'}`},
+  const card=el('div',{'data-review-question':q.id,class:`card p-5 ${a?.isCorrect?'border-band-good/40':'border-band-bad/40'}`},
    el('div',{class:'mb-2 flex flex-wrap items-center justify-between gap-2'},
     el('p',{class:'text-sm font-medium text-ink-900'},`${q.questionNo??q.order}. ${q.questionText.trim()||dict.readingPractice.chooseLetter}`),
     el('span',{class:`badge ${a?.isCorrect?'bg-band-good/10 text-band-good':'bg-band-bad/10 text-band-bad'}`},a?.isCorrect?dict.reading.correct:dict.reading.incorrect)),

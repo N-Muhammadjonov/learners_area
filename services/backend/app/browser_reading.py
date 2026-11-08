@@ -1,4 +1,5 @@
 """Reading catalogue, owned attempts and explicit learning-check hydration."""
+from .reading_presentation import for_passage
 import hashlib
 import math
 import re
@@ -31,7 +32,7 @@ async def academic_catalogue(con,user):
       AND NOT EXISTS(SELECT 1 FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id AND (g.passage_no NOT IN (1,2,3) OR NOT {live('p')} OR NOT EXISTS(SELECT 1 FROM reading_questions q WHERE q.passage_id=p.id)))
       AND {academic_question_count()}
       AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||s.id::text)::uuid AND d.type='CONTENT_DELETED')
-      ORDER BY (SELECT min(p.test_no) FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id) NULLS LAST,
+      ORDER BY (s.source_ref LIKE 'reading30:%'), CASE WHEN s.source_ref LIKE 'reading30:%' THEN substring(s.source_ref from '[0-9]+$')::int ELSE 0 END, (SELECT min(p.test_no) FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id) NULLS LAST,
         (SELECT min(p.external_id) FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id) NULLS LAST,s.created_at,s.id""")
     if not rows:return []
     ids=[r['id'] for r in rows]
@@ -68,7 +69,9 @@ async def section(con, passage_id, reveal=False):
     groups = await con.fetch('SELECT * FROM reading_question_groups WHERE passage_id=$1 ORDER BY position,id',passage_id)
     paragraphs = await con.fetch('SELECT * FROM reading_passage_paragraphs WHERE passage_id=$1 ORDER BY position,id',passage_id)
     occurrences = await con.fetch('SELECT id,start_char,end_char,surface_form FROM lexical_occurrences WHERE passage_id=$1',passage_id)
-    return {'passage':camel(passage),'questions':[public_question(r,reveal) for r in questions],'groups':[camel(r) for r in groups],'paragraphs':[camel(r) for r in paragraphs],'occurrences':[camel(r) for r in occurrences]}
+    layout=for_passage(passage_id)
+    group_rows=[{**camel(r),**({'sourceHtml':layout['groups'][str(r['id'])]} if str(r['id']) in layout.get('groups',{}) else {})} for r in groups]
+    return {'passage':{**camel(passage),**({'sourceHtml':layout['passageHtml']} if layout.get('passageHtml') else {})},'questions':[public_question(r,reveal) for r in questions],'groups':group_rows,'paragraphs':[camel(r) for r in paragraphs],'occurrences':[camel(r) for r in occurrences]}
 
 
 async def attempt(con, uid, id):
@@ -230,7 +233,7 @@ async def read(req, user, path, q):
                         if saved['total']!=len(qs) or sum(r['isCorrect'] for r in result)!=saved['score']:
                             result = None
                     progress[pid] = {'answers':saved['answers'],'score':saved['score'],'total':saved['total'],'checked':bool(saved['checked_at']),'result':result}
-                passages.append({'passageNo':slot['passage_no'],'passageId':pid,'title':p['title'],'body':p['bodyText'],'paragraphs':s['paragraphs'],'questions':s['questions'],'groups':s['groups'],'occurrences':s['occurrences']})
+                passages.append({'passageNo':slot['passage_no'],'passageId':pid,'title':p['title'],'body':p['bodyText'],'sourceHtml':p.get('sourceHtml'),'paragraphs':s['paragraphs'],'questions':s['questions'],'groups':s['groups'],'occurrences':s['occurrences']})
             return {'set':camel({k:row[k] for k in ('id','title','description')}),'passages':passages,'initialProgress':progress}
         if path == '/app/reading': return {}
     raise HTTPException(404,'not_found')

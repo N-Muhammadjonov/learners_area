@@ -1,3 +1,4 @@
+import {sourceQuestions} from './source-layout.js';
 import {el} from '../../js/dom.js';
 import {readingQuestionType,readingOption} from '../../js/generated/reading-lib/question-model.js';
 import {buildSharedStimulus,isSharedStimulusRow,parseStimulus} from '../../js/generated/reading-lib/stimulus.js';
@@ -27,6 +28,7 @@ function constraintLabel(constraint,t){
 const inputWidth=value=>({width:`${Math.min(24,Math.max(16,value.length+3))}ch`});
 /** `onChange(questionId,value)`; `focusable` is the id scheme shared with the exam's focus restore. */
 export function groupHeading(dict,group){
+ if(group.sourceHtml)return null;
  const range=group.displayTitle?null:group.fromQuestionNo&&group.toQuestionNo?dict.readingPractice.groupQuestions.replace('{from}',String(group.fromQuestionNo)).replace('{to}',String(group.toQuestionNo)):null;
  return el('div',{class:'rounded-[16px] border border-ink-100 bg-paper-sunken p-4','data-group-instructions':group.typeCode},
   (group.displayTitle||range)?el('p',{class:'mb-1 text-xs font-semibold uppercase tracking-wide text-ink-500'},group.displayTitle??range):null,
@@ -34,6 +36,7 @@ export function groupHeading(dict,group){
   group.sharedChoices.length>0?el('ul',{class:'mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2','data-group-choices':true},group.sharedChoices.map((choice,index)=>{const {letter,text}=readingOption(choice,index);return el('li',{class:'text-sm text-ink-700'},el('span',{class:'mr-1.5 font-semibold text-ink-900'},letter),text);})):null);
 }
 export function groupQuestions(context,{dict,group,questions,answers,onChange}){
+ if(group.sourceHtml)return [sourceQuestions({group,questions,answers,onChange})];
  const shared=questions.filter(q=>isSharedStimulusRow(q));
  const stimulus=shared.length>0?buildSharedStimulus(shared.map(q=>({...q,questionNo:q.sourceQuestionNo??q.questionNo}))):null;
  const byNumber=new Map();for(const q of questions)if(q.questionNo!==null)byNumber.set(q.sourceQuestionNo??q.questionNo,q);
