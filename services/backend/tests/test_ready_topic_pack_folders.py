@@ -94,23 +94,23 @@ def test_uploaded_ready_packs_keep_all_nine_names_and_source_counts():
     from pathlib import Path
     from app.vocabulary_packs_port import built_in_summaries
     expected={'Food':302,'Health':225,'Shopping':97,'Sports':125,
-        'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':126}
+        'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':161}
     summaries=built_in_summaries()
     assert {p['label']:p['wordCount'] for p in summaries}==expected
     assert all(p['labelUz']==p['label'] for p in summaries)
     path=Path(port.__file__).with_name('vocabulary_builtin_packs.json')
     packs=json.loads(path.read_text(encoding='utf-8'))
-    assert len(packs)==9 and sum(len(p['words']) for p in packs)==1782
+    assert len(packs)==9 and sum(len(p['words']) for p in packs)==1817
     assert {p['id'] for p in packs}=={name.lower() for name in expected}
     food = next(pack for pack in packs if pack['id'] == 'food')
     assert food['words'][0]['term'] == 'Staple food'
     assert food['words'][-1]['term'] == 'Have a carbon footprint'
     assert len({word['term'].casefold() for word in food['words']}) == 302
     media = next(pack for pack in packs if pack['id'] == 'media')
-    assert media['words'][0]['term'] == 'post a video'
-    assert media['words'][-1]['term'] == 'an occurrence'
-    assert len({word['term'].casefold() for word in media['words']}) == 126
-    assert 'Usage:' in next(word for word in media['words'] if word['term'] == 'subscribe to a channel')['definitionEn']
+    assert media['words'][0]['term'] == 'mass media'
+    assert media['words'][-1]['term'] == 'rethink something'
+    assert len({word['term'].casefold() for word in media['words']}) == 161
+    assert 'Usage:' in next(word for word in media['words'] if word['term'] == 'mass media')['definitionEn']
     for pack in packs:
         for word in pack['words']:
             assert word['term'] and word['definitionEn'] and word['translationUz'] and word['example']

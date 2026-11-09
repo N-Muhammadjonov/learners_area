@@ -434,5 +434,42 @@
       "start": 129,
       "end": 181
     }
+  ],
+  "media": [
+    {
+      "label": "Media, axborot va raqamli o‘zgarishlar",
+      "start": 0,
+      "end": 22
+    },
+    {
+      "label": "Efir, ko‘rsatuvlar va auditoriya",
+      "start": 22,
+      "end": 34
+    },
+    {
+      "label": "Gazeta, nashr va xabar berish",
+      "start": 34,
+      "end": 53
+    },
+    {
+      "label": "Aniqlik, surishtiruv va matbuot erkinligi",
+      "start": 53,
+      "end": 77
+    },
+    {
+      "label": "Mashhurlik va jamoatchilik e’tibori",
+      "start": 77,
+      "end": 113
+    },
+    {
+      "label": "Siyosat, tasvirlash va xolis baholash",
+      "start": 113,
+      "end": 141
+    },
+    {
+      "label": "Ta’sir, munosabat va foydali iboralar",
+      "start": 141,
+      "end": 161
+    }
   ]
 }
