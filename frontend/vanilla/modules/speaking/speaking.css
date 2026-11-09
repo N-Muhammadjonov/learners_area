@@ -35,7 +35,7 @@ html[data-theme] #root [data-practice-question] {
 
 /* Speaking actions: identical gradient palette in every Speaking view.
    Preserve current sizing, positions, border radii and JS event bindings. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
  [data-route-usable="speaking"],[data-route-usable="speaking-practice"],
  [data-route-usable="live-partner"]
 ) :is(.btn-primary, .btn-gold-solid) {
@@ -43,14 +43,14 @@ html[data-theme] #root [data-campus-shell] :is(
  color:#000 !important;
  border-color:transparent !important;
 }
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
  [data-route-usable="speaking"],[data-route-usable="speaking-practice"],
  [data-route-usable="live-partner"]
 ) :is(.btn-primary, .btn-gold-solid) :is(span,strong,small) {
  color:inherit !important;
 }
 /* Outlined controls are not filled unless the user activates their tab. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
  [data-route-usable="speaking"],[data-route-usable="speaking-practice"],
  [data-route-usable="live-partner"]
 ) :is(.btn-secondary,.btn-ghost,[data-practice-crumb],[data-situation-back]) {
@@ -60,13 +60,13 @@ html[data-theme] #root [data-campus-shell] :is(
  border:2px solid transparent !important;
  color:rgb(var(--workspace-ink)) !important;
 }
-html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-practice"] [data-study-support] [role="tab"][aria-selected="true"].btn-secondary {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-route-usable="speaking-practice"] [data-study-support] [role="tab"][aria-selected="true"].btn-secondary {
  background:
   linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,
   linear-gradient(90deg,#3EE6D0,#3B6CFF) border-box !important;
  color:rgb(var(--workspace-ink)) !important;
 }
-html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-practice"] [data-study-support] [role="tab"].btn-primary {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-route-usable="speaking-practice"] [data-study-support] [role="tab"].btn-primary {
  background:linear-gradient(90deg,#3EE6D0,#3B6CFF) !important;
  color:#000 !important;
 }

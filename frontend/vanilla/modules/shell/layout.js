@@ -42,7 +42,7 @@ export function focusFrame(context,staging){
 export function createShell(context){
  const {signal}=context;
  if(context.session.diagnostics||rootDiagnosticsEnabled())void enableDiagnostics(signal,{shell:true});
- const host=el('div',{'data-shell':'','data-campus-shell':'','data-dock-shell':'',class:'flex h-dvh overflow-hidden bg-paper'});
+ const host=el('div',{'data-shell':'','data-campus-shell':'','data-dock-shell':'','data-ui-system':'',class:'flex h-dvh overflow-hidden bg-paper'});
  // Kept detached for the workspace scroll-state contract; no sidebar is rendered.
  const sidebar=el('aside');
  const column=el('div',{'data-dock-workspace':'',class:'flex min-h-0 min-w-0 flex-1 flex-col'});
@@ -53,14 +53,15 @@ export function createShell(context){
  const sections=sectionHeader(context);
  const band=el('div',{'data-workspace-header':''},top,sections.node);column.append(band,main);host.append(column);
  const utilities=shellUtilities(context),dock=moduleDock(context);host.append(dock.node,utilities.node);
- function update(url,user,state){host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);dock.update(url);}
+ function skill(url){host.dataset.workspaceSkill=url.pathname.split('/')[2]||'general';}
+ function update(url,user,state){skill(url);host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);dock.update(url);}
  let stopPending=()=>{};
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});
  modulePrewarm({root:host,routes,signal});viewPrewarm({root:host,signal});navigationIntent({root:host,signal});update(context.url);
- return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,openModule:url=>dock.open(column,url),preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);dock.update(url);},
+ return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){skill(url);chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);dock.update(url);},
   begin:(url,flight,source)=>{end();profile.close();search.close(false);
    const anchor=source?.isConnected?source:null;const stop=beginLinkPending(anchor,flight);
    const restore=()=>{stop();flight.removeEventListener('abort',restore);stopPending=()=>{};};
-   stopPending=restore;flight.addEventListener('abort',restore,{once:true});dock.begin(url,flight,source,column);transition.begin(url,flight);},end};
+   stopPending=restore;flight.addEventListener('abort',restore,{once:true});transition.begin(url,flight);},end};
 }

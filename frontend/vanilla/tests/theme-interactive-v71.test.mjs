@@ -8,7 +8,7 @@ import {typingRace} from '../modules/vocabulary/game-race.js';
 import {renderOnboarding} from '../modules/auth/onboarding.js';
 import {renderPending} from '../modules/auth/pending.js';
 import * as publicAuth from '../modules/auth/public.js';
-const styles=['../css/global.css','../css/campus.css'].map(p=>fs.readFileSync(new URL(p,import.meta.url),'utf8'));
+const styles=['../css/global.css','../css/campus.css','../modules/auth-redesign.css'].map(p=>fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const words=['run','walk','fly'].map((term,i)=>({id:String(i),term,definitionEn:'Move '+term,translationUz:'Harakat',exampleSentence:'We '+term+' every day.',partOfSpeech:'verb',acceptedTranslations:[],sourceType:'reading'}));
 function check(h,label){const cascade=colorCascade(document,styles),failures=[];let checked=0;
  for(const node of h.ctx.root.querySelectorAll('*')){const text=(node.matches('input,textarea')?node.value||node.placeholder:[...node.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join(' ')).trim();if(!/[\p{L}\p{N}]/u.test(text)||node.closest('[disabled],[aria-disabled=true],[data-sidebar-brand]')||node.matches(':disabled'))continue;const s=cascade.get(node);if(!s.visible)continue;

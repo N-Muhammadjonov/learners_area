@@ -8,7 +8,7 @@ export function progressRatio(state,done,total){
 }
 export function answerProgress({state,done,total,label,attrs={}}){
  const ratio=progressRatio(state,done,total);
- return el('span',{...attrs,class:`learning-progress${state==='in_progress'?' learning-progress-active':''}`,title:label},
+ return el('span',{...attrs,'data-ui-status':state,class:`learning-progress${state==='in_progress'?' learning-progress-active':''}`,title:label,'aria-label':ratio?label+' · '+ratio:label},
   state==='completed'?'✓ ':null,ratio||label);
 }
 export function videoProgressText(state,watched,duration,label){

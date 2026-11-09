@@ -5,6 +5,7 @@ import {localAnswerRecorder} from './recorder.js';
 import {studyRich} from './study-rich.js';
 import {vocabularySaver} from './vocabulary-save.js';
 import {BackLink} from '../shared/presentation.js';
+import {speakingMascot} from '../shared/mascot.js';
 import {mountSituations,situationTopics,situationLabels} from './situations.js';
 import {topicCategoryGroups,topicCategoryFor} from './topic-categories.js';
 /** Source: SpeakingPracticePage + PracticeStudio. Uses bounded original GET endpoints,
@@ -21,6 +22,7 @@ export function mount(context){
  root.append(host);
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.speakingHub.cards.practice.title),el('p',{class:'mt-1 text-base text-ink-500'},t.intro)),studio);
  const part=partFrom(url.searchParams.get('part')),topicKey=part?url.searchParams.get('topic'):null;
+ if(!part){const intro=host.querySelector('header'),copy=el('div');copy.append(...intro.childNodes);intro.classList.add('la-speaking-intro');intro.append(copy,speakingMascot());}
  const state={search:'',debounce:0,topics:[],topicCursor:null,topicCount:0,topicBusy:false,prompts:[],promptCursor:null,promptCount:0,promptBusy:false,selected:null,support:null,supportId:null,recorder:null,token:0,blocked:false};
  let topicCategory='all';
  let supportController=null;const savedVocabulary=new Map();
