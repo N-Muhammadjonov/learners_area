@@ -10,6 +10,18 @@ export function listeningExam(context,input,composition={}){
  let answers={...p.initial},notes='',section=1,mediaDuration=p.duration??0,started=!!p.audioStartedAt,position=p.audioPosition,error='',saved='',busy=false,notesOpen=false,confirm=false,dirty=false,saving=false,submitted=false;
  let playing=false,startPersisted=started,saveRequested=false,saveTimeout=null,lastSavedPosition=position,forceSavePosition=false;const SAVE_INTERVAL=15000;
  const audio={current:null},container={current:null},pos={current:position};
+ // A media element must stay attached across notes/section/error presentation.
+ // Recreating a detached replacement also speculatively starts another preload.
+ const mediaHost=document.createElement('div'),viewHost=document.createElement('div');
+ mediaHost.hidden=true;host.append(mediaHost,viewHost);let playFlight=null;
+ function paintPlayback(){
+  host.dataset.listeningPlayback=playing?'playing':playFlight?'loading':error?'error':'paused';
+  const b=host.querySelector('[data-listening-start-audio]');if(!b)return;
+  b.hidden=!p.sectionMode&&playing;b.style.display=b.hidden?'none':'';
+  b.disabled=busy||!!playFlight||(mediaDuration>0&&pos.current>=mediaDuration-.5);
+  if(playFlight)b.setAttribute('aria-busy','true');else b.removeAttribute('aria-busy');
+  b.textContent=started?t.resume:t.begin;
+ }
  try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){answers={...answers,...answerRecord(raw.answers,ids)};dirty=true;}notes=(localStorage.getItem(keys.notes)||'').slice(0,12000);}catch{}
  function persist(){try{localStorage.setItem(keys.draft,JSON.stringify({answers}));}catch{saved=t.deviceUnavailable;paintSaved();}}
  function paintSaved(){const n=host.querySelector('[data-listening-save-status]');if(n)n.textContent=saved;}
@@ -38,7 +50,7 @@ export function listeningExam(context,input,composition={}){
    if(key==='duration'){mediaDuration=value;paintPosition();}
    if(key==='position'){position=value;pos.current=value;paintPosition();}
   };
-  const node=render({...p,dict,answers,section,mediaDuration,started,position,error,saved,busy,notesOpen,notes,confirm,audio,container,pos,
+  const node=render({...p,dict,answers,section,mediaDuration,started,position,error,saved,busy,notesOpen,notes,confirm,audio,container,pos,renderMedia:!old,
    ReadingText:composition.textSurface??(({text,className})=>h('span',{className},text)),
    change,play,submit,
    setNotesOpen:v=>{notesOpen=typeof v==='function'?v(notesOpen):v;draw();},
@@ -47,10 +59,10 @@ export function listeningExam(context,input,composition={}){
    setConfirm:v=>{confirm=v;draw();},
    setError:v=>update('error',v),
    setMediaDuration:v=>update('duration',v),setPosition:v=>update('position',v)});
-  const next=node.querySelector('audio');if(old&&next)next.replaceWith(old);
+  const next=node.querySelector('audio');if(next)mediaHost.append(next);
   audio.current=old??next;container.current=node;
-  host.replaceChildren(node);
-  paintAnswers();paintPosition();paintSaved();
+  viewHost.replaceChildren(node);
+  paintAnswers();paintPosition();paintSaved();paintPlayback();
   if(focus)restoreWhenAttached(focus.id?[...host.querySelectorAll('[id]')].find(n=>n.id===focus.id):host.querySelectorAll('input,select,textarea,button,a')[focus.index],signal,focus);
  }
  function requestSave(delay=1800,force=false){
@@ -84,9 +96,11 @@ export function listeningExam(context,input,composition={}){
    saving=false;if(!signal.aborted){paintSaved();if(succeeded&&(saveRequested||dirty||forceSavePosition))requestSave(2000);}
   }
  }
- async function play(){
-  if(signal.aborted||!audio.current||mediaDuration>0&&pos.current>=mediaDuration-.5)return;
+ function play(){
+  if(signal.aborted||!audio.current||mediaDuration>0&&pos.current>=mediaDuration-.5)return Promise.resolve();
+  if(playFlight)return playFlight;
   error='';
+  const work=(async()=>{
   try{
    if(audio.current.error){
     const media=audio.current,recover=pos.current;
@@ -99,17 +113,18 @@ export function listeningExam(context,input,composition={}){
    playing=true;
    if(!started){started=true;requestSave(0);}
    else if(!startPersisted)requestSave(0);
-   const button=host.querySelector('[data-listening-start-audio]');
-   if(button)button.textContent=t.resume;
   }catch{
    if(!signal.aborted){playing=false;error=t.audioPlayFailed;draw();}
   }
+  })();
+  playFlight=work.finally(()=>{playFlight=null;if(!signal.aborted)paintPlayback();});
+  paintPlayback();return playFlight;
  }
  if(!signal.aborted){
   // Playback events represent real audio progression, not a UI re-render.
-  host.addEventListener('playing',e=>{if(e.target===audio.current){playing=true;if(!started){started=true;requestSave(0);}}}, {capture:true,signal});
-  host.addEventListener('pause',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);}}, {capture:true,signal});
-  host.addEventListener('ended',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);}}, {capture:true,signal});
+  host.addEventListener('playing',e=>{if(e.target===audio.current){playing=true;if(!started){started=true;requestSave(0);}paintPlayback();}}, {capture:true,signal});
+  host.addEventListener('pause',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
+  host.addEventListener('ended',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
  }
  async function submit(){if(busy||submitted||signal.aborted)return;busy=true;error='';draw();try{await api.request(`/api/listening/attempts/${p.attemptId}/submit`,{method:'POST',timeoutMs:12000,body:{answers:p.questions.map(q=>({questionId:q.id,answer:answers[q.id]??''}))},signal});if(signal.aborted)return;submitted=true;clearListeningAttemptLocalState(p.attemptId);await context.navigate(p.sectionMode?`/app/listening/general/${p.testId}`:`/app/listening/tests/${p.testId}/2`);}catch(e){if(signal.aborted)return;if(e.status===409){context.refresh();return;}error=t.submitFailed;busy=false;draw();}}
  const timer=setInterval(()=>{if(dirty||started&&!startPersisted||playing&&Math.abs(pos.current-lastSavedPosition)>=12)void save();},SAVE_INTERVAL);

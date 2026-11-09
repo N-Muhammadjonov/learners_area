@@ -137,33 +137,12 @@ class StaticFrontend:
                             response=Response(status_code=304,headers=headers)
                         elif compressed:
                             response=FileResponse(compressed,media_type=media_type,headers={**headers,'Content-Encoding':'gzip'})
-                        elif range_hdr.startswith('bytes='):
-                            raw_bytes=target.read_bytes()
-                            total_len=len(raw_bytes)
-                            m_rng=re.fullmatch(r'bytes=(\d+)-(\d*)',range_hdr.strip())
-                            if m_rng:
-                                start_b=int(m_rng.group(1))
-                                end_b=int(m_rng.group(2)) if m_rng.group(2) else total_len-1
-                                end_b=min(end_b,total_len-1)
-                                if 0<=start_b<=end_b<total_len:
-                                    chunk=b'' if req.method=='HEAD' else raw_bytes[start_b:end_b+1]
-                                    response=Response(
-                                        chunk,
-                                        status_code=206,
-                                        media_type=media_type,
-                                        headers={
-                                            **headers,
-                                            'Accept-Ranges':'bytes',
-                                            'Content-Range':f'bytes {start_b}-{end_b}/{total_len}',
-                                            'Content-Length':str(end_b-start_b+1),
-                                        },
-                                    )
-                                else:
-                                    response=Response(status_code=416,headers={**headers,'Content-Range':f'bytes */{total_len}'})
-                            else:
-                                response=FileResponse(target,headers=headers)
                         else:
-                            response=FileResponse(target,headers=headers)
+                            # Starlette streams bounded byte ranges in its file worker.
+                            # Avoid read_bytes(): even a ten-byte request previously
+                            # allocated/read the complete asset on the event loop.
+                            # Its range handler also preserves If-Range semantics.
+                            response=FileResponse(target,media_type=media_type,headers=headers)
                 else:
                     matched = path in PUBLIC_PAGES or any(
                         re.fullmatch(pattern, path) for pattern in manifest['routes'])

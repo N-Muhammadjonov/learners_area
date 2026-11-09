@@ -1,7 +1,6 @@
 import {SectionEntryFrame} from './generated/SectionEntryFrame.js';
 import {sectionEntryFrames} from './generated/section-entry.js';
 import {workspaceKey} from './generated/interaction-navigation.js';
-import {publishSessionEvent} from './session-events.js';
 import {enableDiagnostics} from './diagnostics.js';
 import {sessionPresentation} from './adapters/frontend.js';
 import {dictionary,readPreferences} from './preferences.js';
@@ -12,7 +11,7 @@ import {watchPresence} from './presence.js';
 import {moduleLayout} from '../modules/shell/module-layout.js';
 import {createShell,focusFrame} from '../modules/shell/layout.js';
 /** Shell and authority are separate lifetimes: focus routes retain the access gate. */
-export function createWorkspace(root){let pendingScroll,lastPresentation,announced=false;let shell,shellController,session,key,locationKey,authorityController,authorityKey,release;const scroll=new Map();
+export function createWorkspace(root){let pendingScroll,lastPresentation;let shell,shellController,session,key,locationKey,authorityController,authorityKey,release;const scroll=new Map();
  function closeShell(){shellController?.abort();shell=null;shellController=null;key=null;locationKey=null;pendingScroll=undefined;}
  function closeAuthority(){authorityController?.abort();authorityController=null;authorityKey=null;release?.();release=null;}
  function invalidate(){session=null;}
@@ -26,7 +25,11 @@ export function createWorkspace(root){let pendingScroll,lastPresentation,announc
   if(url.pathname!=='/pending'&&session.user.accountStatus!=='active')return {redirect:'/pending'};
   if(/^\/app\/owner(?:\/|$)/.test(url.pathname)&&session.user.role!=='owner')return {redirect:'/app'};
   if(/^\/app\/(teacher|management|admin)(?:\/|$)/.test(url.pathname)&&session.user.role==='student')return {redirect:'/app'};
-  if(!announced){announced=true;publishSessionEvent('refresh');}privateScope.setScope(session.user.id);return {dict,locale,session,invalidateSession:()=>{session=null;}};
+  // Opening another document is not an account mutation. Broadcasting here
+  // remounted active exams in every other tab, interrupting media and inputs.
+  // Login, logout and profile mutations already publish their explicit hints;
+  // the unchanged authority watcher still handles revocation and expiry.
+  privateScope.setScope(session.user.id);return {dict,locale,session,invalidateSession:()=>{session=null;}};
  }
  function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};

@@ -2,21 +2,22 @@ const NS='http://www.w3.org/2000/svg';let serial=0;
 function svg(tag,attrs={},...children){const node=document.createElementNS(NS,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));node.append(...children.flat());return node;}
 
 // Owner's thirteen photographs, in the supplied module order. The JPEG bytes
-// stay unchanged; the SVG viewport and silhouette hide only the studio scene.
+// stay unchanged as references. Display-sized WebP derivatives use the same
+// SVG viewport and silhouette, hiding only the studio scene.
 const referenceImages={
- dashboard:'/images/dock/neon/dashboard.jpg',
- 'live-classes':'/images/dock/neon/live-classes.jpg',
- assignments:'/images/dock/neon/assignments.jpg',
- mocks:'/images/dock/neon/mocks.jpg',
- 'video-lessons':'/images/dock/neon/video-lessons.jpg',
- listening:'/images/dock/neon/listening.jpg',
- reading:'/images/dock/neon/reading.jpg',
- writing:'/images/dock/neon/writing.jpg',
- speaking:'/images/dock/neon/speaking.jpg',
- grammar:'/images/dock/neon/grammar.jpg', // Brain.
- vocabulary:'/images/dock/neon/vocabulary.jpg', // Abc.
- progress:'/images/dock/neon/progress.jpg',
- management:'/images/dock/neon/management.jpg',
+ dashboard:'/images/dock/neon/dashboard.webp',
+ 'live-classes':'/images/dock/neon/live-classes.webp',
+ assignments:'/images/dock/neon/assignments.webp',
+ mocks:'/images/dock/neon/mocks.webp',
+ 'video-lessons':'/images/dock/neon/video-lessons.webp',
+ listening:'/images/dock/neon/listening.webp',
+ reading:'/images/dock/neon/reading.webp',
+ writing:'/images/dock/neon/writing.webp',
+ speaking:'/images/dock/neon/speaking.webp',
+ grammar:'/images/dock/neon/grammar.webp', // Brain.
+ vocabulary:'/images/dock/neon/vocabulary.webp', // Abc.
+ progress:'/images/dock/neon/progress.webp',
+ management:'/images/dock/neon/management.webp',
 };
 
 /** Dock-only references; entries without a supplied image keep their artwork.

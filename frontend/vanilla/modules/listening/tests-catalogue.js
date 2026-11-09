@@ -9,7 +9,6 @@ import {viewData} from '../../js/adapters/frontend.js';
 import {academicCatalogueDTO} from '../../js/adapters/listening-v10.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {EmptyState} from '../../js/generated/ui.js';
-import {warmUnlockedAudio} from './audio-warmup.js';
 import {listeningAudio} from './audio-preload.js';
 
 export function testsHref(testId) {
@@ -78,9 +77,8 @@ export function mount(ctx) {
       const data=catalogueModel(await viewData('/app/listening/academic'+(page?'?page='+encodeURIComponent(page):''),signal));
       if(signal.aborted||ticket!==current)return;
       render(data);
-      // Warm the opening audio ranges for unlocked/in-progress items immediately.
-      // This is transport preparation only; it never changes test progress.
-      void warmUnlockedAudio(data.cards,{signal});
+      // Catalogue navigation does not download complete private recordings.
+      // Opening a selected test acquires its audio with fresh server authority.
     }catch(e){if(signal.aborted||ticket!==current)return;
       if(e?.status===401){void ctx.navigate('/login',{replace:true});return;}
       host.replaceChildren(RegionFailureNotice({region:'listening-tests',message:dict.auth.errorServer,retryLabel:dict.errorPage.retry,refresh:load}));

@@ -114,7 +114,7 @@ test('the thirteen reference photographs keep the requested mapping, load succes
     return Promise.all(pictures.map(async svg=>{const href=svg.querySelector('image').getAttribute('href'),image=new Image();image.src=href;await image.decode();const container=svg.parentElement;return {key:svg.dataset.dockArtwork,href,width:image.naturalWidth,height:image.naturalHeight,viewBox:svg.getAttribute('viewBox'),background:getComputedStyle(container).backgroundImage,overlay:getComputedStyle(container,'::before').display};}));
    });
    assert.deepEqual(references.map(r=>r.key),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','management']);
-   for(const ref of references){assert.equal(ref.href,'/images/dock/neon/'+ref.key+'.jpg');assert.equal(ref.width,1408);assert.equal(ref.height,768);assert.equal(ref.viewBox,'434 109 541 555');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');}
+   for(const ref of references){assert.equal(ref.href,'/images/dock/neon/'+ref.key+'.webp');assert.equal(ref.width,1408);assert.equal(ref.height,768);assert.equal(ref.viewBox,'434 109 541 555');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');}
    const ids=await page.evaluate(()=>[...document.querySelectorAll('[data-module-dock] [id]')].map(n=>n.id));assert.equal(new Set(ids).size,ids.length);
    await page.locator('[data-module-dock]').screenshot({path:'/tmp/la-premium-dock.png'});
   }finally{await context.close();}
