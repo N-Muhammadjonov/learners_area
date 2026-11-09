@@ -9,6 +9,7 @@ from app.step17_listening_course_port import SPEC,COURSE_KEY
 
 def row(number,id=None,**extra):
     return {'id':id or str(number),'title':f'Listening Test {number}',
+      'audio_url':f'https://audio.example/test-{number}.mp3',
       'source_id':f'custom-{number}','source_ref':None,'program_ref':None,
       'payload':{'sections':[{}]*4,'questions':[{}]*40},**extra}
 
@@ -51,6 +52,8 @@ class OrderingTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([d['day'] for d in data['days']],[1,2,3,10])
         self.assertEqual([d['locked'] for d in data['days']],[False,False,True,True])
         self.assertEqual(data['days'][1]['testId'],'replacement')
+        self.assertEqual([d['audioUrl'] for d in data['days']],
+          ['https://audio.example/test-1.mp3','https://audio.example/test-2.mp3',None,None])
 
     async def test_course_lock_order_matches_reuploaded_card_order(self):
         def work(source):

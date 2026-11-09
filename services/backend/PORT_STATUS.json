@@ -1,11 +1,11 @@
 {
-  "total_methods": 340,
-  "ported_methods": 340,
+  "total_methods": 345,
+  "ported_methods": 345,
   "unported_methods": 0,
   "historical_step40_ported_methods": 272,
   "post_step40_main_additive_methods": 1,
-  "canonical_pre_riwi_methods": 309,
-  "riwi_methods": 31,
+  "canonical_pre_riwi_methods": 311,
+  "riwi_methods": 34,
   "endpoints": [
     {
       "method": "POST",
@@ -566,6 +566,12 @@
       "status": "ported_code_no_db_integration_test"
     },
     {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts/{telegramUserId}/remove",
+      "source": "services/backend/app/telegram_directory_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
       "method": "GET",
       "path": "/api/internal/telegram/directory",
       "source": "src/app/api/internal/telegram/directory/route.ts",
@@ -593,6 +599,12 @@
       "method": "POST",
       "path": "/api/internal/telegram/directory/{userId}/remove",
       "source": "src/app/api/internal/telegram/directory/[userId]/remove/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory/{userId}/results",
+      "source": "services/backend/app/telegram_directory_port.py",
       "status": "ported_code_no_db_integration_test"
     },
     {
@@ -1233,6 +1245,18 @@
     },
     {
       "method": "POST",
+      "path": "/api/riwi/conversations/{conversation_id}/archive",
+      "source": "services/backend/app/riwi_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/riwi/documents/export",
+      "source": "services/backend/app/riwi_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
       "path": "/api/riwi/feedback",
       "status": "ported_verified",
       "origin": "riwi_phase5_gateway"
@@ -1266,6 +1290,12 @@
       "path": "/api/riwi/learning-signals/{signal_id}/review",
       "status": "ported_verified",
       "origin": "riwi_phase5_gateway"
+    },
+    {
+      "method": "GET",
+      "path": "/api/riwi/materials",
+      "source": "services/backend/app/riwi_port.py",
+      "status": "ported_code_no_db_integration_test"
     },
     {
       "method": "POST",
@@ -7543,5 +7573,44 @@
   "latest_main_snapshot": {
     "sha": "d62a2302a8dee9e72ccd6e7812a5ca7c7e4f50ec",
     "path": "docs/riwi-port/current-main-integration-20261101/MAIN_PORT_STATUS_LATEST.json"
-  }
+  },
+  "prior_phase2_inventory_summary": {
+    "total_methods": 340,
+    "ported_methods": 340,
+    "unported_methods": 0,
+    "canonical_pre_riwi_methods": 309,
+    "riwi_methods": 31
+  },
+  "post_snapshot_additive_endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory/{userId}/results",
+      "source": "services/backend/app/telegram_directory_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts/{telegramUserId}/remove",
+      "source": "services/backend/app/telegram_directory_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/riwi/materials",
+      "source": "services/backend/app/riwi_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/riwi/conversations/{conversation_id}/archive",
+      "source": "services/backend/app/riwi_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/riwi/documents/export",
+      "source": "services/backend/app/riwi_port.py",
+      "status": "ported_code_no_db_integration_test"
+    }
+  ]
 }

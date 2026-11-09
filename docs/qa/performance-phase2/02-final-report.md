@@ -1,5 +1,7 @@
 # Learners Area — Phase 2 performance report
 
+2026-11-09 backend follow-up: all 5,923 tests and 282 subtests pass. The 17 inherited failures are resolved. Frontend: 1,385 pass, 11 skip, zero failures. Current receipts and remaining limits are in [05-backend-validation.md](05-backend-validation.md). Older measurements and original test runs below remain historical evidence. Overall Phase 2 remains PARTIAL.
+
 Status: PARTIAL. P1 Reading DOM churn is fixed and measured. P0 Listening media lifetime, repeated play and recovery presentation are fixed and exercised with real Chrome decoding of synthetic audio. Protected original CD IELTS playback remains unverified end to end. This is not full acceptance or a production capacity certificate.
 
 Scope is the owner's later Phase2 request, tasks15–27 only. Phase1 presentation remains the baseline. No production deployment, main merge/push, infrastructure mutation, schema/content/scoring change or permission relaxation was performed.
@@ -152,7 +154,7 @@ Commands relative to repository root except stated cwd. Venv/environment in `env
 
 Targeted totals overlap full suites; do not add them. Eleven skipped tests need missing `LEGACY_LISTENING_FIXTURE`; not executed. Original broad baseline had15 failures and22 site-guide setup errors. To compare all17 current failures, only the unchanged generator refreshed baseline site-guide setup, then exact failing nodes reran. No product/assertion changed for that comparison.
 
-Inherited17 backend failures: ten route-inventory tests expect340 while existing runtime has345; five SEO tests expect older Phase1 copy/logo/markup; two Listening fixtures omit existing required `audio_url` (`test_listening_order`, `test_ux_corrections`). Exact IDs/stack traces appear in current and baseline logs. No API methods were removed or tests suppressed. No fully green backend/full integration acceptance claim. The alternate legacy browser driver was not executed; browser work used managed preview/CUA Chrome.
+Historical17 backend failures (resolved by the follow-up): ten route-inventory tests expect340 while existing runtime has345; five SEO tests expect older Phase1 copy/logo/markup; two Listening fixtures omit existing required `audio_url` (`test_listening_order`, `test_ux_corrections`). Exact IDs/stack traces appear in current and baseline logs. No API methods were removed or tests suppressed. The follow-up confirms a green full automated backend suite; full database/browser acceptance remains separate. The alternate legacy browser driver was not executed; browser work used managed preview/CUA Chrome.
 
 ## F. Changed files
 
@@ -210,7 +212,6 @@ Read-only topology: Railway source main, one asia-southeast1 replica, successful
 | P0 acceptance | Original CD IELTS not played through signed Worker;01/18/32 integrity only | Approved QA session; Chrome/Safari original decode/start/Range/seek/CORS/expiry/error matrix | Yes for account/access, never bypass guards |
 | P1 acceptance | No continuous four-journey60min; documents closed before45/60 markers | Persistent browser0/15/30/45/60 run, save integrity and controlled background/reconnect | Persistent test environment, no production writes |
 | P1 acceptance | Native IME/physical drag, close-before-ACK/unmount/reauth/offline reorder/concurrent submit browser matrix incomplete | Extend isolated fixture coverage while preserving save/submit semantics | Browser/hardware access |
-| P1 release |17 inherited backend failures | Review stale inventory/SEO/row-fixture assertions against authoritative behavior | No infra change; preserve API methods |
 | P1 capacity |100/150 mixed tiers busy503; after150 p95 up to1893ms | Production-like staging caps/data, traces/pool/admission review before tuning | Yes for worker/plan/pool production changes |
 | P2 measurement | No controlled cold cohort/all-route readiness/throttles/fieldRUM/Mentora live A/B | Collect missing A–D profiles and explicit cold/warm distributions | Tools/hardware; live telemetry setup approval |
 | P2 monitoring | Public smoke ConnectError, provider green is not feature health | Run bounded read-only gate from reachable operator environment with expected production SHA | Approved network/session |
@@ -218,6 +219,6 @@ Read-only topology: Railway source main, one asia-southeast1 replica, successful
 
 ## I. Final status and stop
 
-PARTIAL. Branch contains measured DOM/allocation/asset improvements and scoped media/tab fixes with passing targeted regressions. Frontend passes with11 declared skips. Backend17 inherited failures remain. Original protected media E2E, continuous60-minute stability and full device/network acceptance are open, so Phase2 is not COMPLETE.
+PARTIAL. Branch contains measured DOM/allocation/asset improvements and scoped media/tab fixes with passing targeted regressions. Frontend passes with11 declared skips. All17 inherited backend failures are resolved; current automated backend validation passes. Original protected media E2E, continuous60-minute stability and full device/network acceptance are open, so Phase2 is not COMPLETE.
 
 Final code/report push is arena-only with expected-head verification. No main update/merge, production deployment or next product phase. Stop here.

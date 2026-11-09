@@ -50,8 +50,8 @@ def test_inventory_exact_190_and_route_uniqueness():
     actual=[(method,r.path) for r in core.app.routes for method in getattr(r,'methods',[]) if r.path.startswith('/api')]
     assert len(actual)==len(set(actual))>=210
     assert listed==set(actual)
-    assert status['total_methods']==340
-    assert status['ported_methods']==len(actual) and status['unported_methods']==340-len(actual)
+    assert status['total_methods']==345
+    assert status['ported_methods']==len(actual) and status['unported_methods']==345-len(actual)
 
 @pytest.mark.parametrize('method,path',[
  ('POST','/api/owner/transfer'),('POST','/api/speaking/prompts'),

@@ -18,18 +18,20 @@
       "pass": 1385,
       "fail": 0,
       "skip": 11,
-      "elapsedSeconds": 68.889213166
+      "elapsedSeconds": 93.000256782
     },
     "backend": {
-      "total": 5912,
-      "pass": 5895,
-      "fail": 17,
+      "total": 5923,
+      "pass": 5923,
+      "fail": 0,
       "skip": 0,
       "additionalSubtestsPass": 282,
-      "warnings": 1,
-      "elapsedSeconds": 59.38
+      "junitCasesIncludingSubtests": 6205,
+      "elapsedSeconds": 127.67,
+      "output": "backend-final.log",
+      "junit": "backend-final.xml"
     },
-    "sameBaselineFailures": 17,
+    "sameBaselineFailures": 0,
     "legacyFixtureSkips": 11,
     "localReadOnlySmoke": {
       "pass": 16,
@@ -38,7 +40,33 @@
     "publicReadOnlySmoke": {
       "pass": 0,
       "transportFailures": 6
-    }
+    },
+    "phase2OriginalBackend": {
+      "total": 5912,
+      "pass": 5895,
+      "fail": 17,
+      "skip": 0,
+      "additionalSubtestsPass": 282,
+      "warnings": 1,
+      "elapsedSeconds": 59.38
+    },
+    "phase2OriginalFrontend": {
+      "total": 1396,
+      "pass": 1385,
+      "fail": 0,
+      "skip": 11,
+      "elapsedSeconds": 68.889213166
+    },
+    "backendInventoryAccess": {
+      "pass": 11,
+      "fail": 0,
+      "endpointCount": 5,
+      "invalidCredentialCases": 10,
+      "inventoryHistoryCase": 1,
+      "elapsedSeconds": 3.294,
+      "output": "access-checks.log"
+    },
+    "originalBaselineFailuresResolved": 17
   },
   "metrics": {
     "reading": {
@@ -322,5 +350,13 @@
       "status": "PARTIAL",
       "mentoraPerformance": "NOT VERIFIED"
     }
-  ]
+  ],
+  "backendRegressionFollowup": {
+    "status": "PASS_AUTOMATED_REGRESSION",
+    "remoteParent": "20d91288bb4f8ffc7d1ba0d089c501ff4ab08f08",
+    "report": "05-backend-validation.md",
+    "machineReadable": "06-backend-validation.json",
+    "runtimeCodeChanged": false,
+    "overallPhase2": "PARTIAL"
+  }
 }

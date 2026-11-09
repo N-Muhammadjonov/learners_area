@@ -25,7 +25,7 @@ class ProgrammeConnection:
         if 'WITH latest' in sql:
             self.asserted_user=args[0]
             return [{'test_id':ident(i+10),'id':ident(1000+i*5+q),'stage':'reasoned' if i<self.completed else None} for i in range(75) for q in range(5)]
-        return [{'id':ident(i+10),'program_ref':'listening-mcq-program','program_ordinal':i+1,'title':f'Day {i+1}','publication_state':'published','publish_at':None} for i in range(75)]
+        return [{'id':ident(i+10),'program_ref':'listening-mcq-program','program_ordinal':i+1,'title':f'Day {i+1}','audio_url':f'https://audio.example/day-{i+1}.mp3','publication_state':'published','publish_at':None} for i in range(75)]
 
 class AcademicConnection:
     async def fetch(self,sql,*args):
@@ -43,6 +43,8 @@ class UXTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(result['days']),24)
         self.assertEqual([r['day'] for r in result['days']],[*range(1,25)])
         self.assertEqual([r['locked'] for r in result['days'][:4]],[False,False,True,True])
+        self.assertEqual([r['audioUrl'] for r in result['days'][:4]],
+          ['https://audio.example/day-1.mp3','https://audio.example/day-2.mp3',None,None])
         self.assertTrue(result['hasNextPage']);self.assertEqual((result['page'],result['pageSize'],result['visibleDays']),(1,24,75))
         self.assertEqual(result['progress']['questionsPublished'],375)
         self.assertEqual(con.asserted_user,uid);self.assertEqual(len(con.calls),2)
@@ -57,6 +59,7 @@ class UXTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(other['days'][1]['locked'])
         teacher=await days(ProgrammeConnection(0),{'id':ident(3),'role':'teacher'},{})
         self.assertTrue(all(not x['locked'] for x in teacher['days']))
+        self.assertTrue(all(x['audioUrl'] for x in teacher['days']))
 
     async def test_academic_catalogue_and_direct_access_share_the_original_order(self):
         con=AcademicConnection();user={'id':uid,'role':'student'}

@@ -1,5 +1,7 @@
 # Learners Area — Phase 2 yakuniy hisobot
 
+2026-11-09 yangilanish: backend 5,923 test va 282 subtest PASS, xato yo‘q. Avvalgi17 xato tuzatildi. Frontend1,385 PASS,11 skip,0 fail. Joriy dalillar: [05-backend-validation.md](05-backend-validation.md). Quyidagi avvalgi o‘lchov va test natijalari tarixiy dalil sifatida saqlandi. Umumiy Phase2 holati PARTIAL.
+
 Natija: PARTIAL. Tasdiqlangan tuzatishlar arena branchiga yuborildi. Barcha acceptance shartlari yopilmagan. Phase1 dizayni saqlandi. Keyingi mahsulot bosqichi boshlanmadi.
 
 ## A. Git va boshlang‘ich holat
@@ -121,7 +123,6 @@ Railway/Cloudflare/GitHub holati faqat read-only ko‘rildi. Railway main’dan1
 |P0 acceptance|Protected original audio E2E|Tasdiqlangan QA sessiyasi bilan original decode/seek/CORS/expiry matrix|Account/access kerak|
 |P1 acceptance|Uzluksiz60min/four journeys|Persistent browser’da0/15/30/45/60 markerlar va save integrity|Test muhiti kerak|
 |P1 acceptance|Native IME/drag/Safari/pending-save handoff/offline tabs|Izolyatsiyalangan fixture va haqiqiy browser profillarida tekshirish|Browser/hardware kerak|
-|P1 release|17 inherited backend fail|Inventory/SEO/mock fixture’ni mavjud authoritative behavior bilan review qilish|Infra ruxsati kerak emas|
 |P1 capacity|High tier503/p95|Productionga o‘xshash staging resource caps/data bilan trace va admission review|Production worker/pool/plan o‘zgarishiga alohida ruxsat|
 |P2 measurement|Cold/throttle/fieldRUM/Mentora live yo‘q|Yetishmayotgan A–D cohort va o‘lchovlar|Tool/hardware, live telemetry setup uchun ruxsat|
 |P2 monitoring|Public smoke tarmoqdan o‘tmadi|Reachable operator muhitida expected productionSHA bilan GET gate|Network/session kerak|
@@ -129,6 +130,6 @@ Railway/Cloudflare/GitHub holati faqat read-only ko‘rildi. Railway main’dan1
 
 ## I. Yakuniy status
 
-PARTIAL. Branchdagi fixlar va ularning dalillari topshirildi. P0 original audio E2E, uzluksiz60min va to‘liq device/network acceptance yopilmagani sabab COMPLETE deyilmaydi. Backend17 xato va11 importer skip ochiq ko‘rsatildi.
+PARTIAL. Branchdagi fixlar va ularning dalillari topshirildi. P0 original audio E2E, uzluksiz60min va to‘liq device/network acceptance yopilmagani sabab COMPLETE deyilmaydi. Backenddagi17 xato yopildi.11 importer skip va qolgan browser/device acceptance cheklovlari ochiq ko‘rsatildi.
 
 Faqat arena branchiga push. Main’ga tegilmadi. Production deployment va keyingi bosqich bajarilmadi. Shu yerda to‘xtaldi.

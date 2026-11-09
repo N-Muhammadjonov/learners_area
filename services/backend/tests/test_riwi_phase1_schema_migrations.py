@@ -119,11 +119,11 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
     def test_postgresql_ddl_catalog_fk_and_reconciled_audit_inventories(self) -> None:
         # 1. Verify reconciled PORT_STATUS.json and MIGRATION_AUDIT_*.json preserve historical evidence
         port_status = json.loads((BACKEND_DIR / "PORT_STATUS.json").read_text(encoding="utf-8"))
-        self.assertEqual(port_status["total_methods"], 340)
-        self.assertEqual(port_status["canonical_pre_riwi_methods"], 309)
+        self.assertEqual(port_status["total_methods"], 345)
+        self.assertEqual(port_status["canonical_pre_riwi_methods"], 311)
         self.assertEqual(port_status["historical_step40_ported_methods"], 272)
         self.assertEqual(port_status["post_step40_main_additive_methods"], 1)
-        self.assertEqual(port_status["riwi_methods"], 31)
+        self.assertEqual(port_status["riwi_methods"], 34)
         self.assertEqual(len(port_status["historical_endpoints"]), 272)
         self.assertEqual(len(port_status["post_port_additive_endpoints"]), 32)
 
