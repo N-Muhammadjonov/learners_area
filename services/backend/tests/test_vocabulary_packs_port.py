@@ -35,7 +35,8 @@ def test_vocab_packs_query_published_pack_summaries_only(monkeypatch):
     assert r.status_code==200
     assert r.json()=={'ok':True,'packs':[
         {'id':'new-pack','label':{'en':'Renewable Energy','uz':'Qayta tiklanuvchi'},'wordCount':12,'added':False},
-        {'id':'some','label':{'en':'No Uzbek','uz':'No Uzbek'},'wordCount':1,'added':False}]}
+        {'id':'some','label':{'en':'No Uzbek','uz':'No Uzbek'},'wordCount':1,'added':False},
+        {'id':'art','label':{'en':'Art','uz':'San’at'},'wordCount':175,'added':False}]}
     sql,args=db.calls[0]
     assert "publication_state='published'" in sql and 'ORDER BY position' in sql
     assert 'INNER JOIN lexemes' in sql and 'SELECT count(*)' in sql
@@ -86,3 +87,13 @@ def test_anonymous_remove_pack_never_accesses_the_database(monkeypatch):
     db=Conn();setup(monkeypatch,db,False)
     r=client.delete('/api/vocabulary/packs/food')
     assert r.status_code==401 and db.calls==[]
+
+def test_published_art_overrides_builtin_fallback(monkeypatch):
+    db=Conn([{'slug':'art','labelEn':'Curated Art','labelUz':'Tasdiqlangan san’at','wordCount':7}])
+    setup(monkeypatch,db)
+    r=client.get('/api/vocabulary/packs')
+    packs=r.json()['packs']
+    assert len(packs)==1
+    assert packs[0]['id']=='art'
+    assert packs[0]['wordCount']==7
+    assert packs[0]['label']['uz']=='Tasdiqlangan san’at'

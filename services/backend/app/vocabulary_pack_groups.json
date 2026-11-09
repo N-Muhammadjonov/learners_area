@@ -471,5 +471,42 @@
       "start": 141,
       "end": 161
     }
+  ],
+  "art": [
+    {
+      "label": "San’at turlari va ijod / Art forms and creative work",
+      "start": 0,
+      "end": 24
+    },
+    {
+      "label": "Rangtasvir va uslublar / Paintings and visual styles",
+      "start": 24,
+      "end": 32
+    },
+    {
+      "label": "Adabiyot va mutolaa / Stories, authors and reading",
+      "start": 32,
+      "end": 63
+    },
+    {
+      "label": "Teatr va sahna / Theatre and live performance",
+      "start": 63,
+      "end": 85
+    },
+    {
+      "label": "Kino va filmlar / Cinema, storytelling and film releases",
+      "start": 85,
+      "end": 112
+    },
+    {
+      "label": "Musiqa, asboblar va janrlar / Music files, instruments and genres",
+      "start": 112,
+      "end": 142
+    },
+    {
+      "label": "Musiqiy mahorat va ijro / Musical skills, performances and careers",
+      "start": 142,
+      "end": 175
+    }
   ]
 }

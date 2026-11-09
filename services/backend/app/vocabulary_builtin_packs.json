@@ -12798,5 +12798,1239 @@
         "example": "The editor may need to rethink something after hearing new evidence."
       }
     ]
+  },
+  {
+    "id": "art",
+    "label": {
+      "en": "Art",
+      "uz": "San’at"
+    },
+    "words": [
+      {
+        "term": "the arts",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The collective fields of creative expression, including visual art, literature and performance.",
+        "translationUz": "san’at turlari; ijodiy sohalar",
+        "example": "The festival celebrates the arts through exhibitions and live performances."
+      },
+      {
+        "term": "fine art",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Visual creative work valued primarily for its aesthetic or expressive qualities.",
+        "translationUz": "tasviriy san’at",
+        "example": "She studies fine art at college."
+      },
+      {
+        "term": "performing arts",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Creative activities presented through live performance, such as theatre, music and dance.",
+        "translationUz": "sahna san’ati; ijro san’atlari",
+        "example": "The school offers courses in the performing arts."
+      },
+      {
+        "term": "literature",
+        "partOfSpeech": "noun",
+        "definitionEn": "Written works considered as a body of creative or artistic expression.",
+        "translationUz": "adabiyot",
+        "example": "He enjoys studying literature from different countries."
+      },
+      {
+        "term": "poetry",
+        "partOfSpeech": "noun",
+        "definitionEn": "Literary writing using features such as concentrated language, imagery, rhythm or verse.",
+        "translationUz": "she’riyat",
+        "example": "She reads poetry before going to bed."
+      },
+      {
+        "term": "drama",
+        "partOfSpeech": "noun",
+        "definitionEn": "Plays as a form of literature or performance.",
+        "translationUz": "dramaturgiya; sahna asarlari",
+        "example": "The course explores modern drama."
+      },
+      {
+        "term": "a biography",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A written account of a person's life by someone else.",
+        "translationUz": "biografiya; boshqa shaxs yozgan tarjimai hol",
+        "example": "She borrowed a biography of a famous painter."
+      },
+      {
+        "term": "a novel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A sustained fictional prose narrative, typically longer and more developed than a short story. Usage: The source suggests a 150-page threshold, but there is no universal page minimum. Novellas also exist between short stories and novels.",
+        "translationUz": "roman",
+        "example": "He is writing a novel about two childhood friends."
+      },
+      {
+        "term": "a short story",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A brief work of prose fiction usually focusing on a limited set of events.",
+        "translationUz": "hikoya",
+        "example": "The magazine published a short story about a lost photograph."
+      },
+      {
+        "term": "sculpture",
+        "partOfSpeech": "noun",
+        "definitionEn": "The art of creating three-dimensional forms; also a work made in this art form.",
+        "translationUz": "haykaltaroshlik; haykal asari",
+        "example": "The gallery has an exhibition of modern sculpture."
+      },
+      {
+        "term": "painting",
+        "partOfSpeech": "noun",
+        "definitionEn": "The art of creating images with paint, or an image made in this way.",
+        "translationUz": "rangtasvir; bo‘yoq bilan rasm chizish",
+        "example": "She teaches painting at the community centre."
+      },
+      {
+        "term": "architecture",
+        "partOfSpeech": "noun",
+        "definitionEn": "The art and practice of designing buildings.",
+        "translationUz": "me’morchilik",
+        "example": "The city is known for its distinctive architecture."
+      },
+      {
+        "term": "ceramics",
+        "partOfSpeech": "noun",
+        "definitionEn": "Objects made from clay hardened by heat, or the art of making them.",
+        "translationUz": "sopol buyumlar; keramika san’ati",
+        "example": "The exhibition includes ceramics and glassware."
+      },
+      {
+        "term": "pottery",
+        "partOfSpeech": "noun",
+        "definitionEn": "The activity of making objects from clay, especially vessels, or the objects produced.",
+        "translationUz": "kulolchilik",
+        "example": "He takes a pottery class every Saturday."
+      },
+      {
+        "term": "arts and crafts",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Activities involving the skilled making of decorative or practical objects by hand.",
+        "translationUz": "amaliy va bezak san’ati; qo‘l hunarmandchiligi",
+        "example": "The children enjoyed arts and crafts at the workshop."
+      },
+      {
+        "term": "a work of art",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An individual object or creation produced as an artistic work. Usage: Plural: works of art. Compare the arts for creative fields collectively and art for visual artistic activity or work.",
+        "translationUz": "san’at asari",
+        "example": "The sculptor created a work of art from recycled metal."
+      },
+      {
+        "term": "an art lover",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Someone who enjoys and appreciates visual art.",
+        "translationUz": "san’at ixlosmandi",
+        "example": "An art lover may visit several galleries in one day."
+      },
+      {
+        "term": "artistic",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Showing creative skill, imagination or sensitivity to visual expression.",
+        "translationUz": "badiiy; san’atga oid",
+        "example": "She has an artistic approach to interior design."
+      },
+      {
+        "term": "the arts page",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The part of a newspaper devoted to cultural and creative activities.",
+        "translationUz": "gazetaning madaniyat va san’at sahifasi",
+        "example": "The arts page reviewed the new exhibition."
+      },
+      {
+        "term": "the art of",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The skill or creative ability involved in doing something well.",
+        "translationUz": "biror ishni mohirona bajarish san’ati",
+        "example": "The course explores the art of storytelling."
+      },
+      {
+        "term": "a sculptor",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An artist who creates three-dimensional works.",
+        "translationUz": "haykaltarosh",
+        "example": "A sculptor made the statue outside the library."
+      },
+      {
+        "term": "a potter",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who makes objects from clay.",
+        "translationUz": "kulol",
+        "example": "A potter shaped a bowl on the wheel."
+      },
+      {
+        "term": "throw a pot",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Shape a clay vessel on a rotating potter's wheel. Usage: A technical pottery expression: shape it on a wheel, not toss it through the air.",
+        "translationUz": "kulol charxida sopol idish yasamoq",
+        "example": "Students will learn how to throw a pot."
+      },
+      {
+        "term": "an architect",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who designs buildings.",
+        "translationUz": "me’mor",
+        "example": "An architect helped them plan the new library."
+      },
+      {
+        "term": "an abstract painting",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A painting using forms and colours without necessarily representing recognisable objects.",
+        "translationUz": "abstrakt rasm; mavhum tasvir",
+        "example": "The gallery displayed an abstract painting in bright red and blue."
+      },
+      {
+        "term": "a portrait",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An artistic representation of a particular person, especially their face.",
+        "translationUz": "portret",
+        "example": "She painted a portrait of her grandmother."
+      },
+      {
+        "term": "a landscape",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A painting or other image representing natural scenery.",
+        "translationUz": "manzara tasviri",
+        "example": "He bought a landscape showing the coast at sunset."
+      },
+      {
+        "term": "a still life",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An artwork depicting arranged, inanimate objects such as fruit or vessels.",
+        "translationUz": "natyurmort; jonsiz buyumlar tasviri",
+        "example": "The students painted a still life of flowers and bowls."
+      },
+      {
+        "term": "an original painting",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A painting made by the artist rather than a reproduction of it.",
+        "translationUz": "rassom chizgan asl kartina",
+        "example": "The museum owns an original painting by the artist."
+      },
+      {
+        "term": "a reproduction",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A copy of an existing artwork, often produced by printing.",
+        "translationUz": "san’at asarining nusxasi",
+        "example": "The poster is a reproduction of a famous painting."
+      },
+      {
+        "term": "oil painting",
+        "partOfSpeech": "phrase",
+        "definitionEn": "The use of oil-based paints to make pictures, or a picture made with them.",
+        "translationUz": "moybo‘yoqda rasm chizish; moybo‘yoq kartinasi",
+        "example": "She prefers oil painting to working with pencils."
+      },
+      {
+        "term": "watercolours",
+        "partOfSpeech": "noun",
+        "definitionEn": "Paints mixed with water, or paintings made using those paints.",
+        "translationUz": "akvarel bo‘yoqlari; akvarel rasmlar",
+        "example": "The exhibition features delicate watercolours of local streets."
+      },
+      {
+        "term": "a novelist",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A writer of novels.",
+        "translationUz": "romannavis; roman yozuvchi",
+        "example": "A novelist spoke about creating believable characters."
+      },
+      {
+        "term": "a series",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A set of related works, often connected by characters or subject matter.",
+        "translationUz": "o‘zaro bog‘liq asarlar turkumi",
+        "example": "The detective novel is the third book in a series."
+      },
+      {
+        "term": "a romantic novel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A novel in which love and romantic relationships are central.",
+        "translationUz": "ishqiy roman",
+        "example": "She reads a romantic novel during each holiday."
+      },
+      {
+        "term": "a historical setting",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A past period used as the background for a story.",
+        "translationUz": "asardagi voqealar kechadigan tarixiy davr",
+        "example": "The novel has a historical setting in a nineteenth-century city."
+      },
+      {
+        "term": "a bestseller",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A book that sells in especially large numbers.",
+        "translationUz": "eng ko‘p sotilgan kitob",
+        "example": "Her first novel became a bestseller."
+      },
+      {
+        "term": "a critic",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who evaluates works such as books, films or performances, often professionally.",
+        "translationUz": "tanqidchi; taqrizchi",
+        "example": "A critic praised the play's dialogue."
+      },
+      {
+        "term": "a plot",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The organised sequence of events in a story.",
+        "translationUz": "syujet; voqealar rivoji",
+        "example": "The novel has a plot full of unexpected discoveries."
+      },
+      {
+        "term": "predictable",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Easy to anticipate rather than surprising or original.",
+        "translationUz": "oldindan taxmin qilsa bo‘ladigan",
+        "example": "I enjoyed the acting, but the ending was predictable."
+      },
+      {
+        "term": "a character",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person or other participant represented in a fictional story.",
+        "translationUz": "asar qahramoni; personaj",
+        "example": "A character has a different reason for joining the journey."
+      },
+      {
+        "term": "realistic",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Convincingly similar to real life or believable in its representation.",
+        "translationUz": "hayotiy; haqiqatga yaqin",
+        "example": "The dialogue sounds realistic."
+      },
+      {
+        "term": "literary",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Relating to literature, especially writing valued for its artistic qualities.",
+        "translationUz": "adabiy",
+        "example": "She writes essays for a literary magazine."
+      },
+      {
+        "term": "a review",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A published or recorded evaluation of a book, film, performance or other work.",
+        "translationUz": "taqriz; baholovchi sharh",
+        "example": "The newspaper published a review of the concert."
+      },
+      {
+        "term": "publication",
+        "partOfSpeech": "noun",
+        "definitionEn": "The act or process of making a work available to the public.",
+        "translationUz": "nashr etish; chop qilish",
+        "example": "The novel is ready for publication."
+      },
+      {
+        "term": "an ebook",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A book in digital form that can be read on an electronic device.",
+        "translationUz": "elektron kitob",
+        "example": "I downloaded an ebook for the journey."
+      },
+      {
+        "term": "an advance copy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A copy supplied before a work's official release, often for reviewers.",
+        "translationUz": "rasmiy nashrdan oldin tarqatiladigan nusxa",
+        "example": "The publisher sent the critic an advance copy."
+      },
+      {
+        "term": "an opening passage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The section of text at the beginning of a written work.",
+        "translationUz": "asarning kirish parchasi",
+        "example": "An opening passage introduces the main character."
+      },
+      {
+        "term": "an extract",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A selected portion taken from a longer written or spoken work.",
+        "translationUz": "asardan parcha",
+        "example": "The teacher read an extract from the novel."
+      },
+      {
+        "term": "a chapter",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "One of the major divisions of a book.",
+        "translationUz": "bob",
+        "example": "I read a chapter before going to sleep."
+      },
+      {
+        "term": "a trilogy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A group of three related works, such as novels or films.",
+        "translationUz": "uch qismdan iborat asarlar turkumi; trilogiya",
+        "example": "This film completes a trilogy about the same family."
+      },
+      {
+        "term": "the main character",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The central or most important character in a story.",
+        "translationUz": "bosh qahramon",
+        "example": "The main character leaves home in the first chapter."
+      },
+      {
+        "term": "be engrossed in a book",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be deeply absorbed in reading a book.",
+        "translationUz": "kitob o‘qishga berilib ketmoq",
+        "example": "It is easy to be engrossed in a book with such a gripping plot."
+      },
+      {
+        "term": "borrow a book from the library",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Take a library book for temporary use with an obligation to return it.",
+        "translationUz": "kutubxonadan kitobni vaqtincha olmoq",
+        "example": "You can borrow a book from the library for two weeks."
+      },
+      {
+        "term": "return a book",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give back a book that you borrowed.",
+        "translationUz": "kitobni qaytarib bermoq",
+        "example": "Please return a book before its due date."
+      },
+      {
+        "term": "renew a library book",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Extend the period for which you are allowed to keep a borrowed library book.",
+        "translationUz": "kutubxona kitobining qaytarish muddatini uzaytirmoq",
+        "example": "You can renew a library book online."
+      },
+      {
+        "term": "deal with a topic",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Explore or discuss a particular subject.",
+        "translationUz": "muayyan mavzuni yoritmoq; muhokama qilmoq",
+        "example": "A novel can deal with a topic from several perspectives."
+      },
+      {
+        "term": "a controversial topic",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A subject that causes strong disagreement or public debate.",
+        "translationUz": "bahsli mavzu",
+        "example": "The book explores a controversial topic through several characters."
+      },
+      {
+        "term": "an enjoyable read",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A book or other written work that is pleasant or satisfying to read.",
+        "translationUz": "maroq bilan o‘qiladigan asar",
+        "example": "The novel is an enjoyable read with lively dialogue."
+      },
+      {
+        "term": "an opening chapter",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The first major section of a book.",
+        "translationUz": "birinchi bob; kirish bobi",
+        "example": "An opening chapter can introduce the setting before the storm."
+      },
+      {
+        "term": "a closing chapter",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The final major section of a book. Usage: Beginning and end are standard words for parts of a story. The source’s blanket rejection of start and finish is too strong; these can occur naturally in suitable contexts.",
+        "translationUz": "yakuniy bob; so‘nggi bob",
+        "example": "A closing chapter brings the characters together again."
+      },
+      {
+        "term": "identify with a character",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Understand a fictional person's experiences or feelings through a sense of similarity.",
+        "translationUz": "o‘zini asar qahramoni o‘rniga qo‘ya olmoq",
+        "example": "Readers may identify with a character who feels out of place."
+      },
+      {
+        "term": "a sequel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A work continuing the story of an earlier work.",
+        "translationUz": "oldingi asarning davomi",
+        "example": "A sequel follows the family ten years later."
+      },
+      {
+        "term": "a production",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A particular staged or filmed presentation of a dramatic work.",
+        "translationUz": "sahna qo‘yilmasi; spektaklning muayyan ijrosi",
+        "example": "We saw a production of the play at a local theatre."
+      },
+      {
+        "term": "a set",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The constructed scenery and surroundings used for a play, film or programme.",
+        "translationUz": "sahna dekoratsiyasi",
+        "example": "A set represented a small railway station."
+      },
+      {
+        "term": "costumes",
+        "partOfSpeech": "noun",
+        "definitionEn": "Clothing worn by performers to represent their characters.",
+        "translationUz": "sahna liboslari; kostyumlar",
+        "example": "The costumes reflected the period in which the play was set."
+      },
+      {
+        "term": "the cast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "All the actors taking part in a particular production.",
+        "translationUz": "aktyorlar tarkibi",
+        "example": "The cast returned to the stage after the final scene."
+      },
+      {
+        "term": "direction",
+        "partOfSpeech": "noun",
+        "definitionEn": "The artistic guidance and coordination of a performance by its director.",
+        "translationUz": "rejissura; ijroni badiiy boshqarish",
+        "example": "The review praised the direction and pacing of the play."
+      },
+      {
+        "term": "give a performance",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Present acting, music or another performing art to an audience.",
+        "translationUz": "sahnada chiqish qilmoq",
+        "example": "The students will give a performance at the end of term."
+      },
+      {
+        "term": "get rave reviews",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Receive extremely enthusiastic evaluations from critics or reviewers.",
+        "translationUz": "tanqidchilardan juda yuqori baho olmoq",
+        "example": "The new production is expected to get rave reviews."
+      },
+      {
+        "term": "dance",
+        "partOfSpeech": "noun",
+        "definitionEn": "Artistic movement of the body, often performed to music.",
+        "translationUz": "raqs; raqsga tushish",
+        "example": "The festival combines dance and live music."
+      },
+      {
+        "term": "ballet",
+        "partOfSpeech": "noun",
+        "definitionEn": "A dance form using a specialised system of movement and technique, or a work in that form.",
+        "translationUz": "balet",
+        "example": "She has studied ballet since childhood."
+      },
+      {
+        "term": "opera",
+        "partOfSpeech": "noun",
+        "definitionEn": "A dramatic art form in which the action is conveyed largely through singing and music.",
+        "translationUz": "opera",
+        "example": "The theatre stages opera every summer."
+      },
+      {
+        "term": "a comedian",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An entertainer who aims to make people laugh, for example through jokes or comic performance.",
+        "translationUz": "komik; kuldiruvchi aktyor",
+        "example": "A comedian opened the evening's show."
+      },
+      {
+        "term": "an entertainer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Someone whose work is to amuse or engage an audience through performance.",
+        "translationUz": "tomoshabinlarni ko‘ngil ochish orqali jalb qiluvchi ijrochi",
+        "example": "An entertainer combined music and storytelling."
+      },
+      {
+        "term": "an audience",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The people watching, listening to or otherwise receiving a performance or media work. Usage: Can refer to a live performance, cinema, television, online content or other recipients of a work.",
+        "translationUz": "tomoshabinlar; tinglovchilar",
+        "example": "An audience applauded at the end of the play."
+      },
+      {
+        "term": "a viewer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Someone who watches a programme, video or other visual content. Usage: The source restricts viewer to television. The word also applies to online videos and other visual material.",
+        "translationUz": "tomoshabin; video ko‘ruvchi",
+        "example": "A viewer could vote for a favourite performance."
+      },
+      {
+        "term": "a stage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The space or platform on which performers present a show.",
+        "translationUz": "sahna",
+        "example": "A stage was built for the evening concert."
+      },
+      {
+        "term": "a venue",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The place where an event or performance is held.",
+        "translationUz": "tadbir o‘tkaziladigan joy",
+        "example": "A venue near the river was chosen for the concert."
+      },
+      {
+        "term": "what's on",
+        "partOfSpeech": "phrase",
+        "definitionEn": "An expression asking which performances, films or events are available or scheduled.",
+        "translationUz": "qaysi tomoshalar namoyish etilmoqda",
+        "example": "Let's check what's on at the theatre this week."
+      },
+      {
+        "term": "promote a play",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Publicise a dramatic production to attract interest or an audience.",
+        "translationUz": "spektaklni targ‘ib qilmoq",
+        "example": "The actors gave interviews to promote a play."
+      },
+      {
+        "term": "appear in a play",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Take part as a performer in a stage production.",
+        "translationUz": "spektaklda rol ijro etmoq",
+        "example": "She hopes to appear in a play next summer."
+      },
+      {
+        "term": "a brief appearance",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A short period of being seen or participating in a performance.",
+        "translationUz": "qisqa chiqish; qisqa ko‘rinish",
+        "example": "The director makes a brief appearance in the film."
+      },
+      {
+        "term": "a concert-goer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who attends concerts, especially regularly.",
+        "translationUz": "konsertga muntazam boradigan odam",
+        "example": "A concert-goer can enjoy hearing music performed live."
+      },
+      {
+        "term": "a romantic comedy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A humorous story or film centred on romantic relationships.",
+        "translationUz": "romantik komediya",
+        "example": "We watched a romantic comedy at the weekend."
+      },
+      {
+        "term": "an opening scene",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The first sequence or dramatic section of a film or play.",
+        "translationUz": "boshlang‘ich sahna",
+        "example": "An opening scene takes place at a busy station."
+      },
+      {
+        "term": "a closing scene",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The final sequence or dramatic section of a film or play.",
+        "translationUz": "yakuniy sahna",
+        "example": "A closing scene shows the family reunited."
+      },
+      {
+        "term": "be set in",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Have a particular time or place as the setting of a fictional work.",
+        "translationUz": "voqealari ma’lum vaqt yoki joyda bo‘lib o‘tmoq",
+        "example": "The film will be set in a coastal town."
+      },
+      {
+        "term": "capture an aspect of life",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Represent a feature of human experience convincingly or vividly.",
+        "translationUz": "hayotning bir jihatini yorqin aks ettirmoq",
+        "example": "A strong film can capture an aspect of life through small details."
+      },
+      {
+        "term": "a script",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The written text used for a play, film or programme, including dialogue and often instructions.",
+        "translationUz": "ssenariy; sahna matni",
+        "example": "A script helps actors prepare their lines."
+      },
+      {
+        "term": "dialogue",
+        "partOfSpeech": "noun",
+        "definitionEn": "Conversation written or spoken between characters in a creative work.",
+        "translationUz": "dialog; suhbat matni",
+        "example": "The dialogue reveals the tension between the friends."
+      },
+      {
+        "term": "a director",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The person responsible for the artistic realisation and coordination of a film or performance.",
+        "translationUz": "rejissyor",
+        "example": "A director discussed the scene with the actors."
+      },
+      {
+        "term": "a screenplay",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The written script prepared specifically for a film. Usage: A film script. Script is the broader term and can also refer to plays or programmes.",
+        "translationUz": "film ssenariysi",
+        "example": "She wrote a screenplay based on her short story."
+      },
+      {
+        "term": "a film score",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Music composed for use in a film.",
+        "translationUz": "film uchun maxsus yozilgan musiqa",
+        "example": "A film score creates a feeling of suspense."
+      },
+      {
+        "term": "a memorable line",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A particular spoken or written phrase that people remember from a work.",
+        "translationUz": "esda qoladigan jumla",
+        "example": "The final speech contains a memorable line about friendship."
+      },
+      {
+        "term": "a huge fan",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Someone who admires or enjoys a person, activity or type of work very much.",
+        "translationUz": "ashaddiy muxlis",
+        "example": "He is a huge fan of historical films."
+      },
+      {
+        "term": "a movie trailer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A short promotional video previewing a forthcoming or available film.",
+        "translationUz": "film treyleri; qisqa reklama videosi",
+        "example": "A movie trailer showed several dramatic scenes."
+      },
+      {
+        "term": "a movie comes out",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "A film is released and becomes available to its intended audience.",
+        "translationUz": "film namoyishga chiqadi",
+        "example": "When a movie comes out, critics publish their reviews."
+      },
+      {
+        "term": "opening night",
+        "partOfSpeech": "phrase",
+        "definitionEn": "The first evening on which a production or show is presented to the public. Usage: The first evening performance or opening presentation. For a film’s first day of release, opening day is also useful.",
+        "translationUz": "ilk namoyish oqshomi",
+        "example": "We booked tickets for opening night."
+      },
+      {
+        "term": "be nominated for an award",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be formally put forward as a candidate for a prize.",
+        "translationUz": "mukofotga nomzod qilib ko‘rsatilmoq",
+        "example": "The film could be nominated for an award."
+      },
+      {
+        "term": "a movie star",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A famous actor associated with films.",
+        "translationUz": "kino yulduzi",
+        "example": "A movie star attended the festival's opening event."
+      },
+      {
+        "term": "star in a film",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Play a prominent or leading part in a film.",
+        "translationUz": "filmda yetakchi rolni ijro etmoq",
+        "example": "She will star in a film about an explorer."
+      },
+      {
+        "term": "an upcoming film",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A film scheduled or expected to be released in the future.",
+        "translationUz": "tez orada namoyishga chiqadigan film",
+        "example": "The actor discussed an upcoming film during the interview."
+      },
+      {
+        "term": "be based on a true story",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Use real events as the basis of a creative work.",
+        "translationUz": "haqiqiy voqeaga asoslangan bo‘lmoq",
+        "example": "The drama will be based on a true story."
+      },
+      {
+        "term": "shoot a film on location",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Record a film in a real setting rather than entirely in a studio. Usage: On location means outside the studio in a real setting. It need not be the actual place where the story happened. The other handout uses shoot on-site.",
+        "translationUz": "filmni studiyadan tashqaridagi haqiqiy joyda suratga olmoq",
+        "example": "The team will shoot a film on location near the coast."
+      },
+      {
+        "term": "the leading role",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The principal acting part in a production.",
+        "translationUz": "bosh rol",
+        "example": "He was offered the leading role in the new film."
+      },
+      {
+        "term": "a box-office hit",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A film that earns substantial success from cinema ticket sales.",
+        "translationUz": "kino chiptalari savdosida katta muvaffaqiyat qozongan film",
+        "example": "The comedy became a box-office hit."
+      },
+      {
+        "term": "turn down a role",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Refuse an offer to play a part in a production.",
+        "translationUz": "rol taklifini rad etmoq",
+        "example": "An actor may turn down a role because of other commitments."
+      },
+      {
+        "term": "a moving film",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A film that causes strong emotions, often sympathy or sadness.",
+        "translationUz": "ta’sirli film",
+        "example": "It was a moving film about a family reunion."
+      },
+      {
+        "term": "mediocre reviews",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Evaluations suggesting that a work is average or not especially good.",
+        "translationUz": "o‘rtamiyona baholar; uncha yaxshi bo‘lmagan taqrizlar",
+        "example": "The sequel received mediocre reviews."
+      },
+      {
+        "term": "a film festival",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An organised event featuring screenings and related film activities.",
+        "translationUz": "kinofestival",
+        "example": "The documentary was shown at a film festival."
+      },
+      {
+        "term": "sold out",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Having no tickets or stock left available for purchase.",
+        "translationUz": "barcha chiptalari sotilib bo‘lgan",
+        "example": "The evening screening was sold out."
+      },
+      {
+        "term": "an MP3 file",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An audio file stored using the MP3 digital compression format.",
+        "translationUz": "MP3 formatidagi audiofayl",
+        "example": "She saved the interview as an MP3 file."
+      },
+      {
+        "term": "an album",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A collection of musical recordings released as one work.",
+        "translationUz": "musiqiy albom",
+        "example": "The band recorded an album in a small studio."
+      },
+      {
+        "term": "a track",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An individual recorded song or piece of music.",
+        "translationUz": "alohida qo‘shiq; musiqiy trek",
+        "example": "A track from the album became popular."
+      },
+      {
+        "term": "a playlist",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An ordered collection of recordings selected for listening.",
+        "translationUz": "ijro ro‘yxati; pleylist",
+        "example": "I made a playlist for the journey."
+      },
+      {
+        "term": "sync music files",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make music files or related data correspond across devices or services. Usage: Sync is short for synchronise; Synchronize is the usual American spelling.",
+        "translationUz": "musiqa fayllarini sinxronlashtirmoq",
+        "example": "You can sync music files between your computer and phone."
+      },
+      {
+        "term": "stream music",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Play music as audio data is received from another source.",
+        "translationUz": "internet orqali musiqa tinglamoq",
+        "example": "We stream music through the speakers in the kitchen."
+      },
+      {
+        "term": "a rock band",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A group of musicians who perform rock music.",
+        "translationUz": "rok musiqa guruhi",
+        "example": "She sings in a rock band."
+      },
+      {
+        "term": "a lead singer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The principal vocalist in a musical group.",
+        "translationUz": "bosh xonanda",
+        "example": "A lead singer introduced the next song."
+      },
+      {
+        "term": "play lead guitar",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Perform the prominent melodic guitar parts in a group.",
+        "translationUz": "yetakchi gitara partiyasini chalmoq",
+        "example": "He hopes to play lead guitar in the band."
+      },
+      {
+        "term": "a keyboard player",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A musician who plays an electronic keyboard or related keyboard instrument.",
+        "translationUz": "klavishli cholg‘u ijrochisi",
+        "example": "A keyboard player added a quiet melody."
+      },
+      {
+        "term": "a drummer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A musician who plays drums.",
+        "translationUz": "barabanchi",
+        "example": "A drummer kept a steady rhythm."
+      },
+      {
+        "term": "a bass guitarist",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A musician who plays bass guitar, usually providing low-pitched musical parts.",
+        "translationUz": "bas gitarachi",
+        "example": "A bass guitarist joined the band last year."
+      },
+      {
+        "term": "drums",
+        "partOfSpeech": "noun",
+        "definitionEn": "Percussion instruments sounded by striking stretched surfaces, commonly played as a kit.",
+        "translationUz": "barabanlar; zarbli cholg‘ular",
+        "example": "He practises the drums after school."
+      },
+      {
+        "term": "bass",
+        "partOfSpeech": "noun",
+        "definitionEn": "A low-pitched musical part, range or instrument; here especially bass guitar. Usage: In this musical meaning, pronounced like base, not like the fish bass.",
+        "translationUz": "bas tovushi; bas gitara",
+        "example": "The bass gives the song a deep, steady foundation."
+      },
+      {
+        "term": "a keyboard",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A keyboard-controlled musical instrument, often electronic in this context.",
+        "translationUz": "klavishli musiqa asbobi",
+        "example": "She played a melody on a keyboard."
+      },
+      {
+        "term": "a guitar",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A stringed instrument usually played by plucking or strumming.",
+        "translationUz": "gitara",
+        "example": "He brought a guitar to the rehearsal."
+      },
+      {
+        "term": "taste in music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "A person's preferences about musical styles or performers.",
+        "translationUz": "musiqiy did",
+        "example": "Our taste in music is surprisingly similar."
+      },
+      {
+        "term": "classical music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Music associated with the classical art-music tradition rather than being labelled by popularity alone. Usage: Use classical music for the genre. A classic song is an enduring or exemplary song and may belong to any genre. Music is normally uncountable.",
+        "translationUz": "mumtoz musiqa",
+        "example": "She enjoys listening to classical music."
+      },
+      {
+        "term": "folk music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Music connected with traditional communities and cultural practices.",
+        "translationUz": "xalq musiqasi",
+        "example": "The festival celebrates local folk music."
+      },
+      {
+        "term": "jazz",
+        "partOfSpeech": "noun",
+        "definitionEn": "A musical tradition associated with features such as improvisation, swing and distinctive harmonic practices.",
+        "translationUz": "jaz",
+        "example": "The club hosts jazz performances on Fridays."
+      },
+      {
+        "term": "R&B",
+        "partOfSpeech": "noun",
+        "definitionEn": "Rhythm and blues, a broad musical label with roots in African American musical traditions and evolving later styles.",
+        "translationUz": "ritm-end-blyuz; R&B",
+        "example": "Her playlist includes R&B and pop."
+      },
+      {
+        "term": "hip-hop",
+        "partOfSpeech": "noun",
+        "definitionEn": "A musical and wider cultural tradition often associated with rhythmic beats and rap. Usage: Broader than rap alone. Rap is one important musical practice associated with hip-hop.",
+        "translationUz": "xip-xop",
+        "example": "The programme explores the history of hip-hop."
+      },
+      {
+        "term": "rap",
+        "partOfSpeech": "noun",
+        "definitionEn": "Rhythmically spoken or chanted lyrics, or the performance of them.",
+        "translationUz": "rep",
+        "example": "He writes rap about everyday life."
+      },
+      {
+        "term": "be into",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be interested in and enthusiastic about something.",
+        "translationUz": "biror narsaga juda qiziqmoq",
+        "example": "You do not have to be into jazz to enjoy the concert."
+      },
+      {
+        "term": "60s music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Music associated with the nineteen-sixties.",
+        "translationUz": "1960-yillar musiqasi",
+        "example": "The station played 60s music all afternoon."
+      },
+      {
+        "term": "a film soundtrack",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The audio accompanying a film, or a released collection of music associated with it. Usage: Soundtrack can mean all recorded film audio, or commercially released film music. Score usually means specially composed music.",
+        "translationUz": "film saundtreki",
+        "example": "She bought a film soundtrack after seeing the movie."
+      },
+      {
+        "term": "canned music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Pre-recorded background music, especially in public or commercial spaces.",
+        "translationUz": "oldindan yozib olingan fon musiqasi",
+        "example": "He finds canned music in shops distracting."
+      },
+      {
+        "term": "contemporary music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Music of the present period or a relatively recent era, depending on context.",
+        "translationUz": "zamonaviy musiqa",
+        "example": "The concert combines traditional and contemporary music."
+      },
+      {
+        "term": "orchestral music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Music written or arranged for an orchestra. Usage: Describes the instrumental ensemble, not necessarily the absence of voices: orchestral music can include singers. Instrumental music is the more precise term for music without vocal parts.",
+        "translationUz": "orkestr musiqasi",
+        "example": "The programme includes orchestral music and choral works."
+      },
+      {
+        "term": "instrumental music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Music performed on instruments without sung words or vocal parts in its usual sense.",
+        "translationUz": "cholg‘u musiqasi; so‘zsiz musiqa",
+        "example": "I prefer instrumental music while reading."
+      },
+      {
+        "term": "read music",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Understand written musical notation and interpret it for performance.",
+        "translationUz": "notalarni o‘qiy olmoq",
+        "example": "She can read music but also enjoys improvising."
+      },
+      {
+        "term": "play by ear",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Perform music by listening and recognising sounds rather than relying on written notation.",
+        "translationUz": "eshitib turib cholg‘u chalmoq",
+        "example": "He learnt to play by ear as a child."
+      },
+      {
+        "term": "have a good ear for music",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be good at recognising musical sounds, patterns or pitch.",
+        "translationUz": "musiqani eshitib ajratish qobiliyatiga ega bo‘lmoq",
+        "example": "You need to have a good ear for music to copy tunes accurately."
+      },
+      {
+        "term": "pick out a tune",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Find and play the notes of a melody, often gradually or by ear.",
+        "translationUz": "kuyning notalarini eshitib topib chalmoq",
+        "example": "She can pick out a tune on almost any keyboard."
+      },
+      {
+        "term": "make music",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Create or perform music.",
+        "translationUz": "musiqa yaratmoq; musiqa ijro etmoq",
+        "example": "They meet each weekend to make music together."
+      },
+      {
+        "term": "a trained musician",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who has received formal or structured instruction in music.",
+        "translationUz": "musiqiy ta’lim olgan ijrochi",
+        "example": "You do not have to be a trained musician to enjoy singing."
+      },
+      {
+        "term": "a talented musician",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person with notable musical ability. Usage: Natural full-phrase answer: a talented musician. Talent and formal training are different concepts.",
+        "translationUz": "iste’dodli musiqachi",
+        "example": "A talented musician performed at the festival."
+      },
+      {
+        "term": "musically gifted",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Having a strong natural aptitude for music.",
+        "translationUz": "tabiiy musiqiy iqtidorga ega",
+        "example": "Her teacher noticed that she was musically gifted."
+      },
+      {
+        "term": "play from memory",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Perform without needing to consult written music or another prompt.",
+        "translationUz": "yoddan chalmoq",
+        "example": "He can play from memory after a few rehearsals."
+      },
+      {
+        "term": "sheet music",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Musical notation written or printed for performers to read.",
+        "translationUz": "nota yozuvi; nota varag‘i",
+        "example": "She placed the sheet music on the piano."
+      },
+      {
+        "term": "strum a guitar",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Play a guitar by sweeping the fingers or a pick across its strings.",
+        "translationUz": "gitara torlarini chertib chalmoq",
+        "example": "He likes to strum a guitar while composing songs."
+      },
+      {
+        "term": "compose music",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Create original musical works.",
+        "translationUz": "musiqa bastalamoq",
+        "example": "She began to compose music while at school."
+      },
+      {
+        "term": "write song lyrics",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Create the words intended to be sung or performed in a song.",
+        "translationUz": "qo‘shiq matnini yozmoq",
+        "example": "He prefers to write song lyrics before creating the melody."
+      },
+      {
+        "term": "form a band",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Establish a group of musicians who perform together.",
+        "translationUz": "musiqa guruhi tuzmoq",
+        "example": "The friends decided to form a band."
+      },
+      {
+        "term": "attract a sizable following",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Gain a substantial group of fans or supporters. Usage: British spelling: sizeable. A following is a group of supporters or fans.",
+        "translationUz": "ko‘plab muxlislar orttirmoq",
+        "example": "Regular concerts helped the band attract a sizable following."
+      },
+      {
+        "term": "play a gig",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give a musical performance, often a live engagement at a particular venue.",
+        "translationUz": "jonli konsertda chiqish qilmoq",
+        "example": "They will play a gig at the local club."
+      },
+      {
+        "term": "record a debut album",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make an artist's or group's first released album.",
+        "translationUz": "ilk albomini yozib olmoq",
+        "example": "The band hopes to record a debut album this summer."
+      },
+      {
+        "term": "a remixed track",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A recording whose elements have been reworked or rearranged into a new version.",
+        "translationUz": "remiks qilingan musiqiy trek",
+        "example": "The DJ played a remixed track at the festival."
+      },
+      {
+        "term": "a massive hit",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A song or other work that becomes extremely popular.",
+        "translationUz": "juda mashhur bo‘lgan qo‘shiq",
+        "example": "The single became a massive hit."
+      },
+      {
+        "term": "a catchy tune",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A melody that is easy to remember.",
+        "translationUz": "tez yodda qoladigan kuy",
+        "example": "The song has a catchy tune that stays in your head."
+      },
+      {
+        "term": "an upbeat tempo",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A lively, energetic musical pace or feel. Usage: The source glosses this as fast rhythm. Tempo is speed; upbeat suggests a lively or positive feel and is not an exact technical synonym for fast.",
+        "translationUz": "jo‘shqin sur’at; tetik musiqiy ohang",
+        "example": "An upbeat tempo encouraged people to dance."
+      },
+      {
+        "term": "release an album",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make a collection of musical recordings available to the public.",
+        "translationUz": "albomni ommaga chiqarish",
+        "example": "The singer plans to release an album in autumn."
+      },
+      {
+        "term": "record live",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make a recording during an actual performance rather than building it entirely from separate studio takes.",
+        "translationUz": "jonli ijro davomida yozib olmoq",
+        "example": "They will record live at the theatre."
+      },
+      {
+        "term": "go on tour",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Travel to give performances in a series of places.",
+        "translationUz": "gastrol safariga chiqmoq",
+        "example": "The band will go on tour after releasing the album."
+      },
+      {
+        "term": "a big break",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An important opportunity that can greatly advance a person's career.",
+        "translationUz": "karyeraga katta turtki beradigan imkoniyat",
+        "example": "The festival appearance gave her a big break."
+      },
+      {
+        "term": "get your foot in the door",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Gain an initial opportunity to enter a profession or organisation.",
+        "translationUz": "kasb yoki sohada ilk imkoniyatga ega bo‘lmoq",
+        "example": "A small recording job can help you get your foot in the door."
+      },
+      {
+        "term": "the music industry",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The businesses and organisations involved in creating, promoting and distributing music.",
+        "translationUz": "musiqa sanoati",
+        "example": "She wants to work in the music industry."
+      },
+      {
+        "term": "sing along",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Join in singing with music or another performer.",
+        "translationUz": "qo‘shilib kuylamoq",
+        "example": "The audience began to sing along during the chorus."
+      },
+      {
+        "term": "tone-deaf",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Unable or finding it very difficult to distinguish musical pitch accurately; also used loosely of poor singing.",
+        "translationUz": "musiqiy ohang balandligini farqlashda qiynaladigan",
+        "example": "He describes himself as tone-deaf, though he still enjoys singing."
+      },
+      {
+        "term": "sing off-key",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Sing notes that do not match the intended key or pitch.",
+        "translationUz": "notadan chiqib kuylamoq",
+        "example": "I sometimes sing off-key when I cannot hear the accompaniment."
+      },
+      {
+        "term": "a solo album",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An album released under an individual performer's name rather than their usual group. Usage: An individual artist can work with backing musicians and guests. Solo does not mean that only one person makes every sound.",
+        "translationUz": "yakkaxon albom",
+        "example": "The band's singer recorded a solo album."
+      },
+      {
+        "term": "a compilation album",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A release collecting recordings from different sources or earlier releases, often by several artists. Usage: Can collect work by one artist or several; it need not be a CD.",
+        "translationUz": "saralangan qo‘shiqlar to‘plami; kompilyatsiya albomi",
+        "example": "A compilation album features songs from several decades."
+      },
+      {
+        "term": "a cult following",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A particularly devoted group of fans, often for an artist or work outside the broad mainstream.",
+        "translationUz": "kichik, ammo juda sodiq muxlislar guruhi",
+        "example": "The band developed a cult following despite limited radio play."
+      }
+    ]
   }
 ]

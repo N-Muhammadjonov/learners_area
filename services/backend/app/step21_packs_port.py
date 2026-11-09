@@ -27,7 +27,9 @@ async def add_pack(req:Request):
                 'exampleSentence':r['example_sentence'] or '', 'collocations':r['collocations'],'authored':True} for r in words]
         else:
             has_any=await con.fetchval("SELECT id FROM vocabulary_topic_packs WHERE publication_state='published' LIMIT 1")
-            if has_any:return core.j({'error':'unknown_pack'},400)
+            # Only the new Art pack can fall back while older DB packs are published.
+            # Existing published pack definitions remain canonical.
+            if has_any and pack_id != 'art':return core.j({'error':'unknown_pack'},400)
             built=json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
             pack=next((p for p in built if p['id']==pack_id),None)
             if not pack:return core.j({'error':'unknown_pack'},400)
