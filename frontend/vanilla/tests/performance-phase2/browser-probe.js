@@ -37,7 +37,8 @@
    apiRequests:resources.filter(e=>new URL(e.name).pathname.startsWith('/api/')).length,
    domNodes:document.querySelectorAll('*').length,approxHeapBytes:performance.memory?.usedJSHeapSize??null,
    visibility:document.visibilityState,online:navigator.onLine,
-   timerRemainingSeconds:Number(document.querySelector('[data-time-remaining]')?.dataset.timeRemaining)||null,
+   timerRemainingSeconds:document.querySelector('[data-time-remaining]')
+    ?Number(document.querySelector('[data-time-remaining]').dataset.timeRemaining):null,
    timerText:document.querySelector('[role="timer"]')?.textContent??null,
    largestResources:resources.toSorted((a,b)=>b.transferSize-a.transferSize).slice(0,12).map(e=>({
     path:new URL(e.name).pathname.startsWith('/api/resources/')?'/api/resources/[synthetic-private-media]':new URL(e.name).pathname,
