@@ -35,7 +35,7 @@ def test_every_art_entry_is_valid_for_games_and_translation():
         assert len(w["translationUz"])<=500
         assert len(w["example"])<=500
         # Current gap game blanks the full answer, not just an article-stripped substring.
-        pattern=r"\\b"+re.escape(w["term"])+r"\\w*\\b"
+        pattern=r"\b"+re.escape(w["term"])+r"\w*\b"
         assert re.search(pattern,w["example"],flags=re.I),w["term"]
         # Choice, match, translation, gap, race and sentence-builder all need fields.
         assert normalize(w["term"]) and normalize(w["example"])
