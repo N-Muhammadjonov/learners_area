@@ -1,5 +1,7 @@
 # Backend regression follow-up — 2026-11-09
 
+Current follow-up: Reading integrity fixes, 67 real PostgreSQL checks, complete asset restoration and scoped measurements are in [07-reading-integrity-followup.md](07-reading-integrity-followup.md). Earlier results below remain historical evidence. Manual stability is deferred by the user; overall Phase 2 remains PARTIAL.
+
 Automated regression: PASS. Overall Phase 2 acceptance: PARTIAL.
 
 Repository: `N-Muhammadjonov/learners_area`  

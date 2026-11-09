@@ -1,5 +1,7 @@
 # Learners Area — Phase 2 performance report
 
+Current follow-up: Reading integrity fixes, 67 real PostgreSQL checks, complete asset restoration and scoped measurements are in [07-reading-integrity-followup.md](07-reading-integrity-followup.md). Earlier results below remain historical evidence. Manual stability is deferred by the user; overall Phase 2 remains PARTIAL.
+
 2026-11-09 backend follow-up: all 5,923 tests and 282 subtests pass. The 17 inherited failures are resolved. Frontend: 1,385 pass, 11 skip, zero failures. Current receipts and remaining limits are in [05-backend-validation.md](05-backend-validation.md). Older measurements and original test runs below remain historical evidence. Overall Phase 2 remains PARTIAL.
 
 Status: PARTIAL. P1 Reading DOM churn is fixed and measured. P0 Listening media lifetime, repeated play and recovery presentation are fixed and exercised with real Chrome decoding of synthetic audio. Protected original CD IELTS playback remains unverified end to end. This is not full acceptance or a production capacity certificate.

@@ -14,22 +14,19 @@
   "productionDataWrites": false,
   "tests": {
     "frontend": {
-      "total": 1396,
-      "pass": 1385,
+      "total": 1404,
+      "pass": 1393,
       "fail": 0,
       "skip": 11,
-      "elapsedSeconds": 93.000256782
+      "elapsedSeconds": 31.782583825
     },
     "backend": {
-      "total": 5923,
       "pass": 5923,
+      "subtestsPass": 282,
       "fail": 0,
       "skip": 0,
-      "additionalSubtestsPass": 282,
-      "junitCasesIncludingSubtests": 6205,
-      "elapsedSeconds": 127.67,
-      "output": "backend-final.log",
-      "junit": "backend-final.xml"
+      "warnings": 1,
+      "seconds": 46.64
     },
     "sameBaselineFailures": 0,
     "legacyFixtureSkips": 11,
@@ -358,5 +355,13 @@
     "machineReadable": "06-backend-validation.json",
     "runtimeCodeChanged": false,
     "overallPhase2": "PARTIAL"
+  },
+  "remainingPhase2Followup": {
+    "report": "07-reading-integrity-followup.md",
+    "summary": "08-followup-summary.json",
+    "databasePass": 67,
+    "status": "SCOPED_PASS",
+    "overall": "PARTIAL",
+    "manualStability": "NOT_RUN_USER_RESERVED_MANUAL"
   }
 }

@@ -1,5 +1,7 @@
 # Learners Area — Phase 2 yakuniy hisobot
 
+Current follow-up: Reading integrity fixes, 67 real PostgreSQL checks, complete asset restoration and scoped measurements are in [07-reading-integrity-followup.md](07-reading-integrity-followup.md). Earlier results below remain historical evidence. Manual stability is deferred by the user; overall Phase 2 remains PARTIAL.
+
 2026-11-09 yangilanish: backend 5,923 test va 282 subtest PASS, xato yo‘q. Avvalgi17 xato tuzatildi. Frontend1,385 PASS,11 skip,0 fail. Joriy dalillar: [05-backend-validation.md](05-backend-validation.md). Quyidagi avvalgi o‘lchov va test natijalari tarixiy dalil sifatida saqlandi. Umumiy Phase2 holati PARTIAL.
 
 Natija: PARTIAL. Tasdiqlangan tuzatishlar arena branchiga yuborildi. Barcha acceptance shartlari yopilmagan. Phase1 dizayni saqlandi. Keyingi mahsulot bosqichi boshlanmadi.
