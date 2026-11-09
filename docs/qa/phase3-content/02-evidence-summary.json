@@ -1,4 +1,5 @@
 {
+  "snapshot": "Historical bde29af delivery; current results are in 04-final-automated-summary.json and 03-security-and-lifecycle-closure.md",
   "status": "PARTIAL",
   "manualQA": "OWNER_ONLY_NOT_RUN",
   "materialsPolicy": "No material push to any branch; source materials stay on main",

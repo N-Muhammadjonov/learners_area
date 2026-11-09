@@ -1,7 +1,6 @@
 """Main Phase 3 API checks in owned PostgreSQL only. No browser/audio/manual QA.
 
-No external DSN is accepted. A known source-runtime disclosure is recorded as a
-release blocker separately from the scoped game regression checks.
+No external DSN is accepted. Review boundaries use the real attempt lifecycle.
 """
 import argparse,asyncio,hashlib,json,re,sys,time
 from pathlib import Path
@@ -54,19 +53,60 @@ async def run(output):
             check('one game award across modes per saved word/day',points==1,points=points)
         results=await asyncio.gather(*(student.post('/api/vocabulary/'+fid('p3-word-run')+'/review',json={'outcome':'correct'}) for _ in range(2)))
         check('authoritative concurrent review advances once',sorted(r.status_code for r in results)==[200,409])
-        # Reproduce the independent native-HTML boundary without saving keys/text.
+        # Actual unstarted -> active -> completed -> active review boundary.
         async with p.acquire() as con:
             await con.execute("UPDATE listening_packages SET source_id='listening-test-2' WHERE test_id=$1",fid('listening-academic'))
-        r=await student.get('/api/listening/full/'+fid('listening-academic')+'/authored')
-        runtime=r.json().get('runtime',{}) if r.status_code==200 else {}
-        text=json.dumps(runtime,ensure_ascii=False)
-        markers=sorted(set(re.findall(r'(?:const|let|var)\s+(AK|ANSWERS|KEY|answerKey|questions|DATA)\s*=',text)))
-        answer_fields=sum(value.count('"answer"') for value in runtime.get('files',{}).values() if isinstance(value,str))
-        # The exact authored source has named answer-bearing DATA/AK globals.
+        async with p.acquire() as con:
+            from app.step25_content_version import pin
+            package=await con.fetchval('SELECT payload FROM listening_packages WHERE test_id=$1',fid('listening-academic'))
+            if isinstance(package,str):package=json.loads(package)
+            await pin(con,'listening','full_test','synthetic-p3-revision','Synthetic revision',package,fid('teacher'),pub='published',target_type='listening_test',target_id=fid('listening-academic'))
+        endpoint='/api/listening/full/'+fid('listening-academic')+'/authored'
+        r=await student.get(endpoint)
+        check('P3-SEC-01 unstarted source contains no runtime or answers',r.status_code==200 and r.json().get('kind')=='exam_required' and 'runtime' not in r.json())
+        study_endpoint='/api/listening/full/'+fid('listening-academic')+'/study'
+        check('unstarted learner cannot bypass review through study grading',(await student.post(study_endpoint,json={'answers':{'1':'guess'}})).status_code==409)
+        for path in ('practice','activity'):
+            check('unstarted learner cannot bypass review through '+path,(await student.post(endpoint.rsplit('/',1)[0]+'/'+path,json={})).status_code==409)
+        r=await student.post('/api/listening/full/'+fid('listening-academic')+'/start',json={})
+        check('full exam starts through the existing server lifecycle',r.status_code==200)
+        attempt=r.json()['id']
+        r=await student.get(endpoint)
+        check('active source gate resumes only the owned attempt',r.status_code==200 and r.json().get('attemptId')==attempt and 'runtime' not in r.json())
+        check('active exam cannot fetch vocabulary study answers',(await student.get(endpoint+'?vocabulary=1')).status_code==409)
+        check('active exam cannot bypass review through study grading',(await student.post(study_endpoint,json={'answers':{'1':'guess'}})).status_code==409)
+        for path in ('practice','activity'):
+            check('active exam cannot bypass review through '+path,(await student.post(endpoint.rsplit('/',1)[0]+'/'+path,json={})).status_code==409)
+        view=await student.get('/api/frontend/view',params={'route':'/app/listening/attempts/'+attempt})
+        exam=view.json().get('data',{}).get('exam',{})
+        check('key-free exam has all forty questions',view.status_code==200 and len(exam.get('questions',[]))==40 and all(not any(k in q for k in ('key','evidence','correctAnswer','explanation')) for q in exam['questions']))
+        draft={'answers':{exam['questions'][0]['id']:'A'},'audioPosition':0,'expectedDraftHash':exam['draftHash']}
+        saved=await student.put('/api/listening/attempts/'+attempt+'/draft',json=draft)
+        check('Listening draft returns an authoritative acknowledgement',saved.status_code==200 and len(saved.json().get('draftHash',''))==64)
+        stale={**draft,'answers':{exam['questions'][0]['id']:'B'}}
+        check('stale Listening tab cannot overwrite another answer',(await student.put('/api/listening/attempts/'+attempt+'/draft',json=stale)).status_code==409)
+        check('a lost acknowledgement can be retried idempotently',(await student.put('/api/listening/attempts/'+attempt+'/draft',json=draft)).status_code==200)
+        check('foreign Listening draft write is denied',(await other.put('/api/listening/attempts/'+attempt+'/draft',json=draft)).status_code==404)
+        restored=await student.get('/api/frontend/view',params={'route':'/app/listening/attempts/'+attempt})
+        check('acknowledged Listening answer persists across resume',restored.json()['data']['exam']['initial'].get(exam['questions'][0]['id'])=='A')
+        async with p.acquire() as con:
+            changed=json.loads(json.dumps(package))
+            for q in changed['questions']:q['key']='B'
+            await con.execute('UPDATE listening_packages SET payload=$2::jsonb WHERE test_id=$1',fid('listening-academic'),changed)
+        submitted=await student.post('/api/listening/attempts/'+attempt+'/submit',json={'answers':[{'questionId':q['id'],'answer':'A'} for q in exam['questions']],'score':999})
+        check('pinned keys survive a newer package and ignore client marks',submitted.status_code==200 and submitted.json().get('score')==40)
+        r=await student.get(endpoint)
         from app.listening_runtime import runtime as source_runtime
-        exact=runtime==source_runtime(2)
-        findings.append({'id':'P3-SEC-01','severity':'P0','status':'BLOCKED','endpoint':'GET /api/listening/full/{id}/authored','httpStatus':r.status_code,'unstartedStudentReceivedExactSourceRuntime':exact,'answerBearingMarkers':markers,'answerPropertiesInRuntime':answer_fields,'runtimeSha256':hashlib.sha256(text.encode()).hexdigest(),'protectionGate':'FAIL' if exact and answer_fields else 'NOT_REPRODUCED','nextStep':'Separate exam-only renderer data from source HTML study/review, then owner browser/audio acceptance. No runtime stripping or learning-material rewrite applied.'})
-        print('BLOCKED P3-SEC-01: exact source runtime delivered before submission',flush=True)
+        check('completed owner can reopen the exact original study runtime',r.status_code==200 and r.json().get('runtime')==source_runtime(2))
+        check('completed owner retains legitimate study grading',(await student.post(study_endpoint,json={'answers':{'1':'guess'}})).status_code==200)
+        foreign=await other.get(endpoint)
+        check('another learner does not inherit review access','runtime' not in foreign.json() and foreign.json().get('attemptId') is None)
+        renewed=await student.post('/api/listening/full/'+fid('listening-academic')+'/start',json={})
+        locked=await student.get(endpoint)
+        check('a fresh active exam overrides earlier review access',renewed.status_code==200 and locked.json().get('attemptId')==renewed.json()['id'] and 'runtime' not in locked.json())
+        old_review=await student.get('/api/frontend/view',params={'route':'/app/listening/attempts/'+attempt+'/revision'})
+        check('active retake cannot fetch keys through an older completed review',old_review.status_code==409)
+        findings.append({'id':'P3-SEC-01','severity':'P0','status':'RESOLVED','protectionGate':'PASS','sourceUnchanged':True,'serverOwnedLifecycleVerified':True})
         async with p.acquire() as con:check('owned database remains responsive',await con.fetchval('SELECT 1')==1)
     finally:
         for client in clients:await client.aclose()
@@ -74,7 +114,7 @@ async def run(output):
             from app.db import close_pool
             await close_pool()
         finally:db.close()
-        result={'scope':'Owned PostgreSQL + real FastAPI ASGI/auth; synthetic learners and vocabulary','manualQA':'OWNER_ONLY_NOT_RUN','elapsedSeconds':round(time.monotonic()-start,3),'pass':sum(c['pass'] for c in cases),'fail':sum(not c['pass'] for c in cases),'cases':cases,'openReleaseFindings':findings}
+        result={'scope':'Owned PostgreSQL + real FastAPI ASGI/auth; synthetic learners and vocabulary','manualQA':'OWNER_ONLY_NOT_RUN','elapsedSeconds':round(time.monotonic()-start,3),'pass':sum(c['pass'] for c in cases),'fail':sum(not c['pass'] for c in cases),'cases':cases,'releaseChecks':findings,'openReleaseFindings':[f for f in findings if f['status']!='RESOLVED']}
         (output/'core-integration.json').write_text(json.dumps(result,indent=2)+'\n')
     if not cases or any(not c['pass'] for c in cases):raise SystemExit(1)
 

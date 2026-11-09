@@ -1,6 +1,6 @@
 # Phase 3 — IELTS content audit and Vocabulary integrity repairs
 
-Date: 2026-11-09. Overall status: PARTIAL. Scope: audit rows 28–48.
+Date: 2026-11-09. Historical snapshot at bde29af. Scope: audit rows 28–48. Current closure and test results: `03-security-and-lifecycle-closure.md`. P3-SEC-01 below describes the original reproduction and is now resolved in the follow-up.
 
 Current instructions: learning materials stay on main. This change contains code, synthetic tests and audit documentation only. Browser interaction, real audio, microphone/device acceptance and continuous stability are reserved for the owner. None was performed in this Phase 3 execution.
 

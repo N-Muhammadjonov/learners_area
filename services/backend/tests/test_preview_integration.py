@@ -65,9 +65,11 @@ async def learner(req, active=False):return dict(USER)
 
 
 
-def test_main_listening_uses_the_exact_native_runtime_and_media_contract(client, monkeypatch):
+def test_completed_main_listening_uses_the_exact_native_runtime_and_media_contract(client, monkeypatch):
     from app import step21_listening_authored_reads as authored
     connection = Connection()
+    async def completed(sql,*args):return {'id':UID,'status':'completed'}
+    connection.fetchrow=completed
     async def pool():return connection
     async def context(*args):
         return {'source_id': 'listening-test-1', 'payload': {'authoredRuntime': '<main>existing course</main>',

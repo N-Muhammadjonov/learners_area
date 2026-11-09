@@ -7,10 +7,10 @@ export class ApiError extends Error {
 /** Same-origin transport only, no persistent cache or mutation retries. */
 export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthorized=()=>{},onMutation=()=>{}){
  const pending=new Map();let epoch=0;
- async function execute(path,{method='GET',body,signal,maxBytes}={}){
+ async function execute(path,{method='GET',body,signal,maxBytes,keepalive=false}={}){
   if(!path.startsWith('/api/')||/[\\\u0000-\u001f]/.test(path))throw new TypeError('Only same-origin /api paths accepted');
   const multipart=typeof FormData!=='undefined'&&body instanceof FormData;
-  const response=await fetcher(path,{method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body===undefined||multipart?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:multipart?body:JSON.stringify(body),signal});
+  const response=await fetcher(path,{method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body===undefined||multipart?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:multipart?body:JSON.stringify(body),signal,...keepalive?{keepalive:true}:{}});
   if(signal?.aborted)throw signal.reason??new DOMException('Aborted','AbortError');
   if(response.status===401)onUnauthorized(path);
   const type=response.headers.get('content-type')??'';

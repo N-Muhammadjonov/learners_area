@@ -4,7 +4,7 @@ Bu ishlarni agent bajarmadi. Brauzer, haqiqiy audio/mikrofon, qurilmalar va uzlu
 
 | Modul | Siz tekshiradigan oqim | Qabul mezoni |
 |---|---|---|
-| Listening | Katalog → start → 4 part/40 savol → chiqish/resume → submit → review; audio fallback va audio davomiyligi | Audio real ijro etiladi; timer/answer/media nav bilan qayta boshlanmaydi; server saqlagan javoblar tiklanadi. P3-SEC-01 yopilmaguncha maxfiy javob kaliti himoyasini PASS deb belgilamang. |
+| Listening | Katalog → xavfsiz start → 4 part/40 savol → darhol chiqish/resume → submit → original study/review; ikki tab conflict; audio fallback va audio davomiyligi | P3-SEC-01 avtomatik API’da yopilgan. Audio real ijro etiladi; timer/answer/media nav bilan qayta boshlanmaydi; server javoblari tiklanadi. Conflict paytida Server javoblarini olish / Bu qurilma nusxasini saqlash tanlovi ishlaydi. Faol retake’da eski review ham ochilmaydi. |
 | Reading | Desktop split; input/MCQ/matching/drag-drop; highlight/scroll; darhol chiqish; ikki tab; submit/review | Yangi javob yo‘qolmaydi; stale tab 409 oladi; focus/selection saqlanadi; 3 passage/40 savol kontrakti saqlanadi. |
 | Writing | Task 1 rasm/diagramma; Task 2; word count; autosave; task almashish; finalize va vakolatli review | Grafiklar haqiqiy manba bilan mos; matn qayta ochilganda bor; pending yoki unavailable AI holati soxta band ko‘rsatmaydi. |
 | Speaking | Part 1/2/3; Part 2 → bog‘liq Part 3; mic denied/revoked; record/save/reopen; partner leave/reconnect | Yozuv saqlanadi va faqat ruxsatli foydalanuvchiga ochiladi; ishlamagan peer aloqa muvaffaqiyat deb ko‘rsatilmaydi. |

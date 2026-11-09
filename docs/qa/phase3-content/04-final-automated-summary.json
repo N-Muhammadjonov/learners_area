@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-10",
+  "timezone": "Asia/Tashkent",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/learners-area-next",
+  "parent": "bde29af18a3d306604303856f50f9f9a99c274e4",
+  "readOnlyMain": "bc48ac44ebb8dc65df69d3e477a1494845b60938",
+  "automatedStatus": "PASS",
+  "overallAcceptance": "PARTIAL_OWNER_MANUAL_AND_CONTENT_GATES",
+  "frontend": {
+    "total": 1418,
+    "pass": 1407,
+    "fail": 0,
+    "skip": 11,
+    "seconds": 47.779323655,
+    "skipReason": "Original embedded-audio Listening_Test_1.html importer fixture unavailable"
+  },
+  "backend": {
+    "pass": 5942,
+    "subtestsPass": 282,
+    "fail": 0,
+    "skip": 0,
+    "seconds": 57.55,
+    "warnings": 1
+  },
+  "phase3OwnedPostgres": {
+    "pass": 51,
+    "fail": 0,
+    "elapsedSeconds": 2.85
+  },
+  "phase2OwnedPostgres": {
+    "pass": 67,
+    "fail": 0,
+    "elapsedSeconds": 3.253
+  },
+  "releaseChecks": [
+    {
+      "id": "P3-SEC-01",
+      "severity": "P0",
+      "status": "RESOLVED",
+      "protectionGate": "PASS",
+      "sourceUnchanged": true,
+      "serverOwnedLifecycleVerified": true
+    }
+  ],
+  "openReproducedCodeFindings": [],
+  "revisionCompatibility": {
+    "versions": 62,
+    "questions": 1430,
+    "missingSnapshots": 0,
+    "missingRows": 0,
+    "textMismatch": 0,
+    "compatible": 1430,
+    "held": 0,
+    "directKeyMatches": 1421,
+    "optionRepresentationMatches": 9,
+    "mode": "read-only aggregate, no answers exported"
+  },
+  "build": {
+    "staticBuild": true,
+    "runtime": "Python FastAPI",
+    "files": 846,
+    "routes": 131,
+    "nodeRequired": false,
+    "revision": "829878ca7efd9243072e",
+    "inputBytes": 151905884,
+    "transferBytes": 138644930,
+    "minifiedFiles": 203,
+    "cdnSpeechBytes": 101260210,
+    "cdnSpeechFiles": 55
+  },
+  "phase12Preservation": [
+    {
+      "path": "frontend/vanilla/modules/reading/exam.js",
+      "remoteBlob": "ff354361663af170f365acbf918ce2a638cc2073",
+      "localBlob": "ff354361663af170f365acbf918ce2a638cc2073",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/modules/reading/attempt.js",
+      "remoteBlob": "0ceb03d43d1f68a741f20879ed3448a007d9f17e",
+      "localBlob": "0ceb03d43d1f68a741f20879ed3448a007d9f17e",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/js/adapters/reading-v44.js",
+      "remoteBlob": "18ddd416111d89ee2a18852cd261877dcc97e166",
+      "localBlob": "18ddd416111d89ee2a18852cd261877dcc97e166",
+      "unchanged": true
+    },
+    {
+      "path": "services/backend/app/reading_feedback_port.py",
+      "remoteBlob": "c01904bcd6c46dd5b9ebcce05bda2d619115a8fa",
+      "localBlob": "c01904bcd6c46dd5b9ebcce05bda2d619115a8fa",
+      "unchanged": true
+    },
+    {
+      "path": "services/backend/app/reading_draft.py",
+      "remoteBlob": "75f7415291067fc1561aa2184347b04e8a2d70c3",
+      "localBlob": "75f7415291067fc1561aa2184347b04e8a2d70c3",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/modules/shared/design-system.css",
+      "remoteBlob": "fe68dd5d2ec7b2a997daea315731b552ca9e4276",
+      "localBlob": "fe68dd5d2ec7b2a997daea315731b552ca9e4276",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/css/dock.css",
+      "remoteBlob": "e1aad911df9bf4c78ccb8c5d8b236eb7295091d3",
+      "localBlob": "e1aad911df9bf4c78ccb8c5d8b236eb7295091d3",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/modules/listening/exam.js",
+      "remoteBlob": "a8ebefe709bceaf59077b77641a01b29f777a633",
+      "localBlob": "c5fea9c00d22cffae3892662d7c2a1e104205549",
+      "unchanged": false,
+      "reason": "Intentional Listening draft/exit/conflict repair; stable media-node regression passes"
+    }
+  ],
+  "manualQA": "OWNER_ONLY_NOT_RUN",
+  "migrations": [],
+  "newTeachingMaterials": 0,
+  "materialChanges": 0,
+  "mainWrites": false,
+  "productionDatabaseWrites": false,
+  "deploymentPlan": {
+    "count": 1,
+    "kind": "git-triggered preview from final arena commit",
+    "productionPromotion": false,
+    "noSeparateDeployCall": true
+  },
+  "remainingAcceptance": [
+    "Owner browser/audio/mic/device/Safari/network/performance/stability QA",
+    "Approved Grammar/article/Podcast/published Mock content absent; GT exam bank unproven; dedicated Fluency absent",
+    "Editorial source/key/explanation approval; 90 Reading evidence quotes absent",
+    "Real external grader and live peer acceptance",
+    "Original audit/ZIP reference and 11 importer fixture cases unavailable"
+  ]
+}

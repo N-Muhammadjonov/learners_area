@@ -8,6 +8,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .rate_limit import async_counter as counter,RULES
 from .step17_listening_start_port import test_detail,PRIVATE
+from .listening_review_access import exam_gate
 router=APIRouter()
 RULES.setdefault('listening_practice',(120,60))
 
@@ -32,8 +33,8 @@ async def prepare(req,id,require_questions=False):
         if not detail:return None,core.j({'error':'not_found'},404)
         pkg=detail[1]['payload'];pkg=json.loads(pkg) if isinstance(pkg,str) else pkg
         if require_questions and not pkg.get('questions'):return None,core.j({'error':'authored_runtime_only'},409)
-        in_progress=await con.fetchval("SELECT EXISTS(SELECT 1 FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='in_progress')",user['id'],core.uuid_value(id))
-    if in_progress:return None,core.j({'error':'exam_in_progress'},409)
+        required,active=await exam_gate(con,user,core.uuid_value(id))
+    if required:return None,core.j({'error':'exam_in_progress' if active else 'exam_required'},409,PRIVATE)
     return (user,pkg),None
 
 def valid_answers(answers,key_max,value_max):
@@ -41,16 +42,9 @@ def valid_answers(answers,key_max,value_max):
 
 @router.post('/api/listening/full/{id}/study')
 async def study(req:Request,id:str):
-    user=await core.current_user(req,active=True)
-    if not user:return core.auth_error()
-    if not core.uuid_value(id):return core.j({'error':'not_found'},404)
-    db=await core.pool()
-    async with db.acquire() as con:
-        detail=await test_detail(con,user,id,requires_package=True)
-        if detail=='sequence_locked':return core.j({'error':'sequence_locked'},403,PRIVATE)
-        if not detail:return core.j({'error':'not_found'},404)
-        pkg=detail[1]['payload'];pkg=json.loads(pkg) if isinstance(pkg,str) else pkg
-        if not pkg.get('questions'):return core.j({'error':'authored_runtime_only'},409)
+    ctx,err=await prepare(req,id,require_questions=True)
+    if err:return err
+    user,pkg=ctx
     body=await core.payload(req)
     answers=body.get('answers') if isinstance(body,dict) else None
     if not valid_answers(answers,2,500) or any(not re.fullmatch(r'(?:[1-9]|[1-3][0-9]|40)',k) for k in answers) or not any(v.strip() for v in answers.values()):return core.j({'error':'answer_required'},400)

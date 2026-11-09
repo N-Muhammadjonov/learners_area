@@ -80,8 +80,8 @@ async def pin(con,module,typ,ref,title,content,actor,pub='draft',track='unspecif
     next_no=(before['version_no'] if before else 0)+1
     row=await con.fetchrow('''INSERT INTO content_versions(module,content_type,source_ref,version_no,status,title,track,content_hash,semantic_hash,
       answer_key_hash,content_snapshot,publication_state,target_type,target_id,created_by_user_id,change_kind,provenance,published_at)
-      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb,$12,$13,$14,$15,$16,$17::jsonb,
-      CASE WHEN $12='published' THEN NOW() ELSE NULL END) RETURNING id''',module,typ,ref,next_no,'published' if pub=='published' else 'draft',title,track,
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11::jsonb,$12::varchar,$13,$14,$15,$16,$17::jsonb,
+      CASE WHEN $12::varchar='published'::varchar THEN NOW() ELSE NULL END) RETURNING id''',module,typ,ref,next_no,'published' if pub=='published' else 'draft',title,track,
       hashes['content_hash'],hashes['semantic_hash'],hashes['answer_key_hash'],json.dumps(content,ensure_ascii=False),pub,target_type,target_id,actor,kind,
       encoded(provenance) if provenance else None)
     return str(row['id']),next_no,True

@@ -1,4 +1,5 @@
 """Listening exercises, with pinned question sets and exam dictionary isolation."""
+import json
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, material_blocks, safe_resource
@@ -6,6 +7,8 @@ from .browser_listening import content, mcq_rows
 from .step17_listening_start_port import begin
 from .step22_listening_submit import assigned_questions
 from .step17_listening_work_port import exam_results, speed_allowed
+from .listening_draft import listening_draft_hash
+from .listening_revision import revision_package
 
 
 def public(q):
@@ -34,6 +37,9 @@ def media(test):
 
 
 async def report(con, user, row, test, section=False):
+    from .listening_review_access import exam_gate
+    required,_=await exam_gate(con,user,test['id'])
+    if row['status']!='completed' or required:raise HTTPException(409,'exam_in_progress')
     questions = await assigned_questions(con,row)
     return {'attempt':camel({k:row[k] for k in ('id','status','score','total_questions')}),
       'test':{'id':str(test['id']),'title':test['title'],'transcript':test['transcript']},'section':section,
@@ -58,6 +64,7 @@ async def section_view(con, user, test, p, row=None):
 
 async def exam_payload(con, user, row, test, p, section=False):
     questions = await assigned_questions(con,row)
+    p=await revision_package(con,row,p)
     draft = await con.fetchrow('SELECT answers,audio_position,audio_started_at FROM listening_drafts WHERE attempt_id=$1',row['id'])
     package_questions = {q['number']:q for q in p.get('questions',[])}
     section_no = (p.get('sections') or [{}])[0].get('number',1)
@@ -66,13 +73,20 @@ async def exam_payload(con, user, row, test, p, section=False):
         source = package_questions.get(q['order'])
         if source and not section:
             value = public(source)
+            code=q['type_code'] or ''
+            value['input']='multi' if code in ('mcq_multi','multiple_choice_choose_two','multiple_choice_choose_three') and not source.get('pair') else 'select' if source.get('options') else 'text'
         else:
             code = q['type_code'] or ''
             value = {'number':q['order'],'section':section_no,'text':q['question_text'],'instruction':'Answer the question.','options':q['options'] or [],'input':'multi' if code in ('mcq_multi','multiple_choice_choose_two','multiple_choice_choose_three') else 'select' if q['options'] else 'text'}
         public_questions.append({'id':str(q['id']),**value})
+    diagram=p.get('mapDiagram')
+    if not diagram and not test.get('image_object_key'):
+        from .listening_exam_visuals import source_map
+        diagram=source_map(test.get('source_id'))
     return {'attemptId':str(row['id']),'testId':str(test['id']),'title':test['title'],'audioUrl':test['audio_url'],
-      'imageUrl':safe_resource(test.get('image_object_key')),'mapDiagram':p.get('mapDiagram'),'mapSections':map_sections(p),
+      'imageUrl':safe_resource(test.get('image_object_key')),'mapDiagram':diagram,'mapSections':map_sections(p),
       'duration':p.get('audio',{}).get('durationSec'),'questions':public_questions,'initial':draft['answers'] if draft else {},
+      'draftHash':listening_draft_hash((json.loads(draft['answers']) if isinstance(draft['answers'],str) else draft['answers']) if draft else {},draft['audio_position'] if draft else 0),
       'audioPosition':draft['audio_position'] if draft else 0,'audioStartedAt':camel(draft)['audioStartedAt'] if draft else None,'sectionMode':section}
 
 
@@ -99,7 +113,10 @@ async def attempt_view(con, user, id, revision=False):
     types.sort(key=lambda r:r['accuracy'])
     recent = [camel(r) for r in await con.fetch('''SELECT q.id question_id,q.question_text,a.user_answer,q.correct_answer,q.explanation
       FROM listening_answers a JOIN listening_attempts t ON t.id=a.attempt_id JOIN listening_questions q ON q.id=a.question_id
-      WHERE t.user_id=$1 AND a.is_correct=false ORDER BY t.submitted_at DESC LIMIT 10''',user['id'])]
+      WHERE t.user_id=$1 AND a.is_correct=false AND NOT EXISTS(
+        SELECT 1 FROM listening_attempts active WHERE active.user_id=t.user_id
+          AND active.test_id=t.test_id AND active.status='in_progress')
+      ORDER BY t.submitted_at DESC LIMIT 10''',user['id'])]
     keywords = [{'id':q['id'],'order':q['order'],'questionText':q['questionText'],'keywords':q.get('keywords') or [],'paraphrases':q.get('paraphrases') or []} for q in result['questions']]
     vocabulary = [camel(r) for r in await con.fetch('''SELECT DISTINCT l.id,l.term,l.translation_uz FROM lexical_occurrences o
       JOIN lexemes l ON l.id=o.lexeme_id WHERE o.listening_test_id=$1 AND o.resolution_status='resolved' ''',test['id'])]
@@ -112,6 +129,9 @@ async def exercise(con, user, test, p, segment):
     if segment=='1': return {'kind':'exam-start','title':test['title']}
     running = await con.fetchval("SELECT 1 FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='in_progress' LIMIT 1",uid,id)
     if running: return {'kind':'exam-locked'}
+    from .listening_review_access import exam_gate
+    required,_=await exam_gate(con,user,id)
+    if required:return {'kind':'exam-start','title':test['title']}
     if segment=='mcq':
         return {'kind':'mcq','mcq':{'id':str(id),'title':test['title'],'audioUrl':test['audio_url'],'questions':await mcq_rows(con,uid,id,'listen')}}
     if segment=='study':

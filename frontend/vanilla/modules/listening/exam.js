@@ -1,3 +1,4 @@
+import {listeningDraftWriter} from './draft-writer.js';
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
 import {fieldSelection,restoreWhenAttached} from '../../js/focus-restore.js';
@@ -8,6 +9,7 @@ import {examDTO,answerRecord} from '../../js/adapters/listening-v7.js';
 export function listeningExam(context,input,composition={}){
  const p=examDTO(input),{dict,signal}=context,t=dict.fullListeningHub.examScreen,host=document.createElement('div'),keys=listeningAttemptLocalKeys(p.attemptId),ids=new Set(p.questions.map(q=>q.id));
  let answers={...p.initial},notes='',section=1,mediaDuration=p.duration??0,started=!!p.audioStartedAt,position=p.audioPosition,error='',saved='',busy=false,notesOpen=false,confirm=false,dirty=false,saving=false,submitted=false;
+ const writer=listeningDraftWriter(p.attemptId,p.draftHash);let conflict=false,reconciling=false;
  let playing=false,startPersisted=started,saveRequested=false,saveTimeout=null,lastSavedPosition=position,forceSavePosition=false;const SAVE_INTERVAL=15000;
  const audio={current:null},container={current:null},pos={current:position};
  // A media element must stay attached across notes/section/error presentation.
@@ -22,8 +24,8 @@ export function listeningExam(context,input,composition={}){
   if(playFlight)b.setAttribute('aria-busy','true');else b.removeAttribute('aria-busy');
   b.textContent=started?t.resume:t.begin;
  }
- try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){answers={...answers,...answerRecord(raw.answers,ids)};dirty=true;}notes=(localStorage.getItem(keys.notes)||'').slice(0,12000);}catch{}
- function persist(){try{localStorage.setItem(keys.draft,JSON.stringify({answers}));}catch{saved=t.deviceUnavailable;paintSaved();}}
+ try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){answers={...answers,...answerRecord(raw.answers,ids)};dirty=true;conflict=typeof p.draftHash==='string'&&raw.draftHash!==p.draftHash;}notes=(localStorage.getItem(keys.notes)||'').slice(0,12000);}catch{}
+ function persist(){try{localStorage.setItem(keys.draft,JSON.stringify({answers,draftHash:writer.hash}));}catch{saved=t.deviceUnavailable;paintSaved();}}
  function paintSaved(){const n=host.querySelector('[data-listening-save-status]');if(n)n.textContent=saved;}
  function paintPosition(){
   const n=host.querySelector('[data-listening-position]');if(!n)return;
@@ -63,6 +65,7 @@ export function listeningExam(context,input,composition={}){
   audio.current=old??next;container.current=node;
   viewHost.replaceChildren(node);
   paintAnswers();paintPosition();paintSaved();paintPlayback();
+  if(conflict){const box=h('div',{role:'alert','data-listening-draft-conflict':'',className:'card p-4'},context.locale==='uz'?'Boshqa tabda yoki qurilmada boshqa javob saqlangan. Bu qurilmadagi nusxa saqlanib turibdi.':'Another tab or device saved different answers. This device copy is retained.',h('button',{type:'button',className:'btn-secondary',disabled:reconciling,onClick:()=>void reconcile(false)},context.locale==='uz'?'Server javoblarini olish':'Use server answers'),h('button',{type:'button',className:'btn-secondary',disabled:reconciling,onClick:()=>void reconcile(true)},context.locale==='uz'?'Bu qurilma nusxasini saqlash':'Keep this device copy'));viewHost.prepend(box);}
   if(focus)restoreWhenAttached(focus.id?[...host.querySelectorAll('[id]')].find(n=>n.id===focus.id):host.querySelectorAll('input,select,textarea,button,a')[focus.index],signal,focus);
  }
  function requestSave(delay=1800,force=false){
@@ -73,8 +76,9 @@ export function listeningExam(context,input,composition={}){
  function change(id,value){if(!ids.has(id)||value.length>500||busy||submitted)return;answers={...answers,[id]:value};dirty=true;saved=t.saving;persist();paintAnswers();paintSaved();requestSave();}
  // Source multi controls must use CURRENT checked state, not a stale render closure.
  host.addEventListener('change',e=>{const field=e.target.closest?.('[data-listening-answer-control=multi]');if(!field)return;e.stopImmediatePropagation();const q=p.questions.find(q=>'answer-'+q.id===field.id);if(q)change(q.id,[...field.querySelectorAll('input')].flatMap((n,i)=>n.checked?[(/^[A-Z](?:\s|$)/.test(q.options[i])?q.options[i][0]:String.fromCharCode(65+i))]:[]).join(','));},{capture:true,signal});
+ async function reconcile(keepLocal){if(reconciling)return;reconciling=true;draw();try{const data=await api.request('/api/frontend/view?'+new URLSearchParams({route:'/app/listening/attempts/'+p.attemptId}),{signal,fresh:true});const latest=examDTO(data.data.exam);writer.reconcile(latest.draftHash);if(!keepLocal){answers={...latest.initial};position=latest.audioPosition;pos.current=position;try{if(audio.current)audio.current.currentTime=position;}catch{}}conflict=false;dirty=keepLocal;persist();}catch{saved=t.deviceOnly;}finally{reconciling=false;if(!signal.aborted){draw();if(!conflict&&dirty)requestSave(0);}}}
  async function save(){
-  if(signal.aborted||submitted||busy)return;
+  if(signal.aborted||submitted||busy||conflict)return;
   if(saving){saveRequested=true;return;}
   const positionNow=pos.current;
   const startNow=started&&!startPersisted;
@@ -83,15 +87,12 @@ export function listeningExam(context,input,composition={}){
   const snapshot=JSON.stringify(answers);
   let succeeded=false;
   try{
-   await api.request('/api/listening/attempts/'+p.attemptId+'/draft',{
-    method:'PUT',timeoutMs:12000,
-    body:{answers:{...answers},audioPosition:positionNow,startAudio:startNow},signal
-   });
-   if(signal.aborted)return;
+   await writer.write({answers:{...answers},audioPosition:positionNow,startAudio:startNow});
+   if(signal.aborted||submitted)return;
    saved=t.saved;dirty=JSON.stringify(answers)!==snapshot;
-   lastSavedPosition=positionNow;if(startNow)startPersisted=true;succeeded=true;
-  }catch{
-   if(!signal.aborted)saved=t.deviceOnly;
+   lastSavedPosition=positionNow;if(startNow)startPersisted=true;succeeded=true;persist();
+  }catch(cause){
+   if(!signal.aborted){saved=t.deviceOnly;if(cause?.code==='draft_conflict'){conflict=true;draw();}}
   }finally{
    saving=false;if(!signal.aborted){paintSaved();if(succeeded&&(saveRequested||dirty||forceSavePosition))requestSave(2000);}
   }
@@ -126,12 +127,13 @@ export function listeningExam(context,input,composition={}){
   host.addEventListener('pause',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
   host.addEventListener('ended',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
  }
- async function submit(){if(busy||submitted||signal.aborted)return;busy=true;error='';draw();try{await api.request(`/api/listening/attempts/${p.attemptId}/submit`,{method:'POST',timeoutMs:12000,body:{answers:p.questions.map(q=>({questionId:q.id,answer:answers[q.id]??''}))},signal});if(signal.aborted)return;submitted=true;clearListeningAttemptLocalState(p.attemptId);await context.navigate(p.sectionMode?`/app/listening/general/${p.testId}`:`/app/listening/tests/${p.testId}/2`);}catch(e){if(signal.aborted)return;if(e.status===409){context.refresh();return;}error=t.submitFailed;busy=false;draw();}}
+ async function submit(){if(busy||submitted||signal.aborted||conflict)return;busy=true;error='';draw();try{await api.request(`/api/listening/attempts/${p.attemptId}/submit`,{method:'POST',timeoutMs:12000,body:{answers:p.questions.map(q=>({questionId:q.id,answer:answers[q.id]??''}))},signal});if(signal.aborted)return;submitted=true;clearListeningAttemptLocalState(p.attemptId);await context.navigate(p.sectionMode?`/app/listening/general/${p.testId}`:`/app/listening/tests/${p.testId}/2`);}catch(e){if(signal.aborted)return;if(e.status===409){context.refresh();return;}error=t.submitFailed;busy=false;draw();}}
  const timer=setInterval(()=>{if(dirty||started&&!startPersisted||playing&&Math.abs(pos.current-lastSavedPosition)>=12)void save();},SAVE_INTERVAL);
- const flush=()=>{if(document.visibilityState==='hidden'&&(dirty||playing||started))requestSave(0,true);};
+ const flush=()=>{if(document.visibilityState==='hidden'&&(dirty||playing||started)){forceSavePosition=true;void save();}};
  document.addEventListener('visibilitychange',flush,{signal});
  signal.addEventListener('abort',()=>{
   clearInterval(timer);clearTimeout(saveTimeout);
+  if(!submitted&&!conflict&&(dirty||playing||started&&!startPersisted))void writer.write({answers:{...answers},audioPosition:pos.current,startAudio:started&&!startPersisted}).catch(()=>{});
   audio.current?.pause();audio.current?.removeAttribute('src');audio.current?.load();
   composition.dispose?.();host.replaceChildren();
  },{once:true});
