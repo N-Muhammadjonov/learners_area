@@ -4,8 +4,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
+
+import pytest
 ROOT=Path(__file__).resolve().parents[3]
 spec=importlib.util.spec_from_file_location('native_builder',ROOT/'scripts/build_native_assets.py')
 builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
@@ -19,7 +22,6 @@ def fixture(tmp_path):
 
 
 def test_build_excludes_symlinks_and_rejects_framework_import(tmp_path):
-    import pytest
     base=fixture(tmp_path)
     outside=tmp_path/'secret';outside.write_text('secret')
     (base/'js/secret.js').symlink_to(outside)
@@ -29,12 +31,48 @@ def test_build_excludes_symlinks_and_rejects_framework_import(tmp_path):
     with pytest.raises(ValueError,match='Server/framework dependency'):builder.build(base)
 
 
-def test_real_build_without_node(monkeypatch):
-    result=subprocess.run([sys.executable,str(ROOT/'scripts/build_native_assets.py')],cwd=ROOT,env={'PATH':'/nonexistent','PYTHONPATH':os.pathsep.join(str(Path(item).resolve()) for item in sys.path if item)},check=True,capture_output=True,text=True)
-    summary=json.loads(result.stdout)
-    assert summary['nodeRequired'] is False and summary['routes']>100
-    manifest=json.loads((ROOT/'frontend/vanilla/build/asset-manifest.json').read_text())
-    assert all(not name.startswith(('src/','node_modules/')) for name in manifest['files'])
+def copy_docker_stage(stage: str, target_root: Path, assets_root: Path) -> None:
+    for line in stage.splitlines():
+        if not line.startswith('COPY '):
+            continue
+        parts = line.split()[1:]
+        if parts[0] == '--from=assets':
+            _, source, destination = parts
+            source_path = assets_root / Path(source).relative_to('/build')
+        else:
+            source, destination = parts
+            source_path = ROOT / source
+        target = target_root / destination
+        if source_path.is_dir():
+            ignore = shutil.ignore_patterns('build', '__pycache__') if source_path == ROOT / 'frontend/vanilla' else shutil.ignore_patterns('__pycache__')
+            shutil.copytree(source_path, target, ignore=ignore)
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source_path, target)
+
+
+@pytest.mark.parametrize('docker_assets', [False, True], ids=['checkout', 'docker-assets-stage'])
+def test_real_build_without_node(tmp_path, docker_assets):
+    root = ROOT
+    if docker_assets:
+        root = tmp_path / 'assets'
+        dockerfile = (ROOT / 'services/backend/Dockerfile').read_text()
+        assets_stage, runtime_stage = dockerfile.split('\nFROM ', 1)
+        copy_docker_stage(assets_stage, root, root)
+    env = {'PATH': '/nonexistent', 'PYTHONPATH': os.pathsep.join(str(Path(item).resolve()) for item in sys.path if item)}
+    result = subprocess.run([sys.executable, str(root / 'scripts/build_native_assets.py')],
+                            cwd=root, env=env, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    summary = json.loads(result.stdout)
+    assert summary['nodeRequired'] is False and summary['routes'] > 100
+    manifest = json.loads((root / 'frontend/vanilla/build/asset-manifest.json').read_text())
+    assert all(not name.startswith(('src/', 'node_modules/')) for name in manifest['files'])
+    if docker_assets:
+        runtime = tmp_path / 'runtime'
+        copy_docker_stage(runtime_stage, runtime, root)
+        result = subprocess.run([sys.executable, str(runtime / 'scripts/serve.py'), '--check'],
+                                cwd=runtime, env=env, capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr
 
 
 def test_speech_parts_are_copied_to_cdn_without_publishing_private_or_non_model_files(tmp_path):
