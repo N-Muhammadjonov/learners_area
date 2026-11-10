@@ -66,7 +66,7 @@ export function mountArticle(context){
 function mountExercise(context,article,t){
  const uz=context.locale==='uz', signal=context.signal;
  const copy=uz?{close:'Yopish',words:'Maqola lug‘ati',all:'Barcha so‘zlarni qo‘shish',add:'Vocabularyga qo‘shish',folder:'Qaysi papkaga qo‘shilsin?',defaultFolder:'Maqola nomi bilan papka',save:'Qo‘shish',cancel:'Bekor qilish',loading:'Yuklanmoqda…',failed:'Saqlanmadi. Qayta urinib ko‘ring.',saved:'So‘zlar Vocabularyga qo‘shildi.'}:{close:'Close',words:'Article vocabulary',all:'Add all words',add:'Add to vocabulary',folder:'Choose a folder',defaultFolder:'Folder named after this article',save:'Add',cancel:'Cancel',loading:'Loading…',failed:'Could not save. Please try again.',saved:'Words added to Vocabulary.'};
- const status=el('p',{role:'status',class:'reading-article-result'});
+ let saveStatus=null;
  async function chooseWords(words){
   if(signal.aborted)return;
   const dialog=el('dialog',{class:'reading-article-folder','aria-labelledby':'article-folder-title'}),form=el('form',{}),select=el('select',{class:'input','aria-label':copy.folder,'data-article-folder-select':''}),error=el('p',{role:'alert',class:'reading-article-feedback'}),cancel=el('button',{type:'button',class:'btn-secondary'},copy.cancel),save=el('button',{type:'submit',class:'btn-primary',disabled:true},copy.save);
@@ -82,21 +82,10 @@ function mountExercise(context,article,t){
     const body={items:words,sourceType:'article',...(select.value?{folderId:select.value}:{folderName:article.title})};
     const result=await api.request('/api/vocabulary',{method:'POST',body,signal});
     if(!result.ok||result.needsDefinition?.length)throw Error('save_failed');
-    if(signal.aborted)return;privateScope.invalidate('vocabulary:');status.textContent=copy.saved;close();
+    if(signal.aborted)return;privateScope.invalidate('vocabulary:');if(saveStatus)saveStatus.textContent=copy.saved;close();
    }catch{if(!signal.aborted){error.textContent=copy.failed;save.disabled=cancel.disabled=false;}}
   },{signal});
  }
- const list=el('div',{class:'reading-article-vocabulary-list'},article.vocabulary.map(word=>{
-  const button=el('button',{type:'button',class:'btn-secondary reading-article-word-add','aria-label':`${copy.add}: ${word.term}`,'data-article-add-word':word.term},'+');
-  button.addEventListener('click',()=>void chooseWords([word]),{signal});
-  return el('div',{class:'reading-article-vocabulary-word'},el('span',{},el('strong',{},word.term),el('span',{class:'reading-article-word-translation'},word.translationUz)),button);
- }));
- const addAll=el('button',{type:'button',class:'btn-primary','data-article-add-all':''},'+ '+copy.all);addAll.addEventListener('click',()=>void chooseWords(article.vocabulary),{signal});
- const vocabulary=el('dialog',{class:'reading-article-vocabulary-dialog','aria-label':copy.words,'data-article-vocabulary-dialog':''});
- const closeVocabulary=el('button',{type:'button',class:'btn-ghost','aria-label':copy.close},'×');
- closeVocabulary.addEventListener('click',()=>{if(vocabulary.open)vocabulary.close();},{signal});
- vocabulary.append(el('div',{class:'reading-article-vocabulary-header'},el('h2',{},`${copy.words} · ${article.vocabulary.length}`),closeVocabulary),list,addAll,status);
- document.body.append(vocabulary);signal.addEventListener('abort',()=>vocabulary.remove(),{once:true});
  const query=new URLSearchParams();if(context.session?.user?.id)query.set('user',context.session.user.id);
  const frame=el('iframe',{class:'reading-article-frame',title:article.title,src:article.exercise+(query.size?'?'+query:''),'data-article-exercise':''});
  frame.addEventListener('load',()=>{
@@ -104,9 +93,17 @@ function mountExercise(context,article,t){
    const win=frame.contentWindow,doc=frame.contentDocument;
    const syncTheme=()=>{doc.documentElement.dataset.theme=document.documentElement.dataset.theme==='night'?'dark':'light';};
    syncTheme();const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});signal.addEventListener('abort',()=>themeObserver.disconnect(),{once:true});
-   const vocabularyButton=doc.querySelector('#im-vocabulary'),count=doc.querySelector('#im-vocabulary-count');
-   if(count)count.textContent=String(article.vocabulary.length);
-   if(vocabularyButton){vocabularyButton.setAttribute('aria-label',`${copy.words}: ${article.vocabulary.length}`);vocabularyButton.title=copy.words;vocabularyButton.addEventListener('click',()=>{if(!vocabulary.open){if(vocabulary.showModal)vocabulary.showModal();else vocabulary.setAttribute('open','');}},{signal});}
+   const titleRow=doc.querySelector('.im-dict-title-row'),wordsPanel=doc.querySelector('#im-dict-words');
+   if(titleRow&&wordsPanel){
+    const addOne=doc.createElement('button');addOne.type='button';addOne.className='im-dict-speak';addOne.textContent='+';addOne.setAttribute('aria-label',copy.add);addOne.title=copy.add;addOne.setAttribute('data-article-add-word','');
+    addOne.addEventListener('click',()=>{
+     const term=doc.querySelector('#im-dict-title')?.textContent.trim().toLocaleLowerCase();
+     const word=article.vocabulary.find(item=>item.term.toLocaleLowerCase()===term);
+     if(word)void chooseWords([word]);
+    },{signal});titleRow.append(addOne);
+    const addAll=doc.createElement('button');addAll.type='button';addAll.className='im-dict-speak';addAll.textContent='+ '+copy.all;addAll.setAttribute('data-article-add-all','');addAll.style.cssText='width:auto;padding:5px 10px;margin-top:10px;font-size:13px';addAll.addEventListener('click',()=>void chooseWords(article.vocabulary),{signal});wordsPanel.append(addAll);
+    saveStatus=doc.createElement('p');saveStatus.setAttribute('role','status');saveStatus.className='im-dict-meta';wordsPanel.after(saveStatus);
+   }
    win.addEventListener('learnersarea:article-back',event=>{event.preventDefault();void context.navigate('/app/reading/articles');},{signal});
   }catch{}
  },{signal});

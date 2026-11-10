@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html data-theme="dark" lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#426be8" />
-  <title>Article — Learners Area Reading</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0e1523" name="theme-color"/>
+<title>Article — Learners Area Reading</title>
+<style>
 :root {
   color-scheme: light;
   --im-bg: var(--bg-main, #ffffff);
@@ -37,7 +38,7 @@ html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] 
   --im-part-head-bg: var(--article-header-bg, #202e40);
 }
 * { box-sizing: border-box; }
-html { font-family: Arial, Helvetica, sans-serif; font-size: 14.4px; overflow: hidden; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
 body { margin: 0; background: var(--im-bg); color: var(--im-text); }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
@@ -53,13 +54,9 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
 .im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
 .im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
-.im-part-head { display:flex; align-items:center; justify-content:space-between; gap:16px; margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
-.im-title-sm { font-size: 15.3px; margin: 0 0 5px; font-weight: 700; }
-.im-plain-text { margin: 0; font-size: 14.4px; line-height: 1.4; }
-.im-part-actions { display:flex; align-items:center; gap:10px; flex:none; }
-.im-vocabulary-btn { position:relative; display:grid; place-items:center; min-width:36px; height:36px; border:1px solid var(--im-border); border-radius:8px; background:var(--im-surface); color:var(--im-text); font-size:20px; }
-.im-vocabulary-count { position:absolute; top:-7px; right:-7px; min-width:19px; padding:1px 4px; border-radius:99px; background:var(--im-accent); color:#fff; font-size:11px; line-height:1.3; font-weight:700; }
-@media(max-width:440px){.im-part-head{gap:6px}.im-part-actions{gap:5px}.im-timer{min-width:48px;font-size:16px}}
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
 .im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
 .im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
 .im-passage-body { padding: 26px 26px 40px 28px; }
@@ -68,8 +65,8 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
 .im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
 .im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
 .im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
-.im-passage-title { font-size: calc(18.9px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
-.im-passage-text { font-size: calc(14.4px * var(--im-font-scale)); line-height: 1.59; }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
 .im-article-paragraph { margin: 0 0 15px; }
 .im-para-letter { font-weight: 750; }
 .im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
@@ -77,34 +74,34 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
 .im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
 .im-question-body { padding: 27px 30px 45px 23px; }
 .im-group { margin: 0 0 34px; }
-.im-group-title { font-size: 15.3px; margin: 0 0 14px; font-weight: 750; }
-.im-guide { font-size: 14.4px; line-height: 1.62; margin: 0 0 18px; }
-.im-head-list-title { font-size: 15.3px; font-weight: 750; margin: 18px 0 23px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
 .im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 13.5px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
 .im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
 .im-chip:active { cursor: grabbing; }
 .im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
 .im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
 .im-chip-used { opacity: .64; }
 .im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
-.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 12.6px; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
 .im-drop::placeholder { color: var(--im-accent); opacity: 1; }
 .im-drop:focus { border-style: solid; }
 .im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
 .im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
 .im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
 .im-heading-picker[hidden] { display: none; }
-.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 12.6px; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
 .im-heading-picker button:hover { background: var(--im-accent-soft); }
 .im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
 .im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
-.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 14.4px; line-height: 1.56; }
-.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 13.5px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
 .im-options { display: flex; flex-direction: column; gap: 17px; }
 .im-option-row { display: flex; align-items: start; gap: 12px; }
 .im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
-.im-option-label { font-size: 14.4px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
 .im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
 .im-option-label:hover { background: var(--im-accent-soft); }
 .im-question-gap .im-q-text { margin-bottom: 0; }
@@ -115,14 +112,14 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
 .im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .im-foot-nav { overflow-x: auto; scrollbar-width: none; }
 .im-foot-nav::-webkit-scrollbar { display: none; }
-.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 13.5px; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
 .im-qnav { display: flex; gap: 5px; align-items: center; }
-.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 12.6px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
 .im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
 .im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
 .im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
 .im-foot-right { flex: none; }
-.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 12.6px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
 .im-check { font-size: 19px; padding: 4px 13px; }
 .im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
 .im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
@@ -143,7 +140,7 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
   .im-app { height: auto; min-height: 100dvh; }
   .im-topbar { padding: 9px 12px; }
   .im-taker-id { display: none; }
-  .im-part-head { display:flex; align-items:center; justify-content:space-between; gap:16px; margin: 0 8px; }
+  .im-part-head { margin: 0 8px; }
   .im-main { display: block; flex: 1; overflow: visible; }
   .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
   .im-passage-body { padding: 18px 16px 22px; }
@@ -158,7 +155,7 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
 @media (max-width: 440px) {
   .im-brand-label { display: none; }
   .im-part-head { padding: 10px; }
-  .im-guide, .im-q-text, .im-option-label { font-size: 13.5px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
   .im-foot-right { gap: 6px; }
   .im-back { padding: 5px 10px; }
   .im-check { padding: 4px 10px; }
@@ -171,191 +168,277 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
   .im-question-col { break-before: page; }
   .im-passage-body,.im-question-body { padding: 12px; }
 }
+
+/* Article header matches the reference while respecting the site's design tokens. */
+html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--bg-surface, #152032); --im-surface-2: var(--bg-secondary, #1c2a40); --im-text: var(--text-main, #e9edf6); --im-muted: var(--text-muted, #b4c0d1); --im-border: var(--border-color, #35475e); --im-accent: var(--accent-color, #76a4ff); --im-accent-soft: var(--accent-soft, #263955); --im-part-head-bg: var(--article-header-bg, #202e40); }
+.im-topbar.im-part-head { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; flex: none; min-height: 86px; margin: 6px 16px 0; padding: 12px 18px; background: var(--im-part-head-bg); border: 1px solid var(--im-border); border-bottom: 1px solid var(--im-border); border-radius: 0; }
+.im-article-ident { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.im-article-ident .im-title-sm { margin: 0; font-size: 17px; font-weight: 800; }
+.im-article-ident .im-plain-text { font-size: 15px; line-height: 1.36; color: var(--im-text); }
+.im-bar-right.im-article-actions { justify-content: flex-end; gap: 9px; min-width: 0; }
+.im-brand-pill { display: inline-flex; justify-self: center; align-items: center; justify-content: center; gap: 7px; padding: 4px 16px 4px 7px; min-height: 46px; border: 1px solid var(--im-border); border-radius: 999px; background: var(--im-surface); color: var(--im-text); text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px #030b1b17; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.im-brand-pill:hover { transform: scale(1.04); border-color: var(--im-accent); box-shadow: 0 6px 18px #00000030; background: var(--im-surface-2); }
+.im-brand-pill:focus-visible { outline: 3px solid var(--im-accent); outline-offset: 3px; }
+.im-brand-icon { position: relative; flex: none; width: 40px; height: 34px; display: inline-grid; place-items: center; }
+.im-brand-logo { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 1px 4px #2348be44); }
+.im-brand-fallback { display: grid; place-items: center; width: 33px; height: 31px; border-radius: 10px; background: linear-gradient(125deg, #42dad1, #4475f1); color: #fff; font-weight: 850; letter-spacing: -.08em; font-size: 13px; }
+.im-brand-fallback[hidden] { display: none; }
+.im-brand-wordmark { font-family: 'Geist', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 750; font-size: 17px; letter-spacing: -.045em; }
+.im-brand-wordmark b { font-weight: 850; color: var(--im-accent); }
+.im-timer { font-weight: 760; }
+.im-lexicon-toggle { position: relative; }
+.im-lexicon-count { position: absolute; right: -5px; top: -9px; min-width: 19px; height: 19px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--im-accent); color: #071426; font-size: 10px; font-weight: 800; line-height: 1; }
+.im-vocab-word-in-text { cursor: pointer; text-decoration: underline dotted var(--im-accent); text-underline-offset: 4px; border-radius: 2px; outline-offset: 3px; }
+.im-vocab-word-in-text:hover, .im-vocab-word-in-text:focus-visible { color: var(--im-accent); background: var(--im-accent-soft); }
+.im-check-final { min-width: 98px; min-height: 37px; gap: 7px; padding: 6px 16px; border-radius: 999px; background: var(--im-accent-soft); font-size: 14px; }
+.im-check-mark { font-size: 19px; font-weight: 800; line-height: 1; }
+.im-dictionary-panel { position: fixed; z-index: 50; top: 105px; right: 22px; width: min(360px, calc(100vw - 24px)); max-height: min(570px, calc(100dvh - 125px)); overflow: auto; padding: 16px; border: 1px solid var(--im-border); border-radius: 12px; background: var(--im-surface); color: var(--im-text); box-shadow: 0 18px 55px #00000063; scrollbar-color: var(--im-border) transparent; }
+.im-dictionary-panel[hidden], .im-dict-words[hidden] { display: none !important; }
+.im-dict-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.im-dict-eyebrow { color: var(--im-accent); font-weight: 850; font-size: 10px; letter-spacing: .105em; }
+.im-dict-close { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--im-border); border-radius: 8px; background: var(--im-surface-2); color: var(--im-text); font-size: 24px; line-height: 1; }
+.im-dict-close:hover, .im-dict-speak:hover { border-color: var(--im-accent); background: var(--im-accent-soft); }
+.im-dict-title-row { display: flex; align-items: center; gap: 10px; }
+.im-dict-title-row h2 { margin: 0; font: 800 23px/1.25 'Geist', 'Inter', -apple-system, sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.im-dict-speak { width: 32px; height: 32px; border: 1px solid var(--im-border); border-radius: 7px; background: var(--im-surface-2); color: var(--im-text); font-size: 16px; }
+.im-dict-meta { margin: 5px 0 16px; font-size: 12px; color: var(--im-muted); }
+.im-dict-label { margin: 14px 0 4px; color: var(--im-muted); font-size: 11px; font-weight: 740; letter-spacing: .02em; }
+.im-dict-definition, .im-dict-translation { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.im-dict-translation { color: var(--im-accent); }
+.im-dict-example { padding: 10px 12px; border-left: 2px solid var(--im-accent); border-radius: 3px; background: var(--im-surface-2); color: var(--im-text); margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.im-dict-word-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.im-dict-word-buttons button { max-width: 100%; background: var(--im-surface-2); color: var(--im-text); border: 1px solid var(--im-border); border-radius: 999px; padding: 6px 11px; font-size: 12px; }
+.im-dict-word-buttons button:hover, .im-dict-word-buttons button:focus-visible { border-color: var(--im-accent); background: var(--im-accent-soft); }
+@media (max-width: 850px) {
+ .im-topbar.im-part-head { margin: 6px 8px 0; padding: 10px 12px; gap: 8px; }
+ .im-dictionary-panel { top: 105px; right: 12px; }
+}
+@media (max-width: 640px) {
+ .im-topbar.im-part-head { grid-template-columns: minmax(0,1fr) auto; grid-template-areas: 'info actions' 'brand brand'; min-height: 0; row-gap: 8px; }
+ .im-article-ident { grid-area: info; }
+ .im-article-actions { grid-area: actions; }
+ .im-brand-pill { grid-area: brand; justify-self: center; min-height: 39px; padding: 3px 12px 3px 6px; }
+ .im-brand-icon { height: 30px; width: 35px; }
+ .im-brand-wordmark { font-size: 15px; }
+ .im-article-ident .im-plain-text { font-size: 13px; }
+ .im-timer { font-size: 16px; min-width: 54px; }
+ .im-article-actions .im-icon-btn { width: 30px; height: 30px; }
+ .im-dictionary-panel { top: 135px; max-height: calc(100dvh - 158px); }
+ .im-check-final { min-width: 76px; padding: 5px 11px; }
+}
+@media print { .im-dictionary-panel { display: none !important; } }
+
+.im-brand-icon .im-brand-logo {position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.im-brand-icon .im-brand-fallback {position:relative;z-index:0;}
+
+/* Article footer: shift only the Check action approximately 2 cm to the left. */
+.im-foot-right { margin-right: 2cm; }
+@media (max-width: 640px) { .im-foot-right { margin-right: min(2cm, 8vw); } }
 </style>
 </head>
 <body>
 <div class="im-app">
-  <div class="im-part-head" id="im-part-head">
-    <div><h1 class="im-title-sm" id="im-title-sm">Article</h1>
-    <p class="im-plain-text">Read the article and answer questions 1–13.</p></div>
-    <div class="im-part-actions">
-      <span class="im-timer" id="im-clock" role="timer" aria-live="off">20:00</span>
-      <button class="im-icon-btn" type="button" id="im-pause" aria-label="Pause timer" title="Pause or resume">Ⅱ</button>
-      <button class="im-vocabulary-btn" type="button" id="im-vocabulary" aria-label="Article vocabulary" title="Article vocabulary"><span aria-hidden="true">▤</span><span class="im-vocabulary-count" id="im-vocabulary-count">10</span></button>
-    </div>
-  </div>
-  <main class="im-main">
-    <section class="im-passage-col" id="im-passage-col" aria-label="Article text">
-      <div class="im-passage-body" id="im-passage-body">
-        <div class="oqish-holati" aria-label="Reading progress"><span class="im-read-track"><span class="im-read-fill" id="im-read-fill"></span></span><span class="im-read-left" id="im-read-left">~20 min left</span></div>
-        <img class="im-article-cover" src="/modules/reading/article-assets/plastic-bags.jpg" alt="Shopper using a reusable fabric bag for vegetables in a grocery store" width="1200" height="675" />
-        <h2 class="im-passage-title">How we can stop people from buying plastic bags and advantages and disadvantages of them</h2>
-        <div class="im-passage-text" id="im-passage-text">
-          <p class="im-article-paragraph" id="paragraph-A"><strong class="im-para-letter">A.</strong> <span class="im-para-text">Plastic bags have become a major environmental concern due to their harmful impact on the planet. They are not biodegradable and can take hundreds of years to <span class="im-vocab-word-in-text">decompose</span>, leading to pollution of land and water bodies. To stop people from buying plastic bags, there are several strategies that can be implemented, along with their advantages and disadvantages.</span></p>
-          <fieldset class="im-matching-question im-head-drop-row" id="question-1" data-question="1">
-            <legend class="im-visually-hidden">Question 1. Choose a heading for paragraph B.</legend>
-            <label class="im-visually-hidden" for="q1">Heading for paragraph B</label>
-            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q1" name="q1" data-im-q="1" data-im-group="mh-1-4" placeholder="1" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
-            <div class="im-heading-picker" hidden></div>
-          </fieldset>
-          <p class="im-article-paragraph" id="paragraph-B"><strong class="im-para-letter">B.</strong> <span class="im-para-text">1. Implement a plastic bag ban: Many countries and cities around the world have implemented bans on single-use plastic bags. This involves prohibiting the use of plastic bags in retail stores and encouraging the use of reusable bags instead. The advantage of a plastic bag ban is that it reduces the <span class="im-vocab-word-in-text">consumption</span> of plastic bags and encourages people to switch to more <span class="im-vocab-word-in-text">sustainable</span> alternatives. However, the disadvantage is that it may face resistance from businesses and consumers who are used to the convenience of plastic bags.</span></p>
-          <fieldset class="im-matching-question im-head-drop-row" id="question-2" data-question="2">
-            <legend class="im-visually-hidden">Question 2. Choose a heading for paragraph C.</legend>
-            <label class="im-visually-hidden" for="q2">Heading for paragraph C</label>
-            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q2" name="q2" data-im-q="2" data-im-group="mh-1-4" placeholder="2" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
-            <div class="im-heading-picker" hidden></div>
-          </fieldset>
-          <p class="im-article-paragraph" id="paragraph-C"><strong class="im-para-letter">C.</strong> <span class="im-para-text">2. Impose a plastic bag tax: Another strategy is to impose a tax on plastic bags, making them more expensive for consumers. This discourages people from using plastic bags and <span class="im-vocab-word-in-text">incentivizes</span> them to bring their own reusable bags. The advantage of a plastic bag tax is that it generates revenue for environmental <span class="im-vocab-word-in-text">initiatives</span> and reduces the consumption of plastic bags. However, the disadvantage is that it may <span class="im-vocab-word-in-text">disproportionately</span> affect low-income individuals who rely on plastic bags for their shopping needs.</span></p>
-          <fieldset class="im-matching-question im-head-drop-row" id="question-3" data-question="3">
-            <legend class="im-visually-hidden">Question 3. Choose a heading for paragraph D.</legend>
-            <label class="im-visually-hidden" for="q3">Heading for paragraph D</label>
-            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q3" name="q3" data-im-q="3" data-im-group="mh-1-4" placeholder="3" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
-            <div class="im-heading-picker" hidden></div>
-          </fieldset>
-          <p class="im-article-paragraph" id="paragraph-D"><strong class="im-para-letter">D.</strong> <span class="im-para-text">3. Provide incentives for reusable bags: Governments and businesses can offer incentives for using reusable bags, such as discounts or rewards for bringing your own bag. This encourages people to make the switch to reusable options and reduces the demand for plastic bags. The advantage of providing incentives for reusable bags is that it promotes sustainable behavior and helps to reduce plastic waste. However, the disadvantage is that it requires resources and funding to implement these incentive programs.</span></p>
-          <fieldset class="im-matching-question im-head-drop-row" id="question-4" data-question="4">
-            <legend class="im-visually-hidden">Question 4. Choose a heading for paragraph E.</legend>
-            <label class="im-visually-hidden" for="q4">Heading for paragraph E</label>
-            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q4" name="q4" data-im-q="4" data-im-group="mh-1-4" placeholder="4" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
-            <div class="im-heading-picker" hidden></div>
-          </fieldset>
-          <p class="im-article-paragraph" id="paragraph-E"><strong class="im-para-letter">E.</strong> <span class="im-para-text">4. Educate the public: Increasing awareness about the harmful effects of plastic bags and promoting the benefits of reusable alternatives can help to change consumer behavior. Educational campaigns can inform people about the environmental impact of plastic bags and provide tips on how to reduce their use. The advantage of public education is that it <span class="im-vocab-word-in-text">empowers</span> individuals to make informed choices and take action to protect the environment. However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption.</span></p>
-          <p class="im-article-paragraph" id="paragraph-F"><strong class="im-para-letter">F.</strong> <span class="im-para-text">Advantages of plastic bags:
+<header aria-label="Article toolbar" class="im-topbar im-part-head">
+<div class="im-bar-left im-article-ident">
+<h1 class="im-title-sm">Article</h1>
+<p class="im-plain-text">Read the article and answer questions 1–13.</p>
+</div>
+<a aria-label="Learners Area Telegram channel (opens in new tab)" class="im-brand-pill" href="https://t.me/Learners_area" id="im-brand-link" rel="noopener noreferrer" target="_blank" title="Learners Area Telegram kanali">
+<span class="im-brand-icon">
+<img alt="" class="im-brand-logo" decoding="async" height="32" id="im-brand-logo" src="https://learnersarea.uz/brand/learners-area-la-glass.svg" width="40"/>
+<span class="im-brand-fallback" id="im-brand-fallback">LA</span>
+</span>
+<span class="im-brand-wordmark">Learners <b>Area</b></span>
+</a>
+<div class="im-bar-right im-article-actions">
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">18:00</span>
+<button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
+<button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
+<svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
+<span class="im-lexicon-count">10</span>
+</button>
+</div>
+</header>
+<main class="im-main">
+<section aria-label="Article text" class="im-passage-col" id="im-passage-col">
+<div class="im-passage-body" id="im-passage-body">
+<img alt="Shopper using a reusable fabric bag for vegetables in a grocery store" class="im-article-cover" height="675" src="/modules/reading/article-assets/plastic-bags.jpg" width="1200"/>
+<h2 class="im-passage-title">How we can stop people from buying plastic bags and advantages and disadvantages of them</h2>
+<div class="im-passage-text" id="im-passage-text">
+<p class="im-article-paragraph" id="paragraph-A"><strong class="im-para-letter">A.</strong> <span class="im-para-text">Plastic bags have become a major environmental concern due to their harmful impact on the planet. They are not biodegradable and can take hundreds of years to <span aria-label="decompose: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="decompose" role="button" tabindex="0" title="Double-click to open dictionary">decompose</span>, leading to pollution of land and water bodies. To stop people from buying plastic bags, there are several strategies that can be implemented, along with their advantages and disadvantages.</span></p>
+<fieldset class="im-matching-question im-head-drop-row" data-question="1" id="question-1">
+<legend class="im-visually-hidden">Question 1. Choose a heading for paragraph B.</legend>
+<label class="im-visually-hidden" for="q1">Heading for paragraph B</label>
+<input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="1" id="q1" name="q1" placeholder="1" readonly="" type="text"/>
+<div class="im-heading-picker" hidden=""></div>
+</fieldset>
+<p class="im-article-paragraph" id="paragraph-B"><strong class="im-para-letter">B.</strong> <span class="im-para-text">1. Implement a plastic bag ban: Many countries and cities around the world have implemented bans on single-use plastic bags. This involves prohibiting the use of plastic bags in retail stores and encouraging the use of reusable bags instead. The advantage of a plastic bag ban is that it reduces the <span aria-label="consumption: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="consumption" role="button" tabindex="0" title="Double-click to open dictionary">consumption</span> of plastic bags and encourages people to switch to more <span aria-label="sustainable: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="sustainable" role="button" tabindex="0" title="Double-click to open dictionary">sustainable</span> alternatives. However, the disadvantage is that it may face resistance from businesses and consumers who are used to the convenience of plastic bags.</span></p>
+<fieldset class="im-matching-question im-head-drop-row" data-question="2" id="question-2">
+<legend class="im-visually-hidden">Question 2. Choose a heading for paragraph C.</legend>
+<label class="im-visually-hidden" for="q2">Heading for paragraph C</label>
+<input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="2" id="q2" name="q2" placeholder="2" readonly="" type="text"/>
+<div class="im-heading-picker" hidden=""></div>
+</fieldset>
+<p class="im-article-paragraph" id="paragraph-C"><strong class="im-para-letter">C.</strong> <span class="im-para-text">2. Impose a plastic bag tax: Another strategy is to impose a tax on plastic bags, making them more expensive for consumers. This discourages people from using plastic bags and <span aria-label="incentivizes: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="incentivize" role="button" tabindex="0" title="Double-click to open dictionary">incentivizes</span> them to bring their own reusable bags. The advantage of a plastic bag tax is that it generates revenue for environmental <span aria-label="initiatives: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="initiative" role="button" tabindex="0" title="Double-click to open dictionary">initiatives</span> and reduces the consumption of plastic bags. However, the disadvantage is that it may <span aria-label="disproportionately: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="disproportionately" role="button" tabindex="0" title="Double-click to open dictionary">disproportionately</span> affect low-income individuals who rely on plastic bags for their shopping needs.</span></p>
+<fieldset class="im-matching-question im-head-drop-row" data-question="3" id="question-3">
+<legend class="im-visually-hidden">Question 3. Choose a heading for paragraph D.</legend>
+<label class="im-visually-hidden" for="q3">Heading for paragraph D</label>
+<input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="3" id="q3" name="q3" placeholder="3" readonly="" type="text"/>
+<div class="im-heading-picker" hidden=""></div>
+</fieldset>
+<p class="im-article-paragraph" id="paragraph-D"><strong class="im-para-letter">D.</strong> <span class="im-para-text">3. Provide incentives for reusable bags: Governments and businesses can offer incentives for using reusable bags, such as discounts or rewards for bringing your own bag. This encourages people to make the switch to reusable options and reduces the demand for plastic bags. The advantage of providing incentives for reusable bags is that it promotes sustainable behavior and helps to reduce plastic waste. However, the disadvantage is that it requires resources and funding to implement these incentive programs.</span></p>
+<fieldset class="im-matching-question im-head-drop-row" data-question="4" id="question-4">
+<legend class="im-visually-hidden">Question 4. Choose a heading for paragraph E.</legend>
+<label class="im-visually-hidden" for="q4">Heading for paragraph E</label>
+<input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="4" id="q4" name="q4" placeholder="4" readonly="" type="text"/>
+<div class="im-heading-picker" hidden=""></div>
+</fieldset>
+<p class="im-article-paragraph" id="paragraph-E"><strong class="im-para-letter">E.</strong> <span class="im-para-text">4. Educate the public: Increasing awareness about the harmful effects of plastic bags and promoting the benefits of reusable alternatives can help to change consumer behavior. Educational campaigns can inform people about the environmental impact of plastic bags and provide tips on how to reduce their use. The advantage of public education is that it <span aria-label="empowers: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="empower" role="button" tabindex="0" title="Double-click to open dictionary">empowers</span> individuals to make informed choices and take action to protect the environment. However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption.</span></p>
+<p class="im-article-paragraph" id="paragraph-F"><strong class="im-para-letter">F.</strong> <span class="im-para-text">Advantages of plastic bags:
 1. Convenience: Plastic bags are lightweight and easy to carry, making them convenient for shopping and transporting goods.
 2. Cost-effective: Plastic bags are inexpensive to produce and purchase, making them a cost-effective option for retailers.
 3. Waterproof: Plastic bags are resistant to water, which helps to protect items from moisture during transportation.
 4. Hygienic: Plastic bags can be easily disposed of after use, reducing the risk of contamination and spreading of germs.
-5. <span class="im-vocab-word-in-text">Versatile</span>: Plastic bags come in various sizes and styles, making them suitable for a wide range of purposes, such as packaging, storage, and waste disposal.</span></p>
-          <p class="im-article-paragraph" id="paragraph-G"><strong class="im-para-letter">G.</strong> <span class="im-para-text">Disadvantages of plastic bags:
+5. <span aria-label="Versatile: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="versatile" role="button" tabindex="0" title="Double-click to open dictionary">Versatile</span>: Plastic bags come in various sizes and styles, making them suitable for a wide range of purposes, such as packaging, storage, and waste disposal.</span></p>
+<p class="im-article-paragraph" id="paragraph-G"><strong class="im-para-letter">G.</strong> <span class="im-para-text">Disadvantages of plastic bags:
 1. Environmental impact: Plastic bags are non-biodegradable and can take hundreds of years to decompose, leading to pollution of land and water bodies.
 2. Harmful to wildlife: Plastic bags pose a threat to wildlife, as they can be ingested or entangled by animals, leading to injury or death.
-3. Resource <span class="im-vocab-word-in-text">depletion</span>: The production of plastic bags requires the use of natural resources, such as petroleum and natural gas, contributing to resource depletion and environmental degradation.
-4. Littering: Plastic bags are often littered in the environment, causing visual pollution and <span class="im-vocab-word-in-text">negatively</span> impacting ecosystems.
+3. Resource <span aria-label="depletion: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="depletion" role="button" tabindex="0" title="Double-click to open dictionary">depletion</span>: The production of plastic bags requires the use of natural resources, such as petroleum and natural gas, contributing to resource depletion and environmental degradation.
+4. Littering: Plastic bags are often littered in the environment, causing visual pollution and <span aria-label="negatively: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="negatively" role="button" tabindex="0" title="Double-click to open dictionary">negatively</span> impacting ecosystems.
 5. Health risks: The chemicals used in the production of plastic bags can leach into the environment and pose health risks to humans and animals.</span></p>
-          <p class="im-article-paragraph" id="paragraph-H"><strong class="im-para-letter">H.</strong> <span class="im-para-text">Stopping people from buying plastic bags requires a combination of strategies, such as implementing bans or taxes, providing incentives for reusable options, and educating the public about the environmental impact of plastic bags. While plastic bags offer convenience and cost-effectiveness, their harmful effects on the environment and wildlife outweigh their benefits. It is essential for governments, businesses, and individuals to work together to reduce the consumption of plastic bags and promote sustainable alternatives for the well-being of our planet.</span></p>
-        </div>
-      </div>
-    </section>
-    <div class="im-splitter" id="im-splitter" role="separator" aria-label="Resize article and question panels" aria-orientation="vertical" tabindex="0"><span class="im-splitter-grip" aria-hidden="true">↔</span></div>
-    <section class="im-question-col" id="im-questions" aria-label="Article questions">
-      <div class="im-question-body">
-        <section class="im-group" data-im-from="1" data-im-to="4" aria-labelledby="group-1-4">
-          <h3 class="im-group-title" id="group-1-4">Questions 1–4</h3>
-          <p class="im-guide">Choose the correct heading for each paragraph and move it into the gap.</p>
-          <p class="im-guide">This article has eight paragraphs, A–H.</p>
-          <div class="im-head-block"><h4 class="im-head-list-title">List of Headings</h4>
-            <div class="im-bank im-bank-plain" data-im-group="mh-1-4" aria-label="Draggable headings">
-              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="i" aria-pressed="false"><span class="im-roman">i</span> Mandatory recycling programs for plastic bags</button>
-              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="ii" aria-pressed="false"><span class="im-roman">ii</span> Increasing plastic bag prices through taxation</button>
-              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="iii" aria-pressed="false"><span class="im-roman">iii</span> Prohibiting single-use bags in retail environments</button>
-              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="iv" aria-pressed="false"><span class="im-roman">iv</span> Complete elimination of all packaging waste</button>
-              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="v" aria-pressed="false"><span class="im-roman">v</span> Raising consumer awareness through educational campaigns</button>
-              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="vi" aria-pressed="false"><span class="im-roman">vi</span> Encouraging reusable bag use through rewards</button>
-            </div>
-          </div>
-        </section>
-        <section class="im-group" data-im-from="5" data-im-to="7" aria-labelledby="group-5-7">
-          <h3 class="im-group-title" id="group-5-7">Questions 5–7</h3>
-          <p class="im-guide">Choose TRUE if the statement agrees with the information given in the text, choose FALSE if the statement contradicts the information, or choose NOT GIVEN if there is no information on this.</p>
-          <fieldset class="im-question im-question-choice" id="question-5" data-question="5">
-            <legend class="im-q-text"><span class="im-qnum">5</span>A tax on plastic bags might disproportionately affect individuals with lower incomes.</legend>
-            <div class="im-options">
-              <div class="im-option-row"><input type="radio" id="q5-true" name="q5" value="TRUE"/><label class="im-option-label" for="q5-true">TRUE</label></div>
-              <div class="im-option-row"><input type="radio" id="q5-false" name="q5" value="FALSE"/><label class="im-option-label" for="q5-false">FALSE</label></div>
-              <div class="im-option-row"><input type="radio" id="q5-not-given" name="q5" value="NOT GIVEN"/><label class="im-option-label" for="q5-not-given">NOT GIVEN</label></div>
-            </div>
-          </fieldset>
-          <fieldset class="im-question im-question-choice" id="question-6" data-question="6">
-            <legend class="im-q-text"><span class="im-qnum">6</span>The production of plastic bags requires more water than paper bag production.</legend>
-            <div class="im-options">
-              <div class="im-option-row"><input type="radio" id="q6-true" name="q6" value="TRUE"/><label class="im-option-label" for="q6-true">TRUE</label></div>
-              <div class="im-option-row"><input type="radio" id="q6-false" name="q6" value="FALSE"/><label class="im-option-label" for="q6-false">FALSE</label></div>
-              <div class="im-option-row"><input type="radio" id="q6-not-given" name="q6" value="NOT GIVEN"/><label class="im-option-label" for="q6-not-given">NOT GIVEN</label></div>
-            </div>
-          </fieldset>
-          <fieldset class="im-question im-question-choice" id="question-7" data-question="7">
-            <legend class="im-q-text"><span class="im-qnum">7</span>Plastic bags easily break down in nature within a few months.</legend>
-            <div class="im-options">
-              <div class="im-option-row"><input type="radio" id="q7-true" name="q7" value="TRUE"/><label class="im-option-label" for="q7-true">TRUE</label></div>
-              <div class="im-option-row"><input type="radio" id="q7-false" name="q7" value="FALSE"/><label class="im-option-label" for="q7-false">FALSE</label></div>
-              <div class="im-option-row"><input type="radio" id="q7-not-given" name="q7" value="NOT GIVEN"/><label class="im-option-label" for="q7-not-given">NOT GIVEN</label></div>
-            </div>
-          </fieldset>
-        </section>
-        <section class="im-group" data-im-from="8" data-im-to="10" aria-labelledby="group-8-10">
-          <h3 class="im-group-title" id="group-8-10">Questions 8–10</h3>
-          <p class="im-guide">Choose the correct answer.</p>
-          <fieldset class="im-question im-question-choice" id="question-8" data-question="8">
-            <legend class="im-q-text"><span class="im-qnum">8</span>What advantage do plastic bags provide for retailers regarding costs?</legend>
-            <div class="im-options">
-              <div class="im-option-row"><input type="radio" id="q8-a" name="q8" value="A"/><label class="im-option-label" for="q8-a">A They are free to manufacture.</label></div>
-              <div class="im-option-row"><input type="radio" id="q8-b" name="q8" value="B"/><label class="im-option-label" for="q8-b">B They are inexpensive to produce and purchase.</label></div>
-              <div class="im-option-row"><input type="radio" id="q8-c" name="q8" value="C"/><label class="im-option-label" for="q8-c">C They increase store profits significantly.</label></div>
-              <div class="im-option-row"><input type="radio" id="q8-d" name="q8" value="D"/><label class="im-option-label" for="q8-d">D They require zero raw materials.</label></div>
-            </div>
-          </fieldset>
-          <fieldset class="im-question im-question-choice" id="question-9" data-question="9">
-            <legend class="im-q-text"><span class="im-qnum">9</span>Which natural resources are used in the production of plastic bags?</legend>
-            <div class="im-options">
-              <div class="im-option-row"><input type="radio" id="q9-a" name="q9" value="A"/><label class="im-option-label" for="q9-a">A Petroleum and natural gas</label></div>
-              <div class="im-option-row"><input type="radio" id="q9-b" name="q9" value="B"/><label class="im-option-label" for="q9-b">B Coal and solar power</label></div>
-              <div class="im-option-row"><input type="radio" id="q9-c" name="q9" value="C"/><label class="im-option-label" for="q9-c">C Biofuel and timber</label></div>
-              <div class="im-option-row"><input type="radio" id="q9-d" name="q9" value="D"/><label class="im-option-label" for="q9-d">D Wind power and water</label></div>
-            </div>
-          </fieldset>
-          <fieldset class="im-question im-question-choice" id="question-10" data-question="10">
-            <legend class="im-q-text"><span class="im-qnum">10</span>According to the passage, what is a potential health risk associated with plastic bags?</legend>
-            <div class="im-options">
-              <div class="im-option-row"><input type="radio" id="q10-a" name="q10" value="A"/><label class="im-option-label" for="q10-a">A Bacteria growth on handles</label></div>
-              <div class="im-option-row"><input type="radio" id="q10-b" name="q10" value="B"/><label class="im-option-label" for="q10-b">B Chemicals leaching into the environment</label></div>
-              <div class="im-option-row"><input type="radio" id="q10-c" name="q10" value="C"/><label class="im-option-label" for="q10-c">C Dust accumulation on stored items</label></div>
-              <div class="im-option-row"><input type="radio" id="q10-d" name="q10" value="D"/><label class="im-option-label" for="q10-d">D Allergic reactions from direct touch</label></div>
-            </div>
-          </fieldset>
-        </section>
-        <section class="im-group" data-im-from="11" data-im-to="13" aria-labelledby="group-11-13">
-          <h3 class="im-group-title" id="group-11-13">Questions 11–13</h3>
-          <p class="im-guide">Complete the sentences. Write <strong>NO MORE THAN TWO WORDS</strong> from the text for each answer.</p>
-          <fieldset class="im-question im-question-gap" id="question-11" data-question="11">
-            <legend class="im-visually-hidden">Question 11. Plastic bags take hundreds of years to decompose because they are not  [blank] .</legend>
-            <p class="im-q-text"><span class="im-qnum">11</span><label for="q11">Plastic bags take hundreds of years to decompose because they are not </label><input class="im-gap-input" type="text" id="q11" name="q11" placeholder="11" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Answer to question 11"/>.</p>
-          </fieldset>
-          <fieldset class="im-question im-question-gap" id="question-12" data-question="12">
-            <legend class="im-visually-hidden">Question 12. Educational campaigns aim to raise  [blank]  regarding the harmful effects of plastic bags.</legend>
-            <p class="im-q-text"><span class="im-qnum">12</span><label for="q12">Educational campaigns aim to raise </label><input class="im-gap-input" type="text" id="q12" name="q12" placeholder="12" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Answer to question 12"/> regarding the harmful effects of plastic bags.</p>
-          </fieldset>
-          <fieldset class="im-question im-question-gap" id="question-13" data-question="13">
-            <legend class="im-visually-hidden">Question 13. Animals can suffer injury or death when they are entangled or when plastic bags are  [blank]  by them.</legend>
-            <p class="im-q-text"><span class="im-qnum">13</span><label for="q13">Animals can suffer injury or death when they are entangled or when plastic bags are </label><input class="im-gap-input" type="text" id="q13" name="q13" placeholder="13" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Answer to question 13"/> by them.</p>
-          </fieldset>
-        </section>
-      </div>
-    </section>
-  </main>
-  <div class="im-inline-step" aria-label="Previous or next question"><button id="im-previous" class="im-step-btn" type="button" aria-label="Previous question">‹</button><button id="im-next" class="im-step-btn" type="button" aria-label="Next question">›</button></div>
-  <footer class="im-footer" id="im-footer">
-    <div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav class="im-qnav" id="im-qnav" aria-label="Questions">
-            <button type="button" class="im-qnav-item" data-im-question="1" aria-label="Question 1"><span class="im-qnav-tick" aria-hidden="true"></span>1</button>
-            <button type="button" class="im-qnav-item" data-im-question="2" aria-label="Question 2"><span class="im-qnav-tick" aria-hidden="true"></span>2</button>
-            <button type="button" class="im-qnav-item" data-im-question="3" aria-label="Question 3"><span class="im-qnav-tick" aria-hidden="true"></span>3</button>
-            <button type="button" class="im-qnav-item" data-im-question="4" aria-label="Question 4"><span class="im-qnav-tick" aria-hidden="true"></span>4</button>
-            <button type="button" class="im-qnav-item" data-im-question="5" aria-label="Question 5"><span class="im-qnav-tick" aria-hidden="true"></span>5</button>
-            <button type="button" class="im-qnav-item" data-im-question="6" aria-label="Question 6"><span class="im-qnav-tick" aria-hidden="true"></span>6</button>
-            <button type="button" class="im-qnav-item" data-im-question="7" aria-label="Question 7"><span class="im-qnav-tick" aria-hidden="true"></span>7</button>
-            <button type="button" class="im-qnav-item" data-im-question="8" aria-label="Question 8"><span class="im-qnav-tick" aria-hidden="true"></span>8</button>
-            <button type="button" class="im-qnav-item" data-im-question="9" aria-label="Question 9"><span class="im-qnav-tick" aria-hidden="true"></span>9</button>
-            <button type="button" class="im-qnav-item" data-im-question="10" aria-label="Question 10"><span class="im-qnav-tick" aria-hidden="true"></span>10</button>
-            <button type="button" class="im-qnav-item" data-im-question="11" aria-label="Question 11"><span class="im-qnav-tick" aria-hidden="true"></span>11</button>
-            <button type="button" class="im-qnav-item" data-im-question="12" aria-label="Question 12"><span class="im-qnav-tick" aria-hidden="true"></span>12</button>
-            <button type="button" class="im-qnav-item" data-im-question="13" aria-label="Question 13"><span class="im-qnav-tick" aria-hidden="true"></span>13</button>
-    </nav></div></div>
-    <div class="im-foot-right"><button type="button" class="im-back" id="im-back" title="Back to reading">‹ <span>Back</span></button><button type="button" id="im-check-btn" class="im-check" aria-label="Check answers" title="Review answers">✓</button></div>
-  </footer>
+<p class="im-article-paragraph" id="paragraph-H"><strong class="im-para-letter">H.</strong> <span class="im-para-text">Stopping people from buying plastic bags requires a combination of strategies, such as implementing bans or taxes, providing incentives for reusable options, and educating the public about the environmental impact of plastic bags. While plastic bags offer convenience and cost-effectiveness, their harmful effects on the environment and wildlife outweigh their benefits. It is essential for governments, businesses, and individuals to work together to reduce the consumption of plastic bags and promote sustainable alternatives for the well-being of our planet.</span></p>
 </div>
-<dialog class="im-modal" id="im-result" aria-labelledby="im-result-title">
-  <h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
-  <div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
-  <div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</div>
+</section>
+<div aria-label="Resize article and question panels" aria-orientation="vertical" class="im-splitter" id="im-splitter" role="separator" tabindex="0"><span aria-hidden="true" class="im-splitter-grip">↔</span></div>
+<section aria-label="Article questions" class="im-question-col" id="im-questions">
+<div class="im-question-body">
+<section aria-labelledby="group-1-4" class="im-group" data-im-from="1" data-im-to="4">
+<h3 class="im-group-title" id="group-1-4">Questions 1–4</h3>
+<p class="im-guide">Choose the correct heading for each paragraph and move it into the gap.</p>
+<p class="im-guide">This article has eight paragraphs, A–H.</p>
+<div class="im-head-block"><h4 class="im-head-list-title">List of Headings</h4>
+<div aria-label="Draggable headings" class="im-bank im-bank-plain" data-im-group="mh-1-4">
+<button aria-pressed="false" class="im-chip im-chip-wide" data-heading="i" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">i</span> Mandatory recycling programs for plastic bags</button>
+<button aria-pressed="false" class="im-chip im-chip-wide" data-heading="ii" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">ii</span> Increasing plastic bag prices through taxation</button>
+<button aria-pressed="false" class="im-chip im-chip-wide" data-heading="iii" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">iii</span> Prohibiting single-use bags in retail environments</button>
+<button aria-pressed="false" class="im-chip im-chip-wide" data-heading="iv" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">iv</span> Complete elimination of all packaging waste</button>
+<button aria-pressed="false" class="im-chip im-chip-wide" data-heading="v" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">v</span> Raising consumer awareness through educational campaigns</button>
+<button aria-pressed="false" class="im-chip im-chip-wide" data-heading="vi" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">vi</span> Encouraging reusable bag use through rewards</button>
+</div>
+</div>
+</section>
+<section aria-labelledby="group-5-7" class="im-group" data-im-from="5" data-im-to="7">
+<h3 class="im-group-title" id="group-5-7">Questions 5–7</h3>
+<p class="im-guide">Choose TRUE if the statement agrees with the information given in the text, choose FALSE if the statement contradicts the information, or choose NOT GIVEN if there is no information on this.</p>
+<fieldset class="im-question im-question-choice" data-question="5" id="question-5">
+<legend class="im-q-text"><span class="im-qnum">5</span>A tax on plastic bags might disproportionately affect individuals with lower incomes.</legend>
+<div class="im-options">
+<div class="im-option-row"><input id="q5-true" name="q5" type="radio" value="TRUE"/><label class="im-option-label" for="q5-true">TRUE</label></div>
+<div class="im-option-row"><input id="q5-false" name="q5" type="radio" value="FALSE"/><label class="im-option-label" for="q5-false">FALSE</label></div>
+<div class="im-option-row"><input id="q5-not-given" name="q5" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q5-not-given">NOT GIVEN</label></div>
+</div>
+</fieldset>
+<fieldset class="im-question im-question-choice" data-question="6" id="question-6">
+<legend class="im-q-text"><span class="im-qnum">6</span>The production of plastic bags requires more water than paper bag production.</legend>
+<div class="im-options">
+<div class="im-option-row"><input id="q6-true" name="q6" type="radio" value="TRUE"/><label class="im-option-label" for="q6-true">TRUE</label></div>
+<div class="im-option-row"><input id="q6-false" name="q6" type="radio" value="FALSE"/><label class="im-option-label" for="q6-false">FALSE</label></div>
+<div class="im-option-row"><input id="q6-not-given" name="q6" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q6-not-given">NOT GIVEN</label></div>
+</div>
+</fieldset>
+<fieldset class="im-question im-question-choice" data-question="7" id="question-7">
+<legend class="im-q-text"><span class="im-qnum">7</span>Plastic bags easily break down in nature within a few months.</legend>
+<div class="im-options">
+<div class="im-option-row"><input id="q7-true" name="q7" type="radio" value="TRUE"/><label class="im-option-label" for="q7-true">TRUE</label></div>
+<div class="im-option-row"><input id="q7-false" name="q7" type="radio" value="FALSE"/><label class="im-option-label" for="q7-false">FALSE</label></div>
+<div class="im-option-row"><input id="q7-not-given" name="q7" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q7-not-given">NOT GIVEN</label></div>
+</div>
+</fieldset>
+</section>
+<section aria-labelledby="group-8-10" class="im-group" data-im-from="8" data-im-to="10">
+<h3 class="im-group-title" id="group-8-10">Questions 8–10</h3>
+<p class="im-guide">Choose the correct answer.</p>
+<fieldset class="im-question im-question-choice" data-question="8" id="question-8">
+<legend class="im-q-text"><span class="im-qnum">8</span>What advantage do plastic bags provide for retailers regarding costs?</legend>
+<div class="im-options">
+<div class="im-option-row"><input id="q8-a" name="q8" type="radio" value="A"/><label class="im-option-label" for="q8-a">A They are free to manufacture.</label></div>
+<div class="im-option-row"><input id="q8-b" name="q8" type="radio" value="B"/><label class="im-option-label" for="q8-b">B They are inexpensive to produce and purchase.</label></div>
+<div class="im-option-row"><input id="q8-c" name="q8" type="radio" value="C"/><label class="im-option-label" for="q8-c">C They increase store profits significantly.</label></div>
+<div class="im-option-row"><input id="q8-d" name="q8" type="radio" value="D"/><label class="im-option-label" for="q8-d">D They require zero raw materials.</label></div>
+</div>
+</fieldset>
+<fieldset class="im-question im-question-choice" data-question="9" id="question-9">
+<legend class="im-q-text"><span class="im-qnum">9</span>Which natural resources are used in the production of plastic bags?</legend>
+<div class="im-options">
+<div class="im-option-row"><input id="q9-a" name="q9" type="radio" value="A"/><label class="im-option-label" for="q9-a">A Petroleum and natural gas</label></div>
+<div class="im-option-row"><input id="q9-b" name="q9" type="radio" value="B"/><label class="im-option-label" for="q9-b">B Coal and solar power</label></div>
+<div class="im-option-row"><input id="q9-c" name="q9" type="radio" value="C"/><label class="im-option-label" for="q9-c">C Biofuel and timber</label></div>
+<div class="im-option-row"><input id="q9-d" name="q9" type="radio" value="D"/><label class="im-option-label" for="q9-d">D Wind power and water</label></div>
+</div>
+</fieldset>
+<fieldset class="im-question im-question-choice" data-question="10" id="question-10">
+<legend class="im-q-text"><span class="im-qnum">10</span>According to the passage, what is a potential health risk associated with plastic bags?</legend>
+<div class="im-options">
+<div class="im-option-row"><input id="q10-a" name="q10" type="radio" value="A"/><label class="im-option-label" for="q10-a">A Bacteria growth on handles</label></div>
+<div class="im-option-row"><input id="q10-b" name="q10" type="radio" value="B"/><label class="im-option-label" for="q10-b">B Chemicals leaching into the environment</label></div>
+<div class="im-option-row"><input id="q10-c" name="q10" type="radio" value="C"/><label class="im-option-label" for="q10-c">C Dust accumulation on stored items</label></div>
+<div class="im-option-row"><input id="q10-d" name="q10" type="radio" value="D"/><label class="im-option-label" for="q10-d">D Allergic reactions from direct touch</label></div>
+</div>
+</fieldset>
+</section>
+<section aria-labelledby="group-11-13" class="im-group" data-im-from="11" data-im-to="13">
+<h3 class="im-group-title" id="group-11-13">Questions 11–13</h3>
+<p class="im-guide">Complete the sentences. Write <strong>NO MORE THAN TWO WORDS</strong> from the text for each answer.</p>
+<fieldset class="im-question im-question-gap" data-question="11" id="question-11">
+<legend class="im-visually-hidden">Question 11. Plastic bags take hundreds of years to decompose because they are not  [blank] .</legend>
+<p class="im-q-text"><span class="im-qnum">11</span><label for="q11">Plastic bags take hundreds of years to decompose because they are not </label><input aria-label="Answer to question 11" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q11" name="q11" placeholder="11" spellcheck="false" type="text"/>.</p>
+</fieldset>
+<fieldset class="im-question im-question-gap" data-question="12" id="question-12">
+<legend class="im-visually-hidden">Question 12. Educational campaigns aim to raise  [blank]  regarding the harmful effects of plastic bags.</legend>
+<p class="im-q-text"><span class="im-qnum">12</span><label for="q12">Educational campaigns aim to raise </label><input aria-label="Answer to question 12" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q12" name="q12" placeholder="12" spellcheck="false" type="text"/> regarding the harmful effects of plastic bags.</p>
+</fieldset>
+<fieldset class="im-question im-question-gap" data-question="13" id="question-13">
+<legend class="im-visually-hidden">Question 13. Animals can suffer injury or death when they are entangled or when plastic bags are  [blank]  by them.</legend>
+<p class="im-q-text"><span class="im-qnum">13</span><label for="q13">Animals can suffer injury or death when they are entangled or when plastic bags are </label><input aria-label="Answer to question 13" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q13" name="q13" placeholder="13" spellcheck="false" type="text"/> by them.</p>
+</fieldset>
+</section>
+</div>
+</section>
+</main>
+<div aria-label="Previous or next question" class="im-inline-step"><button aria-label="Previous question" class="im-step-btn" id="im-previous" type="button">‹</button><button aria-label="Next question" class="im-step-btn" id="im-next" type="button">›</button></div>
+<footer class="im-footer" id="im-footer">
+<div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav aria-label="Questions" class="im-qnav" id="im-qnav">
+<button aria-label="Question 1" class="im-qnav-item" data-im-question="1" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>1</button>
+<button aria-label="Question 2" class="im-qnav-item" data-im-question="2" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>2</button>
+<button aria-label="Question 3" class="im-qnav-item" data-im-question="3" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>3</button>
+<button aria-label="Question 4" class="im-qnav-item" data-im-question="4" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>4</button>
+<button aria-label="Question 5" class="im-qnav-item" data-im-question="5" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>5</button>
+<button aria-label="Question 6" class="im-qnav-item" data-im-question="6" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>6</button>
+<button aria-label="Question 7" class="im-qnav-item" data-im-question="7" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>7</button>
+<button aria-label="Question 8" class="im-qnav-item" data-im-question="8" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>8</button>
+<button aria-label="Question 9" class="im-qnav-item" data-im-question="9" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>9</button>
+<button aria-label="Question 10" class="im-qnav-item" data-im-question="10" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>10</button>
+<button aria-label="Question 11" class="im-qnav-item" data-im-question="11" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>11</button>
+<button aria-label="Question 12" class="im-qnav-item" data-im-question="12" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>12</button>
+<button aria-label="Question 13" class="im-qnav-item" data-im-question="13" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>13</button>
+</nav></div></div>
+<div class="im-foot-right"><button aria-label="Check article answers" class="im-check im-check-final" id="im-check-btn" title="Check all answers" type="button"><span aria-hidden="true" class="im-check-mark">✓</span><span>Check</span></button></div>
+</footer>
+<aside aria-labelledby="im-dict-title" aria-modal="false" class="im-dictionary-panel" hidden="" id="im-dictionary-panel" role="dialog" tabindex="-1">
+<div class="im-dict-top"><span class="im-dict-eyebrow">LEARNERS AREA · DICTIONARY</span>
+<button aria-label="Close dictionary" class="im-dict-close" id="im-dict-close" title="Close" type="button">×</button></div>
+<div class="im-dict-title-row"><h2 id="im-dict-title">Dictionary</h2><button aria-label="Pronounce word" class="im-dict-speak" id="im-dict-speak" title="Play English pronunciation" type="button">🔊</button></div>
+<p class="im-dict-meta" id="im-dict-meta"></p>
+<div id="im-dict-definition-block"><p class="im-dict-label">Simple definition</p><p class="im-dict-definition" id="im-dict-definition"></p>
+<p class="im-dict-label">O‘zbekcha tarjimasi</p><p class="im-dict-translation" id="im-dict-translation"></p>
+<p class="im-dict-label">Example</p><p class="im-dict-example" id="im-dict-example"></p></div>
+<div class="im-dict-words" hidden="" id="im-dict-words"><p class="im-dict-label">Words in this article</p><div class="im-dict-word-buttons" id="im-dict-word-buttons"></div></div>
+</aside></div>
+<dialog aria-labelledby="im-result-title" class="im-modal" id="im-result">
+<h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+<div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+<div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
 </dialog>
 <script>
 (() => {
@@ -376,9 +459,8 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
     q8: 'B', q9: 'A', q10: 'B',
     q11: 'biodegradable', q12: 'awareness', q13: 'ingested'
   });
-  const userScope = new URLSearchParams(location.search).get('user');
-  const storageKey = userScope ? 'learners-area.article.plastic-bags.v1.' + userScope : null;
-  const state = { answers: {}, remainingSeconds: 1200, isPaused: false };
+  const storageKey = 'learners-area.article.plastic-bags.v2' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
+  const state = { answers: {}, remainingSeconds: 1080, isPaused: false };
   let selectedHeading = null;
   let activeQuestion = 1;
   let timerInterval = null;
@@ -386,21 +468,23 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
   let pointerStartRatio = null;
 
   function safeStore() {
-    try { if (!storageKey) return; localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, timerVersion: 2, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
     catch (_) { /* Standalone private modes may disable storage. */ }
   }
 
   function safeRestore() {
     try {
-      if (!storageKey) return;
-      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      const saved = localStorage.getItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      const previous = userId ? localStorage.getItem('learners-area.article.plastic-bags.v1.' + userId) : null;
+      const parsed = JSON.parse(saved || previous || 'null');
       if (!parsed || typeof parsed !== 'object') return;
       for (let i = 1; i <= 13; i++) {
         const value = parsed.answers && parsed.answers['q' + i];
         if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
       }
-      if (parsed.timerVersion === 2 && Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(1200, Math.floor(parsed.remainingSeconds)));
-      if (parsed.timerVersion === 2) state.isPaused = !!parsed.isPaused;
+      if (saved && Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(1080, Math.floor(parsed.remainingSeconds)));
+      if (saved) state.isPaused = !!parsed.isPaused;
     } catch (_) { /* Ignore corrupted saved data. */ }
   }
 
@@ -571,7 +655,12 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
     if (!shouldScroll) return;
     const target = document.getElementById('question-' + number);
     if (!target) return;
-    target.scrollIntoView({block: 'center', behavior: 'smooth'});
+    const scroller = target.closest('.im-passage-col, .im-question-col');
+    if (!scroller) return;
+    const item = target.getBoundingClientRect();
+    const panel = scroller.getBoundingClientRect();
+    const offset = item.top - panel.top - panel.height * .34;
+    scroller.scrollTo({top: Math.max(0, scroller.scrollTop + offset), behavior: 'smooth'});
   }
   navButtons.forEach((button) => {
     button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
@@ -586,7 +675,6 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
     const clock = document.getElementById('im-clock');
     clock.textContent = `${mm}:${ss}`;
     clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
-    document.getElementById('im-read-left').textContent = seconds ? `~${Math.ceil(seconds / 60)} min left` : 'Time is over';
     document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
     document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
   }
@@ -599,12 +687,6 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
     state.remainingSeconds -= 1;
     updateTimer(); safeStore();
   }, 1000);
-
-  passage.addEventListener('scroll', () => {
-    const max = passage.scrollHeight - passage.clientHeight;
-    const fraction = max > 0 ? Math.max(0, Math.min(1, passage.scrollTop / max)) : 1;
-    document.getElementById('im-read-fill').style.width = `${(fraction * 100).toFixed(1)}%`;
-  }, {passive:true});
 
   split.addEventListener('pointerdown', (event) => {
     if (window.matchMedia('(max-width: 850px)').matches) return;
@@ -663,14 +745,116 @@ button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
     else resultDialog.setAttribute('open', '');
   });
   document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
-  document.getElementById('im-back').addEventListener('click', () => {
-    const handled = !window.dispatchEvent(new CustomEvent('learnersarea:article-back', {cancelable:true, detail:{articleId:'plastic-bags'}}));
-    if (handled) return;
-    if (history.length > 1) history.back();
-    else window.location.assign('/reading');
-  });
   window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
   safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+
+  // Dictionary words are restored from the actual article's glossary, not generated meanings.
+  const dictionary = Object.freeze({"consumption": {"word": "consumption", "pos": "noun", "level": "B1", "ipa": "", "definition": "use", "translation": "iste'mol, foydalanish", "example": "The advantage of a plastic bag ban is that it reduces the consumption of plastic bags and encourages people to switch to more sustainable alternatives."}, "depletion": {"word": "depletion", "pos": "noun", "level": "", "ipa": "", "definition": "reduction", "translation": "tuganib qolish, kamayish", "example": "The production of plastic bags requires the use of natural resources, such as petroleum and natural gas, contributing to resource depletion and environmental degradation."}, "initiative": {"word": "initiative", "pos": "noun", "level": "B2", "ipa": "", "definition": "plan", "translation": "tashabbus, loyiha", "example": "The advantage of a plastic bag tax is that it generates revenue for environmental initiatives and reduces the consumption of plastic bags."}, "decompose": {"word": "decompose", "pos": "verb", "level": "B2", "ipa": "/ˌdiːkəmˈpəʊz/", "definition": "rot", "translation": "parchalanish, chirish", "example": "They are not biodegradable and can take hundreds of years to decompose, leading to pollution of land and water bodies."}, "incentivize": {"word": "incentivize", "pos": "verb", "level": "", "ipa": "", "definition": "encourage", "translation": "rag'batlantirmoq", "example": "This discourages people from using plastic bags and incentivizes them to bring their own reusable bags."}, "empower": {"word": "empower", "pos": "verb", "level": "", "ipa": "", "definition": "enable", "translation": "imkoniyat bermoq", "example": "The advantage of public education is that it empowers individuals to make informed choices and take action to protect the environment."}, "sustainable": {"word": "sustainable", "pos": "adjective", "level": "C1", "ipa": "/səˈsteɪnəbəl/", "definition": "green", "translation": "barqaror, ekologik", "example": "The advantage of a plastic bag ban is that it reduces the consumption of plastic bags and encourages people to switch to more sustainable alternatives."}, "versatile": {"word": "versatile", "pos": "adjective", "level": "C1", "ipa": "", "definition": "adaptable", "translation": "ko'p qirrali, moslashuvchan", "example": "Plastic bags come in various sizes and styles, making them suitable for a wide range of purposes, such as packaging, storage, and waste disposal."}, "substantial": {"word": "substantial", "pos": "adjective", "level": "B1", "ipa": "", "definition": "large", "translation": "sezilarli, katta", "example": "However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption."}, "disproportionately": {"word": "disproportionately", "pos": "adverb", "level": "C1", "ipa": "/ˌdɪsprəˈpɔːʃənət/", "definition": "unequally", "translation": "nomutanosib ravishda", "example": "However, the disadvantage is that it may disproportionately affect low-income individuals who rely on plastic bags for their shopping needs."}, "significantly": {"word": "significantly", "pos": "adverb", "level": "B2", "ipa": "", "definition": "greatly", "translation": "sezilarli darajada", "example": "However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption."}, "negatively": {"word": "negatively", "pos": "adverb", "level": "B2", "ipa": "", "definition": "badly", "translation": "salbiy ravishda", "example": "Plastic bags are often littered in the environment, causing visual pollution and negatively impacting ecosystems."}});
+  const dictionaryAliases = Object.freeze({incentivizes:'incentivize',initiatives:'initiative',empowers:'empower'});
+  const dictionaryPanel = document.getElementById('im-dictionary-panel');
+  const dictionaryWords = [...document.querySelectorAll('.im-vocab-word-in-text')];
+  const dictionaryButton = document.getElementById('im-dictionary-list');
+  const dictionaryClose = document.getElementById('im-dict-close');
+  const dictionaryAudio = document.getElementById('im-dict-speak');
+  const dictionaryList = document.getElementById('im-dict-words');
+  const dictionaryListButtons = document.getElementById('im-dict-word-buttons');
+  let activeDictionaryWord = '';
+  let lastDictionaryAnchor = null;
+  let pressTimer = null;
+  let pressGesture = null;
+
+  function dictionaryKey(element) {
+    const raw = String(element.dataset.dictionaryWord || element.textContent || '').trim().toLowerCase();
+    return dictionaryAliases[raw] || raw;
+  }
+  function dictionaryText(id, value) { document.getElementById(id).textContent = value; }
+  function openDictionary(key, anchor = null, list = false) {
+    const entry = dictionary[key];
+    if (!entry) return;
+    const detail = {word:key, sourceType:'reading', sourceId:'plastic-bags', anchor};
+    const event = new CustomEvent('learnersarea:article-word-lookup', {cancelable:true, detail});
+    if (!document.dispatchEvent(event)) return;
+    activeDictionaryWord = key;
+    lastDictionaryAnchor = anchor;
+    dictionaryText('im-dict-title', entry.word);
+    dictionaryText('im-dict-meta', [entry.pos, entry.level, entry.ipa].filter(Boolean).join(' · '));
+    dictionaryText('im-dict-definition', entry.definition);
+    dictionaryText('im-dict-translation', entry.translation);
+    dictionaryText('im-dict-example', entry.example);
+    dictionaryList.hidden = !list;
+    dictionaryPanel.hidden = false;
+    dictionaryPanel.scrollTop = 0;
+    dictionaryPanel.focus({preventScroll:true});
+  }
+  function closeDictionary(returnFocus = false) {
+    if (dictionaryPanel.hidden) return;
+    dictionaryPanel.hidden = true;
+    activeDictionaryWord = '';
+    if (returnFocus && lastDictionaryAnchor) lastDictionaryAnchor.focus({preventScroll:true});
+    lastDictionaryAnchor = null;
+  }
+  const uniqueWords = [...new Set(dictionaryWords.map(dictionaryKey))];
+  for (const key of uniqueWords) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = key;
+    button.addEventListener('click', () => openDictionary(key, null, true));
+    dictionaryListButtons.append(button);
+  }
+  dictionaryButton.addEventListener('click', () => {
+    if (!dictionaryPanel.hidden && !dictionaryList.hidden) { closeDictionary(true); return; }
+    openDictionary(activeDictionaryWord || uniqueWords[0], null, true);
+  });
+  dictionaryClose.addEventListener('click', () => closeDictionary(true));
+  dictionaryAudio.addEventListener('click', () => {
+    if (!activeDictionaryWord || !('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(activeDictionaryWord);
+    utterance.lang = 'en-GB'; utterance.rate = .9;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  });
+  for (const word of dictionaryWords) {
+    word.addEventListener('dblclick', (event) => {
+      if (event.button !== 0) return;
+      window.getSelection()?.removeAllRanges();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.pointerType === 'mouse') return;
+      clearTimeout(pressTimer);
+      pressGesture = {x:event.clientX,y:event.clientY};
+      pressTimer = window.setTimeout(() => {
+        pressTimer = null;
+        openDictionary(dictionaryKey(word), word);
+      }, 3000);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+      word.addEventListener(name, () => { clearTimeout(pressTimer); pressTimer = null; });
+    }
+    word.addEventListener('pointermove', (event) => {
+      if (pressGesture && Math.hypot(event.clientX - pressGesture.x, event.clientY - pressGesture.y) > 8) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    });
+  }
+  document.addEventListener('pointerdown', (event) => {
+    if (dictionaryPanel.hidden) return;
+    if (dictionaryPanel.contains(event.target) || dictionaryButton.contains(event.target)) return;
+    if (event.target.closest?.('.im-vocab-word-in-text')) return;
+    closeDictionary();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !dictionaryPanel.hidden) closeDictionary(true);
+  });
+  const logo = document.getElementById('im-brand-logo');
+  const logoFallback = document.getElementById('im-brand-fallback');
+  logo.addEventListener('load', () => { if (logo.naturalWidth > 0) logoFallback.hidden = true; });
+  logo.addEventListener('error', () => { logo.hidden = true; logoFallback.hidden = false; });
+  if (logo.complete && logo.naturalWidth > 0) logoFallback.hidden = true;
 })();
 </script>
 </body>

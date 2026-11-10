@@ -21,7 +21,7 @@ def fixture(tmp_path):
         'js/child.js':'/*! retained license */\nexport const value = '+json.dumps('abc'*2000)+';',
         'js/generated/view-registry.js':'export default [];',
         'js/vendor/riwi-speech/qa/index.html':'<!doctype html><script type="module" src="probe.js"></script>',
-        'modules/reading/article-assets/plastic-bags.html':'<!doctype html><script>window.articleReady=true</script>',
+        **{f'modules/reading/article-assets/{slug}.html':'<!doctype html><script>window.articleReady=true</script>' for slug in ('plastic-bags','advertising','remote-work-wars','unemployment','food-market-growth')},
         'css/global.css':'/* removable */\n.a { color: green; margin: 0; }\n'*50,
         'css/fonts.css':'body { font-family: sans-serif; }',
         'routes.json':json.dumps({'version':1,'routes':['/app/test'],'redirects':[]})}
@@ -80,9 +80,10 @@ def test_static_headers_gzip_etag_range_and_stale_deployment(tmp_path,monkeypatc
             assert "'nonce-"+nonce+"'" in probe.headers['content-security-policy']
             assert "'strict-dynamic'" in probe.headers['content-security-policy']
             assert probe.headers['cache-control']=='private, no-store'
-            article=await client.get('/modules/reading/article-assets/plastic-bags.html')
-            article_nonce=re.search(r'nonce="([a-f0-9]+)"',article.text)[1]
-            assert "'nonce-"+article_nonce+"'" in article.headers['content-security-policy']
-            assert article.headers['cache-control']=='private, no-store'
+            for slug in ('plastic-bags','advertising','remote-work-wars','unemployment','food-market-growth'):
+                article=await client.get(f'/modules/reading/article-assets/{slug}.html')
+                article_nonce=re.search(r'nonce="([a-f0-9]+)"',article.text)[1]
+                assert "'nonce-"+article_nonce+"'" in article.headers['content-security-policy']
+                assert article.headers['cache-control']=='private, no-store'
             assert (await client.get('/assets/'+info['revision']+'/.gzip/js/child.js.gz')).status_code==404
     asyncio.run(run())

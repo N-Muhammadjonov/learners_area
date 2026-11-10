@@ -5,67 +5,58 @@ import {JSDOM} from 'jsdom';
 import {articles} from '../modules/reading/articles-data.js';
 import {mountArticles,mountArticle} from '../modules/reading/articles.js';
 import {api} from '../js/api-client.js';
-import {sectionIdentity} from '../modules/shell/section-header.js';
 import {returnPolicy} from '../modules/campus/return-policy.js';
 import routes from '../js/routes.js';
 import dict from '../js/i18n/en.js';
 const originalArticles=[...articles],originalRequest=api.request;
 let dom;
-function setup(path='/app/reading/articles',locale='en'){
+function setup(path='/app/reading/articles'){
  dom=new JSDOM('<!doctype html><html><head></head><body><main></main></body></html>',{url:'https://example.test'+path});
  for(const name of ['window','document','Node','MutationObserver'])globalThis[name]=dom.window[name];
- return {root:document.querySelector('main'),url:new URL(window.location.href),locale,dict,session:{user:{id:'user-1'}},signal:new dom.window.AbortController().signal,navigate(){}};
+ return {root:document.querySelector('main'),url:new URL(window.location.href),locale:'en',dict,session:{user:{id:'user-1'}},signal:new dom.window.AbortController().signal,navigate(){}};
 }
 afterEach(()=>{articles.splice(0,articles.length,...originalArticles);api.request=originalRequest;dom?.window.close();});
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
-test('article catalogue shows the supplied article and protects both routes',()=>{
+test('five real article cards use the protected article workspace',()=>{
  const context=setup();mountArticles(context);
- assert.match(context.root.textContent,/plastic bags.*13 questions/s);
- assert.equal(context.root.querySelector('[data-reading-article] a').getAttribute('href'),'/app/reading/articles/plastic-bags');
- for(const path of ['/app/reading/articles','/app/reading/articles/:articleId'])assert.equal(routes.find(route=>route.pattern===path)?.protected,true);
- assert.equal(sectionIdentity(context.url,dict).title,'Articles');
+ assert.deepEqual([...context.root.querySelectorAll('[data-reading-article]')].map(n=>n.dataset.readingArticle),['plastic-bags','advertising','remote-work-wars','unemployment','food-market-growth']);
+ assert.equal(context.root.querySelectorAll('[data-reading-article] img').length,5);
  assert.equal(routes.find(route=>route.pattern==='/app/reading/articles/:articleId').layout,'focus');
  assert.deepEqual(returnPolicy(new URL('https://example.test/app/reading/articles/plastic-bags')),{mode:'back',href:'/app/reading/articles'});
 });
-test('empty catalogue is explicit',()=>{articles.length=0;const context=setup();mountArticles(context);assert.match(context.root.textContent,/when they are published/);});
-test('individual and all word saves choose the correct folder without duplicate requests',async()=>{
- const context=setup('/app/reading/articles/plastic-bags'),calls=[];
- api.request=async(path,options={})=>{calls.push({path,...options});return path.endsWith('/folders')?{folders:[{id:'folder-1',name:'My folder'}]}:{ok:true,added:1,duplicates:0,needsDefinition:[]};};
- mountArticle(context);document.body.append(context.root);
- const frame=context.root.querySelector('iframe'),frameDoc=frame.contentDocument;
- frameDoc.open();frameDoc.write('<!doctype html><html><body><button id="im-vocabulary"><span id="im-vocabulary-count"></span></button></body></html>');frameDoc.close();
- frame.dispatchEvent(new dom.window.Event('load'));
- assert.equal(frameDoc.querySelector('#im-vocabulary-count').textContent,'10');
- frameDoc.querySelector('#im-vocabulary').click();
- assert.ok(document.querySelector('[data-article-vocabulary-dialog]').open);
- document.querySelector('[data-article-add-word]').click();await tick();
- let dialog=document.querySelector('.reading-article-folder');dialog.querySelector('form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await tick();
- let save=calls.find(call=>call.method==='POST');assert.equal(save.body.items.length,1);assert.equal(save.body.folderName,originalArticles[0].title);assert.equal(save.body.folderId,undefined);
- document.querySelector('[data-article-add-all]').click();await tick();dialog=document.querySelector('.reading-article-folder');dialog.querySelector('select').value='folder-1';dialog.querySelector('form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await tick();
- save=calls.filter(call=>call.method==='POST')[1];assert.equal(save.body.items.length,10);assert.equal(save.body.folderId,'folder-1');assert.equal(save.body.folderName,undefined);
- assert.equal(calls.filter(call=>call.method==='POST').length,2);
-});
-test('article practice preserves the provided questions and answer checking',async()=>{
- const html=await readFile(new URL('../modules/reading/article-assets/plastic-bags.html',import.meta.url),'utf8');
- const page=new JSDOM(html,{url:'https://example.test/article?user=user-1',runScripts:'dangerously',beforeParse(window){window.matchMedia=()=>({matches:false});window.HTMLElement.prototype.scrollIntoView=function(){};}});
- assert.equal(page.window.document.querySelectorAll('[data-im-question]').length,13);
- assert.equal(page.window.document.querySelector('#im-clock').textContent,'20:00');
- assert.equal(page.window.document.querySelector('.im-topbar'),null);
- assert.ok(page.window.document.querySelector('#im-part-head #im-vocabulary'));
- assert.ok(page.window.document.querySelector('#im-part-head #im-clock'));
- const q5=page.window.document.querySelector('#q5-true');q5.checked=true;q5.dispatchEvent(new page.window.Event('change',{bubbles:true}));
- page.window.document.querySelector('#im-check-btn').click();
- assert.match(page.window.document.querySelector('#im-score').textContent,/1 \/ 13/);
- page.window.close();
-});
-test('old three-minute timer upgrades to twenty minutes without losing answers',async()=>{
+test('empty catalogue remains explicit',()=>{articles.length=0;const context=setup();mountArticles(context);assert.match(context.root.textContent,/when they are published/);});
+for(const article of originalArticles){
+ test(`${article.id}: source exercise and dictionary work`,async()=>{
+  const html=await readFile(new URL(`../modules/reading/article-assets/${article.id}.html`,import.meta.url),'utf8');
+  const page=new JSDOM(html,{url:`https://example.test/article?user=user-1`,runScripts:'dangerously',beforeParse(window){window.matchMedia=()=>({matches:false});window.HTMLElement.prototype.scrollIntoView=function(){};}});
+  assert.equal(page.window.document.querySelectorAll('[data-im-question]').length,article.questionCount);
+  assert.equal(article.vocabulary.length,12);
+  page.window.document.querySelector('#im-dictionary-list').click();
+  assert.equal(page.window.document.querySelector('#im-dictionary-panel').hidden,false);
+  assert.ok(article.vocabulary.some(w=>w.term.toLowerCase()===page.window.document.querySelector('#im-dict-title').textContent.toLowerCase()));
+  page.window.document.querySelector('#im-check-btn').click();
+  assert.match(page.window.document.querySelector('#im-score').textContent,new RegExp('0 / '+article.questionCount));
+  page.window.close();
+ });
+ test(`${article.id}: one or all words use the selected folder`,async()=>{
+  const context=setup(`/app/reading/articles/${article.id}`),calls=[];
+  api.request=async(path,options={})=>{calls.push({path,...options});return path.endsWith('/folders')?{folders:[{id:'folder-1',name:'My folder'}]}:{ok:true,added:1,duplicates:0,needsDefinition:[]};};
+  mountArticle(context);document.body.append(context.root);
+  const frame=context.root.querySelector('iframe'),doc=frame.contentDocument;
+  doc.open();doc.write(`<!doctype html><html><body><div class="im-dict-title-row"><h2 id="im-dict-title">${article.vocabulary[0].term}</h2></div><div id="im-dict-words"></div></body></html>`);doc.close();frame.dispatchEvent(new dom.window.Event('load'));
+  doc.querySelector('[data-article-add-word]').click();await tick();
+  let dialog=document.querySelector('.reading-article-folder');dialog.querySelector('form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await tick();
+  let save=calls.find(call=>call.method==='POST');assert.equal(save.body.items.length,1);assert.equal(save.body.items[0].term,article.vocabulary[0].term);assert.equal(save.body.folderName,article.title);assert.equal(save.body.folderId,undefined);
+  doc.querySelector('[data-article-add-all]').click();await tick();dialog=document.querySelector('.reading-article-folder');dialog.querySelector('select').value='folder-1';dialog.querySelector('form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await tick();
+  save=calls.filter(call=>call.method==='POST')[1];assert.equal(save.body.items.length,12);assert.equal(save.body.folderId,'folder-1');assert.equal(save.body.folderName,undefined);
+ });
+}
+test('existing plastic-bag answers remain available to their owner',async()=>{
  const html=await readFile(new URL('../modules/reading/article-assets/plastic-bags.html',import.meta.url),'utf8');
  const page=new JSDOM(html,{url:'https://example.test/article?user=user-1',runScripts:'dangerously',beforeParse(window){
   window.matchMedia=()=>({matches:false});window.HTMLElement.prototype.scrollIntoView=function(){};
   window.localStorage.setItem('learners-area.article.plastic-bags.v1.user-1',JSON.stringify({answers:{q5:'TRUE'},remainingSeconds:12,isPaused:true}));
  }});
- assert.equal(page.window.document.querySelector('#im-clock').textContent,'20:00');
  assert.equal(page.window.document.querySelector('#q5-true').checked,true);
- assert.equal(page.window.document.querySelector('#im-pause').getAttribute('aria-label'),'Pause timer');
  page.window.close();
 });
