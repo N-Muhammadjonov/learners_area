@@ -1,32 +1,29 @@
+import {dockTexture} from './dock-texture.js';
+
 const NS='http://www.w3.org/2000/svg';let serial=0;
 function svg(tag,attrs={},...children){const node=document.createElementNS(NS,tag);for(const [key,value]of Object.entries(attrs))node.setAttribute(key,String(value));node.append(...children.flat());return node;}
 
-// Owner's thirteen photographs, in the supplied module order. The JPEG bytes
-// stay unchanged; the SVG viewport and silhouette hide only the studio scene.
-const referenceImages={
- dashboard:'/images/dock/neon/dashboard.jpg',
- 'live-classes':'/images/dock/neon/live-classes.jpg',
- assignments:'/images/dock/neon/assignments.jpg',
- mocks:'/images/dock/neon/mocks.jpg',
- 'video-lessons':'/images/dock/neon/video-lessons.jpg',
- listening:'/images/dock/neon/listening.jpg',
- reading:'/images/dock/neon/reading.jpg',
- writing:'/images/dock/neon/writing.jpg',
- speaking:'/images/dock/neon/speaking.jpg',
- grammar:'/images/dock/neon/grammar.jpg', // Brain.
- vocabulary:'/images/dock/neon/vocabulary.jpg', // Abc.
- progress:'/images/dock/neon/progress.jpg',
- management:'/images/dock/neon/management.jpg',
-};
+const referenceKeys = [
+ 'dashboard', 'live-classes', 'assignments', 'mocks', 'video-lessons',
+ 'listening', 'reading', 'writing', 'speaking', 'grammar',
+ 'vocabulary', 'progress', 'management',
+];
+const tileWidth = 192;
+const tileHeight = 197;
+const atlasColumns = 4;
 
 /** Dock-only references; entries without a supplied image keep their artwork.
  * The rest of the site's module icons keep their existing appearance. */
 export function dockIcon(key){
- if(referenceImages[key]){
+ const tile = referenceKeys.indexOf(key);
+ if(tile >= 0){
   const clip='dock-reference-'+(++serial);
-  return svg('svg',{viewBox:'434 109 541 555',class:'dock-artwork dock-artwork--reference','data-dock-artwork':key,'data-dock-reference':'','aria-hidden':'true',focusable:'false'},
-   svg('defs',{},svg('clipPath',{id:clip,clipPathUnits:'userSpaceOnUse'},svg('rect',{x:435,y:110,width:539,height:553,rx:127,ry:126}))),
-   svg('image',{href:referenceImages[key],x:0,y:0,width:1408,height:768,'clip-path':'url(#'+clip+')'}));
+  const column = tile % atlasColumns;
+  const row = Math.floor(tile / atlasColumns);
+  return svg('svg',{viewBox:`0 0 ${tileWidth} ${tileHeight}`,class:'dock-artwork dock-artwork--reference','data-dock-artwork':key,'data-dock-reference':'','aria-hidden':'true',focusable:'false'},
+   svg('defs',{},svg('clipPath',{id:clip,clipPathUnits:'userSpaceOnUse'},
+    svg('rect',{x:tileWidth/541,y:tileHeight/555,width:539*tileWidth/541,height:553*tileHeight/555,rx:127*tileWidth/541,ry:126*tileHeight/555}))),
+   svg('image',{href:dockTexture,x:-column*tileWidth,y:-row*tileHeight,width:768,height:788,'clip-path':'url(#'+clip+')'}));
  }
  const prefix='dock-art-'+(++serial),paper='url(#'+prefix+'-paper)',metal='url(#'+prefix+'-metal)',gold='url(#'+prefix+'-gold)',ink='#214469';
  const gradient=(name,top,bottom)=>svg('linearGradient',{id:prefix+'-'+name,x1:0,y1:0,x2:0,y2:1},svg('stop',{offset:0,'stop-color':top}),svg('stop',{offset:1,'stop-color':bottom}));

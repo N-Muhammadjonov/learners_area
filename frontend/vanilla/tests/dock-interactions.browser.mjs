@@ -56,6 +56,42 @@ test('Dock opens a warped, edged window above the previous page, including cache
  },{'/app':shellFixture});
 });
 
+test('fast pointer movement and horizontal scrolling keep the label on the current visible icon',async()=>{
+ await withDockBrowser(async(browser,origin)=>{
+  for(const width of [390,1440]){
+   const context=await browser.newContext({viewport:{width,height:900}}),page=await context.newPage();
+   try{
+    await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);await frames(page);
+    const results=await page.evaluate(()=>{
+     const dock=document.querySelector('[data-module-dock]'),nav=dock.querySelector('nav'),label=dock.querySelector('.module-dock__label');
+     const viewport=nav.getBoundingClientRect(),edge=parseFloat(getComputedStyle(nav).getPropertyValue('--dock-edge-inset'));
+     const visible=[...nav.children].filter(link=>link.getBoundingClientRect().right<=viewport.right-edge);
+     const move=(x,y)=>document.elementFromPoint(x,y).dispatchEvent(new PointerEvent('pointermove',{clientX:x,clientY:y,pointerType:'mouse',bubbles:true}));
+     const read=link=>{
+      const b=link.querySelector('.module-dock__icon').getBoundingClientRect(),labelBox=label.getBoundingClientRect();
+      const anchor=(Math.max(b.left,viewport.left+edge)+Math.min(b.right,viewport.right-edge))/2;
+      const arrowX=labelBox.left+label.clientLeft+parseFloat(getComputedStyle(label,'::after').left);
+      return {expected:link.getAttribute('aria-label'),actual:label.textContent,hidden:label.hidden,error:Math.abs(arrowX-anchor),duration:getComputedStyle(label).transitionDuration};
+     };
+     const samples=[visible[0],visible.at(-1),visible[1],visible[0]].map(link=>{
+      const b=link.getBoundingClientRect();move(b.left+b.width/2,b.top+b.height/2);return read(link);
+     });
+     if(nav.scrollWidth>nav.clientWidth){
+      nav.scrollLeft=visible[1].offsetLeft-visible[0].offsetLeft;
+      nav.dispatchEvent(new Event('scroll'));
+      samples.push(read(visible[1]));
+     }
+     const first=nav.querySelector('[data-dock-module="assignments"]').getBoundingClientRect();
+     move(first.right+4,first.top+first.height/2);
+     return {samples,gapHidden:label.hidden};
+    });
+    for(const sample of results.samples){assert.equal(sample.actual,sample.expected);assert(!sample.hidden);assert(sample.error<2,JSON.stringify(sample));assert.equal(sample.duration,'0s');}
+    assert(results.gapHidden);
+   }finally{await context.close();}
+  }
+ });
+});
+
 test('glass stays close above and below icons while hover remains unclipped',async()=>{
  await withDockBrowser(async(browser,origin)=>{
   for(const width of [390,768,1440]){
@@ -82,6 +118,10 @@ test('study tools stay above Dock, Focus matches other actions and its active ba
    const launcher=page.locator('[data-utilities-launcher]');
    const front=await launcher.evaluate(node=>{const b=node.getBoundingClientRect();return document.elementFromPoint(b.x+b.width/2,b.y+b.height/2)?.closest('[data-utilities-launcher]')===node;});assert(front);
    await launcher.click();
+   assert.equal(await page.locator('[data-dock-module="support"]').count(),0);
+   await page.locator('[data-report-toggle]').click();
+   assert(await page.locator('[data-report-message]').isVisible());
+   await page.locator('[data-report-toggle]').click();
    const focus=page.locator('[data-focus-toggle]'),coach=page.locator('[data-coach-fab]');
    const f=await focus.evaluate(node=>({height:node.getBoundingClientRect().height,bg:getComputedStyle(node).backgroundImage})),c=await coach.evaluate(node=>({height:node.getBoundingClientRect().height,bg:getComputedStyle(node).backgroundImage}));
    assert(Math.abs(f.height-c.height)<2);assert.equal(f.bg,c.bg);
@@ -101,22 +141,32 @@ test('study tools stay above Dock, Focus matches other actions and its active ba
  },{'/app':shellFixture});
 });
 
-test('the thirteen reference photographs keep the requested mapping, load successfully and hide the outer scene',async()=>{
+test('the thirteen reference photographs share a decoded inline atlas and keep their requested mapping',async()=>{
  await withDockBrowser(async(browser,origin)=>{
   const context=await browser.newContext({viewport:{width:1680,height:700}}),page=await context.newPage();
   try{
-   await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);await frames(page);
+   const imageRequests=[];
+   page.on('request',request=>{if(request.resourceType()==='image'&&request.url().startsWith(origin))imageRequests.push(request.url());});
+   await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);
    const artwork=await page.evaluate(()=>[...document.querySelectorAll('[data-dock-module]')].map(a=>({key:a.dataset.dockModule,art:a.querySelector('svg')?.dataset.dockArtwork,label:a.getAttribute('aria-label')})));
-   assert.equal(artwork.length,14);assert(artwork.every(a=>a.key===a.art&&a.label));
-   assert(!artwork.some(a=>['courses','coach','reports'].includes(a.key)));
-   const references=await page.evaluate(async()=>{
+   assert.equal(artwork.length,13);assert(artwork.every(a=>a.key===a.art&&a.label));
+   assert(!artwork.some(a=>['courses','coach','reports','support'].includes(a.key)));
+   const {references,atlas}=await page.evaluate(async()=>{
     const pictures=[...document.querySelectorAll('[data-dock-reference]')];
-    return Promise.all(pictures.map(async svg=>{const href=svg.querySelector('image').getAttribute('href'),image=new Image();image.src=href;await image.decode();const container=svg.parentElement;return {key:svg.dataset.dockArtwork,href,width:image.naturalWidth,height:image.naturalHeight,viewBox:svg.getAttribute('viewBox'),background:getComputedStyle(container).backgroundImage,overlay:getComputedStyle(container,'::before').display};}));
+    const href=pictures[0].querySelector('image').getAttribute('href'),image=new Image();
+    image.src=href;await image.decode();
+    return {atlas:{inline:href.startsWith('data:image/webp;base64,'),size:href.length,width:image.naturalWidth,height:image.naturalHeight},references:pictures.map(svg=>{
+     const image=svg.querySelector('image'),container=svg.parentElement;
+     return {key:svg.dataset.dockArtwork,shared:image.getAttribute('href')===href,x:Number(image.getAttribute('x')),y:Number(image.getAttribute('y')),viewBox:svg.getAttribute('viewBox'),background:getComputedStyle(container).backgroundImage,overlay:getComputedStyle(container,'::before').display};
+    })};
    });
    assert.deepEqual(references.map(r=>r.key),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','management']);
-   for(const ref of references){assert.equal(ref.href,'/images/dock/neon/'+ref.key+'.jpg');assert.equal(ref.width,1408);assert.equal(ref.height,768);assert.equal(ref.viewBox,'434 109 541 555');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');}
+   assert(atlas.inline&&atlas.size<135000);assert.equal(atlas.width,768);assert.equal(atlas.height,788);assert.deepEqual(imageRequests,[]);
+   for(const [index,ref] of references.entries()){
+    assert(ref.shared);assert.equal(ref.x,0-(index%4)*192);assert.equal(ref.y,0-Math.floor(index/4)*197);
+    assert.equal(ref.viewBox,'0 0 192 197');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');
+   }
    const ids=await page.evaluate(()=>[...document.querySelectorAll('[data-module-dock] [id]')].map(n=>n.id));assert.equal(new Set(ids).size,ids.length);
-   await page.locator('[data-module-dock]').screenshot({path:'/tmp/la-premium-dock.png'});
   }finally{await context.close();}
  });
 });
