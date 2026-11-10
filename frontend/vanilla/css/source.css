@@ -2212,6 +2212,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 [data-global-dictionary] .dictionary-search input { width: 0; min-width: 0; min-height: 44px; flex: 1; border: 0; outline: 0; background: transparent; font-size: clamp(17px, 2.2vw, 22px); }
 [data-global-dictionary] .dictionary-search input::placeholder { color: #cbddec; }
 [data-global-dictionary] :is(.dictionary-search-submit,.dictionary-clear) { flex-shrink: 0; min-width: 40px; min-height: 44px; border: 0; border-radius: 50%; background: transparent; color: #8ddaff !important; font-size: 28px; }
+[data-global-dictionary] .dictionary-search-submit { inline-size: 44px; block-size: 44px; min-inline-size: 44px; box-sizing: border-box; padding: 0; display: grid; place-items: center; }
 [data-global-dictionary] .dictionary-directions { display: flex; flex-shrink: 0; gap: 2px; padding: 3px; background: rgba(12, 51, 98, .7); border-radius: 999px; }
 [data-global-dictionary] .dictionary-directions button { min-width: 44px; min-height: 42px; border: 0; border-radius: 999px; background: transparent; font-weight: 700; color: #cbddec !important; }
 [data-global-dictionary] .dictionary-directions button[aria-pressed="true"] { background: #0ea5e9; color: #fff !important; }

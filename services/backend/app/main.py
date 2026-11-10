@@ -31,16 +31,19 @@ async def lifespan(app):
     worker_state = control.start()
     from .ai_runtime import control as ai_control
     ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.
-    media_probe=None
+    probes=[]
     if os.getenv('MEDIA_READINESS_CHECK')=='1':
         from .media_readiness import log_probe
-        media_probe=asyncio.create_task(log_probe())
+        probes.append(asyncio.create_task(log_probe()))
+    if os.getenv('DICTIONARY_WORKER_URL'):
+        from .step17_dictionary_read_port import log_readiness
+        probes.append(asyncio.create_task(log_readiness()))
     try:
         yield
     finally:
-        if media_probe and not media_probe.done():
-            media_probe.cancel()
-            await asyncio.gather(media_probe,return_exceptions=True)
+        for probe in probes:
+            if not probe.done():probe.cancel()
+        if probes:await asyncio.gather(*probes,return_exceptions=True)
         from .access_events import bus
         from .live_classes_port import chat_bus
         try:

@@ -8,6 +8,7 @@ import base64
 import hashlib
 import hmac
 import json
+import logging
 import os
 import re
 import time
@@ -19,6 +20,7 @@ from . import main as core
 from .db import row_to_dict,PooledReads
 from .rate_limit import async_counter as counter,RULES
 router=APIRouter()
+LOG=logging.getLogger("uvicorn.error")
 PRIVATE={'Cache-Control':'private, no-store'}
 CASEFOLD=json.loads(Path(__file__).with_name('dictionary_frozen_casefold.json').read_text())
 # The original Node.js 22 backend uses Unicode 16.0 (Python 3.13 uses 15.1).
@@ -65,16 +67,53 @@ async def worker(input):
     parsed=urlparse(target)
     if (not target or len(secret)<32 or parsed.username or parsed.password or parsed.query or parsed.fragment or
         parsed.path not in ('','/') or not (parsed.scheme=='https' or (development() and parsed.scheme=='http' and parsed.hostname=='127.0.0.1'))):
+        LOG.warning('Dictionary worker configuration invalid (url=%s, origin=%s, secret=%s)',
+                    bool(target), bool(parsed.hostname), len(secret)>=32)
         raise ValueError('dictionary_worker_unavailable')
     content=json.dumps(input,separators=(',',':'),ensure_ascii=False)
     now=int(time.time())
     message='learners-area:dictionary-gateway:v1\n'+str(now)+'\n'+content
     digest=hmac.new(secret.encode(),message.encode(),hashlib.sha256).digest()
     sig=base64.urlsafe_b64encode(digest).decode().rstrip('=')
-    async with httpx.AsyncClient(timeout=10,follow_redirects=False) as client:
-        resp=await client.post(target.rstrip('/')+'/v1/dictionary',content=content.encode(),headers={'Content-Type':'application/json','X-LA-Dictionary-Proof':f'{now}:{sig}'})
-    if resp.status_code!=200 or len(resp.content)>2*1024*1024:raise ValueError('dictionary_worker_unavailable')
+    try:
+        async with httpx.AsyncClient(timeout=10,follow_redirects=False) as client:
+            resp=await client.post(target.rstrip('/')+'/v1/dictionary',content=content.encode(),headers={'Content-Type':'application/json','X-LA-Dictionary-Proof':f'{now}:{sig}'})
+    except httpx.RequestError as exc:
+        LOG.warning('Dictionary worker transport failed (%s)',type(exc).__name__)
+        raise ValueError('dictionary_worker_unavailable') from exc
+    if resp.status_code!=200 or len(resp.content)>2*1024*1024:
+        LOG.warning('Dictionary worker returned status %s',resp.status_code)
+        raise ValueError('dictionary_worker_unavailable')
     return resp.json()
+
+
+async def search_directory(con,release,direction,norm):
+    return await con.fetchrow('''SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->$3,
+       CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) AS directory
+       FROM dictionary_search_indexes WHERE release_id=$1''',release,direction+':'+norm[0],direction+':*')
+
+
+async def log_readiness():
+    """Read the pinned catalogue and an entry without impersonating a user."""
+    import asyncio
+    try:
+        async with asyncio.timeout(18):
+            con=PooledReads(await core.pool())
+            release=await pinned(con)
+            index=await search_directory(con,release,'EN','bank')
+            if not index or not index['directory']:
+                raise ValueError('missing_search_index')
+            data=await worker({'action':'search','release':release,'directory':index['directory'],'query':'bank','direction':'EN'})
+            if data.get('release_id')!=release or not data.get('results'):
+                raise ValueError('unexpected_search_result')
+            found=await entry(con,core.uuid_value(data['results'][0]['lexeme_id']),release)
+            if not found:
+                raise ValueError('missing_entry')
+            from .dictionary_reader_metadata import details
+            details(found)
+            LOG.info('Dictionary readiness: search and entry available')
+    except Exception as exc:
+        LOG.warning('Dictionary readiness: failed (%s)',type(exc).__name__)
 
 async def entry(con,lexeme_id,release):
     row=await con.fetchrow('''SELECT e.lexeme_id,e.payload,e.storage_shard,e.storage_release,e.content_sha,
@@ -166,10 +205,7 @@ async def dictionary_search(req:Request):
         norm=normalize_search(q)
         results=[]
         if 0<len(norm)<=80:
-            initial=direction+':'+norm[0]
-            rec=await con.fetchrow('''SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->$3,
-               CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) AS directory
-               FROM dictionary_search_indexes WHERE release_id=$1''',release,initial,direction+':*')
+            rec=await search_directory(con,release,direction,norm)
             if rec:
                 if rec['directory']:
                     response=await worker({'action':'search','release':release,'directory':rec['directory'],'query':q,'direction':direction})
