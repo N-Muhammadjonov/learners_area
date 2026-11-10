@@ -36,6 +36,8 @@ export async function mount(context){
   void navigate(readingLegacyDestination(params)??'/app/reading/lessons',{replace:true});
   return;
  }
+ if(path==='/app/reading/articles')return (await import('./articles.js')).mountArticles(ctx);
+ if(/^\/app\/reading\/articles\/[^/]+$/.test(path))return (await import('./articles.js')).mountArticle(ctx);
  if(path==='/app/reading/lessons')return (await import('./lessons.js')).mountLessons(ctx);
  if(/^\/app\/reading\/lessons\/[^/]+$/.test(path))return (await import('./lessons.js')).mountLesson(ctx);
      if(path==='/app/reading/history')return (await import('./history.js')).mountHistory(ctx);

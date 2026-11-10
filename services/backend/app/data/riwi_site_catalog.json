@@ -291,6 +291,30 @@
       "redirect": false
     },
     {
+      "path": "/app/reading/articles",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/reading/articles/:articleId",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
       "path": "/app/reading/retention",
       "roles": [
         "student",
@@ -1655,7 +1679,7 @@
     "frontend/vanilla/js/generated/nav-routes.js": "5c4bde21dc2c57211fa81bfb967e216d47f1d0fbc11d3b7312485fe307588c0e",
     "frontend/vanilla/js/generated/performance-diagnostics.js": "e58e2cbc6de041a328d16282857a92ea2bd0d0dd5d8348b72b51532a4d581441",
     "frontend/vanilla/js/generated/private-resource.js": "518400b4af09f9d90fafb563fabe88ab935f200bf40dc115e916c673f0381828",
-    "frontend/vanilla/js/generated/reading-destinations.js": "e4169d84b316320a5c8c5169c536f1af1021d315a35e8f9d29c239e4aa89bc44",
+    "frontend/vanilla/js/generated/reading-destinations.js": "6a6c53e5a0062554170152137c5d73784aaf4d0574d85f6de30917a4fa9cc471",
     "frontend/vanilla/js/generated/reading-lib/academic-selection.js": "d432597a9222cb7107b021c8b10018275e28598b0670c8d283ea7fbbc5dbacd2",
     "frontend/vanilla/js/generated/reading-lib/dropdowns.js": "691294e3d934f2595632dca3fd36d7a671418b4d88606ec1b7119713c3bd27f9",
     "frontend/vanilla/js/generated/reading-lib/grading.js": "a5dfe134ec8c382bf2411dd77019d66246ca7666314d19668f9be438b58c2a2f",
@@ -1701,12 +1725,12 @@
     "frontend/vanilla/js/generated/views/reading-lessons.js": "4ee062ed57b6a553de092838059f01f032bfc60175288d4273b6e906733aeb89",
     "frontend/vanilla/js/generated/views/speaking.js": "cc7cb9bcc384a04e8545379bd57162adea2e7db64fb3b90d4fb36377d55f752a",
     "frontend/vanilla/js/generated/word-popover.js": "45aca6ac40a939b126e0b32c125df76b3046a85f625f79031ff8ff00e662e600",
-    "frontend/vanilla/js/i18n/en.js": "63b6a86287dc6bb53bf1086045e1f2f7e45bed5ea19c3454d554fb788d13dc54",
+    "frontend/vanilla/js/i18n/en.js": "8bad02926f184468ab2b313fc849023e8b4f8d28e7852b1a8dd348aa3a8b2bdb",
     "frontend/vanilla/js/i18n/overlay-v59.js": "db335e2b9625bfa1bae671e2c2ccddaa615ab2db4eb2954f85f90a5714d9f57b",
-    "frontend/vanilla/js/i18n/reading-en.js": "959c7e3cd3d2c09adc709247f6613100e94e96aa1256abffe26edd2a9ad84d49",
-    "frontend/vanilla/js/i18n/reading-uz.js": "30448bbd195ce0573b5a9864dc5824e7ce7de9c0292432a6e323864ba65de3ed",
+    "frontend/vanilla/js/i18n/reading-en.js": "5ffd8c5bea1952fdb1e1f51bb3977a290eb525e1d1f1ef4ace411e97a71f1e54",
+    "frontend/vanilla/js/i18n/reading-uz.js": "2ed1dc006bb623a3e9662cfb067ac7ee9e54d3060d07251efdc82cca558dba93",
     "frontend/vanilla/js/i18n/riwi_i18n.js": "e75b0ab334a3cd706e400672935a427a7febdb3e1cb0eebb3645448c283d20e2",
-    "frontend/vanilla/js/i18n/uz.js": "05d3bfd873ebe77633844df29a3f74ab4c0e273fb1eb19dd818fd1e3acd844da",
+    "frontend/vanilla/js/i18n/uz.js": "12f3c1279cb15a6d93a11b5db6907f6121e5b542b5d943525096f6077a4873b9",
     "frontend/vanilla/js/i18n/with-overlays.js": "9cf263284877f8918a5cf5d0225266133de974821bab730c9e94d614773e06d3",
     "frontend/vanilla/js/main.js": "7478f30e0d94a79a5722468c2f0e5c730e4af7b17d2ab56cc8268000b21e0f04",
     "frontend/vanilla/js/module-prewarm.js": "cc05b4b11b3b28dd6558f0a1edd4d4d53f38ab877412bbd23a0de537b5890ff3",
@@ -1729,7 +1753,7 @@
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
-    "frontend/vanilla/js/routes.js": "ecba230efeb0873fe489c126f70defcca88da5005e08dc6c6220cbc48a0792b5",
+    "frontend/vanilla/js/routes.js": "5c8c510e047a19f9897104aa2be4ae600e03bbedd41127da11014706345933fe",
     "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
     "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
     "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
@@ -1857,6 +1881,9 @@
     "frontend/vanilla/modules/reading/academic-workspace.js": "27f96f20878e17d5c594f603636b9e473a9aea7ae2a2b695facb5ae7ef614c1b",
     "frontend/vanilla/modules/reading/academic.js": "08ad016424b35eb5e4e8977a31f04d252f1e80a3b206a86f0da1db4a1e5a35d1",
     "frontend/vanilla/modules/reading/analysis.js": "73d2177ae795bcf9d474d379b9e62f1a6e741f5907b44f42bd08f17f78e66626",
+    "frontend/vanilla/modules/reading/articles-data.js": "3e18630e07538ff151488512b8db0c25fb44739fa4755a7ac2c1381d035c78e5",
+    "frontend/vanilla/modules/reading/articles.css": "33b2527f46a53f78fc77ef52c03e43ed46a57a7b1d23a494b2b82b549bcf8b37",
+    "frontend/vanilla/modules/reading/articles.js": "4f8cd791d8088bb0c5122561f24f3dc9c7bc91ad3e0c370a9e320ebab95abf1a",
     "frontend/vanilla/modules/reading/attempt.js": "2b97a4043b5e09c180f0786f225707b6f1b65576c349ea25fcd5062e1c85284a",
     "frontend/vanilla/modules/reading/cd-review.js": "6a609b43f8fdef2c3f59cb854fb1b4a57872276c8fbc55831995b1f886b1c490",
     "frontend/vanilla/modules/reading/dictionary.js": "03e606b166e4c0756a7ff94812e64573c84888d2d362e32a37142b1cf2ece7ca",
@@ -1864,7 +1891,7 @@
     "frontend/vanilla/modules/reading/general-session.js": "0a5135e270a0e83ca179c0a3569c42e580a2bd83cc138150e6ad20e4d9feea5d",
     "frontend/vanilla/modules/reading/general.js": "d0e9ea657f9178df99fd7886feb1707647625e73c5d87c6a71ed37382883ce8c",
     "frontend/vanilla/modules/reading/history.js": "db39d31d2718a7aa281280adf1475bc92085ad059195e153981413ee255c3432",
-    "frontend/vanilla/modules/reading/index.js": "81c6398fc476da73e70b8904633358b4752cbdc5dcb4d48f42ceeda516d59421",
+    "frontend/vanilla/modules/reading/index.js": "54fd6ea4a0dacc55321c65b2c904096aaac35993b3535f6a91f2f49ac0c4c802",
     "frontend/vanilla/modules/reading/lesson-text.js": "c96328d1a914863e1bd327dce9353232dc84cbadea9486d0f596b4d33fd2992c",
     "frontend/vanilla/modules/reading/lessons.js": "d5e116a5d7147b5421f2cffddb7317e9bad2de48ae9f9b52730eef2637beee4c",
     "frontend/vanilla/modules/reading/questions.js": "f7669b1018f8f541560f46464194cbae5c53122048f53d41cbb1a29c690e8a01",

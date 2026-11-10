@@ -20,6 +20,8 @@ def cleaned(body):
     for attr in ('folderId','sourceId','occurrenceId','sessionSenseId'):
         if body.get(attr) is not None and not core.uuid_value(body[attr]):return None
     if body.get('sourceType') is not None and (not isinstance(body['sourceType'],str) or len(body['sourceType'])>40):return None
+    folder_name=body.get('folderName')
+    if folder_name is not None and (body.get('sourceType')!='article' or body.get('folderId') is not None or not isinstance(folder_name,str) or not 1<=len(folder_name.strip())<=200):return None
     if body.get('topicPack') is not None and (not isinstance(body['topicPack'],str) or len(body['topicPack'])>60):return None
     items=[]
     for row in body['items']:
@@ -161,8 +163,13 @@ async def create_vocabulary(req:Request):
         storable=[x for x in items if x.get('definitionEn')]
         if not storable:return core.j({'ok':False,'error':'needs_definition','needsDefinition':unresolved},422)
         async with con.transaction():
-            result=await add_batch(con,user['id'],storable,folder_id=core.uuid_value(body.get('folderId')),
-                   topic_pack=body.get('topicPack'),source_type=source,source_id=core.uuid_value(sid))
+            folder_id=core.uuid_value(body.get('folderId'))
+            if source=='article' and body.get('folderName'):
+                await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user['id'])
+                folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
+                    ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id''',user['id'],body['folderName'].strip())
+            result=await add_batch(con,user['id'],storable,folder_id=folder_id,
+                   topic_pack=body.get('topicPack'),source_type=source,source_id=core.uuid_value(sid),move_existing=source=='article')
         if not result.get('ok'):return core.j({'error':result.get('error')},404) if not (sense or occurrence) else core.j(result,404)
     if sense or occurrence:return core.j(result,200)
     return core.j({**result,'needsDefinition':unresolved},200)

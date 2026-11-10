@@ -136,7 +136,9 @@
     "/faq",
     "/contact",
     "/privacy",
-    "/landing"
+    "/landing",
+    "/app/reading/articles",
+    "/app/reading/articles/[^/]+"
   ],
   "redirects": [
     {
