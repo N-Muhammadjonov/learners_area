@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';import fs from 'node:fs';import path fro
 const root=process.env.LEARNERS_ROOT||path.resolve(import.meta.dirname,'..');
 const load=f=>import(pathToFileURL(path.join(root,f)).href),{serveMedia}=await load('workers/learnersarea-media/index.ts'),{createMediaCapability,mediaCapabilityUrl}=await load('workers/shared/media/protocol.ts'),{serveDictionary}=await load('workers/learnersarea-dictionary/handler.ts'),{buildSearchIndex,indexKey}=await load('workers/shared/dictionary/search-index.ts'),{encodeShard,shardKey}=await load('workers/shared/dictionary/shards.ts'),{entryContentHash}=await load('workers/shared/dictionary/model.ts');
 const secret='isolated-worker-contract-fixture-secret-32-bytes',python=process.env.BACKEND_PYTHON;if(!python)throw Error('BACKEND_PYTHON is required');
+const {dictionaryProof}=await load('workers/shared/dictionary/worker-protocol.ts');
 const child=spawn(python,['tests/worker_contract_bridge.py'],{cwd:path.join(root,'services/backend'),stdio:['pipe','pipe','pipe']}),pending=new Map();let seq=0,errors='',dictionaryEnv,tamper=false,checks=0;
 child.stderr.on('data',c=>errors+=c);const lines=createInterface({input:child.stdout});
 lines.on('line',async raw=>{try{const message=JSON.parse(raw);if(message.event==='dictionary-request'){let body=Buffer.from(message.body,'base64');if(tamper)body=Buffer.from(body.toString().replace('continue','changed'));const response=await serveDictionary(new Request(message.url,{method:'POST',headers:message.headers,body}),dictionaryEnv);assert.equal(response.headers.get('Cache-Control'),'private, no-store');checks++;child.stdin.write(JSON.stringify({event:'dictionary-response',status:response.status,headers:Object.fromEntries(response.headers),body:Buffer.from(await response.arrayBuffer()).toString('base64')})+'\n');}else if(message.event==='result'){const p=pending.get(message.id);pending.delete(message.id);clearTimeout(p.timer);message.error?p.reject(Error(message.error)):p.resolve(message.result);}}catch(e){for(const p of pending.values()){clearTimeout(p.timer);p.reject(e);}pending.clear();}});
@@ -36,6 +37,17 @@ try{
  const bucket=()=>({async get(key,opts){dictionaryReads++;const b=objects.get(key);if(!b)return null;const part=opts?.range?b.subarray(opts.range.offset,opts.range.offset+opts.range.length):b;return {size:b.length,range:opts?.range,body:new Response(part).body};}});
  dictionaryEnv={DICTIONARY_SIGNING_SECRET:secret,DICTIONARY_BUCKET:bucket()};
  for(const [direction,query]of [['EN','continue'],['UZ','davom']]){const result=await rpc('dictionary',{input:{action:'search',release,directory:index.descriptor,direction,query}});eq(result.release_id,release);eq(result.results[0].lexeme_id,id);}
+ const railwaySecret='isolated-worker-railway-fixture-secret-32-bytes';
+ dictionaryEnv={...dictionaryEnv,DICTIONARY_RAILWAY_SIGNING_SECRET:railwaySecret};
+ const searchInput={action:'search',release,directory:index.descriptor,direction:'EN',query:'continue'};
+ const signedBody=JSON.stringify(searchInput);
+ const railwayProof=await dictionaryProof(railwaySecret,signedBody,Math.floor(Date.now()/1000));
+ const railwayResponse=await serveDictionary(new Request('https://dictionary.example.test/v1/dictionary',{
+  method:'POST',body:signedBody,headers:{'X-LA-Dictionary-Proof':railwayProof},
+ }),dictionaryEnv);
+ eq(railwayResponse.status,200);
+ eq((await railwayResponse.json()).results[0].lexeme_id,id);
+ eq((await rpc('dictionary',{input:searchInput})).results[0].lexeme_id,id);
  const request={action:'entry',release,lexemeId:id,shard:shard.descriptor};let result=await rpc('dictionary',{input:request});eq(result.entry.display_lemma,'continue');
  objects.set(shardKey(release,shard.descriptor.shard),packed.body);dictionaryEnv={...dictionaryEnv,DICTIONARY_BUCKET:bucket()};result=await rpc('dictionary',{input:{...request,shard:packed.descriptor,range:packed.ranges.get(id),contentSha:entryContentHash(entry)}});eq(result.entry.lexeme_id,id);
  before=dictionaryReads;tamper=true;await assert.rejects(rpc('dictionary',{input:{action:'search',release,directory:index.descriptor,direction:'EN',query:'continue'}}),/dictionary_worker_unavailable/);checks++;tamper=false;eq(dictionaryReads,before);

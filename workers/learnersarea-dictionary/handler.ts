@@ -7,7 +7,11 @@ import {bytesHash,decodeShard,shardKey,releasePattern,shardDescriptorSchema,entr
 
 type BucketObject={size:number;range?:{offset?:number;length?:number};body:ReadableStream<Uint8Array>};
 type EdgeCache={match(request:Request):Promise<Response|undefined>;put(request:Request,response:Response):Promise<void>};
-export type DictionaryEnvironment={DICTIONARY_SIGNING_SECRET:string;DICTIONARY_BUCKET:{get(key:string,options?:{range:{offset:number;length:number}}):Promise<BucketObject|null>}};
+export type DictionaryEnvironment={
+ DICTIONARY_SIGNING_SECRET:string;
+ DICTIONARY_RAILWAY_SIGNING_SECRET?:string;
+ DICTIONARY_BUCKET:{get(key:string,options?:{range:{offset:number;length:number}}):Promise<BucketObject|null>};
+};
 const requestSchema=z.discriminatedUnion('action',[
  z.object({action:z.literal('search'),release:z.string().regex(releasePattern),directory:indexDescriptorSchema,query:z.string().max(80),direction:z.enum(['EN','UZ'])}).strict(),
  z.object({action:z.literal('entry'),release:z.string().regex(releasePattern),lexemeId:z.string().uuid(),shard:shardDescriptorSchema,range:entryRangeSchema.optional(),contentSha:z.string().regex(/^[a-f0-9]{64}$/).optional()}).strict(),
@@ -49,7 +53,10 @@ export async function serveDictionary(request:Request,env:DictionaryEnvironment,
  if(request.method!=='POST'||new URL(request.url).pathname!=='/v1/dictionary')return response({error:'not_found'},404);
  const length=Number(request.headers.get('Content-Length'));if(Number.isFinite(length)&&length>16384)return response({error:'invalid_input'},400);
  let raw='';try{const reader=request.body?.getReader();if(!reader)return response({error:'invalid_input'},400);let size=0;const chunks=[];while(true){const part=await reader.read();if(part.done)break;size+=part.value.length;if(size>16384){await reader.cancel();return response({error:'invalid_input'},400);}chunks.push(part.value);}raw=Buffer.concat(chunks).toString('utf8');}catch{return response({error:'invalid_input'},400);}
- if(!await verifyDictionaryProof(env.DICTIONARY_SIGNING_SECRET,raw,request.headers.get('X-LA-Dictionary-Proof')??''))return response({error:'forbidden'},403);
+ const proof=request.headers.get('X-LA-Dictionary-Proof')??'';
+ const authorized=(env.DICTIONARY_RAILWAY_SIGNING_SECRET&&await verifyDictionaryProof(env.DICTIONARY_RAILWAY_SIGNING_SECRET,raw,proof))
+  ||await verifyDictionaryProof(env.DICTIONARY_SIGNING_SECRET,raw,proof);
+ if(!authorized)return response({error:'forbidden'},403);
  let input;try{input=requestSchema.parse(JSON.parse(raw));}catch{return response({error:'invalid_input'},400);}
  let runtime=runtimes.get(env.DICTIONARY_BUCKET);if(!runtime){runtime=new Runtime(env.DICTIONARY_BUCKET,edge);runtimes.set(env.DICTIONARY_BUCKET,runtime);}
  const start=performance.now();
