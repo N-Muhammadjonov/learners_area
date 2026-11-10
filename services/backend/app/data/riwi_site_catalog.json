@@ -311,7 +311,7 @@
         "owner"
       ],
       "module": "modules/reading/index.js",
-      "focus": false,
+      "focus": true,
       "redirect": false
     },
     {
@@ -1753,7 +1753,7 @@
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
-    "frontend/vanilla/js/routes.js": "5c8c510e047a19f9897104aa2be4ae600e03bbedd41127da11014706345933fe",
+    "frontend/vanilla/js/routes.js": "cf8521379fc99c3071a0435039399a236a357f8dd14d40d60b0b360ec06e6431",
     "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
     "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
     "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
@@ -1882,8 +1882,8 @@
     "frontend/vanilla/modules/reading/academic.js": "08ad016424b35eb5e4e8977a31f04d252f1e80a3b206a86f0da1db4a1e5a35d1",
     "frontend/vanilla/modules/reading/analysis.js": "73d2177ae795bcf9d474d379b9e62f1a6e741f5907b44f42bd08f17f78e66626",
     "frontend/vanilla/modules/reading/articles-data.js": "3e18630e07538ff151488512b8db0c25fb44739fa4755a7ac2c1381d035c78e5",
-    "frontend/vanilla/modules/reading/articles.css": "33b2527f46a53f78fc77ef52c03e43ed46a57a7b1d23a494b2b82b549bcf8b37",
-    "frontend/vanilla/modules/reading/articles.js": "4f8cd791d8088bb0c5122561f24f3dc9c7bc91ad3e0c370a9e320ebab95abf1a",
+    "frontend/vanilla/modules/reading/articles.css": "14dc3e2a6ceb7c75487cf183f1b0a76749beb082220e5310ba3a9df37251802f",
+    "frontend/vanilla/modules/reading/articles.js": "1b9496ca356678353b7b82a9190bf9e40d5f37d59816af80bd22bdb6f14c2dab",
     "frontend/vanilla/modules/reading/attempt.js": "2b97a4043b5e09c180f0786f225707b6f1b65576c349ea25fcd5062e1c85284a",
     "frontend/vanilla/modules/reading/cd-review.js": "6a609b43f8fdef2c3f59cb854fb1b4a57872276c8fbc55831995b1f886b1c490",
     "frontend/vanilla/modules/reading/dictionary.js": "03e606b166e4c0756a7ff94812e64573c84888d2d362e32a37142b1cf2ece7ca",

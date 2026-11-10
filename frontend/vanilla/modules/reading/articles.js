@@ -65,7 +65,7 @@ export function mountArticle(context){
 
 function mountExercise(context,article,t){
  const uz=context.locale==='uz', signal=context.signal;
- const copy=uz?{words:'Maqola lug‘ati',all:'Barcha so‘zlarni qo‘shish',add:'Vocabularyga qo‘shish',folder:'Qaysi papkaga qo‘shilsin?',defaultFolder:'Maqola nomi bilan papka',save:'Qo‘shish',cancel:'Bekor qilish',loading:'Yuklanmoqda…',failed:'Saqlanmadi. Qayta urinib ko‘ring.',saved:'So‘zlar Vocabularyga qo‘shildi.'}:{words:'Article vocabulary',all:'Add all words',add:'Add to vocabulary',folder:'Choose a folder',defaultFolder:'Folder named after this article',save:'Add',cancel:'Cancel',loading:'Loading…',failed:'Could not save. Please try again.',saved:'Words added to Vocabulary.'};
+ const copy=uz?{close:'Yopish',words:'Maqola lug‘ati',all:'Barcha so‘zlarni qo‘shish',add:'Vocabularyga qo‘shish',folder:'Qaysi papkaga qo‘shilsin?',defaultFolder:'Maqola nomi bilan papka',save:'Qo‘shish',cancel:'Bekor qilish',loading:'Yuklanmoqda…',failed:'Saqlanmadi. Qayta urinib ko‘ring.',saved:'So‘zlar Vocabularyga qo‘shildi.'}:{close:'Close',words:'Article vocabulary',all:'Add all words',add:'Add to vocabulary',folder:'Choose a folder',defaultFolder:'Folder named after this article',save:'Add',cancel:'Cancel',loading:'Loading…',failed:'Could not save. Please try again.',saved:'Words added to Vocabulary.'};
  const status=el('p',{role:'status',class:'reading-article-result'});
  async function chooseWords(words){
   if(signal.aborted)return;
@@ -92,11 +92,23 @@ function mountExercise(context,article,t){
   return el('div',{class:'reading-article-vocabulary-word'},el('span',{},el('strong',{},word.term),el('span',{class:'reading-article-word-translation'},word.translationUz)),button);
  }));
  const addAll=el('button',{type:'button',class:'btn-primary','data-article-add-all':''},'+ '+copy.all);addAll.addEventListener('click',()=>void chooseWords(article.vocabulary),{signal});
- const details=el('details',{class:'reading-article-vocabulary'},el('summary',{},`${copy.words} · ${article.vocabulary.length}`),list,addAll,status);
+ const vocabulary=el('dialog',{class:'reading-article-vocabulary-dialog','aria-label':copy.words,'data-article-vocabulary-dialog':''});
+ const closeVocabulary=el('button',{type:'button',class:'btn-ghost','aria-label':copy.close},'×');
+ closeVocabulary.addEventListener('click',()=>{if(vocabulary.open)vocabulary.close();},{signal});
+ vocabulary.append(el('div',{class:'reading-article-vocabulary-header'},el('h2',{},`${copy.words} · ${article.vocabulary.length}`),closeVocabulary),list,addAll,status);
+ document.body.append(vocabulary);signal.addEventListener('abort',()=>vocabulary.remove(),{once:true});
  const query=new URLSearchParams();if(context.session?.user?.id)query.set('user',context.session.user.id);
  const frame=el('iframe',{class:'reading-article-frame',title:article.title,src:article.exercise+(query.size?'?'+query:''),'data-article-exercise':''});
  frame.addEventListener('load',()=>{
-  try{const win=frame.contentWindow,doc=frame.contentDocument;doc.documentElement.dataset.theme=document.documentElement.dataset.theme==='night'?'dark':'light';win.addEventListener('learnersarea:article-back',event=>{event.preventDefault();void context.navigate('/app/reading/articles');},{signal});}catch{}
+  try{
+   const win=frame.contentWindow,doc=frame.contentDocument;
+   const syncTheme=()=>{doc.documentElement.dataset.theme=document.documentElement.dataset.theme==='night'?'dark':'light';};
+   syncTheme();const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});signal.addEventListener('abort',()=>themeObserver.disconnect(),{once:true});
+   const vocabularyButton=doc.querySelector('#im-vocabulary'),count=doc.querySelector('#im-vocabulary-count');
+   if(count)count.textContent=String(article.vocabulary.length);
+   if(vocabularyButton){vocabularyButton.setAttribute('aria-label',`${copy.words}: ${article.vocabulary.length}`);vocabularyButton.title=copy.words;vocabularyButton.addEventListener('click',()=>{if(!vocabulary.open){if(vocabulary.showModal)vocabulary.showModal();else vocabulary.setAttribute('open','');}},{signal});}
+   win.addEventListener('learnersarea:article-back',event=>{event.preventDefault();void context.navigate('/app/reading/articles');},{signal});
+  }catch{}
  },{signal});
- context.root.append(el('div',{class:'reading-article-exercise','data-native-view':'reading-article'},el('a',{class:'btn-ghost',href:'/app/reading/articles','data-reading-article-back':''},'← '+t.back),details,frame));
+ context.root.append(el('div',{class:'reading-article-exercise','data-native-view':'reading-article'},frame));
 }
