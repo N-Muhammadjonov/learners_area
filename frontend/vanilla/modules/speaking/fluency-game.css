@@ -56,4 +56,3 @@ html[data-theme] #root .fluency-game .fluency-controls .btn-primary{background:l
 @keyframes fluency-breathe{to{transform:translateY(-4px)}}
 @keyframes fluency-celebrate{30%{transform:translateY(-12px) rotate(-4deg)}70%{transform:translateY(-5px) rotate(4deg)}}
 @media(max-width:620px){.fluency-game{padding-inline:0;gap:18px}.fluency-levels{grid-template-columns:1fr}.fluency-level{padding:18px;gap:8px}.fluency-arena{border-radius:18px}.fluency-waveform{gap:3px;top:25px}.fluency-controls button{flex:1;min-width:120px}.fluency-timer strong{font-size:50px}}
-@media(prefers-reduced-motion:reduce){.fluency-game *{animation:none!important;transition:none!important}.fluency-hazard{will-change:auto}}

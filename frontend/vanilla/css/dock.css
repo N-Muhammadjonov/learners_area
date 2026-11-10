@@ -31,7 +31,6 @@ html[data-theme="night"] .module-dock__dot{color:#e5edff}
 html[data-study-focus="on"] .module-dock,html[data-retention-focus="on"] .module-dock{display:none!important}
 @media(max-width:1100px){.module-dock{--dock-size:44px;left:calc(10px + env(safe-area-inset-left));right:calc(74px + env(safe-area-inset-right));transform:none;max-width:none;width:auto;bottom:calc(10px + env(safe-area-inset-bottom))}.module-dock__glass{gap:8px;padding:22px 13px 6px;scroll-padding-inline:13px;border-radius:20px}.module-dock::before{border-radius:20px}.module-dock__label{white-space:normal}}
 @media(max-width:480px){.module-dock{--dock-size:40px}}
-@media(prefers-reduced-motion:reduce){.module-dock__icon{transition:none}}
 
 /* The study tools sit above the Dock and retain the site's action palette. */
 html[data-theme] #root [data-shell-utilities="true"] [data-focus-toggle]{background:linear-gradient(rgb(var(--workspace-raised,var(--paper-raised))),rgb(var(--workspace-raised,var(--paper-raised)))) padding-box,linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%) border-box!important;border:1px solid transparent!important;border-radius:999px!important;color:rgb(var(--workspace-ink,var(--ink-900)))!important}

@@ -31,5 +31,5 @@ test('primary hover endpoints retain AA text contrast and skill colors are indep
  const css=readFileSync(new URL('../modules/shared/design-system.css',import.meta.url),'utf8');
  const rgb=hex=>hex.match(/[a-f\d]{2}/gi).map(x=>parseInt(x,16));const lum=c=>c.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);
  for(const token of ['start','end']){const c=rgb(css.match(new RegExp('--la-primary-'+token+':(#[a-f0-9]{6})'))[1]);for(const brightness of [1,1.08])assert((1.05)/(lum(c.map(v=>Math.min(255,v*brightness)))+.05)>=4.5,token+' contrast');}
- assert(css.includes('prefers-reduced-motion:reduce'));assert(css.includes('[data-ui-status="completed"]'));assert(css.includes('--la-writing:'));assert(!css.includes('transition:all'));
+ assert(css.includes('@keyframes la-ui-spin'));assert(css.includes('[data-ui-status="completed"]'));assert(css.includes('--la-writing:'));assert(!css.includes('transition:all'));
 });

@@ -20,9 +20,6 @@ html[data-theme] #root [data-speaking-card="fluency"]{background:linear-gradient
  [data-route-usable="live-partner"] .lp-panel { width:100%; }
  [data-practice-question-column], [data-practice-support-column] { max-height:none; }
 }
-@media (prefers-reduced-motion:reduce) {
- [data-route-usable^="speaking"] *,[data-route-usable="live-partner"] * { scroll-behavior:auto; }
-}
 
 
 /* Questions are plain text within one panel, without nested green cards. */

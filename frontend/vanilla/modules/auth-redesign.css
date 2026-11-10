@@ -53,6 +53,3 @@
 #root .la-auth-redesign .la-public-background .la-welcome-aurora,
 #root .la-auth-redesign .la-public-background .la-welcome-cosmos{animation:none!important;transform:none!important}
 }
-@media(prefers-reduced-motion:reduce){
-#root .la-auth-redesign .la-login-skills .la-welcome-chip{animation:la-login-chip-float 3.37s ease-in-out infinite!important}
-}

@@ -18,7 +18,7 @@ export function render(scope) {
             h("h1", { className: "font-display text-2xl text-ink-900" }, dict.speakingPractice.title),
             h("p", { className: "mt-1 text-base text-ink-500" }, t.intro)),
         h("ul", { className: "motion-enter-stagger grid grid-cols-1 gap-4 md:grid-cols-2", "data-speaking-hub-cards": true }, SPEAKING_HUB_CARDS.map(({ key, href }) => (h("li", { key: key },
-            h("article", { className: "card motion-lift group flex min-h-56 flex-col gap-3 p-6 motion-reduce:transition-none"+(key==='fluency'?' fluency-hub-card':'') },
+            h("article", { className: "card motion-lift group flex min-h-56 flex-col gap-3 p-6"+(key==='fluency'?' fluency-hub-card':'') },
                 h("span", { className: "text-xs font-semibold uppercase tracking-[0.14em] text-signal-600 dark:text-signal-400" }, t.cards[key].eyebrow),
                 h("h2", { className: "font-display text-xl text-ink-900" }, t.cards[key].title),
                 h("p", { className: "text-base text-ink-500" }, t.cards[key].body),

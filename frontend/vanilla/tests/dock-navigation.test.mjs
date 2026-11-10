@@ -133,5 +133,5 @@ test('Dock navigation starts immediately without capturing or animating a window
 });
 test('glass styles ship in the Python native build and reserve space for mobile scrolling',()=>{
  const css=fs.readFileSync(new URL('../css/dock.css',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),builder=fs.readFileSync(new URL('../../../scripts/build_native_assets.py',import.meta.url),'utf8');
- assert.match(css,/backdrop-filter:blur/);assert.match(css,/overflow-x:auto/);assert.match(css,/prefers-reduced-motion/);assert.match(html,/href="\/css\/dock.css"/);assert(builder.includes("'css/dock.css'"));
+ assert.match(css,/backdrop-filter:blur/);assert.match(css,/overflow-x:auto/);assert.match(css,/transition:transform 140ms/);assert.match(html,/href="\/css\/dock.css"/);assert(builder.includes("'css/dock.css'"));
 });

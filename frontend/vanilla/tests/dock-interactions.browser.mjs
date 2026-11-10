@@ -9,6 +9,7 @@ test('hover grows icons to 1.1 and shows a glass pointer label with both motion 
    try{
     await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);await frames(page);
     const item=page.locator('[data-dock-module="speaking"]'),icon=item.locator('.module-dock__icon');
+    assert.equal(await icon.evaluate(node=>getComputedStyle(node).transitionDuration),'0.14s');
     const before=await icon.boundingBox();await item.hover();
     await page.waitForFunction(()=>new DOMMatrix(getComputedStyle(document.querySelector('[data-dock-module="speaking"] .module-dock__icon')).transform).a>=1.099);
     const after=await icon.boundingBox();assert(Math.abs(after.width/before.width-1.1)<.02);

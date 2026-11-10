@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readdirSync} from 'node:fs';
 import postcss from 'postcss';
 import selectorParser from 'postcss-selector-parser';
 import {JSDOM} from 'jsdom';
@@ -108,9 +108,7 @@ test('desktop hover and touch press share the same visual feedback',()=>{
  card.removeAttribute('data-qa-active');assert(!card.matches(touchCard));
 });
 
-test('shared interaction travel and timing are independent of reduced motion and screen width',()=>{
- const reduce=ast.nodes.find(n=>n.type==='atrule'&&n.params==='(prefers-reduced-motion:reduce)');
- reduce.walkDecls(d=>assert(!/^(--la-(?:hover|press|transition)|transition|transform)/.test(d.prop),d.toString()));
+test('shared interaction travel and timing are independent of screen width',()=>{
  ast.walkAtRules('media',rule=>rule.walkDecls(/^--la-(?:hover|press|transition)/,d=>assert.fail(d.toString())));
  for(const rule of rules.filter(r=>has(r,'transition','var(--la-transition)')||has(r,'transition','120ms ease-out'))){
   const duration=rule.nodes.find(d=>d.prop==='transition-duration');
@@ -119,4 +117,18 @@ test('shared interaction travel and timing are independent of reduced motion and
  }
  assert(rules.some(r=>r.nodes.some(d=>d.prop==='transition-duration'&&d.value==='var(--la-press-duration)'&&d.important)));
  assert(!css.includes('will-change'));assert(!css.includes('transition-delay'));
+});
+
+test('first-party site assets do not branch on the system motion preference',()=>{
+ const base=new URL('../',import.meta.url);
+ const assets=['index.html'];
+ for(const folder of ['css','js','modules','campus/v2/src']){
+  assets.push(...readdirSync(new URL(folder,base),{recursive:true})
+   .filter(name=>/\.(?:css|js|mjs)$/.test(name))
+   .map(name=>`${folder}/${name}`));
+ }
+ for(const name of assets){
+  const source=readFileSync(new URL(name,base),'utf8');
+  assert.doesNotMatch(source,/prefers-reduced-motion|motion-(?:reduce|safe):/i,name);
+ }
 });

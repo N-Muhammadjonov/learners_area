@@ -26,9 +26,7 @@ export class LearnersAreaCampusScene {
     this.width = this.container.clientWidth || 1024;
     this.height = this.container.clientHeight || 571;
     this.isPaused = false;
-    const systemReducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-    // An explicit campus motion choice wins over the automatic system default.
-    this.reducedMotion=resolveReducedMotion(options.motion,systemReducedMotion);
+    this.reducedMotion=resolveReducedMotion(options.motion);
     this.buildingMeshes = new Map();
 
     this.init();

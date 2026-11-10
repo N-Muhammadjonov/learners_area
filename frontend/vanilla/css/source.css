@@ -189,42 +189,6 @@
     outline: 2px solid rgb(var(--accent));
     outline-offset: 2px;
   }
-  /* Respect a reduced-motion preference rather than animating regardless. */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001ms !important;
-      transition-duration: 0.001ms !important;
-    }
-    [data-touch-welcome] .la-welcome-brand-link,
-    [data-touch-welcome] .la-welcome-brand-link .brand-mark {
-      animation-duration: 3.64s !important;
-    }
-    [data-touch-welcome] .la-welcome-chip {
-      animation-duration: 3.37s !important;
-    }
-    [data-touch-welcome] .la-welcome-heading,
-    [data-touch-welcome] .la-welcome-cta {
-      animation-duration: .5s !important;
-    }
-    [data-touch-welcome] .la-welcome-text {
-      animation-duration: 3.30s !important;
-    }
-    [data-touch-welcome] .la-welcome-ring-one {
-      animation-duration: 22s !important;
-    }
-    [data-touch-welcome] .la-welcome-ring-two {
-      animation-duration: 28s !important;
-    }
-    [data-touch-welcome] .la-welcome-aurora {
-      animation-duration: 16s !important;
-    }
-    [data-auth-shell] [data-login-brand],
-    [data-auth-shell] [data-login-brand] .brand-mark {
-      animation-duration: 3.85s !important;
-    }
-  }
 }
 
 @layer components {
@@ -992,29 +956,6 @@
   .flashcard-back-actions { flex-shrink: 0; padding-top: .875rem; }
   .flashcard-flip-button { width: 100%; min-width: 0; min-height: 58px; padding: 16px 22px; }
 }
-/* Reduced motion keeps both faces in the same plane and changes opacity in place;
-   the shared reduced-motion rule makes that side change effectively immediate. */
-@media (prefers-reduced-motion: reduce) {
-  .flashcard-3d-inner {
-    -webkit-transform: none !important;
-    -webkit-transform-style: flat;
-    -webkit-transition: none;
-    transform: none !important;
-    transform-style: flat;
-    transition: none;
-  }
-  .flashcard-face {
-    -webkit-backface-visibility: visible;
-    backface-visibility: visible;
-    transition: opacity 120ms linear;
-  }
-  .flashcard-face-front { -webkit-transform: none; transform: none; opacity: 1; }
-  .flashcard-face-back { -webkit-transform: none; transform: none; opacity: 0; pointer-events: none; }
-  .flashcard-3d-card[data-flipped="true"] .flashcard-face-front { opacity: 0; pointer-events: none; }
-  .flashcard-3d-card[data-flipped="true"] .flashcard-face-back { opacity: 1; pointer-events: auto; }
-  .flashcard-flip-button, .flashcard-pronounce { transition-duration: .01ms; }
-  .flashcard-pronounce:hover, .flashcard-flip-button:hover:not(:disabled) { transform: none; }
-}
 
 .race-answer-box {
   display: flex;
@@ -1059,10 +1000,6 @@
   font-size: .8rem;
   line-height: 1;
 }
-@media (prefers-reduced-motion: reduce) {
-  .race-answer-box { transition-duration: .01ms; transition-delay: 0ms !important; }
-  .race-answer-box--correct, .race-answer-box--incorrect { transform: none; }
-}
 
 /* Global interaction contract: active feedback is local and precedes transport. */
 :where(button, [role="button"], [role="tab"], [role="menuitem"], summary, a[href], select) {
@@ -1102,9 +1039,6 @@
 .interaction-confirm-dialog h2 { font-size: 1.2rem; font-weight: 700; }
 .interaction-confirm-dialog p { margin-top: .6rem; color: rgb(var(--ink-700)); line-height: 1.5; }
 .interaction-confirm-dialog__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .6rem; margin-top: 1.2rem; }
-@media (prefers-reduced-motion: reduce) {
-  :where(button, [role="button"], [role="tab"], [role="menuitem"], summary, a[href], select) { transition-duration: .01ms; }
-}
 
 /* Navigation feedback never replaces the mounted workspace. */
 .workspace-transition { position: relative; min-width: 0; }
@@ -1130,15 +1064,6 @@
 .retention-summary-grid dt { color: rgb(var(--ink-500)); font-size: .8rem; }
 @media (max-width: 1000px) { .retention-hub-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 520px) { .retention-level-options { grid-template-columns: repeat(3, minmax(0, 1fr)); } .retention-level-option { min-height: 6rem; } }
-/* User opt-in only: system reduced motion is still respected on first entry. */
-@media (prefers-reduced-motion: reduce) {
-  .flashcard-3d-card[data-card-motion="full"] .flashcard-3d-inner { -webkit-transform-style: preserve-3d; transform-style: preserve-3d; -webkit-transform: rotateY(0deg) !important; transform: rotateY(0deg) !important; -webkit-transition: -webkit-transform .52s cubic-bezier(.2,.7,.2,1); transition: transform .52s cubic-bezier(.2,.7,.2,1); transition-duration: .52s !important; }
-  .flashcard-3d-card[data-card-motion="full"][data-flipped="true"] .flashcard-3d-inner { -webkit-transform: rotateY(180deg) !important; transform: rotateY(180deg) !important; }
-  .flashcard-3d-card[data-card-motion="full"] .flashcard-face { -webkit-backface-visibility: hidden; backface-visibility: hidden; opacity: 1; transition: none; }
-  .flashcard-3d-card[data-card-motion="full"] .flashcard-face-front { -webkit-transform: rotateY(0deg); transform: rotateY(0deg); }
-  .flashcard-3d-card[data-card-motion="full"] .flashcard-face-back { -webkit-transform: rotateY(180deg); transform: rotateY(180deg); }
-  .flashcard-3d-card[data-card-motion="full"][data-flipped="true"] .flashcard-face-front { opacity: 1; }
-}
 
 
 /* Font assignments follow the owner's RTF, not Booster's typography. */
@@ -1192,7 +1117,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-library-card { border-radius: 1.4rem; border-color: rgb(var(--ink-100)); transition: border-color .2s, transform .2s; }
 .listening-library-card:hover { border-color: rgb(var(--gold) / .6); transform: translateY(-2px); }
 .listening-library-badge { width: 100%; border-radius: 999px; padding: .45rem .8rem; font-weight: 700; background: rgb(var(--gold) / .12); }
-@media (prefers-reduced-motion: reduce) { .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }
 
 /* Collection navigation and real mock overview, using the existing theme. */
 .listening-collection-tabs { display:flex; gap:1rem; overflow-x:auto; border-bottom:1px solid rgb(var(--ink-100)); }
@@ -1221,7 +1145,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .motion-lift:active { transform: translateY(0) scale(.99); transition-duration: var(--motion-press); }
 @keyframes la-motion-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes la-motion-fade { from { opacity: 0; } to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .motion-enter, .motion-enter-stagger > *, .motion-tab-panel { animation: none; } .motion-lift, .motion-lift:hover, .motion-lift:active { transform: none; transition: none; } }
 
 /* Owner-approved Part selector: distinct accents, real buttons, theme tokens. */
 .practice-part-card { background: linear-gradient(135deg, rgb(var(--paper-raised)), rgb(var(--paper-sunken))); border-color: rgb(var(--ink-100)); }
@@ -1696,16 +1619,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   .typing-stage-wrap { padding: .9rem; }
   .typing-measure { inset-inline: .9rem; }
   .typing-font { font-size: 1.08rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .typing-word,
-  .typing-row,
-  .typing-row-dim,
-  .typing-row-buffer { transition: none; }
-  .typing-caret,
-  .typing-pause-orb-ring,
-  .typing-pause-orb-dot { animation: none; }
-  .typing-stack { transition: none !important; }
 }
 
 /* LEARNERS AREA NIGHT-ONLY / CYAN-WAVE v1; DAY REMAINS EXACTLY UNCHANGED. */

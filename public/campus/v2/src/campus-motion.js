@@ -1,8 +1,8 @@
 import * as THREE from '../vendor/three-runtime.js';
 const view=new THREE.Vector3();
 export const dashboardRingAngle=elapsed=>elapsed*.22;
-export function resolveReducedMotion(mode,systemReducedMotion){
-  return mode==='on'?false:mode==='off'?true:systemReducedMotion;
+export function resolveReducedMotion(mode){
+  return mode==='off';
 }
 export function setBuildingHover(buildings,id,active){
   const building=buildings.get(id);if(!building)return;

@@ -13,11 +13,11 @@ const {campusRoadPath,CampusCircuits}=await import(new URL("campus-circuits.js",
 const {LearnersAreaCampusScene}=await import(new URL("campus-scene.js",src).href);
 const {NeonCurrent,NeonDashLoop,platformEdgeLoops}=await import(new URL("campus-neon.js",src).href);
 const {setBuildingHover,updateCampusObjects,resolveReducedMotion}=await import(new URL("campus-motion.js",src).href);
-test("explicit campus animation remains active even when the system automatic mode reduces motion",()=>{
-  assert.equal(resolveReducedMotion("on",true),false);
-  assert.equal(resolveReducedMotion("auto",true),true);
-  assert.equal(resolveReducedMotion(undefined,false),false);
-  assert.equal(resolveReducedMotion("off",false),true);
+test("campus animates by default and pauses motion only with its explicit off setting",()=>{
+  assert.equal(resolveReducedMotion("on"),false);
+  assert.equal(resolveReducedMotion("auto"),false);
+  assert.equal(resolveReducedMotion(undefined),false);
+  assert.equal(resolveReducedMotion("off"),true);
 });
 function buildWorld(){
   const load=THREE.TextureLoader.prototype.load,doc=globalThis.document;

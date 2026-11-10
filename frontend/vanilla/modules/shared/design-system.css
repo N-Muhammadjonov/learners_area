@@ -48,7 +48,6 @@ html[data-theme] #root [data-ui-system] :is(.card,.panel,[data-ui-card],.practic
  min-width:0;overflow-wrap:anywhere;
 }
 html[data-theme] #root [data-ui-system] :is(.card,.panel,[data-ui-card]){background-image:linear-gradient(135deg,color-mix(in srgb,var(--la-skill,currentColor) 3%,transparent),transparent 60%)}
-/* Keep these interaction durations above the global reduced-motion reset. */
 /* Explicit navigation surfaces. A panel containing an editor or a retry action
    is not a navigation card. Focus/exam frames and the Dock do not opt in. */
 html[data-theme] #root [data-ui-system] :is(
@@ -231,11 +230,9 @@ html[data-theme] #root [data-ui-system] :is(.la-icon-button,.shell-icon-btn,.the
  [data-dashboard-stats]{grid-template-columns:repeat(2,minmax(0,1fr))}.la-skill-shortcut{padding:16px;min-height:164px}
  html[data-theme] #root [data-ui-system] :is(button,a[class*="btn"]){min-height:44px}
 }
-@media(prefers-reduced-motion:reduce){
- html[data-theme] #root [data-ui-system] :is(.motion-enter,.motion-enter-stagger>*,.la-mascot,.la-mascot__eyes){animation:none}
- html[data-theme] #root [data-ui-system] [aria-busy="true"]::after{animation:none;border-right-color:currentColor;border-style:dotted}
-}
-@media(prefers-reduced-motion:no-preference){@keyframes la-ui-spin{to{transform:rotate(360deg)}}@keyframes la-ui-think{to{opacity:.45}}@keyframes la-ui-nod{50%{transform:translateY(-3px)}}}
+@keyframes la-ui-spin{to{transform:rotate(360deg)}}
+@keyframes la-ui-think{to{opacity:.45}}
+@keyframes la-ui-nod{50%{transform:translateY(-3px)}}
 
 html[data-theme] #root [data-ui-system] [data-native-module-header]{padding-inline:var(--shell-pad-x);min-height:0}
 html[data-theme] #root [data-ui-system] .native-module-title{font-size:clamp(24px,2.6vw,30px);padding:10px 0 14px;line-height:1.25}
