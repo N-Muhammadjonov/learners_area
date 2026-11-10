@@ -103,14 +103,25 @@ test('Retention keeps its automatic focus ownership; Dock follows it',async()=>{
   delete document.documentElement.dataset.retentionFocus;await tick();assert(!h.q('[data-module-dock]').hidden);
  }finally{h.dispose();}
 });
-test('Dock tooltip, magnification and keyboard navigation work without route mutations',async()=>{
+test('Dock tooltip skips geometry and hit tests during steady hover and keeps keyboard navigation',async()=>{
  const h=fixture();
  try{
-  const dock=moduleDock(h.ctx);h.ctx.root.append(dock.node);const first=h.q('[data-dock-module]'),last=h.qa('[data-dock-module]').at(-1),nav=first.parentElement;
-  first.getBoundingClientRect=()=>({left:100,width:48,top:700,height:58});
+  const dock=moduleDock(h.ctx);h.ctx.root.append(dock.node);const links=h.qa('[data-dock-module]'),first=links[0],last=links.at(-1);
+  await new Promise(resolve=>window.requestAnimationFrame(resolve));
+  let geometryReads=0,hitTests=0;
+  links.forEach((link,index)=>{link.getBoundingClientRect=()=>{geometryReads++;return {left:100+56*index,width:48,top:700,height:58};};});
+  document.elementFromPoint=()=>{hitTests++;return first;};
   first.dispatchEvent(new window.Event('pointerover',{bubbles:true}));assert.equal(h.q('.module-dock__label').textContent,first.getAttribute('aria-label'));assert(!h.q('.module-dock__label').hidden);
-  nav.dispatchEvent(new window.MouseEvent('pointermove',{clientX:124,bubbles:true}));await new Promise(r=>window.requestAnimationFrame(r));assert(Number(first.style.getPropertyValue('--dock-scale'))>1);
-  dock.node.dispatchEvent(new window.Event('pointerleave'));assert.equal(first.style.getPropertyValue('--dock-scale'),'');assert(h.q('.module-dock__label').hidden);
+  geometryReads=0;
+  for(let i=0;i<120;i++)first.dispatchEvent(new window.MouseEvent('pointermove',{clientX:110+i%30,clientY:724,bubbles:true}));
+  await new Promise(resolve=>window.requestAnimationFrame(resolve));
+  assert.equal(geometryReads,0);assert.equal(hitTests,0);
+  links[1].dispatchEvent(new window.MouseEvent('pointermove',{clientX:180,clientY:724,bubbles:true}));
+  assert.equal(h.q('.module-dock__label').textContent,links[1].getAttribute('aria-label'));
+  for(let i=0;i<4;i++)first.parentElement.dispatchEvent(new window.Event('scroll'));
+  await new Promise(resolve=>window.requestAnimationFrame(resolve));
+  assert.equal(hitTests,1);assert.equal(h.q('.module-dock__label').textContent,first.getAttribute('aria-label'));
+  dock.node.dispatchEvent(new window.Event('pointerleave'));assert(h.q('.module-dock__label').hidden);
   first.focus();press(h,'ArrowLeft',{target:first});assert.equal(document.activeElement,last);press(h,'Home',{target:last});assert.equal(document.activeElement,first);assert.equal(h.nav.length,0);
  }finally{h.dispose();}
 });

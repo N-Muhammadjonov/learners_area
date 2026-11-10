@@ -38,44 +38,39 @@ export function moduleDock(context){
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });
  nav.append(...links);node.append(nav,tooltip);
- let current=context.url,frame=0,layoutFrame=0,pointer=null,pending=null,opening=null;
+ let current=context.url,layoutFrame=0,scrollFrame=0,pending=null,opening=null;
  const win=document.defaultView;
- let pointerPoint = null;
+ let pointerX = NaN;
+ let pointerY = NaN;
  let focusedLink = null;
  let labelledLink = null;
 
  function hideLabel() {
+  if (!labelledLink) return;
   tooltip.hidden = true;
   labelledLink = null;
  }
 
- function clearMagnification(){
-  if(frame)win.cancelAnimationFrame(frame);frame=0;pointer=null;
-  for(const link of links){link.style.removeProperty('--dock-scale');link.style.removeProperty('--dock-lift');}
- }
-
  function reset() {
-  pointerPoint = null;
+  pointerX = pointerY = NaN;
   focusedLink = null;
-  clearMagnification();
+  if (scrollFrame) win.cancelAnimationFrame(scrollFrame);
+  scrollFrame = 0;
   hideLabel();
  }
 
  function positionLabel(link) {
-  const artwork = link.querySelector('.module-dock__icon').getBoundingClientRect();
-  const icon = artwork.width ? artwork : link.getBoundingClientRect();
+  const icon = link.getBoundingClientRect();
   const viewport = nav.getBoundingClientRect();
   const left = viewport.width ? Math.max(icon.left, viewport.left + EDGE_INSET) : icon.left;
   const right = viewport.width ? Math.min(icon.left + icon.width, viewport.right - EDGE_INSET) : icon.left + icon.width;
-  if (viewport.width && left >= right) {
-   hideLabel();
-   return;
-  }
-  const anchor = (left + right) / 2;
-  const halfWidth = tooltip.offsetWidth / 2;
-  const center = Math.max(halfWidth + 8, Math.min(win.innerWidth - halfWidth - 8, anchor));
-  tooltip.style.left = `${center - node.getBoundingClientRect().left}px`;
-  tooltip.style.setProperty('--dock-label-arrow', `${tooltip.clientWidth / 2 + anchor - center}px`);
+  if (viewport.width && left >= right) return false;
+  const origin = node.getBoundingClientRect().left;
+  // CSS clamps the label using its own width, so changing text needs no layout read.
+  tooltip.style.setProperty('--dock-label-anchor', `${(left + right) / 2 - origin}px`);
+  tooltip.style.setProperty('--dock-label-min', `${8 - origin}px`);
+  tooltip.style.setProperty('--dock-label-max', `${win.innerWidth - 8 - origin}px`);
+  return true;
  }
 
  function showLabel(link, reposition = false) {
@@ -83,25 +78,26 @@ export function moduleDock(context){
    hideLabel();
    return;
   }
-  if (link !== labelledLink) {
-   tooltip.textContent = link.getAttribute('aria-label');
-   tooltip.hidden = false;
-   labelledLink = link;
-   reposition = true;
+  if (!reposition && link === labelledLink) return;
+  if (!positionLabel(link)) {
+   hideLabel();
+   return;
   }
-  if (reposition) positionLabel(link);
+  if (link === labelledLink) return;
+  tooltip.textContent = link.getAttribute('aria-label');
+  tooltip.hidden = false;
+  labelledLink = link;
  }
 
- function linkAtPoint(point, fallback) {
-  const hit = point && typeof document.elementFromPoint === 'function'
-   ? document.elementFromPoint(point.x, point.y)
-   : fallback;
-  const link = hit?.closest?.('[data-dock-module]');
+ function targetLink(target) {
+  const link = target?.closest?.('[data-dock-module]');
   return link && nav.contains(link) ? link : null;
  }
 
  function refreshLabel() {
-  const link = pointerPoint ? linkAtPoint(pointerPoint) : focusedLink;
+  const link = Number.isFinite(pointerX)
+   ? targetLink(document.elementFromPoint?.(pointerX, pointerY))
+   : focusedLink;
   showLabel(link, true);
  }
 
@@ -111,56 +107,40 @@ export function moduleDock(context){
    return;
   }
   focusedLink = null;
-  pointerPoint = Number.isFinite(event.clientX) && Number.isFinite(event.clientY)
-   ? {x: event.clientX, y: event.clientY}
-   : null;
-  showLabel(linkAtPoint(pointerPoint, event.target));
+  pointerX = event.clientX;
+  pointerY = event.clientY;
+  showLabel(targetLink(event.target));
  }
- function magnify(){
-  frame=0;if(pointer===null||node.hidden)return;
-  const centers=links.map(link=>{const box=link.getBoundingClientRect();return box.left+box.width/2;});
-  links.forEach((link,index)=>{const amount=Math.max(0,1-Math.abs(pointer-centers[index])/100);
-   link.style.setProperty('--dock-scale',String(1+.1*amount*amount));
-   link.style.setProperty('--dock-lift',String(-3*amount*amount)+'px');
-  });
-  if (labelledLink) positionLabel(labelledLink);
- }
- listen(node,'pointermove',event=>{
-  updatePointerLabel(event);
-  if(event.pointerType==='touch')return;
-  pointer=event.clientX;
-  if(!frame)frame=win.requestAnimationFrame(magnify);
- },signal);
+ listen(node,'pointermove',updatePointerLabel,signal);
  listen(node,'pointerover',event=>{if(!focusedLink)updatePointerLabel(event);},signal);
  listen(node,'pointerleave',reset,signal);
  listen(nav,'scroll',()=>{
-  clearMagnification();
-  refreshLabel();
-  if (pointerPoint) {
-   pointer = pointerPoint.x;
-   frame = win.requestAnimationFrame(magnify);
-  }
+  if (scrollFrame || (!Number.isFinite(pointerX) && !focusedLink)) return;
+  scrollFrame = win.requestAnimationFrame(() => {
+   scrollFrame = 0;
+   refreshLabel();
+  });
  },signal);
  function revealActive(){
   if(layoutFrame)win.cancelAnimationFrame(layoutFrame);
   layoutFrame=win.requestAnimationFrame(()=>{
    layoutFrame=0;if(signal.aborted||node.hidden||!node.isConnected)return;
-   const link=links.find(a=>a.getAttribute('aria-current')==='page');if(!link)return;
-   const viewport=nav.getBoundingClientRect(),box=link.getBoundingClientRect();
-   if(box.left<viewport.left+13)nav.scrollLeft-=viewport.left+13-box.left;
-   else if(box.right>viewport.right-13)nav.scrollLeft+=box.right-viewport.right+13;
+   const link=links.find(a=>a.getAttribute('aria-current')==='page');
+   if(link){
+    const viewport=nav.getBoundingClientRect(),box=link.getBoundingClientRect();
+    if(box.left<viewport.left+13)nav.scrollLeft-=viewport.left+13-box.left;
+    else if(box.right>viewport.right-13)nav.scrollLeft+=box.right-viewport.right+13;
+   }
    refreshLabel();
   });
  }
- listen(win,'resize',()=>{opening?.cancel();opening=null;pending=null;revealActive();refreshLabel();},signal);
+ listen(win,'resize',()=>{opening?.cancel();opening=null;pending=null;revealActive();},signal);
  listen(nav,'focusin',event=>{
   const link=event.target.closest?.('[data-dock-module]');
   if (!link) return;
-  if (linkAtPoint(pointerPoint) !== link) {
-   pointerPoint = null;
-   focusedLink = link;
-   clearMagnification();
-  }
+  if (Number.isFinite(pointerX) && labelledLink === link) return;
+  pointerX = pointerY = NaN;
+  focusedLink = link;
   showLabel(link, true);
  },signal);
  listen(nav,'focusout',event=>{
@@ -172,7 +152,7 @@ export function moduleDock(context){
   if(event.altKey||event.ctrlKey||event.metaKey)return;
   const index=links.indexOf(event.target);if(index<0)return;
   const next=event.key==='ArrowRight'?(index+1)%links.length:event.key==='ArrowLeft'?(index+links.length-1)%links.length:event.key==='Home'?0:event.key==='End'?links.length-1:null;
-  if(next!==null){event.preventDefault();pointerPoint=null;links[next].focus();}
+  if(next!==null){event.preventDefault();pointerX=pointerY=NaN;links[next].focus();}
  },signal);
  function visibility(){
   const hidden=returnForWindow(current).mode==='back'||html.dataset.studyFocus==='on'||html.dataset.retentionFocus==='on';

@@ -62,7 +62,7 @@ test('fast pointer movement and horizontal scrolling keep the label on the curre
    const context=await browser.newContext({viewport:{width,height:900}}),page=await context.newPage();
    try{
     await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);await frames(page);
-    const results=await page.evaluate(()=>{
+    const results=await page.evaluate(async()=>{
      const dock=document.querySelector('[data-module-dock]'),nav=dock.querySelector('nav'),label=dock.querySelector('.module-dock__label');
      const viewport=nav.getBoundingClientRect(),edge=parseFloat(getComputedStyle(nav).getPropertyValue('--dock-edge-inset'));
      const visible=[...nav.children].filter(link=>link.getBoundingClientRect().right<=viewport.right-edge);
@@ -79,6 +79,7 @@ test('fast pointer movement and horizontal scrolling keep the label on the curre
      if(nav.scrollWidth>nav.clientWidth){
       nav.scrollLeft=visible[1].offsetLeft-visible[0].offsetLeft;
       nav.dispatchEvent(new Event('scroll'));
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       samples.push(read(visible[1]));
      }
      const first=nav.querySelector('[data-dock-module="assignments"]').getBoundingClientRect();
