@@ -7,6 +7,7 @@ from . import step31_coach as coach
 from .step31_learning_production import _language
 from .notification_events import notify_writing_review_required
 from .rate_limit import evaluation_limit
+from .riwi_assessment_contracts import canonical_writing_subtype
 router=APIRouter()
 
 @router.post('/api/writing/submissions/{id}/submit')
@@ -27,7 +28,7 @@ async def writing_submit(req:Request,id:str):
         if not prompt:return core.j({'error':'prompt_missing'},500)
     result=await coach.evaluate(user['id'],'writing','writing_submission',sid,
            {'taskType':prompt['task_type'],'prompt':prompt['prompt'],'content':submission['content'],
-            'targetWordCount':prompt['target_word_count']},_language(req))
+            'targetWordCount':prompt['target_word_count'],'writingSubtype':canonical_writing_subtype(prompt)},_language(req))
     if not result['ok']:return core.j({'error':result['error']},502)
     ev=result['evaluation']
     async with db.acquire() as con:

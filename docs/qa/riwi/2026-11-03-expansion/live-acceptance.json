@@ -1,0 +1,412 @@
+{
+  "date": "2026-11-03",
+  "codeCommit": "b8cc3da70d611d1fee71cb2a8e2160bac6e3ce95",
+  "stablePreview": "https://learners-area-git-arena-learners-area-next-learners-area.vercel.app/app/riwi",
+  "immutablePreview": "https://learners-area-5ibupmc0t-learners-area.vercel.app/app/riwi",
+  "nativeRevision": "b1e713b5f1a579ff1171",
+  "ownerSafari": {
+    "verified": true,
+    "role": "owner",
+    "externalAi": false,
+    "sessionKept": true
+  },
+  "activeKnowledge": {
+    "project": "bpexpsugmuhwmztacbqd",
+    "verifiedAt": "2026-11-03",
+    "method": "SELECT after authenticated normal candidate, approve and promote actions. No governance bypass.",
+    "totalActiveUnits": 363,
+    "sources": [
+      {
+        "id": "92b7446b-fcbb-470e-93b6-de670d41a7f8",
+        "title": "RIWI Original Cambridge Grammar Study Notes v1",
+        "state": "active",
+        "checksum": "23d259dca56eb93f765b565f2ead7493750cf6bbe2bfcf404d487856cb041ddc",
+        "units": 25
+      },
+      {
+        "id": "acda5979-fb8c-45e8-b802-ac49c571c635",
+        "title": "RIWI Original Guardian Study Notes v1",
+        "state": "active",
+        "checksum": "b86b97e101009596944c6d3ff86d477bf2122638d60386ea5c3da84fa4ef8d20",
+        "units": 154
+      },
+      {
+        "id": "7e40dc30-a900-4d6e-8d7a-e992324f144d",
+        "title": "RIWI Original Learning Library v1",
+        "state": "active",
+        "checksum": "e87a2aa55c7f1aabf8fdfc8475d91f41a14cfa710fa16feeafd6f9e7383e5b1f",
+        "units": 92
+      },
+      {
+        "id": "68459d3e-75d8-45cf-9789-08ab07e04216",
+        "title": "RIWI Original Teaching Details v1",
+        "state": "active",
+        "checksum": "c7ce1a5e8bb897f4b5506c4f86adf582938526c536326f4c5ef335e55c6253c7",
+        "units": 92
+      }
+    ]
+  },
+  "guideChecks": {
+    "initialCases": 13,
+    "freshLearnerQueries": [
+      {
+        "name": "typo_nominal",
+        "model": "riwi-study-v1:study.cambridge.unit-25"
+      },
+      {
+        "name": "hedging_en",
+        "model": "riwi-study-v1:study.cambridge.unit-24"
+      },
+      {
+        "name": "cambridge_typo",
+        "model": "riwi-study-v1:study.cambridge.unit-12"
+      },
+      {
+        "name": "guardian_levels",
+        "model": "riwi-study-v1:study.guardian.zoos.pre-intermediate"
+      }
+    ],
+    "review": "Manual review of actual responses plus fresh query fixtures: nominalisation preserves agent, modals separate prohibition and lack of necessity, hedging avoids universal bans, historical Guardian claims are attributed, levels/pages remain separate, ambiguous and unknown requests abstain. This is not a second human review or a proofread of every PDF token."
+  },
+  "materialChecks": [
+    {
+      "kind": "reading",
+      "query": "[RIWI QA 20261103]",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "59218e71-ba3d-5606-a6e3-3420cdda855c"
+    },
+    {
+      "kind": "listening",
+      "query": "[RIWI QA 20261103]",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "61ba544e-6e07-5d8b-b7ce-4f3d9716693c"
+    },
+    {
+      "kind": "writing",
+      "query": "[RIWI QA 20261103]",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "ff048502-1539-5310-a330-65d812f26d19"
+    },
+    {
+      "kind": "language-stealing",
+      "query": "[RIWI QA 20261103]",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "7e230fa6-1495-5711-84aa-c3b3efbf4d49"
+    },
+    {
+      "kind": "podcast",
+      "query": "[RIWI QA 20261103]",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "3c317efe-3d87-5b12-a842-a583955482e8"
+    },
+    {
+      "kind": "speaking",
+      "query": "beautiful object",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "3c73985b-a70d-4471-8e6c-cea296e819ef"
+    },
+    {
+      "kind": "retention",
+      "query": "A2-001",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "07327abc-4c72-41d4-a802-8bcf711495cb"
+    },
+    {
+      "kind": "podcast",
+      "query": "podcast-timed",
+      "checks": {
+        "internal": true,
+        "identity": true,
+        "source": true,
+        "threeExamples": true,
+        "noRawJson": true
+      },
+      "sourceId": "c58ad51a-1346-5c5c-b85e-ef5162eb6cea"
+    }
+  ],
+  "chatCommands": {
+    "uiRequests": 13,
+    "localCommands": "/clear, /new chat, /language eng, /language uz, /help verified in native Safari UI; /examples after clear asks for a topic",
+    "networkContext": "Actual captured requests after clear and new chat omit previous conversationId and material; unsupported follow-up does not recover the prior lesson.",
+    "resolvedPresentation": {
+      "checkedAt": "2026-11-03T03:55:31.362Z",
+      "newCode": "0291eb447ef758b3316e338bf4093b07ea6af9c8",
+      "stepwiseUz": true,
+      "stepwiseEn": true,
+      "examplesOnly": true
+    }
+  },
+  "resolvedIssues": [
+    "Whitespace-only Listening source was wrongly listed; real text fixture now succeeds and empty original is hidden.",
+    "Full Listening source for students requires own completed exact current revision; seven PostgreSQL CTE cases passed.",
+    "Study /simple now shows intact approved rules as steps; /examples omits the repeated explanation.",
+    "Safari search field now explicitly inherits day/night palette."
+  ],
+  "layouts": [
+    {
+      "label": "desktop-day",
+      "width": 1439,
+      "height": 900,
+      "dpr": 2,
+      "documentWidth": 1439,
+      "workspaceWidth": 862,
+      "workspaceScrollWidth": 862,
+      "pickerOpen": true,
+      "search": {
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(239, 246, 255)",
+        "align": "auto"
+      },
+      "assistant": {
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(239, 246, 255)",
+        "align": "flex-start"
+      },
+      "user": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(65, 88, 229)",
+        "align": "flex-end"
+      },
+      "sendInView": false,
+      "sendUnobscured": null,
+      "horizontalOverflow": false
+    },
+    {
+      "label": "focus",
+      "width": 1439,
+      "height": 900,
+      "dpr": 2,
+      "documentWidth": 1439,
+      "workspaceWidth": 862,
+      "workspaceScrollWidth": 862,
+      "pickerOpen": true,
+      "search": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "auto"
+      },
+      "assistant": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "flex-start"
+      },
+      "user": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(65, 88, 229)",
+        "align": "flex-end"
+      },
+      "sendInView": true,
+      "sendUnobscured": true,
+      "horizontalOverflow": false
+    },
+    {
+      "label": "resize",
+      "width": 390,
+      "height": 900,
+      "dpr": 2,
+      "documentWidth": 390,
+      "workspaceWidth": 362,
+      "workspaceScrollWidth": 362,
+      "pickerOpen": true,
+      "search": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "auto"
+      },
+      "assistant": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "flex-start"
+      },
+      "user": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(65, 88, 229)",
+        "align": "flex-end"
+      },
+      "sendInView": true,
+      "sendUnobscured": true,
+      "horizontalOverflow": false
+    },
+    {
+      "label": "resize",
+      "width": 389,
+      "height": 843,
+      "dpr": 2,
+      "documentWidth": 389,
+      "workspaceWidth": 361,
+      "workspaceScrollWidth": 361,
+      "pickerOpen": true,
+      "search": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "auto"
+      },
+      "assistant": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "flex-start"
+      },
+      "user": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(65, 88, 229)",
+        "align": "flex-end"
+      },
+      "sendInView": true,
+      "sendUnobscured": true,
+      "horizontalOverflow": false
+    },
+    {
+      "label": "focus",
+      "width": 389,
+      "height": 843,
+      "dpr": 2,
+      "documentWidth": 389,
+      "workspaceWidth": 361,
+      "workspaceScrollWidth": 361,
+      "pickerOpen": true,
+      "search": {
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(239, 246, 255)",
+        "align": "auto"
+      },
+      "assistant": {
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(239, 246, 255)",
+        "align": "flex-start"
+      },
+      "user": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(65, 88, 229)",
+        "align": "flex-end"
+      },
+      "sendInView": true,
+      "sendUnobscured": true,
+      "horizontalOverflow": false
+    },
+    {
+      "label": "focus",
+      "width": 389,
+      "height": 843,
+      "dpr": 2,
+      "documentWidth": 389,
+      "workspaceWidth": 361,
+      "workspaceScrollWidth": 361,
+      "pickerOpen": true,
+      "search": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "auto"
+      },
+      "assistant": {
+        "color": "rgb(243, 238, 245)",
+        "background": "rgb(38, 32, 51)",
+        "align": "flex-start"
+      },
+      "user": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(65, 88, 229)",
+        "align": "flex-end"
+      },
+      "sendInView": true,
+      "sendUnobscured": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "archivedFixtureChecks": {
+    "rows": 7,
+    "catalogues": [
+      {
+        "kind": "reading",
+        "status": 200,
+        "items": 0
+      },
+      {
+        "kind": "listening",
+        "status": 200,
+        "items": 0
+      },
+      {
+        "kind": "writing",
+        "status": 200,
+        "items": 0
+      },
+      {
+        "kind": "language-stealing",
+        "status": 200,
+        "items": 0
+      },
+      {
+        "kind": "podcast",
+        "status": 200,
+        "items": 0
+      }
+    ],
+    "directRead": {
+      "status": 404,
+      "data": {
+        "ok": false,
+        "error": "not_found"
+      }
+    }
+  },
+  "limits": [
+    "Physical iPhone and microphone/audio playback were not tested.",
+    "Student privacy gates have automated and PostgreSQL evidence, not an authenticated student Safari session.",
+    "QA temporary source fixtures test text retrieval; they are not model training or scored IELTS answers.",
+    "Production census is SELECT-only; production rollout, migration and knowledge activation remain separately gated."
+  ],
+  "productionWrites": false,
+  "schemaChangesThisExpansion": false,
+  "mainMerged": false,
+  "productionDeployed": false,
+  "rawReceiptHashes": {
+    "live-qa-initial.json": "f0766d6f0d296181a5cc76252e0fc8b2ce3b8740ffb440ffbe7df4d70ab8dda0",
+    "live-qa-final.json": "2ff6e57081b78dee21cf7797b95ae5797586fe254867d2c4a6f7125a5ccda1f9",
+    "layout-final.json": "e77efb0d795a849c4b0e3ab41e366a8a5a9520edfb44d0495d0ae0364ae49d6e",
+    "listening-revision-matrix.json": "c89f5a63cd47f655b684036f60080bc7f935fca4b75d2c7603a1849cf9311e36",
+    "qa-fixtures-archived.json": "0a52020bf26707ea9a839d423ba863eb3f9dbf05f6237d6fba2d08ff729c8049",
+    "active-knowledge-final.json": "fa7f7a3789e71efc81186c49b007da4724a609ee759868f8eca907ae77213e2c"
+  }
+}

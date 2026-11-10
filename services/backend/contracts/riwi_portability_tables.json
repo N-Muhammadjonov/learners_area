@@ -1,0 +1,2560 @@
+{
+  "version": 2,
+  "schema_migration_tip": "0079_riwi_canonical_task_metadata",
+  "tables": {
+    "access_entitlements": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "course_id",
+        "granted_via",
+        "expires_at"
+      ]
+    },
+    "access_requests": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "status",
+        "message",
+        "decided_by_user_id",
+        "decided_at",
+        "decision_note",
+        "created_at"
+      ]
+    },
+    "activity_events": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "type",
+        "payload",
+        "created_at"
+      ]
+    },
+    "api_rate_buckets": {
+      "classification": "never",
+      "columns": [
+        "bucket_key",
+        "used",
+        "reset_at"
+      ]
+    },
+    "assignment_responses": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "assignment_id",
+        "user_id",
+        "content",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "assignment_targets": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "assignment_id",
+        "student_user_id",
+        "status",
+        "due_at",
+        "completed_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "assignments": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "title",
+        "description",
+        "created_by_user_id",
+        "target_user_id",
+        "related_writing_prompt_id",
+        "status",
+        "due_at",
+        "created_at",
+        "module",
+        "content_type",
+        "source_ref",
+        "content_version_id",
+        "instructions",
+        "updated_at"
+      ]
+    },
+    "audit_log": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "actor_user_id",
+        "action",
+        "target_type",
+        "target_id",
+        "metadata",
+        "created_at"
+      ]
+    },
+    "auth_session_revocations": {
+      "classification": "never",
+      "columns": [
+        "token_hash",
+        "user_id",
+        "expires_at",
+        "created_at"
+      ]
+    },
+    "coach_weaknesses": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "category",
+        "first_seen_at",
+        "last_seen_at",
+        "occurrence_count",
+        "recent_severity",
+        "status"
+      ]
+    },
+    "content_imports": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "module",
+        "content_type",
+        "schema_version",
+        "import_version",
+        "source_ref",
+        "content_hash",
+        "content_version",
+        "status",
+        "target_type",
+        "target_id",
+        "actor_user_id",
+        "original_filename",
+        "legacy_runtime",
+        "assets",
+        "provenance",
+        "result",
+        "note",
+        "created_at"
+      ]
+    },
+    "content_versions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "module",
+        "content_type",
+        "source_ref",
+        "version_no",
+        "status",
+        "title",
+        "track",
+        "content_hash",
+        "semantic_hash",
+        "answer_key_hash",
+        "publication_state",
+        "target_type",
+        "target_id",
+        "content_import_id",
+        "created_by_user_id",
+        "change_kind",
+        "provenance",
+        "note",
+        "created_at",
+        "published_at",
+        "superseded_at",
+        "content_snapshot"
+      ]
+    },
+    "course_modules": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "course_id",
+        "slug",
+        "title",
+        "order"
+      ]
+    },
+    "courses": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "slug",
+        "title",
+        "description",
+        "is_active",
+        "publication_state",
+        "publish_at"
+      ]
+    },
+    "dictionary_channels": {
+      "classification": "site",
+      "columns": [
+        "name",
+        "active_release_id",
+        "previous_release_id",
+        "updated_at"
+      ]
+    },
+    "dictionary_drafts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "owner_user_id",
+        "base_release_id",
+        "changes",
+        "state",
+        "result_release_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "dictionary_entries": {
+      "classification": "site",
+      "columns": [
+        "release_id",
+        "lexeme_id",
+        "lemma_norm",
+        "part_of_speech",
+        "lexical_type",
+        "payload",
+        "content_sha",
+        "storage_shard",
+        "storage_release",
+        "search_preview",
+        "sense_ids",
+        "example_ids",
+        "storage_offset",
+        "storage_length",
+        "storage_raw_bytes",
+        "is_custom"
+      ]
+    },
+    "dictionary_owner_events": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "owner_user_id",
+        "operation",
+        "entity_id",
+        "base_release_id",
+        "candidate_release_id",
+        "result_release_id",
+        "before_state",
+        "after_state",
+        "validation_result",
+        "created_at"
+      ]
+    },
+    "dictionary_publish_jobs": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "owner_user_id",
+        "base_release_id",
+        "candidate_release_id",
+        "draft_ids",
+        "phase",
+        "cursor_id",
+        "error",
+        "updated_at",
+        "worker_lease_token",
+        "worker_lease_until"
+      ]
+    },
+    "dictionary_r2_shards": {
+      "classification": "site",
+      "columns": [
+        "release_id",
+        "shard",
+        "descriptor"
+      ]
+    },
+    "dictionary_recent_searches": {
+      "classification": "site",
+      "columns": [
+        "user_id",
+        "direction",
+        "query_norm",
+        "query_display",
+        "lexeme_id",
+        "searched_at"
+      ]
+    },
+    "dictionary_releases": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "base_release_id",
+        "state",
+        "manifest",
+        "manifest_sha",
+        "created_by",
+        "created_at",
+        "validated_at",
+        "delivery"
+      ]
+    },
+    "dictionary_search_indexes": {
+      "classification": "site",
+      "columns": [
+        "release_id",
+        "descriptor"
+      ]
+    },
+    "dictionary_search_terms": {
+      "classification": "site",
+      "columns": [
+        "release_id",
+        "lexeme_id",
+        "direction",
+        "term",
+        "rank"
+      ]
+    },
+    "dictionary_sense_mappings": {
+      "classification": "site",
+      "columns": [
+        "sense_id",
+        "app_sense_id",
+        "app_unit_id",
+        "mapping_method",
+        "created_at"
+      ]
+    },
+    "enrollments": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "course_id",
+        "enrolled_at"
+      ]
+    },
+    "evaluations": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "evaluation_type",
+        "source_type",
+        "source_id",
+        "provider_id",
+        "provider_display_name",
+        "provider_type",
+        "provider_version",
+        "model",
+        "prompt_version",
+        "rubric_version",
+        "fallback_used",
+        "fallback_from",
+        "checked_by_name",
+        "overall_estimate",
+        "confidence",
+        "verdict",
+        "criteria",
+        "strengths",
+        "weaknesses",
+        "issues",
+        "next_actions",
+        "recommended_exercises",
+        "processed_in_ms",
+        "created_at",
+        "assessment_contract_key",
+        "owner_policy_scope",
+        "owner_policy_version",
+        "teaching_feedback"
+      ]
+    },
+    "general_reading_passages": {
+      "classification": "site",
+      "columns": [
+        "passage_id",
+        "set_id",
+        "passage_no",
+        "reading_mode"
+      ]
+    },
+    "general_reading_progress": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "set_id",
+        "passage_id",
+        "answers",
+        "score",
+        "total",
+        "checked_at",
+        "updated_at"
+      ]
+    },
+    "general_reading_sets": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "title",
+        "description",
+        "difficulty_level",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "created_at"
+      ]
+    },
+    "grammar_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "exercise_id",
+        "selected_option",
+        "is_correct",
+        "attempted_at",
+        "activity",
+        "response_text",
+        "content_version_id"
+      ]
+    },
+    "grammar_exercises": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "topic_id",
+        "order",
+        "prompt_text",
+        "options",
+        "correct_option",
+        "explanation",
+        "source_submission_id",
+        "translate_prompt_uz",
+        "target_structures",
+        "activation_prompt",
+        "source_owner_user_id"
+      ]
+    },
+    "grammar_topics": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "skill_area",
+        "title",
+        "explanation",
+        "order",
+        "source_ref",
+        "publication_state"
+      ]
+    },
+    "lesson_block_responses": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "lesson_id",
+        "block_id",
+        "answer",
+        "correct",
+        "answered_at",
+        "updated_at"
+      ]
+    },
+    "lesson_blocks": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "lesson_id",
+        "position",
+        "type",
+        "text_content",
+        "link_url",
+        "object_key",
+        "original_name",
+        "mime_type",
+        "size",
+        "ref_module",
+        "ref_content_type",
+        "ref_source_ref",
+        "ref_content_version_id",
+        "quiz_question_type",
+        "quiz_payload",
+        "created_at"
+      ]
+    },
+    "lesson_notes": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "lesson_id",
+        "body",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "lesson_progress": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "lesson_id",
+        "state",
+        "notes",
+        "completed_at",
+        "updated_at"
+      ]
+    },
+    "lessons": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "unit_id",
+        "slug",
+        "title",
+        "summary",
+        "default_state",
+        "order",
+        "recording_url",
+        "source_ref",
+        "publication_state",
+        "publish_at",
+        "estimated_minutes",
+        "created_by_user_id",
+        "updated_at",
+        "learning_area",
+        "teacher_notes"
+      ]
+    },
+    "lexemes": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "term",
+        "part_of_speech",
+        "definition_en",
+        "translation_uz",
+        "example_sentence",
+        "sense_key",
+        "collocations",
+        "accepted_translations",
+        "provenance",
+        "verification_status",
+        "import_batch",
+        "lexical_unit_id"
+      ]
+    },
+    "lexical_occurrences": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "lexeme_id",
+        "passage_id",
+        "segment_key",
+        "surface_form",
+        "start_char",
+        "end_char",
+        "sentence_text",
+        "occurrence_type",
+        "is_target_vocabulary",
+        "source_type",
+        "listening_test_id",
+        "video_lesson_id",
+        "section_number",
+        "start_ms",
+        "end_ms",
+        "lexical_unit_id",
+        "resolution_status",
+        "resolution_source",
+        "retention_text_version_id"
+      ]
+    },
+    "lexical_unit_forms": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "lexical_unit_id",
+        "form",
+        "form_norm",
+        "form_type"
+      ]
+    },
+    "lexical_unit_pronunciations": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "lexical_unit_id",
+        "ipa",
+        "variant",
+        "audio_object_key",
+        "provenance",
+        "created_at"
+      ]
+    },
+    "lexical_units": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "language",
+        "lemma",
+        "lemma_norm",
+        "part_of_speech",
+        "lexical_type",
+        "is_function_word",
+        "provenance",
+        "created_at"
+      ]
+    },
+    "listening_activity_runs": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "test_id",
+        "activity",
+        "speed_rate",
+        "answers",
+        "score",
+        "total",
+        "completed",
+        "created_at"
+      ]
+    },
+    "listening_answers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "question_id",
+        "user_answer",
+        "is_correct"
+      ]
+    },
+    "listening_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "test_id",
+        "status",
+        "score",
+        "total_questions",
+        "started_at",
+        "submitted_at",
+        "content_version_id",
+        "score_policy_version"
+      ]
+    },
+    "listening_authored_checkpoints": {
+      "classification": "site",
+      "columns": [
+        "user_id",
+        "test_id",
+        "values",
+        "attempt_id",
+        "updated_at"
+      ]
+    },
+    "listening_drafts": {
+      "classification": "site",
+      "columns": [
+        "attempt_id",
+        "answers",
+        "audio_position",
+        "audio_started_at",
+        "updated_at"
+      ]
+    },
+    "listening_mcq_sessions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "test_id",
+        "question_id",
+        "stage",
+        "notes",
+        "own_answer",
+        "chosen_answer",
+        "reasoning",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "listening_packages": {
+      "classification": "site",
+      "columns": [
+        "test_id",
+        "source_id",
+        "payload",
+        "audio_object_key",
+        "image_object_key",
+        "source_hash",
+        "created_at",
+        "legacy_runtime"
+      ]
+    },
+    "listening_questions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "test_id",
+        "order",
+        "type",
+        "question_text",
+        "options",
+        "correct_answer",
+        "explanation",
+        "keywords",
+        "paraphrases",
+        "type_code",
+        "content_version_id"
+      ]
+    },
+    "listening_tests": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "created_by_user_id",
+        "title",
+        "audio_type",
+        "audio_url",
+        "transcript",
+        "difficulty_level",
+        "is_active",
+        "created_at",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "program_ref",
+        "program_ordinal"
+      ]
+    },
+    "live_class_attendance": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "live_class_id",
+        "user_id",
+        "joined_at",
+        "last_seen_at",
+        "left_at",
+        "estimated_duration_seconds",
+        "session_count",
+        "session_history",
+        "active_sessions"
+      ]
+    },
+    "live_class_enrollments": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "live_class_id",
+        "user_id",
+        "assigned_by_user_id",
+        "created_at"
+      ]
+    },
+    "live_class_messages": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "live_class_id",
+        "sender_user_id",
+        "body",
+        "is_deleted",
+        "deleted_by_user_id",
+        "deleted_at",
+        "created_at"
+      ]
+    },
+    "live_classes": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "course_id",
+        "teacher_user_id",
+        "title",
+        "topic",
+        "scheduled_at",
+        "duration_minutes",
+        "meeting_url",
+        "recording_url",
+        "status",
+        "description",
+        "youtube_video_id",
+        "recording_status",
+        "started_at",
+        "ended_at",
+        "recording_duration_seconds",
+        "access_scope",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "live_partner_blocks": {
+      "classification": "site",
+      "columns": [
+        "blocker_id",
+        "blocked_id",
+        "created_at"
+      ]
+    },
+    "live_partner_invites": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "from_user_id",
+        "to_user_id",
+        "status",
+        "created_at",
+        "expires_at",
+        "responded_at"
+      ]
+    },
+    "live_partner_presence": {
+      "classification": "never",
+      "columns": [
+        "user_id",
+        "state",
+        "heartbeat_at",
+        "session_id",
+        "rules_version",
+        "rules_accepted_at",
+        "updated_at"
+      ]
+    },
+    "live_partner_sessions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "invite_id",
+        "user_a",
+        "user_b",
+        "started_at",
+        "connected_at",
+        "ended_at",
+        "end_reason",
+        "connection_outcome"
+      ]
+    },
+    "material_blocks": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "material_id",
+        "type",
+        "position",
+        "text_content",
+        "link_url",
+        "object_url",
+        "object_key",
+        "original_name",
+        "mime_type",
+        "size",
+        "created_at"
+      ]
+    },
+    "mock_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "mock_test_id",
+        "started_at",
+        "finished_at",
+        "raw_score",
+        "estimated_band",
+        "skill_breakdown",
+        "score_policy_version",
+        "mock_version",
+        "section_results",
+        "status",
+        "content_version_bindings",
+        "mock_snapshot",
+        "schedule_id",
+        "weekly_slot",
+        "submitted_at",
+        "finalized_at",
+        "deadline_at",
+        "content_snapshot_hash",
+        "active_section_position",
+        "section_deadlines"
+      ]
+    },
+    "mock_audit_events": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "actor_user_id",
+        "attempt_id",
+        "batch_id",
+        "action",
+        "source_hash",
+        "old_revision_id",
+        "new_revision_id",
+        "metadata",
+        "at"
+      ]
+    },
+    "mock_grading_batches": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "batch_code",
+        "scope",
+        "section",
+        "filter_mode",
+        "date_from",
+        "date_to",
+        "created_by",
+        "created_at",
+        "export_manifest_hash",
+        "manifest_json",
+        "student_alias_map",
+        "status",
+        "published_at",
+        "published_by"
+      ]
+    },
+    "mock_grading_import_issues": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "batch_id",
+        "row_number",
+        "attempt_id",
+        "student_alias",
+        "error_code",
+        "details",
+        "created_by",
+        "created_at"
+      ]
+    },
+    "mock_grading_revisions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "section",
+        "batch_id",
+        "rubric_version",
+        "source",
+        "status",
+        "payload_json",
+        "raw_gemini_json",
+        "payload_sha256",
+        "source_sha256",
+        "calculated_band",
+        "task1_band",
+        "task2_band",
+        "author_user_id",
+        "approved_by",
+        "approved_at",
+        "published_by",
+        "published_at",
+        "supersedes_id",
+        "created_at"
+      ]
+    },
+    "mock_schedules": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "mock_test_id",
+        "weekly_slot",
+        "starts_at",
+        "ends_at",
+        "timezone",
+        "policy_version",
+        "published_at",
+        "created_by_user_id",
+        "created_at"
+      ]
+    },
+    "mock_section_submissions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "skill",
+        "status",
+        "raw_score",
+        "score_max",
+        "band",
+        "answers_json",
+        "result_details",
+        "draft_revision",
+        "answer_hash",
+        "content_version_id",
+        "started_at",
+        "deadline_at",
+        "submitted_at",
+        "updated_at"
+      ]
+    },
+    "mock_sections": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "mock_test_id",
+        "position",
+        "skill",
+        "module",
+        "content_type",
+        "source_ref",
+        "content_version_id",
+        "label",
+        "question_count",
+        "seconds",
+        "optional",
+        "created_at"
+      ]
+    },
+    "mock_speaking_audio": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "part",
+        "question_ids",
+        "object_key",
+        "upload_intent_id",
+        "codec",
+        "mime_type",
+        "bytes",
+        "duration_ms",
+        "sha256",
+        "capture_status",
+        "started_at",
+        "ended_at",
+        "finalized_at",
+        "created_at"
+      ]
+    },
+    "mock_speaking_question_captures": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "part",
+        "question_id",
+        "question_ids",
+        "object_key",
+        "codec",
+        "mime_type",
+        "bytes",
+        "duration_ms",
+        "sha256",
+        "capture_status",
+        "transcript_capture",
+        "started_at",
+        "ended_at",
+        "finalized_at",
+        "created_at"
+      ]
+    },
+    "mock_tests": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "course_id",
+        "title",
+        "skill",
+        "description",
+        "track",
+        "kind",
+        "timing_policy_id",
+        "timing_policy_version",
+        "navigation",
+        "score_policies",
+        "publication_state",
+        "publish_at",
+        "version",
+        "created_by_user_id",
+        "provenance",
+        "updated_at"
+      ]
+    },
+    "mock_writing_answers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "task_type",
+        "prompt_snapshot_id",
+        "prompt_text",
+        "content",
+        "media_ref",
+        "media_sha256",
+        "word_count",
+        "draft_revision",
+        "finalized_at",
+        "sha256",
+        "updated_at"
+      ]
+    },
+    "notifications": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "type",
+        "title",
+        "body",
+        "href",
+        "payload",
+        "read_at",
+        "created_at"
+      ]
+    },
+    "onboarding_profiles": {
+      "classification": "site",
+      "columns": [
+        "user_id",
+        "current_level",
+        "current_band",
+        "target_band",
+        "exam_date",
+        "daily_study_minutes",
+        "strongest_skill",
+        "weakest_skill"
+      ]
+    },
+    "ownership_transfer_challenges": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "from_user_id",
+        "to_user_id",
+        "requested_keep_role",
+        "purpose",
+        "telegram_user_id",
+        "browser_nonce_hash",
+        "include_bot_handover",
+        "target_telegram_id",
+        "status",
+        "expires_at",
+        "approved_at",
+        "rejected_at",
+        "consumed_at",
+        "cancelled_at",
+        "created_at"
+      ]
+    },
+    "ownership_transfers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "from_user_id",
+        "to_user_id",
+        "previous_owner_role",
+        "confirmed_at"
+      ]
+    },
+    "password_reset_tokens": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "user_id",
+        "token_hash",
+        "expires_at",
+        "used_at",
+        "created_at"
+      ]
+    },
+    "payments": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "subscription_id",
+        "user_id",
+        "provider",
+        "amount_cents",
+        "status",
+        "created_at"
+      ]
+    },
+    "plans": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "product_id",
+        "name"
+      ]
+    },
+    "prices": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "plan_id",
+        "amount_cents",
+        "currency"
+      ]
+    },
+    "problem_reports": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "route",
+        "module",
+        "message",
+        "viewport",
+        "build",
+        "last_error_code",
+        "status",
+        "resolved_by_user_id",
+        "resolved_at",
+        "created_at"
+      ]
+    },
+    "products": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "name"
+      ]
+    },
+    "reading_answers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "question_id",
+        "user_answer",
+        "is_correct"
+      ]
+    },
+    "reading_assessment_passages": {
+      "classification": "site",
+      "columns": [
+        "attempt_id",
+        "passage_id",
+        "passage_no"
+      ]
+    },
+    "reading_assessment_questions": {
+      "classification": "site",
+      "columns": [
+        "attempt_id",
+        "question_id",
+        "position"
+      ]
+    },
+    "reading_assessments": {
+      "classification": "site",
+      "columns": [
+        "attempt_id",
+        "set_id",
+        "title",
+        "duration_minutes"
+      ]
+    },
+    "reading_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "passage_id",
+        "status",
+        "score",
+        "total_questions",
+        "started_at",
+        "submitted_at",
+        "content_version_id",
+        "score_policy_version"
+      ]
+    },
+    "reading_passage_paragraphs": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "passage_id",
+        "position",
+        "label",
+        "text",
+        "is_footnote"
+      ]
+    },
+    "reading_passages": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "title",
+        "body_text",
+        "difficulty_level",
+        "suggested_minutes",
+        "is_active",
+        "created_at",
+        "publication_state",
+        "publish_at",
+        "external_id",
+        "test_no",
+        "passage_no",
+        "topic_code",
+        "instructions",
+        "source_word_count",
+        "source_question_count",
+        "source_checksum",
+        "source_ref"
+      ]
+    },
+    "reading_question_groups": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "passage_id",
+        "position",
+        "type_code",
+        "display_title",
+        "instructions_text",
+        "from_question_no",
+        "to_question_no",
+        "shared_choices"
+      ]
+    },
+    "reading_questions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "passage_id",
+        "order",
+        "type",
+        "question_text",
+        "options",
+        "correct_answer",
+        "evidence_quote",
+        "explanation",
+        "group_id",
+        "question_no",
+        "type_code",
+        "answer_slots",
+        "accepted_answers",
+        "answer_constraint",
+        "render_mode",
+        "evidence_start_char",
+        "evidence_end_char",
+        "evidence_type",
+        "source_key"
+      ]
+    },
+    "resource_blocks": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "owner_type",
+        "owner_id",
+        "position",
+        "type",
+        "text_content",
+        "link_url",
+        "object_key",
+        "original_name",
+        "mime_type",
+        "size",
+        "created_by_user_id",
+        "created_at"
+      ]
+    },
+    "retention_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "retention_text_id",
+        "retention_text_version_id",
+        "level",
+        "rotation_cycle",
+        "status",
+        "read_started_at",
+        "read_ends_at",
+        "write_started_at",
+        "write_ends_at",
+        "recall_text",
+        "submitted_at",
+        "completed_at",
+        "score",
+        "score_breakdown",
+        "evaluator_version",
+        "created_at",
+        "updated_at",
+        "retention_label_snapshot"
+      ]
+    },
+    "retention_rotation_completions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "level",
+        "cycle_number",
+        "retention_text_id",
+        "completed_at"
+      ]
+    },
+    "retention_rotation_state": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "level",
+        "cycle_number",
+        "last_completed_text_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "retention_sequence_counters": {
+      "classification": "site",
+      "columns": [
+        "level",
+        "last_sequence"
+      ]
+    },
+    "retention_text_versions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "retention_text_id",
+        "version_number",
+        "body_text",
+        "word_count",
+        "scoring_structure",
+        "created_by_user_id",
+        "created_at"
+      ]
+    },
+    "retention_texts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "level",
+        "internal_label",
+        "sequence",
+        "active",
+        "current_version_id",
+        "created_by_user_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "riwi_action_confirmations": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "actor_user_id",
+        "tool_name",
+        "target_id",
+        "input_hash",
+        "idempotency_key",
+        "preview",
+        "expires_at",
+        "consumed_at",
+        "created_at"
+      ]
+    },
+    "riwi_assessment_policies": {
+      "classification": "riwi_portable",
+      "columns": [
+        "id",
+        "scope",
+        "active_version",
+        "created_by_user_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "riwi_assessment_policy_versions": {
+      "classification": "riwi_portable",
+      "columns": [
+        "id",
+        "policy_id",
+        "version",
+        "state",
+        "overlay",
+        "source_message_hash",
+        "regression_fixture_id",
+        "regression_evidence_hash",
+        "regression_passed_at",
+        "created_by_user_id",
+        "reviewed_by_user_id",
+        "created_at",
+        "approved_at"
+      ]
+    },
+    "riwi_conversation_messages": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "conversation_id",
+        "role",
+        "content",
+        "metadata",
+        "created_at"
+      ]
+    },
+    "riwi_conversations": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "user_id",
+        "role_at_creation",
+        "locale",
+        "expires_at",
+        "deleted_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "riwi_knowledge_conflicts": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "candidate_source_id",
+        "candidate_unit_id",
+        "active_source_id",
+        "active_unit_id",
+        "conflict_key",
+        "reason",
+        "state",
+        "resolved_by_user_id",
+        "resolution_note",
+        "created_at",
+        "resolved_at"
+      ]
+    },
+    "riwi_knowledge_sources": {
+      "classification": "riwi_portable",
+      "columns": [
+        "id",
+        "source_type",
+        "title",
+        "checksum",
+        "provenance",
+        "rights_class",
+        "authority",
+        "scope",
+        "scope_role",
+        "scope_user_id",
+        "version",
+        "state",
+        "source_object_key",
+        "parser_version",
+        "unit_count",
+        "supersedes_source_id",
+        "created_by_user_id",
+        "reviewed_by_user_id",
+        "approved_at",
+        "activated_at",
+        "created_at",
+        "updated_at",
+        "regression_fixture_id",
+        "regression_evidence_hash",
+        "regression_passed_at",
+        "source_checksum"
+      ]
+    },
+    "riwi_knowledge_units": {
+      "classification": "riwi_portable",
+      "columns": [
+        "id",
+        "source_id",
+        "ordinal",
+        "heading",
+        "content",
+        "content_hash",
+        "character_count",
+        "created_at"
+      ]
+    },
+    "riwi_learning_reviews": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "signal_id",
+        "reviewer_user_id",
+        "decision",
+        "reason",
+        "regression_fixture_id",
+        "resulting_source_id",
+        "created_at",
+        "regression_evidence_hash",
+        "regression_passed_at"
+      ]
+    },
+    "riwi_learning_signals": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "signal_type",
+        "state",
+        "actor_user_id",
+        "actor_role",
+        "target_user_id",
+        "source_id",
+        "provider_id",
+        "model",
+        "prompt_version",
+        "rubric_version",
+        "candidate_claim",
+        "evidence_summary",
+        "evidence_hash",
+        "scope",
+        "created_at"
+      ]
+    },
+    "riwi_provider_experiment_results": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "experiment_id",
+        "provider_id",
+        "model",
+        "state",
+        "normalized_result",
+        "duration_ms",
+        "input_tokens",
+        "output_tokens",
+        "estimated_cost_micros",
+        "safe_error_code",
+        "created_at"
+      ]
+    },
+    "riwi_provider_experiments": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "actor_user_id",
+        "task_profile",
+        "fixture_id",
+        "providers",
+        "state",
+        "budget_micros",
+        "created_at",
+        "completed_at",
+        "idempotency_key"
+      ]
+    },
+    "riwi_security_signals": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "signal_type",
+        "state",
+        "fingerprint",
+        "occurrence_count",
+        "first_seen_at",
+        "last_seen_at",
+        "actor_role",
+        "route_class",
+        "sanitized_evidence",
+        "regression_fixture_id",
+        "regression_evidence_hash",
+        "reviewed_by_user_id",
+        "reviewed_at",
+        "created_at"
+      ]
+    },
+    "riwi_usage_metrics": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "actor_user_id",
+        "actor_role",
+        "task_profile",
+        "provider_id",
+        "model",
+        "state",
+        "duration_ms",
+        "input_tokens",
+        "output_tokens",
+        "estimated_cost_micros",
+        "correlation_id",
+        "created_at"
+      ]
+    },
+    "speaking_ai_session_items": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "session_id",
+        "ordinal",
+        "prompt_id",
+        "part",
+        "topic_key",
+        "topic_position",
+        "question_position",
+        "attempt_id",
+        "status",
+        "created_at"
+      ]
+    },
+    "speaking_ai_sessions": {
+      "classification": "riwi_private",
+      "columns": [
+        "id",
+        "user_id",
+        "mode",
+        "status",
+        "session_seed",
+        "plan_version",
+        "limitations",
+        "current_item_index",
+        "started_at",
+        "completed_at",
+        "created_at"
+      ]
+    },
+    "speaking_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "prompt_id",
+        "part",
+        "status",
+        "recording_object_key",
+        "recording_original_name",
+        "recording_mime_type",
+        "recording_size",
+        "recording_duration_ms",
+        "transcript",
+        "transcript_provider",
+        "started_at",
+        "submitted_at",
+        "created_at",
+        "transcript_origin",
+        "content_version_id",
+        "transcript_raw",
+        "transcript_edited",
+        "transcript_edited_at",
+        "retry_of_attempt_id",
+        "ai_session_id",
+        "ai_session_item_id",
+        "recording_sha256",
+        "evaluation_claim_token",
+        "evaluation_claim_expires_at"
+      ]
+    },
+    "speaking_materials": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "created_by_user_id",
+        "category",
+        "title",
+        "primary_type",
+        "primary_url",
+        "primary_object_key",
+        "primary_original_name",
+        "primary_mime_type",
+        "primary_size",
+        "is_active",
+        "created_at",
+        "updated_at",
+        "publication_state",
+        "publish_at"
+      ]
+    },
+    "speaking_prompts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "part",
+        "category",
+        "prompt_text",
+        "cue_card",
+        "prep_seconds",
+        "answer_seconds",
+        "follow_ups",
+        "is_active",
+        "created_at",
+        "publication_state",
+        "publish_at",
+        "external_id",
+        "topic",
+        "source_class",
+        "available_in",
+        "study_support"
+      ]
+    },
+    "subscriptions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "plan_id",
+        "status",
+        "current_period_end"
+      ]
+    },
+    "teacher_student_links": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "teacher_user_id",
+        "student_user_id",
+        "assigned_by_user_id",
+        "created_at"
+      ]
+    },
+    "telegram_bot_admins": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "telegram_user_id",
+        "linked_user_id",
+        "permissions",
+        "is_active",
+        "created_by",
+        "created_at",
+        "updated_at",
+        "deactivated_at"
+      ]
+    },
+    "telegram_bot_settings": {
+      "classification": "site",
+      "columns": [
+        "key",
+        "value",
+        "updated_at",
+        "updated_by_telegram_id"
+      ]
+    },
+    "telegram_broadcast_deliveries": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "broadcast_id",
+        "telegram_user_id",
+        "status",
+        "error_message",
+        "delivered_at",
+        "chat_id",
+        "attempts",
+        "next_attempt_at",
+        "lease_until",
+        "telegram_message_id"
+      ]
+    },
+    "telegram_broadcasts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "created_by",
+        "audience",
+        "message_type",
+        "content",
+        "status",
+        "recipient_count",
+        "created_at",
+        "updated_at",
+        "completed_at",
+        "actor_telegram_id",
+        "sent_count",
+        "failed_count",
+        "blocked_count"
+      ]
+    },
+    "telegram_contacts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "telegram_user_id",
+        "chat_id",
+        "username",
+        "first_name",
+        "last_name",
+        "language_code",
+        "linked_user_id",
+        "bot_blocked_at",
+        "first_seen_at",
+        "last_seen_at",
+        "created_at",
+        "updated_at",
+        "removed_at",
+        "locale_override",
+        "notification_prefs",
+        "phone_number",
+        "phone_verified_at"
+      ]
+    },
+    "telegram_deletion_intents": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "token_hash",
+        "target_user_id",
+        "actor_telegram_id",
+        "expires_at",
+        "consumed_at",
+        "created_at"
+      ]
+    },
+    "telegram_direct_messages": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "actor_telegram_id",
+        "actor_user_id",
+        "target_user_id",
+        "target_telegram_id",
+        "body",
+        "status",
+        "error_message",
+        "telegram_message_id",
+        "created_at",
+        "sent_at"
+      ]
+    },
+    "telegram_flow_drafts": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "actor_telegram_id",
+        "kind",
+        "payload",
+        "expires_at",
+        "consumed_at",
+        "created_at"
+      ]
+    },
+    "telegram_login_intents": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "token_hash",
+        "browser_nonce_hash",
+        "telegram_user_id",
+        "user_id",
+        "status",
+        "expires_at",
+        "confirmed_at",
+        "consumed_at",
+        "cancelled_at",
+        "created_at",
+        "purpose",
+        "display_name",
+        "language_code"
+      ]
+    },
+    "telegram_notifications": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "telegram_user_id",
+        "category",
+        "type",
+        "title",
+        "body",
+        "status",
+        "attempts",
+        "next_attempt_at",
+        "lease_until",
+        "error_message",
+        "correlation_id",
+        "created_at",
+        "sent_at"
+      ]
+    },
+    "telegram_owner_handovers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "from_telegram_id",
+        "to_telegram_id",
+        "initiated_by_user_id",
+        "status",
+        "expires_at",
+        "current_confirmed_at",
+        "target_confirmed_at",
+        "rejected_at",
+        "consumed_at",
+        "cancelled_at",
+        "created_at"
+      ]
+    },
+    "telegram_processed_updates": {
+      "classification": "site",
+      "columns": [
+        "update_id",
+        "received_at"
+      ]
+    },
+    "telegram_support_messages": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "thread_id",
+        "sender_type",
+        "sender_user_id",
+        "sender_telegram_id",
+        "message_type",
+        "text",
+        "telegram_file_id",
+        "resource_id",
+        "created_at",
+        "file_name",
+        "mime_type",
+        "delivery_status",
+        "delivery_error"
+      ]
+    },
+    "telegram_support_threads": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "telegram_user_id",
+        "linked_user_id",
+        "assigned_admin_id",
+        "status",
+        "created_at",
+        "updated_at",
+        "closed_at",
+        "assigned_telegram_id",
+        "last_message_at"
+      ]
+    },
+    "typing_run_texts": {
+      "classification": "site",
+      "columns": [
+        "run_id",
+        "model_text_id",
+        "mistakes",
+        "preset_seconds",
+        "typing_text_id"
+      ]
+    },
+    "typing_runs": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "target_chars",
+        "typed_chars",
+        "duration_ms",
+        "wpm",
+        "accuracy",
+        "created_at",
+        "run_token_id",
+        "raw_wpm",
+        "consistency",
+        "chars_correct",
+        "chars_incorrect",
+        "chars_extra",
+        "chars_missed",
+        "started_at",
+        "finished_at"
+      ]
+    },
+    "typing_texts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "external_id",
+        "title",
+        "body",
+        "language",
+        "word_count",
+        "difficulty",
+        "topic",
+        "provenance",
+        "publication_state",
+        "publish_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "units": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "module_id",
+        "slug",
+        "title",
+        "order"
+      ]
+    },
+    "upload_intents": {
+      "classification": "never",
+      "columns": [
+        "id",
+        "user_id",
+        "material_id",
+        "purpose",
+        "block_kind",
+        "object_key",
+        "original_name",
+        "mime_type",
+        "size",
+        "status",
+        "direct_to_storage",
+        "error",
+        "expires_at",
+        "finalized_at",
+        "used_at",
+        "created_at",
+        "speaking_attempt_id"
+      ]
+    },
+    "user_profile_photos": {
+      "classification": "site",
+      "columns": [
+        "user_id",
+        "image_base64",
+        "content_type",
+        "updated_at"
+      ]
+    },
+    "user_vocabulary": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "lexeme_id",
+        "state",
+        "source_type",
+        "source_id",
+        "correct_count",
+        "incorrect_count",
+        "active_use_count",
+        "interval_days",
+        "next_review_at",
+        "last_reviewed_at",
+        "created_at",
+        "folder_id",
+        "topic_pack",
+        "sense_key",
+        "srs_stage",
+        "mastery",
+        "mastered_at",
+        "source_snapshot",
+        "first_seen_at",
+        "last_seen_at",
+        "seen_count"
+      ]
+    },
+    "user_vocabulary_contexts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_vocabulary_id",
+        "user_id",
+        "occurrence_id",
+        "source_type",
+        "source_id",
+        "snapshot",
+        "seen_at"
+      ]
+    },
+    "users": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "email",
+        "password_hash",
+        "telegram_id",
+        "name",
+        "role",
+        "is_owner",
+        "locale",
+        "onboarding_completed_at",
+        "created_at",
+        "account_status",
+        "status_updated_at",
+        "status_reason",
+        "last_active_at",
+        "last_meaningful_activity_at",
+        "gender",
+        "google_sub",
+        "auth_version"
+      ]
+    },
+    "video_lesson_progress": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "video_lesson_id",
+        "state",
+        "watched_seconds",
+        "answers",
+        "response_text",
+        "summary_text",
+        "completed_at",
+        "created_at",
+        "updated_at",
+        "playback_duration_seconds"
+      ]
+    },
+    "video_lesson_questions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "video_lesson_id",
+        "stage",
+        "position",
+        "prompt",
+        "accepted_answers",
+        "at_seconds"
+      ]
+    },
+    "video_lessons": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "lesson_id",
+        "provider",
+        "video_id",
+        "title",
+        "before_you_watch",
+        "duration_seconds",
+        "transcript",
+        "transcript_source",
+        "transcript_attribution",
+        "created_by_user_id",
+        "is_active",
+        "created_at",
+        "updated_at",
+        "publication_state",
+        "publish_at",
+        "notes",
+        "transcript_text",
+        "media_kind",
+        "source_ref"
+      ]
+    },
+    "vocab_folders": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "name",
+        "created_at"
+      ]
+    },
+    "vocab_point_events": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "kind",
+        "ref_type",
+        "ref_id",
+        "points",
+        "dedupe_key",
+        "created_at"
+      ]
+    },
+    "vocabulary_topic_pack_words": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "pack_id",
+        "lexeme_id",
+        "position",
+        "created_at"
+      ]
+    },
+    "vocabulary_topic_packs": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "source_ref",
+        "slug",
+        "label_en",
+        "label_uz",
+        "topic_code",
+        "position",
+        "level",
+        "publication_state",
+        "publish_at",
+        "created_by_user_id",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "vocabulary_usages": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "user_vocabulary_id",
+        "sentence",
+        "created_at",
+        "origin",
+        "riwi_accepted",
+        "evaluation_id",
+        "points_awarded"
+      ]
+    },
+    "writing_exam_paper_entries": {
+      "classification": "site",
+      "columns": [
+        "paper_id",
+        "position",
+        "task_type",
+        "prompt_id",
+        "submission_id",
+        "draft_revision",
+        "saved_at"
+      ]
+    },
+    "writing_exam_papers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "mode",
+        "started_at",
+        "duration_seconds",
+        "expires_at",
+        "finalized_at",
+        "finalize_reason"
+      ]
+    },
+    "writing_exam_sessions": {
+      "classification": "site",
+      "columns": [
+        "submission_id",
+        "user_id",
+        "task_type",
+        "started_at",
+        "duration_seconds",
+        "expires_at",
+        "finalized_at"
+      ]
+    },
+    "writing_feedback": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "submission_id",
+        "source",
+        "task_response_band",
+        "coherence_band",
+        "lexical_band",
+        "grammar_band",
+        "overall_band",
+        "strengths",
+        "weaknesses",
+        "suggestions",
+        "comment",
+        "teacher_id",
+        "created_at"
+      ]
+    },
+    "writing_grade_requests": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "task_type",
+        "question_text",
+        "essay_text",
+        "word_count",
+        "status",
+        "last_error",
+        "claimed_at",
+        "analysis",
+        "idempotency_key",
+        "created_at",
+        "evaluated_at",
+        "prompt_id",
+        "task_category"
+      ]
+    },
+    "writing_language_patterns": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "pattern",
+        "function",
+        "task_type",
+        "topic",
+        "target_band",
+        "example",
+        "usage_note",
+        "provenance",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "created_at",
+        "model_slot"
+      ]
+    },
+    "writing_lesson_progress": {
+      "classification": "site",
+      "columns": [
+        "user_id",
+        "lesson_id",
+        "completed_at"
+      ]
+    },
+    "writing_lessons": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "title",
+        "category",
+        "summary",
+        "body",
+        "duration_minutes",
+        "position",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "writing_model_texts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "title",
+        "task_type",
+        "topic",
+        "target_band",
+        "body",
+        "word_count",
+        "provenance",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "created_at"
+      ]
+    },
+    "writing_pattern_bank": {
+      "classification": "site",
+      "columns": [
+        "user_id",
+        "pattern_id",
+        "saved_at"
+      ]
+    },
+    "writing_prompts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "task_type",
+        "category",
+        "prompt",
+        "target_word_count",
+        "is_active",
+        "created_at",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "task_category"
+      ]
+    },
+    "writing_stealing_sessions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "model_text_id",
+        "step",
+        "brainstorm",
+        "draft",
+        "selected_pattern_ids",
+        "comparison",
+        "memorised_pattern_ids",
+        "rewrite_available_at",
+        "rewrite",
+        "rewrite_pattern_ids",
+        "completed_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "writing_submissions": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "prompt_id",
+        "content",
+        "word_count",
+        "status",
+        "submitted_at",
+        "created_at",
+        "updated_at",
+        "content_version_id"
+      ]
+    },
+    "writing_translation_answers": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "attempt_id",
+        "sentence_id",
+        "answer_text",
+        "evaluation_status",
+        "verdict",
+        "meaning_preserved",
+        "grammar_band",
+        "vocabulary_band",
+        "feedback",
+        "improved_version",
+        "tries",
+        "created_at"
+      ]
+    },
+    "writing_translation_attempts": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "user_id",
+        "set_id",
+        "started_at",
+        "completed_at",
+        "status",
+        "elapsed_ms",
+        "overall_estimate",
+        "meaning_score",
+        "grammar_band",
+        "vocabulary_band"
+      ]
+    },
+    "writing_translation_sentences": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "set_id",
+        "position",
+        "uzbek_source",
+        "model_english",
+        "accepted_alternatives",
+        "notes",
+        "target_lexical_items"
+      ]
+    },
+    "writing_translation_sets": {
+      "classification": "site",
+      "columns": [
+        "id",
+        "title",
+        "topic",
+        "question_type",
+        "task_type",
+        "target_band",
+        "prompt_text",
+        "provenance",
+        "publication_state",
+        "publish_at",
+        "source_ref",
+        "created_at",
+        "updated_at"
+      ]
+    }
+  }
+}

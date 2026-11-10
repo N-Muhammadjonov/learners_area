@@ -8,6 +8,7 @@ from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
+from .vocabulary_game_content import eligible_words
 router=APIRouter()
 SETS=('all','due','weak','reading','listening','topic','folder','assigned')
 GAMES=('cards','choice','match','gap','race','translation','builder')
@@ -78,8 +79,7 @@ async def get_games(req:Request):
           count(*) FILTER(WHERE next_review_at<=NOW())::int AS due
           FROM user_vocabulary uv WHERE {where}''',*args)
         words=[row_to_dict(r) for r in rows]
-        eligible=[w for w in words if (game!='translation' or (w.get('translationUz') or '').strip()) and
-                  (game!='race' or ((w.get('term') or '').strip() and (w.get('definitionEn') or '').strip()))]
+        eligible=eligible_words(words,game)
         if game and req.query_params.get('random')=='1':
             random.shuffle(eligible)
         chosen=eligible[:limit] if game else []
@@ -87,6 +87,7 @@ async def get_games(req:Request):
         for w in chosen:
             obj={'id':w['id'],'term':w['term'],'definitionEn':w['definitionEn']}
             for field in {'cards':('partOfSpeech','translationUz','collocations','exampleSentence'),
+                 'choice':('acceptedTranslations',),
                  'race':('translationUz','sourceType'),'gap':('exampleSentence',),
                  'builder':('exampleSentence',),'translation':('translationUz','acceptedTranslations','collocations','exampleSentence')}.get(game,()):
                 obj[field]=w.get(field)
@@ -151,6 +152,10 @@ async def answer_game(req:Request):
             if not groups[batch]['unlocked']:return core.j({'error':'batch_locked'},403,PRIVATE)
         lexeme=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',entry['lexeme_id'])
         if not lexeme:return core.j({'error':'not_found'},404)
+        authored={'id':entry['id'],'term':lexeme['term'],'definitionEn':lexeme['definition_en'],
+                  'translationUz':lexeme['translation_uz'],'exampleSentence':lexeme['example_sentence']}
+        if not eligible_words([authored],b['gameId']):
+            return core.j({'error':'ineligible_word'},409,PRIVATE)
         sub=b['submission'];kind=sub['kind']
         verified=kind!='self' and MODES[b['gameId']]==kind
         correct=False

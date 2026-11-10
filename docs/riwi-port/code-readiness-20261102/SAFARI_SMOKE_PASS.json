@@ -1,0 +1,70 @@
+{
+  "kind": "Safari authenticated API smoke",
+  "commit": "761f760e815ab9ef35ec8a2b86480039d89ac030",
+  "origin": "https://learners-area-kmmgxbz7p-learners-area.vercel.app",
+  "time": "2026-11-02T14:14:29.071253+05:00",
+  "checks": [
+    {
+      "path": "/api/frontend/public",
+      "status": 200,
+      "json": true,
+      "passwordEnabled": true
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200,
+      "json": true
+    },
+    {
+      "path": "/api/frontend/session",
+      "status": 200,
+      "json": true,
+      "owner": true,
+      "active": true,
+      "expectedAccount": true
+    },
+    {
+      "path": "/api/riwi/targets",
+      "status": 200,
+      "json": true
+    },
+    {
+      "path": "/api/riwi/owner/diagnostics",
+      "status": 200,
+      "json": true
+    },
+    {
+      "path": "/api/riwi/owner/assessment-policies",
+      "status": 200,
+      "json": true
+    },
+    {
+      "path": "/api/riwi/owner/knowledge",
+      "status": 200,
+      "json": true
+    },
+    {
+      "path": "/api/riwi/owner/security-signals",
+      "status": 200,
+      "json": true
+    }
+  ],
+  "state": "api_smoke_passed",
+  "fullAcceptance": false,
+  "authentication": "native_password_login",
+  "browserVisualQA": "not_performed",
+  "modelTrainingValidated": false,
+  "operatorRun": true,
+  "sourceReportSha256": "3f488c6455a650ec373fbd927d48184033ff95d548830fbbaa0dbcd097ff524f",
+  "vercelDeployment": "dpl_DStQUb9rvWqmTnaa9N9KCRT2tsaX",
+  "liveConversationFlow": "pending",
+  "runtimeErrorLogCheck": {
+    "since": "2026-11-02T09:13:00Z",
+    "until": "2026-11-02T09:17:22.382Z",
+    "levels": [
+      "error",
+      "fatal"
+    ],
+    "result": "No logs found for the specified criteria."
+  }
+}

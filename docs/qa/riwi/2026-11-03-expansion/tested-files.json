@@ -1,0 +1,21 @@
+{
+  "services/backend/app/riwi_materials.py": "5753c276d3ebbe2d25e80d524fdce70883d103e64d8f000a2aca285234a3a2cb",
+  "services/backend/app/riwi_study_library.py": "828f0a8eb6f5d0f6a84db9f693d2732e6005c81b4c887bc3ab15e7d0c177a8bf",
+  "services/backend/app/riwi_contracts.py": "2b06c579d0410c085d2a6964fcb8549fb3c67842087793d23f2f4903db043c19",
+  "services/backend/app/riwi_gateway.py": "b9da6e7ff23d3374626c52879658a3ec8b976b170847217f16732de4d2e007be",
+  "services/backend/app/riwi_knowledge.py": "2f47ba5d0e7b0a6a61ed00476c0f299a2c21dcbbafa901a3f9de308d61db0d51",
+  "services/backend/app/riwi_curriculum.py": "ec6a4f0d19bd7ec9e8127bec2f30343d92a0ae055e2a1fdb01def19e09db52dd",
+  "services/backend/app/riwi_port.py": "9dc77d03bca88cbf9796d2f25390f02952921080e969ed5a5dc33f79dcc02c54",
+  "services/backend/contracts/riwi_study_library_v1.json": "e07618c63f9c426f83b9e9ebde0be4d24b651672442a8d33313f296d2c0e92c4",
+  "services/backend/contracts/riwi_study_references_v1.json": "ba509fa60e651760cc1d6f315980fcae638f339c436ecbe8fc33e412814230ed",
+  "services/backend/tests/test_riwi_study_library.py": "5c1b8f9e83d938f40e4b19673d02628f6166e5abf1710e65eedd7b1d05c5945c",
+  "services/backend/tests/test_riwi_materials.py": "d87b60f1762c5abb48ef7a424e0133af8f9334ff0df633fe4b1311270a50d32d",
+  "frontend/vanilla/css/riwi.css": "4249d8dbfaeeda14bf4c638fc5d4a827acdaea17082d87a88d88e82c05f36d60",
+  "frontend/vanilla/js/adapters/riwi.js": "9f503014dd066925af248ee80ebe33c88d80bd1f491b20f73ec6bf2f328751ca",
+  "frontend/vanilla/modules/riwi/index.js": "cff4aeb0b647cc95fab3ad1b37fbd003389ee0f59b9c0e810899f92d7fadea5b",
+  "frontend/vanilla/tests/riwi-chat-experience.test.mjs": "f568596a4a88412a93277bce549aff3a25623b27a55d372c0b31548f7e911413",
+  "scripts/riwi-study-library.py": "c5abc2cc070e2ed5b8f657d46b4c4d235d5acd2f6d19a268788ca64f9280d617",
+  "docs/riwi-study-library.md": "018f0cf3835fae00054d2506acdfe864ef54a3e2d7156a2dd7d5c56c7e5727b4",
+  "services/backend/app/riwi_uzbek.py": "fc4d47eaae9fd23eec2c457f45fbfe988d4027e884e85ba584a3f90705daade4",
+  "services/backend/tests/test_riwi_study_semantic_queries.py": "2a73dba91ba0da4b2953b588f24aac440c06cbe4610325c525632a13572dbc36"
+}

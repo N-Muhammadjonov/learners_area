@@ -8,6 +8,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from . import step23_writing_provider as ai
 from .rate_limit import evaluation_limit
+from .riwi_assessment_contracts import canonical_writing_subtype
 router=APIRouter()
 LABELS={'task_achievement':'Task Achievement','task_response':'Task Response','coherence_cohesion':'Coherence & Cohesion','lexical_resource':'Lexical Resource','grammatical_range_accuracy':'Grammatical Range & Accuracy'}
 
@@ -48,7 +49,13 @@ async def run_grade(db,req_id,user_id,language):
                     await con.execute('''UPDATE writing_grade_requests SET status='evaluated',claimed_at=NULL,evaluated_at=NOW() WHERE id=$1''',req_id)
                     return {'ok':True}
                 raise ValueError('invalid_evaluation')
-        task=row['task_type'];p,err=await ai.evaluate(language,'writing',{'taskType':task,'question':row['question_text'],'essay':row['essay_text'],'wordCount':row['word_count']},ai.grade_system(task),5000,user_id=user_id)
+            prompt_meta=None
+            if dict(row).get('prompt_id'):
+                prompt_meta=await con.fetchrow('SELECT task_type,category,task_category FROM writing_prompts WHERE id=$1',row['prompt_id'])
+        task=row['task_type']
+        subtype=canonical_writing_subtype(prompt_meta) if prompt_meta else None
+        contract=ai.derive_coach_contract('writing',{'taskType':task,'writingSubtype':subtype})
+        p,err=await ai.evaluate(language,'writing',{'taskType':task,'question':row['question_text'],'essay':row['essay_text'],'wordCount':row['word_count']},ai.grade_system(task,subtype),5000,user_id=user_id,contract=contract)
         if err:return await failure(db,req_id,'external_required' if err=='unavailable' else 'evaluation_unavailable')
         norm=criteria(task,p['data']['criteria'])
         if not norm:return await failure(db,req_id,'invalid_evaluation')
@@ -56,10 +63,10 @@ async def run_grade(db,req_id,user_id,language):
         async with db.acquire() as con, con.transaction():
             await con.execute('''INSERT INTO evaluations(user_id,evaluation_type,source_type,source_id,provider_id,
                 provider_display_name,provider_type,provider_version,model,prompt_version,rubric_version,fallback_used,checked_by_name,
-                overall_estimate,confidence,verdict,criteria,strengths,weaknesses,issues,next_actions,recommended_exercises,processed_in_ms)
-                VALUES($1,'writing','writing_grade',$2,$3,$4,'external','1',$5,'writing-ielts-v2','ielts-writing-four-criteria-v1',FALSE,'RIWI',
-                $6,$7,NULL,$8::jsonb,$9::jsonb,$10::jsonb,$11::jsonb,$12::jsonb,'[]'::jsonb,0)
-                ON CONFLICT (source_type,source_id) DO NOTHING''',user_id,req_id,meta['id'],meta['id'].capitalize(),meta['model'],overall,data['confidence'],json.dumps(criterion),json.dumps(data['strengths']),json.dumps(data['weaknesses']),json.dumps(data['issues']),json.dumps(data['nextActions']))
+                overall_estimate,confidence,verdict,criteria,strengths,weaknesses,issues,next_actions,recommended_exercises,processed_in_ms,assessment_contract_key)
+                VALUES($1,'writing','writing_grade',$2,$3,$4,'external','1',$5,$13,$14,FALSE,'RIWI',
+                $6,$7,NULL,$8::jsonb,$9::jsonb,$10::jsonb,$11::jsonb,$12::jsonb,'[]'::jsonb,0,$15)
+                ON CONFLICT (source_type,source_id) DO NOTHING''',user_id,req_id,meta['id'],meta['id'].capitalize(),meta['model'],overall,data['confidence'],json.dumps(criterion),json.dumps(data['strengths']),json.dumps(data['weaknesses']),json.dumps(data['issues']),json.dumps(data['nextActions']),contract.version,contract.rubric_version,contract.key)
             await con.execute('''UPDATE writing_grade_requests SET status='evaluated',claimed_at=NULL,evaluated_at=NOW(),last_error=NULL,analysis=$2::jsonb WHERE id=$1''',req_id,json.dumps(data['writingAnalysis']) if isinstance(data.get('writingAnalysis'),dict) else None)
             await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'sourceId':str(req_id),'providerId':meta['id'],'overallEstimate':overall,'evaluationType':'writing'}))
         return {'ok':True}

@@ -7,10 +7,26 @@ from .step31_learning_production import _language
 from .step31_riwi_text import analyse,LINK
 from . import step31_coach as coach
 from .rate_limit import evaluation_limit
+from .riwi_assessment_contracts import canonical_writing_subtype
 router=APIRouter()
 
 WRITING_REASON='The assignment is linked to a writing prompt, so the writing rubric applies.'
 FREE_REASON='No task type is attached to this assignment, so it is evaluated as a free-form response.'
+
+async def save_response(db,assignment_id,user_id,content):
+    # Responses have no (assignment_id,user_id) unique constraint. Keep each
+    # revision as its own source so classmates and changed answers cannot share
+    # the assignment parent's cached evaluation. Serialize exact retries for one
+    # learner without holding a transaction open during model evaluation.
+    async with db.acquire() as con:
+        async with con.transaction():
+            await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user_id)
+            prior=await con.fetchrow('''SELECT id,content FROM assignment_responses
+                WHERE assignment_id=$1 AND user_id=$2 ORDER BY created_at DESC,id DESC LIMIT 1''',assignment_id,user_id)
+            if prior and prior['content']==content:return prior['id']
+            row=await con.fetchrow('''INSERT INTO assignment_responses(assignment_id,user_id,content)
+                VALUES($1,$2,$3) RETURNING id''',assignment_id,user_id,content)
+            return row['id']
 
 def aval(title,description,studentResponse):
     a=analyse(studentResponse);w=a['wordCount'];p=[x for x in re.split(r'\n{2,}',studentResponse) if x.strip()]
@@ -80,10 +96,6 @@ async def assignment_evaluate(req:Request,id:str):
     if not isinstance(body,dict) or set(body)-{'response'} or ('response' in body and (not isinstance(body['response'],str) or not 20<=len(body['response'])<=20000)):
         return core.j({'error':'invalid_input'},400)
     response=body.get('response')
-    if is_target and response:
-        async with db.acquire() as con:
-            await con.execute('''INSERT INTO assignment_responses(assignment_id,user_id,content) VALUES($1,$2,$3)
-                ON CONFLICT (assignment_id,user_id) DO UPDATE SET content=EXCLUDED.content,updated_at=NOW()''',aid,user['id'],response)
     if assignment['related_writing_prompt_id']:
         async with db.acquire() as con:
             submission=await con.fetchrow('''SELECT * FROM writing_submissions WHERE user_id=$1 AND prompt_id=$2
@@ -93,13 +105,14 @@ async def assignment_evaluate(req:Request,id:str):
             prompt=await con.fetchrow('SELECT * FROM writing_prompts WHERE id=$1',submission['prompt_id'])
             if not prompt:return core.j({'error':'prompt_missing'},500)
         outcome=await coach.evaluate(subject,'writing','writing_submission',submission['id'],
-            {'taskType':prompt['task_type'],'prompt':prompt['prompt'],'content':submission['content'],'targetWordCount':prompt['target_word_count']},_language(req))
+            {'taskType':prompt['task_type'],'prompt':prompt['prompt'],'content':submission['content'],'targetWordCount':prompt['target_word_count'],'writingSubtype':canonical_writing_subtype(prompt)},_language(req))
         if not outcome['ok']:return core.j({'error':outcome['error']},502)
         await completed(aid,subject)
         return core.j({'ok':True,'dispatchedTo':'writing','evaluationId':outcome['evaluation']['id'],'checkedBy':'RIWI','reason':WRITING_REASON})
     if not response:return core.j({'error':'response_required'},400)
     if not is_target:return core.j({'error':'student_response_required'},400)
-    outcome=await coach.evaluate(user['id'],'assignment','assignment',aid,
+    response_id=await save_response(db,aid,user['id'],response)
+    outcome=await coach.evaluate(user['id'],'assignment','assignment_response',response_id,
          {'title':assignment['title'],'description':assignment['description'],'studentResponse':response},_language(req))
     if not outcome['ok']:return core.j({'error':outcome['error']},502)
     await completed(aid,subject)

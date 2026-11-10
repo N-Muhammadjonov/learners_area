@@ -5,7 +5,7 @@ import {announceFocusEntry} from '../../js/focus-entry.js';
 import {IconCheck} from '../../js/generated/icons.js';
 import {readingDurationSeconds,readingRemainingSeconds} from '../../js/generated/reading-lib/timer.js';
 import {readingHighlighted} from './lesson-text.js';
-import {groupHeading,groupQuestions,questionCard} from './questions.js';
+import {groupHeading,groupQuestions,questionCard,patchAnswer} from './questions.js';
 import {Button} from '../shared/presentation.js';
 import {createWorkspace} from './workspace.js';
 const SAVE_DEBOUNCE_MS=900;
@@ -18,7 +18,7 @@ export function mountExam(context,p){
  root.append(host);
  const durationSeconds=readingDurationSeconds(p.suggestedMinutes);
  const state={activePart:0,pending:null,answers:{...p.savedAnswers},pane:'passage',saveState:Object.keys(p.savedAnswers).length?'saved':'idle',savedAt:null,submitting:false,error:null,now:Date.now(),expiredByServer:false,fontSize:16,split:50,locked:false};
- let inFlight=false,dirty=false,timer=null,alive=true,expiredShown=false;
+ let inFlight=false,dirty=false,timer=null,alive=true,expiredShown=false,flushRequested=false,flushing=false,draftHash=p.draftHash,conflict=false;
  const remaining=()=>readingRemainingSeconds(p.startedAt,durationSeconds,state.now);
  const timeExpired=()=>state.expiredByServer||remaining()===0;
  announceFocusEntry(p.attemptId);
@@ -26,6 +26,20 @@ export function mountExam(context,p){
  const visibleQuestions=()=>{const part=parts[state.activePart];return part?p.questions.filter(q=>part.questionIds.includes(q.id)):p.questions;};
  const visibleGroups=()=>{const part=parts[state.activePart];return part?p.groups.filter(g=>part.groupIds.includes(g.id)):p.groups;};
  const groupById=new Map(p.groups.map(g=>[g.id,g]));
+ const questionById=new Map(p.questions.map(q=>[q.id,q]));
+ const saveSlot=el('span',{'data-reading-save-slot':''});let saveKey='';
+ function paintSave(){
+  const key=state.saveState+'|'+(state.savedAt??'');
+  if(key!==saveKey){saveSlot.replaceChildren(saveBadge());saveKey=key;}
+  const submit=ws.root.querySelector('[data-submit-attempt]');if(submit)submit.disabled=state.submitting||state.saveState==='locked';
+ }
+ function paintAnswer(id){
+  const question=questionById.get(id);if(!question)return;
+  patchAnswer(ws.root,{question,group:groupById.get(question.groupId),value:state.answers[id]??''});
+  for(const button of ws.root.querySelectorAll('[data-reading-question-nav]'))if(button.dataset.readingQuestionNav===id)button.dataset.answered=String(Boolean(state.answers[id]?.trim()));
+  const count=ws.root.querySelector('[data-exam-answered]'),label=t.answered.replace('{answered}',String(p.questions.filter(q=>state.answers[q.id]?.trim()).length)).replace('{total}',String(p.questions.length));
+  if(count&&count.textContent!==label)count.textContent=label;
+ }
  function orderedBlocks(){
   const byGroup=new Map(),orphan=[];
   for(const q of visibleQuestions()){if(q.groupId&&groupById.has(q.groupId)){const list=byGroup.get(q.groupId)??[];list.push(q);byGroup.set(q.groupId,list);}else orphan.push(q);}
@@ -36,33 +50,53 @@ export function mountExam(context,p){
  const clock=setInterval(()=>{if(!alive||signal.aborted)return;state.now=Date.now();if(timerNode.isConnected){timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());}if(timeExpired()&&!expiredShown){expiredShown=true;draw();}},1000);
  signal.addEventListener('abort',()=>{alive=false;clearTimeout(timer);clearInterval(clock);},{once:true});
 
- function saveBody(){return JSON.stringify({answers:Object.entries(state.answers).map(([questionId,answer])=>({questionId,answer}))});}
+ function saveBody(){return JSON.stringify({answers:Object.entries(state.answers).map(([questionId,answer])=>({questionId,answer})),...(draftHash?{expectedDraftHash:draftHash}:{})});}
+ async function acknowledge(response){if(draftHash){const ack=await response.json();if(typeof ack.draftHash!=='string'||!/^[0-9a-f]{64}$/.test(ack.draftHash))throw new Error('invalid draft acknowledgement');draftHash=ack.draftHash;}}
+ async function lock(response){const body=await response.json().catch(()=>({}));conflict=body.error==='draft_conflict';state.locked=true;dirty=false;if(alive&&!signal.aborted)setSave('locked');}
+ function authLost(){state.locked=true;dirty=false;if(alive&&!signal.aborted){setSave('locked');window.dispatchEvent(new Event('learners-area:auth-failure'));}}
  async function save(){
-  if(inFlight){dirty=true;return;}
+  if(state.locked)return;
+  if(inFlight||flushing){dirty=true;return;}
   if(!dirty)return;
-  inFlight=true;dirty=false;setSave('saving');
+  inFlight=true;dirty=false;const snapshot=JSON.stringify(state.answers);setSave('saving');
   try{
-   const response=await fetch(`/api/reading/attempts/${p.attemptId}`,{method:'PATCH',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{'Content-Type':'application/json',Accept:'application/json'},body:saveBody(),signal});
-   if(!alive||signal.aborted)return;
-   if(response.status===409){state.locked=true;setSave('locked');return;}
-   if(response.status===410){dirty=false;state.expiredByServer=true;setSave('idle');return;}
+   // A route exit must not cancel an already-dispatched idempotent draft.
+   // Keep writes ordered and bounded even after the view has unmounted.
+   const response=await fetch(`/api/reading/attempts/${p.attemptId}`,{method:'PATCH',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{'Content-Type':'application/json',Accept:'application/json'},body:saveBody(),signal:AbortSignal.timeout(10000)});
+   if(response.status===401){authLost();return;}
+   if(response.status===409){await lock(response);return;}
+   if(response.status===410){dirty=false;state.expiredByServer=true;if(alive&&!signal.aborted)setSave('idle');return;}
    if(!response.ok)throw new Error('save failed');
-   setSave('saved');state.savedAt=new Date().toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});draw();
+   await acknowledge(response);
+   if(!alive||signal.aborted)return;
+   if(!dirty&&JSON.stringify(state.answers)===snapshot){state.savedAt=new Date().toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});setSave('saved');}
+   else setSave('saving');
   }catch{
-   if(signal.aborted)return;
-   dirty=true;setSave('error');
+   dirty=true;if(alive&&!signal.aborted)setSave('error');
   }finally{
    inFlight=false;
-   if(alive&&dirty&&!state.locked){clearTimeout(timer);timer=setTimeout(()=>void save(),SAVE_DEBOUNCE_MS);}
+   if(flushRequested){flushRequested=false;flush();}
+   else if(alive&&dirty&&!state.locked){clearTimeout(timer);timer=setTimeout(()=>void save(),SAVE_DEBOUNCE_MS);}
   }
  }
- function setSave(next){state.saveState=next;draw();}
- function setAnswer(questionId,value){state.answers={...state.answers,[questionId]:value};dirty=true;clearTimeout(timer);timer=setTimeout(()=>void save(),SAVE_DEBOUNCE_MS);draw();}
- // Leaving the tab or closing the page: the last change is sent synchronously as a keepalive request.
- const flush=()=>{if(!dirty)return;dirty=false;try{void fetch(`/api/reading/attempts/${p.attemptId}`,{method:'PATCH',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:saveBody(),keepalive:true,signal:AbortSignal.timeout(5000)}).catch(()=>{});}catch{}};
+ function setSave(next){state.saveState=next;if(timeExpired())draw();else paintSave();}
+ function setAnswer(questionId,value){state.answers={...state.answers,[questionId]:value};dirty=true;if(!state.locked)setSave('saving');clearTimeout(timer);timer=setTimeout(()=>void save(),SAVE_DEBOUNCE_MS);paintAnswer(questionId);}
+ // Flush a route exit too. If an older write is pending, send the latest
+ // snapshot after it settles so a delayed older write cannot overwrite it.
+ const flush=()=>{
+  if(!dirty||state.locked||state.submitting)return;
+  if(inFlight){flushRequested=true;return;}
+  if(flushing)return;
+  clearTimeout(timer);flushing=true;dirty=false;const snapshot=JSON.stringify(state.answers);
+  const failed=()=>{dirty=true;if(alive&&!signal.aborted)setSave('error');};
+  try{void fetch(`/api/reading/attempts/${p.attemptId}`,{method:'PATCH',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{'Content-Type':'application/json',Accept:'application/json'},body:saveBody(),keepalive:true,signal:AbortSignal.timeout(5000)})
+   .then(async response=>{if(response.status===401){authLost();return;}if(response.status===409){await lock(response);return;}if(response.status===410){dirty=false;state.expiredByServer=true;if(alive&&!signal.aborted)setSave('idle');return;}if(!response.ok)throw new Error('save failed');await acknowledge(response);if(alive&&!signal.aborted&&!dirty&&JSON.stringify(state.answers)===snapshot){state.savedAt=new Date().toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});setSave('saved');}})
+   .catch(failed).finally(()=>{flushing=false;if(alive&&!signal.aborted&&dirty&&!state.locked){clearTimeout(timer);timer=setTimeout(()=>void save(),SAVE_DEBOUNCE_MS);}});
+  }catch{flushing=false;failed();}
+ };
  const onHidden=()=>{if(document.visibilityState==='hidden')flush();};
  document.addEventListener('visibilitychange',onHidden);window.addEventListener('pagehide',flush);
- signal.addEventListener('abort',()=>{document.removeEventListener('visibilitychange',onHidden);window.removeEventListener('pagehide',flush);},{once:true});
+ signal.addEventListener('abort',()=>{flush();document.removeEventListener('visibilitychange',onHidden);window.removeEventListener('pagehide',flush);},{once:true});
 
  async function submit(){
   if(state.submitting)return;
@@ -84,7 +118,7 @@ export function mountExam(context,p){
  function saveBadge(){
   const s=state.saveState;
   if(s==='error')return el('span',{class:'flex items-center gap-2 text-sm text-band-bad','data-save-state':'error'},t.saveError,(()=>{const b=el('button',{type:'button',class:'btn-secondary ','data-save-retry':true},t.saveRetry);b.addEventListener('click',()=>void save());return b;})());
-  if(s==='locked')return el('span',{class:'text-sm text-ink-500','data-save-state':'locked'},t.saveSubmitted);
+  if(s==='locked')return el('span',{class:'text-sm text-ink-500','data-save-state':'locked'},conflict?(context.locale==='uz'?'Boshqa oynada yangiroq javoblar saqlangan. Qayta ochishdan oldin shu matningizni nusxalab oling.':'A newer draft was saved in another tab. Copy your local answers before reopening.'):t.saveSubmitted);
   const label=s==='saving'?t.saveSaving:s==='saved'&&state.savedAt?t.saveSaved.replace('{time}',state.savedAt):s==='saved'?t.saveSaved.replace('{time}','--:--'):t.saveIdle;
   return el('span',{class:'flex items-center gap-1.5 text-sm text-ink-500','data-save-state':s},s==='saved'?IconCheck({class:'text-[16px] text-band-good'}):null,label);
  }
@@ -133,8 +167,8 @@ export function mountExam(context,p){
    expired?el('p',{role:'status','data-attempt-expired':true,class:'reading-error'},t.timeExpired):null,
    el('fieldset',{class:'reading-question-blocks',disabled:expired?true:null},
     orderedNow.blocks.map(({group,questions})=>el('section',{class:'reading-question-group','data-question-group':group.position},
-     groupHeading(dict,group),...groupQuestions(context,{dict,group,questions,answers:state.answers,onChange:setAnswer}))),
-    orderedNow.orphan.length?el('section',{class:'reading-question-group','data-question-group':'ungrouped'},orderedNow.orphan.map(question=>questionCard(context,{dict,question,group:null,value:state.answers[question.id]??'',onChange:v=>setAnswer(question.id,v),inputId:`answer-${question.id}`}))):null));
+     groupHeading(dict,group),...groupQuestions(context,{dict,group,questions,answers:state.answers,onChange:setAnswer,getAnswer:id=>state.answers[id]??''}))),
+    orderedNow.orphan.length?el('section',{class:'reading-question-group','data-question-group':'ungrouped'},orderedNow.orphan.map(question=>questionCard(context,{dict,question,group:null,value:state.answers[question.id]??'',getAnswer:()=>state.answers[question.id]??'',onChange:v=>setAnswer(question.id,v),inputId:`answer-${question.id}`}))):null));
   const answered=p.questions.filter(q=>(state.answers[q.id]??'').trim()).length;
   const progress=t.answered.replace('{answered}',String(answered)).replace('{total}',String(p.questions.length));
   const submitButton=Button({variant:'primary',disabled:state.submitting||state.saveState==='locked','data-submit-attempt':true,children:state.submitting?dict.common.loading:dict.reading.submit});
@@ -142,8 +176,9 @@ export function mountExam(context,p){
   const action=[el('span',{class:'reading-answered','data-exam-answered':''},progress),state.error?el('span',{role:'alert',class:'reading-error'},state.error):null,submitButton];
   ws.update({passagePane,questionsPane,navigation:buildNavigation(),action,tools:[
    el('span',{class:'flex items-center gap-2','data-practice-timer':true},el('span',{},t.timerLabel),(()=>{timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());return timerNode;})()),
-   saveBadge(),el('a',{href:'/app/reading/academic',class:'reading-back','data-practice-exit':''},t.exit)
+   saveSlot,el('a',{href:'/app/reading/academic',class:'reading-back','data-practice-exit':''},t.exit)
   ],pane:state.pane});
+  paintSave();
  }
  function focusQuestion(questionId){
   const input=document.getElementById(`answer-${questionId}`);

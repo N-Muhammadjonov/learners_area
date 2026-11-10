@@ -81,7 +81,15 @@ async def authored(req:Request,id:str):
                     out.update(downloadUrl=media_url(key,token),expiresAt=claims['exp']*1000)
                 return core.j(out,headers=AUTHOR_HEADERS)
             if req.query_params.get('vocabulary')=='1':
+                from .listening_review_access import exam_gate
+                required,active_attempt=await exam_gate(con,user,core.uuid_value(id))
+                if active_attempt:return core.j({'error':'exam_in_progress'},409,AUTHOR_HEADERS)
                 return core.j({'vocabulary':await vocabulary_session(con,id,content.get('vocabulary',[]))},headers=AUTHOR_HEADERS)
+            from .listening_review_access import exam_gate
+            required,active_attempt=await exam_gate(con,user,core.uuid_value(id))
+            if required:
+                return core.j({'kind':'exam_required','testId':id,'title':content.get('title') or 'Listening',
+                               'attemptId':active_attempt},headers=AUTHOR_HEADERS)
             original=(source in CATALOGUE or source=='listening-test-1' and id==ORIGINAL1)
             definition=CATALOGUE.get(source) if original else None
             if original:

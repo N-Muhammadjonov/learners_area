@@ -1,12 +1,14 @@
 /* A single row of native controls on every private workspace. */
 [data-campus-shell] [data-shell-topbar]{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;flex:none;min-height:68px;padding:6px 14px;position:relative;isolation:isolate;z-index:50;overflow:visible}
-[data-campus-shell] [data-shell-topbar][data-campus-home=true]{background:#09172d!important;background-image:none!important}
+:root:not(:has([data-ui-system])) [data-campus-shell] [data-shell-topbar][data-campus-home=true]{background:#09172d!important;background-image:none!important}
 [data-campus-topbar-brand],[data-campus-return-link]{flex:none;order:0}
 [data-campus-topbar-brand][hidden],[data-campus-return-link][hidden],[data-campus-module-name][hidden]{display:none!important}
 [data-campus-topbar-brand]{min-width:0;max-width:235px;text-decoration:none}
 [data-campus-topbar-brand] [data-sidebar-brand]{gap:8px}
-[data-campus-shell] [data-campus-topbar-brand] .brand-name{font-size:14px;color:#fff!important}
-[data-campus-shell] [data-campus-topbar-brand] .brand-tagline{display:block!important;max-width:170px;color:#fff!important;font-size:10px;line-height:1.3;text-shadow:none}
+[data-campus-shell] [data-campus-topbar-brand] .brand-name{font-size:14px}
+:root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-name{color:#fff!important}
+[data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:10px;line-height:1.3}
+:root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{display:block!important;max-width:170px;color:#fff!important;text-shadow:none}
 [data-campus-return-link]{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:6px 12px;white-space:nowrap;width:auto!important}
 [data-campus-module-name]{order:0;min-width:0;max-width:220px;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:16px}
 [data-campus-header-search]{flex:1 1 clamp(140px,28vw,480px);min-width:70px;max-width:480px;order:1;margin-left:auto;container-type:inline-size}
@@ -42,24 +44,29 @@
 @media(max-width:1000px){
  [data-campus-shell] [data-shell-topbar]{gap:6px;padding-inline:8px}
  [data-campus-topbar-brand]{max-width:200px}
- [data-campus-topbar-brand] [data-sidebar-brand]{flex-direction:column;gap:2px;align-items:flex-start}
- [data-campus-shell] [data-campus-topbar-brand] .brand-name{display:none}
- [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:8px;max-width:200px;white-space:nowrap}
+ [data-campus-topbar-brand] [data-sidebar-brand]{gap:2px;align-items:flex-start}
+ :root:not(:has([data-ui-system])) [data-campus-topbar-brand] [data-sidebar-brand]{flex-direction:column}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-name{display:none}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:8px;white-space:nowrap}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{max-width:200px}
  [data-campus-shell] [data-global-search-field] kbd{display:none}
- [data-campus-shell] [data-campus-header-profile] [data-profile-menu-trigger]>span:not(:first-child){display:none}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-header-profile] [data-profile-menu-trigger]>span:not(:first-child){display:none}
  .la-campus .campus-module-label{font-size:10px;padding:4px 6px;gap:5px}
  .la-campus .campus-module-label .module-icon{width:14px;height:14px}
 }
 @media(max-width:650px){
  [data-campus-shell] [data-shell-topbar]{--icon-btn:36px;min-height:68px;gap:4px;padding-inline:6px}
  [data-campus-topbar-brand]{max-width:180px;flex:0 1 180px}
- [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{max-width:180px;white-space:normal}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{white-space:normal}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{max-width:180px}
  [data-campus-module-name]{max-width:150px;font-size:14px}
  [data-campus-header-search]{flex-basis:clamp(70px,24vw,155px)}
  [data-campus-header-preferences],[data-campus-header-profile]{gap:3px}
- [data-campus-shell] .theme-btn{width:36px;height:40px;min-width:36px}
- [data-campus-shell] [data-locale-switcher] button{min-width:30px;min-height:36px;padding-inline:5px}
- [data-campus-shell] [data-profile-menu-trigger]{width:36px!important;min-width:36px;height:40px!important;padding:3px!important}
+ :root:not(:has([data-ui-system])) [data-campus-shell] .theme-btn{width:36px;height:40px;min-width:36px}
+ [data-campus-shell] [data-locale-switcher] button{padding-inline:5px}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-locale-switcher] button{min-width:30px;min-height:36px}
+ [data-campus-shell] [data-profile-menu-trigger]{padding:3px!important}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-profile-menu-trigger]{width:36px!important;min-width:36px;height:40px!important}
  [data-campus-return-link]{font-size:14px;min-height:40px;padding-inline:7px}
  [data-campus-shell] [data-global-search-field]{gap:4px;padding-inline:6px}
  [data-campus-shell] [data-global-search-field] input{font-size:12px}
@@ -69,20 +76,25 @@
  [data-campus-header-search]{min-width:45px}
  [data-campus-module-name]{max-width:100px;font-size:12px}
  [data-campus-topbar-brand]{max-width:76px}
- [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:7px;max-width:76px}
- [data-campus-shell] .theme-btn{width:28px;height:36px;min-width:28px}
- [data-campus-shell] [data-locale-switcher] button{min-width:25px;min-height:32px;padding-inline:3px;font-size:11px}
- [data-campus-shell] [data-profile-menu-trigger]{width:28px!important;min-width:28px;height:36px!important;padding:1px!important}
- [data-campus-shell] [data-profile-menu-trigger] img,[data-campus-shell] [data-profile-menu-trigger]>span:first-child{width:24px;height:24px}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:7px}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{max-width:76px}
+ :root:not(:has([data-ui-system])) [data-campus-shell] .theme-btn{width:28px;height:36px;min-width:28px}
+ [data-campus-shell] [data-locale-switcher] button{padding-inline:3px;font-size:11px}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-locale-switcher] button{min-width:25px;min-height:32px}
+ [data-campus-shell] [data-profile-menu-trigger]{padding:1px!important}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-profile-menu-trigger]{width:28px!important;min-width:28px;height:36px!important}
+ :root:not(:has([data-ui-system])) [data-campus-shell] [data-profile-menu-trigger] img,:root:not(:has([data-ui-system])) [data-campus-shell] [data-profile-menu-trigger]>span:first-child{width:24px;height:24px}
  [data-campus-return-link]{gap:3px;font-size:12px;padding-inline:5px}
  [data-campus-shell] [data-global-search-field]{padding-inline:4px}
  [data-campus-shell] [data-global-search-field]>svg{width:12px}
 }
 
 /* Section headings and tabs share Main's pinned blue band below the controls. */
-[data-native-module-header]{flex:none;min-width:0;padding:0 20px;background:var(--la-surface-glass,#0b2347);border-bottom:1px solid rgb(var(--ink-100));color:#f3eee5;z-index:40}
+[data-native-module-header]{flex:none;min-width:0;padding:0 20px;z-index:40}
+:root:not(:has([data-ui-system])) [data-native-module-header]{background:var(--la-surface-glass,#0b2347);border-bottom:1px solid rgb(var(--ink-100));color:#f3eee5}
 [data-native-module-header][hidden]{display:none}
-.native-module-title{display:block;padding:8px 0 12px;font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1.2;color:#f3eee5}
+.native-module-title{display:block;padding:8px 0 12px;font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1.2}
+:root:not(:has([data-ui-system])) .native-module-title{color:#f3eee5}
 [data-native-module-header] [data-module-sections]{margin-inline:-4px}
 [data-native-module-header] .writing-tabs{margin:0}
 [data-campus-shell] [data-vocabulary-workspace]>nav,[data-campus-shell] [data-vocabulary-workspace]>div:first-child:has(>h1){display:none}
@@ -122,10 +134,11 @@
 [data-auth-shell] [data-auth-controls]{position:absolute}
 
 /* The module identity, controls and tabs form one uninterrupted header. */
-[data-workspace-header]{position:relative;z-index:50;overflow:visible;flex:none;background:var(--la-surface-glass,#0b2347)}
-[data-workspace-header] [data-shell-topbar],[data-workspace-header] [data-native-module-header]{background:transparent!important;border:0!important;box-shadow:none}
+[data-workspace-header]{position:relative;z-index:50;overflow:visible;flex:none}
+:root:not(:has([data-ui-system])) [data-workspace-header]{background:var(--la-surface-glass,#0b2347)}
+:root:not(:has([data-ui-system])) [data-workspace-header] [data-shell-topbar],:root:not(:has([data-ui-system])) [data-workspace-header] [data-native-module-header]{background:transparent!important;border:0!important;box-shadow:none}
 [data-workspace-header] [data-module-sections],[data-workspace-header] [data-writing-tablist]{border-bottom:0}
-[data-focus="on"] [data-workspace-header]{background:rgb(var(--paper-raised))}
+:root:not(:has([data-ui-system])) [data-focus="on"] [data-workspace-header]{background:rgb(var(--paper-raised))}
 
 /* Catalogue capacity follows the available width, including five columns on wide laptops. */
 [data-native-mcq-index],[data-route-usable="listening-mcq"]{max-width:none;width:100%;min-width:0}
@@ -159,29 +172,31 @@
 [data-campus-shell] [data-vocabulary-title]{display:none}
 
 /* Focus removes wallpaper/glass and uses Main's flat themed section band. */
-[data-theme][data-focus="on"] [data-native-module-header]{
+[data-theme]:not(:has([data-ui-system]))[data-focus="on"] [data-native-module-header]{
  background:rgb(var(--paper-raised));color:rgb(var(--ink-900));
  --ink-900:inherit;--ink-700:inherit;--ink-500:inherit;--ink-300:inherit;--ink-100:inherit;
 }
-[data-theme][data-focus="on"] [data-native-module-header] .native-module-title{color:rgb(var(--ink-900))}
+[data-theme]:not(:has([data-ui-system]))[data-focus="on"] [data-native-module-header] .native-module-title{color:rgb(var(--ink-900))}
 
 [data-focus-workspace] [data-reading-full-focus]{height:100%;min-height:0}
 
-[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar]{
+[data-theme]:not(:has([data-ui-system])):not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar]{
  background:#0b2347!important;color:#f3eee5;
  --ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-300:180 205 225;
  --accent:126 211 255;--accent-strong:164 225 255;--accent-contrast:8 32 68;
 }
-[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar] [data-locale-switcher] .bg-signal-600.text-signal-contrast{background-color:#12345a!important;color:#f3eee5!important}
+[data-theme]:not(:has([data-ui-system])):not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar] [data-locale-switcher] .bg-signal-600.text-signal-contrast{background-color:#12345a!important;color:#f3eee5!important}
 
 /* Action controls follow the supplied Start reference; navigation tabs and
    answer/state selectors keep their own selected/correct/incorrect states. */
 [data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button){
- border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;
- font-weight:600;border-width:1px;box-shadow:0 5px 14px rgb(61 80 250 / .2);
+ font-weight:600;
 }
-[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button):hover:not(:disabled){background:#3042dc!important}
-[data-campus-shell] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button) :is(span,small,strong){color:inherit!important}
+:root:not(:has([data-ui-system])) [data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button){
+ border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;border-width:1px;box-shadow:0 5px 14px rgb(61 80 250 / .2);
+}
+:root:not(:has([data-ui-system])) [data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button):hover:not(:disabled){background:#3042dc!important}
+:root:not(:has([data-ui-system])) [data-campus-shell] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button) :is(span,small,strong){color:inherit!important}
 [data-campus-shell] .typing-presets button{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:rgb(var(--ink-500))}
 [data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:rgb(var(--accent));text-underline-offset:8px;text-decoration-thickness:2px}
 /* Wallpaper workspaces are dark even when Day is selected. Native number/date
@@ -196,7 +211,8 @@
 @media(max-width:1100px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr) auto}[data-people-directory] [data-people-search-form]>:first-child{grid-column:1/-1}}
 @media(max-width:600px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr)}[data-people-directory] [data-people-search-form]>*{width:100%}}
 /* Dialogs mounted on body share the same action style as workspace actions. */
-[data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,dialog.interaction-confirm-dialog,[data-global-search-dialog]) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold){border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;font-weight:600}
+[data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,dialog.interaction-confirm-dialog,[data-global-search-dialog]) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold){font-weight:600}
+[data-theme]:not(:has([data-ui-system])) :is(.dictionary-folder-dialog,.dictionary-context-panel,dialog.interaction-confirm-dialog,[data-global-search-dialog]) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold){border-radius:9999px!important;background:#3d50fa!important;color:#fff!important}
 
 
 /* Public login/register only: rounded Telegram CTA and outlined route switch.
@@ -272,7 +288,7 @@ html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-sta
  --band-good:var(--workspace-good)!important;--band-warn:var(--workspace-warn)!important;--band-bad:var(--workspace-bad)!important;
  --la-surface-glass:rgb(var(--workspace-raised))!important;--la-surface-border:rgb(var(--workspace-line))!important;
 }
-html[data-theme]:has([data-campus-shell]) :is([data-shell],[data-shell-main],[data-mobile-nav-overlay],#mobile-nav-drawer){
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) :is([data-shell],[data-shell-main],[data-mobile-nav-overlay],#mobile-nav-drawer){
  background:rgb(var(--workspace-paper))!important;background-image:none!important;color:rgb(var(--workspace-ink));
 }
 html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,dialog,[role="dialog"],.dictionary-context-panel,.flashcard-face,.flashcard-queue,.revision-flip-face,[class~="bg-paper"],[class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper-50"],[class~="bg-signal-50"],[data-global-dictionary]){
@@ -282,18 +298,18 @@ html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-sta
 html[data-theme]:has([data-campus-shell]) :is(.dictionary-folder-dialog,.dictionary-context-panel) :is(select,option){background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important;color-scheme:inherit}
 html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [data-dictionary-search]{color:rgb(var(--workspace-ink))!important}
 html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [data-dictionary-search]::placeholder{color:rgb(var(--workspace-muted))!important}
-html[data-theme]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-html[data-theme="day"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:#eff6ff!important;color:#102740!important}
-html[data-theme="night"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:#1a1625!important;color:#f3eef5!important}
-html[data-theme="day"] [data-campus-shell] :is(.native-module-title,[data-campus-module-name]){color:#102740!important}
-html[data-theme="day"] [data-campus-shell] [data-shell-topbar] :is(.brand-name,.brand-tagline){color:#102740!important}
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html:not(:has([data-ui-system]))[data-theme="day"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:#eff6ff!important;color:#102740!important}
+html:not(:has([data-ui-system]))[data-theme="night"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:#1a1625!important;color:#f3eef5!important}
+html:not(:has([data-ui-system]))[data-theme="day"] [data-campus-shell] :is(.native-module-title,[data-campus-module-name]){color:#102740!important}
+html:not(:has([data-ui-system]))[data-theme="day"] [data-campus-shell] [data-shell-topbar] :is(.brand-name,.brand-tagline){color:#102740!important}
 html[data-theme="day"] [data-campus-shell] :is(input,select,textarea){color-scheme:light}
 html[data-theme="night"]:has([data-campus-shell]) .focus-surface{background-color:#1a1625}
 html[data-theme]:has([data-campus-shell]) :is(.bg-signal-100,.bg-signal-50){--accent-strong:var(--workspace-accent-strong)!important}
 html[data-theme]:has([data-campus-shell]) dialog.interaction-confirm-dialog :is(h2,p){color:rgb(var(--workspace-ink))!important}
-html[data-theme]:has([data-campus-shell]) [data-shell-topbar] :is([data-profile-menu-trigger],[data-locale-switcher] button){background:#3d50fa!important;color:#fff!important;backdrop-filter:none!important}
-html[data-theme]:has([data-campus-shell]) [data-shell-topbar] [data-profile-menu-trigger]>span{color:#fff!important;background:transparent!important}
-html[data-theme][data-focus="on"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:rgb(var(--workspace-raised))!important}
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) [data-shell-topbar] :is([data-profile-menu-trigger],[data-locale-switcher] button){background:#3d50fa!important;color:#fff!important;backdrop-filter:none!important}
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) [data-shell-topbar] [data-profile-menu-trigger]>span{color:#fff!important;background:transparent!important}
+html:not(:has([data-ui-system]))[data-theme][data-focus="on"]:has([data-campus-shell]) :is([data-workspace-header],[data-native-module-header],[data-shell-topbar]){background:rgb(var(--workspace-raised))!important}
 
 /* Transcript stays below the description on small/portrait screens and beside the player on desktop. */
 .video-studio{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem;align-items:start}
@@ -327,8 +343,8 @@ html[data-theme][data-focus="on"]:has([data-campus-shell]) :is([data-workspace-h
 
 
 /* Restore contrast where legacy module and portal palettes had their own pale text. */
-html[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is(a,button,[role="tab"]){color:rgb(var(--workspace-ink))!important}
-html[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is([aria-current="page"],[aria-selected="true"]){color:#fff!important;background:#3d50fa!important;border-radius:.6rem}
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is(a,button,[role="tab"]){color:rgb(var(--workspace-ink))!important}
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is([aria-current="page"],[aria-selected="true"]){color:#fff!important;background:#3d50fa!important;border-radius:.6rem}
 html[data-theme]:has([data-campus-shell]) .dictionary-folder-dialog :is(h2,p,label,legend,span,strong){color:rgb(var(--workspace-ink))!important}
 html[data-theme]:has([data-campus-shell]) .dictionary-folder-dialog button :is(span,strong){color:inherit!important}
 html[data-theme]:has([data-campus-shell]) .dictionary-context-panel{background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important;color-scheme:inherit}
@@ -343,8 +359,7 @@ html[data-theme]:has([data-campus-shell]) [data-retention-source]{background:#ef
 html[data-theme="night"]:has([data-campus-shell]) [data-retention-source]{background:#172b48!important;color:#f3eef5!important}
 html[data-theme]:has([data-campus-shell]) [data-retention-answer]{min-height:clamp(20rem,55dvh,40rem);resize:vertical}
 /* Auth markup and layout stay fixed; only the requested brand/footer text changes. */
-html[data-theme] #root [data-auth-shell] [data-auth-brand] :is(.brand-name,.brand-tagline),
-html[data-theme] #root [data-auth-shell]:has([data-public-auth]) > .w-full > .text-center{color:#fff!important}
+html:not(:has([data-ui-system]))[data-theme] #root [data-auth-shell] [data-auth-brand] :is(.brand-name,.brand-tagline),html:not(:has([data-ui-system]))[data-theme] #root [data-auth-shell]:has([data-public-auth]) > .w-full > .text-center{color:#fff!important}
 
 /* Dictionary portals have an explicit palette even while a route is changing. */
 html[data-theme="day"] :is([data-word-popover],.dictionary-context-panel){--lookup-bg:#fff;--lookup-fg:#102740;--lookup-muted:#475569;color-scheme:light}
@@ -352,8 +367,8 @@ html[data-theme="night"] :is([data-word-popover],.dictionary-context-panel){--lo
 html[data-theme] body :is([data-word-popover],.dictionary-context-panel){background:var(--lookup-bg)!important;color:var(--lookup-fg)!important}
 html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(p,span,strong,label,summary,li,h2,h3,h4,select,option,input){color:var(--lookup-fg)!important}
 html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(select,option,input){background:var(--lookup-bg)!important}
-html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost){background:#3d50fa!important;color:#fff!important}
-html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong){color:#fff!important}
+html:not(:has([data-ui-system]))[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost){background:#3d50fa!important;color:#fff!important}
+html:not(:has([data-ui-system]))[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong){color:#fff!important}
 html[data-theme="day"] [data-retention-result-permalink]{color:#263ac9!important}
 html[data-theme="night"] [data-retention-result-permalink]{color:#a4e1ff!important}
 [data-retention-result-permalink]{font-weight:650;text-decoration:underline;text-underline-offset:3px}
@@ -363,7 +378,7 @@ html[data-theme] #root [data-translation-setup] :is([aria-pressed="true"],[aria-
 html[data-theme] #root [data-translation-setup] :is([aria-pressed="true"],[aria-checked="true"],[data-translation-selected="true"]) :is(span,strong){color:#fff!important}
 
 html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(h2,h3,h4,p,strong,span,summary,blockquote,label,li){color:rgb(var(--workspace-ink))!important}
-html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(.btn-primary,.btn-secondary,.btn-ghost,[aria-pressed="true"]) :is(span,strong),html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{color:#fff!important}
+html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(.btn-primary,.btn-secondary,.btn-ghost,[aria-pressed="true"]) :is(span,strong),html:not(:has([data-ui-system]))[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{color:#fff!important}
 html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{background:#3d50fa!important}
 
 @media(min-width:1280px){.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="1"]{grid-column:1}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="2"]{grid-column:2}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="3"]{grid-column:3}}
@@ -458,7 +473,7 @@ html[data-theme] #root .vocabulary-dictionary :is(.dictionary-related-items,.dic
 .vocabulary-dictionary .dictionary-loading{height:80px;margin-top:12px;border-radius:20px;background:var(--dictionary-hover);animation:pulse 2s infinite}
 html[data-theme] body .dictionary-folder-dialog{border-color:#3aace8!important;background:var(--dictionary-surface)!important;color:var(--dictionary-ink)!important;color-scheme:inherit}
 html[data-theme] body .dictionary-folder-dialog :is(h2,p,span,strong,label,legend,input,button){color:var(--dictionary-ink)!important;border-color:#3aace8!important}
-html[data-theme] body .dictionary-folder-dialog .btn-primary{background:#0ea5e9!important;color:#fff!important}
+html:not(:has([data-ui-system]))[data-theme] body .dictionary-folder-dialog .btn-primary{background:#0ea5e9!important;color:#fff!important}
 html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){background:var(--dictionary-hover)!important;color:#fff!important}
 
 /* Stable source groups sit to the left of the remaining-card queue on desktop. */
@@ -480,7 +495,7 @@ html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){backgrou
 html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent-row] :is(strong,span){color:var(--dictionary-ink)!important}
 html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent-row]>span:last-child{color:var(--dictionary-muted)!important}
 html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){color:var(--dictionary-ink)!important}
-html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,.btn-ghost){color:#fff!important}
+html:not(:has([data-ui-system]))[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,.btn-ghost){color:#fff!important}
 .vocabulary-dictionary .dictionary-entry-collocations{margin-top:28px}
 .vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}
 
@@ -493,7 +508,7 @@ html[data-theme="night"] :is([data-root-entry], .la-public-background, .la-blue-
   background-color: #0A0F24 !important;
 }
 html[data-theme="night"] #root [data-auth-shell] { background-color: #0A0F24 !important; }
-html[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
+html:not(:has([data-ui-system]))[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
   background-color: #0A0F24 !important;
 }
 #root [data-root-entry] .la-welcome-cta,
@@ -528,7 +543,7 @@ html[data-theme] #root :is([data-campus-shell],[data-auth-shell]) {
 }
 
 /* Header controls match Dashboard on the campus map and every module. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-campus-return-link],
   [data-shell-topbar] [data-profile-menu-trigger],
   [data-route-usable="dashboard"] .btn-primary,
@@ -537,12 +552,12 @@ html[data-theme] #root [data-campus-shell] :is(
   background: var(--dashboard-action-gradient) !important;
   color: #000000 !important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > span {
   color: #000000 !important;
 }
 
 /* Only the dashboard vocabulary review action remains an outline. */
-html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[href="/app/vocabulary"] > .btn-secondary {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[href="/app/vocabulary"] > .btn-secondary {
   background:
     linear-gradient(rgb(var(--workspace-raised)), rgb(var(--workspace-raised))) padding-box,
     var(--dashboard-action-gradient) border-box !important;
@@ -551,8 +566,8 @@ html[data-theme] #root [data-campus-shell] [data-route-usable="dashboard"] a[hre
 }
 
 /* Existing Day/Night and UZ/EN state controls retain their click handlers. */
-html[data-theme] #root [data-auth-shell] [data-locale-switcher] button[aria-pressed="true"],
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-auth-shell] [data-locale-switcher] button[aria-pressed="true"],
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
   [data-theme-toggle] .theme-btn-active,
   [data-locale-switcher] button[aria-pressed="true"]
 ) {
@@ -560,12 +575,12 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
   color: #000000 !important;
   border-color: transparent !important;
 }
-html[data-theme] #root [data-auth-shell] [data-locale-switcher] button[aria-pressed="false"] {
+html:not(:has([data-ui-system]))[data-theme] #root [data-auth-shell] [data-locale-switcher] button[aria-pressed="false"] {
   background: rgb(var(--paper-raised)) !important;
   color: rgb(var(--ink-900)) !important;
   border-color: rgb(var(--ink-100)) !important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
   [data-theme-toggle] .theme-btn:not(.theme-btn-active),
   [data-locale-switcher] button[aria-pressed="false"]
 ) {
@@ -612,7 +627,7 @@ html[data-theme] #root :is(
 /* Listening / Reading catalogue button palette only — 2026-10-29. */
 /* Module catalogue/selection buttons only. Never targets lesson material,
    test/exam/attempt content or Reading retention exercises. CSS-only update. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-native-view="listening-lessons"],
   [data-native-view="listening-general"],
   [data-native-view="listening-academic"],
@@ -629,7 +644,7 @@ html[data-theme] #root [data-campus-shell] :is(
   border-color: transparent !important;
   box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
 }
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-native-view="listening-lessons"],
   [data-native-view="listening-general"],
   [data-native-view="listening-academic"],
@@ -664,6 +679,25 @@ html[data-theme] #root [data-campus-shell] :is(
   [data-reading-filter] > summary
 ) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+) {
   background: rgb(var(--workspace-raised)) !important;
   border-color: transparent !important;
   color: rgb(var(--workspace-ink)) !important;
@@ -691,19 +725,38 @@ html[data-theme] #root [data-campus-shell] :is(
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-native-view="listening-lessons"],
+  [data-native-view="listening-general"],
+  [data-native-view="listening-academic"],
+  [data-native-view="listening-tests"],
+  [data-native-view="listening-history"],
+  [data-native-mcq-index],
+  [data-native-view="reading-lessons"],
+  [data-native-view="reading-general"],
+  [data-native-view="reading-academic"],
+  [data-native-view="reading-history"]
+) :is(
+  .btn-secondary,
+  .btn-ghost,
+  .btn-gold,
+  a.chip:not(.chip-active),
+  [data-reading-filter] > summary
+)::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
 
 
 /* Reading / Listening section tabs and Retention actions — 2026-10-29. */
 /* Only the shared module selector, not lesson/test/material content. */
-html[data-theme] #root [data-campus-shell] [data-native-module-header]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
   :is([data-module-sections="reading"], [data-module-sections="listening"])
   a[data-module-section][aria-current="page"] {
   background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
@@ -714,6 +767,10 @@ html[data-theme] #root [data-campus-shell] [data-native-module-header]
   :is([data-module-sections="reading"], [data-module-sections="listening"])
   a[data-module-section]:not([aria-current="page"]) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"]) {
   border-color: transparent !important;
 }
 html[data-theme] #root [data-campus-shell] [data-native-module-header]
@@ -723,18 +780,22 @@ html[data-theme] #root [data-campus-shell] [data-native-module-header]
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"], [data-module-sections="listening"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
 
 /* Retention only, including its active reading / recall controls and history.
    Keep the existing control geometry and all handlers. */
-html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-retention-page] :is(
   .btn-primary, .btn-gold-solid,
   .retention-level-option[aria-pressed="true"]
 ) {
@@ -743,7 +804,7 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
   border-color: transparent !important;
   box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
 }
-html[data-theme] #root [data-campus-shell] [data-retention-page]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-retention-page]
   :is(.btn-primary, .btn-gold-solid, .retention-level-option[aria-pressed="true"])
   :is(span, strong, small) {
   color: #000000 !important;
@@ -753,6 +814,11 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
   .retention-level-option:not([aria-pressed="true"])
 ) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+) {
   border-color: transparent !important;
   box-shadow: 0 0 8px rgb(59 108 255 / 10%) !important;
 }
@@ -764,19 +830,24 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] :is(
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-retention-page] :is(
+  .btn-secondary, .btn-ghost, .btn-gold,
+  .retention-level-option:not([aria-pressed="true"])
+)::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
 
 
 /* Live Classes, Assignments, Grammar button palette and dynamic profile name — 2026-10-29. */
 /* Existing buttons only. Keep geometry, routes, handlers, and content unchanged. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="live-classes"],
   [data-route-usable="assignments"],
   [data-route-usable="grammar"],
@@ -789,7 +860,7 @@ html[data-theme] #root [data-campus-shell] :is(
   border-color: transparent !important;
   box-shadow: 0 0 8px rgb(59 108 255 / 15%) !important;
 }
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="live-classes"],
   [data-route-usable="assignments"],
   [data-route-usable="grammar"],
@@ -808,6 +879,15 @@ html[data-theme] #root [data-campus-shell] :is(
   [data-grammar-topic]
 ) :is(.btn-secondary, .btn-ghost, .btn-gold) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-secondary, .btn-ghost, .btn-gold) {
   background: rgb(var(--workspace-raised)) !important;
   border-color: transparent !important;
   color: rgb(var(--workspace-ink)) !important;
@@ -825,16 +905,25 @@ html[data-theme] #root [data-campus-shell] :is(
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="live-classes"],
+  [data-route-usable="assignments"],
+  [data-route-usable="grammar"],
+  [data-route-usable="grammar-lessons"],
+  [data-route-usable="grammar-lesson"],
+  [data-grammar-topic]
+) :is(.btn-secondary, .btn-ghost, .btn-gold)::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
 /* Grammar's shared header tabs: selected = filled, other = gradient outline. */
-html[data-theme] #root [data-campus-shell] [data-native-module-header]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
   [data-module-sections="grammar"] a[data-module-section][aria-current="page"] {
   background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
   color: #000000 !important;
@@ -843,6 +932,9 @@ html[data-theme] #root [data-campus-shell] [data-native-module-header]
 html[data-theme] #root [data-campus-shell] [data-native-module-header]
   [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"]) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"]) {
   border-color: transparent !important;
 }
 html[data-theme] #root [data-campus-shell] [data-native-module-header]
@@ -851,19 +943,25 @@ html[data-theme] #root [data-campus-shell] [data-native-module-header]
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="grammar"] a[data-module-section]:not([aria-current="page"])::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
+}
 /* Only the topbar user-name text; dynamically supplied for any account. */
 html[data-theme] #root [data-campus-shell] [data-shell-topbar]
   [data-profile-menu-trigger] > span.hidden {
-  color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-shell-topbar]
+  [data-profile-menu-trigger] > span.hidden {
+  color: #000000 !important;
 }
 
 
@@ -871,7 +969,7 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar]
 /* Only the Reading, Listening, Grammar and Vocabulary module-header sections.
    Override the earlier outline pseudo-element; retain original box geometry
    and show ONLY the two-pixel gradient underline on inactive sections. */
-html[data-theme] #root [data-campus-shell] [data-native-module-header]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
   :is([data-module-sections="reading"],[data-module-sections="listening"],
       [data-module-sections="grammar"],[data-module-sections="vocabulary"])
   a[data-module-section]:not([aria-current="page"]) {
@@ -889,7 +987,7 @@ html[data-theme] #root [data-campus-shell] [data-native-module-header]
   content: none !important;
   display: none !important;
 }
-html[data-theme] #root [data-campus-shell] [data-native-module-header]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-native-module-header]
   [data-module-sections="vocabulary"] a[data-module-section][aria-current="page"] {
   background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
   color: #000000 !important;
@@ -914,7 +1012,7 @@ html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab]
 
 /* Only TED/Podcast and Vocabulary actions; Dictionary is outside this scope.
    Vocabulary panel explicitly excludes data-vocabulary-panel="dictionary". */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="video-lessons"],
   [data-route-usable="video-lesson"],
   [data-route-usable="vocabulary-games"],
@@ -925,7 +1023,7 @@ html[data-theme] #root [data-campus-shell] :is(
   color: #000000 !important;
   border-color: transparent !important;
 }
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="video-lessons"],
   [data-route-usable="video-lesson"],
   [data-route-usable="vocabulary-games"],
@@ -942,6 +1040,14 @@ html[data-theme] #root [data-campus-shell] :is(
   #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
 ) :is(.btn-secondary,.btn-ghost,.btn-gold) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
   background: rgb(var(--workspace-raised)) !important;
   color: rgb(var(--workspace-ink)) !important;
   border-color: transparent !important;
@@ -957,13 +1063,21 @@ html[data-theme] #root [data-campus-shell] :is(
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
 }
 
 /* Vocabulary folder/filter/mode switches are styled by state; the rest of
@@ -1003,13 +1117,13 @@ html[data-theme] #root [data-campus-shell]
 /* Speaking AI, progress/writing/mocks palette and vocabulary token correction — 2026-10-29. */
 /* AI interviewer buttons were omitted from the original speaking-only list.
    In this screen primary, ghost and secondary are all existing solid-blue actions. */
-html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
   :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) {
   background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
   color: #000000 !important;
   border-color: transparent !important;
 }
-html[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-route-usable="speaking-ai"]
   :is(.btn-primary,.btn-ghost,.btn-secondary,.btn-gold-solid) :is(span,strong,small) {
   color: inherit !important;
 }
@@ -1036,7 +1150,7 @@ html[data-theme] #root [data-campus-shell]
 }
 
 /* My Progress, Writing and Mock Tests: existing action classes only. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="progress"],
   [data-route-usable="mocks"],
   [data-route-usable="writing"],
@@ -1046,7 +1160,7 @@ html[data-theme] #root [data-campus-shell] :is(
   color: #000000 !important;
   border-color: transparent !important;
 }
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="progress"],
   [data-route-usable="mocks"],
   [data-route-usable="writing"],
@@ -1061,6 +1175,13 @@ html[data-theme] #root [data-campus-shell] :is(
   [data-route-usable^="writing-"]
 ) :is(.btn-secondary,.btn-ghost,.btn-gold) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
   background: rgb(var(--workspace-raised)) !important;
   color: rgb(var(--workspace-ink)) !important;
   border-color: transparent !important;
@@ -1075,22 +1196,29 @@ html[data-theme] #root [data-campus-shell] :is(
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="progress"],
+  [data-route-usable="mocks"],
+  [data-route-usable="writing"],
+  [data-route-usable^="writing-"]
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+}
 /* Writing section tabs: unselected only an underline; selected a filled pill. */
-html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-writing-tablist]
   [role="tab"][aria-selected="true"] {
   background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
   color: #000000 !important;
   border-color: transparent !important;
 }
-html[data-theme] #root [data-campus-shell] [data-writing-tablist]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-writing-tablist]
   [role="tab"][aria-selected="false"] {
   background-color: transparent !important;
   background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
@@ -1104,16 +1232,18 @@ html[data-theme] #root [data-campus-shell] [data-writing-tablist]
 /* Management-only button gradients — 2026-10-29. */
 /* Applies to existing Owner/Admin/Teacher action controls only.
    Dictionary controls, management cards, routing, permissions and geometry stay intact. */
-html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) {
   background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%) !important;
   color: #000000 !important;
   border-color: transparent !important;
 }
-html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) :is(span, strong, small) {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-primary, .btn-gold-solid):not([data-global-dictionary] *) :is(span, strong, small) {
   color: inherit !important;
 }
 html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *) {
   position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *) {
   background: rgb(var(--workspace-raised)) !important;
   color: rgb(var(--workspace-ink)) !important;
   border-color: transparent !important;
@@ -1123,13 +1253,15 @@ html[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staf
   position: absolute;
   inset: 0;
   padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is([data-management-hub], [data-staff-view]:not([data-staff-view="owner-dictionary"])) :is(.btn-secondary, .btn-ghost, .btn-gold, .link-inline):not([data-global-dictionary] *)::before {
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3EE6D0 0%, #3B6CFF 100%);
 }
 /* Staff statistics and student-results section selectors:
    selected = filled, unselected = bottom underline, no rectangular outline. */
@@ -1165,17 +1297,21 @@ html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-re
 html[data-theme] #root [data-campus-shell] .vocabulary-dictionary .dictionary-pos { border-radius: 8px; }
 
 /* Owner's Dictionary has its own staff view and existing actions. */
-html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) {
   background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important; color: #000 !important; border-color: transparent !important;
 }
-html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color: inherit !important; }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color: inherit !important; }
 html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold) {
-  position: relative; background: rgb(var(--workspace-raised)) !important; color: rgb(var(--workspace-ink)) !important; border-color: transparent !important;
+  position: relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold) { background: rgb(var(--workspace-raised)) !important; color: rgb(var(--workspace-ink)) !important; border-color: transparent !important;
 }
 html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
-  content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  content:"";position:absolute;inset:0;padding:2px;
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] :is(.btn-secondary,.btn-ghost,.btn-gold)::before {border-radius:inherit;background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
 }
 html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] [data-dictionary-pos] {
   background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
@@ -1186,11 +1322,11 @@ html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] 
 }
 
 /* Only profile editor actions, including the study form and photo upload label. */
-html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) {
   background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;color:#000 !important;border-color:transparent !important;
 }
-html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color:inherit !important; }
-html[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-secondary,.btn-ghost,.btn-gold) {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) { color:inherit !important; }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-profile-page] :is(.btn-secondary,.btn-ghost,.btn-gold) {
   background:linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
   border-color:transparent !important;color:rgb(var(--workspace-ink)) !important;
 }
@@ -1206,7 +1342,7 @@ html[data-theme] #root [data-campus-shell] [data-shell-utilities-panel] :is([dat
 /* Remaining requested control palette — 2026-10-29. */
 /* Reusable paint declarations are scoped below. The rules add no dimensions,
    padding, radius or navigation handlers. Existing semantic quiz feedback stays. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="coach"] .btn-primary,
   [data-course-roadmap] .btn-primary,
   [data-course-lesson] .btn-primary,
@@ -1224,7 +1360,7 @@ html[data-theme] #root [data-campus-shell] :is(
   color:#000000 !important;
   border-color:transparent !important;
 }
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   [data-route-usable="coach"] .btn-primary,
   [data-course-roadmap] .btn-primary,
   [data-course-lesson] .btn-primary,
@@ -1252,6 +1388,19 @@ html[data-theme] #root [data-campus-shell] :is(
   [data-management-hub] [data-management-area]
 ) {
   position:relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
+  [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
+  [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost),
+  [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
+  [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
+  [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
+  [data-staff-view] button[aria-pressed="false"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="false"]:not([data-global-dictionary] button),
+  [data-management-hub] [data-management-area]
+) {
   border-color:transparent !important;
 }
 html[data-theme] #root [data-campus-shell] :is(
@@ -1270,17 +1419,30 @@ html[data-theme] #root [data-campus-shell] :is(
   position:absolute;
   inset:0;
   padding:2px;
-  border-radius:inherit;
-  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;
   mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   mask-composite:exclude;
   pointer-events:none;
 }
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="coach"] :is(.btn-secondary,.btn-ghost,[data-back-link]),
+  [data-course-roadmap] :is(.btn-secondary,.btn-ghost,[data-lesson-open]),
+  [data-course-lesson] :is(.btn-secondary,.btn-ghost,[data-lesson-back],[data-lesson-start]),
+  [data-route-usable="notifications"] :is(.btn-secondary,.btn-ghost),
+  [data-reports-native] :is(.btn-secondary,.btn-ghost,[data-report-cancel]),
+  [data-support-page] :is(.btn-secondary,.btn-ghost,[data-report-toggle],[data-report-send]),
+  [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled),
+  [data-staff-view] button[aria-pressed="false"]:not([data-global-dictionary] button),
+  [data-staff-view] button[aria-selected="false"]:not([data-global-dictionary] button),
+  [data-management-hub] [data-management-area]
+)::before {
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+}
 /* Game-specific colours preserve correct/incorrect and disabled feedback.
    Neutral secondary blue fills become the existing workspace panel colour. */
-html[data-theme] #root [data-campus-shell] [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled) {
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-dedicated-game] button:not(.btn-primary):not([aria-pressed="true"]):not([aria-current="step"]):not([data-state="right"]):not([data-state="wrong"]):not(:disabled) {
   background:rgb(var(--workspace-raised)) !important;
   color:rgb(var(--workspace-ink)) !important;
 }
@@ -1347,6 +1509,9 @@ html[data-theme] #root [data-campus-shell] [data-staff-view="owner-dictionary"] 
 html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
   button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"]) {
   position:relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
+  button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"]) {
   border-color:transparent !important;
 }
 html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
@@ -1355,13 +1520,16 @@ html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-vie
   position:absolute;
   inset:0;
   padding:1.5px;
-  border-radius:inherit;
-  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;
   mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   mask-composite:exclude;
   pointer-events:none;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-view="owner-dictionary"])
+  button:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-gold):not(.btn-gold-solid):not([role="menuitem"]):not(:disabled):not([data-state="right"]):not([data-state="wrong"]):not([aria-pressed="true"]):not([aria-selected="true"])::before {
+  border-radius:inherit;
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
 }
 
 
@@ -1421,7 +1589,7 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] a[data-retentio
 /* Scope to completed Retention results (both inline and permalink views).
    Previously blue pill actions receive the same filled gradient as other
    updated modules; original size, radius, links and events are unchanged. */
-html[data-theme] #root :is(
+html:not(:has([data-ui-system]))[data-theme] #root :is(
   [data-retention-page] [data-retention-result],
   [data-retention-result-page]
 ) :is(.btn-primary, .btn-secondary) {
@@ -1521,7 +1689,7 @@ html[data-theme] #root [data-campus-shell] [data-retention-page]
  outline:3px solid var(--la-form-focus)!important;outline-offset:2px!important;
 }
 /* All scoped action controls follow the existing button radius/focus vocabulary. */
-html[data-theme] #root [data-campus-shell]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell]
  :is([data-management-hub],[data-staff-view],[data-retention-page],[data-writing-native])
  :is(.btn-primary,.btn-secondary,.btn-ghost):focus-visible{
  outline:3px solid #45d8db!important;outline-offset:3px!important;
@@ -1537,12 +1705,14 @@ html[data-theme] #root [data-campus-shell]
 }
 /* New brand mark has intrinsic padding. Keep full visible area without mobile clipping. */
 html[data-theme] #root [data-campus-shell] [data-campus-topbar-brand] .brand-mark{
- flex-shrink:0!important;max-width:none!important;
+ flex-shrink:0!important;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-campus-topbar-brand] .brand-mark{max-width:none!important;
 }
 
 
 /* Unified cool-blue perimeter for learner progress states, not card or input borders. */
-html[data-theme] #root [data-campus-shell] :is(
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] :is(
   .learning-progress,
   .badge-done,
   .badge-live,
@@ -1576,26 +1746,32 @@ html[data-theme] #root [data-campus-shell] [data-retention-page] button[data-ret
 }
 /* Shared action palette, including MCQ and newly added workspaces. Exam papers
    keep their own CD controls; correctness/error colours remain semantic. */
-html[data-theme] #root [data-campus-shell]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell]
  :is(.btn-primary,.btn-gold-solid,button.bg-signal-600,a.bg-signal-600)
  :is(span,strong,small){color:inherit!important}
-html[data-theme] #root [data-campus-shell]
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell]
  :is(.btn-primary,.btn-gold-solid,button.bg-signal-600,a.bg-signal-600):not([data-state="right"]):not([data-state="wrong"]):not([data-cd-exam] *):not([data-reading-full-focus] *){
  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%)!important;
  color:#000!important;border-color:transparent!important;
 }
 html[data-theme] #root [data-campus-shell]
  :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *){
- position:relative;background:rgb(var(--workspace-raised,var(--paper-raised)))!important;
+ position:relative;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell]
+ :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *){background:rgb(var(--workspace-raised,var(--paper-raised)))!important;
  color:rgb(var(--workspace-ink,var(--ink-900)))!important;border-color:transparent!important;
 }
 html[data-theme] #root [data-campus-shell]
  :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *)::before{
- content:"";position:absolute;inset:0;padding:2px;border-radius:inherit;
- background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+ content:"";position:absolute;inset:0;padding:2px;
  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
  mask-composite:exclude;pointer-events:none;
+}
+html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell]
+ :is(.btn-secondary,.btn-ghost,.btn-gold):not([data-cd-exam] *):not([data-reading-full-focus] *)::before{border-radius:inherit;
+ background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
 }
 /* Standalone MCQ uses the Listening activity's practice surface. */
 [data-native-mcq-day]{min-height:100%;background:rgb(var(--workspace-bg,var(--paper)));color:rgb(var(--workspace-ink,var(--ink-900)));padding:26px 22px 60px}

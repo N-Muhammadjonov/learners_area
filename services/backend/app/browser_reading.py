@@ -1,5 +1,6 @@
 """Reading catalogue, owned attempts and explicit learning-check hydration."""
 from .reading_presentation import for_passage
+from .reading_draft import draft_hash
 import hashlib
 import math
 import re
@@ -113,7 +114,8 @@ async def attempt(con, uid, id):
             occurrences.extend({**o,'startChar':o['startChar']+start,'endChar':o['endChar']+start} for o in s['occurrences'])
             prefix += len(s['passage']['title'])+2+len(s['passage']['bodyText'])+2
     answers = [camel(r) for r in await con.fetch('SELECT id,question_id,user_answer,is_correct FROM reading_answers WHERE attempt_id=$1',id)]
-    return {'kind':'attempt','detail':{'attempt':camel(row),'sections':sections,'passage':passage,'questions':[q for s in sections for q in s['questions']],'groups':[g for s in sections for g in s['groups']],'paragraphs':first['paragraphs'],'occurrences':occurrences,'answers':answers}}
+    token=draft_hash({a['questionId']:a['userAnswer'] for a in answers if a['isCorrect'] is None})
+    return {'kind':'attempt','detail':{'attempt':camel(row),'draftHash':token,'sections':sections,'passage':passage,'questions':[q for s in sections for q in s['questions']],'groups':[g for s in sections for g in s['groups']],'paragraphs':first['paragraphs'],'occurrences':occurrences,'answers':answers}}
 
 
 def canonical_sql():

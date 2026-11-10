@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "testedRuntimeCommit": "6ca84c16c50af6384ebdd1cc74898b508a14f2bc",
+  "baseCheckpoint": "4609fbe",
+  "branch": "arena/learners-area-next",
+  "preview": "https://learners-area-git-arena-learners-area-next-learners-area.vercel.app/app/riwi",
+  "backendTests": {
+    "passed": 260,
+    "failed": 0,
+    "scope": "All test_riwi*.py in the original repository; isolated Python 3.14 QA environment"
+  },
+  "frontendTests": {
+    "passed": 12,
+    "failed": 0,
+    "scope": "RIWI chat interaction, command, route, role, escaping, locale and ESM integration tests"
+  },
+  "build": {
+    "revision": "cb3ca0834e96368f563b",
+    "runtimeFiles": 513,
+    "routes": 125
+  },
+  "live": {
+    "apiCasesPassed": 12,
+    "nativeEducationalRequests": 6,
+    "nativeChecks": {
+      "typoTopic": true,
+      "followupContext": true,
+      "followupDifferentExamples": true,
+      "stepwise": true,
+      "englishReply": true,
+      "clearDetached": true,
+      "clearAsksTopic": true,
+      "newChatDetached": true,
+      "uzbekReply": true,
+      "ownSentence": true,
+      "moreExamples": true,
+      "helpVisible": true,
+      "siteLocaleUnchanged": true
+    },
+    "receiptSha256": "b7750f82b706509663fd8de45e718430e7b164b8ecbe38f86c8d320518af7a49"
+  },
+  "semanticReview": {
+    "method": "Separate assistant editorial read-through against a fixed relevance, grammar, meaning, Uzbek clarity, example and evidence-boundary rubric; primary-reference checks. Not independent human/examiner certification.",
+    "libraryEntriesReviewed": 92,
+    "bilingualExamplePairsReviewed": 552,
+    "liveCasesReviewed": 12,
+    "liveCasesPassed": 12,
+    "unsupportedInputBoundary": "The closed rule set and finite authored library do not provide unrestricted semantic understanding."
+  },
+  "activation": {
+    "id": "68459d3e-75d8-45cf-9789-08ab07e04216",
+    "state": "active",
+    "checksum": "c7ce1a5e8bb897f4b5506c4f86adf582938526c536326f4c5ef335e55c6253c7",
+    "unitCount": 92
+  },
+  "baseSource": {
+    "id": "7e40dc30-a900-4d6e-8d7a-e992324f144d",
+    "checksum": "e87a2aa55c7f1aabf8fdfc8475d91f41a14cfa710fa16feeafd6f9e7383e5b1f"
+  },
+  "externalAiEnabled": false,
+  "schemaMigrationPerformed": false,
+  "mainMerged": false,
+  "productionDeployed": false,
+  "initialLiveFindingsFixed": [
+    "Missing native stylesheet link",
+    "Presentation alias overriding explicit topic",
+    "Nested verb correction not updating lesson topic",
+    "Send overlapped by floating tools on narrow screens",
+    "Clipped structured lesson leaking through topicless fallback"
+  ],
+  "approvalBoundary": "Owner permission required before main merge or production deployment.",
+  "mainCompatibility": {
+    "mainCommit": "adca5ec47afadda30b65d70f051c10f1f0c2afec",
+    "mergeBase": "cb3a331112bff58b889eb4b23bc0b950425985ed",
+    "mainOnlyCommits": 1,
+    "mainChangedFiles": [
+      "prototype_redesign.html"
+    ],
+    "overlappingChangedFiles": [],
+    "method": "Fresh origin/main fetch, merge-base and per-path comparison; no merge, rebase or main write performed."
+  }
+}

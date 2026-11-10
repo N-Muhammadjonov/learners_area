@@ -33,6 +33,7 @@ export function readingAcademicSetDTO(raw,setId){
 export function readingAttemptDTO(raw,id){
  if(!obj(raw)||raw.kind!=='attempt'||!obj(raw.detail))bad('invalid_reading_attempt');
  const d=raw.detail,a=d.attempt;
+ if(d.draftHash!==undefined&&(typeof d.draftHash!=='string'||!/^[0-9a-f]{64}$/.test(d.draftHash)))bad('invalid_reading_attempt');
  if(!obj(a)||a.id!==id||!['in_progress','completed'].includes(a.status)||!str(a.startedAt)||!obj(d.passage)||!str(d.passage.title)||!str(d.passage.bodyText)||!int(d.passage.suggestedMinutes))bad('invalid_reading_attempt');
  for(const k of ['sections','questions','groups','paragraphs','answers','occurrences'])if(!Array.isArray(d[k]))bad('invalid_reading_attempt');
  return d;

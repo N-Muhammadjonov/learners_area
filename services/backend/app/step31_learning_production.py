@@ -73,7 +73,7 @@ async def grammar_produce(req:Request,id:str):
     if not attempt:return core.j({'error':'attempt_write_failed'},500)
     attempt_id=attempt['id']
     outcome=await coach.evaluate(user['id'],'grammar','grammar_attempt',attempt_id,
-              {'promptText':ex['prompt_text'],'studentAnswer':answer,'targetStructure':topic['title'] if topic else None,
+              {'promptText':ex['prompt_text'],'studentAnswer':answer,'grammarKind':'controlled_production','targetStructure':topic['title'] if topic else None,
                'sampleAnswer':ex['correct_option']},_language(req))
     if not outcome['ok']:
         removed=await _remove_attempt(attempt_id)
@@ -178,7 +178,7 @@ async def vocab_use(req:Request,id:str):
     if not row:return core.j({'error':'not_found'},404)
     usage_id=row['id']
     outcome=await coach.evaluate(user['id'],'vocabulary','vocabulary_usage',usage_id,
-                 {'targetWord':lexeme['term'],'definition':lexeme['definition_en'],'studentSentence':sentence},_language(req))
+                 {'targetWord':lexeme['term'],'definition':lexeme['definition_en'],'studentSentence':sentence,'vocabularyTask':'productive_use'},_language(req))
     if not outcome['ok']:
         return core.j({'error':outcome['error'],'usageId':str(usage_id),'origin':'manual','accepted':False,'points':0},502)
     ev=outcome['evaluation'];accepted=ev['verdict']=='correct'

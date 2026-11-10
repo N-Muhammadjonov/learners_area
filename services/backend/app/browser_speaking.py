@@ -27,6 +27,8 @@ async def materials(con, user, management=False):
 
 
 async def read(req, user, path, q):
+    if path == '/app/speaking/speak-or-die':
+        return {'kind':'speaking_fluency'}
     if path == '/app/speaking/ai':
         data = await existing(req,'/api/speaking/practice/questions?channel=ai')
         from .owner_ai_control_port import status

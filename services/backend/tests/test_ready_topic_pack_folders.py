@@ -4,6 +4,7 @@ import json
 import uuid
 from unittest.mock import AsyncMock, patch
 from starlette.requests import Request
+from app import main as core
 from app import step21_packs_port as port
 
 A, B, PACK, LEXEME = [uuid.UUID(int=i) for i in (101,202,303,404)]

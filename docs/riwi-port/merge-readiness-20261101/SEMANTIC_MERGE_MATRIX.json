@@ -1,0 +1,855 @@
+{
+  "base_sha": "1415ceee45a3fc18583a3b780fffd5cd6c519ae4",
+  "main_sha": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "riwi_sha": "b6434d1afa9ff3cfa8d53598f83b2cc34576f65c",
+  "entries": [
+    {
+      "path": "CHANGELOG.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "cb9ce180dd9e409a527c86deab6d7c36ec11ed8a",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "QA_RESULTS.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "ebdb4e4a33cc5d263202a51bbd011d648cf4a15b",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "REMAINING_EXTERNAL_CHECKS.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "8a6bf84d7deafbf44b826c535e18891ae73b38bd",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/01_CURRENT_STATE.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "e2e11cea201603b38e8692c7b01da9a690cd0cce",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/02_FEATURE_MAPPING.csv",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "cef38d444a5d3bcc478cb27bbffaaee7bff1c1d3",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/03_SCHEMA_COLLISIONS.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "96b6a814aba0e9671c7a6d8701a369f7668dafb0",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/04_PORT_PLAN.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "076c85ae203840674eeb1203e6f6a6e28e3e85dc",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/05_OPEN_DECISIONS.md",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "3530855245a17c52b4d24bf81932d1ccba2911f9",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/BOOSTER-LIVE-REFERENCE-AUDIT.md",
+      "base_blob": "9afca9d69df534514aa0241a1304cea0276b3707",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/2026-10-03/manual-check-round-2/BOOSTER_GRAMMAR_READING_REFERENCE.pdf",
+      "base_blob": "e72f5f9042e90e318a209a5688e28e8999629aed",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/2026-10-03/manual-check-round-2/BOOSTER_STRUCTURAL_SYSTEM_AUDIT.md",
+      "base_blob": "a8ce94633cc771cfb25d60007cca7b841d9cdf20",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/2026-10-03/manual-check-round-2/BOOSTER_TED_PODCAST_REFERENCE.pdf",
+      "base_blob": "4d843c7719bea35a3e4184a3c674da6692af40bc",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/2026-10-03/manual-check-round-2/source-assets/booster.zip",
+      "base_blob": "a89fd1c13602ea2e6a55996997be36f2ce187ba4",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/booster-ui-reference/BOOSTER_8_LISTENING_UI_REFERENCE_19_PAGES.pdf",
+      "base_blob": "1ac28953ed26ea2baf3609e155fb00b737c504df",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/booster-ui-reference/BOOSTER_8_READING_UI_REFERENCE_22_PAGES.pdf",
+      "base_blob": "e4702152d178f6942cf316904e8d8d44bda529b3",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/owner-references/booster-ui-reference/BOOSTER_8_WRITING_UI_REFERENCE_19_PAGES.pdf",
+      "base_blob": "8b000ad9e398879fbc206c8ac7a353fb57385df6",
+      "main_blob": null,
+      "riwi_blob": null,
+      "policy": "REVIEW_DELETION_PRESERVE_CURRENT",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/recovered_migrations_0070_0072/0070_riwi_core_and_governance.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "587a8fe5de242b5b322d4dd3669d64637e6c8b4c",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/recovered_migrations_0070_0072/0071_riwi_assessments_and_security_signals.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "1fa704e5fac5bba71f849762332c947ceede9af1",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/recovered_migrations_0070_0072/0072_riwi_speaking_sessions_and_activity_indexes.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "264b6969265fe18057ec2fc9473fa3ede60ff995",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/riwi-port/checkpoint5-audit/ENDPOINT_DIFFERENCES.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "91743b0dd67d3063b2feb1bd4d01506371737366",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "docs/riwi-port/checkpoint5-audit/PORT_STATUS_BEFORE.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "5e111c0bfb2623cb35f2aa835c578652dbdfd4bf",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "drizzle/0072_riwi_core_and_governance.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "587a8fe5de242b5b322d4dd3669d64637e6c8b4c",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "drizzle/0073_riwi_assessments_and_security_signals.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "1fa704e5fac5bba71f849762332c947ceede9af1",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "drizzle/0074_riwi_speaking_sessions_and_activity_indexes.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "264b6969265fe18057ec2fc9473fa3ede60ff995",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "drizzle/meta/_journal.json",
+      "base_blob": "734f8a20c9c6b7591677214efedbdee7054955c0",
+      "main_blob": "f0f15af5e2e7078339fce30c8f396ac661c10e91",
+      "riwi_blob": "f32b9181e2873988f467c43d414b20f7435daccd",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/css/riwi.css",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "2a5d98d393474d116b584108520d40c15799e89a",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/js/adapters/riwi.js",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "ac8671d581bac50ebf999e5b8fe65e4562e02ccf",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/js/generated/nav-routes.js",
+      "base_blob": "6e00841e0a9f7cf1882d68ef6a09d9c84b3cb841",
+      "main_blob": "2a589891baabb164136b42a6f222953b917c2bfb",
+      "riwi_blob": "62384691145989adf721e4f1ea0bf34789ef9270",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/js/i18n/en.js",
+      "base_blob": "56aef729b2ed17f0c6943dff33bf0711ecb7e84c",
+      "main_blob": "45c2339452f7cf7443f1e7d94bbb53ef2e31dc9f",
+      "riwi_blob": "f9e041ee60c75dd029a33257416a409cfd51bfa4",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/js/i18n/riwi_i18n.js",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "c894ccc6841a53b4c09827d7a913acca2592c0cf",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/js/i18n/uz.js",
+      "base_blob": "f4294039da5d5513bb9528dec75b108046471b58",
+      "main_blob": "7948054f796b15fe4d4637c488cd7061875b46d7",
+      "riwi_blob": "5cfc0cf24c5537fdb2e6e2f099bf9770735d07e0",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/js/routes.js",
+      "base_blob": "3cfcdff2b2d26468c1a9a40b6d461351107ff955",
+      "main_blob": "b46711a984fac23a6da1856df6f5bf668dd25414",
+      "riwi_blob": "18dd5f2676b9451b1b9f056471889b9bd78d2312",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/modules/riwi/index.js",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "ea43705e0412d180ba3e68986e5ca19c58a6e81c",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/modules/riwi/objective-explanation.js",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "2b64e1dbdcb6fa35e57bce648ac09621863df8e9",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/modules/staff-final30/owner-riwi.js",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "72a41e816bff9ec709af3fec570224115cd40ea8",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/routes.json",
+      "base_blob": "c9ad0070d2daec319696177a6e27f605566f2bbc",
+      "main_blob": "775abb92d80f45a383bd0dbbbe2f021fdfd2aa64",
+      "riwi_blob": "bb3799f8ff5a9bad8c26cd3bbd86403c260b41ed",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/tests/riwi-integration.test.mjs",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "5376962df52fb3647eef29d8bc252b9b88d58120",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "frontend/vanilla/tests/writing-v51.test.mjs",
+      "base_blob": "1e39c4e995912b74f92af8ed92e6482b89d40eac",
+      "main_blob": "1e39c4e995912b74f92af8ed92e6482b89d40eac",
+      "riwi_blob": "7621da03d951f3f697581f3c95334e4125e19a9d",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "requirements.txt",
+      "base_blob": "245dd837790df0e582922f23f74757a023b524b5",
+      "main_blob": "a71351c9cd22e70f54f85814f86154247b5d9433",
+      "riwi_blob": "3ce172f0901ecd2841fc13552a1baf3847787642",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "scripts/build_native_assets.py",
+      "base_blob": "14d2e8e970870551d3d20bc1d54acd039bb52c65",
+      "main_blob": "14d2e8e970870551d3d20bc1d54acd039bb52c65",
+      "riwi_blob": "dc53c1df4f35602900d52fb11849ad51d39074a6",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "scripts/riwi_chat_retention_worker.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "888fa5b9897a85211cbd64177bac2f613e0ed68e",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "scripts/riwi_portable_archive.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "a39d0effc37d4e1cb1cce6cca832d9997f490709",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/MIGRATION_AUDIT_260.json",
+      "base_blob": "08f6246828395cc189ec369b7d691564476a8ab9",
+      "main_blob": "08f6246828395cc189ec369b7d691564476a8ab9",
+      "riwi_blob": "03da095ae996b81b72f3dfa82a34191c4e03d362",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/MIGRATION_AUDIT_265.json",
+      "base_blob": "820711d83cb223fe547ffbd9d9b27f932ee4e346",
+      "main_blob": "820711d83cb223fe547ffbd9d9b27f932ee4e346",
+      "riwi_blob": "202eda3e66c3a6bad1a1c8bc3fa31f240d01c83b",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/PORT_STATUS.json",
+      "base_blob": "5e111c0bfb2623cb35f2aa835c578652dbdfd4bf",
+      "main_blob": "5afa3aeca6e6da0d12ed28158d20432f539cff74",
+      "riwi_blob": "47cec5163b970f861a9472ffb7031c7129769283",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/RIWI_ARCHITECTURE_AUDIT_PHASE_B.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "1268cb4095b26ef87166d7a73492f2ffd4fa85f4",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/RIWI_DATASET_INVENTORY_PHASE_E.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "6f88f8617bc20f6ecde3b79a319f502d3ff6c1d3",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/RIWI_FEASIBILITY_PHASE_C.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "452a65e0d8200fbd30a751e734ed4d3ff2fe1ca4",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/RIWI_QA_METRICS_REPORT.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "e84a836edc415ec9bb3f14e5705e54a37947e5e8",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/browser_reads.py",
+      "base_blob": "d7d301e0c4c11ffa61276bbd315f13c77369ab7d",
+      "main_blob": "982a5a794dc5f29e9050d8861dc6ea5a7daefc98",
+      "riwi_blob": "3208faa1f9c200c1c972f63836e689a430b0bec3",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/browser_staff.py",
+      "base_blob": "3c5b6bc1432509581067a093619820cfbb48de57",
+      "main_blob": "0fd6707cd94fc817223602dfdfa97bf1a6b4771a",
+      "riwi_blob": "2aa0c4e37bf2e6d5c64cf88337995f8ccadaa3e7",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/frontend_static.py",
+      "base_blob": "992fd35f5b6550eed609442598c65fa74e13d27a",
+      "main_blob": "9c233df3ef6ad82e6771c8a38a7c8fd6f8763679",
+      "riwi_blob": "3010cde624298ddf7204373dd1234e6d3e197383",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/main.py",
+      "base_blob": "42047c9713e7bf640515a2da5918a9f802ccba0e",
+      "main_blob": "e3928504e4565d142dd235709522144ecaff6386",
+      "riwi_blob": "47088b75f515d8f4ac56b63fca6df78c6c901330",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/models/riwi_calibration_v1.json",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "1138d3418426805d4e5065d6b65cdcf83853d40e",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/models/riwi_evaluator_v1.onnx",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "eec6cc1d6628dd08cfa06987c0216db772a12331",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_assessment_contracts.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "341a7aec5ab6a68ad594c447fe26597b7e6a9762",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_audit.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "c61df077f84c82a65b131b9e8cfc92003b679477",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_basebook_framework.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "4a36113c360197c8e46caac321701249087f7f95",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_capabilities.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "9f7d654953ebf390634bf28074ce921aa53ca851",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_comparison_learning.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "a6158ddf521ffd77cb6216a69b864ec010bb1f15",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_contracts.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "a09dcf997af6901050c4ea3474499a6e42aaab64",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_conversations.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "3ff32a34e2c5d15f3dbbbb66bf30d8d472534d96",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_cursor.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "2d3b199cc8e263e7f477592409f91feed5ff5479",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_dataset_generator.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "bbbba85a0d2248ecfcf94211bf00a9807645cb3d",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_gateway.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "b0aabdb65de637287f915c736a2f6ae3049facf6",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_independent_evaluator.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "af0e956107ca07b4b41fa8653b3f7594ca9d1498",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_knowledge.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "c1a2808518b5f41bd42a8abc519047e1a3dc2666",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_learning_signals.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "c91f832b4e1cb74370bc1953e470c7bad933e148",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_offline_qa_runner.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "0f39ba60cd477105a0371e73e08df49bb06e9f7b",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_outbound_guard.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "ad4fd60e3f237ed0e5406c740df072fae242304f",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_port.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "29c8a8e2c60e659398ab45babbfd7af3111d0d63",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_portability.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "2b444eb610521fac975eea542082c20259a305b0",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_provider_lab.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "f80c63433d2aecdd37b79317217365a4fe53563f",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_provider_router.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "4cabf94226ed30d9ba25be500e512d2cade6a0df",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_retention.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "60c12ccc3a255fcb018c716cfec08e32e72e363e",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_role_surface.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "970a9e4644bc58bf5fcc1209a7fca428e4560923",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_rollout.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "d3a45483d582fe1d28b46d597842e38687793a26",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_security_signals.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "4730e3764fd4971c79bdfc7789da3444cffd6810",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_tool_broker.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "3fb87b19aa5e80477cde49c3d5281176ff560060",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/riwi_tools_domain.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "5a2c88719e47843969af7b10863a4d94cc69fbe4",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/app/step23_writing_provider.py",
+      "base_blob": "6c2c35527c082b201c1d6f7f0e3280a623de4bcf",
+      "main_blob": "a9365e87caf2ae62bbbe9a41522ccafa1c6f84ca",
+      "riwi_blob": "244dae07ef6b1fd8dc8dba14cb0cb458651fa0f8",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/migrations/0072_riwi_core_and_governance.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "587a8fe5de242b5b322d4dd3669d64637e6c8b4c",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/migrations/0073_riwi_assessments_and_security_signals.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "1fa704e5fac5bba71f849762332c947ceede9af1",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/migrations/0074_riwi_speaking_sessions_and_activity_indexes.sql",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "264b6969265fe18057ec2fc9473fa3ede60ff995",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/requirements.txt",
+      "base_blob": "9347f5f44eed79d8c13f85cfdfb32fc6ba1e7dc4",
+      "main_blob": "5327c1b7bb9b5878104d5fae59ce003fe7bea820",
+      "riwi_blob": "e2f2823e3e3a9be9776472ad736da551bce9951d",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase1_schema_migrations.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "83ca5ff806bf6eb0a2cb0d5ec11fd09274670263",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase2_auth_conversations.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "390b72d3ff1335f572dd109bc5666ad44392de4f",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase3_broker_router.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "c9029abc4cdfd31f6777b67795749a33d05596d6",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase4_governance_contracts.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "aba7578caa94eb6d731315cbc07353ad4440eab4",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase5_educational_gateway.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "8c803ff3ae7fb30a4661f246fcb66ebcdff13445",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase6_frontend_build.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "af6074d3c5abafecfb641da825b6c7ce6bf88801",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase7_portability_retention.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "5757924fdbd5226f92587178c75504281a0151aa",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase8_security_qa.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "b0550db2bffe35bd737e69a3ac1b314ab436f264",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phase9_e2e_integration.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "8280f57821c248c210747de64f82fd5e91a31a38",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_riwi_phases_b_to_i_independent_ai.py",
+      "base_blob": null,
+      "main_blob": null,
+      "riwi_blob": "235d38e6c1e9120cd0de80c08965ade1b6f17f1d",
+      "policy": "PORT_VERIFIED_RIWI_CHANGE",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step17_170_methods.py",
+      "base_blob": "4dbd8c7ecc40db24a1565b12f1150fad3e162fd1",
+      "main_blob": "c5310f2e81dad8187d017a79b9db7f0210cde644",
+      "riwi_blob": "4fc0c33b979be2fd969f3a956ad88c67feabef45",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step20_190_methods.py",
+      "base_blob": "4e2c6b49a1a5a70fb73844234657f973dc0eb4bc",
+      "main_blob": "b89e4241a8525127db8ec4712a6bd15aef479ce9",
+      "riwi_blob": "4cb3a1d6c723988f09b4f5d9f705d0d78c3bd448",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step21_210_methods.py",
+      "base_blob": "2f285ee35e1e9c4a0f7a433463f6c3f801e6a1ee",
+      "main_blob": "ea70e06b812ea46f83705c4455b75419c39222fc",
+      "riwi_blob": "5cc17a601321ffa632e079dc288d00c227f0316f",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step22_new_methods.py",
+      "base_blob": "78a94cbb1cf1b230a912e088d0bb0ca69afef482",
+      "main_blob": "e4db084599af766ede9e91dcc13c2dc32b497f61",
+      "riwi_blob": "5daab2dcf4477fd84360af21992130c538972888",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step23_219_methods.py",
+      "base_blob": "4562c0a1222045dee65e38ceb736e39216bb465f",
+      "main_blob": "3a66ec507135d107fdac1390c6db71ead8024611",
+      "riwi_blob": "ee56043745a6086dfe7323c86b7eb23d042691dd",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step23_230_methods.py",
+      "base_blob": "1485b965f9b6de70cf0449f4e314b24743aeac7d",
+      "main_blob": "9a6fe50dcf57fed9e9833c23831603d67c7b04d7",
+      "riwi_blob": "00a7a67a5482864a52e179f3ba40df93061d32bc",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step26_owner_dictionary.py",
+      "base_blob": "74c8ebc10a06ee0a36b1d9f96ba40c46ea3b5b32",
+      "main_blob": "5ee98c287c4d649fb00c4ae4db1f91823fe6eb1b",
+      "riwi_blob": "431f6763e75428d13649ce9fc3f77ec2b809071d",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step31_learning_production.py",
+      "base_blob": "f5a475ef62cfd0c741ae94db9a376a281aab0f91",
+      "main_blob": "bbfda7530a65e2a27044cbad3ee41f6ddcc97731",
+      "riwi_blob": "9da3bcbf2b48a3550f56f264a8caf0523a4e81aa",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step31_release_invariants.py",
+      "base_blob": "ed09320dea1cacc91674e26bc936c6cedb17675c",
+      "main_blob": "eb6db593e0c68f522d186ef6fc96bfea65c109cc",
+      "riwi_blob": "a099465f335d23ae7826253190c90fe938584fb6",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "services/backend/tests/test_step40_265_methods.py",
+      "base_blob": "642505707b9605c01fb47de56d18c3a50d89e6f8",
+      "main_blob": "322415bcb6ce24aa784061512628d46451d429e9",
+      "riwi_blob": "7c6156b4bced88f8142dd8a9fc1d9b95b29b977a",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    },
+    {
+      "path": "src/db/schema.ts",
+      "base_blob": "3950dc69a1feaf86cbc5a7cbcdf6402b7d4e5776",
+      "main_blob": "8cbd98fc28a036ecacdd15f8ff34bf27ab729f71",
+      "riwi_blob": "aba0c3137a26d5181c991cf99eda4ceb9ac05eb2",
+      "policy": "SEMANTIC_MERGE_REQUIRED",
+      "status": "not_integrated_or_tested_against_current_main"
+    }
+  ]
+}

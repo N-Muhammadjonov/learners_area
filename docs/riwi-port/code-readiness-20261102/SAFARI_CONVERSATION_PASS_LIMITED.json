@@ -1,0 +1,83 @@
+{
+  "kind": "Safari conversation transport and persistence",
+  "commit": "761f760e815ab9ef35ec8a2b86480039d89ac030",
+  "origin": "https://learners-area-kmmgxbz7p-learners-area.vercel.app",
+  "time": "2026-11-02T09:28:42.762418+00:00",
+  "state": "conversation_transport_passed",
+  "authentication": "existing_safari_session",
+  "checks": [
+    {
+      "name": "expected_active_owner",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "external_ai_disabled",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "new_internal_conversation",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "persisted_2_messages",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "same_internal_conversation",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "persisted_4_messages",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "policy_refusal",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "persisted_6_messages",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "delete_only_created_conversation",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "name": "deleted_conversation_unavailable",
+      "status": 404,
+      "passed": true
+    }
+  ],
+  "fullAcceptance": false,
+  "modelTrainingValidated": false,
+  "browserVisualQA": "not_performed",
+  "blocker": null,
+  "cleanup": "passed",
+  "normalAnswerProvenance": "unavailable",
+  "normalAnswerAvailable": false,
+  "semanticQuality": "not_validated",
+  "operatorRun": true,
+  "sourceReportSha256": "0f1a9ee6af5efcea1a4093ffc82ced02d4fc67aa59c769734946aff52b94c05d",
+  "interpretation": {
+    "transportAndPersistencePassed": true,
+    "meaningfulTutoringPassed": false,
+    "modelTrainingPassed": false,
+    "mainMergeReady": false
+  },
+  "qaContentReadOnlySnapshot": {
+    "project": "bpexpsugmuhwmztacbqd",
+    "grammarTopics": 0,
+    "publishedGrammarTopics": 0,
+    "activeKnowledgeSources": 0,
+    "sharedDatabaseChanged": false
+  }
+}

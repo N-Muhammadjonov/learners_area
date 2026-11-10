@@ -9,17 +9,22 @@ BATCH_SIZE=10
 
 @lru_cache(maxsize=1)
 def source_groups():
-    from .step21_vocab_batch import sense_key
     root=Path(__file__).parent
-    packs=json.loads((root/'vocabulary_builtin_packs.json').read_text())
     groups=json.loads((root/'vocabulary_pack_groups.json').read_text())
     result={}
-    for pack in packs:
-        for index,g in enumerate(groups.get(pack['id'],[])):
-            for position in range(g['start'],g['end']):
-                word=pack['words'][position]
-                result[(pack['id'],sense_key(word))]=(index,g['label'],position)
+    for pack,parts in groups.items():
+        for index,g in enumerate(parts):
+            # These identities belong to the authored source revision. Never
+            # apply its headings to the same offsets in a replacement pack.
+            for offset,key in enumerate(g['senseKeys']):
+                result[(pack,key)]=(index,g['label'],g['start']+offset)
     return result
+
+@lru_cache(maxsize=1)
+def source_order():
+    from .step21_vocab_batch import sense_key
+    packs=json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
+    return {(p['id'],sense_key(w)):position for p in packs for position,w in enumerate(p['words'])}
 
 def batch_plan(ids,marks,parts=None):
     parts=parts if parts is not None else [(None,ids[i:i+BATCH_SIZE]) for i in range(0,len(ids),BATCH_SIZE)]
@@ -34,18 +39,26 @@ def batch_plan(ids,marks,parts=None):
 
 def named_parts(rows):
     from .step21_vocab_batch import sense_key
-    lookup=source_groups();named={};other=[]
-    for r in rows:
+    lookup=source_groups();order=source_order();named={};other=[]
+    for row_index,r in enumerate(rows):
         pack=r.get('topic_pack')
-        group=lookup.get((pack,r.get('sense_key')))
-        if not group and pack:
-            group=lookup.get((pack,sense_key({'term':r['term'],'partOfSpeech':r.get('part_of_speech'),
-                                            'definitionEn':r['definition_en']})))
+        identity=(pack,r.get('sense_key'))
+        group=lookup.get(identity)
+        if not group and pack and r.get('term') and r.get('definition_en'):
+            canonical=(pack,sense_key({'term':r['term'],'partOfSpeech':r.get('part_of_speech'),
+                                      'definitionEn':r['definition_en']}))
+            group=lookup.get(canonical)
+            if canonical in order:identity=canonical
         if group:
             index,label,position=group
             named.setdefault((pack,index,label),[]).append((position,r['id']))
-        else:other.append(r['id'])
+        else:
+            # New packs without source headings still follow their authored
+            # order. Unknown/custom words keep their original query order.
+            position=order.get(identity)
+            other.append(((0,pack,position) if position is not None else (1,'',row_index),r['id']))
     parts=[(key[2],[id for _,id in sorted(members,key=lambda p:p[0])]) for key,members in sorted(named.items())]
+    other=[id for _,id in sorted(other,key=lambda p:p[0])]
     parts.extend((None,other[i:i+BATCH_SIZE]) for i in range(0,len(other),BATCH_SIZE))
     return parts
 

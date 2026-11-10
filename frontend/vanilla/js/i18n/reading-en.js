@@ -170,7 +170,7 @@ const en = {
     },
     shell: {
         telegramBrand: "Open Learners Area Telegram channel",
-        searchShortcut: "Ctrl K",
+        searchShortcut: "Ctrl F",
         learningNav: "Learning sections",
         managementNav: "Management sections",
         utilities: "Study tools",
@@ -181,7 +181,7 @@ const en = {
         back: "Back",
         search: "Search",
         searchPlaceholder: "Search Learners Area…",
-        searchHint: "Type to search, or press Ctrl+K",
+        searchHint: "Type to search",
         searching: "Searching…",
         noResults: "No results found",
         noResultsHint: "Try a different word, or clear the filters.",

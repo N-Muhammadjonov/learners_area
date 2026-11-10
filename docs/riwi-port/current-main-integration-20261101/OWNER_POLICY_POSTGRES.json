@@ -1,0 +1,9 @@
+{
+  "migrations": 80,
+  "typedTables": 154,
+  "storeChecks": 14,
+  "httpChecks": 5,
+  "replicas": 1,
+  "database": "embedded PostgreSQL",
+  "result": "passed"
+}

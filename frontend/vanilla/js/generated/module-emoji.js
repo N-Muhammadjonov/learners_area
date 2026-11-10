@@ -66,6 +66,6 @@ export function moduleEmojiFor(href) {
     return routes[href] ?? null;
 }
 export function ModuleEmoji({ kind, className = "", }) {
-    return (h("span", { className: `module-emoji ${className}`, "aria-hidden": "true" },
+    return (h("span", { className: `module-emoji ${className}`, "aria-hidden": "true", 'data-ui-icon':kind },
         h("svg", { viewBox: "0 0 32 32", width: "28", height: "28", fill: "none", stroke: "currentColor", strokeWidth: "1.9", strokeLinecap: "round", strokeLinejoin: "round", focusable: "false" }, marks[kind]())));
 }

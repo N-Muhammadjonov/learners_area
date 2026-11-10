@@ -1,0 +1,37 @@
+.study-plan-page,.study-plan-content{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.study-plan-page{max-width:72rem;margin-inline:auto;width:100%}
+.study-plan-actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.study-plan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.study-plan-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.45rem}
+.study-plan-day{display:grid;gap:.25rem;padding:.65rem;white-space:normal;min-width:0;text-align:start;min-height:4rem}
+.study-plan-tasks{display:grid;gap:.65rem;margin:0;padding:0;list-style:none}
+.study-plan-task{display:flex;gap:1rem;align-items:center;justify-content:space-between;border-top:1px solid var(--paper-border,rgba(125,135,158,.22));padding-top:.65rem}
+.study-plan-task-description{display:grid;gap:.15rem;min-width:0;overflow-wrap:anywhere}
+.study-plan-band{display:flex;align-items:center;flex-wrap:wrap;gap:1.1rem;font-variant-numeric:tabular-nums}
+.study-plan-band strong{font-size:1.8rem}
+.study-plan-progress{width:100%;height:.65rem;accent-color:var(--primary,#4977e8)}
+.study-plan-form{display:grid;gap:1rem}
+.study-plan-form label{display:grid;gap:.25rem;min-width:0}
+.study-plan-form fieldset{display:flex;flex-wrap:wrap;gap:.75rem;padding:.4rem 0}
+.study-plan-form fieldset label{display:flex;gap:.35rem;align-items:center}
+.study-plan-form input:not([type=checkbox]),.study-plan-form select{min-height:2.75rem;width:100%;padding-inline:.55rem}
+.study-plan-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));gap:.65rem}
+.study-plan-metric{padding:.6rem;border:1px solid var(--paper-border,rgba(125,135,158,.22));border-radius:.6rem}
+.study-plan-ranking{display:grid;gap:.35rem;padding:0;list-style:none}
+.study-plan-ranking li{display:grid;grid-template-columns:2.5rem minmax(0,1fr) auto;gap:.6rem;padding:.55rem;overflow-wrap:anywhere}
+.study-plan-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;text-align:center}
+.study-plan-podium>*{border-radius:.8rem;background:var(--paper-sunken,rgba(125,135,158,.1));overflow-wrap:anywhere;padding:.65rem}
+.study-plan-timeline{display:grid;gap:.45rem;max-height:20rem;overflow:auto}
+.study-plan-share{max-width:34rem;margin:8vh auto 1.5rem;padding:1rem}
+.study-plan-cosmetics{min-height:5rem;border-radius:.7rem;padding:.9rem}
+.study-plan-cosmetics[data-frame=true]{border:2px solid #557fe8}
+.study-plan-cosmetics[data-theme=true]{background:#41316e;color:#fff}
+@media(max-width:760px){.study-plan-grid{grid-template-columns:minmax(0,1fr)}.study-plan-days{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:480px){.study-plan-days{grid-template-columns:repeat(3,minmax(0,1fr))}.study-plan-task{align-items:flex-start;flex-direction:column;gap:.5rem}}
+
+.study-plan-content[hidden]{display:none}
+.study-plan-month-day{display:grid;gap:.55rem;padding:.85rem;border:1px solid var(--paper-border,rgba(125,135,158,.22));border-radius:.7rem}
+.study-plan-month-question{display:grid;gap:.4rem;min-width:0;margin:0;padding:.65rem 0;overflow-wrap:anywhere}
+.study-plan-month-question legend{font-weight:600}
+.study-plan-month-choice{display:flex;align-items:flex-start;gap:.5rem;cursor:pointer}
+.study-plan-content audio{width:min(100%,30rem);display:block;margin:.4rem 0}

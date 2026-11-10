@@ -519,6 +519,55 @@
       "when": 1793370501000,
       "tag": "0074_mock_hybrid_grading_system",
       "breakpoints": true
+    },
+    {
+      "idx": 74,
+      "version": "7",
+      "when": 1793370501001,
+      "tag": "0075_riwi_core_and_governance",
+      "breakpoints": true
+    },
+    {
+      "idx": 75,
+      "version": "7",
+      "when": 1793370501002,
+      "tag": "0076_riwi_assessments_and_security_signals",
+      "breakpoints": true
+    },
+    {
+      "idx": 76,
+      "version": "7",
+      "when": 1793370501003,
+      "tag": "0077_riwi_speaking_sessions_and_activity_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 77,
+      "version": "7",
+      "when": 1793370501004,
+      "tag": "0078_riwi_server_only_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 78,
+      "version": "7",
+      "when": 1793370501005,
+      "tag": "0079_riwi_canonical_task_metadata",
+      "breakpoints": true
+    },
+    {
+      "idx": 79,
+      "version": "7",
+      "when": 1794280000000,
+      "tag": "0080_study_plan",
+      "breakpoints": true
+    },
+    {
+      "idx": 80,
+      "version": "7",
+      "when": 1794290000000,
+      "tag": "0081_monthly_study_plan",
+      "breakpoints": true
     }
   ]
 }

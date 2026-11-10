@@ -80,19 +80,17 @@ test('typing, modifiers, composition, held keys and dialogs keep their keyboard 
   press(h);assert.equal(document.documentElement.dataset.studyFocus,'on');h.controller.abort();assert.equal(document.documentElement.dataset.studyFocus,'off');press(h);assert.equal(document.documentElement.dataset.studyFocus,'off');
  }finally{h.dispose();}
 });
-test('study routes expose focus while Speaking and account/Management pages do not',()=>{
- for(const path of ['/app/listening/tests/x/study','/app/reading/academic/x','/app/writing','/app/grammar/lessons/x','/app/vocabulary/games/x','/app/video-lessons/x','/app/live-classes/x','/app/mocks','/app/assignments','/app/courses/ielts'])assert(supportsStudyFocus(url(path)),path);
- for(const path of ['/app','/app/progress','/app/profile','/app/management','/app/admin/people','/app/speaking','/app/speaking/ai','/app/speaking/practice'])assert(!supportsStudyFocus(url(path)),path);
+test('Study Focus follows the existing Back policy; deep exams never offer an extra toggle',()=>{
+ const h=fixture('/app/reading/lessons');
+ try{
+  for(const path of ['/app/listening/tests','/app/reading/lessons','/app/writing','/app/grammar/lessons','/app/vocabulary','/app/mocks','/app/assignments'])assert(supportsStudyFocus(url(path)),path);
+  for(const path of ['/app','/app/progress','/app/profile','/app/management','/app/admin/people','/app/speaking','/app/speaking/ai','/app/speaking/practice','/app/listening/tests/x/study','/app/reading/attempts/x','/app/live-classes/x'])assert(!supportsStudyFocus(url(path)),path);
+ }finally{h.dispose();}
 });
-test('focus detail frames retain exam DOM and provide focus control without a Dock',()=>{
+test('focus detail frames retain the exact exam DOM without a Dock, mascot or extra Focus toggle',()=>{
  for(const path of ['/app/listening/tests/x/study','/app/reading/attempts/x']){
   const h=fixture(path);
-  try{
-   const staging=document.createElement('div'),exam=document.createElement('section');
-   if(path.includes('reading'))exam.className='reading-workspace-header';
-   staging.append(exam);const frame=focusFrame(h.ctx,staging);h.ctx.root.append(frame);
-   assert(frame.contains(exam));assert.equal(h.q('[data-module-dock]'),null);h.click(h.q('[data-utilities-launcher]'));assert(h.q('[data-focus-toggle]'));press(h);assert.equal(document.documentElement.dataset.studyFocus,'on');assert(frame.contains(exam));
-  }finally{h.dispose();}
+  try{const staging=document.createElement('div'),exam=document.createElement('section');exam.dataset.fixtureExam='';staging.append(exam);const frame=focusFrame(h.ctx,staging);h.ctx.root.append(frame);assert(frame.contains(exam));assert.equal(frame.querySelector('[data-ui-system]'),null);assert.equal(h.q('[data-module-dock]'),null);assert.equal(h.q('.la-mascot'),null);h.click(h.q('[data-utilities-launcher]'));assert.equal(h.q('[data-focus-toggle]'),null);press(h);assert.equal(document.documentElement.dataset.studyFocus,'off');}finally{h.dispose();}
  }
 });
 test('Retention keeps its automatic focus ownership; Dock follows it',async()=>{
@@ -125,17 +123,12 @@ test('Dock tooltip skips geometry and hit tests during steady hover and keeps ke
   first.focus();press(h,'ArrowLeft',{target:first});assert.equal(document.activeElement,last);press(h,'Home',{target:last});assert.equal(document.activeElement,first);assert.equal(h.nav.length,0);
  }finally{h.dispose();}
 });
-test('opening animation belongs only to the current Dock flight and always plays with either motion preference',()=>{
+test('Dock navigation starts immediately without capturing or animating a window, including reduced motion',()=>{
  const h=fixture();
  try{
-  const dock=moduleDock(h.ctx);h.ctx.root.append(dock.node);const link=h.q('[data-dock-module="writing"]'),content=document.createElement('article');
-  link.getBoundingClientRect=()=>({left:500,top:700,width:48,height:58});content.getBoundingClientRect=()=>({left:0,top:68,width:1000,height:600});
-  const calls=[];let cancellations=0;content.animate=(frames,options)=>{calls.push({frames,options});return {cancel(){cancellations++;}};};
-  const cancelled=new AbortController();dock.begin(url('/app/writing'),cancelled.signal,link);cancelled.abort();dock.open(content,url('/app/writing'));assert.equal(calls.length,0);
-  dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,1);assert.equal(calls[0].options.duration,400);assert.equal(calls[0].frames.at(-1).opacity,0);
-  assert(document.querySelector('[data-dock-opening]'));assert(document.querySelector('.dock-opening-band'));
-  dock.begin(url('/app/writing'),new AbortController().signal,link);assert.equal(cancellations,1);dock.open(content,url('/app/reading/lessons'));assert.equal(calls.length,1);
-  window.matchMedia=()=>({matches:true});dock.begin(url('/app/writing'),new AbortController().signal,link);dock.open(content,url('/app/writing'));assert.equal(calls.length,2);
+  const shell=createShell(h.ctx);h.ctx.root.append(shell.host);const content=document.createElement('article');shell.outlet.append(content);
+  let calls=0;const old=window.Element.prototype.animate;window.Element.prototype.animate=()=>{calls++;throw Error('Unexpected opening animation');};
+  try{for(const reduced of [false,true]){window.matchMedia=()=>({matches:reduced});const flight=new AbortController();shell.begin(url('/app/writing'),flight.signal,h.q('[data-dock-module="writing"]'));shell.update(url('/app/writing'));shell.end(true);assert.equal(calls,0);assert.equal(h.q('[data-dock-opening]'),null);assert(shell.outlet.contains(content));flight.abort();}}finally{window.Element.prototype.animate=old;}
  }finally{h.dispose();}
 });
 test('glass styles ship in the Python native build and reserve space for mobile scrolling',()=>{

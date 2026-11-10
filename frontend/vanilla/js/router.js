@@ -5,7 +5,7 @@ import {sectionEntryFrames} from './generated/section-entry.js';
 import {workspaceKey} from './generated/interaction-navigation.js';
 export function compilePattern(pattern){return new RegExp('^'+pattern.split('/').map(s=>s.startsWith(':')?'([^/]+)':s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'/?$');}
 /** Route flights and mounted views have separate lifetimes. Only explicit passive views are retained. */
-export function createRouter({root,routes,notFound,onError,canonicalize,prepare,commit,onStart,onUpdate,metrics,reuse,window:win=window}){
+export function createRouter({root,routes,notFound,onError,canonicalize,prepare,commit,onStart,onUpdate,onBeforeNavigate,metrics,reuse,window:win=window}){
  const exactRoutes=new Map(routes.filter(r=>r.pattern&&!r.pattern.includes(':')).map(r=>[r.pattern,r])),dynamicRoutes=routes.filter(r=>!r.pattern||r.pattern.includes(':'));
  let controller,active,sameDocument,serial=0,entrySerial=0,state={};
  const entry=()=>Date.now().toString(36)+'-'+(++entrySerial);
@@ -14,6 +14,7 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
  function leave(){if(!active)return;const old=active;active=null;if(!reuse?.put(old.key,old))dispose(old);}
  function focusDestination(navigation){if(navigation.refresh)return;const focus=navigation.focus?root.querySelector(navigation.focus):null,heading=root.querySelector('h1')??root.querySelector('[data-shell-main]');if(focus)focus.focus({preventScroll:true});else if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}}
  async function render(navigation={}){
+  onBeforeNavigate?.(active?.context);
   const historyEntry=historyKey();let url=new URL(win.location.href);const canonical=canonicalize?.(url);if(canonical){win.history.replaceState(win.history.state,'',canonical);url=new URL(win.location.href);}
   // A module may handle a safe same-page tab change without remounting its shell/tree.
   if(!navigation.refresh&&!active?.pendingMount&&active?.navigate&&active.context.url.pathname===url.pathname&&!active.controller.signal.aborted&&(!active.context.session||active.context.session.expiresAt*1000>Date.now())){

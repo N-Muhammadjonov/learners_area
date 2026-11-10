@@ -10,6 +10,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .lesson_writing_port import js_length
 from .notification_events import notify_teacher_feedback
+from .reading_draft import draft_hash
 
 router=APIRouter()
 
@@ -100,6 +101,9 @@ async def save_reading_draft(req:Request,id:str):
     b=await core.payload(req)
     if not isinstance(b,dict) or not isinstance(b.get('answers'),list) or len(b['answers'])>60:
         return core.j({'error':'invalid_input'},400)
+    expected=b.get('expectedDraftHash')
+    if expected is not None and (not isinstance(expected,str) or not re.fullmatch(r'[0-9a-f]{64}',expected)):
+        return core.j({'error':'invalid_input'},400)
     for answer in b['answers']:
         if not isinstance(answer,dict) or not core.uuid_value(answer.get('questionId')) or not isinstance(answer.get('answer'),str) or js_length(answer['answer'])>500:
             return core.j({'error':'invalid_input'},400)
@@ -130,10 +134,18 @@ async def save_reading_draft(req:Request,id:str):
                 if len(allowed)!=40:return core.j({'error':'not_found'},404)
             answer_map={str(row['questionId']):row['answer'] for row in b['answers'] if str(row['questionId']) in allowed}
             if datetime.now(timezone.utc)>=deadline:return core.j({'error':'expired'},410)
+            if expected is not None:
+                prior=await con.fetch('SELECT question_id,user_answer FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',id)
+                current=draft_hash({str(row['question_id']):row['user_answer'] for row in prior})
+                incoming=draft_hash(answer_map)
+                if expected!=current and incoming!=current:
+                    return core.j({'error':'draft_conflict'},409,core.PRIVATE)
             await con.execute('DELETE FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',id)
             for qid,value in answer_map.items():
                 await con.execute('''INSERT INTO reading_answers(attempt_id,question_id,user_answer,is_correct)
                 VALUES($1,$2,$3,NULL)''',id,qid,value)
-    return core.j({'saved':len(answer_map),'at':datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')})
+    result={'saved':len(answer_map),'at':datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')}
+    if expected is not None:result['draftHash']=draft_hash(answer_map)
+    return core.j(result)
 
 def install():core.app.include_router(router)

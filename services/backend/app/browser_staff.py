@@ -138,4 +138,9 @@ async def read_staff(req, user, kind):
         if kind == 'owner-transfer':
             candidates = [camel(r) for r in await con.fetch("SELECT id,name,email,role FROM users WHERE account_status='active' AND id<>$1 AND role IN ('admin','teacher') ORDER BY CASE role WHEN 'admin' THEN 0 ELSE 1 END,name,email LIMIT 200",user['id'])]
             return {'currentOwner':{'id':str(user['id']),'name':user['name'],'email':user['email']},'candidates':candidates,'ownerEmail':user['email'] or ''}
+        if kind == 'owner-riwi':
+            from .riwi_capabilities import RiwiActor
+            from .riwi_provider_router import get_riwi_owner_diagnostics
+            actor = RiwiActor(id=str(user['id']), role=str(user['role']), account_status=str(user['account_status']), locale=str(user.get('locale') or 'uz'))
+            return await get_riwi_owner_diagnostics(con, actor)
     raise HTTPException(404,'not_found')

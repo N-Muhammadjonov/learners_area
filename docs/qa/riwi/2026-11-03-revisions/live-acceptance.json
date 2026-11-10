@@ -1,0 +1,226 @@
+{
+  "testedApplicationCommit": "1fddbd3ccf979caab1eec35928e5d06fdd5d490c",
+  "runtime": {
+    "version": {
+      "commit": "1fddbd3ccf979caab1eec35928e5d06fdd5d490c",
+      "shortCommit": "1fddbd3",
+      "region": "sin1",
+      "environment": "preview"
+    },
+    "role": "owner",
+    "externalAi": false,
+    "messages": [
+      {
+        "role": "user",
+        "text": "salom"
+      },
+      {
+        "role": "assistant",
+        "text": "Salom! 🙂 Savolingizni yozing, birga tushunib olamiz."
+      },
+      {
+        "role": "user",
+        "text": "nuxlerm sozi qaysi vazifada"
+      },
+      {
+        "role": "assistant",
+        "text": "Savolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"
+      }
+    ],
+    "suggestions": false,
+    "materialPicker": false,
+    "notice": "RIWI is AI and can make mistakes, please check important info!"
+  },
+  "responsiveRuntimeCommit": "f551cdf26bdc91c6d667cf30b6313d98099a189d",
+  "acceptedSettledLayoutSamples": [
+    {
+      "width": 620,
+      "height": 615,
+      "theme": "night",
+      "notice": {
+        "top": 570.828125,
+        "bottom": 587.609375,
+        "left": 36.1875,
+        "right": 523
+      },
+      "noticeVisible": true,
+      "send": {
+        "top": 451.234375,
+        "bottom": 492.828125,
+        "left": 473.21875,
+        "right": 514.8125
+      },
+      "horizontalOverflow": false,
+      "module": "RIWI",
+      "suggestions": false,
+      "materialPicker": false,
+      "sources": false,
+      "replyLanguage": "Javob tili: ENG"
+    },
+    {
+      "width": 390,
+      "height": 754,
+      "theme": "night",
+      "notice": {
+        "top": 554.046875,
+        "bottom": 587.609375,
+        "left": 36.1875,
+        "right": 293
+      },
+      "noticeVisible": true,
+      "send": {
+        "top": 434.453125,
+        "bottom": 476.046875,
+        "left": 243.21875,
+        "right": 284.8125
+      },
+      "horizontalOverflow": false,
+      "module": "RIWI",
+      "suggestions": false,
+      "materialPicker": false,
+      "sources": false,
+      "replyLanguage": "Javob tili: ENG"
+    },
+    {
+      "width": 390,
+      "height": 850,
+      "theme": "night",
+      "notice": {
+        "top": 787.421875,
+        "bottom": 820.984375,
+        "left": 23.59375,
+        "right": 296
+      },
+      "noticeVisible": true,
+      "send": {
+        "top": 669.109375,
+        "bottom": 710.703125,
+        "left": 246.21875,
+        "right": 287.8125
+      },
+      "horizontalOverflow": false,
+      "module": "RIWI",
+      "suggestions": false,
+      "materialPicker": false,
+      "sources": false,
+      "replyLanguage": "Javob tili: ENG"
+    },
+    {
+      "width": 1439,
+      "height": 844,
+      "theme": "day",
+      "notice": {
+        "top": 804.203125,
+        "bottom": 820.984375,
+        "left": 298.09375,
+        "right": 1070.5
+      },
+      "noticeVisible": true,
+      "send": {
+        "top": 685.890625,
+        "bottom": 727.484375,
+        "left": 1020.71875,
+        "right": 1062.3125
+      },
+      "horizontalOverflow": false,
+      "module": "RIWI",
+      "suggestions": false,
+      "materialPicker": false,
+      "sources": false,
+      "replyLanguage": "Javob tili: ENG"
+    },
+    {
+      "width": 1439,
+      "height": 900,
+      "theme": "day",
+      "notice": {
+        "top": 787.8125,
+        "bottom": 804.59375,
+        "left": 307.6875,
+        "right": 1131.3125
+      },
+      "noticeVisible": true,
+      "send": {
+        "top": 668.21875,
+        "bottom": 709.8125,
+        "left": 1081.53125,
+        "right": 1123.125
+      },
+      "horizontalOverflow": false,
+      "module": "RIWI",
+      "suggestions": false,
+      "materialPicker": false,
+      "sources": false,
+      "replyLanguage": "Javob tili: ENG"
+    },
+    {
+      "width": 620,
+      "height": 615,
+      "theme": "night",
+      "notice": {
+        "top": 570.828125,
+        "bottom": 587.609375,
+        "left": 36.1875,
+        "right": 523
+      },
+      "noticeVisible": true,
+      "send": {
+        "top": 451.234375,
+        "bottom": 492.828125,
+        "left": 473.21875,
+        "right": 514.8125
+      },
+      "horizontalOverflow": false,
+      "module": "RIWI",
+      "suggestions": false,
+      "materialPicker": false,
+      "sources": false,
+      "replyLanguage": "Javob tili: ENG"
+    }
+  ],
+  "layoutCaveat": "Raw resize events include transitions and docked Inspector (91px), excluded here. Screenshots inspected at configured 390x844 and 1440x900; recorded viewport rounding differs. Physical phone/keyboard not claimed.",
+  "semanticCases": [
+    "negative inversion with three bilingual examples",
+    "only-after three exercise prompts",
+    "Only after she explained did I understand -> U tushuntirgandan keyingina tushundim",
+    "I am agree -> I agree",
+    "writening v2 v3 -> write/wrote/written",
+    "mixed although/despite -> rule plus three bilingual examples",
+    "old Uzbek answer preserved after English selected; next answer English",
+    "clear/new chat drop old topic; help excludes language",
+    "exact requested unknown wording",
+    "salom without unsolicited topic examples"
+  ],
+  "automation": {
+    "backendRiwiPassed": 2623,
+    "frontendPassed": 1277,
+    "frontendSkipped": 11,
+    "corePassed": 37,
+    "buildPassed": true
+  },
+  "qaKnowledge": {
+    "newUnits": 302,
+    "activeTotal": 665,
+    "sourceIds": [
+      "05ea6023-04f5-432a-8aee-c73a1fdc1ba0",
+      "1e99284c-afc7-44a7-8e81-92bd73ee9c1d",
+      "acd328d6-c1ca-42ea-9951-5530eff86be8"
+    ]
+  },
+  "release": {
+    "mainMerged": false,
+    "productionDeployed": false,
+    "newSchemaMigration": false,
+    "mainCompared": "cb3a331112bff58b889eb4b23bc0b950425985ed",
+    "mergeTreeConflict": false
+  },
+  "rawEvidenceSha256": {
+    "final-live-qa.json": "3d58ae1a5a3795e1ac1f0ae6cfb19a6c6dcda6cc0e01ce10e372e5f4558af3e8",
+    "final-head-live.json": "1352bf33a9b85f210f5d8a8002f6d1be3a589b3f3fd80ccea789fb46971019de",
+    "step-08-activation-receipt.json": "bc37ca02d39af07ba8f9fc81f446c8c319c7d4387b07858f3a228e50d9fc6d94",
+    "final-head-backend-riwi.log": "ff78ce291813a061583f34d8a964d7ecc8022919c5c0ce859c4c6386d216dc24",
+    "final-head-frontend.log": "008fddbb2804a13340f5d5565f6f162666cf81404f3ff3368f4e4a32598d2335",
+    "final-head-core.log": "ff4f8382ac72f0d422cc62f179e906feefae452f2164b35f79db5c6a559a3ee7",
+    "final-head-build.log": "14eb6161653f98eef17e641cf5475f3dd78ca8f6485c9622e3c104d342e64399"
+  }
+}

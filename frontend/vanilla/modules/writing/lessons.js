@@ -1,10 +1,11 @@
+import {EmptyState} from '../../js/generated/ui.js';
 import {el,button,card,navBack,link,viewRegion,post,state,safeArray,txt,label,uuid,missing,errMessage} from './shared.js';
 const originalTab='lessons';
 export function mountTab(ctx,root){const host=el('div',{'data-writing-lessons':'',class:'writing-groups'});root.append(host);viewRegion(ctx,host,'writing-lessons',data=>{
  const rows=safeArray(data.lessons??data.rows);
- if(!rows.length){host.replaceChildren(card(el('h2',{class:'font-semibold'},label(ctx,'writingWorkspace.lessons.emptyTitle')),el('p',{class:'text-sm text-ink-500'},label(ctx,'writingWorkspace.lessons.emptyBody'))));return;}
+ if(!rows.length){host.replaceChildren(EmptyState({icon:'◇',title:label(ctx,'writingWorkspace.lessons.emptyTitle'),body:label(ctx,'writingWorkspace.lessons.emptyBody')}));return;}
  host.replaceChildren(...rows.map(l=>{const t=ctx.dict.writingWorkspace.lessons;return el('article',{class:'card p-5 flex flex-col gap-2'},
-  link(`/app/writing/lessons/${encodeURIComponent(l.id)}`,l.title,'font-display text-lg text-ink-900'),
+  link(`/app/writing/lessons/${encodeURIComponent(l.id)}`,l.title,'font-display text-lg text-ink-900 writing-lesson-link'),
   el('p',{class:'text-xs text-signal-600'},t.category?.[l.category]??l.category),
   l.summary?el('p',{class:'text-sm text-ink-500'},l.summary):null,
   l.durationMinutes?el('span',{class:'text-xs'},String(l.durationMinutes)+' min'):null,

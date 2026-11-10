@@ -1,0 +1,138 @@
+{
+  "snapshot": "Historical bde29af delivery; current results are in 04-final-automated-summary.json and 03-security-and-lifecycle-closure.md",
+  "status": "PARTIAL",
+  "manualQA": "OWNER_ONLY_NOT_RUN",
+  "materialsPolicy": "No material push to any branch; source materials stay on main",
+  "repository": "N-Muhammadjonov/learners_area",
+  "targetBranch": "arena/learners-area-next",
+  "initialRemoteSha": "5138743533dd4beb09a4e24e806fb47034a41d43",
+  "readOnlyMainSha": "bc48ac44ebb8dc65df69d3e477a1494845b60938",
+  "startingAhead": 88,
+  "startingBehind": 3,
+  "auditRows": [
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48
+  ],
+  "newFrontendCases": 8,
+  "focusedFrontend": {
+    "total": 33,
+    "pass": 33,
+    "fail": 0,
+    "skip": 0
+  },
+  "focusedBackend": {
+    "total": 86,
+    "pass": 86,
+    "fail": 0,
+    "warnings": 1
+  },
+  "ownedPostgresAPI": {
+    "pass": 29,
+    "fail": 0,
+    "seconds": 2.921
+  },
+  "releaseFindings": [
+    {
+      "id": "P3-SEC-01",
+      "severity": "P0",
+      "status": "BLOCKED",
+      "endpoint": "GET /api/listening/full/{id}/authored",
+      "httpStatus": 200,
+      "unstartedStudentReceivedExactSourceRuntime": true,
+      "answerBearingMarkers": [
+        "DATA"
+      ],
+      "answerPropertiesInRuntime": 70,
+      "runtimeSha256": "c298210aac9cc2e48b6d48716ac26f78738ec445f6522a56bc263daef94d6361",
+      "protectionGate": "FAIL",
+      "nextStep": "Separate exam-only renderer data from source HTML study/review, then owner browser/audio acceptance. No runtime stripping or learning-material rewrite applied."
+    }
+  ],
+  "build": {
+    "staticBuild": true,
+    "runtime": "Python FastAPI",
+    "files": 844,
+    "routes": 131,
+    "nodeRequired": false,
+    "revision": "8694d78d3169db653ab5",
+    "inputBytes": 151900864,
+    "transferBytes": 138642908,
+    "minifiedFiles": 201,
+    "cdnSpeechBytes": 101260210,
+    "cdnSpeechFiles": 55
+  },
+  "phase12CriticalPreservation": [
+    {
+      "path": "frontend/vanilla/modules/reading/exam.js",
+      "remoteBlob": "ff354361663af170f365acbf918ce2a638cc2073",
+      "localBlob": "ff354361663af170f365acbf918ce2a638cc2073",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/modules/reading/attempt.js",
+      "remoteBlob": "0ceb03d43d1f68a741f20879ed3448a007d9f17e",
+      "localBlob": "0ceb03d43d1f68a741f20879ed3448a007d9f17e",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/js/adapters/reading-v44.js",
+      "remoteBlob": "18ddd416111d89ee2a18852cd261877dcc97e166",
+      "localBlob": "18ddd416111d89ee2a18852cd261877dcc97e166",
+      "unchanged": true
+    },
+    {
+      "path": "services/backend/app/reading_feedback_port.py",
+      "remoteBlob": "c01904bcd6c46dd5b9ebcce05bda2d619115a8fa",
+      "localBlob": "c01904bcd6c46dd5b9ebcce05bda2d619115a8fa",
+      "unchanged": true
+    },
+    {
+      "path": "services/backend/app/reading_draft.py",
+      "remoteBlob": "75f7415291067fc1561aa2184347b04e8a2d70c3",
+      "localBlob": "75f7415291067fc1561aa2184347b04e8a2d70c3",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/modules/shared/design-system.css",
+      "remoteBlob": "fe68dd5d2ec7b2a997daea315731b552ca9e4276",
+      "localBlob": "fe68dd5d2ec7b2a997daea315731b552ca9e4276",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/css/dock.css",
+      "remoteBlob": "e1aad911df9bf4c78ccb8c5d8b236eb7295091d3",
+      "localBlob": "e1aad911df9bf4c78ccb8c5d8b236eb7295091d3",
+      "unchanged": true
+    },
+    {
+      "path": "frontend/vanilla/modules/listening/exam.js",
+      "remoteBlob": "a8ebefe709bceaf59077b77641a01b29f777a633",
+      "localBlob": "a8ebefe709bceaf59077b77641a01b29f777a633",
+      "unchanged": true
+    }
+  ],
+  "migrations": [],
+  "deployed": false,
+  "liveDatabaseWrites": false,
+  "newTeachingMaterials": 0,
+  "mainWritten": false
+}

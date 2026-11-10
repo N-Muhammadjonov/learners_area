@@ -1,0 +1,905 @@
+{
+  "source": {
+    "library_file_id": "libfile_ef36714def108191b7ecdfc263559f43",
+    "filename": "LEARNERS_AREA_RIWI_PROMPT_BASE_BOOK_FINAL.txt",
+    "version": "1.0 — 2026-10-04",
+    "source_byte_size_reported": 114387,
+    "extracted_text_lines": 3909,
+    "exact_binary_hash_verified": false
+  },
+  "target": {
+    "riwi_sha": "b6434d1afa9ff3cfa8d53598f83b2cc34576f65c",
+    "registry_path": "services/backend/app/riwi_assessment_contracts.py",
+    "registry_keys": 105
+  },
+  "status": "source_available_semantic_integration_and_acceptance_pending",
+  "compliance_certified": false,
+  "activated": false,
+  "contracts": [
+    {
+      "id": 1,
+      "key": "writing.task1.line_graph",
+      "focus": "overview; major trends; significant features; meaningful comparisons; data accuracy; trend vocabulary",
+      "method": "OVERVIEW → KEY FEATURES → COMPARISONS → LANGUAGE → GRAMMAR",
+      "guard": "Do not reward reporting every number. Do not invent data.",
+      "implementation_key_candidates": [
+        "writing.task1.line-chart"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 2,
+      "key": "writing.task1.bar_chart",
+      "focus": "overview; highest/lowest; grouping; comparisons; numerical language",
+      "method": "OVERVIEW → GROUPS → COMPARISONS → LANGUAGE",
+      "guard": "Do not narrate every bar mechanically.",
+      "implementation_key_candidates": [
+        "writing.task1.bar-chart"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 3,
+      "key": "writing.task1.pie_chart",
+      "focus": "largest/smallest shares; proportions; changes across charts; significant comparisons",
+      "method": "OVERVIEW → PROPORTIONS → CHANGES → LANGUAGE",
+      "guard": "Do not list every slice without synthesis.",
+      "implementation_key_candidates": [
+        "writing.task1.pie-chart"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 4,
+      "key": "writing.task1.table",
+      "focus": "patterns in dense data; grouping; overview; units; exceptions",
+      "method": "OVERVIEW → GROUP ROWS/COLUMNS → COMPARE → CHECK UNITS",
+      "guard": "Do not convert table row-by-row into prose.",
+      "implementation_key_candidates": [
+        "writing.task1.table"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 5,
+      "key": "writing.task1.mixed",
+      "focus": "one integrated overview; relationship between visuals; selective reporting; units",
+      "method": "INTEGRATED OVERVIEW → LINK VISUALS → KEY FEATURES",
+      "guard": "Do not write disconnected mini-reports.",
+      "implementation_key_candidates": [
+        "writing.task1.mixed"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 6,
+      "key": "writing.task1.process",
+      "focus": "start/end; sequence; essential stages; overview; natural passive voice",
+      "method": "START → STAGES → END → LANGUAGE",
+      "guard": "Do not demand trend vocabulary or invent cause/effect.",
+      "implementation_key_candidates": [
+        "writing.task1.process"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 7,
+      "key": "writing.task1.map",
+      "focus": "overall transformation; spatial language; added/removed/relocated/expanded features",
+      "method": "OVERVIEW → AREA/GROUP CHANGES → COMPARE",
+      "guard": "Do not invent locations not visible in source.",
+      "implementation_key_candidates": [
+        "writing.task1.map"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 8,
+      "key": "writing.task2.opinion",
+      "focus": "clear position; maintained stance; relevant reasons; developed support",
+      "method": "POSITION → REASONS → DEVELOPMENT → EVIDENCE",
+      "guard": "Unclear position is a major Task Response issue.",
+      "implementation_key_candidates": [
+        "writing.task2.opinion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 9,
+      "key": "writing.task2.discussion",
+      "focus": "both views explained; own opinion; balanced development",
+      "method": "VIEW A → VIEW B → OWN POSITION → SUPPORT",
+      "guard": "Do not reduce either view to a strawman.",
+      "implementation_key_candidates": [
+        "writing.task2.discussion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 10,
+      "key": "writing.task2.advantages_disadvantages",
+      "focus": "both required sides; relative weight if asked; consequences/examples",
+      "method": "REQUIREMENTS → ADVANTAGES → DISADVANTAGES → JUDGEMENT",
+      "guard": "Do not ignore one required side.",
+      "implementation_key_candidates": [
+        "writing.task2.advantages-disadvantages"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 11,
+      "key": "writing.task2.problem_solution",
+      "focus": "exact requested components; cause/problem-solution fit; development",
+      "method": "IDENTIFY REQUEST → PROBLEM/CAUSE → SOLUTION LINK",
+      "guard": "Generic unrelated solutions are weak.",
+      "implementation_key_candidates": [
+        "writing.task2.problem-solution"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 12,
+      "key": "writing.task2.two_part",
+      "focus": "both explicit questions answered and developed",
+      "method": "QUESTION 1 → QUESTION 2 → CHECK BOTH",
+      "guard": "One missing part is a major Task Response limitation.",
+      "implementation_key_candidates": [
+        "writing.task2.two-part"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 13,
+      "key": "writing.task2.positive_negative",
+      "focus": "explicit judgement; criteria for judgement; developed reasons",
+      "method": "JUDGEMENT → REASONS → SUPPORT → CONSISTENCY",
+      "guard": "Do not automatically treat as simple pros/cons.",
+      "implementation_key_candidates": [
+        "writing.task2.positive-negative"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 14,
+      "key": "writing.check.translation",
+      "focus": "meaning preservation; grammar; natural vocabulary/collocation; omitted/added meaning",
+      "method": "SOURCE → LEARNER VERSION → MEANING → CORRECTION → RULE",
+      "guard": "Reference answer is one good answer, not the only answer. No IELTS essay band.",
+      "implementation_key_candidates": [
+        "writing.check.translation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 15,
+      "key": "writing.check.activation",
+      "focus": "target meaning; form; collocation; natural context; grammar",
+      "method": "TARGET ITEM → USE → WHY → BETTER USE",
+      "guard": "String presence alone is not mastery. No essay band.",
+      "implementation_key_candidates": [
+        "writing.check.activation-writing",
+        "writing.check.activation-speaking"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 16,
+      "key": "writing.check.pattern",
+      "focus": "grammar; meaning; target pattern; adaptation to new topic",
+      "method": "PATTERN → STUDENT USE → ADAPTATION → NEW EXAMPLE",
+      "guard": "Near-copy gets low adaptation.",
+      "implementation_key_candidates": [
+        "writing.check.pattern-adaptation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 17,
+      "key": "speaking.part1",
+      "focus": "direct relevance; natural short development; transcript-supported fluency; vocabulary; grammar",
+      "method": "ANSWER → REASON → SMALL EXAMPLE",
+      "guard": "Per-answer feedback concise. No fake full band. No pronunciation without acoustic evidence.",
+      "implementation_key_candidates": [
+        "speaking.part1"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 18,
+      "key": "speaking.part2",
+      "focus": "cue coverage; sustained development; organization; lexical range; grammar; duration",
+      "method": "OPEN → DEVELOP → DETAIL/EXAMPLE → NATURAL CLOSE",
+      "guard": "Do not require cue bullets in exact order. No text-only pronunciation.",
+      "implementation_key_candidates": [
+        "speaking.part2"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 19,
+      "key": "speaking.part3",
+      "focus": "abstract reasoning; cause/effect; comparison; qualification; justification; examples",
+      "method": "CLAIM → WHY → EXAMPLE/CONSEQUENCE → QUALIFICATION",
+      "guard": "Flag grammatically fine but off-topic answers.",
+      "implementation_key_candidates": [
+        "speaking.part3"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 20,
+      "key": "speaking.full_mock",
+      "focus": "evidence across Parts 1–3; recurring strengths/weaknesses; assessed criteria",
+      "method": "PART EVIDENCE → CRITERIA → RECURRING PATTERNS → NEXT FOCUS",
+      "guard": "If pronunciation unavailable, call result text-based/assessed-criteria estimate, not complete official band.",
+      "implementation_key_candidates": [
+        "speaking.mock"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 21,
+      "key": "speaking.coach_answer",
+      "focus": "relevance; strongest point; highest-value improvement; evidence; better version",
+      "method": "ANSWERED? → STRENGTH → ONE FIX → BETTER VERSION → NEXT TRY",
+      "guard": "Keep short enough for repeated practice.",
+      "implementation_key_candidates": [
+        "speaking.general"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 22,
+      "key": "reading.tfng",
+      "focus": "agreement vs contradiction vs missing information",
+      "method": "EVIDENCE → PARAPHRASE → COMPARE → DECISION → TRAP",
+      "guard": "TRUE=same; FALSE=opposite; NOT GIVEN=insufficient. Official key deterministic.",
+      "implementation_key_candidates": [
+        "reading.true-false-not-given"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 23,
+      "key": "reading.ynng",
+      "focus": "writer viewpoint agreement/contradiction/missing view",
+      "method": "WRITER VIEW → STATEMENT → COMPARE → DECISION",
+      "guard": "Use for opinions/claims; distinguish from factual TFNG.",
+      "implementation_key_candidates": [
+        "reading.yes-no-not-given"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 24,
+      "key": "reading.matching_headings",
+      "focus": "paragraph main idea, not detail/keyword matching",
+      "method": "SUMMARIZE PARAGRAPH → IGNORE DETAILS → COMPARE HEADINGS → ELIMINATE",
+      "guard": "Heading must cover whole paragraph.",
+      "implementation_key_candidates": [
+        "reading.matching-headings"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 25,
+      "key": "reading.matching_information",
+      "focus": "find paragraph containing requested detail",
+      "method": "IDENTIFY INFO TYPE → PARAPHRASE → LOCATE → CONFIRM",
+      "guard": "Do not confuse with main-idea heading task.",
+      "implementation_key_candidates": [
+        "reading.matching-information"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 26,
+      "key": "reading.matching_features",
+      "focus": "match statement to person/place/category evidence",
+      "method": "STATEMENT → CANDIDATES → EVIDENCE → ELIMINATE → MATCH",
+      "guard": "Respect option reuse rules.",
+      "implementation_key_candidates": [
+        "reading.matching-features"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 27,
+      "key": "reading.matching_sentence_endings",
+      "focus": "grammar + passage meaning + logical completion",
+      "method": "STEM → EVIDENCE → ENDINGS → MEANING CHECK",
+      "guard": "Grammar alone is insufficient.",
+      "implementation_key_candidates": [
+        "reading.matching-sentence-endings"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 28,
+      "key": "reading.mcq_single",
+      "focus": "question focus; evidence; distractor elimination",
+      "method": "FOCUS → EVIDENCE → PARAPHRASE → ELIMINATE DISTRACTORS",
+      "guard": "Explain too broad/too narrow/true-detail-but-not-answer traps.",
+      "implementation_key_candidates": [
+        "reading.mcq-single"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 29,
+      "key": "reading.mcq_multiple",
+      "focus": "evaluate every option; exact required number",
+      "method": "FOCUS → EVIDENCE → OPTION-BY-OPTION → SELECT REQUIRED COUNT",
+      "guard": "Do not stop after first plausible option.",
+      "implementation_key_candidates": [
+        "reading.mcq-multiple"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 30,
+      "key": "reading.sentence_completion",
+      "focus": "predict grammar; locate evidence; word limit; exact passage wording",
+      "method": "PREDICT FORM → LOCATE → FILL → WORD LIMIT → GRAMMAR CHECK",
+      "guard": "Never exceed word limit.",
+      "implementation_key_candidates": [
+        "reading.sentence-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 31,
+      "key": "reading.summary_completion",
+      "focus": "overall summary meaning; part-of-speech prediction; paraphrase mapping",
+      "method": "SUMMARY → PREDICT GAP → LOCATE → PARAPHRASE → VERIFY",
+      "guard": "Explain paraphrase relationship.",
+      "implementation_key_candidates": [
+        "reading.summary-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 32,
+      "key": "reading.note_completion",
+      "focus": "heading/bullet context; semantic category; word limit",
+      "method": "NOTE CONTEXT → PREDICT TYPE → LOCATE → FILL",
+      "guard": "Keep answer minimal.",
+      "implementation_key_candidates": [
+        "reading.note-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 33,
+      "key": "reading.table_completion",
+      "focus": "row/column labels; units; adjacent values",
+      "method": "HEADERS → ROW/COLUMN → LOCATE → CHECK UNIT",
+      "guard": "Do not mix adjacent rows.",
+      "implementation_key_candidates": [
+        "reading.table-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 34,
+      "key": "reading.flowchart_completion",
+      "focus": "process sequence; stage logic; word type",
+      "method": "SEQUENCE → STAGE → LOCATE → FILL",
+      "guard": "Use arrows/stage order.",
+      "implementation_key_candidates": [
+        "reading.flowchart-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 35,
+      "key": "reading.diagram_label",
+      "focus": "spatial/structural clues + passage evidence",
+      "method": "DIAGRAM POSITION → PASSAGE EVIDENCE → LABEL",
+      "guard": "Do not infer from world knowledge.",
+      "implementation_key_candidates": [
+        "reading.diagram-label"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 36,
+      "key": "reading.short_answer",
+      "focus": "exact question; passage evidence; word limit",
+      "method": "QUESTION → LOCATE → MINIMUM ANSWER → LIMIT CHECK",
+      "guard": "Avoid unnecessary words.",
+      "implementation_key_candidates": [
+        "reading.short-answer"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 37,
+      "key": "listening.mcq_single",
+      "focus": "final spoken meaning; corrections; distractors",
+      "method": "QUESTION → LISTEN FOR CONTRAST/CORRECTION → OPTION EVIDENCE",
+      "guard": "Official key deterministic. Post-attempt explanation only.",
+      "implementation_key_candidates": [
+        "listening.mcq-single"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 38,
+      "key": "listening.mcq_multiple",
+      "focus": "each option independently; final stated meaning",
+      "method": "OPTION-BY-OPTION → FINAL MEANING → REQUIRED COUNT",
+      "guard": "Track corrections and speaker changes.",
+      "implementation_key_candidates": [
+        "listening.mcq-multiple"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 39,
+      "key": "listening.form_completion",
+      "focus": "answer type; spelling; numbers/dates; corrections",
+      "method": "PREDICT TYPE → LISTEN → CAPTURE FINAL FORM → LIMIT CHECK",
+      "guard": "Watch spelling and corrected details.",
+      "implementation_key_candidates": [
+        "listening.form-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 40,
+      "key": "listening.note_completion",
+      "focus": "note hierarchy; semantic category; paraphrase",
+      "method": "NOTE CONTEXT → PREDICT → LISTEN FOR PARAPHRASE → FILL",
+      "guard": "Respect word limit.",
+      "implementation_key_candidates": [
+        "listening.note-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 41,
+      "key": "listening.table_completion",
+      "focus": "headers; row/column focus; units",
+      "method": "HEADERS → ACTIVE ROW → LISTEN → CHECK UNIT",
+      "guard": "Do not drift to adjacent row.",
+      "implementation_key_candidates": [
+        "listening.table-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 42,
+      "key": "listening.flowchart_completion",
+      "focus": "sequence markers and process order",
+      "method": "FIRST → THEN → AFTER → FINALLY",
+      "guard": "Use sequence to recover context.",
+      "implementation_key_candidates": [
+        "listening.flowchart-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 43,
+      "key": "listening.sentence_completion",
+      "focus": "grammatical form + paraphrase + limit",
+      "method": "PREDICT FORM → LISTEN → INSERT → GRAMMAR CHECK",
+      "guard": "Respect word limit.",
+      "implementation_key_candidates": [
+        "listening.sentence-completion"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 44,
+      "key": "listening.short_answer",
+      "focus": "exact asked detail; minimal words/numbers",
+      "method": "QUESTION → LISTEN → MINIMUM ANSWER",
+      "guard": "No unnecessary words.",
+      "implementation_key_candidates": [
+        "listening.short-answer"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 45,
+      "key": "listening.map_plan_label",
+      "focus": "orientation; starting point; directions; landmarks",
+      "method": "START → ORIENT → FOLLOW ROUTE → LANDMARK → LABEL",
+      "guard": "Use small ASCII map after attempt if helpful. Never invent route evidence.",
+      "implementation_key_candidates": [
+        "listening.map-plan-label"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 46,
+      "key": "listening.matching",
+      "focus": "items/speakers and final choices/opinions",
+      "method": "TRACK ENTITY → INITIAL IDEA → FINAL DECISION → MATCH",
+      "guard": "Distinguish suggestion from final choice.",
+      "implementation_key_candidates": [
+        "listening.matching"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 47,
+      "key": "grammar.error_correction",
+      "focus": "error span; category; reason; correction; reusable rule",
+      "method": "ORIGINAL → ERROR → WHY → CORRECT → RULE → MINI EXAMPLE",
+      "guard": "If correct, do not invent error.",
+      "implementation_key_candidates": [
+        "grammar.correct-it"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 48,
+      "key": "grammar.transformation",
+      "focus": "meaning preserved; required structure; correctness",
+      "method": "ORIGINAL MEANING → REQUIRED STRUCTURE → NEW SENTENCE → VERIFY",
+      "guard": "Accept valid alternatives.",
+      "implementation_key_candidates": [
+        "grammar.transformation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 49,
+      "key": "grammar.fill_gap",
+      "focus": "grammatical clue; correct form; distractor reason",
+      "method": "CLUE → RULE → ANSWER → WHY DISTRACTOR FAILS",
+      "guard": "Keep concise.",
+      "implementation_key_candidates": [
+        "grammar.fill-gap"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 50,
+      "key": "grammar.controlled_production",
+      "focus": "target structure present; coherent meaning; completeness; grammar",
+      "method": "TARGET → STUDENT SENTENCE → CHECK → CORRECT/IMPROVE",
+      "guard": "Mentioning rule label is not usage.",
+      "implementation_key_candidates": [
+        "grammar.activate-it"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 51,
+      "key": "grammar.free_production",
+      "focus": "meaning; target form; surrounding grammar; naturalness",
+      "method": "MEANING → TARGET FORM → CONTEXT → FEEDBACK",
+      "guard": "Give corrected + one fresh example.",
+      "implementation_key_candidates": [
+        "grammar.free-production"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 52,
+      "key": "grammar.explanation",
+      "focus": "simple rule; contrast; examples; common mistake; check question",
+      "method": "RULE → CONTRAST → EXAMPLES → COMMON ERROR → MINI CHECK",
+      "guard": "Teach learner, not linguistics paper.",
+      "implementation_key_candidates": [
+        "grammar.explanation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 53,
+      "key": "grammar.retention",
+      "focus": "remembered vs decayed; recurring error; retrieval practice",
+      "method": "RECALL → GAP → RECURRING PATTERN → ONE RETRIEVAL DRILL",
+      "guard": "Prefer active recall.",
+      "implementation_key_candidates": [
+        "grammar.retention"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 54,
+      "key": "vocabulary.meaning",
+      "focus": "canonical sense; plain meaning; example; confusion",
+      "method": "CANONICAL SENSE → SIMPLE MEANING → EXAMPLE",
+      "guard": "Dictionary authority wins.",
+      "implementation_key_candidates": [
+        "vocabulary.meaning"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 55,
+      "key": "vocabulary.contextual_meaning",
+      "focus": "context clue; canonical sense; sibling-sense elimination",
+      "method": "CONTEXT → SENSE → WHY THIS SENSE → WHY NOT OTHERS",
+      "guard": "Use source occurrence.",
+      "implementation_key_candidates": [
+        "vocabulary.contextual-meaning"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 56,
+      "key": "vocabulary.translation",
+      "focus": "canonical EN-UZ sense translation",
+      "method": "SENSE → CONTEXTUAL TRANSLATION → EXAMPLE",
+      "guard": "Do not collapse all senses.",
+      "implementation_key_candidates": [
+        "vocabulary.translation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 57,
+      "key": "vocabulary.collocation",
+      "focus": "natural combination; canonical evidence; better phrase",
+      "method": "LEARNER PHRASE → NATURAL? → BETTER COLLOCATION → EXAMPLE",
+      "guard": "Provider cannot invent lexical truth.",
+      "implementation_key_candidates": [
+        "vocabulary.collocation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 58,
+      "key": "vocabulary.word_form",
+      "focus": "noun/verb/adjective/adverb form; inflection; role",
+      "method": "ROLE → REQUIRED FORM → CORRECTION → WORD FAMILY",
+      "guard": "Only relevant forms.",
+      "implementation_key_candidates": [
+        "vocabulary.word-form"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 59,
+      "key": "vocabulary.synonym_choice",
+      "focus": "meaning; register; collocation; strength; grammar",
+      "method": "COMPARE A/B → CONTEXT → BEST CHOICE",
+      "guard": "Synonyms are not automatically interchangeable.",
+      "implementation_key_candidates": [
+        "vocabulary.synonym-choice"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 60,
+      "key": "vocabulary.paraphrase",
+      "focus": "meaning equivalence; nuance; grammar",
+      "method": "ORIGINAL → PARAPHRASE → MEANING CHECK → NUANCE",
+      "guard": "Surface synonym replacement is insufficient.",
+      "implementation_key_candidates": [
+        "vocabulary.paraphrase"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 61,
+      "key": "vocabulary.activation",
+      "focus": "meaning; form; collocation; naturalness; grammar",
+      "method": "TARGET → STUDENT USE → ISSUE → BETTER USE",
+      "guard": "Copied phrase weaker than learner-owned sentence.",
+      "implementation_key_candidates": [
+        "vocabulary.activation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 62,
+      "key": "vocabulary.productive_use",
+      "focus": "correct sense; form; collocation; meaningful context",
+      "method": "SENSE → USE → NATURALNESS → NEXT CONTEXT",
+      "guard": "If correct, give harder context rather than invented correction.",
+      "implementation_key_candidates": [
+        "vocabulary.use-in-sentence"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 63,
+      "key": "retention.reading_recall",
+      "focus": "main ideas; important details; false additions; omissions",
+      "method": "REMEMBERED → MISSED → DISTORTED → RETRIEVAL CUE",
+      "guard": "Do not punish wording differences.",
+      "implementation_key_candidates": [
+        "retention.reading-recall"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 64,
+      "key": "retention.vocabulary_recall",
+      "focus": "recognition vs meaning recall vs productive use",
+      "method": "RECOGNITION → MEANING → CONTEXT → PRODUCTIVE USE",
+      "guard": "Recognition alone is not mastery.",
+      "implementation_key_candidates": [
+        "retention.vocabulary-recall"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 65,
+      "key": "retention.error_pattern",
+      "focus": "recurrence; improvement; remaining pattern; drill",
+      "method": "EVIDENCE ACROSS ATTEMPTS → PATTERN → CHANGE → DRILL",
+      "guard": "One error is not a stable weakness.",
+      "implementation_key_candidates": [
+        "retention.error-pattern"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 66,
+      "key": "tutoring.simple_explanation",
+      "focus": "one-sentence answer; simple explanation; example; mini illustration; quick check",
+      "method": "ANSWER → EXPLAIN → EXAMPLE → ILLUSTRATE → CHECK",
+      "guard": "Simple but accurate.",
+      "implementation_key_candidates": [
+        "tutoring.simple-explanation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 67,
+      "key": "tutoring.compare_concepts",
+      "focus": "side-by-side differences and examples",
+      "method": "A vs B → KEY DIFFERENCE → EXAMPLES → COMMON CONFUSION",
+      "guard": "ASCII table encouraged.",
+      "implementation_key_candidates": [
+        "tutoring.compare-concepts"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    },
+    {
+      "id": 68,
+      "key": "reporting.progress_explanation",
+      "focus": "explain deterministic metrics; supported patterns; next action",
+      "method": "METRIC → MEANING → CHANGE/PATTERN → NEXT ACTION",
+      "guard": "Never recalculate or invent numbers.",
+      "implementation_key_candidates": [
+        "reporting.progress-explanation"
+      ],
+      "verification_status": "semantic_rule_implementation_unverified",
+      "active_contract_factory": "services/backend/app/riwi_assessment_contracts.py::_build_contract",
+      "finding": "Factory generates generic purpose/task_rules; key existence is not source-rule compliance."
+    }
+  ]
+}

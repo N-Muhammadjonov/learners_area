@@ -198,6 +198,11 @@ def build_csp(req: Request, nonce: str) -> str:
         except ValueError: pass
     frame = ["'self'"] + origins('ALLOWED_FRAME_ANCESTORS')
     scripts = ["'self'", f"'nonce-{nonce}'", "'strict-dynamic'"] + (["'unsafe-eval'"] if dev else [])
+    # Local document readers compile their own pinned WASM; JavaScript eval stays disabled.
+    # A public entry can navigate to RIWI within the same SPA document.
+    scripts.append("'wasm-unsafe-eval'")
+    if '/js/vendor/riwi-files/' in req.url.path:
+        scripts = ["'self'", "'wasm-unsafe-eval'"]
     directives = ["default-src 'self'", "base-uri 'self'", "object-src 'none'",
                   'frame-ancestors ' + ' '.join(frame), "form-action 'self'",
                   'script-src ' + ' '.join(scripts), "style-src 'self' 'unsafe-inline'",

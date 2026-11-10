@@ -12,6 +12,7 @@ from .step21_listening_authored_reads import PRIVATE,get_context,loaded_values
 from .step17_listening_course_port import COURSE_KEY,SPEC,state_key,runtime_source,read_work,current_work,course_status
 from .step17_listening_start_port import begin
 from .step22_listening_submit import assigned_questions,graded,matches
+from .listening_revision import revision_package
 
 router=APIRouter()
 RULES.setdefault('listening_authored_state',(240,60))
@@ -49,6 +50,7 @@ async def persist_submit(con,u,attempt_id,questions,answers):
     if not questions:questions=await assigned_questions(con,attempt)
     pkg=await con.fetchrow('SELECT payload FROM listening_packages WHERE test_id=$1',attempt['test_id'])
     p=_decode(pkg['payload']) if pkg and pkg['payload'] else None
+    p=await revision_package(con,attempt,p)
     full=graded(p,{str(q['order']):answers.get(str(q['id']),'') for q in questions}) if p and isinstance(p.get('questions'),list) else None
     correct={str(q['number']):q['correct'] for q in full} if full else {}
     score=0

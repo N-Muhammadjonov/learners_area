@@ -1,0 +1,31 @@
+feature_id,domain,legacy_riwi_source,current_site_target,api_or_route,migration_dependency,status,verification_type
+RIWI-SCHEMA-01,Schema & Migrations,"drizzle/0036..0045,0048,0050.sql",services/backend/migrations/0070_riwi_core_and_governance.sql,N/A,0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-SCHEMA-02,Schema & Migrations,"drizzle/0046,0049.sql",services/backend/migrations/0071_riwi_assessments_and_security_signals.sql,N/A,0071,IMPLEMENTED,TESTED_LOCALLY
+RIWI-SCHEMA-03,Schema & Migrations,drizzle/0047_speaking_ai_sessions_fenced.sql,services/backend/migrations/0072_riwi_speaking_sessions_and_activity_indexes.sql,N/A,0072,IMPLEMENTED,TESTED_LOCALLY
+RIWI-AUTH-01,Capabilities & RBAC,src/lib/services/riwi/capabilities.ts,services/backend/app/riwi_capabilities.py,Internal Service,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-CONTRACT-01,Contracts & Intent,src/lib/services/riwi/contracts.ts,services/backend/app/riwi_contracts.py,Internal Service,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-ROLLOUT-01,Rollout & Kill Switch,src/lib/services/riwi/rollout.ts,services/backend/app/riwi_rollout.py,Internal Service,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-GUARD-01,Outbound PII & Secret Guard,src/lib/services/riwi/outbound-guard.ts,services/backend/app/riwi_outbound_guard.py,Internal Service,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-CURSOR-01,HMAC Owner History Cursor,src/lib/services/riwi/owner-history-cursor.ts,services/backend/app/riwi_cursor.py,Internal Service,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-AUDIT-01,Immutable Audit & Usage Metrics,src/lib/services/riwi/audit.ts,services/backend/app/riwi_audit.py,GET /api/riwi/owner/audit,0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-CONV-01,Conversations & D-01 Retention,"src/lib/services/riwi/conversations.ts, conversation-retention.ts","services/backend/app/riwi_conversations.py, riwi_retention.py","GET/DELETE /api/riwi/conversations/{id}, POST /api/riwi/presence",0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-SCOPE-01,Role Surface & Targets,"src/lib/services/riwi/role-surface.ts, site-adapter.ts",services/backend/app/riwi_role_surface.py,GET /api/riwi/targets,0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-BROKER-01,Default-Deny Tool Broker,src/lib/services/riwi/tool-broker.ts,services/backend/app/riwi_tool_broker.py,Internal Service,0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-ROUTER-01,Provider Router & SSRF Guard,src/lib/services/riwi/provider-router.ts,services/backend/app/riwi_provider_router.py,GET /api/riwi/owner/diagnostics,0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-ASSESS-01,105 Assessment Contracts & Overlays,src/lib/services/coach/contracts/*.ts,services/backend/app/riwi_assessment_contracts.py,"GET/POST /api/riwi/owner/assessment-policies, preview, approve, reject, rollback",0071,IMPLEMENTED,TESTED_LOCALLY
+RIWI-KNOW-01,Governed Knowledge Lifecycle,"src/lib/services/riwi/knowledge.ts, knowledge-parser.ts, knowledge-upload.ts",services/backend/app/riwi_knowledge.py,"GET/POST /api/riwi/owner/knowledge, detail, approve, reject, promote, conflicts",0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-LEARN-01,Learning Signals & Feedback,src/lib/services/riwi/learning.ts,services/backend/app/riwi_learning_signals.py,"GET/POST /api/riwi/learning-signals, review, knowledge, POST /api/riwi/feedback",0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-SEC-01,Sanitized Security Signals,src/lib/services/riwi/security-learning.ts,services/backend/app/riwi_security_signals.py,GET/POST /api/riwi/owner/security-signals,0071,IMPLEMENTED,TESTED_LOCALLY
+RIWI-LAB-01,Owner Fixed-Fixture Provider Lab,src/lib/services/riwi/provider-lab.ts,services/backend/app/riwi_provider_lab.py,GET/POST /api/riwi/owner/provider-lab,0070,IMPLEMENTED,TESTED_LOCALLY
+RIWI-EDU-01,Canonical Dictionary & Occurrence Teaching,"src/lib/services/riwi/dictionary.ts, dictionary-teaching.ts, dictionary-status.ts",services/backend/app/riwi_tools_domain.py,Internal Tool + Gateway,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-EDU-02,Grammar Topics & Grammar Retention,"src/lib/services/riwi/core-tools.ts, grammar-retention.ts",services/backend/app/riwi_tools_domain.py,Internal Tool + Gateway,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-EDU-03,Reading/Vocabulary Recall & Error Patterns,"src/lib/services/riwi/retention-read-policy.ts, retention-explanation.ts",services/backend/app/riwi_tools_domain.py,Internal Tool + Gateway,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-EDU-04,Course Lesson Bounded Excerpts,src/lib/services/riwi/course-lessons.ts,services/backend/app/riwi_tools_domain.py,Internal Tool + Gateway,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-EDU-05,Deterministic Reporter & SQL Provenance,"src/lib/services/riwi/reports.ts, report-explanation.ts",services/backend/app/riwi_tools_domain.py,Internal Tool + Gateway,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-EDU-06,Authored Objective Explanation,src/lib/services/riwi/objective-explanation.ts,services/backend/app/riwi_tools_domain.py,POST /api/riwi/objective-explanation,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-GATEWAY-01,RIWI Gateway & FastAPI Port,"src/lib/services/riwi/gateway.ts, src/app/api/riwi/**/route.ts","services/backend/app/riwi_gateway.py, riwi_port.py",POST /api/riwi/chat + 24 routes,0070..0072,IMPLEMENTED,TESTED_LOCALLY
+RIWI-UI-01,Vanilla RIWI Chat Workspace,"src/components/riwi/RiwiChat.tsx, src/app/(app)/riwi/page.tsx",frontend/vanilla/modules/riwi/index.js,/app/riwi,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-UI-02,Vanilla Owner RIWI Control Room,"src/components/riwi/Owner*.tsx, src/app/(app)/owner/riwi/page.tsx",frontend/vanilla/modules/staff-final30/owner-riwi.js,/app/owner/riwi,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-UI-03,Vanilla Objective Explanation Widget,src/components/riwi/ObjectiveExplanation.tsx,frontend/vanilla/modules/riwi/objective-explanation.js,Reading/Listening Attempt Review,None,IMPLEMENTED,TESTED_LOCALLY
+RIWI-PORT-01,Portability Modes A/B/C & AES-256-GCM,src/lib/portability/*.ts,"services/backend/app/riwi_portability.py, scripts/riwi_portable_archive.py",CLI & Service API,0070..0072,IMPLEMENTED,TESTED_LOCALLY
+RIWI-WORKER-01,Scheduled Chat Retention Worker,src/lib/services/riwi/conversation-retention.ts,scripts/riwi_chat_retention_worker.py,CLI Worker,0070,IMPLEMENTED,TESTED_LOCALLY

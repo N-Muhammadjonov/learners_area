@@ -1,6 +1,6 @@
 import {h,fragment,Link} from '../native.js';import {Card} from './ui.js';import {BackLink} from '../../modules/shared/presentation.js';import {ListeningMap} from './listening-map.js';
 export function render(scope) {
-    const { dict, attemptId, testId, title, audioUrl, imageUrl, mapDiagram, mapSections, questions, initial, audioPosition, audioStartedAt, duration, sectionMode, answers, section, mediaDuration, started, position, error, saved, busy, notesOpen, notes, confirm, audio, container, change, play, submit, setNotesOpen, updateNotes, setSection, setConfirm, setError, setMediaDuration, setPosition, pos, ReadingText } = scope;
+    const { dict, attemptId, testId, title, audioUrl, imageUrl, mapDiagram, mapSections, questions, initial, audioPosition, audioStartedAt, duration, sectionMode, answers, section, mediaDuration, started, position, error, saved, busy, notesOpen, notes, confirm, audio, container, change, play, submit, setNotesOpen, updateNotes, setSection, setConfirm, setError, setMediaDuration, setPosition, pos, ReadingText, renderMedia = true } = scope;
     const HISTORICAL_MAP_PART = 2, answered = questions.filter(q => answers[q.id]?.trim()).length;
     const Image = ({ unoptimized, ...props }) => h("img", props);
     return (h("div", { ref: container, className: "listening-workspace mx-auto max-w-5xl space-y-5 bg-paper p-4 overflow-auto", "data-listening-attempt-mode": sectionMode ? "section" : "full_exam" },
@@ -44,7 +44,7 @@ export function render(scope) {
             h("label", { className: "block", htmlFor: "listening-notes-text" }, dict.fullListeningHub.examScreen.noteTaking),
             h("textarea", { id: "listening-notes-text", className: "input min-h-40", maxLength: 12000, value: notes, onChange: e => updateNotes(e.target.value) }),
             h("p", { className: "text-xs text-ink-500" }, dict.fullListeningHub.examScreen.notesLocal)),
-        h("audio", { ref: audio, src: audioUrl, preload: sectionMode ? "none" : "auto", onLoadedMetadata: () => {
+        renderMedia && h("audio", { ref: audio, src: audioUrl, preload: sectionMode ? "none" : "auto", onLoadedMetadata: () => {
                 if (audio.current) {
                     audio.current.currentTime = audioPosition;
                     if (duration === undefined && Number.isFinite(audio.current.duration))

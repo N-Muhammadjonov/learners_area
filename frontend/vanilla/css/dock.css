@@ -33,18 +33,6 @@ html[data-study-focus="on"] .module-dock,html[data-retention-focus="on"] .module
 @media(max-width:480px){.module-dock{--dock-size:40px}}
 @media(prefers-reduced-motion:reduce){.module-dock__icon{transition:none}}
 
-/* Opening-only visual layers; Dock and study tools stay above both windows. */
-.dock-opening-layer{position:fixed;inset:0;z-index:41;pointer-events:none;isolation:isolate}
-.dock-opening-previous,.dock-opening-window{position:fixed;pointer-events:none;overflow:visible}
-.dock-opening-previous{overflow:hidden}
-.dock-opening-window{filter:drop-shadow(0 18px 28px rgba(0,0,0,.34)) drop-shadow(0 0 1px rgba(0,0,0,.5))}
-.dock-opening-sheet{position:absolute;inset:0;overflow:hidden}
-.dock-opening-band{position:absolute;left:0;top:0;overflow:hidden;transform-origin:0 0;will-change:transform;contain:layout paint}
-.dock-opening-outline{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.dock-opening-outline path{fill:none;stroke:rgba(255,255,255,.58);stroke-width:1;vector-effect:non-scaling-stroke}
-[data-dock-snapshot]{pointer-events:none!important;user-select:none!important}
-.dock-opening-layer *{animation:none!important;transition:none!important;caret-color:transparent!important}
-
 /* The study tools sit above the Dock and retain the site's action palette. */
 html[data-theme] #root [data-shell-utilities="true"] [data-focus-toggle]{background:linear-gradient(rgb(var(--workspace-raised,var(--paper-raised))),rgb(var(--workspace-raised,var(--paper-raised)))) padding-box,linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%) border-box!important;border:1px solid transparent!important;border-radius:999px!important;color:rgb(var(--workspace-ink,var(--ink-900)))!important}
 html[data-theme] #root [data-shell-utilities="true"] [data-focus-toggle][aria-pressed="true"]{background:linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%)!important;color:#000!important}

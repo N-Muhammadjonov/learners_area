@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import routes from '../frontend/vanilla/js/routes.js';
 import {setup,tick,api} from '../frontend/vanilla/tests/staff-final30/harness.mjs';
 import {ApiError} from '../frontend/vanilla/js/api-client.js';
+import {createShell} from '../frontend/vanilla/modules/shell/layout.js';
 
 const wire=JSON.parse(fs.readFileSync(process.argv[2]??'../browser-wire.json','utf8'));
 const canonical=path=>{const u=new URL(path,'http://preview.test');u.hash='';u.searchParams.sort();return u.pathname+u.search;};
@@ -63,11 +64,22 @@ for(const path of selected)for(const locale of ['en','uz']){
  }catch(error){failures.push({path,locale,error:error.message});}
  finally{try{h.dispose();}catch(error){failures.push({path,locale,error:error.message});}}
 }
-// WebGL-unavailable fallback still follows the verified role for Management.
+// Management lives in the protected shell, outside the dashboard module.
 for(const role of ['student','teacher','admin','owner']){
  const h=setup({path:'/app',role});
- try{h.dom.window.HTMLCanvasElement.prototype.getContext=()=>null;api.request=transport;await h.mount(await routeFor('/app').load());await tick(8);
-  assert.equal(h.qa('a[href="/app/management"]').length,role==='student'?0:1);checks++;
+ try{
+  for(const key of ['MutationObserver','Element','localStorage','sessionStorage','CustomEvent'])globalThis[key]=h.dom.window[key];
+  h.dom.window.matchMedia=()=>({matches:false,addEventListener(){},removeEventListener(){}});
+  h.ctx.session=structuredClone(wire['/api/frontend/session'].session);
+  h.ctx.session.user.role=role;
+  api.request=transport;
+  await h.mount(await routeFor('/app').load());
+  const shell=createShell(h.ctx);
+  shell.outlet.append(...h.ctx.root.childNodes);
+  h.ctx.root.append(shell.host);
+  shell.attachModuleHeader(shell.outlet);
+  assert.equal(h.qa('[data-module-dock] a[href="/app/management"]').length,role==='student'?0:1);
+  checks++;
  }catch(error){failures.push({path:'/app',role,error:error.message});}finally{h.dispose();}
 }
 console.log(JSON.stringify({checks,failures,scope:'Production DOM with actual ASGI response samples; no visual/device certification'}));

@@ -32,7 +32,7 @@ export function mountAttempt(context){
      parts:sections.length>1?sections.map(section=>({title:section.passage.title,body:section.passage.bodyText,sourceHtml:section.passage.sourceHtml,paragraphs:section.paragraphs.map(publicParagraph),questionIds:section.questions.map(q=>q.id),groupIds:section.groups.map(g=>g.id)})):[],
      startedAt:d.attempt.startedAt,suggestedMinutes:sections.length>1?60:d.passage.suggestedMinutes,
      groups:d.groups.map(publicGroup),paragraphs:d.paragraphs.map(publicParagraph),
-     savedAnswers:Object.fromEntries(d.answers.filter(a=>a.isCorrect===null).map(a=>[a.questionId,a.userAnswer])),
+     draftHash:d.draftHash,savedAnswers:Object.fromEntries(d.answers.filter(a=>a.isCorrect===null).map(a=>[a.questionId,a.userAnswer])),
      questions:d.questions.map(publicQuestion)});
    }else{
     body.append(mountAnalysis({...context,root:body},{

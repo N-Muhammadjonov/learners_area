@@ -1,0 +1,159 @@
+{
+  "baseCommit": "0f10ac1beac556dd743c727ddc1b98fa2b1c84ad",
+  "branch": "arena/learners-area-next",
+  "sequence": "Finish each step and its affected validation before starting the next. Final combined live QA follows.",
+  "steps": [
+    {
+      "number": 1,
+      "task": "Remove visible publisher branding, source controls and PDF references",
+      "status": "complete",
+      "commit": "37df30c372749648639bcd0a5b233778c5795f30",
+      "validation": {
+        "backendRiwiPassed": 317,
+        "frontendPassed": 13,
+        "liveSafari": "Existing Owner session, stable Preview reloaded. Nominalisation answer has neutral title, three examples and no sources control. Bibliographic page labels removed; all 175 guide renderings checked by tests.",
+        "previewReady": true
+      }
+    },
+    {
+      "number": 2,
+      "task": "Replace reply-language chat command with upward settings dropdown",
+      "status": "complete",
+      "commit": "7f519efa1f0a49bcbebad2c4cba1e7d5f3f3d4b9",
+      "validation": {
+        "frontendPassed": 13,
+        "liveSafari": "Menu opened upward. Choosing English only changed the settings label; the prior Uzbek answer stayed intact. /examples then returned English in the same topic. Switching back to Uzbek created no chat turn."
+      }
+    },
+    {
+      "number": 3,
+      "task": "Remove manual material picker and resolve material questions automatically with access checks",
+      "status": "complete",
+      "commit": "0e6dd1e793492afc19014fe3e13e9bcf44eaba76",
+      "validation": {
+        "backendRiwiPassed": 326,
+        "frontendPassed": 13,
+        "liveSafari": "Owner session on Preview SHA 0e6dd1e7: material picker absent, Speaking beautiful object identified automatically, follow-up reused the material, unknown Reading article asked clarification. /api/version and session confirmed preview and owner."
+      }
+    },
+    {
+      "number": 4,
+      "task": "Add visible Thinking and source-based understanding",
+      "status": "complete",
+      "commit": "0a5a515d8f9c5e57cfa9c4c1ba16f7e613cf406e",
+      "validation": {
+        "backendRiwiPassed": 345,
+        "frontendPassed": 13,
+        "liveSafari": "READY Preview reloaded in Owner session: I wrote a letter yesterday -> Men kecha xat yozdim plus Past simple explanation. Unsupported sentence explicitly states the limit; QA dictionary returned no entries. Visible pending label and its removal checked with a held request in mounted frontend test."
+      }
+    },
+    {
+      "number": 5,
+      "task": "Inspect and import supplied question files with authored scoped answers and permission rules",
+      "status": "complete",
+      "commit": "54ddb56fb4a78fdcd19c838a2eeee5e6a639e6bb",
+      "validation": {
+        "backendRiwiPassed": 2003,
+        "questionCaseTests": 1640,
+        "responseProfiles": 286,
+        "lessonMappings": 110,
+        "liveSafari": "READY Preview reloaded, Owner session: visible O‘ylayapman during first send; identity answer, 200×15%=30, although/despite with three bilingual examples, active Reading key refused, named teacher learner request required verified scope without fabricated score."
+      }
+    },
+    {
+      "number": 6,
+      "task": "Support mixed Uzbek-English queries",
+      "status": "complete",
+      "commit": "9a3d3172d05ad27d2429aeffe84e310bdea68695",
+      "validation": {
+        "backendRiwiPassed": 2023,
+        "liveSafari": "READY Preview reloaded in Owner session: borrowni lend bilan difference nima -> direct distinction and three bilingual examples; prezent perfektni examples bilan explain qil -> activated present perfect lesson with three examples."
+      }
+    },
+    {
+      "number": 7,
+      "task": "Capture unknown conversation questions through governed private learning workflow",
+      "status": "complete",
+      "commit": "6928883be08aed71099ca3b63c751dc2f0096726",
+      "validation": {
+        "backendRiwiPassed": 2035,
+        "liveSafari": "Unknown synthetic phrase -> clarification -> same phrase recognised only in same conversation, with varied examples. /clear removed its effect. QA SQL verified one candidate retrieval_failure, user scope, actor=target, and zero matching shared knowledge units. No schema migration."
+      }
+    },
+    {
+      "number": 8,
+      "task": "Read Grammar_with_Learners_Area.docx and add original grammar knowledge",
+      "status": "complete",
+      "commit": "7a486ec0934c3c4333213d7e1d455da643c5bb85",
+      "validation": {
+        "backendRiwiPassed": 2622,
+        "newTeachingCards": 290,
+        "newSupportUnits": 12,
+        "bilingualExamples": 870,
+        "liveSafari": "Preview SHA 7a486ec0 and Owner confirmed. Three packs created, approved and promoted through Owner APIs with zero conflicts. Live negative inversion with 3 examples, only-after 3 exercise prompts, exact example translation, I am agree correction, write/wrote/written lookup passed. Receipt saved."
+      }
+    },
+    {
+      "number": "8a",
+      "task": "Replace unknown-question reply with exact requested wording, no topic examples",
+      "status": "complete",
+      "commit": "4d95a7f632d42b98707174e362dc7c62f1650e4a",
+      "validation": {
+        "targetedBackendPassed": 71,
+        "liveSafari": "Reloaded READY Preview; unknown synthetic question returned exact requested Uzbek wording, no topic examples."
+      }
+    },
+    {
+      "number": 9,
+      "task": "Uppercase RIWI breadcrumb",
+      "status": "complete",
+      "commit": "160065c9",
+      "validation": {
+        "affectedFrontendPassed": 9,
+        "finalLiveQA": "Authenticated Safari Owner on Preview. RIWI breadcrumb, exact welcome and no suggestions visible. Permanent notice and composer visible in settled normal/390x844/1440x900 day/night layouts."
+      }
+    },
+    {
+      "number": 10,
+      "task": "Replace welcome text and remove suggestion buttons",
+      "status": "complete",
+      "commit": "18aa78e3",
+      "validation": {
+        "affectedFrontendPassed": 13,
+        "finalLiveQA": "Authenticated Safari Owner on Preview. RIWI breadcrumb, exact welcome and no suggestions visible. Permanent notice and composer visible in settled normal/390x844/1440x900 day/night layouts."
+      }
+    },
+    {
+      "number": 11,
+      "task": "Add permanent RIWI mistakes notice",
+      "status": "complete",
+      "commit": "10d61e25",
+      "validation": {
+        "affectedFrontendPassed": 13,
+        "finalLiveQA": "Authenticated Safari Owner on Preview. RIWI breadcrumb, exact welcome and no suggestions visible. Permanent notice and composer visible in settled normal/390x844/1440x900 day/night layouts."
+      }
+    },
+    {
+      "number": 12,
+      "task": "Final integrated QA, evidence and updated draft PR; do not merge",
+      "status": "complete",
+      "testedApplicationCommit": "1fddbd3ccf979caab1eec35928e5d06fdd5d490c",
+      "validation": {
+        "backendRiwiPassed": 2623,
+        "frontendPassed": 1277,
+        "frontendSkipped": 11,
+        "corePassed": 37,
+        "buildPassed": true,
+        "previewReady": true,
+        "liveSafari": "Owner session; Preview SHA checked; externalAi=false; grammar, examples, mixed input, translation, correction, irregular verbs, language, resets, fallback and responsive themes verified.",
+        "qaActiveKnowledgeUnits": 665,
+        "pr": "https://github.com/N-Muhammadjonov/learners_area/pull/114",
+        "prDraft": true,
+        "mainConflict": false,
+        "mainCompared": "cb3a331112bff58b889eb4b23bc0b950425985ed"
+      }
+    }
+  ],
+  "mainMergeAuthorized": false,
+  "productionDeployAuthorized": false
+}

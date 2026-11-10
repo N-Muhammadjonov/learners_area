@@ -41,7 +41,14 @@ async def examiner_script(req:Request):
        WHERE {LIVE} AND (available_in @> '["ai"]'::jsonb OR available_in @> '["practice_alone"]'::jsonb)
        AND NOT EXISTS (SELECT 1 FROM activity_events e WHERE e.id=md5('deleted-content:' || speaking_prompts.id::text)::uuid AND e.type='CONTENT_DELETED')
        AND part=$1::speaking_part AND ({TOPIC})=$2'''
+    selected=req.query_params.get('promptId')
     async with db.acquire() as con:
+        if selected is not None:
+            identifier=core.uuid_value(selected)
+            if identifier is None or mode=='full':return core.j({'error':'invalid_prompt'},400,core.PRIVATE)
+            row=await con.fetchrow(query.replace(f' AND ({TOPIC})=$2',' AND id=$2'),mode,identifier)
+            if not row:return core.j({'error':'not_found'},404,core.PRIVATE)
+            return core.j({'mode':mode,'script':[row_to_dict(row)]},headers=core.PRIVATE)
         for part,limit in [('part1',4),('part2',1),('part3',4)]:
             if mode not in ('full',part):continue
             topic=cue_topic if part=='part3' else None

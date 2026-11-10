@@ -1,0 +1,269 @@
+{
+  "version": {
+    "commit": "ada2f5f3979dbfb3c193cb34c13866049f4cddc3",
+    "shortCommit": "ada2f5f",
+    "region": "sin1",
+    "environment": "preview"
+  },
+  "externalAi": false,
+  "initialMainAnswer": "Yuqori chapdagi Main / ← kampusga qaytaradi. Tafsilot sahifalaridagi Back esa ota sahifa yoki avvalgi tegishli sahifaga qaytadi.\n\nBrauzerning shu sessiyada ko‘rilgan holati: «Main», /app/riwi, yuqori chap. Matn rangi: rgb(0, 0, 0); fon: rgba(0, 0, 0, 0). Havola yo‘li: /app. Ekran/mavzu o‘zgarsa joylashuv va rang ham o‘zgaradi.19:58",
+  "calls": [
+    {
+      "question": "Saytning backend va frontend arxitekturasi, navigation tizimi qanday ishlaydi?",
+      "replyLocale": "uz",
+      "surfaces": [
+        {
+          "path": "/app/riwi",
+          "theme": "night",
+          "controlCount": 20
+        }
+      ],
+      "answer": "Sayt tuzilishi 🧭\n\nBrauzer interfeysi native JavaScript ESM modullaridan iborat. Python FastAPI backend autentifikatsiya, ma’lumotlar va API vakolatini tekshiradi. Sahifalar js/routes.js’da, navigatsiya js/router.js’da boshqariladi. Ichki havola History API bilan o‘tadi; back/forward popstate orqali tiklanadi. Eski manzillar canonical yo‘lga yo‘naltiriladi. Himoyalangan modul ma’lumotidan oldin sessiya tekshiriladi; API esa rol va obyekt doirasini mustaqil tekshiradi.\n\nMain — /app kampusi. Oddiy sahifalarda umumiy yuqori panel saqlanadi; vaqtli/focus mashqlari alohida ko‘rinishga ega. UI holati ruxsat bermaydi. RIWI ichki qoidalar va tasdiqlangan bilimlar bilan javob beradi; sayt qo‘llanmasi shu kod versiyasidagi marshrutlar bilan tekshiriladi.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-site-guide-v1"
+      },
+      "role": "owner"
+    },
+    {
+      "question": "Yangi suhbat tugmasi orqasida qanday amal bor?",
+      "replyLocale": "uz",
+      "surfaces": [
+        {
+          "path": "/app/riwi",
+          "theme": "night",
+          "controlCount": 20
+        }
+      ],
+      "answer": "Chat yuqorisidagi Yangi suhbat yoki /clear eski suhbat kontekstini, fayllar va yuklab olish havolalarini tozalab yangidan boshlaydi. Javob tili tanlovi saqlanadi.\n\nBrauzerning shu sessiyada ko‘rilgan holati: «Yangi suhbat», /app/riwi, yuqori o‘ng. Matn rangi: rgb(199, 191, 210); fon: rgba(0, 0, 0, 0).  Brauzerda ulangan handler kodi (qiymatlar bajarilmagan): ()=>{ if(ctrl.state.loading||filesReading)return; ctrl.newConversation();renderMessages();status.hidden=true;input.focus(); } Ekran/mavzu o‘zgarsa joylashuv va rang ham o‘zgaradi.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-site-guide-v1"
+      },
+      "role": "owner"
+    },
+    {
+      "question": "Reading sahifasidagi Academic Reading tugmasi qayerda, rangi qanday va qayerga olib boradi?",
+      "replyLocale": "uz",
+      "surfaces": [
+        {
+          "path": "/app/riwi",
+          "theme": "night",
+          "controlCount": 20
+        },
+        {
+          "path": "/app/reading/lessons",
+          "theme": "night",
+          "controlCount": 12
+        }
+      ],
+      "answer": "Reading kirish sahifasi Lessons’ga yo‘naltiradi. Lessons — darslar, Academic — test to‘plamlari, General — savol turlari bo‘yicha mashq, Retention — oldingi matndagi bilimni eslash, History — urinishlar. Matndagi bog‘langan so‘z lug‘at panelini ochadi. Vaqtli mashqda javoblar topshirilgach natija va tahlil ochiladi; faol testning tayyor javoblarini RIWI bermaydi.\n\nBrauzerning shu sessiyada ko‘rilgan holati: «Academic Reading», /app/reading/lessons, yuqori chap. Matn rangi: rgb(243, 238, 245); fon: rgba(0, 0, 0, 0). Havola yo‘li: /app/reading/academic. Ekran/mavzu o‘zgarsa joylashuv va rang ham o‘zgaradi.\n\nOchish yo‘llari: /app/reading · /app/reading/lessons · /app/reading/academic · /app/reading/general · /app/reading/retention · /app/reading/history",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-site-guide-v1"
+      },
+      "role": "owner"
+    },
+    {
+      "question": "Men internetdan kelgan kutilmagan maxsus holatni so‘rayapman: zirqovos qandilli zaminni hisobla.",
+      "replyLocale": "uz",
+      "answer": "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nSavolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!",
+      "provider": {
+        "id": "riwi",
+        "model": "deterministic-v1"
+      },
+      "role": "owner"
+    },
+    {
+      "question": "Past simple bilan present perfect orasidagi farqni uchta misol bilan tushuntir.",
+      "replyLocale": "uz",
+      "answer": "Keling, sodda qilib ko‘rib chiqamiz 🙂\n\n📘 Past simple and present perfect\n\nFarqni bitta savol bilan tekshiring: «Ish qachon bo‘lganini tugagan vaqt bilan aytyapmanmi?» Ha bo‘lsa, odatda past simple: yesterday, last year. Faqat shu paytgacha bo‘lgan tajribani yoki hozirgi natijani aytsangiz, present perfect keladi. Past simple: I went. Present perfect: I have gone. Ikki shakl ham o‘tgan ishga tegishli bo‘lishi mumkin; e’tibor berilgan vaqt ma’nosi farq qiladi.\n\n🧩 3 ta misol:\n\n1) I saw that film yesterday.\n   — Men o‘sha filmni kecha ko‘rdim. Kecha — tugagan vaqt: past simple.\n\n2) I have seen that film before.\n   — Men o‘sha filmni oldin ko‘rganman. Qachonligi emas, tajriba muhim: present perfect.\n\n3) She has lost her key, so she cannot get in.\n   — U kalitini yo‘qotgan, shuning uchun hozir kira olmayapti. Hozirgi natija muhim.\n\n💡 Esda tuting: Yesterday bilan I saw ishlating. Ever, never yoki before bilan tajriba aytilganda have/has + uchinchi shaklni tekshiring.\n\n✍️ Kichik mashq: Kecha bo‘lgan ishni bir gapda, shu paytgacha bo‘lgan tajribani boshqa gapda ayting. Nega ikki xil zamon ishlatdingiz?",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-curriculum-v1:grammar.past-simple-vs-present-perfect",
+        "lessonVariant": 0,
+        "queryAliases": [],
+        "teachingEdition": "details-v1"
+      },
+      "role": "owner"
+    },
+    {
+      "question": "How does the reply language button work?",
+      "replyLocale": "en",
+      "surfaces": [
+        {
+          "path": "/app/riwi",
+          "theme": "night",
+          "controlCount": 20
+        },
+        {
+          "path": "/app/reading/lessons",
+          "theme": "night",
+          "controlCount": 12
+        }
+      ],
+      "answer": "Reply language below the composer opens upward. UZ/EN sends no chat message and does not retranslate history; it selects the language for future replies.\n\nFor exact colour/location, open that page in this browser and return to RIWI. I will not invent an unseen state.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-site-guide-v1"
+      },
+      "role": "owner"
+    }
+  ],
+  "layoutSamples": [
+    {
+      "width": 389,
+      "height": 843,
+      "theme": "day",
+      "overflow": false,
+      "noticeAtTranscriptEnd": true,
+      "notice": {
+        "x": 31.859375,
+        "y": 660.703125,
+        "width": 325.265625,
+        "height": 32.78125,
+        "bottom": 693.484375,
+        "right": 357.125,
+        "color": "rgb(71, 85, 105)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px"
+      },
+      "composer": {
+        "x": 13,
+        "y": 709.84375,
+        "width": 363,
+        "height": 119.15625,
+        "bottom": 829,
+        "right": 376,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      },
+      "input": {
+        "x": 69.09375,
+        "y": 733.015625,
+        "width": 168.53125,
+        "height": 43.1875,
+        "bottom": 776.203125,
+        "right": 237.625,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      },
+      "chat": {
+        "x": 13,
+        "y": 82,
+        "width": 363,
+        "height": 747,
+        "bottom": 829,
+        "right": 376,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      }
+    },
+    {
+      "width": 1440,
+      "height": 844,
+      "theme": "day",
+      "overflow": false,
+      "noticeAtTranscriptEnd": true,
+      "notice": {
+        "x": 557.359375,
+        "y": 851.546875,
+        "width": 325.265625,
+        "height": 32.78125,
+        "bottom": 884.328125,
+        "right": 882.625,
+        "color": "rgb(71, 85, 105)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px"
+      },
+      "composer": {
+        "x": 288,
+        "y": 691.234375,
+        "width": 864,
+        "height": 124.75,
+        "bottom": 815.984375,
+        "right": 1152,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      },
+      "input": {
+        "x": 353.6875,
+        "y": 717.609375,
+        "width": 720.75,
+        "height": 43.1875,
+        "bottom": 760.796875,
+        "right": 1074.4375,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      },
+      "chat": {
+        "x": 288,
+        "y": 96,
+        "width": 864,
+        "height": 719.984375,
+        "bottom": 815.984375,
+        "right": 1152,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      }
+    },
+    {
+      "width": 1439,
+      "height": 900,
+      "theme": "day",
+      "overflow": false,
+      "noticeAtTranscriptEnd": true,
+      "notice": {
+        "x": 556.859375,
+        "y": 851.546875,
+        "width": 325.265625,
+        "height": 32.78125,
+        "bottom": 884.328125,
+        "right": 882.125,
+        "color": "rgb(71, 85, 105)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "0px"
+      },
+      "composer": {
+        "x": 287.5,
+        "y": 747.25,
+        "width": 864,
+        "height": 124.75,
+        "bottom": 872,
+        "right": 1151.5,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      },
+      "input": {
+        "x": 353.1875,
+        "y": 773.625,
+        "width": 720.75,
+        "height": 43.1875,
+        "bottom": 816.8125,
+        "right": 1073.9375,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      },
+      "chat": {
+        "x": 287.5,
+        "y": 96,
+        "width": 864,
+        "height": 776,
+        "bottom": 872,
+        "right": 1151.5,
+        "color": "rgb(16, 39, 64)",
+        "background": "rgb(255, 255, 255)",
+        "border": "0px"
+      }
+    }
+  ],
+  "layoutProbe": "Last samples include temporary sticky-footer experiment; final d3ef66d6 footer requires separate live acceptance"
+}

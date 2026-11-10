@@ -35,7 +35,7 @@ export function groupHeading(dict,group){
   group.instructionsText?el('p',{class:'whitespace-pre-line text-sm text-ink-700'},group.instructionsText):null,
   group.sharedChoices.length>0?el('ul',{class:'mt-3 grid grid-cols-1 gap-1 sm:grid-cols-2','data-group-choices':true},group.sharedChoices.map((choice,index)=>{const {letter,text}=readingOption(choice,index);return el('li',{class:'text-sm text-ink-700'},el('span',{class:'mr-1.5 font-semibold text-ink-900'},letter),text);})):null);
 }
-export function groupQuestions(context,{dict,group,questions,answers,onChange}){
+export function groupQuestions(context,{dict,group,questions,answers,onChange,getAnswer=id=>answers[id]??''}){
  if(group.sourceHtml)return [sourceQuestions({group,questions,answers,onChange})];
  const shared=questions.filter(q=>isSharedStimulusRow(q));
  const stimulus=shared.length>0?buildSharedStimulus(shared.map(q=>({...q,questionNo:q.sourceQuestionNo??q.questionNo}))):null;
@@ -44,7 +44,7 @@ export function groupQuestions(context,{dict,group,questions,answers,onChange}){
  const cards=questions.filter(q=>!isSharedStimulusRow(q)||q.questionNo===null||!covered.has(q.sourceQuestionNo??q.questionNo));
  return [
   stimulus&&stimulus.numbers.length>0?stimulusCard(dict,group,stimulus,byNumber,answers,onChange):null,
-  ...cards.map(q=>questionCard(context,{dict,question:q,group,value:answers[q.id]??'',onChange:v=>onChange(q.id,v),inputId:`answer-${q.id}`}))];
+  ...cards.map(q=>questionCard(context,{dict,question:q,group,value:answers[q.id]??'',getAnswer:()=>getAnswer(q.id),onChange:v=>onChange(q.id,v),inputId:`answer-${q.id}`}))];
 }
 function stimulusCard(dict,group,stimulus,byNumber,answers,onChange){
  const paragraphs=stimulus.text.split(/\n{2,}/);
@@ -62,7 +62,7 @@ function stimulusCard(dict,group,stimulus,byNumber,answers,onChange){
    }))));
 }
 /** One question. Rebuilt on every change; the exam restores focus to the same control afterwards. */
-export function questionCard(context,{dict,question,group,value,onChange,inputId}){
+export function questionCard(context,{dict,question,group,value,onChange,inputId,getAnswer=()=>value}){
  const t=dict.readingPractice,constraint=constraintOf(question),descriptor=readingQuestionType(question.typeCode??question.type),model=descriptor?.answerModel;
  const isTernary=model?.kind==='ternary',isMulti=model?.kind==='choice_multi',isText=model?.kind==='text';
  const choices=question.options&&question.options.length>0?question.options:(group?.sharedChoices??[]);
@@ -86,17 +86,17 @@ export function questionCard(context,{dict,question,group,value,onChange,inputId
  const children=[];
  if(isTernary)children.push(el('div',{class:'flex flex-wrap gap-2',role:'radiogroup','aria-label':aria},ternaryChoices(question).map(choice=>{
   const button=el('button',{type:'button',role:'radio','aria-checked':value===choice.value?'true':'false','data-answer-option':choice.value,class:`min-h-[44px] rounded-sm border px-3 text-sm ${value===choice.value?'border-signal-600 bg-signal-600 font-medium text-white':'border-ink-100 bg-paper-raised text-ink-700 hover:bg-paper-sunken'}`},choice.label);
-  button.addEventListener('click',()=>onChange(value===choice.value?'':choice.value));return button;})));
+  button.addEventListener('click',()=>onChange(getAnswer()===choice.value?'':choice.value));return button;})));
  if(isMulti){const selected=value.split(/[,;]/).map(v=>v.trim()).filter(Boolean);
   children.push(el('fieldset',{class:'flex flex-col gap-2','aria-label':aria},el('legend',{class:'sr-only'},question.questionText),choices.map((choice,index)=>{
    const {letter,text}=readingOption(choice,index),checked=selected.includes(letter);
    const box=el('input',{type:'checkbox',value:letter,'data-answer-option':letter});box.checked=checked;
-   box.addEventListener('change',()=>onChange((checked?selected.filter(v=>v!==letter):[...selected,letter]).join(', ')));
+   box.addEventListener('change',()=>{const current=getAnswer().split(/[,;]/).map(v=>v.trim()).filter(Boolean);onChange((box.checked?[...new Set([...current,letter])]:current.filter(v=>v!==letter)).join(', '));});
    return el('label',{class:'flex min-h-[44px] items-center gap-2 text-sm'},box,`${letter}: ${text}`);})));}
  if(showChips)children.push(el('div',{class:'flex flex-wrap gap-2',role:'radiogroup','aria-label':aria},choices.map((choice,index)=>{
   const {letter,text}=readingOption(choice,index),selected=value===choice;
   const button=el('button',{type:'button',role:'radio','aria-checked':selected?'true':'false','aria-label':`${letter}: ${text}`,title:text,'data-answer-option':letter,class:`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm border px-3 text-sm font-semibold ${selected?'border-signal-600 bg-signal-600 text-white':'border-ink-100 bg-paper-raised text-ink-700 hover:bg-paper-sunken'}`},letter);
-  button.addEventListener('click',()=>onChange(selected?'':choice));return button;})));
+  button.addEventListener('click',()=>onChange(getAnswer()===choice?'':choice));return button;})));
  if(showFull)children.push(el('ul',{class:'flex flex-col gap-1.5','data-full-choices':true},choices.map((choice,index)=>{
   const {letter,text}=readingOption(choice,index),id=`${inputId}-${index}`;
   const radio=el('input',{id,type:'radio',name:inputId,value:choice});radio.checked=value===choice;
@@ -108,4 +108,33 @@ export function questionCard(context,{dict,question,group,value,onChange,inputId
    el('span',{class:'mt-0.5 flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-paper-sunken px-1.5 text-xs font-semibold text-ink-700'},String(number)),
    el('div',{class:'min-w-0 flex-1'},body,hint?el('p',{class:'mt-1 text-xs text-ink-300'},hint):null)),
   ...children);
+}
+
+/** Patch only existing controls/decorations; never replace the focused input. */
+export function patchAnswer(root,{question,group,value}){
+ const answered=Boolean(value.trim()),id=question.id;
+ for(const node of root.querySelectorAll('[data-question]'))if(node.dataset.question===id){
+  if(node.dataset.answered!==String(answered))node.dataset.answered=String(answered);
+  if(node.classList.contains('card'))node.classList.toggle('border-signal-600/40',answered);
+  // Authored rows may contain several independent question radio groups.
+  // Their existing native handlers own checked/value state and Choose-TWO bounds.
+  if(node.closest('[data-reading-source]'))continue;
+  const ternary=readingQuestionType(question.typeCode??question.type)?.answerModel?.kind==='ternary';
+  const choices=question.options?.length?question.options:group?.sharedChoices??[];
+  for(const button of node.querySelectorAll('button[role="radio"][data-answer-option]')){
+   const option=button.dataset.answerOption;
+   const selected=ternary?value===option:value===choices.find((choice,i)=>readingOption(choice,i).letter===option);
+   button.setAttribute('aria-checked',String(selected));
+   for(const cls of ['border-signal-600','bg-signal-600','text-white'])button.classList.toggle(cls,selected);
+   for(const cls of ['border-ink-100','bg-paper-raised','text-ink-700','hover:bg-paper-sunken'])button.classList.toggle(cls,!selected);
+   if(ternary)button.classList.toggle('font-medium',selected);
+  }
+  for(const field of node.querySelectorAll('input[type="checkbox"][data-answer-option]'))field.checked=value.split(/[,;]/).map(v=>v.trim()).includes(field.dataset.answerOption);
+  for(const field of node.querySelectorAll('input[type="radio"]'))field.checked=value===field.value;
+ }
+ for(const field of root.querySelectorAll('[data-answer-input]'))if(field.dataset.answerInput===id){
+  if(field.value!==value){const active=document.activeElement===field,start=field.selectionStart,end=field.selectionEnd;field.value=value;if(active&&start!==null)field.setSelectionRange(Math.min(start,value.length),Math.min(end,value.length));}
+  if(field.style.width.endsWith('ch'))field.style.width=inputWidth(value).width;
+  const slot=field.closest('[data-answer-slot]');if(slot)slot.dataset.answered=String(answered);
+ }
 }

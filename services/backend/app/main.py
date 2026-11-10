@@ -856,3 +856,5 @@ _install_live_classes()
 
 from .mock_system_port import install as _install_mock_system
 _install_mock_system()
+from .riwi_port import install as _install_riwi_port
+_install_riwi_port()

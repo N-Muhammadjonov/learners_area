@@ -14,7 +14,8 @@ const stateLabel = {
     completed: "Completed",
 };
 export function StateBadge({ state }) {
-    return h("span", { className: stateClass[state] }, stateLabel[state]);
+    const icons={available:'○',assigned:'◷',in_progress:'◷',completed:'✓'};
+    return h("span", { className: stateClass[state], 'data-ui-status':state },state==='locked'?h('svg',{viewBox:'0 0 24 24',width:14,height:14,fill:'none',stroke:'currentColor','stroke-width':1.8,'aria-hidden':'true',focusable:'false'},h('rect',{x:5,y:10,width:14,height:11,rx:3}),h('path',{d:'M8 10V7a4 4 0 0 1 8 0v3'})):h('span',{'aria-hidden':'true'},icons[state]??'○'),stateLabel[state]??state);
 }
 export function BandBadge({ band }) {
     if (band === null || band === undefined) {

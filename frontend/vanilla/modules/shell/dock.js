@@ -1,7 +1,6 @@
 import {el,listen} from '../../js/dom.js';
 import {dockIcon} from './dock-icons.js';
 import {returnForWindow} from '../campus/return-policy.js';
-import {captureWindow,openWindow} from './window-opening.js';
 
 const EDGE_INSET = 10;
 
@@ -38,7 +37,7 @@ export function moduleDock(context){
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });
  nav.append(...links);node.append(nav,tooltip);
- let current=context.url,layoutFrame=0,scrollFrame=0,pending=null,opening=null;
+ let current=context.url,layoutFrame=0,scrollFrame=0;
  const win=document.defaultView;
  let pointerX = NaN;
  let pointerY = NaN;
@@ -134,7 +133,7 @@ export function moduleDock(context){
    refreshLabel();
   });
  }
- listen(win,'resize',()=>{opening?.cancel();opening=null;pending=null;revealActive();},signal);
+ listen(win,'resize',revealActive,signal);
  listen(nav,'focusin',event=>{
   const link=event.target.closest?.('[data-dock-module]');
   if (!link) return;
@@ -156,7 +155,7 @@ export function moduleDock(context){
  },signal);
  function visibility(){
   const hidden=returnForWindow(current).mode==='back'||html.dataset.studyFocus==='on'||html.dataset.retentionFocus==='on';
-  const wasHidden=node.hidden;node.hidden=hidden;node.setAttribute('aria-hidden',String(hidden));if(hidden){reset();opening?.cancel();opening=null;pending=null;}else if(wasHidden)revealActive();
+  const wasHidden=node.hidden;node.hidden=hidden;node.setAttribute('aria-hidden',String(hidden));if(hidden){reset();}else if(wasHidden)revealActive();
  }
  const observer=new MutationObserver(visibility);
  observer.observe(html,{attributes:true,attributeFilter:['data-study-focus','data-retention-focus']});
@@ -166,19 +165,6 @@ export function moduleDock(context){
   for(const link of links){if(link.dataset.dockModule===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
   reset();visibility();revealActive();
  }
- function begin(url,flight,source,viewport){
-  pending=null;opening?.cancel();opening=null;
-  const link=source?.closest?.('[data-dock-module]');
-  if(!link||!node.contains(link)||node.hidden||flight.aborted)return;
-  const artwork=link.querySelector('.module-dock__icon')?.getBoundingClientRect();
-  const box=artwork?.width&&artwork?.height?artwork:link.getBoundingClientRect();
-  const intent={path:url.pathname+url.search,x:box.left+box.width/2,y:box.top+box.height/2,width:box.width,height:box.height,previous:captureWindow(viewport)};
-  pending=intent;flight.addEventListener('abort',()=>{if(pending===intent)pending=null;},{once:true});
- }
- function open(content,url){
-  const intent=pending;pending=null;if(!intent||intent.path!==url.pathname+url.search||typeof content.animate!=='function')return;
-  opening=openWindow(content,intent);
- }
- signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);opening?.cancel();pending=null;node.remove();},{once:true});
- update(current);return {node,update,begin,open};
+ signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);node.remove();},{once:true});
+ update(current);return {node,update};
 }

@@ -1,0 +1,117 @@
+{
+  "date": "2026-11-02",
+  "baselineCommit": "066c8a9aee49821876d964ecbc570e427074659e",
+  "branch": "arena/learners-area-next",
+  "implementation": "original-teaching-library-and-disabled-gateway-adapter",
+  "lessons": 92,
+  "basebookTasksRepresented": 68,
+  "additionalGrammarTopics": 24,
+  "workedExamples": 92,
+  "practicePrompts": 92,
+  "sourceCharacters": 63223,
+  "sourceChecksum": "d5dfabf1246c116cab4ed25749379ebcee4b1c0d208f57c8ea4a5a0b3c577b8c",
+  "validation": {
+    "targetedPytestPassed": 27,
+    "targetedPytestFailed": 0,
+    "stdout": "...........................                                              [100%]\n27 passed, 46 warnings in 0.49s\n",
+    "syntax": "passed",
+    "topicQueries": 24,
+    "bilingualFormattingLessons": 92,
+    "browserWorkflowVmScenarios": 9,
+    "governanceCandidateValidation": "passed",
+    "postgresNewQueries": "EXPLAIN succeeded in read-only QA transaction; no source activation",
+    "independentExaminerBenchmark": "not_performed",
+    "liveSafariNewLibrary": "not_performed",
+    "liveLanguageModel": "not_performed",
+    "fullBackendSuiteAfterTheseChanges": "not_rerun",
+    "frontendBuildAfterTheseChanges": "Vercel native asset build passed on 7c1ae05: 513 files / 125 routes"
+  },
+  "runtime": {
+    "python": "3.14.4",
+    "fastapi": "0.121.3",
+    "httpx": "0.28.1",
+    "asyncpg": "0.31.0",
+    "pytest": "8.3.5",
+    "pytestAsyncio": "0.25.3",
+    "note": "Isolated test VM uses asyncpg 0.31.0 for Python 3.14; repository production dependency pins are unchanged.",
+    "image": "vercel/sandbox/universal@sha256:885933da7cb4b819a597514420a824c432ff1f4e76b580898c8833044d0d0db0",
+    "persistent": false,
+    "sandboxesStopped": true,
+    "portsExposed": 0,
+    "egressAllowlist": [
+      "pypi.org",
+      "files.pythonhosted.org"
+    ],
+    "liveDatabaseCredentialsCopied": false
+  },
+  "files": {
+    "services/backend/contracts/riwi_original_curriculum_v1.json": {
+      "gitBlob": "d93cdf0fb186f5d191462af75b92e14f257f64eb",
+      "sha256": "8adbaaadd85a954a4bbcadc79f9fd18d83afd36905cf9264ca505b710e246793"
+    },
+    "services/backend/app/riwi_curriculum.py": {
+      "gitBlob": "95d4f8821c16a3c0671a6ea2389ba3f84044feb8",
+      "sha256": "4f4de65e670f9261beabc974ad2313245c7443b282638ce0da64894aee0199cd"
+    },
+    "services/backend/app/riwi_gateway.py": {
+      "gitBlob": "0403fb64b34d62c7b65164edf11b1cfa1c2f13b6",
+      "sha256": "e8ab63b2a6ac6ad96e105fba45517459d8097d31246a966661a6ed634c7ae1dd"
+    },
+    "services/backend/app/riwi_ai_gateway.py": {
+      "gitBlob": "88c282fe4d6400876c92d8a53dd4bd0f924ad20f",
+      "sha256": "caa95fa895aaadaa574ba57dc54ebc2e612ce95d6ce8a309b856e49182210dab"
+    },
+    "services/backend/app/riwi_provider_router.py": {
+      "gitBlob": "ead7341e8185d088e93d6e903ee2d184e4e6e2fa",
+      "sha256": "4035c5fe15bbb4e93fdd5917264bfef4b32478ac0ee74e1e23adffd36085e72d"
+    },
+    "services/backend/app/riwi_provider_transport.py": {
+      "gitBlob": "3b3f056d9a6ce619bb003a2a4d305a3e2f84c7bc",
+      "sha256": "64b789613fac7a6a3218c550fa5fff72c0bf767f0a575345ca25c603b959c229"
+    },
+    "services/backend/tests/test_riwi_original_curriculum.py": {
+      "gitBlob": "2fbee0a8dcb76563f65a9f5a0da9809cfa8a956f",
+      "sha256": "4a1023ce6341b2c1cb04590c5414269cfa9fb8067fa0dd43e4a64b77b03c367a"
+    },
+    "services/backend/tests/test_riwi_ai_gateway.py": {
+      "gitBlob": "546de34b01543e4144d5ec7a5c015d9c73c1b750",
+      "sha256": "c37b6386ddbbe0ffab22bd2dff12ad3b58dde82ade15335f4260cec78c867580"
+    },
+    "services/backend/app/riwi_outbound_guard.py": {
+      "gitBlob": "8ce10cc31ff79aeb321b4aaf4fe7f8b1ca33b481",
+      "sha256": "1d118892b8675993b4b4a755b42be7bd67ddc230f614c06faae3974d23f4b637"
+    },
+    "scripts/riwi-safari-teach.py": {
+      "gitBlob": "61db9c260b09cb8d84581c5c468264ab054f6668",
+      "sha256": "40e3054fbe161756e20a455e1576462158e4f709831ecfc935e300531c27c019"
+    },
+    "services/backend/tests/test_riwi_safari_teach.py": {
+      "gitBlob": "bd4abf28770e56d819640f122ba2454ba79d84e4"
+    }
+  },
+  "readiness": {
+    "fullAcceptance": false,
+    "parameterTrainingPerformed": false,
+    "neuralModelArtifactCreated": false,
+    "qaKnowledgeActivated": false,
+    "productionModified": false,
+    "mergedToMain": false,
+    "providerSecretsCreated": false,
+    "providerRequestsMade": 0,
+    "providerCreditsPurchased": false
+  },
+  "deployment": {
+    "codeCommit": "7c1ae05db3349848de64ccf125db3531728d1bba",
+    "id": "dpl_GPM29FJMjYzGtbK4v5aPSUasFMcx",
+    "origin": "https://learners-area-hia1hjzl2-learners-area.vercel.app",
+    "state": "READY",
+    "target": "preview",
+    "productionPromoted": false,
+    "staticFiles": 513,
+    "routes": 125,
+    "pythonBytecodeCompiled": true,
+    "nativeBuildSeconds": 10,
+    "authenticatedRuntime": "not_tested",
+    "note": "A subsequent packaging-only change explicitly includes contracts/** and requires its own successful preview build."
+  }
+}

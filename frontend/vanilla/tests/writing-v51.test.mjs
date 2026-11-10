@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
-const root=resolve(import.meta.dirname,'../modules/writing');
+const root=resolve(import.meta.dirname ?? new URL('.', import.meta.url).pathname,'../modules/writing');
 const modules=['shared','index','home','lessons','exam','translation','typing','topic','grade','activation','stealing','submissions','grade-form','activation-ui','typing-controls','pattern-actions'];
 for(const name of modules){
  const file=join(root,`${name}.js`);

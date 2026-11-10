@@ -67,7 +67,7 @@ async def grammar_practice(req:Request,id:str):
     issues=[];checked_by=None
     if needs:
         source=(exercise.get('translate_prompt_uz') or exercise['prompt_text']) if body['activity']=='translate_it' else (exercise.get('activation_prompt') or exercise['prompt_text'])
-        result=await coach.evaluate(u['id'],'grammar','grammar_attempt',attempt_id,{'promptText':source,'studentAnswer':body['answer'],'targetStructure':topic['title'] if topic else None,'sampleAnswer':exercise['correct_option']},_language(req))
+        result=await coach.evaluate(u['id'],'grammar','grammar_attempt',attempt_id,{'promptText':source,'studentAnswer':body['answer'],'grammarKind':body['activity'],'targetStructure':topic['title'] if topic else None,'sampleAnswer':exercise['correct_option']},_language(req))
         if not result['ok']:
             await _remove_attempt(attempt_id)
             return core.j({'error':result['error']},502)

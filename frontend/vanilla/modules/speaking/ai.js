@@ -18,7 +18,9 @@ export function mount(context){
  let readiness={transcription:false,aiEvaluation:false},bankMatching=null;
  function end(){state.generation++;state.recorder?.stop();state.recorder=null;state.phase='choose';state.script=null;state.step=0;state.answered={};state.failedMode=null;draw();}
  async function start(mode){if(state.waiting||state.phase!=='choose'||signal.aborted)return;const gen=++state.generation;state.waiting=true;state.failedMode=null;draw();
-  try{const data=await api.request('/api/speaking/ai/script?mode='+encodeURIComponent(mode),{signal});if(signal.aborted||gen!==state.generation||state.phase!=='choose')return;
+  try{const query=new URLSearchParams({mode});const selected=url.searchParams.get('promptId');
+   if(selected&&mode===url.searchParams.get('part'))query.set('promptId',selected);
+   const data=await api.request('/api/speaking/ai/script?'+query,{signal});if(signal.aborted||gen!==state.generation||state.phase!=='choose')return;
    if(data.mode!==mode||!Array.isArray(data.script)||!data.script.every(x=>typeof x.id==='string'&&['part1','part2','part3','general'].includes(x.part)&&typeof x.promptText==='string'))throw Error('invalid_script');
    state.script=data.script;state.step=0;state.answered={};state.phase='running';
   }catch{if(!signal.aborted&&gen===state.generation)state.failedMode=mode;}
@@ -49,7 +51,8 @@ export function mount(context){
   controls.append(next,finish);section.append(controls);region.append(section);
  }
  // The original server page provides a bounded bank count and readiness projection.
- async function entry(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_ai'||!Number.isFinite(d.matching)||!d.readiness)throw Error('invalid_ai_view');bankMatching=d.matching;readiness={transcription:d.readiness.transcription===true,aiEvaluation:d.readiness.aiEvaluation===true};draw();}catch{if(!signal.aborted)region.replaceChildren(RegionFailureNotice({region:'speaking-ai',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:entry}));}}
+ async function entry(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_ai'||!Number.isFinite(d.matching)||!d.readiness)throw Error('invalid_ai_view');bankMatching=d.matching;readiness={transcription:d.readiness.transcription===true,aiEvaluation:d.readiness.aiEvaluation===true};draw();
+  const part=url.searchParams.get('part');if(url.searchParams.has('promptId')&&MODES.includes(part)&&part!=='full')void start(part);}catch{if(!signal.aborted)region.replaceChildren(RegionFailureNotice({region:'speaking-ai',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:entry}));}}
  void entry();
 }
 /** Stateful original attempt recorder: create attempt, microphone, preflight,

@@ -1,0 +1,356 @@
+{
+  "version": 1,
+  "runtimeVersion": "3.8.1",
+  "model": "onnx-community/whisper-base",
+  "modelRevision": "27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c",
+  "upstreamLicenseRevision": "86098128c0b4f24f0e2aa2994de830614b474227",
+  "ortRevision": "89f8206ba4f1c22c39e0297fb55272e8ce8cd7d0",
+  "modelLicense": "apache-2.0",
+  "totalBinaryBytes": 101260210,
+  "assets": {
+    "models/riwi-asr/config.json": {
+      "bytes": 2243,
+      "sha256": "f4d0608f7d918166da7edb3e188de5ef1bfe70d9802e785d271fd88111e9cf4b",
+      "mime": "application/json",
+      "parts": [
+        {
+          "path": "parts/f4d0608f7d918166-000.bin",
+          "bytes": 2243,
+          "sha256": "f4d0608f7d918166da7edb3e188de5ef1bfe70d9802e785d271fd88111e9cf4b"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/config.json"
+    },
+    "models/riwi-asr/generation_config.json": {
+      "bytes": 3832,
+      "sha256": "61070cf8de25b1e9256e8e102ded49d8d24a8369ed36ef84fdf21549e68125a0",
+      "mime": "application/json",
+      "parts": [
+        {
+          "path": "parts/61070cf8de25b1e9-000.bin",
+          "bytes": 3832,
+          "sha256": "61070cf8de25b1e9256e8e102ded49d8d24a8369ed36ef84fdf21549e68125a0"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/generation_config.json"
+    },
+    "models/riwi-asr/preprocessor_config.json": {
+      "bytes": 339,
+      "sha256": "a6a76d28c93edb273669eb9e0b0636a2bddbb1272c3261e47b7ca6dfdbac1b8d",
+      "mime": "application/json",
+      "parts": [
+        {
+          "path": "parts/a6a76d28c93edb27-000.bin",
+          "bytes": 339,
+          "sha256": "a6a76d28c93edb273669eb9e0b0636a2bddbb1272c3261e47b7ca6dfdbac1b8d"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/preprocessor_config.json"
+    },
+    "models/riwi-asr/tokenizer.json": {
+      "bytes": 2480466,
+      "sha256": "27fc476bfe7f17299480be2273fc0608e4d5a99aba2ab5dec5374b4482d1a566",
+      "mime": "application/json",
+      "parts": [
+        {
+          "path": "parts/27fc476bfe7f1729-000.bin",
+          "bytes": 2097152,
+          "sha256": "1f638583aadd22895c35a1f31367a2b842de62008dd74e9234a96693995e3672"
+        },
+        {
+          "path": "parts/27fc476bfe7f1729-001.bin",
+          "bytes": 383314,
+          "sha256": "0cd1612823bf0bc242c21ea6bf7ba220127dedda72a14621b18870a888ea064e"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/tokenizer.json"
+    },
+    "models/riwi-asr/tokenizer_config.json": {
+      "bytes": 282682,
+      "sha256": "2e036e4dbacfdeb7242c7d4ec4149f4a16e86026048f94d1637e3a8ee9c6a573",
+      "mime": "application/json",
+      "parts": [
+        {
+          "path": "parts/2e036e4dbacfdeb7-000.bin",
+          "bytes": 282682,
+          "sha256": "2e036e4dbacfdeb7242c7d4ec4149f4a16e86026048f94d1637e3a8ee9c6a573"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/tokenizer_config.json"
+    },
+    "models/riwi-asr/onnx/encoder_model_quantized.onnx": {
+      "bytes": 23201314,
+      "sha256": "5862993336bf33acd23736071aae2b32261d3b1b2f37780194460d4ef974dd46",
+      "mime": "application/octet-stream",
+      "parts": [
+        {
+          "path": "parts/5862993336bf33ac-000.bin",
+          "bytes": 2097152,
+          "sha256": "09790566d1a6a9dee9063d239316738d40d203742332aa47554185b7b2677161"
+        },
+        {
+          "path": "parts/5862993336bf33ac-001.bin",
+          "bytes": 2097152,
+          "sha256": "59481dd544020a29f567acde91eb7dbfdbb2ef7a2294d73004db5632b6237849"
+        },
+        {
+          "path": "parts/5862993336bf33ac-002.bin",
+          "bytes": 2097152,
+          "sha256": "852d6506e5c2b166c4fb2a699e43bf23a7fdd6d47af23388f34761b6e698bc0e"
+        },
+        {
+          "path": "parts/5862993336bf33ac-003.bin",
+          "bytes": 2097152,
+          "sha256": "d9fc441a2bc11bd4f24c4d1494d7e2422db5c9a054254cbec7362ef40ac3f8de"
+        },
+        {
+          "path": "parts/5862993336bf33ac-004.bin",
+          "bytes": 2097152,
+          "sha256": "d44aa289c1b25518b7c58fc6ae6cf1388c781d807a26672a97415c639cd37198"
+        },
+        {
+          "path": "parts/5862993336bf33ac-005.bin",
+          "bytes": 2097152,
+          "sha256": "35f9577a68d876beb422d3647a2e9ae9055a38d9275f88bc926bc1974e31b12c"
+        },
+        {
+          "path": "parts/5862993336bf33ac-006.bin",
+          "bytes": 2097152,
+          "sha256": "6c1e16cd5b9f35f901533c1b282f55733a13cf301107da679eb6acc858068c96"
+        },
+        {
+          "path": "parts/5862993336bf33ac-007.bin",
+          "bytes": 2097152,
+          "sha256": "17190d229c6975c76bc4e860a3d0a1cdbbc8b8dca45c745e6de9f3e732d1bb54"
+        },
+        {
+          "path": "parts/5862993336bf33ac-008.bin",
+          "bytes": 2097152,
+          "sha256": "30b036c527828ddb04d5bde24d2fc6668c22b9c484d7097db991139f1d9b44b3"
+        },
+        {
+          "path": "parts/5862993336bf33ac-009.bin",
+          "bytes": 2097152,
+          "sha256": "62a0ccdc5a1ceea6ae5e158542beadb09f92feecbd557a2fe8a7e9a1e3f6cd71"
+        },
+        {
+          "path": "parts/5862993336bf33ac-010.bin",
+          "bytes": 2097152,
+          "sha256": "34dfcd448f6d23fa75673c783c588a8905d31ba8386a6471c9d284aef5f48dba"
+        },
+        {
+          "path": "parts/5862993336bf33ac-011.bin",
+          "bytes": 132642,
+          "sha256": "106a44c44e13e945cc92d3ca9f51edb9eb36f6b5d68f6c8e3429673acf53a796"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/onnx/encoder_model_quantized.onnx"
+    },
+    "models/riwi-asr/onnx/decoder_model_merged_quantized.onnx": {
+      "bytes": 53693315,
+      "sha256": "fa3ef9902734ce5ae6f9ef2bdb2ba9a6c4b5785b09f4f420ce036573dc9d090b",
+      "mime": "application/octet-stream",
+      "parts": [
+        {
+          "path": "parts/fa3ef9902734ce5a-000.bin",
+          "bytes": 2097152,
+          "sha256": "a16cd8eb953a823ca1a7414e7ea82f4e22e2b82071ca3e464f9d06625f635086"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-001.bin",
+          "bytes": 2097152,
+          "sha256": "62d2afe6f3ee50afca78cef8d3482aaf269a0c312dad53e8ca63bda1030c9824"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-002.bin",
+          "bytes": 2097152,
+          "sha256": "1c4362ccca3f235d2723ae59e6bcbecf0846d73fcc314d4521f89c0e340868d5"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-003.bin",
+          "bytes": 2097152,
+          "sha256": "b3fc9c2b168728c0807567ce22abc80a5a8daa88c62713d9399a30fe0c6339b2"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-004.bin",
+          "bytes": 2097152,
+          "sha256": "d646429416f5718972440dd5d23fa43001ccc82dd33b627f73b0c12806c151cf"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-005.bin",
+          "bytes": 2097152,
+          "sha256": "5c6969df0489ad0e2364d9b521e64af7921d8e64b9b455f43348bbb84da48ded"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-006.bin",
+          "bytes": 2097152,
+          "sha256": "ef4842c8a8b7e73124d1e68bc8c57e6bbc658cfd58de8cf83f30e65404b83b55"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-007.bin",
+          "bytes": 2097152,
+          "sha256": "6463a61291449168224da328df1ebb13867654e942223e59d95916539e6c75ac"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-008.bin",
+          "bytes": 2097152,
+          "sha256": "242b90a8550b1328e95e8ca679a62f5daf9d843fadb9062f01b12548af7a0dd7"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-009.bin",
+          "bytes": 2097152,
+          "sha256": "643384fe91659cf4d16090ac795b703f3ce6727e5abb9cfb7e9c12f0928e3f08"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-010.bin",
+          "bytes": 2097152,
+          "sha256": "71ed0f1cb60c155af0221d6110b5b0c79311c53622fdeae1169de09a4a30f579"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-011.bin",
+          "bytes": 2097152,
+          "sha256": "9025d9967cb17585da5801428f558f71ccc7ba1b5d24e8cd8bcb455246080d46"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-012.bin",
+          "bytes": 2097152,
+          "sha256": "ad4ad3bd11d5cf630e24bd2a4ab424a25d29fa32cb4b832d868119365be292a6"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-013.bin",
+          "bytes": 2097152,
+          "sha256": "e9d18d7c631fd6871973b14af61b03e06b494a0eb345239b76dce2790bf4564e"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-014.bin",
+          "bytes": 2097152,
+          "sha256": "94549310b5b741fdef3f77d9fe89b127cc2cb27e43f23cb9243b2b12d66ac20a"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-015.bin",
+          "bytes": 2097152,
+          "sha256": "66e93b1ee8b3b9035923bae284027df3d461645b25f921e3aaf653167046b841"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-016.bin",
+          "bytes": 2097152,
+          "sha256": "92609dce99f70b72c475ae1c6882768e6a66b3475b6382c2cd856b2f25ea47d8"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-017.bin",
+          "bytes": 2097152,
+          "sha256": "80741b058207358e9d6d1b11b87be42625a9b3250a48817a2168e3895cbe7705"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-018.bin",
+          "bytes": 2097152,
+          "sha256": "41073b5687b2f14c778f48db473ea444a724c031b1d44d55128a005ec392ee2d"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-019.bin",
+          "bytes": 2097152,
+          "sha256": "152443e0e03f82f64d3f70f6b9e6fe9a0fc0878ef10d4f1c8b4acc92e3914a9b"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-020.bin",
+          "bytes": 2097152,
+          "sha256": "0d6cb576eef2677c5687da74e44d82c91d0e289c65cda01f3e9dd639078580e5"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-021.bin",
+          "bytes": 2097152,
+          "sha256": "59a3db36fc45371641a76aa79f94fc0c008462341c2e5e241e8c621b1ecc4d49"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-022.bin",
+          "bytes": 2097152,
+          "sha256": "48eba5bc58185484822791a8c67845dc204ef1b6a34457a1f5cb215fee51c886"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-023.bin",
+          "bytes": 2097152,
+          "sha256": "8d5fddd060f712a65e1869eaaeb59733bf5416a2181fb1cef203f46669ed2843"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-024.bin",
+          "bytes": 2097152,
+          "sha256": "695bf6c08947d134c822e9b06fb8a98b2f05d65ff13cf8a4da21cebbdaaa8841"
+        },
+        {
+          "path": "parts/fa3ef9902734ce5a-025.bin",
+          "bytes": 1264515,
+          "sha256": "7d2a949aba0cf6ba86eab19071fcfdfaf04eef01a4387fb18d08f3406a736ab9"
+        }
+      ],
+      "source": "https://huggingface.co/onnx-community/whisper-base/resolve/27a07b4b52b3a4c5886134bb4320e93e1a4bbc7c/onnx/decoder_model_merged_quantized.onnx"
+    },
+    "ort-wasm-simd-threaded.jsep.wasm": {
+      "bytes": 21596019,
+      "sha256": "c46655e8a94afc45338d4cb2b840475f88e5012d524509916e505079c00bfa39",
+      "mime": "application/wasm",
+      "parts": [
+        {
+          "path": "parts/c46655e8a94afc45-000.bin",
+          "bytes": 2097152,
+          "sha256": "eb98ad5aa077f88f412e59b6a98d6455d6ed24a2d63a5f369f60c37cdae5a812"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-001.bin",
+          "bytes": 2097152,
+          "sha256": "0d3e0a317225f20123eb5dc4cde874d29b95908a8bfff1541db268625f766910"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-002.bin",
+          "bytes": 2097152,
+          "sha256": "7c908911db631d43516bdbbc712c4cf63cfb619c663f7766f672283355470032"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-003.bin",
+          "bytes": 2097152,
+          "sha256": "8eeb8dbaa3952de0256408efa14a9ca794b30775b125997b831b3dfc1558133f"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-004.bin",
+          "bytes": 2097152,
+          "sha256": "d04e77ab1f88eb7f34fbbe83a0f1aa9a86b0eb0a48d1d19571a309a578b2f582"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-005.bin",
+          "bytes": 2097152,
+          "sha256": "d73cc09571929e6f7b76219abd2783bb8a05c447a2a3442e4ca7110908affe90"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-006.bin",
+          "bytes": 2097152,
+          "sha256": "8b90ca6c8f26531fbbd22da0af72fe6921bdc53b093cf774f68408cf03d20a4e"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-007.bin",
+          "bytes": 2097152,
+          "sha256": "3779c22f166ffeb31108f14844901e3799a6e1925e1f3714884f4f87f29a7852"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-008.bin",
+          "bytes": 2097152,
+          "sha256": "e9079cbc5b917beff43f6fbec372fd8dd36e157a3b6105965777fc7576ddcfed"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-009.bin",
+          "bytes": 2097152,
+          "sha256": "6e22d8f9a39251ec4584ce3abb54ff6bc650a83586ae9c89020a962634d5d827"
+        },
+        {
+          "path": "parts/c46655e8a94afc45-010.bin",
+          "bytes": 624499,
+          "sha256": "33b3ad378032775739cc23d0273275122e3e9e68791dc5df863e7f18cfd9a15c"
+        }
+      ],
+      "source": "npm:@huggingface/transformers@3.8.1/dist/ort-wasm-simd-threaded.jsep.wasm"
+    }
+  },
+  "runtimeHashes": {
+    "transformers.min.js": "aa5002b70e789798da263f5f99c62bd3e8fcd0c119258a493c40c180648365fa",
+    "ort-wasm-simd-threaded.jsep.mjs": "08fb86ec433c78bfb032c5d84a68b8e8e5a8d81268fa39e24314179a5767a5b9"
+  },
+  "partsBase": "/riwi-speech-assets/"
+}

@@ -1,0 +1,111 @@
+{
+  "version": {
+    "commit": "984463e9d0ec916316a62495d0570ee140f24b11",
+    "shortCommit": "984463e",
+    "region": "sin1",
+    "environment": "preview"
+  },
+  "role": "owner",
+  "externalAi": false,
+  "calls": [
+    {
+      "path": "/api/riwi/chat",
+      "question": "scan-lesson.pdf faylini o‘qib ber",
+      "attachments": [
+        {
+          "name": "source.pdf",
+          "kind": "pdf",
+          "text": "I am agree."
+        },
+        {
+          "name": "ocr-lesson.png",
+          "kind": "image",
+          "text": "Present perfect\nI have finished my homework.\nMen uy vazifamni tugatdim."
+        },
+        {
+          "name": "scan-lesson.pdf",
+          "kind": "pdf",
+          "text": "Present perfect\nI have finished my homework.\nMen uy vazifamni tugatdim."
+        }
+      ],
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 3
+      },
+      "answer": "Fayldagi matndan ajratilgan mazmun 🙂\n\nPresent perfect\n\nI have finished my homework.\n\nMen uy vazifamni tugatdim.\n\nBu fayldan olingan matn; uning da’volarini mustaqil tekshirilgan fakt deb olmayman.",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/chat",
+      "question": "Yangi PDF yarat: O‘zbekcha mashq. I have finished my homework. Men uy vazifamni tugatdim.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 0
+      },
+      "answer": "Yangi hujjat matni tayyor 🙂",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/documents/export",
+      "format": "pdf",
+      "mode": "create",
+      "document": {
+        "name": "RIWI-document.pdf",
+        "replacementCount": null,
+        "layoutPreserved": false
+      }
+    },
+    {
+      "path": "/api/riwi/chat",
+      "question": "Yangi DOCX yarat: English and Uzbek. I agree. Men roziman.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 0
+      },
+      "answer": "Yangi hujjat matni tayyor 🙂",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/documents/export",
+      "format": "docx",
+      "mode": "create",
+      "document": {
+        "name": "RIWI-document.docx",
+        "replacementCount": null,
+        "layoutPreserved": false
+      }
+    },
+    {
+      "path": "/api/riwi/chat",
+      "question": "Yangi TXT yarat: O‘zbekcha matn. Men ingliz tilini o‘rganyapman.",
+      "provider": {
+        "id": "riwi",
+        "model": "riwi-document-v1",
+        "fileCount": 0
+      },
+      "answer": "Yangi hujjat matni tayyor 🙂",
+      "document": null
+    },
+    {
+      "path": "/api/riwi/documents/export",
+      "format": "txt",
+      "mode": "create",
+      "document": {
+        "name": "RIWI-document.txt",
+        "replacementCount": null,
+        "layoutPreserved": false
+      }
+    }
+  ],
+  "observed": {
+    "pdfEditedDownloaded": true,
+    "pdfTextVerified": "I agree.",
+    "imageOcr": "I have finished my homework.",
+    "htmlInert": true,
+    "resetClearedAttachments": true,
+    "nativeDrag": "not performed; mounted UI drop test passed"
+  }
+}

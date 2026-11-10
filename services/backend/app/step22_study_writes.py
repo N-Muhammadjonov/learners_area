@@ -4,6 +4,8 @@ import json, math, random
 from fastapi import APIRouter, Request
 from . import main as core
 from .step17_listening_start_port import test_detail
+from .listening_draft import listening_draft_hash
+import re
 
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
@@ -22,6 +24,9 @@ async def save_listening_draft(req:Request,id:str):
         or not math.isfinite(b['audioPosition']) or not 0<=b['audioPosition']<=7200
         or ('startAudio' in b and type(b['startAudio']) is not bool)):
         return core.j({'error':'invalid_input'},400)
+    expected=b.get('expectedDraftHash')
+    if expected is not None and (not isinstance(expected,str) or not re.fullmatch('[a-f0-9]{64}',expected)):
+        return core.j({'error':'invalid_input'},400,PRIVATE)
     db=await core.pool()
     async with db.acquire() as con:
         # Avoid holding a row lock during content/sequence and answer-ID reads.
@@ -72,6 +77,13 @@ async def save_listening_draft(req:Request,id:str):
                 ident,u['id'])
             if not locked:return core.j({'error':'not_found'},404,PRIVATE)
             if locked['status']!='in_progress':return core.j({'error':'already_submitted'},409,PRIVATE)
+            if expected is not None:
+                prior=await con.fetchrow('SELECT answers,audio_position FROM listening_drafts WHERE attempt_id=$1',ident)
+                answers=prior['answers'] if prior else {}
+                if isinstance(answers,str):answers=json.loads(answers)
+                current=listening_draft_hash(answers,prior['audio_position'] if prior else 0)
+                if expected!=current and listening_draft_hash(b['answers'],b['audioPosition'])!=current:
+                    return core.j({'error':'draft_conflict'},409,PRIVATE)
             await con.execute('''INSERT INTO listening_drafts(
                   attempt_id,answers,audio_position,audio_started_at)
                 VALUES($1,$2::jsonb,$3,CASE WHEN $4 THEN NOW() ELSE NULL END)
@@ -82,6 +94,6 @@ async def save_listening_draft(req:Request,id:str):
                     listening_drafts.audio_started_at,excluded.audio_started_at),
                   updated_at=NOW()''',
                   ident,json.dumps(b['answers']),b['audioPosition'],b.get('startAudio') is True)
-    return core.j({'ok':True},headers=PRIVATE)
+    return core.j({'ok':True,**({'draftHash':listening_draft_hash(b['answers'],b['audioPosition'])} if expected is not None else {})},headers=PRIVATE)
 
 def install():core.app.include_router(router)

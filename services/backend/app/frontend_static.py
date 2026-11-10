@@ -16,7 +16,7 @@ from .security import add_security_headers, build_csp
 from .seo import robots_document, sitemap_document, public_document, private_document
 
 ROOT = Path(__file__).resolve().parents[3]
-PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery'))
+PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery', '/study-plan/shared'))
 PREFIXES = ('/api', '/_frontend', '/.git', '/.env', '/services', '/src', '/drizzle', '/node_modules')
 
 
@@ -101,6 +101,8 @@ class StaticFrontend:
                     response=RedirectResponse(target_path+('?' + urlencode(params) if params else ''),307,headers=core.PRIVATE)
                 name = path.lstrip('/')
                 versioned = False
+                if re.fullmatch(r'riwi-speech-assets/parts/[a-f0-9]{16}-\d{3}\.bin',name):
+                    name='js/vendor/riwi-speech/'+name.removeprefix('riwi-speech-assets/');versioned=True
                 if name.startswith('assets/'):
                     parts = name.split('/',2)
                     if len(parts)!=3 or parts[1]!=manifest.get('revision'):
@@ -122,12 +124,25 @@ class StaticFrontend:
                             compressed=None
                         etag='"'+(row.get('gzipSha256',row['sha256']+'-gzip') if compressed else row['sha256'])+'"'
                         headers={'Cache-Control':cache,'ETag':etag,'Vary':'Accept-Encoding','X-Learners-Asset-Version':manifest.get('revision','')}
-                        if etag in [value.strip() for value in req.headers.get('if-none-match','').split(',')]:
+                        media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream'
+                        range_hdr=req.headers.get('range','')
+                        if name=='js/vendor/riwi-speech/qa/index.html':
+                            # Trusted public fixture page uses the same strict nonce
+                            # policy as the app, without a cacheable per-request nonce.
+                            nonce=secrets.token_hex(16)
+                            html=re.sub(r'<script\b',f'<script nonce="{nonce}"',target.read_text())
+                            response=Response(html,media_type='text/html',headers={
+                                **core.PRIVATE,'Content-Security-Policy':build_csp(req,nonce)})
+                        elif etag in [value.strip() for value in req.headers.get('if-none-match','').split(',')]:
                             response=Response(status_code=304,headers=headers)
                         elif compressed:
-                            response=FileResponse(compressed,media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream',headers={**headers,'Content-Encoding':'gzip'})
+                            response=FileResponse(compressed,media_type=media_type,headers={**headers,'Content-Encoding':'gzip'})
                         else:
-                            response=FileResponse(target,headers=headers)
+                            # Starlette streams bounded byte ranges in its file worker.
+                            # Avoid read_bytes(): even a ten-byte request previously
+                            # allocated/read the complete asset on the event loop.
+                            # Its range handler also preserves If-Range semantics.
+                            response=FileResponse(target,media_type=media_type,headers=headers)
                 else:
                     matched = path in PUBLIC_PAGES or any(
                         re.fullmatch(pattern, path) for pattern in manifest['routes'])
@@ -158,7 +173,8 @@ class StaticFrontend:
                                 html = public_document(html) if path == '/' else private_document(html)
                                 html = re.sub(r'<script\b', f'<script nonce="{nonce}"', html)
                                 response = Response(html, media_type='text/html', headers={
-                                    **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce)})
+                                    **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce),
+                                    **({'X-Robots-Tag': 'noindex, nofollow'} if path == '/study-plan/shared' else {})})
                             except ValueError:
                                 response = core.j({'error': 'configuration_unavailable'}, 503, core.PRIVATE)
                 if response is None:

@@ -1,7 +1,8 @@
-// Exact source success markup; explicit native lifecycle/data adapters. No React runtime.
+// Shared dashboard presentation over the existing independent data regions.
 import {h,fragment,Link} from '../native.js';
 import {Card,StatCard} from './ui.js';
-import {Button,RegionFailureNotice as FailureNotice} from '../../modules/shared/presentation.js';
+import {ModuleEmoji} from './module-emoji.js';
+import {RegionFailureNotice as FailureNotice} from '../../modules/shared/presentation.js';
 import {BandBadge,StateBadge} from './badges.js';
 import {formatDate,formatDateTime} from './time.js';
 import {summarizeMocks} from './mock-summary.js';
@@ -19,85 +20,39 @@ export function render(scope) {
     function DashboardOpenLessons(props) { return scope.slots ? slot('openLessons', DashboardOpenLessonsSkeleton()) : DashboardOpenLessonsResolved(props); }
     function MockProgressOverview(props) { return scope.slots ? slot('mock', DashboardSkeleton()) : MockProgressOverviewResolved(props); }
     function DashboardContentResolved({ user, locale, dict, openLessonsPromise }) {
-        const data = scope.dashboard;
-        const unavailable = Object.entries(data.unavailable).filter(([, failed]) => failed);
-        return (h("div", { className: "flex flex-col gap-6", "data-dashboard-content": true, "data-async-content": "dashboard" },
-            unavailable.map(([region]) => (h(RegionFailureNotice, { key: region, region: `dashboard-${region}`, message: dict.errors.unknown, retryLabel: dict.errorPage.retry }))),
-            h("div", { className: "grid grid-cols-2 gap-3 sm:grid-cols-4" },
-                h(StatCard, { label: dict.dashboard.targetBand, value: data.profile?.targetBand?.toFixed(1) ?? "—" }),
-                h(StatCard, { label: dict.dashboard.streak, value: data.streak === null ? "—" : String(data.streak) }),
-                h(StatCard, { label: dict.writing.historyTitle, value: data.writingAttempts === null ? "—" : String(data.writingAttempts) }),
-                h(StatCard, { label: dict.dashboard.vocabDue, value: data.vocabDueCount === null ? "—" : String(data.vocabDueCount) })),
-            h(Card, { "data-continue": true },
-                h("h2", { className: "font-display text-lg text-ink-900" }, dict.dashboard.continueLearning),
-                data.unavailable.lastActivity ? (h("p", { className: "mt-2 text-sm text-ink-500", "data-dashboard-region": "last-activity-unavailable" }, dict.errors.unknown)) : data.lastActivity ? (h(fragment, null,
-                    h("p", { className: "mt-1 text-sm text-ink-500", "data-last-module": data.lastActivity.module },
-                        dict.dashboard.lastModule,
-                        ": ",
-                        dict.nav[data.lastActivity.module],
-                        " \u00B7",
-                        " ",
-                        formatDateTime(data.lastActivity.at, locale)),
-                    h("div", { className: "mt-4 flex flex-wrap gap-2" },
-                        h(Link, { href: data.lastActivity.href, "data-continue-link": data.lastActivity.href },
-                            h(Button, null, dict.dashboard.pickUp)),
-                        h(Link, { href: "/app/vocabulary" },
-                            h(Button, { variant: "secondary" }, dict.dashboard.reviewVocab))))) : (h("div", { className: "mt-2", "data-continue-empty": true },
-                    h("p", { className: "text-sm text-ink-500" }, dict.dashboard.nothingYet),
-                    h("div", { className: "mt-4 flex flex-wrap gap-2" },
-                        h(Link, { href: "/app/writing" },
-                            h(Button, null, dict.dashboard.startWriting)),
-                        h(Link, { href: "/app/vocabulary" },
-                            h(Button, { variant: "secondary" }, dict.dashboard.reviewVocab)))))),
-            h(Card, { "data-retention-drill": true },
-                h("div", { className: "flex flex-wrap items-center justify-between gap-2" },
-                    h("div", { className: "min-w-0" },
-                        h("h2", { className: "font-display text-lg text-ink-900" }, dict.reading.retentionModeTitle),
-                        h("p", { className: "mt-1 text-sm text-ink-500" }, dict.dashboard.retentionDrillHint)),
-                    h(Link, { href: "/app/reading/retention", prefetch: false },
-                        h(Button, { variant: "secondary" }, dict.dashboard.retentionDrillAction)))),
-            h(Card, { "data-my-tasks": true },
-                h("h2", { className: "font-display text-lg text-ink-900" }, dict.dashboard.myTasks),
-                data.openAssignments === null ? (h("p", { className: "mt-1 text-sm text-ink-500", "data-tasks-unavailable": true }, dict.errors.unknown)) : data.openAssignments.length === 0 ? (h("p", { className: "mt-1 text-sm text-ink-500", "data-tasks-empty": true }, dict.dashboard.noTasks)) : (h("ul", { className: "mt-2 flex flex-col divide-y divide-ink-100" }, data.openAssignments.map((task) => (h("li", { key: task.id, className: "flex items-center justify-between py-2", "data-task": task.id },
-                    h("span", { className: "text-sm text-ink-900" }, task.title),
-                    h("span", { className: "text-xs text-ink-300" }, task.dueAt ? `${dict.assignments.due}: ${formatDate(task.dueAt, locale)}` : "")))))),
-                h(Link, { href: "/app/assignments", className: "btn-secondary mt-3" },
-                    dict.assignments.title,
-                    " \u2192")),
-            h(Suspense, { fallback: h(DashboardOpenLessonsSkeleton, null) },
-                h(DashboardOpenLessons, { openLessonsPromise: openLessonsPromise, dict: dict })),
-            data.nextLiveClass && (h(Card, { "data-next-live-class": data.nextLiveClass.id },
-                h("div", { className: "flex flex-wrap items-center justify-between gap-2" },
-                    h("h2", { className: "font-display text-lg text-ink-900" }, dict.dashboard.nextClass),
-                    h("span", { className: "text-xs text-ink-300" }, formatDateTime(data.nextLiveClass.scheduledAt, locale))),
-                h("p", { className: "mt-1 text-sm text-ink-700" }, data.nextLiveClass.title),
-                h(Link, { href: "/app/live-classes", className: "btn-secondary mt-3" },
-                    dict.liveClasses.title,
-                    " \u2192"))),
-            data.latestEvaluation && (h(Card, null,
-                h("div", { className: "flex items-center justify-between" },
-                    h("h2", { className: "font-display text-lg text-ink-900" }, dict.dashboard.recentFeedback),
-                    h(BandBadge, { band: data.latestEvaluation.overallEstimate })),
-                data.latestEvaluation.weaknesses[0] && (h("p", { className: "mt-2 text-sm text-ink-500" }, data.latestEvaluation.weaknesses[0])),
-                h("p", { className: "mt-2 text-xs text-ink-300", "data-checked-by": data.latestEvaluation.checkedByName },
-                    dict.coach.checkedBy,
-                    " ",
-                    data.latestEvaluation.checkedByName),
-                h(Link, { href: "/app/coach", className: "btn-secondary mt-3" },
-                    dict.coach.title,
-                    " \u2192"))),
-            h("div", null,
-                h("h2", { className: "mb-3 font-display text-lg text-ink-900" }, dict.dashboard.skillSummary),
-                h("div", { className: "grid grid-cols-2 gap-3 sm:grid-cols-4" }, SKILLS.map((skill) => {
-                    const attempts = data.skillCounts[skill];
-                    return (h(Card, { key: skill, className: "flex flex-col gap-1", "data-skill": skill },
-                        h("span", { className: "text-sm font-medium text-ink-900" }, dict.nav[skill]),
-                        attempts === null ? (h("span", { className: "text-xs text-ink-300", "data-skill-unavailable": true }, "\u2014")) : attempts === 0 ? (h("span", { className: "text-xs text-ink-300" }, dict.dashboard.noAttemptsYet)) : (h("span", { className: "text-xs text-ink-500", "data-skill-count": attempts },
-                            attempts,
-                            " ",
-                            dict.dashboard.attempts)),
-                        skill === "writing" && data.latestEvaluation && h(BandBadge, { band: data.latestEvaluation.overallEstimate })));
-                })))));
+        const data=scope.dashboard;
+        const action=(href,label,variant='secondary',attrs={})=>h(Link,{href,className:'btn-'+variant,...attrs},label,h('span',{'aria-hidden':true},' →'));
+        const target=data.profile?.targetBand;
+        return h('div',{className:'la-dashboard-content','data-dashboard-content':true,'data-async-content':'dashboard'},
+            Object.entries(data.unavailable).filter(([,failed])=>failed).map(([region])=>h(RegionFailureNotice,{region:`dashboard-${region}`,message:dict.errors.unknown,retryLabel:dict.errorPage.retry})),
+            h('div',{'data-dashboard-stats':true},
+                typeof target==='number'&&h(StatCard,{label:dict.dashboard.targetBand,value:target.toFixed(1)}),
+                h(StatCard,{label:dict.dashboard.streak,value:data.streak===null?'—':String(data.streak)}),
+                h(StatCard,{label:dict.writing.historyTitle,value:data.writingAttempts===null?'—':String(data.writingAttempts)}),
+                h(StatCard,{label:dict.dashboard.vocabDue,value:data.vocabDueCount===null?'—':String(data.vocabDueCount)})),
+            h(Card,{'data-my-tasks':true,kind:'practice'},
+                h('div',{className:'flex flex-wrap items-start justify-between gap-4'},
+                    h('div',{},h('p',{className:'la-eyebrow'},dict.assignments.title),h('h2',{className:'section-title'},dict.dashboard.myTasks)),
+                    action('/app/assignments',dict.assignments.title,'primary')),
+                data.openAssignments===null?h('p',{'data-tasks-unavailable':true,className:'mt-3 text-sm text-ink-500'},dict.errors.unknown):
+                data.openAssignments.length===0?h('p',{'data-tasks-empty':true,className:'mt-3 text-sm text-ink-500'},dict.dashboard.noTasks):
+                h('ul',{className:'mt-3 flex flex-col divide-y divide-ink-100'},data.openAssignments.map(task=>h('li',{'data-task':task.id,className:'flex flex-wrap items-center justify-between gap-2 py-3'},h('span',{className:'text-sm text-ink-900'},task.title),h('span',{className:'text-xs text-ink-500'},task.dueAt?`${dict.assignments.due}: ${formatDate(task.dueAt,locale)}`:''))))),
+            h('section',{'data-dashboard-skills':true},
+                h('h2',{className:'mb-3 section-title'},dict.dashboard.skillSummary),
+                h('div',{},SKILLS.map(skill=>h(Link,{href:({listening:'/app/listening/lessons',reading:'/app/reading/lessons',writing:'/app/writing',speaking:'/app/speaking'})[skill],className:'card la-skill-shortcut','data-skill':skill,'data-ui-skill':skill,'data-ui-card':'module'},
+                    h('span',{className:'la-skill-icon'},h(ModuleEmoji,{kind:skill})),
+                    h('span',{className:'font-semibold text-ink-900'},dict.nav[skill]),
+                    data.skillCounts[skill]===null?h('span',{'data-skill-unavailable':true,className:'text-xs text-ink-500'},'—'):
+                    data.skillCounts[skill]===0?h('span',{className:'text-xs text-ink-500'},dict.dashboard.noAttemptsYet):h('span',{'data-skill-count':data.skillCounts[skill],className:'text-xs text-ink-500'},data.skillCounts[skill]+' '+dict.dashboard.attempts),
+                    skill==='writing'&&data.latestEvaluation&&h(BandBadge,{band:data.latestEvaluation.overallEstimate}))))),
+            h(Card,{'data-continue':true},h('h2',{className:'section-title'},dict.dashboard.continueLearning),
+                data.unavailable.lastActivity?h('p',{'data-dashboard-region':'last-activity-unavailable',className:'mt-2 text-sm text-ink-500'},dict.errors.unknown):
+                data.lastActivity?h(fragment,{},h('p',{'data-last-module':data.lastActivity.module,className:'mt-2 text-sm text-ink-500'},dict.dashboard.lastModule+': '+dict.nav[data.lastActivity.module]+' · '+formatDateTime(data.lastActivity.at,locale)),h('div',{className:'mt-4 flex flex-wrap gap-2'},action(data.lastActivity.href,dict.dashboard.pickUp,'primary',{'data-continue-link':data.lastActivity.href}),action('/app/vocabulary',dict.dashboard.reviewVocab))):
+                h('div',{'data-continue-empty':true,className:'mt-2'},h('p',{className:'text-sm text-ink-500'},dict.dashboard.nothingYet),h('div',{className:'mt-4 flex flex-wrap gap-2'},action('/app/writing',dict.dashboard.startWriting,'primary'),action('/app/vocabulary',dict.dashboard.reviewVocab)))),
+            h(Card,{'data-retention-drill':true},h('h2',{className:'section-title'},dict.reading.retentionModeTitle),h('p',{className:'mt-2 text-sm text-ink-500'},dict.dashboard.retentionDrillHint),h('div',{className:'mt-4'},action('/app/reading/retention',dict.dashboard.retentionDrillAction))),
+            h(DashboardOpenLessons,{openLessonsPromise,dict}),
+            data.nextLiveClass&&h(Card,{'data-next-live-class':data.nextLiveClass.id},h('h2',{className:'section-title'},dict.dashboard.nextClass),h('p',{className:'mt-2 text-sm text-ink-500'},formatDateTime(data.nextLiveClass.scheduledAt,locale)),h('p',{className:'mt-2 text-sm text-ink-900'},data.nextLiveClass.title),h('div',{className:'mt-4'},action('/app/live-classes',dict.liveClasses.title))),
+            data.latestEvaluation&&h(Card,{},h('div',{className:'flex items-center justify-between gap-3'},h('h2',{className:'section-title'},dict.dashboard.recentFeedback),h(BandBadge,{band:data.latestEvaluation.overallEstimate})),data.latestEvaluation.weaknesses[0]&&h('p',{className:'mt-2 text-sm text-ink-500'},data.latestEvaluation.weaknesses[0]),h('p',{'data-checked-by':data.latestEvaluation.checkedByName,className:'mt-2 text-xs text-ink-500'},dict.coach.checkedBy+' '+data.latestEvaluation.checkedByName),h('div',{className:'mt-4'},action('/app/coach',dict.coach.title))));
     }
     function DashboardOpenLessonsResolved({ openLessonsPromise, dict }) {
         const result = scope.openLessonsResult;
@@ -161,7 +116,7 @@ export function render(scope) {
                     h("p", null, uz
                         ? "Haqiqiy urinishlaringiz va mavjud testlar."
                         : "Your actual attempts and available tests."),
-                    h(Link, { href: "/app/mocks", className: "btn-primary" },
+                    h(Link, { href: "/app/mocks", className: "btn-secondary" },
                         uz ? "Mock testlarni ochish" : "Open mock tests",
                         " \u2192"),
                     data.catalogueUnavailable ? (failure) : (h("p", null,
@@ -190,15 +145,16 @@ export function render(scope) {
         scope.renderers.mock = () => MockProgressOverviewResolved({ userId: user.id, locale, dashboard: true });
     }
     return (h("div", { className: "mx-auto flex w-full max-w-7xl flex-col gap-6", "data-route-usable": "dashboard" },
-        h("div", null,
+        h("header", {className:"la-dashboard-hero"}, h("div",{},
+            h("p",{className:"la-eyebrow"},"Learners Area · IELTS"),
             h("h1", { className: "font-display text-2xl text-ink-900" },
                 dict.dashboard.greeting,
                 ", ",
                 user.name.split(" ")[0]),
             h("p", { className: "text-sm text-ink-500" },
-                dict.nav.course)),
+                dict.nav.course))),
         h(Suspense, { fallback: h(DashboardSkeleton, null) },
-            h(MockProgressOverview, { userId: user.id, locale: locale, dashboard: true })),
+            h(DashboardContent, { user: user, locale: locale, dict: dict, openLessonsPromise: openLessonsPromise })),
         h(Suspense, { fallback: h(DashboardSkeleton, null) },
-            h(DashboardContent, { user: user, locale: locale, dict: dict, openLessonsPromise: openLessonsPromise }))));
+            h(MockProgressOverview, { userId: user.id, locale: locale, dashboard: true }))));
 }

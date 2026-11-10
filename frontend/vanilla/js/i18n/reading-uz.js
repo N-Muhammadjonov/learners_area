@@ -170,7 +170,7 @@ const uz = {
     },
     shell: {
         telegramBrand: "Learners Area Telegram kanalini ochish",
-        searchShortcut: "Ctrl K",
+        searchShortcut: "Ctrl F",
         learningNav: "O'qish bo'limlari",
         managementNav: "Boshqaruv bo'limlari",
         utilities: "O'quv vositalari",
@@ -181,7 +181,7 @@ const uz = {
         back: "Orqaga",
         search: "Qidirish",
         searchPlaceholder: "Learners Area bo'ylab qidirish…",
-        searchHint: "Qidirish uchun yozing yoki Ctrl+K bosing",
+        searchHint: "Qidirish uchun yozing",
         searching: "Qidiruv…",
         noResults: "Hech narsa topilmadi",
         noResultsHint: "Boshqa so'z bilan urinib ko'ring yoki filtrlarni tozalang.",

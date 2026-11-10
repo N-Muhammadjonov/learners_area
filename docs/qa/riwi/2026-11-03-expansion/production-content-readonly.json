@@ -1,0 +1,52 @@
+{
+  "target": "production_read_only",
+  "project": "tuoeabrrnsiuxpjmslxp",
+  "date": "2026-11-03",
+  "sourceSelectors": "qa-stage/services/backend/app/riwi_materials.py",
+  "inventory": [
+    {
+      "kind": "reading",
+      "material_count": 105,
+      "text_ready": 105,
+      "text_characters": 560574
+    },
+    {
+      "kind": "listening",
+      "material_count": 61,
+      "text_ready": 30,
+      "text_characters": 484449
+    },
+    {
+      "kind": "writing",
+      "material_count": 15,
+      "text_ready": 15,
+      "text_characters": 29593
+    },
+    {
+      "kind": "language-stealing",
+      "material_count": 150,
+      "text_ready": 150,
+      "text_characters": 32755
+    },
+    {
+      "kind": "speaking",
+      "material_count": 1694,
+      "text_ready": 1694,
+      "text_characters": 1054588
+    },
+    {
+      "kind": "podcast",
+      "material_count": 25,
+      "text_ready": 25,
+      "text_characters": 258704
+    },
+    {
+      "kind": "retention",
+      "material_count": 75,
+      "text_ready": 75,
+      "text_characters": 122701
+    }
+  ],
+  "notDeployedToProduction": true,
+  "correction": "Whitespace-only legacy transcripts are not text coverage; live QA correction."
+}

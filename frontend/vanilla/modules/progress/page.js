@@ -20,6 +20,7 @@ export async function mount(context) {
   const mockRetry = uz ? 'Qayta urinish' : 'Retry';
   const pulse = () => h('div', {class: 'h-32 animate-pulse rounded-xl bg-ink-50', 'aria-hidden': 'true'});
 
+  const learningHost = h('div', {class: 'study-plan-content', 'data-progress-study-plan': ''});
   const mocksHost = h('section', {class: 'min-w-0', 'data-progress-mocks-host': ''});
   const modulesHost = h('div', {'data-progress-summary-host': ''});
   const trendsHost = h('div', {'data-progress-trends-host': ''});
@@ -31,11 +32,18 @@ export async function mount(context) {
       h('h1', {class: 'font-display text-2xl text-ink-900'}, dict.nav.progress),
       h('p', {class: 'text-sm text-ink-500'}, dict.progress.subtitle),
       h('a', {class: 'mt-1 inline-block text-sm font-semibold text-ink-900 underline', href: '/app/reports', 'data-progress-reports-link': ''},
-        dict.reporter.openFromProgress)),
-    mocksHost,
+        dict.reporter.openFromProgress),
+      context.session?.user?.role === 'student' ? h('a', {class: 'ml-3 mt-1 inline-block text-sm font-semibold text-ink-900 underline',
+        href: '/app/study-plan'}, uz ? 'O‘quv reja va baholash tarixi' : 'Study plan and assessment history') : null),
+    learningHost, mocksHost,
     h('div', {class: 'flex flex-col gap-4', 'data-progress-content': '', 'data-async-content': 'progress'},
       modulesHost, trendsHost, statsHost, vocabHost, courseHost));
   root.append(page);
+  if (context.session?.user?.role === 'student') {
+    void import('../study-plan/page.js').then(({mountLearningOverview}) => {
+      if (!signal.aborted) mountLearningOverview(context,learningHost);
+    });
+  }
 
   const state = {streak: {state: 'loading'}, summary: {state: 'loading'}};
   const renderStats = () => statsHost.replaceChildren(statCards(state, dict, () => refreshStreak()));

@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-02",
+  "timezone": "Asia/Tashkent",
+  "scope": {
+    "repository": "N-Muhammadjonov/learners_area",
+    "branch": "arena/learners-area-next",
+    "testedBackendCommit": "8054d75905e962c390ef2924a143c27f79bb3d7e",
+    "supabaseProject": "bpexpsugmuhwmztacbqd",
+    "productionTouched": false,
+    "mainMerged": false
+  },
+  "before": {
+    "journalEntries": 66,
+    "login": 200,
+    "ownerSession": 200,
+    "targets": 200,
+    "ownerFailures": {
+      "diagnostics": 503,
+      "assessmentPolicies": 503,
+      "knowledge": 503,
+      "securitySignals": 503
+    },
+    "logReason": "schema_missing",
+    "exception": "UndefinedTableError",
+    "sqlstate": "42P01"
+  },
+  "recovery": {
+    "schema": "riwi_qa_recovery_20261102",
+    "affectedTablesAndJournal": 11,
+    "allRestoreProbesVerified": true,
+    "credentialTablesCopied": false,
+    "directClientSchemaAccess": false,
+    "wholeProjectOffsiteBackup": false,
+    "nativeMigration": "riwi_qa_private_recovery_snapshot_20261102"
+  },
+  "upgrade": {
+    "nativeMigration": "riwi_qa_guarded_current_main_8054d759",
+    "atomicSingleStatement": true,
+    "pendingJournalEntriesApplied": 13,
+    "platformScriptsApplied": 2,
+    "guardedSqlSha256": "15b922ac5ba2795a127d5dca5cd6a739091d52530f9c32f8f565cbbdea4f9471",
+    "preservationOfOriginalColumnValues": "passed"
+  },
+  "after": {
+    "journalEntries": 79,
+    "riwiTables": 16,
+    "rlsEnabled": 16,
+    "directClientReadsDenied": true,
+    "rows": {
+      "users": 1,
+      "speakingAttempts": 1,
+      "evaluations": 3,
+      "videoProgress": 2
+    },
+    "securityAdvisorErrors": 0,
+    "existingSecurityAdvisorWarnings": 3
+  },
+  "rehearsal": {
+    "engine": "PGlite PostgreSQL WASM",
+    "remoteDatabaseTouched": false,
+    "recoveryTablesVerified": 10,
+    "populatedSpeakingAttemptPreserved": true,
+    "pendingJournalMigrations": 13,
+    "platformScripts": 2,
+    "status": "pass"
+  },
+  "acceptance": {
+    "postUpgradeSafariHttp": "passed",
+    "fullBrowserQA": "not_performed",
+    "semanticModelTraining": "not_validated",
+    "mainMergeReady": false,
+    "postUpgradeEvidence": "../code-readiness-20261102/SAFARI_SMOKE_PASS.json",
+    "postUpgradePreviewCommit": "761f760e815ab9ef35ec8a2b86480039d89ac030",
+    "postUpgradeSafariTime": "2026-11-02T14:14:29.071253+05:00",
+    "liveConversationTransport": "passed",
+    "liveMeaningfulTutoring": "failed_unavailable",
+    "liveConversationEvidence": "../code-readiness-20261102/SAFARI_CONVERSATION_PASS_LIMITED.json"
+  },
+  "environment": "Owner-run Safari verified all eight fixed preview API checks after the QA schema repair. Direct browser control from the chat remains unavailable."
+}

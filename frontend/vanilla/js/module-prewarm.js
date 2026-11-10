@@ -4,7 +4,10 @@ import {eligibleIntentTarget,IDLE_SHELL_PREFETCH_ROUTES,IntentPrefetchBudget} fr
 export function modulePrewarm({root,routes,signal,window:win=window,document:doc=document,navigator:nav=navigator,clock=Date.now,setTimer=setTimeout,clearTimer=clearTimeout}){
  if(signal.aborted)return {warm:async()=>false,dispose(){}};
  const budget=new IntentPrefetchBudget();let timer,idleHandle,index=0,inflight=0,stopped=false;
- const allowed=()=>!stopped&&!signal.aborted&&nav.onLine!==false&&doc.visibilityState==='visible'&&!nav.connection?.saveData&&!['2g','slow-2g'].includes(nav.connection?.effectiveType);
+ const constrained=()=>nav.connection?.saveData||['2g','slow-2g','3g'].includes(nav.connection?.effectiveType)||
+  (typeof nav.deviceMemory==='number'&&nav.deviceMemory<=2)||
+  (typeof nav.hardwareConcurrency==='number'&&nav.hardwareConcurrency<=2);
+ const allowed=()=>!stopped&&!signal.aborted&&nav.onLine!==false&&doc.visibilityState==='visible'&&!constrained();
  async function warm(raw){if(!allowed()||inflight>=2)return false;let target=eligibleIntentTarget(raw,win.location.origin,win.location.href);if(!target){try{const u=new URL(raw,win.location.origin);if(u.origin===win.location.origin&&u.pathname==='/app/writing'&&u.searchParams.size===1&&['lessons','exam','translation','typing','grade','activation','language-stealing'].includes(u.searchParams.get('tab'))&&!u.hash)target=u.pathname+u.search;}catch{}}const route=routes.find(r=>r.pattern===(target?.split('?')[0])&&r.protected&&!r.redirectOnly);if(!target||!route||!budget.take(target,clock()))return false;inflight++;
   try{const module=await route.load();if(allowed())await module.preload?.(new URL(target,win.location.origin));}catch{ /* A prewarm failure never blocks deliberate navigation. */ }finally{inflight--;}
   return true;

@@ -2,6 +2,10 @@ import reviewed from './generated/view-registry.js';
 import staffRoutes from '../modules/staff-final30/routes.js';
 // Source-discovered routes. Unavailable does NOT mean converted.
 const routes = [
+ {pattern:"/app/study-plan",protected:true,load:()=>import('../modules/study-plan/page.js')},
+ {pattern:"/app/study-plan/leaderboard",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
+ {pattern:"/app/study-plan/rewards",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
+ {pattern:"/study-plan/shared",load:()=>import('../modules/study-plan/share.js')},
  {pattern:"/app/dashboard",protected:true,load:()=>import('../modules/dashboard.js')},
  {pattern:"/app/admin/statistics",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/admin/reading/retention/staged",load:()=>import('../modules/unavailable.js')},
@@ -62,6 +66,7 @@ const routes = [
  {pattern:"/app/assignments",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/owner/audit",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/speaking/ai",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/app/speaking/speak-or-die",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/management",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/vocabulary",load:()=>import('../modules/unavailable.js')},
  {pattern:"/reset-password",load:()=>import('../modules/auth/public.js')},
@@ -77,6 +82,8 @@ const routes = [
  {pattern:"/app/writing",load:()=>import('../modules/unavailable.js')},
  {pattern:"/onboarding",load:()=>import('../modules/auth/account.js')},
  {pattern:"/app/coach",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/app/riwi",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/app/owner/riwi",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/mocks",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/owner",load:()=>import('../modules/unavailable.js')},
  {pattern:"/register",load:()=>import('../modules/auth/public.js')},
@@ -150,10 +157,10 @@ export default routes.map(route=>{if(route.pattern==="/app")return {...route,pro
  const staff=staffRoutes.find(s=>s.pattern===route.pattern);
  if(staff)return {...route,...staff,protected:true};
 /* V51 SPEAKING + WRITING DISPATCH */
-if(["/app/speaking","/app/speaking/lessons","/app/speaking/live-partner","/app/speaking/practice","/app/speaking/ai","/app/speaking/history","/app/speaking/shadowing"].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/speaking/index.js')};
+if(["/app/speaking","/app/speaking/lessons","/app/speaking/live-partner","/app/speaking/practice","/app/speaking/ai","/app/speaking/speak-or-die","/app/speaking/history","/app/speaking/shadowing"].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/speaking/index.js')};
 if(route.pattern==='/app/writing'||route.pattern.startsWith('/app/writing/'))return {...route,protected:true,...(route.pattern==='/app/writing/exam/:id'?{layout:'focus'}:{}),load:()=>import('../modules/writing/index.js')};
 /* V59 ASSIGNMENTS + V60 COACH DISPATCH: native modules, server-only data; teachers/admins never fetch learner data */
-if(route.pattern==='/app/assignments')return {...route,protected:true,load:()=>import('../modules/assignments/index.js')};if(route.pattern==='/app/coach')return {...route,protected:true,load:()=>import('../modules/coach/index.js')};
+if(route.pattern==='/app/assignments')return {...route,protected:true,load:()=>import('../modules/assignments/index.js')};if(route.pattern==='/app/coach')return {...route,protected:true,load:()=>import('../modules/coach/index.js')};if(route.pattern==='/app/riwi')return {...route,protected:true,load:()=>import('../modules/riwi/index.js')};if(route.pattern==='/app/owner/riwi')return {...route,protected:true,roles:['owner'],load:()=>import('../modules/staff-final30/owner-riwi.js')};
 /* V63 FOUR ROUTES: shared source-led LessonAuthoringDesk (Grammar/Reading); canonical full-test catalogue; Listening entry. */
 if(['/app/grammar/lessons/author','/app/reading/lessons/author'].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/listening/lesson-authoring.js')};
 if(route.pattern==='/app/listening/tests')return {...route,protected:true,load:()=>import('../modules/listening/tests-catalogue.js')};

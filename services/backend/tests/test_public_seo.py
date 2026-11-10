@@ -48,8 +48,9 @@ def test_home_is_indexable_without_javascript_or_session_queries(monkeypatch):
         assert data['@type'] == 'WebSite' and data['name'] == 'Learners Area'
         assert data['url'] == 'https://learnersarea.uz/'
         body = html.split('<body>', 1)[1]
-        assert '<h1' in body and 'IELTS' in body and 'O‘zbekistonda' in body
-        assert '<a href="/app"' in body
+        assert re.search(r'<h1\b[^>]*>\s*Xush kelibsiz\s*</h1>', body)
+        assert '<a href="/login"' in body and '<a href="/landing"' in body
+        assert 'Telegram orqali davom etish' in body
         assert 'nonce=' in html and 'Content-Security-Policy' in response.headers
 
 
@@ -118,7 +119,7 @@ def test_explicit_origin_is_shared_by_metadata_robots_and_sitemap_without_host_p
     for host in ('localhost', 'attacker.example'):
         html = client.get('/', headers={'host': host, 'x-forwarded-host': 'forged.example'}).text
         assert '<link rel="canonical" href="https://study.example/">' in html
-        assert 'content="https://study.example/brand/learners-area-logo-horizontal-dark.png"' in html
+        assert 'content="https://study.example/brand/learners-area-la-glass.svg"' in html
         data = json.loads(re.search(r'<script[^>]+type="application/ld\+json">(.*?)</script>', html, re.S)[1])
         assert data['url'] == 'https://study.example/'
         assert 'forged.example' not in html and 'generated-preview.example' not in html
@@ -137,7 +138,7 @@ def test_preview_is_not_indexed_on_any_host(monkeypatch, settings):
     home = client.get('/')
     assert home.status_code == 200 and home.headers['x-robots-tag'].startswith('noindex')
     assert '<meta name="robots" content="noindex,nofollow,noarchive">' in home.text
-    assert 'Welcome to the next level' in home.text
+    assert 'Xush kelibsiz' in home.text and 'Telegram orqali davom etish' in home.text
     robots = client.get('/robots.txt')
     assert robots.text == 'User-agent: *\nDisallow: /\n' and robots.headers['x-robots-tag'].startswith('noindex')
     sitemap = client.get('/sitemap.xml')

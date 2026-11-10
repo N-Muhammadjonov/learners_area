@@ -1,0 +1,21 @@
+{
+  "physicalMicrophone": false,
+  "externalSpeechService": false,
+  "english": {
+    "language": "en",
+    "expected": "when you call someone who is thousands of miles away you are using a satellite",
+    "type": "result",
+    "id": "en",
+    "text": "When you call someone who is thousands of miles away, you are using a satellite.",
+    "elapsedMs": 79479
+  },
+  "uzbek": {
+    "language": "uz",
+    "expected": "bir kunda bor-yoʻgʻi oʻn sakkizta medal boʻlgani sababli bir qator mamlakatlar medal shohsupasiga koʻtarila olmadi",
+    "type": "result",
+    "id": "uz",
+    "text": "Börkunda, boryoqa unsakksa midal bulgján sababla, börkata rama'na ketla, midal shakhspazgat kutarala almade.",
+    "elapsedMs": 5730
+  },
+  "uzbekQuality": "experimental: significant transcription errors"
+}

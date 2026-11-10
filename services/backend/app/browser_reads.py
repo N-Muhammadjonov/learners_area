@@ -62,6 +62,13 @@ async def read_view(req, user, path, search, region):
     if path.startswith(('/app/admin', '/app/owner')):
         from .browser_staff import route_view
         return await route_view(req, user, path, q)
+    if path == '/app/riwi':
+        from .riwi_capabilities import RiwiActor
+        from .riwi_role_surface import get_riwi_role_surface
+        actor = RiwiActor(id=str(user['id']), role=str(user['role']), account_status=str(user['account_status']), locale=str(user.get('locale') or 'uz'))
+        db = await core.pool()
+        async with db.acquire() as con:
+            return {'roleSurface': await get_riwi_role_surface(con, actor)}
     if path == '/app/management':
         if user['role'] not in ('teacher', 'admin', 'owner'):
             raise HTTPException(403, 'forbidden')

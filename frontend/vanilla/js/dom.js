@@ -1,3 +1,4 @@
+import {rememberControlAction} from './control-help.js';
 /** No untrusted HTML interpolation. Event handlers belong to a view AbortSignal. */
 export function el(tag, attrs={}, ...children) {
  const node=document.createElement(tag);
@@ -14,6 +15,7 @@ export function el(tag, attrs={}, ...children) {
 export function listen(node,event,fn,signal){
  if(signal?.aborted)return;
  node.addEventListener(event,fn);
+ rememberControlAction(node,event,fn);
  const remove=()=>node.removeEventListener(event,fn);
  signal?.addEventListener('abort',remove,{once:true});
  return ()=>{remove();signal?.removeEventListener('abort',remove);};

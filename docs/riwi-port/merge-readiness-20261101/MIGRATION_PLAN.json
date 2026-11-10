@@ -1,0 +1,48 @@
+{
+  "source_sha": "b6434d1afa9ff3cfa8d53598f83b2cc34576f65c",
+  "target_main_sha": "9ad7a8b40b99c0042c7fe5d547db811b7206731e",
+  "current_main_journal_entries": 74,
+  "canonical_suffix_generated": false,
+  "migrations_applied": false,
+  "collisions": [
+    {
+      "ordinal": "0072",
+      "current_main": {
+        "path": "drizzle/0072_ai_provider_admission.sql",
+        "blob": "dcd204f6d9323e4711a36da9f62f2fe356883e55"
+      },
+      "riwi_source": {
+        "path": "drizzle/0072_riwi_core_and_governance.sql",
+        "blob": "587a8fe5de242b5b322d4dd3669d64637e6c8b4c"
+      },
+      "proposal": "drizzle/0075_riwi_core_and_governance.sql",
+      "proposal_state": "not_generated_or_applied; remeasure target tip before implementation; preserve published source history separately"
+    },
+    {
+      "ordinal": "0073",
+      "current_main": {
+        "path": "drizzle/0073_live_classes_youtube_chat_attendance.sql",
+        "blob": "8ad4bd3217c0e43376697f5285f15255a4c4f65f"
+      },
+      "riwi_source": {
+        "path": "drizzle/0073_riwi_assessments_and_security_signals.sql",
+        "blob": "1fa704e5fac5bba71f849762332c947ceede9af1"
+      },
+      "proposal": "drizzle/0076_riwi_assessments_and_security_signals.sql",
+      "proposal_state": "not_generated_or_applied; remeasure target tip before implementation; preserve published source history separately"
+    },
+    {
+      "ordinal": "0074",
+      "current_main": {
+        "path": "drizzle/0074_mock_hybrid_grading_system.sql",
+        "blob": "84554553105ca03b0f337be3955c9f04b422a625"
+      },
+      "riwi_source": {
+        "path": "drizzle/0074_riwi_speaking_sessions_and_activity_indexes.sql",
+        "blob": "264b6969265fe18057ec2fc9473fa3ede60ff995"
+      },
+      "proposal": "drizzle/0077_riwi_speaking_sessions_and_activity_indexes.sql",
+      "proposal_state": "not_generated_or_applied; remeasure target tip before implementation; preserve published source history separately"
+    }
+  ]
+}

@@ -170,7 +170,7 @@ export default {
     },
     "shell": {
         "telegramBrand": "Open Learners Area Telegram channel",
-        "searchShortcut": "Ctrl K",
+        "searchShortcut": "Ctrl F",
         "learningNav": "Learning sections",
         "managementNav": "Management sections",
         "utilities": "Study tools",
@@ -181,7 +181,7 @@ export default {
         "back": "Back",
         "search": "Search",
         "searchPlaceholder": "Search Learners Area…",
-        "searchHint": "Type to search, or press Ctrl+K",
+        "searchHint": "Type to search",
         "searching": "Searching…",
         "noResults": "No results found",
         "noResultsHint": "Try a different word, or clear the filters.",
@@ -2999,7 +2999,7 @@ export default {
         "lessonsTitle": "Speaking lessons",
         "lessonsBody": "Videos, materials and structures for structured speaking study.",
         "lessonsEmptyTitle": "No speaking lessons are published yet",
-        "lessonsEmptyBody": "Your teacher has not published lessons here yet. Practice on your own and Practice with AI are available now.",
+        "lessonsEmptyBody": "Your teacher has not published lessons here yet. Practice on your own or play Speak or Die.",
         "cards": {
             "partner": {
                 "eyebrow": "Online",
@@ -3019,12 +3019,51 @@ export default {
                 "body": "An IELTS examiner-style session, one question at a time. Analysis appears only when a real AI provider is connected.",
                 "cta": "Start AI practice"
             },
+            "fluency": {
+                "eyebrow": "Fluency game",
+                "title": "Speak or Die",
+                "body": "Keep speaking to survive. Every pause brings the danger closer.",
+                "cta": "Play now"
+            },
             "lessons": {
                 "eyebrow": "Lessons",
                 "title": "Speaking lessons",
                 "body": "Videos, materials and structured speaking study.",
                 "cta": "Open lessons"
             }
+        }
+    },
+    "fluencyGame": {
+        "eyebrow": "Fluency game",
+        "intro": "Silence lets the danger approach. Speaking freezes it where it stands.",
+        "privacy": "No speech content is analysed or saved — this is a warm-up for fluency, not a test.",
+        "limitation": "Sound activity only: background sounds can also trigger the detector. No recording, upload, transcript or IELTS score.",
+        "question": "Question", "timer": "Round time remaining", "sec": "SEC", "arena": "Speaking freezes the approaching danger before it reaches your robot.",
+        "chooseLevel": "Choose difficulty", "start": "Start", "retry": "Try again", "resume": "Resume", "quit": "Quit", "again": "Play again", "changeLevel": "Change level",
+        "silent": "Silent — danger closing in", "speaking": "Speaking — danger stopped", "paused": "Paused. Your time and position are safe. Press Resume to reopen the microphone.",
+        "micOn": "Microphone on · local activity only", "micOff": "Microphone off", "micRequest": "Waiting for microphone permission. You can Quit at any time.",
+        "won": "You survived!", "wonBody": "You kept going. Try a new question and keep your ideas moving.",
+        "lost": "It got you.", "lostBody": "Keep going even when the sentence is not perfect — the content does not matter.",
+        "levels": {
+            "beginner": {"title": "Beginner", "body": "Danger creeps · long pauses forgiven"},
+            "intermediate": {"title": "Intermediate", "body": "Steady pace · short pauses only"},
+            "advanced": {"title": "Advanced", "body": "Danger races in · no time to think"}
+        },
+        "status": {"idle": "Choose a level, then start.", "requesting_permission": "Allow microphone access to play.", "calibrating": "Stay quiet for a moment while the microphone settles.", "ready": "Ready — keep speaking!"},
+        "errors": {
+            "permission_denied": "Microphone access was denied. Allow it in your browser settings, then try again.",
+            "permission_timeout": "Microphone permission is still pending. Try again when you are ready to allow it.",
+            "no_microphone": "No microphone was found. Connect one, then try again.",
+            "unsupported": "This browser cannot open microphone audio. Use a browser with microphone and Web Audio support over HTTPS.",
+            "device_interrupted": "The microphone was disconnected or muted. Reconnect it, then resume.",
+            "audio_suspended": "Browser audio was interrupted. Press Resume to restart it with a click.",
+            "no_signal": "No microphone signal was detected. Check the input device and mute setting, then try again.",
+            "too_noisy": "The background is too loud to calibrate. Move somewhere quieter, then try again.",
+            "invalid_signal": "The microphone signal could not be read. Try the input device again.",
+            "question_empty": "No published speaking questions are available for this game yet.",
+            "question_unavailable": "Speaking questions could not be loaded. Check your connection and try again.",
+            "interrupted": "Paused after the browser stopped updating. Your time and position are safe. Press Resume.",
+            "unknown": "The game could not start. Check your microphone and connection, then try again."
         }
     },
     "speakingAi": {
@@ -3947,5 +3986,12 @@ export default {
         "review": "Review",
         "library": "Passage library"
     }
+,
+    "riwi": {
+        "title": "RIWI AI Coach & Learning Assistant",
+        "ownerTitle": "Owner RIWI Governance & Provider Lab",
+        "send": "Send",
+        "clear": "Delete Conversation",
+        "explainOfficialAnswer": "Explain Official Answer"
+    }
 };
-

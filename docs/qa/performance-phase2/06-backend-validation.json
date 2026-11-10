@@ -1,0 +1,106 @@
+{
+  "validationDate": "2026-11-09",
+  "timezone": "Asia/Tashkent",
+  "scope": "Backend regression follow-up to Phase 2; no product runtime changes",
+  "status": "PASS_AUTOMATED_REGRESSION",
+  "overallPhase2": "PARTIAL",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/learners-area-next",
+  "remoteParent": "20d91288bb4f8ffc7d1ba0d089c501ff4ab08f08",
+  "mainBefore": "bc48ac44ebb8dc65df69d3e477a1494845b60938",
+  "backend": {
+    "total": 5923,
+    "pass": 5923,
+    "fail": 0,
+    "skip": 0,
+    "additionalSubtestsPass": 282,
+    "junitCasesIncludingSubtests": 6205,
+    "elapsedSeconds": 127.67,
+    "output": "backend-final.log",
+    "junit": "backend-final.xml"
+  },
+  "accessChecks": {
+    "pass": 11,
+    "fail": 0,
+    "endpointCount": 5,
+    "invalidCredentialCases": 10,
+    "inventoryHistoryCase": 1,
+    "elapsedSeconds": 3.294,
+    "output": "access-checks.log"
+  },
+  "frontend": {
+    "tests": 1396,
+    "pass": 1385,
+    "fail": 0,
+    "skipped": 11,
+    "cancelled": 0,
+    "elapsedSeconds": 93.000256782
+  },
+  "apiInventory": {
+    "runtimeMethods": 345,
+    "manifestMethods": 345,
+    "duplicateRuntimeMethods": 0,
+    "previousManifestMethods": 340,
+    "addedToInventory": 5,
+    "historicalSnapshotsRetained": true,
+    "postgresIntegrationForFiveAdditions": "NOT_RUN"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "pytest": "9.1.1",
+    "fastapi": "0.121.3",
+    "node": "v24.22.1"
+  },
+  "changes": {
+    "runtimeCodeChanged": false,
+    "apiMethodsRemoved": false,
+    "testsSuppressed": false,
+    "mainWritten": false,
+    "productionDeployment": false,
+    "databaseMigrationsApplied": false
+  },
+  "notVerified": [
+    "Original protected media playback through signed Worker",
+    "Safari/WebKit and physical devices",
+    "Continuous 60-minute four-journey soak",
+    "Full adverse-network and browser-save lifecycle matrix",
+    "Production health/capacity",
+    "Database integration for the five newly inventoried endpoints"
+  ],
+  "sourceRestoration": {
+    "requiredBackendAndFrontendFixtures": "RESTORED_WITH_EXACT_GIT_BLOB_HASHES",
+    "missingLegacyRuntimeAssets": 6,
+    "note": "Four legacy PNGs and two OCR language archives exceed the source transfer limit. No edits or deletions to them will be pushed. Local build is not a complete-asset release artifact."
+  },
+  "build": {
+    "staticBuild": true,
+    "runtime": "Python FastAPI",
+    "files": 837,
+    "routes": 131,
+    "nodeRequired": false,
+    "revision": "908e91b430b4a66acf58",
+    "inputBytes": 141071049,
+    "transferBytes": 127816684,
+    "minifiedFiles": 200,
+    "cdnSpeechBytes": 101260210,
+    "cdnSpeechFiles": 55,
+    "scope": "LOCAL_INCOMPLETE_ASSET_CHECKOUT_NOT_RELEASE_ARTIFACT"
+  },
+  "testedSourceSha256": {
+    "services/backend/PORT_STATUS.json": "39ff80e52bec2f60319bd47f4fbe5cdf307ae0ce3ee457a5987a087183a5870a",
+    "services/backend/tests/test_listening_order.py": "b93bb4d538bd7026690e2beda16992e4bebc5d16609e6c097914345ea37fe610",
+    "services/backend/tests/test_public_seo.py": "42c7bebcd45703a66a3f1ab0af6fdc01da1a48abefa858e43e7aaf1fe115a27f",
+    "services/backend/tests/test_riwi_phase1_schema_migrations.py": "c5e2019ca4157a3335c6673e27deab0c2280707e4c52d7501c9634b045109856",
+    "services/backend/tests/test_step17_170_methods.py": "97721099559e4d2f07d49d35f6cd54a71600bde9de3e5bac5a01dc747fe6fd93",
+    "services/backend/tests/test_step20_190_methods.py": "7f9e464c924edee53775bf21d9822b29caddea8e399f7266c26bf55db9ea2cb3",
+    "services/backend/tests/test_step21_210_methods.py": "3d8e7ad6a0534d9197fcaa112bc3142ef3a53e20799e9482c6450387ee954e83",
+    "services/backend/tests/test_step22_new_methods.py": "bdc30c0e3334770f5d727f488241d15492147537b0e9140ecd6f9acdba045f12",
+    "services/backend/tests/test_step23_219_methods.py": "ebbdb74e4a4669dc3c547ac58fe45cbaf258e42ffbf07448cc93f2b09cc8c44d",
+    "services/backend/tests/test_step23_230_methods.py": "7b9503d571a1bd8c242b3f0ca0ac43d3815e9437cfd67d72a6111f15ef07b303",
+    "services/backend/tests/test_step26_owner_dictionary.py": "0286d996f16d7e3807f308f906c1f0e09152682c57208fab8a96415c4e6199a0",
+    "services/backend/tests/test_step31_learning_production.py": "087c345cc0334e020a87294ab0225054f899de19391668bffb2f829b6a4d7906",
+    "services/backend/tests/test_step40_265_methods.py": "96c7055b3ac1303a497dd7bb22c29747763b924f67cbd576c0f0cb8e5e49f271",
+    "services/backend/tests/test_ux_corrections.py": "577659cbdfd78bdcba111f57df19145cdbafb2aeb0e41a76ce0ee238116039b3",
+    "services/backend/tests/test_phase2_backend_inventory_access.py": "eb4220cec8882a79d60b00ef2b8c049d2b69d4051fa254b9bdd51dac84d9f263"
+  }
+}

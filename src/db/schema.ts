@@ -49,6 +49,36 @@ export const accountStatusEnum = pgEnum("account_status", [
 /** Explicit registration choice; nullable for legacy and provider-created users. */
 export const genderEnum = pgEnum("gender", ["male", "female"]);
 
+// RIWI governance states. These are additive and do not alter existing product enums.
+export const riwiKnowledgeSourceTypeEnum = pgEnum("riwi_knowledge_source_type", [
+  "owner_instruction", "ielts_rubric", "grammar_material", "vocabulary_material", "speaking_material",
+  "writing_material", "dictionary_material", "learning_methodology", "course_document", "policy",
+  "verified_example", "provider_evaluation", "teacher_correction", "owner_correction", "regression_fixture",
+]);
+export const riwiKnowledgeStateEnum = pgEnum("riwi_knowledge_state", [
+  "draft", "parsed", "analyzed", "candidate", "approved", "active", "superseded", "rejected", "quarantined",
+]);
+export const riwiKnowledgeScopeEnum = pgEnum("riwi_knowledge_scope", ["global", "role", "user"]);
+export const riwiConflictStateEnum = pgEnum("riwi_conflict_state", ["open", "resolved", "accepted", "rejected"]);
+export const riwiLearningSignalTypeEnum = pgEnum("riwi_learning_signal_type", [
+  "owner_correction", "teacher_correction", "provider_disagreement", "provider_agreement", "student_outcome",
+  "rubric_reference", "known_good_example", "known_bad_example", "retrieval_failure", "hallucination_report",
+  "tool_failure", "provider_failure", "user_feedback", "manual_qa_finding",
+]);
+export const riwiLearningSignalStateEnum = pgEnum("riwi_learning_signal_state", ["candidate", "in_review", "accepted", "rejected", "promoted"]);
+export const riwiReviewDecisionEnum = pgEnum("riwi_review_decision", ["approve", "reject", "request_changes"]);
+export const riwiConversationMessageRoleEnum = pgEnum("riwi_conversation_message_role", ["user", "assistant"]);
+export const riwiExperimentStateEnum = pgEnum("riwi_experiment_state", ["pending", "running", "completed", "partial", "failed"]);
+export const riwiAssessmentPolicyStateEnum = pgEnum("riwi_assessment_policy_state", ["candidate", "approved", "superseded", "rejected"]);
+export const riwiSecuritySignalTypeEnum = pgEnum("riwi_security_signal_type", [
+  "prompt_injection", "role_spoof", "idor", "tool_injection", "provider_injection",
+  "ssrf", "exfiltration", "secret_extraction", "exam_bypass", "replay", "toctou",
+  "knowledge_poisoning", "assessment_policy_injection", "prompt_version_downgrade",
+]);
+export const riwiSecuritySignalStateEnum = pgEnum("riwi_security_signal_state", [
+  "candidate", "in_review", "approved_regression", "rejected", "developer_action_required",
+]);
+
 export const accessRequestStatusEnum = pgEnum("access_request_status", [
   "pending",
   "approved",
@@ -158,6 +188,7 @@ export const uploadPurposeEnum = pgEnum("upload_purpose", [
   "material_primary",
   "material_block",
   "speaking_recording",
+  "riwi_knowledge_source",
 ]);
 
 export const uploadBlockKindEnum = pgEnum("upload_block_kind", ["image", "audio", "video", "file"]);
@@ -306,6 +337,315 @@ export const auditLog = pgTable("audit_log", {
 }, (table) => ({
   actionIdx: index("audit_log_action_idx").on(table.action, table.createdAt),
 }));
+
+// ---------------------------------------------------------------------------
+// RIWI — governed knowledge, isolated conversations, learning evidence, tools.
+// RIWI never receives database credentials or arbitrary access to these rows;
+// all reads/writes pass through server-only services and capability policy.
+// ---------------------------------------------------------------------------
+
+export const riwiKnowledgeSources = pgTable("riwi_knowledge_sources", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  sourceType: riwiKnowledgeSourceTypeEnum("source_type").notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  checksum: varchar("checksum", { length: 64 }).notNull(),
+  sourceChecksum: varchar("source_checksum", { length: 64 }),
+  provenance: varchar("provenance", { length: 500 }).notNull(),
+  rightsClass: varchar("rights_class", { length: 40 }).notNull(),
+  authority: smallint("authority").notNull().default(30),
+  scope: riwiKnowledgeScopeEnum("scope").notNull().default("global"),
+  scopeRole: roleEnum("scope_role"),
+  scopeUserId: uuid("scope_user_id").references(() => users.id, { onDelete: "cascade" }),
+  version: integer("version").notNull().default(1),
+  state: riwiKnowledgeStateEnum("state").notNull().default("draft"),
+  sourceObjectKey: text("source_object_key"),
+  parserVersion: varchar("parser_version", { length: 40 }),
+  unitCount: integer("unit_count").notNull().default(0),
+  supersedesSourceId: uuid("supersedes_source_id"),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  reviewedByUserId: uuid("reviewed_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  activatedAt: timestamp("activated_at", { withTimezone: true }),
+  regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
+  regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
+  regressionPassedAt: timestamp("regression_passed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("riwi_knowledge_sources_state_idx").on(table.state, table.authority, table.updatedAt),
+  index("riwi_knowledge_sources_history_idx").on(table.updatedAt, table.id),
+  index("riwi_knowledge_sources_scope_idx").on(table.scope, table.scopeRole, table.scopeUserId, table.state),
+  index("riwi_knowledge_sources_checksum_idx").on(table.checksum),
+  uniqueIndex("riwi_knowledge_sources_type_checksum_uidx").on(table.sourceType, table.checksum),
+  check("riwi_knowledge_sources_authority_check", sql`${table.authority} between 0 and 100`),
+  check("riwi_knowledge_sources_source_checksum_check", sql`${table.sourceChecksum} is null or ${table.sourceChecksum} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_knowledge_sources_version_check", sql`${table.version} > 0`),
+  check("riwi_knowledge_sources_unit_count_check", sql`${table.unitCount} >= 0`),
+  check("riwi_knowledge_sources_scope_consistency_check", sql`(
+    (${table.scope} = 'global' and ${table.scopeRole} is null and ${table.scopeUserId} is null) or
+    (${table.scope} = 'role' and ${table.scopeRole} is not null and ${table.scopeUserId} is null) or
+    (${table.scope} = 'user' and ${table.scopeRole} is null and ${table.scopeUserId} is not null)
+  )`),
+  check("riwi_knowledge_sources_active_regression_check", sql`${table.state} <> 'active' or (
+    ${table.regressionFixtureId} is not null and ${table.regressionEvidenceHash} is not null and ${table.regressionPassedAt} is not null
+  )`),
+]);
+
+export const riwiKnowledgeUnits = pgTable("riwi_knowledge_units", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  sourceId: uuid("source_id").notNull().references(() => riwiKnowledgeSources.id, { onDelete: "cascade" }),
+  ordinal: integer("ordinal").notNull(),
+  heading: varchar("heading", { length: 240 }),
+  content: text("content").notNull(),
+  contentHash: varchar("content_hash", { length: 64 }).notNull(),
+  characterCount: integer("character_count").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_knowledge_units_source_ordinal_uidx").on(table.sourceId, table.ordinal),
+  index("riwi_knowledge_units_content_hash_idx").on(table.contentHash),
+  index("riwi_knowledge_units_content_fts_idx").using("gin", sql`to_tsvector('simple', ${table.content})`),
+  check("riwi_knowledge_units_ordinal_check", sql`${table.ordinal} >= 0`),
+  check("riwi_knowledge_units_character_count_check", sql`${table.characterCount} between 1 and 4000`),
+]);
+
+export const riwiKnowledgeConflicts = pgTable("riwi_knowledge_conflicts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  candidateSourceId: uuid("candidate_source_id").notNull().references(() => riwiKnowledgeSources.id, { onDelete: "cascade" }),
+  candidateUnitId: uuid("candidate_unit_id").notNull().references(() => riwiKnowledgeUnits.id, { onDelete: "cascade" }),
+  activeSourceId: uuid("active_source_id").notNull().references(() => riwiKnowledgeSources.id, { onDelete: "cascade" }),
+  activeUnitId: uuid("active_unit_id").notNull().references(() => riwiKnowledgeUnits.id, { onDelete: "cascade" }),
+  conflictKey: varchar("conflict_key", { length: 64 }).notNull(),
+  reason: varchar("reason", { length: 60 }).notNull(),
+  state: riwiConflictStateEnum("state").notNull().default("open"),
+  resolvedByUserId: uuid("resolved_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  resolutionNote: varchar("resolution_note", { length: 1000 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+}, (table) => [
+  index("riwi_knowledge_conflicts_candidate_state_idx").on(table.candidateSourceId, table.state),
+  uniqueIndex("riwi_knowledge_conflicts_pair_uidx").on(table.candidateUnitId, table.activeUnitId),
+]);
+
+export const riwiLearningSignals = pgTable("riwi_learning_signals", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  signalType: riwiLearningSignalTypeEnum("signal_type").notNull(),
+  state: riwiLearningSignalStateEnum("state").notNull().default("candidate"),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  actorRole: roleEnum("actor_role").notNull(),
+  targetUserId: uuid("target_user_id").references(() => users.id, { onDelete: "set null" }),
+  sourceId: uuid("source_id").defaultRandom().notNull(),
+  providerId: varchar("provider_id", { length: 60 }),
+  model: varchar("model", { length: 120 }),
+  promptVersion: varchar("prompt_version", { length: 60 }),
+  rubricVersion: varchar("rubric_version", { length: 60 }),
+  candidateClaim: varchar("candidate_claim", { length: 4000 }).notNull(),
+  evidenceSummary: varchar("evidence_summary", { length: 1200 }).notNull(),
+  evidenceHash: varchar("evidence_hash", { length: 64 }).notNull(),
+  scope: riwiKnowledgeScopeEnum("scope").notNull().default("global"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("riwi_learning_signals_state_created_idx").on(table.state, table.createdAt),
+  index("riwi_learning_signals_history_idx").on(table.createdAt, table.id),
+  index("riwi_learning_signals_actor_idx").on(table.actorUserId, table.createdAt),
+  index("riwi_learning_signals_target_idx").on(table.targetUserId, table.createdAt),
+  uniqueIndex("riwi_learning_signals_actor_source_uidx").on(table.actorUserId, table.signalType, table.sourceId)
+    .where(sql`${table.actorUserId} is not null and ${table.sourceId} is not null`),
+  // A deleted subject is anonymized by its SET NULL FK; retain the immutable user-scoped evidence row.
+  check("riwi_learning_signals_scope_target_check", sql`(
+    (${table.scope} = 'global' and ${table.targetUserId} is null) or
+    ${table.scope} = 'user'
+  )`),
+]);
+
+export const riwiLearningReviews = pgTable("riwi_learning_reviews", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  signalId: uuid("signal_id").notNull().references(() => riwiLearningSignals.id, { onDelete: "cascade" }),
+  reviewerUserId: uuid("reviewer_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  decision: riwiReviewDecisionEnum("decision").notNull(),
+  reason: varchar("reason", { length: 1000 }).notNull(),
+  regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
+  regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
+  regressionPassedAt: timestamp("regression_passed_at", { withTimezone: true }),
+  resultingSourceId: uuid("resulting_source_id").references(() => riwiKnowledgeSources.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("riwi_learning_reviews_signal_idx").on(table.signalId, table.createdAt),
+  check("riwi_learning_reviews_approve_regression_check", sql`${table.decision} <> 'approve' or (
+    ${table.regressionFixtureId} is not null and ${table.regressionEvidenceHash} is not null and ${table.regressionPassedAt} is not null
+  )`),
+]);
+
+export const riwiConversations = pgTable("riwi_conversations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  roleAtCreation: roleEnum("role_at_creation").notNull(),
+  locale: varchar("locale", { length: 5 }).notNull().default("uz"),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("riwi_conversations_owner_updated_idx").on(table.userId, table.updatedAt),
+  index("riwi_conversations_expiry_idx").on(table.expiresAt),
+]);
+
+export const riwiConversationMessages = pgTable("riwi_conversation_messages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  conversationId: uuid("conversation_id").notNull().references(() => riwiConversations.id, { onDelete: "cascade" }),
+  role: riwiConversationMessageRoleEnum("role").notNull(),
+  content: text("content").notNull(),
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("riwi_conversation_messages_order_idx").on(table.conversationId, table.createdAt, table.id),
+  check("riwi_conversation_messages_content_check", sql`length(${table.content}) between 1 and 6000`),
+]);
+
+export const riwiActionConfirmations = pgTable("riwi_action_confirmations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actorUserId: uuid("actor_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  toolName: varchar("tool_name", { length: 80 }).notNull(),
+  targetId: varchar("target_id", { length: 80 }),
+  inputHash: varchar("input_hash", { length: 64 }).notNull(),
+  idempotencyKey: varchar("idempotency_key", { length: 80 }).notNull(),
+  preview: jsonb("preview").$type<Record<string, unknown>>().notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_action_confirmations_idempotency_uidx").on(table.actorUserId, table.idempotencyKey),
+  index("riwi_action_confirmations_expiry_idx").on(table.expiresAt),
+]);
+
+export const riwiProviderExperiments = pgTable("riwi_provider_experiments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actorUserId: uuid("actor_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  taskProfile: varchar("task_profile", { length: 60 }).notNull(),
+  fixtureId: varchar("fixture_id", { length: 120 }).notNull(),
+  providers: jsonb("providers").$type<string[]>().notNull(),
+  idempotencyKey: varchar("idempotency_key", { length: 80 }).notNull(),
+  state: riwiExperimentStateEnum("state").notNull().default("pending"),
+  budgetMicros: integer("budget_micros").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+}, (table) => [
+  index("riwi_provider_experiments_actor_created_idx").on(table.actorUserId, table.createdAt, table.id),
+  uniqueIndex("riwi_provider_experiments_actor_idempotency_uidx").on(table.actorUserId, table.idempotencyKey),
+  check("riwi_provider_experiments_budget_check", sql`${table.budgetMicros} >= 0`),
+]);
+
+export const riwiProviderExperimentResults = pgTable("riwi_provider_experiment_results", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  experimentId: uuid("experiment_id").notNull().references(() => riwiProviderExperiments.id, { onDelete: "cascade" }),
+  providerId: varchar("provider_id", { length: 60 }).notNull(),
+  model: varchar("model", { length: 120 }),
+  state: varchar("state", { length: 24 }).notNull(),
+  normalizedResult: jsonb("normalized_result").$type<Record<string, unknown>>(),
+  durationMs: integer("duration_ms").notNull().default(0),
+  inputTokens: integer("input_tokens"),
+  outputTokens: integer("output_tokens"),
+  estimatedCostMicros: integer("estimated_cost_micros"),
+  safeErrorCode: varchar("safe_error_code", { length: 60 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_provider_experiment_results_pair_uidx").on(table.experimentId, table.providerId),
+  check("riwi_provider_experiment_results_duration_check", sql`${table.durationMs} >= 0`),
+]);
+
+/**
+ * Owner-reviewed assessment presentation overlays. The message that produced a
+ * candidate is never stored; only its digest, bounded fields, review state, and
+ * regression evidence are retained.
+ */
+export const riwiAssessmentPolicies = pgTable("riwi_assessment_policies", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  scope: varchar("scope", { length: 100 }).notNull(),
+  activeVersion: integer("active_version"),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_assessment_policies_scope_uidx").on(table.scope),
+  check("riwi_assessment_policies_active_version_check", sql`${table.activeVersion} is null or ${table.activeVersion} > 0`),
+]);
+
+export const riwiAssessmentPolicyVersions = pgTable("riwi_assessment_policy_versions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  policyId: uuid("policy_id").notNull().references(() => riwiAssessmentPolicies.id, { onDelete: "cascade" }),
+  version: integer("version").notNull(),
+  state: riwiAssessmentPolicyStateEnum("state").notNull().default("candidate"),
+  overlay: jsonb("overlay").$type<AssessmentOwnerOverlay>().notNull(),
+  sourceMessageHash: varchar("source_message_hash", { length: 64 }).notNull(),
+  regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
+  regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
+  regressionPassedAt: timestamp("regression_passed_at", { withTimezone: true }),
+  createdByUserId: uuid("created_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  reviewedByUserId: uuid("reviewed_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+}, (table) => [
+  uniqueIndex("riwi_assessment_policy_versions_policy_version_uidx").on(table.policyId, table.version),
+  uniqueIndex("riwi_assessment_policy_versions_policy_hash_uidx").on(table.policyId, table.sourceMessageHash),
+  index("riwi_assessment_policy_versions_state_idx").on(table.state, table.createdAt, table.id),
+  check("riwi_assessment_policy_versions_version_check", sql`${table.version} > 0`),
+  check("riwi_assessment_policy_versions_message_hash_check", sql`${table.sourceMessageHash} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_assessment_policy_versions_regression_hash_check", sql`${table.regressionEvidenceHash} is null or ${table.regressionEvidenceHash} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_assessment_policy_versions_approval_check", sql`${table.state} <> 'approved' or (
+    ${table.regressionFixtureId} is not null and ${table.regressionEvidenceHash} is not null and ${table.regressionPassedAt} is not null and
+    ${table.reviewedByUserId} is not null and ${table.approvedAt} is not null
+  )`),
+]);
+
+export const riwiUsageMetrics = pgTable("riwi_usage_metrics", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  actorRole: roleEnum("actor_role").notNull(),
+  taskProfile: varchar("task_profile", { length: 60 }).notNull(),
+  providerId: varchar("provider_id", { length: 60 }),
+  model: varchar("model", { length: 120 }),
+  state: varchar("state", { length: 24 }).notNull(),
+  durationMs: integer("duration_ms").notNull().default(0),
+  inputTokens: integer("input_tokens"),
+  outputTokens: integer("output_tokens"),
+  estimatedCostMicros: integer("estimated_cost_micros"),
+  correlationId: uuid("correlation_id").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index("riwi_usage_metrics_role_created_idx").on(table.actorRole, table.createdAt),
+  index("riwi_usage_metrics_actor_created_idx").on(table.actorUserId, table.createdAt),
+  check("riwi_usage_metrics_duration_check", sql`${table.durationMs} >= 0`),
+  check("riwi_usage_metrics_tokens_check", sql`(${table.inputTokens} is null or ${table.inputTokens} >= 0) and (${table.outputTokens} is null or ${table.outputTokens} >= 0)`),
+  check("riwi_usage_metrics_cost_check", sql`${table.estimatedCostMicros} is null or ${table.estimatedCostMicros} >= 0`),
+]);
+
+export const riwiSecuritySignals = pgTable("riwi_security_signals", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  signalType: riwiSecuritySignalTypeEnum("signal_type").notNull(),
+  state: riwiSecuritySignalStateEnum("state").notNull().default("candidate"),
+  fingerprint: varchar("fingerprint", { length: 64 }).notNull(),
+  occurrenceCount: integer("occurrence_count").notNull().default(1),
+  firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+  actorRole: roleEnum("actor_role"),
+  routeClass: varchar("route_class", { length: 120 }).notNull(),
+  sanitizedEvidence: varchar("sanitized_evidence", { length: 500 }).notNull(),
+  regressionFixtureId: varchar("regression_fixture_id", { length: 120 }),
+  regressionEvidenceHash: varchar("regression_evidence_hash", { length: 64 }),
+  reviewedByUserId: uuid("reviewed_by_user_id").references(() => users.id, { onDelete: "set null" }),
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("riwi_security_signals_fingerprint_uidx").on(table.fingerprint),
+  index("riwi_security_signals_state_seen_idx").on(table.state, table.lastSeenAt, table.id),
+  index("riwi_security_signals_type_seen_idx").on(table.signalType, table.lastSeenAt),
+  check("riwi_security_signals_fingerprint_check", sql`${table.fingerprint} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_security_signals_count_check", sql`${table.occurrenceCount} > 0`),
+  check("riwi_security_signals_regression_hash_check", sql`${table.regressionEvidenceHash} is null or ${table.regressionEvidenceHash} ~ '^[a-f0-9]{64}$'`),
+  check("riwi_security_signals_promotion_check", sql`${table.state} <> 'approved_regression' or (
+    ${table.regressionFixtureId} is not null and ${table.regressionEvidenceHash} is not null and
+    ${table.reviewedByUserId} is not null and ${table.reviewedAt} is not null
+  )`),
+]);
 
 export const ownershipTransfers = pgTable("ownership_transfers", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -575,6 +915,7 @@ export const enrollments = pgTable("enrollments", {
 export const writingPrompts = pgTable("writing_prompts", {
   id: uuid("id").defaultRandom().primaryKey(),
   taskType: writingTaskTypeEnum("task_type").notNull(),
+  taskCategory: varchar("task_category", { length: 60 }),
   category: varchar("category", { length: 60 }).notNull(),
   prompt: text("prompt").notNull(),
   targetWordCount: integer("target_word_count").notNull(),
@@ -1249,9 +1590,55 @@ export const speakingAttempts = pgTable("speaking_attempts", {
    */
   transcriptOrigin: varchar("transcript_origin", { length: 10 }),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  transcriptRaw: text("transcript_raw"),
+  transcriptEdited: boolean("transcript_edited").notNull().default(false),
+  transcriptEditedAt: timestamp("transcript_edited_at", { withTimezone: true }),
+  retryOfAttemptId: uuid("retry_of_attempt_id"),
+  aiSessionId: uuid("ai_session_id"),
+  aiSessionItemId: uuid("ai_session_item_id"),
+  recordingSha256: varchar("recording_sha256", { length: 64 }),
+  evaluationClaimToken: uuid("evaluation_claim_token"),
+  evaluationClaimExpiresAt: timestamp("evaluation_claim_expires_at", { withTimezone: true }),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const speakingAiSessions = pgTable("speaking_ai_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  mode: varchar("mode", { length: 12 }).notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("active"),
+  sessionSeed: varchar("session_seed", { length: 80 }).notNull(),
+  planVersion: integer("plan_version").notNull().default(1),
+  limitations: jsonb("limitations").$type<string[]>().notNull().default([]),
+  currentItemIndex: integer("current_item_index").notNull().default(0),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  userStatusIdx: index("speaking_ai_sessions_user_status_idx").on(table.userId, table.status, table.createdAt),
+}));
+
+export const speakingAiSessionItems = pgTable("speaking_ai_session_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  sessionId: uuid("session_id").notNull().references(() => speakingAiSessions.id, { onDelete: "cascade" }),
+  ordinal: integer("ordinal").notNull(),
+  promptId: uuid("prompt_id").notNull().references(() => speakingPrompts.id, { onDelete: "restrict" }),
+  part: speakingPartEnum("part").notNull(),
+  topicKey: varchar("topic_key", { length: 240 }).notNull(),
+  topicPosition: integer("topic_position").notNull(),
+  questionPosition: integer("question_position").notNull(),
+  attemptId: uuid("attempt_id").references(() => speakingAttempts.id, { onDelete: "set null" }),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => ({
+  sessionOrdinalUidx: uniqueIndex("speaking_ai_session_items_session_ordinal_uidx").on(table.sessionId, table.ordinal),
+  sessionPromptUidx: uniqueIndex("speaking_ai_session_items_session_prompt_uidx").on(table.sessionId, table.promptId),
+  attemptUidx: uniqueIndex("speaking_ai_session_items_attempt_uidx").on(table.attemptId).where(sql`${table.attemptId} is not null`),
+}));
+
+
 
 // ---------------------------------------------------------------------------
 // Vocabulary engine — WIRED (add, review, mastery state) in Phase 1
@@ -2214,6 +2601,10 @@ export const evaluations = pgTable(
     model: varchar("model", { length: 120 }),
     promptVersion: varchar("prompt_version", { length: 40 }).notNull(),
     rubricVersion: varchar("rubric_version", { length: 40 }).notNull(),
+    assessmentContractKey: varchar("assessment_contract_key", { length: 80 }),
+    ownerPolicyScope: varchar("owner_policy_scope", { length: 100 }),
+    ownerPolicyVersion: integer("owner_policy_version"),
+    teachingFeedback: jsonb("teaching_feedback").$type<Record<string, unknown>>(),
     fallbackUsed: boolean("fallback_used").notNull().default(false),
     fallbackFrom: varchar("fallback_from", { length: 60 }),
     /**

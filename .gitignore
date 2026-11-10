@@ -50,3 +50,7 @@ __pycache__/
 *.py[cod]
 .venv/
 !services/backend/app/supabase_root_ca.pem
+
+# Owner-run Safari QA runtime output
+/qa/riwi-safari-smoke-last.json
+/qa/riwi-safari-conversation-last.json

@@ -9,6 +9,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .step17_listening_start_port import test_detail
 from .step17_listening_work_port import graded
+from .listening_revision import revision_package,revision_rows
 
 router=APIRouter()
 
@@ -36,7 +37,8 @@ async def assigned_questions(con,attempt):
         rows=await con.fetch('''SELECT * FROM listening_questions WHERE test_id=$1 AND content_version_id=$2 ORDER BY "order"''',attempt['test_id'],attempt['content_version_id'])
     if not rows:rows=await con.fetch('''SELECT * FROM listening_questions WHERE test_id=$1 AND content_version_id IS NULL ORDER BY "order"''',attempt['test_id'])
     if not rows:rows=await con.fetch('''SELECT * FROM listening_questions WHERE test_id=$1 ORDER BY "order"''',attempt['test_id'])
-    return rows
+    package=await revision_package(con,attempt)
+    return revision_rows(package,rows) if package is not None else rows
 
 @router.post('/api/listening/attempts/{id}/submit')
 async def submit(req:Request,id:str):
@@ -64,6 +66,7 @@ async def submit(req:Request,id:str):
             pkg=await con.fetchrow('SELECT payload FROM listening_packages WHERE test_id=$1',attempt['test_id'])
             package=pkg['payload'] if pkg else None
             if isinstance(package,str):package=json.loads(package)
+            package=await revision_package(con,attempt,package)
             full=graded(package,{str(q['order']):by.get(str(q['id']),'') for q in questions}) if isinstance(package,dict) and isinstance(package.get('questions'),list) else None
             result={r['number']:r['correct'] for r in full} if full is not None else {}
             score=0

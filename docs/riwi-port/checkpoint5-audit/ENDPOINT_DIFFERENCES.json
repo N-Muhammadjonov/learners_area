@@ -1,0 +1,4354 @@
+{
+  "description": "Checkpoint 5 historical inventory reconciliation",
+  "original_historical_count": 272,
+  "gemini_historical_count": 272,
+  "additive_count": 32,
+  "current_unique_count": 304,
+  "historical_route_reclassification": {
+    "old_only": [
+      "DELETE /api/vocabulary"
+    ],
+    "gemini_only": [
+      "PATCH /api/vocabulary/{entry_id}"
+    ]
+  },
+  "shared_endpoint_metadata_differences": [
+    {
+      "method": "DELETE",
+      "path": "/api/admin/content/{type}/{id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/admin/content/{type}/{id}",
+        "source": "src/app/api/admin/content/[type]/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/admin/content/{type}/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/listening/tests/{id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/admin/listening/tests/{id}",
+        "source": "src/app/api/admin/listening/tests/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/admin/listening/tests/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/retention/texts/{id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/admin/retention/texts/{id}",
+        "source": "src/app/api/admin/retention/texts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/admin/retention/texts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/dictionary/recent",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/dictionary/recent",
+        "source": "src/app/api/dictionary/recent/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/dictionary/recent",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/internal/telegram/admins/{telegramUserId}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/internal/telegram/admins/{telegramUserId}",
+        "source": "src/app/api/internal/telegram/admins/[telegramUserId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/internal/telegram/admins/{telegramUserId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/owner/dictionary/{action:path}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/owner/dictionary/{action:path}",
+        "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/owner/dictionary/{action:path}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/profile/photo",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/profile/photo",
+        "source": "src/app/api/profile/photo/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/profile/photo",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/attempts/{id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/speaking/attempts/{id}",
+        "source": "src/app/api/speaking/attempts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/speaking/attempts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/materials/{id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/speaking/materials/{id}",
+        "source": "src/app/api/speaking/materials/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/speaking/materials/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/topics",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/speaking/topics",
+        "source": "src/app/api/speaking/topics/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/speaking/topics",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/uploads/{id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/uploads/{id}",
+        "source": "src/app/api/uploads/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/uploads/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/vocabulary/packs/{pack_id}",
+      "old": {
+        "method": "DELETE",
+        "path": "/api/vocabulary/packs/{pack_id}",
+        "source": "services/backend/app/vocabulary_packs_port.py",
+        "status": "ported_native"
+      },
+      "gemini": {
+        "method": "DELETE",
+        "path": "/api/vocabulary/packs/{pack_id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/authoring-capabilities",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/authoring-capabilities",
+        "source": "src/app/api/admin/content/authoring-capabilities/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/authoring-capabilities",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/bank",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/bank",
+        "source": "src/app/api/admin/content/bank/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/bank",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/import",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/import",
+        "source": "src/app/api/admin/content/import/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/import",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/items",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/items",
+        "source": "src/app/api/admin/content/items/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/items",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}",
+        "source": "src/app/api/admin/content/items/[module]/[contentType]/[sourceRef]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/lessons/{id}/edit",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/lessons/{id}/edit",
+        "source": "src/app/api/admin/content/lessons/[id]/edit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/lessons/{id}/edit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/previews",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/previews",
+        "source": "src/app/api/admin/content/previews/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/previews",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/template",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/template",
+        "source": "src/app/api/admin/content/template/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/template",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/versions/{id}/preview",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/content/versions/{id}/preview",
+        "source": "src/app/api/admin/content/versions/[id]/preview/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/content/versions/{id}/preview",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/listening/tests/{id}/convert",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/listening/tests/{id}/convert",
+        "source": "src/app/api/admin/listening/tests/[id]/convert/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/listening/tests/{id}/convert",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/retention/texts",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/retention/texts",
+        "source": "src/app/api/admin/retention/texts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/retention/texts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/retention/texts/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/retention/texts/{id}",
+        "source": "src/app/api/admin/retention/texts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/retention/texts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/video-lessons",
+      "old": {
+        "method": "GET",
+        "path": "/api/admin/video-lessons",
+        "source": "src/app/api/admin/video-lessons/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/admin/video-lessons",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/assignments",
+      "old": {
+        "method": "GET",
+        "path": "/api/assignments",
+        "source": "src/app/api/assignments/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/assignments",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/assignments/assignable",
+      "old": {
+        "method": "GET",
+        "path": "/api/assignments/assignable",
+        "source": "src/app/api/assignments/assignable/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/assignments/assignable",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/changes",
+      "old": {
+        "method": "GET",
+        "path": "/api/auth/changes",
+        "source": "src/app/api/auth/changes/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/auth/changes",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/google/callback",
+      "old": {
+        "method": "GET",
+        "path": "/api/auth/google/callback",
+        "source": "src/app/api/auth/google/callback/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/auth/google/callback",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/google/start",
+      "old": {
+        "method": "GET",
+        "path": "/api/auth/google/start",
+        "source": "src/app/api/auth/google/start/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/auth/google/start",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/state",
+      "old": {
+        "method": "GET",
+        "path": "/api/auth/state",
+        "source": "src/app/api/auth/state/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/auth/state",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/telegram/callback",
+      "old": {
+        "method": "GET",
+        "path": "/api/auth/telegram/callback",
+        "source": "src/app/api/auth/telegram/callback/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/auth/telegram/callback",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/telegram/intent/status",
+      "old": {
+        "method": "GET",
+        "path": "/api/auth/telegram/intent/status",
+        "source": "src/app/api/auth/telegram/intent/status/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/auth/telegram/intent/status",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/entries/{lexemeId}",
+      "old": {
+        "method": "GET",
+        "path": "/api/dictionary/entries/{lexemeId}",
+        "source": "src/app/api/dictionary/entries/[lexemeId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/dictionary/entries/{lexemeId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/recent",
+      "old": {
+        "method": "GET",
+        "path": "/api/dictionary/recent",
+        "source": "src/app/api/dictionary/recent/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/dictionary/recent",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/search",
+      "old": {
+        "method": "GET",
+        "path": "/api/dictionary/search",
+        "source": "src/app/api/dictionary/search/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/dictionary/search",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/history",
+      "old": {
+        "method": "GET",
+        "path": "/api/history",
+        "source": "src/app/api/history/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/history",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/admins",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/admins",
+        "source": "src/app/api/internal/telegram/admins/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/admins",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/admission/pending",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/admission/pending",
+        "source": "src/app/api/internal/telegram/admission/pending/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/admission/pending",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/broadcasts/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/broadcasts/{id}",
+        "source": "src/app/api/internal/telegram/broadcasts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/broadcasts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/contacts/{telegramUserId}",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/contacts/{telegramUserId}",
+        "source": "src/app/api/internal/telegram/contacts/[telegramUserId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/contacts/{telegramUserId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/directory",
+        "source": "src/app/api/internal/telegram/directory/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/directory",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory/{userId}",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/directory/{userId}",
+        "source": "src/app/api/internal/telegram/directory/[userId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/directory/{userId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/notifications",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/notifications",
+        "source": "src/app/api/internal/telegram/notifications/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/notifications",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/ops",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/ops",
+        "source": "src/app/api/internal/telegram/ops/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/ops",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/owner",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/owner",
+        "source": "src/app/api/internal/telegram/owner/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/owner",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/ready",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/ready",
+        "source": "src/app/api/internal/telegram/ready/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/ready",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/required-channels",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/required-channels",
+        "source": "src/app/api/internal/telegram/required-channels/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/required-channels",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/support/threads",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/support/threads",
+        "source": "src/app/api/internal/telegram/support/threads/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/support/threads",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/support/threads/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/support/threads/{id}",
+        "source": "src/app/api/internal/telegram/support/threads/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/support/threads/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/users/{telegramUserId}",
+      "old": {
+        "method": "GET",
+        "path": "/api/internal/telegram/users/{telegramUserId}",
+        "source": "src/app/api/internal/telegram/users/[telegramUserId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/internal/telegram/users/{telegramUserId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/units",
+      "old": {
+        "method": "GET",
+        "path": "/api/lessons/units",
+        "source": "src/app/api/lessons/units/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/lessons/units",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/lessons/{id}",
+        "source": "src/app/api/lessons/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/lessons/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/{id}/notes",
+      "old": {
+        "method": "GET",
+        "path": "/api/lessons/{id}/notes",
+        "source": "src/app/api/lessons/[id]/notes/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/lessons/{id}/notes",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/authored",
+      "old": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/authored",
+        "source": "src/app/api/listening/full/[id]/authored/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/authored",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/authored-state",
+      "old": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/authored-state",
+        "source": "src/app/api/listening/full/[id]/authored-state/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/authored-state",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/progress",
+      "old": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/progress",
+        "source": "src/app/api/listening/full/[id]/progress/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/progress",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/sandbox",
+      "old": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/sandbox",
+        "source": "src/app/api/listening/full/[id]/sandbox/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/listening/full/{id}/sandbox",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/mcq/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/listening/mcq/{id}",
+        "source": "src/app/api/listening/mcq/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/listening/mcq/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-partner",
+      "old": {
+        "method": "GET",
+        "path": "/api/live-partner",
+        "source": "src/app/api/live-partner/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/live-partner",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/materials/{type}/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/materials/{type}/{id}",
+        "source": "src/app/api/materials/[type]/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/materials/{type}/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/notifications",
+      "old": {
+        "method": "GET",
+        "path": "/api/notifications",
+        "source": "src/app/api/notifications/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/notifications",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/ai-control",
+      "old": {
+        "method": "GET",
+        "path": "/api/owner/ai-control",
+        "source": "src/app/api/owner/ai-control/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/owner/ai-control",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/dictionary/{action:path}",
+      "old": {
+        "method": "GET",
+        "path": "/api/owner/dictionary/{action:path}",
+        "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/owner/dictionary/{action:path}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/student-export",
+      "old": {
+        "method": "GET",
+        "path": "/api/owner/student-export",
+        "source": "src/app/api/owner/student-export/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/owner/student-export",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/profile/photo/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/profile/photo/{id}",
+        "source": "src/app/api/profile/photo/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/profile/photo/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/reports",
+      "old": {
+        "method": "GET",
+        "path": "/api/reports",
+        "source": "src/app/api/reports/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/reports",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/resources/{key:path}",
+      "old": {
+        "method": "GET",
+        "path": "/api/resources/{key:path}",
+        "source": "src/app/api/resources/[...key]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/resources/{key:path}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/attempts",
+      "old": {
+        "method": "GET",
+        "path": "/api/retention/attempts",
+        "source": "src/app/api/retention/attempts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/retention/attempts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/attempts/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/retention/attempts/{id}",
+        "source": "src/app/api/retention/attempts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/retention/attempts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/history",
+      "old": {
+        "method": "GET",
+        "path": "/api/retention/history",
+        "source": "src/app/api/retention/history/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/retention/history",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/summary",
+      "old": {
+        "method": "GET",
+        "path": "/api/retention/summary",
+        "source": "src/app/api/retention/summary/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/retention/summary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/search",
+      "old": {
+        "method": "GET",
+        "path": "/api/search",
+        "source": "src/app/api/search/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/search",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/ai/script",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/ai/script",
+        "source": "src/app/api/speaking/ai/script/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/ai/script",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/attempts",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/attempts",
+        "source": "src/app/api/speaking/attempts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/attempts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/attempts/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/attempts/{id}",
+        "source": "src/app/api/speaking/attempts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/attempts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/live-partner/questions",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/live-partner/questions",
+        "source": "src/app/api/speaking/live-partner/questions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/live-partner/questions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/practice/facets",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/practice/facets",
+        "source": "src/app/api/speaking/practice/facets/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/practice/facets",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/practice/questions",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/practice/questions",
+        "source": "src/app/api/speaking/practice/questions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/practice/questions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/prompts",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/prompts",
+        "source": "src/app/api/speaking/prompts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/prompts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/prompts/{id}/support",
+      "old": {
+        "method": "GET",
+        "path": "/api/speaking/prompts/{id}/support",
+        "source": "src/app/api/speaking/prompts/[id]/support/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/speaking/prompts/{id}/support",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/support/reports",
+      "old": {
+        "method": "GET",
+        "path": "/api/support/reports",
+        "source": "src/app/api/support/reports/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/support/reports",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/version",
+      "old": {
+        "method": "GET",
+        "path": "/api/version",
+        "source": "src/app/api/version/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/version",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/video-lessons/{id}/progress",
+      "old": {
+        "method": "GET",
+        "path": "/api/video-lessons/{id}/progress",
+        "source": "src/app/api/video-lessons/[id]/progress/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/video-lessons/{id}/progress",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary",
+        "source": "src/app/api/vocabulary/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/due",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/due",
+        "source": "src/app/api/vocabulary/due/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/due",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/folders",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/folders",
+        "source": "src/app/api/vocabulary/folders/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/folders",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/games",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/games",
+        "source": "src/app/api/vocabulary/games/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/games",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/leaderboard",
+        "source": "src/app/api/vocabulary/leaderboard/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/leaderboard",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/lookup",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/lookup",
+        "source": "src/app/api/vocabulary/lookup/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/lookup",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/meaning",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/meaning",
+        "source": "src/app/api/vocabulary/meaning/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/meaning",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/packs",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/packs",
+        "source": "src/app/api/vocabulary/packs/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/packs",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/search",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/search",
+        "source": "src/app/api/vocabulary/search/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/search",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/sentences",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/sentences",
+        "source": "src/app/api/vocabulary/sentences/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/sentences",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/summary",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/summary",
+        "source": "src/app/api/vocabulary/summary/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/summary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/{id}/contexts",
+      "old": {
+        "method": "GET",
+        "path": "/api/vocabulary/{id}/contexts",
+        "source": "src/app/api/vocabulary/[id]/contexts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/vocabulary/{id}/contexts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/activation/items",
+      "old": {
+        "method": "GET",
+        "path": "/api/writing/activation/items",
+        "source": "src/app/api/writing/activation/items/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/writing/activation/items",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/exam/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/writing/exam/{id}",
+        "source": "src/app/api/writing/exam/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/writing/exam/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/stealing/practice",
+      "old": {
+        "method": "GET",
+        "path": "/api/writing/stealing/practice",
+        "source": "src/app/api/writing/stealing/practice/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/writing/stealing/practice",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/stealing/sessions/{id}/study",
+      "old": {
+        "method": "GET",
+        "path": "/api/writing/stealing/sessions/{id}/study",
+        "source": "app/writing_study_port.py",
+        "status": "ported_native_extension_unit_tested"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/writing/stealing/sessions/{id}/study",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/translation/{id}",
+      "old": {
+        "method": "GET",
+        "path": "/api/writing/translation/{id}",
+        "source": "src/app/api/writing/translation/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/writing/translation/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/typing",
+      "old": {
+        "method": "GET",
+        "path": "/api/writing/typing",
+        "source": "src/app/api/writing/typing/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "GET",
+        "path": "/api/writing/typing",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "HEAD",
+      "path": "/api/resources/{key:path}",
+      "old": {
+        "method": "HEAD",
+        "path": "/api/resources/{key:path}",
+        "source": "src/app/api/resources/[...key]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "HEAD",
+        "path": "/api/resources/{key:path}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/listening/tests/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/admin/listening/tests/{id}",
+        "source": "src/app/api/admin/listening/tests/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/admin/listening/tests/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/retention/texts/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/admin/retention/texts/{id}",
+        "source": "src/app/api/admin/retention/texts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/admin/retention/texts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/{id}/role",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/admin/users/{id}/role",
+        "source": "src/app/api/admin/users/[id]/role/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/admin/users/{id}/role",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/internal/telegram/admins/{telegramUserId}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/internal/telegram/admins/{telegramUserId}",
+        "source": "src/app/api/internal/telegram/admins/[telegramUserId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/internal/telegram/admins/{telegramUserId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/internal/telegram/ops",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/internal/telegram/ops",
+        "source": "src/app/api/internal/telegram/ops/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/internal/telegram/ops",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/listening/mcq/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/listening/mcq/{id}",
+        "source": "src/app/api/listening/mcq/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/listening/mcq/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/owner/dictionary/{action:path}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/owner/dictionary/{action:path}",
+        "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/owner/dictionary/{action:path}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/profile",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/profile",
+        "source": "src/app/api/profile/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/profile",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/profile/study",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/profile/study",
+        "source": "src/app/api/profile/study/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/profile/study",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/reading/attempts/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/reading/attempts/{id}",
+        "source": "src/app/api/reading/attempts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/reading/attempts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/retention/attempts/{id}/draft",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/retention/attempts/{id}/draft",
+        "source": "src/app/api/retention/attempts/[id]/draft/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/retention/attempts/{id}/draft",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/speaking/attempts/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/speaking/attempts/{id}",
+        "source": "src/app/api/speaking/attempts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/speaking/attempts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/speaking/materials/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/speaking/materials/{id}",
+        "source": "src/app/api/speaking/materials/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/speaking/materials/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/support/reports/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/support/reports/{id}",
+        "source": "src/app/api/support/reports/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/support/reports/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/teacher/live-classes/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/teacher/live-classes/{id}",
+        "source": "src/app/api/teacher/live-classes/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/teacher/live-classes/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/writing/submissions/{id}",
+      "old": {
+        "method": "PATCH",
+        "path": "/api/writing/submissions/{id}",
+        "source": "src/app/api/writing/submissions/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PATCH",
+        "path": "/api/writing/submissions/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/admission/{id}/decide",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/admission/{id}/decide",
+        "source": "src/app/api/admin/admission/[id]/decide/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/admission/{id}/decide",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/content/drafts",
+        "source": "src/app/api/admin/content/drafts/route.ts",
+        "status": "ported_code_parity_unverified"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/content/drafts",
+        "status": "ported_code_parity_unverified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/import",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/content/import",
+        "source": "src/app/api/admin/content/import/route.ts",
+        "status": "ported_code_parity_unverified"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/content/import",
+        "status": "ported_code_parity_unverified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/lessons/{id}/revision",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/content/lessons/{id}/revision",
+        "source": "src/app/api/admin/content/lessons/[id]/revision/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/content/lessons/{id}/revision",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/validate",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/content/validate",
+        "source": "src/app/api/admin/content/validate/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/content/validate",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/versions/{id}/publication",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/content/versions/{id}/publication",
+        "source": "src/app/api/admin/content/versions/[id]/publication/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/content/versions/{id}/publication",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/{type}/{id}/publication",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/content/{type}/{id}/publication",
+        "source": "src/app/api/admin/content/[type]/[id]/publication/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/content/{type}/{id}/publication",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/import",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/grammar/import",
+        "source": "src/app/api/admin/grammar/import/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/grammar/import",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/topics",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/grammar/topics",
+        "source": "src/app/api/admin/grammar/topics/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/grammar/topics",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/topics/{id}/exercises",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/grammar/topics/{id}/exercises",
+        "source": "src/app/api/admin/grammar/topics/[id]/exercises/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/grammar/topics/{id}/exercises",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/import",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/listening/import",
+        "source": "src/app/api/admin/listening/import/route.ts",
+        "status": "ported_code_parity_unverified"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/listening/import",
+        "status": "ported_code_parity_unverified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/listening/tests",
+        "source": "src/app/api/admin/listening/tests/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/listening/tests",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests/{id}/convert",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/listening/tests/{id}/convert",
+        "source": "src/app/api/admin/listening/tests/[id]/convert/route.ts",
+        "status": "ported_code_parity_unverified"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/listening/tests/{id}/convert",
+        "status": "ported_code_parity_unverified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests/{id}/questions",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/listening/tests/{id}/questions",
+        "source": "src/app/api/admin/listening/tests/[id]/questions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/listening/tests/{id}/questions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/people/refresh-telegram",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/people/refresh-telegram",
+        "source": "src/app/api/admin/people/refresh-telegram/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/people/refresh-telegram",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/import",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/reading/import",
+        "source": "src/app/api/admin/reading/import/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/reading/import",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/passages",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/reading/passages",
+        "source": "src/app/api/admin/reading/passages/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/reading/passages",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/passages/{id}/questions",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/reading/passages/{id}/questions",
+        "source": "src/app/api/admin/reading/passages/[id]/questions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/reading/passages/{id}/questions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/texts",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/retention/texts",
+        "source": "src/app/api/admin/retention/texts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/retention/texts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/texts/{id}/versions",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/retention/texts/{id}/versions",
+        "source": "src/app/api/admin/retention/texts/[id]/versions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/retention/texts/{id}/versions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/validate",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/retention/validate",
+        "source": "src/app/api/admin/retention/validate/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/retention/validate",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/roster",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/roster",
+        "source": "src/app/api/admin/roster/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/roster",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/uploads/cleanup",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/uploads/cleanup",
+        "source": "src/app/api/admin/uploads/cleanup/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/uploads/cleanup",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/status",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/users/{id}/status",
+        "source": "src/app/api/admin/users/[id]/status/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/users/{id}/status",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/video-lessons",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/video-lessons",
+        "source": "src/app/api/admin/video-lessons/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/video-lessons",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/writing-prompts",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/writing-prompts",
+        "source": "src/app/api/admin/writing-prompts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/writing-prompts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/writing/{kind}",
+      "old": {
+        "method": "POST",
+        "path": "/api/admin/writing/{kind}",
+        "source": "src/app/api/admin/writing/[kind]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admin/writing/{kind}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/admission/request",
+      "old": {
+        "method": "POST",
+        "path": "/api/admission/request",
+        "source": "src/app/api/admission/request/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/admission/request",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/assignments",
+      "old": {
+        "method": "POST",
+        "path": "/api/assignments",
+        "source": "src/app/api/assignments/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/assignments",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/assignments/{id}/evaluate",
+      "old": {
+        "method": "POST",
+        "path": "/api/assignments/{id}/evaluate",
+        "source": "src/app/api/assignments/[id]/evaluate/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/assignments/{id}/evaluate",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "source": "src/app/api/auth/login/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/logout",
+        "source": "src/app/api/auth/logout/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/logout",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/recovery/login",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/recovery/login",
+        "source": "src/app/api/auth/recovery/login/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/recovery/login",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "source": "src/app/api/auth/register/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset/confirm",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/reset/confirm",
+        "source": "src/app/api/auth/reset/confirm/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/reset/confirm",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset/request",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/reset/request",
+        "source": "src/app/api/auth/reset/request/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/reset/request",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/telegram/intent",
+        "source": "src/app/api/auth/telegram/intent/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/telegram/intent",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent/cancel",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/telegram/intent/cancel",
+        "source": "src/app/api/auth/telegram/intent/cancel/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/telegram/intent/cancel",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent/exchange",
+      "old": {
+        "method": "POST",
+        "path": "/api/auth/telegram/intent/exchange",
+        "source": "src/app/api/auth/telegram/intent/exchange/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/auth/telegram/intent/exchange",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/dictionary/entries/{lexemeId}",
+      "old": {
+        "method": "POST",
+        "path": "/api/dictionary/entries/{lexemeId}",
+        "source": "src/app/api/dictionary/entries/[lexemeId]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/dictionary/entries/{lexemeId}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/dictionary/save",
+      "old": {
+        "method": "POST",
+        "path": "/api/dictionary/save",
+        "source": "src/app/api/dictionary/save/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/dictionary/save",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/exercises/{id}/practice",
+      "old": {
+        "method": "POST",
+        "path": "/api/grammar/exercises/{id}/practice",
+        "source": "src/app/api/grammar/exercises/[id]/practice/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/grammar/exercises/{id}/practice",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/exercises/{id}/produce",
+      "old": {
+        "method": "POST",
+        "path": "/api/grammar/exercises/{id}/produce",
+        "source": "src/app/api/grammar/exercises/[id]/produce/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/grammar/exercises/{id}/produce",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/topics/{id}/submit",
+      "old": {
+        "method": "POST",
+        "path": "/api/grammar/topics/{id}/submit",
+        "source": "src/app/api/grammar/topics/[id]/submit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/grammar/topics/{id}/submit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admins",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/admins",
+        "source": "src/app/api/internal/telegram/admins/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/admins",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admission/decide",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/admission/decide",
+        "source": "src/app/api/internal/telegram/admission/decide/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/admission/decide",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admission/request",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/admission/request",
+        "source": "src/app/api/internal/telegram/admission/request/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/admission/request",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/auth/confirm",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/auth/confirm",
+        "source": "src/app/api/internal/telegram/auth/confirm/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/auth/confirm",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/auth/preflight",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/auth/preflight",
+        "source": "services/backend/app/step18_telegram_auth_port.py",
+        "status": "ported_native"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/auth/preflight",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/broadcasts",
+        "source": "src/app/api/internal/telegram/broadcasts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/broadcasts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts/claim",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/broadcasts/claim",
+        "source": "src/app/api/internal/telegram/broadcasts/claim/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/broadcasts/claim",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts/{id}",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/broadcasts/{id}",
+        "source": "src/app/api/internal/telegram/broadcasts/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/broadcasts/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/contacts",
+        "source": "src/app/api/internal/telegram/contacts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/contacts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts/phone",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/contacts/phone",
+        "source": "src/app/api/internal/telegram/contacts/phone/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/contacts/phone",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/delete",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/delete",
+        "source": "src/app/api/internal/telegram/directory/[userId]/delete/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/delete",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/message",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/message",
+        "source": "src/app/api/internal/telegram/directory/[userId]/message/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/message",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/remove",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/remove",
+        "source": "src/app/api/internal/telegram/directory/[userId]/remove/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/remove",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/status",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/status",
+        "source": "src/app/api/internal/telegram/directory/[userId]/status/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/status",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/unlink",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/unlink",
+        "source": "src/app/api/internal/telegram/directory/[userId]/unlink/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/directory/{userId}/unlink",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/drafts",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/drafts",
+        "source": "src/app/api/internal/telegram/drafts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/drafts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/notifications",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/notifications",
+        "source": "src/app/api/internal/telegram/notifications/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/notifications",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/owner/handover",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/owner/handover",
+        "source": "src/app/api/internal/telegram/owner/handover/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/owner/handover",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/owner/transfer",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/owner/transfer",
+        "source": "src/app/api/internal/telegram/owner/transfer/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/owner/transfer",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/required-channels",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/required-channels",
+        "source": "src/app/api/internal/telegram/required-channels/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/required-channels",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/support/threads",
+        "source": "src/app/api/internal/telegram/support/threads/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/support/threads",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads/{id}/actions",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/support/threads/{id}/actions",
+        "source": "src/app/api/internal/telegram/support/threads/[id]/actions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/support/threads/{id}/actions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads/{id}/messages",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/support/threads/{id}/messages",
+        "source": "src/app/api/internal/telegram/support/threads/[id]/messages/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/support/threads/{id}/messages",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/updates",
+      "old": {
+        "method": "POST",
+        "path": "/api/internal/telegram/updates",
+        "source": "src/app/api/internal/telegram/updates/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/internal/telegram/updates",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/blocks/{blockId}/answer",
+      "old": {
+        "method": "POST",
+        "path": "/api/lessons/blocks/{blockId}/answer",
+        "source": "src/app/api/lessons/blocks/[blockId]/answer/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/lessons/blocks/{blockId}/answer",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/{id}/notes",
+      "old": {
+        "method": "POST",
+        "path": "/api/lessons/{id}/notes",
+        "source": "src/app/api/lessons/[id]/notes/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/lessons/{id}/notes",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/{id}/state",
+      "old": {
+        "method": "POST",
+        "path": "/api/lessons/{id}/state",
+        "source": "src/app/api/lessons/[id]/state/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/lessons/{id}/state",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/attempts",
+        "source": "src/app/api/listening/attempts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/attempts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/attempts/{id}/submit",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/attempts/{id}/submit",
+        "source": "src/app/api/listening/attempts/[id]/submit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/attempts/{id}/submit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/activity",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/activity",
+        "source": "src/app/api/listening/full/[id]/activity/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/activity",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/practice",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/practice",
+        "source": "src/app/api/listening/full/[id]/practice/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/practice",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/progress",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/progress",
+        "source": "src/app/api/listening/full/[id]/progress/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/progress",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/start",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/start",
+        "source": "src/app/api/listening/full/[id]/start/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/start",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/study",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/study",
+        "source": "src/app/api/listening/full/[id]/study/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/full/{id}/study",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/mcq",
+      "old": {
+        "method": "POST",
+        "path": "/api/listening/mcq",
+        "source": "src/app/api/listening/mcq/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/listening/mcq",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-classes/{id}/join",
+      "old": {
+        "method": "POST",
+        "path": "/api/live-classes/{id}/join",
+        "source": "src/app/api/live-classes/[id]/join/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/live-classes/{id}/join",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-partner",
+      "old": {
+        "method": "POST",
+        "path": "/api/live-partner",
+        "source": "src/app/api/live-partner/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/live-partner",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/locale",
+      "old": {
+        "method": "POST",
+        "path": "/api/locale",
+        "source": "src/app/api/locale/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/locale",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/media/authorize",
+      "old": {
+        "method": "POST",
+        "path": "/api/media/authorize",
+        "source": "src/app/api/media/authorize/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/media/authorize",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/notifications",
+      "old": {
+        "method": "POST",
+        "path": "/api/notifications",
+        "source": "src/app/api/notifications/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/notifications",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/onboarding",
+      "old": {
+        "method": "POST",
+        "path": "/api/onboarding",
+        "source": "src/app/api/onboarding/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/onboarding",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/ai-control",
+      "old": {
+        "method": "POST",
+        "path": "/api/owner/ai-control",
+        "source": "src/app/api/owner/ai-control/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/owner/ai-control",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/dictionary/{action:path}",
+      "old": {
+        "method": "POST",
+        "path": "/api/owner/dictionary/{action:path}",
+        "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+        "status": "ported_code_parity_unverified"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/owner/dictionary/{action:path}",
+        "status": "ported_code_parity_unverified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/retention",
+      "old": {
+        "method": "POST",
+        "path": "/api/owner/retention",
+        "source": "src/app/api/owner/retention/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/owner/retention",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/transfer",
+      "old": {
+        "method": "POST",
+        "path": "/api/owner/transfer",
+        "source": "src/app/api/owner/transfer/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/owner/transfer",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/presence",
+      "old": {
+        "method": "POST",
+        "path": "/api/presence",
+        "source": "src/app/api/presence/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/presence",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/profile/photo",
+      "old": {
+        "method": "POST",
+        "path": "/api/profile/photo",
+        "source": "src/app/api/profile/photo/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/profile/photo",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/academic",
+      "old": {
+        "method": "POST",
+        "path": "/api/reading/academic",
+        "source": "src/app/api/reading/academic/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/reading/academic",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/attempts",
+      "old": {
+        "method": "POST",
+        "path": "/api/reading/attempts",
+        "source": "src/app/api/reading/attempts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/reading/attempts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/attempts/{id}/submit",
+      "old": {
+        "method": "POST",
+        "path": "/api/reading/attempts/{id}/submit",
+        "source": "src/app/api/reading/attempts/[id]/submit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/reading/attempts/{id}/submit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/general/progress",
+      "old": {
+        "method": "POST",
+        "path": "/api/reading/general/progress",
+        "source": "src/app/api/reading/general/progress/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/reading/general/progress",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts",
+      "old": {
+        "method": "POST",
+        "path": "/api/retention/attempts",
+        "source": "src/app/api/retention/attempts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/retention/attempts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts/{id}/finish-reading",
+      "old": {
+        "method": "POST",
+        "path": "/api/retention/attempts/{id}/finish-reading",
+        "source": "src/app/api/retention/attempts/[id]/finish-reading/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/retention/attempts/{id}/finish-reading",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts/{id}/submit",
+      "old": {
+        "method": "POST",
+        "path": "/api/retention/attempts/{id}/submit",
+        "source": "src/app/api/retention/attempts/[id]/submit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/retention/attempts/{id}/submit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/attempts",
+        "source": "src/app/api/speaking/attempts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/attempts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts/{id}/submit",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/attempts/{id}/submit",
+        "source": "src/app/api/speaking/attempts/[id]/submit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/attempts/{id}/submit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts/{id}/transcript",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/attempts/{id}/transcript",
+        "source": "src/app/api/speaking/attempts/[id]/transcript/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/attempts/{id}/transcript",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/materials",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/materials",
+        "source": "src/app/api/speaking/materials/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/materials",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/prompts",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/prompts",
+        "source": "src/app/api/speaking/prompts/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/prompts",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/prompts/vocabulary",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/prompts/vocabulary",
+        "source": "src/app/api/speaking/prompts/vocabulary/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/prompts/vocabulary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/topics",
+      "old": {
+        "method": "POST",
+        "path": "/api/speaking/topics",
+        "source": "src/app/api/speaking/topics/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/speaking/topics",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/support/reports",
+      "old": {
+        "method": "POST",
+        "path": "/api/support/reports",
+        "source": "src/app/api/support/reports/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/support/reports",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/feedback",
+      "old": {
+        "method": "POST",
+        "path": "/api/teacher/feedback",
+        "source": "src/app/api/teacher/feedback/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/teacher/feedback",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/live-classes",
+      "old": {
+        "method": "POST",
+        "path": "/api/teacher/live-classes",
+        "source": "src/app/api/teacher/live-classes/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/teacher/live-classes",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/theme",
+      "old": {
+        "method": "POST",
+        "path": "/api/theme",
+        "source": "src/app/api/theme/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/theme",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads",
+      "old": {
+        "method": "POST",
+        "path": "/api/uploads",
+        "source": "src/app/api/uploads/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/uploads",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads/finalize",
+      "old": {
+        "method": "POST",
+        "path": "/api/uploads/finalize",
+        "source": "src/app/api/uploads/finalize/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/uploads/finalize",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads/intent",
+      "old": {
+        "method": "POST",
+        "path": "/api/uploads/intent",
+        "source": "src/app/api/uploads/intent/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/uploads/intent",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/answers",
+      "old": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/answers",
+        "source": "src/app/api/video-lessons/[id]/answers/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/answers",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/progress",
+      "old": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/progress",
+        "source": "src/app/api/video-lessons/[id]/progress/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/progress",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/response",
+      "old": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/response",
+        "source": "src/app/api/video-lessons/[id]/response/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/response",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/vocabulary",
+      "old": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/vocabulary",
+        "source": "src/app/api/video-lessons/[id]/vocabulary/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/video-lessons/{id}/vocabulary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary",
+      "old": {
+        "method": "POST",
+        "path": "/api/vocabulary",
+        "source": "src/app/api/vocabulary/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/vocabulary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "old": {
+        "method": "POST",
+        "path": "/api/vocabulary/folders",
+        "source": "src/app/api/vocabulary/folders/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/vocabulary/folders",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/games",
+      "old": {
+        "method": "POST",
+        "path": "/api/vocabulary/games",
+        "source": "src/app/api/vocabulary/games/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/vocabulary/games",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/packs",
+      "old": {
+        "method": "POST",
+        "path": "/api/vocabulary/packs",
+        "source": "src/app/api/vocabulary/packs/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/vocabulary/packs",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/{id}/review",
+      "old": {
+        "method": "POST",
+        "path": "/api/vocabulary/{id}/review",
+        "source": "src/app/api/vocabulary/[id]/review/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/vocabulary/{id}/review",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/{id}/use",
+      "old": {
+        "method": "POST",
+        "path": "/api/vocabulary/{id}/use",
+        "source": "src/app/api/vocabulary/[id]/use/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/vocabulary/{id}/use",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/activation/check",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/activation/check",
+        "source": "src/app/api/writing/activation/check/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/activation/check",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/activation/items",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/activation/items",
+        "source": "src/app/api/writing/activation/items/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/activation/items",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/exam",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/exam",
+        "source": "src/app/api/writing/exam/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/exam",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/exam/{id}/finalize",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/exam/{id}/finalize",
+        "source": "src/app/api/writing/exam/[id]/finalize/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/exam/{id}/finalize",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/grade",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/grade",
+        "source": "src/app/api/writing/grade/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/grade",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/grade/{id}",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/grade/{id}",
+        "source": "src/app/api/writing/grade/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/grade/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/lessons/{id}",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/lessons/{id}",
+        "source": "src/app/api/writing/lessons/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/lessons/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/patterns/{id}/vocabulary",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/stealing/patterns/{id}/vocabulary",
+        "source": "app/writing_study_port.py",
+        "status": "ported_native_extension_unit_tested"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/stealing/patterns/{id}/vocabulary",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/practice",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/stealing/practice",
+        "source": "src/app/api/writing/stealing/practice/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/stealing/practice",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/stealing/sessions",
+        "source": "src/app/api/writing/stealing/sessions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/stealing/sessions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions/{id}",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/stealing/sessions/{id}",
+        "source": "src/app/api/writing/stealing/sessions/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/stealing/sessions/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions/{id}/patterns",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/stealing/sessions/{id}/patterns",
+        "source": "app/writing_study_port.py",
+        "status": "ported_native_extension_unit_tested"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/stealing/sessions/{id}/patterns",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/submissions",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/submissions",
+        "source": "src/app/api/writing/submissions/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/submissions",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/submissions/{id}/submit",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/submissions/{id}/submit",
+        "source": "src/app/api/writing/submissions/[id]/submit/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/submissions/{id}/submit",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/translation",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/translation",
+        "source": "src/app/api/writing/translation/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/translation",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/translation/{id}/answer",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/translation/{id}/answer",
+        "source": "src/app/api/writing/translation/[id]/answer/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/translation/{id}/answer",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/typing",
+        "source": "src/app/api/writing/typing/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/typing",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/finish",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/typing/finish",
+        "source": "src/app/api/writing/typing/finish/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/typing/finish",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/pause",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/typing/pause",
+        "source": "src/app/api/writing/typing/pause/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/typing/pause",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/prepare",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/typing/prepare",
+        "source": "src/app/api/writing/typing/prepare/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/typing/prepare",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/resume",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/typing/resume",
+        "source": "src/app/api/writing/typing/resume/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/typing/resume",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/start",
+      "old": {
+        "method": "POST",
+        "path": "/api/writing/typing/start",
+        "source": "src/app/api/writing/typing/start/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "POST",
+        "path": "/api/writing/typing/start",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/writing/{kind}/{id}",
+      "old": {
+        "method": "PUT",
+        "path": "/api/admin/writing/{kind}/{id}",
+        "source": "src/app/api/admin/writing/[kind]/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/admin/writing/{kind}/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/internal/telegram/notifications",
+      "old": {
+        "method": "PUT",
+        "path": "/api/internal/telegram/notifications",
+        "source": "src/app/api/internal/telegram/notifications/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/internal/telegram/notifications",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/listening/attempts/{id}/draft",
+      "old": {
+        "method": "PUT",
+        "path": "/api/listening/attempts/{id}/draft",
+        "source": "src/app/api/listening/attempts/[id]/draft/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/listening/attempts/{id}/draft",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/listening/full/{id}/authored-state",
+      "old": {
+        "method": "PUT",
+        "path": "/api/listening/full/{id}/authored-state",
+        "source": "src/app/api/listening/full/[id]/authored-state/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/listening/full/{id}/authored-state",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/materials/{type}/{id}",
+      "old": {
+        "method": "PUT",
+        "path": "/api/materials/{type}/{id}",
+        "source": "src/app/api/materials/[type]/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/materials/{type}/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/exam/{id}/draft",
+      "old": {
+        "method": "PUT",
+        "path": "/api/writing/exam/{id}/draft",
+        "source": "src/app/api/writing/exam/[id]/draft/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/writing/exam/{id}/draft",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/patterns/{id}",
+      "old": {
+        "method": "PUT",
+        "path": "/api/writing/patterns/{id}",
+        "source": "src/app/api/writing/patterns/[id]/route.ts",
+        "status": "ported_code_no_db_integration_test"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/writing/patterns/{id}",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/stealing/sessions/{id}/study",
+      "old": {
+        "method": "PUT",
+        "path": "/api/writing/stealing/sessions/{id}/study",
+        "source": "app/writing_study_port.py",
+        "status": "ported_native_extension_unit_tested"
+      },
+      "gemini": {
+        "method": "PUT",
+        "path": "/api/writing/stealing/sessions/{id}/study",
+        "status": "ported_verified",
+        "origin": "historical_step40_port"
+      }
+    }
+  ],
+  "review_status": "metadata differences recorded; provenance review pending"
+}

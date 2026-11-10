@@ -1,0 +1,367 @@
+{
+  "overall": "PARTIAL",
+  "scope": "Phase2 tasks15–27; no subsequent phase",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/learners-area-next",
+  "startingCommit": "76f73b81d731a11348b91082e4e42e3402f923f7",
+  "productSourceCommit": "6abe47bbca3dbaf4733d10db17c91d7267fbbceb",
+  "runtimeRevision": "8bd607b35dfe5b24cb0c",
+  "finalCommitLocation": "delivered final-git-receipt.json",
+  "mainAtStart": "68b0faeb4e1033c24d87ad2198102bc4ed584462",
+  "mainAtReportPreparation": "bc48ac44ebb8dc65df69d3e477a1494845b60938",
+  "mainWritten": false,
+  "productionDeploy": false,
+  "productionDataWrites": false,
+  "tests": {
+    "frontend": {
+      "total": 1404,
+      "pass": 1393,
+      "fail": 0,
+      "skip": 11,
+      "elapsedSeconds": 31.782583825
+    },
+    "backend": {
+      "pass": 5923,
+      "subtestsPass": 282,
+      "fail": 0,
+      "skip": 0,
+      "warnings": 1,
+      "seconds": 46.64
+    },
+    "sameBaselineFailures": 0,
+    "legacyFixtureSkips": 11,
+    "localReadOnlySmoke": {
+      "pass": 16,
+      "fail": 0
+    },
+    "publicReadOnlySmoke": {
+      "pass": 0,
+      "transportFailures": 6
+    },
+    "phase2OriginalBackend": {
+      "total": 5912,
+      "pass": 5895,
+      "fail": 17,
+      "skip": 0,
+      "additionalSubtestsPass": 282,
+      "warnings": 1,
+      "elapsedSeconds": 59.38
+    },
+    "phase2OriginalFrontend": {
+      "total": 1396,
+      "pass": 1385,
+      "fail": 0,
+      "skip": 11,
+      "elapsedSeconds": 68.889213166
+    },
+    "backendInventoryAccess": {
+      "pass": 11,
+      "fail": 0,
+      "endpointCount": 5,
+      "invalidCredentialCases": 10,
+      "inventoryHistoryCase": 1,
+      "elapsedSeconds": 3.294,
+      "output": "access-checks.log"
+    },
+    "originalBaselineFailuresResolved": 17
+  },
+  "metrics": {
+    "reading": {
+      "before": {
+        "method": "jsdom synthetic event dispatch; no browser layout/paint; not INP",
+        "node": "v24.22.1",
+        "runs": 20,
+        "editsPerRun": 50,
+        "samples": 1000,
+        "latencyMs": {
+          "p50": 2.328675000000203,
+          "p95": 4.109957000000122,
+          "p99": 14.654290000000401
+        },
+        "createdElements": 107000,
+        "questionsPaneReplacements": 1000,
+        "removedNodes": 112000,
+        "inputIdentityChanges": 1000,
+        "focusLoss": 0,
+        "selectionLoss": 0
+      },
+      "after": {
+        "method": "jsdom synthetic event dispatch; no browser layout/paint; not INP",
+        "node": "v24.22.1",
+        "runs": 20,
+        "editsPerRun": 50,
+        "samples": 1000,
+        "latencyMs": {
+          "p50": 1.1150740000000496,
+          "p95": 1.784577000000013,
+          "p99": 2.864749999999958
+        },
+        "createdElements": 0,
+        "questionsPaneReplacements": 0,
+        "removedNodes": 20,
+        "inputIdentityChanges": 0,
+        "focusLoss": 0,
+        "selectionLoss": 0
+      },
+      "measurement": "Serial paired rerun, same Node/jsdom, no browser layout, warm modules; excludes earlier noisy results",
+      "sourceBefore": "76f73b81d731a11348b91082e4e42e3402f923f7",
+      "sourceAfter": "6abe47bbca3dbaf4733d10db17c91d7267fbbceb"
+    },
+    "staticRangeBefore": {
+      "method": "in-process ASGI, warm OS file cache, 3 warmups; no network emulation",
+      "python": "3.12.14",
+      "samples": 20,
+      "assetBytes": 33554432,
+      "requestedBytes": 10,
+      "peakTracedBytes": 33689925,
+      "p50Ms": 21.744050499819423,
+      "p95Ms": 22.52508600031433,
+      "p99Ms": null,
+      "p99Reason": "20 samples is insufficient for a useful tail estimate",
+      "latenciesMs": [
+        21.821717000420904,
+        22.234327999285597,
+        22.52508600031433,
+        22.3762120003812,
+        22.583563999432954,
+        21.545171000070695,
+        21.577269999397686,
+        22.461930999270407,
+        21.724391000134347,
+        21.46218600046268,
+        21.35067800008983,
+        21.7637099995045,
+        21.126431999618944,
+        21.214043999862042,
+        22.070020000683144,
+        21.703971000533784,
+        21.29641699957574,
+        22.354179000103613,
+        21.968939000544196,
+        21.133461999852443
+      ]
+    },
+    "staticRangeAfter": {
+      "method": "in-process ASGI, warm OS file cache, 3 warmups; no network emulation",
+      "python": "3.12.14",
+      "samples": 20,
+      "assetBytes": 33554432,
+      "requestedBytes": 10,
+      "peakTracedBytes": 157593,
+      "p50Ms": 3.6689495000246097,
+      "p95Ms": 5.193062000216742,
+      "p99Ms": null,
+      "p99Reason": "20 samples is insufficient for a useful tail estimate",
+      "latenciesMs": [
+        4.137844999604567,
+        3.629029999501654,
+        5.193062000216742,
+        3.691293999509071,
+        6.533298000249488,
+        3.993588999946951,
+        3.6694500004159636,
+        3.622158999860403,
+        3.668448999633256,
+        3.8320539997585,
+        3.6972419993617223,
+        3.6334159995021764,
+        3.6205369997333037,
+        5.003997999665444,
+        2.7613339998424635,
+        3.100173999882827,
+        2.9567379997388343,
+        2.8723109999191365,
+        3.358533000209718,
+        4.032736000226578
+      ]
+    },
+    "dockBytes": {
+      "before": 9275458,
+      "after": 212396,
+      "allOriginalsRetained": true
+    },
+    "browserInput": {
+      "label": "reading-200-inputs",
+      "stage": "after",
+      "route": "/app/reading/attempts/f7d4ec37-f3ac-4801-a6c0-08122413dc51",
+      "events": 200,
+      "identityChanges": 0,
+      "focusLoss": 0,
+      "selectionLoss": 0,
+      "addedNodes": 8,
+      "removedNodes": 8,
+      "inputToTwoAnimationFramesMs": {
+        "p50": 33.199999999953434,
+        "p95": 34.29999999993015,
+        "p99": 38.79999999993015
+      },
+      "note": "Synthetic input events and two-frame lab proxy, not trusted-event INP"
+    },
+    "warmRoutesBefore": {
+      "label": "warm-20-navigation",
+      "stage": "before",
+      "timesMs": [
+        182.30000000074506,
+        233.20000000018626,
+        184.20000000018626,
+        315.09999999962747,
+        137.20000000018626,
+        83.29999999981374,
+        79.09999999962747,
+        100.40000000037253,
+        149.59999999962747,
+        99.70000000018626,
+        69.1000000005588,
+        80.5,
+        149.29999999981374,
+        100,
+        82.79999999981374,
+        100.19999999925494,
+        152.70000000018626,
+        99,
+        81.19999999925494,
+        84.20000000018626
+      ],
+      "p50Ms": 100,
+      "p95Ms": 233.20000000018626,
+      "p99Ms": null,
+      "note": "Synthetic same-document anchors; N=20, no p99 claim"
+    },
+    "warmRoutesAfter": {
+      "label": "warm-20-navigation",
+      "stage": "after",
+      "timesMs": [
+        220.90000000037253,
+        156,
+        163.40000000037253,
+        263.09999999962747,
+        138.1000000005588,
+        111,
+        83.70000000018626,
+        95.19999999925494,
+        148.5,
+        104,
+        64,
+        99.70000000018626,
+        148.30000000074506,
+        99.5,
+        91.20000000018626,
+        80.5,
+        155.79999999981374,
+        89,
+        83.09999999962747,
+        100.20000000018626
+      ],
+      "p50Ms": 100.20000000018626,
+      "p95Ms": 220.90000000037253,
+      "p99Ms": null,
+      "note": "Synthetic same-document anchors; N=20, no p99 claim"
+    }
+  },
+  "verifiedScopes": [
+    "Reading1000-edit DOM benchmark",
+    "Chrome200 synthetic edits",
+    "Chrome synthetic audio progression and saved-position resume",
+    "Chrome notes/section media stability",
+    "two-tab real-auth logout to login",
+    "static Range/ETag/CSP/build gates",
+    "real-PG controlled load and150SSE+400requests",
+    "Phase1 source/CSS parity and selected browser visuals"
+  ],
+  "notVerified": [
+    "protected original CD IELTS native decode/Worker playback/CORS/expiry E2E",
+    "Safari/WebKit/physical devices",
+    "continuous60-minute four-journey soak",
+    "CPU/network throttle, controlled cold cohort, field RUM",
+    "pending-save unmount/reauth/close-before-ACK and browser adverse-network matrix",
+    "production health and production resource-capped capacity",
+    "Mentora live performance"
+  ],
+  "reports": {
+    "uzbek": "04-yakuniy-hisobot-uz.md",
+    "technicalAppendix": "02-final-report.md"
+  },
+  "tasks": [
+    {
+      "n": 15,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 16,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 17,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 18,
+      "status": "PASS_SCOPED",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 19,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 20,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 21,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 22,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 23,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 24,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 25,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 26,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    },
+    {
+      "n": 27,
+      "status": "PARTIAL",
+      "mentoraPerformance": "NOT VERIFIED"
+    }
+  ],
+  "backendRegressionFollowup": {
+    "status": "PASS_AUTOMATED_REGRESSION",
+    "remoteParent": "20d91288bb4f8ffc7d1ba0d089c501ff4ab08f08",
+    "report": "05-backend-validation.md",
+    "machineReadable": "06-backend-validation.json",
+    "runtimeCodeChanged": false,
+    "overallPhase2": "PARTIAL"
+  },
+  "remainingPhase2Followup": {
+    "report": "07-reading-integrity-followup.md",
+    "summary": "08-followup-summary.json",
+    "databasePass": 67,
+    "status": "SCOPED_PASS",
+    "overall": "PARTIAL",
+    "manualStability": "NOT_RUN_USER_RESERVED_MANUAL"
+  }
+}

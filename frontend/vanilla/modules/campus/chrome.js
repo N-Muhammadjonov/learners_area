@@ -16,7 +16,7 @@ export function campusHeader(header,{dict,back:goBack,signal}={}){
   header.dataset.campusHome=String(campus);
   brand.hidden=!campus;back.hidden=policy.mode!=='back';name.hidden=campus;
   const segment=url.pathname.split('/')[2],keys={'video-lessons':'videoLessons',mocks:'mockTests','live-classes':'liveClasses',admin:'management',teacher:'management',owner:'management'};
-  name.textContent=segment==='profile'?dict?.profile?.title:dict?.nav?.[keys[segment]||segment]||segment||'';
+  name.textContent=segment==='riwi'?'RIWI':segment==='profile'?dict?.profile?.title:dict?.nav?.[keys[segment]||segment]||segment||'';
   name.title=name.textContent;
  }};
 }

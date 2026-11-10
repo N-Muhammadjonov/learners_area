@@ -1,0 +1,269 @@
+{
+  "date": "2026-11-09",
+  "branch": "arena/learners-area-next",
+  "parent": "5906c9107c08b9c1d2dbaa588ba3611c119bc306",
+  "overallPhase2": "PARTIAL",
+  "implementation": "Reading draft integrity fixes verified",
+  "backend": {
+    "pass": 5923,
+    "subtestsPass": 282,
+    "fail": 0,
+    "skip": 0,
+    "warnings": 1,
+    "seconds": 46.64
+  },
+  "frontend": {
+    "total": 1404,
+    "pass": 1393,
+    "fail": 0,
+    "skip": 11,
+    "seconds": 31.782583825
+  },
+  "ownedPostgresIntegration": {
+    "pass": 67,
+    "fail": 0,
+    "seconds": 1.519
+  },
+  "newReadingRecoveryCases": 8,
+  "build": {
+    "staticBuild": true,
+    "runtime": "Python FastAPI",
+    "files": 843,
+    "routes": 131,
+    "nodeRequired": false,
+    "revision": "0430f94650af2562004c",
+    "inputBytes": 151898294,
+    "transferBytes": 138642104,
+    "minifiedFiles": 200,
+    "cdnSpeechBytes": 101260210,
+    "cdnSpeechFiles": 55
+  },
+  "sourceCompleteness": {
+    "expectedPublishableSourceBlobs": 828,
+    "missingPublishableSourceBlobs": [],
+    "allSixPreviouslyMissingLargeAssetsVerified": true,
+    "buildStatus": "COMPLETE_INPUTS_AVAILABLE"
+  },
+  "restoredLargeAssets": [
+    {
+      "path": "frontend/vanilla/brand/learners-area-favicon.png",
+      "bytes": 1324000,
+      "gitBlobSha": "09d99797f723def2b073ca48b1981e9fbcab412f",
+      "status": "RESTORED_EXACT"
+    },
+    {
+      "path": "frontend/vanilla/brand/learners-area-logo-horizontal-dark.png",
+      "bytes": 1179650,
+      "gitBlobSha": "4b7b6224e33668c1d1aa862adce7fe7fb8b2755c",
+      "status": "RESTORED_EXACT"
+    },
+    {
+      "path": "frontend/vanilla/brand/learners-area-logo-master-dark.png",
+      "bytes": 1509690,
+      "gitBlobSha": "aca74028c76f3657e4d02a217501be148aec7348",
+      "status": "RESTORED_EXACT"
+    },
+    {
+      "path": "frontend/vanilla/brand/owner-neon-day.png",
+      "bytes": 1760120,
+      "gitBlobSha": "b53549f9ac50c80f0cfd764da691545b922a82b0",
+      "status": "RESTORED_EXACT"
+    },
+    {
+      "path": "frontend/vanilla/js/vendor/riwi-files/ocr/lang/eng.traineddata.gz",
+      "bytes": 1967599,
+      "gitBlobSha": "3fb4ea872ce6b4180a6fe98e323e1e114925eb3d",
+      "status": "RESTORED_EXACT"
+    },
+    {
+      "path": "frontend/vanilla/js/vendor/riwi-files/ocr/lang/uzb.traineddata.gz",
+      "bytes": 3083648,
+      "gitBlobSha": "ccbfdf6616b9c4ce3b23861d65080687cca2f2da",
+      "status": "RESTORED_EXACT"
+    }
+  ],
+  "finalReadingBenchmark": {
+    "baseline": "76f73b81d731a11348b91082e4e42e3402f923f7",
+    "afterSourceSha256": "7cc7f5b1967a70fbb38dc9eede460ae09f7d952442c1bf3c3eaad28b10b926c6",
+    "before": {
+      "method": "jsdom synthetic event dispatch; no browser layout/paint; not INP",
+      "node": "v24.22.1",
+      "runs": 20,
+      "editsPerRun": 50,
+      "samples": 1000,
+      "latencyMs": {
+        "p50": 3.1695690000001377,
+        "p95": 10.393973999999616,
+        "p99": 33.470140999999785
+      },
+      "createdElements": 107000,
+      "questionsPaneReplacements": 1000,
+      "removedNodes": 112000,
+      "inputIdentityChanges": 1000,
+      "focusLoss": 0,
+      "selectionLoss": 0
+    },
+    "after": {
+      "method": "jsdom synthetic event dispatch; no browser layout/paint; not INP",
+      "node": "v24.22.1",
+      "runs": 20,
+      "editsPerRun": 50,
+      "samples": 1000,
+      "latencyMs": {
+        "p50": 2.7693789999998444,
+        "p95": 7.072156000000177,
+        "p99": 12.16386700000021
+      },
+      "createdElements": 20,
+      "questionsPaneReplacements": 0,
+      "removedNodes": 40,
+      "inputIdentityChanges": 0,
+      "focusLoss": 0,
+      "selectionLoss": 0
+    }
+  },
+  "browserDashboardCohort": {
+    "samples": 40,
+    "baselineCommit": "76f73b81d731a11348b91082e4e42e3402f923f7",
+    "afterBuild": "db0c43658f007772e9cb",
+    "cells": [
+      {
+        "profile": "desktop",
+        "cache": "cold",
+        "stage": "before",
+        "n": 5,
+        "readyMedianMs": 754.1,
+        "medianTransferBytes": 8953689
+      },
+      {
+        "profile": "desktop",
+        "cache": "cold",
+        "stage": "after",
+        "n": 5,
+        "readyMedianMs": 733,
+        "medianTransferBytes": 591748
+      },
+      {
+        "profile": "desktop",
+        "cache": "warm",
+        "stage": "before",
+        "n": 5,
+        "readyMedianMs": 174,
+        "medianTransferBytes": 6465
+      },
+      {
+        "profile": "desktop",
+        "cache": "warm",
+        "stage": "after",
+        "n": 5,
+        "readyMedianMs": 162.7,
+        "medianTransferBytes": 6459
+      },
+      {
+        "profile": "latency150",
+        "cache": "cold",
+        "stage": "before",
+        "n": 5,
+        "readyMedianMs": 3880.2,
+        "medianTransferBytes": 8920667
+      },
+      {
+        "profile": "latency150",
+        "cache": "cold",
+        "stage": "after",
+        "n": 5,
+        "readyMedianMs": 3685.7,
+        "medianTransferBytes": 558626
+      },
+      {
+        "profile": "latency150",
+        "cache": "warm",
+        "stage": "before",
+        "n": 5,
+        "readyMedianMs": 351.1,
+        "medianTransferBytes": 6436
+      },
+      {
+        "profile": "latency150",
+        "cache": "warm",
+        "stage": "after",
+        "n": 5,
+        "readyMedianMs": 330.2,
+        "medianTransferBytes": 6477
+      }
+    ],
+    "limits": [
+      "Collected before final draft-token and pending-label changes; not a final-build cold/warm browser rerun",
+      "Five samples per cell; no reliable tail percentile claim",
+      "DOM readiness/resource timing only; paint timings unavailable",
+      "390px iframe plus 150ms per static response is not physical mobile, CPU throttling or full 4G"
+    ]
+  },
+  "manualStability": "NOT_RUN_USER_RESERVED_MANUAL",
+  "productionBrowserObservations": {
+    "source": "Cloud browser page DOM, bounded read-only navigation",
+    "date": "2026-11-09",
+    "observations": [
+      {
+        "url": "https://learnersarea.uz/healthz",
+        "visibleJson": {
+          "ok": true,
+          "service": "learners-area-fastapi"
+        }
+      },
+      {
+        "url": "https://learnersarea.uz/readyz",
+        "visibleJson": {
+          "ok": true,
+          "frontend": true
+        }
+      },
+      {
+        "url": "https://learnersarea.uz/api/version",
+        "visibleJson": {
+          "commit": "bc48ac44ebb8dc65df69d3e477a1494845b60938",
+          "shortCommit": "bc48ac4",
+          "region": null,
+          "environment": "production"
+        }
+      },
+      {
+        "url": "https://learnersarea.uz/api/frontend/session",
+        "visibleJson": {
+          "error": "unauthenticated"
+        }
+      }
+    ],
+    "limits": [
+      "HTTP status codes/headers/latency not exposed by this observation",
+      "No authenticated production feature or capacity test",
+      "Executor HTTP smoke failed with ConnectError; browser origin was reachable"
+    ]
+  },
+  "mainWritten": false,
+  "productionDeployment": false,
+  "databaseMigration": false,
+  "sourceSha256": {
+    "frontend/vanilla/js/adapters/reading-v44.js": "7e3f35f68cd9c41552314043c2b32857965e397ecc68c5cd3717feb5a9208dca",
+    "frontend/vanilla/modules/reading/attempt.js": "2b97a4043b5e09c180f0786f225707b6f1b65576c349ea25fcd5062e1c85284a",
+    "frontend/vanilla/modules/reading/exam.js": "7cc7f5b1967a70fbb38dc9eede460ae09f7d952442c1bf3c3eaad28b10b926c6",
+    "services/backend/app/browser_reading.py": "049d043da9291949b98c40cbef3e25bb0bb0219a93f1fe0a9007635525246c09",
+    "services/backend/app/data/riwi_site_catalog.json": "8d1750d03914a762d000d2084921b5b4b2df46c7dc7306f13121c98469090a58",
+    "services/backend/app/reading_feedback_port.py": "be6989315dad79a8b9c400a277ca03db62ced6c2a093a113bb5739fdebf641e8",
+    "frontend/vanilla/tests/performance-phase2/cold-warm-probe.js": "e244bc971a91cb0325d3ec0e6fcbbe512729197b972317a6ef6a25987906e0f4",
+    "frontend/vanilla/tests/phase2-reading-recovery.test.mjs": "253504fa0d11c6346e1c8f8957ab63757697d69a0f4f6114e9332da01dd53299",
+    "services/backend/app/reading_draft.py": "651f65b5740cec080f9e6c603b2a0113aed3a5706bd7303cf5f4ec5bd7ad2194",
+    "services/backend/tests/performance_phase2/acceptance_preview.py": "5e2bfe2f6a03fe53c12d35f5a8a2583cd30fc01bf3476e447e719ecf1b43e2fe",
+    "services/backend/tests/performance_phase2/integration_followup.py": "de2f1d1d25b21aa7da73b514d8c45dda97f52eab543272a87ad59064d91b28d5",
+    "services/backend/tests/performance_phase2/requirements-qa.txt": "777404082fc5685b2bc7381eabf8ef4e1c6e5e087b1ab47943f1150e99b64ccf"
+  },
+  "remaining": [
+    "Manual 60-minute four-journey stability (user deferred)",
+    "Original protected signed-Worker audio playback",
+    "Safari/WebKit and physical devices",
+    "Genuine browser offline/CPU throttling and full adverse-network lifecycle acceptance",
+    "Authenticated production feature/capacity acceptance",
+    "Eleven original-owner embedded-Listening fixture cases",
+    "Final-build cold/warm browser rerun (saved comparison has an earlier after revision)"
+  ]
+}

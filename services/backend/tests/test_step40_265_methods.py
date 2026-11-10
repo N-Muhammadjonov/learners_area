@@ -26,9 +26,9 @@ LAST_FIVE={
 def test_exact_265_manifest_without_unimplemented_http_methods():
     expected=json.loads((ROOT/'PORT_STATUS.json').read_text())
     actual=[(method,route.path) for route in core.app.routes if route.path.startswith('/api/') for method in getattr(route,'methods',())]
-    assert len(actual)==len(set(actual))==len(expected['endpoints'])==309
+    assert len(actual)==len(set(actual))==len(expected['endpoints'])==345
     assert {(e['method'],e['path']) for e in expected['endpoints']}==set(actual)
-    assert expected['ported_methods']==309 and expected['unported_methods']==0
+    assert expected['ported_methods']==345 and expected['unported_methods']==0
     for e in expected['endpoints']:
         if (e['method'],e['path']) in LAST_FIVE:assert e['status']=='ported_code_parity_unverified'
 
@@ -36,11 +36,11 @@ def test_original_sql_migration_bytes_are_unchanged():
     import hashlib
     hashes=json.loads((ROOT/'MIGRATION_AUDIT_265.json').read_text())['sql_sha256_by_filename']
     found={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'migrations').glob('*.sql')}
-    assert len(found)==73
+    assert len(found)==80
     assert {name:found[name] for name in hashes}==hashes
     for name in set(found)-set(hashes):
         assert (ROOT/'migrations'/name).read_bytes()==(ROOT.parents[1]/'drizzle'/name).read_bytes()
-    assert len(set(found)-set(hashes))==7
+    assert len(set(found)-set(hashes))==14
 
 @pytest.mark.parametrize('method,url,expect',[
  ('POST','/api/admin/content/drafts',401),('POST','/api/admin/content/import',401),
