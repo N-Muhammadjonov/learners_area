@@ -94,12 +94,29 @@ test('decorative arrows reserve space, ignore pointer input and reveal on keyboa
  assert(!doc.querySelector('#stats').matches(emulate(focus.selector).replace(/::after/g,'')));
 });
 
-test('mouse effects are capability gated and reduced motion collapses both hover and press travel',()=>{
- assert.equal(cardHover.parent.name,'media');assert.equal(cardHover.parent.params,'(hover:hover) and (pointer:fine)');
+test('desktop hover and touch press share the same visual feedback',()=>{
+ const desktop=cardHover.parent;
+ assert.equal(desktop.name,'media');assert.equal(desktop.params,'(hover:hover) and (pointer:fine)');
+ const touch=ast.nodes.find(n=>n.type==='atrule'&&n.params==='(hover:none), (pointer:coarse)');
+ const effect=rule=>[rule.selector.replaceAll(':active',':hover'),rule.nodes.map(d=>[d.prop,d.value,d.important])];
+ assert.deepEqual(touch.nodes.map(effect),desktop.nodes.filter(r=>r.selector.includes(':hover')).map(effect));
+ const doc=fixture(),card=doc.querySelector('#c0');
+ const touchCard=emulate(touch.nodes.find(r=>has(r,'transform','var(--la-hover-card-lift)')).selector);
+ card.setAttribute('data-qa-hover','');assert(!card.matches(touchCard));
+ card.setAttribute('data-qa-active','');assert(card.matches(touchCard));
+ card.setAttribute('aria-busy','true');assert(!card.matches(touchCard));card.removeAttribute('aria-busy');
+ card.removeAttribute('data-qa-active');assert(!card.matches(touchCard));
+});
+
+test('shared interaction travel and timing are independent of reduced motion and screen width',()=>{
  const reduce=ast.nodes.find(n=>n.type==='atrule'&&n.params==='(prefers-reduced-motion:reduce)');
- const tokens=new Map();reduce.walkDecls(d=>tokens.set(d.prop,d.value));
- for(const token of ['--la-hover-card-scale','--la-hover-button-scale'])assert.equal(tokens.get(token),'1');
- for(const token of ['--la-hover-card-lift','--la-hover-arrow-travel','--la-press-lift'])assert.equal(tokens.get(token),'0px');
- assert.equal(tokens.get('--la-press-duration'),'0ms');
+ reduce.walkDecls(d=>assert(!/^(--la-(?:hover|press|transition)|transition|transform)/.test(d.prop),d.toString()));
+ ast.walkAtRules('media',rule=>rule.walkDecls(/^--la-(?:hover|press|transition)/,d=>assert.fail(d.toString())));
+ for(const rule of rules.filter(r=>has(r,'transition','var(--la-transition)')||has(r,'transition','120ms ease-out'))){
+  const duration=rule.nodes.find(d=>d.prop==='transition-duration');
+  assert(duration?.important,rule.selector);
+  assert.equal(duration.value,has(rule,'transition','120ms ease-out')?'120ms':'var(--la-transition-duration)');
+ }
+ assert(rules.some(r=>r.nodes.some(d=>d.prop==='transition-duration'&&d.value==='var(--la-press-duration)'&&d.important)));
  assert(!css.includes('will-change'));assert(!css.includes('transition-delay'));
 });
