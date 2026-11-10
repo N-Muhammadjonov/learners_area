@@ -16,7 +16,7 @@ from .security import add_security_headers, build_csp
 from .seo import robots_document, sitemap_document, public_document, private_document
 
 ROOT = Path(__file__).resolve().parents[3]
-PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery'))
+PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery', '/study-plan/shared'))
 PREFIXES = ('/api', '/_frontend', '/.git', '/.env', '/services', '/src', '/drizzle', '/node_modules')
 
 
@@ -173,7 +173,8 @@ class StaticFrontend:
                                 html = public_document(html) if path == '/' else private_document(html)
                                 html = re.sub(r'<script\b', f'<script nonce="{nonce}"', html)
                                 response = Response(html, media_type='text/html', headers={
-                                    **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce)})
+                                    **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce),
+                                    **({'X-Robots-Tag': 'noindex, nofollow'} if path == '/study-plan/shared' else {})})
                             except ValueError:
                                 response = core.j({'error': 'configuration_unavailable'}, 503, core.PRIVATE)
                 if response is None:

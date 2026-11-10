@@ -55,7 +55,7 @@ export function assignmentCard(view) {
         }, isBusy ? dict.common.saving : t.submit)));
   }
 
-  return h('article', {class: 'card flex min-w-0 flex-col gap-2 p-4', 'data-assignment-card': '', 'data-assignment-id': a.id, 'data-assignment-status': a.status}, children);
+  return h('article', {class: 'card flex min-w-0 flex-col gap-2 p-4', id: 'assignment-'+a.id, 'data-assignment-card': '', 'data-assignment-id': a.id, 'data-assignment-status': a.status}, children);
 }
 
 /** Details are a separate source: its failure is a local notice with its own retry, never a removed card. */

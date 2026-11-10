@@ -48,10 +48,11 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
         self.assertFalse((BACKEND_MIGRATIONS_DIR / "0070_riwi_core_and_governance.sql").exists())
         self.assertFalse((BACKEND_MIGRATIONS_DIR / "0071_riwi_assessments_and_security_signals.sql").exists())
 
-    def test_journal_has_contiguous_indices_0_to_77_and_preserves_0071_shared_abuse_limits(self) -> None:
+    def test_journal_has_contiguous_indices_and_preserves_0071_shared_abuse_limits(self) -> None:
         journal = json.loads(JOURNAL_PATH.read_text(encoding="utf-8"))
         entries = journal["entries"]
-        self.assertEqual(len(entries), 79)
+        self.assertEqual(len(entries), 81)
+        self.assertEqual(entries[79]["tag"], "0080_study_plan")
         for idx, entry in enumerate(entries):
             self.assertEqual(entry["idx"], idx)
         self.assertEqual(entries[69]["tag"], "0069_video_progress_playback_duration")
@@ -135,9 +136,9 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
             self.assertEqual(len(audit["riwi_additive_sql_sha256_by_filename"]), 3)
             self.assertEqual(audit["current_total_sql_count"], 74)
 
-        # 2. Build relational catalog across all 74 migrations (0000..0074) and validate FKs, ALTERs, and indexes
+        # 2. Build relational catalog across all migrations and validate FKs, ALTERs, and indexes
         all_sql_files = sorted(DRIZZLE_DIR.glob("*.sql"))
-        self.assertEqual(len(all_sql_files), 79)
+        self.assertEqual(len(all_sql_files), 81)
         known_tables: set[str] = set()
         for sql_file in all_sql_files:
             content = sql_file.read_text(encoding="utf-8")

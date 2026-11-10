@@ -31,6 +31,12 @@ export async function mount(context){
  }
  // Start roadmap beside both siblings, not behind their response/render work.
  const keys=overview?['openLessons','dashboard','mock']:['mock'];for(const key of keys)void load(key);
+ if(overview && context.session.user.role==='student'){
+  const plan=el('section',{'data-dashboard-study-plan':'',class:'w-full'});
+  const hero=host.querySelector('.la-dashboard-hero');
+  if(hero)hero.after(plan);else host.prepend(plan);
+  void import('./study-plan/view.js').then(({mountToday})=>{if(!signal.aborted)mountToday(context,plan);});
+ }
  context.onPause?.(()=>{for(const request of inFlight.values())request.abort();inFlight.clear();});
  context.onResume?.(()=>{for(const key of keys)void load(key);});
 }

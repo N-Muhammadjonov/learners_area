@@ -2,6 +2,8 @@
 from fastapi import FastAPI
 from .main import app, secure_transport, j
 from .browser import router as browser_router
+from .study_plan_port import router as study_plan_router
+from .study_plan_month_port import router as study_plan_month_router
 from .frontend_static import StaticFrontend
 from fastapi import HTTPException
 from .seo import IndexingPolicy
@@ -10,6 +12,8 @@ from .request_lifecycle import RequestBudget
 
 browser = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 browser.include_router(browser_router)
+browser.include_router(study_plan_router)
+browser.include_router(study_plan_month_router)
 browser.middleware('http')(secure_transport)
 
 
@@ -24,7 +28,7 @@ static = StaticFrontend()
 async def dispatch(scope, receive, send):
     if scope['type'] != 'http':
         target = app
-    elif scope['path'].startswith('/api/frontend/'):
+    elif scope['path'].startswith(('/api/frontend/', '/api/study-plan/')) or scope['path'] == '/api/study-plan':
         target = browser
     elif scope['path'] == '/api' or scope['path'].startswith('/api/'):
         target = app

@@ -141,11 +141,26 @@ async def general_progress(req:Request):
            'correctAnswer':q['correct_answer'],'acceptedAnswers':q['accepted_answers'] or [],
            'evidenceQuote':q['evidence_quote'],'explanation':q['explanation'].strip() if q['explanation'] and q['explanation'].strip() else None} for q in qs]
    score=sum(r['isCorrect'] for r in result)
-  saved=await con.fetchrow('''INSERT INTO general_reading_progress(user_id,set_id,passage_id,answers,score,total,checked_at,updated_at)
-    VALUES($1,$2,$3,$4::jsonb,$5,$6,CASE WHEN $7 THEN NOW() ELSE NULL END,NOW())
-    ON CONFLICT(user_id,passage_id) DO UPDATE SET answers=excluded.answers,score=excluded.score,total=excluded.total,
-    checked_at=excluded.checked_at,updated_at=excluded.updated_at RETURNING updated_at,score,total''',
-    u['id'],record['set_id'],passage['id'],json.dumps(answers),score,len(qs) if checked else None,checked)
+  evidence={}
+  if checked and any(answer.strip() for answer in answers.values()):
+   for question, grade in zip(qs,result):
+    kind=TYPE_IDS.get((question['type_code'] or question['type'] or '').lower())
+    if kind:
+     counts=evidence.setdefault(kind,{'correct':0,'total':0})
+     counts['total']+=1
+     counts['correct']+=int(grade['isCorrect'])
+  saved=await con.fetchrow('''WITH saved AS (
+      INSERT INTO general_reading_progress(user_id,set_id,passage_id,answers,score,total,checked_at,updated_at)
+      VALUES($1,$2,$3,$4::jsonb,$5,$6,CASE WHEN $7 THEN NOW() ELSE NULL END,NOW())
+      ON CONFLICT(user_id,passage_id) DO UPDATE SET answers=excluded.answers,score=excluded.score,total=excluded.total,
+      checked_at=excluded.checked_at,updated_at=excluded.updated_at RETURNING updated_at,score,total
+    ), evidence AS (
+      INSERT INTO study_reading_practice_evidence(user_id,passage_id,scores,checked_at)
+      SELECT $1,$3,$8::jsonb,updated_at FROM saved WHERE $8::jsonb IS NOT NULL
+      ON CONFLICT(user_id,passage_id) DO UPDATE SET scores=excluded.scores,checked_at=excluded.checked_at
+    ) SELECT * FROM saved''',
+    u['id'],record['set_id'],passage['id'],json.dumps(answers),score,len(qs) if checked else None,checked,
+    json.dumps(evidence) if evidence else None)
   return core.j({'ok':True,'updatedAt':row_to_dict({'updatedAt':saved['updated_at']})['updatedAt'],
      'score':saved['score'],'total':saved['total'],'result':result})
 

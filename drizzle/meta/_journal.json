@@ -554,6 +554,20 @@
       "when": 1793370501005,
       "tag": "0079_riwi_canonical_task_metadata",
       "breakpoints": true
+    },
+    {
+      "idx": 79,
+      "version": "7",
+      "when": 1794280000000,
+      "tag": "0080_study_plan",
+      "breakpoints": true
+    },
+    {
+      "idx": 80,
+      "version": "7",
+      "when": 1794290000000,
+      "tag": "0081_monthly_study_plan",
+      "breakpoints": true
     }
   ]
 }

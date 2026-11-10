@@ -2,6 +2,54 @@
   "version": 1,
   "routes": [
     {
+      "path": "/app/study-plan",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/study-plan/page.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/study-plan/leaderboard",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/study-plan/motivation.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/app/study-plan/rewards",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/study-plan/motivation.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
+      "path": "/study-plan/shared",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/study-plan/share.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
       "path": "/app/dashboard",
       "roles": [
         "student",
@@ -1681,7 +1729,7 @@
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
-    "frontend/vanilla/js/routes.js": "6125e2e0122125b790e266c5474aecbe659c707cee06fc3e65aee4b7862b9fb9",
+    "frontend/vanilla/js/routes.js": "ecba230efeb0873fe489c126f70defcca88da5005e08dc6c6220cbc48a0792b5",
     "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
     "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
     "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
@@ -1689,7 +1737,7 @@
     "frontend/vanilla/js/signals.js": "e436de0ad182af00fa9a5f43dde02e657d5e773970ab0434e055f432b28c6d01",
     "frontend/vanilla/js/view-prewarm.js": "794919dd18749f8c0864e2d76148de011ab20453e1f869afeb643a0110c2f8f5",
     "frontend/vanilla/js/workspace.js": "8b9add8360b90216a0c3b680c8a0e77a78db3205efb00ca46a13040cfe8ea820",
-    "frontend/vanilla/modules/assignments/card.js": "22bc22e2cc62c8bd40f8c14320e245d280321c6decc43ca518525126ac06329d",
+    "frontend/vanilla/modules/assignments/card.js": "3451187d36d999860dfef326105610f59f1ffb63ad9fc0c95efb6c37a04f2b33",
     "frontend/vanilla/modules/assignments/index.js": "7601059671c21a3f3745c8f1f5526d335431f9724f9dfa217d7e36bfb0198474",
     "frontend/vanilla/modules/auth/account.js": "56a9ab61ab0bee672550357aa41a8a6808fffb4ff6072f47ca35619887d4746d",
     "frontend/vanilla/modules/auth/onboarding.js": "1e9dfea7b5c4d58af7ab2b412bc821ddd9f37b4c5e816222f584bb253d3d765d",
@@ -1708,7 +1756,7 @@
     "frontend/vanilla/modules/courses/lesson.js": "b7ee0c92dffc2ade734da3ac1a2ebf688e107be3b0cf3f4f7365640495a3c727",
     "frontend/vanilla/modules/courses/roadmap.js": "6be62154dfeb04746469d79989bf680c8fa459f65f9e3d7fc94954fd8b5f4f78",
     "frontend/vanilla/modules/courses/workspace.js": "6289a4cae4b4875c4b1c0996b5fb285f8dbe41321bf74878e8bddcddc9140f18",
-    "frontend/vanilla/modules/dashboard.js": "967a6b19e67127c83d9140086a56611b15c1a5e115219de4283182598bfe3d9f",
+    "frontend/vanilla/modules/dashboard.js": "451154bd1fd6b0735b2d79082925b1981c35b5f650e6d6ee55218978b5c9d9da",
     "frontend/vanilla/modules/error.js": "6bb3b35edb07f7c159c61e987ac62ee0262d182b55a31fc6b80924fc06d5c994",
     "frontend/vanilla/modules/grammar/lesson.js": "b05d4f9733df8627593e349f22b259393b6ab29c375fc9d4bfff536ec73240a9",
     "frontend/vanilla/modules/grammar/lessons.js": "62d07c63419ba7e82fe08076deb6c8c9035ec1a3358c32fe88fd060dc0b068fe",
@@ -1799,7 +1847,7 @@
     "frontend/vanilla/modules/profile/photo-image.js": "e696a21037ac1ba8c04997a08f0174c5ee01a6d6fc351fcc80aa9e37faf86856",
     "frontend/vanilla/modules/progress/mock-summary.js": "e431451c5926852a389d8f623c080779f6f89a2dcc8f3f7d9d015449ce8f2979",
     "frontend/vanilla/modules/progress/mocks.js": "5096d6c6e62b7a3ea4d7d4b680330f120ae620e1d020382122befd7ab168d3c5",
-    "frontend/vanilla/modules/progress/page.js": "0ed48270bf7504b203e000f2b90f601bfac63ae187de21a5da0af520dac48727",
+    "frontend/vanilla/modules/progress/page.js": "59316b98a4545732d450e24818b336fe44587b5c9badcde3d02b14a4175922bb",
     "frontend/vanilla/modules/progress/shared.js": "18f5d5ccd74ab3225443f7bce036c07d021b98bce2db72536b3e62c81c3810ed",
     "frontend/vanilla/modules/progress/skills.js": "110ade16c6af89b430188bbae64dffafe7a71a5372d39dafb634fd5ef05dfd30",
     "frontend/vanilla/modules/progress/summary.js": "b64812eef6bbaaa91dd92e16f3a236f1abdae22d2c97425588c05e5257b4466f",
@@ -1861,7 +1909,7 @@
     "frontend/vanilla/modules/shell/study-focus.js": "8a244a42ffe9f7d3144023369e2e6d2eb3ec413a9f5ff1057ff7f5a82fd7b410",
     "frontend/vanilla/modules/shell/transition.js": "76208814cce45e1d50e35d073b21803d02e2e21ee97a52fd1dc6a3461aef6da6",
     "frontend/vanilla/modules/shell/utilities.js": "365e841e6ae3c8e8470093a244e589fdd1e760bf2bcce8112941cdcdef7f6b93",
-    "frontend/vanilla/modules/speaking/ai.js": "e2112249d11561c657b10a16490d30c00817d5201a0e0cc5b84a6aeffbc057b5",
+    "frontend/vanilla/modules/speaking/ai.js": "a306c83adfed7f6a5bbd02cb7c55d39f0de7c7681f8ab288a2136218655efd6e",
     "frontend/vanilla/modules/speaking/call-engine.js": "060071aa9f3da707a3c8c69c03e20c943c9d952ce3fca108add0c064a414d6e0",
     "frontend/vanilla/modules/speaking/evaluation.js": "5f683b6e1c9418bacf6718e88ce04c27d80963928e52af9601bb9a47047febe8",
     "frontend/vanilla/modules/speaking/fluency-art.js": "fd70cffc9a77060fced857f6ce0a8da14272532cb9bdb63340b418ce66882134",
@@ -1927,6 +1975,12 @@
     "frontend/vanilla/modules/staff-final30/teacher.js": "d4360535a44720b15235f2969f5554960a6d414bdec6d49edd38ed5d8b8baec6",
     "frontend/vanilla/modules/staff-final30/video-lessons.js": "ab76e274774ff97cbc7708bdc6401770a0136299c225d9ee3875dc14e4240c82",
     "frontend/vanilla/modules/staff-final30/writing.js": "5c259a06a8aab793023e046071eb254d0a47b35ba2e57972469fbe66c6db828d",
+    "frontend/vanilla/modules/study-plan/monthly.js": "009e191243c073ba19caad94003ace3001baac6ba5fd2603feff425ae048d2c3",
+    "frontend/vanilla/modules/study-plan/motivation.js": "1968fff02ec3269531eb8661f401042e6ff901c6360b6709ac69dd72233de346",
+    "frontend/vanilla/modules/study-plan/page.js": "c3c579161bb76f50e10c370d3078389a180f6d6a304522debc46de81c37f4f10",
+    "frontend/vanilla/modules/study-plan/share.js": "be62b26327e3d64d3980b46790e4c614088ccb2c0e8395c45fbabaef96572fe6",
+    "frontend/vanilla/modules/study-plan/style.css": "a64849e0edef18f4ccf2dca0499653e4e4ab4de91c996a5a222de92437b0d736",
+    "frontend/vanilla/modules/study-plan/view.js": "4b14bce224c3508c112bca6e84be53f7b3967320cbc08e9ca1eeea50e2704fc0",
     "frontend/vanilla/modules/support/page.js": "442dfbd1613571b81bdde8d2dc8b00641937217775b9e5f9e9e9474b9b717dd0",
     "frontend/vanilla/modules/unavailable.js": "513206635a5987d77a997c39ed7b004ba076bbafa4e171db4d2f4b342d2993d6",
     "frontend/vanilla/modules/video/detail.js": "99cef086968b93d0ceedf5ad6d825bfa00c418c93ca12d1b6014c01db0002516",

@@ -2,6 +2,10 @@ import reviewed from './generated/view-registry.js';
 import staffRoutes from '../modules/staff-final30/routes.js';
 // Source-discovered routes. Unavailable does NOT mean converted.
 const routes = [
+ {pattern:"/app/study-plan",protected:true,load:()=>import('../modules/study-plan/page.js')},
+ {pattern:"/app/study-plan/leaderboard",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
+ {pattern:"/app/study-plan/rewards",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
+ {pattern:"/study-plan/shared",load:()=>import('../modules/study-plan/share.js')},
  {pattern:"/app/dashboard",protected:true,load:()=>import('../modules/dashboard.js')},
  {pattern:"/app/admin/statistics",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/admin/reading/retention/staged",load:()=>import('../modules/unavailable.js')},
