@@ -60,7 +60,7 @@ export function createShell(context){
  const main=el('main',{id:'main-content',tabindex:-1,'data-shell-main':'',class:'min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper'});
  const outlet=el('div',{class:'mx-auto w-full',style:{maxWidth:'var(--shell-content-max)',paddingInline:'calc(var(--shell-pad-x) + env(safe-area-inset-left)) calc(var(--shell-pad-x) + env(safe-area-inset-right))',paddingBlock:'var(--shell-pad-y)',paddingBottom:'calc(var(--shell-pad-y) + env(safe-area-inset-bottom))'}});
  const transition=workspaceTransition(context);outlet.append(transition.node);main.append(outlet);
- const sections=sectionHeader(context);
+ const sections=sectionHeader(context,chrome.sectionTitle,chrome.name);
  const band=el('div',{'data-workspace-header':''},top,sections.node);column.append(band,main);host.append(column);
  const utilities=shellUtilities(context),dock=moduleDock(context);host.append(dock.node,utilities.node);
  function skill(url){host.dataset.workspaceSkill=url.pathname.split('/')[2]||'general';}

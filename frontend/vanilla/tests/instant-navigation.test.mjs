@@ -59,7 +59,7 @@ test('Writing inner tabs preserve the workspace and tab controls across history 
 
 test('soft Writing navigation updates its header title while retaining the live tab list',()=>{
  const h=setup({role:'student',path:'/app/writing?tab=lessons'});globalThis.MutationObserver=window.MutationObserver;
- try{const header=sectionHeader(h.ctx),content=document.createElement('div'),tabs=document.createElement('nav');tabs.dataset.writingTablist='';content.append(tabs);h.ctx.root.append(header.node,content);header.attach(content);header.updateLocation(new URL('/app/writing?tab=translation',window.location.origin));assert.equal(header.node.querySelector('[data-writing-tablist]'),tabs);assert.equal(header.node.querySelector('[data-module-section-heading]').dataset.moduleSectionHeading,'writing:translation');}finally{h.dispose();}
+ try{const title=document.createElement('div'),moduleName=document.createElement('span'),header=sectionHeader(h.ctx,title,moduleName),content=document.createElement('div'),tabs=document.createElement('nav');tabs.dataset.writingTablist='';content.append(tabs);h.ctx.root.append(title,header.node,content);header.attach(content);header.updateLocation(new URL('/app/writing?tab=translation',window.location.origin));assert.equal(header.node.querySelector('[data-writing-tablist]'),tabs);assert.equal(title.querySelector('[data-module-section-heading]').dataset.moduleSectionHeading,'writing:translation');}finally{h.dispose();}
 });
 
 test('an unavailable Retention series does not crash all other Progress trends',()=>{

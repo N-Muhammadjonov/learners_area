@@ -28,8 +28,8 @@ test('date parts preserve a partial draft and reject impossible dates before sub
 });
 test('topbar keeps module identity and search; module roots have no Main control',()=>{
  const h=setup({path:'/app/reading/academic'});
- try{const header=document.createElement('header'),search=document.createElement('input');header.append(search);const chrome=campusHeader(header,h.ctx);chrome.update(h.ctx.url);assert(header.children[1].hidden);assert.equal(header.querySelector('[data-campus-main-link]'),null);assert.equal(header.children[2].textContent,h.ctx.dict.nav.reading);assert.equal(header.children[3],search);
-  chrome.update(new URL('/app','https://fixture.invalid'));assert(header.children[1].hidden);assert(header.children[2].hidden);assert(!header.children[0].hidden);
+ try{const header=document.createElement('header'),search=document.createElement('input');header.append(search);const chrome=campusHeader(header,h.ctx),back=header.querySelector('[data-campus-back-link]'),brand=header.querySelector('[data-campus-topbar-brand]');chrome.update(h.ctx.url);assert(back.hidden);assert.equal(header.querySelector('[data-campus-main-link]'),null);assert.equal(chrome.name.textContent,h.ctx.dict.nav.reading);assert.equal(search.parentElement,header);
+  chrome.update(new URL('/app','https://fixture.invalid'));assert(back.hidden);assert(chrome.name.hidden);assert(!brand.hidden);
  }finally{h.dispose();}
 });
 test('view cache is cloned, identity scoped and invalidated without admitting older in-flight data',async()=>{

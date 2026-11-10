@@ -6,44 +6,73 @@ import {LivePartnerCall} from './call-engine.js';
  * Server is always authoritative for presence, rules and call membership.
  * Voice is never recorded; WebRTC uses server-issued signalling/relay credentials. */
 const POLL=4000,BEAT=15000,TIMEOUT=8000,RULES_VERSION=1,PARTS=['part1','part2','part3'];
+const PREFERENCES=['any','male','female'];
 const score=s=>s==null?'S —':`S ${Number(s).toFixed(1)}`;
-const debounce=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function button(label,fn,cls='btn-secondary',props={}){const b=el('button',{type:'button',class:cls,...props},label);b.addEventListener('click',fn);return b;}
+function phone(){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'),path=document.createElementNS(svg.namespaceURI,'path');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('width','18');svg.setAttribute('height','18');svg.setAttribute('aria-hidden','true');path.setAttribute('fill','none');path.setAttribute('stroke','currentColor');path.setAttribute('stroke-width','1.7');path.setAttribute('stroke-linejoin','round');path.setAttribute('d','M8 3H5a2 2 0 0 0-2 2c0 8.8 7.2 16 16 16a2 2 0 0 0 2-2v-3l-5-2-2 2a13 13 0 0 1-6-6l2-2z');svg.append(path);return svg;}
 function avatar(person,t,large=false){const k=person?.avatar==='b'?'b':'a',root=el('span',{role:'img','aria-label':t.avatar,class:`flex ${large?'h-36 w-36 text-6xl':'h-10 w-10 text-lg'} shrink-0 overflow-hidden items-center justify-center rounded-full ${k==='b'?'bg-rose-100':'bg-sky-100'}`});
  if(person?.userId&&person.hasPhoto!==false){const img=el('img',{src:`/api/profile/photo/${encodeURIComponent(person.userId)}`,alt:t.avatar,loading:'lazy',class:'h-full w-full object-cover'});img.addEventListener('error',()=>root.replaceChildren(k==='b'?'👩‍🎓':'👨‍🎓'),{once:true});root.append(img);}else root.textContent=k==='b'?'👩‍🎓':'👨‍🎓';return root;}
 async function request(body,signal){const res=await fetch('/api/live-partner',{method:body?'POST':'GET',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal});const data=await res.json().catch(()=>({}));if(!res.ok){const e=new Error(data.error||'unavailable');e.code=data.error;e.status=res.status;throw e;}return data;}
 export function mount(context){
  const {root,dict,signal,url}=context,t=dict.livePartner;
- const host=el('div',{class:'mx-auto flex w-full max-w-[1840px] flex-col gap-4','data-route-usable':'live-partner'}),workspace=el('div',{class:'live-partner-workspace flex flex-col gap-3','data-live-partner-state':'offline'});
- const header=el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},t.title),el('p',{class:'text-sm text-ink-500'},t.intro));
+ const host=el('div',{class:'lp-page','data-route-usable':'live-partner'}),workspace=el('div',{class:'live-partner-workspace','data-live-partner-state':'offline'});
+ const header=el('header',{class:'lp-hero card'},el('h1',{class:'font-display text-2xl text-ink-900'},t.title),el('p',{class:'text-sm text-ink-500'},t.intro));
+ const notices=el('div',{class:'lp-call-notices','aria-live':'polite'});
  host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),header,workspace);root.append(host);
- const remoteAudio=el('audio',{autoplay:'',class:'hidden','aria-hidden':'true'});host.append(remoteAudio);
+ const remoteAudio=el('audio',{autoplay:'',class:'hidden','aria-hidden':'true'});host.append(notices,remoteAudio);
  let me=null,questions=[],topicsByPart={part1:[],part2:[],part3:[]},topicQuestions=[],topicCursor=null,topicLoading=false,topicToken=0,data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open=null,selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
  let inFlight=false,heartbeat=false,destroyed=false;
+ let preference='any',outgoingName='',noticeKey='',presenceKey='',topicsRequested=false,questionsOpen=false,ringContext=null,ringTimer=null,ringId=null;
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
+ function stopRing(){if(ringTimer!==null)clearInterval(ringTimer);ringTimer=null;ringId=null;}
+ function syncRing(){
+  const id=data?.incoming?.id;
+  if(!id||flow!=='none'||busy||destroyed){stopRing();return;}
+  if(ringId===id||ringContext?.state!=='running')return;
+  stopRing();ringId=id;
+  const play=()=>{
+   for(const offset of [0,.32]){
+    const at=ringContext.currentTime+offset,oscillator=ringContext.createOscillator(),gain=ringContext.createGain();
+    oscillator.frequency.value=offset?620:480;gain.gain.setValueAtTime(.001,at);gain.gain.exponentialRampToValueAtTime(.075,at+.02);gain.gain.exponentialRampToValueAtTime(.001,at+.23);
+    oscillator.connect(gain).connect(ringContext.destination);oscillator.start(at);oscillator.stop(at+.24);
+   }
+  };
+  play();ringTimer=setInterval(play,2600);
+ }
+ function enableRing(){
+  if(typeof AudioContext==='undefined'||destroyed)return;
+  try{ringContext??=new AudioContext();if(ringContext.state!=='running')void ringContext.resume().then(syncRing).catch(()=>{});else syncRing();}catch{}
+ }
+ listen(host,'pointerdown',enableRing,signal);listen(host,'keydown',enableRing,signal);
  function stopMic(){if(micRAF)cancelAnimationFrame(micRAF);micRAF=null;micStream?.getTracks().forEach(x=>x.stop());micStream=null;if(micCtx){void micCtx.close().catch(()=>{});micCtx=null;}}
  function disposeCall(){call?.destroy();call=null;callSession=null;remoteAudio.pause();remoteAudio.srcObject=null;}
- const cleanup=()=>{if(destroyed)return;destroyed=true;gen++;searchId++;for(const timer of timers)clearTimeout(timer);clearTimeout(searchTimer);pollCtl?.abort();stopMic();disposeCall();
+ const cleanup=()=>{if(destroyed)return;destroyed=true;gen++;searchId++;for(const timer of timers)clearTimeout(timer);clearTimeout(searchTimer);pollCtl?.abort();stopRing();if(ringContext)void ringContext.close().catch(()=>{});stopMic();disposeCall();
    if(data&&state()!=='offline'){
     if(data.sessionId)void fetch('/api/live-partner',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'hangup',sessionId:data.sessionId})}).catch(()=>{});
     void fetch('/api/live-partner',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'go_offline'})}).catch(()=>{});
    }
  };
  signal.addEventListener('abort',cleanup,{once:true});
- function accept(next,token){if(destroyed||token<gen)return;gen=token;data=next;ensureCall();draw();}
- async function refresh(){if(destroyed||pollCtl)return;const token=gen,ctl=new AbortController();pollCtl=ctl;const timeout=setTimeout(()=>ctl.abort(),TIMEOUT);
-  try{const next=await request(null,ctl.signal);if(destroyed||token<gen)return;accept(next,token);error='';
-   if(!entryAttempted&&state()==='offline'&&data.realtime?.ready){entryAttempted=true;if(!me.hasGender)error=t.errors.profile_incomplete;else if(!data.rulesAccepted)flow='rules';else void act({action:'go_online'});}
-  }catch{if(!ctl.signal.aborted)error=t.errors.unavailable;}
-  finally{clearTimeout(timeout);if(pollCtl===ctl)pollCtl=null;if(!destroyed)draw();}
+ function accept(next,token){
+  if(destroyed||token<gen)return false;
+  const {serverNow,ok,...visible}=next,key=JSON.stringify(visible),changed=key!==presenceKey;
+  gen=token;presenceKey=key;data=next;ensureCall();return changed;
  }
- async function act(body){if(inFlight||destroyed)return false;inFlight=true;busy=true;const token=++gen;pollCtl?.abort();const ctl=new AbortController(),deadline=setTimeout(()=>ctl.abort(),TIMEOUT);draw();
+ async function refresh(){if(destroyed||pollCtl||inFlight)return;const token=gen,ctl=new AbortController();pollCtl=ctl;const timeout=setTimeout(()=>ctl.abort(),TIMEOUT);
+  const oldError=error,oldFlow=flow;let changed=false,goOnline=false;
+  try{const next=await request(null,ctl.signal);if(destroyed||token<gen)return;changed=accept(next,token);error='';
+   if(!entryAttempted&&state()==='offline'&&data.realtime?.ready){entryAttempted=true;if(!me.hasGender)error=t.errors.profile_incomplete;else if(!data.rulesAccepted)flow='rules';else goOnline=true;}
+  }catch{if(!ctl.signal.aborted)error=t.errors.unavailable;}
+  finally{clearTimeout(timeout);if(pollCtl===ctl)pollCtl=null;if(!destroyed&&(changed||oldError!==error||oldFlow!==flow))draw();if(goOnline)void act({action:'go_online'});}
+ }
+ async function act(body){if(inFlight||destroyed)return false;inFlight=true;busy=true;const token=++gen;pollCtl?.abort();const ctl=new AbortController(),deadline=setTimeout(()=>ctl.abort(),TIMEOUT);let retry=false;draw();
   try{const next=await request(body,ctl.signal);if(destroyed||token!==gen)return false;error='';accept(next,token);return true;}
-  catch(e){if(!destroyed){error=t.errors[e?.code]??(ctl.signal.aborted?t.errors.unknownResult:t.errors.unavailable);void refresh();}return false;}
-  finally{clearTimeout(deadline);inFlight=false;busy=false;if(!destroyed)draw();}
+  catch(e){if(!destroyed){error=t.errors[e?.code]??(ctl.signal.aborted?t.errors.unknownResult:t.errors.unavailable);retry=true;}return false;}
+  finally{clearTimeout(deadline);inFlight=false;busy=false;if(!destroyed){draw();if(retry)later(()=>void refresh(),1000);}}
  }
  async function loadTopics(){
+  if(topicsRequested)return;topicsRequested=true;
   try{const batches=await Promise.all(PARTS.map(async part=>{const all=[];let cursor=null;do{const params=new URLSearchParams({channel:'practice_alone',part,...(cursor?{topicCursor:cursor}:{})});const res=await fetch('/api/speaking/practice/facets?'+params,{credentials:'same-origin',cache:'no-store',signal});if(!res.ok)throw Error('topics');const data=await res.json();all.push(...(data.topics??[]));cursor=data.nextTopicCursor??null;}while(cursor&&!signal.aborted);return [part,all];}));if(destroyed)return;topicsByPart=Object.fromEntries(batches);draw();}catch{if(!destroyed)error=t.searchFailed;draw();}
  }
  async function loadTopic(part,topic,more=false){const token=more?topicToken:++topicToken;if(!more){topicQuestions=[];topicCursor=null;}topicLoading=true;draw();try{const params=new URLSearchParams({part,topic,...(more&&topicCursor?{cursor:topicCursor}:{})});const res=await fetch('/api/speaking/live-partner/questions?'+params,{credentials:'same-origin',cache:'no-store',signal});if(!res.ok)throw Error('topic');const data=await res.json();if(destroyed||token!==topicToken)return;const seen=new Set(topicQuestions.map(q=>q.id));topicQuestions.push(...(data.questions??[]).filter(q=>!seen.has(q.id)));topicCursor=data.nextCursor??null;}catch{if(!destroyed&&token===topicToken)error=t.searchFailed;}finally{if(!destroyed&&token===topicToken){topicLoading=false;draw();}}}
@@ -75,7 +104,7 @@ export function mount(context){
  },signal);
  async function agree(){if(await act({action:'accept_rules',version:RULES_VERSION})){closeFlow();await act({action:'go_online'});}}
  async function endCall(block){const id=data?.sessionId;call?.hangup();if(block)await act({action:'block',userId:block});if(id)await act({action:'hangup',sessionId:id});}
- function ensureCall(){const sid=active()?data?.sessionId:null;if(sid===callSession)return;disposeCall();if(!sid)return;callSession=sid;micMuted=false;remoteMuted=false;
+ function ensureCall(){const sid=active()?data?.sessionId:null;if(sid===callSession)return;disposeCall();if(!sid)return;callSession=sid;micMuted=false;remoteMuted=false;remoteAudio.muted=false;
   call=new LivePartnerCall(sid,{
    fetchToken:async id=>request({action:'signal_token',sessionId:id},AbortSignal.timeout(TIMEOUT)),
    getUserMedia:()=>navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false}),
@@ -86,6 +115,48 @@ export function mount(context){
    onRemoteStream:stream=>{remoteAudio.srcObject=stream;if(stream)void remoteAudio.play().catch(()=>{error=t.tapToPlay;draw();});}
   });void call.start();
  }
+ function drawCallNotice(){
+  const incoming=data?.incoming,outgoing=data?.outgoing;
+  const key=JSON.stringify([incoming?.id,outgoing?.id,busy,flow]);
+  if(noticeKey===key)return;
+  noticeKey=key;notices.replaceChildren();
+  if(incoming){
+   notices.append(el('section',{role:'group','aria-label':t.incomingTitle,class:'lp-call-notice','data-partner-incoming':''},
+    avatar(incoming.from,t),el('div',{class:'lp-person'},el('strong',{},incoming.from.name),el('small',{},t.incomingBody)),
+    button(t.decline,()=>void act({action:'decline',inviteId:incoming.id}),'btn-secondary',{disabled:busy?'':null,'data-partner-decline':''}),
+    button(t.accept,()=>{closeFlow();void act({action:'accept',inviteId:incoming.id});},'btn-primary',{disabled:busy?'':null,'data-partner-accept':''})));
+  }else if(outgoing){
+   notices.append(el('section',{class:'lp-call-notice','data-partner-outgoing':''},phone(),
+    el('div',{class:'lp-person'},el('strong',{},outgoingName||t.calling),el('small',{},t.states.outgoing_invite)),
+    button(t.cancelInvite,()=>void act({action:'cancel',inviteId:outgoing.id}),'btn-secondary',{disabled:busy?'':null,'data-partner-cancel':''})));
+  }
+ }
+ function partnerLobby(){
+  const online=data?.online??[],matching=online.filter(person=>preference==='any'||(person.gender??(person.avatar==='b'?'female':'male'))===preference);
+  const canCall=!busy&&state()==='available'&&data?.realtime?.ready;
+  const number=el('span',{class:'lp-online-count'},String(online.length)+' '+t.hereNow);
+  const choices=el('div',{class:'lp-options',role:'group','aria-label':t.gender});
+  for(const value of PREFERENCES){
+   const choice=button('',()=>{preference=value;draw();},'lp-option',{'aria-pressed':String(preference===value),'data-partner-focus':value,'data-partner-preference':value});
+   choice.append(el('span',{class:'lp-option-mark','aria-hidden':'true'},value==='any'?'◇':value==='male'?'♂':'♀'),
+    el('strong',{},t.preferences[value]),el('small',{},t.preferenceDetails[value]));choices.append(choice);
+  }
+  const find=button(t.findPartner,()=>{void refresh();workspace.querySelector('[data-partner-list]')?.focus();},'btn-primary lp-find',{'data-partner-focus':'find','data-partner-find':''});
+  const chooser=el('section',{class:'lp-picker card'},el('div',{class:'lp-section-head'},el('h2',{},t.pickPartner),number),
+   el('p',{class:'lp-caption'},t.gender),choices,find);
+  const list=el('section',{class:'lp-list card','data-partner-list':'',tabindex:'-1','aria-label':t.onlineUsers},
+   el('div',{class:'lp-section-head'},el('h2',{},t.onlineUsers),el('span',{class:'lp-online-count'},String(matching.length))));
+  if(!matching.length)list.append(el('p',{class:'lp-empty'},data?(online.length?t.noMatchingPartners:t.nobodyOnline):t.loading));
+  for(const person of matching){
+   const dial=button('',()=>{outgoingName=person.name;void act({action:'invite',toUserId:person.userId});},'btn-primary lp-dial',
+    {disabled:canCall?null:'','aria-label':t.invite+' '+person.name,'data-partner-focus':person.userId,'data-partner-call':person.userId});
+   dial.append(phone(),el('span',{},t.invite));
+   const gender=person.gender??(person.avatar==='b'?'female':'male');
+   list.append(el('article',{class:'lp-online-person'},avatar(person,t),el('div',{class:'lp-person'},el('strong',{},person.name),
+    el('small',{},[t.preferences[gender],person.speakingScore==null?null:score(person.speakingScore)].filter(Boolean).join(' · '))),dial));
+  }
+  return [chooser,list];
+ }
  function draw(){if(destroyed||!me)return;
   // A 4-second presence poll must not throw away a learner's text caret or
   // keyboard focus just because the native DOM implementation redraws a panel.
@@ -94,17 +165,21 @@ export function mount(context){
   const selection=activeSearch?{from:activeElement.selectionStart,to:activeElement.selectionEnd}:null;
   const activeDialog=activeElement?.closest?.('[role="dialog"]');
   const activeDialogIndex=activeDialog?[...activeDialog.querySelectorAll('button:not([disabled])')].indexOf(activeElement):-1;
+  const activeControl=workspace.contains(activeElement)?activeElement.dataset.partnerFocus:null;
+  const listFocused=activeElement?.hasAttribute('data-partner-list');
+  drawCallNotice();syncRing();
   workspace.dataset.livePartnerState=state();workspace.replaceChildren();
   if(error)workspace.append(el('p',{role:'alert',class:'rounded-sm border border-rose-200 bg-rose-50 p-2 text-sm text-rose-800'},error));
   if(data&&!data.realtime?.ready)workspace.append(el('p',{'data-realtime-unavailable':'',class:'rounded-sm border border-amber-200 bg-amber-50 p-2 text-sm text-amber-900'},t.realtimeMissing));
-  if(data?.incoming){const incoming=el('section',{role:'alertdialog','aria-label':t.incomingTitle,class:'flex flex-wrap items-center gap-3 rounded-lg border border-ink-200 bg-paper p-3'},avatar(data.incoming.from,t),el('p',{class:'flex-1 text-sm'},`${data.incoming.from.name} · ${score(data.incoming.from.speakingScore)} — ${t.incomingBody}`),button(t.accept,()=>void act({action:'accept',inviteId:data.incoming.id}),'btn-primary',{disabled:busy?'':null}),button(t.decline,()=>void act({action:'decline',inviteId:data.incoming.id}),'btn-secondary',{disabled:busy?'':null}));workspace.append(incoming);}
-  const grid=el('div',{class:'grid gap-4 lg:grid-cols-[1fr_1.6fr_1fr]'});
-  const mePanel=el('section',{class:'lp-panel lp-self flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4'},el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.you),el('div',{class:'flex flex-col items-center gap-4 py-6 text-center'},avatar(me,t,true),el('p',{class:'font-medium text-ink-900'},me.name),el('p',{class:'font-mono text-sm text-ink-600'},score(me.speakingScore))),el('p',{class:'text-xs text-ink-500'},`${t.micStatus}: ${t.mic[micState]}`),el('p',{class:'text-sm text-ink-600','aria-live':'polite'},t.states[state()]??''));
+  const grid=el('div',{class:'lp-call-grid'});
+  const mePanel=el('section',{class:'lp-panel lp-self card'},avatar(me,t),el('div',{class:'lp-person'},el('strong',{},me.name),el('small',{},t.states[state()]??'')));
+  if(me.speakingScore!=null)mePanel.append(el('span',{class:'lp-online-count'},score(me.speakingScore)));
+  if(!me.hasGender)mePanel.append(el('a',{class:'btn-secondary',href:'/app/profile'},t.editProfile));
   mePanel.append(button(t.micTitle,()=>void microphone(),'btn-secondary',{disabled:busy||active()?'':null}));
   if(data?.realtime?.ready&&!data.rulesAccepted)mePanel.append(button(t.rulesTitle,()=>{flow='rules';draw();}));
-  if(data?.outgoing)mePanel.append(button(t.cancelInvite,()=>void act({action:'cancel',inviteId:data.outgoing.id}),'btn-secondary',{disabled:busy?'':null}));
+  if(data?.realtime?.ready&&data.rulesAccepted&&me.hasGender&&state()==='offline')mePanel.append(button(t.goOnline,()=>void act({action:'go_online'}),'btn-primary',{disabled:busy?'':null}));
   if(active())mePanel.append(button(micMuted?t.unmuteMic:t.muteMic,()=>{micMuted=!micMuted;call?.setMuted(micMuted);draw();},'btn-secondary',{'aria-pressed':String(micMuted)}));
-  grid.append(mePanel);
+  workspace.append(mePanel);
   const questionsPanel=el('section',{class:'lp-panel lp-questions flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4'},el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.questions),el('p',{class:'text-xs text-ink-500'},t.questionsOptional));
   const searchInput=el('input',{type:'search',value:query,placeholder:t.search,class:'w-full rounded-sm border border-ink-200 px-3 py-2'});
   listen(searchInput,'input',()=>{query=searchInput.value;selectedTopic=null;clearTimeout(searchTimer);searchTimer=setTimeout(()=>void search(),250);},signal);questionsPanel.append(searchInput);
@@ -122,15 +197,17 @@ export function mount(context){
     wrap.firstChild.append(el('span',{class:'font-display text-xl font-bold'},t.parts[part]),el('span',{class:'text-xs text-ink-500'},String(byTopic.size)));
     if(expanded){const list=el('ul',{id:`lp-${part}`,class:'max-h-96 space-y-2 overflow-y-auto border-t border-ink-100 p-3'});for(const [name,topicRow] of byTopic)list.append(el('li',{},button((topicRow.title??name??dict.speakingStudy.topic)+' →',()=>{selectedTopic={part,topic:name};qIndex=0;void loadTopic(part,name);},'btn-secondary w-full justify-between text-left')));if(!byTopic.size)list.append(el('li',{class:'text-sm text-ink-500'},t.noQuestions));wrap.append(list);}questionsPanel.append(wrap);
   }
-  grid.append(questionsPanel);
-  const side=el('section',{class:'lp-panel lp-peer flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4'});
-  if(active()&&data?.partner){side.append(el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.partner),avatar(data.partner,t,true),el('p',{class:'font-medium text-center'},data.partner.name),el('p',{class:'font-mono text-sm text-center'},score(data.partner.speakingScore)),el('p',{'data-call-status':callStatus??'connecting',role:'status'},t.callStates[callStatus==='connected'?'connected':callStatus==='reconnecting'?'reconnecting':'connecting']),
-    button(remoteMuted?t.unmutePartner:t.mutePartner,()=>{remoteMuted=!remoteMuted;remoteAudio.muted=remoteMuted;draw();},'btn-secondary',{'aria-pressed':String(remoteMuted)}),button(t.choosePartner,()=>void endCall(),'btn-primary'),button(t.block,()=>void endCall(data.partner.userId),'btn-ghost btn-sm'));
-  }else{side.append(el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.onlineUsers));
-   const users=data?.online??[];if(!users.length)side.append(el('p',{class:'text-sm text-ink-500'},data?t.nobodyOnline:t.loading));
-   else for(const p of users)side.append(el('article',{class:'flex items-center gap-2'},avatar(p,t),el('div',{class:'flex-1'},el('p',{class:'font-medium text-sm'},p.name),el('p',{class:'font-mono text-xs text-ink-600'},score(p.speakingScore))),button(t.invite,()=>void act({action:'invite',toUserId:p.userId}),'btn-secondary btn-sm',{disabled:busy||state()!=='available'?'':null})));
+  if(active()&&data?.partner){
+   const side=el('section',{class:'lp-panel lp-peer card'},el('h2',{},t.partner),avatar(data.partner,t,true),el('strong',{},data.partner.name),
+    el('p',{'data-call-status':callStatus??'connecting',role:'status'},t.callStates[callStatus==='connected'?'connected':callStatus==='reconnecting'?'reconnecting':'connecting']),
+    button(remoteMuted?t.unmutePartner:t.mutePartner,()=>{remoteMuted=!remoteMuted;remoteAudio.muted=remoteMuted;draw();},'btn-secondary',{'aria-pressed':String(remoteMuted)}),
+    button(t.endCall,()=>void endCall(),'btn-danger'),button(t.block,()=>void endCall(data.partner.userId),'btn-ghost btn-sm'));
+   grid.append(questionsPanel,side);workspace.append(grid);void loadTopics();
+  }else{
+   const details=el('details',{class:'lp-questions-drawer card',open:questionsOpen},el('summary',{},t.questions),questionsPanel);
+   details.addEventListener('toggle',()=>{if(!details.isConnected)return;questionsOpen=details.open;if(questionsOpen)void loadTopics();});
+   workspace.append(...partnerLobby(),details);
   }
-  grid.append(side);workspace.append(grid);
   if(flow!=='none'){
    const overlay=el('div',{class:'fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4'}),dialog=el('div',{role:'dialog','aria-modal':'true',class:'w-full max-w-md rounded-lg bg-paper p-5 shadow-lg'});
    overlay.append(dialog);overlay.addEventListener('mousedown',e=>{if(e.target===overlay)closeFlow();});
@@ -144,9 +221,11 @@ export function mount(context){
    if(replacement){replacement.focus({preventScroll:true});
     try{replacement.setSelectionRange(selection.from,selection.to);}catch{}}
   }
+  if(flow==='none'&&activeControl)[...workspace.querySelectorAll('[data-partner-focus]:not([disabled])')].find(node=>node.dataset.partnerFocus===activeControl)?.focus({preventScroll:true});
+  if(flow==='none'&&listFocused)workspace.querySelector('[data-partner-list]')?.focus({preventScroll:true});
  }
- async function init(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_live_partner'||!d.me||!Array.isArray(d.questions))throw Error('invalid_live_partner_view');me=d.me;questions=d.questions;draw();void loadTopics();void refresh();}catch{if(!signal.aborted)workspace.replaceChildren(RegionFailureNotice({region:'speaking-live-partner',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:init}));}}
- const runPoll=()=>{if(!destroyed&&document.visibilityState==='visible')void refresh();later(runPoll,POLL);};later(runPoll,POLL);
+ async function init(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_live_partner'||!d.me||!Array.isArray(d.questions))throw Error('invalid_live_partner_view');me=d.me;questions=d.questions;draw();void refresh();}catch{if(!signal.aborted)workspace.replaceChildren(RegionFailureNotice({region:'speaking-live-partner',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:init}));}}
+ const runPoll=()=>{if(!destroyed&&me&&(document.visibilityState==='visible'||state()!=='offline'))void refresh();later(runPoll,POLL);};later(runPoll,POLL);
  const runBeat=()=>{if(!destroyed&&state()!=='offline'&&!heartbeat){heartbeat=true;void request({action:'heartbeat'},AbortSignal.timeout(TIMEOUT)).catch(()=>{}).finally(()=>{heartbeat=false;});}later(runBeat,BEAT);};later(runBeat,BEAT);
  void init();
 }

@@ -3,9 +3,10 @@
 [data-route-usable^="speaking"], [data-route-usable="live-partner"] { min-width:0; }
 [data-route-usable^="speaking"] :is(input, textarea, button, select, audio) { max-width:100%; }
 [data-speaking-hub-cards] > li { min-width:0; }
-.fluency-hub-card{position:relative;border-color:color-mix(in srgb,var(--la-speaking,#7551ca) 35%,transparent)}
-.fluency-hub-icon{color:var(--la-speaking,#7551ca)}
-html[data-theme] #root [data-speaking-card="fluency"]{background:linear-gradient(120deg,#7042c4,#492a94)!important;color:#fff!important}
+[data-speaking-hub-cards] article{height:100%}
+@media(min-width:768px){[data-speaking-hub-cards]{grid-auto-rows:1fr}}
+.fluency-hub-card{position:relative}
+.fluency-hub-icon{position:absolute;inset-block-start:24px;inset-inline-end:24px;width:20px;height:20px;color:var(--la-speaking,#7551ca)}
 [data-practice-question-column], [data-practice-support-column] { min-width:0; }
 [data-practice-question-column] :is(p, h2, button), [data-practice-support-column] :is(p, h2, button) { overflow-wrap:anywhere; }
 [data-study-support] [role="tablist"] { align-items:stretch; }
@@ -16,9 +17,40 @@ html[data-theme] #root [data-speaking-card="fluency"]{background:linear-gradient
 [data-situation-vocabulary] dd { margin-inline-start:0; }
 [data-live-partner-state] .lp-panel { min-width:0; }
 [data-live-partner-state] input[type="search"] { min-width:0; }
+.lp-page{width:min(100%,1040px);margin-inline:auto}
+.live-partner-workspace{display:grid;gap:16px}
+.lp-hero{padding:16px 20px;margin-bottom:16px;background:linear-gradient(120deg,color-mix(in srgb,var(--la-speaking) 12%,rgb(var(--workspace-raised))),rgb(var(--workspace-raised)))}
+.lp-hero h1,.lp-hero p,.lp-page h2{margin:0}
+.lp-picker,.lp-list,.lp-self,.lp-peer,.lp-questions-drawer{background-color:rgb(var(--workspace-raised));padding:16px 20px}
+.lp-section-head,.lp-online-person,.lp-self{display:flex;align-items:center;gap:12px}
+.lp-section-head{justify-content:space-between}
+.lp-section-head h2,.lp-peer h2{font-size:1.08rem;font-weight:700}
+.lp-online-count{flex:none;border-radius:999px;padding:4px 10px;background:rgb(var(--workspace-good)/.12);color:rgb(var(--workspace-good));font-size:.82rem;font-weight:650}
+.lp-caption{margin:12px 0 6px;color:rgb(var(--workspace-muted));font-size:.8rem;font-weight:650}
+.lp-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.lp-option{display:grid;justify-items:center;gap:4px;min-width:0;padding:12px 8px;color:inherit;background:rgb(var(--workspace-paper));border:1px solid rgb(var(--workspace-line));border-radius:14px}
+.lp-option[aria-pressed="true"]{outline:1px solid var(--la-speaking);outline-offset:-1px}
+.lp-option-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:rgb(var(--workspace-sunken));color:var(--la-speaking);font-size:19px}
+.lp-option small,.lp-person small,.lp-empty{color:rgb(var(--workspace-muted));line-height:1.35}
+.lp-find{width:100%;margin-top:12px}
+.lp-self{flex-wrap:wrap}
+.lp-person{display:grid;flex:1;min-width:0;overflow-wrap:anywhere}
+.lp-online-person{margin-top:9px;padding-top:9px;border-top:1px solid rgb(var(--workspace-line))}
+.lp-empty{margin:10px 0 0}
+.lp-questions-drawer summary{cursor:pointer;font-weight:650}
+.lp-questions-drawer .lp-questions{margin-top:12px}
+.lp-call-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(240px,1fr);gap:16px}
+.lp-peer{display:grid;justify-items:center;align-content:start;gap:10px}
+.lp-call-notices:empty{display:none}
+.lp-call-notices{position:fixed;z-index:70;bottom:max(20px,env(safe-area-inset-bottom));left:max(20px,env(safe-area-inset-left));max-width:calc(100vw - 40px)}
+.lp-call-notice{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;background:rgb(var(--workspace-raised));border:1px solid var(--la-speaking);border-radius:16px;box-shadow:var(--la-shadow-hover)}
+.lp-call-notice .lp-person{min-width:min(130px,100%)}
 @media (max-width:768px) {
  [data-route-usable="live-partner"] .lp-panel { width:100%; }
  [data-practice-question-column], [data-practice-support-column] { max-height:none; }
+ .lp-call-grid{grid-template-columns:minmax(0,1fr)}
+ .lp-peer{grid-row:1}
+ .lp-picker,.lp-list,.lp-self,.lp-peer,.lp-questions-drawer{padding:12px}
 }
 
 

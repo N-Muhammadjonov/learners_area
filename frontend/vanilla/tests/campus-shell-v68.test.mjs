@@ -22,10 +22,12 @@ test('ordinary modules and Management use the Dock without a Main control, sideb
   assert.equal(h.q('[data-shell-sidebar]'),null);assert.equal(h.q('[data-mobile-nav-toggle]'),null);
   assert.equal(h.q('[data-campus-main-link]'),null);assert.equal(h.q('[data-module-dock]').hidden,false);
   const top=h.q('[data-shell-topbar]');
-  for(const selector of ['[data-campus-back-link]','[data-campus-header-search]','[data-campus-header-preferences]','[data-campus-header-profile]'])assert.equal(top.querySelector(selector).parentElement,top);
+  for(const selector of ['[data-campus-header-search]','[data-campus-header-preferences]','[data-campus-header-profile]'])assert.equal(top.querySelector(selector).parentElement,top);
+  assert(top.querySelector('[data-campus-header-identity] [data-campus-back-link]'));
   shell.update(new URL('/app','https://fixture.invalid'));assert.equal(h.q('[data-campus-back-link]').hidden,true);
   shell.update(new URL('/app/reading/lessons','https://fixture.invalid'));assert.equal(h.q('[data-campus-back-link]').hidden,true);
   assert.equal(h.q('[data-module-section-heading]').textContent,h.ctx.dict.readingV4.products.lessons.title);
+  assert.equal(h.q('[data-campus-module-name]').nextElementSibling.firstElementChild,h.q('[data-module-section-heading]'));
  }finally{h.dispose();}
 });
 test('module tabs move into the pinned section band without cloning their handlers or duplicating titles',async()=>{
@@ -35,6 +37,7 @@ test('module tabs move into the pinned section band without cloning their handle
   shell.outlet.append(moduleLayout(h.ctx,[body]));shell.attachModuleHeader(shell.outlet);await tick();
   assert.equal(shell.outlet.querySelector('[data-module-sections]'),null);
   assert.equal(h.q('[data-native-module-header] [data-module-sections]').dataset.moduleSections,'listening');
+  assert.equal(h.q('[data-native-module-header] [data-module-section-heading]'),null);
   assert(h.q('a[href="/app/listening/tests"]'));
   assert.equal(sectionIdentity(new URL('/app/listening/tests','https://fixture.invalid'),h.ctx.dict).key,'tests');
  }finally{h.dispose();}

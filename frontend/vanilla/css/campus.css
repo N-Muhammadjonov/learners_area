@@ -10,7 +10,12 @@
 [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:10px;line-height:1.3}
 :root:not(:has([data-ui-system])) [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{display:block!important;max-width:170px;color:#fff!important;text-shadow:none}
 [data-campus-return-link]{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:6px 12px;white-space:nowrap;width:auto!important}
+[data-campus-header-identity]{display:flex;align-items:center;gap:8px;flex:0 1 auto;min-width:0}
 [data-campus-module-name]{order:0;min-width:0;max-width:220px;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:16px}
+[data-campus-section-title]{min-width:0;display:flex;align-items:center;gap:8px}
+[data-campus-section-title][hidden]{display:none}
+[data-campus-section-title]::before{content:"";height:1.25em;border-inline-start:1px solid currentColor;opacity:.35}
+[data-campus-shell] [data-shell-topbar] [data-campus-section-title] .native-module-title{min-width:0;margin:0;padding:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(14px,1.55vw,24px);line-height:1.3}
 [data-campus-header-search]{flex:1 1 clamp(140px,28vw,480px);min-width:70px;max-width:480px;order:1;margin-left:auto;container-type:inline-size}
 [data-campus-header-preferences]{display:flex;align-items:center;gap:5px;flex:none;order:2}
 [data-campus-header-profile]{display:flex;align-items:center;gap:5px;flex:none;order:3}
@@ -89,7 +94,7 @@
  [data-campus-shell] [data-global-search-field]>svg{width:12px}
 }
 
-/* Section headings and tabs share Main's pinned blue band below the controls. */
+/* Module tabs remain in the pinned band below the controls. */
 [data-native-module-header]{flex:none;min-width:0;padding:0 20px;z-index:40}
 :root:not(:has([data-ui-system])) [data-native-module-header]{background:var(--la-surface-glass,#0b2347);border-bottom:1px solid rgb(var(--ink-100));color:#f3eee5}
 [data-native-module-header][hidden]{display:none}

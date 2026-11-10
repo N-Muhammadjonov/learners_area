@@ -22,21 +22,36 @@ export function sectionIdentity(url,dict){
  return link?{module,key:link.key,title:module==='listening'&&link.key==='mcq'?'🎯 '+link.label:link.label,index:normalized===link.href}:null;
 }
 
-export function sectionHeader(context){
+export function sectionHeader(context,title,moduleName){
  const {dict,signal}=context;
- const node=el('section',{'data-native-module-header':'',class:'native-module-header'}),title=el('div'),nav=el('div',{'data-module-header-navigation':''});node.append(title,nav);
+ const node=el('section',{'data-native-module-header':'',class:'native-module-header'}),nav=el('div',{'data-module-header-navigation':''});node.append(nav);
  let identity,url,content,observer,activeModule;
+ function showTitle(text,key,index=true){
+  const heading=title.firstElementChild;
+  if(heading?.textContent!==text||heading?.dataset.moduleSectionHeading!==key){
+   title.replaceChildren(...(text?[el(index?'h1':'span',{'data-module-section-heading':key,class:'native-module-title',title:text},text)]:[]));
+  }
+  title.hidden=!text;
+ }
+ function sourceHeading(heading,key){
+  const name=heading?.textContent.trim();
+  if(!name)return;
+  heading.dataset.shellTitleSource='';
+  heading.hidden=true;
+  showTitle(name,key);
+ }
  function attach(root){
   content=root;
-  if(!activeModule)return;
-  const existing=content.querySelector('[data-module-sections], [data-writing-tablist], [data-video-header-sections]');
+  if(moduleName.hidden)return;
+  const existing=activeModule&&content.querySelector('[data-module-sections], [data-writing-tablist], [data-video-header-sections]');
   if(existing)nav.replaceChildren(existing);
-  // A TED detail uses its actual video title in the pinned heading band.
+  node.hidden=!nav.childElementCount;
   if(identity?.module==='video-lessons'&&identity.key==='detail'){
-   const heading=content.querySelector('[data-video-detail-heading]'),name=heading?.textContent.trim();
-   if(name){const shown=title.querySelector('[data-module-section-heading="video-lessons:detail"]');if(shown?.textContent!==name)title.replaceChildren(el('h1',{'data-module-section-heading':'video-lessons:detail',class:'native-module-title'},name));heading.hidden=true;}
+   sourceHeading(content.querySelector('[data-video-detail-heading]'),'video-lessons:detail');
+  }else if(!identity?.title){
+   const heading=[...content.querySelectorAll('h1')].find(h=>h.hasAttribute('data-shell-title-source')||!h.closest('[hidden]'));
+   if(heading?.textContent.trim()!==moduleName.textContent)sourceHeading(heading,url.pathname.split('/')[2]+':page');
   }
-  // Other detail headings retain their existing content position.
   if(identity?.index)for(const heading of content.querySelectorAll('h1')){
    if(heading.textContent.trim()===identity.title)heading.hidden=true;
   }
@@ -45,12 +60,12 @@ export function sectionHeader(context){
  function update(next){
   url=next;identity=sectionIdentity(url,dict);activeModule=url.pathname.split('/')[2];
   if(!['listening','reading','grammar','writing','vocabulary','video-lessons'].includes(activeModule))activeModule=null;
-  node.hidden=!activeModule;title.replaceChildren();nav.replaceChildren();
+  showTitle(identity?.title,identity?.title?identity.module+':'+identity.key:undefined,identity?.index);
+  node.hidden=true;nav.replaceChildren();
   if(!activeModule)return;
-  if(identity?.title)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
   if(['listening','reading','grammar','vocabulary'].includes(activeModule)){
    const refs={current:[]},menu=sectionNav({module:activeModule,label:dict.nav[activeModule],links:navigationLinks({module:activeModule,dict}),pathname:url.pathname,query:url.searchParams,refs});
-   if(menu){refs.current=[...menu.querySelectorAll('a')];nav.append(menu);}
+   if(menu){refs.current=[...menu.querySelectorAll('a')];nav.append(menu);node.hidden=false;}
   }
  }
  observer=new MutationObserver(()=>{if(content)attach(content);});
@@ -58,10 +73,10 @@ export function sectionHeader(context){
  signal.addEventListener('abort',()=>{observer.disconnect();node.remove();},{once:true});
  function updateLocation(next){
   const nextIdentity=sectionIdentity(next,dict);
-  if(next.pathname.split('/')[2]!==activeModule){update(next);return;}
-  url=next;identity=nextIdentity;title.replaceChildren();
-  if(identity?.title)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
-  if(activeModule==='video-lessons'&&content)attach(content);
+  if(next.pathname!==url.pathname){update(next);return;}
+  url=next;identity=nextIdentity;
+  if(identity?.title)showTitle(identity.title,identity.module+':'+identity.key,identity.index);
+  else if(content)attach(content);
   if(activeModule==='vocabulary'){const refs={current:[]},menu=sectionNav({module:activeModule,label:dict.nav[activeModule],links:navigationLinks({module:activeModule,dict}),pathname:next.pathname,query:next.searchParams,refs});if(menu)nav.replaceChildren(menu);}
  }
  update(context.url);return {node,update,updateLocation,attach:watch};
