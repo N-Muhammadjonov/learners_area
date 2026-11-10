@@ -61,6 +61,7 @@
     "/app/assignments",
     "/app/owner/audit",
     "/app/speaking/ai",
+    "/app/speaking/speak-or-die",
     "/app/management",
     "/app/vocabulary",
     "/reset-password",

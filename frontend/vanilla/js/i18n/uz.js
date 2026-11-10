@@ -2999,7 +2999,7 @@ export default {
         "lessonsTitle": "Speaking darslari",
         "lessonsBody": "Tizimli speaking o'rganish uchun videolar, materiallar, strukturalar.",
         "lessonsEmptyTitle": "Hozircha speaking darslari e'lon qilinmagan",
-        "lessonsEmptyBody": "O'qituvchingiz bu yerga hali dars joylamagan. Mustaqil mashq va AI bilan mashq hozir mavjud.",
+        "lessonsEmptyBody": "O'qituvchingiz bu yerga hali dars joylamagan. Mustaqil mashq qiling yoki Speak or Die o‘ynang.",
         "cards": {
             "partner": {
                 "eyebrow": "Onlayn",
@@ -3019,12 +3019,51 @@ export default {
                 "body": "IELTS imtihonchisi uslubidagi sessiya, har safar bitta savol. Tahlil faqat haqiqiy AI provayder ulanganda chiqadi.",
                 "cta": "AI mashqni boshlash"
             },
+            "fluency": {
+                "eyebrow": "Ravon gapirish o‘yini",
+                "title": "Speak or Die",
+                "body": "Omon qolish uchun gapiring. Har bir pauzada xavf yaqinlashadi.",
+                "cta": "O‘ynash"
+            },
             "lessons": {
                 "eyebrow": "Darslar",
                 "title": "Speaking darslari",
                 "body": "Videolar, materiallar va tizimli speaking o'rganish.",
                 "cta": "Darslarni ochish"
             }
+        }
+    },
+    "fluencyGame": {
+        "eyebrow": "Ravon gapirish o‘yini",
+        "intro": "Jimlikda xavf yaqinlashadi. Gapirsangiz, turgan joyida to‘xtaydi.",
+        "privacy": "Nutq mazmuni tahlil qilinmaydi va saqlanmaydi. Bu ravon gapirish mashqi, imtihon emas.",
+        "limitation": "Faqat ovoz faolligi aniqlanadi. Atrofdagi tovushlar ham detektorni faollashtirishi mumkin. Audio yozilmaydi yoki yuklanmaydi, transkript va IELTS bali yaratilmaydi.",
+        "question": "Savol", "timer": "Raundda qolgan vaqt", "sec": "SON", "arena": "Robotga yaqinlashayotgan xavfni gapirish orqali to‘xtating.",
+        "chooseLevel": "Qiyinlik darajasini tanlang", "start": "Boshlash", "retry": "Qayta urinish", "resume": "Davom ettirish", "quit": "Chiqish", "again": "Yana o‘ynash", "changeLevel": "Darajani o‘zgartirish",
+        "silent": "Jimlik — xavf yaqinlashmoqda", "speaking": "Gapiryapsiz — xavf to‘xtadi", "paused": "Pauza. Vaqt va joylashuv saqlandi. Mikrofonni ochish uchun Davom ettirish tugmasini bosing.",
+        "micOn": "Mikrofon yoqilgan · faqat lokal faollik", "micOff": "Mikrofon o‘chirilgan", "micRequest": "Mikrofon ruxsati kutilmoqda. Istalgan payt chiqishingiz mumkin.",
+        "won": "Siz omon qoldingiz!", "wonBody": "Gapirishda davom etdingiz. Yangi savolda ham fikrlaringizni davom ettiring.",
+        "lost": "Xavf yetib keldi.", "lostBody": "Gap mukammal bo‘lmasa ham davom eting. Bu o‘yinda mazmun baholanmaydi.",
+        "levels": {
+            "beginner": {"title": "Boshlang‘ich", "body": "Xavf sekin yuradi · uzun pauzalarga ruxsat"},
+            "intermediate": {"title": "O‘rta", "body": "Xavf bir maromda · faqat qisqa pauzalar"},
+            "advanced": {"title": "Yuqori", "body": "Xavf tez yaqinlashadi · o‘ylashga vaqt oz"}
+        },
+        "status": {"idle": "Darajani tanlab, o‘yinni boshlang.", "requesting_permission": "O‘ynash uchun mikrofonga ruxsat bering.", "calibrating": "Mikrofon sozlanayotganda bir oz jim turing.", "ready": "Tayyor — gapirishda davom eting!"},
+        "errors": {
+            "permission_denied": "Mikrofonga ruxsat berilmadi. Brauzer sozlamalarida ruxsat berib, qayta urinib ko‘ring.",
+            "permission_timeout": "Mikrofon ruxsati hali kutilmoqda. Ruxsat berishga tayyor bo‘lgach qayta urinib ko‘ring.",
+            "no_microphone": "Mikrofon topilmadi. Uni ulab, qayta urinib ko‘ring.",
+            "unsupported": "Bu brauzer mikrofonni ocholmaydi. HTTPS orqali mikrofon va Web Audio’ni qo‘llaydigan brauzerdan foydalaning.",
+            "device_interrupted": "Mikrofon uzildi yoki o‘chirildi. Uni tekshirib, o‘yinni davom ettiring.",
+            "audio_suspended": "Brauzer audiosi to‘xtadi. Uni qayta yoqish uchun Davom ettirish tugmasini bosing.",
+            "no_signal": "Mikrofon signali aniqlanmadi. Qurilma va mute holatini tekshirib, qayta urinib ko‘ring.",
+            "too_noisy": "Atrof shovqini kalibrlash uchun baland. Tinchroq joyda qayta urinib ko‘ring.",
+            "invalid_signal": "Mikrofon signalini o‘qib bo‘lmadi. Qurilmani tekshirib, qayta urinib ko‘ring.",
+            "question_empty": "Bu o‘yin uchun chop etilgan speaking savollari hozircha yo‘q.",
+            "question_unavailable": "Speaking savollarini yuklab bo‘lmadi. Internetni tekshirib, qayta urinib ko‘ring.",
+            "interrupted": "Brauzer yangilanishi to‘xtagani sabab pauza qilindi. Vaqt va joylashuv saqlandi. Davom ettirish tugmasini bosing.",
+            "unknown": "O‘yinni boshlab bo‘lmadi. Mikrofon va internetni tekshirib, qayta urinib ko‘ring."
         }
     },
     "speakingAi": {

@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-10",
+  "timezone": "Asia/Tashkent",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/learners-area-next",
+  "parent": "2c0278e054abe1be162233a87be81a149979822f",
+  "readOnlyMain": "0bba91d3414c21ca4c8d91b346a37694b5bf65d5",
+  "startingAhead": 90,
+  "startingBehind": 4,
+  "implementation": "IMPLEMENTED_AUTOMATED_PASS_OWNER_QA_PENDING",
+  "canonicalRoute": "/app/speaking/speak-or-die",
+  "legacyAI": "/app/speaking/ai preserved with its original recorder and backend",
+  "frontend": {
+    "total": 1458,
+    "pass": 1447,
+    "fail": 0,
+    "skip": 11,
+    "seconds": 67.920404029
+  },
+  "backend": {
+    "pass": 5942,
+    "subtestsPass": 282,
+    "fail": 0,
+    "skip": 0,
+    "seconds": 90.52,
+    "warnings": 1
+  },
+  "focusedGameVoiceDOM": {
+    "pass": 40,
+    "fail": 0,
+    "skip": 0,
+    "seconds": 1.855867498
+  },
+  "ownedPostgres": {
+    "pass": 12,
+    "fail": 0,
+    "elapsedSeconds": 9.405
+  },
+  "build": {
+    "staticBuild": true,
+    "runtime": "Python FastAPI",
+    "files": 852,
+    "routes": 132,
+    "nodeRequired": false,
+    "revision": "36ef40fe3985b89db00f",
+    "inputBytes": 151943801,
+    "transferBytes": 138657933,
+    "minifiedFiles": 207,
+    "cdnSpeechBytes": 101260210,
+    "cdnSpeechFiles": 55
+  },
+  "privacy": {
+    "MediaRecorder": false,
+    "audioUpload": false,
+    "transcription": false,
+    "AIGrade": false,
+    "speakingAttemptCreation": false,
+    "rewardAward": false,
+    "persistence": false
+  },
+  "realMicrophoneQA": "OWNER_NOT_RUN",
+  "browserScreenshots": "OWNER_NOT_RUN",
+  "simulatedAudioQA": "PASS",
+  "reference": {
+    "pdfPagesInspected": [
+      25,
+      26
+    ],
+    "zip": "NOT_AVAILABLE",
+    "fourSeparateScreenshots": "NOT_AVAILABLE",
+    "MentoraEngineParameters": "NOT_VERIFIED",
+    "implementedParameters": "LA reconstructed tuning from user gameplay rules"
+  },
+  "teachingMaterialsChanged": 0,
+  "migrations": [],
+  "productionDatabaseWrites": false,
+  "deploymentPlan": "One final Git push-triggered preview; no production promotion or separate deploy call"
+}

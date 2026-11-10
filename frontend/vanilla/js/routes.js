@@ -62,6 +62,7 @@ const routes = [
  {pattern:"/app/assignments",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/owner/audit",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/speaking/ai",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/app/speaking/speak-or-die",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/management",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/vocabulary",load:()=>import('../modules/unavailable.js')},
  {pattern:"/reset-password",load:()=>import('../modules/auth/public.js')},
@@ -152,7 +153,7 @@ export default routes.map(route=>{if(route.pattern==="/app")return {...route,pro
  const staff=staffRoutes.find(s=>s.pattern===route.pattern);
  if(staff)return {...route,...staff,protected:true};
 /* V51 SPEAKING + WRITING DISPATCH */
-if(["/app/speaking","/app/speaking/lessons","/app/speaking/live-partner","/app/speaking/practice","/app/speaking/ai","/app/speaking/history","/app/speaking/shadowing"].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/speaking/index.js')};
+if(["/app/speaking","/app/speaking/lessons","/app/speaking/live-partner","/app/speaking/practice","/app/speaking/ai","/app/speaking/speak-or-die","/app/speaking/history","/app/speaking/shadowing"].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/speaking/index.js')};
 if(route.pattern==='/app/writing'||route.pattern.startsWith('/app/writing/'))return {...route,protected:true,...(route.pattern==='/app/writing/exam/:id'?{layout:'focus'}:{}),load:()=>import('../modules/writing/index.js')};
 /* V59 ASSIGNMENTS + V60 COACH DISPATCH: native modules, server-only data; teachers/admins never fetch learner data */
 if(route.pattern==='/app/assignments')return {...route,protected:true,load:()=>import('../modules/assignments/index.js')};if(route.pattern==='/app/coach')return {...route,protected:true,load:()=>import('../modules/coach/index.js')};if(route.pattern==='/app/riwi')return {...route,protected:true,load:()=>import('../modules/riwi/index.js')};if(route.pattern==='/app/owner/riwi')return {...route,protected:true,roles:['owner'],load:()=>import('../modules/staff-final30/owner-riwi.js')};

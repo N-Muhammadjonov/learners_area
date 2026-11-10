@@ -3,6 +3,10 @@
 [data-route-usable^="speaking"], [data-route-usable="live-partner"] { min-width:0; }
 [data-route-usable^="speaking"] :is(input, textarea, button, select, audio) { max-width:100%; }
 [data-speaking-hub-cards] > li { min-width:0; }
+.fluency-hub-card{position:relative;border-color:color-mix(in srgb,var(--la-speaking,#7551ca) 35%,transparent)!important}
+.fluency-hub-card:hover{box-shadow:0 10px 30px #7551ca25!important}
+.fluency-hub-icon{color:var(--la-speaking,#7551ca)}
+html[data-theme] #root [data-speaking-card="fluency"]{background:linear-gradient(120deg,#7042c4,#492a94)!important;color:#fff!important}
 [data-practice-question-column], [data-practice-support-column] { min-width:0; }
 [data-practice-question-column] :is(p, h2, button), [data-practice-support-column] :is(p, h2, button) { overflow-wrap:anywhere; }
 [data-study-support] [role="tablist"] { align-items:stretch; }

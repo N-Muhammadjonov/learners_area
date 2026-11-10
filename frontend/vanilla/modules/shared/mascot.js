@@ -3,7 +3,7 @@ const NS='http://www.w3.org/2000/svg';let serial=0;
 function shape(tag,attrs={},...children){const n=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));n.append(...children);return n;}
 /** Original LA companion. Decorative only: no audio, media, timers or listeners. */
 export function speakingMascot({state='idle'}={}){
- const id='la-companion-'+(++serial),node=el('span',{class:'la-mascot','data-mascot-state':['idle','loading','success'].includes(state)?state:'idle','aria-hidden':'true'});
+ const id='la-companion-'+(++serial),node=el('span',{class:'la-mascot','data-mascot-state':['idle','loading','success','speaking','danger_near','won','lost'].includes(state)?state:'idle','aria-hidden':'true'});
  node.append(shape('svg',{viewBox:'0 0 144 132',width:144,height:132,fill:'none',focusable:'false'},
   shape('defs',{},shape('linearGradient',{id,x1:18,y1:15,x2:125,y2:115,gradientUnits:'userSpaceOnUse'},shape('stop',{'stop-color':'#b7a5ff'}),shape('stop',{offset:1,'stop-color':'#5853cf'}))),
   shape('ellipse',{cx:72,cy:120,rx:36,ry:5,fill:'currentColor',opacity:.1}),
