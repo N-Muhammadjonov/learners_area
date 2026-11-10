@@ -85,9 +85,21 @@ async def exam_payload(con, user, row, test, p, section=False):
         diagram=source_map(test.get('source_id'))
     from .listening_exam_visuals import exam_parts
     cd_exam=exam_parts(test.get('source_id'),public_questions) if not section else None
-    return {'attemptId':str(row['id']),'testId':str(test['id']),'title':test['title'],'audioUrl':test['audio_url'],
+    recording = safe_resource(test.get('audio_object_key')) if cd_exam else None
+    recording_parts = []
+    if recording:
+        from .step17_listening_course_port import CATALOGUE
+        media = CATALOGUE.get(test.get('source_id'), {}).get('media', [])
+        clips = [item for item in media if item['contentType'].startswith('audio/')]
+        if len(clips) > 1 and safe_resource(clips[0]['objectKey']) == recording:
+            recording_parts = [
+                {'url':safe_resource(item['objectKey']),'duration':item['durationSeconds']} for item in clips
+            ]
+    return {'attemptId':str(row['id']),'testId':str(test['id']),'title':test['title'],'audioUrl':recording or test['audio_url'],
       'imageUrl':safe_resource(test.get('image_object_key')),'mapDiagram':diagram,'mapSections':map_sections(p),
-      'duration':p.get('audio',{}).get('durationSec'),'questions':public_questions,**({'cdExam':cd_exam} if cd_exam else {}),'initial':draft['answers'] if draft else {},
+      'duration':p.get('audio',{}).get('durationSec'),
+      **({'recordingParts':recording_parts} if recording_parts else {}),
+      'questions':public_questions,**({'cdExam':cd_exam} if cd_exam else {}),'initial':draft['answers'] if draft else {},
       'draftHash':listening_draft_hash((json.loads(draft['answers']) if isinstance(draft['answers'],str) else draft['answers']) if draft else {},draft['audio_position'] if draft else 0),
       'audioPosition':draft['audio_position'] if draft else 0,'audioStartedAt':camel(draft)['audioStartedAt'] if draft else None,'sectionMode':section}
 

@@ -21,3 +21,22 @@ test('leaving a native exam flushes the latest answer without the route signal',
   h.ctx.root.append(listeningExam(h.ctx,p));h.input(h.q('input[id^="answer-"]'),'latest on exit');h.controller.abort();await tick();assert.equal(calls[0].options.body.answers[ID(305)],'latest on exit');assert.equal(calls[0].options.signal,undefined);assert.equal(calls[0].options.keepalive,true);
  }finally{api.request=old;h.dispose();}
 });
+
+
+test('an updated audio position alone does not ask the learner to choose answers',()=>{
+ const h=setup(),storage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
+ Object.defineProperty(globalThis,'localStorage',{configurable:true,value:window.localStorage});
+ try{
+  const attemptId=ID(321),question=ID(322);
+  localStorage.setItem('la-listening-draft:'+attemptId,JSON.stringify({answers:{[question]:''},draftHash:'a'.repeat(64)}));
+  window.HTMLMediaElement.prototype.pause=function(){};
+  window.HTMLMediaElement.prototype.load=function(){};
+  h.ctx.root.append(listeningExam(h.ctx,{attemptId,testId:ID(323),title:'Saved exam',audioUrl:'/api/resources/listening/fixture.mp3',
+   duration:120,audioPosition:16,audioStartedAt:null,sectionMode:true,initial:{},draftHash:'b'.repeat(64),
+   questions:[{id:question,number:1,section:1,text:'Example',instruction:'Answer',options:[]}]}));
+  assert.equal(h.q('[data-listening-draft-conflict]'),null);
+ }finally{
+  h.dispose();
+  if(storage)Object.defineProperty(globalThis,'localStorage',storage);else delete globalThis.localStorage;
+ }
+});

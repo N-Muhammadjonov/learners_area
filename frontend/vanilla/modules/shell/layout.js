@@ -31,10 +31,21 @@ export function createTopbar(context){
  * get the same topbar without remounting their data, media, timers or drafts. */
 export function focusFrame(context,staging){
  if(staging.querySelector('.reading-workspace-header')||(/^\/app\/reading\/attempts\/[^/]+$/.test(context.url.pathname)&&staging.querySelector('[data-reading-full-focus]'))){staging.append(shellUtilities(context).node);return staging;}
- const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'',class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
+ const listeningAttempt=/^\/app\/listening\/attempts\/[^/]+$/.test(context.url.pathname);
+ const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'','data-ui-system':listeningAttempt,class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
  frame.style.setProperty('--workspace-accent',workspaceAccent(context.url));
- const {top}=createTopbar(context),body=el('div',{'data-shell-main':'',class:'min-h-0 flex-1 overflow-auto'});
- body.append(...staging.childNodes);frame.append(top,body,shellUtilities(context).node);return frame;
+ const body=el('div',{'data-shell-main':'',class:'min-h-0 flex-1 overflow-auto'});
+ const examParent=()=>body.querySelector('[data-listening-exam-parent]')?.dataset.listeningExamParent;
+ const {top}=createTopbar(listeningAttempt?{...context,back:fallback=>{
+  const parent=examParent();
+  return parent?context.navigate(parent):context.back?.(fallback);
+ }}:context);
+ body.append(...staging.childNodes);
+ const parent=examParent();
+ if(parent)top.querySelector('[data-campus-back-link]').setAttribute('href',parent);
+ frame.append(top,body);
+ if(!listeningAttempt)frame.append(shellUtilities(context).node);
+ return frame;
 }
 
 /** Persistent controls and Dock; Management keeps its existing cards. */

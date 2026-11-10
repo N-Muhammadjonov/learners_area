@@ -2456,3 +2456,5 @@ html[data-theme="night"] #root [data-owner-academic-filters] input[type="search"
  flex:1;
  min-height:0;
 }
+
+[data-focus-workspace]:has([data-listening-exam-active]) [data-shell-utilities] { display:none; }

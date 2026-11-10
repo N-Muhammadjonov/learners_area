@@ -1,23 +1,24 @@
-import {listeningDraftWriter} from './draft-writer.js';
+import {listeningDraftWriter,sameListeningAnswers} from './draft-writer.js';
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
 import {fieldSelection,restoreWhenAttached} from '../../js/focus-restore.js';
 import {examAudio,render} from '../../js/generated/NativeListeningExam-v7.js';
 import {listeningAttemptLocalKeys,clearListeningAttemptLocalState} from '../../js/generated/listening-attempt-local.js';
+import {examRecording,recordingSeekReady} from './exam-recording.js';
 import {authoredCdView} from './cd-view.js';
 import {examDTO,answerRecord} from '../../js/adapters/listening-v7.js';
 /** Explicit native exam lifecycle. No lexical controller, answer keys or local grading. */
 export function listeningExam(context,input,composition={}){
  const p=examDTO(input),{dict,signal}=context,t=dict.fullListeningHub.examScreen,host=document.createElement('div'),keys=listeningAttemptLocalKeys(p.attemptId),ids=new Set(p.questions.map(q=>q.id));
  let answers={...p.initial},notes='',section=1,mediaDuration=p.duration??0,started=!!p.audioStartedAt,position=p.audioPosition,error='',saved='',busy=false,notesOpen=false,confirm=false,dirty=false,saving=false,submitted=false;
- const writer=listeningDraftWriter(p.attemptId,p.draftHash);let conflict=false,reconciling=false;
+ const writer=listeningDraftWriter(p.attemptId,p.draftHash);let conflict=false,reconciling=false,savedAnswers=p.initial;
  let playing=false,startPersisted=started,saveRequested=false,saveTimeout=null,lastSavedPosition=position,forceSavePosition=false;const SAVE_INTERVAL=15000;
  const audio={current:null},container={current:null},pos={current:position};
  // A media element must stay attached across notes/section/error presentation.
  // Recreating a detached replacement also speculatively starts another preload.
  const mediaHost=document.createElement('div'),viewHost=document.createElement('div');
  host.dataset.listeningExamMount='';viewHost.dataset.listeningExamView='';
- mediaHost.hidden=true;host.append(mediaHost,viewHost);let playFlight=null;
+ mediaHost.hidden=true;host.append(mediaHost,viewHost);let playFlight=null,entered=false,preparing=!!p.cdExam,stallTimer=null;
  function paintPlayback(){
   host.dataset.listeningPlayback=playing?'playing':playFlight?'loading':error?'error':'paused';
   if(cd){paintCd();return;}
@@ -27,11 +28,20 @@ export function listeningExam(context,input,composition={}){
   if(playFlight)b.setAttribute('aria-busy','true');else b.removeAttribute('aria-busy');
   b.textContent=started?t.resume:t.begin;
  }
- try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){answers={...answers,...answerRecord(raw.answers,ids)};dirty=true;conflict=typeof p.draftHash==='string'&&raw.draftHash!==p.draftHash;}notes=(localStorage.getItem(keys.notes)||'').slice(0,p.cdExam?45000:12000);}catch{}
+ try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){
+  const local=answerRecord(raw.answers,ids);
+  const recovered={...answers,...local};
+  if(!sameListeningAnswers(recovered,answers)){
+   answers=recovered;dirty=true;
+   conflict=typeof p.draftHash==='string'&&raw.draftHash!==p.draftHash;
+  }
+ }notes=(localStorage.getItem(keys.notes)||'').slice(0,p.cdExam?45000:12000);}catch{}
+ const recording=p.cdExam?examRecording(p.audioUrl,p.testId,signal,p.recordingParts,p.audioPosition):null;
+ if(recording?.duration)mediaDuration=recording.duration;
  const cd=p.cdExam?authoredCdView(p.cdExam,{questions:p.questions,imageUrl:p.imageUrl,notes,saveWorkspace:saveNotes,signal}):null;
  function saveNotes(value){notes=value;try{localStorage.setItem(keys.notes,value);}catch{}}
  function paintCd(){
-  cd.update({answers,position,duration:mediaDuration,started,playing,loading:!!playFlight,
+  cd.update({answers,position,duration:mediaDuration,started,entered,preparing,playing,loading:!!playFlight,
    busy,conflict,error,saved,audio:audio.current,change,play,submit});
  }
  function persist(){try{localStorage.setItem(keys.draft,JSON.stringify({answers,draftHash:writer.hash}));}catch{saved=t.deviceUnavailable;paintSaved();}}
@@ -59,11 +69,11 @@ export function listeningExam(context,input,composition={}){
   const focus=active?{id:active.id,index:[...host.querySelectorAll('input,select,textarea,button,a')].indexOf(active),...fieldSelection(active)}:null;
   const old=audio.current;
   const update=(key,value)=>{
-   if(key==='error'){error=value;draw();}
+   if(key==='error'){if(recording)playing=false;error=value;draw();}
    if(key==='duration'){mediaDuration=value;paintPosition();}
    if(key==='position'){position=value;pos.current=value;paintPosition();}
   };
-  const model={...p,dict,answers,section,mediaDuration,started,position,error,saved,busy,notesOpen,notes,confirm,audio,container,pos,renderMedia:false,
+  const model={...p,audioUrl:recording?undefined:p.audioUrl,dict,answers,section,mediaDuration,started,position,error,saved,busy,notesOpen,notes,confirm,audio,container,pos,recording,renderMedia:false,
    ReadingText:composition.textSurface??(({text,className})=>h('span',{className},text)),
    change,play,submit,
    setNotesOpen:v=>{notesOpen=typeof v==='function'?v(notesOpen):v;draw();},
@@ -94,7 +104,13 @@ export function listeningExam(context,input,composition={}){
  function change(id,value){if(!ids.has(id)||value.length>500||busy||submitted)return;answers={...answers,[id]:value};dirty=true;saved=t.saving;persist();paintAnswers();paintSaved();requestSave();}
  // Source multi controls must use CURRENT checked state, not a stale render closure.
  host.addEventListener('change',e=>{const field=e.target.closest?.('[data-listening-answer-control=multi]');if(!field)return;e.stopImmediatePropagation();const q=p.questions.find(q=>'answer-'+q.id===field.id);if(q)change(q.id,[...field.querySelectorAll('input')].flatMap((n,i)=>n.checked?[(/^[A-Z](?:\s|$)/.test(q.options[i])?q.options[i][0]:String.fromCharCode(65+i))]:[]).join(','));},{capture:true,signal});
- async function reconcile(keepLocal){if(reconciling)return;reconciling=true;draw();try{const data=await api.request('/api/frontend/view?'+new URLSearchParams({route:'/app/listening/attempts/'+p.attemptId}),{signal,fresh:true});const latest=examDTO(data.data.exam);writer.reconcile(latest.draftHash);if(!keepLocal){answers={...latest.initial};position=latest.audioPosition;pos.current=position;try{if(audio.current)audio.current.currentTime=position;}catch{}}conflict=false;dirty=keepLocal;persist();}catch{saved=t.deviceOnly;}finally{reconciling=false;if(!signal.aborted){draw();if(!conflict&&dirty)requestSave(0);}}}
+ async function readDraft(){
+  const data=await api.request('/api/frontend/view?'+new URLSearchParams({route:'/app/listening/attempts/'+p.attemptId}),{signal,fresh:true});
+  return examDTO(data.data.exam);
+ }
+ async function reconcile(keepLocal){if(reconciling)return;reconciling=true;draw();try{const latest=await readDraft();writer.reconcile(latest.draftHash);savedAnswers=latest.initial;if(!keepLocal){answers={...latest.initial};position=latest.audioPosition;pos.current=position;if(recording?.select(position)){
+   audio.current.pause();await prepareRecording();
+  }else try{if(audio.current)audio.current.currentTime=Math.max(0,position-(recording?.offset??0));}catch{}}conflict=false;dirty=keepLocal;persist();}catch{saved=t.deviceOnly;}finally{reconciling=false;if(!signal.aborted){draw();if(!conflict&&dirty)requestSave(0);}}}
  async function save(){
   if(signal.aborted||submitted||busy||conflict)return;
   if(saving){saveRequested=true;return;}
@@ -102,64 +118,129 @@ export function listeningExam(context,input,composition={}){
   const startNow=started&&!startPersisted;
   if(!dirty&&!startNow&&!(forceSavePosition&&started&&Math.abs(positionNow-lastSavedPosition)>=.25)&&(!playing||Math.abs(positionNow-lastSavedPosition)<12))return;
   saving=true;saveRequested=false;forceSavePosition=false;
-  const snapshot=JSON.stringify(answers);
+  const snapshot={...answers};
   let succeeded=false;
   try{
-   await writer.write({answers:{...answers},audioPosition:positionNow,startAudio:startNow});
+   await writer.write({answers:snapshot,audioPosition:positionNow,startAudio:startNow});
    if(signal.aborted||submitted)return;
-   saved=t.saved;dirty=JSON.stringify(answers)!==snapshot;
+   saved=t.saved;savedAnswers=snapshot;dirty=!sameListeningAnswers(answers,snapshot);
    lastSavedPosition=positionNow;if(startNow)startPersisted=true;succeeded=true;persist();
   }catch(cause){
-   if(!signal.aborted){saved=t.deviceOnly;if(cause?.code==='draft_conflict'){conflict=true;draw();}}
+   if(!signal.aborted){
+    saved=t.deviceOnly;
+    if(cause?.code==='draft_conflict'){
+     const latest=await readDraft().catch(()=>null);
+     if(signal.aborted)return;
+     if(latest&&(sameListeningAnswers(latest.initial,answers)||sameListeningAnswers(latest.initial,savedAnswers))){
+      writer.reconcile(latest.draftHash);
+      savedAnswers=latest.initial;
+      dirty=!sameListeningAnswers(latest.initial,answers);
+      lastSavedPosition=latest.audioPosition;
+      saved=t.saved;persist();succeeded=true;
+     }else{conflict=true;draw();}
+    }
+   }
   }finally{
    saving=false;if(!signal.aborted){paintSaved();if(succeeded&&(saveRequested||dirty||forceSavePosition))requestSave(2000);}
   }
  }
+ async function prepareRecording(timeout=6500){
+  if(!recording||signal.aborted)return;
+  preparing=true;paintPlayback();
+  try{
+   const source=await recording.prepare(timeout);
+   if(!signal.aborted&&audio.current.getAttribute('src')!==source)audio.current.src=source;
+   if(!signal.aborted){
+    recording.warmNext();
+    if(mediaDuration<=0||pos.current<mediaDuration-.25){
+     await recordingSeekReady(audio.current,pos.current-recording.offset,signal).catch(()=>{
+      if(!signal.aborted)error=t.audioPlayFailed;
+     });
+    }
+   }
+  }catch{
+   if(!signal.aborted){audio.current.removeAttribute('src');error=t.recordingUnavailable;}
+  }finally{
+   if(!signal.aborted){preparing=false;paintPlayback();}
+  }
+ }
  function play(){
-  if(signal.aborted||!audio.current||mediaDuration>0&&pos.current>=mediaDuration-.5)return Promise.resolve();
+  if(signal.aborted||!audio.current||preparing||mediaDuration>0&&pos.current>=mediaDuration-.25)return Promise.resolve();
+  if(recording&&!audio.current.getAttribute('src'))return prepareRecording().then(()=>{if(!signal.aborted&&audio.current.getAttribute('src'))return play();});
   if(playFlight)return playFlight;
   error='';
+  let deadline;
   const work=(async()=>{
   try{
-   if(audio.current.error){
-    const media=audio.current,recover=pos.current;
-    media.addEventListener('loadedmetadata',()=>{if(!signal.aborted&&Number.isFinite(recover))media.currentTime=recover;},{once:true,signal});
-    media.load();
-   }
-   await audio.current.play();
+   if(audio.current.error)audio.current.load();
+   const start=audio.current.play();
+   if(recording)await Promise.race([start,new Promise((_,reject)=>{deadline=setTimeout(()=>reject(Error('Recording stalled')),12000);})]);
+   else await start;
    if(signal.aborted)return;
    host.querySelector('[data-listening-error]')?.remove();
-   playing=true;
+   playing=true;entered=true;
    if(!started){started=true;requestSave(0);}
    else if(!startPersisted)requestSave(0);
-  }catch{
-   if(!signal.aborted){playing=false;error=t.audioPlayFailed;draw();}
-  }
+  }catch(cause){
+   if(!signal.aborted){
+    if(recording)audio.current.pause();
+    playing=false;error=t.audioPlayFailed;draw();
+    if(recording&&cause?.name!=='NotAllowedError')await prepareRecording(12000);
+   }
+  }finally{clearTimeout(deadline);}
   })();
   playFlight=work.finally(()=>{playFlight=null;if(!signal.aborted)paintPlayback();});
   paintPlayback();return playFlight;
  }
  if(!signal.aborted){
   // Playback events represent real audio progression, not a UI re-render.
-  host.addEventListener('playing',e=>{if(e.target===audio.current){playing=true;if(!started){started=true;requestSave(0);}paintPlayback();}}, {capture:true,signal});
+  if(recording){
+   host.addEventListener('waiting',e=>{
+    if(e.target!==audio.current||!playing||stallTimer!==null)return;
+    stallTimer=setTimeout(()=>{
+     stallTimer=null;
+     if(!playing||signal.aborted)return;
+     audio.current.pause();playing=false;error=t.audioPlayFailed;
+     void prepareRecording(12000);
+    },10000);
+   },{capture:true,signal});
+   for(const event of ['playing','timeupdate','pause','ended','error'])host.addEventListener(event,e=>{
+    if(e.target===audio.current&&stallTimer!==null){clearTimeout(stallTimer);stallTimer=null;}
+   },{capture:true,signal});
+  }
+  host.addEventListener('playing',e=>{if(e.target===audio.current){playing=true;entered=true;if(!started){started=true;requestSave(0);}paintPlayback();}}, {capture:true,signal});
   host.addEventListener('pause',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
-  host.addEventListener('ended',e=>{if(e.target===audio.current){playing=false;cd?.beginReview();requestSave(0,true);paintPlayback();}}, {capture:true,signal});
+  host.addEventListener('ended',e=>{
+   if(e.target!==audio.current)return;
+   playing=false;
+   if(recording?.advance()){
+    position=pos.current=recording.offset;
+    requestSave(0,true);paintPosition();
+    void prepareRecording().then(()=>{if(!signal.aborted&&audio.current.getAttribute('src'))void play();});
+    return;
+   }
+   cd?.beginReview();requestSave(0,true);paintPlayback();
+  },{capture:true,signal});
  }
  async function submit(){if(busy||submitted||signal.aborted||conflict)return;busy=true;error='';draw();try{await api.request(`/api/listening/attempts/${p.attemptId}/submit`,{method:'POST',timeoutMs:12000,body:{answers:p.questions.map(q=>({questionId:q.id,answer:answers[q.id]??''}))},signal});if(signal.aborted)return;submitted=true;clearListeningAttemptLocalState(p.attemptId);await context.navigate(p.sectionMode?`/app/listening/general/${p.testId}`:`/app/listening/tests/${p.testId}/2`);}catch(e){if(signal.aborted)return;if(e.status===409){context.refresh();return;}error=t.submitFailed;busy=false;draw();}}
  const timer=setInterval(()=>{if(dirty||started&&!startPersisted||playing&&Math.abs(pos.current-lastSavedPosition)>=12)void save();},SAVE_INTERVAL);
  const flush=()=>{if(document.visibilityState==='hidden'&&(dirty||playing||started)){forceSavePosition=true;void save();}};
  document.addEventListener('visibilitychange',flush,{signal});
  signal.addEventListener('abort',()=>{
-  clearInterval(timer);clearTimeout(saveTimeout);
+  clearInterval(timer);clearTimeout(saveTimeout);clearTimeout(stallTimer);
   if(!submitted&&!conflict&&(dirty||playing||started&&!startPersisted))void writer.write({answers:{...answers},audioPosition:pos.current,startAudio:started&&!startPersisted}).catch(()=>{});
   audio.current?.pause();audio.current?.removeAttribute('src');audio.current?.load();
   composition.dispose?.();host.replaceChildren();
  },{once:true});
  if(!signal.aborted){
   draw();
-  // Full IELTS attempts request playback on entry. Browser autoplay policy
-  // may reject an async route transition; in that case the Start button remains.
-  if(!p.sectionMode&&(!cd||started))void play();
+  // CD uses the source Start/Resume click after the recording and seek are prepared.
+  if(recording)void prepareRecording().then(()=>{
+   if(!signal.aborted&&mediaDuration>0&&pos.current>=mediaDuration-.25){
+    entered=true;cd.beginReview();paintPlayback();
+   }
+  });
+  else if(!p.sectionMode)void play();
  }else clearInterval(timer);
  return host;
 }

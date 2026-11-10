@@ -1,5 +1,6 @@
 import {el as node} from '../../js/dom.js';
 import {bindCdPaper,questionNumber} from './cd-paper.js';
+import {positionExamBrand} from './authored-ui.js';
 
 function el(tag,{onclick,...attributes}={},...children){
  const element=node(tag,attributes,...children);
@@ -45,6 +46,7 @@ export function authoredCdView(data,{questions,imageUrl,notes,saveWorkspace,sign
  const stage=el('div',{class:'la-exam-scroll'});
  const template=document.createElement('template');
  template.innerHTML=data.shell;
+ positionExamBrand(template.content);
  stage.append(template.content);
  shadow.append(el('style',{},data.style.replace(/:root\b/g,':host')+VIEW_STYLE),stage);
  const get=id=>shadow.getElementById(id);
@@ -55,7 +57,7 @@ export function authoredCdView(data,{questions,imageUrl,notes,saveWorkspace,sign
  frame.querySelector('.exam-header').after(alert,saveStatus);
  const startAlert=el('p',{role:'alert',class:'la-exam-feedback'});
  start.after(startAlert);
- get('loadingScreen').classList.add('hidden');
+ const loadingScreen=get('loadingScreen');
  const modalCard=el('div',{class:'modal-card'});
  const modal=el('div',{class:'modal hidden',role:'dialog','aria-modal':'true'},modalCard);
  root.append(modal);
@@ -249,19 +251,22 @@ export function authoredCdView(data,{questions,imageUrl,notes,saveWorkspace,sign
    scope=next;previousAnswers=next.answers;
    if(recovering)needsPaper=true;
    if(first||needsPaper)showPart(partOf(question),question);
-   startScreen.classList.toggle('hidden',next.started);
-   frame.classList.toggle('hidden',!next.started);
-   start.disabled=next.loading||next.busy;
+   const waiting=next.preparing||next.loading&&!next.entered;
+   loadingScreen.classList.toggle('hidden',!waiting);
+   startScreen.classList.toggle('hidden',waiting||next.entered);
+   frame.classList.toggle('hidden',!next.entered);
+   start.textContent=next.started||next.position>0?'Resume Test':'Start Test';
+   start.disabled=waiting||next.busy;
    if(next.audio)volume.value=String(next.audio.volume);
    get('submitTest').disabled=next.busy||next.conflict;
    alert.replaceChildren(next.error);
    startAlert.textContent=next.error;
    if(!reviewUntil)status.textContent=next.playing?'Audio plays once':next.loading?'Loading audio…':'Audio ready';
-   if(next.started&&!next.playing&&!next.loading&&next.error&&!reviewUntil){
+   if(next.entered&&!next.playing&&!next.loading&&next.error&&!reviewUntil){
     alert.append(' ',el('button',{class:'exam-icon action-label',type:'button',onclick:()=>void scope.play()},'Retry audio'));
    }
    saveStatus.textContent=next.saved;
-   if(next.started&&next.duration>0&&next.position>=next.duration-.25)beginReview();
+   if(next.entered&&next.duration>0&&next.position>=next.duration-.25)beginReview();
    paintTime(next.position,next.duration);
   },
   saveStatus(message){saveStatus.textContent=message;},

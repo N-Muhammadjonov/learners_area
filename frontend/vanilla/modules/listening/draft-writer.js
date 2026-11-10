@@ -37,3 +37,7 @@ export function listeningDraftWriter(attemptId,initialHash){
   reconcile(hash){if(state.flight||state.pending)throw new ApiError(409,'save_pending');state.hash=hash;state.blocked=null;}
  };
 }
+
+export function sameListeningAnswers(a,b){
+ return Object.keys({...a,...b}).every(key=>(a[key]??'')===(b[key]??''));
+}

@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {setup,ID} from './staff-final30/harness.mjs';
+import {setup,ID,tick} from './staff-final30/harness.mjs';
 import {listeningExam} from '../modules/listening/exam.js';
 const fixture=()=>({attemptId:ID(88),testId:ID(1),title:'Synthetic listening',audioUrl:'/api/resources/synthetic.wav',imageUrl:null,questions:[{id:ID(87),number:1,section:1,text:'Synthetic question',instruction:'Choose',options:['A one','B two'],input:'select'}],initial:{},audioPosition:0,audioStartedAt:null,duration:60});
 function media(h){window.HTMLMediaElement.prototype.pause=function(){};window.HTMLMediaElement.prototype.load=function(){};h.stub({'/api/listening/attempts/':{}});}
@@ -18,7 +18,7 @@ test('autoplay rejection keeps an enabled labelled recovery control without clai
  }finally{h.dispose();}
 });
 
-test('authored Listening shell uses one audio node and restores a part answer and flag',async()=>{
+for(const split of [false,true])test('authored Listening keeps one audio node and question state, split='+split,async()=>{
  const h=setup({theme:'night'});media(h);
  const initialStorage=Object.getOwnPropertyDescriptor(globalThis,'localStorage');
  Object.defineProperty(globalThis,'localStorage',{configurable:true,value:window.localStorage});
@@ -27,7 +27,7 @@ test('authored Listening shell uses one audio node and restores a part answer an
   const questions=Array.from({length:40},(_,i)=>({id:ID(i+100),number:i+1,section:Math.ceil((i+1)/10),text:'Question '+(i+1),instruction:'',options:[],input:'text'}));
   const cdExam={
    shell:`<div id="examRoot"><div id="loadingScreen"></div><div id="startScreen"><button id="startTestBtn">Start Test</button></div>
-    <div id="examInterface"><div class="exam-header"><div id="examStatus"></div><div id="timerDisplay"></div><input id="volumeSlider" type="range">
+    <div id="examInterface"><div class="exam-header"><div id="exam-brand"><div class="exam-logo">IELTS</div><span>Test taker ID</span></div><a class="exam-telegram-brand" href="https://t.me/LEARNERS_AREA">Learners Area</a><div id="examStatus"></div><div id="timerDisplay"></div><input id="volumeSlider" type="range">
     <button id="flagBtn"></button><button id="notesBtn"></button><button id="fullscreenBtn"></button><button id="optionsBtn"></button></div>
     <h1 id="examPartTitle"></h1><p id="examPartDesc"></p><main id="examQuestionHost"></main><button id="submitTest"></button>
     <div id="bottomNav"></div><button id="highlightBtn"></button><button id="removeHighlightBtn"></button></div>
@@ -36,9 +36,16 @@ test('authored Listening shell uses one audio node and restores a part answer an
    style:':root{--ink:#151515}.hidden{display:none}',
    parts:[1,11,21,31].map(number=>`<input id="q${number}" type="text">`),sections:['One','Two','Three','Four'],
   };
-  const host=listeningExam(h.ctx,{...fixture(),questions,cdExam});h.ctx.root.append(host);
+  const recordingParts=split?[1,2,3,4].map(n=>({url:'/api/resources/listening/part-'+n+'.mp3',duration:30})):undefined;
+  const audioUrl=recordingParts?.[0].url??fixture().audioUrl;
+  const host=listeningExam(h.ctx,{...fixture(),questions,cdExam,audioUrl,recordingParts});h.ctx.root.append(host);
   const surface=host.querySelector('[data-listening-cd-exam]'),shadow=surface.shadowRoot,byId=id=>shadow.getElementById(id);
   const audio=host.querySelector('audio');
+  await tick();
+  assert.equal(audio.getAttribute('src'),audioUrl+'?stream=1');
+  assert.equal(shadow.querySelector('.exam-header').firstElementChild.textContent,'Learners Area');
+  assert.equal(byId('exam-brand'),null);
+  assert.equal(shadow.querySelector('.exam-logo'),null);
   assert.equal(plays,0);
   h.click(byId('startTestBtn'));await Promise.resolve();await Promise.resolve();await Promise.resolve();
   assert.equal(plays,1);assert(!byId('examInterface').classList.contains('hidden'));
@@ -48,6 +55,13 @@ test('authored Listening shell uses one audio node and restores a part answer an
   assert.equal(byId('q1').value,'sample');
   assert.equal(byId('flagBtn').getAttribute('aria-pressed'),'true');
   assert.equal(host.querySelector('audio'),audio);
+  if(split)for(let i=1;i<recordingParts.length;i++){
+   audio.dispatchEvent(new window.Event('ended'));await tick();
+   assert.equal(host.querySelector('audio'),audio);
+   assert.equal(audio.getAttribute('src'),recordingParts[i].url+'?stream=1');
+   assert.equal(plays,i+1);
+   assert.notEqual(byId('examStatus').textContent,'Final review');
+  }
   audio.dispatchEvent(new window.Event('ended'));
   assert.equal(byId('examStatus').textContent,'Final review');
   assert.equal(byId('timerDisplay').textContent,'2:00');

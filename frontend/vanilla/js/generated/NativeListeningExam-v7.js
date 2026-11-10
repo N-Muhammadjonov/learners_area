@@ -1,16 +1,21 @@
 import {h,fragment,Link} from '../native.js';import {Card} from './ui.js';import {BackLink} from '../../modules/shared/presentation.js';import {ListeningMap} from './listening-map.js';
-export function examAudio({audio,audioUrl,sectionMode,audioPosition,duration,setMediaDuration,pos,setPosition,setConfirm,setError,dict}) {
+export function examAudio({audio,audioUrl,sectionMode,cdExam,recording,duration,setMediaDuration,pos,setPosition,setConfirm,setError,dict}) {
     return h("audio", { ref: audio, src: audioUrl, preload: sectionMode ? "none" : "auto", onLoadedMetadata: () => {
                 if (audio.current) {
-                    audio.current.currentTime = audioPosition;
-                    if (duration === undefined && Number.isFinite(audio.current.duration))
+                    const offset = recording?.offset ?? 0;
+                    const resumeAt = Math.max(0,pos.current-offset);
+                    if (resumeAt > 0 && Math.abs(audio.current.currentTime - resumeAt) > .05)
+                        audio.current.currentTime = resumeAt;
+                    if (!recording?.duration && (cdExam || duration == null) && Number.isFinite(audio.current.duration))
                         setMediaDuration(audio.current.duration);
                 }
             }, onRateChange: () => {
                 if (audio.current)
                     audio.current.playbackRate = 1;
             }, onTimeUpdate: () => {
-                pos.current = audio.current?.currentTime ?? 0;
+                if (cdExam && audio.current?.readyState === 0)
+                    return;
+                pos.current = (recording?.offset ?? 0) + (audio.current?.currentTime ?? 0);
                 setPosition(pos.current);
             }, onEnded: () => {
                 setConfirm(true);
