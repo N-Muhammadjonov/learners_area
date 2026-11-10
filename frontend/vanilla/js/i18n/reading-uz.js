@@ -230,6 +230,7 @@ const uz = {
         subtitle: "Reading mashg'ulotini tanlang.", open: "Ochish", selectType: "Savol turini tanlang",
         requestedType: "Tanlangan savol turi", lessonsEmpty: "Hozircha Reading darslari nashr etilmagan.",
         products: {
+            articles: { title: "Articles", hint: "" },
             lessons: { title: "Darslar", hint: "Reading darslari va shaxsiy qaydlaringiz." },
             academic: { title: "Academic Reading", hint: "Uchta matndan iborat yagona sinov." },
             general: { title: "General Reading", hint: "1-, 2-, 3-matn yoki to'liq to'plam bilan o'rganing." },

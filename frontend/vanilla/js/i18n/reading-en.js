@@ -230,6 +230,7 @@ const en = {
         subtitle: "Choose how you want to study Reading.", open: "Open", selectType: "Choose a question type",
         requestedType: "Requested question type", lessonsEmpty: "No Reading lessons are published yet.",
         products: {
+            articles: { title: "Articles", hint: "" },
             lessons: { title: "Lessons", hint: "Reading lessons and your private notes." },
             academic: { title: "Academic Reading", hint: "One assessment over three authored passages." },
             general: { title: "General Reading", hint: "Learn with Passage 1, 2, 3 or the full set." },

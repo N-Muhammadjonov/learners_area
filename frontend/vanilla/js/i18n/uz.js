@@ -232,6 +232,7 @@ export default {
         "requestedType": "Tanlangan savol turi",
         "lessonsEmpty": "Hozircha Reading darslari nashr etilmagan.",
         "products": {
+            "articles": { "title": "Articles", "hint": "" },
             "lessons": {
                 "title": "Darslar",
                 "hint": "Reading darslari va shaxsiy qaydlaringiz."

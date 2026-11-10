@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#426be8" />
+  <title>Article — Learners Area Reading</title>
+  <style>
+:root {
+  color-scheme: light;
+  --im-bg: var(--bg-main, #ffffff);
+  --im-surface: var(--bg-surface, #ffffff);
+  --im-surface-2: var(--bg-secondary, #f8fafc);
+  --im-text: var(--text-main, #111827);
+  --im-muted: var(--text-muted, #5b6473);
+  --im-border: var(--border-color, #d5dbe5);
+  --im-accent: var(--accent-color, #436fd6);
+  --im-accent-soft: var(--accent-soft, #edf2ff);
+  --im-part-head-bg: var(--article-header-bg, #f1f2ee);
+  --im-success: #15803d;
+  --im-danger: #b91c1c;
+  --im-left-width: 49.5%;
+  --im-radius: 8px;
+  --im-footer-height: 54px;
+  --im-font-scale: 1;
+}
+html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] {
+  color-scheme: dark;
+  --im-bg: var(--bg-main, #0e1523);
+  --im-surface: var(--bg-surface, #152032);
+  --im-surface-2: var(--bg-secondary, #1c2a40);
+  --im-text: var(--text-main, #e9edf6);
+  --im-muted: var(--text-muted, #b4c0d1);
+  --im-border: var(--border-color, #3b4c63);
+  --im-accent: var(--accent-color, #76a4ff);
+  --im-accent-soft: var(--accent-soft, #263955);
+  --im-part-head-bg: var(--article-header-bg, #202e40);
+}
+* { box-sizing: border-box; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
+body { margin: 0; background: var(--im-bg); color: var(--im-text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
+:where(button,input,select,a,[tabindex]):focus-visible { outline: 3px solid var(--im-accent); outline-offset: 2px; }
+.im-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.im-app { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--im-bg); }
+.im-topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 20px; min-height: 58px; background: var(--im-surface); border-bottom: 1px solid var(--im-border); }
+.im-bar-left, .im-bar-right { display: flex; align-items: center; gap: 13px; }
+.im-brand { display: flex; gap: 9px; align-items: center; color: var(--im-text); font-weight: 800; white-space: nowrap; }
+.im-brand-mark { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--im-accent); color: white; letter-spacing: -.05em; font-size: 13px; }
+.im-taker-id { font-size: 13px; color: var(--im-muted); }
+.im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
+.im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
+.im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
+.im-passage-body { padding: 26px 26px 40px 28px; }
+.oqish-holati { display: flex; align-items: center; gap: 12px; margin: 0 0 15px; }
+.im-read-track { display: block; flex: 1; height: 3px; background: var(--im-border); border-radius: 10px; overflow: hidden; }
+.im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
+.im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
+.im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
+.im-article-paragraph { margin: 0 0 15px; }
+.im-para-letter { font-weight: 750; }
+.im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
+.im-splitter { position: relative; display: flex; align-items: center; justify-content: center; cursor: col-resize; border-left: 1px solid var(--im-border); border-right: 1px solid var(--im-border); user-select: none; background: var(--im-surface); }
+.im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
+.im-question-body { padding: 27px 30px 45px 23px; }
+.im-group { margin: 0 0 34px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
+.im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
+.im-chip:active { cursor: grabbing; }
+.im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
+.im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
+.im-chip-used { opacity: .64; }
+.im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
+.im-drop::placeholder { color: var(--im-accent); opacity: 1; }
+.im-drop:focus { border-style: solid; }
+.im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
+.im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
+.im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
+.im-heading-picker[hidden] { display: none; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
+.im-heading-picker button:hover { background: var(--im-accent-soft); }
+.im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
+.im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-options { display: flex; flex-direction: column; gap: 17px; }
+.im-option-row { display: flex; align-items: start; gap: 12px; }
+.im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
+.im-option-label:hover { background: var(--im-accent-soft); }
+.im-question-gap .im-q-text { margin-bottom: 0; }
+.im-gap-input { display: inline-block; width: clamp(110px, 27%, 170px); min-height: 33px; padding: 5px 7px; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); text-align: center; margin: 0 6px; }
+.im-gap-input:hover { border-color: var(--im-accent); }
+.im-gap-input:focus { border-color: var(--im-accent); }
+.im-footer { flex: none; min-height: var(--im-footer-height); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 7px 13px; border-top: 1px solid var(--im-border); background: var(--im-surface); }
+.im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.im-foot-nav { overflow-x: auto; scrollbar-width: none; }
+.im-foot-nav::-webkit-scrollbar { display: none; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
+.im-qnav { display: flex; gap: 5px; align-items: center; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
+.im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
+.im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
+.im-foot-right { flex: none; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-check { font-size: 19px; padding: 4px 13px; }
+.im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
+.im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
+.im-step-btn { width: 47px; height: 47px; background: var(--im-accent-soft); border: 1px solid var(--im-accent); border-radius: 15px; color: var(--im-text); font-size: 27px; transition: transform .14s; }
+.im-step-btn:hover { transform: scale(1.06); }
+.im-modal { width: min(520px, calc(100% - 30px)); max-height: 88vh; border: 1px solid var(--im-border); background: var(--im-surface); color: var(--im-text); border-radius: 14px; padding: 22px; box-shadow: 0 24px 70px #00000050; }
+.im-modal::backdrop { background: #0b1222a6; }
+.im-modal h2 { margin: 0 0 12px; font-size: 21px; }
+.im-score { font-size: 19px; font-weight: 800; margin: 8px 0 15px; color: var(--im-accent); }
+.im-review-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.im-review-table td,.im-review-table th { border-bottom: 1px solid var(--im-border); padding: 7px; text-align: left; }
+.im-review-table .im-ok { color: var(--im-success); }
+.im-review-table .im-bad { color: var(--im-danger); }
+.im-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+.im-modal-actions button { border: 1px solid var(--im-accent); color: var(--im-text); background: var(--im-accent-soft); padding: 8px 18px; border-radius: 8px; }
+@media (max-width: 850px) {
+  html { overflow: auto; }
+  .im-app { height: auto; min-height: 100dvh; }
+  .im-topbar { padding: 9px 12px; }
+  .im-taker-id { display: none; }
+  .im-part-head { margin: 0 8px; }
+  .im-main { display: block; flex: 1; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
+  .im-passage-body { padding: 18px 16px 22px; }
+  .im-question-col { border-top: 1px solid var(--im-border); }
+  .im-question-body { padding: 24px 16px 50px; }
+  .im-splitter { display: none; }
+  .im-footer { position: sticky; bottom: 0; z-index: 4; }
+  .im-foot-part-name { display: none; }
+  .im-inline-step { position: fixed; bottom: 70px; right: 12px; }
+  .im-qnav-item { height: 35px; width: 34px; }
+}
+@media (max-width: 440px) {
+  .im-brand-label { display: none; }
+  .im-part-head { padding: 10px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
+  .im-foot-right { gap: 6px; }
+  .im-back { padding: 5px 10px; }
+  .im-check { padding: 4px 10px; }
+}
+@media print {
+  .im-topbar, .im-splitter, .im-footer, .im-inline-step { display: none !important; }
+  .im-app { display: block; height: auto; }
+  .im-main { display: block; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; }
+  .im-question-col { break-before: page; }
+  .im-passage-body,.im-question-body { padding: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="im-app">
+  <header class="im-topbar" aria-label="Reading article toolbar">
+    <div class="im-bar-left">
+      <div class="im-brand"><span class="im-brand-mark" aria-hidden="true">LA</span><span class="im-brand-label">Learners Area</span></div>
+      <span class="im-taker-id">Article practice</span>
+    </div>
+    <div class="im-bar-right"><span class="im-timer" id="im-clock" role="timer" aria-live="off">03:00</span><button class="im-icon-btn" type="button" id="im-pause" aria-label="Pause timer" title="Pause or resume">Ⅱ</button></div>
+  </header>
+  <div class="im-part-head" id="im-part-head">
+    <h1 class="im-title-sm" id="im-title-sm">Article</h1>
+    <p class="im-plain-text">Read the article and answer questions 1–13.</p>
+  </div>
+  <main class="im-main">
+    <section class="im-passage-col" id="im-passage-col" aria-label="Article text">
+      <div class="im-passage-body" id="im-passage-body">
+        <div class="oqish-holati" aria-label="Reading progress"><span class="im-read-track"><span class="im-read-fill" id="im-read-fill"></span></span><span class="im-read-left" id="im-read-left">~3 min left</span></div>
+        <img class="im-article-cover" src="/modules/reading/article-assets/plastic-bags.jpg" alt="Shopper using a reusable fabric bag for vegetables in a grocery store" width="1200" height="675" />
+        <h2 class="im-passage-title">How we can stop people from buying plastic bags and advantages and disadvantages of them</h2>
+        <div class="im-passage-text" id="im-passage-text">
+          <p class="im-article-paragraph" id="paragraph-A"><strong class="im-para-letter">A.</strong> <span class="im-para-text">Plastic bags have become a major environmental concern due to their harmful impact on the planet. They are not biodegradable and can take hundreds of years to <span class="im-vocab-word-in-text">decompose</span>, leading to pollution of land and water bodies. To stop people from buying plastic bags, there are several strategies that can be implemented, along with their advantages and disadvantages.</span></p>
+          <fieldset class="im-matching-question im-head-drop-row" id="question-1" data-question="1">
+            <legend class="im-visually-hidden">Question 1. Choose a heading for paragraph B.</legend>
+            <label class="im-visually-hidden" for="q1">Heading for paragraph B</label>
+            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q1" name="q1" data-im-q="1" data-im-group="mh-1-4" placeholder="1" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
+            <div class="im-heading-picker" hidden></div>
+          </fieldset>
+          <p class="im-article-paragraph" id="paragraph-B"><strong class="im-para-letter">B.</strong> <span class="im-para-text">1. Implement a plastic bag ban: Many countries and cities around the world have implemented bans on single-use plastic bags. This involves prohibiting the use of plastic bags in retail stores and encouraging the use of reusable bags instead. The advantage of a plastic bag ban is that it reduces the <span class="im-vocab-word-in-text">consumption</span> of plastic bags and encourages people to switch to more <span class="im-vocab-word-in-text">sustainable</span> alternatives. However, the disadvantage is that it may face resistance from businesses and consumers who are used to the convenience of plastic bags.</span></p>
+          <fieldset class="im-matching-question im-head-drop-row" id="question-2" data-question="2">
+            <legend class="im-visually-hidden">Question 2. Choose a heading for paragraph C.</legend>
+            <label class="im-visually-hidden" for="q2">Heading for paragraph C</label>
+            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q2" name="q2" data-im-q="2" data-im-group="mh-1-4" placeholder="2" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
+            <div class="im-heading-picker" hidden></div>
+          </fieldset>
+          <p class="im-article-paragraph" id="paragraph-C"><strong class="im-para-letter">C.</strong> <span class="im-para-text">2. Impose a plastic bag tax: Another strategy is to impose a tax on plastic bags, making them more expensive for consumers. This discourages people from using plastic bags and <span class="im-vocab-word-in-text">incentivizes</span> them to bring their own reusable bags. The advantage of a plastic bag tax is that it generates revenue for environmental <span class="im-vocab-word-in-text">initiatives</span> and reduces the consumption of plastic bags. However, the disadvantage is that it may <span class="im-vocab-word-in-text">disproportionately</span> affect low-income individuals who rely on plastic bags for their shopping needs.</span></p>
+          <fieldset class="im-matching-question im-head-drop-row" id="question-3" data-question="3">
+            <legend class="im-visually-hidden">Question 3. Choose a heading for paragraph D.</legend>
+            <label class="im-visually-hidden" for="q3">Heading for paragraph D</label>
+            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q3" name="q3" data-im-q="3" data-im-group="mh-1-4" placeholder="3" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
+            <div class="im-heading-picker" hidden></div>
+          </fieldset>
+          <p class="im-article-paragraph" id="paragraph-D"><strong class="im-para-letter">D.</strong> <span class="im-para-text">3. Provide incentives for reusable bags: Governments and businesses can offer incentives for using reusable bags, such as discounts or rewards for bringing your own bag. This encourages people to make the switch to reusable options and reduces the demand for plastic bags. The advantage of providing incentives for reusable bags is that it promotes sustainable behavior and helps to reduce plastic waste. However, the disadvantage is that it requires resources and funding to implement these incentive programs.</span></p>
+          <fieldset class="im-matching-question im-head-drop-row" id="question-4" data-question="4">
+            <legend class="im-visually-hidden">Question 4. Choose a heading for paragraph E.</legend>
+            <label class="im-visually-hidden" for="q4">Heading for paragraph E</label>
+            <input class="im-drop im-head-zone im-head-drop im-drop-empty" type="text" id="q4" name="q4" data-im-q="4" data-im-group="mh-1-4" placeholder="4" aria-haspopup="true" aria-expanded="false" autocomplete="off" readonly />
+            <div class="im-heading-picker" hidden></div>
+          </fieldset>
+          <p class="im-article-paragraph" id="paragraph-E"><strong class="im-para-letter">E.</strong> <span class="im-para-text">4. Educate the public: Increasing awareness about the harmful effects of plastic bags and promoting the benefits of reusable alternatives can help to change consumer behavior. Educational campaigns can inform people about the environmental impact of plastic bags and provide tips on how to reduce their use. The advantage of public education is that it <span class="im-vocab-word-in-text">empowers</span> individuals to make informed choices and take action to protect the environment. However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption.</span></p>
+          <p class="im-article-paragraph" id="paragraph-F"><strong class="im-para-letter">F.</strong> <span class="im-para-text">Advantages of plastic bags:
+1. Convenience: Plastic bags are lightweight and easy to carry, making them convenient for shopping and transporting goods.
+2. Cost-effective: Plastic bags are inexpensive to produce and purchase, making them a cost-effective option for retailers.
+3. Waterproof: Plastic bags are resistant to water, which helps to protect items from moisture during transportation.
+4. Hygienic: Plastic bags can be easily disposed of after use, reducing the risk of contamination and spreading of germs.
+5. <span class="im-vocab-word-in-text">Versatile</span>: Plastic bags come in various sizes and styles, making them suitable for a wide range of purposes, such as packaging, storage, and waste disposal.</span></p>
+          <p class="im-article-paragraph" id="paragraph-G"><strong class="im-para-letter">G.</strong> <span class="im-para-text">Disadvantages of plastic bags:
+1. Environmental impact: Plastic bags are non-biodegradable and can take hundreds of years to decompose, leading to pollution of land and water bodies.
+2. Harmful to wildlife: Plastic bags pose a threat to wildlife, as they can be ingested or entangled by animals, leading to injury or death.
+3. Resource <span class="im-vocab-word-in-text">depletion</span>: The production of plastic bags requires the use of natural resources, such as petroleum and natural gas, contributing to resource depletion and environmental degradation.
+4. Littering: Plastic bags are often littered in the environment, causing visual pollution and <span class="im-vocab-word-in-text">negatively</span> impacting ecosystems.
+5. Health risks: The chemicals used in the production of plastic bags can leach into the environment and pose health risks to humans and animals.</span></p>
+          <p class="im-article-paragraph" id="paragraph-H"><strong class="im-para-letter">H.</strong> <span class="im-para-text">Stopping people from buying plastic bags requires a combination of strategies, such as implementing bans or taxes, providing incentives for reusable options, and educating the public about the environmental impact of plastic bags. While plastic bags offer convenience and cost-effectiveness, their harmful effects on the environment and wildlife outweigh their benefits. It is essential for governments, businesses, and individuals to work together to reduce the consumption of plastic bags and promote sustainable alternatives for the well-being of our planet.</span></p>
+        </div>
+      </div>
+    </section>
+    <div class="im-splitter" id="im-splitter" role="separator" aria-label="Resize article and question panels" aria-orientation="vertical" tabindex="0"><span class="im-splitter-grip" aria-hidden="true">↔</span></div>
+    <section class="im-question-col" id="im-questions" aria-label="Article questions">
+      <div class="im-question-body">
+        <section class="im-group" data-im-from="1" data-im-to="4" aria-labelledby="group-1-4">
+          <h3 class="im-group-title" id="group-1-4">Questions 1–4</h3>
+          <p class="im-guide">Choose the correct heading for each paragraph and move it into the gap.</p>
+          <p class="im-guide">This article has eight paragraphs, A–H.</p>
+          <div class="im-head-block"><h4 class="im-head-list-title">List of Headings</h4>
+            <div class="im-bank im-bank-plain" data-im-group="mh-1-4" aria-label="Draggable headings">
+              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="i" aria-pressed="false"><span class="im-roman">i</span> Mandatory recycling programs for plastic bags</button>
+              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="ii" aria-pressed="false"><span class="im-roman">ii</span> Increasing plastic bag prices through taxation</button>
+              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="iii" aria-pressed="false"><span class="im-roman">iii</span> Prohibiting single-use bags in retail environments</button>
+              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="iv" aria-pressed="false"><span class="im-roman">iv</span> Complete elimination of all packaging waste</button>
+              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="v" aria-pressed="false"><span class="im-roman">v</span> Raising consumer awareness through educational campaigns</button>
+              <button type="button" class="im-chip im-chip-wide" draggable="true" data-im-group="mh-1-4" data-heading="vi" aria-pressed="false"><span class="im-roman">vi</span> Encouraging reusable bag use through rewards</button>
+            </div>
+          </div>
+        </section>
+        <section class="im-group" data-im-from="5" data-im-to="7" aria-labelledby="group-5-7">
+          <h3 class="im-group-title" id="group-5-7">Questions 5–7</h3>
+          <p class="im-guide">Choose TRUE if the statement agrees with the information given in the text, choose FALSE if the statement contradicts the information, or choose NOT GIVEN if there is no information on this.</p>
+          <fieldset class="im-question im-question-choice" id="question-5" data-question="5">
+            <legend class="im-q-text"><span class="im-qnum">5</span>A tax on plastic bags might disproportionately affect individuals with lower incomes.</legend>
+            <div class="im-options">
+              <div class="im-option-row"><input type="radio" id="q5-true" name="q5" value="TRUE"/><label class="im-option-label" for="q5-true">TRUE</label></div>
+              <div class="im-option-row"><input type="radio" id="q5-false" name="q5" value="FALSE"/><label class="im-option-label" for="q5-false">FALSE</label></div>
+              <div class="im-option-row"><input type="radio" id="q5-not-given" name="q5" value="NOT GIVEN"/><label class="im-option-label" for="q5-not-given">NOT GIVEN</label></div>
+            </div>
+          </fieldset>
+          <fieldset class="im-question im-question-choice" id="question-6" data-question="6">
+            <legend class="im-q-text"><span class="im-qnum">6</span>The production of plastic bags requires more water than paper bag production.</legend>
+            <div class="im-options">
+              <div class="im-option-row"><input type="radio" id="q6-true" name="q6" value="TRUE"/><label class="im-option-label" for="q6-true">TRUE</label></div>
+              <div class="im-option-row"><input type="radio" id="q6-false" name="q6" value="FALSE"/><label class="im-option-label" for="q6-false">FALSE</label></div>
+              <div class="im-option-row"><input type="radio" id="q6-not-given" name="q6" value="NOT GIVEN"/><label class="im-option-label" for="q6-not-given">NOT GIVEN</label></div>
+            </div>
+          </fieldset>
+          <fieldset class="im-question im-question-choice" id="question-7" data-question="7">
+            <legend class="im-q-text"><span class="im-qnum">7</span>Plastic bags easily break down in nature within a few months.</legend>
+            <div class="im-options">
+              <div class="im-option-row"><input type="radio" id="q7-true" name="q7" value="TRUE"/><label class="im-option-label" for="q7-true">TRUE</label></div>
+              <div class="im-option-row"><input type="radio" id="q7-false" name="q7" value="FALSE"/><label class="im-option-label" for="q7-false">FALSE</label></div>
+              <div class="im-option-row"><input type="radio" id="q7-not-given" name="q7" value="NOT GIVEN"/><label class="im-option-label" for="q7-not-given">NOT GIVEN</label></div>
+            </div>
+          </fieldset>
+        </section>
+        <section class="im-group" data-im-from="8" data-im-to="10" aria-labelledby="group-8-10">
+          <h3 class="im-group-title" id="group-8-10">Questions 8–10</h3>
+          <p class="im-guide">Choose the correct answer.</p>
+          <fieldset class="im-question im-question-choice" id="question-8" data-question="8">
+            <legend class="im-q-text"><span class="im-qnum">8</span>What advantage do plastic bags provide for retailers regarding costs?</legend>
+            <div class="im-options">
+              <div class="im-option-row"><input type="radio" id="q8-a" name="q8" value="A"/><label class="im-option-label" for="q8-a">A They are free to manufacture.</label></div>
+              <div class="im-option-row"><input type="radio" id="q8-b" name="q8" value="B"/><label class="im-option-label" for="q8-b">B They are inexpensive to produce and purchase.</label></div>
+              <div class="im-option-row"><input type="radio" id="q8-c" name="q8" value="C"/><label class="im-option-label" for="q8-c">C They increase store profits significantly.</label></div>
+              <div class="im-option-row"><input type="radio" id="q8-d" name="q8" value="D"/><label class="im-option-label" for="q8-d">D They require zero raw materials.</label></div>
+            </div>
+          </fieldset>
+          <fieldset class="im-question im-question-choice" id="question-9" data-question="9">
+            <legend class="im-q-text"><span class="im-qnum">9</span>Which natural resources are used in the production of plastic bags?</legend>
+            <div class="im-options">
+              <div class="im-option-row"><input type="radio" id="q9-a" name="q9" value="A"/><label class="im-option-label" for="q9-a">A Petroleum and natural gas</label></div>
+              <div class="im-option-row"><input type="radio" id="q9-b" name="q9" value="B"/><label class="im-option-label" for="q9-b">B Coal and solar power</label></div>
+              <div class="im-option-row"><input type="radio" id="q9-c" name="q9" value="C"/><label class="im-option-label" for="q9-c">C Biofuel and timber</label></div>
+              <div class="im-option-row"><input type="radio" id="q9-d" name="q9" value="D"/><label class="im-option-label" for="q9-d">D Wind power and water</label></div>
+            </div>
+          </fieldset>
+          <fieldset class="im-question im-question-choice" id="question-10" data-question="10">
+            <legend class="im-q-text"><span class="im-qnum">10</span>According to the passage, what is a potential health risk associated with plastic bags?</legend>
+            <div class="im-options">
+              <div class="im-option-row"><input type="radio" id="q10-a" name="q10" value="A"/><label class="im-option-label" for="q10-a">A Bacteria growth on handles</label></div>
+              <div class="im-option-row"><input type="radio" id="q10-b" name="q10" value="B"/><label class="im-option-label" for="q10-b">B Chemicals leaching into the environment</label></div>
+              <div class="im-option-row"><input type="radio" id="q10-c" name="q10" value="C"/><label class="im-option-label" for="q10-c">C Dust accumulation on stored items</label></div>
+              <div class="im-option-row"><input type="radio" id="q10-d" name="q10" value="D"/><label class="im-option-label" for="q10-d">D Allergic reactions from direct touch</label></div>
+            </div>
+          </fieldset>
+        </section>
+        <section class="im-group" data-im-from="11" data-im-to="13" aria-labelledby="group-11-13">
+          <h3 class="im-group-title" id="group-11-13">Questions 11–13</h3>
+          <p class="im-guide">Complete the sentences. Write <strong>NO MORE THAN TWO WORDS</strong> from the text for each answer.</p>
+          <fieldset class="im-question im-question-gap" id="question-11" data-question="11">
+            <legend class="im-visually-hidden">Question 11. Plastic bags take hundreds of years to decompose because they are not  [blank] .</legend>
+            <p class="im-q-text"><span class="im-qnum">11</span><label for="q11">Plastic bags take hundreds of years to decompose because they are not </label><input class="im-gap-input" type="text" id="q11" name="q11" placeholder="11" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Answer to question 11"/>.</p>
+          </fieldset>
+          <fieldset class="im-question im-question-gap" id="question-12" data-question="12">
+            <legend class="im-visually-hidden">Question 12. Educational campaigns aim to raise  [blank]  regarding the harmful effects of plastic bags.</legend>
+            <p class="im-q-text"><span class="im-qnum">12</span><label for="q12">Educational campaigns aim to raise </label><input class="im-gap-input" type="text" id="q12" name="q12" placeholder="12" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Answer to question 12"/> regarding the harmful effects of plastic bags.</p>
+          </fieldset>
+          <fieldset class="im-question im-question-gap" id="question-13" data-question="13">
+            <legend class="im-visually-hidden">Question 13. Animals can suffer injury or death when they are entangled or when plastic bags are  [blank]  by them.</legend>
+            <p class="im-q-text"><span class="im-qnum">13</span><label for="q13">Animals can suffer injury or death when they are entangled or when plastic bags are </label><input class="im-gap-input" type="text" id="q13" name="q13" placeholder="13" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Answer to question 13"/> by them.</p>
+          </fieldset>
+        </section>
+      </div>
+    </section>
+  </main>
+  <div class="im-inline-step" aria-label="Previous or next question"><button id="im-previous" class="im-step-btn" type="button" aria-label="Previous question">‹</button><button id="im-next" class="im-step-btn" type="button" aria-label="Next question">›</button></div>
+  <footer class="im-footer" id="im-footer">
+    <div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav class="im-qnav" id="im-qnav" aria-label="Questions">
+            <button type="button" class="im-qnav-item" data-im-question="1" aria-label="Question 1"><span class="im-qnav-tick" aria-hidden="true"></span>1</button>
+            <button type="button" class="im-qnav-item" data-im-question="2" aria-label="Question 2"><span class="im-qnav-tick" aria-hidden="true"></span>2</button>
+            <button type="button" class="im-qnav-item" data-im-question="3" aria-label="Question 3"><span class="im-qnav-tick" aria-hidden="true"></span>3</button>
+            <button type="button" class="im-qnav-item" data-im-question="4" aria-label="Question 4"><span class="im-qnav-tick" aria-hidden="true"></span>4</button>
+            <button type="button" class="im-qnav-item" data-im-question="5" aria-label="Question 5"><span class="im-qnav-tick" aria-hidden="true"></span>5</button>
+            <button type="button" class="im-qnav-item" data-im-question="6" aria-label="Question 6"><span class="im-qnav-tick" aria-hidden="true"></span>6</button>
+            <button type="button" class="im-qnav-item" data-im-question="7" aria-label="Question 7"><span class="im-qnav-tick" aria-hidden="true"></span>7</button>
+            <button type="button" class="im-qnav-item" data-im-question="8" aria-label="Question 8"><span class="im-qnav-tick" aria-hidden="true"></span>8</button>
+            <button type="button" class="im-qnav-item" data-im-question="9" aria-label="Question 9"><span class="im-qnav-tick" aria-hidden="true"></span>9</button>
+            <button type="button" class="im-qnav-item" data-im-question="10" aria-label="Question 10"><span class="im-qnav-tick" aria-hidden="true"></span>10</button>
+            <button type="button" class="im-qnav-item" data-im-question="11" aria-label="Question 11"><span class="im-qnav-tick" aria-hidden="true"></span>11</button>
+            <button type="button" class="im-qnav-item" data-im-question="12" aria-label="Question 12"><span class="im-qnav-tick" aria-hidden="true"></span>12</button>
+            <button type="button" class="im-qnav-item" data-im-question="13" aria-label="Question 13"><span class="im-qnav-tick" aria-hidden="true"></span>13</button>
+    </nav></div></div>
+    <div class="im-foot-right"><button type="button" class="im-back" id="im-back" title="Back to reading">‹ <span>Back</span></button><button type="button" id="im-check-btn" class="im-check" aria-label="Check answers" title="Review answers">✓</button></div>
+  </footer>
+</div>
+<dialog class="im-modal" id="im-result" aria-labelledby="im-result-title">
+  <h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+  <div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+  <div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</dialog>
+<script>
+(() => {
+  'use strict';
+  const root = document.querySelector('.im-app');
+  const main = document.querySelector('.im-main');
+  const passage = document.getElementById('im-passage-col');
+  const questionPanel = document.getElementById('im-questions');
+  const split = document.getElementById('im-splitter');
+  const navButtons = [...document.querySelectorAll('.im-qnav-item')];
+  const bankButtons = [...document.querySelectorAll('.im-chip[data-heading]')];
+  const headingInputs = [...document.querySelectorAll('.im-head-drop')];
+  const otherInputs = [...document.querySelectorAll('.im-options input, .im-gap-input')];
+  const headingLabels = Object.fromEntries(bankButtons.map((button) => [button.dataset.heading, button.textContent.trim().replace(/^\S+\s+/, '')]));
+  const solution = Object.freeze({
+    q1: 'iii', q2: 'ii', q3: 'vi', q4: 'v',
+    q5: 'TRUE', q6: 'NOT GIVEN', q7: 'FALSE',
+    q8: 'B', q9: 'A', q10: 'B',
+    q11: 'biodegradable', q12: 'awareness', q13: 'ingested'
+  });
+  const userScope = new URLSearchParams(location.search).get('user');
+  const storageKey = userScope ? 'learners-area.article.plastic-bags.v1.' + userScope : null;
+  const state = { answers: {}, remainingSeconds: 180, isPaused: false };
+  let selectedHeading = null;
+  let activeQuestion = 1;
+  let timerInterval = null;
+  let pickerAnchor = null;
+  let pointerStartRatio = null;
+
+  function safeStore() {
+    try { if (!storageKey) return; localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    catch (_) { /* Standalone private modes may disable storage. */ }
+  }
+
+  function safeRestore() {
+    try {
+      if (!storageKey) return;
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (!parsed || typeof parsed !== 'object') return;
+      for (let i = 1; i <= 13; i++) {
+        const value = parsed.answers && parsed.answers['q' + i];
+        if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
+      }
+      if (Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(180, Math.floor(parsed.remainingSeconds)));
+      state.isPaused = !!parsed.isPaused;
+    } catch (_) { /* Ignore corrupted saved data. */ }
+  }
+
+  function refreshAnswered() {
+    navButtons.forEach((button) => {
+      const q = 'q' + button.dataset.imQuestion;
+      const answered = !!String(state.answers[q] || '').trim();
+      button.classList.toggle('im-answered', answered);
+      button.setAttribute('aria-label', `Question ${button.dataset.imQuestion}, ${answered ? 'answered' : 'not answered'}`);
+    });
+    bankButtons.forEach((button) => {
+      const id = button.dataset.heading;
+      const used = headingInputs.some((input) => state.answers[input.name] === id);
+      button.classList.toggle('im-chip-used', used);
+      button.classList.toggle('im-chip-selected', selectedHeading === id);
+      button.setAttribute('aria-pressed', String(selectedHeading === id));
+    });
+  }
+
+  function updateAnswer(name, value) {
+    if (!/^q([1-9]|1[0-3])$/.test(name)) return;
+    if (value) state.answers[name] = value;
+    else delete state.answers[name];
+    safeStore();
+    refreshAnswered();
+    document.dispatchEvent(new CustomEvent('learnersarea:article-answer', { detail: { question: Number(name.slice(1)), answer: value } }));
+  }
+
+  function closePicker() {
+    if (!pickerAnchor) return;
+    const popup = pickerAnchor.parentElement.querySelector('.im-heading-picker');
+    popup.hidden = true;
+    pickerAnchor.setAttribute('aria-expanded', 'false');
+    pickerAnchor = null;
+  }
+
+  function applyHeading(input, headingId) {
+    if (headingId && !(headingId in headingLabels)) return;
+    // Each heading can be used only once in this matching question bank.
+    headingInputs.forEach((other) => {
+      if (other !== input && state.answers[other.name] === headingId && headingId) {
+        other.value = '';
+        other.classList.add('im-drop-empty');
+        other.title = `Choose a heading for question ${other.dataset.imQ}`;
+        delete state.answers[other.name];
+      }
+    });
+    input.value = headingId ? `${headingId} ${headingLabels[headingId]}` : '';
+    input.classList.toggle('im-drop-empty', !headingId);
+    input.title = headingId ? `Assigned: ${headingLabels[headingId]}. Click to change.` : 'Click to choose a heading';
+    updateAnswer(input.name, headingId);
+    selectedHeading = null;
+    closePicker();
+    refreshAnswered();
+    goToQuestion(Number(input.dataset.imQ), false);
+  }
+
+  function openPicker(input) {
+    if (pickerAnchor === input) { closePicker(); return; }
+    closePicker();
+    const picker = input.parentElement.querySelector('.im-heading-picker');
+    picker.replaceChildren();
+    Object.entries(headingLabels).forEach(([id, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = `${id}  ${label}`;
+      button.addEventListener('click', () => { applyHeading(input, id); input.focus(); });
+      picker.append(button);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'im-clear';
+    clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { applyHeading(input, ''); input.focus(); });
+    picker.append(clear);
+    picker.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    pickerAnchor = input;
+  }
+
+  function restoreInputs() {
+    headingInputs.forEach((input) => {
+      const selected = state.answers[input.name];
+      input.value = headingLabels[selected] ? `${selected} ${headingLabels[selected]}` : '';
+      input.classList.toggle('im-drop-empty', !headingLabels[selected]);
+      input.title = 'Click to choose or change the heading';
+    });
+    otherInputs.forEach((input) => {
+      if (input.type === 'radio') input.checked = state.answers[input.name] === input.value;
+      else input.value = state.answers[input.name] || '';
+    });
+    refreshAnswered();
+  }
+
+  bankButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedHeading = selectedHeading === button.dataset.heading ? null : button.dataset.heading;
+      closePicker();
+      refreshAnswered();
+    });
+    button.addEventListener('dragstart', (event) => {
+      selectedHeading = button.dataset.heading;
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', selectedHeading);
+      }
+      refreshAnswered();
+    });
+  });
+
+  headingInputs.forEach((input) => {
+    input.addEventListener('click', () => {
+      if (selectedHeading) applyHeading(input, selectedHeading);
+      else openPicker(input);
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (selectedHeading) applyHeading(input, selectedHeading);
+        else openPicker(input);
+      } else if (event.key === 'Escape') closePicker();
+      else if (event.key === 'Delete' || event.key === 'Backspace') {
+        event.preventDefault();
+        applyHeading(input, '');
+      }
+    });
+    input.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      input.classList.add('im-drop-drop-target');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    input.addEventListener('dragleave', () => input.classList.remove('im-drop-drop-target'));
+    input.addEventListener('drop', (event) => {
+      event.preventDefault();
+      input.classList.remove('im-drop-drop-target');
+      const value = event.dataTransfer && event.dataTransfer.getData('text/plain');
+      if (value in headingLabels) applyHeading(input, value);
+    });
+  });
+  document.addEventListener('click', (event) => {
+    if (pickerAnchor && !pickerAnchor.parentElement.contains(event.target)) closePicker();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePicker(); });
+
+  otherInputs.forEach((input) => {
+    const eventName = input.type === 'radio' ? 'change' : 'input';
+    input.addEventListener(eventName, () => {
+      updateAnswer(input.name, input.value.trim());
+      if (input.type === 'text') {
+        const count = input.value.trim().split(/\s+/).filter(Boolean).length;
+        input.setCustomValidity(count > 2 ? 'Enter no more than two words.' : '');
+      }
+    });
+    input.addEventListener('focus', () => goToQuestion(Number(input.name.slice(1)), false));
+  });
+
+  function goToQuestion(number, shouldScroll = true) {
+    if (!Number.isInteger(number) || number < 1 || number > 13) return;
+    activeQuestion = number;
+    navButtons.forEach((button) => {
+      const current = Number(button.dataset.imQuestion) === number;
+      button.classList.toggle('im-active', current);
+      if (current) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('im-previous').disabled = number === 1;
+    document.getElementById('im-next').disabled = number === 13;
+    if (!shouldScroll) return;
+    const target = document.getElementById('question-' + number);
+    if (!target) return;
+    target.scrollIntoView({block: 'center', behavior: 'smooth'});
+  }
+  navButtons.forEach((button) => {
+    button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
+  });
+  document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
+  document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
+
+  function updateTimer() {
+    const seconds = state.remainingSeconds;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    const clock = document.getElementById('im-clock');
+    clock.textContent = `${mm}:${ss}`;
+    clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
+    document.getElementById('im-read-left').textContent = seconds ? `~${Math.ceil(seconds / 60)} min left` : 'Time is over';
+    document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
+    document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+  }
+  document.getElementById('im-pause').addEventListener('click', () => {
+    state.isPaused = !state.isPaused;
+    updateTimer(); safeStore();
+  });
+  timerInterval = window.setInterval(() => {
+    if (state.isPaused || state.remainingSeconds <= 0) return;
+    state.remainingSeconds -= 1;
+    updateTimer(); safeStore();
+  }, 1000);
+
+  passage.addEventListener('scroll', () => {
+    const max = passage.scrollHeight - passage.clientHeight;
+    const fraction = max > 0 ? Math.max(0, Math.min(1, passage.scrollTop / max)) : 1;
+    document.getElementById('im-read-fill').style.width = `${(fraction * 100).toFixed(1)}%`;
+  }, {passive:true});
+
+  split.addEventListener('pointerdown', (event) => {
+    if (window.matchMedia('(max-width: 850px)').matches) return;
+    pointerStartRatio = event.pointerId;
+    split.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  split.addEventListener('pointermove', (event) => {
+    if (pointerStartRatio !== event.pointerId) return;
+    const bounds = main.getBoundingClientRect();
+    const raw = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const percent = Math.max(30, Math.min(70, raw));
+    root.style.setProperty('--im-left-width', `${percent}%`);
+  });
+  function releaseDivider(event) {
+    if (pointerStartRatio === event.pointerId) pointerStartRatio = null;
+  }
+  split.addEventListener('pointerup', releaseDivider);
+  split.addEventListener('pointercancel', releaseDivider);
+  split.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const old = parseFloat(root.style.getPropertyValue('--im-left-width')) || 49.5;
+    root.style.setProperty('--im-left-width', `${Math.max(30, Math.min(70, old + (event.key === 'ArrowRight' ? 2 : -2)))}%`);
+  });
+
+  function normalise(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  }
+  const resultDialog = document.getElementById('im-result');
+  document.getElementById('im-check-btn').addEventListener('click', () => {
+    const body = document.getElementById('im-review-body');
+    const fragment = document.createDocumentFragment();
+    let correct = 0;
+    for (let i = 1; i <= 13; i++) {
+      const key = 'q' + i;
+      const given = String(state.answers[key] || '');
+      const isCorrect = normalise(given) === normalise(solution[key]);
+      correct += Number(isCorrect);
+      const tr = document.createElement('tr');
+      const cellNo = document.createElement('td');
+      cellNo.textContent = String(i);
+      const cellGiven = document.createElement('td');
+      cellGiven.textContent = given || '—';
+      const cellCorrect = document.createElement('td');
+      cellCorrect.textContent = solution[key];
+      const cellStatus = document.createElement('td');
+      cellStatus.textContent = isCorrect ? '✓' : '✕';
+      cellStatus.className = isCorrect ? 'im-ok' : 'im-bad';
+      tr.append(cellNo, cellGiven, cellCorrect, cellStatus);
+      fragment.append(tr);
+    }
+    body.replaceChildren(fragment);
+    document.getElementById('im-score').textContent = `${correct} / 13 correct`;
+    if (typeof resultDialog.showModal === 'function') resultDialog.showModal();
+    else resultDialog.setAttribute('open', '');
+  });
+  document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
+  document.getElementById('im-back').addEventListener('click', () => {
+    const handled = !window.dispatchEvent(new CustomEvent('learnersarea:article-back', {cancelable:true, detail:{articleId:'plastic-bags'}}));
+    if (handled) return;
+    if (history.length > 1) history.back();
+    else window.location.assign('/reading');
+  });
+  window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
+  safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+})();
+</script>
+</body>
+</html>

@@ -232,6 +232,7 @@ export default {
         "requestedType": "Requested question type",
         "lessonsEmpty": "No Reading lessons are published yet.",
         "products": {
+            "articles": { "title": "Articles", "hint": "" },
             "lessons": {
                 "title": "Lessons",
                 "hint": "Reading lessons and your private notes."

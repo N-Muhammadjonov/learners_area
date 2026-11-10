@@ -64,7 +64,7 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
         existing_id=known_lexemes.get(str(lexeme['id'])) if lexeme else None
         existing_id=existing_id or known_senses.get(key)
         if existing_id:
-            if source_type in ('video','speaking') and folder_id:
+            if source_type in ('video','speaking','article') and folder_id:
                 predicate='folder_id IS DISTINCT FROM $3' if move_existing else 'folder_id IS NULL'
                 status=await con.execute(f'''UPDATE user_vocabulary SET folder_id=$3
                   WHERE user_id=$1 AND id=$2 AND {predicate}''',user_id,existing_id,folder_id)
