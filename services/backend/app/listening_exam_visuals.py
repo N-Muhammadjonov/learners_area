@@ -1,11 +1,15 @@
-"""Inert existing map geometry for the key-free native exam projection.
+"""Inert question layout and maps for the key-free native exam projection.
 
-Only the authored PARTS constant is parsed. No JavaScript is executed and the
-answer-bearing DATA/transcript/study objects are never returned.
+Only the matching public question identities and sanitized PARTS markup leave
+the server. The authored JavaScript and answer-bearing objects stay server-side.
 """
 import json,re
 from functools import lru_cache
 from xml.etree import ElementTree as ET
+
+from bleach import Cleaner
+from bleach.css_sanitizer import CSSSanitizer
+from bleach.html5lib_shim import Filter
 
 ATTRS={'x','y','x1','x2','y1','y2','cx','cy','r','rx','ry','width','height','d','points','fill','stroke','stroke-width','stroke-dasharray','font-size','text-anchor','transform','opacity'}
 NAMES={'stroke-width':'strokeWidth','stroke-dasharray':'strokeDasharray','font-size':'fontSize','text-anchor':'textAnchor'}
@@ -55,3 +59,85 @@ def source_map(source):
             diagram=svg_diagram(match[0])
             if diagram and diagram['viewBox'][2]>100:return diagram
     return None
+
+
+PART_TAGS = frozenset('div span p strong b em i br hr ul ol li table thead tbody tfoot tr th td h2 h3 h4 label input select option'.split())
+PART_ATTRIBUTES = frozenset('class id type name aria-label colspan rowspan placeholder data-q data-qnum data-group data-question data-code data-label data-placeholder data-pair-qs data-pair-group data-max data-ldm-group data-radio style'.split())
+PART_STYLES = frozenset('margin margin-top margin-bottom margin-left margin-right padding padding-top padding-bottom padding-left padding-right width min-width max-width height min-height display gap column-gap row-gap grid-template-columns grid-column flex flex-wrap flex-direction justify-content align-items text-align font-size font-weight border border-color border-width border-style border-collapse border-bottom color background-color vertical-align white-space line-height'.split())
+
+
+def part_attribute(tag: str, name: str, value: str) -> bool:
+    if name == 'value':
+        return tag in ('input','option') and (value == '' or bool(re.fullmatch(r'[A-Za-z0-9]{1,4}', value)))
+    return name in PART_ATTRIBUTES and (name != 'style' or not re.search(r'url\s*\(|expression\s*\(',value,re.I))
+
+
+class EmptyTextInputs(Filter):
+    def __iter__(self):
+        for token in super().__iter__():
+            if token.get('name') == 'input' and token['type'] in ('StartTag', 'EmptyTag'):
+                attrs = token['data']
+                if attrs.get((None, 'type')) not in ('radio', 'checkbox'):
+                    attrs.pop((None, 'value'), None)
+            yield token
+
+
+def normalized_choice(text: str, code: str) -> str:
+    prefix = rf'^{re.escape(code)}(?:[.)]\s*|\s+)'
+    value = ' '.join(text.split())
+    while re.match(prefix, value):
+        value = re.sub(prefix, '', value, count=1)
+    return value
+
+
+def source_signature(questions, number_key, part_key, text_key):
+    return tuple(sorted((q[number_key], q[part_key], ' '.join(q[text_key].split())) for q in questions))
+
+
+@lru_cache(maxsize=32)
+def pinned_exam_parts(source: str) -> tuple[tuple, tuple[str, ...], dict[int, tuple[tuple[str, str], ...]]] | None:
+    match=re.fullmatch(r'listening-test-([1-9]|[12][0-9]|3[0-2])',source)
+    if not match:return None
+    from .listening_runtime import runtime
+    data=runtime(int(match[1]))
+    html=data['files'].get(data['entryPath'],'')
+    parts=re.search(r'\bconst PARTS\s*=\s*',html)
+    catalogue=re.search(r'\bconst DATA\s*=\s*',html)
+    if not parts or not catalogue:return None
+    try:
+        bodies,_=json.JSONDecoder().raw_decode(html[parts.end():])
+        original,_=json.JSONDecoder().raw_decode(html[catalogue.end():])
+        questions=original['questions']
+        rows=list(questions.values()) if isinstance(questions,dict) else questions
+        fingerprint=source_signature(rows,'q','part','prompt')
+        if len(fingerprint)!=40 or set(bodies)!={'1','2','3','4'}:return None
+        if any(re.search(r'<\s*(?:script|iframe|object|style|textarea)\b', body, re.I) for body in bodies.values()):
+            return None
+        choices = {
+            q['q']: tuple((o['code'], normalized_choice(o['text'], o['code'])) for o in q['options'])
+            for q in rows if q.get('options')
+        }
+        # Maps are projected through the existing inert geometry/image paths.
+        cleaner=Cleaner(tags=PART_TAGS,attributes=part_attribute,
+                        css_sanitizer=CSSSanitizer(allowed_css_properties=PART_STYLES),
+                        filters=[EmptyTextInputs],strip=True)
+        cleaned = tuple(cleaner.clean(re.sub(r'<svg\b[^>]*>.*?</svg>', '', bodies[str(n)], flags=re.I|re.S)) for n in range(1, 5))
+        return fingerprint, cleaned, choices
+    except (TypeError,ValueError,KeyError):
+        return None
+
+
+def exam_parts(source: str | None, questions: list[dict]) -> tuple[str, ...] | None:
+    if not source or len(questions)!=40:return None
+    pinned=pinned_exam_parts(source)
+    if not pinned or pinned[0] != source_signature(questions, 'number', 'section', 'text'):
+        return None
+    _, parts, choices = pinned
+    for q in questions:
+        expected = choices.get(q['number'])
+        if expected is not None and (
+            len(expected) != len(q['options']) or
+            any(normalized_choice(text, code) != label for (code, label), text in zip(expected, q['options']))
+        ):
+            return None
+    return parts

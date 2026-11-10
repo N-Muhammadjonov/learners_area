@@ -956,12 +956,15 @@ html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-nat
 }
 /* Only the topbar user-name text; dynamically supplied for any account. */
 html[data-theme] #root [data-campus-shell] [data-shell-topbar]
-  [data-profile-menu-trigger] > span.hidden {
-  -webkit-text-fill-color: #000000 !important;
+  [data-profile-menu-trigger] > [data-profile-name] {
+  -webkit-text-fill-color: var(--la-profile-name-ink, #000000) !important;
 }
 html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-shell-topbar]
-  [data-profile-menu-trigger] > span.hidden {
-  color: #000000 !important;
+  [data-profile-menu-trigger] > [data-profile-name] {
+  color: var(--la-profile-name-ink, #000000) !important;
+}
+html[data-theme="night"] #root [data-shell-topbar] [data-profile-name] {
+  --la-profile-name-ink: #ffffff;
 }
 
 

@@ -9,6 +9,9 @@ import {examDTO,answerRecord} from '../../js/adapters/listening-v7.js';
 export function listeningExam(context,input,composition={}){
  const p=examDTO(input),{dict,signal}=context,t=dict.fullListeningHub.examScreen,host=document.createElement('div'),keys=listeningAttemptLocalKeys(p.attemptId),ids=new Set(p.questions.map(q=>q.id));
  let answers={...p.initial},notes='',section=1,mediaDuration=p.duration??0,started=!!p.audioStartedAt,position=p.audioPosition,error='',saved='',busy=false,notesOpen=false,confirm=false,dirty=false,saving=false,submitted=false;
+ if(p.cdParts&&!document.querySelector('[data-listening-cd-style]')){
+  document.head.append(h('link',{rel:'stylesheet',href:'/modules/listening/cd-exam.css','data-listening-cd-style':''}));
+ }
  const writer=listeningDraftWriter(p.attemptId,p.draftHash);let conflict=false,reconciling=false;
  let playing=false,startPersisted=started,saveRequested=false,saveTimeout=null,lastSavedPosition=position,forceSavePosition=false;const SAVE_INTERVAL=15000;
  const audio={current:null},container={current:null},pos={current:position};
@@ -37,7 +40,8 @@ export function listeningExam(context,input,composition={}){
   if(n)n.textContent=p.questions.filter(q=>answers[q.id]?.trim()).length+' / '+p.questions.length+' answered';
   host.querySelectorAll('[data-listening-question-index]').forEach(btn=>{
    const has=!!answers[btn.dataset.listeningQuestionIndex]?.trim();
-   btn.classList.toggle('btn-primary',has);btn.classList.toggle('btn-secondary',!has);
+   if(p.cdParts)btn.classList.toggle('answered',has);
+   else{btn.classList.toggle('btn-primary',has);btn.classList.toggle('btn-secondary',!has);}
    const q=p.questions.find(x=>x.id===btn.dataset.listeningQuestionIndex);
    if(q)btn.setAttribute('aria-label','Question '+q.number+', '+(has?'answered':'unanswered'));
   });

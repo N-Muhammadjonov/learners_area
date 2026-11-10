@@ -22,7 +22,10 @@ export function mount(context){const {root,url,dict,signal}=context,parts=url.pa
  else if(attempt&&activity==='revision'&&data.kind==='revision'&&data.revision?.attempt?.id===id)host.replaceChildren(listeningRevision(context,data.revision));
  else if(attempt&&!activity&&data.kind==='legacy-exam'&&data.exam?.attemptId===id)host.replaceChildren(legacyListeningExam(context,data.exam));
  else if(attempt&&!activity&&data.kind==='review'&&data.review?.attempt?.id===id)host.replaceChildren(listeningReview(context,data.review));
- else if(attempt&&data.kind==='exam'&&data.exam?.attemptId===id)host.replaceChildren(listeningExam(context,data.exam));
+ else if(attempt&&data.kind==='exam'&&data.exam?.attemptId===id){
+  host.replaceChildren(listeningExam(context,data.exam));
+  main.querySelector('[data-listening-parent-back]').href='/app/listening/tests/'+data.exam.testId;
+ }
  else if(data.kind==='exam-locked')host.replaceChildren(el('div',{class:'listening-workspace'},el('a',{class:'btn-secondary',href:'/app/listening/tests/'+id},'← Listening'),el('p',{role:'status'},dict.fullListeningHub.research.examLocked)));
  else if(data.kind==='redirect'&&typeof data.href==='string'&&new RegExp('^/app/listening/(?:tests/[0-9a-f-]+/2|general/[0-9a-f-]+)$','i').test(data.href))await context.navigate(data.href,{replace:true});
  else throw Error('Source mode not yet implemented');

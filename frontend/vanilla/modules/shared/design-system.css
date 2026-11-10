@@ -95,6 +95,13 @@ html[data-theme] #root [data-ui-system] :is(.btn-primary,.btn-gold-solid){
  border-color:#2c50cb;background:linear-gradient(165deg,var(--la-primary-start),var(--la-primary-end));
  color:var(--la-primary-ink);box-shadow:inset 0 1px #ffffff35,0 4px 10px #3154d526;
 }
+html[data-theme] #root [data-ui-system] [data-shell-main] :is(.btn-primary,.btn-gold-solid):not(:where(
+ [role="tab"],[role="tablist"] *,[data-module-section],[data-writing-tab],.tab,.chip,
+ .btn-danger,[data-destructive="true"],[data-interaction-type="destructive"],[data-confirm-action],
+ [data-cd-exam] *,[data-reading-full-focus] *,[data-listening-full-focus] *,[data-listening-cd-exam] *
+)){
+ background-image:linear-gradient(90deg,#3ee6d0,#3b6cff);
+}
 html[data-theme] #root [data-ui-system] :is(.btn-ghost){background:transparent;border-color:transparent;color:rgb(var(--workspace-muted))}
 html[data-theme] #root [data-ui-system] :is(.btn-danger,[data-destructive="true"],button[data-interaction-type="destructive"],[data-confirm-action]){background:rgb(var(--workspace-bad)/.09);color:rgb(var(--workspace-bad));border-color:rgb(var(--workspace-bad)/.4)}
 html[data-theme] #root [data-ui-system] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid) :is(span,strong,small){color:inherit}

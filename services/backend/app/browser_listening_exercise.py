@@ -83,9 +83,11 @@ async def exam_payload(con, user, row, test, p, section=False):
     if not diagram and not test.get('image_object_key'):
         from .listening_exam_visuals import source_map
         diagram=source_map(test.get('source_id'))
+    from .listening_exam_visuals import exam_parts
+    parts=exam_parts(test.get('source_id'),public_questions) if not section else None
     return {'attemptId':str(row['id']),'testId':str(test['id']),'title':test['title'],'audioUrl':test['audio_url'],
       'imageUrl':safe_resource(test.get('image_object_key')),'mapDiagram':diagram,'mapSections':map_sections(p),
-      'duration':p.get('audio',{}).get('durationSec'),'questions':public_questions,'initial':draft['answers'] if draft else {},
+      'duration':p.get('audio',{}).get('durationSec'),'questions':public_questions,**({'cdParts':parts} if parts else {}),'initial':draft['answers'] if draft else {},
       'draftHash':listening_draft_hash((json.loads(draft['answers']) if isinstance(draft['answers'],str) else draft['answers']) if draft else {},draft['audio_position'] if draft else 0),
       'audioPosition':draft['audio_position'] if draft else 0,'audioStartedAt':camel(draft)['audioStartedAt'] if draft else None,'sectionMode':section}
 

@@ -1,4 +1,4 @@
-from app.listening_exam_visuals import source_map,svg_diagram
+from app.listening_exam_visuals import exam_parts, pinned_exam_parts, source_map, svg_diagram
 
 def test_existing_authored_maps_are_inert_and_source_exact_geometry():
     for source,count in [('listening-test-1',23),('listening-test-11',44)]:
@@ -15,3 +15,27 @@ def test_svg_never_exposes_scripts_urls_or_arbitrary_attributes():
     assert diagram['shapes'][0]=={'tag':'rect','x':'5'}
     assert source_map('../../private') is None
     assert svg_diagram('<svg viewBox="NaN 0 2 3"></svg>') is None
+
+
+def test_cd_layout_for_every_pinned_full_exam_is_key_free():
+    import re
+
+    for test in range(1, 33):
+        source = f'listening-test-{test}'
+        signature, parts, choices = pinned_exam_parts(source)
+        questions = [
+            {'number': number, 'section': section, 'text': text,
+             'options': [f'{code}) {label}' for code, label in choices.get(number, ())]}
+            for number, section, text in signature
+        ]
+        assert len(parts) == 4 and exam_parts(source, questions) == parts
+        for part in parts:
+            assert not re.search(r'<(?:script|iframe|object|svg)\b|\s(?:on\w+|data-(?:key|correct|answer))=', part, re.I)
+            assert not any('value=' in tag for tag in re.findall(r'<input\b[^>]*>', part, re.I)
+                           if not re.search(r'type="(?:radio|checkbox)"', tag))
+        questions[0]['text'] += ' revised'
+        assert exam_parts(source, questions) is None
+        questions[0]['text'] = signature[0][2]
+        first_choice = next(q for q in questions if q['options'])
+        first_choice['options'][0] = 'Changed choice'
+        assert exam_parts(source, questions) is None
