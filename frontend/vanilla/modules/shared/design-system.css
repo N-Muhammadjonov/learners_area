@@ -6,6 +6,9 @@
  --la-radius-control:12px;--la-radius-card:20px;--la-space-1:4px;--la-space-2:8px;
  --la-space-3:12px;--la-space-4:16px;--la-space-6:24px;--la-space-8:32px;
  --la-transition:160ms cubic-bezier(.2,.7,.2,1);--la-focus:#245be4;
+ --la-hover-card-scale:1.015;--la-hover-card-lift:-3px;--la-hover-button-scale:1.02;
+ --la-hover-arrow-travel:4px;--la-press-lift:1px;--la-press-duration:90ms;
+ --la-vocabulary:#926406;
 }
 html[data-theme="day"] [data-ui-system] {
  --workspace-paper:245 247 252;--workspace-raised:255 255 255;--workspace-sunken:236 241 250;
@@ -22,7 +25,7 @@ html[data-theme="night"] [data-ui-system] {
  --workspace-accent-strong:158 184 255;--la-surface:rgb(var(--workspace-raised));
  --la-shadow:0 4px 18px #00000020;--la-shadow-hover:0 12px 32px #00000035;
  --la-glow:#648bff36;--la-header:rgb(21 30 49 / .9);--la-skill-fill:#1d2d4b;
- --la-listening:#6ce0dd;--la-reading:#a0bcff;--la-writing:#83dfaf;--la-speaking:#c6acff;--la-focus:#a0bcff;
+ --la-listening:#6ce0dd;--la-reading:#a0bcff;--la-writing:#83dfaf;--la-speaking:#c6acff;--la-focus:#a0bcff;--la-vocabulary:#f0c66d;
 }
 html[data-theme] #root [data-ui-system] {
  --accent:49 91 212;--accent-contrast:255 255 255;--radius-card:var(--la-radius-card);--radius-control:var(--la-radius-control);
@@ -45,8 +48,39 @@ html[data-theme] #root [data-ui-system] :is(.card,.panel,[data-ui-card],.practic
  min-width:0;overflow-wrap:anywhere;
 }
 html[data-theme] #root [data-ui-system] :is(.card,.panel,[data-ui-card]){background-image:linear-gradient(135deg,color-mix(in srgb,var(--la-skill,currentColor) 3%,transparent),transparent 60%)}
-html[data-theme] #root [data-ui-system] :is(a.card,button.card,[data-ui-card="module"],article.card):has(a,button),
-html[data-theme] #root [data-ui-system] :is(a.card,button.card,.practice-part-card){transition:transform var(--la-transition),border-color var(--la-transition),box-shadow var(--la-transition)}
+/* Explicit navigation surfaces. A panel containing an editor or a retry action
+   is not a navigation card. Focus/exam frames and the Dock do not opt in. */
+html[data-theme] #root [data-ui-system] :is(
+ a.card[href],button.card,a.panel[href],button.practice-part-card,a:has(>.card),a[data-video-lesson-open],
+ [data-listening-academic-card]:has([data-listening-academic-open]),
+ [data-academic-set][data-academic-locked="false"],[data-reading-lesson],[data-grammar-lesson],
+ [data-speaking-hub-cards] article,[data-passage],[data-ui-card="catalogue"],
+ [data-writing-lessons] article,[data-mock-catalog-card]:has(button:enabled),
+ [data-upcoming-card]:has(a[href],button:enabled),[data-recording-card]>.group
+){
+ position:relative;transform-origin:center;
+ transition:transform var(--la-transition),border-color var(--la-transition),box-shadow var(--la-transition);
+}
+html[data-theme] #root [data-ui-system] a[data-video-lesson-open]>div:last-child{padding-inline-end:48px}
+/* Reserve decoration space before hover. The empty CSS arrow has no hitbox,
+   accessible name, event handler or ownership shared with another card. */
+html[data-theme] #root [data-ui-system] :is(a.card[href],button.card,a.panel[href],button.practice-part-card){padding-inline-end:48px}
+html[data-theme] #root [data-ui-system] :is(a.card[href],button.card,a.panel[href],button.practice-part-card,a:has(>.card),a[data-video-lesson-open]):not([aria-busy="true"])::after{
+ content:"";position:absolute;inset-inline-end:20px;inset-block-end:20px;width:16px;height:12px;
+ background:var(--la-skill,var(--la-focus));clip-path:polygon(0 42%,72% 42%,43% 8%,53% 0,100% 50%,53% 100%,43% 92%,72% 58%,0 58%);
+ opacity:0;transform:translateX(0);pointer-events:none;
+ transition:opacity 120ms ease-out,transform 120ms ease-out;
+}
+html[data-theme] #root [data-ui-system] :is(a.card[href],button.card,a.panel[href],button.practice-part-card,a:has(>.card),a[data-video-lesson-open]):focus-visible:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"])::after{
+ opacity:1;transform:translateX(var(--la-hover-arrow-travel));
+}
+html[data-theme] #root [data-ui-system] :is(a.card,button.card,a.panel,button.practice-part-card):is(:disabled,[aria-disabled="true"],[aria-busy="true"]){transform:none;box-shadow:none}
+html[data-theme] #root [data-ui-system] :is(a.card,button.card,a.panel,button.practice-part-card):is(:disabled,[aria-disabled="true"]){opacity:.5;cursor:not-allowed}
+html[data-theme] #root [data-ui-system] :is(a.card,button.card,a.panel,button.practice-part-card):is(:disabled,[aria-disabled="true"])::after{opacity:0}
+html[data-theme] #root [data-ui-system] [data-speaking-card]>span[aria-hidden="true"],
+html[data-theme] #root [data-ui-system] .writing-lesson-link::after{opacity:0;transform:translateX(0);pointer-events:none;transition:opacity 120ms ease-out,transform 120ms ease-out}
+html[data-theme] #root [data-ui-system] [data-speaking-card]:focus-visible>span[aria-hidden="true"],
+html[data-theme] #root [data-ui-system] .writing-lesson-link:focus-visible::after{opacity:1;transform:translateX(var(--la-hover-arrow-travel))}
 html[data-theme] #root [data-ui-system] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.btn-danger,.la-icon-button) {
  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;
  max-width:100%;padding:10px 17px;border:1px solid rgb(var(--workspace-line));border-radius:var(--la-radius-control);
@@ -69,8 +103,14 @@ html[data-theme] #root [data-ui-system] :is(button,[class*="btn-"])[aria-busy="t
  content:"";width:14px;height:14px;flex:none;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:la-ui-spin .8s linear infinite;
 }
 html[data-theme] #root [data-ui-system] :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--la-focus);outline-offset:3px}
+html[data-theme] #root [data-ui-system] :is(input.input,select.input,textarea.input,.study-plan-form input:not([type="checkbox"]),.study-plan-form select,[data-campus-header-search] input){
+ transition:border-color var(--la-transition),box-shadow var(--la-transition),background-color var(--la-transition);
+}
+html[data-theme] #root [data-ui-system] :is(input.input,select.input,textarea.input,.study-plan-form input:not([type="checkbox"]),.study-plan-form select,[data-campus-header-search] input):focus-visible{
+ border-color:var(--la-focus);box-shadow:0 0 0 4px color-mix(in srgb,var(--la-focus) 15%,transparent);
+}
 html[data-theme] #root [data-ui-system] :is(.tab,.chip,[role="tab"],[data-module-section],[data-writing-tab],button[aria-pressed]){
- border-radius:10px;transition:background-color var(--la-transition),border-color var(--la-transition),color var(--la-transition);
+ border-radius:10px;transition:background-color var(--la-transition),border-color var(--la-transition),color var(--la-transition),transform var(--la-transition);
 }
 html[data-theme] #root [data-ui-system] :is(.tab,.chip,[role="tab"],[data-module-section],button[aria-pressed]):is([aria-selected="true"],[aria-pressed="true"],[aria-current="page"]){
  background:var(--la-skill-fill);color:rgb(var(--workspace-ink));border-color:var(--la-skill,var(--la-focus));box-shadow:inset 0 -2px var(--la-skill,var(--la-focus));
@@ -90,6 +130,7 @@ html[data-theme] #root [data-ui-system] [data-ui-skill="listening"],html[data-th
 html[data-theme] #root [data-ui-system] [data-ui-skill="reading"],html[data-theme] #root [data-ui-system][data-workspace-skill="reading"]{--la-skill:var(--la-reading)}
 html[data-theme] #root [data-ui-system] [data-ui-skill="writing"],html[data-theme] #root [data-ui-system][data-workspace-skill="writing"]{--la-skill:var(--la-writing)}
 html[data-theme] #root [data-ui-system] [data-ui-skill="speaking"],html[data-theme] #root [data-ui-system][data-workspace-skill="speaking"]{--la-skill:var(--la-speaking)}
+html[data-theme] #root [data-ui-system] [data-ui-skill="vocabulary"],html[data-theme] #root [data-ui-system][data-workspace-skill="vocabulary"]{--la-skill:var(--la-vocabulary)}
 html[data-theme] #root [data-ui-system] [data-ui-skill]{border-top:3px solid var(--la-skill)}
 html[data-theme] #root [data-ui-system] .la-skill-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;color:var(--la-skill);background:color-mix(in srgb,var(--la-skill) 10%,transparent)}
 html[data-theme] #root [data-ui-system] .la-skill-icon .module-emoji{background:none;border:0;color:inherit}
@@ -119,22 +160,45 @@ html[data-theme] #root [data-ui-system] [data-speaking-hub-cards] article{border
 .la-navigation-list .module-emoji{width:26px;height:26px;flex:none;background:none;border:0;color:inherit}
 .la-navigation-list a:hover,.la-navigation-list a[aria-current="page"]{background:rgb(var(--workspace-sunken))}
 @media(hover:hover) and (pointer:fine){
- html[data-theme] #root [data-ui-system] :is(.btn-primary,.btn-gold-solid):hover:not(:disabled):not([aria-disabled="true"]){filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 7px 18px var(--la-glow)}
- html[data-theme] #root [data-ui-system] :is(.btn-secondary,.btn-ghost):hover:not(:disabled){background:rgb(var(--workspace-sunken));border-color:var(--la-focus);transform:translateY(-1px)}
- html[data-theme] #root [data-ui-system] :is(a.card,button.card,.practice-part-card,article.card:has(a,button)):hover{transform:translateY(-2px);border-color:var(--la-skill,var(--la-focus));box-shadow:var(--la-shadow-hover)}
+ html[data-theme] #root [data-ui-system] :is(.btn-primary,.btn-gold-solid):hover:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]){filter:brightness(1.06);transform:translateY(calc(var(--la-press-lift) * -1)) scale(var(--la-hover-button-scale));box-shadow:0 7px 18px var(--la-glow)}
+ html[data-theme] #root [data-ui-system] :is(.btn:not(.btn-primary):not(.btn-gold-solid),.btn-secondary,.btn-ghost,.btn-gold,.btn-danger):hover:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]){border-color:var(--la-skill,var(--la-focus));transform:translateY(calc(var(--la-press-lift) * -1));box-shadow:0 3px 10px var(--la-glow)}
+ html[data-theme] #root [data-ui-system] :is(.btn:not(.btn-primary):not(.btn-gold-solid),.btn-secondary,.btn-ghost,.btn-gold,.btn-danger):hover:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]):not(:is([aria-selected="true"],[aria-pressed="true"],[aria-current="page"])){background-color:rgb(var(--workspace-sunken))}
+ html[data-theme] #root [data-ui-system] :is(
+  a.card[href],button.card,a.panel[href],button.practice-part-card,a:has(>.card),a[data-video-lesson-open],
+  [data-listening-academic-card]:has([data-listening-academic-open]),
+  [data-academic-set][data-academic-locked="false"],[data-reading-lesson],[data-grammar-lesson],
+  [data-speaking-hub-cards] article,[data-passage],[data-ui-card="catalogue"],
+  [data-writing-lessons] article,[data-mock-catalog-card]:has(button:enabled),
+  [data-upcoming-card]:has(a[href],button:enabled),[data-recording-card]>.group
+ ):hover:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]){
+  transform:translateY(var(--la-hover-card-lift)) scale(var(--la-hover-card-scale));
+  border-color:var(--la-skill,var(--la-focus));
+  box-shadow:var(--la-shadow-hover),0 5px 20px color-mix(in srgb,var(--la-skill,var(--la-focus)) 15%,transparent);
+ }
+ html[data-theme] #root [data-ui-system] :is(a.card[href],button.card,a.panel[href],button.practice-part-card,a:has(>.card),a[data-video-lesson-open]):hover:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"])::after{opacity:1;transform:translateX(var(--la-hover-arrow-travel))}
+ html[data-theme] #root [data-ui-system] [data-speaking-hub-cards] article:hover [data-speaking-card]>span[aria-hidden="true"],
+ html[data-theme] #root [data-ui-system] [data-writing-lessons] article:hover>.writing-lesson-link::after{opacity:1;transform:translateX(var(--la-hover-arrow-travel))}
+ html[data-theme] #root [data-ui-system] :is(.tab,.chip,[role="tab"],[data-module-section],[data-writing-tab],.study-plan-day):hover:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]){
+  border-color:var(--la-skill,var(--la-focus));transform:translateY(calc(var(--la-press-lift) * -1));
+ }
+ html[data-theme] #root [data-ui-system] :is(.tab,.chip,[role="tab"],[data-module-section],[data-writing-tab],.study-plan-day):hover:not(:disabled):not([aria-disabled="true"]):not(:is([aria-selected="true"],[aria-pressed="true"],[aria-current="page"])){background-color:rgb(var(--workspace-sunken))}
+ html[data-theme] #root [data-ui-system] :is(input.input,select.input,textarea.input,.study-plan-form input:not([type="checkbox"]),.study-plan-form select,[data-campus-header-search] input):hover:not(:disabled):not([readonly]):not(:focus-visible){border-color:var(--la-skill,var(--la-focus));box-shadow:0 0 0 2px color-mix(in srgb,var(--la-skill,var(--la-focus)) 10%,transparent)}
+ html[data-theme] #root [data-ui-system] :is(.la-icon-button,.shell-icon-btn,.theme-btn,[data-profile-menu-trigger],[data-notification-bell]):hover:not(:disabled):not([aria-disabled="true"]){background-color:rgb(var(--workspace-sunken));transform:scale(var(--la-hover-button-scale))}
  .la-speaking-intro:hover .la-mascot{transform:rotate(-3deg) translateY(-2px)}
  .la-speaking-intro:hover .la-mascot__eyes{transform:translateY(-2px)}
 }
-html[data-theme] #root [data-ui-system] :is(.btn-primary,.btn-secondary,.btn-ghost):active:not(:disabled){transform:translateY(1px);filter:brightness(.97);box-shadow:none}
+html[data-theme] #root [data-ui-system] :is(.la-icon-button,.shell-icon-btn,.theme-btn,[data-profile-menu-trigger],[data-notification-bell],.study-plan-day){transition:transform var(--la-transition),border-color var(--la-transition),background-color var(--la-transition),box-shadow var(--la-transition)}
+html[data-theme] #root [data-ui-system] :is(.btn,.btn-primary,.btn-gold-solid,.btn-secondary,.btn-ghost,.btn-gold,.btn-danger,.la-icon-button,.shell-icon-btn,.theme-btn,[data-profile-menu-trigger],[data-notification-bell],a.card,button.card,a.panel,button.practice-part-card,.tab,.chip,[role="tab"],[data-module-section],[data-writing-tab],.study-plan-day):active:not(:disabled):not([aria-disabled="true"]):not([aria-busy="true"]){transform:translateY(var(--la-press-lift)) scale(1);filter:brightness(.97);box-shadow:none;transition-duration:var(--la-press-duration)}
 @media(max-width:1023px){[data-dashboard-content]{grid-template-columns:1fr}[data-dashboard-skills]>div{grid-template-columns:repeat(2,minmax(0,1fr))}html[data-theme] #root [data-ui-system] [data-listening-academic-grid]{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:639px){
- html[data-theme] #root [data-ui-system]{--shell-pad-x:16px;--shell-pad-y:20px}
+ html[data-theme] #root [data-ui-system]{--shell-pad-x:16px;--shell-pad-y:20px;--la-hover-card-scale:1;--la-hover-card-lift:-2px}
  html[data-theme] #root [data-ui-system] [data-listening-academic-grid]{grid-template-columns:1fr}
  .la-dashboard-hero,.la-speaking-intro{padding:20px;gap:12px}.la-speaking-intro .la-mascot{width:82px;height:78px}
  [data-dashboard-stats]{grid-template-columns:repeat(2,minmax(0,1fr))}.la-skill-shortcut{padding:16px;min-height:164px}
  html[data-theme] #root [data-ui-system] :is(button,a[class*="btn"]){min-height:44px}
 }
 @media(prefers-reduced-motion:reduce){
+ html[data-theme] #root [data-ui-system]{--la-hover-card-scale:1;--la-hover-card-lift:0px;--la-hover-button-scale:1;--la-hover-arrow-travel:0px;--la-press-lift:0px;--la-press-duration:0ms;--la-transition:0ms linear}
  html[data-theme] #root [data-ui-system] :is(.motion-enter,.motion-enter-stagger>*,.motion-lift,.card,[class*="btn"],.la-mascot,.la-mascot__eyes){animation:none;transition:none;transform:none}
  html[data-theme] #root [data-ui-system] [aria-busy="true"]::after{animation:none;border-right-color:currentColor;border-style:dotted}
 }
