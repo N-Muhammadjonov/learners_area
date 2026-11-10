@@ -2442,3 +2442,17 @@ html[data-theme] #root [data-owner-academic-filters] input[type="search"]:focus-
 html[data-theme="night"] #root [data-owner-academic-filters] input[type="search"] {
   color-scheme: dark;
 }
+
+/* The authored Listening exam owns its scrolling viewport and original theme. */
+[data-listening-full-focus]:has([data-listening-cd-exam]) {
+ display:flex;
+ flex-direction:column;
+ height:100%;
+ min-height:0;
+}
+[data-listening-full-focus]:has([data-listening-cd-exam]) :is([data-listening-native-v7],[data-listening-exam-mount],[data-listening-exam-view]) {
+ display:flex;
+ flex-direction:column;
+ flex:1;
+ min-height:0;
+}

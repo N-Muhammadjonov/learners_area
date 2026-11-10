@@ -2,46 +2,53 @@ import {listeningDraftWriter} from './draft-writer.js';
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
 import {fieldSelection,restoreWhenAttached} from '../../js/focus-restore.js';
-import {render} from '../../js/generated/NativeListeningExam-v7.js';
+import {examAudio,render} from '../../js/generated/NativeListeningExam-v7.js';
 import {listeningAttemptLocalKeys,clearListeningAttemptLocalState} from '../../js/generated/listening-attempt-local.js';
+import {authoredCdView} from './cd-view.js';
 import {examDTO,answerRecord} from '../../js/adapters/listening-v7.js';
 /** Explicit native exam lifecycle. No lexical controller, answer keys or local grading. */
 export function listeningExam(context,input,composition={}){
  const p=examDTO(input),{dict,signal}=context,t=dict.fullListeningHub.examScreen,host=document.createElement('div'),keys=listeningAttemptLocalKeys(p.attemptId),ids=new Set(p.questions.map(q=>q.id));
  let answers={...p.initial},notes='',section=1,mediaDuration=p.duration??0,started=!!p.audioStartedAt,position=p.audioPosition,error='',saved='',busy=false,notesOpen=false,confirm=false,dirty=false,saving=false,submitted=false;
- if(p.cdParts&&!document.querySelector('[data-listening-cd-style]')){
-  document.head.append(h('link',{rel:'stylesheet',href:'/modules/listening/cd-exam.css','data-listening-cd-style':''}));
- }
  const writer=listeningDraftWriter(p.attemptId,p.draftHash);let conflict=false,reconciling=false;
  let playing=false,startPersisted=started,saveRequested=false,saveTimeout=null,lastSavedPosition=position,forceSavePosition=false;const SAVE_INTERVAL=15000;
  const audio={current:null},container={current:null},pos={current:position};
  // A media element must stay attached across notes/section/error presentation.
  // Recreating a detached replacement also speculatively starts another preload.
  const mediaHost=document.createElement('div'),viewHost=document.createElement('div');
+ host.dataset.listeningExamMount='';viewHost.dataset.listeningExamView='';
  mediaHost.hidden=true;host.append(mediaHost,viewHost);let playFlight=null;
  function paintPlayback(){
   host.dataset.listeningPlayback=playing?'playing':playFlight?'loading':error?'error':'paused';
+  if(cd){paintCd();return;}
   const b=host.querySelector('[data-listening-start-audio]');if(!b)return;
   b.hidden=!p.sectionMode&&playing;b.style.display=b.hidden?'none':'';
   b.disabled=busy||!!playFlight||(mediaDuration>0&&pos.current>=mediaDuration-.5);
   if(playFlight)b.setAttribute('aria-busy','true');else b.removeAttribute('aria-busy');
   b.textContent=started?t.resume:t.begin;
  }
- try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){answers={...answers,...answerRecord(raw.answers,ids)};dirty=true;conflict=typeof p.draftHash==='string'&&raw.draftHash!==p.draftHash;}notes=(localStorage.getItem(keys.notes)||'').slice(0,12000);}catch{}
+ try{const raw=JSON.parse(localStorage.getItem(keys.draft)||'null');if(raw){answers={...answers,...answerRecord(raw.answers,ids)};dirty=true;conflict=typeof p.draftHash==='string'&&raw.draftHash!==p.draftHash;}notes=(localStorage.getItem(keys.notes)||'').slice(0,p.cdExam?45000:12000);}catch{}
+ const cd=p.cdExam?authoredCdView(p.cdExam,{questions:p.questions,imageUrl:p.imageUrl,notes,saveWorkspace:saveNotes,signal}):null;
+ function saveNotes(value){notes=value;try{localStorage.setItem(keys.notes,value);}catch{}}
+ function paintCd(){
+  cd.update({answers,position,duration:mediaDuration,started,playing,loading:!!playFlight,
+   busy,conflict,error,saved,audio:audio.current,change,play,submit});
+ }
  function persist(){try{localStorage.setItem(keys.draft,JSON.stringify({answers,draftHash:writer.hash}));}catch{saved=t.deviceUnavailable;paintSaved();}}
- function paintSaved(){const n=host.querySelector('[data-listening-save-status]');if(n)n.textContent=saved;}
+ function paintSaved(){if(cd){cd.saveStatus(saved);return;}const n=host.querySelector('[data-listening-save-status]');if(n)n.textContent=saved;}
  function paintPosition(){
+  if(cd){cd.paintTime(position,mediaDuration);return;}
   const n=host.querySelector('[data-listening-position]');if(!n)return;
   const clock=v=>Math.floor(v/60)+':'+String(Math.floor(v%60)).padStart(2,'0');
   n.textContent=clock(position)+(mediaDuration>0?' / '+clock(mediaDuration):'');
  }
  function paintAnswers(){
+  if(cd){cd.paintAnswers(answers);return;}
   const n=host.querySelector('[data-listening-answered-count]');
   if(n)n.textContent=p.questions.filter(q=>answers[q.id]?.trim()).length+' / '+p.questions.length+' answered';
   host.querySelectorAll('[data-listening-question-index]').forEach(btn=>{
    const has=!!answers[btn.dataset.listeningQuestionIndex]?.trim();
-   if(p.cdParts)btn.classList.toggle('answered',has);
-   else{btn.classList.toggle('btn-primary',has);btn.classList.toggle('btn-secondary',!has);}
+   btn.classList.toggle('btn-primary',has);btn.classList.toggle('btn-secondary',!has);
    const q=p.questions.find(x=>x.id===btn.dataset.listeningQuestionIndex);
    if(q)btn.setAttribute('aria-label','Question '+q.number+', '+(has?'answered':'unanswered'));
   });
@@ -56,21 +63,28 @@ export function listeningExam(context,input,composition={}){
    if(key==='duration'){mediaDuration=value;paintPosition();}
    if(key==='position'){position=value;pos.current=value;paintPosition();}
   };
-  const node=render({...p,dict,answers,section,mediaDuration,started,position,error,saved,busy,notesOpen,notes,confirm,audio,container,pos,renderMedia:!old,
+  const model={...p,dict,answers,section,mediaDuration,started,position,error,saved,busy,notesOpen,notes,confirm,audio,container,pos,renderMedia:false,
    ReadingText:composition.textSurface??(({text,className})=>h('span',{className},text)),
    change,play,submit,
    setNotesOpen:v=>{notesOpen=typeof v==='function'?v(notesOpen):v;draw();},
-   updateNotes:v=>{notes=v;try{localStorage.setItem(keys.notes,v);}catch{}},
+   updateNotes:saveNotes,
    setSection:v=>{section=v;draw();},
-   setConfirm:v=>{confirm=v;draw();},
+   setConfirm:v=>{if(!cd){confirm=v;draw();}},
    setError:v=>update('error',v),
-   setMediaDuration:v=>update('duration',v),setPosition:v=>update('position',v)});
-  const next=node.querySelector('audio');if(next)mediaHost.append(next);
-  audio.current=old??next;container.current=node;
-  viewHost.replaceChildren(node);
-  paintAnswers();paintPosition();paintSaved();paintPlayback();
+   setMediaDuration:v=>update('duration',v),setPosition:v=>update('position',v)};
+  if(!old){const media=examAudio(model);audio.current=media;mediaHost.append(media);}
+  if(cd){
+   viewHost.querySelector('[data-listening-draft-conflict]')?.remove();
+   if(!viewHost.contains(cd.surface))viewHost.append(cd.surface);
+   paintPlayback();
+  }else{
+   const node=render(model);
+   container.current=node;
+   viewHost.replaceChildren(node);
+   paintAnswers();paintPosition();paintSaved();paintPlayback();
+  }
   if(conflict){const box=h('div',{role:'alert','data-listening-draft-conflict':'',className:'card p-4'},context.locale==='uz'?'Boshqa tabda yoki qurilmada boshqa javob saqlangan. Bu qurilmadagi nusxa saqlanib turibdi.':'Another tab or device saved different answers. This device copy is retained.',h('button',{type:'button',className:'btn-secondary',disabled:reconciling,onClick:()=>void reconcile(false)},context.locale==='uz'?'Server javoblarini olish':'Use server answers'),h('button',{type:'button',className:'btn-secondary',disabled:reconciling,onClick:()=>void reconcile(true)},context.locale==='uz'?'Bu qurilma nusxasini saqlash':'Keep this device copy'));viewHost.prepend(box);}
-  if(focus)restoreWhenAttached(focus.id?[...host.querySelectorAll('[id]')].find(n=>n.id===focus.id):host.querySelectorAll('input,select,textarea,button,a')[focus.index],signal,focus);
+  if(focus&&!cd)restoreWhenAttached(focus.id?[...host.querySelectorAll('[id]')].find(n=>n.id===focus.id):host.querySelectorAll('input,select,textarea,button,a')[focus.index],signal,focus);
  }
  function requestSave(delay=1800,force=false){
   if(signal.aborted||submitted||busy)return;
@@ -129,7 +143,7 @@ export function listeningExam(context,input,composition={}){
   // Playback events represent real audio progression, not a UI re-render.
   host.addEventListener('playing',e=>{if(e.target===audio.current){playing=true;if(!started){started=true;requestSave(0);}paintPlayback();}}, {capture:true,signal});
   host.addEventListener('pause',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
-  host.addEventListener('ended',e=>{if(e.target===audio.current){playing=false;requestSave(0,true);paintPlayback();}}, {capture:true,signal});
+  host.addEventListener('ended',e=>{if(e.target===audio.current){playing=false;cd?.beginReview();requestSave(0,true);paintPlayback();}}, {capture:true,signal});
  }
  async function submit(){if(busy||submitted||signal.aborted||conflict)return;busy=true;error='';draw();try{await api.request(`/api/listening/attempts/${p.attemptId}/submit`,{method:'POST',timeoutMs:12000,body:{answers:p.questions.map(q=>({questionId:q.id,answer:answers[q.id]??''}))},signal});if(signal.aborted)return;submitted=true;clearListeningAttemptLocalState(p.attemptId);await context.navigate(p.sectionMode?`/app/listening/general/${p.testId}`:`/app/listening/tests/${p.testId}/2`);}catch(e){if(signal.aborted)return;if(e.status===409){context.refresh();return;}error=t.submitFailed;busy=false;draw();}}
  const timer=setInterval(()=>{if(dirty||started&&!startPersisted||playing&&Math.abs(pos.current-lastSavedPosition)>=12)void save();},SAVE_INTERVAL);
@@ -145,7 +159,7 @@ export function listeningExam(context,input,composition={}){
   draw();
   // Full IELTS attempts request playback on entry. Browser autoplay policy
   // may reject an async route transition; in that case the Start button remains.
-  if(!p.sectionMode)void play();
+  if(!p.sectionMode&&(!cd||started))void play();
  }else clearInterval(timer);
  return host;
 }

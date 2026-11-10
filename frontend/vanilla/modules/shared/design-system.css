@@ -101,6 +101,7 @@ html[data-theme] #root [data-ui-system] [data-shell-main] :is(.btn-primary,.btn-
  [data-cd-exam] *,[data-reading-full-focus] *,[data-listening-full-focus] *,[data-listening-cd-exam] *
 )){
  background-image:linear-gradient(90deg,#3ee6d0,#3b6cff);
+ color:#000;
 }
 html[data-theme] #root [data-ui-system] :is(.btn-ghost){background:transparent;border-color:transparent;color:rgb(var(--workspace-muted))}
 html[data-theme] #root [data-ui-system] :is(.btn-danger,[data-destructive="true"],button[data-interaction-type="destructive"],[data-confirm-action]){background:rgb(var(--workspace-bad)/.09);color:rgb(var(--workspace-bad));border-color:rgb(var(--workspace-bad)/.4)}

@@ -22,15 +22,19 @@ def test_cd_layout_for_every_pinned_full_exam_is_key_free():
 
     for test in range(1, 33):
         source = f'listening-test-{test}'
-        signature, parts, choices = pinned_exam_parts(source)
+        signature, exam, choices = pinned_exam_parts(source)
         questions = [
             {'number': number, 'section': section, 'text': text,
              'options': [f'{code}) {label}' for code, label in choices.get(number, ())]}
             for number, section, text in signature
         ]
-        assert len(parts) == 4 and exam_parts(source, questions) == parts
-        for part in parts:
-            assert not re.search(r'<(?:script|iframe|object|svg)\b|\s(?:on\w+|data-(?:key|correct|answer))=', part, re.I)
+        assert len(exam['parts']) == 4 and len(exam['sections']) == 4
+        assert exam_parts(source, questions) == exam
+        assert '.exam-header' in exam['style'] and '.bottom-navigation' in exam['style']
+        for id in ('examRoot', 'startTestBtn', 'examInterface', 'timerDisplay', 'bottomNav', 'examQuestionHost', 'notesBtn', 'flagBtn', 'optionsBtn', 'highlightBtn'):
+            assert f'id="{id}"' in exam['shell']
+        for part in [exam['shell'], *exam['parts']]:
+            assert not re.search(r'<(?:script|iframe|object|foreignObject)\b|\s(?:on\w+|data-(?:key|correct|answer))=', part, re.I)
             assert not any('value=' in tag for tag in re.findall(r'<input\b[^>]*>', part, re.I)
                            if not re.search(r'type="(?:radio|checkbox)"', tag))
         questions[0]['text'] += ' revised'
@@ -39,3 +43,11 @@ def test_cd_layout_for_every_pinned_full_exam_is_key_free():
         first_choice = next(q for q in questions if q['options'])
         first_choice['options'][0] = 'Changed choice'
         assert exam_parts(source, questions) is None
+
+
+def test_cd_layout_keeps_the_original_map_at_its_question_location():
+    _, first, _ = pinned_exam_parts('listening-test-1')
+    _, last, _ = pinned_exam_parts('listening-test-32')
+    assert any('<svg' in part and 'viewBox=' in part for part in first['parts'])
+    assert '<img' in last['parts'][1] and 'Outdoor Education Centre map' in last['parts'][1]
+    assert 'data:image/' not in last['parts'][1]

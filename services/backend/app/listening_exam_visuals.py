@@ -4,6 +4,7 @@ Only the matching public question identities and sanitized PARTS markup leave
 the server. The authored JavaScript and answer-bearing objects stay server-side.
 """
 import json,re
+from html import escape
 from functools import lru_cache
 from xml.etree import ElementTree as ET
 
@@ -61,14 +62,22 @@ def source_map(source):
     return None
 
 
-PART_TAGS = frozenset('div span p strong b em i br hr ul ol li table thead tbody tfoot tr th td h2 h3 h4 label input select option'.split())
-PART_ATTRIBUTES = frozenset('class id type name aria-label colspan rowspan placeholder data-q data-qnum data-group data-question data-code data-label data-placeholder data-pair-qs data-pair-group data-max data-ldm-group data-radio style'.split())
-PART_STYLES = frozenset('margin margin-top margin-bottom margin-left margin-right padding padding-top padding-bottom padding-left padding-right width min-width max-width height min-height display gap column-gap row-gap grid-template-columns grid-column flex flex-wrap flex-direction justify-content align-items text-align font-size font-weight border border-color border-width border-style border-collapse border-bottom color background-color vertical-align white-space line-height'.split())
+PART_TAGS = frozenset('div span p strong b em i br hr ul ol li table thead tbody tfoot tr th td h1 h2 h3 h4 label input select option main textarea button a img svg'.split()) | TAGS
+SHELL_PATTERN = re.compile(r'<div class="exam-root\b[^>]*id="examRoot".*?</div></div>(?=`\))', re.S)
+MAP_18 = 'https://ia601408.us.archive.org/3/items/skrinshot-2026-10-02-133313/Skrinshot%202026-10-02%20133313.png'
+PART_ATTRIBUTES = frozenset('class id type name aria-label colspan rowspan placeholder data-q data-qnum data-group data-question data-code data-label data-placeholder data-pair-qs data-pair-group data-max data-ldm-group data-radio style for role title alt aria-hidden aria-modal aria-labelledby aria-pressed min max step disabled draggable target rel tabindex'.split())
+PART_STYLES = frozenset('margin margin-top margin-bottom margin-left margin-right padding padding-top padding-bottom padding-left padding-right width min-width max-width height min-height display gap column-gap row-gap grid-template-columns grid-column flex flex-wrap flex-direction justify-content align-items text-align font-size font-weight border border-color border-width border-style border-collapse border-bottom color background-color vertical-align white-space line-height border-radius font-family list-style columns background'.split())
 
 
 def part_attribute(tag: str, name: str, value: str) -> bool:
     if name == 'value':
         return tag in ('input','option') and (value == '' or bool(re.fullmatch(r'[A-Za-z0-9]{1,4}', value)))
+    if name == 'href':
+        return tag == 'a' and value == 'https://t.me/LEARNERS_AREA'
+    if name == 'src':
+        return tag == 'img' and value == MAP_18
+    if tag in TAGS | {'svg'} and name in ATTRS | {'viewBox','font-weight','xmlns'}:
+        return not re.search(r'url\s*\(|javascript:|data:', value, re.I)
     return name in PART_ATTRIBUTES and (name != 'style' or not re.search(r'url\s*\(|expression\s*\(',value,re.I))
 
 
@@ -95,7 +104,7 @@ def source_signature(questions, number_key, part_key, text_key):
 
 
 @lru_cache(maxsize=32)
-def pinned_exam_parts(source: str) -> tuple[tuple, tuple[str, ...], dict[int, tuple[tuple[str, str], ...]]] | None:
+def pinned_exam_parts(source: str) -> tuple[tuple, dict, dict[int, tuple[tuple[str, str], ...]]] | None:
     match=re.fullmatch(r'listening-test-([1-9]|[12][0-9]|3[0-2])',source)
     if not match:return None
     from .listening_runtime import runtime
@@ -103,7 +112,10 @@ def pinned_exam_parts(source: str) -> tuple[tuple, tuple[str, ...], dict[int, tu
     html=data['files'].get(data['entryPath'],'')
     parts=re.search(r'\bconst PARTS\s*=\s*',html)
     catalogue=re.search(r'\bconst DATA\s*=\s*',html)
-    if not parts or not catalogue:return None
+    shell = SHELL_PATTERN.search(html)
+    style = re.search(r'<style>(.*?)</style>', html, re.S | re.I)
+    if not parts or not catalogue or not shell or not style:return None
+    if re.search(r'@import|url\s*\(', style[1], re.I):return None
     try:
         bodies,_=json.JSONDecoder().raw_decode(html[parts.end():])
         original,_=json.JSONDecoder().raw_decode(html[catalogue.end():])
@@ -117,17 +129,22 @@ def pinned_exam_parts(source: str) -> tuple[tuple, tuple[str, ...], dict[int, tu
             q['q']: tuple((o['code'], normalized_choice(o['text'], o['code'])) for o in q['options'])
             for q in rows if q.get('options')
         }
-        # Maps are projected through the existing inert geometry/image paths.
         cleaner=Cleaner(tags=PART_TAGS,attributes=part_attribute,
                         css_sanitizer=CSSSanitizer(allowed_css_properties=PART_STYLES),
                         filters=[EmptyTextInputs],strip=True)
-        cleaned = tuple(cleaner.clean(re.sub(r'<svg\b[^>]*>.*?</svg>', '', bodies[str(n)], flags=re.I|re.S)) for n in range(1, 5))
-        return fingerprint, cleaned, choices
+        sections = original['sections']
+        if len(sections) != 4 or any(not isinstance(label, str) for label in sections):
+            return None
+        markup = shell[0].replace('${DATA.sections[0]}', escape(sections[0]))
+        exam = {'shell': cleaner.clean(markup), 'style': style[1],
+                'parts': tuple(cleaner.clean(bodies[str(n)]) for n in range(1, 5)),
+                'sections': sections}
+        return fingerprint, exam, choices
     except (TypeError,ValueError,KeyError):
         return None
 
 
-def exam_parts(source: str | None, questions: list[dict]) -> tuple[str, ...] | None:
+def exam_parts(source: str | None, questions: list[dict]) -> dict | None:
     if not source or len(questions)!=40:return None
     pinned=pinned_exam_parts(source)
     if not pinned or pinned[0] != source_signature(questions, 'number', 'section', 'text'):
