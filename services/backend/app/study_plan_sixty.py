@@ -61,7 +61,7 @@ class PlanTask:
 def normalize_level(value: object) -> str | None:
     if not isinstance(value, str):
         return None
-    key = re.sub(r"\\s+", " ", value.strip()).lower().replace("_", "-")
+    key = re.sub(r"\s+", " ", value.strip()).lower().replace("_", "-")
     if not key:
         return None
     upper = key.upper()
@@ -127,9 +127,12 @@ def eligible_grammar(level: str, catalog: list[dict]) -> list[dict]:
 
 
 def make_sixty_day_schedule(level: str, start: date,
-                            catalog: list[dict] | None = None) -> list[dict]:
+                            catalog: list[dict] | None = None,
+                            revision: int = 1) -> list[dict]:
     if not isinstance(start, date):
         raise ValueError("invalid_start")
+    if type(revision) is not int or revision < 1:
+        raise ValueError("invalid_revision")
     units = eligible_grammar(level, catalog if catalog is not None else read_grammar_catalog())
     if len(units) < 15:
         raise ValueError("insufficient_grammar_content")
@@ -137,7 +140,7 @@ def make_sixty_day_schedule(level: str, start: date,
     for offset in range(DAYS):
         day_number = offset + 1
         # Four real stages per unit; never repeat a completed stage as a new task.
-        unit = units[offset // 4]
+        unit = units[(offset // 4 + (revision - 1) * 15) % len(units)]
         stage = offset % 4
         minutes = WORKLOADS[offset % len(WORKLOADS)]
         grammar = PlanTask(
