@@ -79,7 +79,7 @@ function leaderboard(ctx, content) {
         h('td', {}, String(item.stars ?? item.points ?? 0)),
         h('td', {}, String(item.coins ?? 0)),
         h('td', {}, practiceLabel(item.practiceMs))))));
-    content.replaceChildren(card(
+    content.replaceChildren(ctx.session?.user?.role==='owner' ? null : card(
       heading(text(ctx,'Ishtirok','Participation')),
       detail(data.alias ? data.alias+' · '+text(ctx,'O‘rningiz','Your position')+' #'+(data.position??'—') :
         text(ctx,'Ishtirok ixtiyoriy. Reytingda sizga tasodifiy taxallus beriladi.','Participation is optional and uses a generated alias.')),
@@ -152,7 +152,7 @@ export function mount(ctx) {
   const ranking = ctx.url.pathname.endsWith('/leaderboard');
   const title = ranking ? text(ctx,'Reyting','Leaderboard') : text(ctx,'Mukofotlar','Rewards');
   const {content} = workspace(ctx,title,text(ctx,'Tasdiqlangan o‘quv faoliyati asosida.','Based on verified learning activity.'));
-  if (ctx.session?.user?.role !== 'student') return;
+  if (!['student','owner'].includes(ctx.session?.user?.role)) return;
   if (ranking) leaderboard(ctx,content);
   else rewards(ctx,content);
 }
