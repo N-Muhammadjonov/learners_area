@@ -5,6 +5,7 @@ node_modules/
 out/
 build/
 dist/
+/bundle-output/
 
 # typescript incremental build metadata
 *.tsbuildinfo
