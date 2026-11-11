@@ -2039,7 +2039,7 @@
     "frontend/vanilla/modules/video/library.js": "5e462c5fbf5cb2f53c7093fbc884ffa6f9d5def532282fa69256f73ff50aa055",
     "frontend/vanilla/modules/video/provider.js": "460f21fd969c680d4dc3072c8182594c3a6c09485462bc3c0d8003b45d02d3e9",
     "frontend/vanilla/modules/video/reflection-recorder.js": "976f5766d34ab498dfe36a5f3e9a38451cf82af8d5f0ae7317996bf8a0844590",
-    "frontend/vanilla/modules/video/studio.js": "3d516102461cd4ae305689c79cbddca62b5634819713b63712ec8ed4b1fa2ca0",
+    "frontend/vanilla/modules/video/studio.js": "cedbc85b339f403711cc0860fed3305f25ebe25db5d9dbfd4e9b2407311671de",
     "frontend/vanilla/modules/video/study-pack-data.js": "b5e4c68159114b047ddd5ab0ff0322d24c81dfe2c460c789a8af6f21fb370c8e",
     "frontend/vanilla/modules/video/study-practice.js": "bd21b6cddc362b590ad216b5d59749147a7f6b76aa456fe7d18dec793cd59eca",
     "frontend/vanilla/modules/video/transcript-dialog.js": "48035ddb9ad39bd748a69400f17f375ac430501ffcd38a60e25058684b86b5b0",
