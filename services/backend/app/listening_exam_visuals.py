@@ -105,6 +105,8 @@ def source_signature(questions, number_key, part_key, text_key):
 
 @lru_cache(maxsize=32)
 def pinned_exam_parts(source: str) -> tuple[tuple, dict, dict[int, tuple[tuple[str, str], ...]]] | None:
+    # Site-wide styles must never affect the internal interface of any of the 32 Listening tests.
+    # Keep each test's original shell, stylesheet and four papers together for its isolated renderer.
     match=re.fullmatch(r'listening-test-([1-9]|[12][0-9]|3[0-2])',source)
     if not match:return None
     from .listening_runtime import runtime
