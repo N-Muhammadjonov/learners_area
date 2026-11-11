@@ -171,7 +171,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    el('p',{},'Sizga mos suhbatdosh qidirilmoqda'),
    el('div',{class:'lp-match-details'},
     el('div',{},el('strong',{'data-search-remaining':''},'1:00'),el('small',{},'Qolgan vaqt')),
-    el('div',{},el('strong',{},String(count)),el('small',{},'Onlayn')),
+    el('div',{},el('strong',{'data-search-online':''},String(count)),el('small',{},'Onlayn')),
     el('div',{},el('strong',{},genderLabel),el('small',{},'Jins'))),
    el('p',{class:'lp-match-note'},'Mos sherik topilganda sizga qo‘ng‘iroq keladi.'),
    button('Bekor qilish',()=>void act({action:'stop_search'}),'lp-match-cancel',{'data-partner-cancel-search':''}));
@@ -220,6 +220,12 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   const activeControl=workspace.contains(activeElement)?activeElement.dataset.partnerFocus:null;
   const listFocused=activeElement?.hasAttribute('data-partner-list');
   drawCallNotice();sound.sync(flow==='none'&&!busy?data?.incoming?.id:null);
+  const existingMatch=workspace.querySelector('[data-partner-searching]');
+  if(existingMatch&&data?.features?.searchUntil&&!data?.incoming&&!data?.outgoing&&!active()&&!error&&data.realtime?.ready){
+   const count=(data.online??[]).filter(person=>person.canCall!==false).length;
+   const counter=existingMatch.querySelector('[data-search-online]');if(counter)counter.textContent=String(count);
+   paintClock();return;
+  }
   const previousHistory=workspace.querySelector('[data-partner-history]');if(previousHistory)historyOpen=previousHistory.open;
   workspace.dataset.livePartnerState=state();workspace.replaceChildren();
   const inCall=active()&&Boolean(data?.partner);
