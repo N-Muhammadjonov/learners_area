@@ -35,6 +35,37 @@ test('article grid has three compact columns on desktop and one on mobile',async
  assert.match(css,/height:clamp\(135px,calc\(\(100dvh - 650px\)\/2\),185px\)/);
  assert.match(css,/@media\(max-width:600px\).*grid-template-columns:minmax\(0,1fr\)/);
 });
+test('topic, search, level and completion filters combine correctly',async()=>{
+ const context=setup();api.request=async()=>({completed:['plastic-bags']});mountArticles(context);await tick();
+ const visible=()=>[...context.root.querySelectorAll('[data-reading-article]')].filter(node=>!node.hidden).map(node=>node.dataset.readingArticle);
+ const levels=context.root.querySelectorAll('[data-article-level]'),topic=context.root.querySelector('[data-article-topic]'),search=context.root.querySelector('[data-article-search]');
+ assert.ok(articles.every(article=>article.level===(article.questionCount===13?'B2':'C1')));
+ levels[0].click();assert.ok(visible().every(id=>articles.find(article=>article.id===id).questionCount===13));
+ topic.value='Environment';topic.dispatchEvent(new dom.window.Event('change'));assert.deepEqual(visible(),['plastic-bags','air-pollution']);
+ search.value='plastic';search.dispatchEvent(new dom.window.Event('input'));assert.deepEqual(visible(),['plastic-bags']);
+ context.root.querySelector('[data-article-status="completed"]').click();assert.deepEqual(visible(),['plastic-bags']);
+ context.root.querySelector('[data-article-status="not_completed"]').click();assert.deepEqual(visible(),[]);
+ assert.equal(context.root.querySelector('.reading-articles-empty').hidden,false);
+});
+test('article completion is saved only when every question is answered and checked',async()=>{
+ const article=originalArticles[0],context=setup(`/app/reading/articles/${article.id}`),calls=[];
+ api.request=async(path,options)=>{calls.push({path,options});return {ok:true};};mountArticle(context);
+ const frame=context.root.querySelector('iframe'),doc=frame.contentDocument;
+ doc.open();doc.write(`<!doctype html><html><body><div><button id="im-check-btn">Check</button></div>${Array.from({length:article.questionCount},(_,i)=>`<button data-im-question="${i+1}" class="im-answered"></button>`).join('')}</body></html>`);doc.close();frame.dispatchEvent(new dom.window.Event('load'));
+ const questions=doc.querySelectorAll('[data-im-question]');questions[0].classList.remove('im-answered');doc.getElementById('im-check-btn').click();await tick();assert.equal(calls.length,0);
+ questions[0].classList.add('im-answered');doc.getElementById('im-check-btn').click();await tick();assert.equal(calls[0].path,`/api/reading/articles/${article.id}/complete`);assert.equal(calls[0].options.method,'POST');
+ assert.equal(calls[0].options.keepalive,true);assert.equal(calls[0].options.signal,undefined);
+ doc.getElementById('im-check-btn').click();await tick();assert.equal(calls.length,1);
+});
+test('completion retries failed saves and survives returning to the catalogue',async()=>{
+ const article=originalArticles[0],context=setup(`/app/reading/articles/${article.id}`),controller=new dom.window.AbortController();context.signal=controller.signal;
+ let calls=0,finish;
+ api.request=async()=>{calls++;if(calls===1)throw Error('offline');return new Promise(resolve=>{finish=resolve;});};mountArticle(context);
+ const frame=context.root.querySelector('iframe'),doc=frame.contentDocument;
+ doc.open();doc.write(`<!doctype html><html><body><div><button id="im-check-btn">Check</button></div><p id="im-score"></p>${Array.from({length:article.questionCount},(_,i)=>`<button data-im-question="${i+1}" class="im-answered"></button>`).join('')}</body></html>`);doc.close();frame.dispatchEvent(new dom.window.Event('load'));
+ const check=doc.getElementById('im-check-btn');check.click();await tick();assert.match(doc.getElementById('im-score').nextElementSibling.textContent,/Could not save/);
+ check.click();check.click();assert.equal(calls,2);controller.abort();finish({ok:true});await tick();assert.equal(calls,2);
+});
 test('empty catalogue remains explicit',()=>{articles.length=0;const context=setup();mountArticles(context);assert.match(context.root.textContent,/when they are published/);});
 for(const article of originalArticles){
  test(`${article.id}: exercise, countdown, restart and dictionary work`,async()=>{

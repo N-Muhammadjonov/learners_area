@@ -5,8 +5,8 @@ import {missing} from '../listening/catalogue-v9.js';
 import {articles} from './articles-data.js';
 
 const messages = {
- en: {empty:'Articles will appear here when they are published.', start:'Start reading', minute:'min read', questions:'questions', back:'Back to Articles', check:'Check answers', score:'Correct answers', correct:'Correct', incorrect:'Incorrect', unanswered:'Choose an answer', questionsTitle:'Questions'},
- uz: {empty:'Maqolalar qo‘shilgach shu yerda ko‘rinadi.', start:'O‘qishni boshlash', minute:'daqiqalik mutolaa', questions:'ta savol', back:'Articles bo‘limiga qaytish', check:'Javoblarni tekshirish', score:'To‘g‘ri javoblar', correct:'To‘g‘ri', incorrect:'Noto‘g‘ri', unanswered:'Javobni tanlang', questionsTitle:'Savollar'}
+ en: {empty:'Articles will appear here when they are published.', noMatches:'No articles match these filters.', search:'Search by title or source', topic:'Topic', notCompleted:'Not completed', completed:'Completed', progressError:'Could not load article progress.', progressSaveError:'Could not save article completion.', start:'Start reading', minute:'min read', questions:'questions', back:'Back to Articles', check:'Check answers', score:'Correct answers', correct:'Correct', incorrect:'Incorrect', unanswered:'Choose an answer', questionsTitle:'Questions'},
+ uz: {empty:'Maqolalar qo‘shilgach shu yerda ko‘rinadi.', noMatches:'Bu filtrlarga mos maqola topilmadi.', search:'Nomi yoki manbasi bo‘yicha qidirish', topic:'Mavzu', notCompleted:'Bajarilmagan', completed:'Bajarilgan', progressError:'Maqola holatini yuklab bo‘lmadi.', progressSaveError:'Maqola holati saqlanmadi.', start:'O‘qishni boshlash', minute:'daqiqalik mutolaa', questions:'ta savol', back:'Articles bo‘limiga qaytish', check:'Javoblarni tekshirish', score:'To‘g‘ri javoblar', correct:'To‘g‘ri', incorrect:'Noto‘g‘ri', unanswered:'Javobni tanlang', questionsTitle:'Savollar'}
 };
 
 function texts(context){return messages[context.locale === 'uz' ? 'uz' : 'en'];}
@@ -25,9 +25,26 @@ function card(article,t){
    el('a',{class:'btn-primary reading-article-action',href:`/app/reading/articles/${encodeURIComponent(article.id)}`},`${t.start} →`)));
 }
 export function mountArticles(context){
- ensureStyles();const t=texts(context);
- context.root.append(el('div',{'data-native-view':'reading-articles','data-route-usable':'reading-articles',class:'reading-articles'},
-  articles.length?el('div',{class:'reading-article-grid'},articles.map(article=>card(article,t))):el('p',{class:'reading-articles-empty'},t.empty)));
+ ensureStyles();const t=texts(context),signal=context.signal;
+ const search=el('input',{type:'search',class:'reading-article-search',placeholder:t.search,'aria-label':t.search,'data-article-search':''});
+ const topics=[...new Set(articles.flatMap(article=>article.topics??[]))].sort((a,b)=>a.localeCompare(b));
+ const topic=el('select',{class:'reading-article-topic-filter','aria-label':t.topic,'data-article-topic':''},el('option',{value:''},t.topic),topics.map(value=>el('option',{value},value)));
+ const levelButtons=['B2','C1'].map(level=>el('button',{type:'button','data-article-level':level,'aria-pressed':'false'},level));
+ const statusButtons=[['not_completed',t.notCompleted],['completed',t.completed]].map(([status,label])=>el('button',{type:'button','data-article-status':status,'aria-pressed':'false',disabled:true},label));
+ const statusMessage=el('p',{class:'reading-article-filter-message',role:'status'}),empty=el('p',{class:'reading-articles-empty',hidden:true},t.noMatches);
+ const cards=articles.map(article=>card(article,t)),grid=el('div',{class:'reading-article-grid'},cards);
+ let level='',status='',completed=new Set();
+ const apply=()=>{
+  const query=search.value.trim().toLocaleLowerCase(),selectedTopic=topic.value;let visible=0;
+  articles.forEach((article,index)=>{const matches=(!query||[article.title,article.source??''].some(value=>value.toLocaleLowerCase().includes(query)))&&(!selectedTopic||(article.topics??[]).includes(selectedTopic))&&(!level||article.level===level)&&(!status||(status==='completed')===completed.has(article.id));cards[index].hidden=!matches;if(matches)visible++;});
+  empty.hidden=visible>0;
+ };
+ search.addEventListener('input',apply,{signal});topic.addEventListener('change',apply,{signal});
+ for(const button of levelButtons)button.addEventListener('click',()=>{level=level===button.dataset.articleLevel?'':button.dataset.articleLevel;for(const item of levelButtons)item.setAttribute('aria-pressed',String(item.dataset.articleLevel===level));apply();},{signal});
+ for(const button of statusButtons)button.addEventListener('click',()=>{status=status===button.dataset.articleStatus?'':button.dataset.articleStatus;for(const item of statusButtons)item.setAttribute('aria-pressed',String(item.dataset.articleStatus===status));apply();},{signal});
+ const controls=el('div',{class:'reading-article-filters'},search,topic,el('div',{class:'reading-article-filter-group'},levelButtons),el('div',{class:'reading-article-filter-group'},statusButtons));
+ context.root.append(el('div',{'data-native-view':'reading-articles','data-route-usable':'reading-articles',class:'reading-articles'},controls,statusMessage,articles.length?grid:el('p',{class:'reading-articles-empty'},t.empty),empty));
+ if(articles.length)void api.request('/api/reading/articles/progress',{signal}).then(result=>{if(signal.aborted)return;if(!Array.isArray(result.completed))throw Error('invalid_article_progress');completed=new Set(result.completed);for(const button of statusButtons)button.disabled=false;apply();}).catch(()=>{if(!signal.aborted)statusMessage.textContent=t.progressError;});
 }
 export function mountArticle(context){
  ensureStyles();const t=texts(context),id=context.url.pathname.split('/')[4];
@@ -98,6 +115,18 @@ function mountExercise(context,article,t){
     for(const [target,source] of Object.entries(palette)){const value=parentStyles.getPropertyValue(source).trim();if(value)style.setProperty(target,`rgb(${value})`);else style.removeProperty(target);}
    };
    syncTheme();const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class','style']});signal.addEventListener('abort',()=>themeObserver.disconnect(),{once:true});
+   const checkButton=doc.getElementById('im-check-btn');
+   if(checkButton){
+    let completionSaved=false,completionPending=false;
+    const progressMessage=doc.createElement('p');progressMessage.setAttribute('role','status');progressMessage.className='im-dict-meta';(doc.getElementById('im-score')??checkButton).after(progressMessage);
+    checkButton.addEventListener('click',()=>{
+     const questions=[...doc.querySelectorAll('[data-im-question]')];
+     if(completionSaved||completionPending||questions.length!==article.questionCount||questions.some(question=>!question.classList.contains('im-answered')))return;
+     completionPending=true;
+     // A completed check must finish saving when the learner returns to the catalogue.
+     void api.request(`/api/reading/articles/${encodeURIComponent(article.id)}/complete`,{method:'POST',keepalive:true}).then(()=>{completionSaved=true;if(!signal.aborted)progressMessage.textContent='';}).catch(()=>{if(!signal.aborted)progressMessage.textContent=t.progressSaveError;}).finally(()=>{completionPending=false;});
+    },{signal});
+   }
    const titleRow=doc.querySelector('.im-dict-title-row'),wordsPanel=doc.querySelector('#im-dict-words');
    if(titleRow&&wordsPanel){
     const addOne=doc.createElement('button');addOne.type='button';addOne.className='im-dict-speak';addOne.textContent='+';addOne.setAttribute('aria-label',copy.add);addOne.title=copy.add;addOne.setAttribute('data-article-add-word','');

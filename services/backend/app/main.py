@@ -854,6 +854,9 @@ _install_step40_content_drafts()
 from .writing_study_port import install as _install_writing_study
 _install_writing_study()
 
+from .article_progress_port import install as _install_article_progress
+_install_article_progress()
+
 from .live_classes_port import install as _install_live_classes
 _install_live_classes()
 
