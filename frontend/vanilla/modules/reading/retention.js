@@ -63,14 +63,14 @@ export function mountRetentionSession(context){
   if(signal.aborted)return;
   host.replaceChildren(el('p',{class:'panel meta-text',role:'status','aria-busy':'true'},dict.common.loading));
   try{
-   const raw=await viewData('/app/reading/retention',signal);
+   const response=await api.request('/api/retention/attempts',{signal,fresh:true});
    if(signal.aborted)return;
-   const data=readingRetentionDTO(raw);
-   if(!isActive(data.initial)){void navigate('/app/reading/retention',{replace:true});return;}
+   const active=response?.active??null;
+   if(!isActive(active)){void navigate('/app/reading/retention',{replace:true});return;}
    const back=el('a',{href:'/app/reading/retention?overview=1',class:'btn-ghost inline-flex min-h-11 w-fit items-center gap-1','data-back-link':''},'← ',dict.common.back);
    back.setAttribute('data-retention-session-back','');
    host.replaceChildren(back,el('section',{class:'panel','data-retention-session-region':''},
-    retentionSession(context,data.initial,()=>{})));
+    retentionSession(context,active,()=>{})));
   }catch{
    if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'retention-session',message:dict.retentionMemory.errors.retention_unavailable,retryLabel:dict.errorPage.retry,refresh:load}));
   }
@@ -259,7 +259,7 @@ function retentionSession(context,initial,onTerminal){
   const s=remaining(p.writeEndsAt,state.skew);
   if(!draftLoaded){draftLoaded=true;draftText=p.recallDraft??'';lastSaved=draftText;}
   const expired=s<=0;
-  const area=el('textarea',{id:'retention-recall-answer',class:'input min-h-[14rem] w-full',readonly:(submitting||expired)?true:null,placeholder:t.recallPlaceholder,'aria-label':t.recallTitle,'data-retention-answer':true});
+  const area=el('textarea',{id:'retention-recall-answer',class:'input w-full',style:'display:block;box-sizing:border-box;width:100%;max-width:100%;height:clamp(10rem,24vh,15rem);min-height:10rem;max-height:20rem;resize:vertical',readonly:(submitting||expired)?true:null,placeholder:t.recallPlaceholder,'aria-label':t.recallTitle,'data-retention-answer':true});
   area.value=draftText;
   area.addEventListener('input',()=>{if(submitting||expired)return;draftText=area.value;clearTimeout(draftTimer);if(draftText!==lastSaved){draftTimer=setTimeout(()=>void saveDraft(draftText),1200);}draftCounter();submit.disabled=draftText.trim().length===0;});
   const count=el('span',{class:'meta-text','aria-live':'polite','data-retention-save-state':saveState},
