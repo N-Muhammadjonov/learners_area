@@ -1,4 +1,4 @@
-/** Private landing-equivalent CEFR level check for 30-day planning.
+/** Private landing-equivalent CEFR level check for learner-selected planning.
  * Question selection, option ordering and final scoring are owned by the server.
  */
 import {h} from '../../js/native.js';
@@ -200,8 +200,8 @@ export function mount(ctx){
    h('div',{class:'level-check-actions'},
     passed?h('button',{type:'button',class:'btn-primary',
       disabled:state.pending,'data-level-create-plan':'',
-      onClick:()=>void createPlan()},
-      text(ctx,'30 kunlik rejani yaratish','Create 30-day plan')):null,
+      onClick:()=>ctx.navigate?.(ASSIGNMENTS_PATH)},
+      text(ctx,'7 yoki 30 kunlik rejani tanlash','Choose a 7- or 30-day plan')):null,
     !passed?h('button',{type:'button',class:'btn-primary',
       disabled:state.pending,onClick:()=>{state.mode='select';
        state.level=result.nextLevel||result.suggestedLevel||'A1';
@@ -272,18 +272,6 @@ export function mount(ctx){
   }finally{state.pending=false;paint();}
  }
 
- async function createPlan(){
-  if(state.pending||!state.result?.passed)return;
-  state.pending=true;state.error=null;paint();
-  try{
-   await api.request(SEQUENCE_API+'/start',{method:'POST',signal});
-   if(!signal.aborted)ctx.navigate?.(ASSIGNMENTS_PATH);
-  }catch{
-   if(!signal.aborted)state.error=text(ctx,
-     'Rejani yaratib bo‘lmadi. Qayta urinib ko‘ring.',
-     'Could not create the plan. Please retry.');
-  }finally{state.pending=false;paint();}
- }
  paint();
  void load();
 }
