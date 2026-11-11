@@ -885,3 +885,12 @@ _install_riwi_port()
 
 from .study_time import install as _install_study_time
 _install_study_time()
+
+# Register legacy 7/30-day APIs and the new sequenced 30-day planner.
+# Keep their route groups separate to preserve existing clients.
+from .study_plan_port import router as _study_plan_router
+app.include_router(_study_plan_router)
+from .study_plan_month_port import router as _study_plan_month_router
+app.include_router(_study_plan_month_router)
+from .study_plan_thirty_port import install as _install_study_plan_thirty
+_install_study_plan_thirty()
