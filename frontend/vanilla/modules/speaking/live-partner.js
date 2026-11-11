@@ -39,13 +39,8 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  function keepalive(body){return fetch('/api/live-partner',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).catch(()=>{});}
  const cleanup=()=>{if(destroyed)return;destroyed=true;gen++;searchId++;for(const timer of timers)clearTimeout(timer);clearTimeout(searchTimer);pollCtl?.abort();stopMic();disposeCall();
    if(data&&state()!=='offline'){
-    const leaving=data.sessionId?keepalive({action:'hangup',sessionId:data.sessionId}):null;
-    if(!outside()){
-     if(leaving)void leaving.then(()=>keepalive({action:'go_offline'}));else void keepalive({action:'go_offline'});
-    }else{
-     if(data.outgoing)void keepalive({action:'cancel',inviteId:data.outgoing.id});
-     if(data.features?.searchUntil)void keepalive({action:'stop_search'});
-    }
+    const leaving=data.sessionId?keepalive({action:'hangup',sessionId:data.sessionId}):Promise.resolve();
+    void leaving.then(()=>keepalive({action:'go_offline'}));
    }
  };
  signal.addEventListener('abort',cleanup,{once:true});
@@ -160,7 +155,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   }
  }
  function dial(person){
-  const canCall=!busy&&state()==='available'&&data?.realtime?.ready;
+  const canCall=person.canCall!==false&&!busy&&state()==='available'&&data?.realtime?.ready;
   const control=button('',()=>{outgoingName=person.name;lobbyMessage='';void act({action:'invite',toUserId:person.userId});},'btn-primary lp-dial',
    {disabled:!canCall,'aria-label':t.invite+' '+person.name,'data-partner-focus':person.userId,'data-partner-call':person.userId});
   control.append(phone(),el('span',{},t.invite));return control;
@@ -194,7 +189,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    const gender=person.gender??(person.avatar==='b'?'female':'male');
    list.append(el('article',{class:'lp-online-person'},avatar(person,t),el('div',{class:'lp-person'},el('strong',{},person.name),
     el('small',{},[t.preferences[gender],person.level,person.speakingScore==null?null:score(person.speakingScore),
-     person.rating==null?null:'★ '+person.rating.toFixed(1)].filter(Boolean).join(' · '))),dial(person)));
+     person.rating==null?null:'★ '+person.rating.toFixed(1),person.availability==='busy'?'Busy':'Online'].filter(Boolean).join(' · '))),dial(person)));
   }
   return [chooser,list];
  }
@@ -257,26 +252,23 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
     button(t.endCall,()=>void endCall(),'btn-danger'),button(t.block,()=>void endCall(data.partner.userId),'btn-ghost btn-sm'));
    grid.append(mePanel,questionsPanel,side);workspace.append(grid);paintClock();media.paint();void loadTopics();
   }else{
-   if(data?.realtime?.ready&&data.rulesAccepted&&me.hasGender){
-    const check=el('input',{type:'checkbox',checked:Boolean(outside())});
-    check.addEventListener('change',()=>{check.checked=partnerOutsideRoom(me.userId,check.checked);});
-    mePanel.append(el('label',{class:'lp-outside'},check,u.outside));
-   }
+
    const stats=history?.stats??{calls:0,seconds:0};
    const friends=history?.friends??[],recent=history?.recent??[];
    const mockResults=recent.filter(entry=>Boolean(entry.mock));
+   const mocksGiven=Number(history?.stats?.mocksGiven??0),mocksTaken=Number(history?.stats?.mocksTaken??0);
    const summary=el('section',{class:'lp-summary card','data-partner-summary':''},
     el('div',{class:'lp-summary-heading'},el('h1',{},'Speaking Partner'),
      el('span',{class:'lp-summary-profile'},(me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level'))),
     el('div',{class:'lp-stat-grid'},
      ...[[String(stats.calls??0),'Talks','🎙'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','◷'],
      [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','♧'],
-     [String(mockResults.length),'Mocks','☆']].map(([value,label,icon])=>
+     [mocksTaken+' · '+mocksGiven,'Mocks','☆']].map(([value,label,icon])=>
       el('div',{class:'lp-stat'},el('span',{class:'lp-stat-icon','aria-hidden':'true'},icon),
        el('div',{},el('strong',{},value),el('small',{},label))))));
    workspace.append(summary);
    const tabs=[['find','Find',data?.online?.length??0],['recent','Recent',recent.length],
-    ['friends','Friends',friends.filter(friend=>friend.state==='accepted').length],['mocks','Mocks',mockResults.length]];
+    ['friends','Friends',friends.filter(friend=>friend.state==='accepted').length],['mocks','Mocks',mocksTaken+mocksGiven]];
    workspace.append(el('nav',{class:'lp-tabs',role:'tablist','aria-label':'Speaking Partner'},
     ...tabs.map(([id,label,count])=>button(label+'  '+count,()=>{
      lobbyTab=id;if(id!=='find'&&!historyRequested)void refreshHistory();draw();
