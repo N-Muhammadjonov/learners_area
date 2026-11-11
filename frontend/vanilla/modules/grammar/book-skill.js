@@ -3,6 +3,8 @@ import {BackLink} from '../shared/presentation.js';
 import {renderInteractiveBook} from './book-runtime.js';
 import {skillBookIndex} from './book-skill-index.js';
 import {adaptSkillUnit} from './book-skill-adapter.js';
+import {api} from '../../js/api-client.js';
+import {SEQUENCE_API} from '../study-plan/sequence-view.js';
 
 const TRACKS={
  speaking:{title:'Grammar for Speaking',subtitle:'77 ta IELTS Speaking tuzilmasi va to‘rt bosqichli amaliy mashqlar.',groups:[['pre','Pre-intermediate'],['inter','Intermediate'],['upper','Upper-intermediate'],['advanced','Advanced']]},
@@ -121,11 +123,13 @@ export async function mountSkillBookDetail(context,host,track,unitId){
  if(!meta){host.replaceChildren(back(),h('p',{role:'alert'},localized(context,'Dars topilmadi.','Lesson not found.')));return;}
  const status=h('p',{role:'status',class:'grammar-book-count'},localized(context,'Dars yuklanmoqda…','Loading lesson…'));
  const retry=h('button',{type:'button',hidden:true,class:'btn-secondary'},localized(context,'Qayta urinish','Try again'));
+ const proofStatus=h('p',{role:'status',class:'grammar-book-count','data-plan-grammar-proof':''});
+ let verifying=false;
  const exercise=h('div',{class:'grammar-book-exercise-host','data-grammar-skill-exercise':unitId});
  host.replaceChildren(h('section',{class:'grammar-book-detail grammar-skill-detail','data-route-usable':'grammar-skill-'+track+'-detail','data-grammar-skill-detail':unitId},
   back(),h('span',{class:'grammar-book-code'},meta.code+' · '+meta.lessons),
   h('h1',{class:'grammar-book-detail-title'},meta.title),
-  h('p',{class:'grammar-book-detail-summary'},meta.summary),status,retry,exercise));
+  h('p',{class:'grammar-book-detail-summary'},meta.summary),status,retry,proofStatus,exercise));
  const load=async()=>{
   if(context.signal.aborted)return;
   status.hidden=false;retry.hidden=true;
@@ -145,7 +149,37 @@ export async function mountSkillBookDetail(context,host,track,unitId){
    body.innerHTML='<nav id="nav" hidden></nav><div id="units"></div>';
    shadow.append(css,body);
    // Keep the original Grammar engine; avoid coin awards for unregistered skill categories.
-   renderInteractiveBook(shadow,[unit],context.signal,storageKey(context,track),null);
+   renderInteractiveBook(shadow,[unit],context.signal,storageKey(context,track),null,
+    async ({unitId:completedUnit,stage,answers})=>{
+     if(context.signal.aborted||verifying||completedUnit!==unitId||stage!==0)return;
+     verifying=true;proofStatus.textContent=localized(context,
+       'Mashqlar tekshirilmoqda…','Verifying plan exercises…');
+     try{
+      const data=await api.request(SEQUENCE_API,{signal:context.signal,fresh:true});
+      if(context.signal.aborted)return;
+      const day=data?.days?.[data.currentDay-1];
+      const task=day?.tasks?.find(entry=>entry.kind==='grammar');
+      const expected='/app/grammar?tab='+encodeURIComponent(track)+'&book='+encodeURIComponent(unitId);
+      if(data.state!=='active'||task?.status!=='ready'||task.href!==expected){
+       proofStatus.textContent='';
+       return;
+      }
+      const result=await api.request(SEQUENCE_API+'/grammar/verify',{
+       method:'POST',signal:context.signal,body:{day:data.currentDay,answers}});
+      if(context.signal.aborted)return;
+      proofStatus.textContent=localized(context,
+       'Grammar vazifasi tasdiqlandi. Assignments’da yangilang.',
+       'Grammar task verified. Refresh Assignments.');
+      if(!result?.days)throw Error('invalid_plan_response');
+     }catch(error){
+      if(context.signal.aborted)return;
+      proofStatus.textContent=error?.status===422?
+       localized(context,'To‘g‘ri javoblar 75% dan kam. Mashqlarni qayta bajaring.',
+         'Fewer than 75% of answers were correct. Retry the exercises.'):
+       localized(context,'Vazifani tasdiqlab bo‘lmadi. Internetni tekshiring va qayta urinib ko‘ring.',
+         'Could not verify the task. Check your connection and retry.');
+     }finally{verifying=false;}
+    });
    status.hidden=true;
   }catch(error){
    if(context.signal.aborted)return;

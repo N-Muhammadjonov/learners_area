@@ -6,6 +6,7 @@ import {apiErrorMessage} from '../../js/api-error-message.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {assignmentCard} from './card.js';
 import {notifyEvaluationChanged} from '../shared/events.js';
+import {mountSequenceAssignments} from '../study-plan/sequence-view.js';
 
 /**
  * Assignments (`/app/assignments`), native port of AssignmentBoard + the assignments page.
@@ -19,12 +20,15 @@ export function mount(ctx) {
   const t = dict.assignments;
   const isLearner = session?.user?.role === 'student';
 
+  const planHost = h('div', {'data-assignments-30-plan':''});
   const host = h('div', {class: 'flex min-w-0 flex-col gap-3', 'data-assignments-list': '', 'data-async-content': 'assignments'});
-  root.append(h('div', {class: 'mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-4', 'data-route-usable': 'assignments'},
+  root.append(h('div', {class: 'mx-auto flex w-full min-w-0 max-w-7xl flex-col gap-4', 'data-route-usable': 'assignments'},
     h('div', {},
       h('h1', {class: 'font-display text-2xl text-ink-900'}, t.title),
       h('p', {class: 'text-sm text-ink-500'}, t.subtitle)),
+    isLearner ? planHost : null,
     host));
+  if (isLearner) mountSequenceAssignments(ctx, planHost);
 
   const S = {
     list: [], listState: 'loading',

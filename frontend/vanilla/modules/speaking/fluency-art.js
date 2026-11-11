@@ -9,7 +9,7 @@ const expressions={
 function svgNode(tag,attributes){const n=document.createElementNS(NS,tag);for(const [key,value] of Object.entries(attributes))n.setAttribute(key,String(value));return n;}
 export function fluencyIcon(){const svg=svgNode('svg',{viewBox:'0 0 32 32',width:28,height:28,fill:'none','aria-hidden':'true',class:'fluency-hub-icon'});svg.append(svgNode('path',{d:'M8 11h16l4 13-6-2-3-4h-6l-3 4-6 2Z',stroke:'currentColor','stroke-width':1.8,'stroke-linejoin':'round'}),svgNode('path',{d:'M10 11V6m6 5V3m6 8V6M9 15v5m-2-2h4',stroke:'currentColor','stroke-width':1.8,'stroke-linecap':'round'}));return svg;}
 
-function companion(){
+export function fluencyCompanion(){
  const id='fluency-companion-'+(++companionCount),colors=id+'-colors';
  const host=el('div',{class:'la-mascot fluency-companion','data-mascot-state':'idle','aria-hidden':'true'});
  const svg=svgNode('svg',{viewBox:'0 0 100 100',focusable:'false'});
@@ -51,7 +51,7 @@ export function fluencyArena(label){
  const track=el('div',{class:'fluency-hazard-track','aria-hidden':'true'}),hazard=el('div',{class:'fluency-hazard'}),svg=svgNode('svg',{viewBox:'0 0 100 100',class:'fluency-disc',fill:'none',focusable:'false'});
  const teeth=Array.from({length:48},(_,i)=>{const angle=i*Math.PI/24,r=i%2?39:48;return `${50+Math.cos(angle)*r},${50+Math.sin(angle)*r}`;}).join(' ');
  svg.append(svgNode('polygon',{points:teeth,fill:'#cbd1db',stroke:'#ff796c','stroke-width':1.8}),svgNode('circle',{cx:50,cy:50,r:33,fill:'#9ca8b9',stroke:'#f98a7e','stroke-width':2}),svgNode('circle',{cx:50,cy:50,r:12,fill:'#253148',stroke:'#e0e6f0','stroke-width':2}),svgNode('circle',{cx:50,cy:50,r:4,fill:'#e0e6f0'}));hazard.append(svg);track.append(hazard);
- const actor=el('div',{class:'fluency-actor','aria-hidden':'true'}),mascot=companion();actor.append(mascot.node);
+ const actor=el('div',{class:'fluency-actor','aria-hidden':'true'}),mascot=fluencyCompanion();actor.append(mascot.node);
  node.append(waveform,track,actor,el('div',{class:'fluency-ground','aria-hidden':'true'}));
  let previousProgress=NaN;
  return {node,paint(state,voice={}){

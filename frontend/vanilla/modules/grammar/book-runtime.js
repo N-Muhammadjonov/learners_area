@@ -1,5 +1,5 @@
 /* Original book exercise engine scoped to a single unit and ShadowRoot. */
-export function renderInteractiveBook(root, units, signal, storageKey, level) {
+export function renderInteractiveBook(root, units, signal, storageKey, level, onStageComplete = null) {
 const U=units;const CON=[["i'm","i am"],["you're","you are"],["he's","he is"],["she's","she is"],["it's","it is"],["we're","we are"],["they're","they are"],["there's","there is"],["that's","that is"],["what's","what is"],["where's","where is"],["who's","who is"],["isn't","is not"],["aren't","are not"],["don't","do not"],["doesn't","does not"],["can't","can not"],["won't","will not"],["didn't","did not"],["wasn't","was not"],["weren't","were not"],["i've","i have"],["let's","let us"]];
 function norm(s,strict){s=String(s).replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim();if(strict)return s;s=s.toLowerCase();CON.forEach(([a,b])=>{s=s.split(a).join(b)});return s.replace(/[.,!?;:"]/g,'').replace(/\s+/g,' ').trim()}
 function ok(inp,alts,strict){const n=norm(inp,strict);return alts.some(a=>norm(a,strict)===n)}
@@ -7,6 +7,7 @@ const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=nul
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const md=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 let S={};try{S=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch(e){}
+const stageAnswers=new Map();
 const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(S))}catch(e){}};
 function stat(u){return S[u.id]=S[u.id]||{}}
 function pct(u,si){const st=stat(u)[si]||{};let c=0,t=0;u.stages[si].ex.forEach((e,ei)=>{const n=e.kind==='write'?1:e.items.length;t+=n;c+=(st[ei]||0)});return t?Math.round(100*c/t):0}
@@ -19,19 +20,28 @@ function exCard(u,si,ei,e){
   const card=$('div','exc');const h=$('div','exh');h.append($('div','exl',e.letter));h.append($('div','ins','<b>'+esc(e.instr.split('. ')[0]+(e.instr.includes('. ')?'.':''))+'</b> '+esc(e.instr.includes('. ')?e.instr.split('. ').slice(1).join('. '):'')+(e.note?'<div class="note">'+esc(e.note)+'</div>':'')));card.append(h);
   const body=$('div');card.append(body);const kind=e.kind;let correct=0;const marks=[];
   function collect(){
-    if(kind==='mcq'||kind==='judge')return [...body.querySelectorAll('.item')].map(row=>[...row.querySelectorAll('button.opt')].find(button=>button.classList.contains('ok')||button.classList.contains('no'))?.textContent||'');
+    if(kind==='mcq'||kind==='judge')return [...body.querySelectorAll('.item')].map(row=>{const picked=row.querySelector('button.opt[data-user-choice="true"]')?.textContent||'';return kind==='judge'?(picked==="To'g'ri"?'To‘g‘ri':picked==="Noto'g'ri"?'Xato':''):picked;});
     if(kind==='match')return [...body.querySelectorAll('select')].map(select=>select.value||'');
     if(kind==='bank')return [...body.querySelectorAll('.blank')].map(blank=>blank.dataset.v||'');
     if(kind==='order')return [...body.querySelectorAll('.line')].map(line=>[...line.children].map(node=>node.textContent).join(' '));
     return [...body.querySelectorAll('input.t,textarea.t')].map(field=>field.value||'');
   }
   const finish=()=>{
+    const submitted=collect();
     setScore(u,si,ei,correct);
+    if(typeof onStageComplete==='function'&&si===0){
+      const key=u.id+':'+si,blocks=stageAnswers.get(key)||new Map();
+      blocks.set(ei,submitted);
+      stageAnswers.set(key,blocks);
+      if(u.stages[si].ex.length===3&&[0,1,2].every(index=>blocks.has(index))){
+        onStageComplete({unitId:u.id,stage:si,answers:[0,1,2].map(index=>blocks.get(index))});
+      }
+    }
     if(!level||kind==='speak')return;
-    fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:collect()})}).catch(()=>{});
+    fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:submitted})}).catch(()=>{});
   };
   if(kind==='mcq'||kind==='judge'){let answered=0;e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('div','q',esc(it.q)));const box=$('div');const fb=$('div','fb');
-    const opts=kind==='mcq'?it.opts:["To'g'ri","Noto'g'ri"];opts.forEach(o=>{const b=$('button','opt',esc(o));b.onclick=()=>{if(box.dataset.d)return;box.dataset.d=1;const good=kind==='mcq'?o===it.a:((o==="To'g'ri")===it.t);b.classList.add(good?'ok':'no');if(!good){[...box.children].forEach(x=>{if(kind==='mcq'?x.textContent===it.a:((x.textContent==="To'g'ri")===it.t))x.classList.add('ok')});if(kind==='judge'&&it.fix)fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.fix);fb.className='fb no'}if(good)correct++;answered++;if(answered===e.items.length)finish()};box.append(b)});m.append(box,fb);row.append(m);body.append(row)})}
+    const opts=kind==='mcq'?it.opts:["To'g'ri","Noto'g'ri"];opts.forEach(o=>{const b=$('button','opt',esc(o));b.onclick=()=>{if(box.dataset.d)return;box.dataset.d=1;const good=kind==='mcq'?o===it.a:((o==="To'g'ri")===it.t);b.dataset.userChoice='true';b.classList.add(good?'ok':'no');if(!good){[...box.children].forEach(x=>{if(kind==='mcq'?x.textContent===it.a:((x.textContent==="To'g'ri")===it.t))x.classList.add('ok')});if(kind==='judge'&&it.fix)fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.fix);fb.className='fb no'}if(good)correct++;answered++;if(answered===e.items.length)finish()};box.append(b)});m.append(box,fb);row.append(m);body.append(row)})}
   else if(kind==='match'){const sels=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('span','',esc(it.l)+'  →  '));const s=$('select','s');s.append(new Option('— tanlang —',''));e.rights.forEach(r=>s.append(new Option(r,r)));m.append(s);const fb=$('span','fb');m.append(fb);sels.push([s,it,fb]);row.append(m);body.append(row)});
     const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;sels.forEach(([s,it,fb])=>{const g=s.value===it.r;if(g)correct++;s.style.borderColor=g?'#2f7d5b':'#c0394b';fb.className='fb '+(g?'ok':'no');fb.innerHTML=g?' ✓':' ✗ <b>'+esc(it.r)+'</b>'});finish()};body.append(b)}
   else if(kind==='bank'){const chips=$('div','chips');const blanks=[];let act=null;
@@ -168,7 +178,7 @@ function build(){const main=root.getElementById('units');const side=root.getElem
   show(U[0].id)}
 function result(u,rp){const ps=u.stages.map((s,i)=>pct(u,i));const worst=ps.indexOf(Math.min(...ps));const need=ps.some((p,i)=>done(u,i)&&p<70)||ps.some((p,i)=>!done(u,i));
   rp.innerHTML=`<div class="res"><h3>${need?'Mashq kerak':'Zo\'r natija!'}</h3><p class="sub">${esc(u.title)}</p><div class="rows">`+u.stages.map((s,i)=>`<div class="row"><div class="nn">${s.n}</div><div>${esc(s.name)}</div><div class="bar"><i style="width:${ps[i]}%;background:${ps[i]>=80?'#2f7d5b':ps[i]>=50?'#d08a2b':'#c0394b'}"></i></div><div class="pp" style="color:${ps[i]>=80?'#2f7d5b':ps[i]>=50?'#d08a2b':'#c0394b'}">${ps[i]}%</div></div>`).join('')+`</div><p class="sub">70% dan past bosqichni qaytadan bajaring. Qoidani qayta o'qing.</p></div>`;
-  const b=$('button','btn ghost','Qaytadan');b.onclick=()=>{delete S[u.id];save();root.getElementById('units').replaceChildren();root.getElementById('nav').replaceChildren();build()};rp.firstChild.append(b)}
+  const b=$('button','btn ghost','Qaytadan');b.onclick=()=>{delete S[u.id];for(const key of stageAnswers.keys())if(key.startsWith(u.id+':'))stageAnswers.delete(key);save();root.getElementById('units').replaceChildren();root.getElementById('nav').replaceChildren();build()};rp.firstChild.append(b)}
 function show(id){root.querySelectorAll('.unit').forEach(s=>s.classList.toggle('on',s.id==='u-'+id));root.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));window.scrollTo(0,0)}
 build();
 }

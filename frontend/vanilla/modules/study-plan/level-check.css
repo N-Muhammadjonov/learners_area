@@ -1,0 +1,40 @@
+/* Standalone level-check, matching the existing Learners Area native surface tokens. */
+.level-check-page{width:min(100%,960px);margin-inline:auto;padding:clamp(.5rem,2vw,1.5rem);display:grid;gap:1rem;color:rgb(var(--workspace-ink))}
+.level-check-page-header{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap}
+.level-check-card{padding:clamp(1rem,3vw,2rem);display:grid;gap:1rem;background:rgb(var(--workspace-raised));color:rgb(var(--workspace-ink));border:1px solid rgb(var(--workspace-line));border-radius:22px}
+.level-check-card h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin:0}
+.level-check-card h2{font-size:clamp(1.1rem,2.3vw,1.5rem);font-weight:750;margin:0}
+.level-check-card p{margin:0}
+.level-check-muted,.level-check-meta{color:rgb(var(--workspace-muted));line-height:1.6;font-size:.9rem}
+.level-check-meta{font-size:.78rem;letter-spacing:.02em}
+.level-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+.level-choices button{display:grid;gap:.2rem;padding:1rem;text-align:start;min-height:80px}
+.level-choices button[aria-pressed="true"]{outline:2px solid rgb(var(--workspace-accent-strong));outline-offset:-2px;background:rgb(var(--workspace-sunken))}
+.level-choices strong{font-size:1.12rem}
+.level-choices small{color:rgb(var(--workspace-muted));font-size:.72rem}
+.level-check-actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.level-check-actions :is(button,a){min-height:42px}
+.level-check-top{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.level-check-tracker{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:.3rem}
+.level-check-tracker button{height:9px;background:rgb(var(--workspace-sunken));border:1px solid rgb(var(--workspace-line));border-radius:99px;cursor:pointer}
+.level-check-tracker button[data-answered="true"]{background:rgb(var(--workspace-accent-strong)/.6)}
+.level-check-tracker button[aria-current="step"]{background:rgb(var(--workspace-accent-strong))}
+.level-check-tracker button:focus-visible{outline:2px solid rgb(var(--workspace-accent-strong));outline-offset:4px}
+.level-check-passage,.level-check-audio{padding:1rem;background:rgb(var(--workspace-sunken));border-radius:12px;border:1px solid rgb(var(--workspace-line));line-height:1.7}
+.level-check-audio{display:flex;flex-wrap:wrap;align-items:center;gap:.65rem}
+.level-check-audio p{flex-basis:100%}
+.level-check-question{line-height:1.45}
+.level-check-options{display:grid;gap:.55rem}
+.level-check-choice{display:flex;align-items:center;gap:1rem;border-radius:12px;padding:.85rem 1rem;text-align:start;border:1px solid rgb(var(--workspace-line));background:rgb(var(--workspace-sunken));color:rgb(var(--workspace-ink));cursor:pointer;line-height:1.4;min-height:50px}
+.level-check-choice[aria-checked="true"]{border-color:rgb(var(--workspace-accent-strong));box-shadow:inset 0 0 0 1px rgb(var(--workspace-accent-strong))}
+.level-check-choice:focus-visible{outline:2px solid rgb(var(--workspace-accent-strong));outline-offset:2px}
+.level-check-letter{display:grid;place-items:center;border-radius:9px;width:30px;height:30px;flex:0 0 30px;background:rgb(var(--workspace-raised));font-weight:750}
+.level-check-score{display:flex;gap:1rem;align-items:baseline;flex-wrap:wrap}
+.level-check-score strong{font-size:2rem;color:rgb(var(--workspace-accent-strong));font-variant-numeric:tabular-nums}
+.level-check-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.4rem}
+.level-check-skills p{padding:.65rem;background:rgb(var(--workspace-sunken));border-radius:10px;border:1px solid rgb(var(--workspace-line))}
+.level-check-review{border:1px solid rgb(var(--workspace-line));border-radius:12px;padding:.8rem}
+.level-check-review summary{cursor:pointer;font-weight:700}
+.level-check-review-item{display:grid;gap:.3rem;padding:.75rem .3rem;border-top:1px solid rgb(var(--workspace-line));margin-top:.7rem}
+.level-check-error{color:rgb(var(--workspace-danger,220 90 105));font-weight:600}
+@media(max-width:640px){.level-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.level-check-tracker{gap:.2rem}.level-check-actions{align-items:stretch}.level-check-actions>*{flex:1 1 145px}}
