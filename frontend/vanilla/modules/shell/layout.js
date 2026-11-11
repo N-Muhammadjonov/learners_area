@@ -33,7 +33,9 @@ export function createTopbar(context){
 export function focusFrame(context,staging){
  if(staging.querySelector('.reading-workspace-header')||(/^\/app\/reading\/attempts\/[^/]+$/.test(context.url.pathname)&&staging.querySelector('[data-reading-full-focus]'))){staging.append(shellUtilities(context).node);return staging;}
  const listeningAttempt=/^\/app\/listening\/attempts\/[^/]+$/.test(context.url.pathname);
- const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'','data-ui-system':listeningAttempt,class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
+ const listeningWorkspace=context.url.pathname.startsWith('/app/listening/');
+ // All Listening routes share the ordinary topbar. The exam owns its isolated inner styles.
+ const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'','data-ui-system':listeningWorkspace,class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
  frame.style.setProperty('--workspace-accent',workspaceAccent(context.url));
  const body=el('div',{'data-shell-main':'',class:'min-h-0 flex-1 overflow-auto'});
  const examParent=()=>body.querySelector('[data-listening-exam-parent]')?.dataset.listeningExamParent;
