@@ -162,7 +162,7 @@ export function moduleDock(context){
  observer.observe(html,{attributes:true,attributeFilter:['data-study-focus','data-retention-focus']});
  function update(url){
   current=url;const segment=url.pathname.split('/')[2]??'dashboard';
-  const active=['admin','owner','teacher'].includes(segment)?'management':segment;
+  const active=url.pathname.startsWith('/app/study-plan/leaderboard')?'leaderboard':['admin','owner','teacher'].includes(segment)?'management':segment;
   for(const link of links){if(link.dataset.dockModule===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
   reset();visibility();revealActive();
  }
