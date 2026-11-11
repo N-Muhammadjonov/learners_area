@@ -1958,7 +1958,7 @@
     "frontend/vanilla/modules/speaking/microphone.js": "997460b24c6a85c861ee7a39f6fdd9510f604596b92e99ad48a6bdc2a1a7b96a",
     "frontend/vanilla/modules/speaking/partner-activities.js": "54c6981a066d0e029d78cd5ffaf47834e9ad6b567dab41e51ca665f29aefc7f3",
     "frontend/vanilla/modules/speaking/partner-copy.js": "3541788d6b72e4cbd6b5479caa4f6e9e1ea646275915522bdf02512a2124a2d2",
-    "frontend/vanilla/modules/speaking/partner-history.js": "68beed17aa9c7795ba414df41a2871dcc8577a73837f8f86cd30b2762981d1af",
+    "frontend/vanilla/modules/speaking/partner-history.js": "44a806593bae8b6e8eacaf801dc95b75a00e2e7eaa6f3f8b1213b2b94659fc1a",
     "frontend/vanilla/modules/speaking/partner-media.js": "3fc13639961fe61cfbcc1c8b1f318aca5e8e02b3267ad7bf0ff5bfd9731bcaf5",
     "frontend/vanilla/modules/speaking/partner-ringing.js": "674dd15aca00cb290e85623b57b22aea7030b94b70ad427c60bf401b02f56192",
     "frontend/vanilla/modules/speaking/practice.js": "374a1f1b84c130d5198daabe711b066fc9b2569e6114c0d2a5985ab68f336cd4",
