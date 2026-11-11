@@ -94,3 +94,33 @@ test('automatic search sends the selected gender with any level and can be cance
   assert.deepEqual(h.requests[1],{action:'stop_search'});
  }finally{h.dispose();}
 });
+
+
+test('matchmaking radar shows real online profiles instead of decorative dots',async()=>{
+ const queued={...lobby,features:{enabled:true,searchUntil:new Date(Date.now()+60000).toISOString()},
+  online:[{...first,hasPhoto:true},second]};
+ const h=await fixture(queued,{});
+ try{
+  const orbit=h.q('.lp-match-orbit');
+  assert(orbit);
+  const people=[...orbit.querySelectorAll('[data-match-user]')];
+  assert.equal(people.length,2);
+  assert.deepEqual(people.map(node=>node.dataset.matchUser),[first.userId,second.userId]);
+  assert.equal(orbit.querySelectorAll('.lp-match-satellite').length,0);
+  assert.equal(people[0].querySelector('img')?.getAttribute('src'),'/api/profile/photo/'+first.userId);
+  assert.equal(people[1].querySelector('img'),null);
+  assert(people[1].textContent.includes('👩‍🎓'));
+  assert.equal(h.q('[data-search-online]').textContent,'2');
+ }finally{h.dispose();}
+});
+
+test('matchmaking radar counts eligible live profiles, excluding unavailable users',async()=>{
+ const queued={...lobby,features:{enabled:true,searchUntil:new Date(Date.now()+60000).toISOString()},
+  online:[{...first,canCall:false},second]};
+ const h=await fixture(queued,{});
+ try{
+  const people=h.qa('[data-match-user]');
+  assert.deepEqual(people.map(node=>node.dataset.matchUser),[second.userId]);
+  assert.equal(h.q('[data-search-online]').textContent,'1');
+ }finally{h.dispose();}
+});
