@@ -270,6 +270,31 @@ async def get_partner(req:Request):
     ready=await readiness()
     return core.j({**s,'online':on,'realtime':ready,'features':extra},headers=H)
 
+@router.patch('/api/live-partner/profile')
+async def update_partner_profile(req:Request):
+    """Change only the authenticated user's public Speaking Partner preferences."""
+    u = await core.current_user(req, active=True)
+    if not u:
+        return core.j({'error':'unauthenticated'},401,H)
+    b = await core.payload(req)
+    if not isinstance(b,dict) or set(b)!={'gender','level'}:
+        return core.j({'error':'invalid_input'},400,H)
+    if b['gender'] not in ('male','female') or b['level'] not in ('A1','A2','B1','B2','C1','C2'):
+        return core.j({'error':'invalid_input'},400,H)
+    db = await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            gender = await con.fetchval(
+                'UPDATE users SET gender=$2 WHERE id=$1 AND account_status=\'active\' RETURNING gender',
+                u['id'],b['gender'])
+            if gender is None:
+                return core.j({'error':'not_eligible'},403,H)
+            await con.execute('''INSERT INTO onboarding_profiles(user_id,current_level)
+                VALUES($1,$2) ON CONFLICT(user_id)
+                DO UPDATE SET current_level=EXCLUDED.current_level''',u['id'],b['level'])
+    return core.j({'gender':str(gender),'level':b['level']},headers=H)
+
+
 @router.post('/api/live-partner')
 async def post_partner(req:Request):
     u=await core.current_user(req,active=True)
