@@ -114,8 +114,7 @@ def eligible_grammar(level: str, catalog: list[dict]) -> list[dict]:
         key = (unit["level"], unit["source"])
         if key in buckets:
             buckets[key].append(unit)
-    for units in buckets.values():
-        units.sort(key=lambda item: item["id"])
+    # Preserve the authored curriculum order within every CEFR/track bucket.
     result = []
     while any(buckets.values()):
         for difficulty in allowed:
