@@ -20,6 +20,8 @@ test('owner dashboard mounts plan and Speak or Die companion in the greeting',as
   await mount(ctx);
   assert(ctx.root.querySelector('.la-dashboard-hero [data-dashboard-30-plan]'));
   assert(ctx.root.querySelector('.la-dashboard-hero [data-dashboard-companion-link] svg'));
+  assert.equal(ctx.root.querySelector('.la-dashboard-hero h1')?.lastElementChild?.getAttribute('data-dashboard-companion-link'),'',
+    'companion belongs immediately after the greeting and learner name');
   assert.equal(ctx.root.querySelector('[data-dashboard-companion-link]').getAttribute('href'),
     '/app/speaking/speak-or-die');
   assert(paths.includes('/api/study-plan/monthly/sequence'));
