@@ -61,7 +61,7 @@ class PlanTask:
 def normalize_level(value: object) -> str | None:
     if not isinstance(value, str):
         return None
-    key = re.sub(r"\s+", " ", value.strip()).lower().replace("_", "-")
+    key = re.sub(r"\s+", " ", value.strip()).lower().replace("_", "-").replace(" ", "-")
     if not key:
         return None
     upper = key.upper()
@@ -141,9 +141,10 @@ def make_thirty_day_schedule(level: str, start: date,
         day_number = offset + 1
         # New lesson each day while the level has enough units. Shorter
         # curricula (e.g. C2) progress through successive practice stages.
-        position = offset + (revision - 1) * DAYS
-        unit = units[position % len(units)]
-        stage = (position // len(units)) % 4
+        position = offset
+        unit = units[(position + (revision - 1) * 7) % len(units)]
+        # Later revisions rearrange units, not their required stage depth.
+        stage = (position // len(units)) % 3
         if unit["source"] != "legacy" and stage != 0:
             raise ValueError("unsupported_skill_stage")
         minutes = WORKLOADS[offset % len(WORKLOADS)]
