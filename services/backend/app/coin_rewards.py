@@ -294,7 +294,7 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                 """SELECT id,provider,media_kind,duration_seconds,is_active,publication_state,publish_at
                    FROM video_lessons WHERE id=$1""", canonical_id)
             expected_kind = "audio" if module == "podcast" else "video"
-            if (not source or source["provider"] != "direct"
+            if (not source or source["provider"] not in ("direct", "youtube")
                     or source["media_kind"] != expected_kind
                     or source["is_active"] is False or not lesson_live(source)):
                 return {"error": "invalid_media"}
