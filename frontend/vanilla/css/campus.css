@@ -1799,3 +1799,16 @@ html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell]
 [data-mcq-practice] audio{width:100%;max-width:520px}
 [data-mcq-practice] [data-mcq-options]>label{padding:12px!important;border-radius:10px}
 @media(max-width:640px){[data-native-mcq-day]{padding:20px 14px 40px}[data-mcq-practice] li{padding:16px!important}}
+
+/* Reporter student search must remain distinguishable from the workspace surface.
+   Campus input rules use !important, so utility classes alone cannot override them. */
+html[data-theme]:has([data-campus-shell]) [data-reporter-student-search] input[name="q"]{
+  background-color:rgb(var(--workspace-sunken))!important;
+  border:2px solid rgb(var(--workspace-accent-strong))!important;
+  color:rgb(var(--workspace-ink))!important;
+  box-shadow:0 0 0 1px rgb(var(--workspace-line));
+}
+html[data-theme]:has([data-campus-shell]) [data-reporter-student-search] input[name="q"]:focus-visible{
+  outline:2px solid rgb(var(--workspace-accent-strong));
+  outline-offset:2px;
+}

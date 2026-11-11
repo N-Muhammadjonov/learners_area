@@ -11,7 +11,7 @@ from .browser_reading import re_escape_like
 
 async def student(con, user, id):
     if user.get('role') not in ('teacher','owner'): raise HTTPException(403,'forbidden')
-    row = await con.fetchrow("SELECT id,name,email FROM users WHERE id=$1 AND role='student'",id)
+    row = await con.fetchrow("SELECT id,name,email FROM users WHERE id=$1 AND role='student' AND account_status='active'",id)
     if not row or user['role']=='teacher' and not await con.fetchval('SELECT 1 FROM teacher_student_links WHERE teacher_user_id=$1 AND student_user_id=$2',user['id'],id):
         raise HTTPException(404,'not_found')
     return camel(row)
@@ -28,7 +28,7 @@ async def results(con, id):
 
 async def students(con, user, query='', reporter=False):
     args = []
-    conds = ["u.role='student'"]
+    conds = ["u.role='student'", "u.account_status='active'"]
     if user['role']=='teacher':
         args.append(user['id']);conds.append('EXISTS(SELECT 1 FROM teacher_student_links t WHERE t.student_user_id=u.id AND t.teacher_user_id=$1)')
     elif query:
@@ -131,8 +131,8 @@ async def read(req, user, kind, q):
             teachers = [camel(r) for r in await con.fetch("SELECT id,name FROM users WHERE role='teacher' ORDER BY name,id LIMIT 1000")]
             selected = next((t for t in teachers if t['id']==q.get('teacher')),teachers[0] if teachers else None)
             query = q.get('q','').strip()[:60]
-            roster = [camel(r) for r in await con.fetch('SELECT u.id,u.name FROM teacher_student_links t JOIN users u ON u.id=t.student_user_id WHERE t.teacher_user_id=$1 ORDER BY u.name,u.id LIMIT 500',selected['id'])] if selected else []
-            candidates = [camel(r) for r in await con.fetch("SELECT id,name FROM users WHERE role='student' AND name ILIKE $1 ORDER BY name,id LIMIT 1000",'%'+re_escape_like(query)+'%')]
+            roster = [camel(r) for r in await con.fetch('SELECT u.id,u.name FROM teacher_student_links t JOIN users u ON u.id=t.student_user_id WHERE t.teacher_user_id=$1 AND u.role='student' AND u.account_status='active' ORDER BY u.name,u.id LIMIT 500',selected['id'])] if selected else []
+            candidates = [camel(r) for r in await con.fetch("SELECT id,name FROM users WHERE role='student' AND account_status='active' AND name ILIKE $1 ORDER BY name,id LIMIT 1000",'%'+re_escape_like(query)+'%')]
             return {'teachers':teachers,'selected':selected,'query':query,'roster':roster,'candidates':candidates,'listCap':1000,'rosterCap':500}
         if kind == 'teacher-students': return {'students':await students(con,user)}
         if kind=='student-results':

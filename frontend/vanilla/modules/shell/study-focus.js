@@ -2,7 +2,8 @@ import {listen} from '../../js/dom.js';
 import {returnPolicy} from '../campus/return-policy.js';
 
 const STUDY_MODULES=new Set(['live-classes','assignments','mocks','video-lessons','listening','reading','writing','grammar','vocabulary','courses','coach']);
-export const supportsStudyFocus=url=>STUDY_MODULES.has(url.pathname.split('/')[2])&&returnPolicy(url).mode!=='back';
+export const isGrammarExercise=url=>/^\/app\/grammar\/(?:lessons\/[^/]+|[^/]+)\/?$/.test(url.pathname)&&!['/app/grammar/lessons','/app/grammar/lessons/author'].includes(url.pathname);
+export const supportsStudyFocus=url=>isGrammarExercise(url)||(STUDY_MODULES.has(url.pathname.split('/')[2])&&returnPolicy(url).mode!=='back');
 
 /** Presentation only: toggling never refreshes a route or touches an attempt.
  * F is intentionally undocumented in the interface. Text entry owns its keys. */
@@ -21,6 +22,7 @@ export function studyFocus({signal},changed=()=>{}){
  signal.addEventListener('abort',()=>{useful=false;apply(false);},{once:true});
  return {get on(){return on;},get useful(){return useful;},toggle(){apply(!on);},update(url){
   const next=url.pathname+url.search;if(location===next)return;
-  location=next;useful=supportsStudyFocus(url);apply(false);
+  const samePath=location?.split('?')[0]===url.pathname;
+  location=next;useful=supportsStudyFocus(url);apply(samePath?on:isGrammarExercise(url));
  }};
 }

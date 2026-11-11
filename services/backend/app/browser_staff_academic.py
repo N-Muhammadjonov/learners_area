@@ -38,9 +38,9 @@ STATE_SQL = "CASE WHEN status='completed' OR completed_at IS NOT NULL THEN 'comp
 
 
 def _scope(user, alias='u'):
-    if user['role']=='owner': return 'TRUE', []
+    if user['role']=='owner': return f"{alias}.account_status='active'", []
     if user['role']!='teacher': raise HTTPException(403,'forbidden')
-    return f"EXISTS(SELECT 1 FROM teacher_student_links l WHERE l.teacher_user_id=$1 AND l.student_user_id={alias}.id)", [user['id']]
+    return f"{alias}.account_status='active' AND EXISTS(SELECT 1 FROM teacher_student_links l WHERE l.teacher_user_id=$1 AND l.student_user_id={alias}.id)", [user['id']]
 
 
 def _date_filter(value, field):
@@ -58,9 +58,9 @@ def _state(status, due_at, completed_at):
 
 
 def _submission_scope(user, alias='u'):
-    if user['role']=='owner': return 'TRUE', []
+    if user['role']=='owner': return f"{alias}.account_status='active'", []
     if user['role']!='teacher': raise HTTPException(403,'forbidden')
-    return f"EXISTS(SELECT 1 FROM teacher_student_links l WHERE l.teacher_user_id=$1 AND l.student_user_id={alias}.id)", [user['id']]
+    return f"{alias}.account_status='active' AND EXISTS(SELECT 1 FROM teacher_student_links l WHERE l.teacher_user_id=$1 AND l.student_user_id={alias}.id)", [user['id']]
 
 
 async def _action_queue(con,user):

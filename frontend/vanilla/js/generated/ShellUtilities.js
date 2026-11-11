@@ -15,7 +15,7 @@ export function render(scope) {
                 h("span", null, dict.nav.coach))),
             h("div", { className: "max-w-[min(22rem,calc(100vw-2rem))]" },
                 h(ReportProblem, { dict: dict, floating: true })))),
-        on && h("span", { "data-focus-indicator": true, role: "status", className: "shell-focus-indicator" }, "Focus"),
+        on && h("button", { type: "button", "data-focus-indicator": true, "aria-label": dict.focus.exit, onClick: applyFocus, className: "shell-focus-indicator" }, "Focus"),
         h("button", { type: "button", ref: launcherRef, "data-utilities-launcher": true, "aria-expanded": open, "aria-controls": "shell-utilities-panel", title: dict.shell.utilities, onClick: () => setOpen((value) => !value), className: `pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border p-0 text-[0.9375rem] font-medium shadow-card transition-colors ${open ? "border-signal-600 bg-signal-600 text-signal-contrast" : "border-ink-100 bg-paper-raised text-ink-700 hover:bg-paper-sunken"}` },
             open ? h(IconClose, { className: "text-[18px]" }) : h(ModuleEmoji, { kind: "eject" }),
             h("span", { className: "sr-only" }, dict.shell.utilities))));

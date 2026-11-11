@@ -126,3 +126,24 @@ test('roster: no teachers, capped candidates notice, full roster hides assign fo
  assert(h.ctx.root.textContent.includes('Showing the first 1 students'));assert.equal(h.qa('form[action="/api/admin/roster"]').filter(f=>f.querySelector('[name=action][value=assign]')).length,0);
 });
 test('roster: teacher role cannot open the admin roster screen',async()=>{h=setup({role:'teacher',path:'/app/admin/roster'});h.stub({});await h.mount(rosterMod);assert.equal(h.nav[0].path,'/app');assert.equal(h.calls.length,0);});
+
+test('people: only owner can permanently delete suspended students after confirmation',async()=>{
+ h=setup({role:'owner',path:'/app/admin/people?status=suspended'});
+ let entries=[person(2,{accountStatus:'suspended'}),person(3,{accountStatus:'rejected'}),person(4)];
+ h.stub({'/api/frontend/staff/people':()=>dir({actorRole:'owner',actorId:ID(1),people:entries,total:entries.length,grantableRoles:['student','teacher','admin','owner']}),
+  '/api/admin/users/*':(_path,options)=>{
+   if(options.method==='DELETE'){entries=entries.filter(item=>item.id!==ID(2));return {ok:true,deleted:true};}
+   return {ok:true};
+  }});
+ await h.mount(people);
+ const row=id=>h.q(`tr[data-person-id="${id}"]`);
+ const remove=[...row(ID(2)).querySelectorAll('button')].find(button=>button.textContent==='Delete permanently');
+ assert(remove,'owner can erase a suspended learner');
+ assert(!row(ID(3)).textContent.includes('Delete permanently'),'rejected learners expire via retention');
+ assert(!row(ID(4)).textContent.includes('Delete permanently'),'active learners are protected');
+ h.click(remove);assert.equal(h.calls.filter(c=>c.method==='DELETE').length,0,'confirmation is required');
+ h.click(remove.parentNode.querySelector('[data-confirm-action]'));await tick(6);
+ const call=h.calls.find(c=>c.method==='DELETE');
+ assert.equal(call.path,`/api/admin/users/${ID(2)}`);
+ assert.equal(row(ID(2)),null,'deleted learner vanishes from the directory');
+});

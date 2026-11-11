@@ -1,6 +1,6 @@
 import {el,listen,mountStaff,heading,errorText,centreDateTime,fill,badge,confirmSelect,pager,pageParam} from './kit.js';
 import {confirmAction} from '../shared/confirm-action.js';
-import {directory,changeRole,changeStatus} from '../../js/adapters/staff-final30/people.js';
+import {directory,changeRole,changeStatus,deleteStudent} from '../../js/adapters/staff-final30/people.js';
 import {ROLES,STATUSES,ROLE_LABELS,STATUS_LABELS} from '../../js/adapters/staff-final30/core.js';
 /** Source: admin/people/page.tsx + PeopleTable.tsx + RoleSelect.tsx. Roles: admin, owner. */
 export function peopleHref(filters,page){const p=new URLSearchParams();if(filters.q)p.set('q',filters.q);if(filters.role)p.set('role',filters.role);if(filters.status)p.set('status',filters.status);if(filters.online)p.set('online','1');if(page>1)p.set('page',String(page));const q=p.toString();return q?`/app/admin/people?${q}`:'/app/admin/people';}
@@ -31,7 +31,18 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
     const cancel=el('button',{type:'button',class:'btn-ghost text-xs'},dict.common.cancel);listen(cancel,'click',()=>{S.askId=null;view.rerender();},signal);
     return el('div',{class:'flex flex-wrap items-center gap-2'},reason,go,cancel);
    }
-   if(['suspended','rejected'].includes(p.accountStatus))return confirmAction({signal,trigger:t.reactivate,triggerClassName:'btn-secondary text-xs',triggerDisabled:S.busy===p.id,title:t.confirmStatusTitle,description:t.confirmStatusBody,confirmLabel:dict.common.confirm,cancelLabel:dict.common.cancel,pendingLabel:dict.loadingPage.label,failureMessage:t.failed,onConfirm:()=>run('status',p,'active')}).node;
+   if(['suspended','rejected'].includes(p.accountStatus)){
+    const reactivate=confirmAction({signal,trigger:t.reactivate,triggerClassName:'btn-secondary text-xs',triggerDisabled:S.busy===p.id,title:t.confirmStatusTitle,description:t.confirmStatusBody,confirmLabel:dict.common.confirm,cancelLabel:dict.common.cancel,pendingLabel:dict.loadingPage.label,failureMessage:t.failed,onConfirm:()=>run('status',p,'active')}).node;
+    if(p.accountStatus!=='suspended'||p.role!=='student'||data.actorRole!=='owner')return reactivate;
+    const deleteLabel=L==='uz'?'Butunlay o‘chirish':'Delete permanently';
+    const deleteDescription=L==='uz'?'${p.name} va unga tegishli ma’lumotlar butunlay o‘chiriladi. Bu amalni bekor qilib bo‘lmaydi.': '${p.name} and their data will be permanently deleted. This cannot be undone.';
+    const remove=confirmAction({signal,trigger:deleteLabel,triggerClassName:'btn-secondary text-xs text-band-bad border-band-bad/50',triggerDisabled:S.busy===p.id,title:deleteLabel,description:deleteDescription.replace('${p.name}',p.name),confirmLabel:deleteLabel,cancelLabel:dict.common.cancel,pendingLabel:dict.loadingPage.label,failureMessage:t.failed,onConfirm:async()=>{
+     S.busy=p.id;S.error=null;
+     try{await deleteStudent(p.id,signal);S.busy=null;await view.reload({quiet:true});}
+     catch(error){S.busy=null;S.error=`${t.failed} ${errorText(error,dict)}`;view.rerender();throw error;}
+    }}).node;
+    return el('div',{class:'flex flex-wrap items-center gap-2'},reactivate,remove);
+   }
    const ask=el('button',{type:'button',class:'btn-secondary text-xs',disabled:S.busy===p.id},t.suspend);listen(ask,'click',()=>{S.askId=p.id;view.rerender();},signal);return ask;
   };
   const nameNode=p=>data.actorRole==='owner'&&p.role==='student'?el('a',{href:`/app/admin/people/${p.id}`,class:'font-medium text-ink-900','data-people-name':''},p.name):el('span',{'data-people-name':'',class:'font-medium text-ink-900'},p.name);
