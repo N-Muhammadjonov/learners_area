@@ -25,7 +25,7 @@ class OriginBoundary:
         path = scope.get('path', '')
         # Railway probes do not pass through Cloudflare. Readiness must still fail
         # for a malformed configured boundary rather than deploying an unusable app.
-        if scope['type'] == 'http' and (path == '/healthz' or path == '/readyz' and valid):
+        if scope['type'] == 'http' and (path in ('/health', '/healthz') or path == '/readyz' and valid):
             return await self.app(scope, receive, send)
         values = [v for k, v in scope.get('headers', ()) if k.lower() == HEADER]
         allowed = valid and len(values) == 1 and compare_digest(values[0], secret.encode('ascii'))

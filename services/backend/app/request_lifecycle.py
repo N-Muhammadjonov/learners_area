@@ -118,13 +118,13 @@ class RequestBudget:
             return await self.app(scope, receive, send)
         state = self.control.state()
         path, method = scope.get('path', ''), scope.get('method', 'GET')
-        probe = path in ('/healthz', '/readyz')
+        probe = path in ('/health', '/healthz', '/readyz')
         stream = path == '/api/auth/changes' and method == 'GET'
         media = path.startswith(('/api/resources/','/api/mocks/media/')) and method=='GET' and QueryParams(scope.get('query_string',b'')).get('capability')!='1'
         export = method=='GET' and path.startswith('/api/staff/mocks/exports/') and path.endswith('/download')
         bulk = (path == '/api/reports' or path.startswith('/api/uploads') or path.endswith('/import')
                 or path=='/api/staff/mocks/materials' or path.endswith('/speaking/responses') or export)
-        if path == '/healthz':
+        if path in ('/health', '/healthz'):
             return await self.app(scope, receive, send)
         rejected = state.draining or (probe and (state.probes >= 2 or state.active >= self.ordinary))
         if not probe:

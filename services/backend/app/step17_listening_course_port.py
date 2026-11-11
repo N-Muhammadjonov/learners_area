@@ -97,12 +97,13 @@ async def progress_post(req:Request,id:str):
             from .step21_listening_authored_reads import loaded_values
             values=await loaded_values(con,u,id,source)
             work=await current_work(con,u['id'],id,source,values)
+            previous_status=course_status(spec,work)
             try:work=combine(spec,work,act,answers)
             except ValueError as ex:return core.j({'error':str(ex)},400,PRIVATE)
             values[COURSE_KEY]=json.dumps(work,ensure_ascii=False,separators=(',',':'))
             await con.execute('''INSERT INTO listening_authored_checkpoints(user_id,test_id,values) VALUES($1,$2,$3::jsonb)
                 ON CONFLICT(user_id,test_id) DO UPDATE SET values=excluded.values,updated_at=now()''',u['id'],core.uuid_value(id),json.dumps(values,ensure_ascii=False))
             from .coin_rewards import sync_listening_activities
-            await sync_listening_activities(con,u['id'],source,id,course_status(spec,work),str(spec.get('version') or ''))
+            await sync_listening_activities(con,u['id'],source,id,course_status(spec,work),str(spec.get('version') or ''),previous_status)
     return core.j(course_status(spec,work),headers=PRIVATE)
 def install():core.app.include_router(router)
