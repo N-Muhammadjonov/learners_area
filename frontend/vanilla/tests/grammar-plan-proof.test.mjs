@@ -10,7 +10,7 @@ test('Grammar plan proof preserves actual incorrect choices and all three first-
   url:'https://fixture.invalid/app/grammar?tab=speaking&book=spk-64',
   pretendToBeVisual:true,
  });
- const globals=['window','document','Node','localStorage','navigator'];
+ const globals=['window','document','Node','localStorage'];
  const old=Object.fromEntries(globals.map(key=>[key,globalThis[key]]));
  try{
   for(const key of globals)globalThis[key]=dom.window[key];
