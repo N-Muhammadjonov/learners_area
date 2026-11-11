@@ -45,7 +45,8 @@ async def heartbeat(req: Request):
     playing = body.get("playing")
     duration = body.get("durationMs")
     session = body.get("sessionId")
-    if module not in ("ted", "podcast", "speaking") or not isinstance(media_id, str) or not media_id.strip():
+    # Client heartbeat has no verifiable microphone/speech evidence. Never mint Speaking coins here.
+    if module not in ("ted", "podcast") or not isinstance(media_id, str) or not media_id.strip():
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
     if type(position) is not int or position < 0 or position > 24 * 60 * 60 * 1000:
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
