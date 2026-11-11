@@ -22,7 +22,7 @@ def catalog():
 
 
 def verify_catalog(root):
-    """Fail a production build on stale UI knowledge, rather than invent new behaviour."""
+    """Optional integrity diagnostic for generated site knowledge; not an asset build gate."""
     for path, expected in catalog()['sources'].items():
         file = Path(root) / path
         if not file.is_file() or hashlib.sha256(file.read_bytes()).hexdigest() != expected:
@@ -72,7 +72,7 @@ TOPICS = [
         'Main bosh sahifasi Dashboard’ni ochadi. Pastdagi Dock ikonkalari o‘quv bo‘limlarini ochadi; tor ekranda panelni yon tomonga surish mumkin. Boshqaruv belgisi faqat xodim rollariga ko‘rinadi. Pastdagi O‘quv vositalari menyusidagi AI Coach shu RIWI chatini ochadi. Tafsilot yoki focus sahifalarida Dock yashiriladi; Back ota sahifaga qaytaradi.',
         'Main opens Dashboard. The bottom Dock icons open learning modules; on narrow screens the Dock scrolls sideways. Management is shown only to staff roles. AI Coach in the bottom study-tools menu opens this RIWI chat. Detail/focus pages hide the Dock; Back returns to the parent page.'),
     _topic('dashboard','dashboard panel ko‘rsatkich', ['/app/dashboard'],
-        'Dashboard shaxsiy o‘quv ko‘rsatkichlarini ko‘rsatadi. Main va Dashboard manzillari shu bosh sahifani ochadi; bo‘limlar pastdagi Dock’dan tanlanadi.', 'Dashboard shows personal learning metrics. Main and Dashboard addresses open this home page; choose modules in the bottom Dock.'),
+        'Dashboard shaxsiy o‘quv ko‘rsatkichlarini ko‘rsatadi. Bosh sahifa sarlavhasida Learners Area ko‘rinadi; ortiqcha IELTS yorlig‘i olib tashlangan. Bo‘limlar pastdagi Dock’dan tanlanadi.', 'Dashboard shows personal learning metrics. The hero brand reads Learners Area without the redundant IELTS label. Choose modules from the bottom Dock.'),
     _topic('reading','reading o‘qish retention passage', ['/app/reading','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/reading/retention','/app/reading/history'],
         'Reading kirish sahifasi Lessons’ga yo‘naltiradi. Lessons — darslar, Academic — test to‘plamlari, General — savol turlari bo‘yicha mashq, Retention — oldingi matndagi bilimni eslash, History — urinishlar. Matndagi bog‘langan so‘z lug‘at panelini ochadi. Vaqtli mashqda javoblar topshirilgach natija va tahlil ochiladi; faol testning tayyor javoblarini RIWI bermaydi.',
         'Reading opens Lessons. Lessons contains teaching material; Academic has test sets; General practises question types; Retention revisits passage knowledge; History lists attempts. Bound words open the dictionary panel. Timed work is submitted before results and analysis; RIWI does not disclose active-test answers.'),
@@ -86,8 +86,11 @@ TOPICS = [
         'Speaking’da dars, mustaqil mashq, shadowing va oldingi urinishlar yo‘llari bor. Practice ichida qism, keyin mavzu tanlanadi. Mikrofon yozuvi uchun brauzer ruxsati kerak; yozuvni boshlash, to‘xtatish va topshirish alohida amallar. Ruxsat/yozuv xatosini RIWI natija sifatida ko‘rsatmaydi.',
         'Speaking has lessons, practice, shadowing and history. Practice selects a part and then a topic. Recording requires browser microphone permission; start, stop and submit are separate actions. A permission/recording failure is not a completed assessment.'),
     _topic('grammar','grammar grammatika dars lesson author', ['/app/grammar','/app/grammar/lessons'],
-        'Grammar mavzular va darslar kutubxonasiga bo‘lingan. Mavzu yoki dars tanlansa uning sahifasi ochiladi. Mualliflik va nashr qilish o‘quvchi tugmalari emas; xodim ruxsati bilan boshqariladi.',
-        'Grammar separates topics and lessons. Selecting an item opens its detail page. Authoring and publication are staff-controlled operations.'),
+        'Grammar Lessons asosiy grammatika kutubxonasi. Grammar for Speaking sahifasida 77 ta, Grammar for Writing sahifasida 120 ta dars bor; Speaking va Writing uchun Grammar sahifasidagi tegishli tabni tanlang. Har bir dars to‘rt bosqichli mashqlarni ochadi, day/night rejimi saytga mos. Writing Academic Task 1 mavzularida diagrammalar mavjud. Darsni ochish to‘g‘ridan-to‘g‘ri coin yoki baho bermaydi; o‘quv natijalari server qoidalariga bog‘liq. Mualliflik va nashr xodim vakolatini talab qiladi.',
+        'Grammar Lessons is the core grammar library. Grammar for Speaking contains 77 units and Grammar for Writing contains 120 units, selectable from the relevant tabs on the Grammar page. Lessons use four exercise stages and follow the site theme; Academic Writing Task 1 includes diagrams. Opening a lesson does not award coins or grades; verified outcomes follow server rules. Authoring and publishing require staff permission.'),
+    _topic('leaderboard','leaderboard reyting ranking tanga coin coins yulduz stars ochko', ['/app/study-plan/leaderboard'],
+        'Reyting Dock ichidagi alohida bo‘limdir: eng yuqori uchta o‘quvchi podiumda, keyingi o‘rinlar jadvalda ko‘rinadi. Shu hafta, Oxirgi 30 kun va Barcha vaqt davrlarini tanlash mumkin. «Qanday qilib tanga to‘plashim mumkin?» shu sahifadagi to‘rtinchi tabni ochadi; alohida modal emas. Online o‘quvchilar ro‘yxati ko‘rsatilmaydi. Yulduz, tanga va mashq vaqti faqat server tasdiqlagan faoliyatga asoslanadi. Aniq tanga qoidasini sahifadagi server siyosatidan tekshiring; RIWI taxminiy tanga bermaydi.',
+        'Leaderboard lives in the Dock. The first three learners appear on the podium and remaining places in a table. Choose This week, Last 30 days or All time. How can I earn coins? is a fourth inline tab, not a modal. Online-student presence is not shown. Stars, coins and practice duration reflect server-verified activity; rely on the server policy tab for current coin rules.', ('student','owner')),
     _topic('vocabulary','vocabulary vocab lug‘at dictionary revision flashcard game so‘z', ['/app/vocabulary','/app/vocabulary/games'],
         'Vocabulary — shaxsiy so‘z va iboralar kutubxonangiz 📚\n\n1. Dictionary’da inglizcha yoki o‘zbekcha so‘z qidiring. Natijada kerakli ma’no va so‘z turkumini tanlang; bir so‘zning hamma ma’nosi bir xil emas.\n2. Kerakli so‘zni papkaga saqlang. Saqlangan so‘zlar Words’da turadi; matndagi bog‘langan so‘zni bosib ham lug‘at panelini ochish mumkin.\n3. Revision’da avval saqlagan so‘zlarni eslab, takrorlang. Eski Review havolasi shu joyga olib keladi.\n4. Use’da so‘zlarni qo‘llashni mashq qiling; Games’da esa turli o‘yinlar bilan mustahkamlang. Board qayd etilgan natijalarni ko‘rsatadi.\n\nMasalan, yangi so‘z topdingiz → ma’nosini tekshirasiz → papkaga saqlaysiz → keyin Revision’da eslaysiz. So‘zning boshqa gapda ishlatilishini uning kontekstiga qarab tekshiring.',
         'Vocabulary is your personal word and phrase library 📚\n\n1. Search English or Uzbek words in Dictionary. Choose the intended meaning and part of speech; different senses are not interchangeable.\n2. Save the chosen word to a folder. Saved entries appear in Words. Bound words in reading material also open a dictionary panel.\n3. Recall saved words in Revision. The old Review link redirects there.\n4. Practise using them in Use and reinforce them in Games. Board shows recorded results.\n\nFor example: find a word → check its meaning → save it to a folder → recall it later in Revision. Check the context before using a different sense.'),
@@ -128,7 +131,7 @@ CONTROLS = [
 def is_site_question(message):
     if re.search(r'sayt|website|web\s*site|tugma|button|sahifa|bo[‘\x27’ʻ]?lim|navigation|navigats|interfeys|interface|qidiruv|search|yuklash|upload|menu|menyu|architecture|arxitektur|/app\b',message,re.I): return True
     q=_normal(message)
-    module=re.search(r'\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|shadowing|mock|progress|live class)\w*',q)
+    module=re.search(r'\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|shadowing|mock|progress|live class|leaderboard|reyting|coin|tanga)\w*',q)
     return bool(module and re.search(r'(?:qanday|qanaqa).{0,30}(?:ishla|foydalan|och|kir)|qayer|nima qil|nima uchun kerak|tizim|system|how.{0,30}(?:work|use|open|access)|where|ochish|ishlat|foydalan',q))
 
 
@@ -143,7 +146,7 @@ _LABELS={'app':'Main','dashboard':'Dashboard','reading':'Reading','listening':'L
     'games':'Games','lessons':'Lessons','academic':'Academic','general':'General','retention':'Retention',
     'history':'History','tests':'Tests','mcq':'MCQ','practice':'Practice','shadowing':'Shadowing',
     'ielts':'IELTS course','video-lessons':'Video lessons','mocks':'Mock tests','assignments':'Assignments',
-    'coach':'Coach','progress':'Progress','live-classes':'Live Classes','support':'Support','reports':'Reports',
+    'coach':'Coach','progress':'Progress','leaderboard':'Reyting','live-classes':'Live Classes','support':'Support','reports':'Reports',
     'profile':'Profile','notifications':'Notifications','management':'Management','people':'People',
     'roster':'Roster','admissions':'Admissions','students':'My Students','homework':'Homework',
     'materials':'Materials','content':'Content','owner':'Owner','integrations':'Integrations',
