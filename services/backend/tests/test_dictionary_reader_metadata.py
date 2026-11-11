@@ -89,10 +89,14 @@ def test_new_pack_words_do_not_inherit_old_offset_headings_and_unknown_rows_surv
     for name in ('food','media'):
         pack=next(p for p in packs if p['id']==name)
         rows=[{'id':str(i),'topic_pack':name,'sense_key':sense_key(w)} for i,w in enumerate(pack['words'])]
+        unknown={'id':name+'-new-sense','topic_pack':name,'sense_key':'unmapped-new-sense'}
+        rows.append(unknown)
         parts=cards.named_parts(list(reversed(rows)))
+        flattened=[id for _,part in parts for id in part]
+        assert len(flattened)==len(rows) and set(flattened)=={row['id'] for row in rows}
         unheaded=[id for label,part in parts if label is None for id in part]
         assert unheaded==[r['id'] for r in rows if (name,r['sense_key']) not in lookup]
-        assert len(unheaded)>0
+        assert unknown['id'] in unheaded
     assert cards.named_parts([{'id':'unknown','topic_pack':'custom','sense_key':'unmapped'}])==[(None,['unknown'])]
 
 def test_all_bundled_shards_have_verified_checksums_and_legal_cefr():
