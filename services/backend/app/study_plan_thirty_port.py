@@ -11,8 +11,8 @@ from fastapi.responses import JSONResponse
 
 from . import main as core
 from .study_plan_evidence import EVENTS
-from .study_plan_port import failure, response, student
-from .study_plan_thirty import DAYS, make_thirty_day_schedule, normalize_level
+from .study_plan_port import failure, response, plan_participant
+from .study_plan_thirty import DAYS, SUPPORTED_DURATIONS, make_thirty_day_schedule, normalize_level
 from .study_plan_materials import assign_materials, load_material_pools
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
@@ -172,7 +172,7 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
     if pending_count:
         return cycle
     today = now.astimezone(_timezone(cycle["timezone"])).date()
-    if day == DAYS:
+    if day == cycle.get("duration_days", DAYS):
         await con.execute("""UPDATE study_plan_30_cycles
             SET status='completed',updated_at=$2 WHERE id=$1""", cid, now)
         return {**cycle, "status": "completed"}
@@ -189,7 +189,10 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
     rows = await con.fetch("""SELECT day_number,slot,kind,title,href,source_key,
       minutes,stage_index,completed_at FROM study_plan_30_tasks
       WHERE cycle_id=$1 ORDER BY day_number,slot""", cycle["id"])
-    groups = {day: [] for day in range(1, DAYS + 1)}
+    duration = cycle.get("duration_days", DAYS)
+    if duration not in SUPPORTED_DURATIONS:
+        raise ValueError("invalid_cycle_duration")
+    groups = {day: [] for day in range(1, duration + 1)}
     for task in rows:
         number = task["day_number"]
         completed = task["completed_at"] is not None
@@ -202,10 +205,10 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
         })
     if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) != 120
            for tasks in groups.values()):
-        raise ValueError("incomplete_30_day_schedule")
+        raise ValueError("incomplete_plan_schedule")
     today = now.astimezone(_timezone(cycle["timezone"])).date()
     result = []
-    for day in range(1, DAYS + 1):
+    for day in range(1, duration + 1):
         tasks = groups[day]
         complete = all(task["status"] == "completed" for task in tasks)
         status = ("completed" if complete else "active"
@@ -217,7 +220,7 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
         })
     return {
         "state": cycle["status"], "cycleId": cycle["id"],
-        "level": cycle["cefr_level"], "totalDays": DAYS, "currentDay": cycle["current_day"],
+        "level": cycle["cefr_level"], "totalDays": duration, "currentDay": cycle["current_day"],
         "completedDays": sum(day["status"] == "completed" for day in result),
         "startedOn": cycle["started_on"], "today": today,
         "revision": cycle["revision"], "days": result,
@@ -231,13 +234,15 @@ async def _current(con, uid, now: datetime) -> dict:
         return await _present(con, state, now)
     level, _ = await _profile(con, uid)
     if level is None:
-        return {"state": "level_required", "choices": ["placement_test", "profile"]}
-    return {"state": "available", "level": level, "totalDays": DAYS, "dailyMinutes": 120}
+        return {"state": "level_required", "choices": ["placement_test", "profile"],
+                "durationOptions": list(SUPPORTED_DURATIONS)}
+    return {"state": "available", "level": level, "totalDays": DAYS,
+            "durationOptions": list(SUPPORTED_DURATIONS), "dailyMinutes": 120}
 
 
 @router.get("")
 async def read_plan(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     now = datetime.now(timezone.utc)
@@ -248,9 +253,17 @@ async def read_plan(req: Request) -> JSONResponse:
 
 @router.post("/start")
 async def start_plan(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
+    body = await core.payload(req)
+    if body is None:
+        body = {}
+    if (not isinstance(body, dict) or set(body) - {"days"} or
+            type(body.get("days", DAYS)) is not int or
+            body.get("days", DAYS) not in SUPPORTED_DURATIONS):
+        return failure("invalid_duration", 400)
+    days = body.get("days", DAYS)
     now = datetime.now(timezone.utc)
     pool = await core.pool()
     async with pool.acquire() as con, con.transaction():
@@ -261,13 +274,13 @@ async def start_plan(req: Request) -> JSONResponse:
             return failure("level_required", 409)
         today = now.astimezone(zone).date()
         plan = assign_materials(
-            make_thirty_day_schedule(level, today),
+            make_thirty_day_schedule(level, today, days=days),
             await load_material_pools(con, user))
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
-           (user_id,started_on,timezone,cefr_level,opened_at)
-           VALUES($1,$2,$3,$4,$5)
+           (user_id,started_on,timezone,cefr_level,opened_at,duration_days)
+           VALUES($1,$2,$3,$4,$5,$6)
            ON CONFLICT(user_id) DO NOTHING RETURNING id""",
-           user["id"], today, zone.key, level, now)
+           user["id"], today, zone.key, level, now, days)
         if cid is not None:
             await con.executemany(INSERT_TASK, _records(cid, plan))
         return response(await _current(con, user["id"], now), 201 if cid is not None else 200)
@@ -275,11 +288,12 @@ async def start_plan(req: Request) -> JSONResponse:
 
 @router.post("/regenerate")
 async def regenerate_plan(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     body = await core.payload(req)
-    if not isinstance(body, dict) or body != {"confirmed": True}:
+    if (not isinstance(body, dict) or body.get("confirmed") is not True or
+            set(body) - {"confirmed", "days"}):
         return failure("confirmation_required", 400)
     now = datetime.now(timezone.utc)
     pool = await core.pool()
@@ -289,12 +303,17 @@ async def regenerate_plan(req: Request) -> JSONResponse:
             return failure("plan_not_found", 404)
         if row["status"] != "active":
             return failure("cycle_completed", 409)
+        days = body.get("days", row["duration_days"])
+        if type(days) is not int or days not in SUPPORTED_DURATIONS:
+            return failure("invalid_duration", 400)
+        if days < row["current_day"]:
+            return failure("duration_change_would_lose_progress", 409)
         level, _ = await _profile(con, user["id"])
         if level is None:
             return failure("level_required", 409)
         plan = assign_materials(
             make_thirty_day_schedule(level, row["started_on"],
-                                     revision=row["revision"] + 1),
+                                     revision=row["revision"] + 1, days=days),
             await load_material_pools(con, user), revision=row["revision"] + 1)
         # Preserve today's attempts and all prior days. Only untouched future
         # days are replaced. No student earns completion by regeneration.
@@ -303,13 +322,14 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         await con.executemany(INSERT_TASK, _records(row["id"], plan,
                                                   after_day=row["current_day"]))
         await con.execute("""UPDATE study_plan_30_cycles SET cefr_level=$2,
-           revision=revision+1,updated_at=$3 WHERE id=$1""", row["id"], level, now)
+           revision=revision+1,updated_at=$3,duration_days=$4 WHERE id=$1""",
+            row["id"], level, now, days)
         return response(await _current(con, user["id"], now))
 
 
 @router.post("/grammar/verify")
 async def verify_skill_grammar(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     body = await core.payload(req)
