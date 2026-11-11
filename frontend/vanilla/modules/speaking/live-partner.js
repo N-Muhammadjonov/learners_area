@@ -29,7 +29,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  let me=null,questions=[],topicsByPart={part1:[],part2:[],part3:[]},topicQuestions=[],topicCursor=null,topicLoading=false,topicToken=0,data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open=null,selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
  let inFlight=false,heartbeat=false,destroyed=false;
  let preference='any',preferredLevel='any',outgoingName='',noticeKey='',presenceKey='',topicsRequested=false;
- let peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyMessage='',clockOffset=0;
+ let peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyTab='find',lobbyMessage='',clockOffset=0;
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
  const outside=()=>me&&partnerOutsideRoom(me.userId);
@@ -66,7 +66,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  async function refresh(){if(destroyed||pollCtl||inFlight)return;const token=gen,ctl=new AbortController();pollCtl=ctl;const timeout=setTimeout(()=>ctl.abort(),TIMEOUT);
   const oldError=error,oldFlow=flow;let changed=false,goOnline=false;
   try{const next=await request(null,ctl.signal);if(destroyed||token<gen)return;changed=accept(next,token);error='';
-   if(!entryAttempted&&state()==='offline'&&data.realtime?.ready){entryAttempted=true;if(!me.hasGender)error=t.errors.profile_incomplete;else if(!data.rulesAccepted)flow='rules';else goOnline=true;}
+   if(!entryAttempted&&state()==='offline'){if(!me.hasGender){entryAttempted=true;error=t.errors.profile_incomplete;}else if(data.realtime?.ready){entryAttempted=true;if(!data.rulesAccepted)flow='rules';else goOnline=true;}}
   }catch{if(!ctl.signal.aborted)error=t.errors.unavailable;}
   finally{clearTimeout(timeout);if(pollCtl===ctl)pollCtl=null;if(!destroyed&&(changed||oldError!==error||oldFlow!==flow))draw();if(goOnline)void act({action:'go_online'});}
  }
@@ -221,7 +221,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    inCall?el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.you):null,
    avatar(me,t,inCall),el('div',{class:'lp-person'},el('strong',{},me.name),el('small',{},t.states[state()]??'')));
   if(me.speakingScore!=null)mePanel.append(el('span',{class:'lp-online-count'},score(me.speakingScore)));
-  if(!me.hasGender)mePanel.append(el('a',{class:'btn-secondary',href:'/app/profile'},t.editProfile));
+  
   mePanel.append(button(t.micTitle,()=>void microphone(),'btn-secondary',{disabled:busy||active()?'':null}));
   if(data?.realtime?.ready&&!data.rulesAccepted)mePanel.append(button(t.rulesTitle,()=>{flow='rules';draw();}));
   if(data?.realtime?.ready&&data.rulesAccepted&&me.hasGender&&state()==='offline')mePanel.append(button(t.goOnline,()=>void act({action:'go_online'}),'btn-primary',{disabled:busy?'':null}));
@@ -262,13 +262,29 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
     check.addEventListener('change',()=>{check.checked=partnerOutsideRoom(me.userId,check.checked);});
     mePanel.append(el('label',{class:'lp-outside'},check,u.outside));
    }
-   workspace.append(mePanel,...partnerLobby());
-   if(data?.features?.enabled){
-    const panel=partnerHistory({t:u,history,busy,act:historyAction,reload:()=>void refreshHistory(),call:dial,online:data.online??[],button});
-    panel.open=historyOpen;
-    panel.addEventListener('toggle',()=>{if(panel.isConnected&&panel.open&&!historyRequested)void refreshHistory();});
-    workspace.append(panel);
-   }
+   const stats=history?.stats??{calls:0,seconds:0};
+   const friends=history?.friends??[],recent=history?.recent??[];
+   const mockResults=recent.filter(entry=>Boolean(entry.mock));
+   const summary=el('section',{class:'lp-summary card','data-partner-summary':''},
+    el('div',{class:'lp-summary-heading'},el('h1',{},'Speaking Partner'),
+     el('span',{class:'lp-summary-profile'},(me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level'))),
+    el('div',{class:'lp-stat-grid'},
+     ...[[String(stats.calls??0),'Talks','🎙'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','◷'],
+     [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','♧'],
+     [String(mockResults.length),'Mocks','☆']].map(([value,label,icon])=>
+      el('div',{class:'lp-stat'},el('span',{class:'lp-stat-icon','aria-hidden':'true'},icon),
+       el('div',{},el('strong',{},value),el('small',{},label))))));
+   workspace.append(summary);
+   const tabs=[['find','Find',data?.online?.length??0],['recent','Recent',recent.length],
+    ['friends','Friends',friends.filter(friend=>friend.state==='accepted').length],['mocks','Mocks',mockResults.length]];
+   workspace.append(el('nav',{class:'lp-tabs',role:'tablist','aria-label':'Speaking Partner'},
+    ...tabs.map(([id,label,count])=>button(label+'  '+count,()=>{
+     lobbyTab=id;if(id!=='find'&&!historyRequested)void refreshHistory();draw();
+    },'lp-tab',{'data-partner-focus':'tab-'+id,'data-partner-tab':id,role:'tab','aria-selected':String(lobbyTab===id)}))));
+   if(lobbyTab==='find')workspace.append(mePanel,...partnerLobby());
+   else if(data?.features?.enabled)workspace.append(partnerHistory({t:u,history,busy,act:historyAction,
+    reload:()=>void refreshHistory(),call:dial,online:data.online??[],button,tab:lobbyTab}));
+   else workspace.append(el('p',{class:'lp-empty'},u.upgrade));
   }
   if(flow!=='none'){
    const overlay=el('div',{class:'fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4'}),dialog=el('div',{role:'dialog','aria-modal':'true',class:'w-full max-w-md rounded-lg bg-paper p-5 shadow-lg'});
@@ -286,7 +302,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   if(flow==='none'&&activeControl)[...workspace.querySelectorAll('[data-partner-focus]:not([disabled])')].find(node=>node.dataset.partnerFocus===activeControl)?.focus({preventScroll:true});
   if(flow==='none'&&listFocused)workspace.querySelector('[data-partner-list]')?.focus({preventScroll:true});
  }
- async function init(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_live_partner'||!d.me||!Array.isArray(d.questions))throw Error('invalid_live_partner_view');me=d.me;questions=d.questions;draw();void refresh();}catch{if(!signal.aborted)workspace.replaceChildren(RegionFailureNotice({region:'speaking-live-partner',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:init}));}}
+ async function init(){try{const d=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;if(d.kind!=='speaking_live_partner'||!d.me||!Array.isArray(d.questions))throw Error('invalid_live_partner_view');me=d.me;questions=d.questions;draw();void refresh();void refreshHistory();}catch{if(!signal.aborted)workspace.replaceChildren(RegionFailureNotice({region:'speaking-live-partner',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:init}));}}
  const runPoll=()=>{if(!destroyed&&me&&(document.visibilityState==='visible'||state()!=='offline'))void refresh();later(runPoll,POLL);};later(runPoll,POLL);
  const runBeat=()=>{if(!destroyed&&state()!=='offline'&&!heartbeat){heartbeat=true;void request({action:'heartbeat'},AbortSignal.timeout(TIMEOUT)).catch(()=>{}).finally(()=>{heartbeat=false;});}later(runBeat,BEAT);};later(runBeat,BEAT);
  void init();
