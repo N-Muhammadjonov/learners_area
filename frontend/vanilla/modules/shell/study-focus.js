@@ -22,6 +22,7 @@ export function studyFocus({signal},changed=()=>{}){
  signal.addEventListener('abort',()=>{useful=false;apply(false);},{once:true});
  return {get on(){return on;},get useful(){return useful;},toggle(){apply(!on);},update(url){
   const next=url.pathname+url.search;if(location===next)return;
-  location=next;useful=supportsStudyFocus(url);apply(isGrammarExercise(url));
+  const samePath=location?.split('?')[0]===url.pathname;
+  location=next;useful=supportsStudyFocus(url);apply(samePath?on:isGrammarExercise(url));
  }};
 }
