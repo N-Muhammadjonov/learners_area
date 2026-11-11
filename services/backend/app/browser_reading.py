@@ -178,6 +178,8 @@ def re_escape_like(s):
 
 async def read(req, user, path, q):
     uid = user['id']
+    if path == '/app/reading/retention/session':
+        path = '/app/reading/retention'
     if path == '/app/reading/retention':
         # Each read owns one region. A history/summary outage must not remove
         # the level selector or the learner's still valid reading session.
