@@ -24,6 +24,8 @@ export async function decide(id,decision,note,signal){
 export async function changeRole(id,role,signal){if(!UUID.test(id)||!ROLES.includes(role))throw new TypeError('invalid');return ok(await call('PATCH',`/api/admin/users/${id}/role`,{role},signal));}
 /** Source POST /api/admin/users/:id/status — {status,reason:string|null}; reason max 500. */
 export async function changeStatus(id,status,reason,signal){if(!UUID.test(id)||!STATUSES.includes(status))throw new TypeError('invalid');const r=(reason??'').trim();if(r.length>500)throw new TypeError('reason too long');return ok(await call('POST',`/api/admin/users/${id}/status`,{status,reason:r||null},signal));}
+/** Owner-only permanent removal for suspended learners. */
+export async function deleteStudent(id,signal){if(!UUID.test(id))throw new TypeError('invalid');return ok(await call('DELETE',`/api/admin/users/${id}`,undefined,signal));}
 /** Student results (admin people/:id). Source: getMockOverview + getProgressData; attempt rows only, no answers/keys. */
 const SKILLS=['reading','listening','speaking','writing','full'];
 export function validateStudentResults(d){
