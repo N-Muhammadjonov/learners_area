@@ -698,6 +698,8 @@ from .step19_bot_delete_port import install as _install_step19_bot_delete
 _install_step19_bot_delete()
 from .step19_vocab_srs_port import install as _install_step19_vocab_srs
 _install_step19_vocab_srs()
+from .telegram_handoff_port import install as _install_telegram_handoff
+_install_telegram_handoff()
 from .step19_telegram_exchange_port import install as _install_step19_exchange
 _install_step19_exchange()
 from .step19_uploads_speaking_port import install as _install_step19_uploads
