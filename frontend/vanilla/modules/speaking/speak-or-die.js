@@ -12,11 +12,12 @@ export function mount(context,dependencies={}){
  if(!document.querySelector('link[data-fluency-css]'))document.head.append(el('link',{rel:'stylesheet',href:'/modules/speaking/fluency-game.css','data-fluency-css':''}));
  const now=dependencies.now??(()=>performance.now()),raf=dependencies.requestFrame??view.requestAnimationFrame.bind(view),cancel=dependencies.cancelFrame??view.cancelAnimationFrame.bind(view);
  const voiceFactory=dependencies.voiceFactory??createVoiceInput,picker=dependencies.questionPicker??createQuestionPicker(),engine=createFluencyEngine({now});
- let voice=null,detector=null,frame=null,epoch=0,roundController=null,question=null,lastFrame=null,pauseReason='',level='intermediate',presentation='';
+ let voice=null,detector=null,frame=null,epoch=0,roundController=null,question=null,lastFrame=null,pauseReason='',level='intermediate',presentation='',readingStartedAt=null,readingRemainingMs=5000;
  const host=el('section',{class:'fluency-game','data-route-usable':'speaking-fluency','data-fluency-state':'idle'});
  const intro=el('header',{class:'fluency-intro'},el('span',{class:'fluency-eyebrow'},t.eyebrow),el('h1',{},'Speak or Die'),el('p',{},t.intro),el('p',{class:'fluency-privacy'},t.privacy));
  const prompt=el('section',{class:'fluency-question',hidden:true},el('span',{class:'fluency-eyebrow'},t.question)),questionText=el('h2',{tabindex:'-1'}),cueCard=el('p',{class:'fluency-cue'});prompt.append(questionText,cueCard);
  const timer=el('div',{class:'fluency-timer',role:'timer','aria-live':'off','aria-label':t.timer}),seconds=el('strong',{},'60'),progress=el('progress',{max:60,value:60,'aria-label':t.timer});timer.append(el('div',{},seconds,el('span',{},t.sec)),progress);timer.hidden=true;
+ const preparation=el('section',{class:'fluency-preparation',role:'timer','aria-live':'off','data-fluency-preparation':'',hidden:true},el('strong',{'data-fluency-read-seconds':''},'5'),el('span',{},'READ THE QUESTION'));
  const arena=fluencyArena(t.arena),status=el('p',{class:'fluency-status',role:'status','aria-live':'polite'}),levelLabel=el('p',{class:'fluency-level-label'});
  const levels=el('div',{class:'fluency-levels',role:'radiogroup','aria-label':t.chooseLevel}),levelButtons=[];
  function button(text,action,attrs={}){const node=el('button',{type:'button',class:'btn-secondary',...attrs},text);listen(node,'click',action,signal);return node;}
@@ -36,15 +37,17 @@ export function mount(context,dependencies={}){
  const controls=el('div',{class:'fluency-controls'}),start=button(t.start,()=>void begin(),{class:'btn-primary fluency-start','data-fluency-start':''}),resume=button(t.resume,()=>void begin(),{class:'btn-primary','data-fluency-resume':''}),quit=button(t.quit,leaveRound,{'data-fluency-quit':''}),again=button(t.again,()=>void begin(),{class:'btn-primary','data-fluency-again':''}),change=button(t.changeLevel,leaveRound,{'data-fluency-change-level':''});
  controls.append(start,resume,quit,again,change);
  const mic=el('p',{class:'fluency-mic'}),limitation=el('p',{class:'fluency-limitation'},t.limitation);
- host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),intro,prompt,timer,arena.node,status,levelLabel,result,levels,controls,mic,limitation);root.append(host);
+ host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),intro,prompt,preparation,timer,arena.node,status,levelLabel,result,levels,controls,mic,limitation);root.append(host);
  const text=(node,value)=>{if(node.textContent!==value)node.textContent=value;};
  function paint(activity){
   if(signal.aborted)return;
   const state=engine.snapshot(),phase=state.phase,ended=['won','lost'].includes(phase),selecting=['idle','error'].includes(phase);
   text(seconds,String(Math.ceil(state.remainingMs/1000)));progress.value=state.remainingMs/1000;arena.paint(state,activity);
+  const preparing=phase==='ready'&&readingStartedAt!==null;
+  if(preparing){const remaining=Math.max(0,Math.ceil(readingRemainingMs/1000));text(preparation.querySelector('[data-fluency-read-seconds]'),String(remaining));}
   const signature=JSON.stringify([phase,state.speaking,state.error,question?.id,level,pauseReason]);
   if(signature===presentation)return;presentation=signature;
-  host.dataset.fluencyState=phase;intro.hidden=!selecting;levels.hidden=!selecting;prompt.hidden=!question;timer.hidden=selecting;
+  host.dataset.fluencyState=phase;intro.hidden=!selecting;levels.hidden=!selecting;prompt.hidden=!question;timer.hidden=selecting||preparing;preparation.hidden=!preparing;
   if(question){text(questionText,question.promptText);text(cueCard,question.cueCard??'');cueCard.hidden=!question.cueCard;}
   levelButtons.forEach(b=>{const selected=b.dataset.fluencyLevel===level;b.setAttribute('aria-checked',String(selected));b.tabIndex=selected?0:-1;});
   text(levelLabel,t.levels[level].title);result.hidden=!ended;
@@ -55,7 +58,7 @@ export function mount(context,dependencies={}){
   text(status,message);status.setAttribute('role',phase==='error'?'alert':'status');
   text(mic,['running','calibrating','ready'].includes(phase)?t.micOn:phase==='requesting_permission'?t.micRequest:t.micOff);
  }
- function stopResources(){epoch++;if(frame!==null)cancel(frame);frame=null;lastFrame=null;voice?.dispose();voice=null;roundController?.abort();roundController=null;detector=null;}
+ function stopResources(){readingStartedAt=null;readingRemainingMs=5000;epoch++;if(frame!==null)cancel(frame);frame=null;lastFrame=null;voice?.dispose();voice=null;roundController?.abort();roundController=null;detector=null;}
  function leaveRound(){stopResources();engine.quit();engine.reset(level);question=null;pauseReason='';paint();start.focus();}
  function pause(code='',at=now()){
   if(!['running','requesting_permission','calibrating','ready'].includes(engine.snapshot().phase))return;
@@ -83,8 +86,12 @@ export function mount(context,dependencies={}){
     lastFrame=at;
     try{
      const sample=input.sample(),activity=detector.sample(sample.rms,at,sample.speech),state=engine.snapshot();
-     if(state.phase==='calibrating'&&activity.ready)engine.calibrated();
-     else if(state.phase==='ready'){engine.start(at);questionText.focus();}
+     if(state.phase==='calibrating'&&activity.ready){engine.calibrated();readingStartedAt=at;readingRemainingMs=5000;questionText.focus();}
+     else if(state.phase==='ready'){
+      if(readingStartedAt===null)readingStartedAt=at;
+      readingRemainingMs=Math.max(0,5000-(at-readingStartedAt));
+      if(readingRemainingMs===0){engine.start(at);readingStartedAt=null;}
+     }
      else if(state.phase==='running')engine.advance(at,activity.speaking);
      paint({...activity,samples:sample.samples});
      if(['won','lost'].includes(engine.snapshot().phase)){stopResources();paint();resultTitle.focus();return;}
