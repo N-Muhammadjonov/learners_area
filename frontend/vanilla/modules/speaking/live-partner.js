@@ -161,19 +161,45 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    {disabled:!canCall,'aria-label':t.invite+' '+person.name,'data-partner-focus':person.userId,'data-partner-call':person.userId});
   control.append(phone(),el('span',{},t.invite));return control;
  }
+ function radarPeople(){
+  return (data?.online??[]).filter(person=>person.canCall!==false&&
+   (preference==='any'||(person.gender??(person.avatar==='b'?'female':'male'))===preference));
+ }
+ function syncRadarPeople(orbit){
+  if(!orbit)return;
+  const people=radarPeople().slice(0,12),prior=new Map(
+   [...orbit.querySelectorAll('[data-match-user]')].map(node=>[node.dataset.matchUser,node]));
+  const visibleIds=new Set(people.map(person=>person.userId));
+  for(const [id,node] of prior)if(!visibleIds.has(id))node.remove();
+  people.forEach((person,index)=>{
+   const id=person.userId,photo=String(person.hasPhoto!==false);
+   let node=prior.get(id);
+   if(!node){
+    node=el('span',{class:'lp-match-person','data-match-user':id,'data-match-photo':photo,
+     'data-match-avatar':person.avatar??'a',title:person.name},avatar(person,t));
+   }else if(node.dataset.matchPhoto!==photo||node.dataset.matchAvatar!==(person.avatar??'a')){
+    node.replaceChildren(avatar(person,t));node.dataset.matchPhoto=photo;node.dataset.matchAvatar=person.avatar??'a';
+   }
+   if(node.title!==person.name)node.title=person.name;
+   const angle=-Math.PI/2+index*2*Math.PI/people.length;
+   node.style.left=(50+42*Math.cos(angle)).toFixed(3)+'%';
+   node.style.top=(50+42*Math.sin(angle)).toFixed(3)+'%';
+   if(node.parentElement!==orbit)orbit.append(node);
+  });
+ }
  function renderMatchmaking(){
   const seconds=Math.max(0,Math.ceil((Date.parse(data?.features?.searchUntil)-Date.now()-clockOffset)/1000));
   const genderLabel=preference==='male'?'Erkak':preference==='female'?'Ayol':'Barchasi';
-  const count=(data?.online??[]).filter(person=>person.canCall!==false).length;
+  const orbit=el('div',{class:'lp-match-orbit','aria-hidden':'true'},
+   el('div',{class:'lp-match-ring lp-match-ring-outer'}),
+   el('div',{class:'lp-match-ring lp-match-ring-inner'}),
+   el('div',{class:'lp-match-center'},avatar(me,t)));
+  syncRadarPeople(orbit);
   return el('section',{class:'lp-matchmaking','data-partner-searching':'',role:'status','aria-live':'polite'},
-   el('div',{class:'lp-match-orbit','aria-hidden':'true'},
-    el('div',{class:'lp-match-ring lp-match-ring-outer'}),
-    el('div',{class:'lp-match-ring lp-match-ring-inner'}),
-    el('div',{class:'lp-match-center'},avatar(me,t)),
-    ...[0,1,2,3].map(index=>el('span',{class:'lp-match-satellite lp-match-satellite-'+index}))),
+   orbit,
    el('h1',{},'Sherik qidirilmoqda...'),
    el('p',{class:'lp-match-subtitle'},'Hozir sherik qidirayotgan o‘quvchi bilan moslashtirilmoqdasiz'),
-   el('span',{class:'lp-match-online'},'●  ',el('span',{'data-search-online':''},String(count)),' onlayn'),
+   el('span',{class:'lp-match-online'},'●  ',el('span',{'data-search-online':''},String(radarPeople().length)),' onlayn'),
    el('span',{class:'lp-match-prefs'},genderLabel,' · ',el('span',{'data-search-remaining':''},seconds+'s')),
    button('Bekor qilish',()=>void act({action:'stop_search'}),'lp-match-cancel',{'data-partner-cancel-search':''}));
  }
@@ -219,8 +245,8 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   drawCallNotice();sound.sync(flow==='none'&&!busy?data?.incoming?.id:null);
   const existingMatch=workspace.querySelector('[data-partner-searching]');
   if(existingMatch&&data?.features?.searchUntil&&!data?.incoming&&!data?.outgoing&&!active()&&!error&&data.realtime?.ready){
-   const count=(data.online??[]).filter(person=>person.canCall!==false).length;
-   const counter=existingMatch.querySelector('[data-search-online]');if(counter)counter.textContent=String(count);
+   const counter=existingMatch.querySelector('[data-search-online]');if(counter)counter.textContent=String(radarPeople().length);
+   syncRadarPeople(existingMatch.querySelector('.lp-match-orbit'));
    paintClock();return;
   }
   const previousHistory=workspace.querySelector('[data-partner-history]');if(previousHistory)historyOpen=previousHistory.open;
