@@ -28,7 +28,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  let me=null,questions=[],topicsByPart={part1:[],part2:[],part3:[]},topicQuestions=[],topicCursor=null,topicLoading=false,topicToken=0,data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open=null,selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
  let inFlight=false,heartbeat=false,destroyed=false;
  let preference='any',outgoingName='',noticeKey='',presenceKey='',topicsRequested=false;
- let profileSaving=false,peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyTab='find',lobbyMessage='',clockOffset=0;
+ let profileSaving=false,profileDraftGender=null,profileDraftLevel=null,peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyTab='find',lobbyMessage='',clockOffset=0;
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
  const outside=()=>me&&partnerOutsideRoom(me.userId);
@@ -84,7 +84,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  function paintClock(){
   const clock=workspace.querySelector('[data-partner-clock]');
   const remaining=workspace.querySelector('[data-search-remaining]');
-  if(remaining){const seconds=Math.max(0,Math.ceil((Date.parse(data?.features?.searchUntil)-Date.now()-clockOffset)/1000));remaining.textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');}
+  if(remaining){const seconds=Math.max(0,Math.ceil((Date.parse(data?.features?.searchUntil)-Date.now()-clockOffset)/1000));remaining.textContent=seconds+'s';}
   const endsAt=Date.parse(data?.features?.activity?.endsAt);
   if(!clock||!Number.isFinite(endsAt))return;
   const left=Math.max(0,Math.ceil((endsAt-Date.now()-clockOffset)/1000)),value=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
@@ -162,23 +162,20 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   control.append(phone(),el('span',{},t.invite));return control;
  }
  function renderMatchmaking(){
-  const until=Date.parse(data?.features?.searchUntil);
-  const count=(data?.online??[]).filter(person=>person.canCall!==false).length;
+  const seconds=Math.max(0,Math.ceil((Date.parse(data?.features?.searchUntil)-Date.now()-clockOffset)/1000));
   const genderLabel=preference==='male'?'Erkak':preference==='female'?'Ayol':'Barchasi';
-  const view=el('section',{class:'lp-matchmaking','data-partner-searching':'',role:'status','aria-live':'polite'},
-   el('div',{class:'lp-match-orbit','aria-hidden':'true'},el('span',{class:'lp-match-pulse'},'👥')),
+  const count=(data?.online??[]).filter(person=>person.canCall!==false).length;
+  return el('section',{class:'lp-matchmaking','data-partner-searching':'',role:'status','aria-live':'polite'},
+   el('div',{class:'lp-match-orbit','aria-hidden':'true'},
+    el('div',{class:'lp-match-ring lp-match-ring-outer'}),
+    el('div',{class:'lp-match-ring lp-match-ring-inner'}),
+    el('div',{class:'lp-match-center'},avatar(me,t)),
+    ...[0,1,2,3].map(index=>el('span',{class:'lp-match-satellite lp-match-satellite-'+index}))),
    el('h1',{},'Sherik qidirilmoqda...'),
-   el('p',{},'Sizga mos suhbatdosh qidirilmoqda'),
-   el('div',{class:'lp-match-details'},
-    el('div',{},el('strong',{'data-search-remaining':''},'1:00'),el('small',{},'Qolgan vaqt')),
-    el('div',{},el('strong',{'data-search-online':''},String(count)),el('small',{},'Onlayn')),
-    el('div',{},el('strong',{},genderLabel),el('small',{},'Jins'))),
-   el('p',{class:'lp-match-note'},'Mos sherik topilganda sizga qo‘ng‘iroq keladi.'),
+   el('p',{class:'lp-match-subtitle'},'Hozir sherik qidirayotgan o‘quvchi bilan moslashtirilmoqdasiz'),
+   el('span',{class:'lp-match-online'},'●  ',el('span',{'data-search-online':''},String(count)),' onlayn'),
+   el('span',{class:'lp-match-prefs'},genderLabel,' · ',el('span',{'data-search-remaining':''},seconds+'s')),
    button('Bekor qilish',()=>void act({action:'stop_search'}),'lp-match-cancel',{'data-partner-cancel-search':''}));
-  const remaining=view.querySelector('[data-search-remaining]');
-  const seconds=Math.max(0,Math.ceil((until-Date.now()-clockOffset)/1000));
-  remaining.textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
-  return view;
  }
  function partnerLobby(){
   const online=data?.online??[],matching=online.filter(person=>preference==='any'||(person.gender??(person.avatar==='b'?'female':'male'))===preference);
@@ -280,7 +277,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    const mocksGiven=Number(history?.stats?.mocksGiven??0),mocksTaken=Number(history?.stats?.mocksTaken??0);
    const summary=el('section',{class:'lp-summary card','data-partner-summary':''},
     el('div',{class:'lp-summary-heading'},el('h1',{},'Speaking Partner'),
-     button((me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level')+'   Change',()=>{flow='profile';draw();},'lp-summary-profile',{'data-partner-change-profile':'','aria-label':'Change gender and level'})),
+     button((me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level')+'   Change',()=>{profileDraftGender=me.gender??'male';profileDraftLevel=me.level??'B1';flow='profile';draw();},'lp-summary-profile',{'data-partner-change-profile':'','aria-label':'Change gender and level'})),
     el('div',{class:'lp-stat-grid'},
      ...[[String(stats.calls??0),'Talks','🎙️'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','⏱️'],
      [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','👥'],
@@ -305,9 +302,11 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    overlay.append(dialog);overlay.addEventListener('mousedown',e=>{if(e.target===overlay)closeFlow();});
    if(flow==='profile'){
     const gender=el('select',{class:'input','aria-label':'Gender','data-partner-profile-gender':''},
-      ...[['male','Male'],['female','Female']].map(([value,label])=>el('option',{value,selected:me.gender===value},label)));
+      ...[['male','Male'],['female','Female']].map(([value,label])=>el('option',{value,selected:profileDraftGender===value},label)));
     const selectedLevel=el('select',{class:'input','aria-label':'English level','data-partner-profile-level':''},
-      ...['A1','A2','B1','B2','C1','C2'].map(value=>el('option',{value,selected:me.level===value},value)));
+      ...['A1','A2','B1','B2','C1','C2'].map(value=>el('option',{value,selected:profileDraftLevel===value},value)));
+    gender.addEventListener('change',()=>{profileDraftGender=gender.value;});
+    selectedLevel.addEventListener('change',()=>{profileDraftLevel=selectedLevel.value;});
     dialog.append(el('h2',{},'Speaking Partner profili'),
      el('label',{class:'lp-profile-field'},'Jins',gender),
      el('label',{class:'lp-profile-field'},'Daraja',selectedLevel),
@@ -317,7 +316,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
        if(profileSaving)return;
        profileSaving=true;
        try{
-        const response=await fetch('/api/live-partner/profile',{method:'PATCH',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({gender:gender.value,level:selectedLevel.value}),signal});
+        const response=await fetch('/api/live-partner/profile',{method:'PATCH',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({gender:profileDraftGender,level:profileDraftLevel}),signal});
         if(!response.ok)throw Error('profile_save_failed');
         const updated=await response.json();
         me.gender=updated.gender;me.level=updated.level;me.hasGender=true;me.avatar=updated.gender==='female'?'b':'a';error='';closeFlow();
