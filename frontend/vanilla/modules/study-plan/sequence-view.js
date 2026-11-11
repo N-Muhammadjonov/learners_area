@@ -112,7 +112,7 @@ function taskList(ctx, day) {
       h('a', {href:task.href, class:'btn-primary sequence-task-action',
         'data-sequence-task-open':task.kind}, statusLabel(ctx,task.status)) :
       h('span', {class:'sequence-task-status','data-sequence-task-label':task.status},
-        statusLabel(ctx,task.status))))));
+        statusLabel(ctx,task.status)))));
 }
 
 function calendar(ctx, data, state) {
@@ -209,7 +209,7 @@ export function mountSequenceAssignments(ctx, root) {
       panel.replaceChildren(toolbar,h('div',{class:'sequence-empty'},
         metric(text(ctx,'Kun','Days'),'30'),metric(text(ctx,'Kunlik vaqt','Daily study'),'120 min'),
         h('p',{},text(ctx,'Daraja: ','Level: ')+data.level),
-        launch),state.error?h('p',{role:'alert'},state.error):null);
+        launch),...(state.error?[h('p',{role:'alert'},state.error)]:[]));
       return;
     }
     const buttons=h('div',{class:'sequence-controls'},
@@ -238,11 +238,13 @@ export function mountSequenceAssignments(ctx, root) {
           h('button',{type:'button',class:'btn-primary',disabled:state.pending,
             onClick:()=>void change('regenerate')},
             text(ctx,'Tasdiqlash','Confirm')))):null;
-    panel.replaceChildren(toolbar,summary,confirm,
+    panel.replaceChildren(...[
+      toolbar,summary,confirm,
       data.state==='completed'?h('p',{role:'status',class:'sequence-notice'},
         text(ctx,'30 kunlik reja yakunlandi.','30-day plan completed.')):null,
       calendar(ctx,data,state),
-      state.error?h('p',{role:'alert',class:'sequence-error'},state.error):null);
+      state.error?h('p',{role:'alert',class:'sequence-error'},state.error):null,
+    ].filter(Boolean));
   }
 
   async function load() {
@@ -320,7 +322,7 @@ export function mountSequenceDashboard(ctx, root) {
     const progress=Number.isInteger(data.completedDays)?
       h('progress',{max:TOTAL_DAYS,value:data.completedDays,
         'aria-label':text(ctx,'Yakunlangan kunlar','Completed days')}):null;
-    panel.replaceChildren(
+    panel.replaceChildren(...[
       h('div',{class:'sequence-dashboard-heading'},
         h('div',{},h('h2',{},title),h('p',{class:'sequence-subtitle'},description)),
         h('span',{class:'sequence-dashboard-number','aria-hidden':'true'},
@@ -330,7 +332,8 @@ export function mountSequenceDashboard(ctx, root) {
         'data-dashboard-plan-open':''},
         data.state==='available'?text(ctx,'Reja yaratish','Create plan'):
         data.state==='level_required'?text(ctx,'Rejani ko‘rish','View plan'):
-        text(ctx,'Rejani ochish','Open plan')));
+        text(ctx,'Rejani ochish','Open plan')),
+    ].filter(Boolean));
   }
   async function load() {
     const ticket=++generation;
