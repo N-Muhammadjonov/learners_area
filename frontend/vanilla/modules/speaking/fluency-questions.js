@@ -3,7 +3,7 @@ import {api} from '../../js/api-client.js';
 export function createQuestionPicker(){
  // Remember recent questions across route remounts in this browser tab.
  // Keep the history bounded so a small, authorized bank never becomes unusable.
- const HISTORY_KEY='la-speak-or-die-recent-v2',HISTORY_LIMIT=90;
+ const HISTORY_KEY='la-speak-or-die-recent-v2',HISTORY_LIMIT=300;
  let pool=[],seen=new Set(),lastId=null;
  function recentIds(){
   try{
