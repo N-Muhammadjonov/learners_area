@@ -141,6 +141,27 @@ finally:core.pool=pool
 asyncio.run(con.execute("UPDATE users SET role='owner' WHERE id=$1",UID))
 check('/api/frontend/session',401)
 assert client.post('/api/auth/login',json={'email':'browser@example.test','password':PASSWORD},headers={'origin':'http://preview.test'}).status_code==200
+# Original entry presentation is independent of the existing recording transport.
+fixture_test=id('listening-academic');fixture_attempt=id('original-listening-entry-attempt')
+audio_before=asyncio.run(con.fetchrow('SELECT t.audio_url,p.audio_object_key,p.source_id FROM listening_tests t JOIN listening_packages p ON p.test_id=t.id WHERE t.id=$1',fixture_test))
+try:
+    asyncio.run(con.execute("INSERT INTO listening_attempts(id,user_id,test_id,status,total_questions) VALUES($1,$2,$3,'in_progress',40)",fixture_attempt,UID,fixture_test))
+    for number in (1,7):
+        asyncio.run(con.execute('UPDATE listening_packages SET source_id=$2 WHERE test_id=$1',fixture_test,f'listening-test-{number}'))
+        gate=check('/api/listening/full/'+fixture_test+'/authored')
+        assert gate['kind']=='exam_required' and gate['attemptId']==fixture_attempt
+        assert f'Listening<br>Test {number}' in gate['originalLayout']['shell']
+        assert len(gate['originalLayout']['activities'])==9
+        assert 'runtime' not in gate and 'data:audio' not in json.dumps(gate)
+        warmup=check('/api/listening/full/'+fixture_test+'/authored?warmup=1')
+        assert warmup['audioUrl']=='/api/resources/'+audio_before['audio_object_key']+'?download=1'
+        checks+=4
+finally:
+    asyncio.run(con.execute('DELETE FROM listening_attempts WHERE id=$1',fixture_attempt))
+    asyncio.run(con.execute('UPDATE listening_packages SET source_id=$2 WHERE test_id=$1',fixture_test,audio_before['source_id']))
+audio_after=asyncio.run(con.fetchrow('SELECT t.audio_url,p.audio_object_key FROM listening_tests t JOIN listening_packages p ON p.test_id=t.id WHERE t.id=$1',fixture_test))
+assert all(audio_after[key]==audio_before[key] for key in ('audio_url','audio_object_key'))
+checks+=1
 for route in ('/app/management','/app/admin/content','/app/admin/materials','/app/owner/audit','/app/reports'):
     check('/api/frontend/view?route='+route)
 for area in ('listening','grammar','reading'):
