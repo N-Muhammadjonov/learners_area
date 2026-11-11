@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {setup,tick} from './staff-final30/harness.mjs';
 import {fixtureSession} from './fixtures.mjs';
-import {createShell} from '../modules/shell/layout.js';
+import {createShell,focusFrame} from '../modules/shell/layout.js';
 import {moduleLayout} from '../modules/shell/module-layout.js';
 import {sectionIdentity} from '../modules/shell/section-header.js';
 import {managementAreas,mount as management} from '../modules/staff-final30/management-hub.js';
@@ -16,6 +16,22 @@ function shellFixture(path){
  h.ctx.session=fixtureSession('owner').session;h.stub({'/api/notifications':{unread:0}});
  const shell=createShell(h.ctx);h.ctx.root.append(shell.host);return {h,shell};
 }
+test('every Listening detail keeps the ordinary header design scope and preference controls',()=>{
+ const {h,shell}=shellFixture('/app/listening/tests');
+ try{
+  const preferences=top=>[...top.querySelectorAll('[data-campus-header-preferences] button')].map(button=>({
+   className:button.className,label:button.getAttribute('aria-label'),pressed:button.getAttribute('aria-pressed'),text:button.textContent,
+  }));
+  const expected=preferences(shell.host);
+  for(const path of ['/app/listening/tests/test-id','/app/listening/tests/test-id/1','/app/listening/tests/test-id/study','/app/listening/attempts/attempt-id','/app/listening/attempts/attempt-id/revision','/app/listening/mcq/day/1']){
+   const frame=focusFrame({...h.ctx,url:new URL(path,h.ctx.url)},document.createElement('div'));
+   h.ctx.root.replaceChildren(frame);
+   assert(frame.hasAttribute('data-ui-system'),path);
+   assert.deepEqual(preferences(frame),expected,path);
+   assert.equal(frame.querySelector('[data-profile-menu-trigger]').className,shell.host.querySelector('[data-profile-menu-trigger]').className,path);
+  }
+ }finally{h.dispose();}
+});
 test('ordinary modules and Management use the Dock without a Main control, sidebar or hamburger',async()=>{
  const {h,shell}=shellFixture('/app/management');
  try{
