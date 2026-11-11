@@ -21,15 +21,14 @@ function avatar(person,t,large=false){const k=person?.avatar==='b'?'b':'a',root=
 export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,deps)}={}){
  const {root,dict,signal,url}=context,t=dict.livePartner,u=partnerCopy(context.locale);
  const host=el('div',{class:'lp-page','data-route-usable':'live-partner'}),workspace=el('div',{class:'live-partner-workspace','data-live-partner-state':'offline'});
- const header=el('header',{class:'lp-hero card'},el('h1',{class:'font-display text-2xl text-ink-900'},t.title),el('p',{class:'text-sm text-ink-500'},t.intro));
  const notices=el('div',{class:'lp-call-notices','aria-live':'polite'});
- host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),header,workspace);root.append(host);
+ host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),workspace);root.append(host);
  const remoteAudio=el('audio',{autoplay:'',class:'hidden','aria-hidden':'true'});host.append(notices,remoteAudio);
  const sound=partnerRingtone(host,signal),media=partnerMedia(host,signal);
  let me=null,questions=[],topicsByPart={part1:[],part2:[],part3:[]},topicQuestions=[],topicCursor=null,topicLoading=false,topicToken=0,data=null,error='',flow='none',busy=false,query='',searchState='idle',searchCursor=null,remoteQuestions=null,open=null,selectedTopic=null,qIndex=0,gen=0,fetchId=0,searchId=0,searchTimer=null,pollCtl=null,call=null,callSession=null,callStatus=null,micMuted=false,remoteMuted=false,micState='unknown',level=0,micStream=null,micCtx=null,micRAF=null,entryAttempted=false;
  let inFlight=false,heartbeat=false,destroyed=false;
- let preference='any',preferredLevel='any',outgoingName='',noticeKey='',presenceKey='',topicsRequested=false;
- let peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyTab='find',lobbyMessage='',clockOffset=0;
+ let preference='any',outgoingName='',noticeKey='',presenceKey='',topicsRequested=false;
+ let profileSaving=false,peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyTab='find',lobbyMessage='',clockOffset=0;
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
  const outside=()=>me&&partnerOutsideRoom(me.userId);
@@ -84,6 +83,8 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  async function historyAction(body){if(await act(body))void refreshHistory();}
  function paintClock(){
   const clock=workspace.querySelector('[data-partner-clock]');
+  const remaining=workspace.querySelector('[data-search-remaining]');
+  if(remaining){const seconds=Math.max(0,Math.ceil((Date.parse(data?.features?.searchUntil)-Date.now()-clockOffset)/1000));remaining.textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');}
   const endsAt=Date.parse(data?.features?.activity?.endsAt);
   if(!clock||!Number.isFinite(endsAt))return;
   const left=Math.max(0,Math.ceil((endsAt-Date.now()-clockOffset)/1000)),value=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
@@ -160,9 +161,27 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    {disabled:!canCall,'aria-label':t.invite+' '+person.name,'data-partner-focus':person.userId,'data-partner-call':person.userId});
   control.append(phone(),el('span',{},t.invite));return control;
  }
+ function renderMatchmaking(){
+  const until=Date.parse(data?.features?.searchUntil);
+  const count=(data?.online??[]).filter(person=>person.canCall!==false).length;
+  const genderLabel=preference==='male'?'Erkak':preference==='female'?'Ayol':'Barchasi';
+  const view=el('section',{class:'lp-matchmaking','data-partner-searching':'',role:'status','aria-live':'polite'},
+   el('div',{class:'lp-match-orbit','aria-hidden':'true'},el('span',{class:'lp-match-pulse'},'👥')),
+   el('h1',{},'Sherik qidirilmoqda...'),
+   el('p',{},'Sizga mos suhbatdosh qidirilmoqda'),
+   el('div',{class:'lp-match-details'},
+    el('div',{},el('strong',{'data-search-remaining':''},'1:00'),el('small',{},'Qolgan vaqt')),
+    el('div',{},el('strong',{},String(count)),el('small',{},'Onlayn')),
+    el('div',{},el('strong',{},genderLabel),el('small',{},'Jins'))),
+   el('p',{class:'lp-match-note'},'Mos sherik topilganda sizga qo‘ng‘iroq keladi.'),
+   button('Bekor qilish',()=>void act({action:'stop_search'}),'lp-match-cancel',{'data-partner-cancel-search':''}));
+  const remaining=view.querySelector('[data-search-remaining]');
+  const seconds=Math.max(0,Math.ceil((until-Date.now()-clockOffset)/1000));
+  remaining.textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
+  return view;
+ }
  function partnerLobby(){
-  const online=data?.online??[],matching=online.filter(person=>(preference==='any'||(person.gender??(person.avatar==='b'?'female':'male'))===preference)&&
-   (preferredLevel==='any'||person.level===preferredLevel));
+  const online=data?.online??[],matching=online.filter(person=>preference==='any'||(person.gender??(person.avatar==='b'?'female':'male'))===preference);
   const searching=Boolean(data?.features?.searchUntil),enhanced=data?.features?.enabled;
   const number=el('span',{class:'lp-online-count'},String(online.length)+' '+t.hereNow);
   const choices=el('div',{class:'lp-options',role:'group','aria-label':t.gender});
@@ -171,16 +190,13 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    choice.append(el('span',{class:'lp-option-mark','aria-hidden':'true'},PREFERENCE_AVATARS[value]),
     el('strong',{},t.preferences[value]),el('small',{},t.preferenceDetails[value]));choices.append(choice);
   }
-  const levels=el('select',{class:'input','aria-label':u.level,'data-partner-focus':'level',disabled:searching},...['any','A1','A2','B1','B2','C1','C2'].map(level=>
-   el('option',{value:level,selected:preferredLevel===level},level==='any'?u.anyLevel:level)));
-  levels.addEventListener('change',()=>{preferredLevel=levels.value;draw();});
   const find=button(searching?u.stopSearch:t.findPartner,()=>{
-   if(enhanced){lobbyMessage='';void act(searching?{action:'stop_search'}:{action:'search',gender:preference,level:preferredLevel});}
+   if(enhanced){lobbyMessage='';void act(searching?{action:'stop_search'}:{action:'search',gender:preference,level:'any'});}
    else{void refresh();workspace.querySelector('[data-partner-list]')?.focus();}
   },searching?'btn-secondary lp-find':'btn-primary lp-find',
   {'data-partner-focus':'find','data-partner-find':'',disabled:Boolean(enhanced&&(busy||!data.realtime?.ready||state()!=='available'))});
   const chooser=el('section',{class:'lp-picker card'},el('div',{class:'lp-section-head'},el('h2',{},t.pickPartner),number),
-   el('p',{class:'lp-caption'},t.gender),choices,enhanced?el('label',{class:'lp-level'},u.level,levels):null,find,
+   el('p',{class:'lp-caption'},t.gender),choices,find,
    searching||lobbyMessage?el('p',{role:'status'},searching?u.searching:lobbyMessage):null);
   const list=el('section',{class:'lp-list card','data-partner-list':'',tabindex:'-1','aria-label':t.onlineUsers},
    el('div',{class:'lp-section-head'},el('h2',{},t.onlineUsers),el('span',{class:'lp-online-count'},String(matching.length))));
@@ -208,7 +224,6 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   workspace.dataset.livePartnerState=state();workspace.replaceChildren();
   const inCall=active()&&Boolean(data?.partner);
   host.dataset.partnerView=inCall?'call':'lobby';
-  header.hidden=inCall;
   if(error)workspace.append(el('p',{role:'alert',class:'rounded-sm border border-rose-200 bg-rose-50 p-2 text-sm text-rose-800'},error));
   if(data&&!data.realtime?.ready)workspace.append(el('p',{'data-realtime-unavailable':'',class:'rounded-sm border border-amber-200 bg-amber-50 p-2 text-sm text-amber-900'},t.realtimeMissing));
   const grid=el('div',{class:'lp-call-grid'});
@@ -259,13 +274,14 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    const mocksGiven=Number(history?.stats?.mocksGiven??0),mocksTaken=Number(history?.stats?.mocksTaken??0);
    const summary=el('section',{class:'lp-summary card','data-partner-summary':''},
     el('div',{class:'lp-summary-heading'},el('h1',{},'Speaking Partner'),
-     el('span',{class:'lp-summary-profile'},(me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level'))),
+     button((me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level')+'   Change',()=>{flow='profile';draw();},'lp-summary-profile',{'data-partner-change-profile':'','aria-label':'Change gender and level'})),
     el('div',{class:'lp-stat-grid'},
-     ...[[String(stats.calls??0),'Talks','🎙'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','◷'],
-     [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','♧'],
-     [mocksTaken+' · '+mocksGiven,'Mocks','☆']].map(([value,label,icon])=>
+     ...[[String(stats.calls??0),'Talks','🎙️'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','⏱️'],
+     [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','👥'],
+     [mocksTaken+' · '+mocksGiven,'Mocks','⭐']].map(([value,label,icon])=>
       el('div',{class:'lp-stat'},el('span',{class:'lp-stat-icon','aria-hidden':'true'},icon),
        el('div',{},el('strong',{},value),el('small',{},label))))));
+   if(data?.features?.searchUntil&&!data?.incoming&&!data?.outgoing){workspace.append(renderMatchmaking());return;}
    workspace.append(summary);
    const tabs=[['find','Find',data?.online?.length??0],['recent','Recent',recent.length],
     ['friends','Friends',friends.filter(friend=>friend.state==='accepted').length],['mocks','Mocks',mocksTaken+mocksGiven]];
@@ -281,7 +297,28 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   if(flow!=='none'){
    const overlay=el('div',{class:'fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4'}),dialog=el('div',{role:'dialog','aria-modal':'true',class:'w-full max-w-md rounded-lg bg-paper p-5 shadow-lg'});
    overlay.append(dialog);overlay.addEventListener('mousedown',e=>{if(e.target===overlay)closeFlow();});
-   if(flow==='rules')dialog.append(el('h2',{class:'font-display text-lg'},t.rulesTitle),el('ul',{class:'my-3 list-disc pl-5 text-sm text-ink-700'},(t.rules??[]).map(rule=>el('li',{},rule))),el('div',{class:'flex justify-end gap-2'},button(t.close,closeFlow),button(t.agree,()=>void agree(),'btn-primary',{disabled:busy?'':null})));
+   if(flow==='profile'){
+    const gender=el('select',{class:'input','aria-label':'Gender','data-partner-profile-gender':''},
+      ...[['male','Male'],['female','Female']].map(([value,label])=>el('option',{value,selected:me.gender===value},label)));
+    const selectedLevel=el('select',{class:'input','aria-label':'English level','data-partner-profile-level':''},
+      ...['A1','A2','B1','B2','C1','C2'].map(value=>el('option',{value,selected:me.level===value},value)));
+    dialog.append(el('h2',{},'Speaking Partner profili'),
+     el('label',{class:'lp-profile-field'},'Jins',gender),
+     el('label',{class:'lp-profile-field'},'Daraja',selectedLevel),
+     el('div',{class:'lp-profile-actions'},
+      button(t.close,closeFlow,'btn-secondary'),
+      button(profileSaving?'Saqlanmoqda...':'Saqlash',async()=>{
+       if(profileSaving)return;
+       profileSaving=true;
+       try{
+        const response=await fetch('/api/live-partner/profile',{method:'PATCH',credentials:'same-origin',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({gender:gender.value,level:selectedLevel.value}),signal});
+        if(!response.ok)throw Error('profile_save_failed');
+        const updated=await response.json();
+        me.gender=updated.gender;me.level=updated.level;me.hasGender=true;me.avatar=updated.gender==='female'?'b':'a';error='';closeFlow();
+       }catch{error='Profilni saqlashda xatolik yuz berdi.';draw();}
+       finally{profileSaving=false;}
+      },'btn-primary',{'data-partner-profile-save':'',disabled:profileSaving})));
+   }else if(flow==='rules')dialog.append(el('h2',{class:'font-display text-lg'},t.rulesTitle),el('ul',{class:'my-3 list-disc pl-5 text-sm text-ink-700'},(t.rules??[]).map(rule=>el('li',{},rule))),el('div',{class:'flex justify-end gap-2'},button(t.close,closeFlow),button(t.agree,()=>void agree(),'btn-primary',{disabled:busy?'':null})));
    else dialog.append(el('h2',{class:'font-display text-lg'},t.micTitle),el('p',{class:'my-2 text-sm text-ink-600'},t.micBody),el('div',{class:'h-3 w-full overflow-hidden rounded-full bg-ink-100',role:'meter','aria-label':t.micLevel,'aria-valuemin':0,'aria-valuemax':100},el('div',{'data-live-mic-meter':'',class:'h-full bg-emerald-500'})),el('p',{class:'mt-2 text-xs text-ink-600',role:'status'},t.mic[micState]),el('div',{class:'mt-4 flex justify-end gap-2'},button(t.close,closeFlow),['denied','missing','error'].includes(micState)?button(t.retryMic,()=>void microphone()):null,button(t.micReady,closeFlow,'btn-primary',{disabled:micState!=='ok'||busy?'':null})));
    workspace.append(overlay);const choices=[...dialog.querySelectorAll('button:not([disabled])')];
    (activeDialogIndex>=0?choices[Math.min(activeDialogIndex,choices.length-1)]:choices[0])?.focus({preventScroll:true});
