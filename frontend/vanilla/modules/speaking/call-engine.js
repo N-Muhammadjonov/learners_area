@@ -35,17 +35,17 @@ export class LivePartnerCall{
  notifyActivity(){if(this.channel?.readyState==='open')try{this.channel.send('activity');}catch{}}
  applyMute(){for(const t of this.local?.getAudioTracks()??[])t.enabled=!this.muted;}
  hangup(){this.send({type:'signal',kind:'bye'});this.destroy('ended');}
- destroy(final='ended'){if(this.destroyed)return;this.destroyed=true;
+ destroy(final='ended',detail){if(this.destroyed)return;this.destroyed=true;
   for(const id of this.timers)clearTimeout(id);this.timers.clear();clearTimeout(this.iceRetry);clearTimeout(this.socketKeepalive);this.socketKeepalive=null;this.pendingSignals=[];
   const sk=this.socket;this.socket=null;if(sk){sk.onclose=sk.onmessage=sk.onerror=null;try{sk.close(1000);}catch{}}
   const pc=this.pc;this.pc=null;if(pc){pc.ontrack=pc.onicecandidate=pc.onconnectionstatechange=null;try{pc.close();}catch{}}
   if(this.channel){this.channel.onopen=this.channel.onmessage=null;try{this.channel.close();}catch{}this.channel=null;}
   this.local?.getTracks().forEach(t=>{t.onended=null;t.stop();});this.local=null;this.remote=null;
-  this.deps.onLocalStream?.(null);this.deps.onRemoteStream(null);this.status=final;this.deps.onStatus(final);
+  this.deps.onLocalStream?.(null);this.deps.onRemoteStream?.(null);this.status=final;this.deps.onStatus(final,detail);
  }
  statusUpdate(status,detail){if(this.destroyed||this.status===status)return;this.status=status;this.deps.onStatus(status,detail);}
  report(status){if(this.lastReported===status)return;this.lastReported=status;this.deps.report(status);}
- fail(reason){if(this.destroyed)return;this.deps.onStatus('failed',reason);this.destroy('failed');}
+ fail(reason){if(this.destroyed)return;this.destroy('failed',reason);}
  later(fn,ms){const id=setTimeout(()=>{this.timers.delete(id);if(!this.destroyed)fn();},ms);this.timers.add(id);}
  connection(s){
   if(s==='connected'){
