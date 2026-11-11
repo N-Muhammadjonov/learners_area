@@ -4,7 +4,7 @@ import {readingRetentionDTO} from '../../js/adapters/reading-v44.js';
 import {api} from '../../js/api-client.js';
 import {formatDateTime} from '../../js/generated/time.js';
 import {clickableText} from '../vocabulary/clickable-text.js';
-import {RegionFailureNotice} from '../shared/presentation.js';
+import {RegionFailureNotice,BackLink} from '../shared/presentation.js';
 /** Original src/app/app/(shell)/reading/retention/page.tsx + RetentionWorkspace + RetentionSession + RetentionHistory.
  * The server owns every deadline: the countdown is the server's timestamps plus the measured clock skew. The source
  * text leaves state the moment the reading window closes (the awaiting phase keeps only ids and deadlines). The
@@ -37,6 +37,7 @@ export function mountRetention(context){
   try{
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    const data=readingRetentionDTO(raw);
+   if(isActive(data.initial)){void context.navigate('/app/reading/retention/session',{replace:true});return;}
    host.replaceChildren(session(context,data,{overview,refreshOverview}));
   }catch(e){
    if(signal.aborted)return;
@@ -46,6 +47,30 @@ export function mountRetention(context){
  void load();
  void locale;
 }
+/** Retention test uses its own route and Back control, not the catalogue panel. */
+export function mountRetentionSession(context){
+ const {root,signal,dict,navigate}=context;
+ const host=el('div',{class:'mx-auto flex max-w-6xl flex-col gap-4','data-retention-page':'session','data-route-usable':'retention-session'});
+ root.append(host);
+ async function load(){
+  if(signal.aborted)return;
+  host.replaceChildren(el('p',{class:'panel meta-text',role:'status','aria-busy':'true'},dict.common.loading));
+  try{
+   const raw=await viewData('/app/reading/retention',signal);
+   if(signal.aborted)return;
+   const data=readingRetentionDTO(raw);
+   if(!isActive(data.initial)){void navigate('/app/reading/retention',{replace:true});return;}
+   const back=BackLink({fallbackHref:'/app/reading/retention',label:dict.common.back});
+   back.setAttribute('data-retention-session-back','');
+   host.replaceChildren(back,el('section',{class:'panel','data-retention-session-region':''},
+    retentionSession(context,data.initial,()=>{})));
+  }catch{
+   if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'retention-session',message:dict.retentionMemory.errors.retention_unavailable,retryLabel:dict.errorPage.retry,refresh:load}));
+  }
+ }
+ void load();
+}
+
 const isActive=p=>!!p&&p.phase!=='completed'&&p.phase!=='timed_out';
 function session(context,data,slots){
  const {dict}=context,t=dict.retentionMemory;
@@ -120,13 +145,15 @@ function retentionSession(context,initial,onTerminal){
  async function start(level){
   if(state.busy||state.unknown)return;state.busy=true;state.error=null;draw();
   const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),12000);
-  try{const body=await api.request('/api/retention/attempts',{method:'POST',body:{level},signal:ctl.signal});if(!alive())return;setPayload(body);}
+  try{const body=await api.request('/api/retention/attempts',{method:'POST',body:{level},signal:ctl.signal});if(!alive())return;
+   if(body?.attemptId&&body?.phase){void navigate('/app/reading/retention/session');return;}
+   state.error=t.startUnknownOutcome;}
   catch(e){if(!alive())return;if(e?.code&&e.status&&e.status<500){state.error=errorText(e.code);}else{state.unknown=true;state.error=t.startUnknownOutcome;void recheck();}}
   finally{clearTimeout(timer);state.busy=false;if(alive())draw();}
  }
  async function recheck(){
   if(state.rechecking||!alive())return;state.rechecking=true;draw();
-  try{const body=await api.request('/api/retention/attempts',{signal});if(!alive())return;state.unknown=false;state.error=null;if(body.active)setPayload(body.active);}
+  try{const body=await api.request('/api/retention/attempts',{signal});if(!alive())return;state.unknown=false;state.error=null;if(body.active)void navigate('/app/reading/retention/session');}
   catch{if(alive())state.error=t.startUnknownOutcome;}
   finally{state.rechecking=false;if(alive())draw();}
  }
