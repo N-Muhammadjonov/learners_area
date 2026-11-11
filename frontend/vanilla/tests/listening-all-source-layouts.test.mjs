@@ -37,7 +37,7 @@ for(let number=1;number<=32;number++)test('Listening '+number+' preserves all fo
   assert.equal(view.surface.querySelector('style'),null);
   assert.equal(view.surface.querySelector('input'),null);
   assert.match(root.querySelector('style').textContent,/:host\{all:initial;/);
-  assert.match(root.querySelector('style').textContent,/\.la-exam-scroll\{margin:0;min-height:100%;font-family:Sora/);
+  assert.match(root.querySelector('style').textContent,/\.la-listening-source\{margin:0;min-height:100%;font-family:Sora/);
   const model={answers:{},position:0,duration:1800,started:true,entered:true,preparing:false,playing:true,
    loading:false,busy:false,conflict:false,error:'',saved:'',audio:{volume:1},
    change:(id,value)=>{model.answers={...model.answers,[id]:value};view.paintAnswers(model.answers);},play(){},submit(){}};
