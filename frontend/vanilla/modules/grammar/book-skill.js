@@ -8,6 +8,43 @@ const TRACKS={
  speaking:{title:'Grammar for Speaking',subtitle:'77 ta IELTS Speaking tuzilmasi va to‘rt bosqichli amaliy mashqlar.',groups:[['pre','Pre-intermediate'],['inter','Intermediate'],['upper','Upper-intermediate'],['advanced','Advanced']]},
  writing:{title:'Grammar for Writing',subtitle:'120 ta Academic Task 1, General Task 1 va Task 2 grammatik darsi.',groups:[['academic','Academic Task 1'],['general','General Task 1'],['task2','Task 2'],['advanced','Advanced Task 2']]}
 };
+
+const sourceCache = new Map();
+function readSkillSource(track, group) {
+  const key = track + ':' + group;
+  if (sourceCache.has(key)) return sourceCache.get(key);
+  const path = '/modules/grammar/book-skill-source-' + track + '-' + group + '.json';
+  let pending;
+  pending = fetch(path, {credentials: 'same-origin', cache: 'force-cache',
+    headers: {Accept: 'application/json'}})
+    .then(response => {
+      if (!response.ok) throw Error('Grammar content request failed: ' + response.status);
+      return response.json();
+    }).then(data => {
+      if (!data || !Array.isArray(data.units)) throw Error('Invalid grammar content ' + key);
+      return data;
+    }).catch(error => {
+      if (sourceCache.get(key) === pending) sourceCache.delete(key);
+      throw error;
+    });
+  sourceCache.set(key, pending);
+  return pending;
+}
+/** Static, build-revisioned curriculum only. No private API, answer attempts or scores. */
+export async function warmSkillBooks(allowed = () => true) {
+  const jobs = Object.entries(TRACKS).flatMap(([track,config]) =>
+    config.groups.map(([group]) => [track, group]));
+  let cursor = 0;
+  const worker = async () => {
+    while (allowed() && cursor < jobs.length) {
+      const [track,group] = jobs[cursor++];
+      try { await readSkillSource(track,group); }
+      catch { /* A failed optional warm is retried when the lesson is opened. */ }
+    }
+  };
+  await Promise.all([worker(),worker()]);
+}
+
 const localized=(context,uz,en)=>context.locale==='en'?en:uz;
 const storageKey=(context,track)=>'la:grammar:'+track+':interactive:v1:'+(context.session?.user?.id||'anonymous');
 function ensureStyle(){
@@ -94,11 +131,8 @@ export async function mountSkillBookDetail(context,host,track,unitId){
   status.hidden=false;retry.hidden=true;
   status.textContent=localized(context,'Dars yuklanmoqda…','Loading lesson…');
   try{
-   // JSON is fetched only for the requested level/part; no eager 4MB book payload.
-   const path='/modules/grammar/book-skill-source-'+track+'-'+meta.group+'.json';
-   const response=await fetch(path,{credentials:'same-origin',signal:context.signal,headers:{Accept:'application/json'}});
-   if(!response.ok)throw Error('Grammar content request failed: '+response.status);
-   const source=await response.json();
+   // Reuse the already warmed, immutable curriculum group without another request.
+   const source=await readSkillSource(track,meta.group);
    if(context.signal.aborted)return;
    const raw=source.units.find(item=>item.id===unitId);
    if(!raw)throw Error('Lesson missing: '+unitId);
