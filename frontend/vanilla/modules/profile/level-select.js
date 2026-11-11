@@ -1,4 +1,4 @@
-"""Student profile CEFR selector, independent of existing study preferences."""
+/** Student profile CEFR selector, independent of existing study preferences. */
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
 
