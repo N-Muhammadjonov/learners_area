@@ -205,12 +205,15 @@ async def regenerate_sixty(req: Request) -> JSONResponse:
         level, _ = await _profile(con, user["id"])
         if not level:
             return failure("level_required", 409)
-        schedule = make_sixty_day_schedule(level, row["started_on"])
-        # Never destroy completed days or today's partly completed work.
+        schedule = make_sixty_day_schedule(
+            level, row["started_on"], revision=row["revision"] + 1)
+        # Preserve all finished days, the active day and the rest of its
+        # four-stage Grammar unit, so regeneration never cuts a lesson in half.
+        preserve_through = min(DAYS, ((row["current_day"] + 3) // 4) * 4)
         await con.execute("""DELETE FROM study_plan_60_tasks
-            WHERE cycle_id=$1 AND day_number>$2""", row["id"], row["current_day"])
-        await con.executemany(INSERT_TASK, _task_values(row["id"], schedule,
-                                                       after_day=row["current_day"]))
+            WHERE cycle_id=$1 AND day_number>$2""", row["id"], preserve_through)
+        await con.executemany(INSERT_TASK, _task_values(
+            row["id"], schedule, after_day=preserve_through))
         await con.execute("""UPDATE study_plan_60_cycles
             SET cefr_level=$2,revision=revision+1,updated_at=$3 WHERE id=$1""",
             row["id"], level, now)
