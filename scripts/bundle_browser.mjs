@@ -155,7 +155,7 @@ try {
   console.log('Browser bundles: ' + JSON.stringify({
     chunks: summary.chunkCount,
     codeBytes: summary.chunks.reduce((sum, chunk) => sum + chunk.bytes, 0),
-    features: summary.chunks.filter(chunk => /js\\/bundles\\/(listening|reading|speaking|writing|grammar|vocabulary|staff)-/.test(chunk.path)).map(chunk => chunk.path)
+    features: summary.chunks.filter(chunk => /js\/bundles\/(listening|reading|speaking|writing|grammar|vocabulary|staff)-/.test(chunk.path)).map(chunk => chunk.path)
   }));
 } finally {
   await bundle.close();
