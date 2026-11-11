@@ -53,10 +53,10 @@ def test_pause_and_seek_do_not_mint_time():
     assert sought["credit_ms"] == 0 and sought["buckets"] == []
 
 
-def test_double_speed_credits_content_time_not_wall_clock_twice():
+def test_double_speed_credits_wall_time_not_twice_the_video_position():
     first = beat(None, 0, 0, rate=2)
     step = beat(first["state"], 10, 20, rate=2)
-    assert step["credit_ms"] == 20000
+    assert step["credit_ms"] == 10000
     assert step["buckets"] == []
 
 
