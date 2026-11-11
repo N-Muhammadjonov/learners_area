@@ -9,6 +9,7 @@ from starlette.requests import Request
 
 from app import live_partner_features as features
 from app import live_partner_turn
+from app import rate_limit
 from app import main as core
 from app import step24_live_partner as partner
 
@@ -53,7 +54,6 @@ def request() -> Request:
 async def test_signal_token_accepts_authenticated_uuid_user_id(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    connection = object()
     current_user = AsyncMock(return_value={"id": ALICE, "role": "student"})
     read_session = AsyncMock(return_value={
         "id": SESSION,
@@ -67,6 +67,7 @@ async def test_signal_token_accepts_authenticated_uuid_user_id(
             return Transaction()
 
     db_connection = Connection()
+    monkeypatch.setattr(rate_limit, "async_counter", AsyncMock(return_value=None))
     monkeypatch.setattr(core, "current_user", current_user)
     monkeypatch.setattr(core, "payload", AsyncMock(return_value={
         "action": "signal_token",
