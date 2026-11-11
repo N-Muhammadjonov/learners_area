@@ -13,6 +13,7 @@ from . import main as core
 from .study_plan_evidence import EVENTS
 from .study_plan_port import failure, response, student
 from .study_plan_thirty import DAYS, make_thirty_day_schedule, normalize_level
+from .study_plan_materials import assign_materials, load_material_pools
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
 CYCLE = "SELECT * FROM study_plan_30_cycles WHERE user_id=$1 FOR UPDATE"
@@ -238,7 +239,9 @@ async def start_plan(req: Request) -> JSONResponse:
         if level is None:
             return failure("level_required", 409)
         today = now.astimezone(zone).date()
-        plan = make_thirty_day_schedule(level, today)
+        plan = assign_materials(
+            make_thirty_day_schedule(level, today),
+            await load_material_pools(con, user))
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
            (user_id,started_on,timezone,cefr_level,opened_at)
            VALUES($1,$2,$3,$4,$5)
@@ -268,8 +271,10 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         level, _ = await _profile(con, user["id"])
         if level is None:
             return failure("level_required", 409)
-        plan = make_thirty_day_schedule(level, row["started_on"],
-                                        revision=row["revision"] + 1)
+        plan = assign_materials(
+            make_thirty_day_schedule(level, row["started_on"],
+                                     revision=row["revision"] + 1),
+            await load_material_pools(con, user), revision=row["revision"] + 1)
         # Preserve today's attempts and all prior days. Only untouched future
         # days are replaced. No student earns completion by regeneration.
         await con.execute("""DELETE FROM study_plan_30_tasks
