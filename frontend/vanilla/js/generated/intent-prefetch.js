@@ -32,11 +32,19 @@ const SAFE_INDEX_ROUTES = new Set([
     "/app/vocabulary/games",
     "/app/video-lessons",
     "/app/progress",
+    "/app/grammar",
+    "/app/study-plan/leaderboard",
+    "/app/study-plan",
 ]);
 // Warm only the two most-used learning entry routes while the browser is idle.
 // Routes remain guarded by middleware, the authoritative DB-backed /app layout
 // and the individual API authorizers. No attempts or authored answers are warmed.
-export const IDLE_SHELL_PREFETCH_ROUTES = ["/app/reading/lessons", "/app/listening/lessons"];
+export const IDLE_SHELL_PREFETCH_ROUTES = [
+    "/app/listening/lessons", "/app/reading/lessons", "/app/grammar/lessons",
+    "/app/grammar", "/app/writing", "/app/speaking", "/app/vocabulary",
+    "/app/progress", "/app/mocks", "/app/assignments", "/app/live-classes",
+    "/app/study-plan/leaderboard", "/app/video-lessons",
+];
 export function eligibleIntentTarget(raw, origin, current) {
     try {
         const destination = new URL(raw, origin);

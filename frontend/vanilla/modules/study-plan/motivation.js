@@ -1,5 +1,5 @@
 import {h} from '../../js/native.js';
-import {asyncRegion, button, card, detail, formatDay, heading, labelSkill, request, text, workspace} from './view.js';
+import {asyncRegion, button, card, detail, formatDay, heading, labelSkill, loadStyles, request, text, workspace} from './view.js';
 
 function practiceLabel(ms) {
   const minutes = Math.floor(Math.max(0, Number(ms) || 0) / 60000);
@@ -12,86 +12,145 @@ function initials(name) {
   return (letters.slice(0, 2) || 'LA').toUpperCase();
 }
 
-function helpDialog(ctx, policy, opener) {
-  const close = () => {dialog.close();opener.focus();};
-  const rules = (policy?.rules || []).map(rule => h('li', {}, h('strong', {}, rule.coins + ' · '), ctx.locale === 'uz' ? rule.uz : rule.en));
-  const limits = (policy?.limits || []).map(rule => h('li', {}, ctx.locale === 'uz' ? rule.uz : rule.en));
-  const dialog = h('dialog', {class: 'coin-help', 'aria-labelledby': 'coin-help-title'},
-    h('h2', {id: 'coin-help-title'}, text(ctx, 'Qanday qilib tanga to‘plashim mumkin?', 'How can I earn coins?')),
-    h('p', {}, policy?.intro ? (ctx.locale === 'uz' ? policy.intro.uz : policy.intro.en) : ''),
-    h('ul', {}, rules),
+
+function coinPolicyPanel(ctx, policy) {
+  const translate = item => ctx.locale === 'uz' ? item.uz : item.en;
+  const rules = (policy?.rules || []).map(item => h('li', {class: 'coin-policy-rule'},
+    h('strong', {class: 'coin-policy-value'}, item.coins),
+    h('span', {}, translate(item))));
+  const limits = (policy?.limits || []).map(item => h('li', {}, translate(item)));
+  return h('section', {class: 'coin-policy-panel', 'data-coin-policy-panel': '', 'aria-label': text(ctx,
+    'Tanga yig‘ish qoidalari', 'Coin earning rules')},
+    h('h2', {}, text(ctx, 'Qanday qilib tanga to‘plashim mumkin?', 'How can I earn coins?')),
+    policy?.intro ? h('p', {}, translate(policy.intro)) : null,
+    h('ul', {class: 'coin-policy-rules'}, rules),
     h('h3', {}, text(ctx, 'Cheklovlar', 'Limits')),
-    h('ul', {}, limits),
-    h('p', {}, policy?.example ? (ctx.locale === 'uz' ? policy.example.uz : policy.example.en) : ''),
-    h('button', {type: 'button', class: 'btn-primary', onClick: close}, text(ctx, 'Yopish', 'Close')));
-  dialog.addEventListener('cancel', event => {event.preventDefault();close();});
-  dialog.addEventListener('close', () => opener.focus());
-  document.body.append(dialog);
-  dialog.showModal();
-  dialog.querySelector('button').focus();
+    h('ul', {class: 'coin-policy-limits'}, limits),
+    policy?.example ? h('p', {class: 'coin-policy-example'}, translate(policy.example)) : null);
 }
 
 function leaderboard(ctx, content) {
-  let period = 'week', scope = 'all', page = 1;
-  const load = asyncRegion(ctx, content, () => request(ctx,
-    '/leaderboard?' + new URLSearchParams({period,scope,page})), draw);
+  let period = 'week', scope = 'all', page = 1, panel = 'ranking', sequence = 0, latest = null;
+  const cache = new Map();
+  const cacheTtlMs = 30000;
+  const queryKey = () => [period, scope, page].join(':');
+  async function retrieve() {
+    const key = queryKey();
+    const previous = cache.get(key);
+    if (previous && Date.now() - previous.at < cacheTtlMs) return previous.data;
+    const data = await request(ctx, '/leaderboard?' + new URLSearchParams({period, scope, page}));
+    cache.set(key, {at: Date.now(), data});
+    while (cache.size > 6) cache.delete(cache.keys().next().value);
+    return data;
+  }
+  async function load({background = false} = {}) {
+    const ticket = ++sequence;
+    if (!background && !latest) content.replaceChildren(h('p', {role: 'status'}, ctx.dict.common.loading));
+    try {
+      const data = await retrieve();
+      if (ctx.signal.aborted || ticket !== sequence) return;
+      latest = data;
+      draw(data);
+    } catch {
+      if (ctx.signal.aborted || ticket !== sequence) return;
+      content.replaceChildren(h('div', {role: 'alert', class: 'coin-ranking-error'},
+        detail(ctx.dict.errors.unknown),
+        button(ctx.dict.errorPage.retry, () => void load())));
+    }
+  }
+  const changePeriod = key => {
+    if (period === key && panel === 'ranking') return;
+    period = key;
+    panel = 'ranking';
+    page = 1;
+    void load({background: true});
+  };
   function draw(data) {
-    const notice = h('p',{role:'status',class:'text-sm'});
-    const toggle = button(data.alias ? text(ctx, 'Reytingdan chiqish', 'Opt out') : text(ctx, 'Reytingga qo‘shilish', 'Opt in'),
-      async event => {
-        const control = event.currentTarget;
-        control.disabled = true;
-        try {
-          await request(ctx,'/leaderboard/participation',{method:'PUT',body:{enabled:!data.alias}});
-          if (!ctx.signal.aborted) void load({background:true});
-        } catch (error) {
-          if (!ctx.signal.aborted) notice.textContent = error.status === 409 ?
-            text(ctx,'Avval o‘quv rejasini sozlang.','Set up your study plan first.') : ctx.dict.errors.unknown;
-        } finally {control.disabled = false;}
-      });
-    const filters = [
-      ['week','Shu hafta','This week'], ['month','Oxirgi 30 kun','Last 30 days'], ['all','Barcha vaqt','All time'],
-    ].map(([key,uz,en]) => button(text(ctx,uz,en), () => {period=key;page=1;void load({background:true});},
-      {class:period === key ? 'btn-primary':'btn-secondary','aria-pressed':String(period===key)}));
-    const help = button(text(ctx, 'Qanday qilib tanga to‘plashim mumkin?', 'How can I earn coins?'), event => helpDialog(ctx, data.policy, event.currentTarget),
-      {class:'btn-secondary', 'data-coin-help':''});
-    const scopeControl = data.classAvailable ? button(scope === 'all' ? text(ctx,'Sinfdoshlar','Classmates') : text(ctx,'Hammasi','All learners'),
-      () => {scope=scope === 'all'?'class':'all';page=1;void load({background:true});}) : null;
+    const notice = h('p', {role: 'status', class: 'coin-ranking-notice'});
     const rows = (data.standings || data.entries || []).slice(0, 20);
-    const top = rows.filter(item => item.rank <= 3);
-    const ordered = [top.find(item => item.rank === 2), top.find(item => item.rank === 1), top.find(item => item.rank === 3)].filter(Boolean);
-    const podium = page === 1 && ordered.length ? h('div', {class:'coin-podium'}, ordered.map(item =>
-      h('article', {'data-place': String(item.rank)},
-        h('div', {class:'coin-avatar', 'aria-hidden':'true'}, initials(item.alias), h('span', {}, String(item.rank))),
-        h('strong', {}, item.alias),
-        h('p', {}, String(item.stars ?? item.points ?? 0) + ' ★'),
-        h('p', {}, String(item.coins ?? 0) + ' ●'),
-        h('p', {}, practiceLabel(item.practiceMs))))) : null;
-    const live = data.practising?.length ? h('p', {class:'coin-live'},
-      text(ctx, data.practising.length + ' o‘quvchi hozir mashq qilmoqda', data.practising.length + ' students practising now'),
-      ' · ', data.practising.slice(0, 3).join(' · ')) : null;
-    const table = h('table', {class:'coin-board'},
-      h('thead', {}, h('tr', {},
-        [text(ctx,'O‘rin','Rank'), text(ctx,'O‘quvchi','Student'), text(ctx,'Yulduz','Stars'), text(ctx,'Tanga','Coins'), text(ctx,'Mashq','Practice')].map(label => h('th', {scope:'col'}, label)))),
-      h('tbody', {}, rows.map(item => h('tr', {'data-study-rank': item.rank},
-        h('td', {}, String(item.rank)),
-        h('td', {}, item.alias + (item.mine ? text(ctx,' (siz)',' (you)') : ''), item.premium ? h('span', {class:'badge'}, 'PREMIUM') : null),
-        h('td', {}, String(item.stars ?? item.points ?? 0)),
-        h('td', {}, String(item.coins ?? 0)),
-        h('td', {}, practiceLabel(item.practiceMs))))));
-    content.replaceChildren(...(ctx.session?.user?.role==='owner' ? [] : [card(
-      heading(text(ctx,'Ishtirok','Participation')),
-      detail(data.alias ? data.alias+' · '+text(ctx,'O‘rningiz','Your position')+' #'+(data.position??'—') :
-        text(ctx,'Ishtirok ixtiyoriy. Reytingda sizga tasodifiy taxallus beriladi.','Participation is optional and uses a generated alias.')),
-      h('div',{class:'study-plan-actions'},toggle),notice)]),
-      card(heading(text(ctx,'O‘quvchilar reytingi','Learner ranking')),
-        live,
-        h('div',{class:'study-plan-actions'},filters,scopeControl,help),
-        rows.length ? h('div', {}, podium, table) :
-          detail(text(ctx,'Bu davrda ishtirokchilar yo‘q.','There are no participants in this view.')),
-        h('div',{class:'study-plan-actions'},
-          page>1?button(text(ctx,'Oldingi','Previous'),()=>{page--;void load({background:true});}):null,
-          data.hasMore?button(text(ctx,'Keyingi','Next'),()=>{page++;void load({background:true});}):null)));
+    const top = page === 1 ? rows.filter(item => item.rank >= 1 && item.rank <= 3) : [];
+    const podiumOrder = [2, 1, 3].map(rank => top.find(item => item.rank === rank)).filter(Boolean);
+    const rest = page === 1 ? rows.filter(item => item.rank > 3) : rows;
+    const tab = (key, uz, en, onClick) => button(text(ctx, uz, en), onClick, {
+      class: 'coin-ranking-tab' + (panel === key || key === period && panel === 'ranking' ? ' coin-ranking-tab--active' : ''),
+      role: 'tab', 'aria-selected': String(panel === key || key === period && panel === 'ranking'),
+      'data-coin-tab': key,
+    });
+    const tabs = h('div', {class: 'coin-ranking-tabs', role: 'tablist',
+      'aria-label': text(ctx, 'Reyting davri va qoidalar', 'Ranking periods and rules')},
+    tab('week', 'Shu hafta', 'This week', () => changePeriod('week')),
+    tab('month', 'Oxirgi 30 kun', 'Last 30 days', () => changePeriod('month')),
+    tab('all', 'Barcha vaqt', 'All time', () => changePeriod('all')),
+    tab('help', 'Qanday qilib tanga to‘plashim mumkin?', 'How can I earn coins?', () => {
+      panel = 'help';
+      draw(latest || data);
+    }));
+    const scopeControl = data.classAvailable && panel === 'ranking'
+      ? button(scope === 'all' ? text(ctx, 'Sinfdoshlar', 'Classmates') : text(ctx, 'Barcha o‘quvchilar', 'All learners'),
+        () => {scope = scope === 'all' ? 'class' : 'all';page = 1;void load({background: true});},
+        {class: 'coin-ranking-scope'}) : null;
+    const toggle = button(data.alias ? text(ctx, 'Reytingdan chiqish', 'Leave ranking') :
+      text(ctx, 'Reytingga qo‘shilish', 'Join ranking'), async event => {
+      const control = event.currentTarget;
+      control.disabled = true;
+      try {
+        await request(ctx, '/leaderboard/participation', {method: 'PUT', body: {enabled: !data.alias}});
+        cache.clear();
+        if (!ctx.signal.aborted) void load({background: true});
+      } catch (error) {
+        if (!ctx.signal.aborted) notice.textContent = error.status === 409 ?
+          text(ctx, 'Avval o‘quv rejasini sozlang.', 'Set up your study plan first.') : ctx.dict.errors.unknown;
+      } finally {
+        control.disabled = false;
+      }
+    }, {class: 'coin-ranking-participation'});
+    const podium = podiumOrder.length ? h('div', {class: 'coin-podium', 'data-coin-podium': ''},
+      podiumOrder.map(item => h('article', {'data-place': String(item.rank)},
+        item.rank === 1 ? h('span', {class: 'coin-crown', 'aria-hidden': 'true'}, '♛') : null,
+        h('div', {class: 'coin-avatar', 'aria-hidden': 'true'},
+          initials(item.alias), h('span', {}, String(item.rank))),
+        h('strong', {class: 'coin-podium-name'}, item.alias,
+          item.mine ? h('span', {class: 'coin-mine'}, text(ctx, ' (siz)', ' (you)')) : null),
+        h('div', {class: 'coin-podium-stats'},
+          h('strong', {}, String(item.stars ?? item.points ?? 0), ' ⭐'),
+          h('span', {}, practiceLabel(item.practiceMs)),
+          h('span', {}, String(item.coins ?? 0), ' 🪙')),
+        h('div', {class: 'coin-plinth', 'aria-hidden': 'true'}, String(item.rank))))) : null;
+    const table = rest.length ? h('div', {class: 'coin-board-scroll'},
+      h('table', {class: 'coin-board'},
+        h('thead', {}, h('tr', {},
+          [text(ctx, 'O‘rin', 'Rank'), text(ctx, 'O‘quvchi', 'Student'),
+            text(ctx, 'Yulduz', 'Stars'), text(ctx, 'Tanga', 'Coins'),
+            text(ctx, 'Mashq', 'Practice')].map(label => h('th', {scope: 'col'}, label)))),
+        h('tbody', {}, rest.map(item => h('tr', {'data-study-rank': item.rank},
+          h('td', {class: 'coin-rank'}, String(item.rank)),
+          h('td', {class: 'coin-student'}, item.alias,
+            item.mine ? h('span', {class: 'coin-mine'}, text(ctx, ' (siz)', ' (you)')) : null,
+            item.premium ? h('span', {class: 'coin-premium'}, 'PREMIUM') : null),
+          h('td', {}, String(item.stars ?? item.points ?? 0), ' ⭐'),
+          h('td', {}, String(item.coins ?? 0), ' 🪙'),
+          h('td', {}, practiceLabel(item.practiceMs))))))) : null;
+    const participation = ctx.session?.user?.role === 'owner' || panel !== 'ranking' ? null :
+      h('div', {class: 'coin-ranking-participation-row'},
+        h('span', {}, data.alias ? data.alias + ' · #' + (data.position ?? '—') :
+          text(ctx, 'Reytingda qatnashish ixtiyoriy.', 'Ranking participation is optional.')),
+        toggle, notice);
+    const rankingPanel = h('div', {class: 'coin-ranking-content', role: 'tabpanel'},
+      scopeControl ? h('div', {class: 'coin-ranking-filters'}, scopeControl) : null,
+      rows.length ? [podium, table] :
+        h('div', {class: 'coin-ranking-empty'}, h('span', {'aria-hidden': 'true'}, '🏆'),
+          h('p', {}, text(ctx, 'Bu davrda ishtirokchilar yo‘q.',
+            'There are no participants in this period.'))),
+      h('div', {class: 'coin-ranking-pagination'},
+        page > 1 ? button(text(ctx, 'Oldingi', 'Previous'),
+          () => {page--;void load({background: true});}) : null,
+        data.hasMore ? button(text(ctx, 'Keyingi', 'Next'),
+          () => {page++;void load({background: true});}) : null),
+      participation);
+    content.replaceChildren(h('section', {class: 'coin-ranking-board', 'data-study-leaderboard': ''},
+      h('h1', {class: 'coin-ranking-title'}, text(ctx, 'O‘quvchilar reytingi', 'Learner ranking')),
+      tabs,
+      panel === 'help' ? coinPolicyPanel(ctx, data.policy) : rankingPanel));
   }
   void load();
 }
@@ -151,8 +210,15 @@ function rewards(ctx, content) {
 export function mount(ctx) {
   const ranking = ctx.url.pathname.endsWith('/leaderboard');
   const title = ranking ? text(ctx,'Reyting','Leaderboard') : text(ctx,'Mukofotlar','Rewards');
-  const {content} = workspace(ctx,title,text(ctx,'Tasdiqlangan o‘quv faoliyati asosida.','Based on verified learning activity.'));
-  if (!['student','owner'].includes(ctx.session?.user?.role)) return;
-  if (ranking) leaderboard(ctx,content);
-  else rewards(ctx,content);
+  if (ranking) {
+    loadStyles();
+    const content = h('div', {class: 'study-plan-content coin-ranking-page',
+      'data-route-usable': 'study-plan-leaderboard'});
+    ctx.root.append(content);
+    if (['student', 'owner'].includes(ctx.session?.user?.role)) leaderboard(ctx, content);
+    return;
+  }
+  const {content} = workspace(ctx, title, text(ctx,
+    'Tasdiqlangan o‘quv faoliyati asosida.', 'Based on verified learning activity.'));
+  if (['student', 'owner'].includes(ctx.session?.user?.role)) rewards(ctx, content);
 }
