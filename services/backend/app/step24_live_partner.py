@@ -318,7 +318,7 @@ async def post_partner(req:Request):
         if b['action']=='signal_token':
             async with db.acquire() as con:
                 async with con.transaction():
-                    s=await session(con,u['id'],str(b['sessionId']))
+                    s=await session(con,str(u['id']),str(b['sessionId']))
                     if s['ended_at']:raise PartnerError('session_ended')
                     peer=str(s['user_b'] if str(s['user_a'])==str(u['id']) else s['user_a'])
                     role='offerer' if str(s['user_a'])==str(u['id']) else 'answerer'
