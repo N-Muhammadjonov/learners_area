@@ -28,6 +28,7 @@
     "/app/listening/history",
     "/app/listening/lessons",
     "/app/reading/retention",
+    "/app/reading/retention/session",
     "/app/speaking/practice",
     "/app/vocabulary/review",
     "/app/admin/admissions",
