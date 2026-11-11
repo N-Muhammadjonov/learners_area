@@ -88,7 +88,7 @@ export class LivePartnerCall{
  rejoinSocket(){
   if(this.destroyed)return;
   if(this.rejoins>=MAX_SOCKET_REJOINS&&!this.everConnected)return this.fail('signalling');
-  const delay=1000*2**Math.min(this.rejoins++,MAX_SOCKET_REJOINS);
+  const delay=1000*2**Math.min(this.rejoins++,5);
   this.later(async()=>{
    try{this.openSocket(await this.deps.fetchToken(this.sessionId));}
    catch{this.rejoinSocket();}
