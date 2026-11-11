@@ -192,6 +192,10 @@ async def reading_submit(req:Request,id:str):
    selected=await con.fetch('SELECT question_id FROM reading_assessment_questions WHERE attempt_id=$1 ORDER BY position',attempt['id'])
    if selected and len(selected)!=40:return core.j({'error':'not_found'},409)
    questions=await con.fetch('''SELECT * FROM reading_questions WHERE passage_id=ANY($1::uuid[])''',passage_ids)
+   required_counts={}
+   for q in questions:
+    gid=str(q['group_id']) if q['group_id'] else f"passage:{q['passage_id']}"
+    required_counts[gid]=required_counts.get(gid,0)+1
    if selected:
     permitted={r['question_id'] for r in selected};questions=[q for q in questions if q['id'] in permitted]
     if len(questions)!=40:return core.j({'error':'not_found'},409)
@@ -221,6 +225,7 @@ async def reading_submit(req:Request,id:str):
     gid=str(q['group_id']) if q['group_id'] else f"passage:{q['passage_id']}"
     grouped.setdefault(gid,[]).append(by_answer.get(str(q['id']),''))
    for gid,given in grouped.items():
+    if len(given)!=required_counts[gid]:continue
     await award_answers(con,u['id'],f"reading:{gid}",given,module='reading',activity_type='exercise',
                         parent_content_id=str(attempt['passage_id']),exercise_id=gid,evidence_id=str(attempt['id']))
  return core.j({'ok':True,'score':score,'totalQuestions':len(questions)})

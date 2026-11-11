@@ -50,7 +50,8 @@ async def heartbeat(req: Request):
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
     if type(position) is not int or position < 0 or position > 24 * 60 * 60 * 1000:
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
-    if type(playing) is not bool or type(rate) not in (int, float) or isinstance(rate, bool):
+    if (type(playing) is not bool or type(rate) not in (int, float)
+            or not 0.5 <= rate <= 2.0):
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
     if duration is not None and (type(duration) is not int or duration < 0 or duration > 24 * 60 * 60 * 1000):
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
@@ -96,3 +97,4 @@ async def grammar_book(req: Request):
 
 def install():
     core.app.include_router(router)
+

@@ -141,6 +141,47 @@ async def _counts(con, user_id, module: str, media_id: str | None, session_id):
     return media_today, item_today, speaking_today, session_today
 
 
+async def completed_before_policy(con, user_id, module: str, content_id: str | None,
+                                  exercise_id: str | None, start: datetime) -> bool:
+    """Old completion evidence cannot become a new coin by resubmitting it."""
+    from uuid import UUID
+
+    if not content_id or not exercise_id:
+        return False
+    if module == "articles":
+        return bool(await con.fetchval(
+            """SELECT EXISTS(SELECT 1 FROM activity_events WHERE user_id=$1
+               AND type='READING_ARTICLE_COMPLETIONS' AND created_at<$3
+               AND payload->>$2::text='true')""", user_id, content_id, start))
+    if module == "reading":
+        return bool(await con.fetchval(
+            """SELECT EXISTS(SELECT 1 FROM reading_attempts a
+               WHERE a.user_id=$1 AND a.status='completed'
+                 AND coalesce(a.submitted_at,a.started_at)<$3
+                 AND EXISTS(SELECT 1 FROM reading_answers r JOIN reading_questions q ON q.id=r.question_id
+                   WHERE r.attempt_id=a.id AND coalesce(q.group_id::text,'passage:'||q.passage_id::text)=$2)
+                 AND NOT EXISTS(SELECT 1 FROM reading_questions q
+                   WHERE coalesce(q.group_id::text,'passage:'||q.passage_id::text)=$2
+                   AND NOT EXISTS(SELECT 1 FROM reading_answers r WHERE r.attempt_id=a.id
+                     AND r.question_id=q.id AND btrim(coalesce(r.user_answer,''))<>'')))""",
+            user_id, exercise_id, start))
+    if module == "listening" and (exercise_id == "exam" or exercise_id.isdigit()):
+        try:
+            test_id = UUID(content_id)
+        except ValueError:
+            return False
+        if exercise_id == "exam":
+            return bool(await con.fetchval(
+                """SELECT EXISTS(SELECT 1 FROM listening_attempts WHERE user_id=$1 AND test_id=$2
+                   AND status='completed' AND coalesce(submitted_at,started_at)<$3)""",
+                user_id, test_id, start))
+        return bool(await con.fetchval(
+            """SELECT EXISTS(SELECT 1 FROM listening_activity_runs WHERE user_id=$1 AND test_id=$2
+               AND activity=$3 AND completed=true AND created_at<$4)""",
+            user_id, test_id, int(exercise_id), start))
+    return False
+
+
 async def award_coin(con, user_id, event_key: str, *, module: str, activity_type: str,
                      coins: int = 1, parent_content_id: str | None = None,
                      exercise_id: str | None = None, content_revision: str | None = None,
@@ -148,12 +189,15 @@ async def award_coin(con, user_id, event_key: str, *, module: str, activity_type
     """Insert one coin. A repeated event key pays nothing."""
     if not event_key or coins < 1 or coins > 6:
         return False
-    if await policy_effective(con) is None:
+    start = await policy_effective(con)
+    if start is None:
         return False
     try:
         async with con.transaction():
             # Serialize all reward writes for one user, including concurrent tabs.
             await con.execute("SELECT pg_advisory_xact_lock(hashtextextended($1::text, 0))", str(user_id))
+            if await completed_before_policy(con, user_id, module, parent_content_id, exercise_id, start):
+                return False
             media_today, item_today, speaking_today, session_today = await _counts(
                 con, user_id, module, parent_content_id, session_id)
             if not cap_allows(module=module, media_today=media_today, item_today=item_today,
@@ -253,11 +297,13 @@ async def wallet(con, user_id) -> dict:
 LEVEL_NEXT = next_level_at(0)
 
 
-async def sync_listening_activities(con, user_id, source_id: str, test_id: str, status: dict, revision: str):
+async def sync_listening_activities(con, user_id, source_id: str, test_id: str, status: dict,
+                                    revision: str, previous: dict | None = None):
     if not status:
         return
     for name, item in (status.get("activities") or {}).items():
-        if item.get("complete"):
+        prior = ((previous or {}).get("activities") or {}).get(name) or {}
+        if item.get("complete") and not prior.get("complete"):
             await award_coin(con, user_id, f"listening:{source_id}:{name}", module="listening",
                              activity_type="exercise", parent_content_id=str(test_id),
                              exercise_id=name, content_revision=revision or None,
@@ -290,6 +336,9 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
             # caps through simultaneous tabs.
             await con.execute(
                 "SELECT pg_advisory_xact_lock(hashtextextended($1::text, 0))", str(user_id))
+            server_now = await con.fetchval("SELECT clock_timestamp()")
+            latest_at = await con.fetchval(
+                "SELECT max(last_at) FROM coin_media_sessions WHERE user_id=$1", user_id)
             source = await con.fetchrow(
                 """SELECT id,lesson_id,provider,media_kind,duration_seconds,is_active,publication_state,publish_at
                    FROM video_lessons WHERE id=$1""", canonical_id)
@@ -315,15 +364,23 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
             else:
                 row = await con.fetchrow(
                     """INSERT INTO coin_media_sessions(user_id,media_id,module,last_at,last_position_ms)
-                       VALUES($1,$2,$3,now(),$4)
+                       VALUES($1,$2,$3,$5,$4)
                        RETURNING id,last_at,last_position_ms,credited_ms""",
-                    user_id, media_id, module, max(0, int(position_ms)))
+                    user_id, media_id, module, max(0, int(position_ms)), server_now)
+                await con.execute(
+                    """INSERT INTO coin_media_coverage(user_id,media_id,bucket,credited_ms,paid)
+                       VALUES($1,$2,-2,$3,$4) ON CONFLICT(user_id,media_id,bucket)
+                       DO UPDATE SET credited_ms=excluded.credited_ms,paid=excluded.paid""",
+                    user_id, media_id, int(playback_rate * 1000), playing)
                 return {"sessionId": str(row["id"]), "awarded": 0}
             coverage_rows = await con.fetch(
                 """SELECT bucket,credited_ms,paid FROM coin_media_coverage
                    WHERE user_id=$1 AND media_id=$2""", user_id, media_id)
             original = {int(item["bucket"]): int(item["credited_ms"])
                         for item in coverage_rows if item["bucket"] >= 0}
+            seen = {-int(item["bucket"]) - 10: int(item["credited_ms"])
+                    for item in coverage_rows if item["bucket"] <= -10}
+            marker = next((item for item in coverage_rows if item["bucket"] == -2), None)
             paid_rows = await con.fetch(
                 """SELECT exercise_id FROM coin_ledger
                    WHERE user_id=$1 AND parent_content_id=$2 AND activity_type='active_time'""",
@@ -332,16 +389,24 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                     if item["exercise_id"] and item["exercise_id"].isdigit()}
             if any(item["bucket"] == -1 and item["paid"] for item in coverage_rows):
                 paid.add("short")
-            state = {"at": row["last_at"], "position": int(row["last_position_ms"]),
+            state = {"at": max(row["last_at"], latest_at or row["last_at"]),
+                     "position": int(row["last_position_ms"]), "seen": seen,
+                     "playing": bool(marker and marker["paid"]),
+                     "rate": marker["credited_ms"] / 1000 if marker else playback_rate,
                      "coverage": original, "paid": paid, "credited": int(row["credited_ms"] or 0)}
             step = advance_playback(
-                state, datetime.now(timezone.utc), position_ms=position_ms,
+                state, server_now, position_ms=position_ms,
                 playback_rate=playback_rate, playing=playing,
                 duration_ms=canonical_duration)
             nxt = step["state"]
             await con.execute(
                 """UPDATE coin_media_sessions SET last_at=$2,last_position_ms=$3,credited_ms=$4
                    WHERE id=$1""", row["id"], nxt["at"], nxt["position"], nxt["credited"])
+            await con.execute(
+                """INSERT INTO coin_media_coverage(user_id,media_id,bucket,credited_ms,paid)
+                   VALUES($1,$2,-2,$3,$4) ON CONFLICT(user_id,media_id,bucket)
+                   DO UPDATE SET credited_ms=excluded.credited_ms,paid=excluded.paid""",
+                user_id, media_id, int(playback_rate * 1000), playing)
             if step["credit_ms"]:
                 await con.execute(
                     "INSERT INTO coin_practice_time(user_id,module,active_ms) VALUES($1,$2,$3)",
@@ -356,6 +421,14 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                          SET credited_ms=GREATEST(coin_media_coverage.credited_ms,excluded.credited_ms),
                              updated_at=now()""",
                     user_id, media_id, int(bucket), int(amount))
+            for bucket, bounds in nxt["seen"].items():
+                if bounds == seen.get(bucket):
+                    continue
+                await con.execute(
+                    """INSERT INTO coin_media_coverage(user_id,media_id,bucket,credited_ms,paid)
+                       VALUES($1,$2,$3,$4,false) ON CONFLICT(user_id,media_id,bucket)
+                       DO UPDATE SET credited_ms=excluded.credited_ms,updated_at=now()""",
+                    user_id, media_id, -int(bucket) - 10, int(bounds))
             awarded = 0
             for bucket in step["buckets"]:
                 if await award_coin(
@@ -380,3 +453,4 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
             return {"sessionId": str(row["id"]), "awarded": awarded}
     except Exception:
         return {"sessionId": None, "awarded": 0, "unavailable": True}
+

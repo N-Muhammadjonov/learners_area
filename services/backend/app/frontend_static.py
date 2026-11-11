@@ -52,7 +52,7 @@ class StaticFrontend:
                                     headers={'Cache-Control': 'public, max-age=300'})
             except ValueError:
                 response = core.j({'error': 'configuration_unavailable'}, 503, core.PRIVATE)
-        elif path == '/healthz':
+        elif path in ('/health', '/healthz'):
             response = core.j({'ok': True, 'service': 'learners-area-fastapi'}, headers=core.PRIVATE)
         elif path == '/readyz':
             try:

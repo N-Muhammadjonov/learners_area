@@ -54,6 +54,17 @@ export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,sig
   }catch{fail();}
  }
 
+ function pulse(force=false){
+  if(!onPulse)return;
+  const now=Date.now();
+  if(!force&&now-(video._coinPulse||0)<15000)return;
+  video._coinPulse=now;
+  onPulse({positionMs:Math.round((video.currentTime||0)*1000),playbackRate:Number(video.playbackRate)||1,
+   playing:!video.paused&&!video.seeking&&document.visibilityState==='visible',
+   durationMs:Number.isFinite(video.duration)?Math.round(video.duration*1000):null});
+ }
+ for(const event of ['play','pause','seeking','seeked','ratechange','ended'])video.addEventListener(event,()=>pulse(true),{signal});
+ document.addEventListener('visibilitychange',()=>pulse(true),{signal});
  video.addEventListener('click',toggle,{signal});
  video.addEventListener('play',paintPlay,{signal});
  video.addEventListener('pause',paintPlay,{signal});
@@ -61,11 +72,7 @@ export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,sig
  video.addEventListener('timeupdate',()=>{
   paintTime();
   onTime?.(video.currentTime);
-  if(!onPulse||video.paused)return;
-  const now=Date.now();
-  if(now-(video._coinPulse||0)<15000)return;
-  video._coinPulse=now;
-  onPulse({positionMs:Math.round((video.currentTime||0)*1000),playbackRate:Number(video.playbackRate)||1,playing:true,durationMs:Number.isFinite(video.duration)?Math.round(video.duration*1000):null});
+  if(!video.paused&&document.visibilityState==='visible')pulse();
  },{signal});
  video.addEventListener('error',fail,{signal});
  playButton.addEventListener('click',toggle,{signal});
@@ -91,3 +98,4 @@ export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,sig
  }
  return {node:container,seekTo,destroy,get failed(){return failed;}};
 }
+

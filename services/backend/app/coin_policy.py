@@ -6,6 +6,8 @@ not evidence. Callers pass server-observed facts.
 from __future__ import annotations
 
 from datetime import datetime
+from math import isfinite
+import re
 
 POLICY_VERSION = "coin-economy-v1"
 BUCKET_MS = 300_000
@@ -96,15 +98,15 @@ MEDIA_SLICE_MS = 5_000
 
 
 def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
-                              rate: float, wall_ms: int) -> int:
-    """Count active wall time once per small content slice, even on replay.
+                              rate: float, wall_ms: int, seen: dict | None = None) -> int:
+    """Credit new content once, using active wall time even across rate changes.
 
-    Coverage values are wall milliseconds, not video-position milliseconds.
-    Repeated content is not added twice. Partial replay is handled
-    conservatively using the maximum credited value for each slice.
+    A second row per slice stores its covered bounds in the existing integer
+    field. Bounding disjoint intervals conservatively never rewards a replay.
     """
-    if end_ms <= start_ms or rate <= 0 or wall_ms <= 0:
+    if end_ms <= start_ms or not isfinite(rate) or rate <= 0 or wall_ms <= 0:
         return 0
+    seen = {} if seen is None else seen
     length = end_ms - start_ms
     budget = min(int(wall_ms), int(length / rate))
     added = 0
@@ -113,11 +115,19 @@ def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
         bucket = cursor // MEDIA_SLICE_MS
         edge = min(end_ms, (bucket + 1) * MEDIA_SLICE_MS)
         span = edge - cursor
-        candidate = min(int(MEDIA_SLICE_MS / rate), int(budget * span / length))
         prior = max(0, int(coverage.get(bucket, 0)))
-        if candidate > prior:
-            coverage[bucket] = candidate
-            added += candidate - prior
+        left, right = cursor % MEDIA_SLICE_MS, edge - bucket * MEDIA_SLICE_MS
+        bounds = seen.get(bucket)
+        if bounds is None:
+            low, high = (0, MEDIA_SLICE_MS) if prior else (left, left)
+        else:
+            low, high = divmod(int(bounds), MEDIA_SLICE_MS + 1)
+        fresh = span - max(0, min(right, high) - max(left, low))
+        candidate = int(budget * fresh / length)
+        if candidate:
+            coverage[bucket] = prior + candidate
+            added += candidate
+        seen[bucket] = min(left, low) * (MEDIA_SLICE_MS + 1) + max(right, high)
         cursor = edge
     return added
 
@@ -128,27 +138,33 @@ def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
     position_ms = max(0, int(position_ms))
     rate = float(playback_rate or 0)
     if state is None:
-        return {"state": {"at": now, "position": position_ms, "coverage": {}, "paid": set(), "credited": 0},
+        return {"state": {"at": now, "position": position_ms, "coverage": {}, "seen": {},
+                          "paid": set(), "credited": 0, "playing": playing, "rate": rate},
                 "credit_ms": 0, "buckets": [], "short": False}
     wall = (now - state["at"]).total_seconds()
     coverage = dict(state["coverage"])
+    seen = dict(state.get("seen", {}))
     paid = set(state["paid"])
     credited = int(state["credited"])
-    anchor = {"at": now, "position": position_ms, "coverage": coverage, "paid": paid, "credited": credited}
-    if wall < MIN_WALL_S or wall > MAX_WALL_S or not playing or rate < MIN_RATE or rate > MAX_RATE:
+    anchor = {"at": now, "position": position_ms, "coverage": coverage, "seen": seen,
+              "paid": paid, "credited": credited, "playing": playing, "rate": rate}
+    if (wall < MIN_WALL_S or wall > MAX_WALL_S or not playing
+            or not state.get("playing", True) or not isfinite(rate)
+            or rate < MIN_RATE or rate > MAX_RATE):
         return {"state": anchor, "credit_ms": 0, "buckets": [], "short": False}
+    rate = max(rate, float(state.get("rate", rate)))
     delta = position_ms - int(state["position"])
     ceiling = wall * rate * 1000 * JITTER + 750
     if delta <= 0 or delta > ceiling:
         return {"state": anchor, "credit_ms": 0, "buckets": [], "short": False}
     credit = add_unique_media_coverage(
-        coverage, int(state["position"]), position_ms, rate, int(wall * 1000))
+        coverage, int(state["position"]), position_ms, rate, int(wall * 1000), seen)
     credited += credit
     total_unique_wall_ms = sum(int(value) for value in coverage.values())
     buckets = [index for index in range(1, total_unique_wall_ms // BUCKET_MS + 1)
                if index not in paid]
     anchor.update(coverage=coverage, paid=paid, credited=credited)
-    short = short_media_ready(duration_ms, total_unique_wall_ms, position_ms) and "short" not in paid
+    short = False
     # Returned state tracks pending milestones locally. Only the database ledger
     # makes a claim durable; the next request re-reads committed awards.
     paid.update(buckets)
@@ -190,7 +206,8 @@ def grammar_submission_ok(exercise: dict, answers) -> bool:
            or chr(0) in value for value in answers):
         return False
     if kind == "write":
-        return len(answers[0].split()) >= minimum and len(answers[0]) <= 4000
+        words = re.findall(r"[A-Za-z]+(?:['’-][A-Za-z]+)*", answers[0].casefold())
+        return len(words) >= minimum and len(set(words)) >= min(minimum, 6)
     if kind in ("mcq", "judge"):
         if len(items) != needed:
             return False
@@ -212,7 +229,18 @@ def grammar_submission_ok(exercise: dict, answers) -> bool:
         return all(Counter(answer.split()) == Counter(word for token in (item.get("words") or [])
                                                    for word in str(token).split())
                    for answer, item in zip(answers, items))
-    return kind in ("tr", "transform", "fix", "typed", "fill")
+    if kind in ("tr", "transform", "fix", "typed", "fill"):
+        def normalized(value: str) -> str:
+            return " ".join(value.casefold().replace("’", "'").split()).strip(".!? ")
+        for item, answer in zip(items, answers):
+            accepted = item.get("a")
+            accepted = [accepted] if isinstance(accepted, str) else accepted
+            if not isinstance(accepted, list) or not any(
+                    isinstance(value, str) and normalized(value) == normalized(answer)
+                    for value in accepted):
+                return False
+        return True
+    return False
 
 
 def public_policy() -> dict:
@@ -267,3 +295,4 @@ def practice_label(ms: int) -> str:
     if hours:
         return f"{hours} h {mins} min"
     return f"{mins} min"
+

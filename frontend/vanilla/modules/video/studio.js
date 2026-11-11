@@ -114,19 +114,21 @@ export function createVideoStudio(context,{mode,video}){
   });
   frame=node;
   const ctl=new AbortController();
-  let youtubePlaying=false,youtubeRate=1,youtubeLastPulse=0,youtubeSession=null,youtubePulsePending=false;
-  function youtubePulse(position){
+  let youtubePlaying=false,youtubeRate=1,youtubeLastPulse=0,youtubeSession=null,youtubePulsePending=false,youtubePosition=0,youtubeQueued=false;
+  function youtubePulse(position,force=false){
+   youtubePosition=position;
    const now=Date.now();
-   if(!youtubePlaying||document.visibilityState!=='visible'||youtubePulsePending||now-youtubeLastPulse<15000)return;
+   if(youtubePulsePending){youtubeQueued=youtubeQueued||force;return;}
+   if(!force&&(!youtubePlaying||document.visibilityState!=='visible'||now-youtubeLastPulse<15000))return;
    youtubeLastPulse=now;
    youtubePulsePending=true;
    fetch('/api/coins/media/heartbeat',{method:'POST',credentials:'same-origin',
      headers:{'Content-Type':'application/json'},
      body:JSON.stringify({sessionId:youtubeSession,mediaId:String(lesson.id),module:lesson.mediaKind==='audio'?'podcast':'ted',
-       positionMs:Math.round(position*1000),playbackRate:youtubeRate,playing:true,
+       positionMs:Math.round(position*1000),playbackRate:youtubeRate,playing:youtubePlaying&&document.visibilityState==='visible',
        durationMs:playbackDuration?Math.round(playbackDuration*1000):null})})
      .then(async response=>{if(!response.ok)return;const data=await response.json();if(data.sessionId)youtubeSession=data.sessionId;})
-     .catch(()=>{}).finally(()=>{youtubePulsePending=false});
+     .catch(()=>{}).finally(()=>{youtubePulsePending=false;if(youtubeQueued){youtubeQueued=false;youtubePulse(youtubePosition,true);}});
   }
   const ask=()=>{postTo(node,{event:'listening',id:1,channel:'widget'});postTo(node,{event:'command',func:'addEventListener',args:['onStateChange']});};
   let loadTimer=0;
@@ -146,7 +148,7 @@ export function createVideoStudio(context,{mode,video}){
    const reachedEnd=(data.event==='onStateChange'&&data.info===0)||(data.event==='infoDelivery'&&info?.playerState===0);
    const playerState=data.event==='onStateChange'?data.info:info?.playerState;
    if(Number.isFinite(info?.playbackRate)&&info.playbackRate>0)youtubeRate=info.playbackRate;
-   if(typeof playerState==='number')youtubePlaying=playerState===1;
+   if(typeof playerState==='number'&&(playerState===1)!==youtubePlaying){youtubePlaying=playerState===1;youtubePulse(youtubePosition,true);}
    if(info&&typeof info.currentTime==='number'&&Number.isFinite(info.currentTime)&&info.currentTime>=0){
     onPosition(info.currentTime);
     youtubePulse(info.currentTime);
@@ -154,6 +156,7 @@ export function createVideoStudio(context,{mode,video}){
    if(playerState===1){if(finalizedGeneration===generation)generation++;playbackStarted=true;}
    if(reachedEnd&&playbackStarted){flushFinalProgress();playbackStarted=false;}
   },{signal:ctl.signal});
+  document.addEventListener('visibilitychange',()=>youtubePulse(youtubePosition,true),{signal:ctl.signal});
   frameTeardown=()=>{ctl.abort();clearInterval(interval);clearTimeout(loadTimer);node.removeAttribute('src');node.remove();};
   frameBox.append(node);
  }
