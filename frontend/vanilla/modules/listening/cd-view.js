@@ -1,17 +1,13 @@
 import {el as node} from '../../js/dom.js';
 import {bindCdPaper,questionNumber} from './cd-paper.js';
 import {positionExamBrand} from './authored-ui.js';
+import {isolatedListeningStyle} from './source-style.js';
 
 function el(tag,{onclick,...attributes}={},...children){
  const element=node(tag,attributes,...children);
  if(onclick)element.addEventListener('click',onclick);
  return element;
 }
-
-const ISOLATION_STYLE = `
-:host{all:initial;display:block;min-height:0;min-width:0;flex:1;contain:layout style;isolation:isolate;direction:ltr;color-scheme:light;font:16px Sora,Inter,Arial,sans-serif;line-height:normal;letter-spacing:normal;text-align:start;text-transform:none}
-.la-exam-scroll{all:initial;display:block;direction:ltr;font:16px Sora,Inter,Arial,sans-serif;text-align:start}
-`;
 
 const VIEW_STYLE = `
 .la-exam-scroll{height:100%;overflow:auto;overscroll-behavior:contain}
@@ -50,15 +46,13 @@ export function authoredCdView(data,{questions,imageUrl,notes,saveWorkspace,sign
  // internal interface of any Listening test (1–32). Each source keeps its own CSS.
  // Shadow DOM blocks outside selectors; the host reset also blocks inherited typography.
  const shadow=surface.attachShadow({mode:'open'});
- const stage=el('div',{class:'la-exam-scroll'});
+ const stage=el('div',{class:'la-listening-source la-exam-scroll'});
  const template=document.createElement('template');
  template.innerHTML=data.shell;
  positionExamBrand(template.content);
  stage.append(template.content);
  // The original document's body defaults belong to this scroll surface, not the site body.
- const sourceStyle=data.style.replace(/:root\b/g,':host')
-  .replace(/(^|})\s*html\s*,\s*body\s*\{/g,'$1\n.la-exam-scroll{');
- shadow.append(el('style',{},ISOLATION_STYLE+sourceStyle+VIEW_STYLE),stage);
+ shadow.append(el('style',{},isolatedListeningStyle(data.style)+VIEW_STYLE),stage);
  const get=id=>shadow.getElementById(id);
  const root=get('examRoot'),paper=get('examQuestionHost'),startScreen=get('startScreen'),start=get('startTestBtn');
  const frame=get('examInterface'),nav=get('bottomNav'),noteModal=get('noteModal'),note=get('noteTextarea');
