@@ -3,7 +3,7 @@
 Only the matching public question identities and sanitized PARTS markup leave
 the server. The authored JavaScript and answer-bearing objects stay server-side.
 """
-import json,re
+import ast,json,re
 from html import escape
 from functools import lru_cache
 from xml.etree import ElementTree as ET
@@ -62,7 +62,7 @@ def source_map(source):
     return None
 
 
-PART_TAGS = frozenset('div span p strong b em i br hr ul ol li table thead tbody tfoot tr th td h1 h2 h3 h4 label input select option main textarea button a img svg'.split()) | TAGS
+PART_TAGS = frozenset('div section span p strong b em i br hr ul ol li table thead tbody tfoot tr th td h1 h2 h3 h4 label input select option main textarea button a img svg'.split()) | TAGS
 SHELL_PATTERN = re.compile(r'<div class="exam-root\b[^>]*id="examRoot".*?</div></div>(?=`\))', re.S)
 MAP_18 = 'https://ia601408.us.archive.org/3/items/skrinshot-2026-10-02-133313/Skrinshot%202026-10-02%20133313.png'
 PART_ATTRIBUTES = frozenset('class id type name aria-label colspan rowspan placeholder data-q data-qnum data-group data-question data-code data-label data-placeholder data-pair-qs data-pair-group data-max data-ldm-group data-radio style for role title alt aria-hidden aria-modal aria-labelledby aria-pressed min max step disabled draggable target rel tabindex'.split())
@@ -101,6 +101,36 @@ def normalized_choice(text: str, code: str) -> str:
 
 def source_signature(questions, number_key, part_key, text_key):
     return tuple(sorted((q[number_key], q[part_key], ' '.join(q[text_key].split())) for q in questions))
+
+
+@lru_cache(maxsize=2)
+def original_entry_layout(source: str) -> dict | None:
+    if source not in ('listening-test-1', 'listening-test-7'):
+        return None
+    from .listening_runtime import runtime
+    data = runtime(int(source.rsplit('-', 1)[1]))
+    html = data['files'][data['entryPath']]
+    style = re.search(r'<style>(.*?)</style>', html, re.S | re.I)
+    hub = re.search(r'<section\b[^>]*\bclass="hub"[^>]*>.*?</section>', html, re.S)
+    activities = re.search(r'\bconst ACTIVITIES\s*=\s*(\[.*?\n\]);', html, re.S)
+    if not style or not hub or not activities or re.search(r'@import|url\s*\(', style[1], re.I):
+        return None
+    try:
+        rows = ast.literal_eval(activities[1])
+    except (ValueError, SyntaxError):
+        return None
+    if not isinstance(rows, list) or not 1 <= len(rows) <= 12 or any(
+        not isinstance(row, list) or len(row) != 4 or
+        any(not isinstance(value, str) or len(value) > 1000 for value in row)
+        for row in rows
+    ) or rows[0][0] != 'exam':
+        return None
+    # Only original static presentation leaves the server. No embedded HTML audio,
+    # authored scripts, answer keys or replacement for the existing Cloudflare audio.
+    cleaner = Cleaner(tags=PART_TAGS, attributes=part_attribute,
+                      css_sanitizer=CSSSanitizer(allowed_css_properties=PART_STYLES), strip=True)
+    return {'shell': cleaner.clean(hub[0]), 'style': style[1],
+            'activities': [dict(zip(('id', 'number', 'title', 'description'), row)) for row in rows]}
 
 
 @lru_cache(maxsize=32)
