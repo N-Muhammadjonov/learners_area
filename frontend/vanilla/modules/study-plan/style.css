@@ -40,6 +40,9 @@
 .coin-ranking-page{max-width:76rem;width:100%;margin-inline:auto;min-width:0}
 .coin-ranking-board{min-width:0;overflow:hidden;border:1px solid rgb(var(--workspace-line));border-radius:24px;background:rgb(var(--workspace-raised));color:rgb(var(--workspace-ink));box-shadow:var(--la-shadow);padding:clamp(1rem,2.4vw,1.8rem)}
 .coin-ranking-title{font-size:clamp(1.45rem,2.6vw,2rem);font-weight:800;line-height:1.2;margin:0 0 1rem}
+.coin-ranking-top-count{font-size:.86rem;color:rgb(var(--workspace-muted));margin:-.45rem 0 1rem;font-variant-numeric:tabular-nums}
+.coin-podium [data-place="1"]:only-child{grid-column:2}
+.coin-podium article:focus-within{outline:2px solid rgb(var(--workspace-accent-strong));outline-offset:2px}
 .coin-ranking-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(13rem,1.45fr);gap:.45rem;border-radius:17px;padding:.4rem;background:rgb(var(--workspace-sunken));margin-bottom:1.2rem}
 .coin-ranking-tab{min-width:0;min-height:46px;padding:.6rem .5rem;border-radius:12px;border:1px solid transparent;background:transparent;color:rgb(var(--workspace-muted));font:inherit;font-weight:650;line-height:1.3;cursor:pointer;overflow-wrap:anywhere}
 .coin-ranking-tab--active{color:rgb(var(--workspace-ink));background:rgb(var(--workspace-raised));border-color:rgb(var(--workspace-line));box-shadow:0 2px 8px rgb(0 0 0 / .09)}
