@@ -33,7 +33,7 @@ export async function mount(context){
  }
  // Start roadmap beside both siblings, not behind their response/render work.
  const keys=overview?['openLessons','dashboard','mock']:['mock'];for(const key of keys)void load(key);
- if(overview && context.session.user.role==='student'){
+ if(overview && ['student','owner'].includes(context.session.user.role)){
   const hero=host.querySelector('.la-dashboard-hero');
   const heading=hero?.querySelector('h1');
   if(heading){
@@ -46,7 +46,7 @@ export async function mount(context){
    },mascot.node);
    mascot.node.classList.add('la-dashboard-companion');
    heading.classList.add('la-dashboard-greeting-companion');
-   heading.prepend(shortcut);
+   heading.append(shortcut);
   }
   mountSequenceDashboard(context,hero??host);
  }

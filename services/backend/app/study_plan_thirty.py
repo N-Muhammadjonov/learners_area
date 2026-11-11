@@ -12,6 +12,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 DAYS = 30
+SUPPORTED_DURATIONS = (7, DAYS)
 TARGET_MINUTES = 120
 STAGE_NAMES = ("Tushunish", "Mustahkamlash", "Qo‘llash", "Erkin qo‘llash")
 LEVELS = ("A0", "A1", "A2", "B1", "B2", "C1", "C2")
@@ -127,16 +128,19 @@ def eligible_grammar(level: str, catalog: list[dict]) -> list[dict]:
 
 def make_thirty_day_schedule(level: str, start: date,
                             catalog: list[dict] | None = None,
-                            revision: int = 1) -> list[dict]:
+                            revision: int = 1,
+                            days: int = DAYS) -> list[dict]:
     if not isinstance(start, date):
         raise ValueError("invalid_start")
     if type(revision) is not int or revision < 1:
         raise ValueError("invalid_revision")
+    if type(days) is not int or days not in SUPPORTED_DURATIONS:
+        raise ValueError("invalid_duration")
     units = eligible_grammar(level, catalog if catalog is not None else read_grammar_catalog())
     if not units:
         raise ValueError("insufficient_grammar_content")
     result = []
-    for offset in range(DAYS):
+    for offset in range(days):
         day_number = offset + 1
         # New lesson each day while the level has enough units. Shorter
         # curricula (e.g. C2) progress through successive practice stages.
@@ -175,8 +179,8 @@ def make_thirty_day_schedule(level: str, start: date,
 
 
 def eligible_to_open(day: int, started_on: date, today: date,
-                     previous_completed: bool) -> bool:
+                     previous_completed: bool, days: int = DAYS) -> bool:
     """No unlocking from a passed calendar date unless the previous day is complete."""
-    return 1 <= day <= DAYS and (day == 1 or
+    return days in SUPPORTED_DURATIONS and 1 <= day <= days and (day == 1 or
                                   (previous_completed and
                                    today >= started_on + timedelta(days=day - 1)))

@@ -11,7 +11,7 @@ from .study_plan_level import (
     LEVELS, PASS_SCORE, interpretation, new_attempt, public_questions,
     read_bank, score_attempt,
 )
-from .study_plan_port import body_object, failure, response, student
+from .study_plan_port import body_object, failure, response, plan_participant
 from .study_plan_thirty import normalize_level
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence/level")
@@ -37,7 +37,7 @@ async def _save_level(con, user_id, level: str) -> None:
 
 @router.get("")
 async def read_level_check(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     db = await core.pool()
@@ -58,7 +58,7 @@ async def read_level_check(req: Request) -> JSONResponse:
 
 @router.post("/start")
 async def start_level_check(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     data = await body_object(req, {"level"})
@@ -84,7 +84,7 @@ async def start_level_check(req: Request) -> JSONResponse:
 
 @router.post("/submit")
 async def submit_level_check(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     data = await body_object(req, {"attemptId", "answers"})
@@ -125,7 +125,7 @@ async def submit_level_check(req: Request) -> JSONResponse:
 
 @router.post("/manual")
 async def set_profile_level(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     data = await body_object(req, {"level"})

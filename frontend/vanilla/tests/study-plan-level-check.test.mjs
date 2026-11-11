@@ -91,7 +91,7 @@ test('selected answers navigate back without losing progress and only submit whe
  assert.match(root.textContent,/14\/15/);
 });
 
-test('passed assessment creates actual 30-day plan then navigates to Assignments',async()=>{
+test('passed assessment opens duration selection without silently starting 30 days',async()=>{
  const calls=[];
  api.request=async(path,options={})=>{
   calls.push(path);
@@ -107,7 +107,7 @@ test('passed assessment creates actual 30-day plan then navigates to Assignments
  }
  await tick();
  root.querySelector('[data-level-create-plan]').click();await tick();
- assert(calls.includes('/api/study-plan/monthly/sequence/start'));
+ assert(!calls.includes('/api/study-plan/monthly/sequence/start'));
  assert.equal(navigated,'/app/assignments#study-plan-30');
 });
 
@@ -133,4 +133,25 @@ test('manual profile level change writes only currentLevel, never overwrites stu
 test('dedicated test Back returns to the 30-day plan',()=>{
  const page=new URL('https://fixture.invalid/app/plan/level-check');
  assert.deepEqual(returnPolicy(page),{mode:'back',href:'/app/assignments#study-plan-30'});
+});
+
+test('owner can set a level before choosing seven or thirty days',async()=>{
+ const owner=ctx('/app/profile?edit=level');
+ owner.session.user.role='owner';
+ api.request=async(path,options={})=>{
+   if(path===API)return {state:'select',levels:LEVELS,currentLevel:null};
+   if(path===API+'/manual')return {state:'saved',level:options.body.level,source:'self_reported'};
+   throw Error('unexpected API route');
+ };
+ const selector=profileLevel(owner);
+ assert(selector,'owner profile must expose the level fallback');
+ root.append(selector);
+ await tick();
+ const field=root.querySelector('[data-profile-level-select]');
+ field.value='B2';
+ field.dispatchEvent(new dom.window.Event('change'));
+ root.querySelector('form').dispatchEvent(
+   new dom.window.Event('submit',{bubbles:true,cancelable:true}));
+ await tick();
+ assert.match(root.textContent,/7 yoki 30 kunlik rejani tanlashingiz mumkin/);
 });

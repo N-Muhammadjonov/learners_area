@@ -13,11 +13,11 @@ const start=new Date('2026-11-12T00:00:00.000Z');
 let dom,controller,request,host;
 const flush=()=>new Promise(resolve=>setTimeout(resolve,0));
 
-function activePlan(currentDay=1,completedDays=0) {
+function activePlan(currentDay=1,completedDays=0,totalDays=30) {
   return {
-    state:'active',cycleId:'fixture',totalDays:30,currentDay,completedDays,
+    state:'active',cycleId:'fixture',totalDays,currentDay,completedDays,
     revision:1,level:'B2',startedOn:'2026-11-12',today:'2026-11-12',
-    days:Array.from({length:30},(_,index)=>{
+    days:Array.from({length:totalDays},(_,index)=>{
       const day=index+1;
       const status=day<currentDay?'completed':day===currentDay?'active':'locked';
       return {day,date:new Date(start.getTime()+index*86400000).toISOString().slice(0,10),
@@ -61,6 +61,7 @@ test('validated plan requires exactly thirty consistent days and never exposes l
   malformed.days[0].tasks[0].minutes=90;
   assert.throws(()=>validateSequence(malformed),/invalid_workload/);
   assert.throws(()=>validateSequence({...valid,totalDays:60}),/invalid_plan/);
+  assert.equal(validateSequence(activePlan(1,0,7)).days.length,7);
 });
 
 test('calendar shows thirty dates, six ready tasks and disabled future days',async()=>{
@@ -101,7 +102,7 @@ test('regeneration demands confirmation and preserves current-day progress',asyn
   buttons().find(button=>button.textContent==='Confirm').click();
   await flush();
   assert.deepEqual(calls.filter(call=>call.method==='POST'),[
-    {path:SEQUENCE_API+'/regenerate',method:'POST',body:{confirmed:true}},
+    {path:SEQUENCE_API+'/regenerate',method:'POST',body:{confirmed:true,days:30}},
   ]);
   assert.equal(host.querySelector('[data-sequence-day="2"]').getAttribute('aria-pressed'),'true');
 });
@@ -109,7 +110,7 @@ test('regeneration demands confirmation and preserves current-day progress',asyn
 test('available plan starts through authenticated POST and displays new calendar',async()=>{
   const calls=[];
   api.request=async(path,options={})=>{
-    calls.push({path,method:options.method??'GET'});
+    calls.push({path,method:options.method??'GET',body:options.body});
     return path.endsWith('/start')?activePlan():{
       state:'available',level:'B2',totalDays:30,dailyMinutes:120,
     };
@@ -118,8 +119,8 @@ test('available plan starts through authenticated POST and displays new calendar
   await flush();
   host.querySelector('button.btn-primary').click();
   await flush();
-  assert.deepEqual(calls,[{path:SEQUENCE_API,method:'GET'},
-    {path:SEQUENCE_API+'/start',method:'POST'}]);
+  assert.deepEqual(calls,[{path:SEQUENCE_API,method:'GET',body:undefined},
+    {path:SEQUENCE_API+'/start',method:'POST',body:{days:30}}]);
   assert.equal(host.querySelectorAll('[data-sequence-day]').length,30);
 });
 
@@ -156,11 +157,77 @@ test('plan failure is retryable without destroying the surrounding assignments',
   assert.equal(host.querySelectorAll('[data-sequence-day]').length,30);
 });
 
-test('staff permissions do not trigger plan data requests',()=>{
+test('teacher and admin permissions do not trigger plan data requests',()=>{
   let calls=0;
   api.request=async()=>{calls++;return activePlan();};
   mountSequenceAssignments(context('teacher'),host);
   mountSequenceDashboard(context('teacher'),host);
+  mountSequenceAssignments(context('admin'),host);
+  mountSequenceDashboard(context('admin'),host);
   assert.equal(calls,0);
   assert.equal(host.childElementCount,0);
+});
+
+test('learner selects seven days before starting and receives seven unlocked/locked dates',async()=>{
+  const calls=[];
+  api.request=async(path,options={})=>{
+    calls.push({path,method:options.method??'GET',body:options.body});
+    if(path.endsWith('/start'))return activePlan(1,0,7);
+    return {state:'available',level:'B2',totalDays:30,dailyMinutes:120,
+      durationOptions:[7,30]};
+  };
+  mountSequenceAssignments(context(),host);
+  await flush();
+  const seven=host.querySelector('[data-plan-duration="7"]');
+  assert(seven);
+  seven.click();
+  assert.equal(host.querySelector('[data-plan-duration="7"]').getAttribute('aria-pressed'),'true');
+  host.querySelector('button.btn-primary').click();
+  await flush();
+  assert.deepEqual(calls.at(-1),{path:SEQUENCE_API+'/start',method:'POST',body:{days:7}});
+  assert.equal(host.querySelectorAll('[data-sequence-day]').length,7);
+  assert.equal(host.querySelectorAll('[data-sequence-day]:disabled').length,6);
+  assert.equal(host.querySelectorAll('[data-sequence-task-open]').length,6);
+});
+
+test('regenerating an existing plan chooses seven days without reopening completed work',async()=>{
+  const posts=[];
+  api.request=async(path,options={})=>{
+    if(options.method==='POST'){
+      posts.push({path,body:options.body});
+      return activePlan(2,1,7);
+    }
+    return activePlan(2,1,30);
+  };
+  mountSequenceAssignments(context(),host);
+  await flush();
+  [...host.querySelectorAll('button')].find(b=>b.textContent==='Regenerate plan').click();
+  host.querySelector('[data-plan-duration="7"]').click();
+  [...host.querySelectorAll('button')].find(b=>b.textContent==='Confirm').click();
+  await flush();
+  assert.deepEqual(posts,[{path:SEQUENCE_API+'/regenerate',body:{confirmed:true,days:7}}]);
+  assert.equal(host.querySelectorAll('[data-sequence-day]').length,7);
+  assert.equal(host.querySelector('[data-sequence-day="1"]').dataset.sequenceState,'completed');
+  assert.equal(host.querySelector('[data-sequence-day="2"]').dataset.sequenceState,'active');
+});
+
+test('shortening a plan cannot erase the current day beyond seven',async()=>{
+  api.request=async()=>activePlan(8,7,30);
+  mountSequenceAssignments(context(),host);
+  await flush();
+  [...host.querySelectorAll('button')].find(b=>b.textContent==='Regenerate plan').click();
+  assert(host.querySelector('[data-plan-duration="7"]').disabled);
+  assert.equal(host.querySelector('[data-plan-duration="30"]').getAttribute('aria-pressed'),'true');
+});
+
+test('owner sees 7-day plan on Assignments and Dashboard without staff access escalation',async()=>{
+  const calls=[];
+  api.request=async path=>{calls.push(path);return activePlan(1,0,7);};
+  mountSequenceAssignments(context('owner'),host);
+  mountSequenceDashboard(context('owner'),host);
+  await flush();
+  assert.deepEqual(calls,[SEQUENCE_API,SEQUENCE_API]);
+  assert.equal(host.querySelectorAll('[data-sequence-day]').length,7);
+  assert.match(host.querySelector('[data-dashboard-30-plan]').textContent,/7-day plan/);
+  assert.equal(host.querySelector('[data-dashboard-30-plan] progress').max,7);
 });

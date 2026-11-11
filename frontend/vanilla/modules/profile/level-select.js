@@ -1,4 +1,4 @@
-/** Student profile CEFR selector, independent of existing study preferences. */
+/** Learner profile CEFR selector, independent of existing study preferences. */
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
 
@@ -6,14 +6,14 @@ const API='/api/study-plan/monthly/sequence/level';
 const LEVELS=['A1','A2','B1','B2','C1','C2'];
 
 export function profileLevel(ctx) {
-  if(ctx.session?.user?.role!=='student')return null;
+  if(!['student','owner'].includes(ctx.session?.user?.role))return null;
   const uz=ctx.locale==='uz',label=(a,b)=>uz?a:b;
   const section=h('section',{class:'panel space-y-4','data-profile-level':''});
   const heading=h('h2',{class:'text-xl font-semibold'},
     label('Ingliz tili darajasi','English proficiency level'));
   const description=h('p',{class:'text-sm text-ink-500'},
-    label('30 kunlik reja uchun darajangizni belgilang. Bu shaxsiy baholash, rasmiy sertifikat emas.',
-      'Set your level for the 30-day plan. This is a self-assessment, not a certificate.'));
+    label('7 yoki 30 kunlik reja uchun darajangizni belgilang. Bu shaxsiy baholash, rasmiy sertifikat emas.',
+      'Set your level for a 7- or 30-day plan. This is a self-assessment, not a certificate.'));
   const select=h('select',{class:'input',id:'profile-cefr-select',
     'data-profile-level-select':'','aria-label':label('Daraja','Level')},
     h('option',{value:''},label('Darajani tanlang','Select a level')),
@@ -59,8 +59,8 @@ export function profileLevel(ctx) {
       if(ctx.signal.aborted)return;
       if(data?.state!=='saved'||data.level!==select.value)throw Error('invalid_level_save');
       status.textContent=label(
-        'Daraja saqlandi. Endi Assignments ichida 30 kunlik rejani tuzishingiz mumkin.',
-        'Level saved. You can now create your 30-day plan in Assignments.');
+        'Daraja saqlandi. Endi Assignments ichida 7 yoki 30 kunlik rejani tanlashingiz mumkin.',
+        'Level saved. You can now choose a 7- or 30-day plan in Assignments.');
     }catch{
       if(!ctx.signal.aborted)status.textContent=label(
         'Saqlashda xatolik. Qayta urinib ko‘ring.','Could not save the level. Please retry.');

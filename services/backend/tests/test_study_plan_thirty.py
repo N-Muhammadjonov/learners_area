@@ -9,10 +9,11 @@ from fastapi.testclient import TestClient
 
 from app import main as core
 from app.study_plan_thirty import (
-    DAYS, TARGET_MINUTES, eligible_grammar, level_range,
+    DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES, eligible_grammar, level_range,
     make_thirty_day_schedule, normalize_level, read_grammar_catalog,
 )
 from app.study_plan_materials import assign_materials
+from app.study_plan_port import plan_participant
 from app.study_plan_thirty_port import (
     _event_kind, _present, _score_skill_stage, _skill_answer_bank, _sync,
 )
@@ -279,3 +280,109 @@ def test_plan_materials_rejects_unsafe_or_fake_routes():
     enriched = assign_materials(schedule, bad)
     assert enriched[0]["tasks"][1].source_key == "reading"
     assert enriched[0]["tasks"][1].href == schedule[0]["tasks"][1].href
+
+
+@pytest.mark.parametrize("duration", (7, 30))
+def test_user_selected_durations_generate_real_six_task_days(duration):
+    schedule = make_thirty_day_schedule("B2", START, days=duration)
+    assert duration in SUPPORTED_DURATIONS
+    assert len(schedule) == duration
+    assert [d["day"] for d in schedule] == list(range(1, duration + 1))
+    for day in schedule:
+        assert len(day["tasks"]) == 6
+        assert sum(task.minutes for task in day["tasks"]) == TARGET_MINUTES
+    with pytest.raises(ValueError, match="invalid_duration"):
+        make_thirty_day_schedule("B2", START, days=60)
+    with pytest.raises(ValueError, match="invalid_duration"):
+        make_thirty_day_schedule("B2", START, days=True)
+
+
+def test_seven_day_api_projection_has_no_eighth_day_or_unlocked_future_links():
+    class FakeConnection:
+        async def fetch(self, query, cid):
+            return [
+                {"day_number": day, "slot": slot, "kind": kind,
+                 "title": kind, "href": "/app/" + kind, "source_key": kind,
+                 "minutes": minutes, "stage_index": 0 if slot == 0 else None,
+                 "completed_at": None}
+                for day in range(1, 8)
+                for slot, (kind, minutes) in enumerate((
+                    ("grammar", 25), ("reading", 30), ("listening", 25),
+                    ("writing", 20), ("speaking", 10), ("vocabulary", 10),
+                ))
+            ]
+
+    cycle = {"id": "fixture", "status": "active", "current_day": 1,
+             "timezone": "Asia/Tashkent", "user_id": "fixture",
+             "revision": 1, "cefr_level": "B2", "duration_days": 7,
+             "started_on": START}
+    payload = asyncio.run(_present(
+        FakeConnection(), cycle, datetime(2026, 11, 12, 8, tzinfo=timezone.utc)))
+    assert payload["totalDays"] == 7
+    assert len(payload["days"]) == 7
+    assert all(day["status"] == "locked" for day in payload["days"][1:])
+    assert all(task["href"] is None for day in payload["days"][1:]
+               for task in day["tasks"])
+
+
+def test_seventh_completed_day_finishes_seven_day_cycle():
+    class FakeConnection:
+        def __init__(self):
+            self.executed = []
+
+        async def fetch(self, query, *args):
+            return [{"kind": kind, "minutes": minutes, "completed_at": START}
+                    for kind, minutes in (
+                        ("grammar",25), ("reading",30), ("listening",25),
+                        ("writing",20), ("speaking",10), ("vocabulary",10))]
+
+        async def fetchval(self, query, *args):
+            return 0
+
+        async def execute(self, query, *args):
+            self.executed.append(query)
+
+    row = {"status": "active", "user_id": "user", "id": "cycle",
+           "current_day": 7, "duration_days": 7,
+           "started_on": START, "timezone": "Asia/Tashkent"}
+    fake = FakeConnection()
+    done = asyncio.run(_sync(
+        fake, row, datetime(2026, 11, 18, 8, tzinfo=timezone.utc)))
+    assert done["status"] == "completed"
+    assert len(fake.executed) == 1
+    assert "status='completed'" in fake.executed[0]
+
+
+@pytest.mark.parametrize("role,allowed", [
+    ("student", True), ("owner", True),
+    ("teacher", False), ("admin", False),
+])
+def test_plan_access_is_scoped_without_widening_other_student_endpoints(
+        monkeypatch, role, allowed):
+    async def identity(req, active=True):
+        return {"id": "fixture", "role": role}
+
+    monkeypatch.setattr(core, "current_user", identity)
+    user, error = asyncio.run(plan_participant(object()))
+    assert (error is None) is allowed
+    if allowed:
+        assert user["role"] == role
+    else:
+        assert error.status_code == 403
+
+
+@pytest.mark.parametrize("value", [60, 0, -7, True, "7", [], None])
+def test_invalid_duration_is_rejected_before_database_reads(monkeypatch, value):
+    async def authenticated(*args, **kwargs):
+        return {"id": "fixture", "role": "owner"}
+
+    async def database_not_needed():
+        raise AssertionError("invalid duration must be rejected before opening database")
+
+    monkeypatch.setattr(core, "current_user", authenticated)
+    monkeypatch.setattr(core, "pool", database_not_needed)
+    with TestClient(core.app) as client:
+        result = client.post("/api/study-plan/monthly/sequence/start",
+                             json={"days": value})
+    assert result.status_code == 400
+    assert result.json()["error"] == "invalid_duration"

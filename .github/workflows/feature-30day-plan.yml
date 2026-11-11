@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/30day-learning-plan-20261112
+      - feature/study-plan-7-or-30-role-fix
   workflow_dispatch:
 
 permissions:
@@ -47,6 +48,9 @@ jobs:
           node --check frontend/vanilla/modules/profile/level-select.js
           node --check frontend/vanilla/modules/grammar/book-runtime.js
           node --check frontend/vanilla/modules/grammar/book-skill.js
+          node --check frontend/vanilla/modules/study-plan/sequence-view.js
+          node --check frontend/vanilla/modules/dashboard.js
+          node --check frontend/vanilla/modules/assignments/index.js
           node --check frontend/vanilla/modules/shell/dock.js
           node --check frontend/vanilla/modules/campus/chrome.js
           node --check frontend/vanilla/modules/campus/return-policy.js
@@ -71,6 +75,10 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           python -m pip install rjsmin==1.2.5 rcssmin==1.2.2
+      - name: Verify RIWI source catalogue matches the current code
+        run: |
+          node scripts/riwi-site-catalog.mjs
+          git diff --exit-code -- services/backend/app/data/riwi_site_catalog.json
       - name: Bundle site imports (no deploy)
         run: node scripts/bundle_browser.mjs
       - name: Package versioned browser assets (no deploy)
