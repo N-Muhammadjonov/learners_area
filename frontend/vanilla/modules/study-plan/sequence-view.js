@@ -293,9 +293,10 @@ export function mountSequenceAssignments(ctx, root) {
       if (!ctx.signal.aborted && panel.isConnected) panel.scrollIntoView?.({block:'start'});
     });
   }
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) void load();
-  }, {signal:ctx.signal});
+  const onVisibility = () => {if (!document.hidden) void load();};
+  document.addEventListener('visibilitychange', onVisibility);
+  ctx.signal.addEventListener('abort', () =>
+    document.removeEventListener('visibilitychange', onVisibility), {once:true});
   ctx.onResume?.(() => void load());
   return {refresh:()=>void load()};
 }
