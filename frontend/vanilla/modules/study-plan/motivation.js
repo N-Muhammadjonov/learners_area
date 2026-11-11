@@ -1,6 +1,36 @@
 import {h} from '../../js/native.js';
 import {asyncRegion, button, card, detail, formatDay, heading, labelSkill, request, text, workspace} from './view.js';
 
+function practiceLabel(ms) {
+  const minutes = Math.floor(Math.max(0, Number(ms) || 0) / 60000);
+  const hours = Math.floor(minutes / 60);
+  return hours ? `${hours} h ${minutes % 60} min` : `${minutes % 60} min`;
+}
+
+function initials(name) {
+  const letters = String(name || '').replace(/[^A-Za-z0-9\u0400-\u04FF]/g, '');
+  return (letters.slice(0, 2) || 'LA').toUpperCase();
+}
+
+function helpDialog(ctx, policy, opener) {
+  const close = () => {dialog.close();opener.focus();};
+  const rules = (policy?.rules || []).map(rule => h('li', {}, h('strong', {}, rule.coins + ' · '), ctx.locale === 'uz' ? rule.uz : rule.en));
+  const limits = (policy?.limits || []).map(rule => h('li', {}, ctx.locale === 'uz' ? rule.uz : rule.en));
+  const dialog = h('dialog', {class: 'coin-help', 'aria-labelledby': 'coin-help-title'},
+    h('h2', {id: 'coin-help-title'}, text(ctx, 'Qanday qilib tanga to‘plashim mumkin?', 'How can I earn coins?')),
+    h('p', {}, policy?.intro ? (ctx.locale === 'uz' ? policy.intro.uz : policy.intro.en) : ''),
+    h('ul', {}, rules),
+    h('h3', {}, text(ctx, 'Cheklovlar', 'Limits')),
+    h('ul', {}, limits),
+    h('p', {}, policy?.example ? (ctx.locale === 'uz' ? policy.example.uz : policy.example.en) : ''),
+    h('button', {type: 'button', class: 'btn-primary', onClick: close}, text(ctx, 'Yopish', 'Close')));
+  dialog.addEventListener('cancel', event => {event.preventDefault();close();});
+  dialog.addEventListener('close', () => opener.focus());
+  document.body.append(dialog);
+  dialog.showModal();
+  dialog.querySelector('button').focus();
+}
+
 function leaderboard(ctx, content) {
   let period = 'week', scope = 'all', page = 1;
   const load = asyncRegion(ctx, content, () => request(ctx,
@@ -23,19 +53,41 @@ function leaderboard(ctx, content) {
       ['week','Shu hafta','This week'], ['month','Oxirgi 30 kun','Last 30 days'], ['all','Barcha vaqt','All time'],
     ].map(([key,uz,en]) => button(text(ctx,uz,en), () => {period=key;page=1;void load({background:true});},
       {class:period === key ? 'btn-primary':'btn-secondary','aria-pressed':String(period===key)}));
+    const help = button(text(ctx, 'Qanday qilib tanga to‘plashim mumkin?', 'How can I earn coins?'), event => helpDialog(ctx, data.policy, event.currentTarget),
+      {class:'btn-secondary', 'data-coin-help':''});
     const scopeControl = data.classAvailable ? button(scope === 'all' ? text(ctx,'Sinfdoshlar','Classmates') : text(ctx,'Hammasi','All learners'),
       () => {scope=scope === 'all'?'class':'all';page=1;void load({background:true});}) : null;
-    const podium = page===1 && data.entries.length ? h('div',{class:'study-plan-podium'},data.entries.slice(0,3).map(item =>
-      h('div',{},h('strong',{},'#'+item.rank),detail(item.alias),detail(item.points)))) : null;
+    const rows = (data.standings || data.entries || []).slice(0, 20);
+    const top = rows.filter(item => item.rank <= 3);
+    const ordered = [top.find(item => item.rank === 2), top.find(item => item.rank === 1), top.find(item => item.rank === 3)].filter(Boolean);
+    const podium = page === 1 && ordered.length ? h('div', {class:'coin-podium'}, ordered.map(item =>
+      h('article', {'data-place': String(item.rank)},
+        h('div', {class:'coin-avatar', 'aria-hidden':'true'}, initials(item.alias), h('span', {}, String(item.rank))),
+        h('strong', {}, item.alias),
+        h('p', {}, String(item.stars ?? item.points ?? 0) + ' ★'),
+        h('p', {}, String(item.coins ?? 0) + ' ●'),
+        h('p', {}, practiceLabel(item.practiceMs))))) : null;
+    const live = data.practising?.length ? h('p', {class:'coin-live'},
+      text(ctx, data.practising.length + ' o‘quvchi hozir mashq qilmoqda', data.practising.length + ' students practising now'),
+      ' · ', data.practising.slice(0, 3).join(' · ')) : null;
+    const table = h('table', {class:'coin-board'},
+      h('thead', {}, h('tr', {},
+        [text(ctx,'O‘rin','Rank'), text(ctx,'O‘quvchi','Student'), text(ctx,'Yulduz','Stars'), text(ctx,'Tanga','Coins'), text(ctx,'Mashq','Practice')].map(label => h('th', {scope:'col'}, label)))),
+      h('tbody', {}, rows.map(item => h('tr', {'data-study-rank': item.rank},
+        h('td', {}, String(item.rank)),
+        h('td', {}, item.alias + (item.mine ? text(ctx,' (siz)',' (you)') : ''), item.premium ? h('span', {class:'badge'}, 'PREMIUM') : null),
+        h('td', {}, String(item.stars ?? item.points ?? 0)),
+        h('td', {}, String(item.coins ?? 0)),
+        h('td', {}, practiceLabel(item.practiceMs))))));
     content.replaceChildren(card(
       heading(text(ctx,'Ishtirok','Participation')),
       detail(data.alias ? data.alias+' · '+text(ctx,'O‘rningiz','Your position')+' #'+(data.position??'—') :
         text(ctx,'Ishtirok ixtiyoriy. Reytingda sizga tasodifiy taxallus beriladi.','Participation is optional and uses a generated alias.')),
       h('div',{class:'study-plan-actions'},toggle),notice),
       card(heading(text(ctx,'O‘quvchilar reytingi','Learner ranking')),
-        h('div',{class:'study-plan-actions'},filters,scopeControl),podium,
-        data.entries.length ? h('ol',{class:'study-plan-ranking',start:(page-1)*25+1},data.entries.map(item =>
-          h('li',{'data-study-rank':item.rank},h('span',{},'#'+item.rank),h('span',{},item.alias+(item.mine?text(ctx,' (siz)',' (you)'):'')),h('strong',{},item.points)))) :
+        live,
+        h('div',{class:'study-plan-actions'},filters,scopeControl,help),
+        rows.length ? h('div', {}, podium, table) :
           detail(text(ctx,'Bu davrda ishtirokchilar yo‘q.','There are no participants in this view.')),
         h('div',{class:'study-plan-actions'},
           page>1?button(text(ctx,'Oldingi','Previous'),()=>{page--;void load({background:true});}):null,
@@ -73,8 +125,9 @@ function rewards(ctx, content) {
     });
     content.replaceChildren(card(heading(text(ctx,'Ball hamyoni','Points wallet')),
       h('strong',{'data-study-balance':''},data.balance+' '+text(ctx,'ball','points')),
-      detail(text(ctx,'Tasdiqlangan mashq uchun 5, dars uchun 3, sinov uchun 8 ball. Bir material bir marta hisoblanadi.',
-        'Earn 5 points per verified practice, 3 per lesson and 8 per mock. Each material counts once.')),
+      data.coins ? h('p', {'data-coin-balance':''}, data.coins.balance+' '+text(ctx,'tanga','coins')+' · '+text(ctx,'daraja','level')+' '+data.coins.level) : null,
+      detail(text(ctx,'Eski ballar do‘kon uchun saqlanadi. Yangi tanga faqat server tasdiqlagan mashq uchun yoziladi.',
+        'Legacy points stay available for the shop. New coins are written only after the server accepts an exercise.')),
       detail(text(ctx,'SRS takrori 2 ball (kuniga 5 tagacha), kunlik reja bonusi 4 ball.',
         'Earn 2 points per SRS review (up to 5 per day) and a 4-point daily plan bonus.')),
       owned.size ? h('div',{class:'study-plan-cosmetics','data-frame':owned.has('blue-frame'),'data-theme':owned.has('violet-theme')},

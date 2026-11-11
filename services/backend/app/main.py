@@ -857,6 +857,9 @@ _install_writing_study()
 from .article_progress_port import install as _install_article_progress
 _install_article_progress()
 
+from .coin_port import install as _install_coin_economy
+_install_coin_economy()
+
 from .live_classes_port import install as _install_live_classes
 _install_live_classes()
 

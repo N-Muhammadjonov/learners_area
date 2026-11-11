@@ -49,6 +49,9 @@ async def review(req:Request,id:str):
             key=f"revision:{user['id']}:{id}:{iso(entry['next_review_at'])}"
             new=await con.fetchval('''INSERT INTO vocab_point_events(user_id,kind,points,dedupe_key,ref_type,ref_id)
                  VALUES($1,'revision',1,$2,'user_vocabulary',$3) ON CONFLICT(dedupe_key) DO NOTHING RETURNING id''',user['id'],key,id)
+            if entry['mastered_at'] is None and state['mastery']=='mastered':
+                from .coin_rewards import award_vocab_milestones
+                await award_vocab_milestones(con,user['id'])
             return core.j({'ok':True,'mastery':state['mastery'],'srsStage':state['srsStage'],
               'intervalDays':state['intervalDays'],'nextReviewAt':iso(state['nextReviewAt']), 'points':1 if new else 0})
 

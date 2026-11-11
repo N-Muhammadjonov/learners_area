@@ -102,5 +102,7 @@ async def progress_post(req:Request,id:str):
             values[COURSE_KEY]=json.dumps(work,ensure_ascii=False,separators=(',',':'))
             await con.execute('''INSERT INTO listening_authored_checkpoints(user_id,test_id,values) VALUES($1,$2,$3::jsonb)
                 ON CONFLICT(user_id,test_id) DO UPDATE SET values=excluded.values,updated_at=now()''',u['id'],core.uuid_value(id),json.dumps(values,ensure_ascii=False))
+            from .coin_rewards import sync_listening_activities
+            await sync_listening_activities(con,u['id'],source,id,course_status(spec,work),str(spec.get('version') or ''))
     return core.j(course_status(spec,work),headers=PRIVATE)
 def install():core.app.include_router(router)

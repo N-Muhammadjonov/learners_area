@@ -76,6 +76,10 @@ async def grammar_practice(req:Request,id:str):
         async with db.acquire() as con:
             await con.execute('UPDATE grammar_attempts SET is_correct=$2 WHERE id=$1',attempt_id,verdict=='correct')
             await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'GRAMMAR_PRACTICE_SUBMITTED',$2::jsonb)''',u['id'],json.dumps({'exerciseId':str(eid),'activity':body['activity'],'verdict':verdict}))
+    async with db.acquire() as con:
+        from .coin_rewards import award_coin
+        await award_coin(con,u['id'],f"grammar:{eid}:{body['activity']}",module='grammar',activity_type=body['activity'],
+                         parent_content_id=str(topic['id']) if topic else None,exercise_id=str(eid),evidence_id=str(attempt_id))
     return core.j({'ok':True,'attemptId':str(attempt_id),'activity':body['activity'],'verdict':verdict,'checkedBy':checked_by,'structures':check,'sampleAnswer':exercise['correct_option'],'explanation':exercise['explanation'],'issues':issues})
 
 def install():core.app.include_router(router)

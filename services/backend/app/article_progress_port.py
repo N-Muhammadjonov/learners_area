@@ -63,12 +63,21 @@ async def complete_article(req: Request, article_id: str) -> JSONResponse:
         return core.j({'error': 'frontend_build_missing'}, 503, PRIVATE)
     if article_id not in allowed:
         return core.j({'error': 'not_found'}, 404, PRIVATE)
+    body = await core.payload(req)
+    answers = body.get('answers') if isinstance(body, dict) else None
     db = await core.pool()
     async with db.acquire() as con:
         await con.execute('''INSERT INTO activity_events(id,user_id,type,payload) VALUES($1,$2,$3,jsonb_build_object($4::text,true))
           ON CONFLICT(id) DO UPDATE SET payload=coalesce(activity_events.payload,'{}'::jsonb) || excluded.payload
           WHERE activity_events.user_id=excluded.user_id AND activity_events.type=excluded.type''', progress_id(user['id']), user['id'], EVENT_TYPE, article_id)
-    return core.j({'ok': True}, headers=PRIVATE)
+        awarded = False
+        from .coin_rewards import article_question_count, award_answers
+        expected = article_question_count(article_id)
+        if isinstance(answers, list) and expected and len(answers) == expected and all(isinstance(item, str) and item.strip() for item in answers):
+            awarded = await award_answers(con, user['id'], f"article:{article_id}", answers, module='articles',
+                                          activity_type='exercise', parent_content_id=article_id, exercise_id=article_id,
+                                          evidence_id=str(progress_id(user['id'])))
+    return core.j({'ok': True, 'awarded': bool(awarded)}, headers=PRIVATE)
 
 
 def install() -> None:

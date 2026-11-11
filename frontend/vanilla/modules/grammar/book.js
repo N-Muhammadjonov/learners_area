@@ -165,7 +165,7 @@ export async function mountBookDetail(ctx, host, id) {
       body.className = 'grammar-book';
       body.innerHTML = '<nav id="nav" hidden></nav><div id="units"></div>';
       shadow.append(css, body);
-      renderInteractiveBook(shadow, [unit], ctx.signal, keyOf(ctx));
+      renderInteractiveBook(shadow, [unit], ctx.signal, keyOf(ctx), GROUP(unit.code).toLowerCase());
       progress.hidden = true;
     } catch {
       if (ctx.signal.aborted) return;
