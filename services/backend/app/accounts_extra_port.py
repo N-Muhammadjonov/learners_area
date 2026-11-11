@@ -64,6 +64,54 @@ async def change_account_status(req:Request,id:str):
             '/app' if status=='active' else '/pending')
     return core.j({'ok':True,'status':status})
 
+
+@router.delete('/api/admin/users/{id}')
+async def delete_suspended_student(req:Request,id:str):
+    """Permanently erase a suspended student and their cascade-owned records."""
+    if not is_js_uuid(id):return core.j({'error':'not_found'},404)
+    actor=await core.current_user(req,active=True)
+    if not actor or actor['role']!='owner':return core.j({'error':'forbidden'},403)
+    if str(actor['id']).lower()==id.lower():return core.j({'error':'cannot_delete_self'},409)
+    db=await core.pool()
+    async with db.acquire() as conn:
+        async with conn.transaction():
+            target=await conn.fetchrow('SELECT id,role,account_status FROM users WHERE id=$1 FOR UPDATE',id)
+            if not target:return core.j({'error':'not_found'},404)
+            if target['role']!='student' or target['account_status']!='suspended':
+                return core.j({'error':'account_not_deletable'},409)
+            await conn.execute('DELETE FROM users WHERE id=$1',id)
+            await conn.execute("""INSERT INTO audit_log(actor_user_id,action,target_type,target_id,metadata)
+              VALUES($1,'account.deleted','user',$2,$3::jsonb)""",
+              actor['id'],id,json.dumps({'previousStatus':'suspended','role':'student'}))
+    return core.j({'ok':True,'deleted':True},headers={'Cache-Control':'private, no-store'})
+
+
+async def purge_rejected_accounts():
+    """Delete rejected student accounts at or after seven full days, in bounded batches."""
+    db=await core.pool()
+    removed=0
+    for _ in range(5):
+        async with db.acquire() as conn:
+            async with conn.transaction():
+                deleted=await conn.fetch("""
+                    WITH expired AS (
+                      SELECT id FROM users
+                      WHERE role='student' AND account_status='rejected'
+                        AND status_updated_at <= NOW()-INTERVAL '7 days'
+                      ORDER BY status_updated_at,id LIMIT 100 FOR UPDATE SKIP LOCKED
+                    ), removed AS (
+                      DELETE FROM users u USING expired e WHERE u.id=e.id RETURNING u.id
+                    )
+                    INSERT INTO audit_log(actor_user_id,action,target_type,target_id,metadata)
+                    SELECT NULL,'account.rejected.expired','user',id::text,
+                           '{"policy":"rejected_after_7_days"}'::jsonb FROM removed
+                    RETURNING target_id
+                """)
+        removed+=len(deleted)
+        if len(deleted)<100:break
+    return removed
+
+
 def coerce_number(x):
     if x is None:return 0.0
     if isinstance(x,(dict,list)):
