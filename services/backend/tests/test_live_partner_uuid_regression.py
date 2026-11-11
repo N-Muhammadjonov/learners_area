@@ -103,11 +103,10 @@ async def test_history_owner_comparison_uses_uuid_parameter_type() -> None:
 
         async def fetchrow(self, query: str, *args: object) -> dict:
             self.calls.append((query, args))
-            if "AS mocks_given" in query:
-                assert "a.last_mock->>'owner'=($1::uuid)::text" in query
-                assert "a.last_mock->>'owner'<>($1::uuid)::text" in query
+            if "AS average_band" in query:
+                assert "f.user_id<>$1" in query
                 assert "(s.user_a=$1 OR s.user_b=$1)" in query
-                return {"mocks_given": 0, "mocks_taken": 0}
+                return {"average_band": 7.5, "rating_count": 2}
             return {"calls": 0, "seconds": 0}
 
         async def fetch(self, query: str, *args: object) -> list:
@@ -119,7 +118,14 @@ async def test_history_owner_comparison_uses_uuid_parameter_type() -> None:
     assert result["stats"] == {
         "calls": 0,
         "seconds": 0,
-        "mocksGiven": 0,
-        "mocksTaken": 0,
+        "averageBand": 7.5,
+        "ratingCount": 2,
     }
     assert len(connection.calls) == 4
+
+
+def test_peer_ielts_rating_accepts_only_half_bands() -> None:
+    for rating in range(2, 19):
+        assert features.valid({"action": "rating", "sessionId": str(SESSION), "rating": rating})
+    for rating in (0, 1, 19, -2, 7.5, None, True, "7.5"):
+        assert not features.valid({"action": "rating", "sessionId": str(SESSION), "rating": rating})
