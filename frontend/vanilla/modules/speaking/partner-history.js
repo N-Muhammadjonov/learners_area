@@ -1,16 +1,17 @@
 import {el} from '../../js/dom.js';
 
-export function partnerHistory({t,history,busy,act,reload,call,online,button}){
- const area=el('details',{class:'lp-history card','data-partner-history':''},el('summary',{},t.history));
+export function partnerHistory({t,history,busy,act,reload,call,online,button,tab='recent'}){
+ const area=el('section',{class:'lp-history card','data-partner-history':'','data-history-tab':tab});
  const body=el('div',{class:'lp-history-content'});
  const friends=new Map((history?.friends??[]).map(person=>[person.userId,person]));
  const action=(name,payload)=>button(name,()=>void act(payload),'btn-secondary',{disabled:busy});
  body.append(button(t.refresh,reload,'btn-secondary'));
  if(history){
   const minutes=Math.floor(history.stats.seconds/60);
-  body.append(el('p',{},t.calls+' '+history.stats.calls+' · '+t.minutes+' '+minutes),el('h3',{},t.recent));
-  if(!history.recent.length)body.append(el('p',{},t.noCalls));
-  for(const entry of history.recent){
+  if(tab==='recent')body.append(el('p',{},t.calls+' '+history.stats.calls+' · '+t.minutes+' '+minutes),el('h3',{},t.recent));
+  if(tab==='mocks')body.append(el('h3',{},t.kinds.mock));
+  if((tab==='recent'||tab==='mocks')&&!history.recent.some(entry=>tab==='recent'||entry.mock))body.append(el('p',{},t.noCalls));
+  for(const entry of (tab==='mocks'?history.recent.filter(entry=>entry.mock):tab==='recent'?history.recent:[])){
    const row=el('div',{class:'lp-history-row'},el('strong',{},entry.name),el('small',{},Math.floor(entry.seconds/60)+'m '+(entry.seconds%60)+'s'+(entry.mock?' · '+t.kinds.mock:'')));
    if(entry.mock)row.append(el('small',{},t.practiceResult+' '+(Math.round(entry.mock.bands.reduce((sum,band)=>sum+band,0)/4)/2).toFixed(1)));
    if(!friends.has(entry.userId))row.append(action(t.addFriend,{action:'friend_request',userId:entry.userId}));
@@ -25,9 +26,9 @@ export function partnerHistory({t,history,busy,act,reload,call,online,button}){
    }
    body.append(row);
   }
-  body.append(el('h3',{},t.friends));
-  if(!friends.size)body.append(el('p',{},t.noFriends));
-  for(const friend of friends.values()){
+  if(tab==='friends')body.append(el('h3',{},t.friends));
+  if(tab==='friends'&&!friends.size)body.append(el('p',{},t.noFriends));
+  for(const friend of (tab==='friends'?friends.values():[])){
    const person=online.find(person=>person.userId===friend.userId);
    body.append(el('div',{class:'lp-history-row'},el('strong',{},friend.name),
     friend.state==='received'?action(t.acceptFriend,{action:'friend_accept',userId:friend.userId}):null,
