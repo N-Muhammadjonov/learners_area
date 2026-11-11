@@ -233,8 +233,8 @@ async def history(con, uid):
       coalesce(sum(extract(epoch FROM ended_at-connected_at)),0)::bigint AS seconds
       FROM live_partner_sessions WHERE (user_a=$1 OR user_b=$1) AND connected_at IS NOT NULL AND ended_at IS NOT NULL''', uid)
     mock_stats = await con.fetchrow('''SELECT
-      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'=$1::text) AS mocks_given,
-      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'<>$1::text) AS mocks_taken
+      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'=($1::uuid)::text) AS mocks_given,
+      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'<>($1::uuid)::text) AS mocks_taken
       FROM live_partner_sessions s JOIN live_partner_activities a ON a.session_id=s.id
       WHERE (s.user_a=$1 OR s.user_b=$1) AND s.connected_at IS NOT NULL
         AND s.ended_at IS NOT NULL''', uid)
