@@ -1,0 +1,16 @@
+/* Speaking and Writing books follow the existing Grammar Lessons theme. */
+.grammar-skill-catalog,.grammar-skill-detail{color:rgb(var(--workspace-ink));background:transparent;min-width:0}
+.grammar-skill-catalog .grammar-book-heading h1,.grammar-skill-detail .grammar-book-detail-title{color:rgb(var(--workspace-ink))}
+.grammar-skill-card{background:rgb(var(--workspace-raised));border-color:rgb(var(--workspace-line))}
+.grammar-skill-card .grammar-book-card-summary{overflow-wrap:anywhere}
+.grammar-skill-groups{max-width:100%;gap:.45rem;flex-wrap:wrap}
+.grammar-skill-groups .grammar-book-level{font-size:.85rem;min-width:0;min-height:44px}
+.grammar-skill-detail .grammar-book-exercise-host{width:100%;min-width:0}
+.grammar-skill-detail .grammar-book-back{margin:0 0 .75rem}
+.grammar-skill-legacy{max-width:1500px;margin:2.1rem auto 0;border-top:1px solid rgb(var(--workspace-line));padding-top:1.2rem}
+.grammar-skill-legacy h2{margin:0 0 1rem;color:rgb(var(--workspace-ink));font-size:1.15rem;font-weight:700}
+@media(max-width:640px){
+ .grammar-skill-groups{display:flex;overflow-x:auto;flex-wrap:nowrap;padding-bottom:.25rem}
+ .grammar-skill-groups .grammar-book-level{white-space:nowrap;flex:0 0 auto}
+ .grammar-skill-detail .grammar-book-detail-title{overflow-wrap:anywhere}
+}
