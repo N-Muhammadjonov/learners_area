@@ -21,7 +21,9 @@
     "backend:test:postgres": "node --import tsx scripts/verify-fastapi-postgres.mjs",
     "backend:test:main": "cd services/backend && .venv/bin/python -m pytest tests/test_public_seo.py tests/test_http_contracts.py tests/test_python_native_build.py tests/test_static_asset_performance.py",
     "test:frontend": "cd frontend/vanilla && node --test tests/*.test.mjs tests/staff-final30/*.test.mjs",
-    "test:integration": "node --import tsx scripts/verify-vanilla-fastapi.mjs"
+    "test:integration": "node --import tsx scripts/verify-vanilla-fastapi.mjs",
+    "build:browser": "node scripts/bundle_browser.mjs",
+    "test:bundles": "node --test scripts/tests/browser-bundles.test.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",
@@ -51,6 +53,7 @@
     "postcss": "8.5.28",
     "tailwindcss": "3.4.14",
     "tsx": "^4.23.15",
-    "typescript": "5.6.3"
+    "typescript": "5.6.3",
+    "rollup": "4.52.5"
   }
 }

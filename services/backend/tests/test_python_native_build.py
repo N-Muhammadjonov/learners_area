@@ -3,6 +3,7 @@ import importlib.util
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -36,7 +37,10 @@ def copy_docker_stage(stage: str, target_root: Path, assets_root: Path) -> None:
         if not line.startswith('COPY '):
             continue
         parts = line.split()[1:]
-        if parts[0] == '--from=assets':
+        if parts[0] == '--from=browser-bundler':
+            _, source, destination = parts
+            source_path = ROOT / Path(source).relative_to('/build')
+        elif parts[0] == '--from=assets':
             _, source, destination = parts
             source_path = assets_root / Path(source).relative_to('/build')
         else:
@@ -57,14 +61,23 @@ def test_real_build_without_node(tmp_path, docker_assets):
     if docker_assets:
         root = tmp_path / 'assets'
         dockerfile = (ROOT / 'services/backend/Dockerfile').read_text()
-        assets_stage, runtime_stage = dockerfile.split('\nFROM ', 1)
+        stages = re.split(r'(?m)(?=^FROM )', dockerfile)
+        assets_stage = next(stage for stage in stages if stage.startswith('FROM python:') and ' AS assets\n' in stage)
+        runtime_stage = next(stage for stage in stages if stage.startswith('FROM python:') and ' AS assets\n' not in stage)
+        # The Node stage runs first, then Python packaging/runtime must work with
+        # Node absent from PATH, just as in the actual multi-stage image.
+        subprocess.run(['node', str(ROOT/'scripts/bundle_browser.mjs')], cwd=ROOT, check=True, capture_output=True)
         copy_docker_stage(assets_stage, root, root)
     env = {'PATH': '/nonexistent', 'PYTHONPATH': os.pathsep.join(str(Path(item).resolve()) for item in sys.path if item)}
+    if docker_assets:
+        env['LA_BROWSER_BUNDLES'] = str(root/'bundle-output')
     result = subprocess.run([sys.executable, str(root / 'scripts/build_native_assets.py')],
                             cwd=root, env=env, capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     summary = json.loads(result.stdout)
     assert summary['nodeRequired'] is False and summary['routes'] > 100
+    if docker_assets:
+        assert summary['featureBundles']['enabled'] is True
     manifest = json.loads((root / 'frontend/vanilla/build/asset-manifest.json').read_text())
     assert all(not name.startswith(('src/', 'node_modules/')) for name in manifest['files'])
     if docker_assets:
