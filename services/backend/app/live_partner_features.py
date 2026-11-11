@@ -33,7 +33,7 @@ def valid(body):
     if core.uuid_value(body.get('sessionId')) is None:
         return False
     if action == 'rating':
-        return type(body.get('rating')) is int and 1 <= body['rating'] <= 5
+        return type(body.get('rating')) is int and 2 <= body['rating'] <= 18
     if action == 'report':
         return body.get('reason') in ('abuse', 'spam', 'other')
     if type(body.get('version')) is not int or not 0 <= body['version'] < 2**31-1:
@@ -231,36 +231,46 @@ async def history(con, uid):
 
     stats = await con.fetchrow('''SELECT count(*) AS calls,
       coalesce(sum(extract(epoch FROM ended_at-connected_at)),0)::bigint AS seconds
-      FROM live_partner_sessions WHERE (user_a=$1 OR user_b=$1) AND connected_at IS NOT NULL AND ended_at IS NOT NULL''', uid)
-    mock_stats = await con.fetchrow('''SELECT
-      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'=($1::uuid)::text) AS mocks_given,
-      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'<>($1::uuid)::text) AS mocks_taken
-      FROM live_partner_sessions s JOIN live_partner_activities a ON a.session_id=s.id
-      WHERE (s.user_a=$1 OR s.user_b=$1) AND s.connected_at IS NOT NULL
-        AND s.ended_at IS NOT NULL''', uid)
+      FROM live_partner_sessions WHERE (user_a=$1 OR user_b=$1)
+        AND connected_at IS NOT NULL AND ended_at IS NOT NULL''', uid)
+    # Each rating is the partner's IELTS band in half-band units (2..18).
+    # Do not include ratings this user has given to others.
+    band_stats = await con.fetchrow('''SELECT
+      round(avg(f.rating::numeric)/2,1) AS average_band,
+      count(*)::int AS rating_count
+      FROM live_partner_feedback f
+      JOIN live_partner_sessions s ON s.id=f.session_id
+      WHERE f.kind='rating' AND f.user_id<>$1
+        AND (s.user_a=$1 OR s.user_b=$1)
+        AND s.connected_at IS NOT NULL AND s.ended_at IS NOT NULL''', uid)
     recent = await con.fetch('''SELECT s.id,u.id AS peer,u.name,s.ended_at,
       extract(epoch FROM s.ended_at-s.connected_at)::int AS seconds,
       EXISTS(SELECT 1 FROM live_partner_feedback f WHERE f.session_id=s.id AND f.user_id=$1 AND f.kind='rating') AS rated,
       EXISTS(SELECT 1 FROM live_partner_feedback f WHERE f.session_id=s.id AND f.user_id=$1 AND f.kind='report') AS reported,
-      a.last_mock AS mock,
-      (SELECT f.rating FROM live_partner_feedback f WHERE f.session_id=s.id
+      (SELECT f.rating::numeric/2 FROM live_partner_feedback f WHERE f.session_id=s.id
          AND f.kind='rating' AND f.user_id=u.id) AS peer_rating
-      FROM live_partner_sessions s JOIN users u ON u.id=CASE WHEN s.user_a=$1 THEN s.user_b ELSE s.user_a END
-      LEFT JOIN live_partner_activities a ON a.session_id=s.id
-      WHERE (s.user_a=$1 OR s.user_b=$1) AND s.connected_at IS NOT NULL AND s.ended_at IS NOT NULL
+      FROM live_partner_sessions s
+      JOIN users u ON u.id=CASE WHEN s.user_a=$1 THEN s.user_b ELSE s.user_a END
+      WHERE (s.user_a=$1 OR s.user_b=$1)
+        AND s.connected_at IS NOT NULL AND s.ended_at IS NOT NULL
       ORDER BY s.ended_at DESC,s.id LIMIT 20''', uid)
-    friends = await con.fetch('''SELECT u.id,u.name,f.accepted_at,f.requested_by FROM live_partner_friends f
+    friends = await con.fetch('''SELECT u.id,u.name,f.accepted_at,f.requested_by
+      FROM live_partner_friends f
       JOIN users u ON u.id=CASE WHEN f.user_a=$1 THEN f.user_b ELSE f.user_a END
       WHERE (f.user_a=$1 OR f.user_b=$1) AND u.account_status='active'
         AND NOT EXISTS(SELECT 1 FROM live_partner_blocks b WHERE
           (b.blocker_id=$1 AND b.blocked_id=u.id) OR (b.blocker_id=u.id AND b.blocked_id=$1))
       ORDER BY u.name,u.id LIMIT 100''', uid)
-    return {'stats':{**dict(stats),'mocksGiven':int(mock_stats['mocks_given']),
-            'mocksTaken':int(mock_stats['mocks_taken'])}, 'recent':[
-        {'sessionId':str(row['id']), 'userId':str(row['peer']), 'name':row['name'],
-         'endedAt':iso(row['ended_at']), 'seconds':row['seconds'], 'rated':row['rated'],
-         'reported':row['reported'], 'peerRating':row['peer_rating'],
-          'mock':activity_content({'content':row['mock']}) if row['mock'] else None} for row in recent],
+    return {'stats':{**dict(stats),
+            'averageBand':float(band_stats['average_band']) if band_stats['average_band'] is not None else None,
+            'ratingCount':int(band_stats['rating_count'])},
+        'recent':[
+            {'sessionId':str(row['id']), 'userId':str(row['peer']), 'name':row['name'],
+             'endedAt':iso(row['ended_at']), 'seconds':row['seconds'], 'rated':row['rated'],
+             'reported':row['reported'],
+             'peerRating':float(row['peer_rating']) if row['peer_rating'] is not None else None}
+            for row in recent],
         'friends':[{'userId':str(row['id']), 'name':row['name'], 'state':
-            'accepted' if row['accepted_at'] else 'sent' if str(row['requested_by']) == uid else 'received'}
+            'accepted' if row['accepted_at'] else 'sent'
+            if str(row['requested_by']) == str(uid) else 'received'}
             for row in friends]}
