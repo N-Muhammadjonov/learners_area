@@ -9,6 +9,8 @@ function practiceLabel(ms) {
 }
 
 function initials(name) {
+  const anonymous = /^Learner-([a-f0-9]{6})$/i.exec(String(name || ''));
+  if (anonymous) return anonymous[1].slice(0, 2).toUpperCase();
   const letters = String(name || '').replace(/[^A-Za-z0-9\u0400-\u04FF]/g, '');
   return (letters.slice(0, 2) || 'LA').toUpperCase();
 }
@@ -69,7 +71,10 @@ function leaderboard(ctx, content) {
   };
   function draw(data) {
     const notice = h('p', {role: 'status', class: 'coin-ranking-notice'});
-    const rows = (data.standings || data.entries || []).slice(0, 20);
+    const rows = (data.standings || data.entries || [])
+      .filter(item => Number.isInteger(item.rank) && item.rank >= 1 && item.rank <= 20)
+      .sort((a, b) => a.rank - b.rank)
+      .slice(0, 20);
     const top = page === 1 ? rows.filter(item => item.rank >= 1 && item.rank <= 3) : [];
     const podiumOrder = [2, 1, 3].map(rank => top.find(item => item.rank === rank)).filter(Boolean);
     const rest = page === 1 ? rows.filter(item => item.rank > 3) : rows;
@@ -91,8 +96,8 @@ function leaderboard(ctx, content) {
       ? button(scope === 'all' ? text(ctx, 'Sinfdoshlar', 'Classmates') : text(ctx, 'Barcha o‘quvchilar', 'All learners'),
         () => {scope = scope === 'all' ? 'class' : 'all';page = 1;void load({background: true});},
         {class: 'coin-ranking-scope'}) : null;
-    const toggle = button(data.alias ? text(ctx, 'Reytingdan chiqish', 'Leave ranking') :
-      text(ctx, 'Reytingga qo‘shilish', 'Join ranking'), async event => {
+    const toggle = button(data.alias ? text(ctx, 'Shaxsiy taxallusni o‘chirish', 'Remove custom alias') :
+      text(ctx, 'Shaxsiy taxallus yaratish', 'Create custom alias'), async event => {
       const control = event.currentTarget;
       control.disabled = true;
       try {
@@ -135,7 +140,7 @@ function leaderboard(ctx, content) {
     const participation = ctx.session?.user?.role === 'owner' || panel !== 'ranking' ? null :
       h('div', {class: 'coin-ranking-participation-row'},
         h('span', {}, data.alias ? data.alias + ' · #' + (data.position ?? '—') :
-          text(ctx, 'Reytingda qatnashish ixtiyoriy.', 'Ranking participation is optional.')),
+          text(ctx, 'Ismingiz o‘rniga anonim taxallus ko‘rinadi.', 'An anonymous label hides your name.')),
         toggle, notice);
     const rankingPanel = h('div', {class: 'coin-ranking-content', role: 'tabpanel'},
       scopeControl ? h('div', {class: 'coin-ranking-filters'}, scopeControl) : null,
@@ -143,14 +148,12 @@ function leaderboard(ctx, content) {
         h('div', {class: 'coin-ranking-empty'}, h('span', {'aria-hidden': 'true'}, '🏆'),
           h('p', {}, text(ctx, 'Bu davrda ishtirokchilar yo‘q.',
             'There are no participants in this period.'))),
-      h('div', {class: 'coin-ranking-pagination'},
-        page > 1 ? button(text(ctx, 'Oldingi', 'Previous'),
-          () => {page--;void load({background: true});}) : null,
-        data.hasMore ? button(text(ctx, 'Keyingi', 'Next'),
-          () => {page++;void load({background: true});}) : null),
       participation);
     content.replaceChildren(h('section', {class: 'coin-ranking-board', 'data-study-leaderboard': ''},
       h('h1', {class: 'coin-ranking-title'}, text(ctx, 'O‘quvchilar reytingi', 'Learner ranking')),
+      h('p', {class: 'coin-ranking-top-count', 'data-leaderboard-visible-count':rows.length},
+        text(ctx,'Top 20 · ','Top 20 · ')+rows.length+
+        text(ctx,' ta faol o‘quvchi',' active learners')),
       tabs,
       panel === 'help' ? coinPolicyPanel(ctx, data.policy) : rankingPanel));
   }

@@ -386,3 +386,30 @@ def test_invalid_duration_is_rejected_before_database_reads(monkeypatch, value):
                              json={"days": value})
     assert result.status_code == 400
     assert result.json()["error"] == "invalid_duration"
+
+
+def test_production_asgi_dispatch_exposes_sequenced_plan_and_level_check(monkeypatch):
+    """The deployed launcher dispatches study-plan URLs to browser, not core.app."""
+    from app.asgi import application, browser
+
+    paths = {route.path for route in browser.routes}
+    assert "/api/study-plan/monthly/sequence" in paths
+    assert "/api/study-plan/monthly/sequence/start" in paths
+    assert "/api/study-plan/monthly/sequence/regenerate" in paths
+    assert "/api/study-plan/monthly/sequence/level" in paths
+    assert "/api/study-plan/monthly/sequence/level/start" in paths
+
+    async def anonymous(*args, **kwargs):
+        return None
+
+    async def db_not_needed():
+        raise AssertionError("Anonymous plan routes must never connect to the DB")
+
+    monkeypatch.setattr(core, "current_user", anonymous)
+    monkeypatch.setattr(core, "pool", db_not_needed)
+    with TestClient(application, raise_server_exceptions=False) as client:
+        for path in ("/api/study-plan/monthly/sequence",
+                     "/api/study-plan/monthly/sequence/level"):
+            result = client.get(path)
+            assert result.status_code == 401, (path, result.text)
+            assert result.json()["error"] == "unauthenticated"
