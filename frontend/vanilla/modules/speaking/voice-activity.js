@@ -1,4 +1,5 @@
-/** Local energy activity only. No recording, recognition, upload or audio output. */
+import {openSpeechClassifier} from './speech-classifier.js';
+/** Local speech activity only. No recording, transcription, upload or audio output. */
 export const CALIBRATION_MS=1200;
 const audioError=code=>Object.assign(Error(code),{code});
 /** @param {ArrayLike<number>} samples @returns {number} */
@@ -12,7 +13,7 @@ export function rmsEnergy(samples){
  * @param {{speechActivationMs:number,speechReleaseMs:number,sensitivity:number}} config */
 export function createEnergyDetector(config){
  let began=null,last=null,levels=[],floor=.001,energy=0,onset=0,release=0,speaking=false,ready=false;
- return {sample(rms,at){
+ return {sample(rms,at,speech){
   if(!Number.isFinite(rms)||rms<0||!Number.isFinite(at))throw audioError('invalid_signal');
   if(last!==null&&at<last)throw audioError('invalid_signal');
   began??=at;const dt=last===null?0:Math.min(100,at-last);last=at;
@@ -21,32 +22,32 @@ export function createEnergyDetector(config){
    levels.push(rms);
    if(at-began>=CALIBRATION_MS&&levels.length>=12){
     const sorted=[...levels].sort((a,b)=>a-b);floor=sorted[Math.floor(sorted.length*.6)];
-    if(sorted.at(-1)<.0000001)throw audioError('no_signal');
+    if(speech===undefined&&sorted.at(-1)<.0000001)throw audioError('no_signal');
     if(floor>.045)throw audioError('too_noisy');
     ready=true;levels=[];energy=floor;
    }
   }else{
-   const threshold=Math.max(.007,floor*2.8)/config.sensitivity;
+   const threshold=(speech===true?Math.max(.002,floor*1.8):Math.max(.007,floor*2.8))/config.sensitivity;
    if(!speaking){
-    onset=energy>=threshold?onset+dt:0;
+    onset=speech!==false&&energy>=threshold?onset+dt:Math.max(0,onset-dt*2);
     if(onset>=config.speechActivationMs){speaking=true;release=0;}
     else if(energy<threshold*.65)floor+=(rms-floor)*(1-Math.exp(-dt/5000));
    }else{
-    release=energy<threshold*.6?release+dt:0;
+    release=speech===false||energy<threshold*.6?release+dt:0;
     if(release>=config.speechReleaseMs){speaking=false;onset=0;}
    }
   }
   return {ready,speaking,energy,noiseFloor:floor,level:Math.min(1,energy/.12)};
  }};
 }
-/** @param {{signal?:AbortSignal,onInterrupted?:(code:string)=>void,mediaDevices?:MediaDevices,AudioContextClass?:typeof AudioContext,timeoutMs?:number,setTimer?:typeof setTimeout,clearTimer?:typeof clearTimeout}} options */
-export function createVoiceInput({signal,onInterrupted=()=>{},mediaDevices=globalThis.navigator?.mediaDevices,AudioContextClass=globalThis.AudioContext??globalThis.webkitAudioContext,timeoutMs=30000,setTimer=setTimeout,clearTimer=clearTimeout}={}){
- let context=null,stream=null,source=null,analyser=null,buffer=null,disposed=false,promise=null,timer=null,rejectCancel=null;
+/** @param {{signal?:AbortSignal,onInterrupted?:(code:string)=>void,mediaDevices?:MediaDevices,AudioContextClass?:typeof AudioContext,timeoutMs?:number,setTimer?:typeof setTimeout,clearTimer?:typeof clearTimeout,speechFactory?:typeof openSpeechClassifier}} options */
+export function createVoiceInput({signal,onInterrupted=()=>{},mediaDevices=globalThis.navigator?.mediaDevices,AudioContextClass=globalThis.AudioContext??globalThis.webkitAudioContext,timeoutMs=30000,setTimer=setTimeout,clearTimer=clearTimeout,speechFactory=openSpeechClassifier}={}){
+ let context=null,stream=null,source=null,analyser=null,buffer=null,frame=null,classifier=null,lastFrame=-Infinity,speech=false,disposed=false,promise=null,timer=null,rejectCancel=null;
  const listeners=[];
  function watch(target,event,handler){target.addEventListener(event,handler);listeners.push(()=>target.removeEventListener(event,handler));}
  function dispose(){
   if(disposed)return;disposed=true;clearTimer(timer);signal?.removeEventListener('abort',dispose);listeners.splice(0).forEach(remove=>remove());
-  source?.disconnect();analyser?.disconnect();stream?.getTracks().forEach(track=>track.stop());stream=null;source=null;analyser=null;buffer=null;
+  source?.disconnect();analyser?.disconnect();stream?.getTracks().forEach(track=>track.stop());classifier?.dispose();stream=null;source=null;analyser=null;buffer=null;frame=null;classifier=null;
   if(context){const closing=context;context=null;void closing.close().catch(()=>{});}
   rejectCancel?.(audioError('cancelled'));rejectCancel=null;
  }
@@ -62,12 +63,18 @@ export function createVoiceInput({signal,onInterrupted=()=>{},mediaDevices=globa
     if(disposed){media.getTracks().forEach(track=>track.stop());throw audioError('cancelled');}stream=media;return media;
    });
    const cancelled=new Promise((_,reject)=>{rejectCancel=reject;timer=setTimer(()=>{reject(audioError('permission_timeout'));dispose();},timeoutMs);});
-   promise=Promise.race([Promise.all([requested,resumed]),cancelled]).then(()=>{
+   const classification=speechFactory().then(value=>{
+    if(disposed){value.dispose();throw audioError('cancelled');}
+    classifier=value;
+   },()=>{throw audioError('speech_detector_unavailable');});
+   promise=Promise.race([Promise.all([requested,resumed,classification]),cancelled]).then(()=>{
     clearTimer(timer);
     if(disposed)throw audioError('cancelled');
     if(context.state!=='running')throw audioError('audio_suspended');
     const tracks=stream.getAudioTracks();if(!tracks.length||tracks.some(track=>track.readyState!=='live'||track.muted))throw audioError('device_interrupted');
-    analyser=context.createAnalyser();analyser.fftSize=1024;source=context.createMediaStreamSource(stream);source.connect(analyser);buffer=new Float32Array(analyser.fftSize);
+    const frameSize=Math.round((context.sampleRate??48000)*.02);
+    analyser=context.createAnalyser();analyser.fftSize=2**Math.ceil(Math.log2(frameSize));source=context.createMediaStreamSource(stream);source.connect(analyser);
+    buffer=new Float32Array(analyser.fftSize);frame=buffer.subarray(buffer.length-frameSize);
     for(const track of tracks){watch(track,'ended',()=>onInterrupted('device_interrupted'));watch(track,'mute',()=>onInterrupted('device_interrupted'));}
     watch(context,'statechange',()=>{if(!disposed&&context.state!=='running')onInterrupted('audio_suspended');});
    }).catch(error=>{dispose();throw error;});
@@ -75,5 +82,11 @@ export function createVoiceInput({signal,onInterrupted=()=>{},mediaDevices=globa
   return promise;
  }
  if(signal?.aborted)dispose();else signal?.addEventListener('abort',dispose,{once:true});
- return {open,dispose,sample(){if(disposed||!analyser||context.state!=='running')throw audioError('audio_suspended');analyser.getFloatTimeDomainData(buffer);return {rms:rmsEnergy(buffer),samples:buffer};}};
+ return {open,dispose,sample(){
+  if(disposed||!analyser||context.state!=='running')throw audioError('audio_suspended');
+  analyser.getFloatTimeDomainData(buffer);
+  const at=context.currentTime??performance.now()/1000;
+  if(at-lastFrame>=.02){speech=classifier.classify(frame);lastFrame=at;}
+  return {rms:rmsEnergy(frame),samples:frame,speech};
+ }};
 }

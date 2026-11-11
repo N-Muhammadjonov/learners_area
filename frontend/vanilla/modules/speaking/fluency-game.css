@@ -32,19 +32,23 @@
 .fluency-actor{position:absolute;z-index:1;right:5%;bottom:var(--ground-size);width:var(--actor-size);height:var(--actor-size)}
 .fluency-companion,.fluency-companion svg{display:block;width:100%;height:100%;overflow:visible}
 .fluency-companion-body,.fluency-companion-half{transform-origin:50px 80px}
-.fluency-companion-body{animation:fluency-sway 1.7s ease-in-out infinite}
+.fluency-companion-body{animation:fluency-sway 5.8s ease-in-out infinite}
 .fluency-companion-eyes{transform-origin:50px 49px;animation:fluency-blink 4.4s ease-in-out infinite}
-.fluency-companion-smile{transform-origin:50px 64px}
+.fluency-companion-gaze{animation:fluency-look 5.8s ease-in-out infinite}
+.fluency-companion-mouth{transform-origin:50px 64px}
 .fluency-companion[data-mascot-state="speaking"] .fluency-companion-body{animation:fluency-breathe 560ms ease-in-out infinite alternate}
-.fluency-companion[data-mascot-state="speaking"] .fluency-companion-smile{animation:fluency-mouth 380ms ease-in-out infinite alternate}
-.fluency-companion[data-mascot-state="danger_near"] .fluency-companion-eyes{animation:none;transform:translateX(-3px) scale(1.09)}
-.fluency-companion[data-mascot-state="danger_near"] .fluency-companion-smile{transform:scale(.6,-.75)}
+.fluency-companion[data-mascot-state="speaking"] .fluency-companion-mouth{animation:fluency-mouth 380ms ease-in-out infinite alternate}
+.fluency-companion[data-mascot-state="danger_near"] .fluency-companion-body{animation:fluency-flinch 760ms ease-in-out infinite alternate}
+.fluency-companion[data-mascot-state="danger_near"] .fluency-companion-eyes{animation:none;transform:scale(1.08)}
+.fluency-companion[data-mascot-state="danger_near"] .fluency-companion-gaze{animation:none;transform:translate(-3px,-2px)}
+.fluency-companion[data-mascot-state="lost"] .fluency-companion-eyes{animation:none;transform:scaleY(.8)}
+.fluency-companion[data-mascot-state="lost"] .fluency-companion-gaze{animation:none;transform:translateY(3px)}
 .fluency-companion[data-mascot-state="won"] .fluency-companion-body{animation:fluency-celebrate 550ms ease-out 1}
 .fluency-companion-half,.fluency-companion[data-mascot-state="lost"] .fluency-companion-body{display:none}
 .fluency-companion[data-mascot-state="lost"] .fluency-companion-half{display:inline;animation:fluency-split 520ms cubic-bezier(.18,.7,.4,1) both}
 .fluency-companion-half.left{--split-x:-19px;--split-angle:-26deg}
 .fluency-companion-half.right{--split-x:17px;--split-angle:24deg}
-.fluency-arena[data-phase="paused"] :is(.fluency-companion-body,.fluency-companion-eyes,.fluency-companion-smile){animation-play-state:paused}
+.fluency-arena[data-phase="paused"] :is(.fluency-companion-body,.fluency-companion-eyes,.fluency-companion-gaze,.fluency-companion-mouth){animation-play-state:paused}
 .fluency-status{font-size:15px;line-height:1.5;text-align:center;margin:0;min-height:24px}
 .fluency-game[data-fluency-state="running"] .fluency-status{font-weight:650}
 .fluency-levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
@@ -58,7 +62,9 @@
 .fluency-result{text-align:center;border:1px solid rgb(var(--workspace-line,208 218 233));border-radius:14px;padding:10px;background:rgb(var(--workspace-raised,255 255 255))}
 .fluency-result h2{font-size:22px;font-weight:700;margin:0 0 4px}.fluency-result p{line-height:1.4}.fluency-result-time{font-size:20px;font-variant-numeric:tabular-nums}
 @keyframes fluency-spin{to{transform:rotate(360deg)}}
-@keyframes fluency-sway{0%,100%{transform:rotate(-4deg) scale(.98,1.02)}50%{transform:translateY(-5px) rotate(4deg) scale(1.03,.97)}}
+@keyframes fluency-sway{0%,100%{transform:rotate(-3deg)}19%,30%{transform:translate(-2px,-2px) rotate(-9deg) skewY(3deg)}50%,60%{transform:translate(2px,-6px) rotate(8deg) skewY(-2deg)}78%,88%{transform:translateY(-2px) rotate(2deg) scale(1.04,.96)}}
+@keyframes fluency-look{0%,100%{transform:translate(0)}19%,30%{transform:translate(-3px,-1px)}50%,60%{transform:translate(3px,-2px)}78%,88%{transform:translate(1px,2px)}}
+@keyframes fluency-flinch{from{transform:translateX(1px) rotate(7deg)}to{transform:translate(4px,-4px) rotate(12deg)}}
 @keyframes fluency-blink{0%,89%,95%,100%{transform:scaleY(1)}92%{transform:scaleY(.1)}}
 @keyframes fluency-breathe{to{transform:translateY(-5px) scale(1.05,.96)}}
 @keyframes fluency-mouth{to{transform:scale(.9,1.6)}}

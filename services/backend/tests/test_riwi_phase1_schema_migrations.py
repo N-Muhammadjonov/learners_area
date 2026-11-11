@@ -51,8 +51,9 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
     def test_journal_has_contiguous_indices_and_preserves_0071_shared_abuse_limits(self) -> None:
         journal = json.loads(JOURNAL_PATH.read_text(encoding="utf-8"))
         entries = journal["entries"]
-        self.assertEqual(len(entries), 81)
+        self.assertEqual(len(entries), 82)
         self.assertEqual(entries[79]["tag"], "0080_study_plan")
+        self.assertEqual(entries[81]["tag"], "0082_live_partner_features")
         for idx, entry in enumerate(entries):
             self.assertEqual(entry["idx"], idx)
         self.assertEqual(entries[69]["tag"], "0069_video_progress_playback_duration")
@@ -138,7 +139,7 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
 
         # 2. Build relational catalog across all migrations and validate FKs, ALTERs, and indexes
         all_sql_files = sorted(DRIZZLE_DIR.glob("*.sql"))
-        self.assertEqual(len(all_sql_files), 81)
+        self.assertEqual(len(all_sql_files), 82)
         known_tables: set[str] = set()
         for sql_file in all_sql_files:
             content = sql_file.read_text(encoding="utf-8")

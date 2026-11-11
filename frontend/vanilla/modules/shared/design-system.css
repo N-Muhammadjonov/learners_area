@@ -10,6 +10,9 @@
  --la-hover-arrow-travel:4px;--la-press-lift:1px;--la-press-duration:90ms;
  --la-vocabulary:#926406;
 }
+.lp-global-ring:not(:empty){position:fixed;z-index:70;bottom:76px;left:max(12px,env(safe-area-inset-left));max-width:calc(100vw - 24px)}
+.lp-global-ring .lp-call-notice{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;background:rgb(var(--workspace-raised));border:1px solid rgb(var(--workspace-line));border-radius:16px;box-shadow:var(--la-shadow-hover)}
+.lp-global-ring .lp-person{display:grid;flex:1;min-width:0;overflow-wrap:anywhere}
 html[data-theme="day"] [data-ui-system] {
  --workspace-paper:245 247 252;--workspace-raised:255 255 255;--workspace-sunken:236 241 250;
  --workspace-ink:24 39 65;--workspace-muted:77 92 117;--workspace-line:208 218 233;

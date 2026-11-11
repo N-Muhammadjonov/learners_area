@@ -568,6 +568,13 @@
       "when": 1794290000000,
       "tag": "0081_monthly_study_plan",
       "breakpoints": true
+    },
+    {
+      "idx": 81,
+      "version": "7",
+      "when": 1794340000000,
+      "tag": "0082_live_partner_features",
+      "breakpoints": true
     }
   ]
 }

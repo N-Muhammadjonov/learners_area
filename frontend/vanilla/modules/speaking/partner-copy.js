@@ -1,0 +1,41 @@
+const en={
+ level:'Partner level',anyLevel:'Any level',searching:'Looking for a compatible partner…',stopSearch:'Cancel search',
+ searchExpired:'No partner matched this time. Try again or choose someone online.',
+ callMissed:'Your partner did not answer.',callDeclined:'Your partner declined the call.',
+ outside:'Receive calls while browsing Learners Area in this tab',history:'Recent calls and friends',refresh:'Refresh history',
+ calls:'Calls',minutes:'Minutes',recent:'Recent calls',friends:'Friends',noCalls:'No completed calls yet.',
+ noFriends:'No friends yet.',addFriend:'Add friend',acceptFriend:'Accept friend request',friendPending:'Request sent',
+ removeFriend:'Remove',rating:'Rate conversation',report:'Report conversation',sendReport:'Send report',
+ reasons:{abuse:'Abusive behavior',spam:'Spam',other:'Other'},
+ activities:'Practise together',shareQuestion:'Show this question to both learners',stopActivity:'End activity',
+ kinds:{question:'Shared question',picture:'Picture description',taboo:'Taboo',truths:'Two truths and a lie',mock:'Partner mock'},
+ examiner:'You are the examiner',candidate:'You are the candidate',acceptMock:'Start mock',
+ mockWaiting:'Waiting for your partner to accept.',mockWaitingScore:'Waiting for your partner’s feedback.',
+ mockStages:['Part 1','Part 2 preparation','Part 2 speaking','Part 3'],nextStage:'Next stage',
+ saveScore:'Save feedback',practiceResult:'Partner practice band',
+ criteria:['Fluency and coherence','Lexical resource','Grammatical range and accuracy','Pronunciation'],
+ upgrade:'Partner features are being prepared.',activityChanged:'Your partner changed the activity. Try again after it updates.',
+ activityMissing:'A published question is unavailable.',activityInProgress:'Finish the current mock first.',
+ peerMuted:'Partner microphone muted',tapAudio:'Play partner audio',micSignal:'Microphone signal',peerSignal:'Partner signal'
+};
+const uz={
+ level:'Sherik darajasi',anyLevel:'Istalgan daraja',searching:'Mos sherik qidirilmoqda…',stopSearch:'Qidiruvni bekor qilish',
+ searchExpired:'Mos sherik topilmadi. Qayta qidiring yoki onlayn sherikni tanlang.',
+ callMissed:'Sherik qo‘ng‘iroqqa javob bermadi.',callDeclined:'Sherik qo‘ng‘iroqni rad etdi.',
+ outside:'Bu tabda saytning boshqa bo‘limlarida ham qo‘ng‘iroq qabul qilish',history:'Suhbatlar tarixi va do‘stlar',refresh:'Tarixni yangilash',
+ calls:'Suhbatlar',minutes:'Daqiqa',recent:'So‘nggi suhbatlar',friends:'Do‘stlar',noCalls:'Hali yakunlangan suhbatlar yo‘q.',
+ noFriends:'Hali do‘stlar yo‘q.',addFriend:'Do‘stlik so‘rovi',acceptFriend:'Do‘stlikni qabul qilish',friendPending:'So‘rov yuborildi',
+ removeFriend:'Olib tashlash',rating:'Suhbatni baholash',report:'Shikoyat qilish',sendReport:'Shikoyat yuborish',
+ reasons:{abuse:'Haqoratli xatti-harakat',spam:'Spam',other:'Boshqa sabab'},
+ activities:'Birgalikda mashq qilish',shareQuestion:'Savolni ikkovingizga ko‘rsatish',stopActivity:'Mashqni tugatish',
+ kinds:{question:'Umumiy savol',picture:'Rasm tasvirlash',taboo:'Taboo',truths:'Ikki rost va bir yolg‘on',mock:'Juftlikda mock'},
+ examiner:'Siz imtihon oluvchisiz',candidate:'Siz imtihon topshiruvchisiz',acceptMock:'Mockni boshlash',
+ mockWaiting:'Sherik roziligi kutilmoqda.',mockWaitingScore:'Sherikning fikr-mulohazasi kutilmoqda.',
+ mockStages:['1-qism','2-qismga tayyorgarlik','2-qismda gapirish','3-qism'],nextStage:'Keyingi bosqich',
+ saveScore:'Bahoni saqlash',practiceResult:'Sherik qo‘ygan mashq bali',
+ criteria:['Ravonlik va izchillik','Lug‘at boyligi','Grammatik ko‘lam va aniqlik','Talaffuz'],
+ upgrade:'Sherik bilan gaplashish imkoniyatlari tayyorlanmoqda.',activityChanged:'Sherik mashqni o‘zgartirdi. Yangilangach, qayta urining.',
+ activityMissing:'Nashr qilingan savol topilmadi.',activityInProgress:'Avval joriy mockni tugating.',
+ peerMuted:'Sherik mikrofoni o‘chirilgan',tapAudio:'Sherik ovozini ijro etish',micSignal:'Mikrofon signali',peerSignal:'Sherik signali'
+};
+export const partnerCopy=locale=>locale==='uz'?uz:en;

@@ -82,7 +82,7 @@ export function mount(context,dependencies={}){
     if(lastFrame!==null&&at-lastFrame>400){pause('interrupted',lastFrame);return;}
     lastFrame=at;
     try{
-     const sample=input.sample(),activity=detector.sample(sample.rms,at),state=engine.snapshot();
+     const sample=input.sample(),activity=detector.sample(sample.rms,at,sample.speech),state=engine.snapshot();
      if(state.phase==='calibrating'&&activity.ready)engine.calibrated();
      else if(state.phase==='ready'){engine.start(at);questionText.focus();}
      else if(state.phase==='running')engine.advance(at,activity.speaking);

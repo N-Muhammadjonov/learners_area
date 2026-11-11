@@ -51,6 +51,7 @@ def test_sql_migrations_unchanged_from_original_sha256():
         '0079_riwi_canonical_task_metadata.sql',
         '0080_study_plan.sql',
         '0081_monthly_study_plan.sql',
+        '0082_live_partner_features.sql',
     }
     assert set(actual) - set(expected) == approved_additions
     assert len(actual) == len(expected) + len(approved_additions)
