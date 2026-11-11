@@ -11,6 +11,7 @@ import httpx
 from fastapi import APIRouter,Request
 from . import main as core
 from . import live_partner_features as features
+from . import live_partner_turn, live_partner_signaling
 from .step23_typing import b64
 
 router=APIRouter()
@@ -232,7 +233,8 @@ def turn_credentials(uid):
 
 async def readiness():
     url=os.getenv('LIVE_PARTNER_SIGNAL_URL','');sec=os.getenv('LIVE_PARTNER_SIGNAL_SECRET','')
-    if len(sec)<32 or not url.startswith('wss://') or not turn_credentials('probe'):return {'ready':False,'reason':'not_configured'}
+    if len(sec)<32 or not url.startswith('wss://') or not (live_partner_turn.configured() or turn_credentials('probe')):return {'ready':False,'reason':'not_configured'}
+    if url==live_partner_signaling.hosted_url():return {'ready':True}
     p=urlsplit(url);health=urlunsplit(('https',p.netloc,'/healthz','',''))
     try:
         async with httpx.AsyncClient(timeout=2) as client:
@@ -286,15 +288,19 @@ async def post_partner(req:Request):
         if not ready['ready']:return core.j({'error':'realtime_not_configured','reason':ready['reason']},503,H)
     db=await core.pool();now=datetime.now(timezone.utc)
     try:
-        async with db.acquire() as con:
-            async with con.transaction():
-                if b['action']=='signal_token':
+        if b['action']=='signal_token':
+            async with db.acquire() as con:
+                async with con.transaction():
                     s=await session(con,u['id'],str(b['sessionId']))
                     if s['ended_at']:raise PartnerError('session_ended')
-                    peer=str(s['user_b'] if str(s['user_a'])==str(u['id']) else s['user_a']);role='offerer' if str(s['user_a'])==str(u['id']) else 'answerer'
-                    token=signal_token(str(u['id']),peer,str(s['id']),role);turn=turn_credentials(str(u['id']))
-                    if not token or not turn:return core.j({'error':'realtime_not_configured'},503,H)
-                    return core.j({'token':token,'url':os.getenv('LIVE_PARTNER_SIGNAL_URL'),'role':role,**turn},headers=H)
+                    peer=str(s['user_b'] if str(s['user_a'])==str(u['id']) else s['user_a'])
+                    role='offerer' if str(s['user_a'])==str(u['id']) else 'answerer'
+            token=signal_token(str(u['id']),peer,str(s['id']),role)
+            turn=await live_partner_turn.credentials() if live_partner_turn.configured() else turn_credentials(str(u['id']))
+            if not token or not turn:return core.j({'error':'realtime_not_configured'},503,H)
+            return core.j({'token':token,'url':os.getenv('LIVE_PARTNER_SIGNAL_URL'),'role':role,**turn},headers=H)
+        async with db.acquire() as con:
+            async with con.transaction():
                 enabled=await features.available(con)
                 if b['action'] in features.ACTIONS:
                     if not enabled:return core.j({'error':'partner_upgrade_pending'},503,H)

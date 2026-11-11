@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r services/backend/requirements.txt
 COPY services/backend/app/ ./services/backend/app/
 COPY services/backend/assets/ ./services/backend/assets/
 COPY services/backend/contracts/ ./services/backend/contracts/
+COPY services/live-signal/server.py ./services/live-signal/server.py
 COPY --from=assets /build/frontend/vanilla/build/ ./frontend/vanilla/build/
 COPY scripts/serve.py ./scripts/serve.py
 ENV PYTHONUNBUFFERED=1 HOST=0.0.0.0 PORT=8000 APP_ENV=production

@@ -9,6 +9,7 @@ from fastapi import HTTPException
 from .seo import IndexingPolicy
 from .origin_boundary import OriginBoundary
 from .request_lifecycle import RequestBudget
+from . import live_partner_signaling
 
 browser = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 browser.include_router(browser_router)
@@ -26,7 +27,9 @@ static = StaticFrontend()
 
 
 async def dispatch(scope, receive, send):
-    if scope['type'] != 'http':
+    if scope['type'] in ('http', 'websocket') and scope['path'].startswith(live_partner_signaling.PREFIX + '/'):
+        target = live_partner_signaling.dispatch
+    elif scope['type'] != 'http':
         target = app
     elif scope['path'].startswith(('/api/frontend/', '/api/study-plan/')) or scope['path'] == '/api/study-plan':
         target = browser
