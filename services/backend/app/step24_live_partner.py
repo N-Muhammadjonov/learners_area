@@ -86,9 +86,9 @@ async def photos(con,ids):
     return {str(r['user_id']) for r in rows}
 
 async def online(con,viewer,now,extended=False):
-    rows=await con.fetch('''SELECT u.id,u.name,u.gender,op.current_level FROM live_partner_presence p
+    rows=await con.fetch('''SELECT u.id,u.name,u.gender,op.current_level,p.state AS partner_state FROM live_partner_presence p
       JOIN users u ON u.id=p.user_id LEFT JOIN onboarding_profiles op ON op.user_id=u.id
-      WHERE p.state='available' AND p.heartbeat_at>=$1 AND u.account_status='active' AND u.id<>$2
+      WHERE p.state<>'offline' AND p.heartbeat_at>=$1 AND u.account_status='active' AND u.id<>$2
       AND NOT EXISTS(SELECT 1 FROM live_partner_blocks b WHERE (b.blocker_id=$2 AND b.blocked_id=u.id) OR (b.blocker_id=u.id AND b.blocked_id=$2))
       ORDER BY u.name,u.id LIMIT 100''',now-FRESH,viewer)
     ids=[str(r['id']) for r in rows]
@@ -103,6 +103,8 @@ async def online(con,viewer,now,extended=False):
           GROUP BY 1''',ids)}
     return [{'userId':str(r['id']),'name':r['name'],'gender':r['gender'],'level':r.get('current_level'),
              'avatar':'b' if r['gender']=='female' else 'a','speakingScore':sc.get(str(r['id'])),
+             'availability':'available' if r['partner_state']=='available' else 'busy',
+             'canCall':r['partner_state']=='available',
              'rating':ratings.get(str(r['id'])),'hasPhoto':str(r['id']) in ph} for r in rows]
 
 async def ringing(con,uid,now):
