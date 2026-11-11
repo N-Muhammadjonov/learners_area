@@ -31,13 +31,14 @@ for(const role of ['student','teacher','admin','owner'])test(`${role}: Dock pres
  try{
   const dock=moduleDock(h.ctx);h.ctx.root.append(dock.node);
   const entries=h.qa('[data-dock-module]'),keys=entries.map(a=>a.dataset.dockModule);
-  assert.deepEqual(keys.slice(0,12),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress']);
+  assert.deepEqual(keys.slice(0,13),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','leaderboard']);
   assert.equal(keys.includes('management'),role!=='student');
-  assert.equal(keys.length,role==='student'?12:13);
+  assert.equal(keys.length,role==='student'?13:14);
   for(const removed of ['/app/courses/ielts','/app/coach','/app/reports','/app/support'])assert(!entries.some(a=>a.getAttribute('href')===removed));
   if(role!=='student')assert.equal(keys.at(-1),'management');
   assert(!entries.some(a=>/^\/app\/(admin|teacher|owner)(?:\/|$)/.test(a.getAttribute('href'))));
   for(const a of entries){assert(a.getAttribute('aria-label'));assert(a.getAttribute('href').startsWith('/app'));}
+  dock.update(url('/app/study-plan/leaderboard'));assert.equal(entries.find(a=>a.dataset.dockModule==='leaderboard').getAttribute('aria-current'),'page');dock.update(url('/app'));
   assert.equal(entries[0].getAttribute('aria-current'),'page');dock.update(url('/app/dashboard'));assert.equal(entries[0].getAttribute('aria-current'),'page');
  }finally{h.dispose();}
 });
