@@ -178,7 +178,7 @@ function build(){const main=root.getElementById('units');const side=root.getElem
   show(U[0].id)}
 function result(u,rp){const ps=u.stages.map((s,i)=>pct(u,i));const worst=ps.indexOf(Math.min(...ps));const need=ps.some((p,i)=>done(u,i)&&p<70)||ps.some((p,i)=>!done(u,i));
   rp.innerHTML=`<div class="res"><h3>${need?'Mashq kerak':'Zo\'r natija!'}</h3><p class="sub">${esc(u.title)}</p><div class="rows">`+u.stages.map((s,i)=>`<div class="row"><div class="nn">${s.n}</div><div>${esc(s.name)}</div><div class="bar"><i style="width:${ps[i]}%;background:${ps[i]>=80?'#2f7d5b':ps[i]>=50?'#d08a2b':'#c0394b'}"></i></div><div class="pp" style="color:${ps[i]>=80?'#2f7d5b':ps[i]>=50?'#d08a2b':'#c0394b'}">${ps[i]}%</div></div>`).join('')+`</div><p class="sub">70% dan past bosqichni qaytadan bajaring. Qoidani qayta o'qing.</p></div>`;
-  const b=$('button','btn ghost','Qaytadan');b.onclick=()=>{delete S[u.id];save();root.getElementById('units').replaceChildren();root.getElementById('nav').replaceChildren();build()};rp.firstChild.append(b)}
+  const b=$('button','btn ghost','Qaytadan');b.onclick=()=>{delete S[u.id];for(const key of stageAnswers.keys())if(key.startsWith(u.id+':'))stageAnswers.delete(key);save();root.getElementById('units').replaceChildren();root.getElementById('nav').replaceChildren();build()};rp.firstChild.append(b)}
 function show(id){root.querySelectorAll('.unit').forEach(s=>s.classList.toggle('on',s.id==='u-'+id));root.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));window.scrollTo(0,0)}
 build();
 }
