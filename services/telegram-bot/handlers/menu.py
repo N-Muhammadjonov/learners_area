@@ -138,7 +138,12 @@ async def cb_login(callback: CallbackQuery, db_user: dict | None = None,
     if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
         await callback.answer(t(lang, "temporary_error"), show_alert=True)
         return
-    link = f"{site}/login#tg-handoff={intent_id}.{nonce}"
+    purpose = data.get("purpose")
+    if purpose not in ("login", "register"):
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    route = "/register" if purpose == "register" else "/login"
+    link = f"{site}{route}#tg-handoff={intent_id}.{nonce}"
     markup = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=t(lang, "handoff_open"), url=link)],
         [InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")],
