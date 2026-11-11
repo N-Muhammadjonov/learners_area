@@ -51,4 +51,28 @@ jobs:
         working-directory: frontend/vanilla
         run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/grammar-plan-proof.test.mjs tests/dashboard-v3.test.mjs tests/student-profile-consolidation.test.mjs tests/study-plan.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs
 
+  asset-build:
+    name: Production asset packaging (dry run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install bundle and asset build tools
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          python -m pip install rjsmin==1.2.5 rcssmin==1.2.2
+      - name: Bundle site imports (no deploy)
+        run: node scripts/bundle_browser.mjs
+      - name: Package versioned browser assets (no deploy)
+        env:
+          LA_BROWSER_BUNDLES: bundle-output
+        run: python scripts/build_native_assets.py
+
 # No deploy, PR, merge, production credentials, migrations or browser automation here.
