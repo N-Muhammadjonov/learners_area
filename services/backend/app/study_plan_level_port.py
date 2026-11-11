@@ -58,7 +58,7 @@ async def read_level_check(req: Request) -> JSONResponse:
 
 @router.post("/start")
 async def start_level_check(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     data = await body_object(req, {"level"})
@@ -84,7 +84,7 @@ async def start_level_check(req: Request) -> JSONResponse:
 
 @router.post("/submit")
 async def submit_level_check(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     data = await body_object(req, {"attemptId", "answers"})
@@ -125,7 +125,7 @@ async def submit_level_check(req: Request) -> JSONResponse:
 
 @router.post("/manual")
 async def set_profile_level(req: Request) -> JSONResponse:
-    user, error = await student(req)
+    user, error = await plan_participant(req)
     if error is not None:
         return error
     data = await body_object(req, {"level"})
