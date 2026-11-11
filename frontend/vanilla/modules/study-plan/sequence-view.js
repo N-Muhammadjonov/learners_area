@@ -197,9 +197,18 @@ export function mountSequenceAssignments(ctx, root) {
     }
     if (!data) {panel.replaceChildren(toolbar);return;}
     if (data.state==='level_required') {
-      panel.replaceChildren(toolbar,h('p',{class:'sequence-notice',role:'status'},
-        text(ctx,'Darajangiz belgilanmagan. Reja tuzishdan avval darajani aniqlash yoki profilda belgilash kerak.',
-          'Your level is not set. Complete the level assessment or set your level before creating a plan.')));
+      panel.replaceChildren(toolbar,
+        h('div',{class:'sequence-notice',role:'group','data-plan-level-prompt':''},
+          h('p',{},text(ctx,
+            'Darajangiz hali belgilanmagan. Reja tuzishdan oldin darajani aniqlashingiz mumkin.',
+            'Your level is not set. Take the level check before creating your plan.')),
+          h('div',{class:'sequence-controls'},
+            h('a',{href:'/app/plan/level-check',class:'btn-primary',
+              'data-plan-level-test':''},
+              text(ctx,'Darajani aniqlash','Take level check')),
+            h('a',{href:'/app/profile?edit=level',class:'btn-secondary',
+              'data-plan-level-profile':''},
+              text(ctx,'Yo‘q, profilda belgilayman','No, set it in profile')))));
       return;
     }
     if (data.state==='available') {
