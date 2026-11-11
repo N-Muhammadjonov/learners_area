@@ -1,5 +1,4 @@
 from aiogram import F, Router
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -35,7 +34,6 @@ async def begin_apply(message: Message, state: FSMContext | None, db_user: dict 
     await message.answer(t(lang, "full_name_prompt"))
 
 
-@admission_router.message(Command("apply"))
 async def cmd_apply(message: Message, state: FSMContext | None = None, db_user: dict | None = None):
     await begin_apply(message, state, db_user)
 
@@ -62,7 +60,6 @@ async def registration_name(message: Message, state: FSMContext, db_user: dict |
         await message.answer(t(lang, "error"))
 
 
-@admission_router.message(Command("pending"))
 async def cmd_pending(message: Message, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
     denied = denial_key(bot_access, backend_error, "ADMISSIONS")

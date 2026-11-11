@@ -1,9 +1,12 @@
-from aiogram.fsm.context import FSMContext
-from handlers.admission import begin_apply
+import re
+from urllib.parse import urlsplit
+
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+
+from handlers.admission import begin_apply
 
 from config import config
 from copy_format import admission_text
@@ -28,18 +31,10 @@ def _lang(event, db_user, contact=None) -> str:
 def main_keyboard(lang: str, bot_access: dict | None) -> InlineKeyboardMarkup:
     rows = [
         [InlineKeyboardButton(text=t(lang, "menu_login"), callback_data="m:login")],
-        [
-            InlineKeyboardButton(text=t(lang, "menu_account"), callback_data="m:account"),
-            InlineKeyboardButton(text=t(lang, "menu_status"), callback_data="m:status"),
-        ],
-        [
-            InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support"),
-            InlineKeyboardButton(text=t(lang, "menu_notes"), callback_data="m:notes"),
-        ],
-        [InlineKeyboardButton(text=t(lang, "menu_settings"), callback_data="m:settings")],
+        [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support")],
+        [InlineKeyboardButton(text=t(lang, "menu_language"), callback_data="m:lang")],
     ]
-    staff = bot_access and (bot_access.get("isPrimaryOwner") or bot_access.get("permissions"))
-    if staff:
+    if bot_access and (bot_access.get("isPrimaryOwner") or bot_access.get("permissions")):
         rows.append([InlineKeyboardButton(text=t(lang, "menu_owner"), callback_data="m:owner")])
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
@@ -84,11 +79,6 @@ async def show_home(event: Message | CallbackQuery, lang: str, bot_access: dict 
         await event.answer(text, reply_markup=markup)
 
 
-@menu_router.message(Command("menu"))
-async def cmd_menu(message: Message, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
-    await show_home(message, _lang(message, db_user, contact), bot_access, db_user)
-
-
 @menu_router.callback_query(F.data == "m:home")
 async def cb_home(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None, state: FSMContext | None = None):
     if state:
@@ -96,16 +86,8 @@ async def cb_home(callback: CallbackQuery, db_user: dict | None = None, bot_acce
     await show_home(callback, _lang(callback, db_user, contact), bot_access, db_user)
 
 
-@menu_router.message(Command("status"))
-async def cmd_status(message: Message, db_user: dict | None = None, contact: dict | None = None, backend_error: bool = False):
-    if backend_error:
-        await message.answer(t(_lang(message, db_user, contact), "temporary_error"))
-        return
-    await cb_status(message, db_user, contact)
-
-
-@menu_router.message(Command("settings"))
-async def cmd_settings(message: Message, db_user: dict | None = None, contact: dict | None = None):
+@menu_router.message(Command("lang"))
+async def cmd_lang(message: Message, db_user: dict | None = None, contact: dict | None = None):
     await cb_settings(message, db_user, contact)
 
 
@@ -124,13 +106,49 @@ async def cb_owner(callback: CallbackQuery, db_user: dict | None = None, bot_acc
 
 
 @menu_router.callback_query(F.data == "m:login")
-async def cb_login(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
+async def cb_login(callback: CallbackQuery, db_user: dict | None = None,
+                   contact: dict | None = None, backend_error: bool = False):
     lang = _lang(callback, db_user, contact)
+    if (backend_error or not callback.from_user or not callback.message
+        or not callback.message.chat or callback.message.chat.type != "private"):
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    try:
+        status, data = await api_client.create_login_handoff(str(callback.from_user.id))
+    except Exception:
+        status, data = 503, {}
+    if status != 200 or not isinstance(data, dict) or data.get("ok") is not True:
+        code = data.get("error") if isinstance(data, dict) else None
+        key = {
+            "phone_required": "phone_required",
+            "not_subscribed": "channels_required",
+            "no_linked_account": "status_none",
+            "account_unavailable": "handoff_unavailable",
+        }.get(code, "temporary_error" if status >= 500 else "handoff_unavailable")
+        await callback.answer(t(lang, key), show_alert=True)
+        return
+    intent_id, nonce = data.get("intentId"), data.get("browserNonce")
+    if (not isinstance(intent_id, str) or not isinstance(nonce, str)
+        or not re.fullmatch(r"[0-9a-fA-F-]{36}", intent_id)
+        or not re.fullmatch(r"[0-9a-f]{64}", nonce)):
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
     site = config.PUBLIC_SITE_URL.rstrip("/")
-    await callback.message.edit_text(
-        f"{t(lang, 'menu_login')}\n{esc(site)}/login",
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")]]),
-    )
+    parsed = urlsplit(site)
+    if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    purpose = data.get("purpose")
+    if purpose not in ("login", "register"):
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    route = "/register" if purpose == "register" else "/login"
+    link = f"{site}{route}#tg-handoff={intent_id}.{nonce}"
+    markup = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=t(lang, "handoff_open"), url=link)],
+        [InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")],
+    ])
+    await callback.message.edit_text(t(lang, "handoff_ready"), reply_markup=markup)
     await callback.answer()
 
 
@@ -218,7 +236,7 @@ async def cb_toggle_note(callback: CallbackQuery, db_user: dict | None = None, c
     await cb_notes(callback, db_user, contact)
 
 
-@menu_router.callback_query(F.data == "m:settings")
+@menu_router.callback_query(F.data.in_({"m:settings", "m:lang"}))
 async def cb_settings(callback: CallbackQuery | Message, db_user: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
     markup = InlineKeyboardMarkup(

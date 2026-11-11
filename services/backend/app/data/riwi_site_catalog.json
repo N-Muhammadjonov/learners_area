@@ -1779,7 +1779,7 @@
     "frontend/vanilla/modules/auth/onboarding.js": "1e9dfea7b5c4d58af7ab2b412bc821ddd9f37b4c5e816222f584bb253d3d765d",
     "frontend/vanilla/modules/auth/password-form.js": "d7ea61e1bfac19588f1f2ed4f9391b45d12be52e645e8a4de4d0a089f2eea1ef",
     "frontend/vanilla/modules/auth/pending.js": "6fb85f3919e6e7c11be2187021d574fd354c319a9b4b4c950f95c0debb50b777",
-    "frontend/vanilla/modules/auth/public.js": "315d84b4a564252244761acd003de0dd23862c9e7b9d60c01f6445f8cdf668b1",
+    "frontend/vanilla/modules/auth/public.js": "c376b051c9bf56128536c7b3565b60ce39e649df47b9785e9549cdc9bf722aea",
     "frontend/vanilla/modules/auth/study-form.js": "9252a26f44015ede4c786581a89b68a8b965f35c013640086622d6a23b608dcb",
     "frontend/vanilla/modules/auth/telegram.js": "3bfd20ac053819078fb1f98f3ec4fca4d263dc306d7eef5fce5809024086ddd5",
     "frontend/vanilla/modules/auth-redesign.css": "e9f14166c9efa8e0f6bd2054fa7351de061aa7bccd9aa2a008f90d32a7d0d58d",
@@ -2114,6 +2114,6 @@
     "frontend/vanilla/modules/grammar/book-skill-adapter.js": "0987642743086dc6ea1e06b340edcfddf2cdd3fbca2f9de797a5657d6cf414ce",
     "frontend/vanilla/modules/grammar/book-skill-index.js": "8244ad7d61341ed41ca535f392c460bc43535c85c65d51558e100390e61f8b1b",
     "frontend/vanilla/modules/grammar/book-skill.css": "b5439624767f89bcb0eca69e33d0e1ef1f480202b03826aa109450bda05233bf",
-    "frontend/vanilla/modules/grammar/book-skill.js": "b99499eeed829b929600220ee846cd2ae9f9262427b8da03f4f63e7dd3fafaf2"
+    "frontend/vanilla/modules/grammar/book-skill.js": "0f0c933c602206b994f9dcbbc890583ab394a53e3d57f8d1bff673edfa075974"
   }
 }

@@ -1,7 +1,9 @@
 import {enableDiagnostics} from '../../js/diagnostics.js';
+import {api} from '../../js/api-client.js';
+import {publishSessionEvent} from '../../js/session-events.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {passwordForm} from './password-form.js';
-import {el} from '../../js/dom.js';
+import {el,listen} from '../../js/dom.js';
 import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
@@ -14,6 +16,71 @@ export async function mount(context){
  const title=register?dict.auth.registerTitle:reset?confirm?dict.auth.resetConfirmTitle:dict.auth.resetTitle:dict.auth.loginTitle;
  const footer=reset?undefined:[register?dict.auth.haveAccount:'',el('a',{href:register?'/login':'/landing',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'))];
  const region=el('div',{'data-public-auth':''}),shell=authShell({...context,dict,locale},{title,children:region,footer});root.append(shell);let busy=false;
+ // A bot-issued login proof is kept in the URL fragment, not a server-visible query.
+ // Remove the fragment synchronously before exchanging it for an HttpOnly session.
+ if(url.hash.startsWith('#tg-handoff=')){
+  const proof=url.hash.slice('#tg-handoff='.length);
+  window.history.replaceState(window.history.state,'',url.pathname+url.search);
+  const parts=/^([0-9a-fA-F-]{36})\.([0-9a-f]{64})$/.exec(proof);
+  if(!parts){
+   region.replaceChildren(el('p',{role:'alert'},locale==='uz'?'Kirish havolasi yaroqsiz.':'Invalid sign-in link.'));
+   return;
+  }
+  const intent={intentId:parts[1],browserNonce:parts[2]};
+  const complete=async registration=>{
+   region.replaceChildren(el('p',{role:'status',class:'text-sm text-ink-500'},
+    locale==='uz'?'Kirish tasdiqlanmoqda…':'Signing you in…'));
+   try{
+    const result=await api.request('/api/auth/telegram/intent/exchange',{
+     method:'POST',body:{...intent,...registration},signal
+    });
+    if(signal.aborted)return;
+    publishSessionEvent('refresh');
+    context.invalidateSession?.();
+    const destination=result.accountStatus==='active'?(result.onboarded?'/app':'/onboarding'):'/pending';
+    await navigate(destination,{replace:true});
+   }catch(error){
+    if(signal.aborted)return;
+    region.replaceChildren(el('p',{role:'alert',class:'text-xs text-band-bad'},
+     locale==='uz'
+      ?'Kirish havolasi eskirgan yoki yaroqsiz. Botdan yangi havola oling.'
+      :'This sign-in link has expired or is invalid. Get a new link from the bot.'));
+   }
+  };
+  if(path!=='/register'){
+   await complete({});
+   return;
+  }
+  // First-time Telegram users must supply the registration fields required by
+  // the canonical server-side registration exchange. No second Telegram login.
+  const name=el('input',{type:'text',name:'name',class:'input w-full',minlength:'3',maxlength:'200',
+   required:true,autocomplete:'name',placeholder:locale==='uz'?'Ism va familiya':'Full name'});
+  const male=el('input',{type:'radio',name:'gender',value:'male',required:true});
+  const female=el('input',{type:'radio',name:'gender',value:'female',required:true});
+  const submit=el('button',{type:'submit',class:'btn-primary w-full'},
+   locale==='uz'?'Hisob yaratish va davom etish':'Create account and continue');
+  const error=el('p',{role:'alert',class:'text-xs text-band-bad'});
+  const form=el('form',{class:'flex flex-col gap-3'},
+   el('label',{class:'text-sm'},locale==='uz'?'Ism va familiyangiz':'Your full name',name),
+   el('fieldset',{},el('legend',{},locale==='uz'?'Jins':'Gender'),
+    el('label',{class:'mr-4'},male,locale==='uz'?' Erkak':' Male'),
+    el('label',{},female,locale==='uz'?' Ayol':' Female')),
+   submit,error);
+  listen(form,'submit',event=>{
+   event.preventDefault();
+   const fullName=name.value.trim().replace(/\s+/g,' ');
+   const gender=male.checked?'male':female.checked?'female':null;
+   if(!/^\S+(?:\s+\S+)+$/.test(fullName)||fullName.length<3||fullName.length>200||!gender){
+    error.textContent=locale==='uz'?'Ism, familiya va jinsni kiriting.':'Enter your full name and gender.';
+    return;
+   }
+   submit.disabled=true;
+   void complete({name:fullName,gender});
+  },signal);
+  region.replaceChildren(form);
+  return;
+ }
+
  async function load(){
   if(busy||signal.aborted)return;busy=true;region.dataset.publicAuth='loading';region.replaceChildren(el('div',{role:'status','aria-busy':'true','aria-label':dict.common.loading,class:'h-32 animate-pulse rounded-xl bg-ink-50'}));
   try{

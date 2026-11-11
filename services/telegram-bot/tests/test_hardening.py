@@ -29,4 +29,6 @@ def test_sensitive_updates_fail_closed_when_dedup_is_unknown():
     assert is_sensitive_update("bcok", None) is True
     assert is_sensitive_update("auth:retry_channels", None) is True
     assert is_sensitive_update("m:home", None) is False
+    assert is_sensitive_update("m:login", None) is True
+    assert is_sensitive_update("lang:uz", None) is True
     assert is_sensitive_update(None, "/menu") is False

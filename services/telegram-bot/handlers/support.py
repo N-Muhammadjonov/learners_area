@@ -31,7 +31,7 @@ def _home(lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")]])
 
 
-@support_router.message(Command("support"))
+@support_router.message(Command("admin"))
 async def cmd_support(message: Message, state: FSMContext, db_user: dict | None = None, contact: dict | None = None):
     lang = _lang(message, db_user, contact)
     await state.set_state(SupportFlow.user_message)

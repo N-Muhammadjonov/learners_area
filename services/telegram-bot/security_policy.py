@@ -6,6 +6,8 @@ WEBHOOK_SECRET_RE = re.compile(r"^[A-Za-z0-9_-]{1,256}$")
 OWNER_ID_RE = re.compile(r"^[0-9]{1,20}$")
 
 SENSITIVE_CALLBACK_PREFIXES = (
+    "m:login",
+    "lang:",
     "decide_",
     "auth:retry_channels",
     "ust:",

@@ -1,7 +1,7 @@
 from urllib.parse import urlsplit
 
 from aiogram import F, Router
-from aiogram.filters import Command, CommandObject, CommandStart
+from aiogram.filters import CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import ChatMemberUpdated, Message, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
@@ -117,25 +117,46 @@ async def cmd_start(
     if len(args) > 200 or " " in args:
         await message.answer(t(lang, "confirm_failed"))
         return
-    if backend_error:
+    if backend_error or not message.from_user:
         await message.answer(t(lang, "temporary_error"))
         return
-    if not message.from_user or not message.chat or message.chat.type != "private":
+    if not message.chat or message.chat.type != "private":
         await message.answer(t(lang, "confirm_failed"))
         return
+    telegram_id = str(message.from_user.id)
     try:
-        status, result = await api_client.auth_context(str(message.from_user.id), args)
+        status, data = await api_client.auth_context(telegram_id, args)
+        if status == 200 and isinstance(data, dict) and data.get("ok") is True:
+            status, data = await api_client.preflight_intent(args, telegram_id)
     except Exception:
-        status, result = 503, {}
-    if status != 200 or result.get("ok") is not True:
-        await message.answer(t(lang, "confirm_failed" if status == 404 else "temporary_error"))
+        status, data = 503, {}
+    data = data if isinstance(data, dict) else {}
+    if status == 403 and data.get("error") == "phone_required":
+        if state:
+            await state.clear()
+            await state.set_state(PhoneFlow.awaiting_own_contact)
+        await message.answer(t(lang, "share_phone"), reply_markup=phone_keyboard(lang))
         return
-    # An intent token is not consumed until the user's OWN contact is verified.
+    if status == 403 and data.get("error") == "not_subscribed":
+        await message.answer(t(lang, "channels_required"),
+                             reply_markup=_channel_keyboard(lang, data.get("requiredChannels")))
+        return
+    if status == 503 and data.get("error") == "membership_unavailable":
+        await message.answer(t(lang, "channels_error"),
+                             reply_markup=_channel_keyboard(lang, data.get("requiredChannels")))
+        return
+    if status != 200 or data.get("ok") is not True:
+        await message.answer(t(lang, "confirm_failed" if args and status in (404, 409)
+                             else "temporary_error"))
+        return
     if state:
         await state.clear()
-        await state.set_state(PhoneFlow.awaiting_own_contact)
-        # Security context is durable on the backend; memory holds only UI state.
-    await message.answer(t(lang, "share_phone"), reply_markup=phone_keyboard(lang))
+    await message.answer(t(lang, "phone_saved"), reply_markup=ReplyKeyboardRemove())
+    if args and not await _complete_pending_intent(
+        message, state, telegram_id, message.from_user.full_name, lang
+    ):
+        return
+    await show_home(message, lang, bot_access, db_user)
 
 
 @auth_router.message(F.contact)
@@ -205,25 +226,4 @@ async def membership(event: ChatMemberUpdated):
         "sync": False,
     })
 
-
-@auth_router.message(Command("cancel"))
-async def cmd_cancel(message: Message, state: FSMContext, db_user: dict | None = None):
-    if not message.from_user or not message.chat or message.chat.type != "private":
-        return
-    try:
-        status, result = await api_client.auth_context(str(message.from_user.id), cancel=True)
-    except Exception:
-        status, result = 503, {}
-    if status != 200 or result.get("ok") is not True:
-        await message.answer(t(lang_of(message, db_user), "temporary_error"))
-        return
-    await state.clear()
-    await message.answer(t(lang_of(message, db_user), "cancelled"))
-
-
-@auth_router.message(Command("help"))
-async def cmd_help(message: Message, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = lang_of(message, db_user)
-    await message.answer(t(lang, "help"))
-    await show_home(message, lang, bot_access, db_user, backend_error=backend_error)
 
