@@ -61,9 +61,13 @@ export function dockIcon(key){
  case 'progress':
   art=[rect(9,28,7,12,2,metal),rect(20,22,7,18,2,paper),rect(31,15,7,25,2,paper),line('M9 23l12-9 8 3 10-10','#fff0b4',2.7),line('M33 7h6v6','#fff0b4',2.7)];break;
  case 'leaderboard':
-  art=[rect(7,29,12,12,2,metal),rect(19,20,12,21,2,paper),rect(31,32,10,9,2,metal),
-   path('m24 5 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3-5.7-3-5.7 3 1.1-6.3-4.6-4.5 6.4-.9Z',gold),
-   line('M10 37h6m6-5h6m6 5h4','#7a98bc',1.2)];break;
+  art=[rect(3,3,42,42,11,'#1b375c',{stroke:'#85a7da','stroke-width':1.5}),
+   rect(6,6,36,36,8,'#244f78',{opacity:.8}),
+   rect(7,29,11,12,2,'#acbac8'),rect(18,20,12,21,2,gold),rect(30,32,11,9,2,'#bd865b'),
+   line('M11 33v4m13-12v10m12 0v3','#fff2cb',1.3),
+   path('M18 11 21 14 24 8 27 14 30 11 28 18H20Z','#ffe28e'),
+   circle(24,5.8,1.7,'#fff0be'),
+   line('M8 42h32','#e2d4bb',1.4)];break;
  case 'courses':
   art=[rect(10,28,28,7,2,metal),rect(12,36,26,5,2,paper),path('m5 17 19-9 19 9-19 9Z',paper),path('M13 23v7c7 5 15 5 22 0v-7l-11 5Z',metal),line('M41 19v12','#ffe394',2),circle(41,33,2.3,gold)];break;
  case 'coach':

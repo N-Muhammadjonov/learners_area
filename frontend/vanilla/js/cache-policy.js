@@ -1,5 +1,5 @@
 /** Memory policies are presentation freshness, never an authorization grant. */
-const CATALOGUES=new Set(['/app/listening/lessons','/app/listening/academic','/app/listening/tests','/app/listening/general','/app/listening/mcq','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/reading/question-types','/app/writing','/app/speaking','/app/speaking/lessons','/app/grammar/lessons','/app/video-lessons']);
+const CATALOGUES=new Set(['/app/listening/lessons','/app/listening/academic','/app/listening/tests','/app/listening/general','/app/listening/mcq','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/reading/question-types','/app/writing','/app/speaking','/app/speaking/lessons','/app/grammar/lessons','/app/grammar','/app/video-lessons']);
 export function viewPolicy(route){
  let url;try{url=new URL(route,'https://local.invalid');}catch{return null;}
  if(!route.startsWith('/')||url.origin!=='https://local.invalid'||url.hash||route.length>2048)return null;
