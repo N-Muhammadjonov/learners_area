@@ -1,0 +1,35 @@
+
+.grammar-book-catalog,.grammar-book-detail{width:100%;max-width:1500px;margin-inline:auto;min-width:0}
+.grammar-book-heading{margin:0 0 1.1rem}
+.grammar-book-heading h1,.grammar-book-detail-title{font-size:clamp(1.45rem,2.3vw,2.2rem);font-weight:700;line-height:1.25;color:rgb(var(--workspace-ink))}
+.grammar-book-heading p,.grammar-book-detail-summary{margin:.4rem 0 0;color:rgb(var(--workspace-muted))}
+.grammar-book-controls{display:flex;align-items:stretch;gap:.65rem;flex-wrap:wrap;margin-bottom:.65rem}
+.grammar-book-search{flex:1 1 18rem;min-width:0;max-width:36rem;min-height:46px;background:rgb(var(--workspace-raised));color:rgb(var(--workspace-ink));border:1px solid rgb(var(--workspace-line));border-radius:12px;padding:.65rem 1rem}
+.grammar-book-level-group{display:flex;gap:.5rem;flex-wrap:wrap}
+.grammar-book-level{min-width:58px;min-height:46px;padding:.6rem .95rem;background:rgb(var(--workspace-raised));color:rgb(var(--workspace-ink));border:1px solid rgb(var(--workspace-line));border-radius:12px;font-weight:700;transition:background-color 150ms,border-color 150ms}
+.grammar-book-level[aria-pressed=true]{background:rgb(var(--accent));color:rgb(var(--accent-contrast));border-color:rgb(var(--accent))}
+.grammar-book-search:focus-visible,.grammar-book-level:focus-visible,.grammar-book-card-link:focus-visible{outline:2px solid rgb(var(--workspace-accent-strong));outline-offset:2px}
+.grammar-book-count{color:rgb(var(--workspace-muted));font-size:.85rem;margin:0 0 .8rem}
+.grammar-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.grammar-book-card{display:flex;flex-direction:column;gap:.7rem;min-width:0;border:1px solid rgb(var(--workspace-line));border-radius:18px;padding:1.1rem;background:rgb(var(--workspace-raised));box-shadow:var(--la-shadow);transition:transform 160ms,border-color 160ms,box-shadow 160ms}
+.grammar-book-card:hover{transform:translateY(-2px);border-color:rgb(var(--workspace-accent-strong));box-shadow:var(--la-shadow-hover)}
+.grammar-book-card[hidden],.grammar-book-empty[hidden]{display:none!important}
+.grammar-book-card-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem}
+.grammar-book-code{font-size:.76rem;font-weight:750;letter-spacing:.05em;color:rgb(var(--workspace-accent-strong))}
+.grammar-book-stage{font-size:.72rem;color:rgb(var(--workspace-muted))}
+.grammar-book-card-title{font-size:1.03rem;font-weight:750;line-height:1.35;color:rgb(var(--workspace-ink));overflow-wrap:anywhere}
+.grammar-book-card-summary{font-size:.88rem;color:rgb(var(--workspace-muted));line-height:1.5;overflow-wrap:anywhere;flex:1}
+.grammar-book-card-bottom{display:flex;gap:.7rem;align-items:end;justify-content:space-between;flex-wrap:wrap;margin-top:auto}
+.grammar-book-progress{font-size:.75rem;color:rgb(var(--workspace-muted))}
+.grammar-book-card-link{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:.55rem .85rem;border-radius:10px;background:rgb(var(--accent));color:rgb(var(--accent-contrast));font-weight:700;text-decoration:none}
+.grammar-book-empty{color:rgb(var(--workspace-muted));padding:2rem;text-align:center}
+.grammar-book-existing{margin:1.8rem auto 0;max-width:1500px}
+.grammar-book-existing h2{font-size:1.2rem;font-weight:700;color:rgb(var(--workspace-ink));margin-bottom:1rem}
+.grammar-book-detail{display:flex;flex-direction:column;align-items:stretch;gap:.6rem;max-width:1020px}
+.grammar-book-back{align-self:flex-start;color:rgb(var(--workspace-accent-strong));font-weight:650;text-decoration:none;margin-bottom:.45rem}
+.grammar-book-detail-title{margin:0}
+.grammar-book-detail-summary{margin:0 0 1rem}
+.grammar-book-exercise-host{min-width:0}
+@media(max-width:1200px){.grammar-book-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){.grammar-book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grammar-book-grid{grid-template-columns:minmax(0,1fr)}.grammar-book-controls{flex-direction:column}.grammar-book-search{flex-basis:auto;max-width:none;width:100%}.grammar-book-level-group{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}.grammar-book-level{min-width:0;padding:.5rem}}

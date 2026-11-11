@@ -2,12 +2,26 @@ import {h} from '../../js/native.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {lessonsCatalogueDTO} from '../../js/adapters/listening-lessons-v10.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
+import {mountBookCatalog, mountBookDetail} from './book.js';
 
 /** Grammar lessons catalogue `/app/grammar/lessons?page=N` (the original GrammarLibraryResults). */
 export function mount(context) {
   const {root, url, signal, dict} = context;
   const host = h('div', {'data-grammar-lessons-host': ''});
   root.append(host);
+  const bookId = url.searchParams.get('book');
+  if (bookId !== null) {
+    void mountBookDetail(context, host, bookId);
+    signal.addEventListener('abort', () => host.replaceChildren(), {once: true});
+    return;
+  }
+  const catalogHost = h('div');
+  const legacyHost = h('div');
+  const legacySection = h('section', {class: 'grammar-book-existing'},
+    h('h2', {}, context.locale === 'en' ? 'Other grammar lessons' : 'Boshqa grammar darslari'),
+    legacyHost);
+  host.append(catalogHost, legacySection);
+  mountBookCatalog(context, catalogHost);
   const page = Math.max(1, Math.min(10000, Number.parseInt(url.searchParams.get('page') ?? '1', 10) || 1));
   let generation = 0;
 
@@ -34,14 +48,14 @@ export function mount(context) {
 
   async function load() {
     const current = ++generation;
-    host.replaceChildren(loading());
+    legacyHost.replaceChildren(loading());
     try {
       const raw = await viewData(url.pathname + url.search, signal);
       if (signal.aborted || current !== generation) return;
-      host.replaceChildren(render(lessonsCatalogueDTO(raw)));
+      legacyHost.replaceChildren(render(lessonsCatalogueDTO(raw)));
     } catch {
       if (signal.aborted || current !== generation) return;
-      host.replaceChildren(RegionFailureNotice({
+      legacyHost.replaceChildren(RegionFailureNotice({
         region: 'grammar-lessons', message: dict.common.error, retryLabel: dict.errorPage.retry, refresh: load,
       }));
     }
