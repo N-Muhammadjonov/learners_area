@@ -341,8 +341,8 @@ async def roster(req:Request):
     if is_js_uuid(teacher) and is_js_uuid(student) and teacher.lower()!=student.lower():
         db=await core.pool()
         async with db.acquire() as conn:
-            t=await conn.fetchval('SELECT role FROM users WHERE id=$1 LIMIT 1',teacher)
-            s=await conn.fetchval('SELECT role FROM users WHERE id=$1 LIMIT 1',student)
+            t=await conn.fetchval("SELECT role FROM users WHERE id=$1 AND account_status='active' LIMIT 1",teacher)
+            s=await conn.fetchval("SELECT role FROM users WHERE id=$1 AND account_status='active' LIMIT 1",student)
             if t=='teacher' and s=='student':
                 ok=True
                 if action=='assign':
