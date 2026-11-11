@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
 import {mount} from '../modules/speaking/live-partner.js';
 
@@ -154,4 +155,17 @@ test('connected call ends in compact IELTS peer feedback instead of history cont
   h.click(h.q('[data-partner-tab="recent"]'));await tick(8);
   assert.equal(h.q('[data-partner-history] select'),null);
  }finally{h.dispose();}
+});
+
+test('desktop call cards extend down the screen while compact layout survives mobile',()=>{
+ const css=readFileSync(new URL('../modules/speaking/speaking.css',import.meta.url),'utf8');
+ assert(css.includes('.lp-page[data-partner-view="call"] .lp-call-grid > .lp-panel'));
+ assert(css.includes('min-height:max(620px,calc(100dvh - 150px))'));
+ assert(css.includes('.lp-call-grid{grid-template-columns:minmax(0,1fr)}'));
+});
+
+test('Uzbek Speaking Partner title and participant name use the specified wording',async()=>{
+ const {default:uz}=await import('../js/i18n/uz.js');
+ assert.equal(uz.livePartner.title,'Sherik bilan gaplashish');
+ assert.equal(uz.livePartner.partner,'Sherik');
 });
