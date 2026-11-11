@@ -1,4 +1,6 @@
 import {enableDiagnostics} from '../../js/diagnostics.js';
+import {api} from '../../js/api-client.js';
+import {publishSessionEvent} from '../../js/session-events.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {passwordForm} from './password-form.js';
 import {el} from '../../js/dom.js';
@@ -14,6 +16,37 @@ export async function mount(context){
  const title=register?dict.auth.registerTitle:reset?confirm?dict.auth.resetConfirmTitle:dict.auth.resetTitle:dict.auth.loginTitle;
  const footer=reset?undefined:[register?dict.auth.haveAccount:'',el('a',{href:register?'/login':'/landing',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'))];
  const region=el('div',{'data-public-auth':''}),shell=authShell({...context,dict,locale},{title,children:region,footer});root.append(shell);let busy=false;
+ // A bot-issued login proof is kept in the URL fragment, not a server-visible query.
+ // Remove the fragment synchronously before exchanging it for an HttpOnly session.
+ if(url.hash.startsWith('#tg-handoff=')){
+  const proof=url.hash.slice('#tg-handoff='.length);
+  window.history.replaceState(window.history.state,'',url.pathname+url.search);
+  const parts=/^([0-9a-fA-F-]{36})\.([0-9a-f]{64})$/.exec(proof);
+  if(!parts){
+   region.replaceChildren(el('p',{role:'alert'},locale==='uz'?'Kirish havolasi yaroqsiz.':'Invalid sign-in link.'));
+   return;
+  }
+  region.replaceChildren(el('p',{role:'status',class:'text-sm text-ink-500'},locale==='uz'?'Kirish tasdiqlanmoqda…':'Signing you in…'));
+  try{
+   const result=await api.request('/api/auth/telegram/intent/exchange',{
+    method:'POST',body:{intentId:parts[1],browserNonce:parts[2]},signal
+   });
+   if(signal.aborted)return;
+   publishSessionEvent('refresh');
+   context.invalidateSession?.();
+   const destination=result.accountStatus==='active'?(result.onboarded?'/app':'/onboarding'):'/pending';
+   await navigate(destination,{replace:true});
+   return;
+  }catch(error){
+   if(signal.aborted)return;
+   region.replaceChildren(el('p',{role:'alert',class:'text-xs text-band-bad'},
+    locale==='uz'
+     ?'Kirish havolasi eskirgan yoki yaroqsiz. Botdan yangi havola oling.'
+     :'This sign-in link has expired or is invalid. Get a new link from the bot.'));
+   return;
+  }
+ }
+
  async function load(){
   if(busy||signal.aborted)return;busy=true;region.dataset.publicAuth='loading';region.replaceChildren(el('div',{role:'status','aria-busy':'true','aria-label':dict.common.loading,class:'h-32 animate-pulse rounded-xl bg-ink-50'}));
   try{
