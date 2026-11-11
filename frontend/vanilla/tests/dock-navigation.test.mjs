@@ -38,6 +38,8 @@ for(const role of ['student','teacher','admin','owner'])test(`${role}: Dock pres
   if(role!=='student')assert.equal(keys.at(-1),'management');
   assert(!entries.some(a=>/^\/app\/(admin|teacher|owner)(?:\/|$)/.test(a.getAttribute('href'))));
   for(const a of entries){assert(a.getAttribute('aria-label'));assert(a.getAttribute('href').startsWith('/app'));}
+  assert.equal(entries.find(a=>a.dataset.dockModule==='leaderboard').getAttribute('href'),'/app/leaderboard');
+  dock.update(url('/app/leaderboard'));assert.equal(entries.find(a=>a.dataset.dockModule==='leaderboard').getAttribute('aria-current'),'page');
   dock.update(url('/app/study-plan/leaderboard'));assert.equal(entries.find(a=>a.dataset.dockModule==='leaderboard').getAttribute('aria-current'),'page');dock.update(url('/app'));
   assert.equal(entries[0].getAttribute('aria-current'),'page');dock.update(url('/app/dashboard'));assert.equal(entries[0].getAttribute('aria-current'),'page');
  }finally{h.dispose();}
