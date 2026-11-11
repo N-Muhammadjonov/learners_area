@@ -259,7 +259,7 @@ function retentionSession(context,initial,onTerminal){
   const s=remaining(p.writeEndsAt,state.skew);
   if(!draftLoaded){draftLoaded=true;draftText=p.recallDraft??'';lastSaved=draftText;}
   const expired=s<=0;
-  const area=el('textarea',{id:'retention-recall-answer',class:'input w-full',style:'display:block;box-sizing:border-box;width:100%;max-width:100%;height:clamp(10rem,24vh,15rem);min-height:10rem;max-height:20rem;resize:vertical',readonly:(submitting||expired)?true:null,placeholder:t.recallPlaceholder,'aria-label':t.recallTitle,'data-retention-answer':true});
+  const area=el('textarea',{id:'retention-recall-answer',class:'input w-full',style:{display:'block',boxSizing:'border-box',width:'100%',maxWidth:'100%',height:'clamp(10rem, 24vh, 15rem)',minHeight:'10rem',maxHeight:'20rem',resize:'vertical'},readonly:(submitting||expired)?true:null,placeholder:t.recallPlaceholder,'aria-label':t.recallTitle,'data-retention-answer':true});
   area.value=draftText;
   area.addEventListener('input',()=>{if(submitting||expired)return;draftText=area.value;clearTimeout(draftTimer);if(draftText!==lastSaved){draftTimer=setTimeout(()=>void saveDraft(draftText),1200);}draftCounter();submit.disabled=draftText.trim().length===0;});
   const count=el('span',{class:'meta-text','aria-live':'polite','data-retention-save-state':saveState},
