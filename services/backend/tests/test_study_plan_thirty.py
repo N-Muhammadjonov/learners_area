@@ -220,3 +220,18 @@ def test_grammar_answer_manifest_matches_authored_skill_curriculum():
             actual_answers = [[item["answer"] for item in exercise["items"]]
                               for exercise in stages[0]["groups"]]
             assert answers[(track,group,unit["id"])] == actual_answers
+
+
+def test_early_cefr_lessons_use_existing_b1_book_evidence_provider():
+    for level in ("A0", "A1", "A2"):
+        days = make_thirty_day_schedule(level, START)
+        for day in days:
+            task = day["tasks"][0]
+            if task.source_key.startswith("grammar-book:"):
+                assert task.source_key.startswith("grammar-book:b1:")
+    for level in ("B2", "C1", "C2"):
+        days = make_thirty_day_schedule(level, START)
+        for day in days:
+            task = day["tasks"][0]
+            if task.source_key.startswith("grammar-book:"):
+                assert not task.source_key.startswith("grammar-book:a")
