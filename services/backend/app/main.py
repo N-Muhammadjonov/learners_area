@@ -26,12 +26,25 @@ from .security import (SESSION_COOKIE, SESSION_TTL, add_security_headers,
 
 LOG = logging.getLogger(__name__)
 
+async def _rejected_account_cleanup():
+    """Enforce seven-day rejection retention while this API worker is running."""
+    while True:
+        try:
+            from .accounts_extra_port import purge_rejected_accounts
+            await purge_rejected_accounts()
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            LOG.exception('Rejected account retention cleanup failed')
+        await asyncio.sleep(3600)
+
+
 @asynccontextmanager
 async def lifespan(app):
     worker_state = control.start()
     from .ai_runtime import control as ai_control
     ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.
-    probes=[]
+    probes=[asyncio.create_task(_rejected_account_cleanup())]
     if os.getenv('MEDIA_READINESS_CHECK')=='1':
         from .media_readiness import log_probe
         probes.append(asyncio.create_task(log_probe()))
