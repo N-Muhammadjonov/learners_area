@@ -1795,7 +1795,7 @@
     "frontend/vanilla/modules/dashboard.js": "451154bd1fd6b0735b2d79082925b1981c35b5f650e6d6ee55218978b5c9d9da",
     "frontend/vanilla/modules/error.js": "6bb3b35edb07f7c159c61e987ac62ee0262d182b55a31fc6b80924fc06d5c994",
     "frontend/vanilla/modules/grammar/lesson.js": "b05d4f9733df8627593e349f22b259393b6ab29c375fc9d4bfff536ec73240a9",
-    "frontend/vanilla/modules/grammar/lessons.js": "62d07c63419ba7e82fe08076deb6c8c9035ec1a3358c32fe88fd060dc0b068fe",
+    "frontend/vanilla/modules/grammar/lessons.js": "a323e2128af52bd27d6c5b941f215789813da8ce53c077253d4fae58b9986246",
     "frontend/vanilla/modules/grammar/mastery.js": "a0914487d606f69ee08bab9ea7164d041044fc816c011e9da7ad7d2dfd73ec1f",
     "frontend/vanilla/modules/grammar/practice.js": "05d43811137827d5fc6a882055049f1caf09b49eae5e923020853bbfe2e3e1cf",
     "frontend/vanilla/modules/grammar/production.js": "522e5c90253d6ae00c7c8d7f2d4f33c73956775f2b8e2bc4d948f4b2891a2dcf",
