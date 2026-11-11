@@ -62,3 +62,24 @@ def test_anonymous_rejected_without_db(monkeypatch,endpoint):
     monkeypatch.setattr(core,'current_user',no_user)
     monkeypatch.setattr(core,'pool',no_db)
     assert client.post(endpoint,json={}).status_code==401
+
+@pytest.mark.parametrize('preset',[0,30,60,120,180])
+def test_timed_and_full_presets_pause_resume(monkeypatch,preset):
+    async def signed_in(*args,**kwargs):return {'id':'owner'}
+    monkeypatch.setattr(core,'current_user',signed_in)
+    now=int(time.time()*1000)
+    original=sign({'tt':CORPUS[0]['id'],'ps':preset,'st':now-3000,'pm':0,'pc':0},
+                  RUN,'owner',now_ms=now,lifetime=720000,jti='test-run-id')
+    paused=client.post('/api/writing/typing/pause',json={'runToken':original})
+    assert paused.status_code==200
+    payload=paused.json()
+    assert payload['paused'] is True
+    claims=verify(payload['runToken'],RUN,'owner')
+    assert claims['ps']==preset and claims['pa']>=now and claims['pc']==1
+    resumed=client.post('/api/writing/typing/resume',json={'runToken':payload['runToken']})
+    assert resumed.status_code==200
+    result=resumed.json()
+    assert result['paused'] is False
+    claims=verify(result['runToken'],RUN,'owner')
+    assert claims['ps']==preset and claims['pc']==1 and 'pa' not in claims
+    assert claims['pm']>=0
