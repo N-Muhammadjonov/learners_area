@@ -1,4 +1,4 @@
-/** Refresh the code-derived route inventory. Production only validates this snapshot; no Node build dependency. */
+/** Generate the code-derived, role-filtered RIWI guide separately from browser asset packaging. */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -11,7 +11,8 @@ const rows=routes.map(r=>{
  const staffModule=staff.match(new RegExp("pattern:'"+r.pattern.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+"'.*?load:t\\('([^']+)'"))?.[1];
  const module=staffModule?'modules/staff-final30/'+staffModule+'.js':r.load.toString().match(/import\(['"]\.\.\/([^'"]+)['"]\)/)?.[1]??null;
  const roles=r.roles??reviewed.find(x=>x.path===r.pattern)?.roles??
-   (r.pattern.startsWith('/app/owner')?['owner']:
+   (r.pattern==='/app/study-plan/leaderboard'||r.pattern==='/app/study-plan/rewards'?['student','owner']:
+    r.pattern.startsWith('/app/owner')?['owner']:
     r.pattern.startsWith('/app/admin')||r.pattern==='/app/listening/import'?['admin','owner']:
     r.pattern.startsWith('/app/teacher')||r.pattern==='/app/management'||r.pattern.endsWith('/lessons/author')?['teacher','admin','owner']:
     ['student','teacher','admin','owner']);
