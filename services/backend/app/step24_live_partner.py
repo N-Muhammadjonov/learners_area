@@ -17,8 +17,8 @@ from .step23_typing import b64
 router=APIRouter()
 H={'Cache-Control':'private, no-store'}
 FRESH=timedelta(seconds=45)
-GRACE=timedelta(seconds=60)
-CONNECT=timedelta(seconds=45)
+GRACE=timedelta(seconds=180)
+CONNECT=timedelta(seconds=75)
 INVITE=timedelta(seconds=30)
 ERR={'rules_outdated':409,'rules_required':409,'not_eligible':403,'profile_incomplete':409,'in_call':409,'not_available':409,'partner_busy':409,'invalid_target':400,'invite_not_found':404,'invite_closed':409,'session_not_found':404,'session_ended':409}
 ERR.update(activity_changed=409,activity_in_progress=409,activity_question_missing=404,session_not_finished=409)

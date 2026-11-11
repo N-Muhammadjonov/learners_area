@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
 import {mount} from '../modules/speaking/live-partner.js';
 
@@ -14,6 +15,7 @@ async function fixture(initial,actions,options){
  h.stub({'/api/frontend/view':{version:1,route:path,data:{kind:'speaking_live_partner',questions:[],me:{...person(1,'Fixture learner', 'a'),hasGender:true}}}});
  globalThis.fetch=async(url,opts={})=>{
   if(url.startsWith('/api/speaking/practice/facets?'))return Response.json({topics:[]});
+  if(url==='/api/live-partner?view=history')return Response.json({stats:{calls:0,seconds:0,averageBand:null,ratingCount:0},friends:[],recent:[]});
   assert.equal(url,'/api/live-partner');
   const request=opts.body?JSON.parse(opts.body):null;
   if(request&&!opts.keepalive)requests.push(request);
@@ -123,4 +125,47 @@ test('matchmaking radar counts eligible live profiles, excluding unavailable use
   assert.deepEqual(people.map(node=>node.dataset.matchUser),[second.userId]);
   assert.equal(h.q('[data-search-online]').textContent,'1');
  }finally{h.dispose();}
+});
+
+
+test('connected call ends in compact IELTS peer feedback instead of history controls',async()=>{
+ const incoming={...lobby,state:'incoming_invite',incoming:{id:inviteId,from:first}};
+ const accepted={...lobby,state:'in_call',sessionId:ID(9),partner:first};
+ const h=await fixture(incoming,{accept:accepted,hangup:lobby,rating:lobby,friend_request:lobby,report:lobby},{
+  createCall(_sid,deps){return {
+   start(){deps.onStatus('connected');},destroy(){},hangup(){deps.onStatus('ended');},
+  };}
+ });
+ try{
+  h.click(h.q('[data-partner-accept]'));await tick(8);
+  assert.equal(h.q('[data-partner-activity]'),null);
+  assert(h.q('[data-partner-questions]'));
+  h.click(h.q('[data-partner-peer] .btn-danger'));await tick(8);
+  assert(h.q('[data-partner-postcall-rate]'));
+  assert.equal(h.q('[data-partner-band]').querySelectorAll('option').length,17);
+  assert.equal(h.q('[data-partner-band]').value,'14');
+  h.click(h.q('[data-partner-postcall-rate]'));await tick(8);
+  assert(h.requests.some(x=>x.action==='rating'&&x.sessionId===ID(9)&&x.rating===14));
+  h.click(h.q('[data-partner-postcall-friend]'));await tick(8);
+  assert(h.requests.some(x=>x.action==='friend_request'&&x.userId===first.userId));
+  h.click(h.q('[data-partner-postcall-report-send]'));await tick(8);
+  assert(h.requests.some(x=>x.action==='report'&&x.sessionId===ID(9)&&x.reason==='other'));
+  h.click(h.q('[data-partner-postcall-close]'));await tick(8);
+  assert.equal(h.q('[data-partner-postcall-rate]'),null);
+  h.click(h.q('[data-partner-tab="recent"]'));await tick(8);
+  assert.equal(h.q('[data-partner-history] select'),null);
+ }finally{h.dispose();}
+});
+
+test('desktop call cards extend down the screen while compact layout survives mobile',()=>{
+ const css=readFileSync(new URL('../modules/speaking/speaking.css',import.meta.url),'utf8');
+ assert(css.includes('.lp-page[data-partner-view="call"] .lp-call-grid > .lp-panel'));
+ assert(css.includes('min-height:max(620px,calc(100dvh - 150px))'));
+ assert(css.includes('.lp-call-grid{grid-template-columns:minmax(0,1fr)}'));
+});
+
+test('Uzbek Speaking Partner title and participant name use the specified wording',async()=>{
+ const {default:uz}=await import('../js/i18n/uz.js');
+ assert.equal(uz.livePartner.title,'Sherik bilan gaplashish');
+ assert.equal(uz.livePartner.partner,'Sherik');
 });

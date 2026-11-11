@@ -4,7 +4,6 @@ import {BackLink,RegionFailureNotice} from '../shared/presentation.js';
 import {LivePartnerCall} from './call-engine.js';
 import {partnerRequest as request,partnerOutsideRoom,partnerRingtone} from './partner-ringing.js';
 import {partnerCopy} from './partner-copy.js';
-import {partnerActivity} from './partner-activities.js';
 import {partnerHistory} from './partner-history.js';
 import {partnerMedia} from './partner-media.js';
 /** Port of LivePartnerPage + LivePartnerClient. Uses existing /api/live-partner.
@@ -29,6 +28,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  let inFlight=false,heartbeat=false,destroyed=false;
  let preference='any',outgoingName='',noticeKey='',presenceKey='',topicsRequested=false;
  let profileSaving=false,profileDraftGender=null,profileDraftLevel=null,peerMuted=false,playbackBlocked=false,history=null,historyLoading=false,historyRequested=false,historyOpen=false,lobbyTab='find',lobbyMessage='',clockOffset=0;
+ let postCall=null,wasConnected=false,bandDraft=14,reportReason='other';
  const timers=new Set();const later=(fn,ms)=>{const id=setTimeout(()=>{timers.delete(id);fn();},ms);timers.add(id);};
  const state=()=>data?.state??'offline',active=()=>['connecting','in_call','reconnecting'].includes(state());
  const outside=()=>me&&partnerOutsideRoom(me.userId);
@@ -54,7 +54,15 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   }
   if(data?.features?.searchUntil&&!next.features?.searchUntil&&!next.incoming&&!next.outgoing&&
      Date.parse(data.features.searchUntil)<=Date.parse(serverNow))lobbyMessage=u.searchExpired;
-  if(data?.sessionId&&!next.sessionId){history=null;historyRequested=false;}
+  if(data?.sessionId&&!next.sessionId){
+   if(wasConnected&&data.partner&&!postCall){
+    postCall={sessionId:data.sessionId,partner:data.partner,rated:false,
+     friended:Boolean(history?.friends?.some(friend=>friend.userId===data.partner.userId)),reported:false};
+    bandDraft=14;reportReason='other';flow='feedback';
+   }
+   history=null;historyRequested=false;
+   if(postCall)void refreshHistory();
+  }
   gen=token;presenceKey=key;data=next;ensureCall();return changed;
  }
  async function refresh(){if(destroyed||pollCtl||inFlight)return;const token=gen,ctl=new AbortController();pollCtl=ctl;const timeout=setTimeout(()=>ctl.abort(),TIMEOUT);
@@ -81,6 +89,10 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   finally{historyLoading=false;if(!destroyed)draw();}
  }
  async function historyAction(body){if(await act(body))void refreshHistory();}
+ async function feedbackAction(body,key){
+  if(!postCall||busy)return;
+  if(await act(body)){if(postCall)postCall[key]=true;draw();void refreshHistory();}
+ }
  function paintClock(){
   const clock=workspace.querySelector('[data-partner-clock]');
   const remaining=workspace.querySelector('[data-search-remaining]');
@@ -108,7 +120,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    const tick=()=>{if(!micStream||destroyed)return;analyser.getByteTimeDomainData(buf);let peak=0;for(const v of buf)peak=Math.max(peak,Math.abs(v-128));level=Math.min(1,peak/64);if(level>0.08&&micState!=='ok'){micState='ok';draw();}const meter=workspace.querySelector('[data-live-mic-meter]');if(meter)meter.style.width=`${Math.round(level*100)}%`;micRAF=requestAnimationFrame(tick);};tick();
   }catch(e){stopMic();micState=['NotAllowedError','SecurityError'].includes(e?.name)?'denied':['NotFoundError','OverconstrainedError'].includes(e?.name)?'missing':'error';draw();}
  }
- function closeFlow(){stopMic();flow='none';draw();}
+ function closeFlow(){stopMic();if(flow==='feedback')postCall=null;flow='none';draw();}
  // Dialog keyboard behavior matches the original: Escape closes, Tab stays
  // inside the modal, and no listener survives this route's AbortSignal.
  listen(document,'keydown',e=>{
@@ -125,13 +137,13 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
  async function agree(){if(await act({action:'accept_rules',version:RULES_VERSION})){closeFlow();await act({action:'go_online'});}}
  async function endCall(block){const id=data?.sessionId;call?.hangup();if(block)await act({action:'block',userId:block});if(id)await act({action:'hangup',sessionId:id});}
  async function playAudio(){try{await remoteAudio.play();playbackBlocked=false;}catch{playbackBlocked=true;}if(!destroyed)draw();}
- function ensureCall(){const sid=active()?data?.sessionId:null;if(sid===callSession)return;disposeCall();if(!sid)return;callSession=sid;micMuted=false;remoteMuted=false;peerMuted=false;playbackBlocked=false;remoteAudio.muted=false;
+ function ensureCall(){const sid=active()?data?.sessionId:null;if(sid===callSession)return;disposeCall();if(!sid)return;callSession=sid;callStatus=null;wasConnected=false;micMuted=false;remoteMuted=false;peerMuted=false;playbackBlocked=false;remoteAudio.muted=false;
   call=createCall(sid,{
    fetchToken:async id=>request({action:'signal_token',sessionId:id},AbortSignal.timeout(TIMEOUT)),
    getUserMedia:()=>navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false}),
    createPeer:config=>new RTCPeerConnection(config),createSocket:uri=>new WebSocket(uri),
    report:status=>{void request({action:'connection',sessionId:sid,status},AbortSignal.timeout(TIMEOUT)).catch(()=>{});},
-   onStatus:(status,detail)=>{if(destroyed)return;callStatus=status;media.connected(status==='connected');
+   onStatus:(status,detail)=>{if(destroyed)return;callStatus=status;if(status==='connected')wasConnected=true;media.connected(status==='connected'||status==='reconnecting');
     if(status==='failed'){error=['microphone','microphone_ended'].includes(detail)?t.errors.mic:t.callFailed;void request({action:'hangup',sessionId:sid},AbortSignal.timeout(TIMEOUT)).catch(()=>{}).finally(()=>void refresh());}draw();},
    onLocalStream:stream=>media.stream('local',stream),
    onRemoteStream:stream=>{media.stream('remote',stream);remoteAudio.srcObject=stream;if(stream)void playAudio();},
@@ -147,8 +159,8 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   if(incoming){
    notices.append(el('section',{role:'group','aria-label':t.incomingTitle,class:'lp-call-notice','data-partner-incoming':''},
     avatar(incoming.from,t),el('div',{class:'lp-person'},el('strong',{},incoming.from.name),el('small',{},t.incomingBody)),
-    button(t.decline,()=>void act({action:'decline',inviteId:incoming.id}),'btn-secondary',{disabled:busy?'':null,'data-partner-decline':''}),
-    button(t.accept,()=>{closeFlow();void act({action:'accept',inviteId:incoming.id});},'btn-primary',{disabled:busy?'':null,'data-partner-accept':''})));
+    button('📵',()=>void act({action:'decline',inviteId:incoming.id}),'btn-secondary',{disabled:busy?'':null,'data-partner-decline':'','aria-label':t.decline,title:t.decline}),
+    button('📞',()=>{closeFlow();void act({action:'accept',inviteId:incoming.id});},'btn-primary',{disabled:busy?'':null,'data-partner-accept':'','aria-label':t.accept,title:t.accept})));
   }else if(outgoing){
    notices.append(el('section',{class:'lp-call-notice','data-partner-outgoing':''},phone(),
     el('div',{class:'lp-person'},el('strong',{},outgoingName||t.calling),el('small',{},t.states.outgoing_invite)),
@@ -159,7 +171,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   const canCall=person.canCall!==false&&!busy&&state()==='available'&&data?.realtime?.ready;
   const control=button('',()=>{outgoingName=person.name;lobbyMessage='';void act({action:'invite',toUserId:person.userId});},'btn-primary lp-dial',
    {disabled:!canCall,'aria-label':t.invite+' '+person.name,'data-partner-focus':person.userId,'data-partner-call':person.userId});
-  control.append(phone(),el('span',{},t.invite));return control;
+  control.append(el('span',{'aria-hidden':'true'},'📞'));return control;
  }
  function radarPeople(){
   return (data?.online??[]).filter(person=>person.canCall!==false&&
@@ -268,8 +280,6 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   if(inCall){
   mePanel.append(el('meter',{min:0,max:1,value:0,'data-partner-meter':'local','aria-label':u.micSignal}));
   const questionsPanel=el('section',{class:'lp-panel lp-questions flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4','data-partner-questions':''},el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.questions),el('p',{class:'text-xs text-ink-500'},t.questionsOptional));
-  const activity=data.features?.activity,connected=state()==='in_call'&&callStatus==='connected';
-  if(activity)questionsPanel.append(partnerActivity({activity,t:u,me:me.userId,sessionId:data.sessionId,connected,busy,act,button}));
   const searchInput=el('input',{type:'search',value:query,placeholder:t.search,class:'w-full rounded-sm border border-ink-200 px-3 py-2'});
   listen(searchInput,'input',()=>{query=searchInput.value;selectedTopic=null;clearTimeout(searchTimer);searchTimer=setTimeout(()=>void search(),250);},signal);questionsPanel.append(searchInput);
   questionsPanel.append(el('p',{role:'status','aria-live':'polite','data-partner-search-state':searchState,class:'text-xs text-ink-500'},searchState==='loading'?t.searchSearching:searchState==='error'?t.searchFailed:searchState==='empty'?t.noQuestions:''));
@@ -280,7 +290,6 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    if(topicLoading&&!list.length)questionsPanel.append(el('p',{role:'status'},dict.common.loading));
    if(q){const card=el('article',{class:'flex min-h-80 flex-col gap-5 rounded-2xl border border-ink-100 bg-paper-raised p-5','data-partner-topic-question':''},button('← '+dict.common.back,()=>{selectedTopic=null;draw();},'btn-secondary self-start'),el('h3',{class:'font-display text-xl'},selectedTopic.topic??dict.speakingStudy.topic),el('p',{class:'whitespace-pre-line text-lg'},q.promptText),q.cueCard?el('p',{class:'whitespace-pre-line text-ink-700'},q.cueCard):null,
      el('div',{class:'mt-auto flex flex-wrap items-center justify-between gap-2'},el('span',{},`${qIndex+1} / ${list.length}`),button(t.nextQuestion+' →',()=>{qIndex++;draw();},'btn-primary',{disabled:qIndex+1>=list.length?'':null})));
-    if(activity)card.append(button(u.shareQuestion,()=>void act({action:'activity_start',kind:'question',sessionId:data.sessionId,version:activity.version,questionId:q.id}),'btn-secondary',{disabled:!connected||busy}));
     questionsPanel.append(card);if(topicCursor&&!topicLoading)questionsPanel.append(button(t.searchMore,()=>void loadTopic(selectedTopic.part,selectedTopic.topic,true),'btn-secondary'));}
   }else for(const part of PARTS){const matches=pool.filter(q=>q.part===part&&(!query.trim()||(`${q.topic??''} ${q.promptText}`).toLowerCase().includes(query.toLowerCase())));const byTopic=new Map(query.trim()?matches.map(q=>[q.topic,{key:q.topic,title:q.topic}]):topicsByPart[part].map(t=>[t.key,t]));
     const wrap=el('section',{class:'practice-part-card relative overflow-hidden rounded-2xl border border-ink-100','data-practice-part':part});
@@ -299,21 +308,20 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
 
    const stats=history?.stats??{calls:0,seconds:0};
    const friends=history?.friends??[],recent=history?.recent??[];
-   const mockResults=recent.filter(entry=>Boolean(entry.mock));
-   const mocksGiven=Number(history?.stats?.mocksGiven??0),mocksTaken=Number(history?.stats?.mocksTaken??0);
+   const averageBand=history?.stats?.averageBand;
    const summary=el('section',{class:'lp-summary card','data-partner-summary':''},
-    el('div',{class:'lp-summary-heading'},el('h1',{},'Speaking Partner'),
+    el('div',{class:'lp-summary-heading'},el('h1',{},t.title),
      button((me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level')+'   Change',()=>{profileDraftGender=me.gender??'male';profileDraftLevel=me.level??'B1';flow='profile';draw();},'lp-summary-profile',{'data-partner-change-profile':'','aria-label':'Change gender and level'})),
     el('div',{class:'lp-stat-grid'},
      ...[[String(stats.calls??0),'Talks','🎙️'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','⏱️'],
      [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','👥'],
-     [mocksTaken+' · '+mocksGiven,'Mocks','⭐']].map(([value,label,icon])=>
+     [averageBand==null?'—':Number(averageBand).toFixed(1),'IELTS band','⭐']].map(([value,label,icon])=>
       el('div',{class:'lp-stat'},el('span',{class:'lp-stat-icon','aria-hidden':'true'},icon),
        el('div',{},el('strong',{},value),el('small',{},label))))));
    if(data?.features?.searchUntil&&!data?.incoming&&!data?.outgoing){workspace.append(renderMatchmaking());return;}
    workspace.append(summary);
    const tabs=[['find','Find',data?.online?.length??0],['recent','Recent',recent.length],
-    ['friends','Friends',friends.filter(friend=>friend.state==='accepted').length],['mocks','Mocks',mocksTaken+mocksGiven]];
+    ['friends','Friends',friends.filter(friend=>friend.state==='accepted').length]];
    workspace.append(el('nav',{class:'lp-tabs',role:'tablist','aria-label':'Speaking Partner'},
     ...tabs.map(([id,label,count])=>button(label+'  '+count,()=>{
      lobbyTab=id;if(id!=='find'&&!historyRequested)void refreshHistory();draw();
@@ -326,7 +334,34 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   if(flow!=='none'){
    const overlay=el('div',{class:'fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4'}),dialog=el('div',{role:'dialog','aria-modal':'true',class:'w-full max-w-md rounded-lg bg-paper p-5 shadow-lg'});
    overlay.append(dialog);overlay.addEventListener('mousedown',e=>{if(e.target===overlay)closeFlow();});
-   if(flow==='profile'){
+   if(flow==='feedback'&&postCall){
+    const end=postCall;
+    const band=el('select',{class:'input','data-partner-band':'','aria-label':u.rating},
+     ...Array.from({length:17},(_,index)=>{
+      const value=index+2;
+      return el('option',{value,selected:value===bandDraft},(value/2).toFixed(1));
+     }));
+    band.addEventListener('change',()=>{bandDraft=Number(band.value);});
+    const reason=el('select',{class:'input','data-partner-report-reason':'','aria-label':u.report},
+     ...Object.entries(u.reasons).map(([value,label])=>el('option',{value,selected:value===reportReason},label)));
+    reason.addEventListener('change',()=>{reportReason=reason.value;});
+    dialog.classList.add('lp-postcall-dialog');
+    dialog.append(
+     el('h2',{},u.rating),
+     el('p',{class:'lp-postcall-peer'},end.partner.name),
+     el('label',{class:'lp-profile-field'},u.bandLabel,band),
+     button(end.rated?u.saved:u.saveScore,()=>void feedbackAction({action:'rating',sessionId:end.sessionId,rating:bandDraft},'rated'),
+      'btn-primary',{'data-partner-postcall-rate':'',disabled:busy||end.rated}),
+     button(end.friended?u.friendPending:u.addFriend,()=>void feedbackAction({action:'friend_request',userId:end.partner.userId},'friended'),
+      'btn-secondary',{'data-partner-postcall-friend':'',disabled:busy||end.friended}),
+     el('details',{'data-partner-postcall-report':''},
+      el('summary',{},u.report),
+      el('div',{class:'lp-postcall-report-fields'},reason,
+       button(end.reported?u.saved:u.sendReport,
+        ()=>void feedbackAction({action:'report',sessionId:end.sessionId,reason:reportReason},'reported'),
+        'btn-secondary',{'data-partner-postcall-report-send':'',disabled:busy||end.reported}))),
+     button(t.close,closeFlow,'btn-secondary',{'data-partner-postcall-close':''}));
+   }else if(flow==='profile'){
     const gender=el('select',{class:'input','aria-label':'Gender','data-partner-profile-gender':''},
       ...[['male','Male'],['female','Female']].map(([value,label])=>el('option',{value,selected:profileDraftGender===value},label)));
     const selectedLevel=el('select',{class:'input','aria-label':'English level','data-partner-profile-level':''},

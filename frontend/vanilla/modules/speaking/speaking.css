@@ -38,7 +38,7 @@
 .lp-person{display:grid;flex:1;min-width:0;overflow-wrap:anywhere}
 .lp-online-person{margin-top:9px;padding-top:9px;border-top:1px solid rgb(var(--workspace-line))}
 .lp-empty{margin:10px 0 0}
-.lp-call-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.lp-call-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:stretch}
 .lp-call-grid :is(.lp-self,.lp-peer){display:grid;justify-items:center;align-content:start;gap:12px;text-align:center}
 .lp-call-notices:empty{display:none}
 .lp-call-notices{position:fixed;z-index:70;bottom:max(20px,env(safe-area-inset-bottom));left:max(20px,env(safe-area-inset-left));max-width:calc(100vw - 40px)}
@@ -143,7 +143,7 @@ html[data-theme] #root [data-route-usable="speaking-ai"] [data-speak-cue-card] {
 .lp-stat strong,.lp-stat small{display:block}
 .lp-stat strong{font-size:1.3rem;font-weight:750;font-variant-numeric:tabular-nums}
 .lp-stat small{color:rgb(var(--workspace-muted));font-size:.85rem}
-.lp-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:999px;background:rgb(var(--workspace-sunken))}
+.lp-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:999px;background:rgb(var(--workspace-sunken))}
 .lp-tabs .lp-tab{min-height:44px;padding:8px;border:1px solid transparent;border-radius:999px;color:rgb(var(--workspace-muted));font-weight:650}
 .lp-tabs .lp-tab[aria-selected="true"]{border-color:var(--la-speaking);color:rgb(var(--workspace-ink));background:rgb(var(--workspace-raised))}
 .lp-history{padding:20px}
@@ -231,3 +231,23 @@ html[data-theme] #root [data-route-usable="speaking-ai"] [data-speak-cue-card] {
 .lp-match-prefs{margin:2px 0 3px;padding:6px 13px;border:1px solid rgb(var(--workspace-line));border-radius:99px;color:rgb(var(--workspace-muted));font-size:.82rem;background:rgb(var(--workspace-paper));font-variant-numeric:tabular-nums}
 .lp-page[data-partner-view="lobby"] .lp-match-cancel{border-radius:10px;padding:10px 20px;font-size:.86rem;font-weight:550}
 @media(max-width:700px){.lp-page[data-partner-view="lobby"] .lp-matchmaking{min-height:425px;padding:16px 12px 25px;margin:8px auto 0}.lp-matchmaking .lp-match-orbit{width:180px;height:170px}.lp-match-ring-outer{width:140px;height:140px}.lp-match-ring-inner{width:100px;height:100px}}
+
+/* Active calls keep the three original columns but extend participant cards
+   down the conversation, without stretching the lobby or mobile layouts. */
+@media (min-width:769px){
+ .lp-page[data-partner-view="call"] .lp-call-grid > .lp-panel{
+  min-height:max(620px,calc(100dvh - 150px));
+ }
+ .lp-page[data-partner-view="call"] .lp-questions{
+  max-height:max(620px,calc(100dvh - 150px));
+  overflow-y:auto;
+ }
+}
+.lp-postcall-dialog{max-width:370px!important;display:grid;gap:12px}
+.lp-postcall-dialog .lp-postcall-peer{margin:0;color:rgb(var(--workspace-muted))}
+.lp-postcall-dialog .lp-profile-field{margin:0}
+.lp-postcall-dialog > button{width:100%;justify-content:center}
+.lp-postcall-dialog details{padding:8px;border:1px solid rgb(var(--workspace-line));border-radius:12px}
+.lp-postcall-dialog summary{cursor:pointer;font-weight:650}
+.lp-postcall-report-fields{display:grid;gap:9px;margin-top:12px}
+.lp-postcall-report-fields > button{width:100%;justify-content:center}
