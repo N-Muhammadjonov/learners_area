@@ -20,6 +20,7 @@ export function dockItems(dict,role){
   ['grammar','/app/grammar/lessons',n.grammar,'grammar','#7baaff','#465ade'],
   ['vocabulary','/app/vocabulary',n.vocabulary,'vocabulary','#ff88ad','#dd376c'],
   ['progress','/app/progress',n.progress,'progress','#a3df7b','#41a954'],
+  ['leaderboard','/app/study-plan/leaderboard',dict.nav?.leaderboard??(dict.common?.back==='Back'?'Leaderboard':'Reyting'),'leaderboard','#ffcf82','#9b67e7'],
  ];
  if(['teacher','admin','owner'].includes(role))items.push(['management','/app/management',n.management,'settings','#a1a9bb','#515d76']);
  return items.map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));
