@@ -110,12 +110,15 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
                if task["completed_at"] is None and task["kind"] != "grammar"}
     if pending:
         # Backend evidence is authoritative. Client-provided completion flags are ignored.
-        events = await con.fetch(f"""SELECT source_key, MIN(happened_at) AS happened_at
+        events = await con.fetch(f"""SELECT source_key, MIN(happened_at) AS happened_at,
+                 count(DISTINCT event_key)::int AS evidence_count
           FROM ({EVENTS}) e WHERE happened_at >= $2 AND happened_at <= $3
           GROUP BY source_key""", uid, cycle["opened_at"], now)
         verified = {}
         for item in events:
             kind = _event_kind(item["source_key"])
+            if kind == "vocabulary" and item["evidence_count"] < 10:
+                continue
             if kind in pending and (kind not in verified or item["happened_at"] < verified[kind][0]):
                 verified[kind] = (item["happened_at"], item["source_key"])
         for kind, (completed_at, source) in verified.items():
