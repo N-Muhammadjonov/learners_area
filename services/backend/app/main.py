@@ -885,3 +885,12 @@ _install_riwi_port()
 
 from .study_time import install as _install_study_time
 _install_study_time()
+
+# Study-plan endpoints share the same FastAPI authority and database pool.
+# Register after all core helpers to avoid initialization-order imports.
+from .study_plan_port import router as _study_plan_router
+app.include_router(_study_plan_router)
+from .study_plan_month_port import router as _study_plan_month_router
+app.include_router(_study_plan_month_router)
+from .study_plan_sixty_port import install as _install_sixty_day_plan
+_install_sixty_day_plan()
