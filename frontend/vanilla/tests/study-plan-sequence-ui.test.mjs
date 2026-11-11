@@ -231,3 +231,20 @@ test('owner sees 7-day plan on Assignments and Dashboard without staff access es
   assert.match(host.querySelector('[data-dashboard-30-plan]').textContent,/7-day plan/);
   assert.equal(host.querySelector('[data-dashboard-30-plan] progress').max,7);
 });
+
+
+test('dashboard offers Create plan when no cycle exists, with or without CEFR level',async()=>{
+  for(const state of ['available','level_required']){
+    host.replaceChildren();
+    api.request=async()=>state==='available'
+      ? {state:'available',level:'B2',totalDays:30,dailyMinutes:120,durationOptions:[7,30]}
+      : {state:'level_required',choices:['placement_test','profile'],durationOptions:[7,30]};
+    mountSequenceDashboard(context(),host);
+    await flush();
+    const link=host.querySelector('[data-dashboard-plan-open]');
+    assert(link,'dashboard must show a plan action');
+    assert.equal(link.textContent,'Create plan');
+    assert.equal(link.getAttribute('href'),ASSIGNMENTS_PATH);
+    assert.equal(host.querySelector('[data-dashboard-30-plan] progress'),null);
+  }
+});
