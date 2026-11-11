@@ -157,7 +157,7 @@ def make_thirty_day_schedule(level: str, start: date,
             day=day_number, slot=0, kind="grammar",
             title=f"Grammar — {unit['title']} · {STAGE_NAMES[stage]}",
             href=unit["href"],
-            source_key=(f"grammar-book:{unit['level'].lower()}:{unit['id']}:{stage}"
+            source_key=(f"grammar-book:{'b1' if unit['level'] in ('A0','A1','A2','B1') else unit['level'].lower()}:{unit['id']}:{stage}"
                         if unit['source'] == 'legacy'
                         else f"skill-grammar:{unit['source']}:{unit['group']}:{unit['id']}:{stage}"),
             minutes=minutes["grammar"], stage=stage,
