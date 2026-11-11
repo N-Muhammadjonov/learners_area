@@ -22,6 +22,20 @@ def fixture(tmp_path):
     return tmp_path
 
 
+def test_stale_riwi_snapshot_does_not_block_browser_packaging(tmp_path, monkeypatch):
+    base = fixture(tmp_path / 'frontend' / 'vanilla')
+    catalog = tmp_path / 'services' / 'backend' / 'app' / 'data' / 'riwi_site_catalog.json'
+    catalog.parent.mkdir(parents=True)
+    catalog.write_text(json.dumps({'version': 1, 'routes': [], 'sources': {
+        'frontend/vanilla/js/main.js': '0' * 64
+    }}))
+    monkeypatch.setattr(builder, 'ROOT', tmp_path)
+    monkeypatch.setattr(builder, 'BASE', base)
+    result = builder.build(base)
+    assert result['staticBuild'] is True
+    assert (base / 'build' / 'asset-manifest.json').is_file()
+
+
 def test_build_excludes_symlinks_and_rejects_framework_import(tmp_path):
     base=fixture(tmp_path)
     outside=tmp_path/'secret';outside.write_text('secret')
@@ -68,6 +82,12 @@ def test_real_build_without_node(tmp_path, docker_assets):
         # Node absent from PATH, just as in the actual multi-stage image.
         subprocess.run(['node', str(ROOT/'scripts/bundle_browser.mjs')], cwd=ROOT, check=True, capture_output=True)
         copy_docker_stage(assets_stage, root, root)
+        catalog = root / 'services/backend/app/data/riwi_site_catalog.json'
+        subprocess.run(['node', str(ROOT / 'scripts/riwi-site-catalog.mjs'),
+                        '--output', str(catalog)], cwd=ROOT, check=True, capture_output=True)
+        generated = json.loads(catalog.read_text())
+        assert all(hashlib.sha256((root / path).read_bytes()).hexdigest() == expected
+                   for path, expected in generated['sources'].items())
     env = {'PATH': '/nonexistent', 'PYTHONPATH': os.pathsep.join(str(Path(item).resolve()) for item in sys.path if item)}
     if docker_assets:
         env['LA_BROWSER_BUNDLES'] = str(root/'bundle-output')

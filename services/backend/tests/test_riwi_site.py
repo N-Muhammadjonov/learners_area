@@ -1,4 +1,6 @@
 import copy
+import json
+import subprocess
 from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
@@ -18,18 +20,26 @@ def surface(path='/app/riwi'):
          'background':'rgb(32, 30, 42)','disabled':False}]}
 
 
-def test_catalog_covers_every_shipped_route_and_matches_current_sources():
-    root=Path(__file__).resolve().parents[3]
-    s.verify_catalog(root)
-    import json
-    raw=json.loads((root/'frontend/vanilla/routes.json').read_text())['routes']
-    compiled=[re.sub(r':[A-Za-z]+', '[^/]+',r['path']) for r in s.catalog()['routes']]
-    assert set(compiled)==set(raw)
-    assert s.route('/app/admin/materials')['roles']==['teacher','admin','owner']
-    assert s.route('/app/admin/statistics')['roles']==['owner']
-    assert s.route('/app/grammar/lessons/author')['roles']==['teacher','admin','owner']
-    assert not any('student' in r['roles'] for r in s.catalog()['routes'] if r['path'].startswith(('/app/admin','/app/teacher','/app/owner')))
-    assert 'doirasiga kirmaydi' in s.answer_site_question('student','/app/admin/users sahifasi qanday ishlaydi?','uz')
+def test_catalog_covers_every_shipped_route_and_matches_current_sources(tmp_path):
+    root = Path(__file__).resolve().parents[3]
+    generated = tmp_path / 'riwi_site_catalog.json'
+    subprocess.run(['node', str(root / 'scripts/riwi-site-catalog.mjs'),
+                    '--output', str(generated)], cwd=root, check=True, capture_output=True)
+    snapshot = json.loads(generated.read_text())
+    # The independent RIWI knowledge build must match source, while the browser
+    # packager never depends on the checked-in snapshot's hash freshness.
+    with patch.object(s, 'catalog', return_value=snapshot):
+        s.verify_catalog(root)
+        raw = json.loads((root / 'frontend/vanilla/routes.json').read_text())['routes']
+        compiled = [re.sub(r':[A-Za-z]+', '[^/]+', r['path']) for r in s.catalog()['routes']]
+        assert set(compiled) == set(raw)
+        assert s.route('/app/admin/materials')['roles'] == ['teacher', 'admin', 'owner']
+        assert s.route('/app/admin/statistics')['roles'] == ['owner']
+        assert s.route('/app/grammar/lessons/author')['roles'] == ['teacher', 'admin', 'owner']
+        assert not any('student' in r['roles'] for r in s.catalog()['routes']
+                       if r['path'].startswith(('/app/admin', '/app/teacher', '/app/owner')))
+        assert 'doirasiga kirmaydi' in s.answer_site_question(
+            'student', '/app/admin/users sahifasi qanday ishlaydi?', 'uz')
 
 
 import re
@@ -136,3 +146,12 @@ async def test_site_gateway_returns_and_saves_clickable_navigation_metadata():
         result=await handle_riwi_chat(None,OWNER,{'message':'Vocabulary tizimi qanday ishlaydi?'},env={'RIWI_EXTERNAL_AI_ENABLED':'false'})
         assert result['navigationLinks'][0]['href']=='/app/vocabulary'
         assert saved.await_args.kwargs['navigation_links']==result['navigationLinks']
+
+def test_riwi_guide_knows_speaking_writing_books_and_leaderboard():
+    grammar = s.site_response('student', 'Grammar bo‘limidagi darslar qanday ishlaydi?', 'uz')
+    assert grammar and '77 ta' in grammar['answer'] and '120 ta' in grammar['answer']
+    ranking = s.site_response('student', 'Reyting sahifasi qanday ishlaydi?', 'uz')
+    assert ranking and 'podium' in ranking['answer'] and 'to‘rtinchi tab' in ranking['answer']
+    assert {'href': '/app/study-plan/leaderboard', 'label': 'Reyting'} in ranking['navigationLinks']
+    assert not any(link['href'] == '/app/study-plan/leaderboard' for link in
+                   s.safe_navigation('teacher', [{'href': '/app/study-plan/leaderboard', 'label': 'Reyting'}]))

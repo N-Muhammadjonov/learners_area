@@ -3,13 +3,16 @@ WORKDIR /build
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY frontend/vanilla/ ./frontend/vanilla/
-COPY scripts/bundle_browser.mjs ./scripts/bundle_browser.mjs
-RUN node scripts/bundle_browser.mjs
+COPY services/backend/app/ ./services/backend/app/
+COPY scripts/bundle_browser.mjs scripts/riwi-site-catalog.mjs ./scripts/
+RUN node scripts/riwi-site-catalog.mjs && node scripts/bundle_browser.mjs
 
 FROM python:3.14-slim AS assets
 WORKDIR /build
 COPY frontend/vanilla/ ./frontend/vanilla/
 COPY services/backend/app/ ./services/backend/app/
+# Browser assets and RIWI knowledge are built independently, then packaged together.
+COPY --from=browser-bundler /build/services/backend/app/data/riwi_site_catalog.json ./services/backend/app/data/riwi_site_catalog.json
 COPY scripts/build_native_assets.py ./scripts/build_native_assets.py
 COPY --from=browser-bundler /build/bundle-output/ ./bundle-output/
 RUN pip install --no-cache-dir rjsmin==1.2.5 rcssmin==1.2.2 \
@@ -22,6 +25,8 @@ WORKDIR /srv/app
 COPY services/backend/requirements.txt ./services/backend/requirements.txt
 RUN pip install --no-cache-dir -r services/backend/requirements.txt
 COPY services/backend/app/ ./services/backend/app/
+# Ship the generated same-commit site guide, never the stale checkout snapshot.
+COPY --from=assets /build/services/backend/app/data/riwi_site_catalog.json ./services/backend/app/data/riwi_site_catalog.json
 COPY services/backend/assets/ ./services/backend/assets/
 COPY services/backend/contracts/ ./services/backend/contracts/
 COPY services/live-signal/server.py ./services/live-signal/server.py

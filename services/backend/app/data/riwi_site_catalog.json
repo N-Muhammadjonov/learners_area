@@ -17,8 +17,6 @@
       "path": "/app/study-plan/leaderboard",
       "roles": [
         "student",
-        "teacher",
-        "admin",
         "owner"
       ],
       "module": "modules/study-plan/motivation.js",
@@ -29,8 +27,6 @@
       "path": "/app/study-plan/rewards",
       "roles": [
         "student",
-        "teacher",
-        "admin",
         "owner"
       ],
       "module": "modules/study-plan/motivation.js",
@@ -2114,6 +2110,6 @@
     "services/backend/app/browser_authoring.py": "b115e2b037f61b165852e3c0f06e84a280f9288e8a51f9fda0118e810983ecdc",
     "services/backend/app/admin_authoring_port.py": "c89f731cf17b0b576455b9f61c9b7a47801786ed96e59a3e5b2bfa7bb24ebedf",
     "services/backend/app/riwi_capabilities.py": "b28c78ef4421d32d4775d586076b9f104dc27dfc753d81d0d9bc5f92be612385",
-    "services/backend/app/riwi_site.py": "cfb9f59a9e3b2539c1d2af0d221e35c5d4349924353c806863397dade31d20e4"
+    "services/backend/app/riwi_site.py": "09264dd7ccda27075244c001bd5d6653a4c79f375b7670b1bd7c660b109925ba"
   }
 }
