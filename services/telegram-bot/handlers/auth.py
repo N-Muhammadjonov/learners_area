@@ -227,3 +227,18 @@ async def membership(event: ChatMemberUpdated):
     })
 
 
+
+
+async def cmd_cancel(message: Message, state: FSMContext, db_user: dict | None = None):
+    """Internal cancel action retained for durable-flow tests; not a public command."""
+    if not message.from_user or not message.chat or message.chat.type != "private":
+        return
+    try:
+        status, result = await api_client.auth_context(str(message.from_user.id), cancel=True)
+    except Exception:
+        status, result = 503, {}
+    if status != 200 or result.get("ok") is not True:
+        await message.answer(t(lang_of(message, db_user), "temporary_error"))
+        return
+    await state.clear()
+    await message.answer(t(lang_of(message, db_user), "cancelled"))
