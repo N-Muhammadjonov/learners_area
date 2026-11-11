@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+<html data-theme="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0e1523" name="theme-color"/>
+<title>How to Become a Millionaire in 5 Years — Learners Area Reading</title>
+<style>
+:root {
+  color-scheme: light;
+  --im-bg: var(--bg-main, #ffffff);
+  --im-surface: var(--bg-surface, #ffffff);
+  --im-surface-2: var(--bg-secondary, #f8fafc);
+  --im-text: var(--text-main, #111827);
+  --im-muted: var(--text-muted, #5b6473);
+  --im-border: var(--border-color, #d5dbe5);
+  --im-accent: var(--accent-color, #436fd6);
+  --im-accent-soft: var(--accent-soft, #edf2ff);
+  --im-part-head-bg: var(--article-header-bg, #f1f2ee);
+  --im-success: #15803d;
+  --im-danger: #b91c1c;
+  --im-left-width: 49.5%;
+  --im-radius: 8px;
+  --im-footer-height: 54px;
+  --im-font-scale: 1;
+}
+html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] {
+  color-scheme: dark;
+  --im-bg: var(--bg-main, #0e1523);
+  --im-surface: var(--bg-surface, #152032);
+  --im-surface-2: var(--bg-secondary, #1c2a40);
+  --im-text: var(--text-main, #e9edf6);
+  --im-muted: var(--text-muted, #b4c0d1);
+  --im-border: var(--border-color, #3b4c63);
+  --im-accent: var(--accent-color, #76a4ff);
+  --im-accent-soft: var(--accent-soft, #263955);
+  --im-part-head-bg: var(--article-header-bg, #202e40);
+}
+* { box-sizing: border-box; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
+body { margin: 0; background: var(--im-bg); color: var(--im-text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
+:where(button,input,select,a,[tabindex]):focus-visible { outline: 3px solid var(--im-accent); outline-offset: 2px; }
+.im-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.im-app { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--im-bg); }
+.im-topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 20px; min-height: 58px; background: var(--im-surface); border-bottom: 1px solid var(--im-border); }
+.im-bar-left, .im-bar-right { display: flex; align-items: center; gap: 13px; }
+.im-brand { display: flex; gap: 9px; align-items: center; color: var(--im-text); font-weight: 800; white-space: nowrap; }
+.im-brand-mark { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--im-accent); color: white; letter-spacing: -.05em; font-size: 13px; }
+.im-taker-id { font-size: 13px; color: var(--im-muted); }
+.im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
+.im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
+.im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
+.im-passage-body { padding: 26px 26px 40px 28px; }
+.oqish-holati { display: flex; align-items: center; gap: 12px; margin: 0 0 15px; }
+.im-read-track { display: block; flex: 1; height: 3px; background: var(--im-border); border-radius: 10px; overflow: hidden; }
+.im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
+.im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
+.im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
+.im-article-paragraph { margin: 0 0 15px; }
+.im-para-letter { font-weight: 750; }
+.im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
+.im-splitter { position: relative; display: flex; align-items: center; justify-content: center; cursor: col-resize; border-left: 1px solid var(--im-border); border-right: 1px solid var(--im-border); user-select: none; background: var(--im-surface); }
+.im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
+.im-question-body { padding: 27px 30px 45px 23px; }
+.im-group { margin: 0 0 34px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
+.im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
+.im-chip:active { cursor: grabbing; }
+.im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
+.im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
+.im-chip-used { opacity: .64; }
+.im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
+.im-drop::placeholder { color: var(--im-accent); opacity: 1; }
+.im-drop:focus { border-style: solid; }
+.im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
+.im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
+.im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
+.im-heading-picker[hidden] { display: none; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
+.im-heading-picker button:hover { background: var(--im-accent-soft); }
+.im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
+.im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-options { display: flex; flex-direction: column; gap: 17px; }
+.im-option-row { display: flex; align-items: start; gap: 12px; }
+.im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
+.im-option-label:hover { background: var(--im-accent-soft); }
+.im-question-gap .im-q-text { margin-bottom: 0; }
+.im-gap-input { display: inline-block; width: clamp(110px, 27%, 170px); min-height: 33px; padding: 5px 7px; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); text-align: center; margin: 0 6px; }
+.im-gap-input:hover { border-color: var(--im-accent); }
+.im-gap-input:focus { border-color: var(--im-accent); }
+.im-footer { flex: none; min-height: var(--im-footer-height); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 7px 13px; border-top: 1px solid var(--im-border); background: var(--im-surface); }
+.im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.im-foot-nav { overflow-x: auto; scrollbar-width: none; }
+.im-foot-nav::-webkit-scrollbar { display: none; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
+.im-qnav { display: flex; gap: 5px; align-items: center; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
+.im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
+.im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
+.im-foot-right { flex: none; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-check { font-size: 19px; padding: 4px 13px; }
+.im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
+.im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
+.im-step-btn { width: 47px; height: 47px; background: var(--im-accent-soft); border: 1px solid var(--im-accent); border-radius: 15px; color: var(--im-text); font-size: 27px; transition: transform .14s; }
+.im-step-btn:hover { transform: scale(1.06); }
+.im-modal { width: min(520px, calc(100% - 30px)); max-height: 88vh; border: 1px solid var(--im-border); background: var(--im-surface); color: var(--im-text); border-radius: 14px; padding: 22px; box-shadow: 0 24px 70px #00000050; }
+.im-modal::backdrop { background: #0b1222a6; }
+.im-modal h2 { margin: 0 0 12px; font-size: 21px; }
+.im-score { font-size: 19px; font-weight: 800; margin: 8px 0 15px; color: var(--im-accent); }
+.im-review-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.im-review-table td,.im-review-table th { border-bottom: 1px solid var(--im-border); padding: 7px; text-align: left; }
+.im-review-table .im-ok { color: var(--im-success); }
+.im-review-table .im-bad { color: var(--im-danger); }
+.im-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+.im-modal-actions button { border: 1px solid var(--im-accent); color: var(--im-text); background: var(--im-accent-soft); padding: 8px 18px; border-radius: 8px; }
+@media (max-width: 850px) {
+  html { overflow: auto; }
+  .im-app { height: auto; min-height: 100dvh; }
+  .im-topbar { padding: 9px 12px; }
+  .im-taker-id { display: none; }
+  .im-part-head { margin: 0 8px; }
+  .im-main { display: block; flex: 1; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
+  .im-passage-body { padding: 18px 16px 22px; }
+  .im-question-col { border-top: 1px solid var(--im-border); }
+  .im-question-body { padding: 24px 16px 50px; }
+  .im-splitter { display: none; }
+  .im-footer { position: sticky; bottom: 0; z-index: 4; }
+  .im-foot-part-name { display: none; }
+  .im-inline-step { position: fixed; bottom: 70px; right: 12px; }
+  .im-qnav-item { height: 35px; width: 34px; }
+}
+@media (max-width: 440px) {
+  .im-brand-label { display: none; }
+  .im-part-head { padding: 10px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
+  .im-foot-right { gap: 6px; }
+  .im-back { padding: 5px 10px; }
+  .im-check { padding: 4px 10px; }
+}
+@media print {
+  .im-topbar, .im-splitter, .im-footer, .im-inline-step { display: none !important; }
+  .im-app { display: block; height: auto; }
+  .im-main { display: block; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; }
+  .im-question-col { break-before: page; }
+  .im-passage-body,.im-question-body { padding: 12px; }
+}
+
+/* Article header matches the reference while respecting the site's design tokens. */
+html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--bg-surface, #152032); --im-surface-2: var(--bg-secondary, #1c2a40); --im-text: var(--text-main, #e9edf6); --im-muted: var(--text-muted, #b4c0d1); --im-border: var(--border-color, #35475e); --im-accent: var(--accent-color, #76a4ff); --im-accent-soft: var(--accent-soft, #263955); --im-part-head-bg: var(--article-header-bg, #202e40); }
+.im-topbar.im-part-head { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; flex: none; min-height: 86px; margin: 6px 16px 0; padding: 12px 18px; background: var(--im-part-head-bg); border: 1px solid var(--im-border); border-bottom: 1px solid var(--im-border); border-radius: 0; }
+.im-article-ident { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.im-article-ident .im-title-sm { margin: 0; font-size: 17px; font-weight: 800; }
+.im-article-ident .im-plain-text { font-size: 15px; line-height: 1.36; color: var(--im-text); }
+.im-bar-right.im-article-actions { justify-content: flex-end; gap: 9px; min-width: 0; }
+.im-brand-pill { display: inline-flex; justify-self: center; align-items: center; justify-content: center; gap: 7px; padding: 4px 16px 4px 7px; min-height: 46px; border: 1px solid var(--im-border); border-radius: 999px; background: var(--im-surface); color: var(--im-text); text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px #030b1b17; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.im-brand-pill:hover { transform: scale(1.04); border-color: var(--im-accent); box-shadow: 0 6px 18px #00000030; background: var(--im-surface-2); }
+.im-brand-pill:focus-visible { outline: 3px solid var(--im-accent); outline-offset: 3px; }
+.im-brand-icon { position: relative; flex: none; width: 40px; height: 34px; display: inline-grid; place-items: center; }
+.im-brand-logo { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 1px 4px #2348be44); }
+.im-brand-fallback { display: grid; place-items: center; width: 33px; height: 31px; border-radius: 10px; background: linear-gradient(125deg, #42dad1, #4475f1); color: #fff; font-weight: 850; letter-spacing: -.08em; font-size: 13px; }
+.im-brand-fallback[hidden] { display: none; }
+.im-brand-wordmark { font-family: 'Geist', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 750; font-size: 17px; letter-spacing: -.045em; }
+.im-brand-wordmark b { font-weight: 850; color: var(--im-accent); }
+.im-timer { font-weight: 760; }
+.im-lexicon-toggle { position: relative; }
+.im-lexicon-count { position: absolute; right: -5px; top: -9px; min-width: 19px; height: 19px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--im-accent); color: #071426; font-size: 10px; font-weight: 800; line-height: 1; }
+.im-vocab-word-in-text { cursor: pointer; text-decoration: underline dotted var(--im-accent); text-underline-offset: 4px; border-radius: 2px; outline-offset: 3px; }
+.im-vocab-word-in-text:hover, .im-vocab-word-in-text:focus-visible { color: var(--im-accent); background: var(--im-accent-soft); }
+.im-check-final { min-width: 98px; min-height: 37px; gap: 7px; padding: 6px 16px; border-radius: 999px; background: var(--im-accent-soft); font-size: 14px; }
+.im-check-mark { font-size: 19px; font-weight: 800; line-height: 1; }
+.im-dictionary-panel { position: fixed; z-index: 50; top: 105px; right: 22px; width: min(360px, calc(100vw - 24px)); max-height: min(570px, calc(100dvh - 125px)); overflow: auto; padding: 16px; border: 1px solid var(--im-border); border-radius: 12px; background: var(--im-surface); color: var(--im-text); box-shadow: 0 18px 55px #00000063; scrollbar-color: var(--im-border) transparent; }
+.im-dictionary-panel[hidden], .im-dict-words[hidden] { display: none !important; }
+.im-dict-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.im-dict-eyebrow { color: var(--im-accent); font-weight: 850; font-size: 10px; letter-spacing: .105em; }
+.im-dict-close { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--im-border); border-radius: 8px; background: var(--im-surface-2); color: var(--im-text); font-size: 24px; line-height: 1; }
+.im-dict-close:hover, .im-dict-speak:hover { border-color: var(--im-accent); background: var(--im-accent-soft); }
+.im-dict-title-row { display: flex; align-items: center; gap: 10px; }
+.im-dict-title-row h2 { margin: 0; font: 800 23px/1.25 'Geist', 'Inter', -apple-system, sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.im-dict-speak { width: 32px; height: 32px; border: 1px solid var(--im-border); border-radius: 7px; background: var(--im-surface-2); color: var(--im-text); font-size: 16px; }
+.im-dict-meta { margin: 5px 0 16px; font-size: 12px; color: var(--im-muted); }
+.im-dict-label { margin: 14px 0 4px; color: var(--im-muted); font-size: 11px; font-weight: 740; letter-spacing: .02em; }
+.im-dict-definition, .im-dict-translation { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.im-dict-translation { color: var(--im-accent); }
+.im-dict-example { padding: 10px 12px; border-left: 2px solid var(--im-accent); border-radius: 3px; background: var(--im-surface-2); color: var(--im-text); margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.im-dict-word-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.im-dict-word-buttons button { max-width: 100%; background: var(--im-surface-2); color: var(--im-text); border: 1px solid var(--im-border); border-radius: 999px; padding: 6px 11px; font-size: 12px; }
+.im-dict-word-buttons button:hover, .im-dict-word-buttons button:focus-visible { border-color: var(--im-accent); background: var(--im-accent-soft); }
+@media (max-width: 850px) {
+ .im-topbar.im-part-head { margin: 6px 8px 0; padding: 10px 12px; gap: 8px; }
+ .im-dictionary-panel { top: 105px; right: 12px; }
+}
+@media (max-width: 640px) {
+ .im-topbar.im-part-head { grid-template-columns: minmax(0,1fr) auto; grid-template-areas: 'info actions' 'brand brand'; min-height: 0; row-gap: 8px; }
+ .im-article-ident { grid-area: info; }
+ .im-article-actions { grid-area: actions; }
+ .im-brand-pill { grid-area: brand; justify-self: center; min-height: 39px; padding: 3px 12px 3px 6px; }
+ .im-brand-icon { height: 30px; width: 35px; }
+ .im-brand-wordmark { font-size: 15px; }
+ .im-article-ident .im-plain-text { font-size: 13px; }
+ .im-timer { font-size: 16px; min-width: 54px; }
+ .im-article-actions .im-icon-btn { width: 30px; height: 30px; }
+ .im-dictionary-panel { top: 135px; max-height: calc(100dvh - 158px); }
+ .im-check-final { min-width: 76px; padding: 5px 11px; }
+}
+@media print { .im-dictionary-panel { display: none !important; } }
+
+.im-brand-icon .im-brand-logo {position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.im-brand-icon .im-brand-fallback {position:relative;z-index:0;}
+
+/* Article footer: shift only the Check action approximately 2 cm to the left. */
+.im-foot-right { margin-right: 2cm; }
+@media (max-width: 640px) { .im-foot-right { margin-right: min(2cm, 8vw); } }
+
+/* Original-PDF article sections and paragraph hierarchy */
+.im-article-section {margin: 4px 0 25px;}
+.im-article-section-title {font-size:calc(18px * var(--im-font-scale));line-height:1.4;font-weight:800;margin:23px 0 14px;color:var(--im-text);letter-spacing:-.015em;}
+.im-section-letter {font-size:14px;color:var(--im-accent);margin-right:6px;}
+.im-article-section .im-article-paragraph {margin-bottom:15px;}
+.im-passage-text .im-matching-question {margin-bottom:4px;}
+.im-article-cover {aspect-ratio:1536/633;object-fit:contain;background:#071322;}
+.im-discussion {margin:34px 0 16px;padding:14px 16px;border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);}
+.im-discussion summary {cursor:pointer;color:var(--im-accent);font-weight:750;}
+.im-discussion-list {margin:13px 0 0;padding-left:22px;line-height:1.6;}
+.im-discussion-list li {margin:0 0 9px;}
+.im-review-table td:last-child {min-width:250px;font-size:12px;line-height:1.55;color:var(--im-muted);}
+@media (max-width:640px){.im-article-section-title{font-size:16px}.im-discussion{padding:12px}}
+
+.im-article-cover {aspect-ratio: 696 / 362; object-fit: cover; background: #0b1b2d;}
+.im-topic-divider {font-size: 21px; font-weight: 800; color: var(--im-accent); margin: 22px 0 18px; border-bottom: 1px solid var(--im-border); padding-bottom: 9px;}
+.im-article-section-title {font-size: clamp(17px, 1.15vw, 20px);}
+
+.im-article-cover {aspect-ratio:1218/773;object-fit:cover;background:#0b1b2d;}
+</style>
+</head>
+<body>
+<div class="im-app" data-article-id="how-to-become-a-millionaire-in-five-years">
+<header aria-label="Article toolbar" class="im-topbar im-part-head">
+<div class="im-bar-left im-article-ident">
+<h1 class="im-title-sm">Article</h1>
+<p class="im-plain-text">Read the article and answer questions 1–14.</p>
+</div>
+<a aria-label="Learners Area Telegram channel (opens in new tab)" class="im-brand-pill" href="https://t.me/Learners_area" id="im-brand-link" rel="noopener noreferrer" target="_blank" title="Learners Area Telegram kanali">
+<span class="im-brand-icon">
+<img alt="" class="im-brand-logo" decoding="async" height="32" id="im-brand-logo" src="https://learnersarea.uz/brand/learners-area-la-glass.svg" width="40"/>
+<span class="im-brand-fallback" id="im-brand-fallback">LA</span>
+</span>
+<span class="im-brand-wordmark">Learners <b>Area</b></span>
+</a>
+<div class="im-bar-right im-article-actions">
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
+<button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
+<button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
+<svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
+<span class="im-lexicon-count">12</span>
+</button>
+</div>
+</header>
+<main class="im-main">
+<section aria-label="Article text" class="im-passage-col" id="im-passage-col">
+<div class="im-passage-body" id="im-passage-body">
+<img alt="Person resting on banknotes — original cover image from supplied PDF" class="im-article-cover" height="773" loading="eager" src="/modules/reading/article-assets/millionaire.jpg" width="1218"/>
+<h2 class="im-passage-title">How to Become a Millionaire in 5 Years</h2>
+<div class="im-passage-text" id="im-passage-text"><section aria-labelledby="section-A" class="im-article-section" id="paragraph-A"><h3 class="im-article-section-title" id="section-A"><span class="im-section-letter">A.</span> Introduction</h3><p class="im-article-paragraph">Making a million-dollar today is not as tough as it was 10 years ago. Currently, there are more than 45 million millionaires in the world and it is possible for you also to become part of these fast-growing ranks in the next few years. No matter where you presently are in your financial situation- whether you are an initial phase or already earning lots of money.</p><p class="im-article-paragraph">You can be a millionaire once you know how to. So let's take it up a notch and this post will guide you how to become a millionaire in 5 years!</p><p class="im-article-paragraph">Yes, you hear it right, 5 years!</p><p class="im-article-paragraph">In 2020, the best way to become a millionaire is by generating income by providing value. You can do this by starting a business online or tradition that suits you the best. You can also get a job that pays a high salary. With the latter, you can save the money and invest your way towards million dollars within 5 years, give or take a few years. Now, we will go through some simple ways to become millionaires.</p><p class="im-article-paragraph">Find your competition, how hard are they working? What are some <span aria-label="differentiators: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="differentiators" role="button" tabindex="0" title="Double-click to open dictionary">differentiators</span> you can bring to your workplace or market?</p><p class="im-article-paragraph">Before that, let's be clear here that simple tasks are not always easy tasks. Suppose, you are given a spoon and asked that you did a hole five feet down into a package's soil, it would be quite simple but certainly will not be easy. Making a million dollars is a <span aria-label="lucrative: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="lucrative" role="button" tabindex="0" title="Double-click to open dictionary">lucrative</span> goal. This is the easiest way to become financially free and improve every aspect of your life. But as it is a big <span aria-label="milestone: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="milestone" role="button" tabindex="0" title="Double-click to open dictionary">milestone</span> and it does require a high level of work, strategy and <span aria-label="commitment: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="commitment" role="button" tabindex="0" title="Double-click to open dictionary">commitment</span>.</p><p class="im-article-paragraph">First, understanding this fact that there is no use in working harder if your work is not effective at generating income- you will be spinning your wheels.</p><p class="im-article-paragraph">Furthermore, do never be afraid of hard work. When you work hard, you do not only make your boss or colleagues feel better but you feel too.</p></section><fieldset class="im-matching-question im-head-drop-row" data-question="1" id="question-1"><legend class="im-visually-hidden">Question 1. Choose a heading for section B.</legend><label class="im-visually-hidden" for="q1">Heading for section B</label><input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="1" id="q1" name="q1" placeholder="1" readonly="" type="text"/><div class="im-heading-picker" hidden=""></div></fieldset><section aria-labelledby="section-B" class="im-article-section" id="paragraph-B"><h3 class="im-article-section-title" id="section-B"><span class="im-section-letter">B.</span> Learn from Your Mistakes and Move On</h3><p class="im-article-paragraph">The mistake is a part of life, everyone makes them. There are many investment mistakes many people make with their money.</p><p class="im-article-paragraph">Mistakes are tough to swallow. We believe our first gut reaction as human beings to the realization we messed up is to shift blame- to others or situations.</p><p class="im-article-paragraph">The best way to deal with your mistakes is to first accept that you have made this mistake and then learn from it. It is simpler than you think especially once you have practice.</p><p class="im-article-paragraph">Suppose you are in the middle of a debt mistake, the best solution you can do is to stop paying interest by balance over to a 0% credit card. It will free you to hammer down on that debt instead of paying big interest payments.</p></section><fieldset class="im-matching-question im-head-drop-row" data-question="2" id="question-2"><legend class="im-visually-hidden">Question 2. Choose a heading for section C.</legend><label class="im-visually-hidden" for="q2">Heading for section C</label><input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="2" id="q2" name="q2" placeholder="2" readonly="" type="text"/><div class="im-heading-picker" hidden=""></div></fieldset><section aria-labelledby="section-C" class="im-article-section" id="paragraph-C"><h3 class="im-article-section-title" id="section-C"><span class="im-section-letter">C.</span> Keep Experimenting: Built New Things</h3><p class="im-article-paragraph">When you want to reach somewhere and achieve something great, you should start building something new that you would love. An experiment is a great way of <span aria-label="innovation: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="innovation" role="button" tabindex="0" title="Double-click to open dictionary">innovation</span>, you will get some of the ideas from experimentation.</p><p class="im-article-paragraph">There are plenty of books on how to reach what your customer will love, and by the time you deliver it, they will already be bored with it.</p><p class="im-article-paragraph">If you are an <span aria-label="entrepreneur: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="entrepreneur" role="button" tabindex="0" title="Double-click to open dictionary">entrepreneur</span>, work on projects that make you excited. Chances are if you come up with something you will use and love, others will also.</p></section><fieldset class="im-matching-question im-head-drop-row" data-question="3" id="question-3"><legend class="im-visually-hidden">Question 3. Choose a heading for section D.</legend><label class="im-visually-hidden" for="q3">Heading for section D</label><input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="3" id="q3" name="q3" placeholder="3" readonly="" type="text"/><div class="im-heading-picker" hidden=""></div></fieldset><section aria-labelledby="section-D" class="im-article-section" id="paragraph-D"><h3 class="im-article-section-title" id="section-D"><span class="im-section-letter">D.</span> Learn to Maintain Your Budget: Spend Less Than Your Earning</h3><p class="im-article-paragraph">If you do not <span aria-label="budget: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="budgeting" role="button" tabindex="0" title="Double-click to open dictionary">budget</span>, you will surely lose money to <span aria-label="overspending: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="overspending" role="button" tabindex="0" title="Double-click to open dictionary">overspending</span>.</p><p class="im-article-paragraph">Here, keep on account of your food, clothes, gadgets and other expenses. Then, start <span aria-label="budgeting: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="budgeting" role="button" tabindex="0" title="Double-click to open dictionary">budgeting</span>. After a year check how much you are spending and compare it with your initial count.</p><p class="im-article-paragraph">But you do not need to compromise with your essential spending.</p><p class="im-article-paragraph">The main focus of <span aria-label="budgeting: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="budgeting" role="button" tabindex="0" title="Double-click to open dictionary">budgeting</span> is to make sure you are spending let than you are earning. And the only way to do that is to track everything.</p><p class="im-article-paragraph">In case, you are not a spreadsheets-kind-of-person, it's okay, take some help.</p></section><fieldset class="im-matching-question im-head-drop-row" data-question="4" id="question-4"><legend class="im-visually-hidden">Question 4. Choose a heading for section E.</legend><label class="im-visually-hidden" for="q4">Heading for section E</label><input aria-expanded="false" aria-haspopup="true" autocomplete="off" class="im-drop im-head-zone im-head-drop im-drop-empty" data-im-group="mh-1-4" data-im-q="4" id="q4" name="q4" placeholder="4" readonly="" type="text"/><div class="im-heading-picker" hidden=""></div></fieldset><section aria-labelledby="section-E" class="im-article-section" id="paragraph-E"><h3 class="im-article-section-title" id="section-E"><span class="im-section-letter">E.</span> Start Investing: Investment in Different Methods</h3><p class="im-article-paragraph">Some people become millionaires and stay millionaires because they invest. It is very easy.</p><p class="im-article-paragraph">There are many ways to start investing in. Also, it is completely fine if you don't have money to invest or have a very low amount. Start with a small. Once you start investing, don't abandon the ship. The stock market has its ups and downs, just ride the wave. Think for the long-term.</p><p class="im-article-paragraph">At last, remember that investment does not always have to be in the stock market. You can have some of the best investment options outside of the stock market like your own business, certificate course, business or blogging.</p></section><section aria-labelledby="section-F" class="im-article-section" id="paragraph-F"><h3 class="im-article-section-title" id="section-F"><span class="im-section-letter">F.</span> Don't Be Discouraged: People will Demotivate You</h3><p class="im-article-paragraph">It is said that you become what you believe. As soon as you accept that you cannot become a millionaire, you probably will not.</p><p class="im-article-paragraph">What you think about yourself today matters a whole lot, and will play a major role in determining your future. After all, your beliefs affect your actions and your actions ultimately affect your outcomes.</p><p class="im-article-paragraph">If you listen to <span aria-label="discouraging: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="discouraged" role="button" tabindex="0" title="Double-click to open dictionary">discouraging</span> people and get <span aria-label="discouraged: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="discouraged" role="button" tabindex="0" title="Double-click to open dictionary">discouraged</span>, you are letting them achieve what they want- to drag you down and make sure you do not surpass their success.</p><p class="im-article-paragraph">Instead, work to prove them while being humble about it. Let your results speak.</p></section><section aria-labelledby="section-G" class="im-article-section" id="paragraph-G"><h3 class="im-article-section-title" id="section-G"><span class="im-section-letter">G.</span> Saving for Bad Days: Some Savings for Emergency</h3><p class="im-article-paragraph">You might have experienced in your previous years or seen people suffering from bad days. When you are checking how to become a millionaire in 5 years, you must be prepared for all bad days and start with finance, do some saving for a bad day like a medical <span aria-label="emergency: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="emergency" role="button" tabindex="0" title="Double-click to open dictionary">emergency</span>, or lose anything.</p><p class="im-article-paragraph">Don't get caught without an <span aria-label="emergency: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="emergency" role="button" tabindex="0" title="Double-click to open dictionary">emergency</span> fund. Now, you may be thinking what does this have to do with becoming a millionaire.</p><p class="im-article-paragraph">Suppose, there is an <span aria-label="emergency: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="emergency" role="button" tabindex="0" title="Double-click to open dictionary">emergency</span> and you do not have any savings, you will probably go into debt or borrow from your family.</p><p class="im-article-paragraph">Taking money from your family is not a good idea. And, take debt as the polar opposite of investing. Instead of investing in companies, companies are investing you, try to make as much profit as possible by pulling it out of your wallet.</p><p class="im-article-paragraph">As per the experts, you should always career around three to six months of expenses in your urgency fund.</p></section><section aria-labelledby="section-H" class="im-article-section" id="paragraph-H"><h3 class="im-article-section-title" id="section-H"><span class="im-section-letter">H.</span> Some Additional Tips</h3><p class="im-article-paragraph">• Education is one of the fastest ways when you are looking at how to become a millionaire in 5 years. Don't limit your education on a university degree or specialized certifications. Your financial education is vital assets that will help you to create wealth.</p><p class="im-article-paragraph">• If you have a unique business idea that resolves a big issue, you can go for the self-fund, get a loan, get investments, <span aria-label="crowdfund: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="crowdfund" role="button" tabindex="0" title="Double-click to open dictionary">crowdfund</span>, there are so many other ways to fund your business. But in case, you feel doing a business is not your path to become a millionaire, you can always take the other routine of getting high earnings.</p><p class="im-article-paragraph">• If you have still not selected your career path, work to reach the million-dollar salary level, it will require time, specialized skills and also some investment, but you need to do this.</p><p class="im-article-paragraph">• You have created a big-picture vision that inspires you, now you need to work on organizing your life so you can be in flow as much as possible.</p><p class="im-article-paragraph">• Always remember that great people are not the product of habits, they are the outcome of environments. Change your environment to change your mindset. Start visualizing and imagining your desired future. Also, affirm to yourself that you are going to accomplish that in future.</p></section><section aria-labelledby="section-I" class="im-article-section" id="paragraph-I"><h3 class="im-article-section-title" id="section-I"><span class="im-section-letter">I.</span> Wrap Up on How to Become a Millionaire in 5 Years</h3><p class="im-article-paragraph">Apart from all these points, the major things you need to become a millionaire in 5 years are the right mindset and motivates. Always focus on the medium and long term success instead of instant <span aria-label="gratification: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="gratification" role="button" tabindex="0" title="Double-click to open dictionary">gratification</span> like the lottery and all.</p><p class="im-article-paragraph">Through investment, saving and increasing your income, you can have way more control of your financial freedom. When you are at the beginning, start managing the money that you have now and when you eventually become that millionaire, you can purchase freedom for the rest of your life.</p><p class="im-article-paragraph">While there is no guarantee of becoming a multimillionaire, it is well worth effort.</p></section></div>
+</div>
+</section>
+<div aria-label="Resize article and question panels" aria-orientation="vertical" class="im-splitter" id="im-splitter" role="separator" tabindex="0"><span aria-hidden="true" class="im-splitter-grip">↔</span></div>
+<section aria-label="Article questions" class="im-question-col" id="im-questions">
+<div class="im-question-body"><section aria-labelledby="group-1-4" class="im-group" data-im-from="1" data-im-to="4"><h3 class="im-group-title" id="group-1-4">Questions 1–4</h3><p class="im-guide">Choose the correct heading for each section and move it into the gap.</p><p class="im-guide">This article has nine sections, A–I. Match sections B–E.</p><div class="im-head-block"><h4 class="im-head-list-title">List of Headings</h4><div aria-label="Draggable headings" class="im-bank im-bank-plain" data-im-group="mh-1-4"><button aria-pressed="false" class="im-chip im-chip-wide" data-heading="i" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">i</span> Taking responsibility for mistakes and learning from them</button><button aria-pressed="false" class="im-chip im-chip-wide" data-heading="ii" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">ii</span> Developing fresh ideas through experimentation</button><button aria-pressed="false" class="im-chip im-chip-wide" data-heading="iii" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">iii</span> Controlling expenses by planning a budget</button><button aria-pressed="false" class="im-chip im-chip-wide" data-heading="iv" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">iv</span> Investing small amounts with a long-term perspective</button><button aria-pressed="false" class="im-chip im-chip-wide" data-heading="v" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">v</span> Depending on lottery winnings for quick wealth</button><button aria-pressed="false" class="im-chip im-chip-wide" data-heading="vi" data-im-group="mh-1-4" draggable="true" type="button"><span class="im-roman">vi</span> Why borrowing money is better than saving it</button></div></div></section><section aria-labelledby="group-5-8" class="im-group" data-im-from="5" data-im-to="8"><h3 class="im-group-title" id="group-5-8">Questions 5–8</h3><p class="im-guide">Choose  if the statement agrees with the article,  if it contradicts the article, or  if the information is not stated.</p><fieldset class="im-question im-question-choice" data-question="5" id="question-5"><legend class="im-q-text"><span class="im-qnum">5</span>The writer argues that working harder does not help if the work is ineffective at generating income.</legend><div class="im-options"><div class="im-option-row"><input id="q5-true" name="q5" type="radio" value="TRUE"/><label class="im-option-label" for="q5-true">TRUE</label></div><div class="im-option-row"><input id="q5-false" name="q5" type="radio" value="FALSE"/><label class="im-option-label" for="q5-false">FALSE</label></div><div class="im-option-row"><input id="q5-not-given" name="q5" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q5-not-given">NOT GIVEN</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="6" id="question-6"><legend class="im-q-text"><span class="im-qnum">6</span>The article recommends cutting out essential expenses when following a budget.</legend><div class="im-options"><div class="im-option-row"><input id="q6-true" name="q6" type="radio" value="TRUE"/><label class="im-option-label" for="q6-true">TRUE</label></div><div class="im-option-row"><input id="q6-false" name="q6" type="radio" value="FALSE"/><label class="im-option-label" for="q6-false">FALSE</label></div><div class="im-option-row"><input id="q6-not-given" name="q6" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q6-not-given">NOT GIVEN</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="7" id="question-7"><legend class="im-q-text"><span class="im-qnum">7</span>The article states the exact average time required for an investor to accumulate one million dollars.</legend><div class="im-options"><div class="im-option-row"><input id="q7-true" name="q7" type="radio" value="TRUE"/><label class="im-option-label" for="q7-true">TRUE</label></div><div class="im-option-row"><input id="q7-false" name="q7" type="radio" value="FALSE"/><label class="im-option-label" for="q7-false">FALSE</label></div><div class="im-option-row"><input id="q7-not-given" name="q7" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q7-not-given">NOT GIVEN</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="8" id="question-8"><legend class="im-q-text"><span class="im-qnum">8</span>According to the article, all investments must be made in the stock market.</legend><div class="im-options"><div class="im-option-row"><input id="q8-true" name="q8" type="radio" value="TRUE"/><label class="im-option-label" for="q8-true">TRUE</label></div><div class="im-option-row"><input id="q8-false" name="q8" type="radio" value="FALSE"/><label class="im-option-label" for="q8-false">FALSE</label></div><div class="im-option-row"><input id="q8-not-given" name="q8" type="radio" value="NOT GIVEN"/><label class="im-option-label" for="q8-not-given">NOT GIVEN</label></div></div></fieldset></section><section aria-labelledby="group-9-11" class="im-group" data-im-from="9" data-im-to="11"><h3 class="im-group-title" id="group-9-11">Questions 9–11</h3><p class="im-guide">Choose the correct answer, .</p><fieldset class="im-question im-question-choice" data-question="9" id="question-9"><legend class="im-q-text"><span class="im-qnum">9</span>What does the writer advise people to do when they recognise a mistake?</legend><div class="im-options"><div class="im-option-row"><input id="q9-a" name="q9" type="radio" value="A"/><label class="im-option-label" for="q9-a">A Blame their circumstances for the problem.</label></div><div class="im-option-row"><input id="q9-b" name="q9" type="radio" value="B"/><label class="im-option-label" for="q9-b">B Accept the mistake and learn from it.</label></div><div class="im-option-row"><input id="q9-c" name="q9" type="radio" value="C"/><label class="im-option-label" for="q9-c">C Avoid making new plans or experiments.</label></div><div class="im-option-row"><input id="q9-d" name="q9" type="radio" value="D"/><label class="im-option-label" for="q9-d">D Wait until someone else corrects it.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="10" id="question-10"><legend class="im-q-text"><span class="im-qnum">10</span>How much money does the writer say should be kept in an emergency fund?</legend><div class="im-options"><div class="im-option-row"><input id="q10-a" name="q10" type="radio" value="A"/><label class="im-option-label" for="q10-a">A One week of earnings.</label></div><div class="im-option-row"><input id="q10-b" name="q10" type="radio" value="B"/><label class="im-option-label" for="q10-b">B Exactly one year of salary.</label></div><div class="im-option-row"><input id="q10-c" name="q10" type="radio" value="C"/><label class="im-option-label" for="q10-c">C Three to six months of expenses.</label></div><div class="im-option-row"><input id="q10-d" name="q10" type="radio" value="D"/><label class="im-option-label" for="q10-d">D Only enough for one medical bill.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="11" id="question-11"><legend class="im-q-text"><span class="im-qnum">11</span>What does the writer say about financial education?</legend><div class="im-options"><div class="im-option-row"><input id="q11-a" name="q11" type="radio" value="A"/><label class="im-option-label" for="q11-a">A It matters only to university graduates.</label></div><div class="im-option-row"><input id="q11-b" name="q11" type="radio" value="B"/><label class="im-option-label" for="q11-b">B It should be avoided in favour of quick income.</label></div><div class="im-option-row"><input id="q11-c" name="q11" type="radio" value="C"/><label class="im-option-label" for="q11-c">C It is less important than obtaining a specialist certificate.</label></div><div class="im-option-row"><input id="q11-d" name="q11" type="radio" value="D"/><label class="im-option-label" for="q11-d">D It is valuable and should extend beyond university qualifications.</label></div></div></fieldset></section><section aria-labelledby="group-12-14" class="im-group" data-im-from="12" data-im-to="14"><h3 class="im-group-title" id="group-12-14">Questions 12–14</h3><p class="im-guide">Complete the sentences with  from the article.</p><fieldset class="im-question im-question-gap" data-question="12" id="question-12"><legend class="im-visually-hidden">Question 12. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q12"><span class="im-qnum">12</span>The writer recommends tracking everyday </label><input aria-label="Answer to question 12" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q12" name="q12" placeholder="12" spellcheck="false" type="text"/> to avoid overspending.</p></fieldset><fieldset class="im-question im-question-gap" data-question="13" id="question-13"><legend class="im-visually-hidden">Question 13. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q13"><span class="im-qnum">13</span>Without emergency savings, a person may have to go into </label><input aria-label="Answer to question 13" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q13" name="q13" placeholder="13" spellcheck="false" type="text"/>.</p></fieldset><fieldset class="im-question im-question-gap" data-question="14" id="question-14"><legend class="im-visually-hidden">Question 14. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q14"><span class="im-qnum">14</span>The article advises prioritising longer-term success rather than instant </label><input aria-label="Answer to question 14" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q14" name="q14" placeholder="14" spellcheck="false" type="text"/>.</p></fieldset></section></div>
+</section>
+</main>
+<div aria-label="Previous or next question" class="im-inline-step"><button aria-label="Previous question" class="im-step-btn" id="im-previous" type="button">‹</button><button aria-label="Next question" class="im-step-btn" id="im-next" type="button">›</button></div>
+<footer class="im-footer" id="im-footer">
+<div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav aria-label="Questions" class="im-qnav" id="im-qnav">
+<button aria-label="Question 1" class="im-qnav-item" data-im-question="1" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>1</button>
+<button aria-label="Question 2" class="im-qnav-item" data-im-question="2" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>2</button>
+<button aria-label="Question 3" class="im-qnav-item" data-im-question="3" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>3</button>
+<button aria-label="Question 4" class="im-qnav-item" data-im-question="4" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>4</button>
+<button aria-label="Question 5" class="im-qnav-item" data-im-question="5" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>5</button>
+<button aria-label="Question 6" class="im-qnav-item" data-im-question="6" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>6</button>
+<button aria-label="Question 7" class="im-qnav-item" data-im-question="7" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>7</button>
+<button aria-label="Question 8" class="im-qnav-item" data-im-question="8" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>8</button>
+<button aria-label="Question 9" class="im-qnav-item" data-im-question="9" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>9</button>
+<button aria-label="Question 10" class="im-qnav-item" data-im-question="10" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>10</button>
+<button aria-label="Question 11" class="im-qnav-item" data-im-question="11" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>11</button>
+<button aria-label="Question 12" class="im-qnav-item" data-im-question="12" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>12</button>
+<button aria-label="Question 13" class="im-qnav-item" data-im-question="13" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>13</button>
+<button aria-label="Question 14" class="im-qnav-item" data-im-question="14" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>14</button></nav></div></div>
+<div class="im-foot-right"><button aria-label="Check article answers" class="im-check im-check-final" id="im-check-btn" title="Check all answers" type="button"><span aria-hidden="true" class="im-check-mark">✓</span><span>Check</span></button></div>
+</footer>
+<aside aria-labelledby="im-dict-title" aria-modal="false" class="im-dictionary-panel" hidden="" id="im-dictionary-panel" role="dialog" tabindex="-1">
+<div class="im-dict-top"><span class="im-dict-eyebrow">LEARNERS AREA · DICTIONARY</span>
+<button aria-label="Close dictionary" class="im-dict-close" id="im-dict-close" title="Close" type="button">×</button></div>
+<div class="im-dict-title-row"><h2 id="im-dict-title">Dictionary</h2><button aria-label="Pronounce word" class="im-dict-speak" id="im-dict-speak" title="Play English pronunciation" type="button">🔊</button></div>
+<p class="im-dict-meta" id="im-dict-meta"></p>
+<div id="im-dict-definition-block"><p class="im-dict-label">Simple definition</p><p class="im-dict-definition" id="im-dict-definition"></p>
+<p class="im-dict-label">O‘zbekcha tarjimasi</p><p class="im-dict-translation" id="im-dict-translation"></p>
+<p class="im-dict-label">Example</p><p class="im-dict-example" id="im-dict-example"></p></div>
+<div class="im-dict-words" hidden="" id="im-dict-words"><p class="im-dict-label">Words in this article</p><div class="im-dict-word-buttons" id="im-dict-word-buttons"></div></div>
+</aside></div>
+<dialog aria-labelledby="im-result-title" class="im-modal" id="im-result">
+<h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+<div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+<div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</dialog>
+<script>
+(() => {
+  'use strict';
+  const root = document.querySelector('.im-app');
+  const main = document.querySelector('.im-main');
+  const passage = document.getElementById('im-passage-col');
+  const questionPanel = document.getElementById('im-questions');
+  const split = document.getElementById('im-splitter');
+  const navButtons = [...document.querySelectorAll('.im-qnav-item')];
+  const bankButtons = [...document.querySelectorAll('.im-chip[data-heading]')];
+  const headingInputs = [...document.querySelectorAll('.im-head-drop')];
+  const otherInputs = [...document.querySelectorAll('.im-options input, .im-gap-input')];
+  const headingLabels = Object.fromEntries(bankButtons.map((button) => [button.dataset.heading, button.textContent.trim().replace(/^\S+\s+/, '')]));
+  const solution = Object.freeze({"q1": "i", "q2": "ii", "q3": "iii", "q4": "iv", "q5": "TRUE", "q6": "FALSE", "q7": "NOT GIVEN", "q8": "FALSE", "q9": "B", "q10": "C", "q11": "D", "q12": "expenses", "q13": "debt", "q14": "gratification"});
+  const explanations = Object.freeze({"q1": "Section B (Learn from Your Mistakes and Move On) says to admit a mistake and learn from it rather than shifting blame.", "q2": "Section C (Keep Experimenting) recommends building things and learning through innovation and experimentation.", "q3": "Section D (Learn to Maintain Your Budget) stresses tracking spending and keeping expenses below earnings.", "q4": "Section E (Start Investing) advises starting small, thinking long-term and considering investments beyond the stock market.", "q5": "Section A explicitly says that harder work is not useful if the work is ineffective at generating income.", "q6": "Section D says a budget should not require compromising essential spending.", "q7": "Section E discusses investing, but gives no exact average time investors need to reach a million dollars.", "q8": "Section E specifically lists investment choices outside the stock market, such as businesses and courses.", "q9": "Section B says that the best response is first to accept a mistake and then learn from it.", "q10": "Section G advises keeping enough money for three to six months of expenses in an emergency fund.", "q11": "Section H says that financial education matters and should not be limited to a university degree or certifications.", "q12": "Section D recommends tracking expenses such as food, clothes and gadgets when budgeting.", "q13": "Section G says that without emergency savings, a person may go into debt.", "q14": "Section I contrasts medium- and long-term success with instant gratification."});
+  const storageKey = 'learners-area.article.how-to-become-a-millionaire-in-five-years.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
+  let selectedHeading = null;
+  let activeQuestion = 1;
+  let timerInterval = null;
+  let pickerAnchor = null;
+  let pointerStartRatio = null;
+
+  function safeStore() {
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
+    catch (_) { /* Standalone private modes may disable storage. */ }
+  }
+
+  function safeRestore() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (!parsed || typeof parsed !== 'object') return;
+      for (let i = 1; i <= 14; i++) {
+        const value = parsed.answers && parsed.answers['q' + i];
+        if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
+      }
+
+    } catch (_) { /* Ignore corrupted saved data. */ }
+  }
+
+  function refreshAnswered() {
+    navButtons.forEach((button) => {
+      const q = 'q' + button.dataset.imQuestion;
+      const answered = !!String(state.answers[q] || '').trim();
+      button.classList.toggle('im-answered', answered);
+      button.setAttribute('aria-label', `Question ${button.dataset.imQuestion}, ${answered ? 'answered' : 'not answered'}`);
+    });
+    bankButtons.forEach((button) => {
+      const id = button.dataset.heading;
+      const used = headingInputs.some((input) => state.answers[input.name] === id);
+      button.classList.toggle('im-chip-used', used);
+      button.classList.toggle('im-chip-selected', selectedHeading === id);
+      button.setAttribute('aria-pressed', String(selectedHeading === id));
+    });
+  }
+
+  function updateAnswer(name, value) {
+    if (!/^q([1-9]|1[0-4])$/.test(name)) return;
+    if (value) state.answers[name] = value;
+    else delete state.answers[name];
+    safeStore();
+    refreshAnswered();
+    document.dispatchEvent(new CustomEvent('learnersarea:article-answer', { detail: { question: Number(name.slice(1)), answer: value } }));
+  }
+
+  function closePicker() {
+    if (!pickerAnchor) return;
+    const popup = pickerAnchor.parentElement.querySelector('.im-heading-picker');
+    popup.hidden = true;
+    pickerAnchor.setAttribute('aria-expanded', 'false');
+    pickerAnchor = null;
+  }
+
+  function applyHeading(input, headingId) {
+    if (headingId && !(headingId in headingLabels)) return;
+    // Each heading can be used only once in this matching question bank.
+    headingInputs.forEach((other) => {
+      if (other !== input && state.answers[other.name] === headingId && headingId) {
+        other.value = '';
+        other.classList.add('im-drop-empty');
+        other.title = `Choose a heading for question ${other.dataset.imQ}`;
+        delete state.answers[other.name];
+      }
+    });
+    input.value = headingId ? `${headingId} ${headingLabels[headingId]}` : '';
+    input.classList.toggle('im-drop-empty', !headingId);
+    input.title = headingId ? `Assigned: ${headingLabels[headingId]}. Click to change.` : 'Click to choose a heading';
+    updateAnswer(input.name, headingId);
+    selectedHeading = null;
+    closePicker();
+    refreshAnswered();
+    goToQuestion(Number(input.dataset.imQ), false);
+  }
+
+  function openPicker(input) {
+    if (pickerAnchor === input) { closePicker(); return; }
+    closePicker();
+    const picker = input.parentElement.querySelector('.im-heading-picker');
+    picker.replaceChildren();
+    Object.entries(headingLabels).forEach(([id, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = `${id}  ${label}`;
+      button.addEventListener('click', () => { applyHeading(input, id); input.focus(); });
+      picker.append(button);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'im-clear';
+    clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { applyHeading(input, ''); input.focus(); });
+    picker.append(clear);
+    picker.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    pickerAnchor = input;
+  }
+
+  function restoreInputs() {
+    headingInputs.forEach((input) => {
+      const selected = state.answers[input.name];
+      input.value = headingLabels[selected] ? `${selected} ${headingLabels[selected]}` : '';
+      input.classList.toggle('im-drop-empty', !headingLabels[selected]);
+      input.title = 'Click to choose or change the heading';
+    });
+    otherInputs.forEach((input) => {
+      if (input.type === 'radio') input.checked = state.answers[input.name] === input.value;
+      else input.value = state.answers[input.name] || '';
+    });
+    refreshAnswered();
+  }
+
+  bankButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedHeading = selectedHeading === button.dataset.heading ? null : button.dataset.heading;
+      closePicker();
+      refreshAnswered();
+    });
+    button.addEventListener('dragstart', (event) => {
+      selectedHeading = button.dataset.heading;
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', selectedHeading);
+      }
+      refreshAnswered();
+    });
+  });
+
+  headingInputs.forEach((input) => {
+    input.addEventListener('click', () => {
+      if (selectedHeading) applyHeading(input, selectedHeading);
+      else openPicker(input);
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (selectedHeading) applyHeading(input, selectedHeading);
+        else openPicker(input);
+      } else if (event.key === 'Escape') closePicker();
+      else if (event.key === 'Delete' || event.key === 'Backspace') {
+        event.preventDefault();
+        applyHeading(input, '');
+      }
+    });
+    input.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      input.classList.add('im-drop-drop-target');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    input.addEventListener('dragleave', () => input.classList.remove('im-drop-drop-target'));
+    input.addEventListener('drop', (event) => {
+      event.preventDefault();
+      input.classList.remove('im-drop-drop-target');
+      const value = event.dataTransfer && event.dataTransfer.getData('text/plain');
+      if (value in headingLabels) applyHeading(input, value);
+    });
+  });
+  document.addEventListener('click', (event) => {
+    if (pickerAnchor && !pickerAnchor.parentElement.contains(event.target)) closePicker();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePicker(); });
+
+  otherInputs.forEach((input) => {
+    const eventName = input.type === 'radio' ? 'change' : 'input';
+    input.addEventListener(eventName, () => {
+      updateAnswer(input.name, input.value.trim());
+      if (input.type === 'text') {
+        const count = input.value.trim().split(/\s+/).filter(Boolean).length;
+        input.setCustomValidity(count > 1 ? 'Enter one word only.' : '');
+      }
+    });
+    input.addEventListener('focus', () => goToQuestion(Number(input.name.slice(1)), false));
+  });
+
+  function goToQuestion(number, shouldScroll = true) {
+    if (!Number.isInteger(number) || number < 1 || number > 14) return;
+    activeQuestion = number;
+    navButtons.forEach((button) => {
+      const current = Number(button.dataset.imQuestion) === number;
+      button.classList.toggle('im-active', current);
+      if (current) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('im-previous').disabled = number === 1;
+    document.getElementById('im-next').disabled = number === 14;
+    if (!shouldScroll) return;
+    const target = document.getElementById('question-' + number);
+    if (!target) return;
+    const scroller = target.closest('.im-passage-col, .im-question-col');
+    if (!scroller) return;
+    const item = target.getBoundingClientRect();
+    const panel = scroller.getBoundingClientRect();
+    const offset = item.top - panel.top - panel.height * .34;
+    scroller.scrollTo({top: Math.max(0, scroller.scrollTop + offset), behavior: 'smooth'});
+  }
+  navButtons.forEach((button) => {
+    button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
+  });
+  document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
+  document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
+
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
+  function updateTimer() {
+    const seconds = state.remainingSeconds;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    const clock = document.getElementById('im-clock');
+    clock.textContent = `${mm}:${ss}`;
+    clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
+  }
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
+  });
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
+
+  split.addEventListener('pointerdown', (event) => {
+    if (window.matchMedia('(max-width: 850px)').matches) return;
+    pointerStartRatio = event.pointerId;
+    split.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  split.addEventListener('pointermove', (event) => {
+    if (pointerStartRatio !== event.pointerId) return;
+    const bounds = main.getBoundingClientRect();
+    const raw = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const percent = Math.max(30, Math.min(70, raw));
+    root.style.setProperty('--im-left-width', `${percent}%`);
+  });
+  function releaseDivider(event) {
+    if (pointerStartRatio === event.pointerId) pointerStartRatio = null;
+  }
+  split.addEventListener('pointerup', releaseDivider);
+  split.addEventListener('pointercancel', releaseDivider);
+  split.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const old = parseFloat(root.style.getPropertyValue('--im-left-width')) || 49.5;
+    root.style.setProperty('--im-left-width', `${Math.max(30, Math.min(70, old + (event.key === 'ArrowRight' ? 2 : -2)))}%`);
+  });
+
+  function normalise(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  }
+  const resultDialog = document.getElementById('im-result');
+  document.getElementById('im-check-btn').addEventListener('click', () => {
+    const body = document.getElementById('im-review-body');
+    const fragment = document.createDocumentFragment();
+    let correct = 0;
+    for (let i = 1; i <= 14; i++) {
+      const key = 'q' + i;
+      const given = String(state.answers[key] || '');
+      const isCorrect = normalise(given) === normalise(solution[key]);
+      correct += Number(isCorrect);
+      const tr = document.createElement('tr');
+      const cellNo = document.createElement('td');
+      cellNo.textContent = String(i);
+      const cellGiven = document.createElement('td');
+      cellGiven.textContent = given || '—';
+      const cellCorrect = document.createElement('td');
+      cellCorrect.textContent = solution[key];
+      const cellStatus = document.createElement('td');
+      cellStatus.textContent = isCorrect ? '✓' : '✕';
+      cellStatus.className = isCorrect ? 'im-ok' : 'im-bad';
+      const cellExplanation = document.createElement('td');
+      cellExplanation.textContent = explanations[key] || '';
+      tr.append(cellNo, cellGiven, cellCorrect, cellStatus, cellExplanation);
+      fragment.append(tr);
+    }
+    body.replaceChildren(fragment);
+    document.getElementById('im-score').textContent = `${correct} / 14 correct`;
+    if (typeof resultDialog.showModal === 'function') resultDialog.showModal();
+    else resultDialog.setAttribute('open', '');
+  });
+  document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
+  safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
+
+  // Dictionary words are restored from the actual article's glossary, not generated meanings.
+  const dictionary = Object.freeze({"lucrative": {"word": "lucrative", "pos": "adjective", "level": "C1", "ipa": "", "definition": "Producing or likely to produce a large amount of money.", "translation": "daromadli, katta foyda keltiradigan", "example": "She found a lucrative contract in software development."}, "milestone": {"word": "milestone", "pos": "noun", "level": "B2", "ipa": "", "definition": "An important event or stage in a process of development.", "translation": "muhim bosqich, katta yutuq", "example": "Launching the first product was a major milestone."}, "commitment": {"word": "commitment", "pos": "noun", "level": "B2", "ipa": "", "definition": "Willingness to give time and effort to something important.", "translation": "qat’iyat, majburiyatga sodiqlik", "example": "Learning a language requires long-term commitment."}, "differentiators": {"word": "differentiators", "pos": "plural noun", "level": "C1", "ipa": "", "definition": "Features or qualities that make a person or product different from others.", "translation": "ajratib turuvchi jihatlar, farqlovchi omillar", "example": "Reliable service and clear design are useful differentiators."}, "innovation": {"word": "innovation", "pos": "noun", "level": "B2", "ipa": "", "definition": "A new idea, method, or product, or the process of introducing one.", "translation": "innovatsiya, yangilik yaratish", "example": "Innovation can help businesses solve new problems."}, "entrepreneur": {"word": "entrepreneur", "pos": "noun", "level": "B2", "ipa": "", "definition": "A person who starts and runs a business, taking on financial risk.", "translation": "tadbirkor", "example": "The entrepreneur opened an online education company."}, "overspending": {"word": "overspending", "pos": "noun", "level": "C1", "ipa": "", "definition": "Spending more money than planned or than is affordable.", "translation": "me’yoridan ortiq xarajat qilish", "example": "A monthly budget helped prevent overspending."}, "budgeting": {"word": "budgeting", "pos": "noun", "level": "B2", "ipa": "", "definition": "Planning and tracking how money will be earned and spent.", "translation": "budjet tuzish va xarajatlarni rejalash", "example": "Budgeting makes everyday expenses easier to manage."}, "discouraged": {"word": "discouraged", "pos": "adjective", "level": "B2", "ipa": "", "definition": "Having lost confidence or enthusiasm.", "translation": "ruhi tushgan, ishonchi kamaygan", "example": "She felt discouraged after the first rejection."}, "emergency": {"word": "emergency", "pos": "noun", "level": "B2", "ipa": "", "definition": "A sudden serious situation requiring immediate action.", "translation": "favqulodda holat", "example": "They saved money for an unexpected emergency."}, "crowdfund": {"word": "crowdfund", "pos": "verb", "level": "C1", "ipa": "", "definition": "To raise small amounts of money from many people, usually online.", "translation": "ko‘pchilikdan mablag‘ yig‘ib moliyalashtirmoq", "example": "The team decided to crowdfund a community project."}, "gratification": {"word": "gratification", "pos": "noun", "level": "C1", "ipa": "", "definition": "Pleasure or satisfaction from getting something one wants.", "translation": "qoniqish, istakning qondirilishi", "example": "Long-term goals sometimes require delaying gratification."}});
+    const dictionaryAliases = Object.freeze({"discouraging": "discouraged", "discourage": "discouraged", "emergencies": "emergency", "budget": "budgeting"});
+  const dictionaryPanel = document.getElementById('im-dictionary-panel');
+  const dictionaryWords = [...document.querySelectorAll('.im-vocab-word-in-text')];
+  const dictionaryButton = document.getElementById('im-dictionary-list');
+  const dictionaryClose = document.getElementById('im-dict-close');
+  const dictionaryAudio = document.getElementById('im-dict-speak');
+  const dictionaryList = document.getElementById('im-dict-words');
+  const dictionaryListButtons = document.getElementById('im-dict-word-buttons');
+  let activeDictionaryWord = '';
+  let lastDictionaryAnchor = null;
+  let pressTimer = null;
+  let pressGesture = null;
+
+  function dictionaryKey(element) {
+    const raw = String(element.dataset.dictionaryWord || element.textContent || '').trim().toLowerCase();
+    return dictionaryAliases[raw] || raw;
+  }
+  function dictionaryText(id, value) { document.getElementById(id).textContent = value; }
+  function openDictionary(key, anchor = null, list = false) {
+    const entry = dictionary[key];
+    if (!entry) return;
+    const detail = {word:key, sourceType:'reading', sourceId:'how-to-become-a-millionaire-in-five-years', anchor};
+    const event = new CustomEvent('learnersarea:article-word-lookup', {cancelable:true, detail});
+    if (!document.dispatchEvent(event)) return;
+    activeDictionaryWord = key;
+    lastDictionaryAnchor = anchor;
+    dictionaryText('im-dict-title', entry.word);
+    dictionaryText('im-dict-meta', [entry.pos, entry.level, entry.ipa].filter(Boolean).join(' · '));
+    dictionaryText('im-dict-definition', entry.definition);
+    dictionaryText('im-dict-translation', entry.translation);
+    dictionaryText('im-dict-example', entry.example);
+    dictionaryList.hidden = !list;
+    dictionaryPanel.hidden = false;
+    dictionaryPanel.scrollTop = 0;
+    dictionaryPanel.focus({preventScroll:true});
+  }
+  function closeDictionary(returnFocus = false) {
+    if (dictionaryPanel.hidden) return;
+    dictionaryPanel.hidden = true;
+    activeDictionaryWord = '';
+    if (returnFocus && lastDictionaryAnchor) lastDictionaryAnchor.focus({preventScroll:true});
+    lastDictionaryAnchor = null;
+  }
+  const uniqueWords = Object.keys(dictionary);
+  for (const key of uniqueWords) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = key;
+    button.addEventListener('click', () => openDictionary(key, null, true));
+    dictionaryListButtons.append(button);
+  }
+  dictionaryButton.addEventListener('click', () => {
+    if (!dictionaryPanel.hidden && !dictionaryList.hidden) { closeDictionary(true); return; }
+    openDictionary(activeDictionaryWord || uniqueWords[0], null, true);
+  });
+  dictionaryClose.addEventListener('click', () => closeDictionary(true));
+  dictionaryAudio.addEventListener('click', () => {
+    if (!activeDictionaryWord || !('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(activeDictionaryWord);
+    utterance.lang = 'en-GB'; utterance.rate = .9;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  });
+  for (const word of dictionaryWords) {
+    word.addEventListener('dblclick', (event) => {
+      if (event.button !== 0) return;
+      window.getSelection()?.removeAllRanges();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.pointerType === 'mouse') return;
+      clearTimeout(pressTimer);
+      pressGesture = {x:event.clientX,y:event.clientY};
+      pressTimer = window.setTimeout(() => {
+        pressTimer = null;
+        openDictionary(dictionaryKey(word), word);
+      }, 3000);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+      word.addEventListener(name, () => { clearTimeout(pressTimer); pressTimer = null; });
+    }
+    word.addEventListener('pointermove', (event) => {
+      if (pressGesture && Math.hypot(event.clientX - pressGesture.x, event.clientY - pressGesture.y) > 8) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    });
+  }
+  document.addEventListener('pointerdown', (event) => {
+    if (dictionaryPanel.hidden) return;
+    if (dictionaryPanel.contains(event.target) || dictionaryButton.contains(event.target)) return;
+    if (event.target.closest?.('.im-vocab-word-in-text')) return;
+    closeDictionary();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !dictionaryPanel.hidden) closeDictionary(true);
+  });
+  const logo = document.getElementById('im-brand-logo');
+  const logoFallback = document.getElementById('im-brand-fallback');
+  logo.addEventListener('load', () => { if (logo.naturalWidth > 0) logoFallback.hidden = true; });
+  logo.addEventListener('error', () => { logo.hidden = true; logoFallback.hidden = false; });
+  if (logo.complete && logo.naturalWidth > 0) logoFallback.hidden = true;
+})();
+</script>
+</body>
+</html>

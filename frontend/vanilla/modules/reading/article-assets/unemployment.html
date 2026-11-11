@@ -326,7 +326,9 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     q12: '20%', q13: 'entrepreneurship', q14: 'roads'
   });
   const storageKey = 'learners-area.article.unemployment.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
-  const state = { answers: {}, remainingSeconds: 1200, isPaused: false };
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
   let selectedHeading = null;
   let activeQuestion = 1;
   let timerInterval = null;
@@ -334,7 +336,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   let pointerStartRatio = null;
 
   function safeStore() {
-    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
     catch (_) { /* Standalone private modes may disable storage. */ }
   }
 
@@ -346,8 +348,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
         const value = parsed.answers && parsed.answers['q' + i];
         if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
       }
-      if (Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(1200, Math.floor(parsed.remainingSeconds)));
-      state.isPaused = !!parsed.isPaused;
+
     } catch (_) { /* Ignore corrupted saved data. */ }
   }
 
@@ -531,6 +532,13 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
   document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
 
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
   function updateTimer() {
     const seconds = state.remainingSeconds;
     const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -538,18 +546,57 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     const clock = document.getElementById('im-clock');
     clock.textContent = `${mm}:${ss}`;
     clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
-    document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
-    document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
   }
-  document.getElementById('im-pause').addEventListener('click', () => {
-    state.isPaused = !state.isPaused;
-    updateTimer(); safeStore();
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
   });
-  timerInterval = window.setInterval(() => {
-    if (state.isPaused || state.remainingSeconds <= 0) return;
-    state.remainingSeconds -= 1;
-    updateTimer(); safeStore();
-  }, 1000);
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
 
   split.addEventListener('pointerdown', (event) => {
     if (window.matchMedia('(max-width: 850px)').matches) return;
@@ -608,8 +655,20 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     else resultDialog.setAttribute('open', '');
   });
   document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
-  window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
   safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
 
   // Dictionary words are restored from the actual article's glossary, not generated meanings.
   const dictionary = Object.freeze({"objective": {"word": "objective", "pos": "noun", "level": "B1", "ipa": "/əbˈdʒektɪv/", "definition": "goal", "translation": "maqsad", "example": "The achievement of full employment is a key macro-economic policy objective because unemployment can create significant costs to individuals, families, businesses, and the whole economy."}, "barrier": {"word": "barrier", "pos": "noun", "level": "B2", "ipa": "", "definition": "obstacle", "translation": "g'ov", "example": "Common barriers to education include a lack of teachers and educational resources, as well as a lack of transportation to and from school."}, "incentive": {"word": "incentive", "pos": "noun", "level": "B2", "ipa": "", "definition": "encouragement", "translation": "rag'bat", "example": "Safety nets must cover all while infrastructure and hiring incentives create good jobs."}, "depreciate": {"word": "depreciate", "pos": "verb", "level": "", "ipa": "", "definition": "decline", "translation": "qadrsizlanmoq", "example": "As skills depreciate, individuals may become trapped in an extended period of ‘long term’ unemployment."}, "alleviate": {"word": "alleviate", "pos": "verb", "level": "C1", "ipa": "/əˈliːvieɪt/", "definition": "reduce", "translation": "yengillashtirmoq", "example": "For instance, to help alleviate poverty and unemployment in the rural Philippines, better access to roads and the internet could help farmers sell their goods."}, "acquire": {"word": "acquire", "pos": "verb", "level": "B1", "ipa": "", "definition": "gain", "translation": "egallamoq", "example": "Given that many important skills are gained while at work, unemployment can mean that new skills may not be acquired, and existing ones eroded – hence a depreciation in human capital."}, "severe": {"word": "severe", "pos": "adjective", "level": "B1", "ipa": "", "definition": "serious", "translation": "jiddiy", "example": "The severity of the costs depends upon the level and rate of unemployment, and whether it is temporary or longer term."}, "scarce": {"word": "scarce", "pos": "adjective", "level": "", "ipa": "", "definition": "limited", "translation": "cheklangan", "example": "An economy uses scarce resources to educate and train individuals as they progress from childhood to adulthood and into the labour market."}, "substantial": {"word": "substantial", "pos": "adjective", "level": "B1", "ipa": "", "definition": "considerable", "translation": "sezilarli", "example": "These are often run by state workforce development commissions or employers can provide more substantial skills-based training for employees."}, "perversely": {"word": "perversely", "pos": "adverb", "level": "C2", "ipa": "", "definition": "wrongly", "translation": "teskari ravishda", "example": "In this sense, welfare payments could be said to create moral hazard where out-of-work benefits are seen as an insurance against unemployment, but perversely increase the likelihood of remaining unemployed."}, "dramatically": {"word": "dramatically", "pos": "adverb", "level": "B2", "ipa": "", "definition": "sharply", "translation": "keskin", "example": "If this cannot be raised through taxation, then the public sector will have to increase its borrowing – as happened in dramatic fashion because of the pandemic."}, "potentially": {"word": "potentially", "pos": "adverb", "level": "B2", "ipa": "/pəˈtenʃəli/", "definition": "possibly", "translation": "ehtimol", "example": "While it may help empower female entrepreneurs living in poverty, microfinance can potentially worsen overall debt."}});

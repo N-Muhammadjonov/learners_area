@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-theme="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0e1523" name="theme-color"/>
+<title>Space exploration pros and cons: a waste of money? | Learners Area</title>
+<style>
+:root {
+  color-scheme: light;
+  --im-bg: var(--bg-main, #ffffff);
+  --im-surface: var(--bg-surface, #ffffff);
+  --im-surface-2: var(--bg-secondary, #f8fafc);
+  --im-text: var(--text-main, #111827);
+  --im-muted: var(--text-muted, #5b6473);
+  --im-border: var(--border-color, #d5dbe5);
+  --im-accent: var(--accent-color, #436fd6);
+  --im-accent-soft: var(--accent-soft, #edf2ff);
+  --im-part-head-bg: var(--article-header-bg, #f1f2ee);
+  --im-success: #15803d;
+  --im-danger: #b91c1c;
+  --im-left-width: 49.5%;
+  --im-radius: 8px;
+  --im-footer-height: 54px;
+  --im-font-scale: 1;
+}
+html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] {
+  color-scheme: dark;
+  --im-bg: var(--bg-main, #0e1523);
+  --im-surface: var(--bg-surface, #152032);
+  --im-surface-2: var(--bg-secondary, #1c2a40);
+  --im-text: var(--text-main, #e9edf6);
+  --im-muted: var(--text-muted, #b4c0d1);
+  --im-border: var(--border-color, #3b4c63);
+  --im-accent: var(--accent-color, #76a4ff);
+  --im-accent-soft: var(--accent-soft, #263955);
+  --im-part-head-bg: var(--article-header-bg, #202e40);
+}
+* { box-sizing: border-box; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
+body { margin: 0; background: var(--im-bg); color: var(--im-text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
+:where(button,input,select,a,[tabindex]):focus-visible { outline: 3px solid var(--im-accent); outline-offset: 2px; }
+.im-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.im-app { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--im-bg); }
+.im-topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 20px; min-height: 58px; background: var(--im-surface); border-bottom: 1px solid var(--im-border); }
+.im-bar-left, .im-bar-right { display: flex; align-items: center; gap: 13px; }
+.im-brand { display: flex; gap: 9px; align-items: center; color: var(--im-text); font-weight: 800; white-space: nowrap; }
+.im-brand-mark { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--im-accent); color: white; letter-spacing: -.05em; font-size: 13px; }
+.im-taker-id { font-size: 13px; color: var(--im-muted); }
+.im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
+.im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
+.im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
+.im-passage-body { padding: 26px 26px 40px 28px; }
+.oqish-holati { display: flex; align-items: center; gap: 12px; margin: 0 0 15px; }
+.im-read-track { display: block; flex: 1; height: 3px; background: var(--im-border); border-radius: 10px; overflow: hidden; }
+.im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
+.im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
+.im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
+.im-article-paragraph { margin: 0 0 15px; }
+.im-para-letter { font-weight: 750; }
+.im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
+.im-splitter { position: relative; display: flex; align-items: center; justify-content: center; cursor: col-resize; border-left: 1px solid var(--im-border); border-right: 1px solid var(--im-border); user-select: none; background: var(--im-surface); }
+.im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
+.im-question-body { padding: 27px 30px 45px 23px; }
+.im-group { margin: 0 0 34px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
+.im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
+.im-chip:active { cursor: grabbing; }
+.im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
+.im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
+.im-chip-used { opacity: .64; }
+.im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
+.im-drop::placeholder { color: var(--im-accent); opacity: 1; }
+.im-drop:focus { border-style: solid; }
+.im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
+.im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
+.im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
+.im-heading-picker[hidden] { display: none; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
+.im-heading-picker button:hover { background: var(--im-accent-soft); }
+.im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
+.im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-options { display: flex; flex-direction: column; gap: 17px; }
+.im-option-row { display: flex; align-items: start; gap: 12px; }
+.im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
+.im-option-label:hover { background: var(--im-accent-soft); }
+.im-question-gap .im-q-text { margin-bottom: 0; }
+.im-gap-input { display: inline-block; width: clamp(110px, 27%, 170px); min-height: 33px; padding: 5px 7px; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); text-align: center; margin: 0 6px; }
+.im-gap-input:hover { border-color: var(--im-accent); }
+.im-gap-input:focus { border-color: var(--im-accent); }
+.im-footer { flex: none; min-height: var(--im-footer-height); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 7px 13px; border-top: 1px solid var(--im-border); background: var(--im-surface); }
+.im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.im-foot-nav { overflow-x: auto; scrollbar-width: none; }
+.im-foot-nav::-webkit-scrollbar { display: none; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
+.im-qnav { display: flex; gap: 5px; align-items: center; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
+.im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
+.im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
+.im-foot-right { flex: none; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-check { font-size: 19px; padding: 4px 13px; }
+.im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
+.im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
+.im-step-btn { width: 47px; height: 47px; background: var(--im-accent-soft); border: 1px solid var(--im-accent); border-radius: 15px; color: var(--im-text); font-size: 27px; transition: transform .14s; }
+.im-step-btn:hover { transform: scale(1.06); }
+.im-modal { width: min(520px, calc(100% - 30px)); max-height: 88vh; border: 1px solid var(--im-border); background: var(--im-surface); color: var(--im-text); border-radius: 14px; padding: 22px; box-shadow: 0 24px 70px #00000050; }
+.im-modal::backdrop { background: #0b1222a6; }
+.im-modal h2 { margin: 0 0 12px; font-size: 21px; }
+.im-score { font-size: 19px; font-weight: 800; margin: 8px 0 15px; color: var(--im-accent); }
+.im-review-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.im-review-table td,.im-review-table th { border-bottom: 1px solid var(--im-border); padding: 7px; text-align: left; }
+.im-review-table .im-ok { color: var(--im-success); }
+.im-review-table .im-bad { color: var(--im-danger); }
+.im-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+.im-modal-actions button { border: 1px solid var(--im-accent); color: var(--im-text); background: var(--im-accent-soft); padding: 8px 18px; border-radius: 8px; }
+@media (max-width: 850px) {
+  html { overflow: auto; }
+  .im-app { height: auto; min-height: 100dvh; }
+  .im-topbar { padding: 9px 12px; }
+  .im-taker-id { display: none; }
+  .im-part-head { margin: 0 8px; }
+  .im-main { display: block; flex: 1; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
+  .im-passage-body { padding: 18px 16px 22px; }
+  .im-question-col { border-top: 1px solid var(--im-border); }
+  .im-question-body { padding: 24px 16px 50px; }
+  .im-splitter { display: none; }
+  .im-footer { position: sticky; bottom: 0; z-index: 4; }
+  .im-foot-part-name { display: none; }
+  .im-inline-step { position: fixed; bottom: 70px; right: 12px; }
+  .im-qnav-item { height: 35px; width: 34px; }
+}
+@media (max-width: 440px) {
+  .im-brand-label { display: none; }
+  .im-part-head { padding: 10px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
+  .im-foot-right { gap: 6px; }
+  .im-back { padding: 5px 10px; }
+  .im-check { padding: 4px 10px; }
+}
+@media print {
+  .im-topbar, .im-splitter, .im-footer, .im-inline-step { display: none !important; }
+  .im-app { display: block; height: auto; }
+  .im-main { display: block; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; }
+  .im-question-col { break-before: page; }
+  .im-passage-body,.im-question-body { padding: 12px; }
+}
+
+/* Article header matches the reference while respecting the site's design tokens. */
+html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--bg-surface, #152032); --im-surface-2: var(--bg-secondary, #1c2a40); --im-text: var(--text-main, #e9edf6); --im-muted: var(--text-muted, #b4c0d1); --im-border: var(--border-color, #35475e); --im-accent: var(--accent-color, #76a4ff); --im-accent-soft: var(--accent-soft, #263955); --im-part-head-bg: var(--article-header-bg, #202e40); }
+.im-topbar.im-part-head { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; flex: none; min-height: 86px; margin: 6px 16px 0; padding: 12px 18px; background: var(--im-part-head-bg); border: 1px solid var(--im-border); border-bottom: 1px solid var(--im-border); border-radius: 0; }
+.im-article-ident { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.im-article-ident .im-title-sm { margin: 0; font-size: 17px; font-weight: 800; }
+.im-article-ident .im-plain-text { font-size: 15px; line-height: 1.36; color: var(--im-text); }
+.im-bar-right.im-article-actions { justify-content: flex-end; gap: 9px; min-width: 0; }
+.im-brand-pill { display: inline-flex; justify-self: center; align-items: center; justify-content: center; gap: 7px; padding: 4px 16px 4px 7px; min-height: 46px; border: 1px solid var(--im-border); border-radius: 999px; background: var(--im-surface); color: var(--im-text); text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px #030b1b17; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.im-brand-pill:hover { transform: scale(1.04); border-color: var(--im-accent); box-shadow: 0 6px 18px #00000030; background: var(--im-surface-2); }
+.im-brand-pill:focus-visible { outline: 3px solid var(--im-accent); outline-offset: 3px; }
+.im-brand-icon { position: relative; flex: none; width: 40px; height: 34px; display: inline-grid; place-items: center; }
+.im-brand-logo { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 1px 4px #2348be44); }
+.im-brand-fallback { display: grid; place-items: center; width: 33px; height: 31px; border-radius: 10px; background: linear-gradient(125deg, #42dad1, #4475f1); color: #fff; font-weight: 850; letter-spacing: -.08em; font-size: 13px; }
+.im-brand-fallback[hidden] { display: none; }
+.im-brand-wordmark { font-family: 'Geist', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 750; font-size: 17px; letter-spacing: -.045em; }
+.im-brand-wordmark b { font-weight: 850; color: var(--im-accent); }
+.im-timer { font-weight: 760; }
+.im-lexicon-toggle { position: relative; }
+.im-lexicon-count { position: absolute; right: -5px; top: -9px; min-width: 19px; height: 19px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--im-accent); color: #071426; font-size: 10px; font-weight: 800; line-height: 1; }
+.im-vocab-word-in-text { cursor: pointer; text-decoration: underline dotted var(--im-accent); text-underline-offset: 4px; border-radius: 2px; outline-offset: 3px; }
+.im-vocab-word-in-text:hover, .im-vocab-word-in-text:focus-visible { color: var(--im-accent); background: var(--im-accent-soft); }
+.im-check-final { min-width: 98px; min-height: 37px; gap: 7px; padding: 6px 16px; border-radius: 999px; background: var(--im-accent-soft); font-size: 14px; }
+.im-check-mark { font-size: 19px; font-weight: 800; line-height: 1; }
+.im-dictionary-panel { position: fixed; z-index: 50; top: 105px; right: 22px; width: min(360px, calc(100vw - 24px)); max-height: min(570px, calc(100dvh - 125px)); overflow: auto; padding: 16px; border: 1px solid var(--im-border); border-radius: 12px; background: var(--im-surface); color: var(--im-text); box-shadow: 0 18px 55px #00000063; scrollbar-color: var(--im-border) transparent; }
+.im-dictionary-panel[hidden], .im-dict-words[hidden] { display: none !important; }
+.im-dict-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.im-dict-eyebrow { color: var(--im-accent); font-weight: 850; font-size: 10px; letter-spacing: .105em; }
+.im-dict-close { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--im-border); border-radius: 8px; background: var(--im-surface-2); color: var(--im-text); font-size: 24px; line-height: 1; }
+.im-dict-close:hover, .im-dict-speak:hover { border-color: var(--im-accent); background: var(--im-accent-soft); }
+.im-dict-title-row { display: flex; align-items: center; gap: 10px; }
+.im-dict-title-row h2 { margin: 0; font: 800 23px/1.25 'Geist', 'Inter', -apple-system, sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.im-dict-speak { width: 32px; height: 32px; border: 1px solid var(--im-border); border-radius: 7px; background: var(--im-surface-2); color: var(--im-text); font-size: 16px; }
+.im-dict-meta { margin: 5px 0 16px; font-size: 12px; color: var(--im-muted); }
+.im-dict-label { margin: 14px 0 4px; color: var(--im-muted); font-size: 11px; font-weight: 740; letter-spacing: .02em; }
+.im-dict-definition, .im-dict-translation { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.im-dict-translation { color: var(--im-accent); }
+.im-dict-example { padding: 10px 12px; border-left: 2px solid var(--im-accent); border-radius: 3px; background: var(--im-surface-2); color: var(--im-text); margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.im-dict-word-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.im-dict-word-buttons button { max-width: 100%; background: var(--im-surface-2); color: var(--im-text); border: 1px solid var(--im-border); border-radius: 999px; padding: 6px 11px; font-size: 12px; }
+.im-dict-word-buttons button:hover, .im-dict-word-buttons button:focus-visible { border-color: var(--im-accent); background: var(--im-accent-soft); }
+@media (max-width: 850px) {
+ .im-topbar.im-part-head { margin: 6px 8px 0; padding: 10px 12px; gap: 8px; }
+ .im-dictionary-panel { top: 105px; right: 12px; }
+}
+@media (max-width: 640px) {
+ .im-topbar.im-part-head { grid-template-columns: minmax(0,1fr) auto; grid-template-areas: 'info actions' 'brand brand'; min-height: 0; row-gap: 8px; }
+ .im-article-ident { grid-area: info; }
+ .im-article-actions { grid-area: actions; }
+ .im-brand-pill { grid-area: brand; justify-self: center; min-height: 39px; padding: 3px 12px 3px 6px; }
+ .im-brand-icon { height: 30px; width: 35px; }
+ .im-brand-wordmark { font-size: 15px; }
+ .im-article-ident .im-plain-text { font-size: 13px; }
+ .im-timer { font-size: 16px; min-width: 54px; }
+ .im-article-actions .im-icon-btn { width: 30px; height: 30px; }
+ .im-dictionary-panel { top: 135px; max-height: calc(100dvh - 158px); }
+ .im-check-final { min-width: 76px; padding: 5px 11px; }
+}
+@media print { .im-dictionary-panel { display: none !important; } }
+
+.im-brand-icon .im-brand-logo {position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.im-brand-icon .im-brand-fallback {position:relative;z-index:0;}
+
+/* Article footer: shift only the Check action approximately 2 cm to the left. */
+.im-foot-right { margin-right: 2cm; }
+@media (max-width: 640px) { .im-foot-right { margin-right: min(2cm, 8vw); } }
+
+/* Original-PDF article sections and paragraph hierarchy */
+.im-article-section {margin: 4px 0 25px;}
+.im-article-section-title {font-size:calc(18px * var(--im-font-scale));line-height:1.4;font-weight:800;margin:23px 0 14px;color:var(--im-text);letter-spacing:-.015em;}
+.im-section-letter {font-size:14px;color:var(--im-accent);margin-right:6px;}
+.im-article-section .im-article-paragraph {margin-bottom:15px;}
+.im-passage-text .im-matching-question {margin-bottom:4px;}
+.im-article-cover {aspect-ratio:1536/633;object-fit:contain;background:#071322;}
+.im-discussion {margin:34px 0 16px;padding:14px 16px;border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);}
+.im-discussion summary {cursor:pointer;color:var(--im-accent);font-weight:750;}
+.im-discussion-list {margin:13px 0 0;padding-left:22px;line-height:1.6;}
+.im-discussion-list li {margin:0 0 9px;}
+.im-review-table td:last-child {min-width:250px;font-size:12px;line-height:1.55;color:var(--im-muted);}
+@media (max-width:640px){.im-article-section-title{font-size:16px}.im-discussion{padding:12px}}
+
+.im-article-cover {aspect-ratio: 696 / 362; object-fit: cover; background: #0b1b2d;}
+.im-topic-divider {font-size: 21px; font-weight: 800; color: var(--im-accent); margin: 22px 0 18px; border-bottom: 1px solid var(--im-border); padding-bottom: 9px;}
+.im-article-section-title {font-size: clamp(17px, 1.15vw, 20px);}
+
+.im-article-cover{aspect-ratio:4/3;object-fit:cover;background:#0b1b2d;}
+
+/* Question format for this article: only Matching Features + Short Answers */
+.im-article-cover{aspect-ratio:1247/710;object-fit:cover;background:#101725}
+.im-procon-subhead{font-size:15.5px;line-height:1.45;margin:15px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-feature-bank{display:grid;gap:8px;margin:0 0 26px;padding:16px;background:var(--im-surface-2);border:1px solid var(--im-border);border-radius:12px}
+.im-feature-bank-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--im-text)}
+.im-feature-letter{flex:0 0 25px;font-size:14px;color:var(--im-accent)}
+.im-question-feature,.im-question-short{padding:0;margin:22px 0;border:0;min-width:0}
+.im-question-feature .im-q-text,.im-question-short .im-q-text{margin:0 0 9px}
+.im-feature-label{display:block;margin:0 0 6px;font-size:12px;line-height:1.4;color:var(--im-muted)}
+.im-feature-select{display:block;width:100%;min-height:44px;max-width:100%;border:1px solid var(--im-border);background:var(--im-surface-2);color:var(--im-text);font-size:14px;padding:9px 12px;border-radius:9px;outline:none;cursor:pointer}
+.im-feature-select:hover,.im-short-input:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible,.im-short-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-short-input{width:clamp(180px,60%,300px);margin:0;max-width:100%;height:44px;border-radius:9px;text-align:left;padding-left:12px}
+@media(max-width:850px){.im-feature-bank{padding:12px}.im-feature-select{font-size:14px}}
+
+/* Social media article — only Multiple Choice and Summary Completion */
+.im-article-cover{aspect-ratio:1245/761;object-fit:cover;background:#101725}
+.im-social-subhead{font-size:15.5px;line-height:1.5;margin:17px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-article-list-paragraph{padding-left:13px;border-left:2px solid var(--im-border);margin-left:5px}
+.im-summary-heading{font-size:15.5px;line-height:1.5;font-weight:750;color:var(--im-text);margin:23px 0 10px}
+.im-summary-panel{padding:16px 18px;border:1px solid var(--im-border);background:var(--im-surface-2);border-radius:12px}
+.im-summary-panel .im-question-gap{margin-bottom:13px}
+.im-summary-panel .im-q-text{line-height:2.2}
+.im-summary-panel .im-gap-input{min-height:41px;max-width:100%;width:clamp(120px,26vw,175px)}
+.im-options input:focus-visible,.im-gap-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+@media(max-width:850px){.im-summary-panel{padding:12px}.im-summary-panel .im-gap-input{width:130px}}
+
+/* Article-specific table and classification controls. */
+.im-classification-key {border:1px solid var(--im-border);border-radius:11px;padding:12px 14px;margin:12px 0 16px;background:var(--im-surface-2);display:grid;gap:7px;max-width:620px}
+.im-classification-key p {margin:0;line-height:1.4;font-size:.92rem}
+.im-classification-key strong {color:var(--im-accent)}
+.im-answer-table-wrap {width:100%;overflow-x:auto;margin:12px 0 25px}
+.im-answer-table {width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--im-border);border-radius:12px;overflow:hidden;table-layout:fixed}
+.im-answer-table th {background:var(--im-surface-2);font-weight:750;text-align:left;padding:11px 13px;border-bottom:1px solid var(--im-border)}
+.im-answer-table th:first-child,.im-answer-table td:first-child{width:24%;min-width:90px}
+.im-answer-table td {vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--im-border)}
+.im-answer-table tr:last-child td{border-bottom:0}
+.im-answer-table .im-question {border:0;margin:0;padding:0;background:transparent}
+.im-answer-table .im-q-text {display:inline;font-size:.92rem;line-height:1.65}
+.im-answer-table .im-gap-input{max-width:118px;min-width:82px;width:30%;margin:3px 5px}
+@media (max-width:640px) {.im-answer-table th:first-child,.im-answer-table td:first-child{width:100px}.im-answer-table td{padding:8px}.im-answer-table .im-gap-input{width:94px}}
+
+/* Multiple-choice and matching-information refinements */
+.im-question-feature{border:1px solid var(--im-border);border-radius:12px;padding:13px 14px;margin:13px 0;background:var(--im-surface-2)}
+.im-question-feature .im-q-text {font-size:.95rem;line-height:1.55;margin-bottom:10px}
+.im-feature-label{font-size:.82rem;color:var(--im-muted);margin-right:10px}
+.im-feature-select{border:1px solid var(--im-border);border-radius:9px;color:var(--im-text);background:var(--im-surface);padding:9px 13px;min-width:150px;cursor:pointer;font:inherit}
+.im-feature-select:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-feature-select:disabled{opacity:.55;cursor:not-allowed}
+.im-option-row:has(input:checked){background:var(--im-surface-2)}
+
+/* Science Education: textual answer controls and clear timer actions */
+.im-original-heading{font-size:1rem;color:var(--im-text);font-weight:700;margin:18px 0 7px}
+.im-feature-bank{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px;background:var(--im-surface-2);border:1px solid var(--im-border);padding:14px 16px;margin:16px 0 20px;border-radius:12px}
+.im-feature-bank-item{color:var(--im-text);font-size:.91rem;margin:0;line-height:1.5}
+.im-feature-bank-item strong{color:var(--im-accent);padding-right:6px}
+.im-question-feature,.im-question-gap{border:1px solid var(--im-border);border-radius:12px;padding:14px;margin:12px 0;background:var(--im-surface-2)}
+.im-question-feature .im-q-text,.im-question-gap .im-q-text{line-height:1.6;margin-bottom:12px;font-weight:500;font-size:.95rem}
+.im-question-feature .im-feature-label{display:inline-block;color:var(--im-muted);font-size:.87rem;margin:0 8px 0 0}
+.im-question-feature .im-feature-select{display:inline-block;width:auto;min-width:180px;margin:0;vertical-align:middle}
+.im-question-gap .im-gap-label{display:inline;font-size:.95rem;line-height:2.6}
+.im-question-gap .im-gap-input{display:inline-block;min-width:135px;width:165px;max-width:50vw;margin:0 5px;font-size:.95rem;line-height:1.5}
+.im-question-gap .im-gap-tail{font-size:.95rem;line-height:2.1}
+.im-timer-action{width:auto;height:36px;padding:0 11px;white-space:nowrap;font-size:.83rem;font-weight:650}
+.im-timer-action:focus-visible{outline:2px solid var(--im-accent);outline-offset:3px}
+.im-timer-action[hidden]{display:none!important}
+.im-restart-action{color:var(--im-accent)}
+.im-time-expired{color:var(--im-accent)}
+@media(max-width:850px){
+ .im-feature-bank{grid-template-columns:1fr}
+ .im-question-feature .im-feature-select{width:100%;max-width:100%;margin-top:8px}
+ .im-article-actions{gap:5px!important}
+ .im-timer-action{padding:0 7px;font-size:.74rem;height:32px}
+ .im-timer{font-size:15px!important;min-width:48px!important}
+}
+@media(max-width:390px){
+ .im-timer-action{font-size:.7rem;padding:0 5px}
+ .im-restart-action{letter-spacing:-.03em}
+}
+
+/* Small-screen toolbar: give every timer control its own full-width row */
+@media(max-width:600px){
+ .im-part-head{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:'intro' 'actions' 'brand'!important;gap:9px!important;align-items:center;justify-items:stretch;padding:12px 14px!important}
+ .im-part-head .im-article-ident{grid-area:intro;width:100%;min-width:0}
+ .im-part-head .im-brand-pill{grid-area:brand;justify-self:center}
+ .im-part-head .im-article-actions{grid-area:actions;justify-self:center;justify-content:center;display:flex!important;gap:9px!important;width:auto;max-width:100%}
+ .im-part-head .im-article-actions .im-timer-action{width:auto;min-width:max-content;padding:0 10px;font-size:.79rem;height:34px}
+ .im-part-head .im-article-actions .im-timer{font-size:17px!important;min-width:56px!important}
+ .im-part-head .im-article-actions .im-lexicon-toggle{flex:0 0 auto}
+}
+@media(max-width:390px){
+ .im-part-head .im-article-actions .im-timer-action{font-size:.77rem;padding:0 8px}
+}
+
+.im-space-subtitle {font-size:17px;line-height:1.45;font-weight:750;margin:22px 0 12px;scroll-margin-top:24px;color:var(--im-text)}
+.im-space-inner-heading {font-size:16px;font-weight:700;margin:10px 0 14px;color:var(--im-text)}
+.im-space-budget {padding-left:22px;list-style:disc;margin:0 0 17px;line-height:1.7}
+.im-space-budget li {padding-left:5px;margin-bottom:5px}
+.im-source-caption {font-size:12px;color:var(--im-muted);margin-top:24px;border-top:1px solid var(--im-border);padding-top:12px}
+.im-question-mcq {margin-bottom:25px}
+.im-question-mcq .im-q-text {margin-bottom:14px}
+.im-option-row:focus-within {outline:2px solid var(--im-accent);outline-offset:3px;border-radius:5px}
+</style>
+</head>
+<body>
+<div class="im-app" data-article-id="space-exploration-pros-cons">
+<header aria-label="Article toolbar" class="im-topbar im-part-head">
+<div class="im-bar-left im-article-ident">
+<h1 class="im-title-sm">Article</h1>
+<p class="im-plain-text">Read the article and answer questions 1–13.</p>
+</div>
+<a aria-label="Learners Area Telegram channel (opens in new tab)" class="im-brand-pill" href="https://t.me/Learners_area" id="im-brand-link" rel="noopener noreferrer" target="_blank" title="Learners Area Telegram kanali">
+<span class="im-brand-icon">
+<img alt="" class="im-brand-logo" decoding="async" height="32" id="im-brand-logo" src="https://learnersarea.uz/brand/learners-area-la-glass.svg" width="40"/>
+<span class="im-brand-fallback" id="im-brand-fallback">LA</span>
+</span>
+<span class="im-brand-wordmark">Learners <b>Area</b></span>
+</a>
+<div class="im-bar-right im-article-actions">
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
+<button aria-label="Pause timer" class="im-icon-btn im-timer-action" id="im-pause" title="Pause or resume the timer" type="button">Ⅱ Pause</button><button aria-label="Restart the article" class="im-icon-btn im-timer-action im-restart-action" id="im-restart" title="Restart the article" type="button">↻ Restart</button>
+<button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
+<svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
+<span class="im-lexicon-count">12</span>
+</button>
+</div>
+</header>
+<main class="im-main">
+<section aria-label="Article text" class="im-passage-col" id="im-passage-col">
+<div class="im-passage-body" id="im-passage-body"><img alt="Astronauts on a lunar landscape with Earth behind them, from the uploaded PDF" class="im-article-cover" height="779" loading="eager" src="/modules/reading/article-assets/space-exploration.jpg" width="1246"/><h2 class="im-passage-title">Space exploration pros and cons: a waste of money?</h2><div class="im-passage-text"><section class="im-article-section" id="article-section-A"><h3 class="im-space-subtitle"><span class="im-para-letter">A.</span> The central debate</h3><p class="im-article-paragraph">Space exploration is a hugely expensive affair. Should we spend money on space exploration when we have so many problems on planet Earth? We debate the pros and cons of space exploration and the reasons for investing in space agencies and programs.</p><h4 class="im-space-inner-heading">Should we spend money on space exploration?</h4><p class="im-article-paragraph">The launch of SpaceX's Falcon Heavy rocket into has brought back media attention to space exploration. Elon Musk's private aerospace company is in the process of becoming a major player and a partner for many space programs. However, most of the efforts to discover whats out still depend mostly on <span aria-label="public funding: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="public funding" role="button" tabindex="0" title="Double-click to open dictionary">public funding</span>.</p><p class="im-article-paragraph">Space exploration is costly, and many argue that in times of <span aria-label="belt-tightening: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="belt-tightening" role="button" tabindex="0" title="Double-click to open dictionary">belt-tightening</span>, we should focus on solving problems here on Earth, especially since the knowledge gained from space exploration has few immediate benefits. On the other hand, pronponents of space exploration argue that the knowledge to be gained is <span aria-label="invaluable: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="invaluable" role="button" tabindex="0" title="Double-click to open dictionary">invaluable</span>, and that it is in the very nature of humankind to explore. In addition, <span aria-label="proponents: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="proponents" role="button" tabindex="0" title="Double-click to open dictionary">proponents</span> of these programs argue that they have had significant benefits and resulted in the discovery or popularisation of many useful new technologies. Furthermore, space exploration could be the only way to escape human extinction in case living conditions become unsustainable on Earth.</p></section><section class="im-article-section" id="article-section-B"><h3 class="im-space-subtitle"><span class="im-para-letter">B.</span> Space agencies and public spending</h3><p class="im-article-paragraph">Today there are six big government space agencies with the capacity to create, launch and recover <span aria-label="satellites: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="satellites" role="button" tabindex="0" title="Double-click to open dictionary">satellites</span>: the National Aeronautics and Space Administration (NASA), Russian Federal Space Agency (Roscosmos or RFSA),the China National Space Administration (CNSA), the Indian Space Research Organisation (ISRO), the Japan Aerospace Exploration Agency (JAXA) and the European Space Agency (ESA) which integrates several European space agencies. Among them only NASA, ROSCOSMOS and CNSA have full capacity for human spaceflights and lunar soft-landing. In addtition to these there are many other government space agencies with variable capabilities, most of them have only the capacity to operate satellites, a few of them also have launch capabilities and can operate <span aria-label="extraterrestrial: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="extraterrestrial" role="button" tabindex="0" title="Double-click to open dictionary">extraterrestrial</span> probes. Some of these space agencies are competing to be the first to send humans to Mars and investigating if there is intelligent life on other planets.</p><p class="im-article-paragraph">These space programs and agencies are very costly. It is estimated that the total annual budget of space agencies is $41.8 billion. Among them the highest budgets correspond to:</p><ul class="im-space-budget"><li>NASA (USA, $19.3 billion)</li><li>Roscosmos (Russia, $5.6 billion)</li><li>ESA (Europe, $5.5 billion)</li><li>CNES (France, $2.5 billion)</li><li>JAXA (Japan, $2.5 billion)</li><li>DLR (Germany, $2 billion)</li><li>ASI (Italy, $1.8 billion)</li><li>CNSA (China, $1.8 billion)</li><li>ISRO (India, $1.2 billion)</li></ul><p class="im-article-paragraph">Are all these costs justfified? Are there better ways to spend public funding? Should we mainly rely on private investors such as Elon Musk to promote space expliration? Will capitalistic incentives lead the way towards space exploration? In order to help make up your mind we outline next the most important benefits and problems of space exploration.</p></section><section class="im-article-section" id="article-section-C"><h3 class="im-space-subtitle"><span class="im-para-letter">C.</span> Knowledge and the history of discovery</h3><h4 class="im-space-inner-heading">Space exploration pros and cons</h4><h4 class="im-space-inner-heading">Pros:</h4><p class="im-article-paragraph">Knowledge generation. Thanks to space exploration programs we are discovering many things that help us understand the universe. For instance, learning about planets, comets, stars, etc. can help us find solutions for some of the problems our civilization will face, such as overopulation and the need to <span aria-label="colonize: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="colonize" role="button" tabindex="0" title="Double-click to open dictionary">colonize</span> other planets.</p><p class="im-article-paragraph">Exploration and discovery are beneficial. Humans have always engaged in exploration to satisfy their sense of curiosity and look for opportunities. During the Age of Discoveries in the 15th and 16th centuries, countries such as Spain and Portugal heavily invested in expeditions, but thanks to them they became super-powers and gained many riches. Later, during the second age of explorations in the 18th and 19th century, the discoveries of pioneers such as Captain Cook or Livingstone heavily contributed to scientific discovery.</p></section><section class="im-article-section" id="article-section-D"><h3 class="im-space-subtitle"><span class="im-para-letter">D.</span> Satellites and practical technologies</h3><p class="im-article-paragraph">Artificial satellites are crucial tools in modern society. For instance they are used for defence purposes and to fight against terrorism. Satellites help us also monitor the effects of global warming and detect wildfires. Space agencies are necessary to operate satellites.</p><p class="im-article-paragraph">Scientific advancement and <span aria-label="by-products: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="by-products" role="button" tabindex="0" title="Double-click to open dictionary">by-products</span>. Space exploration programs help introduce and test new technologies. Much of the research carried out to find solutions for space travel have applications elsewhere. For instance NASA research has contributed to develop velcro, fire-resistant materials, medical devices to relieve muscle and joint pain, new precise thermometers, artificial limbs, new air conditioning systems, land mine removal systems, improved radial tires, etc.</p></section><section class="im-article-section" id="article-section-E"><h3 class="im-space-subtitle"><span class="im-para-letter">E.</span> Human survival and employment</h3><p class="im-article-paragraph">Space race may save humanity. Life on Earth may be threatened by climate change, pollution, depletion of resources, infectious diseases or nuclear war. Further, space exploration is necessary to find another planet on which humans could pursue their lives. Space programs help also find solutions to adapt human lives to the space or other planets.</p><p class="im-article-paragraph">Space industry jobs. The space industry employs directly about 120,000 people in the OECD countries and 250,000 in Russia.</p></section><section class="im-article-section" id="article-section-F"><h3 class="im-space-subtitle"><span class="im-para-letter">F.</span> Limited direct gains and human risk</h3><h4 class="im-space-inner-heading">Cons:</h4><p class="im-article-paragraph">Few direct benefits to space exploration. True, space technology has helped us launch satellites and introduce many useful products, but do we need to keep pushing forward? The direct intellectual gains from learning about far away planets or satellites such as the moon can hardly compensate the costs. Historical exploration on Earth allowed collect and trade resources. Bringing resources to Earth is not possible with the current technology.</p><p class="im-article-paragraph">Space travel is <span aria-label="hazardous: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="hazardous" role="button" tabindex="0" title="Double-click to open dictionary">hazardous</span>. Many lives have been lost in space expeditions. Space missions are very dangerous and can often cost lives and stress to the families of the astronauts or cosmonauts. Should highly qualified professionals and scientists risk their lives traveling outside Earth?</p></section><section class="im-article-section" id="article-section-G"><h3 class="im-space-subtitle"><span class="im-para-letter">G.</span> Failed missions and possible alien contact</h3><p class="im-article-paragraph">Failure is common. Many of the space exploration fail. Probes and satellites crash, exploration robots are lost, rockets blow up in the air, etc. It is frustrating to see how so much money and time are wasted in unsuccessful missions.</p><p class="im-article-paragraph">Danger of establishing contact with alien life. One of the main goals of space exploration is to find out if there is life outside Earth. However, establishing contact with other civilizations can be extremely dangerous and could <span aria-label="jeopardize: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="jeopardize" role="button" tabindex="0" title="Double-click to open dictionary">jeopardize</span> human life. If we flag our existence to technologically advanced extraterrestrial civilizations, we may be somehow exposing ourselves to their attacks and invasion. The wanna-be colonizers could be colonized. Primitive life-forms such as virus and bacteria could also provoke epidemic diseases.</p></section><section class="im-article-section" id="article-section-H"><h3 class="im-space-subtitle"><span class="im-para-letter">H.</span> Political competition and opportunity costs</h3><p class="im-article-paragraph">New source of international tensions. The space race is not over. There is a growing international competition to be the first in fulfilling some challenges in space exploration. <span aria-label="sovereignty: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="sovereignty" role="button" tabindex="0" title="Double-click to open dictionary">Sovereignty</span> over other planets and satellites, and over their resources, will become a controversial issue. With the advancement of technology domination of the outer space may tip the balance of power on a bipolar or multipolar Earth.</p><p class="im-article-paragraph">Priorities and <span aria-label="opportunity costs: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="opportunity costs" role="button" tabindex="0" title="Double-click to open dictionary">opportunity costs</span>. Even if there are benefits to space exploration, spending so much money and effort in reaching other planets is highly questionable. That money and brain power could be used to solve other more important problems for us. For instance governments could invest much more to prevent global warming, reduce crime rates and find a cure for cancer or Alzheimer's Disease.</p></section><p class="im-source-caption">Source: supplied four-page reading PDF · article text preserved as provided.</p></div></div>
+</section>
+<div aria-label="Resize article and question panels" aria-orientation="vertical" class="im-splitter" id="im-splitter" role="separator" tabindex="0"><span aria-hidden="true" class="im-splitter-grip">↔</span></div>
+<section aria-label="Article questions" class="im-question-col" id="im-questions">
+<div class="im-question-body"><section aria-labelledby="group-1-6" class="im-group" data-im-from="1" data-im-to="6"><h3 class="im-group-title" id="group-1-6">Questions 1–6</h3><p class="im-guide">Which section contains the following information? Choose the correct letter, A–H. You may use any letter more than once.</p><div aria-label="Article sections" class="im-feature-bank"><p class="im-feature-bank-item"><strong>A</strong> The central debate</p><p class="im-feature-bank-item"><strong>B</strong> Space agencies and public spending</p><p class="im-feature-bank-item"><strong>C</strong> Knowledge and the history of discovery</p><p class="im-feature-bank-item"><strong>D</strong> Satellites and practical technologies</p><p class="im-feature-bank-item"><strong>E</strong> Human survival and employment</p><p class="im-feature-bank-item"><strong>F</strong> Limited direct gains and human risk</p><p class="im-feature-bank-item"><strong>G</strong> Failed missions and possible alien contact</p><p class="im-feature-bank-item"><strong>H</strong> Political competition and opportunity costs</p></div><fieldset class="im-question im-question-feature" data-question="1" id="question-1"><legend class="im-q-text"><span class="im-qnum">1</span>A comparison with earlier voyages undertaken by explorers</legend><label class="im-feature-label" for="q1">Article section:</label><select class="im-feature-select" id="q1" name="q1"><option value="">Choose A–H</option><option value="A">A — The central debate</option><option value="B">B — Space agencies and public spending</option><option value="C">C — Knowledge and the history of discovery</option><option value="D">D — Satellites and practical technologies</option><option value="E">E — Human survival and employment</option><option value="F">F — Limited direct gains and human risk</option><option value="G">G — Failed missions and possible alien contact</option><option value="H">H — Political competition and opportunity costs</option></select></fieldset><fieldset class="im-question im-question-feature" data-question="2" id="question-2"><legend class="im-q-text"><span class="im-qnum">2</span>Data about agencies’ capabilities and their estimated budgets</legend><label class="im-feature-label" for="q2">Article section:</label><select class="im-feature-select" id="q2" name="q2"><option value="">Choose A–H</option><option value="A">A — The central debate</option><option value="B">B — Space agencies and public spending</option><option value="C">C — Knowledge and the history of discovery</option><option value="D">D — Satellites and practical technologies</option><option value="E">E — Human survival and employment</option><option value="F">F — Limited direct gains and human risk</option><option value="G">G — Failed missions and possible alien contact</option><option value="H">H — Political competition and opportunity costs</option></select></fieldset><fieldset class="im-question im-question-feature" data-question="3" id="question-3"><legend class="im-q-text"><span class="im-qnum">3</span>A potential alternative location for future human life</legend><label class="im-feature-label" for="q3">Article section:</label><select class="im-feature-select" id="q3" name="q3"><option value="">Choose A–H</option><option value="A">A — The central debate</option><option value="B">B — Space agencies and public spending</option><option value="C">C — Knowledge and the history of discovery</option><option value="D">D — Satellites and practical technologies</option><option value="E">E — Human survival and employment</option><option value="F">F — Limited direct gains and human risk</option><option value="G">G — Failed missions and possible alien contact</option><option value="H">H — Political competition and opportunity costs</option></select></fieldset><fieldset class="im-question im-question-feature" data-question="4" id="question-4"><legend class="im-q-text"><span class="im-qnum">4</span>A warning about the safety of researchers and astronauts</legend><label class="im-feature-label" for="q4">Article section:</label><select class="im-feature-select" id="q4" name="q4"><option value="">Choose A–H</option><option value="A">A — The central debate</option><option value="B">B — Space agencies and public spending</option><option value="C">C — Knowledge and the history of discovery</option><option value="D">D — Satellites and practical technologies</option><option value="E">E — Human survival and employment</option><option value="F">F — Limited direct gains and human risk</option><option value="G">G — Failed missions and possible alien contact</option><option value="H">H — Political competition and opportunity costs</option></select></fieldset><fieldset class="im-question im-question-feature" data-question="5" id="question-5"><legend class="im-q-text"><span class="im-qnum">5</span>Satellites used to identify environmental threats on Earth</legend><label class="im-feature-label" for="q5">Article section:</label><select class="im-feature-select" id="q5" name="q5"><option value="">Choose A–H</option><option value="A">A — The central debate</option><option value="B">B — Space agencies and public spending</option><option value="C">C — Knowledge and the history of discovery</option><option value="D">D — Satellites and practical technologies</option><option value="E">E — Human survival and employment</option><option value="F">F — Limited direct gains and human risk</option><option value="G">G — Failed missions and possible alien contact</option><option value="H">H — Political competition and opportunity costs</option></select></fieldset><fieldset class="im-question im-question-feature" data-question="6" id="question-6"><legend class="im-q-text"><span class="im-qnum">6</span>Competing national claims to resources beyond Earth</legend><label class="im-feature-label" for="q6">Article section:</label><select class="im-feature-select" id="q6" name="q6"><option value="">Choose A–H</option><option value="A">A — The central debate</option><option value="B">B — Space agencies and public spending</option><option value="C">C — Knowledge and the history of discovery</option><option value="D">D — Satellites and practical technologies</option><option value="E">E — Human survival and employment</option><option value="F">F — Limited direct gains and human risk</option><option value="G">G — Failed missions and possible alien contact</option><option value="H">H — Political competition and opportunity costs</option></select></fieldset></section><section aria-labelledby="group-7-13" class="im-group" data-im-from="7" data-im-to="13"><h3 class="im-group-title" id="group-7-13">Questions 7–13</h3><p class="im-guide">Choose the correct letter, A, B, C or D, for each question.</p><fieldset class="im-question im-question-mcq" data-question="7" id="question-7"><legend class="im-q-text"><span class="im-qnum">7</span>What is the main disagreement introduced at the start of the article?</legend><div class="im-options"><div class="im-option-row"><input id="q7-A" name="q7" type="radio" value="A"/><label class="im-option-label" for="q7-A"><strong>A.</strong> Whether satellites should be privately manufactured</label></div><div class="im-option-row"><input id="q7-B" name="q7" type="radio" value="B"/><label class="im-option-label" for="q7-B"><strong>B.</strong> Whether space exploration justifies its cost while Earth faces urgent problems</label></div><div class="im-option-row"><input id="q7-C" name="q7" type="radio" value="C"/><label class="im-option-label" for="q7-C"><strong>C.</strong> Whether there are any public space agencies</label></div><div class="im-option-row"><input id="q7-D" name="q7" type="radio" value="D"/><label class="im-option-label" for="q7-D"><strong>D.</strong> Whether all missions should involve human crews</label></div></div></fieldset><fieldset class="im-question im-question-mcq" data-question="8" id="question-8"><legend class="im-q-text"><span class="im-qnum">8</span>According to the article, which group of agencies has full capacity for human spaceflight and lunar soft-landing?</legend><div class="im-options"><div class="im-option-row"><input id="q8-A" name="q8" type="radio" value="A"/><label class="im-option-label" for="q8-A"><strong>A.</strong> NASA, Roscosmos and CNSA</label></div><div class="im-option-row"><input id="q8-B" name="q8" type="radio" value="B"/><label class="im-option-label" for="q8-B"><strong>B.</strong> ESA, JAXA and ISRO</label></div><div class="im-option-row"><input id="q8-C" name="q8" type="radio" value="C"/><label class="im-option-label" for="q8-C"><strong>C.</strong> NASA, CNES and DLR</label></div><div class="im-option-row"><input id="q8-D" name="q8" type="radio" value="D"/><label class="im-option-label" for="q8-D"><strong>D.</strong> Roscosmos, ASI and ESA</label></div></div></fieldset><fieldset class="im-question im-question-mcq" data-question="9" id="question-9"><legend class="im-q-text"><span class="im-qnum">9</span>Which of the following is an example of a technology the article links to space research?</legend><div class="im-options"><div class="im-option-row"><input id="q9-A" name="q9" type="radio" value="A"/><label class="im-option-label" for="q9-A"><strong>A.</strong> High-speed railway networks</label></div><div class="im-option-row"><input id="q9-B" name="q9" type="radio" value="B"/><label class="im-option-label" for="q9-B"><strong>B.</strong> Radio broadcasting</label></div><div class="im-option-row"><input id="q9-C" name="q9" type="radio" value="C"/><label class="im-option-label" for="q9-C"><strong>C.</strong> Artificial limbs</label></div><div class="im-option-row"><input id="q9-D" name="q9" type="radio" value="D"/><label class="im-option-label" for="q9-D"><strong>D.</strong> Smartphone banking systems</label></div></div></fieldset><fieldset class="im-question im-question-mcq" data-question="10" id="question-10"><legend class="im-q-text"><span class="im-qnum">10</span>What does the article suggest about employment in the space industry?</legend><div class="im-options"><div class="im-option-row"><input id="q10-A" name="q10" type="radio" value="A"/><label class="im-option-label" for="q10-A"><strong>A.</strong> It is almost entirely voluntary work</label></div><div class="im-option-row"><input id="q10-B" name="q10" type="radio" value="B"/><label class="im-option-label" for="q10-B"><strong>B.</strong> It provides direct employment in OECD countries and Russia</label></div><div class="im-option-row"><input id="q10-C" name="q10" type="radio" value="C"/><label class="im-option-label" for="q10-C"><strong>C.</strong> It has replaced most jobs in aviation</label></div><div class="im-option-row"><input id="q10-D" name="q10" type="radio" value="D"/><label class="im-option-label" for="q10-D"><strong>D.</strong> It mainly employs private investors</label></div></div></fieldset><fieldset class="im-question im-question-mcq" data-question="11" id="question-11"><legend class="im-q-text"><span class="im-qnum">11</span>Why do critics question the direct intellectual returns from exploring distant celestial bodies?</legend><div class="im-options"><div class="im-option-row"><input id="q11-A" name="q11" type="radio" value="A"/><label class="im-option-label" for="q11-A"><strong>A.</strong> They believe satellites have never been useful</label></div><div class="im-option-row"><input id="q11-B" name="q11" type="radio" value="B"/><label class="im-option-label" for="q11-B"><strong>B.</strong> They claim explorers cannot observe planets</label></div><div class="im-option-row"><input id="q11-C" name="q11" type="radio" value="C"/><label class="im-option-label" for="q11-C"><strong>C.</strong> They regard the gains as insufficient to compensate for the expense</label></div><div class="im-option-row"><input id="q11-D" name="q11" type="radio" value="D"/><label class="im-option-label" for="q11-D"><strong>D.</strong> They expect all programmes to make a profit immediately</label></div></div></fieldset><fieldset class="im-question im-question-mcq" data-question="12" id="question-12"><legend class="im-q-text"><span class="im-qnum">12</span>What particular danger is mentioned in relation to contact with alien civilisations?</legend><div class="im-options"><div class="im-option-row"><input id="q12-A" name="q12" type="radio" value="A"/><label class="im-option-label" for="q12-A"><strong>A.</strong> The immediate disappearance of satellites</label></div><div class="im-option-row"><input id="q12-B" name="q12" type="radio" value="B"/><label class="im-option-label" for="q12-B"><strong>B.</strong> Possible attacks from technologically advanced beings</label></div><div class="im-option-row"><input id="q12-C" name="q12" type="radio" value="C"/><label class="im-option-label" for="q12-C"><strong>C.</strong> The inability to transmit signals on Earth</label></div><div class="im-option-row"><input id="q12-D" name="q12" type="radio" value="D"/><label class="im-option-label" for="q12-D"><strong>D.</strong> The end of scientific observation</label></div></div></fieldset><fieldset class="im-question im-question-mcq" data-question="13" id="question-13"><legend class="im-q-text"><span class="im-qnum">13</span>What is the meaning of “opportunity costs” in the final section?</legend><div class="im-options"><div class="im-option-row"><input id="q13-A" name="q13" type="radio" value="A"/><label class="im-option-label" for="q13-A"><strong>A.</strong> The cost of constructing larger rockets</label></div><div class="im-option-row"><input id="q13-B" name="q13" type="radio" value="B"/><label class="im-option-label" for="q13-B"><strong>B.</strong> Money refunded after an unsuccessful mission</label></div><div class="im-option-row"><input id="q13-C" name="q13" type="radio" value="C"/><label class="im-option-label" for="q13-C"><strong>C.</strong> The income earned from selling space technology</label></div><div class="im-option-row"><input id="q13-D" name="q13" type="radio" value="D"/><label class="im-option-label" for="q13-D"><strong>D.</strong> Other public benefits that might be achieved by spending the resources elsewhere</label></div></div></fieldset></section></div>
+</section>
+</main>
+<div aria-label="Previous or next question" class="im-inline-step"><button aria-label="Previous question" class="im-step-btn" id="im-previous" type="button">‹</button><button aria-label="Next question" class="im-step-btn" id="im-next" type="button">›</button></div>
+<footer class="im-footer" id="im-footer">
+<div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav aria-label="Questions" class="im-qnav" id="im-qnav">
+<button aria-label="Question 1" class="im-qnav-item" data-im-question="1" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>1</button>
+<button aria-label="Question 2" class="im-qnav-item" data-im-question="2" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>2</button>
+<button aria-label="Question 3" class="im-qnav-item" data-im-question="3" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>3</button>
+<button aria-label="Question 4" class="im-qnav-item" data-im-question="4" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>4</button>
+<button aria-label="Question 5" class="im-qnav-item" data-im-question="5" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>5</button>
+<button aria-label="Question 6" class="im-qnav-item" data-im-question="6" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>6</button>
+<button aria-label="Question 7" class="im-qnav-item" data-im-question="7" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>7</button>
+<button aria-label="Question 8" class="im-qnav-item" data-im-question="8" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>8</button>
+<button aria-label="Question 9" class="im-qnav-item" data-im-question="9" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>9</button>
+<button aria-label="Question 10" class="im-qnav-item" data-im-question="10" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>10</button>
+<button aria-label="Question 11" class="im-qnav-item" data-im-question="11" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>11</button>
+<button aria-label="Question 12" class="im-qnav-item" data-im-question="12" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>12</button>
+<button aria-label="Question 13" class="im-qnav-item" data-im-question="13" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>13</button>
+</nav></div></div>
+<div class="im-foot-right"><button aria-label="Check article answers" class="im-check im-check-final" id="im-check-btn" title="Check all answers" type="button"><span aria-hidden="true" class="im-check-mark">✓</span><span>Check</span></button></div>
+</footer>
+<aside aria-labelledby="im-dict-title" aria-modal="false" class="im-dictionary-panel" hidden="" id="im-dictionary-panel" role="dialog" tabindex="-1">
+<div class="im-dict-top"><span class="im-dict-eyebrow">LEARNERS AREA · DICTIONARY</span>
+<button aria-label="Close dictionary" class="im-dict-close" id="im-dict-close" title="Close" type="button">×</button></div>
+<div class="im-dict-title-row"><h2 id="im-dict-title">Dictionary</h2><button aria-label="Pronounce word" class="im-dict-speak" id="im-dict-speak" title="Play English pronunciation" type="button">🔊</button></div>
+<p class="im-dict-meta" id="im-dict-meta"></p>
+<div id="im-dict-definition-block"><p class="im-dict-label">Simple definition</p><p class="im-dict-definition" id="im-dict-definition"></p>
+<p class="im-dict-label">O‘zbekcha tarjimasi</p><p class="im-dict-translation" id="im-dict-translation"></p>
+<p class="im-dict-label">Example</p><p class="im-dict-example" id="im-dict-example"></p></div>
+<div class="im-dict-words" hidden="" id="im-dict-words"><p class="im-dict-label">Words in this article</p><div class="im-dict-word-buttons" id="im-dict-word-buttons"></div></div>
+</aside></div>
+<dialog aria-labelledby="im-result-title" class="im-modal" id="im-result">
+<h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+<div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+<div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</dialog>
+<script>
+(() => {
+  'use strict';
+  const root = document.querySelector('.im-app');
+  const main = document.querySelector('.im-main');
+  const passage = document.getElementById('im-passage-col');
+  const questionPanel = document.getElementById('im-questions');
+  const split = document.getElementById('im-splitter');
+  const navButtons = [...document.querySelectorAll('.im-qnav-item')];
+  const bankButtons = [...document.querySelectorAll('.im-chip[data-heading]')];
+  const headingInputs = [...document.querySelectorAll('.im-head-drop')];
+  const otherInputs = [...document.querySelectorAll('.im-options input, .im-gap-input, .im-feature-select')];
+  const headingLabels = Object.fromEntries(bankButtons.map((button) => [button.dataset.heading, button.textContent.trim().replace(/^\S+\s+/, '')]));
+  const solution = Object.freeze({"q1": "C", "q2": "B", "q3": "E", "q4": "F", "q5": "D", "q6": "H", "q7": "B", "q8": "A", "q9": "C", "q10": "B", "q11": "C", "q12": "B", "q13": "D"});
+  const explanations = Object.freeze({"q1": "Section C compares space programmes with expeditions during the Age of Discoveries and later exploration.", "q2": "Section B lists government space agencies, their capabilities and the annual budget figures.", "q3": "Section E discusses finding another planet where humans could continue living.", "q4": "Section F describes dangerous expeditions and risks to space crews.", "q5": "Section D says satellites can monitor global warming and detect wildfires.", "q6": "Section H refers to sovereignty and the possibility of political tensions over planets and resources.", "q7": "The opening contrasts public costs and urgent problems on Earth with the possible long-term benefits of exploration.", "q8": "Section B identifies NASA, ROSCOSMOS and CNSA as having these capabilities in the supplied text.", "q9": "Section D includes artificial limbs in its list of technologies to which NASA research contributed.", "q10": "Section E gives figures for direct employment in OECD countries and Russia.", "q11": "Section F argues that knowledge of distant planets or the Moon can hardly compensate for costs.", "q12": "Section G warns that contact could expose humanity to attack or invasion by advanced extraterrestrial civilisations.", "q13": "Section H states that the same money and expertise could instead be spent on climate action, crime reduction or medical research."});
+  const storageKey = 'learners-area.article.space-exploration-pros-cons.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
+  let selectedHeading = null;
+  let activeQuestion = 1;
+  let timerInterval = null;
+  let pickerAnchor = null;
+  let pointerStartRatio = null;
+
+  function safeStore() {
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
+    catch (_) { /* Standalone private modes may disable storage. */ }
+  }
+
+  function safeRestore() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (!parsed || typeof parsed !== 'object') return;
+      for (let i = 1; i <= 13; i++) {
+        const value = parsed.answers && parsed.answers['q' + i];
+        if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
+      }
+    } catch (_) { /* Ignore corrupted saved data. */ }
+  }
+
+  function refreshAnswered() {
+    navButtons.forEach((button) => {
+      const q = 'q' + button.dataset.imQuestion;
+      const answered = !!String(state.answers[q] || '').trim();
+      button.classList.toggle('im-answered', answered);
+      button.setAttribute('aria-label', `Question ${button.dataset.imQuestion}, ${answered ? 'answered' : 'not answered'}`);
+    });
+    bankButtons.forEach((button) => {
+      const id = button.dataset.heading;
+      const used = headingInputs.some((input) => state.answers[input.name] === id);
+      button.classList.toggle('im-chip-used', used);
+      button.classList.toggle('im-chip-selected', selectedHeading === id);
+      button.setAttribute('aria-pressed', String(selectedHeading === id));
+    });
+  }
+
+  function updateAnswer(name, value) {
+    if (!/^q([1-9]|1[0-3])$/.test(name)) return;
+    if (value) state.answers[name] = value;
+    else delete state.answers[name];
+    safeStore();
+    refreshAnswered();
+    document.dispatchEvent(new CustomEvent('learnersarea:article-answer', { detail: { question: Number(name.slice(1)), answer: value } }));
+  }
+
+  function closePicker() {
+    if (!pickerAnchor) return;
+    const popup = pickerAnchor.parentElement.querySelector('.im-heading-picker');
+    popup.hidden = true;
+    pickerAnchor.setAttribute('aria-expanded', 'false');
+    pickerAnchor = null;
+  }
+
+  function applyHeading(input, headingId) {
+    if (headingId && !(headingId in headingLabels)) return;
+    // Each heading can be used only once in this matching question bank.
+    headingInputs.forEach((other) => {
+      if (other !== input && state.answers[other.name] === headingId && headingId) {
+        other.value = '';
+        other.classList.add('im-drop-empty');
+        other.title = `Choose a heading for question ${other.dataset.imQ}`;
+        delete state.answers[other.name];
+      }
+    });
+    input.value = headingId ? `${headingId} ${headingLabels[headingId]}` : '';
+    input.classList.toggle('im-drop-empty', !headingId);
+    input.title = headingId ? `Assigned: ${headingLabels[headingId]}. Click to change.` : 'Click to choose a heading';
+    updateAnswer(input.name, headingId);
+    selectedHeading = null;
+    closePicker();
+    refreshAnswered();
+    goToQuestion(Number(input.dataset.imQ), false);
+  }
+
+  function openPicker(input) {
+    if (pickerAnchor === input) { closePicker(); return; }
+    closePicker();
+    const picker = input.parentElement.querySelector('.im-heading-picker');
+    picker.replaceChildren();
+    Object.entries(headingLabels).forEach(([id, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = `${id}  ${label}`;
+      button.addEventListener('click', () => { applyHeading(input, id); input.focus(); });
+      picker.append(button);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'im-clear';
+    clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { applyHeading(input, ''); input.focus(); });
+    picker.append(clear);
+    picker.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    pickerAnchor = input;
+  }
+
+  function restoreInputs() {
+    headingInputs.forEach((input) => {
+      const selected = state.answers[input.name];
+      input.value = headingLabels[selected] ? `${selected} ${headingLabels[selected]}` : '';
+      input.classList.toggle('im-drop-empty', !headingLabels[selected]);
+      input.title = 'Click to choose or change the heading';
+    });
+    otherInputs.forEach((input) => {
+      if (input.type === 'radio') input.checked = state.answers[input.name] === input.value;
+      else input.value = state.answers[input.name] || '';
+    });
+    refreshAnswered();
+  }
+
+  bankButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedHeading = selectedHeading === button.dataset.heading ? null : button.dataset.heading;
+      closePicker();
+      refreshAnswered();
+    });
+    button.addEventListener('dragstart', (event) => {
+      selectedHeading = button.dataset.heading;
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', selectedHeading);
+      }
+      refreshAnswered();
+    });
+  });
+
+  headingInputs.forEach((input) => {
+    input.addEventListener('click', () => {
+      if (selectedHeading) applyHeading(input, selectedHeading);
+      else openPicker(input);
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (selectedHeading) applyHeading(input, selectedHeading);
+        else openPicker(input);
+      } else if (event.key === 'Escape') closePicker();
+      else if (event.key === 'Delete' || event.key === 'Backspace') {
+        event.preventDefault();
+        applyHeading(input, '');
+      }
+    });
+    input.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      input.classList.add('im-drop-drop-target');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    input.addEventListener('dragleave', () => input.classList.remove('im-drop-drop-target'));
+    input.addEventListener('drop', (event) => {
+      event.preventDefault();
+      input.classList.remove('im-drop-drop-target');
+      const value = event.dataTransfer && event.dataTransfer.getData('text/plain');
+      if (value in headingLabels) applyHeading(input, value);
+    });
+  });
+  document.addEventListener('click', (event) => {
+    if (pickerAnchor && !pickerAnchor.parentElement.contains(event.target)) closePicker();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePicker(); });
+
+  otherInputs.forEach((input) => {
+    const eventName = input.type === 'radio' || input.tagName === 'SELECT' ? 'change' : 'input';
+    input.addEventListener(eventName, () => {
+      updateAnswer(input.name, input.value.trim());
+      if (input.type === 'text') {
+        const count = input.value.trim().split(/\s+/).filter(Boolean).length;
+        input.setCustomValidity(count > 1 ? 'Enter one word only.' : '');
+      }
+    });
+    input.addEventListener('focus', () => goToQuestion(Number(input.name.slice(1)), false));
+  });
+
+  function goToQuestion(number, shouldScroll = true) {
+    if (!Number.isInteger(number) || number < 1 || number > 13) return;
+    activeQuestion = number;
+    navButtons.forEach((button) => {
+      const current = Number(button.dataset.imQuestion) === number;
+      button.classList.toggle('im-active', current);
+      if (current) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('im-previous').disabled = number === 1;
+    document.getElementById('im-next').disabled = number === 13;
+    if (!shouldScroll) return;
+    const target = document.getElementById('question-' + number);
+    if (!target) return;
+    const scroller = target.closest('.im-passage-col, .im-question-col');
+    if (!scroller) return;
+    const item = target.getBoundingClientRect();
+    const panel = scroller.getBoundingClientRect();
+    const offset = item.top - panel.top - panel.height * .34;
+    scroller.scrollTo({top: Math.max(0, scroller.scrollTop + offset), behavior: 'smooth'});
+  }
+  navButtons.forEach((button) => {
+    button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
+  });
+  document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
+  document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
+
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
+  function updateTimer() {
+    const seconds = state.remainingSeconds;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    const clock = document.getElementById('im-clock');
+    clock.textContent = `${mm}:${ss}`;
+    clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
+  }
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
+  });
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
+
+  split.addEventListener('pointerdown', (event) => {
+    if (window.matchMedia('(max-width: 850px)').matches) return;
+    pointerStartRatio = event.pointerId;
+    split.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  split.addEventListener('pointermove', (event) => {
+    if (pointerStartRatio !== event.pointerId) return;
+    const bounds = main.getBoundingClientRect();
+    const raw = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const percent = Math.max(30, Math.min(70, raw));
+    root.style.setProperty('--im-left-width', `${percent}%`);
+  });
+  function releaseDivider(event) {
+    if (pointerStartRatio === event.pointerId) pointerStartRatio = null;
+  }
+  split.addEventListener('pointerup', releaseDivider);
+  split.addEventListener('pointercancel', releaseDivider);
+  split.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const old = parseFloat(root.style.getPropertyValue('--im-left-width')) || 49.5;
+    root.style.setProperty('--im-left-width', `${Math.max(30, Math.min(70, old + (event.key === 'ArrowRight' ? 2 : -2)))}%`);
+  });
+
+  function normalise(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  }
+  const acceptableAnswers = Object.freeze({});
+  const resultDialog = document.getElementById('im-result');
+  document.getElementById('im-check-btn').addEventListener('click', () => {
+    const body = document.getElementById('im-review-body');
+    const fragment = document.createDocumentFragment();
+    let correct = 0;
+    for (let i = 1; i <= 13; i++) {
+      const key = 'q' + i;
+      const given = String(state.answers[key] || '');
+      const isCorrect = (acceptableAnswers[key] || [solution[key]]).some((answer) => normalise(given) === normalise(answer));
+      correct += Number(isCorrect);
+      const tr = document.createElement('tr');
+      const cellNo = document.createElement('td');
+      cellNo.textContent = String(i);
+      const cellGiven = document.createElement('td');
+      cellGiven.textContent = given || '—';
+      const cellCorrect = document.createElement('td');
+      cellCorrect.textContent = solution[key];
+      const cellStatus = document.createElement('td');
+      cellStatus.textContent = isCorrect ? '✓' : '✕';
+      cellStatus.className = isCorrect ? 'im-ok' : 'im-bad';
+      const cellExplanation = document.createElement('td');
+      cellExplanation.textContent = explanations[key] || '';
+      tr.append(cellNo, cellGiven, cellCorrect, cellStatus, cellExplanation);
+      fragment.append(tr);
+    }
+    body.replaceChildren(fragment);
+    document.getElementById('im-score').textContent = `${correct} / 13 correct`;
+    if (typeof resultDialog.showModal === 'function') resultDialog.showModal();
+    else resultDialog.setAttribute('open', '');
+  });
+  document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
+  safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
+
+
+  // Dictionary words are restored from the actual article's glossary, not generated meanings.
+  const dictionary = Object.freeze({"belt-tightening": {"word": "belt-tightening", "pos": "noun", "level": "C1", "ipa": "/ˈbelt ˌtaɪtənɪŋ/", "definition": "A period when spending is reduced because money is limited.", "translation": "xarajatlarni qisqartirish, tejamkorlik", "example": "The government reconsidered its plans during a period of belt-tightening."}, "public funding": {"word": "public funding", "pos": "noun phrase", "level": "B2", "ipa": "/ˈpʌblɪk ˈfʌndɪŋ/", "definition": "Money provided by a government or public body to pay for activities or services.", "translation": "davlat moliyalashtirishi", "example": "Many research programmes rely on public funding."}, "proponents": {"word": "proponents", "pos": "noun (plural)", "level": "C1", "ipa": "/prəˈpəʊnənts/", "definition": "People who publicly support an idea or plan.", "translation": "tarafdorlar", "example": "Proponents of space exploration cite scientific benefits."}, "invaluable": {"word": "invaluable", "pos": "adjective", "level": "C1", "ipa": "/ɪnˈvæljuəbl/", "definition": "Extremely useful or important.", "translation": "nihoyatda qimmatli", "example": "The data from satellites can be invaluable to researchers."}, "extraterrestrial": {"word": "extraterrestrial", "pos": "adjective", "level": "C1", "ipa": "/ˌekstrətəˈrestriəl/", "definition": "Originating or existing outside planet Earth.", "translation": "Yerdan tashqaridagi", "example": "Scientists study the possibility of extraterrestrial life."}, "satellites": {"word": "satellites", "pos": "noun (plural)", "level": "B2", "ipa": "/ˈsætəlaɪts/", "definition": "Objects placed in orbit to observe Earth or transmit signals.", "translation": "sun’iy yo‘ldoshlar", "example": "Satellites help monitor weather and wildfires."}, "by-products": {"word": "by-products", "pos": "noun (plural)", "level": "C1", "ipa": "/ˈbaɪ ˌprɒdʌkts/", "definition": "Useful or unwanted things produced as an additional result of another process.", "translation": "qo‘shimcha mahsulotlar, bilvosita natijalar", "example": "New materials can be by-products of space research."}, "colonize": {"word": "colonize", "pos": "verb", "level": "C1", "ipa": "/ˈkɒlənaɪz/", "definition": "To establish a settlement in a new territory.", "translation": "mustamlaka yoki doimiy manzil qurmoq", "example": "Some proposals imagine humans colonize other planets."}, "hazardous": {"word": "hazardous", "pos": "adjective", "level": "C1", "ipa": "/ˈhæzədəs/", "definition": "Involving a risk of danger or harm.", "translation": "xavfli, xatarga boy", "example": "A crewed space mission can be hazardous."}, "jeopardize": {"word": "jeopardize", "pos": "verb", "level": "C1", "ipa": "/ˈdʒepədaɪz/", "definition": "To put someone or something in danger.", "translation": "xavf ostiga qo‘ymoq", "example": "Poor planning can jeopardize a mission."}, "sovereignty": {"word": "sovereignty", "pos": "noun", "level": "C2", "ipa": "/ˈsɒvrənti/", "definition": "The authority or right to govern a territory independently.", "translation": "suverenitet, mustaqil hukmronlik", "example": "Questions of sovereignty could arise over off-world resources."}, "opportunity costs": {"word": "opportunity costs", "pos": "noun phrase", "level": "C1", "ipa": "/ˌɒpəˈtjuːnəti ˈkɒsts/", "definition": "The benefits forgone when resources are used for one choice rather than another.", "translation": "muqobil imkoniyat xarajatlari", "example": "Funding a mission has opportunity costs for other public services."}});
+  const dictionaryAliases = Object.freeze({});
+  const dictionaryPanel = document.getElementById('im-dictionary-panel');
+  const dictionaryWords = [...document.querySelectorAll('.im-vocab-word-in-text')];
+  const dictionaryButton = document.getElementById('im-dictionary-list');
+  const dictionaryClose = document.getElementById('im-dict-close');
+  const dictionaryAudio = document.getElementById('im-dict-speak');
+  const dictionaryList = document.getElementById('im-dict-words');
+  const dictionaryListButtons = document.getElementById('im-dict-word-buttons');
+  let activeDictionaryWord = '';
+  let lastDictionaryAnchor = null;
+  let pressTimer = null;
+  let pressGesture = null;
+
+  function dictionaryKey(element) {
+    const raw = String(element.dataset.dictionaryWord || element.textContent || '').trim().toLowerCase();
+    return dictionaryAliases[raw] || raw;
+  }
+  function dictionaryText(id, value) { document.getElementById(id).textContent = value; }
+  function openDictionary(key, anchor = null, list = false) {
+    const entry = dictionary[key];
+    if (!entry) return;
+    const detail = {word:key, sourceType:'reading', sourceId:'space-exploration-pros-cons', anchor};
+    const event = new CustomEvent('learnersarea:article-word-lookup', {cancelable:true, detail});
+    if (!document.dispatchEvent(event)) return;
+    activeDictionaryWord = key;
+    lastDictionaryAnchor = anchor;
+    dictionaryText('im-dict-title', entry.word);
+    dictionaryText('im-dict-meta', [entry.pos, entry.level, entry.ipa].filter(Boolean).join(' · '));
+    dictionaryText('im-dict-definition', entry.definition);
+    dictionaryText('im-dict-translation', entry.translation);
+    dictionaryText('im-dict-example', entry.example);
+    dictionaryList.hidden = !list;
+    dictionaryPanel.hidden = false;
+    dictionaryPanel.scrollTop = 0;
+    dictionaryPanel.focus({preventScroll:true});
+  }
+  function closeDictionary(returnFocus = false) {
+    if (dictionaryPanel.hidden) return;
+    dictionaryPanel.hidden = true;
+    activeDictionaryWord = '';
+    if (returnFocus && lastDictionaryAnchor) lastDictionaryAnchor.focus({preventScroll:true});
+    lastDictionaryAnchor = null;
+  }
+  const uniqueWords = Object.keys(dictionary);
+  for (const key of uniqueWords) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = key;
+    button.addEventListener('click', () => openDictionary(key, null, true));
+    dictionaryListButtons.append(button);
+  }
+  dictionaryButton.addEventListener('click', () => {
+    if (!dictionaryPanel.hidden && !dictionaryList.hidden) { closeDictionary(true); return; }
+    openDictionary(activeDictionaryWord || uniqueWords[0], null, true);
+  });
+  dictionaryClose.addEventListener('click', () => closeDictionary(true));
+  dictionaryAudio.addEventListener('click', () => {
+    if (!activeDictionaryWord || !('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(activeDictionaryWord);
+    utterance.lang = 'en-GB'; utterance.rate = .9;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  });
+  for (const word of dictionaryWords) {
+    word.addEventListener('dblclick', (event) => {
+      if (event.button !== 0) return;
+      window.getSelection()?.removeAllRanges();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.pointerType === 'mouse') return;
+      clearTimeout(pressTimer);
+      pressGesture = {x:event.clientX,y:event.clientY};
+      pressTimer = window.setTimeout(() => {
+        pressTimer = null;
+        openDictionary(dictionaryKey(word), word);
+      }, 3000);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+      word.addEventListener(name, () => { clearTimeout(pressTimer); pressTimer = null; });
+    }
+    word.addEventListener('pointermove', (event) => {
+      if (pressGesture && Math.hypot(event.clientX - pressGesture.x, event.clientY - pressGesture.y) > 8) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    });
+  }
+  document.addEventListener('pointerdown', (event) => {
+    if (dictionaryPanel.hidden) return;
+    if (dictionaryPanel.contains(event.target) || dictionaryButton.contains(event.target)) return;
+    if (event.target.closest?.('.im-vocab-word-in-text')) return;
+    closeDictionary();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !dictionaryPanel.hidden) closeDictionary(true);
+  });
+  const logo = document.getElementById('im-brand-logo');
+  const logoFallback = document.getElementById('im-brand-fallback');
+  logo.addEventListener('load', () => { if (logo.naturalWidth > 0) logoFallback.hidden = true; });
+  logo.addEventListener('error', () => { logo.hidden = true; logoFallback.hidden = false; });
+  if (logo.complete && logo.naturalWidth > 0) logoFallback.hidden = true;
+})();
+</script>
+</body>
+</html>
