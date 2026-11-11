@@ -1840,11 +1840,11 @@ export default {
             "error": "Mikrofon xatosi"
         },
         "callFailed": "Qo'ng'iroq ulanmadi va yakunlandi. Yana taklif yuborishingiz mumkin.",
-        "tapToPlay": "Brauzer ovozni blokladi. Hamkoringizni eshitish uchun sahifaga bosing.",
+        "tapToPlay": "Brauzer ovozni blokladi. Sherigingizni eshitish uchun sahifaga bosing.",
         "rulesTitle": "Live Partner qoidalari",
         "rules": [
             "Hurmatli bo'ling; ingliz tilida va mavzu doirasida gapiring.",
-            "Hamkoringizni yozib olmang. Learners Area qo'ng'iroqlarni yozmaydi.",
+            "Sherigingizni yozib olmang. Learners Area qo'ng'iroqlarni yozmaydi.",
             "Shaxsiy kontakt ma'lumotlarini ulashmang.",
             "Istalgan vaqtda qo'ng'iroqni tugatishingiz yoki bloklashingiz mumkin."
         ],
