@@ -56,7 +56,8 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
      Date.parse(data.features.searchUntil)<=Date.parse(serverNow))lobbyMessage=u.searchExpired;
   if(data?.sessionId&&!next.sessionId){
    if(wasConnected&&data.partner&&!postCall){
-    postCall={sessionId:data.sessionId,partner:data.partner,rated:false,friended:false,reported:false};
+    postCall={sessionId:data.sessionId,partner:data.partner,rated:false,
+     friended:Boolean(history?.friends?.some(friend=>friend.userId===data.partner.userId)),reported:false};
     bandDraft=14;reportReason='other';flow='feedback';
    }
    history=null;historyRequested=false;
@@ -170,7 +171,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   const canCall=person.canCall!==false&&!busy&&state()==='available'&&data?.realtime?.ready;
   const control=button('',()=>{outgoingName=person.name;lobbyMessage='';void act({action:'invite',toUserId:person.userId});},'btn-primary lp-dial',
    {disabled:!canCall,'aria-label':t.invite+' '+person.name,'data-partner-focus':person.userId,'data-partner-call':person.userId});
-  control.append(phone());return control;
+  control.append(el('span',{'aria-hidden':'true'},'📞'));return control;
  }
  function radarPeople(){
   return (data?.online??[]).filter(person=>person.canCall!==false&&
@@ -279,7 +280,6 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
   if(inCall){
   mePanel.append(el('meter',{min:0,max:1,value:0,'data-partner-meter':'local','aria-label':u.micSignal}));
   const questionsPanel=el('section',{class:'lp-panel lp-questions flex flex-col gap-3 rounded-lg border border-ink-100 bg-paper p-4','data-partner-questions':''},el('h2',{class:'text-xs font-semibold uppercase tracking-wide text-ink-500'},t.questions),el('p',{class:'text-xs text-ink-500'},t.questionsOptional));
-  const connected=state()==='in_call'&&callStatus==='connected';
   const searchInput=el('input',{type:'search',value:query,placeholder:t.search,class:'w-full rounded-sm border border-ink-200 px-3 py-2'});
   listen(searchInput,'input',()=>{query=searchInput.value;selectedTopic=null;clearTimeout(searchTimer);searchTimer=setTimeout(()=>void search(),250);},signal);questionsPanel.append(searchInput);
   questionsPanel.append(el('p',{role:'status','aria-live':'polite','data-partner-search-state':searchState,class:'text-xs text-ink-500'},searchState==='loading'?t.searchSearching:searchState==='error'?t.searchFailed:searchState==='empty'?t.noQuestions:''));
@@ -309,7 +309,6 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    const stats=history?.stats??{calls:0,seconds:0};
    const friends=history?.friends??[],recent=history?.recent??[];
    const averageBand=history?.stats?.averageBand;
-   const ratingCount=Number(history?.stats?.ratingCount??0);
    const summary=el('section',{class:'lp-summary card','data-partner-summary':''},
     el('div',{class:'lp-summary-heading'},el('h1',{},t.title),
      button((me.gender==='female'?'Female':me.gender==='male'?'Male':'Not set')+' · '+(me.level??'Any level')+'   Change',()=>{profileDraftGender=me.gender??'male';profileDraftLevel=me.level??'B1';flow='profile';draw();},'lp-summary-profile',{'data-partner-change-profile':'','aria-label':'Change gender and level'})),
