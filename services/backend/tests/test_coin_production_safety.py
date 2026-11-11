@@ -263,3 +263,19 @@ def test_grammar_free_text_requires_an_authored_answer(kind):
 def test_grammar_repeated_junk_does_not_complete_writing():
     from app.coin_policy import grammar_submission_ok
     assert not grammar_submission_ok({"kind":"write","min":25},["fake "*25])
+
+
+def test_coin_catalogs_load_from_the_minified_docker_layout(tmp_path, monkeypatch):
+    import shutil
+    root = Path(__file__).resolve().parents[3]
+    built = root / "frontend/vanilla/build"
+    target = tmp_path / "frontend/vanilla/build"
+    for relative in ("modules/grammar/book-content-b1.js", "modules/reading/articles-data.js"):
+        (target / relative).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(built / relative, target / relative)
+    monkeypatch.setattr(rewards,"ROOT",tmp_path)
+    monkeypatch.delenv("FRONTEND_DIST",raising=False)
+    rewards.reset_cache()
+    assert rewards.grammar_exercise("b1","a0-1",0,0) is not None
+    assert rewards.article_question_count("plastic-bags") == 13
+    rewards.reset_cache()

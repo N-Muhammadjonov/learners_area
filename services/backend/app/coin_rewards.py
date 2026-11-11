@@ -8,6 +8,8 @@ operator applies migration 0084.
 from __future__ import annotations
 
 import json
+import os
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -64,17 +66,28 @@ def course_sources() -> set[str]:
     return _COURSES
 
 
+def _frontend_array(relative: str, declaration: str) -> list:
+    """Read authored JSON arrays from source or the minified production image."""
+    source = ROOT / "frontend/vanilla"
+    built = Path(os.environ.get("FRONTEND_DIST", str(source / "build")))
+    for base in (source, built):
+        try:
+            body = (base / relative).read_text()
+            match = re.search(declaration, body)
+            if match:
+                value, _ = json.JSONDecoder().raw_decode(body[match.end():].lstrip())
+                if isinstance(value, list):
+                    return value
+        except (OSError, ValueError):
+            continue
+    return []
+
+
 def _grammar_catalog(level: str):
     if level not in _GRAMMAR:
-        path = ROOT / "frontend/vanilla/modules/grammar" / f"book-content-{level}.js"
-        units = None
-        try:
-            body = path.read_text().split("export default ", 1)[1].strip().rstrip(";")
-            parsed = json.loads(body)
-            units = {unit["id"]: unit for unit in parsed}
-        except (OSError, ValueError, IndexError, KeyError):
-            units = {}
-        _GRAMMAR[level] = units
+        parsed = _frontend_array(f"modules/grammar/book-content-{level}.js", r"\bexport\s+default\s*")
+        _GRAMMAR[level] = {unit["id"]: unit for unit in parsed
+                           if isinstance(unit, dict) and isinstance(unit.get("id"), str)}
     return _GRAMMAR[level]
 
 
@@ -95,24 +108,10 @@ def grammar_exercise(level: str, unit_id: str, stage: int, exercise: int):
 def article_question_count(article_id: str) -> int | None:
     global _ARTICLES
     if _ARTICLES is None:
-        path = ROOT / "frontend/vanilla/modules/reading/articles-data.js"
-        counts = {}
-        try:
-            chunks = path.read_text().split('\n  {\n')
-            for chunk in chunks:
-                ident = chunk.partition('"id": "')[2].partition('"')[0]
-                raw = chunk.partition('"questionCount": ')[2]
-                digits = []
-                for char in raw:
-                    if char.isdigit():
-                        digits.append(char)
-                    elif digits:
-                        break
-                if ident and digits:
-                    counts[ident] = int("".join(digits))
-        except OSError:
-            counts = {}
-        _ARTICLES = counts
+        parsed = _frontend_array("modules/reading/articles-data.js", r"\bexport\s+const\s+articles\s*=\s*")
+        _ARTICLES = {item["id"]: item["questionCount"] for item in parsed
+                     if isinstance(item, dict) and isinstance(item.get("id"), str)
+                     and type(item.get("questionCount")) is int and item["questionCount"] > 0}
     return _ARTICLES.get(article_id)
 
 
