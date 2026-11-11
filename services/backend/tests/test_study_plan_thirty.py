@@ -12,6 +12,7 @@ from app.study_plan_thirty import (
     DAYS, TARGET_MINUTES, eligible_grammar, level_range,
     make_thirty_day_schedule, normalize_level, read_grammar_catalog,
 )
+from app.study_plan_materials import assign_materials
 from app.study_plan_thirty_port import (
     _event_kind, _present, _score_skill_stage, _skill_answer_bank, _sync,
 )
@@ -235,3 +236,46 @@ def test_early_cefr_lessons_use_existing_b1_book_evidence_provider():
             task = day["tasks"][0]
             if task.source_key.startswith("grammar-book:"):
                 assert not task.source_key.startswith("grammar-book:a")
+
+
+def test_assignment_materials_uses_real_published_content_ids_and_falls_back_to_site_modules():
+    schedule = make_thirty_day_schedule("B2", START)
+    pools = {
+        "reading": [
+            {"title": "Academic Reading — Passage 1",
+             "href": "/app/reading/academic/11",
+             "source_key": "reading:11"},
+        ],
+        "listening": [
+            {"title": "Academic Listening — Test 7",
+             "href": "/app/listening/tests/22/1",
+             "source_key": "listening:22"},
+        ],
+        "writing": [],
+        "speaking": [
+            {"title": "Speaking Part 2 — Hometown",
+             "href": "/app/speaking/ai?part=part2&promptId=33",
+             "source_key": "speaking:33"},
+        ],
+    }
+    enriched = assign_materials(schedule, pools)
+    assert len(enriched) == 30
+    assert enriched[0]["tasks"][1].source_key == "reading:11"
+    assert enriched[0]["tasks"][1].href == "/app/reading/academic/11"
+    assert enriched[0]["tasks"][2].source_key == "listening:22"
+    assert enriched[0]["tasks"][4].source_key == "speaking:33"
+    assert enriched[1]["tasks"][1].source_key == "reading"
+    assert enriched[1]["tasks"][1].href.startswith("/app/")
+    assert enriched[0]["tasks"][3].source_key == "writing"
+    assert all(sum(task.minutes for task in day["tasks"]) == 120 for day in enriched)
+    assert schedule[0]["tasks"][1].source_key == "reading", "original plan stays immutable"
+
+
+def test_plan_materials_rejects_unsafe_or_fake_routes():
+    schedule = make_thirty_day_schedule("B2", START)
+    bad = {"reading": [
+        {"title": "Untrusted", "href": "https://foreign.invalid", "source_key": "reading:fake"},
+    ]}
+    enriched = assign_materials(schedule, bad)
+    assert enriched[0]["tasks"][1].source_key == "reading"
+    assert enriched[0]["tasks"][1].href == schedule[0]["tasks"][1].href
