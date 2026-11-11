@@ -46,6 +46,16 @@ async def student(req: Request) -> tuple[dict | None, JSONResponse | None]:
     return user, None
 
 
+async def plan_participant(req: Request) -> tuple[dict | None, JSONResponse | None]:
+    """Allow the account owner to exercise the learner plan without widening staff APIs."""
+    user = await core.current_user(req, active=True)
+    if not user:
+        return None, failure("unauthenticated", 401)
+    if user["role"] not in ("student", "owner"):
+        return None, failure("forbidden", 403)
+    return user, None
+
+
 async def body_object(req: Request, allowed: set[str]) -> dict | None:
     if not req.headers.get("content-type", "").startswith("application/json"):
         return None
