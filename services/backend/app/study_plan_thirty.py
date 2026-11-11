@@ -146,7 +146,12 @@ def make_thirty_day_schedule(level: str, start: date,
         # Later revisions rearrange units, not their required stage depth.
         stage = (position // len(units)) % 3
         if unit["source"] != "legacy" and stage != 0:
-            raise ValueError("unsupported_skill_stage")
+            # Skill-book server grading currently covers its first stage only.
+            # Use an authored legacy Grammar unit for later stages instead.
+            legacy = [candidate for candidate in units if candidate["source"] == "legacy"]
+            if not legacy:
+                raise ValueError("insufficient_verified_grammar")
+            unit = legacy[(position + (revision - 1) * 7) % len(legacy)]
         minutes = WORKLOADS[offset % len(WORKLOADS)]
         grammar = PlanTask(
             day=day_number, slot=0, kind="grammar",
