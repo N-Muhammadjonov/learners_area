@@ -221,34 +221,43 @@ async def redeem(req: Request,item_key: str) -> JSONResponse:
         return response(await reward_state(con,uid))
 
 
+# Default to stable anonymous labels so active learners can appear in Top 20
+# without revealing their names or requiring public leaderboard opt-in.
+# A voluntary profile alias replaces the anonymous label.
 RANKING = """
 WITH participants AS (
-  SELECT p.user_id,p.alias,coalesce(sum(l.points),0)::int points
-  FROM study_leaderboard_participants p JOIN users u ON u.id=p.user_id
-  LEFT JOIN study_reward_ledger l ON l.user_id=p.user_id AND l.earned_at >= $2
+  SELECT u.id AS user_id,
+         coalesce(nullif(p.alias,''),'Learner-'||substr(md5(u.id::text),1,6)) AS alias,
+         coalesce(sum(l.points),0)::int points
+  FROM users u
+  LEFT JOIN study_leaderboard_participants p ON p.user_id=u.id
+  LEFT JOIN study_reward_ledger l ON l.user_id=u.id AND l.earned_at >= $2
   WHERE u.role='student' AND u.account_status='active' AND (
       NOT $3 OR EXISTS(SELECT 1 FROM teacher_student_links mine JOIN teacher_student_links other
-        ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=p.user_id))
-  GROUP BY p.user_id,p.alias
+        ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=u.id))
+  GROUP BY u.id,p.alias
 ), ranked AS (
   SELECT *,row_number() OVER(ORDER BY points DESC,lower(alias),user_id)::int rank FROM participants
 )
 """
 COIN_RANKING = """
 WITH participants AS (
-  SELECT p.user_id,p.alias,coalesce(sum(l.points),0)::int points,
+  SELECT u.id AS user_id,
+         coalesce(nullif(p.alias,''),'Learner-'||substr(md5(u.id::text),1,6)) AS alias,
+         coalesce(sum(l.points),0)::int points,
          coalesce((SELECT sum(c.coins)::int FROM coin_ledger c
-                   WHERE c.user_id=p.user_id AND c.earned_at >= $2),0) coins,
+                   WHERE c.user_id=u.id AND c.earned_at >= $2),0) coins,
          coalesce((SELECT sum(t.active_ms)::bigint FROM coin_practice_time t
-                   WHERE t.user_id=p.user_id AND t.earned_at >= $2),0) practice_ms,
-         EXISTS(SELECT 1 FROM subscriptions s WHERE s.user_id=p.user_id AND s.status='active'
+                   WHERE t.user_id=u.id AND t.earned_at >= $2),0) practice_ms,
+         EXISTS(SELECT 1 FROM subscriptions s WHERE s.user_id=u.id AND s.status='active'
                 AND (s.current_period_end IS NULL OR s.current_period_end > now())) premium
-  FROM study_leaderboard_participants p JOIN users u ON u.id=p.user_id
-  LEFT JOIN study_reward_ledger l ON l.user_id=p.user_id AND l.earned_at >= $2
+  FROM users u
+  LEFT JOIN study_leaderboard_participants p ON p.user_id=u.id
+  LEFT JOIN study_reward_ledger l ON l.user_id=u.id AND l.earned_at >= $2
   WHERE u.role='student' AND u.account_status='active' AND (
       NOT $3 OR EXISTS(SELECT 1 FROM teacher_student_links mine JOIN teacher_student_links other
-        ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=p.user_id))
-  GROUP BY p.user_id,p.alias
+        ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=u.id))
+  GROUP BY u.id,p.alias
 ), ranked AS (
   SELECT *,row_number() OVER(ORDER BY coins DESC, points DESC, lower(alias), user_id)::int rank FROM participants
 )
@@ -282,13 +291,13 @@ async def leaderboard(req: Request, period: str = "week", scope: str = "all", pa
                 rows = await con.fetch(COIN_RANKING+"""SELECT alias,points,coins,practice_ms,premium,rank,user_id=$1 AS mine,
                    (SELECT rank FROM ranked WHERE user_id=$1) own_rank
                    FROM ranked WHERE rank BETWEEN $4 AND $5 ORDER BY rank""",
-                   uid,since,scope=="class",(page-1)*25+1,page*25+1)
+                   uid,since,scope=="class",(page-1)*20+1,page*20+1)
         except Exception:
             rich = False
             rows = await con.fetch(RANKING+"""SELECT alias,points,rank,user_id=$1 AS mine,
                (SELECT rank FROM ranked WHERE user_id=$1) own_rank
                FROM ranked WHERE rank BETWEEN $4 AND $5 ORDER BY rank""",
-               uid,since,scope=="class",(page-1)*25+1,page*25+1)
+               uid,since,scope=="class",(page-1)*20+1,page*20+1)
         own = await con.fetchval((COIN_RANKING if rich else RANKING)+"SELECT rank FROM ranked WHERE user_id=$1",uid,since,scope=="class") if mine and not rows else rows[0]["own_rank"] if rows else None
         practising = []
         if rich:
@@ -302,14 +311,14 @@ async def leaderboard(req: Request, period: str = "week", scope: str = "all", pa
                     practising = [row["alias"] for row in live]
             except Exception:
                 practising = []
-    entries = [{key:row[key] for key in ("alias","points","rank","mine")} for row in rows[:25]]
+    entries = [{key:row[key] for key in ("alias","points","rank","mine")} for row in rows[:20]]
     standings = [{
         "alias": row["alias"], "rank": row["rank"], "mine": row["mine"],
         "stars": row["points"], "coins": row["coins"] if rich else 0,
         "practiceMs": int(row["practice_ms"]) if rich else 0,
         "premium": bool(row["premium"]) if rich else False,
     } for row in rows[:20]]
-    return response({"alias":mine,"classAvailable":cohort,"position":own,"hasMore":len(rows)>25,
+    return response({"alias":mine,"classAvailable":cohort,"position":own,"hasMore":len(rows)>20,
                      "entries":entries,"standings":standings,"practising":practising,
                      "policy":public_policy()})
 
