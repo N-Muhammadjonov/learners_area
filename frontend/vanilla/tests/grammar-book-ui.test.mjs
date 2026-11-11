@@ -10,7 +10,7 @@ function setup(path = '/app/grammar/lessons') {
     url: 'https://example.test' + path,
   });
   for (const name of ['window', 'document', 'Node', 'navigator', 'localStorage', 'Option']) {
-    globalThis[name] = dom.window[name];
+    Object.defineProperty(globalThis, name, {configurable: true, writable: true, value: dom.window[name]});
   }
   dom.window.scrollTo = () => {};
   dom.window.HTMLMediaElement.prototype.pause = () => {};
