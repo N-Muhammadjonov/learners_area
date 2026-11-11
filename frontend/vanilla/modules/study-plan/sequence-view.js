@@ -289,9 +289,11 @@ export function mountSequenceAssignments(ctx, root) {
   paint();
   void load();
   if (ctx.url?.hash === '#study-plan-30') {
-    queueMicrotask(() => {
+    const reveal = () => {
       if (!ctx.signal.aborted && panel.isConnected) panel.scrollIntoView?.({block:'start'});
-    });
+    };
+    if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(reveal);
+    else queueMicrotask(reveal);
   }
   const onVisibility = () => {if (!document.hidden) void load();};
   document.addEventListener('visibilitychange', onVisibility);
