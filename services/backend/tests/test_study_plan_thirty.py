@@ -1,5 +1,7 @@
 """Contract and regression coverage for the 30-day sequential plan."""
 import asyncio
+import json
+from pathlib import Path
 from datetime import date, datetime, timedelta, timezone
 
 import pytest
@@ -199,3 +201,22 @@ def test_missing_task_rows_cannot_unlock_empty_days():
     now = datetime(2026, 11, 13, 8, tzinfo=timezone.utc)
     with pytest.raises(ValueError, match="invalid_current_day_tasks"):
         asyncio.run(_sync(MissingTaskConnection(), row, now))
+
+
+def test_grammar_answer_manifest_matches_authored_skill_curriculum():
+    source_root = Path(__file__).resolve().parents[3] / "frontend" / "vanilla" / "modules" / "grammar"
+    catalog = read_grammar_catalog()
+    by_group = {}
+    for unit in catalog:
+        if unit["source"] != "legacy":
+            by_group.setdefault((unit["source"], unit["group"]), []).append(unit)
+    answers = _skill_answer_bank()
+    for (track, group), metadata in by_group.items():
+        original = json.loads((source_root / f"book-skill-source-{track}-{group}.json").read_text())
+        source_units = {item["id"]: item for item in original["units"]}
+        assert set(unit["id"] for unit in metadata) <= set(source_units)
+        for unit in metadata:
+            stages = source_units[unit["id"]]["stages"]
+            actual_answers = [[item["answer"] for item in exercise["items"]]
+                              for exercise in stages[0]["groups"]]
+            assert answers[(track,group,unit["id"])] == actual_answers
