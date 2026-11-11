@@ -315,7 +315,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
     el('div',{class:'lp-stat-grid'},
      ...[[String(stats.calls??0),'Talks','🎙️'],[Math.floor(Number(stats.seconds??0)/60)+'m','Talk time','⏱️'],
      [String(friends.filter(friend=>friend.state==='accepted').length),'Friends','👥'],
-     [averageBand==null?'—':Number(averageBand).toFixed(1),'IELTS band','⭐']].map(([value,label,icon])=>
+     [averageBand==null?'—':Number(averageBand).toFixed(1),'Mocks','⭐']].map(([value,label,icon])=>
       el('div',{class:'lp-stat'},el('span',{class:'lp-stat-icon','aria-hidden':'true'},icon),
        el('div',{},el('strong',{},value),el('small',{},label))))));
    if(data?.features?.searchUntil&&!data?.incoming&&!data?.outgoing){workspace.append(renderMatchmaking());return;}
