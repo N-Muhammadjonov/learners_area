@@ -46,7 +46,7 @@ export async function mount(context){
    },mascot.node);
    mascot.node.classList.add('la-dashboard-companion');
    heading.classList.add('la-dashboard-greeting-companion');
-   heading.prepend(shortcut);
+   heading.append(shortcut);
   }
   mountSequenceDashboard(context,hero??host);
  }
