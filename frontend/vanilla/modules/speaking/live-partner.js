@@ -142,7 +142,7 @@ export function mount(context,{createCall=(sid,deps)=>new LivePartnerCall(sid,de
    getUserMedia:()=>navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false}),
    createPeer:config=>new RTCPeerConnection(config),createSocket:uri=>new WebSocket(uri),
    report:status=>{void request({action:'connection',sessionId:sid,status},AbortSignal.timeout(TIMEOUT)).catch(()=>{});},
-   onStatus:(status,detail)=>{if(destroyed)return;callStatus=status;if(status==='connected')wasConnected=true;media.connected(status==='connected');
+   onStatus:(status,detail)=>{if(destroyed)return;callStatus=status;if(status==='connected')wasConnected=true;media.connected(status==='connected'||status==='reconnecting');
     if(status==='failed'){error=['microphone','microphone_ended'].includes(detail)?t.errors.mic:t.callFailed;void request({action:'hangup',sessionId:sid},AbortSignal.timeout(TIMEOUT)).catch(()=>{}).finally(()=>void refresh());}draw();},
    onLocalStream:stream=>media.stream('local',stream),
    onRemoteStream:stream=>{media.stream('remote',stream);remoteAudio.srcObject=stream;if(stream)void playAudio();},
