@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {setup,tick,ID,api} from './staff-final30/harness.mjs';
 import {ApiError} from '../js/api-client.js';
-import {mountRetention} from '../modules/reading/retention.js';
+import {mountRetention,mountRetentionSession} from '../modules/reading/retention.js';
 import {readingDictionary} from '../modules/reading/dictionary.js';
 import {contextualWordPopover} from '../modules/vocabulary/contextual-popover.js';
 import {tokenise} from '../js/generated/lexical-text-helpers.js';
@@ -40,8 +40,23 @@ test('Retention retains the normal workspace, blocks source copying and allows r
  const h=setup({path:'/app/reading/retention',role:'student'});globals(h);h.ctx.dict=await readingDictionary(h.ctx);h.dom.window.confirm=()=>true;
  const now=meta(),reading={...now,phase:'reading',bodyText:'I read a book.',wordCount:4,occurrences:[]},recall={...now,phase:'recall',recallDraft:''};
  globalThis.fetch=async()=>response({version:1,route:'/app/reading/retention',data:{initial:null,summary:{bestScore:null,completedCount:0,lastTenAverage:null,lastTenCount:0},history:{rows:[],page:1,pageCount:1,total:0}}});
- h.stub({'/api/frontend/view':{version:1,route:'/app/reading/retention',data:{initial:null,summary:{bestScore:null,completedCount:0,lastTenAverage:null,lastTenCount:0},history:{rows:[],page:1,pageCount:1,total:0}}},'/api/retention/attempts':reading,[`/api/retention/attempts/${ID(8)}/finish-reading`]:recall,'/api/vocabulary/folders':{folders:[]}});
- try{mountRetention(h.ctx);await tick(5);assert(!h.ctx.root.textContent.includes('Retention memory'));h.click(h.q('[data-retention-start]'));await tick(5);assert.equal(document.documentElement.dataset.retentionFocus,undefined);assert.equal(document.documentElement.dataset.focus,'off');assert(h.q('[data-retention-source]'));assert.equal(h.qa('[data-retention-source] [data-word]').length,4);const copy=new h.dom.window.Event('copy',{bubbles:true,cancelable:true});h.q('[data-retention-source]').dispatchEvent(copy);assert(copy.defaultPrevented);h.click(h.q('[data-retention-finish-reading]'));await tick(5);assert(h.q('[data-retention-answer]'));assert.equal(h.q('[data-retention-source]'),null);assert.equal(document.documentElement.dataset.retentionFocus,undefined);assert.equal(document.documentElement.dataset.focus,'off');const editCopy=new h.dom.window.Event('copy',{bubbles:true,cancelable:true});h.q('[data-retention-answer]').dispatchEvent(editCopy);assert.equal(editCopy.defaultPrevented,false);h.controller.abort();assert.equal(document.documentElement.dataset.retentionFocus,undefined);}finally{globalThis.fetch=originalFetch;h.dispose();}
+ h.stub({'/api/frontend/view':{version:1,route:'/app/reading/retention',data:{initial:null,summary:{bestScore:null,completedCount:0,lastTenAverage:null,lastTenCount:0},history:{rows:[],page:1,pageCount:1,total:0}}},'/api/retention/attempts':(_path,options)=>options.method==='POST'?reading:{active:reading},[`/api/retention/attempts/${ID(8)}/finish-reading`]:recall,'/api/vocabulary/folders':{folders:[]}});
+ try{
+  mountRetention(h.ctx);await tick(5);assert(!h.ctx.root.textContent.includes('Retention memory'));
+  h.click(h.q('[data-retention-start]'));await tick(5);
+  assert.equal(h.nav.at(-1).path,'/app/reading/retention/session');
+  h.ctx.root.replaceChildren();h.ctx.url=new URL('https://fixture.invalid/app/reading/retention/session');
+  mountRetentionSession(h.ctx);await tick(5);
+  assert(h.q('[data-retention-session-back]'));
+  assert.equal(document.documentElement.dataset.retentionFocus,undefined);assert.equal(document.documentElement.dataset.focus,'off');
+  assert(h.q('[data-retention-source]'));assert.equal(h.qa('[data-retention-source] [data-word]').length,4);
+  const copy=new h.dom.window.Event('copy',{bubbles:true,cancelable:true});h.q('[data-retention-source]').dispatchEvent(copy);assert(copy.defaultPrevented);
+  h.click(h.q('[data-retention-finish-reading]'));await tick(5);
+  assert(h.q('[data-retention-answer]'));assert.equal(h.q('[data-retention-source]'),null);
+  assert.equal(document.documentElement.dataset.retentionFocus,undefined);assert.equal(document.documentElement.dataset.focus,'off');
+  const editCopy=new h.dom.window.Event('copy',{bubbles:true,cancelable:true});h.q('[data-retention-answer]').dispatchEvent(editCopy);assert.equal(editCopy.defaultPrevented,false);
+  h.controller.abort();assert.equal(document.documentElement.dataset.retentionFocus,undefined);
+ }finally{globalThis.fetch=originalFetch;h.dispose();}
 });
 
 test('unbound Retention word passes its exact offsets and saves the selected canonical dictionary sense',async()=>{

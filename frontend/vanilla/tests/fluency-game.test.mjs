@@ -26,15 +26,17 @@ test('question is readable for five seconds before the 60-second game starts',as
  const h=game();
  try{
   h.click(h.q('[data-fluency-start]'));await tick();
-  h.steps(65);
+  for(let i=0;i<100&&h.engine.snapshot().phase==='calibrating';i++)h.step();
+  const readyAt=h.now;
   assert.equal(h.engine.snapshot().phase,'ready');
   assert.equal(h.engine.snapshot().elapsedMs,0);
   assert.equal(h.q('[data-fluency-preparation]').hidden,false);
   assert.equal(h.q('.fluency-timer').hidden,true);
-  h.steps(200);
+  h.steps(249);
   assert.equal(h.engine.snapshot().phase,'ready');
   assert.equal(h.engine.snapshot().elapsedMs,0);
-  h.steps(50);
+  h.step();
+  assert.equal(h.now-readyAt,5000);
   assert.equal(h.engine.snapshot().phase,'running');
   assert.equal(h.q('[data-fluency-preparation]').hidden,true);
   assert.equal(h.q('.fluency-timer').hidden,false);
