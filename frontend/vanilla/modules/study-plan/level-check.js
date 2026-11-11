@@ -44,7 +44,10 @@ export function validateLevelForm(data){
   if(!Number.isInteger(data.correct)||data.correct<0||data.correct>15||
      data.total!==15||!LEVELS.includes(data.level)||
      typeof data.passed!=='boolean'||!Array.isArray(data.review)||
-     data.review.length!==15||!data.skills)throw Error('invalid_level_result');
+     data.review.length!==15||!data.skills||
+     SKILLS.some(skill=>!data.skills[skill]||
+       !Number.isInteger(data.skills[skill].correct)||
+       data.skills[skill].total!==3))throw Error('invalid_level_result');
   return data;
  }
  throw Error('invalid_level_state');
@@ -147,6 +150,11 @@ export function mount(ctx){
      onClick:()=>{state.answers[state.index]=index;paint();}
     },h('span',{class:'level-check-letter'},'ABCD'[index]),h('span',{},option)))),
    h('div',{class:'level-check-actions'},
+    h('button',{type:'button',class:'btn-secondary',disabled:state.pending,
+      'data-level-restart':'',onClick:()=>{stopAudio();state.mode='select';
+        state.data=null;state.answers=Array(15).fill(null);state.index=0;
+        state.error=null;paint();}},
+      text(ctx,'Boshqa daraja','Choose a level')),
     h('button',{type:'button',class:'btn-secondary',disabled:state.pending||state.index===0,
       onClick:()=>{stopAudio();state.index--;paint();}},
       text(ctx,'Ortga','Previous')),
