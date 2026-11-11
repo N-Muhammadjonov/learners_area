@@ -49,6 +49,6 @@ jobs:
           node --check frontend/vanilla/modules/grammar/book-skill.js
       - name: Run plan and existing page regression tests
         working-directory: frontend/vanilla
-        run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/dashboard-v3.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs
+        run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/grammar-plan-proof.test.mjs tests/dashboard-v3.test.mjs tests/student-profile-consolidation.test.mjs tests/study-plan.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs
 
 # No deploy, PR, merge, production credentials, migrations or browser automation here.
