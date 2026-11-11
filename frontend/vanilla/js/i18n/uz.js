@@ -1766,7 +1766,7 @@ export default {
         "titleRequired": "Sarlavha kiritilishi shart."
     },
     "livePartner": {
-        "title": "Sherik bilan gapirish",
+        "title": "Sherik bilan gaplashish",
         "intro": "Kim bilan mashq qilmoqchi ekaningizni tanlang va bo‘sh o‘quvchiga qo‘ng‘iroq qiling.",
         "pickPartner": "Kim bilan gaplashmoqchisiz?",
         "gender": "Jins",
@@ -1802,18 +1802,18 @@ export default {
         "close": "Yopish",
         "agree": "Roziman",
         "incomingTitle": "Kiruvchi qo‘ng‘iroq",
-        "incomingBody": "Sherik bilan gapirish · Kiruvchi qo‘ng‘iroq",
+        "incomingBody": "Sherik bilan gaplashish · Kiruvchi qo‘ng‘iroq",
         "states": {
             "offline": "Siz oflaynsiz.",
             "available": "Siz onlaynsiz va boshqalarga ko'rinasiz.",
-            "outgoing_invite": "Hamkoringiz javobini kutmoqdamiz…",
+            "outgoing_invite": "Sherigingiz javobini kutmoqdamiz…",
             "incoming_invite": "Sizga taklif bor.",
             "connecting": "Ulanmoqda…",
             "in_call": "Qo'ng'iroqda",
             "reconnecting": "Qayta ulanmoqda…"
         },
-        "partner": "Hamkor",
-        "questionsOptional": "Ixtiyoriy suhbat yordamchilari — rollar va majburiy taymerlar yo'q.",
+        "partner": "Sherik",
+        "questionsOptional": "IELTS Speaking Part 1, Part 2 va Part 3 mavzulari bo‘yicha suhbatlashing.",
         "searchFailed": "Savol qidiruvi muvaffaqiyatsiz tugadi.",
         "searchRetry": "Qayta urinish",
         "searchMore": "Yana savollarni yuklash",
@@ -1822,9 +1822,9 @@ export default {
         "retryMic": "Qayta urinish",
         "muteMic": "Mikrofonimni o'chirish",
         "unmuteMic": "Mikrofonimni yoqish",
-        "mutePartner": "Hamkor ovozini o'chirish",
-        "unmutePartner": "Hamkor ovozini yoqish",
-        "choosePartner": "Boshqa hamkor tanlash",
+        "mutePartner": "Sherik ovozini o'chirish",
+        "unmutePartner": "Sherik ovozini yoqish",
+        "choosePartner": "Boshqa sherik tanlash",
         "callStates": {
             "connecting": "Ulanmoqda…",
             "connected": "Ulandi",
@@ -3013,7 +3013,7 @@ export default {
         "cards": {
             "partner": {
                 "eyebrow": "Onlayn",
-                "title": "Sherik bilan gapirish",
+                "title": "Sherik bilan gaplashish",
                 "body": "Boshqa o'quvchi bilan jonli ovozli suhbatda mashq qiling. Sheriklar xonasiga kirganda onlayn, suhbat paytida band bo'lasiz.",
                 "cta": "Sheriklar xonasini ochish"
             },
