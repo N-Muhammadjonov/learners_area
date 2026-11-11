@@ -117,7 +117,6 @@ function taskList(ctx, day) {
 
 function calendar(ctx, data, state) {
   const selected = state.selectedDay ?? data.currentDay;
-  const current = data.days[selected-1];
   const host = h('div', {class:'sequence-detail'});
   const buttons = [];
   const labels = text(ctx,
@@ -131,7 +130,8 @@ function calendar(ctx, data, state) {
     const locked = day.status === 'locked';
     const button = h('button', {
       type:'button',class:'sequence-day', 'data-sequence-day':day.day,
-      'data-sequence-state':day.status, 'aria-pressed':day.day===selected,
+      'data-sequence-state':day.status, 'data-sequence-today':day.date===data.today,
+      'aria-pressed':day.day===selected,
       'aria-label':text(ctx,'Kun ','Day ')+day.day+' — '+dateLabel(ctx,day.date)+' — '+
         (locked?statusLabel(ctx,'locked'):day.status==='completed'?
          statusLabel(ctx,'completed'):statusLabel(ctx,'ready')),
@@ -356,5 +356,6 @@ export function mountSequenceDashboard(ctx, root) {
     }
   }
   void load();
+  ctx.onResume?.(()=>void load());
   return {refresh:()=>void load()};
 }
