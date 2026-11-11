@@ -92,6 +92,36 @@ def short_media_ready(duration_ms: int | None, credited_ms: int, position_ms: in
     return credited_ms >= needed and position_ms >= needed
 
 
+MEDIA_SLICE_MS = 5_000
+
+
+def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
+                              rate: float, wall_ms: int) -> int:
+    """Count active wall time once per small content slice, even on replay.
+
+    Coverage values are wall milliseconds, not video-position milliseconds.
+    Repeated content is not added twice. Partial replay is handled
+    conservatively using the maximum credited value for each slice.
+    """
+    if end_ms <= start_ms or rate <= 0 or wall_ms <= 0:
+        return 0
+    length = end_ms - start_ms
+    budget = min(int(wall_ms), int(length / rate))
+    added = 0
+    cursor = start_ms
+    while cursor < end_ms:
+        bucket = cursor // MEDIA_SLICE_MS
+        edge = min(end_ms, (bucket + 1) * MEDIA_SLICE_MS)
+        span = edge - cursor
+        candidate = min(int(MEDIA_SLICE_MS / rate), int(budget * span / length))
+        prior = max(0, int(coverage.get(bucket, 0)))
+        if candidate > prior:
+            coverage[bucket] = candidate
+            added += candidate - prior
+        cursor = edge
+    return added
+
+
 def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
                      playback_rate: float, playing: bool, duration_ms: int | None = None) -> dict:
     """Server clock only. Seeking, pauses and stale tabs credit nothing."""
@@ -111,14 +141,14 @@ def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
     ceiling = wall * rate * 1000 * JITTER + 750
     if delta <= 0 or delta > ceiling:
         return {"state": anchor, "credit_ms": 0, "buckets": [], "short": False}
-    credit = int(min(delta, wall * rate * 1000))
-    buckets = credit_timeline(coverage, paid, int(state["position"]), credit)
+    credit = add_unique_media_coverage(
+        coverage, int(state["position"]), position_ms, rate, int(wall * 1000))
     credited += credit
+    total_unique_wall_ms = sum(int(value) for value in coverage.values())
+    buckets = [index for index in range(1, total_unique_wall_ms // BUCKET_MS + 1)
+               if index not in paid]
     anchor.update(coverage=coverage, paid=paid, credited=credited)
-    short = short_media_ready(duration_ms, credited, position_ms) and "short" not in paid
-    if short:
-        paid.add("short")
-        anchor["paid"] = paid
+    short = short_media_ready(duration_ms, total_unique_wall_ms, position_ms) and "short" not in paid
     return {"state": anchor, "credit_ms": credit, "buckets": buckets, "short": short}
 
 
@@ -140,16 +170,43 @@ def grammar_required(exercise: dict) -> tuple[str, int, int]:
 
 
 def grammar_submission_ok(exercise: dict, answers) -> bool:
+    """Validate the authored exercise, not just a client-supplied answer count.
+
+    Wrong but legitimate answers count as an attempt. Fabricated options, missing
+    responses, and unsupported audio never create completion evidence.
+    """
+    from collections import Counter
+
     kind, needed, minimum = grammar_required(exercise)
-    if kind == "speak" or needed <= 0:
+    items = exercise.get("items") or []
+    if kind == "speak" or needed <= 0 or not isinstance(answers, list) or len(answers) != needed:
         return False
-    if not isinstance(answers, list) or len(answers) != needed:
-        return False
-    if not all(isinstance(item, str) and item.strip() for item in answers):
+    if any(not isinstance(value, str) or not value.strip() or len(value) > 4000
+           or "\\x00" in value for value in answers):
         return False
     if kind == "write":
-        return len(answers[0].split()) >= minimum
-    return True
+        return len(answers[0].split()) >= minimum and len(answers[0]) <= 4000
+    if kind in ("mcq", "judge"):
+        if len(items) != needed:
+            return False
+        for item, answer in zip(items, answers):
+            options = item.get("opts") if kind == "mcq" else ["To'g'ri", "Noto'g'ri"]
+            if not isinstance(options, list) or answer not in options:
+                return False
+        return True
+    if kind == "match":
+        options = exercise.get("rights") or []
+        return bool(options) and all(answer in options for answer in answers)
+    if kind == "bank":
+        available = Counter(str(word) for word in exercise.get("bank") or [])
+        selected = Counter(answers)
+        return bool(available) and all(selected[word] <= available[word] for word in selected)
+    if kind == "order":
+        if len(items) != needed:
+            return False
+        return all(Counter(answer.split()) == Counter(item.get("words") or [])
+                   for answer, item in zip(answers, items))
+    return kind in ("tr", "transform", "fix", "typed", "fill")
 
 
 def public_policy() -> dict:
