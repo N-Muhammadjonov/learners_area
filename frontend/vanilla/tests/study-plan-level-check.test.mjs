@@ -38,7 +38,7 @@ beforeEach(()=>{
   {url:'https://fixture.invalid/app/plan/level-check',pretendToBeVisual:true});
  globalThis.window=dom.window;globalThis.document=dom.window.document;
  globalThis.Node=dom.window.Node;globalThis.HTMLElement=dom.window.HTMLElement;
- root=document.querySelector('#root');controller=new AbortController();
+ root=document.querySelector('#root');controller=new dom.window.AbortController();
  oldRequest=api.request;navigated=null;
 });
 afterEach(()=>{controller.abort();api.request=oldRequest;dom.window.close();});
