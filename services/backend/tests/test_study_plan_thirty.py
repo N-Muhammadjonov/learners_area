@@ -1,5 +1,6 @@
 """Contract and regression coverage for the 30-day sequential plan."""
-from datetime import date, timedelta
+import asyncio
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 from fastapi.testclient import TestClient
@@ -9,7 +10,9 @@ from app.study_plan_thirty import (
     DAYS, TARGET_MINUTES, eligible_grammar, level_range,
     make_thirty_day_schedule, normalize_level, read_grammar_catalog,
 )
-from app.study_plan_thirty_port import _event_kind, _score_skill_stage, _skill_answer_bank
+from app.study_plan_thirty_port import (
+    _event_kind, _present, _score_skill_stage, _skill_answer_bank, _sync,
+)
 
 START = date(2026, 11, 12)
 
@@ -123,3 +126,76 @@ def test_plan_api_rejects_anonymous_without_database_access(monkeypatch, path, v
     client = TestClient(core.app)
     result = client.get(path) if verb == "get" else client.post(path, json={})
     assert result.status_code == 401
+
+
+def test_calendar_hides_all_future_task_links_until_day_is_unlocked():
+    class FakeConnection:
+        async def fetch(self, query, cid):
+            return [
+                {"day_number": day, "slot": slot, "kind": kind,
+                 "title": kind, "href": "/app/" + kind, "source_key": kind,
+                 "minutes": minutes, "stage_index": 0 if slot == 0 else None,
+                 "completed_at": None}
+                for day in range(1, 31) for slot, (kind, minutes) in enumerate((
+                    ("grammar",25), ("reading",30), ("listening",25),
+                    ("writing",20), ("speaking",10), ("vocabulary",10)
+                ))
+            ]
+
+    cycle = {"id": "fixture", "status": "active", "current_day": 1,
+             "timezone": "Asia/Tashkent", "user_id": "fixture", "revision": 1,
+             "cefr_level": "B2", "started_on": START}
+    payload = asyncio.run(_present(FakeConnection(), cycle,
+                                   datetime(2026, 11, 12, 8, tzinfo=timezone.utc)))
+    assert len(payload["days"]) == 30
+    assert payload["totalDays"] == 30
+    assert payload["days"][0]["status"] == "active"
+    assert all(item["href"] for item in payload["days"][0]["tasks"])
+    assert all(day["status"] == "locked" for day in payload["days"][1:])
+    assert all(item["href"] is None for day in payload["days"][1:]
+               for item in day["tasks"])
+
+
+def test_next_day_never_unlocks_before_previous_completion_or_calendar_date():
+    class FakeConnection:
+        def __init__(self, remaining):
+            self.remaining = remaining
+            self.executed = []
+
+        async def fetch(self, query, *args):
+            assert "study_plan_30_tasks" in query
+            return [{"kind": kind, "minutes": minutes, "completed_at": START}
+                    for kind, minutes in (("grammar",25), ("reading",30),
+                    ("listening",25), ("writing",20), ("speaking",10), ("vocabulary",10))]
+
+        async def fetchval(self, query, *args):
+            return self.remaining
+
+        async def execute(self, query, *args):
+            self.executed.append(query)
+
+    row = {"status": "active", "user_id": "user", "id": "cycle",
+           "current_day": 1, "started_on": START, "timezone": "Asia/Tashkent"}
+    tomorrow = datetime(2026, 11, 13, 8, tzinfo=timezone.utc)
+    pending = FakeConnection(1)
+    assert asyncio.run(_sync(pending, row, tomorrow))["current_day"] == 1
+    assert pending.executed == []
+    early = FakeConnection(0)
+    today = datetime(2026, 11, 12, 8, tzinfo=timezone.utc)
+    assert asyncio.run(_sync(early, row, today))["current_day"] == 1
+    assert early.executed == []
+    finished = FakeConnection(0)
+    assert asyncio.run(_sync(finished, row, tomorrow))["current_day"] == 2
+    assert len(finished.executed) == 1
+
+
+def test_missing_task_rows_cannot_unlock_empty_days():
+    class MissingTaskConnection:
+        async def fetch(self, query, *args):
+            return []
+
+    row = {"status": "active", "user_id": "user", "id": "cycle",
+           "current_day": 1, "started_on": START, "timezone": "Asia/Tashkent"}
+    now = datetime(2026, 11, 13, 8, tzinfo=timezone.utc)
+    with pytest.raises(ValueError, match="invalid_current_day_tasks"):
+        asyncio.run(_sync(MissingTaskConnection(), row, now))
