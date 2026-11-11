@@ -4,7 +4,7 @@ import {readingRetentionDTO} from '../../js/adapters/reading-v44.js';
 import {api} from '../../js/api-client.js';
 import {formatDateTime} from '../../js/generated/time.js';
 import {clickableText} from '../vocabulary/clickable-text.js';
-import {RegionFailureNotice,BackLink} from '../shared/presentation.js';
+import {RegionFailureNotice} from '../shared/presentation.js';
 /** Original src/app/app/(shell)/reading/retention/page.tsx + RetentionWorkspace + RetentionSession + RetentionHistory.
  * The server owns every deadline: the countdown is the server's timestamps plus the measured clock skew. The source
  * text leaves state the moment the reading window closes (the awaiting phase keeps only ids and deadlines). The
@@ -37,7 +37,14 @@ export function mountRetention(context){
   try{
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    const data=readingRetentionDTO(raw);
-   if(isActive(data.initial)){void context.navigate('/app/reading/retention/session',{replace:true});return;}
+   if(isActive(data.initial)){
+    if(!url.searchParams.has('overview')){void context.navigate('/app/reading/retention/session',{replace:true});return;}
+    const continueButton=el('a',{href:'/app/reading/retention/session',class:'btn-primary w-fit','data-retention-resume':''},'Mashqni davom ettirish →');
+    host.replaceChildren(el('section',{class:'panel flex flex-col gap-4','data-retention-active-overview':''},
+     el('h2',{class:'section-title'},t.readingTitle),continueButton),
+     summaryPanel(context,data),historySection(context,data.history));
+    return;
+   }
    host.replaceChildren(session(context,data,{overview,refreshOverview}));
   }catch(e){
    if(signal.aborted)return;
@@ -60,7 +67,7 @@ export function mountRetentionSession(context){
    if(signal.aborted)return;
    const data=readingRetentionDTO(raw);
    if(!isActive(data.initial)){void navigate('/app/reading/retention',{replace:true});return;}
-   const back=BackLink({fallbackHref:'/app/reading/retention',label:dict.common.back});
+   const back=el('a',{href:'/app/reading/retention?overview=1',class:'btn-ghost inline-flex min-h-11 w-fit items-center gap-1','data-back-link':''},'← ',dict.common.back);
    back.setAttribute('data-retention-session-back','');
    host.replaceChildren(back,el('section',{class:'panel','data-retention-session-region':''},
     retentionSession(context,data.initial,()=>{})));
