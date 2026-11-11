@@ -1813,7 +1813,7 @@
     "frontend/vanilla/modules/courses/lesson.js": "b7ee0c92dffc2ade734da3ac1a2ebf688e107be3b0cf3f4f7365640495a3c727",
     "frontend/vanilla/modules/courses/roadmap.js": "6be62154dfeb04746469d79989bf680c8fa459f65f9e3d7fc94954fd8b5f4f78",
     "frontend/vanilla/modules/courses/workspace.js": "6289a4cae4b4875c4b1c0996b5fb285f8dbe41321bf74878e8bddcddc9140f18",
-    "frontend/vanilla/modules/dashboard.js": "c4dbadbcb0c5f9dba1039b47d7952fdcd23cdbf3f6eb5c160a92f826d8b654e9",
+    "frontend/vanilla/modules/dashboard.js": "dbb84f864311f098bd5dfb878e1cb7817dc1b423afeecccf02b8315f163f5906",
     "frontend/vanilla/modules/error.js": "6bb3b35edb07f7c159c61e987ac62ee0262d182b55a31fc6b80924fc06d5c994",
     "frontend/vanilla/modules/grammar/book-content-b1.js": "5956afb97bbebb591574d6094aa4484ca8f1b4148e2d3b55042ab2e3f7df5d5b",
     "frontend/vanilla/modules/grammar/book-content-b2.js": "e7cb2a6138e3e316877b0e7c94833e69abcfd65351cc0af025ec6cdcfe9bfd26",
