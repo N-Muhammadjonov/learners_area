@@ -25,6 +25,7 @@ function featureGroup(id) {
   const rel = relative(project, id).split(sep);
   if (rel[0] === 'modules') {
     let name = rel[1];
+    if (name === 'staff-final30' && rel[2] === 'routes.js') return 'shared-runtime';
     if (name === 'staff-final30') name = 'staff';
     if (name?.endsWith('.js')) name = 'other';
     return groupNames.has(name) ? name : 'other';
@@ -83,8 +84,11 @@ function boundedDynamicImports() {
         code = code.slice(0, expression.start) +
           `${loader}(${argument})` + code.slice(expression.end);
       }
+      const originalDir = '/' + relative(project, dirname(id)).split(sep).join('/') + '/';
       const header = `const ${factory}=Object.freeze({${mappings}});\n` +
-        `const ${loader}=specifier=>${factory}[specifier]?.()??import(specifier);\n`;
+        `const ${loader}=specifier=>${factory}[specifier]?.()??` +
+        `(typeof specifier==='string'&&specifier.startsWith('./')?` +
+        `import(${JSON.stringify(originalDir)}+specifier.slice(2)):import(specifier));\n`;
       return {code: header + code, map: null};
     }
   };
