@@ -89,7 +89,7 @@ def test_real_wall_time_two_times_playback_and_replay_are_not_double_paid():
         result = beat(state, tick * 15, tick * 30, rate=2)
         state = result["state"]
         earned.extend(result["buckets"])
-    assert earned == [1]
+    assert earned == [1, 2]
     assert sum(state["coverage"].values()) == 600_000
     duplicate = beat(state, 41 * 15, 30, rate=2)
     assert duplicate["credit_ms"] == 0
