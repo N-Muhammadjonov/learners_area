@@ -149,6 +149,11 @@ def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
                if index not in paid]
     anchor.update(coverage=coverage, paid=paid, credited=credited)
     short = short_media_ready(duration_ms, total_unique_wall_ms, position_ms) and "short" not in paid
+    # Returned state tracks pending milestones locally. Only the database ledger
+    # makes a claim durable; the next request re-reads committed awards.
+    paid.update(buckets)
+    if short:
+        paid.add("short")
     return {"state": anchor, "credit_ms": credit, "buckets": buckets, "short": short}
 
 
@@ -182,7 +187,7 @@ def grammar_submission_ok(exercise: dict, answers) -> bool:
     if kind == "speak" or needed <= 0 or not isinstance(answers, list) or len(answers) != needed:
         return False
     if any(not isinstance(value, str) or not value.strip() or len(value) > 4000
-           or "\\x00" in value for value in answers):
+           or chr(0) in value for value in answers):
         return False
     if kind == "write":
         return len(answers[0].split()) >= minimum and len(answers[0]) <= 4000
@@ -204,7 +209,8 @@ def grammar_submission_ok(exercise: dict, answers) -> bool:
     if kind == "order":
         if len(items) != needed:
             return False
-        return all(Counter(answer.split()) == Counter(item.get("words") or [])
+        return all(Counter(answer.split()) == Counter(word for token in (item.get("words") or [])
+                                                   for word in str(token).split())
                    for answer, item in zip(answers, items))
     return kind in ("tr", "transform", "fix", "typed", "fill")
 
