@@ -122,7 +122,6 @@ test('manual profile level change writes only currentLevel, never overwrites stu
  const select=root.querySelector('[data-profile-level-select]');
  assert.equal(select.value,'');
  select.value='C1';select.dispatchEvent(new dom.window.Event('change'));
- root.querySelector('[data-profile-level-save]').click();
  const form=root.querySelector('form');
  form.dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));
  await tick();
