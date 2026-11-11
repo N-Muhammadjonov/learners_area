@@ -19,6 +19,7 @@ export function mount(ctx) {
   const {root, dict, locale, session, signal} = ctx;
   const t = dict.assignments;
   const isLearner = session?.user?.role === 'student';
+  const canUsePlan = ['student','owner'].includes(session?.user?.role);
 
   const planHost = h('div', {'data-assignments-30-plan':''});
   const host = h('div', {class: 'flex min-w-0 flex-col gap-3', 'data-assignments-list': '', 'data-async-content': 'assignments'});
@@ -26,9 +27,9 @@ export function mount(ctx) {
     h('div', {},
       h('h1', {class: 'font-display text-2xl text-ink-900'}, t.title),
       h('p', {class: 'text-sm text-ink-500'}, t.subtitle)),
-    isLearner ? planHost : null,
+    canUsePlan ? planHost : null,
     host));
-  if (isLearner) mountSequenceAssignments(ctx, planHost);
+  if (canUsePlan) mountSequenceAssignments(ctx, planHost);
 
   const S = {
     list: [], listState: 'loading',
