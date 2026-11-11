@@ -1,8 +1,8 @@
 /** Port of src/lib/live-partner/call-engine.ts. Audio-only WebRTC with relay-only
  * ICE; offerer is server-selected and TURN/signal credentials come from server. */
-export const MAX_ICE_RESTARTS=3,MAX_SOCKET_REJOINS=5;
+export const MAX_ICE_RESTARTS=8,MAX_SOCKET_REJOINS=10;
 export class LivePartnerCall{
- constructor(sessionId,deps){this.sessionId=sessionId;this.deps=deps;this.pc=null;this.socket=null;this.local=null;this.remote=null;this.channel=null;this.role='answerer';this.candidates=[];this.timers=new Set();this.destroyed=false;this.iceRestarts=0;this.rejoins=0;this.lastReported=null;this.status='preparing';this.muted=false;this.lastRestart=-Infinity;this.iceRetry=null;this.signallingReady=false;this.lastActivity=0;}
+ constructor(sessionId,deps){this.sessionId=sessionId;this.deps=deps;this.pc=null;this.socket=null;this.local=null;this.remote=null;this.channel=null;this.role='answerer';this.candidates=[];this.timers=new Set();this.destroyed=false;this.iceRestarts=0;this.rejoins=0;this.lastReported=null;this.status='preparing';this.muted=false;this.lastRestart=-Infinity;this.iceRetry=null;this.signallingReady=false;this.lastActivity=0;this.everConnected=false;this.pendingSignals=[];this.socketKeepalive=null;}
  get isDestroyed(){return this.destroyed;}
  async start(){this.statusUpdate('preparing');let auth;
   try{auth=await this.deps.fetchToken(this.sessionId);}catch{return this.fail('token');}if(this.destroyed)return;
@@ -36,7 +36,7 @@ export class LivePartnerCall{
  applyMute(){for(const t of this.local?.getAudioTracks()??[])t.enabled=!this.muted;}
  hangup(){this.send({type:'signal',kind:'bye'});this.destroy('ended');}
  destroy(final='ended'){if(this.destroyed)return;this.destroyed=true;
-  for(const id of this.timers)clearTimeout(id);this.timers.clear();clearTimeout(this.iceRetry);
+  for(const id of this.timers)clearTimeout(id);this.timers.clear();clearTimeout(this.iceRetry);clearTimeout(this.socketKeepalive);this.socketKeepalive=null;this.pendingSignals=[];
   const sk=this.socket;this.socket=null;if(sk){sk.onclose=sk.onmessage=sk.onerror=null;try{sk.close(1000);}catch{}}
   const pc=this.pc;this.pc=null;if(pc){pc.ontrack=pc.onicecandidate=pc.onconnectionstatechange=null;try{pc.close();}catch{}}
   if(this.channel){this.channel.onopen=this.channel.onmessage=null;try{this.channel.close();}catch{}this.channel=null;}
@@ -49,7 +49,7 @@ export class LivePartnerCall{
  later(fn,ms){const id=setTimeout(()=>{this.timers.delete(id);if(!this.destroyed)fn();},ms);this.timers.add(id);}
  connection(s){
   if(s==='connected'){
-   clearTimeout(this.iceRetry);this.iceRetry=null;this.iceRestarts=0;
+   clearTimeout(this.iceRetry);this.iceRetry=null;this.iceRestarts=0;this.everConnected=true;
    this.statusUpdate('connected');this.report('connected');
   }else if(s==='disconnected'||s==='failed'){
    this.statusUpdate('reconnecting');this.report('reconnecting');this.queueRestart(s==='failed'?0:2000);
@@ -67,7 +67,7 @@ export class LivePartnerCall{
  }
  async restartIce(peer=false){const pc=this.pc;if(!pc||(!peer&&pc.connectionState==='connected')||Date.now()-this.lastRestart<1800)return;
   this.lastRestart=Date.now();
-  if(this.iceRestarts>=MAX_ICE_RESTARTS)return this.fail('ice');
+  if(this.iceRestarts>=MAX_ICE_RESTARTS){if(!this.everConnected)return this.fail('ice');this.iceRestarts=0;}
   this.iceRestarts++;
   try{
    const auth=await this.deps.fetchToken(this.sessionId);
@@ -78,25 +78,37 @@ export class LivePartnerCall{
   else this.send({type:'signal',kind:'restart',data:{}});}
  async makeOffer(restart=false){const pc=this.pc;if(!pc||this.destroyed)return;
   try{const offer=await pc.createOffer({iceRestart:restart,offerToReceiveAudio:true});if(this.destroyed)return;await pc.setLocalDescription(offer);this.send({type:'signal',kind:'offer',data:{type:offer.type,sdp:offer.sdp}});}catch{this.fail('negotiation');}}
- openSocket(auth){if(this.destroyed)return;const sk=this.deps.createSocket(auth.url);this.socket=sk;
+ openSocket(auth){if(this.destroyed)return;const sk=this.deps.createSocket(auth.url);this.socket=sk;this.signallingReady=false;
   sk.onopen=()=>sk.send(JSON.stringify({type:'auth',token:auth.token}));
   sk.onmessage=e=>void this.onMessage(String(e.data));
-  sk.onclose=()=>{if(this.destroyed||this.socket!==sk)return;this.socket=null;this.signallingReady=false;
+  sk.onclose=()=>{if(this.destroyed||this.socket!==sk)return;this.socket=null;this.signallingReady=false;clearTimeout(this.socketKeepalive);this.socketKeepalive=null;
    this.rejoinSocket();
   };
  }
  rejoinSocket(){
   if(this.destroyed)return;
-  if(this.rejoins>=MAX_SOCKET_REJOINS&&this.status!=='connected')return this.fail('signalling');
+  if(this.rejoins>=MAX_SOCKET_REJOINS&&!this.everConnected)return this.fail('signalling');
   const delay=1000*2**Math.min(this.rejoins++,MAX_SOCKET_REJOINS);
   this.later(async()=>{
    try{this.openSocket(await this.deps.fetchToken(this.sessionId));}
    catch{this.rejoinSocket();}
   },delay);
  }
- send(data){const s=this.socket;if(s?.readyState===1)s.send(JSON.stringify(data));}
+ send(data){
+  const s=this.socket;
+  if(s?.readyState===1&&this.signallingReady){try{s.send(JSON.stringify(data));}catch{this.bufferSignal(data);}}
+  else this.bufferSignal(data);
+ }
+ bufferSignal(data){if(data.type==='ping')return;if(this.pendingSignals.length>=64)this.pendingSignals.shift();this.pendingSignals.push(data);}
+ flushSignals(){const list=this.pendingSignals;this.pendingSignals=[];for(const data of list)this.send(data);}
+ keepSocketAlive(){clearTimeout(this.socketKeepalive);if(this.destroyed||!this.signallingReady)return;
+  const current=this.socket;
+  this.socketKeepalive=setTimeout(()=>{if(!this.destroyed&&this.socket===current&&this.signallingReady){
+   this.send({type:'ping'});this.keepSocketAlive();
+  }},20000);
+ }
  async onMessage(raw){let msg;try{msg=JSON.parse(raw);}catch{return;}const pc=this.pc;if(!pc||this.destroyed)return;
-  if(msg.type==='ready'){this.rejoins=0;this.signallingReady=true;if(!msg.peerPresent)return;}
+  if(msg.type==='ready'){this.rejoins=0;this.signallingReady=true;this.flushSignals();this.keepSocketAlive();if(!msg.peerPresent)return;}
   if(msg.type==='ready'||msg.type==='peer-joined'){
    if(this.role==='offerer'&&pc.connectionState!=='connected')await this.makeOffer(pc.connectionState!=='new');
    return;
