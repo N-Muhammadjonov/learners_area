@@ -39,10 +39,11 @@ async def read(req, user, path, q):
         db = await core.pool()
         async with db.acquire() as con:
             from .step24_live_partner import scores, photos
-            gender = await con.fetchval('SELECT gender FROM users WHERE id=$1',user['id'])
+            profile = await con.fetchrow('''SELECT u.gender,op.current_level FROM users u LEFT JOIN onboarding_profiles op ON op.user_id=u.id WHERE u.id=$1''',user['id'])
+            gender = profile['gender'] if profile else None
             score = await scores(con,[user['id']])
             photo = await photos(con,[user['id']])
-        return {'kind':'speaking_live_partner','questions':[],'me':{'userId':str(user['id']),'name':user['name'],'avatar':'b' if gender=='female' else 'a','hasGender':bool(gender),'speakingScore':score.get(str(user['id'])),'hasPhoto':str(user['id']) in photo}}
+        return {'kind':'speaking_live_partner','questions':[],'me':{'userId':str(user['id']),'name':user['name'],'avatar':'b' if gender=='female' else 'a','hasGender':bool(gender),'gender':str(gender) if gender else None,'level':profile['current_level'] if profile else None,'speakingScore':score.get(str(user['id'])),'hasPhoto':str(user['id']) in photo}}
     db = await core.pool()
     async with db.acquire() as con:
         if path == '/app/speaking/lessons':
