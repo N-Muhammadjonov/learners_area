@@ -199,7 +199,7 @@ export const articles = [
   {
     "id": "remote-work-wars",
     "title": "Remote Work Wars: Dropbox And Nike Remind Us About The Future Of Work.",
-    "level": "C1",
+    "level": "B2",
     "topics": [
       "Work",
       "Technology"
@@ -298,7 +298,7 @@ export const articles = [
   {
     "id": "unemployment",
     "title": "The consequences of unemployment",
-    "level": "B2",
+    "level": "C1",
     "topics": [
       "Work",
       "Money"
@@ -574,7 +574,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Traveling changed my perception of different cultures."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "causes-of-crime",
@@ -670,7 +671,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "The study examined income inequality in cities."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "university",
@@ -766,7 +768,8 @@ export const articles = [
         "partOfSpeech": "adverb",
         "exampleSentence": "She worked incessantly to improve her craft."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "millionaire",
@@ -862,7 +865,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Long-term goals sometimes require delaying gratification."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "tourism",
@@ -958,7 +962,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Many families rely on tourism for their livelihood."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "living-alone",
@@ -1054,7 +1059,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Finishing the work gave her real satisfaction."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "social-media",
@@ -1151,7 +1157,8 @@ export const articles = [
         "partOfSpeech": "adjective",
         "exampleSentence": "Impulsive posts can damage relationships."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "sleep-wellbeing",
@@ -1248,7 +1255,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Sleep quality may influence cognition."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "physical-electronic-books",
@@ -1345,7 +1353,8 @@ export const articles = [
         "partOfSpeech": "adjective",
         "exampleSentence": "A portable reader fits inside a small bag."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "air-pollution",
@@ -1441,7 +1450,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "During photosynthesis, plants absorb carbon dioxide."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "artificial-intelligence",
@@ -1523,7 +1533,8 @@ export const articles = [
         "partOfSpeech": "adverb",
         "exampleSentence": "Technology has profoundly changed the way people communicate."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "gen-z-success",
@@ -1619,7 +1630,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "She found fulfillment in teaching young people."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "self-driving-cars",
@@ -1715,7 +1727,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Accident victims may seek compensation."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "super-regulator",
@@ -1811,7 +1824,8 @@ export const articles = [
         "partOfSpeech": "noun phrase",
         "exampleSentence": "The article describes a boom in crypto assets."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "science-education",
@@ -1908,7 +1922,8 @@ export const articles = [
         "partOfSpeech": "noun phrase",
         "exampleSentence": "Natural science teaches children to conserve natural resources."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "space-exploration",
@@ -2005,7 +2020,8 @@ export const articles = [
         "partOfSpeech": "noun phrase",
         "exampleSentence": "Funding a mission has opportunity costs for other public services."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "fix-focus",
@@ -2101,7 +2117,8 @@ export const articles = [
         "partOfSpeech": "adjective",
         "exampleSentence": "Sustained attention is easier when interruptions are limited."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "attention-span",
@@ -2183,7 +2200,8 @@ export const articles = [
         "partOfSpeech": "adjective",
         "exampleSentence": "Persistent sleep problems made it difficult for him to focus at work."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "mentally-sharp-hobbies",
@@ -2265,9 +2283,9 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "I want exercise to be enjoyable rather than another obligation."
       }
-    ]
-  }
-,
+    ],
+    "level": "B2"
+  },
   {
     "id": "writing-life",
     "title": "Why You Should Start Writing About Your Life",
@@ -2349,7 +2367,8 @@ export const articles = [
         "partOfSpeech": "verb",
         "exampleSentence": "My grandmother writes down family stories to preserve them for future generations."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "teach-yourself",
@@ -2432,7 +2451,8 @@ export const articles = [
         "partOfSpeech": "adjective",
         "exampleSentence": "The underlying problem was poor communication, not a lack of technical knowledge."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "start-over-business",
@@ -2514,7 +2534,8 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Our biggest assumption was that customers wanted a monthly subscription."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "hour-a-day",
@@ -2611,7 +2632,8 @@ export const articles = [
         "partOfSpeech": "plural noun",
         "exampleSentence": "The schedule changed because of unexpected circumstances."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "enter-jannah",
@@ -2659,7 +2681,8 @@ export const articles = [
         "partOfSpeech": "noun phrase",
         "exampleSentence": "Humble reliance means preparing carefully for an important task while asking Allah for guidance and accepting that its outcome is not entirely within your control."
       }
-    ]
+    ],
+    "level": "C1"
   },
   {
     "id": "foreign-language",
@@ -2742,7 +2765,8 @@ export const articles = [
         "partOfSpeech": "verb",
         "exampleSentence": "The university adjusted its timetable to accommodate students with part-time jobs."
       }
-    ]
+    ],
+    "level": "B2"
   },
   {
     "id": "neuroscience",
@@ -2825,6 +2849,7 @@ export const articles = [
         "partOfSpeech": "noun",
         "exampleSentence": "Time was our biggest constraint when preparing the presentation."
       }
-    ]
+    ],
+    "level": "C1"
   }
 ];

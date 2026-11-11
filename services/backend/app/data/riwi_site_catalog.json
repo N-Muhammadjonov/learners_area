@@ -327,6 +327,18 @@
       "redirect": false
     },
     {
+      "path": "/app/reading/retention/session",
+      "roles": [
+        "student",
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/reading/index.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
       "path": "/app/speaking/practice",
       "roles": [
         "student",
@@ -1884,9 +1896,9 @@
     "frontend/vanilla/modules/reading/academic-workspace.js": "27f96f20878e17d5c594f603636b9e473a9aea7ae2a2b695facb5ae7ef614c1b",
     "frontend/vanilla/modules/reading/academic.js": "08ad016424b35eb5e4e8977a31f04d252f1e80a3b206a86f0da1db4a1e5a35d1",
     "frontend/vanilla/modules/reading/analysis.js": "73d2177ae795bcf9d474d379b9e62f1a6e741f5907b44f42bd08f17f78e66626",
-    "frontend/vanilla/modules/reading/articles-data.js": "7df9570729ef17e756347257aadf0d70d76c9c0c2574639ccd7a872c01d9ac86",
-    "frontend/vanilla/modules/reading/articles.css": "820988be834cb1bcecfcef4c2321fef523203251912f99c2a7a8c689be3e38d7",
-    "frontend/vanilla/modules/reading/articles.js": "905fd92955b6720b81ec6ed1080d745666300007d0a4b488fbbe4c3f159917e1",
+    "frontend/vanilla/modules/reading/articles-data.js": "8604c31f642fc6f762b266ca7e729ddd9396b84460db77364dde20f63f4216e1",
+    "frontend/vanilla/modules/reading/articles.css": "f4c0dcc5d39418b06352c037a144948ed4322fc4cac09c19560a181ae6a666ff",
+    "frontend/vanilla/modules/reading/articles.js": "bf64cbcb4bb078d8b7e8aabcb748566b5343e2c25761d463e0268c53a11a29b6",
     "frontend/vanilla/modules/reading/attempt.js": "2b97a4043b5e09c180f0786f225707b6f1b65576c349ea25fcd5062e1c85284a",
     "frontend/vanilla/modules/reading/cd-review.js": "6a609b43f8fdef2c3f59cb854fb1b4a57872276c8fbc55831995b1f886b1c490",
     "frontend/vanilla/modules/reading/dictionary.js": "03e606b166e4c0756a7ff94812e64573c84888d2d362e32a37142b1cf2ece7ca",

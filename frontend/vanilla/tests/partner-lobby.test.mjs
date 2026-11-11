@@ -81,17 +81,16 @@ test('the conversation restores the self, questions, partner grid after acceptin
  }finally{h.dispose();}
 });
 
-test('automatic search sends both preferences and can be cancelled',async()=>{
+test('automatic search sends the selected gender with any level and can be cancelled',async()=>{
  const enhanced={...lobby,features:{enabled:true}};
- const queued={...enhanced,features:{enabled:true,searchUntil:'2026-11-11T00:01:00Z'}};
+ const queued={...enhanced,features:{enabled:true,searchUntil:new Date(Date.now()+60000).toISOString()}};
  const h=await fixture(enhanced,{search:queued,stop_search:enhanced});
  try{
   h.click(h.q('[data-partner-preference="female"]'));
-  const select=h.q('[data-partner-focus="level"]');select.value='B2';
-  select.dispatchEvent(new h.dom.window.Event('change'));
+  assert.equal(h.q('[data-partner-focus="level"]'),null);
   h.click(h.q('[data-partner-find]'));await tick(8);
-  assert.deepEqual(h.requests,[{action:'search',gender:'female',level:'B2'}]);
-  h.click(h.q('[data-partner-find]'));await tick(8);
+  assert.deepEqual(h.requests,[{action:'search',gender:'female',level:'any'}]);
+  h.click(h.q('[data-partner-cancel-search]'));await tick(8);
   assert.deepEqual(h.requests[1],{action:'stop_search'});
  }finally{h.dispose();}
 });
