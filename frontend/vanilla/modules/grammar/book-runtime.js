@@ -12,8 +12,9 @@ function stat(u){return S[u.id]=S[u.id]||{}}
 function pct(u,si){const st=stat(u)[si]||{};let c=0,t=0;u.stages[si].ex.forEach((e,ei)=>{const n=e.kind==='write'?1:e.items.length;t+=n;c+=(st[ei]||0)});return t?Math.round(100*c/t):0}
 function done(u,si){const st=stat(u)[si]||{};return u.stages[si].ex.every((e,ei)=>st[ei]!==undefined)}
 function setScore(u,si,ei,v){const s=stat(u);s[si]=s[si]||{};s[si][ei]=v;save();refresh(u,true)}
+function clearScore(u,si,ei){const st=S[u.id]?.[si];if(!st||!Object.prototype.hasOwnProperty.call(st,ei))return;delete st[ei];if(!Object.keys(st).length)delete S[u.id][si];save();refresh(u,false)}
 function cls(p){return p>=80?'hi':p>=50?'mid':'lo'}
-function refresh(u,auto){const allDone=u.stages.every((s,i)=>done(u,i));const rtb=root.getElementById('rt-'+u.id);if(rtb&&allDone){rtb.style.display='';const sc=root.getElementById('u-'+u.id);if(auto&&sc&&sc._sel&&!rtb.dataset.opened){rtb.dataset.opened=1;sc._sel(4)}}const tabs=root.querySelectorAll('#tabs-'+u.id+' .tab');u.stages.forEach((s,i)=>{const em=tabs[i].querySelector('em');if(done(u,i)){const p=pct(u,i);em.textContent=p+'%';em.className=cls(p)}else{em.textContent='';em.className=''}});const side=root.getElementById('pc-'+u.id);const ps=u.stages.map((s,i)=>pct(u,i));const a=Math.round(ps.reduce((x,y)=>x+y,0)/4);side.textContent=a?a+'%':''}
+function refresh(u,auto){const allDone=u.stages.every((s,i)=>done(u,i));const rtb=root.getElementById('rt-'+u.id);if(rtb){rtb.style.display=allDone?'':'none';if(!allDone)delete rtb.dataset.opened}if(rtb&&allDone){rtb.style.display='';const sc=root.getElementById('u-'+u.id);if(auto&&sc&&sc._sel&&!rtb.dataset.opened){rtb.dataset.opened=1;sc._sel(4)}}const tabs=root.querySelectorAll('#tabs-'+u.id+' .tab');u.stages.forEach((s,i)=>{const em=tabs[i].querySelector('em');if(done(u,i)){const p=pct(u,i);em.textContent=p+'%';em.className=cls(p)}else{em.textContent='';em.className=''}});const side=root.getElementById('pc-'+u.id);const ps=u.stages.map((s,i)=>pct(u,i));const a=Math.round(ps.reduce((x,y)=>x+y,0)/4);side.textContent=a?a+'%':''}
 function exCard(u,si,ei,e){
   const card=$('div','exc');const h=$('div','exh');h.append($('div','exl',e.letter));h.append($('div','ins','<b>'+esc(e.instr.split('. ')[0]+(e.instr.includes('. ')?'.':''))+'</b> '+esc(e.instr.includes('. ')?e.instr.split('. ').slice(1).join('. '):'')+(e.note?'<div class="note">'+esc(e.note)+'</div>':'')));card.append(h);
   const body=$('div');card.append(body);const kind=e.kind;let correct=0;const marks=[];
@@ -29,16 +30,111 @@ function exCard(u,si,ei,e){
   else if(kind==='order'){const items=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');const pool=$('div','words');const line=$('div','line');const fb=$('div','fb');
     it.words.forEach(w=>{const c=$('span','wchip',esc(w));c.onclick=()=>{if(c.parentNode===pool){line.append(c)}else{pool.append(c)}};pool.append(c)});m.append(pool,line,fb);items.push([line,it,fb]);row.append(m);body.append(row)});
     const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;items.forEach(([line,it,fb])=>{const s=[...line.children].map(x=>x.textContent).join(' ');const g=ok(s,it.a,false);if(g){correct++;fb.className='fb ok';fb.textContent='✓'}else{fb.className='fb no';fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.a[0])}});finish()};body.append(b)}
-  else if(kind==='speak'){let n=0;const canRec=!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('div','prompt',esc(it.q)));const fb=$('div','fb');const player=$('div','aud');const rec=$('button','btn',canRec?'● Yozish':'Aytdim ✓');const show=$('button','btn ghost','Namunani ko\'rish');show.style.display='none';show.style.marginLeft='8px';let mr=null,chunks=[],stream=null,got=false;signal?.addEventListener('abort',()=>{try{if(mr?.state==='recording')mr.stop()}catch{}stream?.getTracks().forEach(t=>t.stop());for(const el of player.querySelectorAll('audio')){el.pause();URL.revokeObjectURL(el.src)}},{once:true});
-    const mark=()=>{if(got)return;got=true;correct++;n++;show.style.display='';if(n===e.items.length)finish()};
-    show.onclick=()=>{fb.className='fb';fb.innerHTML='<b>Namuna:</b> '+esc(it.a[0]);show.style.display='none'};
-    if(!canRec){rec.onclick=()=>{rec.disabled=true;mark()};fb.className='fb no';fb.textContent='Brauzeringiz ovoz yozishni qo\'llamaydi. Gapni ovoz chiqarib ayting va "Aytdim" ni bosing.'}
-    else rec.onclick=async()=>{if(mr&&mr.state==='recording'){mr.stop();return}
-      try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(err){fb.className='fb no';fb.innerHTML='Mikrofon ishlamadi. Brauzerda mikrofonga ruxsat bering (sahifa https:// yoki localhost orqali ochilishi kerak bo\'lishi mumkin).';return}
-      fb.className='fb';fb.innerHTML='';chunks=[];mr=new MediaRecorder(stream);mr.ondataavailable=ev=>{if(ev.data&&ev.data.size)chunks.push(ev.data)};
-      mr.onstop=()=>{stream.getTracks().forEach(x=>x.stop());const blob=new Blob(chunks,{type:mr.mimeType||'audio/webm'});const url=URL.createObjectURL(blob);player.innerHTML='';const au=document.createElement('audio');au.controls=true;au.src=url;player.append(au);rec.textContent='● Qayta yozish';rec.classList.remove('live');mark()};
-      mr.start();rec.textContent='■ To\'xtatish';rec.classList.add('live')};
-    m.append(rec,show,fb,player);row.append(m);body.append(row)})}
+  else if(kind==='speak'){
+    let completed=0;
+    const canRec=!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
+    e.items.forEach((it,i)=>{
+      const row=$('div','item');row.append($('div','num',i+1));
+      const main=$('div','main');main.append($('div','prompt',esc(it.q)));
+      const feedback=$('div','fb'),player=$('div','aud');
+      const record=$('button','btn',canRec?'● Yozish':'Aytdim ✓');
+      const remove=$('button','btn ghost aud-delete','🗑 O‘chirish');
+      remove.hidden=true;remove.type='button';remove.setAttribute('aria-label','Ovozli xabarni o‘chirish');
+      const sample=$('button','btn ghost','Namunani ko‘rish');
+      sample.style.display='none';sample.style.marginLeft='8px';
+      let recorder=null,stream=null,audioUrl=null,marked=false,starting=false,disposed=false;
+      function stopTracks(){stream?.getTracks().forEach(track=>track.stop());stream=null}
+      function clearAudio(){
+        for(const audio of player.querySelectorAll('audio')){audio.pause();audio.removeAttribute('src');audio.load()}
+        player.replaceChildren();
+        if(audioUrl){URL.revokeObjectURL(audioUrl);audioUrl=null}
+        remove.hidden=true;
+      }
+      function mark(){
+        if(marked)return;
+        marked=true;correct++;completed++;sample.style.display='';
+        if(completed===e.items.length)finish();
+      }
+      function unmark(){
+        if(!marked)return;
+        marked=false;correct=Math.max(0,correct-1);completed=Math.max(0,completed-1);
+        sample.style.display='none';clearScore(u,si,ei);
+      }
+      signal?.addEventListener('abort',()=>{
+        disposed=true;
+        if(recorder?.state==='recording'){
+          recorder.onstop=null;
+          try{recorder.stop()}catch{}
+        }
+        stopTracks();clearAudio();
+      },{once:true});
+      sample.onclick=()=>{feedback.className='fb';feedback.innerHTML='<b>Namuna:</b> '+esc(it.a[0]);sample.style.display='none'};
+      remove.onclick=()=>{
+        if(disposed||starting||recorder?.state==='recording')return;
+        clearAudio();unmark();feedback.textContent='';
+        record.textContent='● Yozish';record.classList.remove('live');record.disabled=false;
+      };
+      if(!canRec){
+        record.onclick=()=>{record.disabled=true;mark()};
+        feedback.className='fb no';
+        feedback.textContent='Brauzeringiz ovoz yozishni qo‘llamaydi. Gapni ovoz chiqarib ayting va "Aytdim" ni bosing.';
+      }else{
+        record.onclick=async()=>{
+          if(disposed||starting)return;
+          if(recorder?.state==='recording'){
+            record.disabled=true;
+            try{recorder.stop()}catch{record.disabled=false}
+            return;
+          }
+          starting=true;record.disabled=true;remove.disabled=true;
+          try{
+            const requested=await navigator.mediaDevices.getUserMedia({audio:true});
+            if(disposed||signal?.aborted){requested.getTracks().forEach(t=>t.stop());return}
+            stream=requested;
+            const chunks=[],active=new MediaRecorder(requested);
+            let failed=false;
+            recorder=active;
+            active.ondataavailable=ev=>{if(ev.data?.size)chunks.push(ev.data)};
+            active.onerror=()=>{failed=true};
+            active.onstop=()=>{
+              stopTracks();recorder=null;
+              if(disposed||signal?.aborted)return;
+              record.disabled=false;remove.disabled=false;record.classList.remove('live');
+              if(failed||!chunks.length){
+                feedback.className='fb no';feedback.textContent='Ovoz yozilmadi. Qayta urinib ko‘ring.';
+                record.textContent=audioUrl?'● Qayta yozish':'● Yozish';
+                return;
+              }
+              const blob=new Blob(chunks,{type:active.mimeType||'audio/webm'});
+              const url=URL.createObjectURL(blob);
+              clearAudio();audioUrl=url;
+              const playerElement=document.createElement('audio');
+              playerElement.controls=true;playerElement.preload='metadata';playerElement.src=url;
+              player.append(playerElement);
+              remove.hidden=false;
+              record.textContent='● Qayta yozish';
+              feedback.className='fb';feedback.textContent='';
+              mark();
+            };
+            active.start();
+            record.textContent='■ To‘xtatish';record.classList.add('live');record.disabled=false;
+          }catch{
+            stopTracks();recorder=null;
+            if(!disposed){
+              feedback.className='fb no';
+              feedback.textContent='Mikrofon ishlamadi. Brauzerda mikrofonga ruxsat bering.';
+              record.textContent=audioUrl?'● Qayta yozish':'● Yozish';
+            }
+          }finally{
+            starting=false;
+            if(!disposed&&recorder?.state!=='recording')record.disabled=false;
+            if(!disposed)remove.disabled=false;
+          }
+        };
+      }
+      main.append(record,remove,sample,feedback,player);row.append(main);body.append(row);
+    });
+  }
   else if(kind==='write'){const ta=$('textarea','t');ta.placeholder=e.placeholder;const cnt=$('div','note','0 ta so\'z · kamida '+e.min);ta.oninput=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=n+' ta so\'z · kamida '+e.min};const b=$('button','btn','Yakunlash →');const mod=$('div','fb');b.onclick=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;if(n<e.min){cnt.style.color='#c0394b';return}mod.className='fb';mod.innerHTML='<b>Namuna:</b> '+esc(e.model);setScore(u,si,ei,1)};body.append(ta,cnt,b,mod)}
   else{const items=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');const isTr=kind==='tr';
     if(isTr||kind==='transform'||kind==='fix'||kind==='typed'){m.append($('div',isTr?'prompt':'',esc(it.q)))}
