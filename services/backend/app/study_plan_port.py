@@ -12,6 +12,8 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 from . import main as core
+from .coin_policy import public_policy
+from .coin_rewards import wallet as coin_wallet
 from .study_plan_rules import SKILLS, band_value
 from .browser_coach import coach
 from .study_plan_evidence import assessed_history, reading_weaknesses, vocabulary
@@ -172,7 +174,8 @@ async def reward_state(con, uid) -> dict:
         FROM study_reward_ledger WHERE user_id=$1 ORDER BY earned_at DESC,event_key LIMIT 30""",uid)
     return {"balance":earned-sum(row["points"] for row in rows), "totalEarned":earned,
             "purchases":[dict(row) for row in rows],"earning":[dict(row) for row in ledger],
-            "items":[{"key":key,**value} for key,value in MARKET.items()]}
+            "items":[{"key":key,**value} for key,value in MARKET.items()],
+            "coins":await coin_wallet(con, uid)}
 
 
 @router.get("/rewards")
@@ -221,6 +224,25 @@ WITH participants AS (
   SELECT *,row_number() OVER(ORDER BY points DESC,lower(alias),user_id)::int rank FROM participants
 )
 """
+COIN_RANKING = """
+WITH participants AS (
+  SELECT p.user_id,p.alias,coalesce(sum(l.points),0)::int points,
+         coalesce((SELECT sum(c.coins)::int FROM coin_ledger c
+                   WHERE c.user_id=p.user_id AND c.earned_at >= $2),0) coins,
+         coalesce((SELECT sum(t.active_ms)::bigint FROM coin_practice_time t
+                   WHERE t.user_id=p.user_id AND t.earned_at >= $2),0) practice_ms,
+         EXISTS(SELECT 1 FROM subscriptions s WHERE s.user_id=p.user_id AND s.status='active'
+                AND (s.current_period_end IS NULL OR s.current_period_end > now())) premium
+  FROM study_leaderboard_participants p JOIN users u ON u.id=p.user_id
+  LEFT JOIN study_reward_ledger l ON l.user_id=p.user_id AND l.earned_at >= $2
+  WHERE u.role='student' AND u.account_status='active' AND (
+      NOT $3 OR EXISTS(SELECT 1 FROM teacher_student_links mine JOIN teacher_student_links other
+        ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=p.user_id))
+  GROUP BY p.user_id,p.alias
+), ranked AS (
+  SELECT *,row_number() OVER(ORDER BY coins DESC, points DESC, lower(alias), user_id)::int rank FROM participants
+)
+"""
 
 
 @router.get("/leaderboard")
@@ -240,13 +262,42 @@ async def leaderboard(req: Request, period: str = "week", scope: str = "all", pa
     async with db.acquire() as con:
         mine = await con.fetchval("SELECT alias FROM study_leaderboard_participants WHERE user_id=$1",uid)
         cohort = await con.fetchval("SELECT EXISTS(SELECT 1 FROM teacher_student_links WHERE student_user_id=$1)",uid)
-        rows = await con.fetch(RANKING+"""SELECT alias,points,rank,user_id=$1 AS mine,
-           (SELECT rank FROM ranked WHERE user_id=$1) own_rank
-           FROM ranked WHERE rank BETWEEN $4 AND $5 ORDER BY rank""",
-           uid,since,scope=="class",(page-1)*25+1,page*25+1)
-        own = await con.fetchval(RANKING+"SELECT rank FROM ranked WHERE user_id=$1",uid,since,scope=="class") if mine and not rows else rows[0]["own_rank"] if rows else None
+        rich = True
+        try:
+            async with con.transaction():
+                rows = await con.fetch(COIN_RANKING+"""SELECT alias,points,coins,practice_ms,premium,rank,user_id=$1 AS mine,
+                   (SELECT rank FROM ranked WHERE user_id=$1) own_rank
+                   FROM ranked WHERE rank BETWEEN $4 AND $5 ORDER BY rank""",
+                   uid,since,scope=="class",(page-1)*25+1,page*25+1)
+        except Exception:
+            rich = False
+            rows = await con.fetch(RANKING+"""SELECT alias,points,rank,user_id=$1 AS mine,
+               (SELECT rank FROM ranked WHERE user_id=$1) own_rank
+               FROM ranked WHERE rank BETWEEN $4 AND $5 ORDER BY rank""",
+               uid,since,scope=="class",(page-1)*25+1,page*25+1)
+        own = await con.fetchval((COIN_RANKING if rich else RANKING)+"SELECT rank FROM ranked WHERE user_id=$1",uid,since,scope=="class") if mine and not rows else rows[0]["own_rank"] if rows else None
+        practising = []
+        if rich:
+            try:
+                async with con.transaction():
+                    live = await con.fetch("""SELECT p.alias FROM study_leaderboard_participants p
+                        JOIN users u ON u.id=p.user_id
+                        WHERE u.role='student' AND u.account_status='active'
+                          AND u.last_meaningful_activity_at > now() - interval '3 minutes'
+                        ORDER BY u.last_meaningful_activity_at DESC LIMIT 8""")
+                    practising = [row["alias"] for row in live]
+            except Exception:
+                practising = []
+    entries = [{key:row[key] for key in ("alias","points","rank","mine")} for row in rows[:25]]
+    standings = [{
+        "alias": row["alias"], "rank": row["rank"], "mine": row["mine"],
+        "stars": row["points"], "coins": row["coins"] if rich else 0,
+        "practiceMs": int(row["practice_ms"]) if rich else 0,
+        "premium": bool(row["premium"]) if rich else False,
+    } for row in rows[:20]]
     return response({"alias":mine,"classAvailable":cohort,"position":own,"hasMore":len(rows)>25,
-                     "entries":[{key:row[key] for key in ("alias","points","rank","mine")} for row in rows[:25]]})
+                     "entries":entries,"standings":standings,"practising":practising,
+                     "policy":public_policy()})
 
 
 @router.put("/leaderboard/participation")

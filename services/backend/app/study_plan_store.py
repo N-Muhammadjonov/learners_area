@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from .browser_coach import coach
+from .coin_rewards import legacy_cutoff
 from .study_plan_evidence import ASSIGNMENTS, EVENTS, assessed_history, candidates, reading_weaknesses, vocabulary
 from .study_plan_rules import SKILLS, Candidate, allocate, band_value, estimate, study_streak
 
@@ -34,6 +35,7 @@ WITH evidence AS MATERIALIZED ({events}), eligible AS (
 INSERT INTO study_reward_ledger(user_id,event_key,points,earned_at)
 SELECT $1,reward_key,points,happened_at FROM eligible
 WHERE number <= CASE WHEN reward_key LIKE 'vocab:%' THEN 5 ELSE 1 END
+  AND happened_at < $3::timestamptz
 ON CONFLICT(user_id,event_key) DO NOTHING
 """.format(events=EVENTS)
 DAILY_BONUS = """
@@ -99,7 +101,8 @@ async def current_plan(con, user: dict, now: datetime, *, mode: str = "week",
     today = now.astimezone(zone).date()
     end = today + timedelta(days=6)
     await con.execute(COMPLETION_SQL, uid, now - timedelta(days=180))
-    await con.execute(REWARD_SQL, uid, max(prefs["created_at"], now - timedelta(days=30)))
+    cutoff = await legacy_cutoff(con)
+    await con.execute(REWARD_SQL, uid, max(prefs["created_at"], now - timedelta(days=30)), cutoff)
 
     if (mode == "today" and prefs["revised_on"] == today and prefs["validated_at"]
             and now - prefs["validated_at"] <= timedelta(seconds=30)):

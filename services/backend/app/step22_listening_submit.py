@@ -77,6 +77,12 @@ async def submit(req:Request,id:str):
                 await con.execute('''INSERT INTO listening_answers(attempt_id,question_id,user_answer,is_correct) VALUES($1,$2,$3,$4)''',aid,q['id'],answer,correct)
             await con.execute('''UPDATE listening_attempts SET status='completed',score=$2,total_questions=$3,submitted_at=NOW() WHERE id=$1''',aid,score,len(questions))
             await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'LISTENING_ATTEMPT_COMPLETED',$2::jsonb)''',user['id'],json.dumps({'attemptId':id,'score':score,'totalQuestions':len(questions)}))
+            if questions and all(by.get(str(q['id']),'').strip() for q in questions):
+                from .coin_rewards import award_coin
+                source=await con.fetchval('SELECT source_id FROM listening_packages WHERE test_id=$1',attempt['test_id'])
+                identity=source or str(attempt['test_id'])
+                await award_coin(con,user['id'],f"listening:{identity}:exam",module='listening',activity_type='exam',
+                                 parent_content_id=str(attempt['test_id']),exercise_id='exam',evidence_id=str(aid))
     # Post-success meaningful activity is an independent original side-effect.
     async with db.acquire() as con:
         await con.execute('''UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,NOW()) WHERE id=$1''',user['id'])

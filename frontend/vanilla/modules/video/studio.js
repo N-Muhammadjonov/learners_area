@@ -302,9 +302,18 @@ export function createVideoStudio(context,{mode,video}){
   if(video.directMedia){
    import('./direct-player.js').then(({createDirectPlayer})=>{
     if(destroyed)return;
+    let sessionId=null;
     const player=createDirectPlayer({
      src:video.directMedia.src,captions:video.directMedia.captions,title:lesson.title,labels:t.directPlayer,
      onTime:onPosition,signal:life,
+     onPulse(pulse){
+      const module=/podcast/i.test(location.pathname)?'podcast':'ted';
+      fetch('/api/coins/media/heartbeat',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,mediaId:String(lesson.id),module,...pulse})}).then(async response=>{
+       if(!response.ok)return;
+       const data=await response.json();
+       if(data.sessionId)sessionId=data.sessionId;
+      }).catch(()=>{});
+     },
     });
     directHandle=player;
     stage.replaceChildren(player.node);

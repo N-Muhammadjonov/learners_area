@@ -215,6 +215,14 @@ async def reading_submit(req:Request,id:str):
    await con.execute("UPDATE reading_attempts SET status='completed',score=$2,total_questions=$3,submitted_at=NOW() WHERE id=$1 AND status='in_progress'",attempt['id'],score,len(questions))
    await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'READING_ATTEMPT_COMPLETED', $2::jsonb)''',
          u['id'],json.dumps({'attemptId':id,'score':score,'totalQuestions':len(questions)}))
+   from .coin_rewards import award_answers
+   grouped={}
+   for q in questions:
+    gid=str(q['group_id']) if q['group_id'] else f"passage:{q['passage_id']}"
+    grouped.setdefault(gid,[]).append(by_answer.get(str(q['id']),''))
+   for gid,given in grouped.items():
+    await award_answers(con,u['id'],f"reading:{gid}",given,module='reading',activity_type='exercise',
+                        parent_content_id=str(attempt['passage_id']),exercise_id=gid,evidence_id=str(attempt['id']))
  return core.j({'ok':True,'score':score,'totalQuestions':len(questions)})
 
 def install():core.app.include_router(router)

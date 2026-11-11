@@ -39,6 +39,9 @@ async def writing_submit(req:Request,id:str):
                 await con.execute('''INSERT INTO activity_events(user_id,type,payload)
                                  VALUES($1,'WRITING_SUBMITTED',$2::jsonb)''',user['id'],json.dumps({'submissionId':str(sid),'overallBand':ev['overallEstimate'],'evaluatedBy':ev['providerId']}))
                 await notify_writing_review_required(con, submission_id=sid, student_id=user['id'])
+                from .coin_rewards import award_coin
+                await award_coin(con,user['id'],f"writing:{submission['prompt_id']}",module='writing',activity_type='submission',
+                                 parent_content_id=str(submission['prompt_id']),exercise_id=str(sid),evidence_id=str(sid))
     return core.j({'ok':True,'evaluationId':ev['id'],'checkedBy':'RIWI','fallbackUsed':ev['fallbackUsed']})
 
 def install():core.app.include_router(router)

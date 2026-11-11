@@ -120,11 +120,15 @@ function mountExercise(context,article,t){
     let completionSaved=false,completionPending=false;
     const progressMessage=doc.createElement('p');progressMessage.setAttribute('role','status');progressMessage.className='im-dict-meta';(doc.getElementById('im-score')??checkButton).after(progressMessage);
     checkButton.addEventListener('click',()=>{
-     const questions=[...doc.querySelectorAll('[data-im-question]')];
-     if(completionSaved||completionPending||questions.length!==article.questionCount||questions.some(question=>!question.classList.contains('im-answered')))return;
+     const questions=[...doc.querySelectorAll('.im-question')];
+     const nav=[...doc.querySelectorAll('[data-im-question]')];
+     if(completionSaved||completionPending||nav.length!==article.questionCount||nav.some(question=>!question.classList.contains('im-answered')))return;
+     const answers=questions.map(question=>{
+      const field=question.querySelector('input,textarea,select');
+      return (field?.value||question.innerText||'').trim().slice(0,500);
+     });
      completionPending=true;
-     // A completed check must finish saving when the learner returns to the catalogue.
-     void api.request(`/api/reading/articles/${encodeURIComponent(article.id)}/complete`,{method:'POST',keepalive:true}).then(()=>{completionSaved=true;if(!signal.aborted)progressMessage.textContent='';}).catch(()=>{if(!signal.aborted)progressMessage.textContent=t.progressSaveError;}).finally(()=>{completionPending=false;});
+     void api.request(`/api/reading/articles/${encodeURIComponent(article.id)}/complete`,{method:'POST',body:{answers},keepalive:true}).then(()=>{completionSaved=true;if(!signal.aborted)progressMessage.textContent='';}).catch(()=>{if(!signal.aborted)progressMessage.textContent=t.progressSaveError;}).finally(()=>{completionPending=false;});
     },{signal});
    }
    const titleRow=doc.querySelector('.im-dict-title-row'),wordsPanel=doc.querySelector('#im-dict-words');

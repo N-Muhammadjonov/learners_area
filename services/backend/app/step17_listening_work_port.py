@@ -137,5 +137,11 @@ async def activity(req:Request,id:str):
     async with db.acquire() as con:
         row=await con.fetchrow('''INSERT INTO listening_activity_runs(user_id,test_id,activity,speed_rate,answers,completed,score,total)
             VALUES($1,$2,$3,$4,$5::jsonb,$6,$7,$8) RETURNING id''',u['id'],core.uuid_value(id),index,speed,json.dumps(answers,ensure_ascii=False),complete,score,len(ids))
+        if complete:
+            from .coin_rewards import award_coin, course_sources
+            source=await con.fetchval('SELECT source_id FROM listening_packages WHERE test_id=$1',core.uuid_value(id))
+            if source not in course_sources():
+                await award_coin(con,u['id'],f"listening:{source or id}:drill:{index}",module='listening',activity_type='drill',
+                                 parent_content_id=str(id),exercise_id=str(index),evidence_id=str(row['id']))
     return core.j({'ok':True,'id':str(row['id']),'score':score,'total':len(ids)},headers=PRIVATE)
 def install():core.app.include_router(router)

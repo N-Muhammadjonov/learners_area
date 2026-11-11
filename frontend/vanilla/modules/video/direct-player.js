@@ -4,7 +4,7 @@ import {formatClock} from './provider.js';
 /** Owner-authorised direct media (original src/components/courses/DirectMediaPlayer.tsx): native <video> with our
  * controls, a WebVTT track, keyboard shortcuts and reported position. No autoplay; playback starts only on a user action. */
 const SPEEDS=[0.75,1,1.25,1.5];
-export function createDirectPlayer({src,captions,title,labels,onTime,signal}){
+export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,signal}){
  let failed=false,ccOn=true;
  const video=el('video',{class:'absolute inset-0 h-full w-full',src,title,preload:'metadata',playsinline:'',crossorigin:'anonymous',controlslist:'nodownload'});
  if(captions)video.append(el('track',{kind:'captions',src:captions,srclang:'en',label:'English',default:''}));
@@ -58,7 +58,15 @@ export function createDirectPlayer({src,captions,title,labels,onTime,signal}){
  video.addEventListener('play',paintPlay,{signal});
  video.addEventListener('pause',paintPlay,{signal});
  video.addEventListener('loadedmetadata',()=>{paintTime();paintCc();},{signal});
- video.addEventListener('timeupdate',()=>{paintTime();onTime?.(video.currentTime);},{signal});
+ video.addEventListener('timeupdate',()=>{
+  paintTime();
+  onTime?.(video.currentTime);
+  if(!onPulse||video.paused)return;
+  const now=Date.now();
+  if(now-(video._coinPulse||0)<15000)return;
+  video._coinPulse=now;
+  onPulse({positionMs:Math.round((video.currentTime||0)*1000),playbackRate:Number(video.playbackRate)||1,playing:true,durationMs:Number.isFinite(video.duration)?Math.round(video.duration*1000):null});
+ },{signal});
  video.addEventListener('error',fail,{signal});
  playButton.addEventListener('click',toggle,{signal});
  fullscreenButton.addEventListener('click',()=>void fullscreen(),{signal});
