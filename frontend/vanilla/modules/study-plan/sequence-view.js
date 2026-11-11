@@ -373,9 +373,9 @@ export function mountSequenceDashboard(ctx, root) {
       progress,
       h('a',{href:ASSIGNMENTS_PATH,class:'btn-secondary sequence-dashboard-link',
         'data-dashboard-plan-open':''},
-        data.state==='available'?text(ctx,'Reja yaratish','Create plan'):
-        data.state==='level_required'?text(ctx,'Rejani ko‘rish','View plan'):
-        text(ctx,'Rejani ochish','Open plan')),
+        ['available','level_required'].includes(data.state)
+          ? text(ctx,'Reja tuzish','Create plan')
+          : text(ctx,'Rejani ochish','Open plan')),
     ].filter(Boolean));
   }
   async function load() {
