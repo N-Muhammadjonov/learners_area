@@ -84,6 +84,11 @@ class ApiClient:
             "GET", f"/contacts/{target_id}", params={"actorTelegramId": actor_id}
         )
 
+    async def create_login_handoff(self, telegram_user_id: str) -> tuple[int, Any]:
+        return await self._request("POST", "/auth/handoff", json={
+            "telegramUserId": telegram_user_id,
+        })
+
     async def confirm_intent(self, token: str, telegram_user_id: str, **extra: Any) -> bool:
         status, _data = await self._request(
             "POST",

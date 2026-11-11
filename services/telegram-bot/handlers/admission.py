@@ -1,5 +1,4 @@
 from aiogram import F, Router
-from aiogram.filters import Command
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from copy_format import admission_text
@@ -18,7 +17,6 @@ def _lang(event: Message | CallbackQuery, db_user: dict | None) -> str:
     return "en" if (code or "").startswith("en") else "uz"
 
 
-@admission_router.message(Command("apply"))
 async def cmd_apply(message: Message, db_user: dict | None = None):
     lang = _lang(message, db_user)
     if db_user:
@@ -46,7 +44,6 @@ async def cmd_apply(message: Message, db_user: dict | None = None):
         await message.answer(t(lang, "error"))
 
 
-@admission_router.message(Command("pending"))
 async def cmd_pending(message: Message, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
     denied = denial_key(bot_access, backend_error, "ADMISSIONS")

@@ -1,5 +1,5 @@
 from aiogram import F, Router
-from aiogram.filters import Command, CommandObject, CommandStart
+from aiogram.filters import CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import ChatMemberUpdated, Message, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup
@@ -160,14 +160,3 @@ async def membership(event: ChatMemberUpdated):
     })
 
 
-@auth_router.message(Command("cancel"))
-async def cmd_cancel(message: Message, state: FSMContext, db_user: dict | None = None):
-    await state.clear()
-    await message.answer(t(lang_of(message, db_user), "cancelled"))
-
-
-@auth_router.message(Command("help"))
-async def cmd_help(message: Message, db_user: dict | None = None, bot_access: dict | None = None, backend_error: bool = False):
-    lang = lang_of(message, db_user)
-    await message.answer(t(lang, "help"))
-    await show_home(message, lang, bot_access, db_user, backend_error=backend_error)

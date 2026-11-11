@@ -12,15 +12,7 @@ from commands import command_set, install_commands
 
 def test_command_sets_preserve_uz_and_en():
     en = command_set("en")
-    assert [c.command for c in en] == [
-        "start",
-        "menu",
-        "help",
-        "support",
-        "status",
-        "settings",
-        "cancel",
-    ]
+    assert [c.command for c in en] == ["start", "admin", "lang"]
     uz = command_set("uz")
     assert [c.command for c in uz] == [c.command for c in en]
     assert [c.description for c in uz] != [c.description for c in en]
