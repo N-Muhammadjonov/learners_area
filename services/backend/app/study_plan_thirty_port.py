@@ -104,6 +104,8 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
         return cycle
     uid, cid, day = cycle["user_id"], cycle["id"], cycle["current_day"]
     tasks = await con.fetch(CURRENT, cid, day)
+    if len(tasks) != 6 or sum(task["minutes"] for task in tasks) != 120:
+        raise ValueError("invalid_current_day_tasks")
     pending = {task["kind"]: task for task in tasks
                if task["completed_at"] is None and task["kind"] != "grammar"}
     if pending:
@@ -236,10 +238,12 @@ async def start_plan(req: Request) -> JSONResponse:
         plan = make_thirty_day_schedule(level, today)
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
            (user_id,started_on,timezone,cefr_level,opened_at)
-           VALUES($1,$2,$3,$4,$5) RETURNING id""",
+           VALUES($1,$2,$3,$4,$5)
+           ON CONFLICT(user_id) DO NOTHING RETURNING id""",
            user["id"], today, zone.key, level, now)
-        await con.executemany(INSERT_TASK, _records(cid, plan))
-        return response(await _current(con, user["id"], now), 201)
+        if cid is not None:
+            await con.executemany(INSERT_TASK, _records(cid, plan))
+        return response(await _current(con, user["id"], now), 201 if cid is not None else 200)
 
 
 @router.post("/regenerate")
