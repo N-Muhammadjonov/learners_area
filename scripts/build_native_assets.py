@@ -33,6 +33,55 @@ def publish_speech_parts(build_root,public_root):
     return {'cdnSpeechBytes':total,'cdnSpeechFiles':count}
 
 
+def overlay_feature_bundles(temporary, files):
+    """Overlay verified browser bundles in the static staging tree.
+
+    Source JS files are preserved as fallback for existing workers and URL-based
+    imports. Only the built runtime entry is replaced; all other bundled chunks
+    load through the ESM graph with independent, immutable asset URLs.
+    """
+    value = os.getenv('LA_BROWSER_BUNDLES', '').strip()
+    if not value:
+        return {'enabled': False, 'chunks': 0}
+    source = Path(value).resolve()
+    if not source.is_dir():
+        raise ValueError('Feature bundle directory is unavailable')
+    report = source / 'bundle-report.json'
+    if not report.is_file():
+        raise ValueError('Feature bundle report is unavailable')
+    document = json.loads(report.read_text())
+    if document.get('version') != 1 or document.get('entry') != 'js/main.js':
+        raise ValueError('Invalid feature bundle manifest')
+    chunks = document.get('chunks')
+    if not isinstance(chunks, list) or len(chunks) < 2:
+        raise ValueError('Feature bundles must include entry and lazy chunks')
+    paths = set()
+    for chunk in chunks:
+        if not isinstance(chunk, dict) or not isinstance(chunk.get('path'), str):
+            raise ValueError('Invalid bundle record')
+        name = chunk['path']
+        candidate = Path(name)
+        if (candidate.is_absolute() or '..' in candidate.parts or
+                not name.startswith('js/') or candidate.suffix != '.js' or
+                name in paths or any(part.startswith('.') for part in candidate.parts)):
+            raise ValueError('Unsafe bundle path: ' + name)
+        paths.add(name)
+        target = source / candidate
+        if target.is_symlink() or not target.is_file() or not target.resolve().is_relative_to(source):
+            raise ValueError('Missing or unsafe bundle file: ' + name)
+        content = target.read_bytes()
+        if len(content) != chunk.get('bytes') or not content:
+            raise ValueError('Invalid bundle byte count: ' + name)
+        destination = temporary / candidate
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(content)
+        files[name] = {'sha256': hashlib.sha256(content).hexdigest(),
+                       'bytes': len(content)}
+    if 'js/main.js' not in paths:
+        raise ValueError('Missing browser bundle entry')
+    return {'enabled': True, 'chunks': len(paths)}
+
+
 def optimize(temporary, files):
     from rcssmin import cssmin
     from rjsmin import jsmin
@@ -104,7 +153,9 @@ def build(base=BASE):
                     raise ValueError('Server/framework dependency in browser asset: '+str(relative))
                 target=temporary/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(file,target)
                 content=target.read_bytes();files[relative.as_posix()]={'sha256':hashlib.sha256(content).hexdigest(),'bytes':len(content)}
+        feature_bundles = overlay_feature_bundles(temporary, files)
         revision,stats=optimize(temporary,files)
+        stats['featureBundles'] = feature_bundles
         manifest={'version':1,'revision':revision,'files':files,'routes':routes['routes'],'redirects':routes['redirects'],'optimization':stats}
         (temporary/'asset-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
         target=base/'build'
