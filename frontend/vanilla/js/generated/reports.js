@@ -19,7 +19,7 @@ export function render({ dict, locale, role, query, students, scopes, errorText 
         staff && !teacher && (h("form", { method: "get", action: "/app/reports", className: "flex flex-wrap items-end gap-3", "data-reporter-student-search": true },
             h("label", { className: "flex flex-col gap-1 text-sm" },
                 h("span", { className: "font-semibold text-ink-700" }, t.studentSearch),
-                h("input", { type: "search", name: "q", value: query, maxLength: 60, className: "input" })),
+                h("input", { type: "search", name: "q", value: query, maxLength: 60, className: "input min-w-[16rem] border-2 border-signal-400 bg-paper-sunken text-ink-900 shadow-sm focus:border-signal-500 focus:outline-none focus:ring-2 focus:ring-signal-400/40" })),
             h("button", { type: "submit", className: "btn-secondary min-h-11" }, t.studentSearchButton))),
         staff && !teacher && students.length >= STUDENT_LIST_CAP && h("p", { className: "text-xs text-ink-500", role: "status", "data-reporter-list-capped": true }, t.listCapped.replace("{n}", String(STUDENT_LIST_CAP))),
         h(Card, { className: "p-4" },
