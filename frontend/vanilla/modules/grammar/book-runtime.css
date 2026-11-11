@@ -43,3 +43,9 @@ input.t,textarea.t{background:#eef2ff;border:1px solid #c7d2fe;border-bottom:2px
 .grammar-book table{display:block;overflow-x:auto}
 .grammar-book .item .main{min-width:0;overflow-wrap:anywhere}
 @media(max-width:640px){.grammar-book .utitle{font-size:22px}.grammar-book .exc,.grammar-book .rule{padding:14px}.grammar-book .row{grid-template-columns:30px 1fr 54px}}
+
+/* Voice recordings: delete action is visible after recording, scoped to the lesson shadow tree. */
+.grammar-book .aud-delete{color:var(--red);border:1px solid var(--red);background:var(--card);margin-inline-start:8px}
+.grammar-book .aud-delete[hidden]{display:none!important}
+.grammar-book .aud-delete:hover{background:color-mix(in srgb,var(--red) 12%,var(--card))}
+.grammar-book .aud audio{max-width:100%}
