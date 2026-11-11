@@ -2,6 +2,7 @@
 import {h} from '../../js/native.js';
 import {bookIndex} from './book-index.js';
 import {renderInteractiveBook} from './book-runtime.js';
+import {BackLink} from '../shared/presentation.js';
 
 const LEVELS = ['B1', 'B2', 'C1', 'C2'];
 const GROUP = code => ['A0', 'A1', 'A2', 'B1'].includes(code) ? 'B1' : code;
@@ -13,19 +14,19 @@ const LOADERS = {
 };
 const LANG = {
   uz: {
-    search: '🔍 Qidiruv', group: 'Grammar darajalari', title: 'Grammar with Learners Area',
+    search: 'Qidiruv', searchHint: 'Grammar mavzusini qidiring…', group: 'Grammar darajalari', title: 'Grammar with Learners Area',
     subtitle: 'Darajalarga ajratilgan grammatika va to‘rt bosqichli mashqlar',
     stages: '4 bosqich', blocks: 'mashq bloki', topics: 'mavzu',
     start: 'Boshlash', resume: 'Davom etish', finished: 'Tugallangan',
-    empty: 'Bu qidiruvga mos grammar mavzusi topilmadi.', back: 'Grammar Lessons',
+    empty: 'Bu qidiruvga mos grammar mavzusi topilmadi.', back: 'Back',
     loading: 'Mashqlar yuklanmoqda…', error: 'Mashqlarni yuklashda xato.', retry: 'Qayta urinish',
   },
   en: {
-    search: '🔍 Search', group: 'Grammar levels', title: 'Grammar with Learners Area',
+    search: 'Search', searchHint: 'Search grammar topics…', group: 'Grammar levels', title: 'Grammar with Learners Area',
     subtitle: 'Level-based grammar with four-stage practice',
     stages: '4 stages', blocks: 'practice blocks', topics: 'topics',
     start: 'Start', resume: 'Continue', finished: 'Completed',
-    empty: 'No grammar topics match the search.', back: 'Grammar Lessons',
+    empty: 'No grammar topics match the search.', back: 'Back',
     loading: 'Loading exercises…', error: 'Could not load exercises.', retry: 'Try again',
   },
 };
@@ -68,7 +69,7 @@ function card(unit, progress, t) {
     h('p', {class: 'grammar-book-card-summary'}, unit.summary),
     h('div', {class: 'grammar-book-card-bottom'},
       h('span', {class: 'grammar-book-progress'}, status.done + '/' + status.total + ' ' + t.blocks),
-      h('a', {class: 'grammar-book-card-link',
+      h('a', {class: 'btn-primary grammar-book-card-link',
         href: '/app/grammar/lessons?book=' + encodeURIComponent(unit.id),
         'data-grammar-book-open': unit.id}, action)));
 }
@@ -77,10 +78,12 @@ export function mountBookCatalog(ctx, host) {
   const t = translation(ctx), saved = stored(ctx);
   const search = h('input', {
     type: 'search', class: 'grammar-book-search',
-    placeholder: t.search, 'aria-label': t.search, 'data-grammar-book-search': '',
+    placeholder: t.searchHint, 'aria-label': t.search, 'data-grammar-book-search': '',
   });
+  const searchBox = h('label', {class: 'grammar-book-search-box'},
+    h('span', {class: 'grammar-book-search-icon', 'aria-hidden': 'true'}, '⌕'), search);
   const buttons = LEVELS.map(level => h('button', {
-    type: 'button', class: 'grammar-book-level',
+    type: 'button', class: 'btn-secondary grammar-book-level',
     'data-grammar-book-level': level, 'aria-pressed': String(level === 'B1'),
   }, level));
   const entries = bookIndex.map(unit => ({unit, node: card(unit, saved, t)}));
@@ -100,7 +103,10 @@ export function mountBookCatalog(ctx, host) {
     count.textContent = visible + ' ' + t.topics;
     empty.hidden = visible !== 0;
     for (const button of buttons) {
-      button.setAttribute('aria-pressed', String(button.dataset.grammarBookLevel === selected));
+      const active = button.dataset.grammarBookLevel === selected;
+      button.setAttribute('aria-pressed', String(active));
+      button.classList.toggle('btn-primary', active);
+      button.classList.toggle('btn-secondary', !active);
     }
   };
   search.addEventListener('input', refresh, {signal: ctx.signal});
@@ -114,16 +120,18 @@ export function mountBookCatalog(ctx, host) {
     class: 'grammar-book-catalog', 'data-grammar-book-catalog': '',
   }, h('header', {class: 'grammar-book-heading'},
       h('h1', {}, t.title), h('p', {}, t.subtitle)),
-    h('div', {class: 'grammar-book-controls'}, search,
+    h('div', {class: 'grammar-book-controls'}, searchBox,
       h('div', {class: 'grammar-book-level-group', role: 'group', 'aria-label': t.group}, buttons)),
     count, grid, empty));
   refresh();
 }
 export async function mountBookDetail(ctx, host, id) {
+  const back = () => BackLink({fallbackHref: '/app/grammar/lessons', label: 'Back',
+    className: 'btn-ghost grammar-book-back', 'data-grammar-book-back': ''});
   ensureStyle();
   const t = translation(ctx), meta = bookIndex.find(unit => unit.id === id);
   if (!meta) {
-    host.replaceChildren(h('a', {href: '/app/grammar/lessons'}, '← ' + t.back),
+    host.replaceChildren(back(),
       h('p', {}, t.empty));
     return;
   }
@@ -133,7 +141,7 @@ export async function mountBookDetail(ctx, host, id) {
   host.replaceChildren(h('section', {
     class: 'grammar-book-detail', 'data-route-usable': 'grammar-book-detail',
     'data-grammar-book-detail': id,
-  }, h('a', {href: '/app/grammar/lessons', class: 'grammar-book-back'}, '← ' + t.back),
+  }, back(),
     h('span', {class: 'grammar-book-code'}, meta.code + ' · ' + meta.lessons),
     h('h1', {class: 'grammar-book-detail-title'}, meta.title),
     h('p', {class: 'grammar-book-detail-summary'}, meta.summary),
