@@ -109,6 +109,7 @@ test('details retry re-requests only the details source; the list is untouched',
   let detailCalls = 0;
   setHandler((p) => {
     if (p === '/api/assignments') return okList([assignment()]);
+    if (p === '/api/study-plan/monthly/sequence') return apiError(503, 'plan_unavailable');
     detailCalls += 1;
     return detailCalls === 1 ? apiError(500, 'request_failed') : json(200, detailsDTO([detail(A1)]));
   });
