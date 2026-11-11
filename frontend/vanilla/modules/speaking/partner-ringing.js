@@ -60,7 +60,7 @@ export function shellPartnerRinging({dict,session,signal,navigate}){
   if(!next)return;
   incoming=next;sound.sync(next.id);
   const button=(label,accept)=>{
-   const control=el('button',{class:accept?'btn-primary':'btn-secondary',type:'button'},label);
+   const control=el('button',{class:accept?'btn-primary':'btn-secondary',type:'button','aria-label':label,title:label},accept?'📞':'📵');
    control.addEventListener('click',async()=>{
     if(busy||!enabled()||incoming?.id!==next.id)return;
     busy=true;
