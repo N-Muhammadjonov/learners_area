@@ -4,6 +4,8 @@ from .main import app, secure_transport, j
 from .browser import router as browser_router
 from .study_plan_port import router as study_plan_router
 from .study_plan_month_port import router as study_plan_month_router
+from .study_plan_thirty_port import router as study_plan_sequence_router
+from .study_plan_level_port import router as study_plan_level_router
 from .frontend_static import StaticFrontend
 from fastapi import HTTPException
 from .seo import IndexingPolicy
@@ -15,6 +17,8 @@ browser = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 browser.include_router(browser_router)
 browser.include_router(study_plan_router)
 browser.include_router(study_plan_month_router)
+browser.include_router(study_plan_sequence_router)
+browser.include_router(study_plan_level_router)
 browser.middleware('http')(secure_transport)
 
 
