@@ -8,9 +8,13 @@ function el(tag,{onclick,...attributes}={},...children){
  return element;
 }
 
+const ISOLATION_STYLE = `
+:host{all:initial;display:block;min-height:0;min-width:0;flex:1;contain:layout style;isolation:isolate;direction:ltr;color-scheme:light;font:16px Sora,Inter,Arial,sans-serif;line-height:normal;letter-spacing:normal;text-align:start;text-transform:none}
+.la-exam-scroll{all:initial;display:block;direction:ltr;font:16px Sora,Inter,Arial,sans-serif;text-align:start}
+`;
+
 const VIEW_STYLE = `
-:host{display:block;min-height:0;min-width:0;flex:1;contain:layout;color-scheme:light}
-.la-exam-scroll{height:100%;overflow:auto;overscroll-behavior:contain;font:16px Sora,Inter,Arial,sans-serif}
+.la-exam-scroll{height:100%;overflow:auto;overscroll-behavior:contain}
 .la-exam-scroll .exam-header{top:0}
 .la-exam-scroll :is(.loading-screen,.start-screen){inset:0}
 .la-exam-scroll .exam-interface{min-height:100%}
@@ -42,13 +46,19 @@ function readWorkspace(raw){
 export function authoredCdView(data,{questions,imageUrl,notes,saveWorkspace,signal}){
  const workspace=readWorkspace(notes),flags=new Set(workspace.flags);
  const surface=el('div',{'data-listening-cd-exam':'','data-listening-attempt-mode':'full_exam'});
+ // Site-wide CSS, day/night, locale and profile styles must never change the
+ // internal interface of any Listening test (1–32). Each source keeps its own CSS.
+ // Shadow DOM blocks outside selectors; the host reset also blocks inherited typography.
  const shadow=surface.attachShadow({mode:'open'});
  const stage=el('div',{class:'la-exam-scroll'});
  const template=document.createElement('template');
  template.innerHTML=data.shell;
  positionExamBrand(template.content);
  stage.append(template.content);
- shadow.append(el('style',{},data.style.replace(/:root\b/g,':host')+VIEW_STYLE),stage);
+ // The original document's body defaults belong to this scroll surface, not the site body.
+ const sourceStyle=data.style.replace(/:root\b/g,':host')
+  .replace(/(^|})\s*html\s*,\s*body\s*\{/g,'$1\n.la-exam-scroll{');
+ shadow.append(el('style',{},ISOLATION_STYLE+sourceStyle+VIEW_STYLE),stage);
  const get=id=>shadow.getElementById(id);
  const root=get('examRoot'),paper=get('examQuestionHost'),startScreen=get('startScreen'),start=get('startTestBtn');
  const frame=get('examInterface'),nav=get('bottomNav'),noteModal=get('noteModal'),note=get('noteTextarea');
