@@ -41,23 +41,23 @@ async def create_handoff(req: Request):
 
     async with database.acquire() as conn:
         async with conn.transaction():
-            account = await conn.fetchrow(
-                """SELECT u.id, u.account_status, c.phone_verified_at,
-                          c.bot_blocked_at, c.removed_at
-                   FROM users u
-                   JOIN telegram_contacts c ON c.telegram_user_id = u.telegram_id
-                   WHERE u.telegram_id=$1""",
+            contact = await conn.fetchrow(
+                """SELECT phone_verified_at, bot_blocked_at, removed_at
+                   FROM telegram_contacts WHERE telegram_user_id=$1""",
                 actor,
             )
-            if not account:
-                return core.j({"error": "no_linked_account"}, 404)
-            if (
-                not account["phone_verified_at"]
-                or account["bot_blocked_at"]
-                or account["removed_at"]
-                or account["account_status"] not in ("active", "pending")
-            ):
+            if not contact or not contact["phone_verified_at"]:
+                return core.j({"error": "phone_required"}, 403)
+            if contact["bot_blocked_at"] or contact["removed_at"]:
                 return core.j({"error": "account_unavailable"}, 403)
+
+            account = await conn.fetchrow(
+                """SELECT id, account_status FROM users WHERE telegram_id=$1""",
+                actor,
+            )
+            if account and account["account_status"] not in ("active", "pending"):
+                return core.j({"error": "account_unavailable"}, 403)
+            purpose = "login" if account else "register"
 
             token_hash = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
             nonce = secrets.token_hex(32)
@@ -67,12 +67,12 @@ async def create_handoff(req: Request):
                 """INSERT INTO telegram_login_intents
                     (token_hash, browser_nonce_hash, telegram_user_id,
                      purpose, status, expires_at, confirmed_at)
-                   VALUES ($1, $2, $3, 'login', 'confirmed', $4, NOW())
+                   VALUES ($1, $2, $3, $4, 'confirmed', $5, NOW())
                    RETURNING id""",
-                token_hash, nonce_hash, actor, expires_at,
+                token_hash, nonce_hash, actor, purpose, expires_at,
             )
 
-    return core.j({"ok": True, "intentId": str(intent_id), "browserNonce": nonce})
+    return core.j({"ok": True, "intentId": str(intent_id), "browserNonce": nonce, "purpose": purpose})
 
 
 def install() -> None:
