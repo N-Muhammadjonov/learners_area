@@ -1,12 +1,12 @@
-from aiogram.fsm.context import FSMContext
-from handlers.admission import begin_apply
+import re
+from urllib.parse import urlsplit
+
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-import re
-from urllib.parse import urlsplit
+from handlers.admission import begin_apply
 
 from config import config
 from copy_format import admission_text
