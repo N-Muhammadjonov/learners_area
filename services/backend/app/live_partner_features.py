@@ -232,11 +232,19 @@ async def history(con, uid):
     stats = await con.fetchrow('''SELECT count(*) AS calls,
       coalesce(sum(extract(epoch FROM ended_at-connected_at)),0)::bigint AS seconds
       FROM live_partner_sessions WHERE (user_a=$1 OR user_b=$1) AND connected_at IS NOT NULL AND ended_at IS NOT NULL''', uid)
+    mock_stats = await con.fetchrow('''SELECT
+      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'=$1::text) AS mocks_given,
+      count(*) FILTER (WHERE a.last_mock IS NOT NULL AND a.last_mock->>'owner'<>$1::text) AS mocks_taken
+      FROM live_partner_sessions s JOIN live_partner_activities a ON a.session_id=s.id
+      WHERE (s.user_a=$1 OR s.user_b=$1) AND s.connected_at IS NOT NULL
+        AND s.ended_at IS NOT NULL''', uid)
     recent = await con.fetch('''SELECT s.id,u.id AS peer,u.name,s.ended_at,
       extract(epoch FROM s.ended_at-s.connected_at)::int AS seconds,
       EXISTS(SELECT 1 FROM live_partner_feedback f WHERE f.session_id=s.id AND f.user_id=$1 AND f.kind='rating') AS rated,
       EXISTS(SELECT 1 FROM live_partner_feedback f WHERE f.session_id=s.id AND f.user_id=$1 AND f.kind='report') AS reported,
-      a.last_mock AS mock
+      a.last_mock AS mock,
+      (SELECT f.rating FROM live_partner_feedback f WHERE f.session_id=s.id
+         AND f.kind='rating' AND f.user_id=u.id) AS peer_rating
       FROM live_partner_sessions s JOIN users u ON u.id=CASE WHEN s.user_a=$1 THEN s.user_b ELSE s.user_a END
       LEFT JOIN live_partner_activities a ON a.session_id=s.id
       WHERE (s.user_a=$1 OR s.user_b=$1) AND s.connected_at IS NOT NULL AND s.ended_at IS NOT NULL
@@ -247,10 +255,12 @@ async def history(con, uid):
         AND NOT EXISTS(SELECT 1 FROM live_partner_blocks b WHERE
           (b.blocker_id=$1 AND b.blocked_id=u.id) OR (b.blocker_id=u.id AND b.blocked_id=$1))
       ORDER BY u.name,u.id LIMIT 100''', uid)
-    return {'stats':dict(stats), 'recent':[
+    return {'stats':{**dict(stats),'mocksGiven':int(mock_stats['mocks_given']),
+            'mocksTaken':int(mock_stats['mocks_taken'])}, 'recent':[
         {'sessionId':str(row['id']), 'userId':str(row['peer']), 'name':row['name'],
          'endedAt':iso(row['ended_at']), 'seconds':row['seconds'], 'rated':row['rated'],
-         'reported':row['reported'], 'mock':activity_content({'content':row['mock']}) if row['mock'] else None} for row in recent],
+         'reported':row['reported'], 'peerRating':row['peer_rating'],
+          'mock':activity_content({'content':row['mock']}) if row['mock'] else None} for row in recent],
         'friends':[{'userId':str(row['id']), 'name':row['name'], 'state':
             'accepted' if row['accepted_at'] else 'sent' if str(row['requested_by']) == uid else 'received'}
             for row in friends]}
