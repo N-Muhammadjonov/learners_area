@@ -19,11 +19,20 @@ export function mount(context){
  async function load(){
   if(busy||signal.aborted)return;busy=true;host.replaceChildren(el('p',{role:'status'},dict.common.loading));
   try{
-   const data=programDTO(await viewData(url.pathname+url.search,signal));if(signal.aborted)return;
+   const firstUrl=new URL(url);firstUrl.searchParams.delete('page');
+   const data=programDTO(await viewData(firstUrl.pathname+firstUrl.search,signal));if(signal.aborted)return;
+   const allDays=[...data.days];let current=data;
+   while(current.hasNextPage){
+    const nextUrl=new URL(firstUrl);nextUrl.searchParams.set('page',String(current.page+1));
+    const next=programDTO(await viewData(nextUrl.pathname+nextUrl.search,signal));if(signal.aborted)return;
+    if(next.page!==current.page+1||!next.days.length||allDays.length+next.days.length>data.visibleDays)throw Error('invalid_mcq_pagination');
+    allDays.push(...next.days);current=next;
+   }
+   if(new Set(allDays.map(day=>day.day)).size!==allDays.length)throw Error('invalid_mcq_pagination');
    // Media is acquired when a learner opens the selected day, not for every card.
    const p=data.progress;
    const heading=el('header',{},BackLink({fallbackHref:'/app/listening',label:dict.listening.practiceTitle}),el('p',{class:'body-text'},t.subtitle),el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-published':p.daysPublished},t.daysPublished.replace('{published}',String(p.daysPublished))),p.daysPublished?el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-completed':p.daysCompleted},t.daysCompleted.replace('{done}',String(p.daysCompleted)).replace('{available}',String(p.daysPublished))):null);
-   const cards=render({...data,dict,user:context.session.user,context});
+   const cards=render({...data,days:allDays,dict,user:context.session.user,context});
    host.replaceChildren(heading,cards);
   }catch{if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'listening-mcq',message:dict.common.error,retryLabel:dict.common.retry,refresh:load}));}
   finally{busy=false;}

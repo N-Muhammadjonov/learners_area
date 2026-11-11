@@ -2,7 +2,7 @@
 .reading-articles-empty{padding:3rem 1rem;text-align:center;color:rgb(var(--ink-500))}
 .reading-article-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;max-width:1320px;margin-inline:auto}
 .reading-article-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid rgb(var(--ink-200));border-radius:1rem;background:rgb(var(--paper));min-width:0}
-.reading-article-image{width:100%;height:clamp(80px,calc((100dvh - 610px)/2),150px);object-fit:cover;background:rgb(var(--ink-100))}
+.reading-article-image{width:100%;height:clamp(135px,calc((100dvh - 650px)/2),185px);object-fit:cover;background:rgb(var(--ink-100))}
 .reading-article-placeholder{display:grid;place-items:center;font-size:3rem;color:rgb(var(--ink-500))}
 .reading-article-card-body{display:flex;flex:1;flex-direction:column;gap:.4rem;padding:.7rem .85rem}
 .reading-article-tags{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center}

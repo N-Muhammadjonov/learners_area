@@ -22,6 +22,9 @@ test('31 distinct article cards omit reading duration and use the protected work
  assert.equal(context.root.querySelectorAll('[data-reading-article]').length,31);
  assert.equal(new Set(articles.map(x=>x.id)).size,31);
  assert.equal(articles.filter(x=>x.id==='artificial-intelligence').length,1);
+ const images=[...context.root.querySelectorAll('.reading-article-image')];
+ assert.equal(images.filter(image=>image.getAttribute('loading')==='eager').length,articles.length);
+ for(const [index,image] of images.entries())if(articles[index].image.endsWith('.jpg'))assert.match(image.getAttribute('src'),/\.thumb\.webp$/);
  assert.doesNotMatch(context.root.textContent,/min read|daqiqalik/);
  assert.equal(routes.find(route=>route.pattern==='/app/reading/articles/:articleId').layout,'focus');
  assert.deepEqual(returnPolicy(new URL('https://example.test/app/reading/articles/plastic-bags')),{mode:'back',href:'/app/reading/articles'});
@@ -29,7 +32,7 @@ test('31 distinct article cards omit reading duration and use the protected work
 test('article grid has three compact columns on desktop and one on mobile',async()=>{
  const css=await readFile(new URL('../modules/reading/articles.css',import.meta.url),'utf8');
  assert.match(css,/grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
- assert.match(css,/height:clamp\(80px,calc\(\(100dvh - 610px\)\/2\),150px\)/);
+ assert.match(css,/height:clamp\(135px,calc\(\(100dvh - 650px\)\/2\),185px\)/);
  assert.match(css,/@media\(max-width:600px\).*grid-template-columns:minmax\(0,1fr\)/);
 });
 test('empty catalogue remains explicit',()=>{articles.length=0;const context=setup();mountArticles(context);assert.match(context.root.textContent,/when they are published/);});
