@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {privateScope} from '../../js/private-scope.js';
 import {asyncRegion, button, card, detail, formatDay, heading, labelSkill, loadStyles, request, text, workspace} from './view.js';
 
 function practiceLabel(ms) {
@@ -31,16 +32,17 @@ function coinPolicyPanel(ctx, policy) {
 
 function leaderboard(ctx, content) {
   let period = 'week', scope = 'all', page = 1, panel = 'ranking', sequence = 0, latest = null;
-  const cache = new Map();
   const cacheTtlMs = 30000;
-  const queryKey = () => [period, scope, page].join(':');
+  const queryKey = () => 'view:leaderboard:' + [period, scope, page].join(':');
   async function retrieve() {
     const key = queryKey();
-    const previous = cache.get(key);
-    if (previous && Date.now() - previous.at < cacheTtlMs) return previous.data;
+    const previous = privateScope.get(key);
+    if (previous) return structuredClone(previous);
+    const identity = privateScope.scope;
+    const revision = privateScope.revision;
     const data = await request(ctx, '/leaderboard?' + new URLSearchParams({period, scope, page}));
-    cache.set(key, {at: Date.now(), data});
-    while (cache.size > 6) cache.delete(cache.keys().next().value);
+    if (identity && identity === privateScope.scope && revision === privateScope.revision)
+      privateScope.put(key, structuredClone(data), {ttl: cacheTtlMs});
     return data;
   }
   async function load({background = false} = {}) {
@@ -95,7 +97,7 @@ function leaderboard(ctx, content) {
       control.disabled = true;
       try {
         await request(ctx, '/leaderboard/participation', {method: 'PUT', body: {enabled: !data.alias}});
-        cache.clear();
+        privateScope.invalidate('view:leaderboard:');
         if (!ctx.signal.aborted) void load({background: true});
       } catch (error) {
         if (!ctx.signal.aborted) notice.textContent = error.status === 409 ?
