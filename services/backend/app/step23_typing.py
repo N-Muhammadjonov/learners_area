@@ -104,7 +104,7 @@ async def start(req:Request):
     except TokenProblem:p=None
     if not p or not isinstance(p.get('tt'),str) or type(p.get('ps')) is not int or p['ps'] not in PRESETS:
         return core.j({'error':{'code':'invalid_token','message':'This typing preparation expired.'}},403)
-    preset=p['ps'];lifetime=86400000 if preset==0 else preset*1000+60000
+    preset=p['ps'];lifetime=86400000 if preset==0 else preset*1000+720000
     run=sign({'tt':p['tt'],'ps':preset,'st':at,'pm':0,'pc':0},RUN,u['id'],at,lifetime,str(uuid.uuid4()))
     return core.j({'ok':True,'runToken':run,'startedAt':at},headers=HEAD)
 
@@ -117,20 +117,20 @@ async def toggle(req,action):
     at=int(time.time()*1000)
     try:p=verify(b['runToken'],RUN,u['id'],at)
     except TokenProblem:p=None
-    if not p or not isinstance(p.get('tt'),str) or type(p.get('st')) not in (int,float) or not isinstance(p.get('jti'),str) or p.get('ps')!=0:
+    if not p or not isinstance(p.get('tt'),str) or type(p.get('st')) not in (int,float) or not isinstance(p.get('jti'),str) or type(p.get('ps')) is not int or p['ps'] not in PRESETS:
         return core.j({'error':('pause_not_allowed' if action=='pause' else 'resume_not_allowed')},409)
     pause_ms=p.get('pm',0) if type(p.get('pm',0)) in (float,int) and p.get('pm',0)>=0 else 0
     paused_at=p.get('pa') if type(p.get('pa')) in (float,int) and p['pa']>=p['st'] else None
     pause_count=p.get('pc',0) if type(p.get('pc',0)) in (float,int) and p.get('pc',0)>=0 else 0
     if action=='pause':
         if paused_at is not None:return core.j({'runToken':b['runToken'],'paused':True,'pausedMs':pause_ms},headers=HEAD)
-        if pause_count>=5:return core.j({'error':'pause_not_allowed'},409)
-        claims={'tt':p['tt'],'ps':0,'st':p['st'],'pm':pause_ms,'pa':at,'pc':pause_count+1}
+        if pause_count>=100:return core.j({'error':'pause_not_allowed'},409)
+        claims={'tt':p['tt'],'ps':p['ps'],'st':p['st'],'pm':pause_ms,'pa':at,'pc':pause_count+1}
         paused=True
     else:
         if paused_at is None:return core.j({'runToken':b['runToken'],'paused':False,'pausedMs':pause_ms},headers=HEAD)
         pause_ms+=min(max(0,at-paused_at),180000,max(0,600000-pause_ms))
-        claims={'tt':p['tt'],'ps':0,'st':p['st'],'pm':pause_ms,'pc':pause_count}
+        claims={'tt':p['tt'],'ps':p['ps'],'st':p['st'],'pm':pause_ms,'pc':pause_count}
         paused=False
     return core.j({'runToken':sign(claims,RUN,u['id'],at,86400000,p['jti']),'paused':paused,'pausedMs':pause_ms},headers=HEAD)
 
@@ -245,7 +245,6 @@ async def finish_run(user_id,b,db):
     if not p or not isinstance(p.get('tt'),str) or type(p.get('st')) not in (int,float) or not isinstance(p.get('jti'),str) or type(p.get('ps'))!=int or p['ps'] not in PRESETS:return None,'invalid_token'
     preset=p['ps'];paused_ms=p.get('pm',0) if type(p.get('pm',0)) in (int,float) and p.get('pm',0)>=0 else 0
     paused_at=p.get('pa') if type(p.get('pa')) in (int,float) and p['pa']>=p['st'] else None
-    if preset!=0 and (paused_ms or paused_at is not None):return None,'invalid_token'
     if paused_at is not None:return None,'paused'
     async with db.acquire() as con:text=await typing_text(con,p['tt'])
     if text is None:return None,'not_found'
