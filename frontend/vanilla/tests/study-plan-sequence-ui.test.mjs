@@ -143,7 +143,9 @@ test('dashboard card links to the Assignments plan and uses server completion',a
 test('plan failure is retryable without destroying the surrounding assignments',async()=>{
   let count=0;
   api.request=async()=>{count++;if(count===1)throw Error('network');return activePlan();};
-  host.append(document.createElement('section')).textContent='Teacher assignments remain visible';
+  const existing=document.createElement('section');
+  existing.textContent='Teacher assignments remain visible';
+  host.append(existing);
   mountSequenceAssignments(context(),host);
   await flush();
   assert.match(host.textContent,/Teacher assignments remain visible/);
