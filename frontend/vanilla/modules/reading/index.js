@@ -51,6 +51,7 @@ export async function mount(context){
    return;
   }
   if(/^\/app\/reading\/retention\/results\/[^/]+$/.test(path))return (await import('./retention.js')).mountRetentionResult(ctx);
+ if(path==='/app/reading/retention/session')return (await import('./retention.js')).mountRetentionSession(ctx);
  if(path==='/app/reading/retention')return (await import('./retention.js')).mountRetention(ctx);
  if(path==='/app/reading/general')return (await import('./general.js')).mountGeneral(ctx);
   if(/^\/app\/reading\/general\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./general-session.js')).mountGeneralSession(focusContext(ctx));}
