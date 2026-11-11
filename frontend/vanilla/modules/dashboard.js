@@ -33,7 +33,7 @@ export async function mount(context){
  }
  // Start roadmap beside both siblings, not behind their response/render work.
  const keys=overview?['openLessons','dashboard','mock']:['mock'];for(const key of keys)void load(key);
- if(overview && context.session.user.role==='student'){
+ if(overview && ['student','owner'].includes(context.session.user.role)){
   const hero=host.querySelector('.la-dashboard-hero');
   const heading=hero?.querySelector('h1');
   if(heading){
