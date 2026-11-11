@@ -1,0 +1,8038 @@
+{
+  "version": 1,
+  "units": [
+    {
+      "id": "a0-1",
+      "source": "legacy",
+      "level": "A0",
+      "title": "Gap skeleti · so'z turkumlari",
+      "href": "/app/grammar/lessons?book=a0-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-2",
+      "source": "legacy",
+      "level": "A0",
+      "title": "verb to be · possessive adjectives",
+      "href": "/app/grammar/lessons?book=a0-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-3",
+      "source": "legacy",
+      "level": "A0",
+      "title": "plural nouns · a / an · the",
+      "href": "/app/grammar/lessons?book=a0-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-4",
+      "source": "legacy",
+      "level": "A0",
+      "title": "this / that / these / those · there is / there are",
+      "href": "/app/grammar/lessons?book=a0-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-5",
+      "source": "legacy",
+      "level": "A0",
+      "title": "have / has · don't / doesn't",
+      "href": "/app/grammar/lessons?book=a0-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-6",
+      "source": "legacy",
+      "level": "A0",
+      "title": "question words",
+      "href": "/app/grammar/lessons?book=a0-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-7",
+      "source": "legacy",
+      "level": "A0",
+      "title": "and / but / or · capital letters and punctuation",
+      "href": "/app/grammar/lessons?book=a0-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a0-8",
+      "source": "legacy",
+      "level": "A0",
+      "title": "in / on / at",
+      "href": "/app/grammar/lessons?book=a0-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-1",
+      "source": "legacy",
+      "level": "A1",
+      "title": "Present simple · adverbs of frequency",
+      "href": "/app/grammar/lessons?book=a1-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-2",
+      "source": "legacy",
+      "level": "A1",
+      "title": "Present continuous · present simple vs continuous",
+      "href": "/app/grammar/lessons?book=a1-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-3",
+      "source": "legacy",
+      "level": "A1",
+      "title": "Past simple · was / were",
+      "href": "/app/grammar/lessons?book=a1-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-4",
+      "source": "legacy",
+      "level": "A1",
+      "title": "will · be going to · can / can't",
+      "href": "/app/grammar/lessons?book=a1-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-5",
+      "source": "legacy",
+      "level": "A1",
+      "title": "have got · imperative · would like · Let's / Shall we",
+      "href": "/app/grammar/lessons?book=a1-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-6",
+      "source": "legacy",
+      "level": "A1",
+      "title": "countable / uncountable · some / any · much / many / a lot of",
+      "href": "/app/grammar/lessons?book=a1-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-7",
+      "source": "legacy",
+      "level": "A1",
+      "title": "adjectives · comparatives · superlatives",
+      "href": "/app/grammar/lessons?book=a1-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-8",
+      "source": "legacy",
+      "level": "A1",
+      "title": "object pronouns · possessive 's · wh- and subject questions",
+      "href": "/app/grammar/lessons?book=a1-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-9",
+      "source": "legacy",
+      "level": "A1",
+      "title": "place and time adverbs · prepositions of movement · time, dates, numbers",
+      "href": "/app/grammar/lessons?book=a1-9",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a1-10",
+      "source": "legacy",
+      "level": "A1",
+      "title": "like / love / hate + -ing · because / so",
+      "href": "/app/grammar/lessons?book=a1-10",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-1",
+      "source": "legacy",
+      "level": "A2",
+      "title": "Present perfect: experience · for / since · already / yet / just / ever / never",
+      "href": "/app/grammar/lessons?book=a2-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-2",
+      "source": "legacy",
+      "level": "A2",
+      "title": "Present perfect vs past simple",
+      "href": "/app/grammar/lessons?book=a2-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-3",
+      "source": "legacy",
+      "level": "A2",
+      "title": "Past continuous · past simple vs past continuous",
+      "href": "/app/grammar/lessons?book=a2-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-4",
+      "source": "legacy",
+      "level": "A2",
+      "title": "Future arrangements · future time clauses · time prepositions",
+      "href": "/app/grammar/lessons?book=a2-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-5",
+      "source": "legacy",
+      "level": "A2",
+      "title": "must · have to · had to · should",
+      "href": "/app/grammar/lessons?book=a2-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-6",
+      "source": "legacy",
+      "level": "A2",
+      "title": "Can / could / may / would · may / might / could · could vs was able to",
+      "href": "/app/grammar/lessons?book=a2-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-7",
+      "source": "legacy",
+      "level": "A2",
+      "title": "used to · be used to / get used to",
+      "href": "/app/grammar/lessons?book=a2-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-8",
+      "source": "legacy",
+      "level": "A2",
+      "title": "gerund vs to-infinitive · preposition + -ing",
+      "href": "/app/grammar/lessons?book=a2-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-9",
+      "source": "legacy",
+      "level": "A2",
+      "title": "conditionals: zero, first, second",
+      "href": "/app/grammar/lessons?book=a2-9",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-10",
+      "source": "legacy",
+      "level": "A2",
+      "title": "relative clauses: who / which / that / whose / where",
+      "href": "/app/grammar/lessons?book=a2-10",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-11",
+      "source": "legacy",
+      "level": "A2",
+      "title": "too / enough · so / such · comparative modifiers · as … as",
+      "href": "/app/grammar/lessons?book=a2-11",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-12",
+      "source": "legacy",
+      "level": "A2",
+      "title": "reflexive pronouns · each / every / all / both · either / neither",
+      "href": "/app/grammar/lessons?book=a2-12",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "a2-13",
+      "source": "legacy",
+      "level": "A2",
+      "title": "question tags · indirect questions · articles with geography",
+      "href": "/app/grammar/lessons?book=a2-13",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-1",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Present perfect continuous · present perfect simple vs continuous",
+      "href": "/app/grammar/lessons?book=b1-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-2",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Past perfect · past perfect continuous",
+      "href": "/app/grammar/lessons?book=b1-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-3",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Future continuous · future perfect · future in the past",
+      "href": "/app/grammar/lessons?book=b1-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-4",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Passive: present, past, all aspects, modal passive",
+      "href": "/app/grammar/lessons?book=b1-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-5",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Agent: by / with · get passive",
+      "href": "/app/grammar/lessons?book=b1-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-6",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Reported speech: statements, questions, commands",
+      "href": "/app/grammar/lessons?book=b1-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-7",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Reporting verbs: suggest, admit, advise, promise …",
+      "href": "/app/grammar/lessons?book=b1-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-8",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Third and mixed conditionals · unless / as long as / provided that",
+      "href": "/app/grammar/lessons?book=b1-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-9",
+      "source": "legacy",
+      "level": "B1",
+      "title": "wish · if only",
+      "href": "/app/grammar/lessons?book=b1-9",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-10",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Non-defining relative clauses · where / when / whose · prepositions in relatives",
+      "href": "/app/grammar/lessons?book=b1-10",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-11",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Noun clauses: that / if / whether · adverbial clauses of time and reason",
+      "href": "/app/grammar/lessons?book=b1-11",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-12",
+      "source": "legacy",
+      "level": "B1",
+      "title": "although · even though · whereas · despite · purpose and result clauses",
+      "href": "/app/grammar/lessons?book=b1-12",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-13",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Causative have / get · verb + object + infinitive / -ing · perception verbs",
+      "href": "/app/grammar/lessons?book=b1-13",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-14",
+      "source": "legacy",
+      "level": "B1",
+      "title": "-ing idioms · agreement · quantifiers",
+      "href": "/app/grammar/lessons?book=b1-14",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b1-15",
+      "source": "legacy",
+      "level": "B1",
+      "title": "Phrasal verbs · verb–preposition patterns · adjective + to / that",
+      "href": "/app/grammar/lessons?book=b1-15",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-1",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Perfect simple vs continuous · stative verbs",
+      "href": "/app/grammar/lessons?book=b2-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-2",
+      "source": "legacy",
+      "level": "B2",
+      "title": "would for past habits · be to / due to / about to · future probability",
+      "href": "/app/grammar/lessons?book=b2-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-3",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Modal deduction · must have / can't have / should have",
+      "href": "/app/grammar/lessons?book=b2-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-4",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Passive with two objects · reporting passive · have / get done",
+      "href": "/app/grammar/lessons?book=b2-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-5",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Verb + -ing / to + V · changing meaning",
+      "href": "/app/grammar/lessons?book=b2-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-6",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Participial adjectives · reduced relatives · participle clauses",
+      "href": "/app/grammar/lessons?book=b2-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-7",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Concession · as if / as though · suppose / what if",
+      "href": "/app/grammar/lessons?book=b2-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-8",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Adverb position · degree and gradability",
+      "href": "/app/grammar/lessons?book=b2-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-9",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Determiners · generic articles · mass / count shifts",
+      "href": "/app/grammar/lessons?book=b2-9",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-10",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Academic nominalisation · parallelism · correlatives",
+      "href": "/app/grammar/lessons?book=b2-10",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-11",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Agreement · negation scope",
+      "href": "/app/grammar/lessons?book=b2-11",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-12",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Discourse reference · substitution",
+      "href": "/app/grammar/lessons?book=b2-12",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "b2-13",
+      "source": "legacy",
+      "level": "B2",
+      "title": "Punctuation · commas, semicolons, dashes, apostrophes",
+      "href": "/app/grammar/lessons?book=b2-13",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-1",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Negative and conditional inversion",
+      "href": "/app/grammar/lessons?book=c1-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-2",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Clefts · fronting · emphatic do",
+      "href": "/app/grammar/lessons?book=c1-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-3",
+      "source": "legacy",
+      "level": "C1",
+      "title": "So / neither inversion · question tags · short answers",
+      "href": "/app/grammar/lessons?book=c1-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-4",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Subjunctive · would rather / it's time · as if + perfect",
+      "href": "/app/grammar/lessons?book=c1-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-5",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Participle and absolute clauses",
+      "href": "/app/grammar/lessons?book=c1-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-6",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Ellipsis and substitution",
+      "href": "/app/grammar/lessons?book=c1-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-7",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Concession · advanced comparison",
+      "href": "/app/grammar/lessons?book=c1-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-8",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Hedging · attribution · reporting stance",
+      "href": "/app/grammar/lessons?book=c1-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-9",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Complement clauses · extraposition",
+      "href": "/app/grammar/lessons?book=c1-9",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-10",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Existential there · not until · information flow",
+      "href": "/app/grammar/lessons?book=c1-10",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c1-11",
+      "source": "legacy",
+      "level": "C1",
+      "title": "Parentheticals and comma control",
+      "href": "/app/grammar/lessons?book=c1-11",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-1",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Modality · deontic / epistemic / remoteness · counterfactual layering",
+      "href": "/app/grammar/lessons?book=c2-1",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-2",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Pragmatic softeners · backshifting for distance",
+      "href": "/app/grammar/lessons?book=c2-2",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-3",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Focus particles · quantifier scope · anaphora",
+      "href": "/app/grammar/lessons?book=c2-3",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-4",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Ellipsis in turns · dislocation · tail questions",
+      "href": "/app/grammar/lessons?book=c2-4",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-5",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Discourse markers · phrasal-verb register",
+      "href": "/app/grammar/lessons?book=c2-5",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-6",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Colligation · determiner precision · articles",
+      "href": "/app/grammar/lessons?book=c2-6",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-7",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Aspect and telicity · voice choice",
+      "href": "/app/grammar/lessons?book=c2-7",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-8",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Dense noun phrases · end-weight · apposition",
+      "href": "/app/grammar/lessons?book=c2-8",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-9",
+      "source": "legacy",
+      "level": "C2",
+      "title": "Rhetorical questions · metadiscourse",
+      "href": "/app/grammar/lessons?book=c2-9",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "c2-10",
+      "source": "legacy",
+      "level": "C2",
+      "title": "BrE / AmE · punctuation nuance · spoken rhythm",
+      "href": "/app/grammar/lessons?book=c2-10",
+      "weights": [
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          10,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          8,
+          8,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-01",
+      "source": "speaking",
+      "level": "B1",
+      "title": "The best thing about... is...",
+      "href": "/app/grammar?tab=speaking&book=spk-01",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-02",
+      "source": "speaking",
+      "level": "B1",
+      "title": "One of the reasons why... is that...",
+      "href": "/app/grammar?tab=speaking&book=spk-02",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-03",
+      "source": "speaking",
+      "level": "B1",
+      "title": "Compared to..., ... is...",
+      "href": "/app/grammar?tab=speaking&book=spk-03",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-04",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I'm really into... because...",
+      "href": "/app/grammar?tab=speaking&book=spk-04",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-05",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I find it interesting to...",
+      "href": "/app/grammar?tab=speaking&book=spk-05",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-06",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I can't imagine my life without...",
+      "href": "/app/grammar?tab=speaking&book=spk-06",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-07",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I’m not really a fan of..., but...",
+      "href": "/app/grammar?tab=speaking&book=spk-07",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-08",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I’ve always been fascinated by...",
+      "href": "/app/grammar?tab=speaking&book=spk-08",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-09",
+      "source": "speaking",
+      "level": "B1",
+      "title": "There’s nothing better than...",
+      "href": "/app/grammar?tab=speaking&book=spk-09",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-10",
+      "source": "speaking",
+      "level": "B1",
+      "title": "... is something I do on a regular basis",
+      "href": "/app/grammar?tab=speaking&book=spk-10",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-11",
+      "source": "speaking",
+      "level": "B1",
+      "title": "One thing I appreciate about... is..",
+      "href": "/app/grammar?tab=speaking&book=spk-11",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-12",
+      "source": "speaking",
+      "level": "B1",
+      "title": "Without a doubt, ... is my favorite.",
+      "href": "/app/grammar?tab=speaking&book=spk-12",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-13",
+      "source": "speaking",
+      "level": "B1",
+      "title": "Not only do I [verb], but I also [verb]. (Inversion for emphasis)",
+      "href": "/app/grammar?tab=speaking&book=spk-13",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-14",
+      "source": "speaking",
+      "level": "B1",
+      "title": "The more I [verb], the more I [verb]. (Comparative structure)",
+      "href": "/app/grammar?tab=speaking&book=spk-14",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-15",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I’m looking forward to",
+      "href": "/app/grammar?tab=speaking&book=spk-15",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-16",
+      "source": "speaking",
+      "level": "B1",
+      "title": "[Verb+ing] is a great way to [verb]. (Gerund as subject)",
+      "href": "/app/grammar?tab=speaking&book=spk-16",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-17",
+      "source": "speaking",
+      "level": "B1",
+      "title": "It’s worth [verb+ing]",
+      "href": "/app/grammar?tab=speaking&book=spk-17",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-18",
+      "source": "speaking",
+      "level": "B2",
+      "title": "What I tend to do is (verb)..",
+      "href": "/app/grammar?tab=speaking&book=spk-18",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-19",
+      "source": "speaking",
+      "level": "B2",
+      "title": "Hardly ever do I (verb)...",
+      "href": "/app/grammar?tab=speaking&book=spk-19",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-20",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I make it a point to (verb)...",
+      "href": "/app/grammar?tab=speaking&book=spk-20",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-21",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I wish I could (verb)...",
+      "href": "/app/grammar?tab=speaking&book=spk-21",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-22",
+      "source": "speaking",
+      "level": "B2",
+      "title": "There’s no point in (verb+ing)...",
+      "href": "/app/grammar?tab=speaking&book=spk-22",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-23",
+      "source": "speaking",
+      "level": "B2",
+      "title": "Not until (time/clause) did I realize...",
+      "href": "/app/grammar?tab=speaking&book=spk-23",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-24",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I couldn’t help but (verb)..",
+      "href": "/app/grammar?tab=speaking&book=spk-24",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-25",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I’d rather (verb) than (verb)...",
+      "href": "/app/grammar?tab=speaking&book=spk-25",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-26",
+      "source": "speaking",
+      "level": "B2",
+      "title": "It’s high time (subject + past verb)...",
+      "href": "/app/grammar?tab=speaking&book=spk-26",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-27",
+      "source": "speaking",
+      "level": "B2",
+      "title": "It goes without saying that...",
+      "href": "/app/grammar?tab=speaking&book=spk-27",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-28",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I’m used to (verb+ing)...",
+      "href": "/app/grammar?tab=speaking&book=spk-28",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-29",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I’d be lying if I said (clause)...",
+      "href": "/app/grammar?tab=speaking&book=spk-29",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-30",
+      "source": "speaking",
+      "level": "B2",
+      "title": "What sets (someone/something) apart is...",
+      "href": "/app/grammar?tab=speaking&book=spk-30",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-31",
+      "source": "speaking",
+      "level": "B2",
+      "title": "If anything, ...",
+      "href": "/app/grammar?tab=speaking&book=spk-31",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-32",
+      "source": "speaking",
+      "level": "B2",
+      "title": "It never ceases to amaze me how...",
+      "href": "/app/grammar?tab=speaking&book=spk-32",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-33",
+      "source": "speaking",
+      "level": "B2",
+      "title": "So (adj) was it that...",
+      "href": "/app/grammar?tab=speaking&book=spk-33",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-34",
+      "source": "speaking",
+      "level": "B2",
+      "title": "However + adjective/adverb + subject + verb (However hard I try...)",
+      "href": "/app/grammar?tab=speaking&book=spk-34",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-35",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Little did + subject + verb",
+      "href": "/app/grammar?tab=speaking&book=spk-35",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-36",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Never before + auxiliary + subject + verb",
+      "href": "/app/grammar?tab=speaking&book=spk-36",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-37",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Much as + subject + verb",
+      "href": "/app/grammar?tab=speaking&book=spk-37",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-38",
+      "source": "speaking",
+      "level": "C1",
+      "title": "For all + noun (For all his efforts, he failed)",
+      "href": "/app/grammar?tab=speaking&book=spk-38",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-39",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Were it not for + noun (Were it not for technology...)",
+      "href": "/app/grammar?tab=speaking&book=spk-39",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-40",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Provided that / Providing + clause",
+      "href": "/app/grammar?tab=speaking&book=spk-40",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-41",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Not the least of which + verb",
+      "href": "/app/grammar?tab=speaking&book=spk-41",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-42",
+      "source": "speaking",
+      "level": "C1",
+      "title": "With a view to + gerund",
+      "href": "/app/grammar?tab=speaking&book=spk-42",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-43",
+      "source": "speaking",
+      "level": "C1",
+      "title": "For the sake of + noun/gerund",
+      "href": "/app/grammar?tab=speaking&book=spk-43",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-44",
+      "source": "speaking",
+      "level": "C1",
+      "title": "In no way can this be justified.",
+      "href": "/app/grammar?tab=speaking&book=spk-44",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-45",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Given that ..., S + V",
+      "href": "/app/grammar?tab=speaking&book=spk-45",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-46",
+      "source": "speaking",
+      "level": "C1",
+      "title": "This stems from the fact that..",
+      "href": "/app/grammar?tab=speaking&book=spk-46",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-47",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Taking X into account, …",
+      "href": "/app/grammar?tab=speaking&book=spk-47",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-48",
+      "source": "speaking",
+      "level": "C1",
+      "title": "What lies at the heart of this issue is…",
+      "href": "/app/grammar?tab=speaking&book=spk-48",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-49",
+      "source": "speaking",
+      "level": "C1",
+      "title": "This triggered / sparked / brought about + noun",
+      "href": "/app/grammar?tab=speaking&book=spk-49",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-50",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Albeit + adjective / clause",
+      "href": "/app/grammar?tab=speaking&book=spk-50",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-51",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Only when + clause + auxiliary + subject + verb",
+      "href": "/app/grammar?tab=speaking&book=spk-51",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-52",
+      "source": "speaking",
+      "level": "B1",
+      "title": "It depends on...",
+      "href": "/app/grammar?tab=speaking&book=spk-52",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-53",
+      "source": "speaking",
+      "level": "B1",
+      "title": "The main thing is...",
+      "href": "/app/grammar?tab=speaking&book=spk-53",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-54",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I'd say...",
+      "href": "/app/grammar?tab=speaking&book=spk-54",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-55",
+      "source": "speaking",
+      "level": "B2",
+      "title": "What I mean is...",
+      "href": "/app/grammar?tab=speaking&book=spk-55",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-56",
+      "source": "speaking",
+      "level": "B2",
+      "title": "A clear example is...",
+      "href": "/app/grammar?tab=speaking&book=spk-56",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-57",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I'm not entirely sure, but...",
+      "href": "/app/grammar?tab=speaking&book=spk-57",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-58",
+      "source": "speaking",
+      "level": "B2",
+      "title": "If I had to choose...",
+      "href": "/app/grammar?tab=speaking&book=spk-58",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-59",
+      "source": "speaking",
+      "level": "B2",
+      "title": "On the whole...",
+      "href": "/app/grammar?tab=speaking&book=spk-59",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-60",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Going back to what I said...",
+      "href": "/app/grammar?tab=speaking&book=spk-60",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-61",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I used to..., but now...",
+      "href": "/app/grammar?tab=speaking&book=spk-61",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-62",
+      "source": "speaking",
+      "level": "B2",
+      "title": "The thing about X is...",
+      "href": "/app/grammar?tab=speaking&book=spk-62",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-63",
+      "source": "speaking",
+      "level": "C1",
+      "title": "It's hard to say, but...",
+      "href": "/app/grammar?tab=speaking&book=spk-63",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-64",
+      "source": "speaking",
+      "level": "A2",
+      "title": "Let me think...  /  That's a good question.",
+      "href": "/app/grammar?tab=speaking&book=spk-64",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-65",
+      "source": "speaking",
+      "level": "B1",
+      "title": "The reason I say that is...",
+      "href": "/app/grammar?tab=speaking&book=spk-65",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-66",
+      "source": "speaking",
+      "level": "B2",
+      "title": "If I were in that situation, I'd...",
+      "href": "/app/grammar?tab=speaking&book=spk-66",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-67",
+      "source": "speaking",
+      "level": "B1",
+      "title": "It reminds me of...",
+      "href": "/app/grammar?tab=speaking&book=spk-67",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-68",
+      "source": "speaking",
+      "level": "B2",
+      "title": "As far as I'm concerned, ...",
+      "href": "/app/grammar?tab=speaking&book=spk-68",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-69",
+      "source": "speaking",
+      "level": "B2",
+      "title": "To be fair, ... / That said, ...",
+      "href": "/app/grammar?tab=speaking&book=spk-69",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-70",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I've been ... for ...  (present perfect continuous)",
+      "href": "/app/grammar?tab=speaking&book=spk-70",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-71",
+      "source": "speaking",
+      "level": "B1",
+      "title": "The first thing that comes to mind is...",
+      "href": "/app/grammar?tab=speaking&book=spk-71",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-72",
+      "source": "speaking",
+      "level": "B1",
+      "title": "I was just about to... when...",
+      "href": "/app/grammar?tab=speaking&book=spk-72",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-73",
+      "source": "speaking",
+      "level": "B2",
+      "title": "It depends on whether... or ...",
+      "href": "/app/grammar?tab=speaking&book=spk-73",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-74",
+      "source": "speaking",
+      "level": "B2",
+      "title": "What I'd like to do is...  /  What I enjoy most is...",
+      "href": "/app/grammar?tab=speaking&book=spk-74",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-75",
+      "source": "speaking",
+      "level": "C1",
+      "title": "There's a lot of talk about... / Many people claim that...",
+      "href": "/app/grammar?tab=speaking&book=spk-75",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-76",
+      "source": "speaking",
+      "level": "B2",
+      "title": "I'm in two minds about...",
+      "href": "/app/grammar?tab=speaking&book=spk-76",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "spk-77",
+      "source": "speaking",
+      "level": "C1",
+      "title": "Having said that... / All in all, ...",
+      "href": "/app/grammar?tab=speaking&book=spk-77",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          6,
+          8,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-001",
+      "source": "writing",
+      "level": "B2",
+      "title": "Savolni paraphrase qilish: kirish gapi",
+      "href": "/app/grammar?tab=writing&book=wr-001",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-002",
+      "source": "writing",
+      "level": "B2",
+      "title": "Overview: asosiy tendensiyani raqamsiz aytish",
+      "href": "/app/grammar?tab=writing&book=wr-002",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-003",
+      "source": "writing",
+      "level": "B2",
+      "title": "Trend, overview, vaqt",
+      "href": "/app/grammar?tab=writing&book=wr-003",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-004",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ko'tarilish va tushish: verb va noun shakllari",
+      "href": "/app/grammar?tab=writing&book=wr-004",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-005",
+      "source": "writing",
+      "level": "B2",
+      "title": "Cho'qqi, tubi, tekis davr: peak, bottom, plateau, fluctuate",
+      "href": "/app/grammar?tab=writing&book=wr-005",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-006",
+      "source": "writing",
+      "level": "B2",
+      "title": "Vaqt ifodalari: in, by, over, between, from ... to, during",
+      "href": "/app/grammar?tab=writing&book=wr-006",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-007",
+      "source": "writing",
+      "level": "B2",
+      "title": "Kelajak prognozi: is expected to, is projected to, will",
+      "href": "/app/grammar?tab=writing&book=wr-007",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-008",
+      "source": "writing",
+      "level": "B2",
+      "title": "Boshlang'ich va oxirgi qiymat: began at, ended at, stood at",
+      "href": "/app/grammar?tab=writing&book=wr-008",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-009",
+      "source": "writing",
+      "level": "B2",
+      "title": "Subyektni xilma-xillashtirish: the figure for, X recorded",
+      "href": "/app/grammar?tab=writing&book=wr-009",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-010",
+      "source": "writing",
+      "level": "B2",
+      "title": "Task 1 zamonlari: o'tmish, hozir, kelajak",
+      "href": "/app/grammar?tab=writing&book=wr-010",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-011",
+      "source": "writing",
+      "level": "B2",
+      "title": "Solishtirish: like with like",
+      "href": "/app/grammar?tab=writing&book=wr-011",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-012",
+      "source": "writing",
+      "level": "B2",
+      "title": "Not as...as: katta va kichik farq",
+      "href": "/app/grammar?tab=writing&book=wr-012",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-013",
+      "source": "writing",
+      "level": "B2",
+      "title": "Raqamni gapga joylash",
+      "href": "/app/grammar?tab=writing&book=wr-013",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-014",
+      "source": "writing",
+      "level": "B2",
+      "title": "Daraja ravishlari",
+      "href": "/app/grammar?tab=writing&book=wr-014",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-015",
+      "source": "writing",
+      "level": "B2",
+      "title": "Foiz va kasr",
+      "href": "/app/grammar?tab=writing&book=wr-015",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-016",
+      "source": "writing",
+      "level": "B2",
+      "title": "Multiplier: times as...as",
+      "href": "/app/grammar?tab=writing&book=wr-016",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-017",
+      "source": "writing",
+      "level": "B2",
+      "title": "O'rin va reyting",
+      "href": "/app/grammar?tab=writing&book=wr-017",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-018",
+      "source": "writing",
+      "level": "B2",
+      "title": "Qarama-qarshi bog'lovchilar",
+      "href": "/app/grammar?tab=writing&book=wr-018",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-019",
+      "source": "writing",
+      "level": "B2",
+      "title": "Superlativlar va ranglash: the highest, the second highest",
+      "href": "/app/grammar?tab=writing&book=wr-019",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-020",
+      "source": "writing",
+      "level": "B2",
+      "title": "Taxminiy raqamlar: approximately, around, just over, nearly",
+      "href": "/app/grammar?tab=writing&book=wr-020",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-021",
+      "source": "writing",
+      "level": "B2",
+      "title": "Taqqoslash iboralari: compared with, whereas, as opposed to",
+      "href": "/app/grammar?tab=writing&book=wr-021",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-022",
+      "source": "writing",
+      "level": "B2",
+      "title": "Foiz va foiz punkti: percentage points",
+      "href": "/app/grammar?tab=writing&book=wr-022",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-023",
+      "source": "writing",
+      "level": "B2",
+      "title": "So'rovnoma natijasini yozish",
+      "href": "/app/grammar?tab=writing&book=wr-023",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-024",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ikki diagrammani bog'lash: while, whereas, in contrast",
+      "href": "/app/grammar?tab=writing&book=wr-024",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-025",
+      "source": "writing",
+      "level": "B2",
+      "title": "Jadvalni yozish: ma'lumotni guruhlash",
+      "href": "/app/grammar?tab=writing&book=wr-025",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-026",
+      "source": "writing",
+      "level": "B2",
+      "title": "Xarita va jarayon",
+      "href": "/app/grammar?tab=writing&book=wr-026",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-027",
+      "source": "writing",
+      "level": "B2",
+      "title": "Xarita: joylashuv va o'zgarish iboralari",
+      "href": "/app/grammar?tab=writing&book=wr-027",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-028",
+      "source": "writing",
+      "level": "B2",
+      "title": "Jarayon: ketma-ketlik va passive",
+      "href": "/app/grammar?tab=writing&book=wr-028",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-029",
+      "source": "writing",
+      "level": "B2",
+      "title": "Tabiiy tsikl: present simple active va passive",
+      "href": "/app/grammar?tab=writing&book=wr-029",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-030",
+      "source": "writing",
+      "level": "B2",
+      "title": "Diagramma va asbob: consists of, is located, is used to",
+      "href": "/app/grammar?tab=writing&book=wr-030",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-031",
+      "source": "writing",
+      "level": "B1",
+      "title": "Uslub darajalari: rasmiy, yarim rasmiy, norasmiy",
+      "href": "/app/grammar?tab=writing&book=wr-031",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-032",
+      "source": "writing",
+      "level": "B1",
+      "title": "Maqsad jumlalari: I am writing to + V",
+      "href": "/app/grammar?tab=writing&book=wr-032",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-033",
+      "source": "writing",
+      "level": "B1",
+      "title": "Muloyim iltimos: I would be grateful if you could...",
+      "href": "/app/grammar?tab=writing&book=wr-033",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-034",
+      "source": "writing",
+      "level": "B1",
+      "title": "Taxminiy savollar: Could you tell me whether...",
+      "href": "/app/grammar?tab=writing&book=wr-034",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-035",
+      "source": "writing",
+      "level": "B1",
+      "title": "Rasmiy iltimos va shikoyat",
+      "href": "/app/grammar?tab=writing&book=wr-035",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-036",
+      "source": "writing",
+      "level": "B1",
+      "title": "Shikoyat: muammo, sana, oqibat",
+      "href": "/app/grammar?tab=writing&book=wr-036",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-037",
+      "source": "writing",
+      "level": "B1",
+      "title": "Talab va hal qilish: I expect / I would like you to",
+      "href": "/app/grammar?tab=writing&book=wr-037",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-038",
+      "source": "writing",
+      "level": "B1",
+      "title": "Ariza: tajriba va sifat ko'rsatish",
+      "href": "/app/grammar?tab=writing&book=wr-038",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-039",
+      "source": "writing",
+      "level": "B1",
+      "title": "Uzr va tushuntirish: I apologise for + -ing",
+      "href": "/app/grammar?tab=writing&book=wr-039",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-040",
+      "source": "writing",
+      "level": "B1",
+      "title": "Norasmiy xat",
+      "href": "/app/grammar?tab=writing&book=wr-040",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-041",
+      "source": "writing",
+      "level": "B1",
+      "title": "Maslahat berish: should, why don't you, if I were you",
+      "href": "/app/grammar?tab=writing&book=wr-041",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-042",
+      "source": "writing",
+      "level": "B1",
+      "title": "Taklif, qabul va rad: I'd love to, but...",
+      "href": "/app/grammar?tab=writing&book=wr-042",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-043",
+      "source": "writing",
+      "level": "B1",
+      "title": "Xabar va his-tuyg'u: I was thrilled to hear that",
+      "href": "/app/grammar?tab=writing&book=wr-043",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-044",
+      "source": "writing",
+      "level": "B1",
+      "title": "Xat bandlarini qamrab olish: bullet points",
+      "href": "/app/grammar?tab=writing&book=wr-044",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-045",
+      "source": "writing",
+      "level": "B1",
+      "title": "Xat boshlash va tugatish: salomlashish va xayrlashish",
+      "href": "/app/grammar?tab=writing&book=wr-045",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-046",
+      "source": "writing",
+      "level": "B2",
+      "title": "Kirish: mavzuni umumiy fon bilan boshlash",
+      "href": "/app/grammar?tab=writing&book=wr-046",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-047",
+      "source": "writing",
+      "level": "B2",
+      "title": "Fikr-mulohaza essesi: tezis (opinion)",
+      "href": "/app/grammar?tab=writing&book=wr-047",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-048",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ikki tomonni muhokama qilish: tezis",
+      "href": "/app/grammar?tab=writing&book=wr-048",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-049",
+      "source": "writing",
+      "level": "B2",
+      "title": "Muammo va yechim: tezis",
+      "href": "/app/grammar?tab=writing&book=wr-049",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-050",
+      "source": "writing",
+      "level": "B2",
+      "title": "Afzallik va kamchilik: outweigh",
+      "href": "/app/grammar?tab=writing&book=wr-050",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-051",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ikki qismli savol: tezis",
+      "href": "/app/grammar?tab=writing&book=wr-051",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-052",
+      "source": "writing",
+      "level": "B2",
+      "title": "Fikr, yon berish, xulosa",
+      "href": "/app/grammar?tab=writing&book=wr-052",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-053",
+      "source": "writing",
+      "level": "B2",
+      "title": "Muammo, sabab, yechim",
+      "href": "/app/grammar?tab=writing&book=wr-053",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-054",
+      "source": "writing",
+      "level": "B2",
+      "title": "Afzallik, kamchilik, misol",
+      "href": "/app/grammar?tab=writing&book=wr-054",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-055",
+      "source": "writing",
+      "level": "B2",
+      "title": "Topic sentence: paragrafning birinchi gapi",
+      "href": "/app/grammar?tab=writing&book=wr-055",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-056",
+      "source": "writing",
+      "level": "B2",
+      "title": "Misol keltirish: for example, a case in point",
+      "href": "/app/grammar?tab=writing&book=wr-056",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-057",
+      "source": "writing",
+      "level": "B2",
+      "title": "Izoh va natija: this means that, as a result",
+      "href": "/app/grammar?tab=writing&book=wr-057",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-058",
+      "source": "writing",
+      "level": "B2",
+      "title": "Concession: although, admittedly, even though",
+      "href": "/app/grammar?tab=writing&book=wr-058",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-059",
+      "source": "writing",
+      "level": "B2",
+      "title": "Qarshi fikrni rad etish: opponents argue",
+      "href": "/app/grammar?tab=writing&book=wr-059",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-060",
+      "source": "writing",
+      "level": "B2",
+      "title": "Sabab va oqibat: leads to, stems from, results in",
+      "href": "/app/grammar?tab=writing&book=wr-060",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-061",
+      "source": "writing",
+      "level": "B2",
+      "title": "Yechim takliflari: should, measures, one way to",
+      "href": "/app/grammar?tab=writing&book=wr-061",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-062",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ehtiyotkor ifoda (hedging): tend to, may, arguably",
+      "href": "/app/grammar?tab=writing&book=wr-062",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-063",
+      "source": "writing",
+      "level": "B2",
+      "title": "Shartli gaplar essada: if bilan natija va taxmin",
+      "href": "/app/grammar?tab=writing&book=wr-063",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-064",
+      "source": "writing",
+      "level": "B2",
+      "title": "Relative clauses: who, which, whose, which-comment",
+      "href": "/app/grammar?tab=writing&book=wr-064",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-065",
+      "source": "writing",
+      "level": "B2",
+      "title": "Participle clauses: -ing / -ed, Having + V3",
+      "href": "/app/grammar?tab=writing&book=wr-065",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-066",
+      "source": "writing",
+      "level": "B2",
+      "title": "Passive: ob'ektiv ohang, agentsiz",
+      "href": "/app/grammar?tab=writing&book=wr-066",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-067",
+      "source": "writing",
+      "level": "B2",
+      "title": "Nominalizatsiya: fe'l → ot",
+      "href": "/app/grammar?tab=writing&book=wr-067",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-068",
+      "source": "writing",
+      "level": "B2",
+      "title": "Inversiya: Not only..., Rarely, Only when",
+      "href": "/app/grammar?tab=writing&book=wr-068",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-069",
+      "source": "writing",
+      "level": "B2",
+      "title": "Cleft: What matters is..., It is ... that",
+      "href": "/app/grammar?tab=writing&book=wr-069",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-070",
+      "source": "writing",
+      "level": "B2",
+      "title": "Noun clauses: the fact that, whether, what",
+      "href": "/app/grammar?tab=writing&book=wr-070",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-071",
+      "source": "writing",
+      "level": "B2",
+      "title": "Taqqoslash: far more than, the more... the more",
+      "href": "/app/grammar?tab=writing&book=wr-071",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-072",
+      "source": "writing",
+      "level": "B2",
+      "title": "Parallelism: bir xil shakl ro'yxatda",
+      "href": "/app/grammar?tab=writing&book=wr-072",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-073",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ellipsis va oldini olish: so do, the same, do so",
+      "href": "/app/grammar?tab=writing&book=wr-073",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-074",
+      "source": "writing",
+      "level": "B2",
+      "title": "Vaqt va o'zgarish: over the past decades, has become",
+      "href": "/app/grammar?tab=writing&book=wr-074",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-075",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ta'kidlash: undoubtedly, it is essential that",
+      "href": "/app/grammar?tab=writing&book=wr-075",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-076",
+      "source": "writing",
+      "level": "B2",
+      "title": "Reference: this, such, the former, the latter",
+      "href": "/app/grammar?tab=writing&book=wr-076",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-077",
+      "source": "writing",
+      "level": "B2",
+      "title": "Bog'lovchi so'zlar: joylashuv va xilma-xillik",
+      "href": "/app/grammar?tab=writing&book=wr-077",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-078",
+      "source": "writing",
+      "level": "B2",
+      "title": "Umumlashtirish va miqdor: a growing number of, a significant proportion",
+      "href": "/app/grammar?tab=writing&book=wr-078",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-079",
+      "source": "writing",
+      "level": "B2",
+      "title": "Shaxssiz uslub: it is argued, there is a view that",
+      "href": "/app/grammar?tab=writing&book=wr-079",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-080",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ehtiyot da'vo va bog'lanish",
+      "href": "/app/grammar?tab=writing&book=wr-080",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-081",
+      "source": "writing",
+      "level": "B2",
+      "title": "Predloglar essada: depend on, contribute to, result in",
+      "href": "/app/grammar?tab=writing&book=wr-081",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-082",
+      "source": "writing",
+      "level": "B2",
+      "title": "Artikllar essada: generic, the, zero",
+      "href": "/app/grammar?tab=writing&book=wr-082",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-083",
+      "source": "writing",
+      "level": "B2",
+      "title": "Kelishuv: subject-verb agreement essada",
+      "href": "/app/grammar?tab=writing&book=wr-083",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-084",
+      "source": "writing",
+      "level": "B2",
+      "title": "Tinish belgilari: vergul, nuqtali vergul, ikki nuqta",
+      "href": "/app/grammar?tab=writing&book=wr-084",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-085",
+      "source": "writing",
+      "level": "B2",
+      "title": "Gap xilma-xilligi: sodda, qo'shma, murakkab",
+      "href": "/app/grammar?tab=writing&book=wr-085",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-086",
+      "source": "writing",
+      "level": "B2",
+      "title": "Fragment va run-on: to'liq gap",
+      "href": "/app/grammar?tab=writing&book=wr-086",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-087",
+      "source": "writing",
+      "level": "B2",
+      "title": "Rasmiy va norasmiy: qisqartma va frazali fe'l",
+      "href": "/app/grammar?tab=writing&book=wr-087",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-088",
+      "source": "writing",
+      "level": "B2",
+      "title": "Qisman rozilik: to a certain extent, partly",
+      "href": "/app/grammar?tab=writing&book=wr-088",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-089",
+      "source": "writing",
+      "level": "B2",
+      "title": "Baholash iboralari: a double-edged sword, far-reaching",
+      "href": "/app/grammar?tab=writing&book=wr-089",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-090",
+      "source": "writing",
+      "level": "B2",
+      "title": "Kelajak va taxmin: will, is likely to, could",
+      "href": "/app/grammar?tab=writing&book=wr-090",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-091",
+      "source": "writing",
+      "level": "B2",
+      "title": "Ta'rif va qayta aytish: that is, in other words",
+      "href": "/app/grammar?tab=writing&book=wr-091",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-092",
+      "source": "writing",
+      "level": "B2",
+      "title": "Xulosa: tezisni qayta aytish + yakuniy fikr",
+      "href": "/app/grammar?tab=writing&book=wr-092",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-093",
+      "source": "writing",
+      "level": "B2",
+      "title": "Xulosa essa turiga qarab",
+      "href": "/app/grammar?tab=writing&book=wr-093",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-094",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #1: Negative Adverbial: Not only... but also (Inversiya)",
+      "href": "/app/grammar?tab=writing&book=wr-094",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-095",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #2: Limiting Adverbial: Rarely / Seldom",
+      "href": "/app/grammar?tab=writing&book=wr-095",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-096",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #4: Exclusive Focus: Only by + Gerund",
+      "href": "/app/grammar?tab=writing&book=wr-096",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-097",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #5: Temporal Limitation: Only when / Only after",
+      "href": "/app/grammar?tab=writing&book=wr-097",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-098",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #6: Cognitive Inversion: Little did / Little do",
+      "href": "/app/grammar?tab=writing&book=wr-098",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-099",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #7: Proportional Result: So + Adjective... that",
+      "href": "/app/grammar?tab=writing&book=wr-099",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-100",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #11: Present Participle (Sabab bildiruvchi)",
+      "href": "/app/grammar?tab=writing&book=wr-100",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-101",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #12: Present Participle (Natija bildiruvchi: Resultative)",
+      "href": "/app/grammar?tab=writing&book=wr-101",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-102",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #14: Perfect Participle Active (Ketma-ketlik)",
+      "href": "/app/grammar?tab=writing&book=wr-102",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-103",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #17: Absolute Participle Construction (Mustaqil ega)",
+      "href": "/app/grammar?tab=writing&book=wr-103",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-104",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #21: Inverted First Conditional (Should)",
+      "href": "/app/grammar?tab=writing&book=wr-104",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-105",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #22: Inverted Second Conditional (Action: Were + to-inf)",
+      "href": "/app/grammar?tab=writing&book=wr-105",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-106",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #24: Inverted Third Conditional (Had + Subject + V3)",
+      "href": "/app/grammar?tab=writing&book=wr-106",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-107",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #25: Mixed Conditional 1 (O'tmish sharti -> Hozirgi natija)",
+      "href": "/app/grammar?tab=writing&book=wr-107",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-108",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #28: Conditional Conjunction: Provided / Providing that",
+      "href": "/app/grammar?tab=writing&book=wr-108",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-109",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #31: It-Cleft (Egani bo'rttirish)",
+      "href": "/app/grammar?tab=writing&book=wr-109",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-110",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #33: Wh-Cleft / Pseudo-Cleft with 'What'",
+      "href": "/app/grammar?tab=writing&book=wr-110",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-111",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #36: Causal Cleft: The reason why... is that",
+      "href": "/app/grammar?tab=writing&book=wr-111",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-112",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #41: Impersonal Passive with Anticipatory 'It'",
+      "href": "/app/grammar?tab=writing&book=wr-112",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-113",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #42: Personal Passive of Reporting (Present Infinitive)",
+      "href": "/app/grammar?tab=writing&book=wr-113",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-114",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #51: Inverted Concession: Adjective + As / Though + Subject + Verb",
+      "href": "/app/grammar?tab=writing&book=wr-114",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-115",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #53: Much as + Clause",
+      "href": "/app/grammar?tab=writing&book=wr-115",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-116",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #57: Substitutive Contrast: Rather than + Bare Inf / V-ing",
+      "href": "/app/grammar?tab=writing&book=wr-116",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-117",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #61: Preposition + Relative Pronoun (Formal style)",
+      "href": "/app/grammar?tab=writing&book=wr-117",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-118",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #71: Mandative Subjunctive with Verbs (recommend that)",
+      "href": "/app/grammar?tab=writing&book=wr-118",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-119",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #81: Proportional Comparative: The more... the more...",
+      "href": "/app/grammar?tab=writing&book=wr-119",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "wr-120",
+      "source": "writing",
+      "level": "C1",
+      "title": "Advanced #91: Nominalised Cause-and-Effect",
+      "href": "/app/grammar?tab=writing&book=wr-120",
+      "weights": [
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          8,
+          6,
+          6
+        ],
+        [
+          6,
+          6,
+          6
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ]
+    }
+  ]
+}
