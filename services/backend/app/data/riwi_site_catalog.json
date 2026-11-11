@@ -2108,6 +2108,8 @@
     "frontend/vanilla/modules/grammar/book-runtime.css": "c20e18d2fa410299a91cfb488ba6bf7aa2fd1f3e690b7ccacb86b2e8594eb54b",
     "frontend/vanilla/modules/grammar/book-runtime.js": "e66388238e0c3655e163e2089c6a43338362af736cbc4084003d8cee561d4a13",
     "frontend/vanilla/modules/grammar/book.css": "e09c08f87b5dcdee799b6a83eac4f53e0e1b078f5435f3e3535a422146b1b855",
-    "frontend/vanilla/modules/grammar/book.js": "98f97b6d482dd9fd95c915eed637c7a608133a1c56c4de14112c05da98986e62"
+    "frontend/vanilla/modules/grammar/book.js": "98f97b6d482dd9fd95c915eed637c7a608133a1c56c4de14112c05da98986e62",
+    "frontend/vanilla/modules/shared/student-learning.js": "bd9a9470756b7c171b0eaaf1d5bab8d4475ecf1bf7c7e5d10b8eca9c0f183843",
+    "frontend/vanilla/js/study-time.js": "ada27b1210e447e145da136d20d80ac598cf5c9321472ef967a037cd75b11818"
   }
 }
