@@ -12,7 +12,7 @@ ACTIVITIES = {'question', 'picture', 'taboo', 'truths', 'mock'}
 ACTIONS = {'search', 'stop_search', 'friend_request', 'friend_accept', 'friend_remove',
            'rating', 'report', 'activity_start', 'activity_next', 'activity_stop', 'mock_score'}
 MOCK_SECONDS = (60, 60, 120, 90)
-SEARCH_TTL = timedelta(seconds=90)
+SEARCH_TTL = timedelta(seconds=60)
 PROMPT_FILTER = """publication_state='published' AND is_active
     AND (available_in @> '["practice_alone"]'::jsonb OR available_in @> '["live_partner"]'::jsonb)"""
 
