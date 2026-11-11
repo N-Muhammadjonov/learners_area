@@ -1,4 +1,4 @@
-"""Student-only 30-day sequenced plan API with server-verified completion."""
+"""Learner and owner plan API for seven or thirty server-verified study days."""
 from __future__ import annotations
 
 import json
