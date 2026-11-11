@@ -91,7 +91,7 @@ test('selected answers navigate back without losing progress and only submit whe
  assert.match(root.textContent,/14\/15/);
 });
 
-test('passed assessment creates actual 30-day plan then navigates to Assignments',async()=>{
+test('passed assessment opens duration selection without silently starting 30 days',async()=>{
  const calls=[];
  api.request=async(path,options={})=>{
   calls.push(path);
@@ -107,7 +107,7 @@ test('passed assessment creates actual 30-day plan then navigates to Assignments
  }
  await tick();
  root.querySelector('[data-level-create-plan]').click();await tick();
- assert(calls.includes('/api/study-plan/monthly/sequence/start'));
+ assert(!calls.includes('/api/study-plan/monthly/sequence/start'));
  assert.equal(navigated,'/app/assignments#study-plan-30');
 });
 
