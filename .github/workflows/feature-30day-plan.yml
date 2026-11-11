@@ -83,3 +83,28 @@ jobs:
         run: python scripts/build_native_assets.py
 
 # No deploy, PR, merge, production credentials, migrations or browser automation here.
+
+  catalogue-refresh:
+    name: Refresh RIWI source catalogue on feature branch
+    if: github.ref_name == 'feature/study-plan-7-or-30-role-fix'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Regenerate source-owned catalogue
+        run: node scripts/riwi-site-catalog.mjs
+      - name: Commit fresh catalogue to feature branch only
+        run: |
+          if ! git diff --quiet -- services/backend/app/data/riwi_site_catalog.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add services/backend/app/data/riwi_site_catalog.json
+            git commit -m "chore(riwi): refresh source catalogue after study plan updates"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
