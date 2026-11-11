@@ -251,7 +251,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
 <span class="im-brand-wordmark">Learners <b>Area</b></span>
 </a>
 <div class="im-bar-right im-article-actions">
-<span aria-live="off" class="im-timer" id="im-clock" role="timer">18:00</span>
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
 <button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
 <button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
 <svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
@@ -326,7 +326,9 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     q11: 'productivity', q12: 'incentives', q13: '2023'
   });
   const storageKey = 'learners-area.article.remote-work-wars.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
-  const state = { answers: {}, remainingSeconds: 1080, isPaused: false };
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
   let selectedHeading = null;
   let activeQuestion = 1;
   let timerInterval = null;
@@ -334,7 +336,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   let pointerStartRatio = null;
 
   function safeStore() {
-    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
     catch (_) { /* Standalone private modes may disable storage. */ }
   }
 
@@ -346,8 +348,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
         const value = parsed.answers && parsed.answers['q' + i];
         if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
       }
-      if (Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(1080, Math.floor(parsed.remainingSeconds)));
-      state.isPaused = !!parsed.isPaused;
+
     } catch (_) { /* Ignore corrupted saved data. */ }
   }
 
@@ -531,6 +532,13 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
   document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
 
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
   function updateTimer() {
     const seconds = state.remainingSeconds;
     const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -538,18 +546,57 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     const clock = document.getElementById('im-clock');
     clock.textContent = `${mm}:${ss}`;
     clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
-    document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
-    document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
   }
-  document.getElementById('im-pause').addEventListener('click', () => {
-    state.isPaused = !state.isPaused;
-    updateTimer(); safeStore();
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
   });
-  timerInterval = window.setInterval(() => {
-    if (state.isPaused || state.remainingSeconds <= 0) return;
-    state.remainingSeconds -= 1;
-    updateTimer(); safeStore();
-  }, 1000);
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
 
   split.addEventListener('pointerdown', (event) => {
     if (window.matchMedia('(max-width: 850px)').matches) return;
@@ -608,8 +655,20 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     else resultDialog.setAttribute('open', '');
   });
   document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
-  window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
   safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
 
   // Dictionary words are restored from the actual article's glossary, not generated meanings.
   const dictionary = Object.freeze({"mainstay": {"word": "mainstay", "pos": "noun", "level": "", "ipa": "", "definition": "basis", "translation": "tayanch, asosiy ustun", "example": "Once a rarity, remote work has become a mainstay in the business world."}, "reservation": {"word": "reservation", "pos": "noun", "level": "B1", "ipa": "", "definition": "doubt", "translation": "shubha, ikkilanish", "example": "Conversely, Nike CEO John Donahue has expressed some reservations about remote work's impact on innovation."}, "incentive": {"word": "incentive", "pos": "noun", "level": "B2", "ipa": "", "definition": "reward", "translation": "rag'batlantirish, rag'bat", "example": "Depth and meaning have surpassed traditional incentives such as salary and office perks in attracting and retaining top talent."}, "liken": {"word": "liken", "pos": "verb", "level": "", "ipa": "", "definition": "compare", "translation": "o'xshatmoq, qiyoslamoq", "example": "In an interview with the Verge, Houston likened the traditional notion of standard in-office working to outdated practices."}, "dissipate": {"word": "dissipate", "pos": "verb", "level": "", "ipa": "", "definition": "disappear", "translation": "yo'qolmoq, tarqalib ketmoq", "example": "While concerns persist about the impact of remote work on innovations and creativity, many of these worries can dissipate with quality and intentional in-person meetups."}, "surpass": {"word": "surpass", "pos": "verb", "level": "", "ipa": "", "definition": "exceed", "translation": "ortda qoldirmoq, oshib tushmoq", "example": "Depth and meaning have surpassed traditional incentives such as salary and office perks in attracting and retaining top talent."}, "seismic": {"word": "seismic", "pos": "adjective", "level": "C2", "ipa": "", "definition": "huge", "translation": "juda katta, ulkan", "example": "The pandemic's seismic shift in work dynamics has forged two camps: those embracing remote work fully and those advocating for a return to the office."}, "disruptive": {"word": "disruptive", "pos": "adjective", "level": "", "ipa": "", "definition": "innovative", "translation": "tubdan o'zgartiruvchi", "example": "In hindsight, it turns out, it's really hard to do bold, disruptive innovation, to develop a boldly disruptive shoe, on Zoom."}, "superficial": {"word": "superficial", "pos": "adjective", "level": "C1", "ipa": "", "definition": "shallow", "translation": "yuzaki", "example": "In today's business world, employees seek more than just superficial perks."}, "subsequently": {"word": "subsequently", "pos": "adverb", "level": "B2", "ipa": "/ˈsʌbsɪkwəntli/", "definition": "later", "translation": "keyinchalik, o'z navbatida", "example": "Subsequently, Dropbox is subletting a significant portion of its empty office space to accompany this shift."}, "conversely": {"word": "conversely", "pos": "adverb", "level": "B2", "ipa": "", "definition": "instead", "translation": "aksincha", "example": "Conversely, Nike CEO John Donahue has expressed some reservations about remote work's impact on innovation."}, "merely": {"word": "merely", "pos": "adverb", "level": "B1", "ipa": "", "definition": "simply", "translation": "shunchaki, faqat", "example": "The future of work isn't merely about changing how we work."}});

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Illustration of different paths to success">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#213a56"/><stop offset=".53" stop-color="#14273d"/><stop offset="1" stop-color="#29334c"/></linearGradient>
+ <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f9d6a7"/><stop offset="1" stop-color="#ed9e72"/></linearGradient>
+ <linearGradient id="grass" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#a0cebb"/><stop offset="1" stop-color="#6db9bb"/></linearGradient>
+ <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#081322" flood-opacity=".38"/></filter>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<circle cx="980" cy="140" r="260" fill="#6ea5ac" opacity=".06"/>
+<circle cx="90" cy="650" r="300" fill="#f4c586" opacity=".07"/>
+<path d="M0 520 Q220 450 470 525 T950 505 T1280 510 L1280 720 L0 720Z" fill="#274d60" opacity=".8"/>
+<path d="M0 585 Q260 555 540 590 T1280 570 L1280 720 L0 720Z" fill="#183447"/>
+<g stroke="#8aa4b7" fill="none" opacity=".26"><path d="M100 125H420"/><path d="M105 148H335"/><path d="M870 595H1180"/></g>
+<g font-family="Arial,Helvetica,sans-serif"><text x="100" y="115" font-size="25" font-weight="700" letter-spacing="6" fill="#9fd6d5">GENERATION Z</text>
+ <text x="100" y="224" font-size="75" font-weight="800" fill="#fff6e9">REDEFINING</text>
+ <text x="100" y="311" font-size="91" font-weight="800" fill="#f5c88c">SUCCESS</text>
+ <text x="104" y="363" font-size="25" fill="#d3dfdf">Purpose · Autonomy · Well-being</text>
+</g>
+<g filter="url(#shadow)">
+ <rect x="105" y="426" width="260" height="175" rx="26" fill="#f1ecdd"/><rect x="393" y="426" width="260" height="175" rx="26" fill="#e5f0e8"/><rect x="681" y="426" width="260" height="175" rx="26" fill="#f4e2d4"/>
+</g>
+<g transform="translate(207 476)" fill="none" stroke="#597a68" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M0 12C-38-29-84 10-50 56L0 107L50 56C84 10 38-29 0 12Z"/></g>
+<g transform="translate(524 501)" fill="none" stroke="#438d96" stroke-width="10" stroke-linecap="round"><circle cx="0" cy="5" r="45"/><path d="M0 5L0-19M0 5L22 18"/></g>
+<g transform="translate(811 525)" stroke="#b9806d" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M-43 15L-12-18L9 3L50-45"/><path d="M25-45H50V-20"/></g>
+<g font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#344a4f"><text x="235" y="574">PURPOSE</text><text x="523" y="574">FREEDOM</text><text x="811" y="574">GROWTH</text></g>
+<g opacity=".85" fill="url(#sun)"><circle cx="1075" cy="292" r="102"/></g>
+<g fill="#152d42" stroke="#142a3b" stroke-linejoin="round"><path d="M1030 380Q1008 350 1015 318Q1015 287 1044 280Q1061 280 1073 292Q1084 310 1073 327L1065 346V380Z"/><path d="M1034 378Q1040 363 1052 357Q1090 346 1126 383L1150 460L995 460Z"/></g>
+<path d="M1018 460L964 538L1070 543L1153 461" fill="#d2e0dc" opacity=".9"/>
+</svg>

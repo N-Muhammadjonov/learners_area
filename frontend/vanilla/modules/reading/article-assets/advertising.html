@@ -251,7 +251,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
 <span class="im-brand-wordmark">Learners <b>Area</b></span>
 </a>
 <div class="im-bar-right im-article-actions">
-<span aria-live="off" class="im-timer" id="im-clock" role="timer">18:00</span>
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
 <button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
 <button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
 <svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
@@ -326,7 +326,9 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     q11: 'life skill', q12: 'difference', q13: 'sceptical'
   });
   const storageKey = 'learners-area.article.advertising.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
-  const state = { answers: {}, remainingSeconds: 1080, isPaused: false };
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
   let selectedHeading = null;
   let activeQuestion = 1;
   let timerInterval = null;
@@ -334,7 +336,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   let pointerStartRatio = null;
 
   function safeStore() {
-    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
     catch (_) { /* Standalone private modes may disable storage. */ }
   }
 
@@ -346,8 +348,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
         const value = parsed.answers && parsed.answers['q' + i];
         if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
       }
-      if (Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(1080, Math.floor(parsed.remainingSeconds)));
-      state.isPaused = !!parsed.isPaused;
+
     } catch (_) { /* Ignore corrupted saved data. */ }
   }
 
@@ -531,6 +532,13 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
   document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
 
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
   function updateTimer() {
     const seconds = state.remainingSeconds;
     const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -538,18 +546,57 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     const clock = document.getElementById('im-clock');
     clock.textContent = `${mm}:${ss}`;
     clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
-    document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
-    document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
   }
-  document.getElementById('im-pause').addEventListener('click', () => {
-    state.isPaused = !state.isPaused;
-    updateTimer(); safeStore();
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
   });
-  timerInterval = window.setInterval(() => {
-    if (state.isPaused || state.remainingSeconds <= 0) return;
-    state.remainingSeconds -= 1;
-    updateTimer(); safeStore();
-  }, 1000);
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
 
   split.addEventListener('pointerdown', (event) => {
     if (window.matchMedia('(max-width: 850px)').matches) return;
@@ -608,8 +655,20 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     else resultDialog.setAttribute('open', '');
   });
   document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
-  window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
   safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
 
   // Dictionary words are restored from the actual article's glossary, not generated meanings.
   const dictionary = Object.freeze({"influence": {"word": "influence", "pos": "verb", "level": "A2", "ipa": "/ˈɪnfluəns/", "definition": "affect", "translation": "ta'sir qilmoq", "example": "Advertisements are trying to influence the way you think or change your mind about something."}, "distinguish": {"word": "distinguish", "pos": "verb", "level": "B1", "ipa": "/dɪˈstɪŋɡwɪʃ/", "definition": "separate", "translation": "farqlamoq", "example": "And at 3-6 years, children can identify advertisements and distinguish them from programs on TV..."}, "recognise": {"word": "recognise", "pos": "verb", "level": "B1", "ipa": "/ˈrek.əɡ.naɪz/", "definition": "identify", "translation": "tanimoq", "example": "At 7-11 years, children... can recognise some persuasive techniques like advertisements overstating how good products are."}, "form": {"word": "form", "pos": "noun", "level": "A1", "ipa": "", "definition": "type", "translation": "shakl, tur", "example": "Children experience advertising in many forms – on TV, YouTube, apps, radio, billboards..."}, "knowledge": {"word": "knowledge", "pos": "noun", "level": "A2", "ipa": "", "definition": "facts", "translation": "bilim", "example": "How children handle advertising can depend on several things, including their age, knowledge and experience."}, "purpose": {"word": "purpose", "pos": "noun", "level": "A2", "ipa": "/ˈpɜːpəs/", "definition": "aim", "translation": "maqsad", "example": "At 12-13 years, children can usually understand the purpose of advertising..."}, "persuasive": {"word": "persuasive", "pos": "adjective", "level": "B1", "ipa": "", "definition": "convincing", "translation": "ishonchli, og'diruvchi", "example": "...and can recognise some persuasive techniques like advertisements overstating how good products are."}, "sceptical": {"word": "sceptical", "pos": "adjective", "level": "", "ipa": "", "definition": "doubtful", "translation": "shubhalanuvchi", "example": "Over 14 years, children might understand how the marketplace works and might be sceptical about advertisers’ claims."}, "tricky": {"word": "tricky", "pos": "adjective", "level": "B2", "ipa": "", "definition": "clever", "translation": "ayyorona, qiyin", "example": "...might not understand how advertising makes things more expensive or recognise tricky product placement strategies."}, "usually": {"word": "usually", "pos": "adverb", "level": "A1", "ipa": "", "definition": "normally", "translation": "odatda", "example": "At 12-13 years, children can usually understand the purpose of advertising..."}, "really": {"word": "really", "pos": "adverb", "level": "A1", "ipa": "", "definition": "truly", "translation": "haqiqatan", "example": "And advertisers always aim to make their products look good, perhaps even better than they really are."}, "easily": {"word": "easily", "pos": "adverb", "level": "A2", "ipa": "", "definition": "simply", "translation": "osongina", "example": "At 0-2 years, children can’t tell the difference between advertising and actual programs easily."}});

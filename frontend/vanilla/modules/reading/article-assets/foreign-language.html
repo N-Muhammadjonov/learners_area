@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+<html data-theme="day" lang="en">
+<head><script id="la-theme-integration">
+(() => {
+  'use strict';
+  const element = document.documentElement;
+  const normalize = value => value === 'dark' || value === 'night' ? 'night' : value === 'light' || value === 'day' ? 'day' : null;
+  const queryTheme = normalize(new URLSearchParams(location.search).get('theme'));
+  let hasParentTheme = false;
+  const apply = value => {
+    const theme = normalize(value);
+    if (!theme) return;
+    element.dataset.theme = theme;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = theme === 'night' ? '#0b0d18' : '#fbfafe';
+  };
+  try {
+    if (window.parent !== window && window.parent.document?.documentElement) {
+      const host = window.parent.document.documentElement;
+      const initial = normalize(host.getAttribute('data-theme'));
+      if (initial) { apply(initial); hasParentTheme = true; }
+      new MutationObserver(() => {
+        const current = normalize(host.getAttribute('data-theme'));
+        if (current) { hasParentTheme = true; apply(current); }
+      }).observe(host, {attributes:true,attributeFilter:['data-theme']});
+    }
+  } catch (_) { /* Cross-origin parent: use message bridge instead. */ }
+  if (!hasParentTheme) {
+    if (queryTheme) apply(queryTheme);
+    else apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day');
+  }
+  window.addEventListener('message', event => {
+    if (event.source !== window.parent) return;
+    const data = event.data;
+    if (data?.type === 'learnersarea:theme' || data?.type === 'la:theme-change') apply(data.theme);
+  });
+  if (window.parent === window && !queryTheme) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => apply(e.matches ? 'night' : 'day'));
+  }
+})();
+</script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#fbfafe" name="theme-color"/>
+<title>The Importance of Learning a Foreign Language | Learners Area</title>
+<style>
+:root {
+  color-scheme: light;
+  --im-bg: var(--bg-main, #ffffff);
+  --im-surface: var(--bg-surface, #ffffff);
+  --im-surface-2: var(--bg-secondary, #f8fafc);
+  --im-text: var(--text-main, #111827);
+  --im-muted: var(--text-muted, #5b6473);
+  --im-border: var(--border-color, #d5dbe5);
+  --im-accent: var(--accent-color, #436fd6);
+  --im-accent-soft: var(--accent-soft, #edf2ff);
+  --im-part-head-bg: var(--article-header-bg, #f1f2ee);
+  --im-success: #15803d;
+  --im-danger: #b91c1c;
+  --im-left-width: 49.5%;
+  --im-radius: 8px;
+  --im-footer-height: 54px;
+  --im-font-scale: 1;
+}
+html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] {
+  color-scheme: dark;
+  --im-bg: var(--bg-main, #0e1523);
+  --im-surface: var(--bg-surface, #152032);
+  --im-surface-2: var(--bg-secondary, #1c2a40);
+  --im-text: var(--text-main, #e9edf6);
+  --im-muted: var(--text-muted, #b4c0d1);
+  --im-border: var(--border-color, #3b4c63);
+  --im-accent: var(--accent-color, #76a4ff);
+  --im-accent-soft: var(--accent-soft, #263955);
+  --im-part-head-bg: var(--article-header-bg, #202e40);
+}
+* { box-sizing: border-box; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
+body { margin: 0; background: var(--im-bg); color: var(--im-text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
+:where(button,input,select,a,[tabindex]):focus-visible { outline: 3px solid var(--im-accent); outline-offset: 2px; }
+.im-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.im-app { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--im-bg); }
+.im-topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 20px; min-height: 58px; background: var(--im-surface); border-bottom: 1px solid var(--im-border); }
+.im-bar-left, .im-bar-right { display: flex; align-items: center; gap: 13px; }
+.im-brand { display: flex; gap: 9px; align-items: center; color: var(--im-text); font-weight: 800; white-space: nowrap; }
+.im-brand-mark { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--im-accent); color: white; letter-spacing: -.05em; font-size: 13px; }
+.im-taker-id { font-size: 13px; color: var(--im-muted); }
+.im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
+.im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
+.im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
+.im-passage-body { padding: 26px 26px 40px 28px; }
+.oqish-holati { display: flex; align-items: center; gap: 12px; margin: 0 0 15px; }
+.im-read-track { display: block; flex: 1; height: 3px; background: var(--im-border); border-radius: 10px; overflow: hidden; }
+.im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
+.im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
+.im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
+.im-article-paragraph { margin: 0 0 15px; }
+.im-para-letter { font-weight: 750; }
+.im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
+.im-splitter { position: relative; display: flex; align-items: center; justify-content: center; cursor: col-resize; border-left: 1px solid var(--im-border); border-right: 1px solid var(--im-border); user-select: none; background: var(--im-surface); }
+.im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
+.im-question-body { padding: 27px 30px 45px 23px; }
+.im-group { margin: 0 0 34px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
+.im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
+.im-chip:active { cursor: grabbing; }
+.im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
+.im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
+.im-chip-used { opacity: .64; }
+.im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
+.im-drop::placeholder { color: var(--im-accent); opacity: 1; }
+.im-drop:focus { border-style: solid; }
+.im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
+.im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
+.im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
+.im-heading-picker[hidden] { display: none; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
+.im-heading-picker button:hover { background: var(--im-accent-soft); }
+.im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
+.im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-options { display: flex; flex-direction: column; gap: 17px; }
+.im-option-row { display: flex; align-items: start; gap: 12px; }
+.im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
+.im-option-label:hover { background: var(--im-accent-soft); }
+.im-question-gap .im-q-text { margin-bottom: 0; }
+.im-gap-input { display: inline-block; width: clamp(110px, 27%, 170px); min-height: 33px; padding: 5px 7px; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); text-align: center; margin: 0 6px; }
+.im-gap-input:hover { border-color: var(--im-accent); }
+.im-gap-input:focus { border-color: var(--im-accent); }
+.im-footer { flex: none; min-height: var(--im-footer-height); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 7px 13px; border-top: 1px solid var(--im-border); background: var(--im-surface); }
+.im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.im-foot-nav { overflow-x: auto; scrollbar-width: none; }
+.im-foot-nav::-webkit-scrollbar { display: none; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
+.im-qnav { display: flex; gap: 5px; align-items: center; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
+.im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
+.im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
+.im-foot-right { flex: none; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-check { font-size: 19px; padding: 4px 13px; }
+.im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
+.im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
+.im-step-btn { width: 47px; height: 47px; background: var(--im-accent-soft); border: 1px solid var(--im-accent); border-radius: 15px; color: var(--im-text); font-size: 27px; transition: transform .14s; }
+.im-step-btn:hover { transform: scale(1.06); }
+.im-modal { width: min(520px, calc(100% - 30px)); max-height: 88vh; border: 1px solid var(--im-border); background: var(--im-surface); color: var(--im-text); border-radius: 14px; padding: 22px; box-shadow: 0 24px 70px #00000050; }
+.im-modal::backdrop { background: #0b1222a6; }
+.im-modal h2 { margin: 0 0 12px; font-size: 21px; }
+.im-score { font-size: 19px; font-weight: 800; margin: 8px 0 15px; color: var(--im-accent); }
+.im-review-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.im-review-table td,.im-review-table th { border-bottom: 1px solid var(--im-border); padding: 7px; text-align: left; }
+.im-review-table .im-ok { color: var(--im-success); }
+.im-review-table .im-bad { color: var(--im-danger); }
+.im-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+.im-modal-actions button { border: 1px solid var(--im-accent); color: var(--im-text); background: var(--im-accent-soft); padding: 8px 18px; border-radius: 8px; }
+@media (max-width: 850px) {
+  html { overflow: auto; }
+  .im-app { height: auto; min-height: 100dvh; }
+  .im-topbar { padding: 9px 12px; }
+  .im-taker-id { display: none; }
+  .im-part-head { margin: 0 8px; }
+  .im-main { display: block; flex: 1; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
+  .im-passage-body { padding: 18px 16px 22px; }
+  .im-question-col { border-top: 1px solid var(--im-border); }
+  .im-question-body { padding: 24px 16px 50px; }
+  .im-splitter { display: none; }
+  .im-footer { position: sticky; bottom: 0; z-index: 4; }
+  .im-foot-part-name { display: none; }
+  .im-inline-step { position: fixed; bottom: 70px; right: 12px; }
+  .im-qnav-item { height: 35px; width: 34px; }
+}
+@media (max-width: 440px) {
+  .im-brand-label { display: none; }
+  .im-part-head { padding: 10px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
+  .im-foot-right { gap: 6px; }
+  .im-back { padding: 5px 10px; }
+  .im-check { padding: 4px 10px; }
+}
+@media print {
+  .im-topbar, .im-splitter, .im-footer, .im-inline-step { display: none !important; }
+  .im-app { display: block; height: auto; }
+  .im-main { display: block; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; }
+  .im-question-col { break-before: page; }
+  .im-passage-body,.im-question-body { padding: 12px; }
+}
+
+/* Article header matches the reference while respecting the site's design tokens. */
+html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--bg-surface, #152032); --im-surface-2: var(--bg-secondary, #1c2a40); --im-text: var(--text-main, #e9edf6); --im-muted: var(--text-muted, #b4c0d1); --im-border: var(--border-color, #35475e); --im-accent: var(--accent-color, #76a4ff); --im-accent-soft: var(--accent-soft, #263955); --im-part-head-bg: var(--article-header-bg, #202e40); }
+.im-topbar.im-part-head { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; flex: none; min-height: 86px; margin: 6px 16px 0; padding: 12px 18px; background: var(--im-part-head-bg); border: 1px solid var(--im-border); border-bottom: 1px solid var(--im-border); border-radius: 0; }
+.im-article-ident { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.im-article-ident .im-title-sm { margin: 0; font-size: 17px; font-weight: 800; }
+.im-article-ident .im-plain-text { font-size: 15px; line-height: 1.36; color: var(--im-text); }
+.im-bar-right.im-article-actions { justify-content: flex-end; gap: 9px; min-width: 0; }
+.im-brand-pill { display: inline-flex; justify-self: center; align-items: center; justify-content: center; gap: 7px; padding: 4px 16px 4px 7px; min-height: 46px; border: 1px solid var(--im-border); border-radius: 999px; background: var(--im-surface); color: var(--im-text); text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px #030b1b17; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.im-brand-pill:hover { transform: scale(1.04); border-color: var(--im-accent); box-shadow: 0 6px 18px #00000030; background: var(--im-surface-2); }
+.im-brand-pill:focus-visible { outline: 3px solid var(--im-accent); outline-offset: 3px; }
+.im-brand-icon { position: relative; flex: none; width: 40px; height: 34px; display: inline-grid; place-items: center; }
+.im-brand-logo { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 1px 4px #2348be44); }
+.im-brand-fallback { display: grid; place-items: center; width: 33px; height: 31px; border-radius: 10px; background: linear-gradient(125deg, #42dad1, #4475f1); color: #fff; font-weight: 850; letter-spacing: -.08em; font-size: 13px; }
+.im-brand-fallback[hidden] { display: none; }
+.im-brand-wordmark { font-family: 'Geist', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 750; font-size: 17px; letter-spacing: -.045em; }
+.im-brand-wordmark b { font-weight: 850; color: var(--im-accent); }
+.im-timer { font-weight: 760; }
+.im-lexicon-toggle { position: relative; }
+.im-lexicon-count { position: absolute; right: -5px; top: -9px; min-width: 19px; height: 19px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--im-accent); color: #071426; font-size: 10px; font-weight: 800; line-height: 1; }
+.im-vocab-word-in-text { cursor: pointer; text-decoration: underline dotted var(--im-accent); text-underline-offset: 4px; border-radius: 2px; outline-offset: 3px; }
+.im-vocab-word-in-text:hover, .im-vocab-word-in-text:focus-visible { color: var(--im-accent); background: var(--im-accent-soft); }
+.im-check-final { min-width: 98px; min-height: 37px; gap: 7px; padding: 6px 16px; border-radius: 999px; background: var(--im-accent-soft); font-size: 14px; }
+.im-check-mark { font-size: 19px; font-weight: 800; line-height: 1; }
+.im-dictionary-panel { position: fixed; z-index: 50; top: 105px; right: 22px; width: min(360px, calc(100vw - 24px)); max-height: min(570px, calc(100dvh - 125px)); overflow: auto; padding: 16px; border: 1px solid var(--im-border); border-radius: 12px; background: var(--im-surface); color: var(--im-text); box-shadow: 0 18px 55px #00000063; scrollbar-color: var(--im-border) transparent; }
+.im-dictionary-panel[hidden], .im-dict-words[hidden] { display: none !important; }
+.im-dict-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.im-dict-eyebrow { color: var(--im-accent); font-weight: 850; font-size: 10px; letter-spacing: .105em; }
+.im-dict-close { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--im-border); border-radius: 8px; background: var(--im-surface-2); color: var(--im-text); font-size: 24px; line-height: 1; }
+.im-dict-close:hover, .im-dict-speak:hover { border-color: var(--im-accent); background: var(--im-accent-soft); }
+.im-dict-title-row { display: flex; align-items: center; gap: 10px; }
+.im-dict-title-row h2 { margin: 0; font: 800 23px/1.25 'Geist', 'Inter', -apple-system, sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.im-dict-speak { width: 32px; height: 32px; border: 1px solid var(--im-border); border-radius: 7px; background: var(--im-surface-2); color: var(--im-text); font-size: 16px; }
+.im-dict-meta { margin: 5px 0 16px; font-size: 12px; color: var(--im-muted); }
+.im-dict-label { margin: 14px 0 4px; color: var(--im-muted); font-size: 11px; font-weight: 740; letter-spacing: .02em; }
+.im-dict-definition, .im-dict-translation { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.im-dict-translation { color: var(--im-accent); }
+.im-dict-example { padding: 10px 12px; border-left: 2px solid var(--im-accent); border-radius: 3px; background: var(--im-surface-2); color: var(--im-text); margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.im-dict-word-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.im-dict-word-buttons button { max-width: 100%; background: var(--im-surface-2); color: var(--im-text); border: 1px solid var(--im-border); border-radius: 999px; padding: 6px 11px; font-size: 12px; }
+.im-dict-word-buttons button:hover, .im-dict-word-buttons button:focus-visible { border-color: var(--im-accent); background: var(--im-accent-soft); }
+@media (max-width: 850px) {
+ .im-topbar.im-part-head { margin: 6px 8px 0; padding: 10px 12px; gap: 8px; }
+ .im-dictionary-panel { top: 105px; right: 12px; }
+}
+@media (max-width: 640px) {
+ .im-topbar.im-part-head { grid-template-columns: minmax(0,1fr) auto; grid-template-areas: 'info actions' 'brand brand'; min-height: 0; row-gap: 8px; }
+ .im-article-ident { grid-area: info; }
+ .im-article-actions { grid-area: actions; }
+ .im-brand-pill { grid-area: brand; justify-self: center; min-height: 39px; padding: 3px 12px 3px 6px; }
+ .im-brand-icon { height: 30px; width: 35px; }
+ .im-brand-wordmark { font-size: 15px; }
+ .im-article-ident .im-plain-text { font-size: 13px; }
+ .im-timer { font-size: 16px; min-width: 54px; }
+ .im-article-actions .im-icon-btn { width: 30px; height: 30px; }
+ .im-dictionary-panel { top: 135px; max-height: calc(100dvh - 158px); }
+ .im-check-final { min-width: 76px; padding: 5px 11px; }
+}
+@media print { .im-dictionary-panel { display: none !important; } }
+
+.im-brand-icon .im-brand-logo {position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.im-brand-icon .im-brand-fallback {position:relative;z-index:0;}
+
+/* Article footer: shift only the Check action approximately 2 cm to the left. */
+.im-foot-right { margin-right: 2cm; }
+@media (max-width: 640px) { .im-foot-right { margin-right: min(2cm, 8vw); } }
+
+/* Original-PDF article sections and paragraph hierarchy */
+.im-article-section {margin: 4px 0 25px;}
+.im-article-section-title {font-size:calc(18px * var(--im-font-scale));line-height:1.4;font-weight:800;margin:23px 0 14px;color:var(--im-text);letter-spacing:-.015em;}
+.im-section-letter {font-size:14px;color:var(--im-accent);margin-right:6px;}
+.im-article-section .im-article-paragraph {margin-bottom:15px;}
+.im-passage-text .im-matching-question {margin-bottom:4px;}
+.im-article-cover {aspect-ratio:1536/633;object-fit:contain;background:#071322;}
+.im-discussion {margin:34px 0 16px;padding:14px 16px;border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);}
+.im-discussion summary {cursor:pointer;color:var(--im-accent);font-weight:750;}
+.im-discussion-list {margin:13px 0 0;padding-left:22px;line-height:1.6;}
+.im-discussion-list li {margin:0 0 9px;}
+.im-review-table td:last-child {min-width:250px;font-size:12px;line-height:1.55;color:var(--im-muted);}
+@media (max-width:640px){.im-article-section-title{font-size:16px}.im-discussion{padding:12px}}
+
+.im-article-cover {aspect-ratio: 696 / 362; object-fit: cover; background: #0b1b2d;}
+.im-topic-divider {font-size: 21px; font-weight: 800; color: var(--im-accent); margin: 22px 0 18px; border-bottom: 1px solid var(--im-border); padding-bottom: 9px;}
+.im-article-section-title {font-size: clamp(17px, 1.15vw, 20px);}
+
+.im-article-cover{aspect-ratio:4/3;object-fit:cover;background:#0b1b2d;}
+
+/* Question format for this article: only Matching Features + Short Answers */
+.im-article-cover{aspect-ratio:1247/710;object-fit:cover;background:#101725}
+.im-procon-subhead{font-size:15.5px;line-height:1.45;margin:15px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-feature-bank{display:grid;gap:8px;margin:0 0 26px;padding:16px;background:var(--im-surface-2);border:1px solid var(--im-border);border-radius:12px}
+.im-feature-bank-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--im-text)}
+.im-feature-letter{flex:0 0 25px;font-size:14px;color:var(--im-accent)}
+.im-question-feature,.im-question-short{padding:0;margin:22px 0;border:0;min-width:0}
+.im-question-feature .im-q-text,.im-question-short .im-q-text{margin:0 0 9px}
+.im-feature-label{display:block;margin:0 0 6px;font-size:12px;line-height:1.4;color:var(--im-muted)}
+.im-feature-select{display:block;width:100%;min-height:44px;max-width:100%;border:1px solid var(--im-border);background:var(--im-surface-2);color:var(--im-text);font-size:14px;padding:9px 12px;border-radius:9px;outline:none;cursor:pointer}
+.im-feature-select:hover,.im-short-input:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible,.im-short-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-short-input{width:clamp(180px,60%,300px);margin:0;max-width:100%;height:44px;border-radius:9px;text-align:left;padding-left:12px}
+@media(max-width:850px){.im-feature-bank{padding:12px}.im-feature-select{font-size:14px}}
+
+/* Social media article — only Multiple Choice and Summary Completion */
+.im-article-cover{aspect-ratio:1245/761;object-fit:cover;background:#101725}
+.im-social-subhead{font-size:15.5px;line-height:1.5;margin:17px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-article-list-paragraph{padding-left:13px;border-left:2px solid var(--im-border);margin-left:5px}
+.im-summary-heading{font-size:15.5px;line-height:1.5;font-weight:750;color:var(--im-text);margin:23px 0 10px}
+.im-summary-panel{padding:16px 18px;border:1px solid var(--im-border);background:var(--im-surface-2);border-radius:12px}
+.im-summary-panel .im-question-gap{margin-bottom:13px}
+.im-summary-panel .im-q-text{line-height:2.2}
+.im-summary-panel .im-gap-input{min-height:41px;max-width:100%;width:clamp(120px,26vw,175px)}
+.im-options input:focus-visible,.im-gap-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+@media(max-width:850px){.im-summary-panel{padding:12px}.im-summary-panel .im-gap-input{width:130px}}
+
+/* Article-specific table and classification controls. */
+.im-classification-key {border:1px solid var(--im-border);border-radius:11px;padding:12px 14px;margin:12px 0 16px;background:var(--im-surface-2);display:grid;gap:7px;max-width:620px}
+.im-classification-key p {margin:0;line-height:1.4;font-size:.92rem}
+.im-classification-key strong {color:var(--im-accent)}
+.im-answer-table-wrap {width:100%;overflow-x:auto;margin:12px 0 25px}
+.im-answer-table {width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--im-border);border-radius:12px;overflow:hidden;table-layout:fixed}
+.im-answer-table th {background:var(--im-surface-2);font-weight:750;text-align:left;padding:11px 13px;border-bottom:1px solid var(--im-border)}
+.im-answer-table th:first-child,.im-answer-table td:first-child{width:24%;min-width:90px}
+.im-answer-table td {vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--im-border)}
+.im-answer-table tr:last-child td{border-bottom:0}
+.im-answer-table .im-question {border:0;margin:0;padding:0;background:transparent}
+.im-answer-table .im-q-text {display:inline;font-size:.92rem;line-height:1.65}
+.im-answer-table .im-gap-input{max-width:118px;min-width:82px;width:30%;margin:3px 5px}
+@media (max-width:640px) {.im-answer-table th:first-child,.im-answer-table td:first-child{width:100px}.im-answer-table td{padding:8px}.im-answer-table .im-gap-input{width:94px}}
+
+/* Multiple-choice and matching-information refinements */
+.im-question-feature{border:1px solid var(--im-border);border-radius:12px;padding:13px 14px;margin:13px 0;background:var(--im-surface-2)}
+.im-question-feature .im-q-text {font-size:.95rem;line-height:1.55;margin-bottom:10px}
+.im-feature-label{font-size:.82rem;color:var(--im-muted);margin-right:10px}
+.im-feature-select{border:1px solid var(--im-border);border-radius:9px;color:var(--im-text);background:var(--im-surface);padding:9px 13px;min-width:150px;cursor:pointer;font:inherit}
+.im-feature-select:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-feature-select:disabled{opacity:.55;cursor:not-allowed}
+.im-option-row:has(input:checked){background:var(--im-surface-2)}
+
+/* Science Education: textual answer controls and clear timer actions */
+.im-original-heading{font-size:1rem;color:var(--im-text);font-weight:700;margin:18px 0 7px}
+.im-feature-bank{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px;background:var(--im-surface-2);border:1px solid var(--im-border);padding:14px 16px;margin:16px 0 20px;border-radius:12px}
+.im-feature-bank-item{color:var(--im-text);font-size:.91rem;margin:0;line-height:1.5}
+.im-feature-bank-item strong{color:var(--im-accent);padding-right:6px}
+.im-question-feature,.im-question-gap{border:1px solid var(--im-border);border-radius:12px;padding:14px;margin:12px 0;background:var(--im-surface-2)}
+.im-question-feature .im-q-text,.im-question-gap .im-q-text{line-height:1.6;margin-bottom:12px;font-weight:500;font-size:.95rem}
+.im-question-feature .im-feature-label{display:inline-block;color:var(--im-muted);font-size:.87rem;margin:0 8px 0 0}
+.im-question-feature .im-feature-select{display:inline-block;width:auto;min-width:180px;margin:0;vertical-align:middle}
+.im-question-gap .im-gap-label{display:inline;font-size:.95rem;line-height:2.6}
+.im-question-gap .im-gap-input{display:inline-block;min-width:135px;width:165px;max-width:50vw;margin:0 5px;font-size:.95rem;line-height:1.5}
+.im-question-gap .im-gap-tail{font-size:.95rem;line-height:2.1}
+.im-timer-action{width:auto;height:36px;padding:0 11px;white-space:nowrap;font-size:.83rem;font-weight:650}
+.im-timer-action:focus-visible{outline:2px solid var(--im-accent);outline-offset:3px}
+.im-timer-action[hidden]{display:none!important}
+.im-restart-action{color:var(--im-accent)}
+.im-time-expired{color:var(--im-accent)}
+@media(max-width:850px){
+ .im-feature-bank{grid-template-columns:1fr}
+ .im-question-feature .im-feature-select{width:100%;max-width:100%;margin-top:8px}
+ .im-article-actions{gap:5px!important}
+ .im-timer-action{padding:0 7px;font-size:.74rem;height:32px}
+ .im-timer{font-size:15px!important;min-width:48px!important}
+}
+@media(max-width:390px){
+ .im-timer-action{font-size:.7rem;padding:0 5px}
+ .im-restart-action{letter-spacing:-.03em}
+}
+
+/* Small-screen toolbar: give every timer control its own full-width row */
+@media(max-width:600px){
+ .im-part-head{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:'intro' 'actions' 'brand'!important;gap:9px!important;align-items:center;justify-items:stretch;padding:12px 14px!important}
+ .im-part-head .im-article-ident{grid-area:intro;width:100%;min-width:0}
+ .im-part-head .im-brand-pill{grid-area:brand;justify-self:center}
+ .im-part-head .im-article-actions{grid-area:actions;justify-self:center;justify-content:center;display:flex!important;gap:9px!important;width:auto;max-width:100%}
+ .im-part-head .im-article-actions .im-timer-action{width:auto;min-width:max-content;padding:0 10px;font-size:.79rem;height:34px}
+ .im-part-head .im-article-actions .im-timer{font-size:17px!important;min-width:56px!important}
+ .im-part-head .im-article-actions .im-lexicon-toggle{flex:0 0 auto}
+}
+@media(max-width:390px){
+ .im-part-head .im-article-actions .im-timer-action{font-size:.77rem;padding:0 8px}
+}
+
+.im-space-subtitle {font-size:17px;line-height:1.45;font-weight:750;margin:22px 0 12px;scroll-margin-top:24px;color:var(--im-text)}
+.im-space-inner-heading {font-size:16px;font-weight:700;margin:10px 0 14px;color:var(--im-text)}
+.im-space-budget {padding-left:22px;list-style:disc;margin:0 0 17px;line-height:1.7}
+.im-space-budget li {padding-left:5px;margin-bottom:5px}
+.im-source-caption {font-size:12px;color:var(--im-muted);margin-top:24px;border-top:1px solid var(--im-border);padding-top:12px}
+.im-question-mcq {margin-bottom:25px}
+.im-question-mcq .im-q-text {margin-bottom:14px}
+.im-option-row:focus-within {outline:2px solid var(--im-accent);outline-offset:3px;border-radius:5px}
+
+.im-focus-section-title{font-size:17px;line-height:1.45;font-weight:750;margin:22px 0 12px;scroll-margin-top:24px;color:var(--im-text)}
+.im-focus-glossary{margin:0;display:grid;gap:10px}
+.im-focus-glossary>div{border-bottom:1px solid var(--im-border);padding-bottom:9px}
+.im-focus-glossary dt{font-weight:750;color:var(--im-text)}
+.im-focus-glossary dd{margin:3px 0 0;color:var(--im-muted);font-size:14px;line-height:1.5}
+.im-focus-glossary em{display:block;margin-top:3px;font-style:italic}
+.im-focus-discussion{padding-left:24px;line-height:1.65;display:grid;gap:11px}
+.im-extra-learning{margin-top:28px;padding-top:6px;border-top:1px solid var(--im-border)}
+.im-source-caption{font-size:12px;color:var(--im-muted);margin:23px 0 0;padding-top:12px;border-top:1px solid var(--im-border)}
+.im-focus-flow-title{font-size:15px;font-weight:750;margin:18px 0 14px}
+.im-focus-flow{display:grid;gap:13px;margin:10px 0 24px}
+.im-flow-step{border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);padding:15px 13px;position:relative}
+.im-flow-step:not(:last-child)::after{content:'↓';position:absolute;bottom:-16px;left:50%;z-index:1;color:var(--im-accent);font-weight:800}
+.im-flow-text{line-height:2.2;color:var(--im-text)}
+.im-flow-text .im-gap-input{display:inline-block;vertical-align:middle;margin:0 5px;max-width:140px}
+.im-question-choice .im-q-text{margin-bottom:10px}
+.im-option-row:focus-within{outline:2px solid var(--im-accent);outline-offset:2px;border-radius:6px}
+
+.im-article-cover {aspect-ratio:2/1;object-fit:cover;background:#071322;}
+.im-question-matching .im-feature-select {margin-top:6px;}
+.im-feature-bank p {margin:5px 0;font-size:13px;}
+
+/* LEARNERS AREA INTEGRATION: main branch uses html[data-theme=day|night].
+   Never add an Article-specific day/night toggle or override parent theme.
+   Read the main site's CSS tokens when available; use its exact fallback RGB values
+   in standalone/iframe operation. Background is the site's theme surface. */
+html[data-theme="day"] {
+  color-scheme: light;
+  --im-bg: rgb(var(--paper, 251 250 254));
+  --im-surface: rgb(var(--paper-raised, 255 255 255));
+  --im-surface-2: rgb(var(--paper-sunken, 242 240 249));
+  --im-text: rgb(var(--ink-900, 30 27 46));
+  --im-muted: rgb(var(--ink-500, 99 92 130));
+  --im-border: rgb(var(--ink-100, 232 230 242));
+  --im-accent: rgb(var(--accent, 79 70 229));
+  --im-accent-soft: rgb(var(--accent-soft, 238 234 251));
+  --im-part-head-bg: rgb(var(--paper-raised,255 255 255));
+}
+html[data-theme="night"] {
+  color-scheme: dark;
+  --im-bg: rgb(var(--paper, 11 13 24));
+  --im-surface: rgb(var(--paper-raised, 17 20 33));
+  --im-surface-2: rgb(var(--paper-sunken, 21 24 39));
+  --im-text: rgb(var(--ink-900, 243 238 229));
+  --im-muted: rgb(var(--ink-500, 168 167 175));
+  --im-border: rgb(var(--ink-100, 41 45 60));
+  --im-accent: rgb(var(--accent, 129 140 248));
+  --im-accent-soft: rgb(var(--accent-soft, 30 29 60));
+  --im-part-head-bg: rgb(var(--paper-raised,17 20 33));
+}
+/* No fake reading-progress clock is shown above the article cover. */
+.oqish-holati, .im-read-track, .im-read-left { display:none!important; }
+.im-article-cover { aspect-ratio: 1671 / 653; object-fit: cover; }
+@media (max-width:850px) { .im-article-cover { aspect-ratio:1671 / 653; } }
+
+/* Sentence-ending question bank: both modes inherit existing Learners Area theme tokens. */
+.im-ending-bank {padding:14px 16px;margin:16px 0 24px;}
+.im-ending-option {padding:7px 0;line-height:1.5;color:var(--im-text);border-bottom:1px solid var(--im-border);}
+.im-ending-option:last-child {border-bottom:none;}
+.im-ending-option strong {color:var(--im-accent);font-weight:800;padding-right:7px;}
+.im-option {display:flex;align-items:flex-start;gap:10px;padding:10px 12px;margin:6px 0;border:1px solid var(--im-border);border-radius:10px;cursor:pointer;background:var(--im-surface);color:var(--im-text);}
+.im-option:has(input:checked) {border-color:var(--im-accent);background:var(--im-surface-2);}
+.im-option input {flex:0 0 auto;margin-top:4px;accent-color:var(--im-accent);}
+.im-option:hover, .im-feature-select:hover {border-color:var(--im-accent);}
+.im-option:focus-within {outline:2px solid var(--im-accent);outline-offset:2px;}
+.im-option-text {flex:1;min-width:0;}
+</style>
+</head>
+<body>
+<div class="im-app" data-article-id="importance-of-learning-a-foreign-language">
+<header aria-label="Article toolbar" class="im-topbar im-part-head">
+<div class="im-bar-left im-article-ident">
+<h1 class="im-title-sm">Article</h1>
+<p class="im-plain-text">Read the article and answer questions 1–13.</p>
+</div>
+<a aria-label="Learners Area Telegram channel (opens in new tab)" class="im-brand-pill" href="https://t.me/Learners_area" id="im-brand-link" rel="noopener noreferrer" target="_blank" title="Learners Area Telegram kanali">
+<span class="im-brand-icon">
+<img alt="" class="im-brand-logo" decoding="async" height="32" id="im-brand-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA3NiI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzU1YTdmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzIxNjVlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSI5MiIgaGVpZ2h0PSI3MiIgcng9IjE3IiBmaWxsPSIjMGYyNzQ2IiBzdHJva2U9InVybCgjYSkiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjQ4IiB5PSI0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2RmZjNmZiIgZm9udC1mYW1pbHk9IkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjM1IiBmb250LXdlaWdodD0iODAwIiBsZXR0ZXItc3BhY2luZz0iLTMiPkxBPC90ZXh0PjxwYXRoIGQ9Ik0yNiA1Nmg0NCIgc3Ryb2tlPSIjNzliN2ZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPg==" width="40"/>
+<span class="im-brand-fallback" id="im-brand-fallback">LA</span>
+</span>
+<span class="im-brand-wordmark">Learners <b>Area</b></span>
+</a>
+<div class="im-bar-right im-article-actions">
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
+<button aria-label="Pause timer" class="im-icon-btn im-timer-action" id="im-pause" title="Pause or resume the timer" type="button">Ⅱ Pause</button><button aria-label="Restart the article" class="im-icon-btn im-timer-action im-restart-action" id="im-restart" title="Restart the article" type="button">↻ Restart</button>
+<button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
+<svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
+<span class="im-lexicon-count">10</span>
+</button>
+</div>
+</header>
+<main class="im-main">
+<section aria-label="Article text" class="im-passage-col" id="im-passage-col">
+<div class="im-passage-body" id="im-passage-body"><img alt="Original cover illustration from The Importance of Learning a Foreign Language PDF" class="im-article-cover" height="546" loading="eager" src="/modules/reading/article-assets/foreign-language.jpg" width="1460"/><h2 class="im-article-heading">The Importance of Learning a Foreign Language</h2><section class="im-article-section" id="article-section-A"><h3 class="im-article-section-title">A. Introduction</h3><p class="im-article-paragraph">A man stands at a railway station in a country he has never visited before, staring at a departure board that seems determined to confuse him. He knows the name of the city he wants to reach, but the announcement overhead comes too quickly, and the words on the screen offer little <span aria-label="Dictionary: reassurance" class="im-vocab-word-in-text" data-dictionary-word="reassurance" role="button" tabindex="0" title="Double-click for dictionary: reassurance">reassurance</span>. Eventually, he approaches a stranger and attempts a question in the local language. His grammar is imperfect, his pronunciation uncertain, and he has to repeat himself. The stranger understands, points towards the correct platform, and adds something that makes them both smile.</p><p class="im-article-paragraph">Nothing extraordinary has happened. No international agreement has been signed, no scientific discovery has been made, and no life-changing speech has been delivered. Yet, for a moment, a place that felt unfamiliar has become a little more accessible because one person made the effort to speak another person's language.</p><p class="im-article-paragraph">This is one of the most practical reasons to learn a foreign language, although it is rarely the one that appears on a university brochure. Language learning is often presented as a route to better employment, higher salaries or impressive qualifications. Those benefits can be real, but they do not fully explain why learning another language can change the way a person experiences the world.</p></section><section class="im-article-section" id="article-section-B"><h3 class="im-article-section-title">B. More than a collection of words</h3><p class="im-article-paragraph">A language is not simply a different set of labels attached to the same objects. It carries habits of expression, cultural assumptions, humour and ways of describing experiences that may not fit neatly into another language. Learning it does not automatically make someone wiser or more understanding, but it gives them additional ways to approach what other people mean.</p><p class="im-article-paragraph">Consider the difference between reading about a country and being able to talk with the people who live there. A translated article may explain a political controversy, while a conversation with a local resident reveals which details provoke frustration, which jokes everyone recognises and which subjects are more complicated than they appear from abroad. Neither perspective tells the whole story, but the second offers access to the <span aria-label="Dictionary: texture" class="im-vocab-word-in-text" data-dictionary-word="texture" role="button" tabindex="0" title="Double-click for dictionary: texture">texture</span> of everyday life that formal explanations can miss.</p><p class="im-article-paragraph">Language also changes ordinary encounters. A shopkeeper may become more patient when a customer makes an effort to speak the local language. A neighbour might explain a tradition that would otherwise remain invisible. Even asking for directions can become an opportunity to exchange more than the minimum information required to get somewhere.</p><p class="im-article-paragraph">These moments should not be <span aria-label="Dictionary: romanticise" class="im-vocab-word-in-text" data-dictionary-word="romanticise" role="button" tabindex="0" title="Double-click for dictionary: romanticise">romanticised</span>. People are busy, some may not want to practise their English with a visitor, and speaking another language does not guarantee friendship or cultural understanding. Nevertheless, being able to communicate without always relying on translation creates possibilities that would otherwise remain closed.</p><p class="im-article-paragraph">The real value often lies not in speaking perfectly, but in being able to participate.</p></section><section class="im-article-section" id="article-section-C"><h3 class="im-article-section-title">C. The career advantage—and its limits</h3><p class="im-article-paragraph">The economic argument for language learning is straightforward: businesses operate across borders, professionals work with international teams, and companies sometimes need employees who can communicate directly with customers or partners in another language. Depending on the industry and location, language skills can <span aria-label="Dictionary: distinguish" class="im-vocab-word-in-text" data-dictionary-word="distinguish" role="button" tabindex="0" title="Double-click for dictionary: distinguish">distinguish</span> one candidate from another or make certain jobs possible.</p><p class="im-article-paragraph">For someone studying abroad, the difference can be especially noticeable. A student who speaks only English may be able to attend lectures, complete assignments and socialise with international classmates, yet still struggle with administrative appointments, local job advertisements or conversations that take place outside the university. Learning the language of the surrounding community can make everyday life less dependent on other people.</p><p class="im-article-paragraph">However, the financial return is not guaranteed. Some employers value technical expertise more highly than language ability, and English may already be sufficient in particular international workplaces. The value of a language depends on what a person wants to do, where they intend to live and how much demand exists for that combination of skills.</p><p class="im-article-paragraph">It is also easy to underestimate the opportunities that emerge indirectly. A language may help someone form a professional relationship, understand a local market or notice a problem that a business could solve. These outcomes are difficult to predict, and they rarely arrive simply because a certificate has been added to a résumé. They become more likely when language skills are combined with knowledge, curiosity and the willingness to use them.</p><p class="im-article-paragraph">Learning a foreign language is therefore not a substitute for professional <span aria-label="Dictionary: competence" class="im-vocab-word-in-text" data-dictionary-word="competence" role="button" tabindex="0" title="Double-click for dictionary: competence">competence</span>. It is a way of extending the situations in which that competence can be useful.</p></section><section class="im-article-section" id="article-section-D"><h3 class="im-article-section-title">D. What happens inside the mind?</h3><p class="im-article-paragraph">There is another reason people continue studying languages long after they have acquired enough vocabulary to order food or find their way home: the process itself demands a particular kind of attention. You listen for sounds that once passed unnoticed, search for words while someone waits for your answer, and gradually learn to express a thought using unfamiliar grammatical structures.</p><p class="im-article-paragraph">Research into bilingualism and cognition has produced an interesting but sometimes overstated debate. Speaking more than one language does not reliably guarantee a general increase in intelligence, and claims that bilingual people enjoy universal protection against cognitive decline remain <span aria-label="Dictionary: contested" class="im-vocab-word-in-text" data-dictionary-word="contested" role="button" tabindex="0" title="Double-click for dictionary: contested">contested</span>. Studies have found differences in particular cognitive tasks, but results vary according to the participants, methods and circumstances being investigated.</p><p class="im-article-paragraph">The more immediate benefit is easier to observe. Learning a language requires repeated practice in remembering information, recognising patterns, interpreting context and correcting mistakes. It also trains you to tolerate <span aria-label="Dictionary: uncertainty" class="im-vocab-word-in-text" data-dictionary-word="uncertainty" role="button" tabindex="0" title="Double-click for dictionary: uncertainty">uncertainty</span>: you may understand the general meaning of a conversation without catching every word, or communicate successfully despite knowing that your sentence was not quite right.</p><p class="im-article-paragraph">That experience can be valuable beyond language study. You become more comfortable with the uncomfortable middle stage of learning, when you know enough to recognise how much you still do not know. Instead of waiting until you feel completely prepared, you begin to act with incomplete knowledge and improve through experience.</p><p class="im-article-paragraph">There is a social dimension, too. When you speak a language imperfectly, you discover how much communication depends on patience, gestures, context and a willingness to clarify. You may become less quick to judge someone who struggles to express an intelligent thought in a language they are still learning. Their vocabulary may be limited, but their ideas are not necessarily simple.</p></section><section class="im-article-section" id="article-section-E"><h3 class="im-article-section-title">E. The difficult part is continuing</h3><p class="im-article-paragraph">Anyone who has studied a foreign language for more than a few weeks knows the initial excitement eventually gives way to a less glamorous routine. New words stop arriving as quickly, grammar becomes frustrating, and conversations remain difficult even after months of work. You can understand a lesson perfectly well and then fail to use the same structure when a real person asks you an unexpected question.</p><p class="im-article-paragraph">This <span aria-label="Dictionary: plateau" class="im-vocab-word-in-text" data-dictionary-word="plateau" role="button" tabindex="0" title="Double-click for dictionary: plateau">plateau</span> is not proof that you lack a talent for languages. It is often a sign that passive recognition has developed faster than active use. Reading and listening provide valuable exposure, but speaking and writing require you to <span aria-label="Dictionary: retrieve" class="im-vocab-word-in-text" data-dictionary-word="retrieve" role="button" tabindex="0" title="Double-click for dictionary: retrieve">retrieve</span> words, organise ideas and make decisions in real time.</p><p class="im-article-paragraph">A sustainable routine combines these experiences. Read material that interests you, listen to conversations at a level you can mostly follow, review vocabulary across several sessions and find opportunities to speak before you feel entirely ready. If you are learning Italian, for example, you might read a short news article in the morning, listen to a podcast while walking and ask a question in Italian at a local shop. Each activity develops a different part of the skill, and together they bring the language into ordinary life.</p><p class="im-article-paragraph">It helps to choose a reason that matters personally. A certificate can provide a deadline, but curiosity is often a better companion over the long term. Perhaps you want to understand films without subtitles, speak with your partner's family, read literature in its original form or feel less like a visitor in the place where you live. A clear reason makes the inevitable frustrations easier to put into perspective.</p><p class="im-article-paragraph">You do not have to collect languages to prove that you are intelligent, cultured or ambitious. One language learned well enough to connect with people can be more valuable than several studied only long enough to introduce yourself.</p><p class="im-article-paragraph">Eventually, the railway station becomes easier to navigate. You recognise the announcement, understand the question from the ticket inspector and perhaps help another traveller who looks as confused as you once did. The country has not changed its language to <span aria-label="Dictionary: accommodate" class="im-vocab-word-in-text" data-dictionary-word="accommodate" role="button" tabindex="0" title="Double-click for dictionary: accommodate">accommodate</span> you; you have gradually learned how to meet it on its own terms.</p><p class="im-article-paragraph">And somewhere along the way, a foreign language stops being a subject in a notebook. It becomes another way to take part in the world.</p></section><section class="im-article-section im-extra-learning" id="article-advanced-words"><h3 class="im-article-section-title">Advanced Words</h3><p class="im-article-paragraph"><strong>1. Reassurance — </strong>Something that makes you feel less worried or uncertain. Example: Hearing that my application had been received gave me some reassurance.</p><p class="im-article-paragraph"><strong>2. Texture — </strong>The distinctive character or quality of an experience, situation or place. Example: Living in a small town gave me a better understanding of the texture of everyday Italian life.</p><p class="im-article-paragraph"><strong>3. Romanticise — </strong>To describe or imagine something as more attractive or ideal than it really is. Example: People sometimes romanticise life abroad without considering the difficulties of living far from family.</p><p class="im-article-paragraph"><strong>4. Distinguish — </strong>To recognise or show the difference between people or things. Example: Practical experience can distinguish one job applicant from another.</p><p class="im-article-paragraph"><strong>5. Competence — </strong>The ability and knowledge needed to do something successfully. Example: Her language competence improved considerably after she started speaking with local residents.</p><p class="im-article-paragraph"><strong>6. Contested — </strong>Subject to disagreement or debate. Example: The idea that technology always improves education remains contested among researchers.</p><p class="im-article-paragraph"><strong>7. Uncertainty — </strong>A situation in which you do not know what will happen or what is true. Example: Moving abroad taught me to live with uncertainty instead of worrying about every possible outcome.</p><p class="im-article-paragraph"><strong>8. Plateau — </strong>A period during which progress slows or stops after an earlier period of improvement. Example: My fitness progress reached a plateau, so I changed my training routine.</p><p class="im-article-paragraph"><strong>9. Retrieve — </strong>To bring information back into your memory or recover something. Example: I recognised the word when I read it, but I couldn't retrieve it during the conversation.</p><p class="im-article-paragraph"><strong>10. Accommodate — </strong>To adapt to someone's needs or make room for a particular situation. Example: The university adjusted its timetable to accommodate students with part-time jobs.</p></section><section class="im-article-section im-extra-learning" id="article-discussion"><h3 class="im-article-section-title">5 Discussion Questions</h3><p class="im-article-paragraph">1. Do you think learning a foreign language is more valuable for career opportunities or for personal growth? Why?</p><p class="im-article-paragraph">2. Should immigrants be expected to learn the local language, and what responsibilities should governments have in helping them?</p><p class="im-article-paragraph">3. Does speaking another language help people understand a different culture, or can cultural understanding develop without language learning?</p><p class="im-article-paragraph">4. Why do many learners lose motivation when they reach a plateau, and what could help them continue?</p><p class="im-article-paragraph">5. If you could become fluent in any language overnight, which would you choose, and how would it change your life?</p></section></div>
+</section>
+<div aria-label="Resize article and question panels" aria-orientation="vertical" class="im-splitter" id="im-splitter" role="separator" tabindex="0"><span aria-hidden="true" class="im-splitter-grip">↔</span></div>
+<section aria-label="Article questions" class="im-question-col" id="im-questions"><section aria-labelledby="group-1-6" class="im-group" data-im-from="1" data-im-to="6"><h3 class="im-group-title" id="group-1-6">Questions 1–6</h3><p class="im-guide">Complete each sentence with the correct ending A–H. There are TWO extra endings.</p><div class="im-summary-panel im-ending-bank"><h4 class="im-summary-heading">List of Endings</h4><p class="im-ending-option"><strong>A  </strong>must speak perfectly before they can use the local language in public.</p><p class="im-ending-option"><strong>B  </strong>can participate in a real-life interaction despite imperfect grammar.</p><p class="im-ending-option"><strong>C  </strong>details of daily life that may not appear in formal explanations.</p><p class="im-ending-option"><strong>D  </strong>a person’s occupation, location, and demand for their combination of skills.</p><p class="im-ending-option"><strong>E  </strong>has not established a guaranteed general improvement in intelligence.</p><p class="im-ending-option"><strong>F  </strong>practising active production rather than relying only on recognition.</p><p class="im-ending-option"><strong>G  </strong>can take a more independent part in the surrounding community.</p><p class="im-ending-option"><strong>H  </strong>automatically receive a higher salary and a better job.</p></div><fieldset class="im-question im-question-matching" data-question="1" id="question-1"><legend class="im-q-text"><span class="im-qnum">1</span> The encounter at the railway station shows that language learners ...</legend><label class="im-feature-label" for="q1">Choose an ending:</label><select aria-label="Sentence ending for question 1" class="im-feature-select" id="q1" name="q1"><option value="">Select A–H</option><option value="A">A — must speak perfectly before they can use the local language in public.</option><option value="B">B — can participate in a real-life interaction despite imperfect grammar.</option><option value="C">C — details of daily life that may not appear in formal explanations.</option><option value="D">D — a person’s occupation, location, and demand for their combination of skills.</option><option value="E">E — has not established a guaranteed general improvement in intelligence.</option><option value="F">F — practising active production rather than relying only on recognition.</option><option value="G">G — can take a more independent part in the surrounding community.</option><option value="H">H — automatically receive a higher salary and a better job.</option></select></fieldset><fieldset class="im-question im-question-matching" data-question="2" id="question-2"><legend class="im-q-text"><span class="im-qnum">2</span> Talking with local people can reveal ...</legend><label class="im-feature-label" for="q2">Choose an ending:</label><select aria-label="Sentence ending for question 2" class="im-feature-select" id="q2" name="q2"><option value="">Select A–H</option><option value="A">A — must speak perfectly before they can use the local language in public.</option><option value="B">B — can participate in a real-life interaction despite imperfect grammar.</option><option value="C">C — details of daily life that may not appear in formal explanations.</option><option value="D">D — a person’s occupation, location, and demand for their combination of skills.</option><option value="E">E — has not established a guaranteed general improvement in intelligence.</option><option value="F">F — practising active production rather than relying only on recognition.</option><option value="G">G — can take a more independent part in the surrounding community.</option><option value="H">H — automatically receive a higher salary and a better job.</option></select></fieldset><fieldset class="im-question im-question-matching" data-question="3" id="question-3"><legend class="im-q-text"><span class="im-qnum">3</span> The professional value of an additional language depends partly on ...</legend><label class="im-feature-label" for="q3">Choose an ending:</label><select aria-label="Sentence ending for question 3" class="im-feature-select" id="q3" name="q3"><option value="">Select A–H</option><option value="A">A — must speak perfectly before they can use the local language in public.</option><option value="B">B — can participate in a real-life interaction despite imperfect grammar.</option><option value="C">C — details of daily life that may not appear in formal explanations.</option><option value="D">D — a person’s occupation, location, and demand for their combination of skills.</option><option value="E">E — has not established a guaranteed general improvement in intelligence.</option><option value="F">F — practising active production rather than relying only on recognition.</option><option value="G">G — can take a more independent part in the surrounding community.</option><option value="H">H — automatically receive a higher salary and a better job.</option></select></fieldset><fieldset class="im-question im-question-matching" data-question="4" id="question-4"><legend class="im-q-text"><span class="im-qnum">4</span> Research into the cognitive effects of bilingualism ...</legend><label class="im-feature-label" for="q4">Choose an ending:</label><select aria-label="Sentence ending for question 4" class="im-feature-select" id="q4" name="q4"><option value="">Select A–H</option><option value="A">A — must speak perfectly before they can use the local language in public.</option><option value="B">B — can participate in a real-life interaction despite imperfect grammar.</option><option value="C">C — details of daily life that may not appear in formal explanations.</option><option value="D">D — a person’s occupation, location, and demand for their combination of skills.</option><option value="E">E — has not established a guaranteed general improvement in intelligence.</option><option value="F">F — practising active production rather than relying only on recognition.</option><option value="G">G — can take a more independent part in the surrounding community.</option><option value="H">H — automatically receive a higher salary and a better job.</option></select></fieldset><fieldset class="im-question im-question-matching" data-question="5" id="question-5"><legend class="im-q-text"><span class="im-qnum">5</span> Overcoming a plateau in language learning can require ...</legend><label class="im-feature-label" for="q5">Choose an ending:</label><select aria-label="Sentence ending for question 5" class="im-feature-select" id="q5" name="q5"><option value="">Select A–H</option><option value="A">A — must speak perfectly before they can use the local language in public.</option><option value="B">B — can participate in a real-life interaction despite imperfect grammar.</option><option value="C">C — details of daily life that may not appear in formal explanations.</option><option value="D">D — a person’s occupation, location, and demand for their combination of skills.</option><option value="E">E — has not established a guaranteed general improvement in intelligence.</option><option value="F">F — practising active production rather than relying only on recognition.</option><option value="G">G — can take a more independent part in the surrounding community.</option><option value="H">H — automatically receive a higher salary and a better job.</option></select></fieldset><fieldset class="im-question im-question-matching" data-question="6" id="question-6"><legend class="im-q-text"><span class="im-qnum">6</span> The return to the railway station at the end suggests that a learner ...</legend><label class="im-feature-label" for="q6">Choose an ending:</label><select aria-label="Sentence ending for question 6" class="im-feature-select" id="q6" name="q6"><option value="">Select A–H</option><option value="A">A — must speak perfectly before they can use the local language in public.</option><option value="B">B — can participate in a real-life interaction despite imperfect grammar.</option><option value="C">C — details of daily life that may not appear in formal explanations.</option><option value="D">D — a person’s occupation, location, and demand for their combination of skills.</option><option value="E">E — has not established a guaranteed general improvement in intelligence.</option><option value="F">F — practising active production rather than relying only on recognition.</option><option value="G">G — can take a more independent part in the surrounding community.</option><option value="H">H — automatically receive a higher salary and a better job.</option></select></fieldset></section><section aria-labelledby="group-7-13" class="im-group" data-im-from="7" data-im-to="13"><h3 class="im-group-title" id="group-7-13">Questions 7–13</h3><p class="im-guide">Choose the correct answer, A, B, C or D.</p><fieldset class="im-question im-question-mcq" data-question="7" id="question-7"><legend class="im-q-text"><span class="im-qnum">7</span> Which statement best reflects the author’s view of the cultural value of language learning?</legend><div class="im-options"><label class="im-option" for="q7-a"><input id="q7-a" name="q7" type="radio" value="A"/><span class="im-option-text">A. Speaking another language guarantees close friendships.</span></label><label class="im-option" for="q7-b"><input id="q7-b" name="q7" type="radio" value="B"/><span class="im-option-text">B. Translations always provide an adequate picture of local life.</span></label><label class="im-option" for="q7-c"><input id="q7-c" name="q7" type="radio" value="C"/><span class="im-option-text">C. It can open up participation and understanding without guaranteeing either.</span></label><label class="im-option" for="q7-d"><input id="q7-d" name="q7" type="radio" value="D"/><span class="im-option-text">D. Language learning removes all cultural misunderstandings.</span></label></div></fieldset><fieldset class="im-question im-question-mcq" data-question="8" id="question-8"><legend class="im-q-text"><span class="im-qnum">8</span> How can knowing the local language particularly help a student studying abroad?</legend><div class="im-options"><label class="im-option" for="q8-a"><input id="q8-a" name="q8" type="radio" value="A"/><span class="im-option-text">A. By making local appointments and everyday tasks less dependent on other people.</span></label><label class="im-option" for="q8-b"><input id="q8-b" name="q8" type="radio" value="B"/><span class="im-option-text">B. By eliminating the need to complete university assignments.</span></label><label class="im-option" for="q8-c"><input id="q8-c" name="q8" type="radio" value="C"/><span class="im-option-text">C. By ensuring a higher salary immediately after graduation.</span></label><label class="im-option" for="q8-d"><input id="q8-d" name="q8" type="radio" value="D"/><span class="im-option-text">D. By making technical expertise unnecessary.</span></label></div></fieldset><fieldset class="im-question im-question-mcq" data-question="9" id="question-9"><legend class="im-q-text"><span class="im-qnum">9</span> According to the article, what is a readily observable benefit of studying a language?</legend><div class="im-options"><label class="im-option" for="q9-a"><input id="q9-a" name="q9" type="radio" value="A"/><span class="im-option-text">A. A permanent rise in measured intelligence.</span></label><label class="im-option" for="q9-b"><input id="q9-b" name="q9" type="radio" value="B"/><span class="im-option-text">B. Regular practice in recalling, identifying patterns and interpreting context.</span></label><label class="im-option" for="q9-c"><input id="q9-c" name="q9" type="radio" value="C"/><span class="im-option-text">C. Complete protection against cognitive decline.</span></label><label class="im-option" for="q9-d"><input id="q9-d" name="q9" type="radio" value="D"/><span class="im-option-text">D. The ability to remember every conversation word for word.</span></label></div></fieldset><fieldset class="im-question im-question-mcq" data-question="10" id="question-10"><legend class="im-q-text"><span class="im-qnum">10</span> What social insight may come from speaking a new language imperfectly?</legend><div class="im-options"><label class="im-option" for="q10-a"><input id="q10-a" name="q10" type="radio" value="A"/><span class="im-option-text">A. Others should always correct your grammar immediately.</span></label><label class="im-option" for="q10-b"><input id="q10-b" name="q10" type="radio" value="B"/><span class="im-option-text">B. Gestures can replace every spoken language.</span></label><label class="im-option" for="q10-c"><input id="q10-c" name="q10" type="radio" value="C"/><span class="im-option-text">C. Only fluent speakers can express complex ideas.</span></label><label class="im-option" for="q10-d"><input id="q10-d" name="q10" type="radio" value="D"/><span class="im-option-text">D. A limited vocabulary does not necessarily mean simple thinking.</span></label></div></fieldset><fieldset class="im-question im-question-mcq" data-question="11" id="question-11"><legend class="im-q-text"><span class="im-qnum">11</span> Why might a learner understand lessons but struggle during real conversations?</legend><div class="im-options"><label class="im-option" for="q11-a"><input id="q11-a" name="q11" type="radio" value="A"/><span class="im-option-text">A. Receptive recognition has developed more quickly than active language use.</span></label><label class="im-option" for="q11-b"><input id="q11-b" name="q11" type="radio" value="B"/><span class="im-option-text">B. Reading and listening have no role in language learning.</span></label><label class="im-option" for="q11-c"><input id="q11-c" name="q11" type="radio" value="C"/><span class="im-option-text">C. The learner has certainly reached the highest possible level.</span></label><label class="im-option" for="q11-d"><input id="q11-d" name="q11" type="radio" value="D"/><span class="im-option-text">D. Grammar knowledge is unrelated to communication.</span></label></div></fieldset><fieldset class="im-question im-question-mcq" data-question="12" id="question-12"><legend class="im-q-text"><span class="im-qnum">12</span> What practice routine does the author recommend?</legend><div class="im-options"><label class="im-option" for="q12-a"><input id="q12-a" name="q12" type="radio" value="A"/><span class="im-option-text">A. Only studying vocabulary lists until all words are memorised.</span></label><label class="im-option" for="q12-b"><input id="q12-b" name="q12" type="radio" value="B"/><span class="im-option-text">B. Avoiding conversations until grammar is perfect.</span></label><label class="im-option" for="q12-c"><input id="q12-c" name="q12" type="radio" value="C"/><span class="im-option-text">C. Combining reading, listening, spaced review and opportunities to speak.</span></label><label class="im-option" for="q12-d"><input id="q12-d" name="q12" type="radio" value="D"/><span class="im-option-text">D. Replacing all study materials with one formal certificate course.</span></label></div></fieldset><fieldset class="im-question im-question-mcq" data-question="13" id="question-13"><legend class="im-q-text"><span class="im-qnum">13</span> Why can a personally meaningful reason help a learner continue?</legend><div class="im-options"><label class="im-option" for="q13-a"><input id="q13-a" name="q13" type="radio" value="A"/><span class="im-option-text">A. It makes the learner immune to mistakes.</span></label><label class="im-option" for="q13-b"><input id="q13-b" name="q13" type="radio" value="B"/><span class="im-option-text">B. It helps keep frustrating periods in perspective over time.</span></label><label class="im-option" for="q13-c"><input id="q13-c" name="q13" type="radio" value="C"/><span class="im-option-text">C. It guarantees that progress will never slow down.</span></label><label class="im-option" for="q13-d"><input id="q13-d" name="q13" type="radio" value="D"/><span class="im-option-text">D. It removes the need for regular practice.</span></label></div></fieldset></section></section>
+</main>
+<div aria-label="Previous or next question" class="im-inline-step"><button aria-label="Previous question" class="im-step-btn" id="im-previous" type="button">‹</button><button aria-label="Next question" class="im-step-btn" id="im-next" type="button">›</button></div>
+<footer class="im-footer" id="im-footer">
+<div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav aria-label="Questions" class="im-qnav" id="im-qnav">
+<button aria-label="Question 1" class="im-qnav-item" data-im-question="1" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>1</button>
+<button aria-label="Question 2" class="im-qnav-item" data-im-question="2" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>2</button>
+<button aria-label="Question 3" class="im-qnav-item" data-im-question="3" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>3</button>
+<button aria-label="Question 4" class="im-qnav-item" data-im-question="4" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>4</button>
+<button aria-label="Question 5" class="im-qnav-item" data-im-question="5" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>5</button>
+<button aria-label="Question 6" class="im-qnav-item" data-im-question="6" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>6</button>
+<button aria-label="Question 7" class="im-qnav-item" data-im-question="7" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>7</button>
+<button aria-label="Question 8" class="im-qnav-item" data-im-question="8" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>8</button>
+<button aria-label="Question 9" class="im-qnav-item" data-im-question="9" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>9</button>
+<button aria-label="Question 10" class="im-qnav-item" data-im-question="10" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>10</button>
+<button aria-label="Question 11" class="im-qnav-item" data-im-question="11" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>11</button>
+<button aria-label="Question 12" class="im-qnav-item" data-im-question="12" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>12</button>
+<button aria-label="Question 13" class="im-qnav-item" data-im-question="13" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>13</button>
+</nav></div></div>
+<div class="im-foot-right"><button aria-label="Check article answers" class="im-check im-check-final" id="im-check-btn" title="Check all answers" type="button"><span aria-hidden="true" class="im-check-mark">✓</span><span>Check</span></button></div>
+</footer>
+<aside aria-labelledby="im-dict-title" aria-modal="false" class="im-dictionary-panel" hidden="" id="im-dictionary-panel" role="dialog" tabindex="-1">
+<div class="im-dict-top"><span class="im-dict-eyebrow">LEARNERS AREA · DICTIONARY</span>
+<button aria-label="Close dictionary" class="im-dict-close" id="im-dict-close" title="Close" type="button">×</button></div>
+<div class="im-dict-title-row"><h2 id="im-dict-title">Dictionary</h2><button aria-label="Pronounce word" class="im-dict-speak" id="im-dict-speak" title="Play English pronunciation" type="button">🔊</button></div>
+<p class="im-dict-meta" id="im-dict-meta"></p>
+<div id="im-dict-definition-block"><p class="im-dict-label">Simple definition</p><p class="im-dict-definition" id="im-dict-definition"></p>
+<p class="im-dict-label">O‘zbekcha tarjimasi</p><p class="im-dict-translation" id="im-dict-translation"></p>
+<p class="im-dict-label">Example</p><p class="im-dict-example" id="im-dict-example"></p></div>
+<div class="im-dict-words" hidden="" id="im-dict-words"><p class="im-dict-label">Words in this article</p><div class="im-dict-word-buttons" id="im-dict-word-buttons"></div></div>
+</aside></div>
+<dialog aria-labelledby="im-result-title" class="im-modal" id="im-result">
+<h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+<div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+<div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</dialog>
+<script>
+(() => {
+  'use strict';
+  const root = document.querySelector('.im-app');
+  const main = document.querySelector('.im-main');
+  const passage = document.getElementById('im-passage-col');
+  const questionPanel = document.getElementById('im-questions');
+  const split = document.getElementById('im-splitter');
+  const navButtons = [...document.querySelectorAll('.im-qnav-item')];
+  const bankButtons = [...document.querySelectorAll('.im-chip[data-heading]')];
+  const headingInputs = [...document.querySelectorAll('.im-head-drop')];
+  const otherInputs = [...document.querySelectorAll('.im-options input, .im-gap-input, .im-feature-select')];
+  const headingLabels = Object.fromEntries(bankButtons.map((button) => [button.dataset.heading, button.textContent.trim().replace(/^\S+\s+/, '')]));
+  const solution = Object.freeze({"q1": "B", "q2": "C", "q3": "D", "q4": "E", "q5": "F", "q6": "G", "q7": "C", "q8": "A", "q9": "B", "q10": "D", "q11": "A", "q12": "C", "q13": "B"});
+  const explanations = Object.freeze({"q1": "The opening describes a traveller making himself understood and being helped despite imperfect grammar and pronunciation.", "q2": "The cultural section says conversations reveal everyday reactions, jokes and complications missed by formal reports.", "q3": "The career section says professional benefits vary with field, place and the demand for the specific combination of skills.", "q4": "The cognitive section cautions that general intelligence and protection against decline are not guaranteed by bilingualism.", "q5": "The plateau section explains that active use—speaking and writing—requires retrieval and decisions that recognition alone does not practise.", "q6": "In the final station scene, the traveller can understand announcements, respond to the inspector and help another person.", "q7": "The author says communication creates possibilities while explicitly warning that it does not guarantee friendship or cultural understanding.", "q8": "The study-abroad example mentions administrative appointments, local job advertisements, and conversations beyond the university.", "q9": "The article contrasts contested general cognitive claims with the repeated memory and pattern-recognition practice language learning requires.", "q10": "The author says learners may become less quick to judge others: limited vocabulary does not imply limited ideas.", "q11": "The plateau section distinguishes passive recognition from the real-time retrieval and organisation required for speaking and writing.", "q12": "The author proposes varied activities, repeated vocabulary review and speaking before feeling entirely ready.", "q13": "The closing section contrasts external certification deadlines with personal curiosity, which can help make inevitable frustrations manageable."});
+  const storageKey = 'learners-area.article.importance-of-learning-a-foreign-language.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
+  let selectedHeading = null;
+  let activeQuestion = 1;
+  let timerInterval = null;
+  let pickerAnchor = null;
+  let pointerStartRatio = null;
+
+  function safeStore() {
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
+    catch (_) { /* Standalone private modes may disable storage. */ }
+  }
+
+  function safeRestore() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (!parsed || typeof parsed !== 'object') return;
+      for (let i = 1; i <= 13; i++) {
+        const value = parsed.answers && parsed.answers['q' + i];
+        if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
+      }
+    } catch (_) { /* Ignore corrupted saved data. */ }
+  }
+
+  function refreshAnswered() {
+    navButtons.forEach((button) => {
+      const q = 'q' + button.dataset.imQuestion;
+      const answered = !!String(state.answers[q] || '').trim();
+      button.classList.toggle('im-answered', answered);
+      button.setAttribute('aria-label', `Question ${button.dataset.imQuestion}, ${answered ? 'answered' : 'not answered'}`);
+    });
+    bankButtons.forEach((button) => {
+      const id = button.dataset.heading;
+      const used = headingInputs.some((input) => state.answers[input.name] === id);
+      button.classList.toggle('im-chip-used', used);
+      button.classList.toggle('im-chip-selected', selectedHeading === id);
+      button.setAttribute('aria-pressed', String(selectedHeading === id));
+    });
+  }
+
+  function updateAnswer(name, value) {
+    if (!/^q([1-9]|1[0-3])$/.test(name)) return;
+    if (value) state.answers[name] = value;
+    else delete state.answers[name];
+    safeStore();
+    refreshAnswered();
+    document.dispatchEvent(new CustomEvent('learnersarea:article-answer', { detail: { question: Number(name.slice(1)), answer: value } }));
+  }
+
+  function closePicker() {
+    if (!pickerAnchor) return;
+    const popup = pickerAnchor.parentElement.querySelector('.im-heading-picker');
+    popup.hidden = true;
+    pickerAnchor.setAttribute('aria-expanded', 'false');
+    pickerAnchor = null;
+  }
+
+  function applyHeading(input, headingId) {
+    if (headingId && !(headingId in headingLabels)) return;
+    // Each heading can be used only once in this matching question bank.
+    headingInputs.forEach((other) => {
+      if (other !== input && state.answers[other.name] === headingId && headingId) {
+        other.value = '';
+        other.classList.add('im-drop-empty');
+        other.title = `Choose a heading for question ${other.dataset.imQ}`;
+        delete state.answers[other.name];
+      }
+    });
+    input.value = headingId ? `${headingId} ${headingLabels[headingId]}` : '';
+    input.classList.toggle('im-drop-empty', !headingId);
+    input.title = headingId ? `Assigned: ${headingLabels[headingId]}. Click to change.` : 'Click to choose a heading';
+    updateAnswer(input.name, headingId);
+    selectedHeading = null;
+    closePicker();
+    refreshAnswered();
+    goToQuestion(Number(input.dataset.imQ), false);
+  }
+
+  function openPicker(input) {
+    if (pickerAnchor === input) { closePicker(); return; }
+    closePicker();
+    const picker = input.parentElement.querySelector('.im-heading-picker');
+    picker.replaceChildren();
+    Object.entries(headingLabels).forEach(([id, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = `${id}  ${label}`;
+      button.addEventListener('click', () => { applyHeading(input, id); input.focus(); });
+      picker.append(button);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'im-clear';
+    clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { applyHeading(input, ''); input.focus(); });
+    picker.append(clear);
+    picker.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    pickerAnchor = input;
+  }
+
+  function restoreInputs() {
+    headingInputs.forEach((input) => {
+      const selected = state.answers[input.name];
+      input.value = headingLabels[selected] ? `${selected} ${headingLabels[selected]}` : '';
+      input.classList.toggle('im-drop-empty', !headingLabels[selected]);
+      input.title = 'Click to choose or change the heading';
+    });
+    otherInputs.forEach((input) => {
+      if (input.type === 'radio') input.checked = state.answers[input.name] === input.value;
+      else input.value = state.answers[input.name] || '';
+    });
+    refreshAnswered();
+  }
+
+  bankButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedHeading = selectedHeading === button.dataset.heading ? null : button.dataset.heading;
+      closePicker();
+      refreshAnswered();
+    });
+    button.addEventListener('dragstart', (event) => {
+      selectedHeading = button.dataset.heading;
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', selectedHeading);
+      }
+      refreshAnswered();
+    });
+  });
+
+  headingInputs.forEach((input) => {
+    input.addEventListener('click', () => {
+      if (selectedHeading) applyHeading(input, selectedHeading);
+      else openPicker(input);
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (selectedHeading) applyHeading(input, selectedHeading);
+        else openPicker(input);
+      } else if (event.key === 'Escape') closePicker();
+      else if (event.key === 'Delete' || event.key === 'Backspace') {
+        event.preventDefault();
+        applyHeading(input, '');
+      }
+    });
+    input.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      input.classList.add('im-drop-drop-target');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    input.addEventListener('dragleave', () => input.classList.remove('im-drop-drop-target'));
+    input.addEventListener('drop', (event) => {
+      event.preventDefault();
+      input.classList.remove('im-drop-drop-target');
+      const value = event.dataTransfer && event.dataTransfer.getData('text/plain');
+      if (value in headingLabels) applyHeading(input, value);
+    });
+  });
+  document.addEventListener('click', (event) => {
+    if (pickerAnchor && !pickerAnchor.parentElement.contains(event.target)) closePicker();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePicker(); });
+
+  otherInputs.forEach((input) => {
+    const eventName = input.type === 'radio' || input.tagName === 'SELECT' ? 'change' : 'input';
+    input.addEventListener(eventName, () => {
+      updateAnswer(input.name, input.value.trim());
+      if (input.type === 'text') {
+        const count = input.value.trim().split(/\s+/).filter(Boolean).length;
+        input.setCustomValidity(count > 1 ? 'Enter one word only.' : '');
+      }
+    });
+    input.addEventListener('focus', () => goToQuestion(Number(input.name.slice(1)), false));
+  });
+
+  function goToQuestion(number, shouldScroll = true) {
+    if (!Number.isInteger(number) || number < 1 || number > 13) return;
+    activeQuestion = number;
+    navButtons.forEach((button) => {
+      const current = Number(button.dataset.imQuestion) === number;
+      button.classList.toggle('im-active', current);
+      if (current) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('im-previous').disabled = number === 1;
+    document.getElementById('im-next').disabled = number === 13;
+    if (!shouldScroll) return;
+    const target = document.getElementById('question-' + number);
+    if (!target) return;
+    const scroller = target.closest('.im-passage-col, .im-question-col');
+    if (!scroller) return;
+    const item = target.getBoundingClientRect();
+    const panel = scroller.getBoundingClientRect();
+    const offset = item.top - panel.top - panel.height * .34;
+    scroller.scrollTo({top: Math.max(0, scroller.scrollTop + offset), behavior: 'smooth'});
+  }
+  navButtons.forEach((button) => {
+    button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
+  });
+  document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
+  document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
+
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
+  function updateTimer() {
+    const seconds = state.remainingSeconds;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    const clock = document.getElementById('im-clock');
+    clock.textContent = `${mm}:${ss}`;
+    clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
+  }
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
+  });
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
+
+  split.addEventListener('pointerdown', (event) => {
+    if (window.matchMedia('(max-width: 850px)').matches) return;
+    pointerStartRatio = event.pointerId;
+    split.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  split.addEventListener('pointermove', (event) => {
+    if (pointerStartRatio !== event.pointerId) return;
+    const bounds = main.getBoundingClientRect();
+    const raw = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const percent = Math.max(30, Math.min(70, raw));
+    root.style.setProperty('--im-left-width', `${percent}%`);
+  });
+  function releaseDivider(event) {
+    if (pointerStartRatio === event.pointerId) pointerStartRatio = null;
+  }
+  split.addEventListener('pointerup', releaseDivider);
+  split.addEventListener('pointercancel', releaseDivider);
+  split.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const old = parseFloat(root.style.getPropertyValue('--im-left-width')) || 49.5;
+    root.style.setProperty('--im-left-width', `${Math.max(30, Math.min(70, old + (event.key === 'ArrowRight' ? 2 : -2)))}%`);
+  });
+
+  function normalise(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  }
+  const acceptableAnswers = Object.freeze({});
+  const resultDialog = document.getElementById('im-result');
+  document.getElementById('im-check-btn').addEventListener('click', () => {
+    const body = document.getElementById('im-review-body');
+    const fragment = document.createDocumentFragment();
+    let correct = 0;
+    for (let i = 1; i <= 13; i++) {
+      const key = 'q' + i;
+      const given = String(state.answers[key] || '');
+      const isCorrect = (acceptableAnswers[key] || [solution[key]]).some((answer) => normalise(given) === normalise(answer));
+      correct += Number(isCorrect);
+      const tr = document.createElement('tr');
+      const cellNo = document.createElement('td');
+      cellNo.textContent = String(i);
+      const cellGiven = document.createElement('td');
+      cellGiven.textContent = given || '—';
+      const cellCorrect = document.createElement('td');
+      cellCorrect.textContent = solution[key];
+      const cellStatus = document.createElement('td');
+      cellStatus.textContent = isCorrect ? '✓' : '✕';
+      cellStatus.className = isCorrect ? 'im-ok' : 'im-bad';
+      const cellExplanation = document.createElement('td');
+      cellExplanation.textContent = explanations[key] || '';
+      tr.append(cellNo, cellGiven, cellCorrect, cellStatus, cellExplanation);
+      fragment.append(tr);
+    }
+    body.replaceChildren(fragment);
+    document.getElementById('im-score').textContent = `${correct} / 13 correct`;
+    if (typeof resultDialog.showModal === 'function') resultDialog.showModal();
+    else resultDialog.setAttribute('open', '');
+  });
+  document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
+  safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
+
+
+  // Dictionary words are restored from the actual article's glossary, not generated meanings.
+  const dictionary = Object.freeze({"reassurance": {"word": "Reassurance", "pos": "noun", "level": "B2–C1", "ipa": "", "definition": "Something that makes you feel less worried or uncertain.", "translation": "xotirjamlik, taskin", "example": "Hearing that my application had been received gave me some reassurance."}, "texture": {"word": "Texture", "pos": "noun", "level": "B2–C1", "ipa": "", "definition": "The distinctive character or quality of an experience, situation or place.", "translation": "o‘ziga xos jihat, muhitning nozik xususiyatlari", "example": "Living in a small town gave me a better understanding of the texture of everyday Italian life."}, "romanticise": {"word": "Romanticise", "pos": "verb", "level": "B2–C1", "ipa": "", "definition": "To describe or imagine something as more attractive or ideal than it really is.", "translation": "ideallashtirmoq, haddan ortiq chiroyli tasvirlamoq", "example": "People sometimes romanticise life abroad without considering the difficulties of living far from family."}, "distinguish": {"word": "Distinguish", "pos": "verb", "level": "B2–C1", "ipa": "", "definition": "To recognise or show the difference between people or things.", "translation": "farqlamoq, ajratib ko‘rsatmoq", "example": "Practical experience can distinguish one job applicant from another."}, "competence": {"word": "Competence", "pos": "noun", "level": "B2–C1", "ipa": "", "definition": "The ability and knowledge needed to do something successfully.", "translation": "malaka, layoqat", "example": "Her language competence improved considerably after she started speaking with local residents."}, "contested": {"word": "Contested", "pos": "adjective", "level": "B2–C1", "ipa": "", "definition": "Subject to disagreement or debate.", "translation": "bahsli, munozarali", "example": "The idea that technology always improves education remains contested among researchers."}, "uncertainty": {"word": "Uncertainty", "pos": "noun", "level": "B2–C1", "ipa": "", "definition": "A situation in which you do not know what will happen or what is true.", "translation": "noaniqlik", "example": "Moving abroad taught me to live with uncertainty instead of worrying about every possible outcome."}, "plateau": {"word": "Plateau", "pos": "noun", "level": "B2–C1", "ipa": "", "definition": "A period during which progress slows or stops after an earlier period of improvement.", "translation": "rivojlanishdagi turg‘unlik bosqichi", "example": "My fitness progress reached a plateau, so I changed my training routine."}, "retrieve": {"word": "Retrieve", "pos": "verb", "level": "B2–C1", "ipa": "", "definition": "To bring information back into your memory or recover something.", "translation": "xotiradan eslab topmoq", "example": "I recognised the word when I read it, but I couldn't retrieve it during the conversation."}, "accommodate": {"word": "Accommodate", "pos": "verb", "level": "B2–C1", "ipa": "", "definition": "To adapt to someone's needs or make room for a particular situation.", "translation": "moslashmoq, sharoit yaratmoq", "example": "The university adjusted its timetable to accommodate students with part-time jobs."}});
+  const dictionaryAliases = Object.freeze({});
+  const dictionaryPanel = document.getElementById('im-dictionary-panel');
+  const dictionaryWords = [...document.querySelectorAll('.im-vocab-word-in-text')];
+  const dictionaryButton = document.getElementById('im-dictionary-list');
+  const dictionaryClose = document.getElementById('im-dict-close');
+  const dictionaryAudio = document.getElementById('im-dict-speak');
+  const dictionaryList = document.getElementById('im-dict-words');
+  const dictionaryListButtons = document.getElementById('im-dict-word-buttons');
+  let activeDictionaryWord = '';
+  let lastDictionaryAnchor = null;
+  let pressTimer = null;
+  let pressGesture = null;
+
+  function dictionaryKey(element) {
+    const raw = String(element.dataset.dictionaryWord || element.textContent || '').trim().toLowerCase();
+    return dictionaryAliases[raw] || raw;
+  }
+  function dictionaryText(id, value) { document.getElementById(id).textContent = value; }
+  function openDictionary(key, anchor = null, list = false) {
+    const entry = dictionary[key];
+    if (!entry) return;
+    const detail = {word:key, sourceType:'reading', sourceId:'importance-of-learning-a-foreign-language', anchor};
+    const event = new CustomEvent('learnersarea:article-word-lookup', {cancelable:true, detail});
+    if (!document.dispatchEvent(event)) return;
+    activeDictionaryWord = key;
+    lastDictionaryAnchor = anchor;
+    dictionaryText('im-dict-title', entry.word);
+    dictionaryText('im-dict-meta', [entry.pos, entry.level, entry.ipa].filter(Boolean).join(' · '));
+    dictionaryText('im-dict-definition', entry.definition);
+    dictionaryText('im-dict-translation', entry.translation);
+    dictionaryText('im-dict-example', entry.example);
+    dictionaryList.hidden = !list;
+    dictionaryPanel.hidden = false;
+    dictionaryPanel.scrollTop = 0;
+    dictionaryPanel.focus({preventScroll:true});
+  }
+  function closeDictionary(returnFocus = false) {
+    if (dictionaryPanel.hidden) return;
+    dictionaryPanel.hidden = true;
+    activeDictionaryWord = '';
+    if (returnFocus && lastDictionaryAnchor) lastDictionaryAnchor.focus({preventScroll:true});
+    lastDictionaryAnchor = null;
+  }
+  const uniqueWords = Object.keys(dictionary);
+  for (const key of uniqueWords) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = key;
+    button.addEventListener('click', () => openDictionary(key, null, true));
+    dictionaryListButtons.append(button);
+  }
+  dictionaryButton.addEventListener('click', () => {
+    if (!dictionaryPanel.hidden && !dictionaryList.hidden) { closeDictionary(true); return; }
+    openDictionary(activeDictionaryWord || uniqueWords[0], null, true);
+  });
+  dictionaryClose.addEventListener('click', () => closeDictionary(true));
+  dictionaryAudio.addEventListener('click', () => {
+    if (!activeDictionaryWord || !('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(activeDictionaryWord);
+    utterance.lang = 'en-GB'; utterance.rate = .9;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  });
+  for (const word of dictionaryWords) {
+    word.addEventListener('dblclick', (event) => {
+      if (event.button !== 0) return;
+      window.getSelection()?.removeAllRanges();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.pointerType === 'mouse') return;
+      clearTimeout(pressTimer);
+      pressGesture = {x:event.clientX,y:event.clientY};
+      pressTimer = window.setTimeout(() => {
+        pressTimer = null;
+        openDictionary(dictionaryKey(word), word);
+      }, 3000);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+      word.addEventListener(name, () => { clearTimeout(pressTimer); pressTimer = null; });
+    }
+    word.addEventListener('pointermove', (event) => {
+      if (pressGesture && Math.hypot(event.clientX - pressGesture.x, event.clientY - pressGesture.y) > 8) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    });
+  }
+  document.addEventListener('pointerdown', (event) => {
+    if (dictionaryPanel.hidden) return;
+    if (dictionaryPanel.contains(event.target) || dictionaryButton.contains(event.target)) return;
+    if (event.target.closest?.('.im-vocab-word-in-text')) return;
+    closeDictionary();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !dictionaryPanel.hidden) closeDictionary(true);
+  });
+  const logo = document.getElementById('im-brand-logo');
+  const logoFallback = document.getElementById('im-brand-fallback');
+  logo.addEventListener('load', () => { if (logo.naturalWidth > 0) logoFallback.hidden = true; });
+  logo.addEventListener('error', () => { logo.hidden = true; logoFallback.hidden = false; });
+  if (logo.complete && logo.naturalWidth > 0) logoFallback.hidden = true;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html data-theme="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0e1523" name="theme-color"/>
+<title>An Hour a Day Is All You Need | Learners Area</title>
+<style>
+:root {
+  color-scheme: light;
+  --im-bg: var(--bg-main, #ffffff);
+  --im-surface: var(--bg-surface, #ffffff);
+  --im-surface-2: var(--bg-secondary, #f8fafc);
+  --im-text: var(--text-main, #111827);
+  --im-muted: var(--text-muted, #5b6473);
+  --im-border: var(--border-color, #d5dbe5);
+  --im-accent: var(--accent-color, #436fd6);
+  --im-accent-soft: var(--accent-soft, #edf2ff);
+  --im-part-head-bg: var(--article-header-bg, #f1f2ee);
+  --im-success: #15803d;
+  --im-danger: #b91c1c;
+  --im-left-width: 49.5%;
+  --im-radius: 8px;
+  --im-footer-height: 54px;
+  --im-font-scale: 1;
+}
+html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] {
+  color-scheme: dark;
+  --im-bg: var(--bg-main, #0e1523);
+  --im-surface: var(--bg-surface, #152032);
+  --im-surface-2: var(--bg-secondary, #1c2a40);
+  --im-text: var(--text-main, #e9edf6);
+  --im-muted: var(--text-muted, #b4c0d1);
+  --im-border: var(--border-color, #3b4c63);
+  --im-accent: var(--accent-color, #76a4ff);
+  --im-accent-soft: var(--accent-soft, #263955);
+  --im-part-head-bg: var(--article-header-bg, #202e40);
+}
+* { box-sizing: border-box; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
+body { margin: 0; background: var(--im-bg); color: var(--im-text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
+:where(button,input,select,a,[tabindex]):focus-visible { outline: 3px solid var(--im-accent); outline-offset: 2px; }
+.im-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.im-app { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--im-bg); }
+.im-topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 20px; min-height: 58px; background: var(--im-surface); border-bottom: 1px solid var(--im-border); }
+.im-bar-left, .im-bar-right { display: flex; align-items: center; gap: 13px; }
+.im-brand { display: flex; gap: 9px; align-items: center; color: var(--im-text); font-weight: 800; white-space: nowrap; }
+.im-brand-mark { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--im-accent); color: white; letter-spacing: -.05em; font-size: 13px; }
+.im-taker-id { font-size: 13px; color: var(--im-muted); }
+.im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
+.im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
+.im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
+.im-passage-body { padding: 26px 26px 40px 28px; }
+.oqish-holati { display: flex; align-items: center; gap: 12px; margin: 0 0 15px; }
+.im-read-track { display: block; flex: 1; height: 3px; background: var(--im-border); border-radius: 10px; overflow: hidden; }
+.im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
+.im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
+.im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
+.im-article-paragraph { margin: 0 0 15px; }
+.im-para-letter { font-weight: 750; }
+.im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
+.im-splitter { position: relative; display: flex; align-items: center; justify-content: center; cursor: col-resize; border-left: 1px solid var(--im-border); border-right: 1px solid var(--im-border); user-select: none; background: var(--im-surface); }
+.im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
+.im-question-body { padding: 27px 30px 45px 23px; }
+.im-group { margin: 0 0 34px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
+.im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
+.im-chip:active { cursor: grabbing; }
+.im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
+.im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
+.im-chip-used { opacity: .64; }
+.im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
+.im-drop::placeholder { color: var(--im-accent); opacity: 1; }
+.im-drop:focus { border-style: solid; }
+.im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
+.im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
+.im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
+.im-heading-picker[hidden] { display: none; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
+.im-heading-picker button:hover { background: var(--im-accent-soft); }
+.im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
+.im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-options { display: flex; flex-direction: column; gap: 17px; }
+.im-option-row { display: flex; align-items: start; gap: 12px; }
+.im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
+.im-option-label:hover { background: var(--im-accent-soft); }
+.im-question-gap .im-q-text { margin-bottom: 0; }
+.im-gap-input { display: inline-block; width: clamp(110px, 27%, 170px); min-height: 33px; padding: 5px 7px; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); text-align: center; margin: 0 6px; }
+.im-gap-input:hover { border-color: var(--im-accent); }
+.im-gap-input:focus { border-color: var(--im-accent); }
+.im-footer { flex: none; min-height: var(--im-footer-height); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 7px 13px; border-top: 1px solid var(--im-border); background: var(--im-surface); }
+.im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.im-foot-nav { overflow-x: auto; scrollbar-width: none; }
+.im-foot-nav::-webkit-scrollbar { display: none; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
+.im-qnav { display: flex; gap: 5px; align-items: center; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
+.im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
+.im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
+.im-foot-right { flex: none; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-check { font-size: 19px; padding: 4px 13px; }
+.im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
+.im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
+.im-step-btn { width: 47px; height: 47px; background: var(--im-accent-soft); border: 1px solid var(--im-accent); border-radius: 15px; color: var(--im-text); font-size: 27px; transition: transform .14s; }
+.im-step-btn:hover { transform: scale(1.06); }
+.im-modal { width: min(520px, calc(100% - 30px)); max-height: 88vh; border: 1px solid var(--im-border); background: var(--im-surface); color: var(--im-text); border-radius: 14px; padding: 22px; box-shadow: 0 24px 70px #00000050; }
+.im-modal::backdrop { background: #0b1222a6; }
+.im-modal h2 { margin: 0 0 12px; font-size: 21px; }
+.im-score { font-size: 19px; font-weight: 800; margin: 8px 0 15px; color: var(--im-accent); }
+.im-review-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.im-review-table td,.im-review-table th { border-bottom: 1px solid var(--im-border); padding: 7px; text-align: left; }
+.im-review-table .im-ok { color: var(--im-success); }
+.im-review-table .im-bad { color: var(--im-danger); }
+.im-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+.im-modal-actions button { border: 1px solid var(--im-accent); color: var(--im-text); background: var(--im-accent-soft); padding: 8px 18px; border-radius: 8px; }
+@media (max-width: 850px) {
+  html { overflow: auto; }
+  .im-app { height: auto; min-height: 100dvh; }
+  .im-topbar { padding: 9px 12px; }
+  .im-taker-id { display: none; }
+  .im-part-head { margin: 0 8px; }
+  .im-main { display: block; flex: 1; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
+  .im-passage-body { padding: 18px 16px 22px; }
+  .im-question-col { border-top: 1px solid var(--im-border); }
+  .im-question-body { padding: 24px 16px 50px; }
+  .im-splitter { display: none; }
+  .im-footer { position: sticky; bottom: 0; z-index: 4; }
+  .im-foot-part-name { display: none; }
+  .im-inline-step { position: fixed; bottom: 70px; right: 12px; }
+  .im-qnav-item { height: 35px; width: 34px; }
+}
+@media (max-width: 440px) {
+  .im-brand-label { display: none; }
+  .im-part-head { padding: 10px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
+  .im-foot-right { gap: 6px; }
+  .im-back { padding: 5px 10px; }
+  .im-check { padding: 4px 10px; }
+}
+@media print {
+  .im-topbar, .im-splitter, .im-footer, .im-inline-step { display: none !important; }
+  .im-app { display: block; height: auto; }
+  .im-main { display: block; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; }
+  .im-question-col { break-before: page; }
+  .im-passage-body,.im-question-body { padding: 12px; }
+}
+
+/* Article header matches the reference while respecting the site's design tokens. */
+html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--bg-surface, #152032); --im-surface-2: var(--bg-secondary, #1c2a40); --im-text: var(--text-main, #e9edf6); --im-muted: var(--text-muted, #b4c0d1); --im-border: var(--border-color, #35475e); --im-accent: var(--accent-color, #76a4ff); --im-accent-soft: var(--accent-soft, #263955); --im-part-head-bg: var(--article-header-bg, #202e40); }
+.im-topbar.im-part-head { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; flex: none; min-height: 86px; margin: 6px 16px 0; padding: 12px 18px; background: var(--im-part-head-bg); border: 1px solid var(--im-border); border-bottom: 1px solid var(--im-border); border-radius: 0; }
+.im-article-ident { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.im-article-ident .im-title-sm { margin: 0; font-size: 17px; font-weight: 800; }
+.im-article-ident .im-plain-text { font-size: 15px; line-height: 1.36; color: var(--im-text); }
+.im-bar-right.im-article-actions { justify-content: flex-end; gap: 9px; min-width: 0; }
+.im-brand-pill { display: inline-flex; justify-self: center; align-items: center; justify-content: center; gap: 7px; padding: 4px 16px 4px 7px; min-height: 46px; border: 1px solid var(--im-border); border-radius: 999px; background: var(--im-surface); color: var(--im-text); text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px #030b1b17; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.im-brand-pill:hover { transform: scale(1.04); border-color: var(--im-accent); box-shadow: 0 6px 18px #00000030; background: var(--im-surface-2); }
+.im-brand-pill:focus-visible { outline: 3px solid var(--im-accent); outline-offset: 3px; }
+.im-brand-icon { position: relative; flex: none; width: 40px; height: 34px; display: inline-grid; place-items: center; }
+.im-brand-logo { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 1px 4px #2348be44); }
+.im-brand-fallback { display: grid; place-items: center; width: 33px; height: 31px; border-radius: 10px; background: linear-gradient(125deg, #42dad1, #4475f1); color: #fff; font-weight: 850; letter-spacing: -.08em; font-size: 13px; }
+.im-brand-fallback[hidden] { display: none; }
+.im-brand-wordmark { font-family: 'Geist', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 750; font-size: 17px; letter-spacing: -.045em; }
+.im-brand-wordmark b { font-weight: 850; color: var(--im-accent); }
+.im-timer { font-weight: 760; }
+.im-lexicon-toggle { position: relative; }
+.im-lexicon-count { position: absolute; right: -5px; top: -9px; min-width: 19px; height: 19px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--im-accent); color: #071426; font-size: 10px; font-weight: 800; line-height: 1; }
+.im-vocab-word-in-text { cursor: pointer; text-decoration: underline dotted var(--im-accent); text-underline-offset: 4px; border-radius: 2px; outline-offset: 3px; }
+.im-vocab-word-in-text:hover, .im-vocab-word-in-text:focus-visible { color: var(--im-accent); background: var(--im-accent-soft); }
+.im-check-final { min-width: 98px; min-height: 37px; gap: 7px; padding: 6px 16px; border-radius: 999px; background: var(--im-accent-soft); font-size: 14px; }
+.im-check-mark { font-size: 19px; font-weight: 800; line-height: 1; }
+.im-dictionary-panel { position: fixed; z-index: 50; top: 105px; right: 22px; width: min(360px, calc(100vw - 24px)); max-height: min(570px, calc(100dvh - 125px)); overflow: auto; padding: 16px; border: 1px solid var(--im-border); border-radius: 12px; background: var(--im-surface); color: var(--im-text); box-shadow: 0 18px 55px #00000063; scrollbar-color: var(--im-border) transparent; }
+.im-dictionary-panel[hidden], .im-dict-words[hidden] { display: none !important; }
+.im-dict-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.im-dict-eyebrow { color: var(--im-accent); font-weight: 850; font-size: 10px; letter-spacing: .105em; }
+.im-dict-close { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--im-border); border-radius: 8px; background: var(--im-surface-2); color: var(--im-text); font-size: 24px; line-height: 1; }
+.im-dict-close:hover, .im-dict-speak:hover { border-color: var(--im-accent); background: var(--im-accent-soft); }
+.im-dict-title-row { display: flex; align-items: center; gap: 10px; }
+.im-dict-title-row h2 { margin: 0; font: 800 23px/1.25 'Geist', 'Inter', -apple-system, sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.im-dict-speak { width: 32px; height: 32px; border: 1px solid var(--im-border); border-radius: 7px; background: var(--im-surface-2); color: var(--im-text); font-size: 16px; }
+.im-dict-meta { margin: 5px 0 16px; font-size: 12px; color: var(--im-muted); }
+.im-dict-label { margin: 14px 0 4px; color: var(--im-muted); font-size: 11px; font-weight: 740; letter-spacing: .02em; }
+.im-dict-definition, .im-dict-translation { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.im-dict-translation { color: var(--im-accent); }
+.im-dict-example { padding: 10px 12px; border-left: 2px solid var(--im-accent); border-radius: 3px; background: var(--im-surface-2); color: var(--im-text); margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.im-dict-word-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.im-dict-word-buttons button { max-width: 100%; background: var(--im-surface-2); color: var(--im-text); border: 1px solid var(--im-border); border-radius: 999px; padding: 6px 11px; font-size: 12px; }
+.im-dict-word-buttons button:hover, .im-dict-word-buttons button:focus-visible { border-color: var(--im-accent); background: var(--im-accent-soft); }
+@media (max-width: 850px) {
+ .im-topbar.im-part-head { margin: 6px 8px 0; padding: 10px 12px; gap: 8px; }
+ .im-dictionary-panel { top: 105px; right: 12px; }
+}
+@media (max-width: 640px) {
+ .im-topbar.im-part-head { grid-template-columns: minmax(0,1fr) auto; grid-template-areas: 'info actions' 'brand brand'; min-height: 0; row-gap: 8px; }
+ .im-article-ident { grid-area: info; }
+ .im-article-actions { grid-area: actions; }
+ .im-brand-pill { grid-area: brand; justify-self: center; min-height: 39px; padding: 3px 12px 3px 6px; }
+ .im-brand-icon { height: 30px; width: 35px; }
+ .im-brand-wordmark { font-size: 15px; }
+ .im-article-ident .im-plain-text { font-size: 13px; }
+ .im-timer { font-size: 16px; min-width: 54px; }
+ .im-article-actions .im-icon-btn { width: 30px; height: 30px; }
+ .im-dictionary-panel { top: 135px; max-height: calc(100dvh - 158px); }
+ .im-check-final { min-width: 76px; padding: 5px 11px; }
+}
+@media print { .im-dictionary-panel { display: none !important; } }
+
+.im-brand-icon .im-brand-logo {position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.im-brand-icon .im-brand-fallback {position:relative;z-index:0;}
+
+/* Article footer: shift only the Check action approximately 2 cm to the left. */
+.im-foot-right { margin-right: 2cm; }
+@media (max-width: 640px) { .im-foot-right { margin-right: min(2cm, 8vw); } }
+
+/* Original-PDF article sections and paragraph hierarchy */
+.im-article-section {margin: 4px 0 25px;}
+.im-article-section-title {font-size:calc(18px * var(--im-font-scale));line-height:1.4;font-weight:800;margin:23px 0 14px;color:var(--im-text);letter-spacing:-.015em;}
+.im-section-letter {font-size:14px;color:var(--im-accent);margin-right:6px;}
+.im-article-section .im-article-paragraph {margin-bottom:15px;}
+.im-passage-text .im-matching-question {margin-bottom:4px;}
+.im-article-cover {aspect-ratio:1536/633;object-fit:contain;background:#071322;}
+.im-discussion {margin:34px 0 16px;padding:14px 16px;border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);}
+.im-discussion summary {cursor:pointer;color:var(--im-accent);font-weight:750;}
+.im-discussion-list {margin:13px 0 0;padding-left:22px;line-height:1.6;}
+.im-discussion-list li {margin:0 0 9px;}
+.im-review-table td:last-child {min-width:250px;font-size:12px;line-height:1.55;color:var(--im-muted);}
+@media (max-width:640px){.im-article-section-title{font-size:16px}.im-discussion{padding:12px}}
+
+.im-article-cover {aspect-ratio: 696 / 362; object-fit: cover; background: #0b1b2d;}
+.im-topic-divider {font-size: 21px; font-weight: 800; color: var(--im-accent); margin: 22px 0 18px; border-bottom: 1px solid var(--im-border); padding-bottom: 9px;}
+.im-article-section-title {font-size: clamp(17px, 1.15vw, 20px);}
+
+.im-article-cover{aspect-ratio:4/3;object-fit:cover;background:#0b1b2d;}
+
+/* Question format for this article: only Matching Features + Short Answers */
+.im-article-cover{aspect-ratio:1247/710;object-fit:cover;background:#101725}
+.im-procon-subhead{font-size:15.5px;line-height:1.45;margin:15px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-feature-bank{display:grid;gap:8px;margin:0 0 26px;padding:16px;background:var(--im-surface-2);border:1px solid var(--im-border);border-radius:12px}
+.im-feature-bank-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--im-text)}
+.im-feature-letter{flex:0 0 25px;font-size:14px;color:var(--im-accent)}
+.im-question-feature,.im-question-short{padding:0;margin:22px 0;border:0;min-width:0}
+.im-question-feature .im-q-text,.im-question-short .im-q-text{margin:0 0 9px}
+.im-feature-label{display:block;margin:0 0 6px;font-size:12px;line-height:1.4;color:var(--im-muted)}
+.im-feature-select{display:block;width:100%;min-height:44px;max-width:100%;border:1px solid var(--im-border);background:var(--im-surface-2);color:var(--im-text);font-size:14px;padding:9px 12px;border-radius:9px;outline:none;cursor:pointer}
+.im-feature-select:hover,.im-short-input:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible,.im-short-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-short-input{width:clamp(180px,60%,300px);margin:0;max-width:100%;height:44px;border-radius:9px;text-align:left;padding-left:12px}
+@media(max-width:850px){.im-feature-bank{padding:12px}.im-feature-select{font-size:14px}}
+
+/* Social media article — only Multiple Choice and Summary Completion */
+.im-article-cover{aspect-ratio:1245/761;object-fit:cover;background:#101725}
+.im-social-subhead{font-size:15.5px;line-height:1.5;margin:17px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-article-list-paragraph{padding-left:13px;border-left:2px solid var(--im-border);margin-left:5px}
+.im-summary-heading{font-size:15.5px;line-height:1.5;font-weight:750;color:var(--im-text);margin:23px 0 10px}
+.im-summary-panel{padding:16px 18px;border:1px solid var(--im-border);background:var(--im-surface-2);border-radius:12px}
+.im-summary-panel .im-question-gap{margin-bottom:13px}
+.im-summary-panel .im-q-text{line-height:2.2}
+.im-summary-panel .im-gap-input{min-height:41px;max-width:100%;width:clamp(120px,26vw,175px)}
+.im-options input:focus-visible,.im-gap-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+@media(max-width:850px){.im-summary-panel{padding:12px}.im-summary-panel .im-gap-input{width:130px}}
+
+/* Article-specific table and classification controls. */
+.im-classification-key {border:1px solid var(--im-border);border-radius:11px;padding:12px 14px;margin:12px 0 16px;background:var(--im-surface-2);display:grid;gap:7px;max-width:620px}
+.im-classification-key p {margin:0;line-height:1.4;font-size:.92rem}
+.im-classification-key strong {color:var(--im-accent)}
+.im-answer-table-wrap {width:100%;overflow-x:auto;margin:12px 0 25px}
+.im-answer-table {width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--im-border);border-radius:12px;overflow:hidden;table-layout:fixed}
+.im-answer-table th {background:var(--im-surface-2);font-weight:750;text-align:left;padding:11px 13px;border-bottom:1px solid var(--im-border)}
+.im-answer-table th:first-child,.im-answer-table td:first-child{width:24%;min-width:90px}
+.im-answer-table td {vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--im-border)}
+.im-answer-table tr:last-child td{border-bottom:0}
+.im-answer-table .im-question {border:0;margin:0;padding:0;background:transparent}
+.im-answer-table .im-q-text {display:inline;font-size:.92rem;line-height:1.65}
+.im-answer-table .im-gap-input{max-width:118px;min-width:82px;width:30%;margin:3px 5px}
+@media (max-width:640px) {.im-answer-table th:first-child,.im-answer-table td:first-child{width:100px}.im-answer-table td{padding:8px}.im-answer-table .im-gap-input{width:94px}}
+
+/* Multiple-choice and matching-information refinements */
+.im-question-feature{border:1px solid var(--im-border);border-radius:12px;padding:13px 14px;margin:13px 0;background:var(--im-surface-2)}
+.im-question-feature .im-q-text {font-size:.95rem;line-height:1.55;margin-bottom:10px}
+.im-feature-label{font-size:.82rem;color:var(--im-muted);margin-right:10px}
+.im-feature-select{border:1px solid var(--im-border);border-radius:9px;color:var(--im-text);background:var(--im-surface);padding:9px 13px;min-width:150px;cursor:pointer;font:inherit}
+.im-feature-select:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-feature-select:disabled{opacity:.55;cursor:not-allowed}
+.im-option-row:has(input:checked){background:var(--im-surface-2)}
+
+/* Science Education: textual answer controls and clear timer actions */
+.im-original-heading{font-size:1rem;color:var(--im-text);font-weight:700;margin:18px 0 7px}
+.im-feature-bank{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px;background:var(--im-surface-2);border:1px solid var(--im-border);padding:14px 16px;margin:16px 0 20px;border-radius:12px}
+.im-feature-bank-item{color:var(--im-text);font-size:.91rem;margin:0;line-height:1.5}
+.im-feature-bank-item strong{color:var(--im-accent);padding-right:6px}
+.im-question-feature,.im-question-gap{border:1px solid var(--im-border);border-radius:12px;padding:14px;margin:12px 0;background:var(--im-surface-2)}
+.im-question-feature .im-q-text,.im-question-gap .im-q-text{line-height:1.6;margin-bottom:12px;font-weight:500;font-size:.95rem}
+.im-question-feature .im-feature-label{display:inline-block;color:var(--im-muted);font-size:.87rem;margin:0 8px 0 0}
+.im-question-feature .im-feature-select{display:inline-block;width:auto;min-width:180px;margin:0;vertical-align:middle}
+.im-question-gap .im-gap-label{display:inline;font-size:.95rem;line-height:2.6}
+.im-question-gap .im-gap-input{display:inline-block;min-width:135px;width:165px;max-width:50vw;margin:0 5px;font-size:.95rem;line-height:1.5}
+.im-question-gap .im-gap-tail{font-size:.95rem;line-height:2.1}
+.im-timer-action{width:auto;height:36px;padding:0 11px;white-space:nowrap;font-size:.83rem;font-weight:650}
+.im-timer-action:focus-visible{outline:2px solid var(--im-accent);outline-offset:3px}
+.im-timer-action[hidden]{display:none!important}
+.im-restart-action{color:var(--im-accent)}
+.im-time-expired{color:var(--im-accent)}
+@media(max-width:850px){
+ .im-feature-bank{grid-template-columns:1fr}
+ .im-question-feature .im-feature-select{width:100%;max-width:100%;margin-top:8px}
+ .im-article-actions{gap:5px!important}
+ .im-timer-action{padding:0 7px;font-size:.74rem;height:32px}
+ .im-timer{font-size:15px!important;min-width:48px!important}
+}
+@media(max-width:390px){
+ .im-timer-action{font-size:.7rem;padding:0 5px}
+ .im-restart-action{letter-spacing:-.03em}
+}
+
+/* Small-screen toolbar: give every timer control its own full-width row */
+@media(max-width:600px){
+ .im-part-head{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:'intro' 'actions' 'brand'!important;gap:9px!important;align-items:center;justify-items:stretch;padding:12px 14px!important}
+ .im-part-head .im-article-ident{grid-area:intro;width:100%;min-width:0}
+ .im-part-head .im-brand-pill{grid-area:brand;justify-self:center}
+ .im-part-head .im-article-actions{grid-area:actions;justify-self:center;justify-content:center;display:flex!important;gap:9px!important;width:auto;max-width:100%}
+ .im-part-head .im-article-actions .im-timer-action{width:auto;min-width:max-content;padding:0 10px;font-size:.79rem;height:34px}
+ .im-part-head .im-article-actions .im-timer{font-size:17px!important;min-width:56px!important}
+ .im-part-head .im-article-actions .im-lexicon-toggle{flex:0 0 auto}
+}
+@media(max-width:390px){
+ .im-part-head .im-article-actions .im-timer-action{font-size:.77rem;padding:0 8px}
+}
+
+.im-space-subtitle {font-size:17px;line-height:1.45;font-weight:750;margin:22px 0 12px;scroll-margin-top:24px;color:var(--im-text)}
+.im-space-inner-heading {font-size:16px;font-weight:700;margin:10px 0 14px;color:var(--im-text)}
+.im-space-budget {padding-left:22px;list-style:disc;margin:0 0 17px;line-height:1.7}
+.im-space-budget li {padding-left:5px;margin-bottom:5px}
+.im-source-caption {font-size:12px;color:var(--im-muted);margin-top:24px;border-top:1px solid var(--im-border);padding-top:12px}
+.im-question-mcq {margin-bottom:25px}
+.im-question-mcq .im-q-text {margin-bottom:14px}
+.im-option-row:focus-within {outline:2px solid var(--im-accent);outline-offset:3px;border-radius:5px}
+
+.im-focus-section-title{font-size:17px;line-height:1.45;font-weight:750;margin:22px 0 12px;scroll-margin-top:24px;color:var(--im-text)}
+.im-focus-glossary{margin:0;display:grid;gap:10px}
+.im-focus-glossary>div{border-bottom:1px solid var(--im-border);padding-bottom:9px}
+.im-focus-glossary dt{font-weight:750;color:var(--im-text)}
+.im-focus-glossary dd{margin:3px 0 0;color:var(--im-muted);font-size:14px;line-height:1.5}
+.im-focus-glossary em{display:block;margin-top:3px;font-style:italic}
+.im-focus-discussion{padding-left:24px;line-height:1.65;display:grid;gap:11px}
+.im-extra-learning{margin-top:28px;padding-top:6px;border-top:1px solid var(--im-border)}
+.im-source-caption{font-size:12px;color:var(--im-muted);margin:23px 0 0;padding-top:12px;border-top:1px solid var(--im-border)}
+.im-focus-flow-title{font-size:15px;font-weight:750;margin:18px 0 14px}
+.im-focus-flow{display:grid;gap:13px;margin:10px 0 24px}
+.im-flow-step{border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);padding:15px 13px;position:relative}
+.im-flow-step:not(:last-child)::after{content:'↓';position:absolute;bottom:-16px;left:50%;z-index:1;color:var(--im-accent);font-weight:800}
+.im-flow-text{line-height:2.2;color:var(--im-text)}
+.im-flow-text .im-gap-input{display:inline-block;vertical-align:middle;margin:0 5px;max-width:140px}
+.im-question-choice .im-q-text{margin-bottom:10px}
+.im-option-row:focus-within{outline:2px solid var(--im-accent);outline-offset:2px;border-radius:6px}
+
+.im-article-cover {aspect-ratio:2/1;object-fit:cover;background:#071322;}
+.im-question-matching .im-feature-select {margin-top:6px;}
+.im-feature-bank p {margin:5px 0;font-size:13px;}
+</style>
+</head>
+<body>
+<div class="im-app" data-article-id="how-to-teach-yourself-anything-without-a-teacher">
+<header aria-label="Article toolbar" class="im-topbar im-part-head">
+<div class="im-bar-left im-article-ident">
+<h1 class="im-title-sm">Article</h1>
+<p class="im-plain-text">Read the article and answer questions 1–14.</p>
+</div>
+<a aria-label="Learners Area Telegram channel (opens in new tab)" class="im-brand-pill" href="https://t.me/Learners_area" id="im-brand-link" rel="noopener noreferrer" target="_blank" title="Learners Area Telegram kanali">
+<span class="im-brand-icon">
+<img alt="" class="im-brand-logo" decoding="async" height="32" id="im-brand-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA3NiI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzU1YTdmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzIxNjVlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSI5MiIgaGVpZ2h0PSI3MiIgcng9IjE3IiBmaWxsPSIjMGYyNzQ2IiBzdHJva2U9InVybCgjYSkiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjQ4IiB5PSI0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2RmZjNmZiIgZm9udC1mYW1pbHk9IkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjM1IiBmb250LXdlaWdodD0iODAwIiBsZXR0ZXItc3BhY2luZz0iLTMiPkxBPC90ZXh0PjxwYXRoIGQ9Ik0yNiA1Nmg0NCIgc3Ryb2tlPSIjNzliN2ZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS13aWR0aD0iMyIvPjwvc3ZnPg==" width="40"/>
+<span class="im-brand-fallback" id="im-brand-fallback">LA</span>
+</span>
+<span class="im-brand-wordmark">Learners <b>Area</b></span>
+</a>
+<div class="im-bar-right im-article-actions">
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
+<button aria-label="Pause timer" class="im-icon-btn im-timer-action" id="im-pause" title="Pause or resume the timer" type="button">Ⅱ Pause</button><button aria-label="Restart the article" class="im-icon-btn im-timer-action im-restart-action" id="im-restart" title="Restart the article" type="button">↻ Restart</button>
+<button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
+<svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
+<span class="im-lexicon-count">12</span>
+</button>
+</div>
+</header>
+<main class="im-main">
+<section aria-label="Article text" class="im-passage-col" id="im-passage-col">
+<div class="im-passage-body" id="im-passage-body"><img alt="Original study desk and handwritten notes photograph from the supplied An Hour a Day Is All You Need PDF" class="im-article-cover" decoding="async" height="657" loading="eager" src="/modules/reading/article-assets/hour-a-day.jpg" width="1100"/><h2 class="im-passage-title">An Hour a Day Is All You Need</h2><div class="im-passage-text"><section class="im-article-section" id="article-section-A"><h3 class="im-focus-section-title"><span class="im-para-letter">A.</span> Introduction</h3><p class="im-article-paragraph">You don’t need to change your entire life overnight. You just need to change what you do with the next sixty minutes.</p><p class="im-article-paragraph">At some point, almost everyone has looked at someone else’s life and wondered how they managed to get so far ahead.</p><p class="im-article-paragraph">Perhaps it is a person who speaks four languages, a writer who publishes books, an entrepreneur who built a successful business, or a student who seems to understand everything <span aria-label="effortlessly: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="effortlessly" role="button" tabindex="0">effortlessly</span>. We see their achievements and assume they possess something we lack: extraordinary intelligence, unusual discipline, better opportunities, or simply good luck.</p><p class="im-article-paragraph">Sometimes, those things matter. But there is another possibility we tend to overlook.</p><p class="im-article-paragraph">They may have spent an hour a day doing something that most people kept <span aria-label="postponing: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="postponing" role="button" tabindex="0">postponing</span>.</p><p class="im-article-paragraph">An hour reading. An hour practising a skill. An hour writing, studying, exercising, or building something that did not produce immediate results.</p><p class="im-article-paragraph">One hour rarely looks impressive. It is too small to feel <span aria-label="transformative: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="transformative" role="button" tabindex="0">transformative</span> and too ordinary to inspire admiration. Yet repeated over months and years, it can quietly change the direction of a person’s life.</p><p class="im-article-paragraph">The real question, then, is not whether you have enough time to improve your life. It is what you are doing with the time you already have.</p></section><section class="im-article-section" id="article-section-B"><h3 class="im-focus-section-title"><span class="im-para-letter">B.</span> The mathematics of a better life</h3><p class="im-article-paragraph">An hour a day adds up to 365 hours a year.</p><p class="im-article-paragraph">That is more than fifteen complete days devoted to a single activity. If you spend those hours learning a language, developing a professional skill, writing, or studying a subject deeply, you give yourself a considerable amount of practice.</p><p class="im-article-paragraph">Imagine spending an hour every day learning English. You read articles, listen to interviews, collect unfamiliar expressions, and practise expressing your ideas. After a year, you will have spent hundreds of hours engaging with the language.</p><p class="im-article-paragraph">You will not necessarily become fluent simply because a year has passed. Your progress will depend on the quality of your practice, your starting point, and how consistently you challenge yourself. But you will have given yourself something that many people never accumulate: hundreds of hours of <span aria-label="deliberate: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="deliberate" role="button" tabindex="0">deliberate</span> effort.</p><p class="im-article-paragraph">The same principle applies to almost any meaningful skill.</p><p class="im-article-paragraph">A person who writes for an hour every day eventually produces hundreds of pages. Someone who learns programming regularly gains experience solving problems that once seemed impossible. A reader who studies a subject consistently develops a richer understanding of it than someone who occasionally watches a video about it.</p><p class="im-article-paragraph">Progress often looks insignificant while it is happening. Its significance becomes clearer when you look back.</p></section><section class="im-article-section" id="article-section-C"><h3 class="im-focus-section-title"><span class="im-para-letter">C.</span> Why most people underestimate one hour</h3><p class="im-article-paragraph">We tend to admire dramatic transformations.</p><p class="im-article-paragraph">We celebrate the person who loses a significant amount of weight, launches a successful company, publishes a bestselling book, or achieves an <span aria-label="ambitious: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="ambitious" role="button" tabindex="0">ambitious</span> academic goal. We rarely celebrate the hundreds of ordinary days that made those achievements possible.</p><p class="im-article-paragraph">This creates a misleading picture of success. We see the result but not the routine.</p><p class="im-article-paragraph">As a consequence, we begin looking for equally dramatic solutions. We create ambitious schedules, promise ourselves that everything will change on Monday, and attempt to rebuild our entire lives in a single burst of motivation.</p><p class="im-article-paragraph">For a few days, the excitement carries us forward.</p><p class="im-article-paragraph">Then life intervenes. We become tired. Work takes longer than expected. An unexpected responsibility appears. We miss a session, feel disappointed, and eventually abandon the plan altogether.</p><p class="im-article-paragraph">The problem is not necessarily that we lack ambition. It is that we have designed a system that requires us to feel ambitious every day.</p><p class="im-article-paragraph">An hour is different.</p><p class="im-article-paragraph">It is small enough to fit into an ordinary day, yet <span aria-label="substantial: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="substantial" role="button" tabindex="0">substantial</span> enough to make meaningful progress when used well. It does not require you to quit your job, move to another country, or wait until your <span aria-label="circumstances: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="circumstances" role="button" tabindex="0">circumstances</span> become perfect.</p><p class="im-article-paragraph">You can begin where you are, with what you have.</p><p class="im-article-paragraph">That is precisely what makes the idea powerful.</p></section><section class="im-article-section" id="article-section-D"><h3 class="im-focus-section-title"><span class="im-para-letter">D.</span> Your attention is more valuable than your time</h3><p class="im-article-paragraph">Of course, sitting at a desk for an hour does not automatically make you better at anything.</p><p class="im-article-paragraph">You can spend sixty minutes reading without remembering a single idea. You can watch educational videos for an entire evening without applying what you learn. You can open a textbook, check your phone every few minutes, and convince yourself that you have studied.</p><p class="im-article-paragraph">The clock measures duration, not progress.</p><p class="im-article-paragraph">What matters is the quality of your attention.</p><p class="im-article-paragraph">If you want to improve your English, read actively rather than simply moving your eyes across a page. Notice unfamiliar expressions, examine how sentences are constructed, and try using new vocabulary in your own writing.</p><p class="im-article-paragraph">If you want to become a better writer, write regularly and revise your work. Study what makes an introduction <span aria-label="compelling: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="compelling" role="button" tabindex="0">compelling</span>. Pay attention to how experienced writers explain complicated ideas without making them difficult to understand.</p><p class="im-article-paragraph">If you want to build a business, spend some of that hour talking to potential customers, improving your product, or testing an idea instead of endlessly consuming motivational content.</p><p class="im-article-paragraph">The principle is straightforward: spend less time pretending to work and more time doing the work that matters.</p><p class="im-article-paragraph">One focused hour can be more valuable than three distracted ones.</p></section><section class="im-article-section" id="article-section-E"><h3 class="im-focus-section-title"><span class="im-para-letter">E.</span> The compound effect of small improvements</h3><p class="im-article-paragraph">There is a reason small habits can produce surprisingly large results.</p><p class="im-article-paragraph">Every time you practise a skill, you gain experience. You discover mistakes, develop <span aria-label="familiarity: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="familiarity" role="button" tabindex="0">familiarity</span>, and learn what needs improvement. That experience makes your next session more informed.</p><p class="im-article-paragraph">Over time, your efforts begin to reinforce one another.</p><p class="im-article-paragraph">A new word helps you understand a paragraph. Understanding that paragraph makes the next article easier to read. Reading more widely gives you ideas to use in conversation and writing.</p><p class="im-article-paragraph">Similarly, a small amount of exercise can help you build a <span aria-label="sustainable: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="sustainable" role="button" tabindex="0">sustainable</span> routine. That routine makes it easier to remain active. As exercise becomes familiar, you spend less energy deciding whether to do it and more energy actually doing it.</p><p class="im-article-paragraph">Not every kind of progress follows a smooth upward curve. Some weeks will feel unproductive. Some skills take much longer to develop than expected. And occasionally, you will need to change your approach rather than simply repeat it.</p><p class="im-article-paragraph">Nevertheless, consistent practice creates opportunities for improvement that <span aria-label="sporadic: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="sporadic" role="button" tabindex="0">sporadic</span> enthusiasm cannot reliably provide.</p><p class="im-article-paragraph">Think of a tree. You do not see it growing every morning, but the absence of visible change does not mean nothing is happening beneath the surface.</p><p class="im-article-paragraph">Your daily effort can work in much the same way.</p></section><section class="im-article-section" id="article-section-F"><h3 class="im-focus-section-title"><span class="im-para-letter">F.</span> What could you do with your hour?</h3><p class="im-article-paragraph">The best place to start is not with the most impressive goal you can imagine. It is with something that genuinely matters to you.</p><p class="im-article-paragraph">Perhaps you want to speak English more confidently. Perhaps you want to understand economics, become physically stronger, read more books, or develop a skill that could improve your career.</p><p class="im-article-paragraph">Choose one priority.</p><p class="im-article-paragraph">Then give it a regular place in your day.</p><p class="im-article-paragraph">You might divide your hour into three twenty-minute sessions: learning something new, practising it, and reviewing what you have learned. Or you might spend the entire hour working on a single demanding task.</p><p class="im-article-paragraph">There is no universally perfect schedule. The important thing is to make the hour <span aria-label="purposeful: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="purposeful" role="button" tabindex="0">purposeful</span> and repeatable.</p><p class="im-article-paragraph">Put your phone away. Decide what you want to accomplish before you begin. Make the task specific enough that you can tell whether you have made progress.</p><p class="im-article-paragraph">Instead of saying, “I will improve my English,” decide, “I will read one article, learn five useful expressions, and write a short summary.”</p><p class="im-article-paragraph">Instead of saying, “I will start a business,” decide, “I will interview one potential customer and identify a problem worth solving.”</p><p class="im-article-paragraph">A clear task reduces the distance between intention and action.</p><p class="im-article-paragraph">And when a difficult day arrives, remember that consistency does not require perfection. Missing an occasional session is normal. What matters is returning to the work rather than allowing one missed day to become a permanent excuse.</p></section><section class="im-article-section" id="article-section-G"><h3 class="im-focus-section-title"><span class="im-para-letter">G.</span> Stop waiting for the perfect moment</h3><p class="im-article-paragraph">There is always a reason to begin later.</p><p class="im-article-paragraph">You might tell yourself that you will start when you have more money, more confidence, a better routine, or fewer responsibilities. You might wait until the beginning of the next month or the start of a new year.</p><p class="im-article-paragraph">But life rarely becomes completely convenient.</p><p class="im-article-paragraph">There will always be something unfinished, something uncertain, or something demanding your attention. If your ambitions depend on circumstances becoming perfect, you may spend years preparing to begin.</p><p class="im-article-paragraph">You do not need a perfect environment to make progress. You need a reasonable starting point and the willingness to work within your present circumstances.</p><p class="im-article-paragraph">Perhaps you cannot dedicate three hours a day to learning a new skill. Could you manage one? Perhaps you cannot afford an expensive course. Could you begin with a book, a library, or a free resource?</p><p class="im-article-paragraph">The goal is not to convince yourself that every obstacle is insignificant. Real limitations exist, and some people have far less free time than others.</p><p class="im-article-paragraph">The goal is to stop overlooking the possibilities that remain available to you.</p><p class="im-article-paragraph">An hour will not solve every problem in your life. It will not guarantee wealth, success, or happiness. But it can help you build knowledge, confidence, discipline, and opportunities that would otherwise remain undeveloped.</p><p class="im-article-paragraph">And those things matter.</p></section><section class="im-article-section" id="article-section-H"><h3 class="im-focus-section-title"><span class="im-para-letter">H.</span> A year from now</h3><p class="im-article-paragraph">Imagine two versions of yourself one year from today.</p><p class="im-article-paragraph">In the first version, your days have passed much as they do now. You have thought about learning a new skill, reading more, improving your health, or pursuing a long-postponed ambition. You have made occasional attempts, but nothing has become a consistent part of your life.</p><p class="im-article-paragraph">In the second version, you have devoted one focused hour a day to a meaningful goal.</p><p class="im-article-paragraph">You are not necessarily an expert. Your life is not suddenly perfect. You may still have difficult days and unanswered questions.</p><p class="im-article-paragraph">But you have accumulated hundreds of hours of practice. You have completed projects, acquired knowledge, and learned things about yourself that you could not have discovered by merely thinking about them.</p><p class="im-article-paragraph">Which version would you rather meet?</p><p class="im-article-paragraph">You cannot control every circumstance that will shape the coming year. You cannot guarantee the outcome of every effort. But you can influence how you use at least some of the time that passes through your hands.</p><p class="im-article-paragraph">That is a modest form of power, but it is real.</p><p class="im-article-paragraph">You do not have to become a completely different person tomorrow. You do not have to transform your life in a week or prove your ambition to anyone else.</p><p class="im-article-paragraph">Choose something worth getting better at.</p><p class="im-article-paragraph">Give it an hour.</p><p class="im-article-paragraph">Then come back tomorrow and give it another.</p><p class="im-article-paragraph">Your future is not built only in the extraordinary moments when everything changes. It is also built in the ordinary moments when nobody is watching, nothing is being celebrated, and you decide to keep going.</p><p class="im-article-paragraph">An hour may not seem like much today.</p><p class="im-article-paragraph">But a year from now, you may be grateful that you stopped treating it as nothing.</p></section><section class="im-article-section im-extra-learning" id="article-advanced-words"><h3 class="im-focus-section-title">Vocabulary Support · Added for Practice</h3><ol class="im-focus-word-list"><li><strong>Effortlessly</strong> — In a way that seems to require very little effort. Example: She appears to speak French effortlessly after years of practice.</li><li><strong>Postponing</strong> — Delaying something until a later time. Example: He kept postponing his first coding project.</li><li><strong>Transformative</strong> — Causing an important or substantial change. Example: The experience was transformative for her career.</li><li><strong>Deliberate</strong> — Done consciously and with careful intention. Example: Deliberate practice helped him improve his pronunciation.</li><li><strong>Ambitious</strong> — Showing a strong desire to achieve something difficult. Example: They made an ambitious plan for the new term.</li><li><strong>Substantial</strong> — Large or important in amount or effect. Example: A substantial improvement followed regular practice.</li><li><strong>Compelling</strong> — Very convincing or interesting, making someone pay attention. Example: Her opening paragraph made a compelling argument.</li><li><strong>Familiarity</strong> — Knowledge or experience gained from repeated contact with something. Example: Familiarity with the topic made the second lesson easier.</li><li><strong>Sporadic</strong> — Happening only occasionally or at irregular intervals. Example: Sporadic study sessions rarely create a lasting habit.</li><li><strong>Sustainable</strong> — Able to continue for a long time without becoming too difficult. Example: She chose a sustainable routine of thirty minutes a day.</li><li><strong>Purposeful</strong> — Done with a clear aim or intention. Example: Purposeful reading involves looking for evidence and key ideas.</li><li><strong>Circumstances</strong> — The conditions or facts affecting a situation. Example: The schedule changed because of unexpected circumstances.</li></ol></section><section class="im-article-section im-extra-learning" id="article-discussion"><h3 class="im-focus-section-title">5 Extra Discussion Questions · Created for Practice</h3><ol class="im-focus-discussion"><li>Which activity would you choose for one focused hour each day, and why?</li><li>Is the quality of attention more important than the total time spent learning?</li><li>Why might short, realistic routines succeed when ambitious schedules fail?</li><li>How could you measure genuine progress in language learning without counting only hours?</li><li>How should someone adapt a daily routine when their circumstances become difficult?</li></ol></section></div></div>
+</section>
+<div aria-label="Resize article and question panels" aria-orientation="vertical" class="im-splitter" id="im-splitter" role="separator" tabindex="0"><span aria-hidden="true" class="im-splitter-grip">↔</span></div>
+<section aria-label="Article questions" class="im-question-col" id="im-questions">
+<div class="im-question-body"><section aria-labelledby="group-1-7" class="im-group" data-im-from="1" data-im-to="7"><h3 class="im-group-title" id="group-1-7">Questions 1–7</h3><p class="im-guide">Choose the correct letter, A, B, C or D, for each question.</p><fieldset class="im-question im-question-choice" data-question="1" id="question-1"><legend class="im-q-text"><span class="im-qnum">1</span> What is the writer’s central argument about one hour a day?</legend><div class="im-options"><div class="im-option-row"><input id="q1-a" name="q1" type="radio" value="A"/><label class="im-option-label" for="q1-a">A. Major achievements depend mostly on extraordinary intelligence.</label></div><div class="im-option-row"><input id="q1-b" name="q1" type="radio" value="B"/><label class="im-option-label" for="q1-b">B. Small, focused efforts can become significant through repetition.</label></div><div class="im-option-row"><input id="q1-c" name="q1" type="radio" value="C"/><label class="im-option-label" for="q1-c">C. A single hour is enough to master nearly any professional skill.</label></div><div class="im-option-row"><input id="q1-d" name="q1" type="radio" value="D"/><label class="im-option-label" for="q1-d">D. Progress matters only when other people can recognise it.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="2" id="question-2"><legend class="im-q-text"><span class="im-qnum">2</span> Why does the writer calculate that an hour a day becomes 365 hours a year?</legend><div class="im-options"><div class="im-option-row"><input id="q2-a" name="q2" type="radio" value="A"/><label class="im-option-label" for="q2-a">A. To guarantee that learners will become fluent within a year.</label></div><div class="im-option-row"><input id="q2-b" name="q2" type="radio" value="B"/><label class="im-option-label" for="q2-b">B. To suggest that longer sessions are always less effective.</label></div><div class="im-option-row"><input id="q2-c" name="q2" type="radio" value="C"/><label class="im-option-label" for="q2-c">C. To illustrate how regular modest effort accumulates over time.</label></div><div class="im-option-row"><input id="q2-d" name="q2" type="radio" value="D"/><label class="im-option-label" for="q2-d">D. To show that every learner must use exactly the same schedule.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="3" id="question-3"><legend class="im-q-text"><span class="im-qnum">3</span> According to the writer, what is a weakness of dramatic self-improvement plans?</legend><div class="im-options"><div class="im-option-row"><input id="q3-a" name="q3" type="radio" value="A"/><label class="im-option-label" for="q3-a">A. They often depend on feeling highly motivated every day.</label></div><div class="im-option-row"><input id="q3-b" name="q3" type="radio" value="B"/><label class="im-option-label" for="q3-b">B. They usually set goals that are too easy to be useful.</label></div><div class="im-option-row"><input id="q3-c" name="q3" type="radio" value="C"/><label class="im-option-label" for="q3-c">C. They provide too little time for any meaningful progress.</label></div><div class="im-option-row"><input id="q3-d" name="q3" type="radio" value="D"/><label class="im-option-label" for="q3-d">D. They require people to abandon long-term ambitions.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="4" id="question-4"><legend class="im-q-text"><span class="im-qnum">4</span> What does the statement “The clock measures duration, not progress” suggest?</legend><div class="im-options"><div class="im-option-row"><input id="q4-a" name="q4" type="radio" value="A"/><label class="im-option-label" for="q4-a">A. Working slowly is usually better than completing tasks quickly.</label></div><div class="im-option-row"><input id="q4-b" name="q4" type="radio" value="B"/><label class="im-option-label" for="q4-b">B. Study time should be recorded only after a task is finished.</label></div><div class="im-option-row"><input id="q4-c" name="q4" type="radio" value="C"/><label class="im-option-label" for="q4-c">C. Any regular study session will produce measurable improvement.</label></div><div class="im-option-row"><input id="q4-d" name="q4" type="radio" value="D"/><label class="im-option-label" for="q4-d">D. The quality and purpose of work matter more than elapsed time.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="5" id="question-5"><legend class="im-q-text"><span class="im-qnum">5</span> How does the author explain the compound effect of practice?</legend><div class="im-options"><div class="im-option-row"><input id="q5-a" name="q5" type="radio" value="A"/><label class="im-option-label" for="q5-a">A. Progress becomes constant once a person reaches an advanced level.</label></div><div class="im-option-row"><input id="q5-b" name="q5" type="radio" value="B"/><label class="im-option-label" for="q5-b">B. Earlier learning supports the understanding and actions that follow.</label></div><div class="im-option-row"><input id="q5-c" name="q5" type="radio" value="C"/><label class="im-option-label" for="q5-c">C. Repeating the same method indefinitely guarantees improvement.</label></div><div class="im-option-row"><input id="q5-d" name="q5" type="radio" value="D"/><label class="im-option-label" for="q5-d">D. One skill should be mastered before another can be attempted.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="6" id="question-6"><legend class="im-q-text"><span class="im-qnum">6</span> What does the writer recommend when deciding how to use a daily hour?</legend><div class="im-options"><div class="im-option-row"><input id="q6-a" name="q6" type="radio" value="A"/><label class="im-option-label" for="q6-a">A. Select a meaningful priority and set specific, repeatable tasks.</label></div><div class="im-option-row"><input id="q6-b" name="q6" type="radio" value="B"/><label class="im-option-label" for="q6-b">B. Focus first on the goal that would impress other people most.</label></div><div class="im-option-row"><input id="q6-c" name="q6" type="radio" value="C"/><label class="im-option-label" for="q6-c">C. Divide every hour into equal periods regardless of the activity.</label></div><div class="im-option-row"><input id="q6-d" name="q6" type="radio" value="D"/><label class="im-option-label" for="q6-d">D. Wait until the ideal resources and working conditions are available.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="7" id="question-7"><legend class="im-q-text"><span class="im-qnum">7</span> Which statement best describes the writer’s view of obstacles?</legend><div class="im-options"><div class="im-option-row"><input id="q7-a" name="q7" type="radio" value="A"/><label class="im-option-label" for="q7-a">A. External limitations are largely imaginary and should be ignored.</label></div><div class="im-option-row"><input id="q7-b" name="q7" type="radio" value="B"/><label class="im-option-label" for="q7-b">B. Missing one session means a person must restart their progress.</label></div><div class="im-option-row"><input id="q7-c" name="q7" type="radio" value="C"/><label class="im-option-label" for="q7-c">C. Real constraints exist, but feasible opportunities can still be used.</label></div><div class="im-option-row"><input id="q7-d" name="q7" type="radio" value="D"/><label class="im-option-label" for="q7-d">D. Immediate results are the most reliable evidence of commitment.</label></div></div></fieldset></section><section aria-labelledby="group-8-14" class="im-group" data-im-from="8" data-im-to="14"><h3 class="im-group-title" id="group-8-14">Questions 8–14</h3><p class="im-guide">Complete the summary below. Choose NO MORE THAN ONE WORD AND/OR A NUMBER from the article for each answer.</p><p class="im-guide">Small Steps, Lasting Progress</p><fieldset class="im-question im-question-gap" data-question="8" id="question-8"><legend class="im-q-text"><span class="im-qnum">8</span> An hour of daily practice amounts to a total of __________ hours in a year.</legend><label class="im-gap-label" for="q8">Answer for question 8</label><input aria-label="Question 8: An hour of daily practice amounts to a total of blank hours in a year." autocomplete="off" class="im-gap-input" id="q8" maxlength="50" name="q8" spellcheck="false" type="text"/></fieldset><fieldset class="im-question im-question-gap" data-question="9" id="question-9"><legend class="im-q-text"><span class="im-qnum">9</span> The writer says consistent practice can accumulate hundreds of hours of __________ effort.</legend><label class="im-gap-label" for="q9">Answer for question 9</label><input aria-label="Question 9: The writer says consistent practice can accumulate hundreds of hours of blank effort." autocomplete="off" class="im-gap-input" id="q9" maxlength="50" name="q9" spellcheck="false" type="text"/></fieldset><fieldset class="im-question im-question-gap" data-question="10" id="question-10"><legend class="im-q-text"><span class="im-qnum">10</span> Overly demanding plans may fail because they depend on feeling __________ every day.</legend><label class="im-gap-label" for="q10">Answer for question 10</label><input aria-label="Question 10: Overly demanding plans may fail because they depend on feeling blank every day." autocomplete="off" class="im-gap-input" id="q10" maxlength="50" name="q10" spellcheck="false" type="text"/></fieldset><fieldset class="im-question im-question-gap" data-question="11" id="question-11"><legend class="im-q-text"><span class="im-qnum">11</span> A clock records __________, but this is not the same as learning progress.</legend><label class="im-gap-label" for="q11">Answer for question 11</label><input aria-label="Question 11: A clock records blank , but this is not the same as learning progress." autocomplete="off" class="im-gap-input" id="q11" maxlength="50" name="q11" spellcheck="false" type="text"/></fieldset><fieldset class="im-question im-question-gap" data-question="12" id="question-12"><legend class="im-q-text"><span class="im-qnum">12</span> Previous practice provides experience that makes the next session more __________.</legend><label class="im-gap-label" for="q12">Answer for question 12</label><input aria-label="Question 12: Previous practice provides experience that makes the next session more blank ." autocomplete="off" class="im-gap-input" id="q12" maxlength="50" name="q12" spellcheck="false" type="text"/></fieldset><fieldset class="im-question im-question-gap" data-question="13" id="question-13"><legend class="im-q-text"><span class="im-qnum">13</span> One suggested schedule divides the hour into three __________ sessions.</legend><label class="im-gap-label" for="q13">Answer for question 13</label><input aria-label="Question 13: One suggested schedule divides the hour into three blank sessions." autocomplete="off" class="im-gap-input" id="q13" maxlength="50" name="q13" spellcheck="false" type="text"/></fieldset><fieldset class="im-question im-question-gap" data-question="14" id="question-14"><legend class="im-q-text"><span class="im-qnum">14</span> After missing a day, the essential step is __________ to the work.</legend><label class="im-gap-label" for="q14">Answer for question 14</label><input aria-label="Question 14: After missing a day, the essential step is blank to the work." autocomplete="off" class="im-gap-input" id="q14" maxlength="50" name="q14" spellcheck="false" type="text"/></fieldset></section></div>
+</section>
+</main>
+<div aria-label="Previous or next question" class="im-inline-step"><button aria-label="Previous question" class="im-step-btn" id="im-previous" type="button">‹</button><button aria-label="Next question" class="im-step-btn" id="im-next" type="button">›</button></div>
+<footer class="im-footer" id="im-footer">
+<div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav aria-label="Questions" class="im-qnav" id="im-qnav">
+<button aria-label="Question 1" class="im-qnav-item" data-im-question="1" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>1</button>
+<button aria-label="Question 2" class="im-qnav-item" data-im-question="2" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>2</button>
+<button aria-label="Question 3" class="im-qnav-item" data-im-question="3" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>3</button>
+<button aria-label="Question 4" class="im-qnav-item" data-im-question="4" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>4</button>
+<button aria-label="Question 5" class="im-qnav-item" data-im-question="5" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>5</button>
+<button aria-label="Question 6" class="im-qnav-item" data-im-question="6" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>6</button>
+<button aria-label="Question 7" class="im-qnav-item" data-im-question="7" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>7</button>
+<button aria-label="Question 8" class="im-qnav-item" data-im-question="8" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>8</button>
+<button aria-label="Question 9" class="im-qnav-item" data-im-question="9" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>9</button>
+<button aria-label="Question 10" class="im-qnav-item" data-im-question="10" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>10</button>
+<button aria-label="Question 11" class="im-qnav-item" data-im-question="11" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>11</button>
+<button aria-label="Question 12" class="im-qnav-item" data-im-question="12" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>12</button>
+<button aria-label="Question 13" class="im-qnav-item" data-im-question="13" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>13</button>
+<button aria-label="Question 14" class="im-qnav-item" data-im-question="14" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>14</button></nav></div></div>
+<div class="im-foot-right"><button aria-label="Check article answers" class="im-check im-check-final" id="im-check-btn" title="Check all answers" type="button"><span aria-hidden="true" class="im-check-mark">✓</span><span>Check</span></button></div>
+</footer>
+<aside aria-labelledby="im-dict-title" aria-modal="false" class="im-dictionary-panel" hidden="" id="im-dictionary-panel" role="dialog" tabindex="-1">
+<div class="im-dict-top"><span class="im-dict-eyebrow">LEARNERS AREA · DICTIONARY</span>
+<button aria-label="Close dictionary" class="im-dict-close" id="im-dict-close" title="Close" type="button">×</button></div>
+<div class="im-dict-title-row"><h2 id="im-dict-title">Dictionary</h2><button aria-label="Pronounce word" class="im-dict-speak" id="im-dict-speak" title="Play English pronunciation" type="button">🔊</button></div>
+<p class="im-dict-meta" id="im-dict-meta"></p>
+<div id="im-dict-definition-block"><p class="im-dict-label">Simple definition</p><p class="im-dict-definition" id="im-dict-definition"></p>
+<p class="im-dict-label">O‘zbekcha tarjimasi</p><p class="im-dict-translation" id="im-dict-translation"></p>
+<p class="im-dict-label">Example</p><p class="im-dict-example" id="im-dict-example"></p></div>
+<div class="im-dict-words" hidden="" id="im-dict-words"><p class="im-dict-label">Words in this article</p><div class="im-dict-word-buttons" id="im-dict-word-buttons"></div></div>
+</aside></div>
+<dialog aria-labelledby="im-result-title" class="im-modal" id="im-result">
+<h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+<div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+<div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</dialog>
+<script>
+(() => {
+  'use strict';
+  const root = document.querySelector('.im-app');
+  const main = document.querySelector('.im-main');
+  const passage = document.getElementById('im-passage-col');
+  const questionPanel = document.getElementById('im-questions');
+  const split = document.getElementById('im-splitter');
+  const navButtons = [...document.querySelectorAll('.im-qnav-item')];
+  const bankButtons = [...document.querySelectorAll('.im-chip[data-heading]')];
+  const headingInputs = [...document.querySelectorAll('.im-head-drop')];
+  const otherInputs = [...document.querySelectorAll('.im-options input, .im-gap-input, .im-feature-select')];
+  const headingLabels = Object.fromEntries(bankButtons.map((button) => [button.dataset.heading, button.textContent.trim().replace(/^\S+\s+/, '')]));
+  const solution = Object.freeze({"q1": "B", "q2": "C", "q3": "A", "q4": "D", "q5": "B", "q6": "A", "q7": "C", "q8": "365", "q9": "deliberate", "q10": "ambitious", "q11": "duration", "q12": "informed", "q13": "twenty-minute", "q14": "returning"});
+  const explanations = Object.freeze({"q1": "The introduction argues that an ordinary hour, repeated over months and years, can gradually change a life.", "q2": "Section B uses 365 hours to illustrate accumulated practice, while explicitly rejecting guaranteed fluency.", "q3": "Section C says oversized plans collapse when ordinary responsibilities interfere because the system requires daily ambition.", "q4": "Section D contrasts distracted passive study with active reading, revision and useful practical work.", "q5": "Section E shows how learning a word helps with a paragraph, which supports reading and later writing or conversation.", "q6": "Section F advises choosing one personally meaningful goal and concrete tasks, while allowing different schedules.", "q7": "Section G explicitly recognises unequal time and real limitations but encourages readers to begin with available options.", "q8": "Section B states that one hour each day adds up to 365 hours annually.", "q9": "Section B uses the exact phrase “hundreds of hours of deliberate effort”.", "q10": "Section C says this type of system requires people to feel ambitious every day.", "q11": "Section D states: “The clock measures duration, not progress.”", "q12": "Section E says that experience makes the next session more informed.", "q13": "Section F proposes three twenty-minute sessions: learning, practising and reviewing.", "q14": "Section F says what matters is returning to the work after missing a session."});
+  const storageKey = 'learners-area.article.an-hour-a-day-is-all-you-need.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
+  let selectedHeading = null;
+  let activeQuestion = 1;
+  let timerInterval = null;
+  let pickerAnchor = null;
+  let pointerStartRatio = null;
+
+  function safeStore() {
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
+    catch (_) { /* Standalone private modes may disable storage. */ }
+  }
+
+  function safeRestore() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (!parsed || typeof parsed !== 'object') return;
+      for (let i = 1; i <= 14; i++) {
+        const value = parsed.answers && parsed.answers['q' + i];
+        if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
+      }
+    } catch (_) { /* Ignore corrupted saved data. */ }
+  }
+
+  function refreshAnswered() {
+    navButtons.forEach((button) => {
+      const q = 'q' + button.dataset.imQuestion;
+      const answered = !!String(state.answers[q] || '').trim();
+      button.classList.toggle('im-answered', answered);
+      button.setAttribute('aria-label', `Question ${button.dataset.imQuestion}, ${answered ? 'answered' : 'not answered'}`);
+    });
+    bankButtons.forEach((button) => {
+      const id = button.dataset.heading;
+      const used = headingInputs.some((input) => state.answers[input.name] === id);
+      button.classList.toggle('im-chip-used', used);
+      button.classList.toggle('im-chip-selected', selectedHeading === id);
+      button.setAttribute('aria-pressed', String(selectedHeading === id));
+    });
+  }
+
+  function updateAnswer(name, value) {
+    if (!/^q([1-9]|1[0-4])$/.test(name)) return;
+    if (value) state.answers[name] = value;
+    else delete state.answers[name];
+    safeStore();
+    refreshAnswered();
+    document.dispatchEvent(new CustomEvent('learnersarea:article-answer', { detail: { question: Number(name.slice(1)), answer: value } }));
+  }
+
+  function closePicker() {
+    if (!pickerAnchor) return;
+    const popup = pickerAnchor.parentElement.querySelector('.im-heading-picker');
+    popup.hidden = true;
+    pickerAnchor.setAttribute('aria-expanded', 'false');
+    pickerAnchor = null;
+  }
+
+  function applyHeading(input, headingId) {
+    if (headingId && !(headingId in headingLabels)) return;
+    // Each heading can be used only once in this matching question bank.
+    headingInputs.forEach((other) => {
+      if (other !== input && state.answers[other.name] === headingId && headingId) {
+        other.value = '';
+        other.classList.add('im-drop-empty');
+        other.title = `Choose a heading for question ${other.dataset.imQ}`;
+        delete state.answers[other.name];
+      }
+    });
+    input.value = headingId ? `${headingId} ${headingLabels[headingId]}` : '';
+    input.classList.toggle('im-drop-empty', !headingId);
+    input.title = headingId ? `Assigned: ${headingLabels[headingId]}. Click to change.` : 'Click to choose a heading';
+    updateAnswer(input.name, headingId);
+    selectedHeading = null;
+    closePicker();
+    refreshAnswered();
+    goToQuestion(Number(input.dataset.imQ), false);
+  }
+
+  function openPicker(input) {
+    if (pickerAnchor === input) { closePicker(); return; }
+    closePicker();
+    const picker = input.parentElement.querySelector('.im-heading-picker');
+    picker.replaceChildren();
+    Object.entries(headingLabels).forEach(([id, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = `${id}  ${label}`;
+      button.addEventListener('click', () => { applyHeading(input, id); input.focus(); });
+      picker.append(button);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'im-clear';
+    clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { applyHeading(input, ''); input.focus(); });
+    picker.append(clear);
+    picker.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    pickerAnchor = input;
+  }
+
+  function restoreInputs() {
+    headingInputs.forEach((input) => {
+      const selected = state.answers[input.name];
+      input.value = headingLabels[selected] ? `${selected} ${headingLabels[selected]}` : '';
+      input.classList.toggle('im-drop-empty', !headingLabels[selected]);
+      input.title = 'Click to choose or change the heading';
+    });
+    otherInputs.forEach((input) => {
+      if (input.type === 'radio') input.checked = state.answers[input.name] === input.value;
+      else input.value = state.answers[input.name] || '';
+    });
+    refreshAnswered();
+  }
+
+  bankButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedHeading = selectedHeading === button.dataset.heading ? null : button.dataset.heading;
+      closePicker();
+      refreshAnswered();
+    });
+    button.addEventListener('dragstart', (event) => {
+      selectedHeading = button.dataset.heading;
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', selectedHeading);
+      }
+      refreshAnswered();
+    });
+  });
+
+  headingInputs.forEach((input) => {
+    input.addEventListener('click', () => {
+      if (selectedHeading) applyHeading(input, selectedHeading);
+      else openPicker(input);
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (selectedHeading) applyHeading(input, selectedHeading);
+        else openPicker(input);
+      } else if (event.key === 'Escape') closePicker();
+      else if (event.key === 'Delete' || event.key === 'Backspace') {
+        event.preventDefault();
+        applyHeading(input, '');
+      }
+    });
+    input.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      input.classList.add('im-drop-drop-target');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    input.addEventListener('dragleave', () => input.classList.remove('im-drop-drop-target'));
+    input.addEventListener('drop', (event) => {
+      event.preventDefault();
+      input.classList.remove('im-drop-drop-target');
+      const value = event.dataTransfer && event.dataTransfer.getData('text/plain');
+      if (value in headingLabels) applyHeading(input, value);
+    });
+  });
+  document.addEventListener('click', (event) => {
+    if (pickerAnchor && !pickerAnchor.parentElement.contains(event.target)) closePicker();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePicker(); });
+
+  otherInputs.forEach((input) => {
+    const eventName = input.type === 'radio' || input.tagName === 'SELECT' ? 'change' : 'input';
+    input.addEventListener(eventName, () => {
+      updateAnswer(input.name, input.value.trim());
+      if (input.type === 'text') {
+        const count = input.value.trim().split(/\s+/).filter(Boolean).length;
+        input.setCustomValidity(count > 1 ? 'Enter one word only.' : '');
+      }
+    });
+    input.addEventListener('focus', () => goToQuestion(Number(input.name.slice(1)), false));
+  });
+
+  function goToQuestion(number, shouldScroll = true) {
+    if (!Number.isInteger(number) || number < 1 || number > 14) return;
+    activeQuestion = number;
+    navButtons.forEach((button) => {
+      const current = Number(button.dataset.imQuestion) === number;
+      button.classList.toggle('im-active', current);
+      if (current) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('im-previous').disabled = number === 1;
+    document.getElementById('im-next').disabled = number === 14;
+    if (!shouldScroll) return;
+    const target = document.getElementById('question-' + number);
+    if (!target) return;
+    const scroller = target.closest('.im-passage-col, .im-question-col');
+    if (!scroller) return;
+    const item = target.getBoundingClientRect();
+    const panel = scroller.getBoundingClientRect();
+    const offset = item.top - panel.top - panel.height * .34;
+    scroller.scrollTo({top: Math.max(0, scroller.scrollTop + offset), behavior: 'smooth'});
+  }
+  navButtons.forEach((button) => {
+    button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
+  });
+  document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
+  document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
+
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
+  function updateTimer() {
+    const seconds = state.remainingSeconds;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    const clock = document.getElementById('im-clock');
+    clock.textContent = `${mm}:${ss}`;
+    clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
+  }
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
+  });
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
+
+  split.addEventListener('pointerdown', (event) => {
+    if (window.matchMedia('(max-width: 850px)').matches) return;
+    pointerStartRatio = event.pointerId;
+    split.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  split.addEventListener('pointermove', (event) => {
+    if (pointerStartRatio !== event.pointerId) return;
+    const bounds = main.getBoundingClientRect();
+    const raw = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const percent = Math.max(30, Math.min(70, raw));
+    root.style.setProperty('--im-left-width', `${percent}%`);
+  });
+  function releaseDivider(event) {
+    if (pointerStartRatio === event.pointerId) pointerStartRatio = null;
+  }
+  split.addEventListener('pointerup', releaseDivider);
+  split.addEventListener('pointercancel', releaseDivider);
+  split.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const old = parseFloat(root.style.getPropertyValue('--im-left-width')) || 49.5;
+    root.style.setProperty('--im-left-width', `${Math.max(30, Math.min(70, old + (event.key === 'ArrowRight' ? 2 : -2)))}%`);
+  });
+
+  function normalise(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  }
+  const acceptableAnswers = Object.freeze({});
+  const resultDialog = document.getElementById('im-result');
+  document.getElementById('im-check-btn').addEventListener('click', () => {
+    const body = document.getElementById('im-review-body');
+    const fragment = document.createDocumentFragment();
+    let correct = 0;
+    for (let i = 1; i <= 14; i++) {
+      const key = 'q' + i;
+      const given = String(state.answers[key] || '');
+      const isCorrect = (acceptableAnswers[key] || [solution[key]]).some((answer) => normalise(given) === normalise(answer));
+      correct += Number(isCorrect);
+      const tr = document.createElement('tr');
+      const cellNo = document.createElement('td');
+      cellNo.textContent = String(i);
+      const cellGiven = document.createElement('td');
+      cellGiven.textContent = given || '—';
+      const cellCorrect = document.createElement('td');
+      cellCorrect.textContent = solution[key];
+      const cellStatus = document.createElement('td');
+      cellStatus.textContent = isCorrect ? '✓' : '✕';
+      cellStatus.className = isCorrect ? 'im-ok' : 'im-bad';
+      const cellExplanation = document.createElement('td');
+      cellExplanation.textContent = explanations[key] || '';
+      tr.append(cellNo, cellGiven, cellCorrect, cellStatus, cellExplanation);
+      fragment.append(tr);
+    }
+    body.replaceChildren(fragment);
+    document.getElementById('im-score').textContent = `${correct} / 14 correct`;
+    if (typeof resultDialog.showModal === 'function') resultDialog.showModal();
+    else resultDialog.setAttribute('open', '');
+  });
+  document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
+  safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
+
+
+  // Dictionary words are restored from the actual article's glossary, not generated meanings.
+  const dictionary = Object.freeze({"effortlessly": {"word": "Effortlessly", "pos": "adverb", "level": "B2", "definition": "In a way that seems to require very little effort.", "translation": "osongina, qiyinchiliksiz", "example": "She appears to speak French effortlessly after years of practice."}, "postponing": {"word": "Postponing", "pos": "verb", "level": "B2", "definition": "Delaying something until a later time.", "translation": "keyinga qoldirish", "example": "He kept postponing his first coding project."}, "transformative": {"word": "Transformative", "pos": "adjective", "level": "C1", "definition": "Causing an important or substantial change.", "translation": "tubdan o‘zgartiruvchi", "example": "The experience was transformative for her career."}, "deliberate": {"word": "Deliberate", "pos": "adjective", "level": "C1", "definition": "Done consciously and with careful intention.", "translation": "ongli, puxta o‘ylangan", "example": "Deliberate practice helped him improve his pronunciation."}, "ambitious": {"word": "Ambitious", "pos": "adjective", "level": "B2", "definition": "Showing a strong desire to achieve something difficult.", "translation": "katta maqsadli, intiluvchan", "example": "They made an ambitious plan for the new term."}, "substantial": {"word": "Substantial", "pos": "adjective", "level": "B2", "definition": "Large or important in amount or effect.", "translation": "sezilarli, katta", "example": "A substantial improvement followed regular practice."}, "compelling": {"word": "Compelling", "pos": "adjective", "level": "C1", "definition": "Very convincing or interesting, making someone pay attention.", "translation": "ishonarli, diqqatga sazovor", "example": "Her opening paragraph made a compelling argument."}, "familiarity": {"word": "Familiarity", "pos": "noun", "level": "B2", "definition": "Knowledge or experience gained from repeated contact with something.", "translation": "tanishlik, yaxshi bilish", "example": "Familiarity with the topic made the second lesson easier."}, "sporadic": {"word": "Sporadic", "pos": "adjective", "level": "C1", "definition": "Happening only occasionally or at irregular intervals.", "translation": "nomuntazam, vaqti-vaqti bilan bo‘ladigan", "example": "Sporadic study sessions rarely create a lasting habit."}, "sustainable": {"word": "Sustainable", "pos": "adjective", "level": "C1", "definition": "Able to continue for a long time without becoming too difficult.", "translation": "davomli, barqaror", "example": "She chose a sustainable routine of thirty minutes a day."}, "purposeful": {"word": "Purposeful", "pos": "adjective", "level": "C1", "definition": "Done with a clear aim or intention.", "translation": "aniq maqsadli", "example": "Purposeful reading involves looking for evidence and key ideas."}, "circumstances": {"word": "Circumstances", "pos": "plural noun", "level": "B2", "definition": "The conditions or facts affecting a situation.", "translation": "sharoitlar, vaziyat", "example": "The schedule changed because of unexpected circumstances."}});
+  const dictionaryAliases = Object.freeze({});
+  const dictionaryPanel = document.getElementById('im-dictionary-panel');
+  const dictionaryWords = [...document.querySelectorAll('.im-vocab-word-in-text')];
+  const dictionaryButton = document.getElementById('im-dictionary-list');
+  const dictionaryClose = document.getElementById('im-dict-close');
+  const dictionaryAudio = document.getElementById('im-dict-speak');
+  const dictionaryList = document.getElementById('im-dict-words');
+  const dictionaryListButtons = document.getElementById('im-dict-word-buttons');
+  let activeDictionaryWord = '';
+  let lastDictionaryAnchor = null;
+  let pressTimer = null;
+  let pressGesture = null;
+
+  function dictionaryKey(element) {
+    const raw = String(element.dataset.dictionaryWord || element.textContent || '').trim().toLowerCase();
+    return dictionaryAliases[raw] || raw;
+  }
+  function dictionaryText(id, value) { document.getElementById(id).textContent = value; }
+  function openDictionary(key, anchor = null, list = false) {
+    const entry = dictionary[key];
+    if (!entry) return;
+    const detail = {word:key, sourceType:'reading', sourceId:'an-hour-a-day-is-all-you-need', anchor};
+    const event = new CustomEvent('learnersarea:article-word-lookup', {cancelable:true, detail});
+    if (!document.dispatchEvent(event)) return;
+    activeDictionaryWord = key;
+    lastDictionaryAnchor = anchor;
+    dictionaryText('im-dict-title', entry.word);
+    dictionaryText('im-dict-meta', [entry.pos, entry.level, entry.ipa].filter(Boolean).join(' · '));
+    dictionaryText('im-dict-definition', entry.definition);
+    dictionaryText('im-dict-translation', entry.translation);
+    dictionaryText('im-dict-example', entry.example);
+    dictionaryList.hidden = !list;
+    dictionaryPanel.hidden = false;
+    dictionaryPanel.scrollTop = 0;
+    dictionaryPanel.focus({preventScroll:true});
+  }
+  function closeDictionary(returnFocus = false) {
+    if (dictionaryPanel.hidden) return;
+    dictionaryPanel.hidden = true;
+    activeDictionaryWord = '';
+    if (returnFocus && lastDictionaryAnchor) lastDictionaryAnchor.focus({preventScroll:true});
+    lastDictionaryAnchor = null;
+  }
+  const uniqueWords = Object.keys(dictionary);
+  for (const key of uniqueWords) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = key;
+    button.addEventListener('click', () => openDictionary(key, null, true));
+    dictionaryListButtons.append(button);
+  }
+  dictionaryButton.addEventListener('click', () => {
+    if (!dictionaryPanel.hidden && !dictionaryList.hidden) { closeDictionary(true); return; }
+    openDictionary(activeDictionaryWord || uniqueWords[0], null, true);
+  });
+  dictionaryClose.addEventListener('click', () => closeDictionary(true));
+  dictionaryAudio.addEventListener('click', () => {
+    if (!activeDictionaryWord || !('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(activeDictionaryWord);
+    utterance.lang = 'en-GB'; utterance.rate = .9;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  });
+  for (const word of dictionaryWords) {
+    word.addEventListener('dblclick', (event) => {
+      if (event.button !== 0) return;
+      window.getSelection()?.removeAllRanges();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.pointerType === 'mouse') return;
+      clearTimeout(pressTimer);
+      pressGesture = {x:event.clientX,y:event.clientY};
+      pressTimer = window.setTimeout(() => {
+        pressTimer = null;
+        openDictionary(dictionaryKey(word), word);
+      }, 650);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+      word.addEventListener(name, () => { clearTimeout(pressTimer); pressTimer = null; });
+    }
+    word.addEventListener('pointermove', (event) => {
+      if (pressGesture && Math.hypot(event.clientX - pressGesture.x, event.clientY - pressGesture.y) > 8) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    });
+  }
+  document.addEventListener('pointerdown', (event) => {
+    if (dictionaryPanel.hidden) return;
+    if (dictionaryPanel.contains(event.target) || dictionaryButton.contains(event.target)) return;
+    if (event.target.closest?.('.im-vocab-word-in-text')) return;
+    closeDictionary();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !dictionaryPanel.hidden) closeDictionary(true);
+  });
+  const logo = document.getElementById('im-brand-logo');
+  const logoFallback = document.getElementById('im-brand-fallback');
+  logo.addEventListener('load', () => { if (logo.naturalWidth > 0) logoFallback.hidden = true; });
+  logo.addEventListener('error', () => { logo.hidden = true; logoFallback.hidden = false; });
+  if (logo.complete && logo.naturalWidth > 0) logoFallback.hidden = true;
+})();
+</script>
+</body>
+</html>

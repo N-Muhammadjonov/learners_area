@@ -20,7 +20,6 @@ function card(article,t){
  const tags=el('div',{class:'reading-article-tags'},article.level?el('span',{class:'reading-article-level'},article.level):null,(article.topics??[]).map(topic=>el('span',{class:'reading-article-topic'},topic)));
  return el('article',{class:'reading-article-card','data-reading-article':article.id},image,
   el('div',{class:'reading-article-card-body'},tags,el('h2',{class:'reading-article-title'},article.title),
-   el('p',{class:'reading-article-meta'},`Article · ${article.minutes} ${t.minute}`),
    el('p',{class:'reading-article-count'},`${article.questionCount??(article.questions??[]).length} ${t.questions}`),
    el('a',{class:'btn-primary reading-article-action',href:`/app/reading/articles/${encodeURIComponent(article.id)}`},`${t.start} →`)));
 }
@@ -91,8 +90,13 @@ function mountExercise(context,article,t){
  frame.addEventListener('load',()=>{
   try{
    const win=frame.contentWindow,doc=frame.contentDocument;
-   const syncTheme=()=>{doc.documentElement.dataset.theme=document.documentElement.dataset.theme==='night'?'dark':'light';};
-   syncTheme();const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});signal.addEventListener('abort',()=>themeObserver.disconnect(),{once:true});
+   const syncTheme=()=>{
+    const root=document.documentElement,style=doc.documentElement.style,parentStyles=document.defaultView.getComputedStyle(root);
+    doc.documentElement.dataset.theme=root.dataset.theme==='night'?'dark':'light';
+    const palette={'--bg-main':'--workspace-paper','--bg-surface':'--workspace-raised','--bg-secondary':'--workspace-sunken','--text-main':'--workspace-ink','--text-muted':'--workspace-muted','--border-color':'--workspace-line','--accent-color':'--workspace-accent-strong','--accent-soft':'--workspace-sunken','--article-header-bg':'--workspace-sunken'};
+    for(const [target,source] of Object.entries(palette)){const value=parentStyles.getPropertyValue(source).trim();if(value)style.setProperty(target,`rgb(${value})`);else style.removeProperty(target);}
+   };
+   syncTheme();const themeObserver=new MutationObserver(syncTheme);themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class','style']});signal.addEventListener('abort',()=>themeObserver.disconnect(),{once:true});
    const titleRow=doc.querySelector('.im-dict-title-row'),wordsPanel=doc.querySelector('#im-dict-words');
    if(titleRow&&wordsPanel){
     const addOne=doc.createElement('button');addOne.type='button';addOne.className='im-dict-speak';addOne.textContent='+';addOne.setAttribute('aria-label',copy.add);addOne.title=copy.add;addOne.setAttribute('data-article-add-word','');

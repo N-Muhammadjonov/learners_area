@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+<html data-theme="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0e1523" name="theme-color"/>
+<title>Advantages and disadvantages of using social media — Learners Area Reading</title>
+<style>
+:root {
+  color-scheme: light;
+  --im-bg: var(--bg-main, #ffffff);
+  --im-surface: var(--bg-surface, #ffffff);
+  --im-surface-2: var(--bg-secondary, #f8fafc);
+  --im-text: var(--text-main, #111827);
+  --im-muted: var(--text-muted, #5b6473);
+  --im-border: var(--border-color, #d5dbe5);
+  --im-accent: var(--accent-color, #436fd6);
+  --im-accent-soft: var(--accent-soft, #edf2ff);
+  --im-part-head-bg: var(--article-header-bg, #f1f2ee);
+  --im-success: #15803d;
+  --im-danger: #b91c1c;
+  --im-left-width: 49.5%;
+  --im-radius: 8px;
+  --im-footer-height: 54px;
+  --im-font-scale: 1;
+}
+html[data-theme="dark"], html[data-mavzu="tungi"], body[data-demo-theme="dark"] {
+  color-scheme: dark;
+  --im-bg: var(--bg-main, #0e1523);
+  --im-surface: var(--bg-surface, #152032);
+  --im-surface-2: var(--bg-secondary, #1c2a40);
+  --im-text: var(--text-main, #e9edf6);
+  --im-muted: var(--text-muted, #b4c0d1);
+  --im-border: var(--border-color, #3b4c63);
+  --im-accent: var(--accent-color, #76a4ff);
+  --im-accent-soft: var(--accent-soft, #263955);
+  --im-part-head-bg: var(--article-header-bg, #202e40);
+}
+* { box-sizing: border-box; }
+html { font-family: Arial, Helvetica, sans-serif; font-size: 16px; overflow: hidden; }
+body { margin: 0; background: var(--im-bg); color: var(--im-text); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled { opacity: .48; cursor: not-allowed; }
+:where(button,input,select,a,[tabindex]):focus-visible { outline: 3px solid var(--im-accent); outline-offset: 2px; }
+.im-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.im-app { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--im-bg); }
+.im-topbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 10px 20px; min-height: 58px; background: var(--im-surface); border-bottom: 1px solid var(--im-border); }
+.im-bar-left, .im-bar-right { display: flex; align-items: center; gap: 13px; }
+.im-brand { display: flex; gap: 9px; align-items: center; color: var(--im-text); font-weight: 800; white-space: nowrap; }
+.im-brand-mark { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--im-accent); color: white; letter-spacing: -.05em; font-size: 13px; }
+.im-taker-id { font-size: 13px; color: var(--im-muted); }
+.im-timer { min-width: 64px; text-align: center; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.im-icon-btn { display: inline-grid; place-items: center; width: 33px; height: 33px; border: 1px solid var(--im-border); border-radius: 8px; color: var(--im-text); background: var(--im-surface); transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.im-icon-btn:hover { transform: scale(1.06); border-color: var(--im-accent); box-shadow: 0 3px 12px #00000012; }
+.im-part-head { margin: 3px 16px 0; padding: 10px 16px; border: 1px solid var(--im-border); background: var(--im-part-head-bg); min-height: 74px; }
+.im-title-sm { font-size: 17px; margin: 0 0 5px; font-weight: 700; }
+.im-plain-text { margin: 0; font-size: 16px; line-height: 1.4; }
+.im-main { display: grid; grid-template-columns: minmax(0,var(--im-left-width)) 12px minmax(0,1fr); min-height: 0; flex: 1; overflow: hidden; }
+.im-passage-col, .im-question-col { overflow-y: auto; overflow-x: hidden; min-width: 0; min-height: 0; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--im-border) transparent; }
+.im-passage-body { padding: 26px 26px 40px 28px; }
+.oqish-holati { display: flex; align-items: center; gap: 12px; margin: 0 0 15px; }
+.im-read-track { display: block; flex: 1; height: 3px; background: var(--im-border); border-radius: 10px; overflow: hidden; }
+.im-read-fill { display: block; width: 0%; height: 100%; background: var(--im-accent); transition: width .2s ease; }
+.im-read-left { flex: none; font-size: 12px; white-space: nowrap; color: var(--im-muted); }
+.im-article-cover { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; background: var(--im-surface-2); }
+.im-passage-title { font-size: calc(21px * var(--im-font-scale)); line-height: 1.33; margin: 19px 0 11px; letter-spacing: -.025em; font-weight: 750; }
+.im-passage-text { font-size: calc(16px * var(--im-font-scale)); line-height: 1.59; }
+.im-article-paragraph { margin: 0 0 15px; }
+.im-para-letter { font-weight: 750; }
+.im-vocab-word-in-text { text-decoration: underline dotted var(--im-muted); text-underline-offset: 3px; }
+.im-splitter { position: relative; display: flex; align-items: center; justify-content: center; cursor: col-resize; border-left: 1px solid var(--im-border); border-right: 1px solid var(--im-border); user-select: none; background: var(--im-surface); }
+.im-splitter-grip { background: var(--im-surface); border: 1px solid var(--im-border); padding: 8px 3px; font-size: 12px; border-radius: 4px; color: var(--im-muted); }
+.im-question-body { padding: 27px 30px 45px 23px; }
+.im-group { margin: 0 0 34px; }
+.im-group-title { font-size: 17px; margin: 0 0 14px; font-weight: 750; }
+.im-guide { font-size: 16px; line-height: 1.62; margin: 0 0 18px; }
+.im-head-list-title { font-size: 17px; font-weight: 750; margin: 18px 0 23px; }
+.im-bank { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.im-chip { min-height: 32px; max-width: 100%; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); padding: 4px 12px; text-align: left; font-size: 15px; font-weight: 650; line-height: 1.35; cursor: grab; transition: transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease; }
+.im-chip:hover { transform: scale(1.015); transform-origin: left center; border-color: var(--im-accent); box-shadow: 0 2px 9px #00000018; }
+.im-chip:active { cursor: grabbing; }
+.im-roman { color: var(--im-accent); margin-right: 8px; font-weight: 750; }
+.im-chip-selected { border-color: var(--im-accent); background: var(--im-accent-soft); box-shadow: 0 0 0 2px var(--im-accent-soft); }
+.im-chip-used { opacity: .64; }
+.im-matching-question { position: relative; margin: 14px 0 20px; padding: 0; border: 0; min-width: 0; }
+.im-drop { display: block; width: 100%; min-height: 32px; height: auto; padding: 5px 9px; text-align: center; border-radius: 4px; border: 2px dashed var(--im-accent); outline-offset: 3px; background: var(--im-surface); color: var(--im-text); cursor: pointer; font-size: 14px; }
+.im-drop::placeholder { color: var(--im-accent); opacity: 1; }
+.im-drop:focus { border-style: solid; }
+.im-drop:not(.im-drop-empty) { text-align: left; font-weight: 650; background: var(--im-accent-soft); }
+.im-drop-drop-target { border-style: solid; background: var(--im-accent-soft); }
+.im-heading-picker { position: absolute; z-index: 10; top: calc(100% + 5px); left: 0; width: min(100%,540px); max-height: 260px; overflow-y: auto; padding: 6px; border: 1px solid var(--im-border); background: var(--im-surface); box-shadow: 0 10px 25px #0000002a; border-radius: 8px; }
+.im-heading-picker[hidden] { display: none; }
+.im-heading-picker button { width: 100%; text-align: left; padding: 8px 9px; border: 0; border-radius: 5px; background: transparent; color: var(--im-text); line-height: 1.35; font-size: 14px; }
+.im-heading-picker button:hover { background: var(--im-accent-soft); }
+.im-heading-picker .im-clear { color: var(--im-muted); border-top: 1px solid var(--im-border); margin-top: 5px; }
+.im-question { display: block; padding: 0; margin: 20px 0 24px; border: 0; min-width: 0; }
+.im-q-text { display: block; margin: 0 0 18px; padding: 0; width: 100%; font-size: 16px; line-height: 1.56; }
+.im-qnum { display: inline-grid; place-items: center; flex: none; min-width: 21px; height: 24px; margin-right: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--im-accent); font-size: 15px; line-height: 1; font-weight: 650; vertical-align: baseline; }
+.im-options { display: flex; flex-direction: column; gap: 17px; }
+.im-option-row { display: flex; align-items: start; gap: 12px; }
+.im-option-row input[type="radio"] { width: 16px; height: 16px; margin: 4px 0 0; flex: none; accent-color: var(--im-accent); }
+.im-option-label { font-size: 16px; line-height: 1.48; cursor: pointer; border-radius: 4px; padding: 2px 3px; }
+.im-option-row:has(input:checked) .im-option-label { color: var(--im-accent); font-weight: 600; }
+.im-option-label:hover { background: var(--im-accent-soft); }
+.im-question-gap .im-q-text { margin-bottom: 0; }
+.im-gap-input { display: inline-block; width: clamp(110px, 27%, 170px); min-height: 33px; padding: 5px 7px; border: 1px solid var(--im-border); border-radius: 4px; background: var(--im-surface); color: var(--im-text); text-align: center; margin: 0 6px; }
+.im-gap-input:hover { border-color: var(--im-accent); }
+.im-gap-input:focus { border-color: var(--im-accent); }
+.im-footer { flex: none; min-height: var(--im-footer-height); display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 7px 13px; border-top: 1px solid var(--im-border); background: var(--im-surface); }
+.im-foot-nav, .im-foot-part, .im-foot-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.im-foot-nav { overflow-x: auto; scrollbar-width: none; }
+.im-foot-nav::-webkit-scrollbar { display: none; }
+.im-foot-part-name { margin-right: 4px; font-weight: 700; white-space: nowrap; font-size: 15px; }
+.im-qnav { display: flex; gap: 5px; align-items: center; }
+.im-qnav-item { position: relative; flex: none; width: 35px; height: 36px; padding: 0; border: 1px solid var(--im-border); border-radius: 10px; background: var(--im-surface); color: var(--im-muted); font-size: 14px; transition: background .15s, border-color .15s, transform .15s; }
+.im-qnav-item:hover { transform: scale(1.06); border-color: var(--im-accent); }
+.im-qnav-item.im-active { background: var(--im-accent-soft); border-color: var(--im-accent); color: var(--im-text); font-weight: 700; }
+.im-qnav-item.im-answered .im-qnav-tick { position: absolute; width: 6px; height: 6px; bottom: 2px; right: 2px; background: var(--im-accent); border-radius: 50%; }
+.im-foot-right { flex: none; }
+.im-back, .im-check { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; padding: 5px 14px; gap: 7px; border-radius: 18px; border: 1px solid var(--im-accent); background: var(--im-accent-soft); color: var(--im-text); font-size: 14px; font-weight: 600; transition: transform .14s, box-shadow .14s; }
+.im-check { font-size: 19px; padding: 4px 13px; }
+.im-back:hover, .im-check:hover { transform: scale(1.045); box-shadow: 0 3px 10px #00000020; }
+.im-inline-step { position: fixed; right: 22px; bottom: 70px; z-index: 3; display: flex; gap: 8px; }
+.im-step-btn { width: 47px; height: 47px; background: var(--im-accent-soft); border: 1px solid var(--im-accent); border-radius: 15px; color: var(--im-text); font-size: 27px; transition: transform .14s; }
+.im-step-btn:hover { transform: scale(1.06); }
+.im-modal { width: min(520px, calc(100% - 30px)); max-height: 88vh; border: 1px solid var(--im-border); background: var(--im-surface); color: var(--im-text); border-radius: 14px; padding: 22px; box-shadow: 0 24px 70px #00000050; }
+.im-modal::backdrop { background: #0b1222a6; }
+.im-modal h2 { margin: 0 0 12px; font-size: 21px; }
+.im-score { font-size: 19px; font-weight: 800; margin: 8px 0 15px; color: var(--im-accent); }
+.im-review-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.im-review-table td,.im-review-table th { border-bottom: 1px solid var(--im-border); padding: 7px; text-align: left; }
+.im-review-table .im-ok { color: var(--im-success); }
+.im-review-table .im-bad { color: var(--im-danger); }
+.im-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+.im-modal-actions button { border: 1px solid var(--im-accent); color: var(--im-text); background: var(--im-accent-soft); padding: 8px 18px; border-radius: 8px; }
+@media (max-width: 850px) {
+  html { overflow: auto; }
+  .im-app { height: auto; min-height: 100dvh; }
+  .im-topbar { padding: 9px 12px; }
+  .im-taker-id { display: none; }
+  .im-part-head { margin: 0 8px; }
+  .im-main { display: block; flex: 1; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; scroll-behavior: auto; }
+  .im-passage-body { padding: 18px 16px 22px; }
+  .im-question-col { border-top: 1px solid var(--im-border); }
+  .im-question-body { padding: 24px 16px 50px; }
+  .im-splitter { display: none; }
+  .im-footer { position: sticky; bottom: 0; z-index: 4; }
+  .im-foot-part-name { display: none; }
+  .im-inline-step { position: fixed; bottom: 70px; right: 12px; }
+  .im-qnav-item { height: 35px; width: 34px; }
+}
+@media (max-width: 440px) {
+  .im-brand-label { display: none; }
+  .im-part-head { padding: 10px; }
+  .im-guide, .im-q-text, .im-option-label { font-size: 15px; }
+  .im-foot-right { gap: 6px; }
+  .im-back { padding: 5px 10px; }
+  .im-check { padding: 4px 10px; }
+}
+@media print {
+  .im-topbar, .im-splitter, .im-footer, .im-inline-step { display: none !important; }
+  .im-app { display: block; height: auto; }
+  .im-main { display: block; overflow: visible; }
+  .im-passage-col,.im-question-col { overflow: visible; }
+  .im-question-col { break-before: page; }
+  .im-passage-body,.im-question-body { padding: 12px; }
+}
+
+/* Article header matches the reference while respecting the site's design tokens. */
+html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--bg-surface, #152032); --im-surface-2: var(--bg-secondary, #1c2a40); --im-text: var(--text-main, #e9edf6); --im-muted: var(--text-muted, #b4c0d1); --im-border: var(--border-color, #35475e); --im-accent: var(--accent-color, #76a4ff); --im-accent-soft: var(--accent-soft, #263955); --im-part-head-bg: var(--article-header-bg, #202e40); }
+.im-topbar.im-part-head { position: relative; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; flex: none; min-height: 86px; margin: 6px 16px 0; padding: 12px 18px; background: var(--im-part-head-bg); border: 1px solid var(--im-border); border-bottom: 1px solid var(--im-border); border-radius: 0; }
+.im-article-ident { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.im-article-ident .im-title-sm { margin: 0; font-size: 17px; font-weight: 800; }
+.im-article-ident .im-plain-text { font-size: 15px; line-height: 1.36; color: var(--im-text); }
+.im-bar-right.im-article-actions { justify-content: flex-end; gap: 9px; min-width: 0; }
+.im-brand-pill { display: inline-flex; justify-self: center; align-items: center; justify-content: center; gap: 7px; padding: 4px 16px 4px 7px; min-height: 46px; border: 1px solid var(--im-border); border-radius: 999px; background: var(--im-surface); color: var(--im-text); text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px #030b1b17; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease; }
+.im-brand-pill:hover { transform: scale(1.04); border-color: var(--im-accent); box-shadow: 0 6px 18px #00000030; background: var(--im-surface-2); }
+.im-brand-pill:focus-visible { outline: 3px solid var(--im-accent); outline-offset: 3px; }
+.im-brand-icon { position: relative; flex: none; width: 40px; height: 34px; display: inline-grid; place-items: center; }
+.im-brand-logo { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 1px 4px #2348be44); }
+.im-brand-fallback { display: grid; place-items: center; width: 33px; height: 31px; border-radius: 10px; background: linear-gradient(125deg, #42dad1, #4475f1); color: #fff; font-weight: 850; letter-spacing: -.08em; font-size: 13px; }
+.im-brand-fallback[hidden] { display: none; }
+.im-brand-wordmark { font-family: 'Geist', 'Avenir Next', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 750; font-size: 17px; letter-spacing: -.045em; }
+.im-brand-wordmark b { font-weight: 850; color: var(--im-accent); }
+.im-timer { font-weight: 760; }
+.im-lexicon-toggle { position: relative; }
+.im-lexicon-count { position: absolute; right: -5px; top: -9px; min-width: 19px; height: 19px; padding: 0 4px; display: grid; place-items: center; border-radius: 999px; background: var(--im-accent); color: #071426; font-size: 10px; font-weight: 800; line-height: 1; }
+.im-vocab-word-in-text { cursor: pointer; text-decoration: underline dotted var(--im-accent); text-underline-offset: 4px; border-radius: 2px; outline-offset: 3px; }
+.im-vocab-word-in-text:hover, .im-vocab-word-in-text:focus-visible { color: var(--im-accent); background: var(--im-accent-soft); }
+.im-check-final { min-width: 98px; min-height: 37px; gap: 7px; padding: 6px 16px; border-radius: 999px; background: var(--im-accent-soft); font-size: 14px; }
+.im-check-mark { font-size: 19px; font-weight: 800; line-height: 1; }
+.im-dictionary-panel { position: fixed; z-index: 50; top: 105px; right: 22px; width: min(360px, calc(100vw - 24px)); max-height: min(570px, calc(100dvh - 125px)); overflow: auto; padding: 16px; border: 1px solid var(--im-border); border-radius: 12px; background: var(--im-surface); color: var(--im-text); box-shadow: 0 18px 55px #00000063; scrollbar-color: var(--im-border) transparent; }
+.im-dictionary-panel[hidden], .im-dict-words[hidden] { display: none !important; }
+.im-dict-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+.im-dict-eyebrow { color: var(--im-accent); font-weight: 850; font-size: 10px; letter-spacing: .105em; }
+.im-dict-close { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--im-border); border-radius: 8px; background: var(--im-surface-2); color: var(--im-text); font-size: 24px; line-height: 1; }
+.im-dict-close:hover, .im-dict-speak:hover { border-color: var(--im-accent); background: var(--im-accent-soft); }
+.im-dict-title-row { display: flex; align-items: center; gap: 10px; }
+.im-dict-title-row h2 { margin: 0; font: 800 23px/1.25 'Geist', 'Inter', -apple-system, sans-serif; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.im-dict-speak { width: 32px; height: 32px; border: 1px solid var(--im-border); border-radius: 7px; background: var(--im-surface-2); color: var(--im-text); font-size: 16px; }
+.im-dict-meta { margin: 5px 0 16px; font-size: 12px; color: var(--im-muted); }
+.im-dict-label { margin: 14px 0 4px; color: var(--im-muted); font-size: 11px; font-weight: 740; letter-spacing: .02em; }
+.im-dict-definition, .im-dict-translation { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.im-dict-translation { color: var(--im-accent); }
+.im-dict-example { padding: 10px 12px; border-left: 2px solid var(--im-accent); border-radius: 3px; background: var(--im-surface-2); color: var(--im-text); margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.im-dict-word-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.im-dict-word-buttons button { max-width: 100%; background: var(--im-surface-2); color: var(--im-text); border: 1px solid var(--im-border); border-radius: 999px; padding: 6px 11px; font-size: 12px; }
+.im-dict-word-buttons button:hover, .im-dict-word-buttons button:focus-visible { border-color: var(--im-accent); background: var(--im-accent-soft); }
+@media (max-width: 850px) {
+ .im-topbar.im-part-head { margin: 6px 8px 0; padding: 10px 12px; gap: 8px; }
+ .im-dictionary-panel { top: 105px; right: 12px; }
+}
+@media (max-width: 640px) {
+ .im-topbar.im-part-head { grid-template-columns: minmax(0,1fr) auto; grid-template-areas: 'info actions' 'brand brand'; min-height: 0; row-gap: 8px; }
+ .im-article-ident { grid-area: info; }
+ .im-article-actions { grid-area: actions; }
+ .im-brand-pill { grid-area: brand; justify-self: center; min-height: 39px; padding: 3px 12px 3px 6px; }
+ .im-brand-icon { height: 30px; width: 35px; }
+ .im-brand-wordmark { font-size: 15px; }
+ .im-article-ident .im-plain-text { font-size: 13px; }
+ .im-timer { font-size: 16px; min-width: 54px; }
+ .im-article-actions .im-icon-btn { width: 30px; height: 30px; }
+ .im-dictionary-panel { top: 135px; max-height: calc(100dvh - 158px); }
+ .im-check-final { min-width: 76px; padding: 5px 11px; }
+}
+@media print { .im-dictionary-panel { display: none !important; } }
+
+.im-brand-icon .im-brand-logo {position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.im-brand-icon .im-brand-fallback {position:relative;z-index:0;}
+
+/* Article footer: shift only the Check action approximately 2 cm to the left. */
+.im-foot-right { margin-right: 2cm; }
+@media (max-width: 640px) { .im-foot-right { margin-right: min(2cm, 8vw); } }
+
+/* Original-PDF article sections and paragraph hierarchy */
+.im-article-section {margin: 4px 0 25px;}
+.im-article-section-title {font-size:calc(18px * var(--im-font-scale));line-height:1.4;font-weight:800;margin:23px 0 14px;color:var(--im-text);letter-spacing:-.015em;}
+.im-section-letter {font-size:14px;color:var(--im-accent);margin-right:6px;}
+.im-article-section .im-article-paragraph {margin-bottom:15px;}
+.im-passage-text .im-matching-question {margin-bottom:4px;}
+.im-article-cover {aspect-ratio:1536/633;object-fit:contain;background:#071322;}
+.im-discussion {margin:34px 0 16px;padding:14px 16px;border:1px solid var(--im-border);border-radius:12px;background:var(--im-surface);}
+.im-discussion summary {cursor:pointer;color:var(--im-accent);font-weight:750;}
+.im-discussion-list {margin:13px 0 0;padding-left:22px;line-height:1.6;}
+.im-discussion-list li {margin:0 0 9px;}
+.im-review-table td:last-child {min-width:250px;font-size:12px;line-height:1.55;color:var(--im-muted);}
+@media (max-width:640px){.im-article-section-title{font-size:16px}.im-discussion{padding:12px}}
+
+.im-article-cover {aspect-ratio: 696 / 362; object-fit: cover; background: #0b1b2d;}
+.im-topic-divider {font-size: 21px; font-weight: 800; color: var(--im-accent); margin: 22px 0 18px; border-bottom: 1px solid var(--im-border); padding-bottom: 9px;}
+.im-article-section-title {font-size: clamp(17px, 1.15vw, 20px);}
+
+.im-article-cover{aspect-ratio:4/3;object-fit:cover;background:#0b1b2d;}
+
+/* Question format for this article: only Matching Features + Short Answers */
+.im-article-cover{aspect-ratio:1247/710;object-fit:cover;background:#101725}
+.im-procon-subhead{font-size:15.5px;line-height:1.45;margin:15px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-feature-bank{display:grid;gap:8px;margin:0 0 26px;padding:16px;background:var(--im-surface-2);border:1px solid var(--im-border);border-radius:12px}
+.im-feature-bank-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--im-text)}
+.im-feature-letter{flex:0 0 25px;font-size:14px;color:var(--im-accent)}
+.im-question-feature,.im-question-short{padding:0;margin:22px 0;border:0;min-width:0}
+.im-question-feature .im-q-text,.im-question-short .im-q-text{margin:0 0 9px}
+.im-feature-label{display:block;margin:0 0 6px;font-size:12px;line-height:1.4;color:var(--im-muted)}
+.im-feature-select{display:block;width:100%;min-height:44px;max-width:100%;border:1px solid var(--im-border);background:var(--im-surface-2);color:var(--im-text);font-size:14px;padding:9px 12px;border-radius:9px;outline:none;cursor:pointer}
+.im-feature-select:hover,.im-short-input:hover{border-color:var(--im-accent)}
+.im-feature-select:focus-visible,.im-short-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+.im-short-input{width:clamp(180px,60%,300px);margin:0;max-width:100%;height:44px;border-radius:9px;text-align:left;padding-left:12px}
+@media(max-width:850px){.im-feature-bank{padding:12px}.im-feature-select{font-size:14px}}
+
+/* Social media article — only Multiple Choice and Summary Completion */
+.im-article-cover{aspect-ratio:1245/761;object-fit:cover;background:#101725}
+.im-social-subhead{font-size:15.5px;line-height:1.5;margin:17px 0 9px;font-weight:750;color:var(--im-accent)}
+.im-article-list-paragraph{padding-left:13px;border-left:2px solid var(--im-border);margin-left:5px}
+.im-summary-heading{font-size:15.5px;line-height:1.5;font-weight:750;color:var(--im-text);margin:23px 0 10px}
+.im-summary-panel{padding:16px 18px;border:1px solid var(--im-border);background:var(--im-surface-2);border-radius:12px}
+.im-summary-panel .im-question-gap{margin-bottom:13px}
+.im-summary-panel .im-q-text{line-height:2.2}
+.im-summary-panel .im-gap-input{min-height:41px;max-width:100%;width:clamp(120px,26vw,175px)}
+.im-options input:focus-visible,.im-gap-input:focus-visible{outline:2px solid var(--im-accent);outline-offset:2px}
+@media(max-width:850px){.im-summary-panel{padding:12px}.im-summary-panel .im-gap-input{width:130px}}
+</style>
+</head>
+<body>
+<div class="im-app" data-article-id="advantages-disadvantages-social-media">
+<header aria-label="Article toolbar" class="im-topbar im-part-head">
+<div class="im-bar-left im-article-ident">
+<h1 class="im-title-sm">Article</h1>
+<p class="im-plain-text">Read the article and answer questions 1–13.</p>
+</div>
+<a aria-label="Learners Area Telegram channel (opens in new tab)" class="im-brand-pill" href="https://t.me/Learners_area" id="im-brand-link" rel="noopener noreferrer" target="_blank" title="Learners Area Telegram kanali">
+<span class="im-brand-icon">
+<img alt="" class="im-brand-logo" decoding="async" height="32" id="im-brand-logo" src="https://learnersarea.uz/brand/learners-area-la-glass.svg" width="40"/>
+<span class="im-brand-fallback" id="im-brand-fallback">LA</span>
+</span>
+<span class="im-brand-wordmark">Learners <b>Area</b></span>
+</a>
+<div class="im-bar-right im-article-actions">
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
+<button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
+<button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
+<svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
+<span class="im-lexicon-count">12</span>
+</button>
+</div>
+</header>
+<main class="im-main">
+<section aria-label="Article text" class="im-passage-col" id="im-passage-col">
+<div class="im-passage-body" id="im-passage-body">
+<img alt="Collection of colourful social media application icons — image from the supplied PDF" class="im-article-cover" height="761" loading="eager" src="/modules/reading/article-assets/social-media.jpg" width="1245"/>
+<h2 class="im-passage-title">Advantages and disadvantages of using social media</h2>
+<div class="im-passage-text" id="im-passage-text"><section aria-labelledby="section-A" class="im-article-section" id="paragraph-A"><h3 class="im-article-section-title" id="section-A"><span class="im-section-letter">A.</span> Social Media: An Overview</h3><h4 class="im-social-subhead">Social media | Here’s everything you need to know!</h4><p class="im-article-paragraph">Social media is a channel that is among the most popular forms of communication today. Research estimates that there are close to 3.96 billion social media users worldwide! This is a significant 4.8% increase in social media users in 2021. The power of social media experiences has been wonderful across a wide range of communities and industries. However, understanding the <span aria-label="nuances: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="nuances" role="button" tabindex="0" title="Double-click to open dictionary">nuances</span> of being an active social media participant is essential. Social media has been touted as a <span aria-label="double-edged: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="double-edged" role="button" tabindex="0" title="Double-click to open dictionary">double-edged</span> sword for several reasons! Keep reading to learn more about the advantages and disadvantages of social media!</p></section><section aria-labelledby="section-B" class="im-article-section" id="paragraph-B"><h3 class="im-article-section-title" id="section-B"><span class="im-section-letter">B.</span> Global Communication and Social Support</h3><h4 class="im-social-subhead">What are advantages of social media?</h4><p class="im-article-paragraph">There is no question that social media has a profound impact on the way global communities and organizations interact with each other. Understanding social media’s advantages can help you structure your online activities beneficially.</p><p class="im-article-paragraph">Here areadvantages of social media worth noting –</p><h4 class="im-social-subhead">1. Global connectivity</h4><p class="im-article-paragraph">One of the biggest advantages of social media marketing is that it is entirely free to start.</p><p class="im-article-paragraph">One of the most recognized advantages of social media is that it has enabled excellent global communication. It is now possible to connect with users from all around the world through social media.</p><p class="im-article-paragraph">It is also feasible to exchange large amounts of information, develop relationships, and enable global connections through social media.</p><p class="im-article-paragraph">There is no doubt that social media has contributed significantly to bonds all across the world.</p><h4 class="im-social-subhead">2. The right place for noble causes</h4><p class="im-article-paragraph">In the last couple of years, social media has played a fundamental role in assisting individuals and communities that are desperately in need. Several groups and online social media platforms are dedicated to social work.</p><p class="im-article-paragraph">Social media is the best place to start on that journey if you want to provide some form of assistance or aid to those in need. With this tool, you can reach out to the groups assisting people in need for initiatives that you can undertake from your side. Social media is an excellent platform to practice charitable work, assisting people in need by making their lives significantly easier. This is among the most significant advantages when comparing social media’s top advantages and disadvantages.</p></section><section aria-labelledby="section-C" class="im-article-section" id="paragraph-C"><h3 class="im-article-section-title" id="section-C"><span class="im-section-letter">C.</span> Education and Access to Information</h3><h4 class="im-social-subhead">3. An excellent tool for education</h4><p class="im-article-paragraph">Social media has proven to be an effective tool for <span aria-label="facilitating: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="facilitating" role="button" tabindex="0" title="Double-click to open dictionary">facilitating</span> the learning of new skills and concepts.</p><p class="im-article-paragraph">Different social media platforms encourage learning by bringing together educators &amp; professionals with students &amp; learners from different age groups.</p><p class="im-article-paragraph">With social media tools, it becomes possible for you to connect with instructors and learn at your own pace. Social media also promotes significantly better <span aria-label="flexibility: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="flexibility" role="button" tabindex="0" title="Double-click to open dictionary">flexibility</span> in the overall learning process.</p><p class="im-article-paragraph">Social media and other forms of communication can play an excellent role in providing you with a genuine picture of global circumstances.</p><p class="im-article-paragraph">Social media is one of the best places on the internet to receive up-to-date information and news. It is now possible to receive the latest information from across the world simply by accessing a social media platform.</p><p class="im-article-paragraph">Social media and other forms of communication can play an excellent role in providing you with a genuine picture of global circumstances.</p><p class="im-article-paragraph">As a result, social media directly contributes to the globalization of the world at large.</p></section><section aria-labelledby="section-D" class="im-article-section" id="paragraph-D"><h3 class="im-article-section-title" id="section-D"><span class="im-section-letter">D.</span> Creativity, Communities and Website Traffic</h3><h4 class="im-social-subhead">5. Share a large amount of information daily</h4><p class="im-article-paragraph">Social media is one of the best places for you to share information with your loved ones and a larger community. Many artists and professionals resort to social media to share their pieces of work (such as songs, poems, artistic masterpieces, and food). Therefore, social media is an excellent tool to enhance your creativity and identity as a brand. This is among the best advantages when listing the advantages and disadvantages of social media platforms for businesses. This allows you to interact directly with millions of consumers, helping your artistic efforts gain appreciation. Your creative control can significantly improve with social media usage.</p><h4 class="im-social-subhead">6. Join a community</h4><p class="im-article-paragraph">We live in a diverse global society with different types of people from all walks of life. These include individuals from other backgrounds, religions, communities, and countries.</p><p class="im-article-paragraph">Social media is an excellent tool that has facilitated the unification of different kinds of people across the world.</p><p class="im-article-paragraph">For example, if you enjoy playing video games, you can join communities related to the same and interact with individuals across the world who share your interests.</p><p class="im-article-paragraph">Social media, therefore, significantly contributes to a feeling of oneness amongst different communities.</p><h4 class="im-social-subhead">7. Drive traffic to your website</h4><p class="im-article-paragraph">If you have a business and are looking for ways to amplify your brand awareness, social media is one of the best ways to achieve this objective.</p><p class="im-article-paragraph">With social media, you can drive traffic to your website by publishing on your timeline &amp; bio and in groups. You can leave a link to your website on these platforms, directing visitors to what you have to offer.</p><p class="im-article-paragraph">Most internet bloggers and business owners use social media for social networking. The result is an increase in the number of <span aria-label="organic: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="organic" role="button" tabindex="0" title="Double-click to open dictionary">organic</span> visitors to your website.</p></section><section aria-labelledby="section-E" class="im-article-section" id="paragraph-E"><h3 class="im-article-section-title" id="section-E"><span class="im-section-letter">E.</span> Paid Promotion and Audience Reach</h3><h4 class="im-social-subhead">8. Access to paid advertising services</h4><p class="im-article-paragraph">Continuing on the tangent established in the previous point, social media grants you excellent access to many paid advertising services. When comparing the advantages and disadvantages of social media, this is one of the most profound benefits!</p><p class="im-article-paragraph">If you want to go beyond regular <span aria-label="organic: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="organic" role="button" tabindex="0" title="Double-click to open dictionary">organic</span> posting for your business, running paid advertisements is one of the best ways to proceed.</p><p class="im-article-paragraph">Each social media platform on the internet offers a wide variety of paid advertising options to choose from. It is important to note that your social media advertising capabilities often vary depending on your selected platform.</p><p class="im-article-paragraph">Paid advertisements play an important role in connecting your business with interested leads. Different social media platforms can also tailor your aids specifically to appear in the feeds of individuals looking for specific products and services.</p><p class="im-article-paragraph">This provides an excellent opportunity for your business to expand its reach and obtain a large number of new leads. The more engaging leads you find for your business, the more followers you will gain. This contributes to the final <span aria-label="conversions: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="conversions" role="button" tabindex="0" title="Double-click to open dictionary">conversions</span> you experience for your business.</p></section><section aria-labelledby="section-F" class="im-article-section" id="paragraph-F"><h3 class="im-article-section-title" id="section-F"><span class="im-section-letter">F.</span> Privacy and Personal Relationships</h3><h4 class="im-social-subhead">What are disadvantages of social media?</h4><p class="im-article-paragraph">Excessive usage of social media platforms has been linked to various health issues in people.</p><p class="im-article-paragraph">One of the important factors to consider is that while social media has several advantages, another side of the story needs awareness. Social media is often referred to as a <span aria-label="double-edged: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="double-edged" role="button" tabindex="0" title="Double-click to open dictionary">double-edged</span> sword. The impact of social media is often subtle and becomes more pronounced with repeated usage.</p><p class="im-article-paragraph">Some of the most detrimental disadvantages of social media are as follows –</p><h4 class="im-social-subhead">1. Trouble with privacy</h4><p class="im-article-paragraph">The trouble with privacy is arguably one of the most significantly experienced disadvantages when listing the advantages and disadvantages of social media. Tweeting inappropriate information, sharing too much of your everyday life with a large audience, or unknowingly sharing your online location are some of the disadvantages of frequent social media usage.</p><p class="im-article-paragraph">It is also important to note that security agencies worldwide have access to all the information you post on social media platforms. As a result, your privacy is almost always compromised.</p><h4 class="im-social-subhead">2. Lack of emotional connect</h4><p class="im-article-paragraph">Social media has become a significant hindrance to socio-emotional connections. The quality of conversation on social media can often be unpleasant because it is difficult to sense interest or emotion from another person.</p><p class="im-article-paragraph">Additionally, the celebration of special occasions and relationship milestones has a limit to sharing messages on social media platforms.</p><p class="im-article-paragraph">As a result, the emotional connection continues to decrease with increased social media usage. This is primarily because emotions &amp; feelings are not easily expressed with simple text messages.</p></section><section aria-labelledby="section-G" class="im-article-section" id="paragraph-G"><h3 class="im-article-section-title" id="section-G"><span class="im-section-letter">G.</span> Online Harassment and Brand Reputation</h3><h4 class="im-social-subhead">3. Cyberbullying</h4><p class="im-article-paragraph">Cyberbullying is one of the worst aspects of regular social media usage, topping the list of disadvantages associated with the same.</p><p class="im-article-paragraph">Bullying that takes place online on social media platforms is cyberbullying. It uses false social media accounts to psychologically disturb or tease victims.</p><p class="im-article-paragraph">False social media accounts are often <span aria-label="untraceable: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="untraceable" role="button" tabindex="0" title="Double-click to open dictionary">untraceable</span>. Bullying happens via sending <span aria-label="derogatory: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="derogatory" role="button" tabindex="0" title="Double-click to open dictionary">derogatory</span> material (such as photographs and videos) and inappropriate text messages.</p><p class="im-article-paragraph">Being aware of this disadvantage is crucial when navigating an online presence.</p><h4 class="im-social-subhead">4. Negative feedback for brands</h4><p class="im-article-paragraph">Social media has disastrously impacted the quality of real-time face-to-face conversations with your loved ones.</p><p class="im-article-paragraph">People often look to social media to post content that they love. However, they also use it for poor experiences. This makes for one of the most noted disadvantages in our list of advantages &amp; disadvantages of social media.</p><p class="im-article-paragraph">Therefore, if you have a business and someone has a negative experience with your brand, social media allows them to share the same with others. This can significantly reduce conversion, especially if feedback is shared across different platforms.</p><p class="im-article-paragraph">Negative feedback also contributes to the reviews that are on your webpage. People often look at reviews and read the negative experiences when becoming familiar with your brand and what it offers.</p></section><section aria-labelledby="section-H" class="im-article-section" id="paragraph-H"><h3 class="im-article-section-title" id="section-H"><span class="im-section-letter">H.</span> Communication, Hacking and Misinformation</h3><h4 class="im-social-subhead">5. Decrease in quick-witted skill</h4><p class="im-article-paragraph">Social media has disastrously impacted the quality of real-time face-to-face conversations with your loved ones.</p><p class="im-article-paragraph">Quick-witted skill is thinking fast and responding in significantly shorter periods. However, on social media, a lot of time is spent crafting responses to comments or posting relevant content.</p><p class="im-article-paragraph">As a result, there has been a significant decrease in quick-witted skills, contributing to the quality of your conversations. The quick-witted skill also directly affects how you respond to sudden changes in your physical and emotional environment.</p><h4 class="im-social-subhead">6. Hacking</h4><p class="im-article-paragraph">In addition to cyberbullying, hacking is also regarded as one of the most severe drawbacks of social media that affect many people.</p><p class="im-article-paragraph">Hacking refers to the process of gaining access to another individual’s personal information. Often, this information can cause harm rather than good. There have been many instances where hackers have managed to upset an individual’s financial and social stability.</p><p class="im-article-paragraph">It is important to remember that hacking is illegal and can be reported. Legal action is often taken against hackers with fines, sentences, and, in some cases, imprisonment.</p><h4 class="im-social-subhead">7. Spreading of fake news</h4><p class="im-article-paragraph">Fake news can have a disastrous impact on knowledge of different topics. Some may even prompt rebellious acts that are better avoided with accurate information.</p><p class="im-article-paragraph">Another negative aspect worth noting in our list of advantages &amp; disadvantages of social media is that fake news spreads quickly. Individuals often create false social media posts and share them by spreading the fake news on groups and other platforms.</p><p class="im-article-paragraph">The result is the strong <span aria-label="dissemination: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="dissemination" role="button" tabindex="0" title="Double-click to open dictionary">dissemination</span> of fake news. Almost anybody can create fake news on a trending topic and post the same on different social media platforms without verification.</p><p class="im-article-paragraph">Fake news can have a disastrous impact on knowledge of different topics. Some may even prompt rebellious acts that are better avoided with accurate information.</p></section><section aria-labelledby="section-I" class="im-article-section" id="paragraph-I"><h3 class="im-article-section-title" id="section-I"><span class="im-section-letter">I.</span> Addiction and Further Considerations</h3><h4 class="im-social-subhead">8. Addiction</h4><p class="im-article-paragraph">Finally, addiction is regarded as one of the most commonly-felt disadvantages of social media platforms. Post the COVID-19 pandemic, there has been a surge in social media addiction, especially with the extra amount of leisure time experienced by many.</p><p class="im-article-paragraph">People who use social media excessively develop a psychological addiction to the same. Social media addiction has affected the global teenage population in a majority of negative ways.</p><p class="im-article-paragraph">People who use social media excessively are often cut off from society and the natural world. This can cause significant <span aria-label="dissociation: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="dissociation" role="button" tabindex="0" title="Double-click to open dictionary">dissociation</span> from what is happening in an individual’s real life.</p><h4 class="im-social-subhead">A few more advantages of social media</h4><p class="im-article-paragraph im-article-list-paragraph">1. Enables you to become more conscious and aware.</p><p class="im-article-paragraph im-article-list-paragraph">2. You can share your views and opinions about everything.</p><p class="im-article-paragraph im-article-list-paragraph">3. It is an excellent stress-reliever</p><p class="im-article-paragraph im-article-list-paragraph">4. Enhances customer engagement for businesses while helping small businesses thrive.</p><p class="im-article-paragraph im-article-list-paragraph">5. Improves customer relationships by fostering goodwill.</p><h4 class="im-social-subhead">A few disadvantages of social media</h4><p class="im-article-paragraph im-article-list-paragraph">1. Since everything is through texts, the emotional bond is lost between them.</p><p class="im-article-paragraph im-article-list-paragraph">2. Reduces <span aria-label="empathy: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="empathy" role="button" tabindex="0" title="Double-click to open dictionary">empathy</span>, causing harm to others’ feelings.</p><p class="im-article-paragraph im-article-list-paragraph">3. Leads to a lack of quality family time.</p><p class="im-article-paragraph im-article-list-paragraph">4. Facilitates laziness among youth.</p><p class="im-article-paragraph im-article-list-paragraph">5. Since it is <span aria-label="impulsive: double-click or press Enter to open dictionary" class="im-vocab-word-in-text" data-dictionary-word="impulsive" role="button" tabindex="0" title="Double-click to open dictionary">impulsive</span>, it leads to a lack of self-control and causes mental distractions.</p></section></div>
+</div>
+</section>
+<div aria-label="Resize article and question panels" aria-orientation="vertical" class="im-splitter" id="im-splitter" role="separator" tabindex="0"><span aria-hidden="true" class="im-splitter-grip">↔</span></div>
+<section aria-label="Article questions" class="im-question-col" id="im-questions">
+<div class="im-question-body"><section aria-labelledby="group-1-6" class="im-group" data-im-from="1" data-im-to="6"><h3 class="im-group-title" id="group-1-6">Questions 1–6</h3><p class="im-guide">Choose the correct answer, A, B, C or D.</p><fieldset class="im-question im-question-choice" data-question="1" id="question-1"><legend class="im-q-text"><span class="im-qnum">1</span>Why does the writer suggest examining both the benefits and risks of social media?</legend><div class="im-options"><div class="im-option-row"><input id="q1-a" name="q1" type="radio" value="A"/><label class="im-option-label" for="q1-a">A Because social media is mainly used for paid business advertising.</label></div><div class="im-option-row"><input id="q1-b" name="q1" type="radio" value="B"/><label class="im-option-label" for="q1-b">B Because informed participation requires understanding its different effects.</label></div><div class="im-option-row"><input id="q1-c" name="q1" type="radio" value="C"/><label class="im-option-label" for="q1-c">C Because social media has stopped developing since 2021.</label></div><div class="im-option-row"><input id="q1-d" name="q1" type="radio" value="D"/><label class="im-option-label" for="q1-d">D Because online communication has replaced every other form of interaction.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="2" id="question-2"><legend class="im-q-text"><span class="im-qnum">2</span>Which activity is described as an advantage of global connectivity?</legend><div class="im-options"><div class="im-option-row"><input id="q2-a" name="q2" type="radio" value="A"/><label class="im-option-label" for="q2-a">A Sharing information and forming relationships across national borders.</label></div><div class="im-option-row"><input id="q2-b" name="q2" type="radio" value="B"/><label class="im-option-label" for="q2-b">B Making online communication available only within one country.</label></div><div class="im-option-row"><input id="q2-c" name="q2" type="radio" value="C"/><label class="im-option-label" for="q2-c">C Guaranteeing that all online information is accurate.</label></div><div class="im-option-row"><input id="q2-d" name="q2" type="radio" value="D"/><label class="im-option-label" for="q2-d">D Removing the need for local communities.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="3" id="question-3"><legend class="im-q-text"><span class="im-qnum">3</span>How can social media support charitable initiatives?</legend><div class="im-options"><div class="im-option-row"><input id="q3-a" name="q3" type="radio" value="A"/><label class="im-option-label" for="q3-a">A By providing automatic financial assistance to all users.</label></div><div class="im-option-row"><input id="q3-b" name="q3" type="radio" value="B"/><label class="im-option-label" for="q3-b">B By replacing all organisations working in the community.</label></div><div class="im-option-row"><input id="q3-c" name="q3" type="radio" value="C"/><label class="im-option-label" for="q3-c">C By preventing volunteers from contacting each other.</label></div><div class="im-option-row"><input id="q3-d" name="q3" type="radio" value="D"/><label class="im-option-label" for="q3-d">D By connecting users with groups that assist people in need.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="4" id="question-4"><legend class="im-q-text"><span class="im-qnum">4</span>What makes social media useful for learning, according to the article?</legend><div class="im-options"><div class="im-option-row"><input id="q4-a" name="q4" type="radio" value="A"/><label class="im-option-label" for="q4-a">A It guarantees that every online course is free.</label></div><div class="im-option-row"><input id="q4-b" name="q4" type="radio" value="B"/><label class="im-option-label" for="q4-b">B It requires students to study at identical times.</label></div><div class="im-option-row"><input id="q4-c" name="q4" type="radio" value="C"/><label class="im-option-label" for="q4-c">C It connects learners with educators and lets them study at their own pace.</label></div><div class="im-option-row"><input id="q4-d" name="q4" type="radio" value="D"/><label class="im-option-label" for="q4-d">D It prevents professionals from speaking directly with students.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="5" id="question-5"><legend class="im-q-text"><span class="im-qnum">5</span>What is one advantage of paid social media advertisements?</legend><div class="im-options"><div class="im-option-row"><input id="q5-a" name="q5" type="radio" value="A"/><label class="im-option-label" for="q5-a">A Every platform offers the same advertising options.</label></div><div class="im-option-row"><input id="q5-b" name="q5" type="radio" value="B"/><label class="im-option-label" for="q5-b">B Businesses can target people seeking relevant products or services.</label></div><div class="im-option-row"><input id="q5-c" name="q5" type="radio" value="C"/><label class="im-option-label" for="q5-c">C Businesses no longer need to identify potential customers.</label></div><div class="im-option-row"><input id="q5-d" name="q5" type="radio" value="D"/><label class="im-option-label" for="q5-d">D Paid campaigns guarantee immediate purchases.</label></div></div></fieldset><fieldset class="im-question im-question-choice" data-question="6" id="question-6"><legend class="im-q-text"><span class="im-qnum">6</span>According to the article, how can negative customer feedback affect a business?</legend><div class="im-options"><div class="im-option-row"><input id="q6-a" name="q6" type="radio" value="A"/><label class="im-option-label" for="q6-a">A It can reduce conversions when poor experiences are shared widely.</label></div><div class="im-option-row"><input id="q6-b" name="q6" type="radio" value="B"/><label class="im-option-label" for="q6-b">B It automatically improves the company’s reviews.</label></div><div class="im-option-row"><input id="q6-c" name="q6" type="radio" value="C"/><label class="im-option-label" for="q6-c">C It stops people from reading online reviews.</label></div><div class="im-option-row"><input id="q6-d" name="q6" type="radio" value="D"/><label class="im-option-label" for="q6-d">D It only affects businesses that do not have a website.</label></div></div></fieldset></section><section aria-labelledby="group-7-13" class="im-group" data-im-from="7" data-im-to="13"><h3 class="im-group-title" id="group-7-13">Questions 7–13</h3><p class="im-guide">Complete the summary below. Write ONE WORD ONLY from the article for each answer.</p><h4 class="im-summary-heading">Benefits of social media</h4><div class="im-summary-panel"><fieldset class="im-question im-question-gap" data-question="7" id="question-7"><legend class="im-visually-hidden">Question 7. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q7"><span class="im-qnum">7</span>Through social media, people in different countries can exchange large amounts of </label><input aria-label="Answer to question 7" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q7" name="q7" placeholder="7" spellcheck="false" type="text"/>.</p></fieldset><fieldset class="im-question im-question-gap" data-question="8" id="question-8"><legend class="im-visually-hidden">Question 8. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q8"><span class="im-qnum">8</span>Educators and learners can connect, allowing students to study at their own </label><input aria-label="Answer to question 8" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q8" name="q8" placeholder="8" spellcheck="false" type="text"/>.</p></fieldset><fieldset class="im-question im-question-gap" data-question="9" id="question-9"><legend class="im-visually-hidden">Question 9. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q9"><span class="im-qnum">9</span>By publishing links online, businesses can attract visitors to their </label><input aria-label="Answer to question 9" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q9" name="q9" placeholder="9" spellcheck="false" type="text"/>.</p></fieldset></div><h4 class="im-summary-heading">Risks of social media</h4><div class="im-summary-panel"><fieldset class="im-question im-question-gap" data-question="10" id="question-10"><legend class="im-visually-hidden">Question 10. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q10"><span class="im-qnum">10</span>Posting personal details and locations can threaten users’ </label><input aria-label="Answer to question 10" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q10" name="q10" placeholder="10" spellcheck="false" type="text"/>.</p></fieldset><fieldset class="im-question im-question-gap" data-question="11" id="question-11"><legend class="im-visually-hidden">Question 11. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q11"><span class="im-qnum">11</span>Text-based interactions can make it difficult to express </label><input aria-label="Answer to question 11" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q11" name="q11" placeholder="11" spellcheck="false" type="text"/>.</p></fieldset><fieldset class="im-question im-question-gap" data-question="12" id="question-12"><legend class="im-visually-hidden">Question 12. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q12"><span class="im-qnum">12</span>Online bullies may use false social media </label><input aria-label="Answer to question 12" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q12" name="q12" placeholder="12" spellcheck="false" type="text"/> to target victims.</p></fieldset><fieldset class="im-question im-question-gap" data-question="13" id="question-13"><legend class="im-visually-hidden">Question 13. Complete the sentence with ONE WORD from the article.</legend><p class="im-q-text"><label for="q13"><span class="im-qnum">13</span>The article warns that excessive use can result in psychological </label><input aria-label="Answer to question 13" autocapitalize="off" autocomplete="off" class="im-gap-input" id="q13" name="q13" placeholder="13" spellcheck="false" type="text"/>.</p></fieldset></div></section></div>
+</section>
+</main>
+<div aria-label="Previous or next question" class="im-inline-step"><button aria-label="Previous question" class="im-step-btn" id="im-previous" type="button">‹</button><button aria-label="Next question" class="im-step-btn" id="im-next" type="button">›</button></div>
+<footer class="im-footer" id="im-footer">
+<div class="im-foot-nav"><div class="im-foot-part"><span class="im-foot-part-name">Article</span><nav aria-label="Questions" class="im-qnav" id="im-qnav">
+<button aria-label="Question 1" class="im-qnav-item" data-im-question="1" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>1</button>
+<button aria-label="Question 2" class="im-qnav-item" data-im-question="2" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>2</button>
+<button aria-label="Question 3" class="im-qnav-item" data-im-question="3" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>3</button>
+<button aria-label="Question 4" class="im-qnav-item" data-im-question="4" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>4</button>
+<button aria-label="Question 5" class="im-qnav-item" data-im-question="5" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>5</button>
+<button aria-label="Question 6" class="im-qnav-item" data-im-question="6" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>6</button>
+<button aria-label="Question 7" class="im-qnav-item" data-im-question="7" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>7</button>
+<button aria-label="Question 8" class="im-qnav-item" data-im-question="8" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>8</button>
+<button aria-label="Question 9" class="im-qnav-item" data-im-question="9" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>9</button>
+<button aria-label="Question 10" class="im-qnav-item" data-im-question="10" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>10</button>
+<button aria-label="Question 11" class="im-qnav-item" data-im-question="11" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>11</button>
+<button aria-label="Question 12" class="im-qnav-item" data-im-question="12" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>12</button>
+<button aria-label="Question 13" class="im-qnav-item" data-im-question="13" type="button"><span aria-hidden="true" class="im-qnav-tick"></span>13</button>
+</nav></div></div>
+<div class="im-foot-right"><button aria-label="Check article answers" class="im-check im-check-final" id="im-check-btn" title="Check all answers" type="button"><span aria-hidden="true" class="im-check-mark">✓</span><span>Check</span></button></div>
+</footer>
+<aside aria-labelledby="im-dict-title" aria-modal="false" class="im-dictionary-panel" hidden="" id="im-dictionary-panel" role="dialog" tabindex="-1">
+<div class="im-dict-top"><span class="im-dict-eyebrow">LEARNERS AREA · DICTIONARY</span>
+<button aria-label="Close dictionary" class="im-dict-close" id="im-dict-close" title="Close" type="button">×</button></div>
+<div class="im-dict-title-row"><h2 id="im-dict-title">Dictionary</h2><button aria-label="Pronounce word" class="im-dict-speak" id="im-dict-speak" title="Play English pronunciation" type="button">🔊</button></div>
+<p class="im-dict-meta" id="im-dict-meta"></p>
+<div id="im-dict-definition-block"><p class="im-dict-label">Simple definition</p><p class="im-dict-definition" id="im-dict-definition"></p>
+<p class="im-dict-label">O‘zbekcha tarjimasi</p><p class="im-dict-translation" id="im-dict-translation"></p>
+<p class="im-dict-label">Example</p><p class="im-dict-example" id="im-dict-example"></p></div>
+<div class="im-dict-words" hidden="" id="im-dict-words"><p class="im-dict-label">Words in this article</p><div class="im-dict-word-buttons" id="im-dict-word-buttons"></div></div>
+</aside></div>
+<dialog aria-labelledby="im-result-title" class="im-modal" id="im-result">
+<h2 id="im-result-title">Article results</h2><p class="im-score" id="im-score"></p>
+<div style="overflow:auto;max-height:50vh"><table class="im-review-table"><thead><tr><th>Question</th><th>Your answer</th><th>Correct</th><th>Status</th><th>Explanation</th></tr></thead><tbody id="im-review-body"></tbody></table></div>
+<div class="im-modal-actions"><button id="im-close-result" type="button">Close</button></div>
+</dialog>
+<script>
+(() => {
+  'use strict';
+  const root = document.querySelector('.im-app');
+  const main = document.querySelector('.im-main');
+  const passage = document.getElementById('im-passage-col');
+  const questionPanel = document.getElementById('im-questions');
+  const split = document.getElementById('im-splitter');
+  const navButtons = [...document.querySelectorAll('.im-qnav-item')];
+  const bankButtons = [...document.querySelectorAll('.im-chip[data-heading]')];
+  const headingInputs = [...document.querySelectorAll('.im-head-drop')];
+  const otherInputs = [...document.querySelectorAll('.im-options input, .im-gap-input, .im-feature-select')];
+  const headingLabels = Object.fromEntries(bankButtons.map((button) => [button.dataset.heading, button.textContent.trim().replace(/^\S+\s+/, '')]));
+  const solution = Object.freeze({"q1": "B", "q2": "A", "q3": "D", "q4": "C", "q5": "B", "q6": "A", "q7": "information", "q8": "pace", "q9": "website", "q10": "privacy", "q11": "emotions", "q12": "accounts", "q13": "addiction"});
+  const explanations = Object.freeze({"q1": "The introduction says that understanding the nuances of active participation is essential because social media has benefits and disadvantages.", "q2": "“Global connectivity” explains that people can exchange large quantities of information and build relationships worldwide.", "q3": "“The right place for noble causes” encourages contacting groups that assist people in need.", "q4": "“An excellent tool for education” says students can connect with instructors and learn at their own pace.", "q5": "“Access to paid advertising services” says advertisements can be shown to individuals seeking particular products and services.", "q6": "“Negative feedback for brands” says poor experiences shared online can significantly reduce conversion.", "q7": "The “Global connectivity” section explicitly mentions exchanging large amounts of information.", "q8": "The education section says online tools help people learn “at your own pace”.", "q9": "The “Drive traffic to your website” section says posting links directs visitors to a business website.", "q10": "“Trouble with privacy” lists posting personal information or location as a privacy risk.", "q11": "“Lack of emotional connect” explains that emotions and feelings are difficult to express with simple text messages.", "q12": "“Cyberbullying” describes the use of false social media accounts to disturb or tease victims.", "q13": "“Addiction” explicitly describes a psychological addiction arising from excessive use."});
+  const storageKey = 'learners-area.article.advantages-disadvantages-social-media.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
+  let selectedHeading = null;
+  let activeQuestion = 1;
+  let timerInterval = null;
+  let pickerAnchor = null;
+  let pointerStartRatio = null;
+
+  function safeStore() {
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
+    catch (_) { /* Standalone private modes may disable storage. */ }
+  }
+
+  function safeRestore() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (!parsed || typeof parsed !== 'object') return;
+      for (let i = 1; i <= 13; i++) {
+        const value = parsed.answers && parsed.answers['q' + i];
+        if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
+      }
+
+    } catch (_) { /* Ignore corrupted saved data. */ }
+  }
+
+  function refreshAnswered() {
+    navButtons.forEach((button) => {
+      const q = 'q' + button.dataset.imQuestion;
+      const answered = !!String(state.answers[q] || '').trim();
+      button.classList.toggle('im-answered', answered);
+      button.setAttribute('aria-label', `Question ${button.dataset.imQuestion}, ${answered ? 'answered' : 'not answered'}`);
+    });
+    bankButtons.forEach((button) => {
+      const id = button.dataset.heading;
+      const used = headingInputs.some((input) => state.answers[input.name] === id);
+      button.classList.toggle('im-chip-used', used);
+      button.classList.toggle('im-chip-selected', selectedHeading === id);
+      button.setAttribute('aria-pressed', String(selectedHeading === id));
+    });
+  }
+
+  function updateAnswer(name, value) {
+    if (!/^q([1-9]|1[0-3])$/.test(name)) return;
+    if (value) state.answers[name] = value;
+    else delete state.answers[name];
+    safeStore();
+    refreshAnswered();
+    document.dispatchEvent(new CustomEvent('learnersarea:article-answer', { detail: { question: Number(name.slice(1)), answer: value } }));
+  }
+
+  function closePicker() {
+    if (!pickerAnchor) return;
+    const popup = pickerAnchor.parentElement.querySelector('.im-heading-picker');
+    popup.hidden = true;
+    pickerAnchor.setAttribute('aria-expanded', 'false');
+    pickerAnchor = null;
+  }
+
+  function applyHeading(input, headingId) {
+    if (headingId && !(headingId in headingLabels)) return;
+    // Each heading can be used only once in this matching question bank.
+    headingInputs.forEach((other) => {
+      if (other !== input && state.answers[other.name] === headingId && headingId) {
+        other.value = '';
+        other.classList.add('im-drop-empty');
+        other.title = `Choose a heading for question ${other.dataset.imQ}`;
+        delete state.answers[other.name];
+      }
+    });
+    input.value = headingId ? `${headingId} ${headingLabels[headingId]}` : '';
+    input.classList.toggle('im-drop-empty', !headingId);
+    input.title = headingId ? `Assigned: ${headingLabels[headingId]}. Click to change.` : 'Click to choose a heading';
+    updateAnswer(input.name, headingId);
+    selectedHeading = null;
+    closePicker();
+    refreshAnswered();
+    goToQuestion(Number(input.dataset.imQ), false);
+  }
+
+  function openPicker(input) {
+    if (pickerAnchor === input) { closePicker(); return; }
+    closePicker();
+    const picker = input.parentElement.querySelector('.im-heading-picker');
+    picker.replaceChildren();
+    Object.entries(headingLabels).forEach(([id, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = `${id}  ${label}`;
+      button.addEventListener('click', () => { applyHeading(input, id); input.focus(); });
+      picker.append(button);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'im-clear';
+    clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { applyHeading(input, ''); input.focus(); });
+    picker.append(clear);
+    picker.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    pickerAnchor = input;
+  }
+
+  function restoreInputs() {
+    headingInputs.forEach((input) => {
+      const selected = state.answers[input.name];
+      input.value = headingLabels[selected] ? `${selected} ${headingLabels[selected]}` : '';
+      input.classList.toggle('im-drop-empty', !headingLabels[selected]);
+      input.title = 'Click to choose or change the heading';
+    });
+    otherInputs.forEach((input) => {
+      if (input.type === 'radio') input.checked = state.answers[input.name] === input.value;
+      else input.value = state.answers[input.name] || '';
+    });
+    refreshAnswered();
+  }
+
+  bankButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedHeading = selectedHeading === button.dataset.heading ? null : button.dataset.heading;
+      closePicker();
+      refreshAnswered();
+    });
+    button.addEventListener('dragstart', (event) => {
+      selectedHeading = button.dataset.heading;
+      if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', selectedHeading);
+      }
+      refreshAnswered();
+    });
+  });
+
+  headingInputs.forEach((input) => {
+    input.addEventListener('click', () => {
+      if (selectedHeading) applyHeading(input, selectedHeading);
+      else openPicker(input);
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        if (selectedHeading) applyHeading(input, selectedHeading);
+        else openPicker(input);
+      } else if (event.key === 'Escape') closePicker();
+      else if (event.key === 'Delete' || event.key === 'Backspace') {
+        event.preventDefault();
+        applyHeading(input, '');
+      }
+    });
+    input.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      input.classList.add('im-drop-drop-target');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    input.addEventListener('dragleave', () => input.classList.remove('im-drop-drop-target'));
+    input.addEventListener('drop', (event) => {
+      event.preventDefault();
+      input.classList.remove('im-drop-drop-target');
+      const value = event.dataTransfer && event.dataTransfer.getData('text/plain');
+      if (value in headingLabels) applyHeading(input, value);
+    });
+  });
+  document.addEventListener('click', (event) => {
+    if (pickerAnchor && !pickerAnchor.parentElement.contains(event.target)) closePicker();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closePicker(); });
+
+  otherInputs.forEach((input) => {
+    const eventName = input.type === 'radio' || input.tagName === 'SELECT' ? 'change' : 'input';
+    input.addEventListener(eventName, () => {
+      updateAnswer(input.name, input.value.trim());
+      if (input.type === 'text') {
+        const count = input.value.trim().split(/\s+/).filter(Boolean).length;
+        input.setCustomValidity(count > 1 ? 'Enter one word only.' : '');
+      }
+    });
+    input.addEventListener('focus', () => goToQuestion(Number(input.name.slice(1)), false));
+  });
+
+  function goToQuestion(number, shouldScroll = true) {
+    if (!Number.isInteger(number) || number < 1 || number > 13) return;
+    activeQuestion = number;
+    navButtons.forEach((button) => {
+      const current = Number(button.dataset.imQuestion) === number;
+      button.classList.toggle('im-active', current);
+      if (current) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+    document.getElementById('im-previous').disabled = number === 1;
+    document.getElementById('im-next').disabled = number === 13;
+    if (!shouldScroll) return;
+    const target = document.getElementById('question-' + number);
+    if (!target) return;
+    const scroller = target.closest('.im-passage-col, .im-question-col');
+    if (!scroller) return;
+    const item = target.getBoundingClientRect();
+    const panel = scroller.getBoundingClientRect();
+    const offset = item.top - panel.top - panel.height * .34;
+    scroller.scrollTo({top: Math.max(0, scroller.scrollTop + offset), behavior: 'smooth'});
+  }
+  navButtons.forEach((button) => {
+    button.addEventListener('click', () => goToQuestion(Number(button.dataset.imQuestion)));
+  });
+  document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
+  document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
+
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
+  function updateTimer() {
+    const seconds = state.remainingSeconds;
+    const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const ss = String(seconds % 60).padStart(2, '0');
+    const clock = document.getElementById('im-clock');
+    clock.textContent = `${mm}:${ss}`;
+    clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
+  }
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
+  });
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
+
+  split.addEventListener('pointerdown', (event) => {
+    if (window.matchMedia('(max-width: 850px)').matches) return;
+    pointerStartRatio = event.pointerId;
+    split.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  split.addEventListener('pointermove', (event) => {
+    if (pointerStartRatio !== event.pointerId) return;
+    const bounds = main.getBoundingClientRect();
+    const raw = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const percent = Math.max(30, Math.min(70, raw));
+    root.style.setProperty('--im-left-width', `${percent}%`);
+  });
+  function releaseDivider(event) {
+    if (pointerStartRatio === event.pointerId) pointerStartRatio = null;
+  }
+  split.addEventListener('pointerup', releaseDivider);
+  split.addEventListener('pointercancel', releaseDivider);
+  split.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const old = parseFloat(root.style.getPropertyValue('--im-left-width')) || 49.5;
+    root.style.setProperty('--im-left-width', `${Math.max(30, Math.min(70, old + (event.key === 'ArrowRight' ? 2 : -2)))}%`);
+  });
+
+  function normalise(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?]+$/, '');
+  }
+  const acceptableAnswers = Object.freeze({});
+  const resultDialog = document.getElementById('im-result');
+  document.getElementById('im-check-btn').addEventListener('click', () => {
+    const body = document.getElementById('im-review-body');
+    const fragment = document.createDocumentFragment();
+    let correct = 0;
+    for (let i = 1; i <= 13; i++) {
+      const key = 'q' + i;
+      const given = String(state.answers[key] || '');
+      const isCorrect = (acceptableAnswers[key] || [solution[key]]).some((answer) => normalise(given) === normalise(answer));
+      correct += Number(isCorrect);
+      const tr = document.createElement('tr');
+      const cellNo = document.createElement('td');
+      cellNo.textContent = String(i);
+      const cellGiven = document.createElement('td');
+      cellGiven.textContent = given || '—';
+      const cellCorrect = document.createElement('td');
+      cellCorrect.textContent = solution[key];
+      const cellStatus = document.createElement('td');
+      cellStatus.textContent = isCorrect ? '✓' : '✕';
+      cellStatus.className = isCorrect ? 'im-ok' : 'im-bad';
+      const cellExplanation = document.createElement('td');
+      cellExplanation.textContent = explanations[key] || '';
+      tr.append(cellNo, cellGiven, cellCorrect, cellStatus, cellExplanation);
+      fragment.append(tr);
+    }
+    body.replaceChildren(fragment);
+    document.getElementById('im-score').textContent = `${correct} / 13 correct`;
+    if (typeof resultDialog.showModal === 'function') resultDialog.showModal();
+    else resultDialog.setAttribute('open', '');
+  });
+  document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
+  safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
+
+  // Dictionary words are restored from the actual article's glossary, not generated meanings.
+  const dictionary = Object.freeze({"nuances": {"word": "nuances", "pos": "plural noun", "level": "C1", "ipa": "", "definition": "Small but important differences in meaning or effect.", "translation": "nozik farqlar, tafsilotlar", "example": "Understanding the nuances of online communication takes practice."}, "double-edged": {"word": "double-edged", "pos": "adjective", "level": "C1", "ipa": "", "definition": "Having both positive and negative effects.", "translation": "ikki tomonlama ta’sirga ega", "example": "Social media can be a double-edged tool for businesses."}, "facilitating": {"word": "facilitating", "pos": "verb", "level": "B2", "ipa": "", "definition": "Making an activity or process easier.", "translation": "osonlashtirish, ko‘maklashish", "example": "The platform is facilitating distance learning."}, "flexibility": {"word": "flexibility", "pos": "noun", "level": "B2", "ipa": "", "definition": "The ability to adapt or change according to needs.", "translation": "moslashuvchanlik", "example": "Online lessons offer greater flexibility."}, "organic": {"word": "organic", "pos": "adjective", "level": "B2", "ipa": "", "definition": "In online marketing, growing without paid promotion.", "translation": "reklamasiz, tabiiy ravishda kelgan", "example": "The website attracted more organic visitors."}, "conversions": {"word": "conversions", "pos": "plural noun", "level": "C1", "ipa": "", "definition": "In marketing, actions such as purchases by potential customers.", "translation": "mijozga aylanishlar, xaridga o‘tishlar", "example": "Negative reviews may reduce conversions."}, "untraceable": {"word": "untraceable", "pos": "adjective", "level": "C1", "ipa": "", "definition": "Impossible or very difficult to locate or identify.", "translation": "izini topish qiyin, kuzatib bo‘lmaydigan", "example": "Some anonymous accounts appear untraceable."}, "derogatory": {"word": "derogatory", "pos": "adjective", "level": "C1", "ipa": "", "definition": "Showing disrespect or expressing an insulting opinion.", "translation": "kamsituvchi, haqoratli", "example": "The victim received derogatory messages."}, "dissemination": {"word": "dissemination", "pos": "noun", "level": "C2", "ipa": "", "definition": "The action of spreading information widely.", "translation": "axborotni keng tarqatish", "example": "The dissemination of false claims can cause harm."}, "dissociation": {"word": "dissociation", "pos": "noun", "level": "C2", "ipa": "", "definition": "A feeling of separation or disconnection from surroundings.", "translation": "ajralish, uzilib qolish hissi", "example": "Excessive screen time may create a sense of dissociation."}, "empathy": {"word": "empathy", "pos": "noun", "level": "C1", "ipa": "", "definition": "The ability to understand and share other people’s feelings.", "translation": "hamdardlik, boshqaning hislarini tushunish", "example": "Empathy helps us communicate respectfully."}, "impulsive": {"word": "impulsive", "pos": "adjective", "level": "C1", "ipa": "", "definition": "Acting suddenly without carefully considering the consequences.", "translation": "o‘ylamay tez harakat qiladigan", "example": "Impulsive posts can damage relationships."}});
+    const dictionaryAliases = Object.freeze({"conversion": "conversions"});
+  const dictionaryPanel = document.getElementById('im-dictionary-panel');
+  const dictionaryWords = [...document.querySelectorAll('.im-vocab-word-in-text')];
+  const dictionaryButton = document.getElementById('im-dictionary-list');
+  const dictionaryClose = document.getElementById('im-dict-close');
+  const dictionaryAudio = document.getElementById('im-dict-speak');
+  const dictionaryList = document.getElementById('im-dict-words');
+  const dictionaryListButtons = document.getElementById('im-dict-word-buttons');
+  let activeDictionaryWord = '';
+  let lastDictionaryAnchor = null;
+  let pressTimer = null;
+  let pressGesture = null;
+
+  function dictionaryKey(element) {
+    const raw = String(element.dataset.dictionaryWord || element.textContent || '').trim().toLowerCase();
+    return dictionaryAliases[raw] || raw;
+  }
+  function dictionaryText(id, value) { document.getElementById(id).textContent = value; }
+  function openDictionary(key, anchor = null, list = false) {
+    const entry = dictionary[key];
+    if (!entry) return;
+    const detail = {word:key, sourceType:'reading', sourceId:'advantages-disadvantages-social-media', anchor};
+    const event = new CustomEvent('learnersarea:article-word-lookup', {cancelable:true, detail});
+    if (!document.dispatchEvent(event)) return;
+    activeDictionaryWord = key;
+    lastDictionaryAnchor = anchor;
+    dictionaryText('im-dict-title', entry.word);
+    dictionaryText('im-dict-meta', [entry.pos, entry.level, entry.ipa].filter(Boolean).join(' · '));
+    dictionaryText('im-dict-definition', entry.definition);
+    dictionaryText('im-dict-translation', entry.translation);
+    dictionaryText('im-dict-example', entry.example);
+    dictionaryList.hidden = !list;
+    dictionaryPanel.hidden = false;
+    dictionaryPanel.scrollTop = 0;
+    dictionaryPanel.focus({preventScroll:true});
+  }
+  function closeDictionary(returnFocus = false) {
+    if (dictionaryPanel.hidden) return;
+    dictionaryPanel.hidden = true;
+    activeDictionaryWord = '';
+    if (returnFocus && lastDictionaryAnchor) lastDictionaryAnchor.focus({preventScroll:true});
+    lastDictionaryAnchor = null;
+  }
+  const uniqueWords = Object.keys(dictionary);
+  for (const key of uniqueWords) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = key;
+    button.addEventListener('click', () => openDictionary(key, null, true));
+    dictionaryListButtons.append(button);
+  }
+  dictionaryButton.addEventListener('click', () => {
+    if (!dictionaryPanel.hidden && !dictionaryList.hidden) { closeDictionary(true); return; }
+    openDictionary(activeDictionaryWord || uniqueWords[0], null, true);
+  });
+  dictionaryClose.addEventListener('click', () => closeDictionary(true));
+  dictionaryAudio.addEventListener('click', () => {
+    if (!activeDictionaryWord || !('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(activeDictionaryWord);
+    utterance.lang = 'en-GB'; utterance.rate = .9;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance);
+  });
+  for (const word of dictionaryWords) {
+    word.addEventListener('dblclick', (event) => {
+      if (event.button !== 0) return;
+      window.getSelection()?.removeAllRanges();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDictionary(dictionaryKey(word), word);
+    });
+    word.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0 || event.pointerType === 'mouse') return;
+      clearTimeout(pressTimer);
+      pressGesture = {x:event.clientX,y:event.clientY};
+      pressTimer = window.setTimeout(() => {
+        pressTimer = null;
+        openDictionary(dictionaryKey(word), word);
+      }, 3000);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+      word.addEventListener(name, () => { clearTimeout(pressTimer); pressTimer = null; });
+    }
+    word.addEventListener('pointermove', (event) => {
+      if (pressGesture && Math.hypot(event.clientX - pressGesture.x, event.clientY - pressGesture.y) > 8) {
+        clearTimeout(pressTimer); pressTimer = null;
+      }
+    });
+  }
+  document.addEventListener('pointerdown', (event) => {
+    if (dictionaryPanel.hidden) return;
+    if (dictionaryPanel.contains(event.target) || dictionaryButton.contains(event.target)) return;
+    if (event.target.closest?.('.im-vocab-word-in-text')) return;
+    closeDictionary();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !dictionaryPanel.hidden) closeDictionary(true);
+  });
+  const logo = document.getElementById('im-brand-logo');
+  const logoFallback = document.getElementById('im-brand-fallback');
+  logo.addEventListener('load', () => { if (logo.naturalWidth > 0) logoFallback.hidden = true; });
+  logo.addEventListener('error', () => { logo.hidden = true; logoFallback.hidden = false; });
+  if (logo.complete && logo.naturalWidth > 0) logoFallback.hidden = true;
+})();
+</script>
+</body>
+</html>

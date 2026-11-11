@@ -251,7 +251,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
 <span class="im-brand-wordmark">Learners <b>Area</b></span>
 </a>
 <div class="im-bar-right im-article-actions">
-<span aria-live="off" class="im-timer" id="im-clock" role="timer">07:00</span>
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
 <button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
 <button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
 <svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
@@ -326,7 +326,9 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     q12: 'medical benefits', q13: 'human-induced emissions', q14: 'grease leakage'
   });
   const storageKey = 'learners-area.article.food-market-growth.v1' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
-  const state = { answers: {}, remainingSeconds: 420, isPaused: false };
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
   let selectedHeading = null;
   let activeQuestion = 1;
   let timerInterval = null;
@@ -334,7 +336,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   let pointerStartRatio = null;
 
   function safeStore() {
-    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
     catch (_) { /* Standalone private modes may disable storage. */ }
   }
 
@@ -346,8 +348,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
         const value = parsed.answers && parsed.answers['q' + i];
         if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
       }
-      if (Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(420, Math.floor(parsed.remainingSeconds)));
-      state.isPaused = !!parsed.isPaused;
+
     } catch (_) { /* Ignore corrupted saved data. */ }
   }
 
@@ -531,6 +532,13 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
   document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
 
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
   function updateTimer() {
     const seconds = state.remainingSeconds;
     const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -538,18 +546,57 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     const clock = document.getElementById('im-clock');
     clock.textContent = `${mm}:${ss}`;
     clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
-    document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
-    document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
   }
-  document.getElementById('im-pause').addEventListener('click', () => {
-    state.isPaused = !state.isPaused;
-    updateTimer(); safeStore();
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
   });
-  timerInterval = window.setInterval(() => {
-    if (state.isPaused || state.remainingSeconds <= 0) return;
-    state.remainingSeconds -= 1;
-    updateTimer(); safeStore();
-  }, 1000);
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
 
   split.addEventListener('pointerdown', (event) => {
     if (window.matchMedia('(max-width: 850px)').matches) return;
@@ -608,8 +655,20 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     else resultDialog.setAttribute('open', '');
   });
   document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
-  window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
   safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
 
   // Dictionary words are restored from the actual article's glossary, not generated meanings.
   const dictionary = Object.freeze({"juggernaut": {"word": "juggernaut", "pos": "noun", "level": "", "ipa": "", "definition": "force", "translation": "qudratli kuch", "example": "Fast food in the U.S. has grown from a $6-billion-a-year industry in 1970into a corporate juggernaut with a reported $200 billion in annual revenues in 2015."}, "clout": {"word": "clout", "pos": "noun", "level": "", "ipa": "", "definition": "influence", "translation": "tasir kuch", "example": "The fast-food industry’s economic clout has not only enabled it to effect a radical shift in the country’s eating patterns (as well as those around the globe), but it has also fundamentally altered the very way that food is produced."}, "disparity": {"word": "disparity", "pos": "noun", "level": "", "ipa": "", "definition": "difference", "translation": "tengsizlik", "example": "Blacks, Latinx, and other people of color most likely to live in areas which lack access to healthy foods suffer disproportionately from higher rates of diet-related disorders than whites—and fast food is one of the main causes of this deadly disparity."}, "engender": {"word": "engender", "pos": "verb", "level": "C2", "ipa": "/ɪnˈdʒendə(r)/", "definition": "cause", "translation": "keltirib chiqarmoq", "example": "Especially because “meat,” dairy, and eggs are the main ingredients in fast food, the exponential increase in its consumption has engendered a wide range of negative social impacts—including rapidly rising rates of diet-related disease, worker exploitation, systemic animal abuse, and environmental degradation."}, "correlate": {"word": "correlate", "pos": "verb", "level": "C2", "ipa": "", "definition": "link", "translation": "boglamoq", "example": "It’s not difficult to find peer-reviewed scientific studies that conclusively correlate the consumption of “meat” and other animal products with many of the deadliest medical disorders plaguing humankind today, including cardiovascular disease, cancer, and diabetes."}, "surge": {"word": "surge", "pos": "verb", "level": "B2", "ipa": "/sɜːdʒ/", "definition": "rise", "translation": "keskin oshmoq", "example": "Between 2011 and 2016, fast-food sales grew by 21.5 percent in the U.S., while worldwide sales surged by 30 percent."}, "exponential": {"word": "exponential", "pos": "adjective", "level": "", "ipa": "", "definition": "rapid", "translation": "jadal", "example": "Especially because “meat,” dairy, and eggs are the main ingredients in fast food, the exponential increase in its consumption has engendered a wide range of negative social impacts—including rapidly rising rates of diet-related disease, worker exploitation, systemic animal abuse, and environmental degradation."}, "detrimental": {"word": "detrimental", "pos": "adjective", "level": "C1", "ipa": "", "definition": "harmful", "translation": "zararli", "example": "In addition to harming human health, the fast-food industry also has detrimental impacts on:"}, "toxic": {"word": "toxic", "pos": "adjective", "level": "B2", "ipa": "", "definition": "poisonous", "translation": "zaharli", "example": "And, to prevent grease leakage, many fast-food companies coat their paper packaging with perfluoroalkyls, which are toxic compounds that harm the environment and human health."}, "fundamentally": {"word": "fundamentally", "pos": "adverb", "level": "B2", "ipa": "", "definition": "basically", "translation": "tubdan", "example": "The fast-food industry’s economic clout has not only enabled it to effect a radical shift in the country’s eating patterns (as well as those around the globe), but it has also fundamentally altered the very way that food is produced."}, "conclusively": {"word": "conclusively", "pos": "adverb", "level": "", "ipa": "", "definition": "clearly", "translation": "uzil-kesil", "example": "It’s not difficult to find peer-reviewed scientific studies that conclusively correlate the consumption of “meat” and other animal products with many of the deadliest medical disorders plaguing humankind today, including cardiovascular disease, cancer, and diabetes."}, "disproportionately": {"word": "disproportionately", "pos": "adverb", "level": "C1", "ipa": "/ˌdɪsprəˈpɔːʃənət/", "definition": "unevenly", "translation": "noproporsional", "example": "These same diseases disproportionately affect communities of color."}});

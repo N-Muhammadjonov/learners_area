@@ -251,7 +251,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
 <span class="im-brand-wordmark">Learners <b>Area</b></span>
 </a>
 <div class="im-bar-right im-article-actions">
-<span aria-live="off" class="im-timer" id="im-clock" role="timer">18:00</span>
+<span aria-live="off" class="im-timer" id="im-clock" role="timer">20:00</span>
 <button aria-label="Pause timer" class="im-icon-btn" id="im-pause" title="Pause or resume" type="button">Ⅱ</button>
 <button aria-label="Open article dictionary" class="im-icon-btn im-lexicon-toggle" id="im-dictionary-list" title="Article dictionary" type="button">
 <svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="19"><path d="M7 3h12v18H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path><path d="M9 8h7M9 12h7M9 16h5"></path></svg>
@@ -460,7 +460,9 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     q11: 'biodegradable', q12: 'awareness', q13: 'ingested'
   });
   const storageKey = 'learners-area.article.plastic-bags.v2' + ':' + (new URLSearchParams(location.search).get('user') || 'anonymous');
-  const state = { answers: {}, remainingSeconds: 1080, isPaused: false };
+  const DEFAULT_SECONDS = 20 * 60;
+  const state = { answers: {}, remainingSeconds: DEFAULT_SECONDS, isPaused: false };
+  let deadline = performance.now() + DEFAULT_SECONDS * 1000;
   let selectedHeading = null;
   let activeQuestion = 1;
   let timerInterval = null;
@@ -468,7 +470,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   let pointerStartRatio = null;
 
   function safeStore() {
-    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers, remainingSeconds: state.remainingSeconds, isPaused: state.isPaused})); }
+    try { localStorage.setItem(storageKey, JSON.stringify({answers: state.answers})); }
     catch (_) { /* Standalone private modes may disable storage. */ }
   }
 
@@ -483,8 +485,7 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
         const value = parsed.answers && parsed.answers['q' + i];
         if (typeof value === 'string' && value.length < 150) state.answers['q' + i] = value;
       }
-      if (saved && Number.isFinite(parsed.remainingSeconds)) state.remainingSeconds = Math.max(0, Math.min(1080, Math.floor(parsed.remainingSeconds)));
-      if (saved) state.isPaused = !!parsed.isPaused;
+
     } catch (_) { /* Ignore corrupted saved data. */ }
   }
 
@@ -668,6 +669,13 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
   document.getElementById('im-previous').addEventListener('click', () => goToQuestion(activeQuestion - 1));
   document.getElementById('im-next').addEventListener('click', () => goToQuestion(activeQuestion + 1));
 
+  function tickClock() {
+    if (!state.isPaused && state.remainingSeconds > 0) {
+      state.remainingSeconds = Math.max(0, Math.ceil((deadline - performance.now()) / 1000));
+      if (state.remainingSeconds === 0) state.isPaused = true;
+    }
+    updateTimer();
+  }
   function updateTimer() {
     const seconds = state.remainingSeconds;
     const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -675,18 +683,57 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     const clock = document.getElementById('im-clock');
     clock.textContent = `${mm}:${ss}`;
     clock.setAttribute('aria-label', `Time remaining: ${mm} minutes ${ss} seconds`);
-    document.getElementById('im-pause').textContent = state.isPaused ? '▶' : 'Ⅱ';
-    document.getElementById('im-pause').setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    const pauseButton = document.getElementById('im-pause');
+    pauseButton.hidden = seconds === 0;
+    pauseButton.textContent = state.isPaused ? '▶' : 'Ⅱ';
+    pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume timer' : 'Pause timer');
+    clock.classList.toggle('im-time-expired', seconds === 0);
   }
-  document.getElementById('im-pause').addEventListener('click', () => {
-    state.isPaused = !state.isPaused;
-    updateTimer(); safeStore();
+  const pauseButton = document.getElementById('im-pause');
+  let restartButton = document.getElementById('im-restart');
+  if (!restartButton) {
+    restartButton = document.createElement('button');
+    restartButton.id = 'im-restart';
+    restartButton.type = 'button';
+    restartButton.className = 'im-icon-btn';
+    pauseButton.after(restartButton);
+  }
+  restartButton.textContent = '↻';
+  restartButton.setAttribute('aria-label', 'Restart the article');
+  restartButton.title = 'Restart the article';
+  pauseButton.addEventListener('click', () => {
+    if (state.remainingSeconds === 0) return;
+    if (state.isPaused) {
+      state.isPaused = false;
+      deadline = performance.now() + state.remainingSeconds * 1000;
+    } else {
+      tickClock();
+      state.isPaused = true;
+    }
+    updateTimer();
   });
-  timerInterval = window.setInterval(() => {
-    if (state.isPaused || state.remainingSeconds <= 0) return;
-    state.remainingSeconds -= 1;
-    updateTimer(); safeStore();
-  }, 1000);
+  function restartAttempt() {
+    state.answers = {};
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    try {
+      localStorage.removeItem(storageKey);
+      const userId = new URLSearchParams(location.search).get('user');
+      if (userId && storageKey.startsWith('learners-area.article.plastic-bags.v2:')) {
+        localStorage.removeItem('learners-area.article.plastic-bags.v1.' + userId);
+      }
+    } catch (_) {}
+    restoreInputs();
+    refreshAnswered();
+    if (resultDialog.open && typeof resultDialog.close === 'function') resultDialog.close();
+    passage.scrollTop = 0;
+    questionPanel.scrollTop = 0;
+    goToQuestion(1, false);
+    updateTimer();
+  }
+  restartButton.addEventListener('click', restartAttempt);
+  timerInterval = window.setInterval(tickClock, 250);
 
   split.addEventListener('pointerdown', (event) => {
     if (window.matchMedia('(max-width: 850px)').matches) return;
@@ -745,8 +792,20 @@ html[data-theme="dark"] { --im-bg: var(--bg-main, #0e1523); --im-surface: var(--
     else resultDialog.setAttribute('open', '');
   });
   document.getElementById('im-close-result').addEventListener('click', () => resultDialog.close());
-  window.addEventListener('pagehide', () => { if (timerInterval !== null) window.clearInterval(timerInterval); safeStore(); });
+  window.addEventListener('pagehide', () => {
+    if (timerInterval !== null) window.clearInterval(timerInterval);
+    timerInterval = null;
+    safeStore();
+  });
   safeRestore(); restoreInputs(); updateTimer(); goToQuestion(1, false);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    state.remainingSeconds = DEFAULT_SECONDS;
+    state.isPaused = false;
+    deadline = performance.now() + DEFAULT_SECONDS * 1000;
+    updateTimer();
+    if (timerInterval === null) timerInterval = window.setInterval(tickClock, 250);
+  });
 
   // Dictionary words are restored from the actual article's glossary, not generated meanings.
   const dictionary = Object.freeze({"consumption": {"word": "consumption", "pos": "noun", "level": "B1", "ipa": "", "definition": "use", "translation": "iste'mol, foydalanish", "example": "The advantage of a plastic bag ban is that it reduces the consumption of plastic bags and encourages people to switch to more sustainable alternatives."}, "depletion": {"word": "depletion", "pos": "noun", "level": "", "ipa": "", "definition": "reduction", "translation": "tuganib qolish, kamayish", "example": "The production of plastic bags requires the use of natural resources, such as petroleum and natural gas, contributing to resource depletion and environmental degradation."}, "initiative": {"word": "initiative", "pos": "noun", "level": "B2", "ipa": "", "definition": "plan", "translation": "tashabbus, loyiha", "example": "The advantage of a plastic bag tax is that it generates revenue for environmental initiatives and reduces the consumption of plastic bags."}, "decompose": {"word": "decompose", "pos": "verb", "level": "B2", "ipa": "/ˌdiːkəmˈpəʊz/", "definition": "rot", "translation": "parchalanish, chirish", "example": "They are not biodegradable and can take hundreds of years to decompose, leading to pollution of land and water bodies."}, "incentivize": {"word": "incentivize", "pos": "verb", "level": "", "ipa": "", "definition": "encourage", "translation": "rag'batlantirmoq", "example": "This discourages people from using plastic bags and incentivizes them to bring their own reusable bags."}, "empower": {"word": "empower", "pos": "verb", "level": "", "ipa": "", "definition": "enable", "translation": "imkoniyat bermoq", "example": "The advantage of public education is that it empowers individuals to make informed choices and take action to protect the environment."}, "sustainable": {"word": "sustainable", "pos": "adjective", "level": "C1", "ipa": "/səˈsteɪnəbəl/", "definition": "green", "translation": "barqaror, ekologik", "example": "The advantage of a plastic bag ban is that it reduces the consumption of plastic bags and encourages people to switch to more sustainable alternatives."}, "versatile": {"word": "versatile", "pos": "adjective", "level": "C1", "ipa": "", "definition": "adaptable", "translation": "ko'p qirrali, moslashuvchan", "example": "Plastic bags come in various sizes and styles, making them suitable for a wide range of purposes, such as packaging, storage, and waste disposal."}, "substantial": {"word": "substantial", "pos": "adjective", "level": "B1", "ipa": "", "definition": "large", "translation": "sezilarli, katta", "example": "However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption."}, "disproportionately": {"word": "disproportionately", "pos": "adverb", "level": "C1", "ipa": "/ˌdɪsprəˈpɔːʃənət/", "definition": "unequally", "translation": "nomutanosib ravishda", "example": "However, the disadvantage is that it may disproportionately affect low-income individuals who rely on plastic bags for their shopping needs."}, "significantly": {"word": "significantly", "pos": "adverb", "level": "B2", "ipa": "", "definition": "greatly", "translation": "sezilarli darajada", "example": "However, the disadvantage is that changing behavior through education can be a slow process and may not immediately lead to a significant reduction in plastic bag consumption."}, "negatively": {"word": "negatively", "pos": "adverb", "level": "B2", "ipa": "", "definition": "badly", "translation": "salbiy ravishda", "example": "Plastic bags are often littered in the environment, causing visual pollution and negatively impacting ecosystems."}});

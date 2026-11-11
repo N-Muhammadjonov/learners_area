@@ -126,12 +126,7 @@ class StaticFrontend:
                         headers={'Cache-Control':cache,'ETag':etag,'Vary':'Accept-Encoding','X-Learners-Asset-Version':manifest.get('revision','')}
                         media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream'
                         range_hdr=req.headers.get('range','')
-                        if name in ('js/vendor/riwi-speech/qa/index.html',
-                                    'modules/reading/article-assets/plastic-bags.html',
-                                    'modules/reading/article-assets/advertising.html',
-                                    'modules/reading/article-assets/remote-work-wars.html',
-                                    'modules/reading/article-assets/unemployment.html',
-                                    'modules/reading/article-assets/food-market-growth.html'):
+                        if name == 'js/vendor/riwi-speech/qa/index.html' or re.fullmatch(r'modules/reading/article-assets/[a-z0-9-]+\.html', name):
                             # Trusted standalone pages use the same strict nonce
                             # policy as the app, without a cacheable per-request nonce.
                             nonce=secrets.token_hex(16)
