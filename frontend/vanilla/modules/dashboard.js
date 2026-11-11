@@ -36,7 +36,11 @@ export async function mount(context){
  if(overview && ['student','owner'].includes(context.session.user.role)){
   const hero=host.querySelector('.la-dashboard-hero');
   const heading=hero?.querySelector('h1');
-  if(heading){
+  if(hero){
+   const top=el('div',{'class':'la-dashboard-top-grid','data-dashboard-top-grid':''});
+   hero.replaceWith(top);
+   top.append(hero);
+   if(heading){
    const mascot=fluencyCompanion();
    const shortcut=el('a',{
      href:'/app/speaking/speak-or-die',
@@ -45,10 +49,10 @@ export async function mount(context){
      'aria-label':context.locale==='uz'?'Speak or Die mashqini ochish':'Open Speak or Die',
    },mascot.node);
    mascot.node.classList.add('la-dashboard-companion');
-   heading.classList.add('la-dashboard-greeting-companion');
-   heading.append(shortcut);
+   heading.after(shortcut);
   }
-  mountSequenceDashboard(context,hero??host);
+  mountSequenceDashboard(context,top);
+  }
  }
  context.onPause?.(()=>{for(const request of inFlight.values())request.abort();inFlight.clear();});
  context.onResume?.(()=>{for(const key of keys)void load(key);});
