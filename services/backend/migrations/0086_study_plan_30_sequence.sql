@@ -49,3 +49,29 @@ BEGIN
     END IF;
   END LOOP;
 END $$;
+
+-- Each student holds one server-scored active level-check attempt at a time.
+CREATE TABLE study_plan_30_level_checks (
+    user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    attempt_id uuid NOT NULL DEFAULT gen_random_uuid(),
+    selected_level text NOT NULL CHECK (selected_level IN ('A1','A2','B1','B2','C1','C2')),
+    question_order jsonb NOT NULL,
+    started_at timestamptz NOT NULL DEFAULT now(),
+    submitted_at timestamptz,
+    correct smallint CHECK (correct BETWEEN 0 AND 15),
+    approved_level text CHECK (approved_level IN ('A1','A2','B1','B2','C1','C2')),
+    CHECK ((submitted_at IS NULL AND correct IS NULL AND approved_level IS NULL)
+       OR (submitted_at IS NOT NULL AND correct IS NOT NULL)),
+    CHECK (jsonb_typeof(question_order) = 'array')
+);
+ALTER TABLE study_plan_30_level_checks ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON study_plan_30_level_checks FROM PUBLIC;
+DO $$
+DECLARE role_name text;
+BEGIN
+  FOREACH role_name IN ARRAY ARRAY['anon','authenticated','service_role'] LOOP
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname=role_name) THEN
+      EXECUTE format('REVOKE ALL ON study_plan_30_level_checks FROM %I', role_name);
+    END IF;
+  END LOOP;
+END $$;
