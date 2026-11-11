@@ -1,7 +1,7 @@
 /* Adapt uploaded Speaking/Writing curricula to the existing native Grammar exercise engine. */
 const NAMES={mcq:'mcq',judge:'judge',match:'match',order:'order',bank:'typed',fix:'fix',typed:'typed',transform:'transform',dialogue:'typed',translate:'tr',record:'speak',longtext:'write'};
 const INSTRUCTIONS={mcq:'To‘g‘ri javobni tanlang.',judge:'Gap grammatik jihatdan to‘g‘rimi?',match:'O‘zbekcha ma’noga mos inglizcha gapni tanlang.',order:'So‘zlarni to‘g‘ri tartibga qo‘ying.',bank:'Mazmun asosida gapni to‘liq yozing.',fix:'Xatoni tuzating.',typed:'Savolga yozma javob bering.',transform:'Ma’nosini saqlab qayta yozing.',dialogue:'Suhbatni davom ettiring.',translate:'Inglizchaga tarjima qiling.',record:'Javobingizni ovozli yozing.',longtext:'Matnni mustaqil yozing.'};
-const INTRO={Tushunish:'Qoidani misollardan aniqlang.',Mustahkamlash:'Shakl va so‘z tartibini mashq qiling.',Qo‘llash:'Qoidani yangi gaplarda ishlating.','Erkin qo‘llash':'Mustaqil javob yarating.'};
+const INTRO={Tushunish:'Qoidani misollardan aniqlang.',Mustahkamlash:'Shakl va so‘z tartibini mashq qiling.','Qo‘llash':'Qoidani yangi gaplarda ishlating.','Erkin qo‘llash':'Mustaqil javob yarating.'};
 const clean=value=>String(value??'').replace(/ELI\s*[- ]?\s*5\s*:\s*/gi,'').replace(/\bELI\s*[- ]?\s*5\b/gi,'').trim();
 const unique=items=>Array.from(new Set(items));
 const sameWords=(a,b)=>a.length===b.length&&a.slice().sort().join('|')===b.slice().sort().join('|');
