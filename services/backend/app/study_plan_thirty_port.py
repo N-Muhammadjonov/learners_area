@@ -118,10 +118,31 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
         verified = {}
         for item in events:
             kind = _event_kind(item["source_key"])
+            if kind not in pending:
+                continue
+            required = pending[kind]["source_key"]
+            if required != kind and required != item["source_key"]:
+                continue
             if kind == "vocabulary" and item["evidence_count"] < 10:
                 continue
-            if kind in pending and (kind not in verified or item["happened_at"] < verified[kind][0]):
+            if kind not in verified or item["happened_at"] < verified[kind][0]:
                 verified[kind] = (item["happened_at"], item["source_key"])
+
+        # Writing must be a substantive submitted response, not a one-word draft.
+        if "writing" in verified:
+            selected = pending["writing"]["source_key"]
+            prompt_id = selected.split(":", 1)[1] if selected.startswith("writing:") else None
+            done_at = await con.fetchval("""SELECT MIN(submitted_at)
+              FROM writing_submissions WHERE user_id=$1
+                AND submitted_at >= $2 AND submitted_at <= $3
+                AND status<>'draft' AND word_count >= 120
+                AND ($4::uuid IS NULL OR prompt_id=$4::uuid)""",
+                uid, cycle["opened_at"], now, prompt_id)
+            if done_at is None:
+                verified.pop("writing")
+            else:
+                verified["writing"] = (done_at, selected)
+
         for kind, (completed_at, source) in verified.items():
             await con.execute("""UPDATE study_plan_30_tasks
               SET completed_at=$4,proof=$5 WHERE cycle_id=$1 AND day_number=$2
