@@ -1918,7 +1918,7 @@
     "frontend/vanilla/modules/premium-i18n.js": "b02fc63d82ef1e1e318ecdccaf212a5e610ee131bb642b3b8985ac6cdced722d",
     "frontend/vanilla/modules/premium-landing.css": "e19b1ac56e690dca410d3afcc2ea1dcc8acda3a8e88d641709c39f213e8ed511",
     "frontend/vanilla/modules/premium-landing.js": "e027c84f9ddca65a659ea15a29dee469565804472362f37873e54d1bb89d5a43",
-    "frontend/vanilla/modules/profile/level-select.js": "ce6a51a4dfd7cdc9144fda20934e5859b5f5481997570853e531f81bb390a03c",
+    "frontend/vanilla/modules/profile/level-select.js": "c6bf2ac29f98a0c27e294abc48301123b6b163ead63c982a56b7edfb8119c408",
     "frontend/vanilla/modules/profile/page.js": "b21b058b095531ade05dcbf6e569305b5fedce26c136524d003f9267ea70db5a",
     "frontend/vanilla/modules/profile/photo-image.js": "e696a21037ac1ba8c04997a08f0174c5ee01a6d6fc351fcc80aa9e37faf86856",
     "frontend/vanilla/modules/progress/mock-summary.js": "e431451c5926852a389d8f623c080779f6f89a2dcc8f3f7d9d015449ce8f2979",
