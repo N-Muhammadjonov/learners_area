@@ -894,3 +894,5 @@ from .study_plan_month_port import router as _study_plan_month_router
 app.include_router(_study_plan_month_router)
 from .study_plan_thirty_port import install as _install_study_plan_thirty
 _install_study_plan_thirty()
+from .study_plan_level_port import install as _install_plan_level_check
+_install_plan_level_check()
