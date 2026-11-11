@@ -1953,7 +1953,7 @@
     "frontend/vanilla/modules/speaking/hub.js": "2aa1caa9764f112c586ff24deb1e3f5276cc5721ccaf93179e6d982152dd93b5",
     "frontend/vanilla/modules/speaking/index.js": "b39aefb1e6da4366caf1030fbe627e5b3acd8122f3e13a041b057e96ce41cdbd",
     "frontend/vanilla/modules/speaking/lessons.js": "5a0e9e9a55b8a8634bcad49a1f1db60f9cc68c667020a622419c13b7c2f91867",
-    "frontend/vanilla/modules/speaking/live-partner.js": "491fb9aa287bc5f064766cbd8988f0ec1350c740b07536b23b259107260dd986",
+    "frontend/vanilla/modules/speaking/live-partner.js": "dda79d04c74e284e98316367ba694472cd4a27ca9cfc875c94aba8de44e46334",
     "frontend/vanilla/modules/speaking/media.js": "b15ddbc0a2cf4119cb480735789777f809243ab532dc4fc41106891ef13b2b5f",
     "frontend/vanilla/modules/speaking/microphone.js": "997460b24c6a85c861ee7a39f6fdd9510f604596b92e99ad48a6bdc2a1a7b96a",
     "frontend/vanilla/modules/speaking/partner-activities.js": "54c6981a066d0e029d78cd5ffaf47834e9ad6b567dab41e51ca665f29aefc7f3",
