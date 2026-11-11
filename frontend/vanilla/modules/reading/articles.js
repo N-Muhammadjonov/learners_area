@@ -16,7 +16,8 @@ function ensureStyles(){
  document.head.append(link);
 }
 function card(article,t){
- const image=article.image?el('img',{class:'reading-article-image',src:article.image,alt:'',loading:'lazy'}):el('div',{class:'reading-article-image reading-article-placeholder','aria-hidden':'true'},'Aa');
+ const thumbnail=article.image?.endsWith('.jpg')?article.image.replace(/\.jpg$/,'.thumb.webp'):article.image;
+ const image=thumbnail?el('img',{class:'reading-article-image',src:thumbnail,alt:'',loading:'eager',decoding:'async'}):el('div',{class:'reading-article-image reading-article-placeholder','aria-hidden':'true'},'Aa');
  const tags=el('div',{class:'reading-article-tags'},article.level?el('span',{class:'reading-article-level'},article.level):null,(article.topics??[]).map(topic=>el('span',{class:'reading-article-topic'},topic)));
  return el('article',{class:'reading-article-card','data-reading-article':article.id},image,
   el('div',{class:'reading-article-card-body'},tags,el('h2',{class:'reading-article-title'},article.title),

@@ -7,7 +7,7 @@ import {mountRetention} from '../modules/reading/retention.js';
 import {readingDictionary} from '../modules/reading/dictionary.js';
 import {contextualWordPopover} from '../modules/vocabulary/contextual-popover.js';
 import {tokenise} from '../js/generated/lexical-text-helpers.js';
-import {programDTO} from '../modules/listening/mcq-index.js';
+import {programDTO,mount as mountMcqIndex} from '../modules/listening/mcq-index.js';
 import {render as mcqCards} from '../js/generated/views/listening-mcq.js';
 import {mount as people} from '../modules/staff-final30/people.js';
 import {watchPresence} from '../js/presence.js';
@@ -26,6 +26,14 @@ test('welcome has the same immediate CTA and horizontal landscape at desktop siz
 
 test('MCQ accepts and renders all days with learner locks after the old 24-card boundary',()=>{
  const h=setup({role:'student'});try{const days=Array.from({length:75},(_,i)=>({day:i+1,testId:ID(i+10),title:'Day '+(i+1),draft:false,questionCount:5,locked:i>0,status:{state:'not_started',total:5,completed:0}}));const data=programDTO({days,page:1,pageSize:75,hasNextPage:false,visibleDays:75,progress:{daysPublished:75,daysCompleted:0,questionsPublished:375,questionsCompleted:0}});h.ctx.root.append(mcqCards({...data,context:h.ctx,dict:h.ctx.dict,user:h.ctx.session.user}));assert.equal(h.qa('[data-listening-mcq-card]').length,75);assert.equal(h.qa('[data-listening-mcq-locked]').length,74);assert.equal(h.qa('[data-listening-mcq-open]').length,1);}finally{h.dispose();}
+});
+
+test('MCQ catalogue fetches the next API page and displays days 25–30',async()=>{
+ const h=setup({path:'/app/listening/mcq',role:'student'});globals(h);
+ const days=Array.from({length:30},(_,i)=>({day:i+1,testId:ID(i+10),title:'Day '+(i+1),draft:false,questionCount:5,locked:i>0,status:{state:'not_started',total:5,completed:0}}));
+ const progress={daysPublished:30,daysCompleted:0,questionsPublished:150,questionsCompleted:0};
+ h.stub({'/api/frontend/view':path=>{const route=new URL(path,'https://fixture.invalid').searchParams.get('route');const page=Number(new URL(route,'https://fixture.invalid').searchParams.get('page')||1);return {version:1,route,data:{days:page===1?days.slice(0,24):days.slice(24),page,pageSize:24,hasNextPage:page===1,visibleDays:30,progress}};}});
+ try{mountMcqIndex(h.ctx);await tick(8);assert.equal(h.qa('[data-listening-mcq-card]').length,30);assert.deepEqual(h.qa('[data-listening-mcq-card]').slice(24).map(card=>Number(card.dataset.listeningMcqCard)),[25,26,27,28,29,30]);assert.equal(h.calls.length,2);}finally{h.dispose();}
 });
 
 test('Retention retains the normal workspace, blocks source copying and allows recall editing',async()=>{
