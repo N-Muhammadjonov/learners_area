@@ -4,6 +4,7 @@ import staffRoutes from '../modules/staff-final30/routes.js';
 const routes = [
  {pattern:"/app/plan/level-check",protected:true,layout:"focus",load:()=>import('../modules/study-plan/level-check.js')},
  {pattern:"/app/study-plan",protected:true,load:()=>import('../modules/study-plan/page.js')},
+ {pattern:"/app/leaderboard",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
  {pattern:"/app/study-plan/leaderboard",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
  {pattern:"/app/study-plan/rewards",protected:true,load:()=>import('../modules/study-plan/motivation.js')},
  {pattern:"/study-plan/shared",load:()=>import('../modules/study-plan/share.js')},
