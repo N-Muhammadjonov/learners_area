@@ -76,7 +76,7 @@ export function workspace(ctx, title, subtitle) {
       h('h1', {class: 'font-display text-3xl text-ink-900'}, title), detail(subtitle)),
     h('nav', {class: 'study-plan-actions', 'aria-label': title},
       link(text(ctx, 'Haftalik reja', 'Weekly plan'), PATH),
-      link(text(ctx, 'Reyting', 'Leaderboard'), PATH + '/leaderboard'),
+      link(text(ctx, 'Reyting', 'Leaderboard'), '/app/leaderboard'),
       link(text(ctx, 'Mukofotlar', 'Rewards'), PATH + '/rewards')),
     content);
   ctx.root.append(host);
