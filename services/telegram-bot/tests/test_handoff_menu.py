@@ -45,6 +45,7 @@ async def test_login_button_issues_bot_bound_fragment_only():
                 "ok": True,
                 "intentId": "11111111-1111-4111-8111-111111111111",
                 "browserNonce": nonce,
+                "purpose": "login",
             },
         ))
         await cb_login(callback)
@@ -70,3 +71,25 @@ async def test_no_handoff_link_when_account_blocked():
         await cb_login(callback)
     callback.message.edit_text.assert_not_awaited()
     callback.answer.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_first_time_user_receives_registration_handoff():
+    callback = MagicMock()
+    callback.from_user = User(id=12345, is_bot=False, first_name="Test", language_code="uz")
+    callback.message.chat = Chat(id=12345, type="private")
+    callback.message.edit_text = AsyncMock()
+    callback.answer = AsyncMock()
+    with patch("handlers.menu.api_client") as client, patch("handlers.menu.config") as config:
+        config.PUBLIC_SITE_URL = "https://learnersarea.uz"
+        client.create_login_handoff = AsyncMock(return_value=(
+            200, {
+                "ok": True,
+                "intentId": "11111111-1111-4111-8111-111111111111",
+                "browserNonce": "b" * 64,
+                "purpose": "register",
+            },
+        ))
+        await cb_login(callback)
+    link = callback.message.edit_text.await_args.kwargs["reply_markup"].inline_keyboard[0][0].url
+    assert link.startswith("https://learnersarea.uz/register#tg-handoff=")
