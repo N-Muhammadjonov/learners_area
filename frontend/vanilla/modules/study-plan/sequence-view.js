@@ -288,6 +288,15 @@ export function mountSequenceAssignments(ctx, root) {
 
   paint();
   void load();
+  if (ctx.url?.hash === '#study-plan-30') {
+    queueMicrotask(() => {
+      if (!ctx.signal.aborted && panel.isConnected) panel.scrollIntoView?.({block:'start'});
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) void load();
+  }, {signal:ctx.signal});
+  ctx.onResume?.(() => void load());
   return {refresh:()=>void load()};
 }
 
