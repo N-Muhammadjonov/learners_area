@@ -73,6 +73,20 @@ async def route_view(req, user, path, q):
 
 async def read_staff(req, user, kind):
     q = dict(req.query_params)
+    if kind in ('student-writing','student-learning-extras'):
+        require_role(user, TEACHER_OWNER)
+        db = await core.pool()
+        async with db.acquire() as con:
+            if kind == 'student-writing':
+                from .student_writing import read
+                return await read(con, user, q)
+            from .study_time import subject, weekly
+            from .fair_scores import averages
+            student_id = await subject(con, user, q.get('student'))
+            return {
+                'studyTime': await weekly(con, user, q),
+                'averages': await averages(con, student_id),
+            }
     if kind.startswith('owner-'):
         require_role(user,('owner',))
     elif kind in ('student-results','centre-statistics'):

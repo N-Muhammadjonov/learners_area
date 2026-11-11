@@ -4,6 +4,7 @@ import {grammarArea, grammarDTO} from '../../js/adapters/entry-routes-v35.js';
 import {Card, ProgressBar} from '../../js/generated/ui.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {MASTERY_SESSIONS_DISPLAY} from './mastery.js';
+import {mountSkillBookCatalog, mountSkillBookDetail} from './book-skill.js';
 
 /**
  * Grammar topics `/app/grammar?tab=writing|speaking` (the original GrammarPage + GrammarTopics).
@@ -20,6 +21,19 @@ export function mount(context) {
   const t = dict.grammar;
   const host = h('div', {'data-grammar-topics-host': area});
   root.append(host);
+  const requestedBook = url.searchParams.get('book');
+  if (requestedBook) {
+    void mountSkillBookDetail(context, host, area, requestedBook);
+    signal.addEventListener('abort', () => host.replaceChildren(), {once: true});
+    return;
+  }
+  const bookHost = h('div', {'data-grammar-skill-book-host': area});
+  const legacyContent = h('div', {'data-grammar-skill-legacy-content': area});
+  const legacySection = h('section', {class: 'grammar-skill-legacy'},
+    h('h2', {}, context.locale === 'en' ? 'Other grammar exercises' : 'Boshqa grammar mashqlari'),
+    legacyContent);
+  host.append(bookHost, legacySection);
+  mountSkillBookCatalog(context, bookHost, area);
   let generation = 0;
 
   function skeleton() {
@@ -61,14 +75,14 @@ export function mount(context) {
 
   async function load() {
     const current = ++generation;
-    host.replaceChildren(skeleton());
+    legacyContent.replaceChildren(skeleton());
     try {
       const raw = await viewData(url.pathname + url.search, signal);
       if (signal.aborted || current !== generation) return;
-      host.replaceChildren(render(grammarDTO(raw)));
+      legacyContent.replaceChildren(render(grammarDTO(raw)));
     } catch {
       if (signal.aborted || current !== generation) return;
-      host.replaceChildren(RegionFailureNotice({region: 'grammar-topics', message: dict.common.error, retryLabel: dict.errorPage.retry, refresh: load}));
+      legacyContent.replaceChildren(RegionFailureNotice({region: 'grammar-topics', message: dict.common.error, retryLabel: dict.errorPage.retry, refresh: load}));
     }
   }
 
