@@ -1,5 +1,18 @@
 from app.listening_exam_visuals import exam_parts, pinned_exam_parts, source_map, svg_diagram
 
+
+def test_all_remaining_canonical_packages_keep_their_own_original_exam_layout():
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[3]
+    for number in range(2, 33):
+        package = json.loads((root / f'content/listening/academic/test-{number:02d}/canonical.json').read_text())
+        source = f'listening-test-{number}'
+        exam = exam_parts(source, package['content']['questions'])
+        assert exam is not None, source
+        assert exam == pinned_exam_parts(source)[1], source
+
 def test_existing_authored_maps_are_inert_and_source_exact_geometry():
     for source,count in [('listening-test-1',23),('listening-test-11',44)]:
         diagram=source_map(source)
