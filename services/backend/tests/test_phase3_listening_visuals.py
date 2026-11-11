@@ -1,4 +1,25 @@
-from app.listening_exam_visuals import exam_parts, pinned_exam_parts, source_map, svg_diagram
+from app.listening_exam_visuals import exam_parts, pinned_exam_parts, source_map, svg_diagram, original_entry_layout
+
+
+def test_test_1_and_7_entry_layouts_use_their_original_cards_without_embedded_audio_or_keys():
+    import json
+    import re
+
+    for number in (1, 7):
+        layout = original_entry_layout(f'listening-test-{number}')
+        assert layout is not None
+        assert f'Listening<br>Test {number}' in layout['shell']
+        assert len(layout['activities']) == 9
+        assert layout['activities'][0]['id'] == 'exam'
+        assert layout['activities'][0]['title'] == 'Full IELTS Test'
+        assert all(set(row) == {'id', 'number', 'title', 'description'} for row in layout['activities'])
+        assert not re.search(r'<(?:audio|video|source|script|iframe|object|embed)\b|\son\w+=', layout['shell'], re.I)
+        assert not any(token in json.dumps(layout) for token in ('data:audio', 'const DATA', 'audioUrl', 'correctAnswer'))
+    assert original_entry_layout('listening-test-2') is None
+    assert original_entry_layout('listening-test-32') is None
+    assert original_entry_layout('../../private') is None
+    assert any(row['title'] == 'Choose TWO Mastery' for row in original_entry_layout('listening-test-1')['activities'])
+    assert any(row['title'] == 'Choose THREE Mastery' for row in original_entry_layout('listening-test-7')['activities'])
 
 
 def test_all_remaining_canonical_packages_keep_their_own_original_exam_layout():

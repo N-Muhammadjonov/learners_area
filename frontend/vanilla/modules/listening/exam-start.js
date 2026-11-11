@@ -1,10 +1,10 @@
 import {el} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';import {uuid} from '../../js/adapters/listening-v7.js';import {render} from '../../js/generated/FullExamStart-v7.js';
-export function fullExamStart(context,{id,title,compact=false}){const {dict,signal}=context,host=document.createElement('div');let busy=false,error='',sound;
+export function fullExamStart(context,{id,title,compact=false,actionClass='btn-primary'}){const {dict,signal}=context,host=document.createElement('div');let busy=false,error='',sound;
  function draw(){
   if(signal.aborted)return;
   if(!compact){host.replaceChildren(render({id,title,dict,busy,error,start,soundCheck}));return;}
-  const button=el('button',{type:'button',class:'btn-primary',disabled:busy},dict.fullListeningHub.examStart.start);
+  const button=el('button',{type:'button',class:actionClass,disabled:busy},dict.fullListeningHub.examStart.start);
   button.addEventListener('click',start,{once:true,signal});
   host.replaceChildren(button);
   if(error)host.append(el('p',{role:'alert'},error));

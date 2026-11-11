@@ -1,9 +1,11 @@
 import {el} from '../../js/dom.js';
 import {uuid} from '../../js/adapters/listening-v7.js';
 import {fullExamStart} from './exam-start.js';
+import {originalListeningEntry} from './original-entry.js';
 
 export function secureExamGate(context,data,id){
  if(data.testId!==id||!uuid(id)||typeof data.title!=='string'||data.title.length>1000||data.attemptId!==null&&!uuid(data.attemptId))throw Error('Invalid exam gate');
+ if(data.originalLayout)return originalListeningEntry(context,data,id);
  const uz=context.locale==='uz',{fullListeningHub:t}=context.dict,r=t.research;
  const names={review:r.review,script:r.script,mcq:r.mcq,map:r.map,multi:uz?'Bir nechta javob tanlash':'Choose Multiple Answers',completion:r.completion,vocab:r.vocabulary,recall:r.recall,matching:r.matching,retry:r.retry};
  const examAction=data.attemptId

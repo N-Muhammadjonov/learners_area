@@ -88,11 +88,14 @@ async def authored(req:Request,id:str):
             from .listening_review_access import exam_gate
             required,active_attempt=await exam_gate(con,user,core.uuid_value(id))
             if required:
-                # Names only: the Activities screen may render before the
+                # Static presentation only: original cards may render before the
                 # answer-bearing source document or any review data is released.
                 activities=SPEC.get(source,{}).get('activities',{})
+                from .listening_exam_visuals import original_entry_layout
+                original_layout=original_entry_layout(source)
                 return core.j({'kind':'exam_required','testId':id,'title':content.get('title') or 'Listening',
-                               'attemptId':active_attempt,'activities':list(activities)},headers=AUTHOR_HEADERS)
+                               'attemptId':active_attempt,'activities':list(activities),
+                               **({'originalLayout':original_layout} if original_layout else {})},headers=AUTHOR_HEADERS)
             original=(source in CATALOGUE or source=='listening-test-1' and id==ORIGINAL1)
             definition=CATALOGUE.get(source) if original else None
             if original:
