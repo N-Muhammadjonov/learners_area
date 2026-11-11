@@ -6,12 +6,15 @@ currently locked or unavailable are not promised as actionable daily work.
 from __future__ import annotations
 
 from dataclasses import replace
+import logging
 from typing import Any
 from urllib.parse import urlencode
 
 from .browser_common import live
 from .browser_listening import catalogue as listening_catalogue
 from .browser_reading import academic_catalogue
+
+LOG=logging.getLogger(__name__)
 
 
 def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
@@ -48,7 +51,8 @@ async def load_material_pools(con, user: dict) -> dict[str, list[dict]]:
     try:
         reading = await academic_catalogue(con, user)
         for row in reading:
-            if row.get("locked") or not row.get("id") or not row.get("title"):
+            if (row.get("locked") or row.get("assessmentStatus")=="completed" or
+                    not row.get("id") or not row.get("title")):
                 continue
             test_id = str(row["id"])
             pools["reading"].append({
@@ -58,7 +62,7 @@ async def load_material_pools(con, user: dict) -> dict[str, list[dict]]:
             })
     except Exception:
         # If a module cannot be queried, its task stays a working module entry.
-        pass
+        LOG.exception('Reading plan catalogue was unavailable')
     try:
         listening = await listening_catalogue(con, user, "academic_full_test", {})
         for row in listening.get("cards", []):
@@ -71,14 +75,16 @@ async def load_material_pools(con, user: dict) -> dict[str, list[dict]]:
                 "href": "/app/listening/tests/" + test_id + "/1",
             })
     except Exception:
-        pass
+        LOG.exception('Listening plan catalogue was unavailable')
     writing = await con.fetch(f"""SELECT p.id,p.category,p.task_type
         FROM writing_prompts p
         WHERE {live('p')} AND p.is_active
           AND NOT EXISTS(SELECT 1 FROM activity_events e
             WHERE e.id=md5('deleted-content:'||p.id::text)::uuid
               AND e.type='CONTENT_DELETED')
-        ORDER BY p.created_at,p.id LIMIT 40""")
+          AND NOT EXISTS(SELECT 1 FROM writing_submissions s
+            WHERE s.user_id=$1 AND s.prompt_id=p.id AND s.submitted_at IS NOT NULL)
+        ORDER BY p.created_at,p.id LIMIT 40""", user["id"])
     for row in writing:
         prompt_id = str(row["id"])
         pools["writing"].append({
@@ -94,7 +100,9 @@ async def load_material_pools(con, user: dict) -> dict[str, list[dict]]:
           AND NOT EXISTS(SELECT 1 FROM activity_events e
             WHERE e.id=md5('deleted-content:'||p.id::text)::uuid
               AND e.type='CONTENT_DELETED')
-        ORDER BY p.part,p.created_at,p.id LIMIT 40""")
+          AND NOT EXISTS(SELECT 1 FROM speaking_attempts s
+            WHERE s.user_id=$1 AND s.prompt_id=p.id AND s.submitted_at IS NOT NULL)
+        ORDER BY p.part,p.created_at,p.id LIMIT 40""", user["id"])
     for row in speaking:
         prompt_id = str(row["id"])
         pools["speaking"].append({
