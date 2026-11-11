@@ -79,11 +79,11 @@ function leaderboard(ctx, content) {
         h('td', {}, String(item.stars ?? item.points ?? 0)),
         h('td', {}, String(item.coins ?? 0)),
         h('td', {}, practiceLabel(item.practiceMs))))));
-    content.replaceChildren(ctx.session?.user?.role==='owner' ? null : card(
+    content.replaceChildren(...(ctx.session?.user?.role==='owner' ? [] : [card(
       heading(text(ctx,'Ishtirok','Participation')),
       detail(data.alias ? data.alias+' · '+text(ctx,'O‘rningiz','Your position')+' #'+(data.position??'—') :
         text(ctx,'Ishtirok ixtiyoriy. Reytingda sizga tasodifiy taxallus beriladi.','Participation is optional and uses a generated alias.')),
-      h('div',{class:'study-plan-actions'},toggle),notice),
+      h('div',{class:'study-plan-actions'},toggle),notice)]),
       card(heading(text(ctx,'O‘quvchilar reytingi','Learner ranking')),
         live,
         h('div',{class:'study-plan-actions'},filters,scopeControl,help),
