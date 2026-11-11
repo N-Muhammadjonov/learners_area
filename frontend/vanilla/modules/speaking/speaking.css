@@ -208,7 +208,15 @@ html[data-theme] #root [data-route-usable="speaking-ai"] [data-speak-cue-card] {
  position:relative;width:210px;height:192px;margin:0 0 3px;border:0;
  background:none;isolation:isolate;
 }
-.lp-matchmaking .lp-match-orbit::before,.lp-matchmaking .lp-match-orbit::after{display:none}
+/* Continuous radar sweep: independent of polling, no JS re-render or frame timers. */
+.lp-matchmaking .lp-match-orbit::before{
+ content:"";display:block;position:absolute;inset:0;border:0;border-radius:50%;
+ background:conic-gradient(from 0deg,transparent 0deg,transparent 290deg,rgba(41,210,191,.04) 296deg,rgba(41,210,191,.33) 354deg,rgba(41,210,191,.5) 359deg,transparent 360deg);
+ animation:lp-radar-sweep 3.8s linear infinite;transform-origin:50% 50%;pointer-events:none;z-index:0;
+}
+.lp-matchmaking .lp-match-orbit::after{display:none}
+.lp-match-ring{z-index:1}
+@keyframes lp-radar-sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .lp-match-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);border:1px solid rgb(42 211 199 / .28)}
 .lp-match-ring-outer{width:152px;height:152px;box-shadow:0 0 38px rgb(27 203 194 / .12)}
 .lp-match-ring-inner{width:106px;height:106px;border-color:rgb(42 211 199 / .5);box-shadow:0 0 28px rgb(27 203 194 / .2)}
