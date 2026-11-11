@@ -8,6 +8,7 @@ import {privateScope} from './private-scope.js';
 import {api} from './api-client.js';
 import {watchAuthority} from './authority.js';
 import {watchPresence} from './presence.js';
+import {watchStudyTime} from './study-time.js';
 import {moduleLayout} from '../modules/shell/module-layout.js';
 import {createShell,focusFrame} from '../modules/shell/layout.js';
 /** Shell and authority are separate lifetimes: focus routes retain the access gate. */
@@ -33,7 +34,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
  }
  function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};
-  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});watchAuthority(current,persistent);watchPresence(persistent);
+  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});watchAuthority(current,persistent);watchPresence(persistent);watchStudyTime(persistent);
  }
  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
   if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}

@@ -2,6 +2,7 @@ import {el,listen,mountStaff,BackLink,errorText,centreDateTime,badge,pager,pageP
 import {students,studentDetail,sendFeedback,assignable,createAssignment,support,resolveReport} from '../../js/adapters/staff-final30/teacher.js';
 import {renderResults} from './people-detail.js';
 import {studentLearningPanel} from './learning-results.js';
+import {learningExtras} from '../shared/student-learning.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
 const STAFF=['teacher','owner'];
@@ -126,10 +127,11 @@ export const studentMount=mountStaff({name:'management-student',roles:STAFF,notF
   const submissionsSection=el('section',{class:'card space-y-3 p-5','data-writing-submissions':''},el('div',{class:'flex flex-wrap items-center justify-between gap-2'},el('h2',{class:'font-display text-lg text-ink-900'},dict.teacher.submissionsTitle),el('span',{class:'text-xs text-ink-500'},`${d.submissionsPage} / ${d.submissionsPages} · ${d.submissionsTotal}`)),
    d.submissions.length?el('div',{class:'flex flex-col gap-3'},submissionCards):el('p',{class:'text-sm text-ink-500'},t.noSubmissions),
    pager({label:dict.teacher.submissionsTitle,page:d.submissionsPage,totalPages:d.submissionsPages,href:n=>`/app/teacher/students/${d.student.id}?writingPage=${n}`,pageOf:t.pageOf,previous:dict.people.previousPage,next:dict.people.nextPage,attr:'data-writing-submissions-pagination'}));
-  return el('div',{class:'mx-auto flex max-w-3xl flex-col gap-6'},BackLink({fallbackHref:'/app/teacher/students',label:dict.common.back}),
+  return el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-student-full-review':''},BackLink({fallbackHref:ctx.url.pathname.startsWith('/app/admin/people/')?'/app/admin/people':'/app/teacher/students',label:dict.common.back}),
    el('div',{class:'flex flex-wrap items-start justify-between gap-3'},el('div',{},el('h1',{class:'font-display text-2xl text-ink-900'},d.student.name),el('p',{class:'text-sm text-ink-500'},d.student.email??'Telegram account')),assignmentForm(ctx,d.student.id,d.prompts,view)),
    renderResults(dict,d.results),
    weaknessPanel(ctx,d.weaknesses),
    studentLearningPanel(ctx,d.student.id,`/app/teacher/students/${d.student.id}`),
    el('div',{class:'card flex flex-col gap-2 p-5','data-teacher-activation':''},el('h2',{class:'font-display text-lg text-ink-900'},a.mentorTitle),d.activation.lastSession?el('dl',{class:'grid grid-cols-2 gap-3 text-sm sm:grid-cols-4'},[[a.wordsActivated,d.activation.wordsActivated],[a.averageActivation,d.activation.averageActivation??'—'],[a.dayStreak,d.activation.dayStreak],[a.lastSession,`${d.activation.lastSession.accepted}/${d.activation.lastSession.attempts}`]].map(([l,v])=>el('div',{},el('dt',{class:'text-ink-500'},l),el('dd',{class:'font-semibold text-ink-900'},String(v))))):el('p',{class:'text-sm text-ink-500'},a.mentorEmpty)),
+   learningExtras(ctx,{studentId:d.student.id,writing:true}),
    submissionsSection);}});

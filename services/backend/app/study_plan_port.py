@@ -247,9 +247,13 @@ WITH participants AS (
 
 @router.get("/leaderboard")
 async def leaderboard(req: Request, period: str = "week", scope: str = "all", page: int = 1) -> JSONResponse:
-    user,error = await student(req)
-    if error is not None:
-        return error
+    user = await core.current_user(req, active=True)
+    if not user:
+        return failure("unauthenticated", 401)
+    if user["role"] not in ("student", "owner"):
+        return failure("forbidden", 403)
+    if user["role"] == "owner" and scope != "all":
+        return failure("invalid_filter", 400)
     if period not in PERIODS or scope not in ("all","class") or not 1 <= page <= 500:
         return failure("invalid_filter",400)
     now = datetime.now(timezone.utc)
