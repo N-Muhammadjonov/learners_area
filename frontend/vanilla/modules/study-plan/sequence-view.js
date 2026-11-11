@@ -1,4 +1,4 @@
-/** UI projections for the server-owned 30-day sequential plan.
+/** UI projections for the server-owned 7- or 30-day sequential plan.
  * The calendar never unlocks activities or invents completion in the browser.
  */
 import {h} from '../../js/native.js';
@@ -7,6 +7,7 @@ import {api} from '../../js/api-client.js';
 export const SEQUENCE_API = '/api/study-plan/monthly/sequence';
 export const ASSIGNMENTS_PATH = '/app/assignments#study-plan-30';
 const TOTAL_DAYS = 30;
+const DURATIONS = [7, TOTAL_DAYS];
 const DAILY_MINUTES = 120;
 const KINDS = ['grammar','reading','listening','writing','speaking','vocabulary'];
 const STATES = ['ready','locked','completed'];
@@ -44,11 +45,11 @@ export function validateSequence(value) {
     return value;
   }
   if (!['active','completed'].includes(value.state) ||
-      value.totalDays !== TOTAL_DAYS || !Number.isInteger(value.currentDay) ||
-      value.currentDay < 1 || value.currentDay > TOTAL_DAYS ||
+      !DURATIONS.includes(value.totalDays) || !Number.isInteger(value.currentDay) ||
+      value.currentDay < 1 || value.currentDay > value.totalDays ||
       !Number.isInteger(value.completedDays) || value.completedDays < 0 ||
-      value.completedDays > TOTAL_DAYS || !Array.isArray(value.days) ||
-      value.days.length !== TOTAL_DAYS) throw Error('invalid_plan');
+      value.completedDays > value.totalDays || !Array.isArray(value.days) ||
+      value.days.length !== value.totalDays) throw Error('invalid_plan');
   for (const [index, day] of value.days.entries()) {
     if (!day || day.day !== index + 1 || !DAY_STATES.includes(day.status) ||
         typeof day.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day.date) ||
@@ -76,6 +77,16 @@ function metric(label, value) {
   return h('div', {class:'sequence-metric'},
     h('strong', {}, value),
     h('span', {}, label));
+}
+
+function durationPicker(ctx, selected, onChoose, minimum = 1, disabled = false) {
+  return h('div', {class:'sequence-duration-picker', role:'group',
+    'aria-label':text(ctx,'Reja davomiyligi','Plan duration')},
+    DURATIONS.map(days=>h('button', {type:'button',
+      class:'btn-secondary sequence-duration-choice',
+      'data-plan-duration':days, 'aria-pressed':String(selected===days),
+      disabled:disabled || days<minimum, onClick:()=>onChoose(days)},
+    text(ctx,days+' kun',days+' days'))));
 }
 
 function errorNotice(ctx, onRetry, message) {
@@ -164,7 +175,7 @@ function calendar(ctx, data, state) {
   drawSelected();
   const selector = h('div',{class:'sequence-calendar-scroll'},
     h('div',{class:'sequence-calendar',role:'group',
-      'aria-label':text(ctx,'30 kunlik kalendar','30-day calendar')},
+      'aria-label':text(ctx,data.totalDays+' kunlik kalendar',data.totalDays+'-day calendar')},
       headers,blanks,buttons));
   return h('div',{class:'sequence-calendar-layout'},selector,host);
 }
@@ -174,17 +185,20 @@ function calendar(ctx, data, state) {
  * delayed or invalidated if the plan endpoint fails.
  */
 export function mountSequenceAssignments(ctx, root) {
-  if (ctx.session?.user?.role !== 'student') return;
+  if (!['student','owner'].includes(ctx.session?.user?.role)) return;
   stylesheet();
-  const state = {data:null,selectedDay:null,pending:false,confirming:false,error:null};
+  const state = {data:null,selectedDay:null,selectedDuration:TOTAL_DAYS,pending:false,confirming:false,error:null};
   const panel = h('section',{class:'sequence-section','data-study-plan-30':'',
-    id:'study-plan-30','aria-label':text(ctx,'30 kunlik o‘quv rejasi','30-day learning plan')});
+    id:'study-plan-30','aria-label':text(ctx,'O‘quv rejasi','Learning plan')});
   root.append(panel);
 
   function paint() {
     if (ctx.signal.aborted) return;
     const data=state.data;
-    const title=h('h2',{},text(ctx,'Sizning 30 kunlik rejangiz','Your 30-day plan'));
+    const selectedDays=data?.state==='active'||data?.state==='completed'
+      ? data.totalDays : state.selectedDuration;
+    const title=h('h2',{},text(ctx,
+      'Sizning '+selectedDays+' kunlik rejangiz','Your '+selectedDays+'-day plan'));
     const lead=h('p',{class:'sequence-subtitle'},
       text(ctx,'Kuniga taxminan 2 soat. Har kunning barcha vazifalari tugagach keyingi kun ochiladi.',
         'About 2 hours a day. The next day unlocks only after all current tasks are completed.'));
@@ -214,9 +228,10 @@ export function mountSequenceAssignments(ctx, root) {
     if (data.state==='available') {
       const launch=h('button',{type:'button',class:'btn-primary',
         disabled:state.pending,onClick:()=>void change('start')},
-        state.pending?ctx.dict.common.loading:text(ctx,'30 kunlik rejani yaratish','Create 30-day plan'));
+        state.pending?ctx.dict.common.loading:text(ctx,'Rejani yaratish','Create plan'));
       panel.replaceChildren(toolbar,h('div',{class:'sequence-empty'},
-        metric(text(ctx,'Kun','Days'),'30'),metric(text(ctx,'Kunlik vaqt','Daily study'),'120 min'),
+        durationPicker(ctx,state.selectedDuration,days=>{state.selectedDuration=days;paint();},1,state.pending),
+        metric(text(ctx,'Kun','Days'),state.selectedDuration),metric(text(ctx,'Kunlik vaqt','Daily study'),'120 min'),
         h('p',{},text(ctx,'Daraja: ','Level: ')+data.level),
         launch),...(state.error?[h('p',{role:'alert'},state.error)]:[]));
       return;
@@ -226,7 +241,7 @@ export function mountSequenceAssignments(ctx, root) {
         onClick:()=>void load()},
         text(ctx,'Yangilash','Refresh')),
       data.state==='active'?h('button',{type:'button',class:'btn-secondary',
-        disabled:state.pending,onClick:()=>{state.confirming=!state.confirming;paint();}},
+        disabled:state.pending,onClick:()=>{state.confirming=!state.confirming;state.selectedDuration=data.totalDays;paint();}},
         text(ctx,'Rejani qayta tuzish','Regenerate plan')):null);
     toolbar.append(buttons);
     const current=data.days[data.currentDay-1];
@@ -238,6 +253,8 @@ export function mountSequenceAssignments(ctx, root) {
     const confirm=state.confirming&&data.state==='active'?
       h('div',{class:'sequence-confirm',role:'group',
         'aria-label':text(ctx,'Rejani qayta tuzishni tasdiqlash','Confirm regeneration')},
+        durationPicker(ctx,state.selectedDuration,days=>{state.selectedDuration=days;paint();},
+          data.currentDay,state.pending),
         h('p',{},text(ctx,
           'Faqat kelajakdagi vazifalar almashtiriladi. Oldingi kunlar va joriy mashqlar saqlanadi.',
           'Only future tasks change. Completed days and the current day are preserved.')),
@@ -250,7 +267,7 @@ export function mountSequenceAssignments(ctx, root) {
     panel.replaceChildren(...[
       toolbar,summary,confirm,
       data.state==='completed'?h('p',{role:'status',class:'sequence-notice'},
-        text(ctx,'30 kunlik reja yakunlandi.','30-day plan completed.')):null,
+        text(ctx,data.totalDays+' kunlik reja yakunlandi.',data.totalDays+'-day plan completed.')):null,
       calendar(ctx,data,state),
       state.error?h('p',{role:'alert',class:'sequence-error'},state.error):null,
     ].filter(Boolean));
@@ -263,6 +280,7 @@ export function mountSequenceAssignments(ctx, root) {
       const next=validateSequence(await api.request(SEQUENCE_API,{signal:ctx.signal,fresh:true}));
       if (ctx.signal.aborted) return;
       state.data=next;state.selectedDay=next.currentDay??null;
+      if (next.state==='active' || next.state==='completed') state.selectedDuration=next.totalDays;
       state.confirming=false;
     } catch (error) {
       if (ctx.signal.aborted) return;
@@ -278,10 +296,12 @@ export function mountSequenceAssignments(ctx, root) {
     state.pending=true;state.error=null;paint();
     try {
       const options={method:'POST',signal:ctx.signal};
-      if (type==='regenerate') options.body={confirmed:true};
+      options.body=type==='regenerate'?
+        {confirmed:true,days:state.selectedDuration}:{days:state.selectedDuration};
       const next=validateSequence(await api.request(SEQUENCE_API+'/'+type,options));
       if (ctx.signal.aborted) return;
       state.data=next;state.selectedDay=next.currentDay??null;
+      if (next.state==='active' || next.state==='completed') state.selectedDuration=next.totalDays;
       state.confirming=false;
     } catch (error) {
       if (ctx.signal.aborted) return;
@@ -313,41 +333,43 @@ export function mountSequenceAssignments(ctx, root) {
 }
 
 export function mountSequenceDashboard(ctx, root) {
-  if (ctx.session?.user?.role !== 'student') return;
+  if (!['student','owner'].includes(ctx.session?.user?.role)) return;
   stylesheet();
   const panel=h('section',{class:'sequence-dashboard-card',
-    'data-dashboard-30-plan':'','aria-label':text(ctx,'30 kunlik plan','30-day plan')});
+    'data-dashboard-30-plan':'','aria-label':text(ctx,'O‘quv rejasi','Learning plan')});
   root.append(panel);
   let generation=0;
 
   function draw(data,error) {
     if (ctx.signal.aborted) return;
     if (error) {
-      panel.replaceChildren(h('h2',{},text(ctx,'30 kunlik reja','30-day plan')),
+      panel.replaceChildren(h('h2',{},text(ctx,'O‘quv rejasi','Learning plan')),
         errorNotice(ctx,()=>void load()));
       return;
     }
     if (!data) {
-      panel.replaceChildren(h('h2',{},text(ctx,'30 kunlik reja','30-day plan')),
+      panel.replaceChildren(h('h2',{},text(ctx,'O‘quv rejasi','Learning plan')),
         h('p',{role:'status',class:'sequence-subtitle'},ctx.dict.common.loading));
       return;
     }
-    const title=text(ctx,'30 kunlik reja','30-day plan');
+    const title=['active','completed'].includes(data.state)
+      ? text(ctx,data.totalDays+' kunlik reja',data.totalDays+'-day plan')
+      : text(ctx,'7 yoki 30 kunlik reja','7- or 30-day plan');
     const description=data.state==='level_required'?
       text(ctx,'Avval darajani belgilang','Set your level first'):
       data.state==='available'?
         text(ctx,'Reja yaratishga tayyor','Ready to create your plan'):
         data.state==='completed'?
-          text(ctx,'Barcha 30 kun bajarildi','All 30 days complete'):
+          text(ctx,'Barcha '+data.totalDays+' kun bajarildi','All '+data.totalDays+' days complete'):
           text(ctx,'Kun ','Day ')+data.currentDay+' / '+data.totalDays;
     const progress=Number.isInteger(data.completedDays)?
-      h('progress',{max:TOTAL_DAYS,value:data.completedDays,
+      h('progress',{max:data.totalDays,value:data.completedDays,
         'aria-label':text(ctx,'Yakunlangan kunlar','Completed days')}):null;
     panel.replaceChildren(...[
       h('div',{class:'sequence-dashboard-heading'},
         h('div',{},h('h2',{},title),h('p',{class:'sequence-subtitle'},description)),
         h('span',{class:'sequence-dashboard-number','aria-hidden':'true'},
-          data.state==='active'?String(data.currentDay):data.state==='completed'?'30':'—')),
+          data.state==='active'?String(data.currentDay):data.state==='completed'?String(data.totalDays):'—')),
       progress,
       h('a',{href:ASSIGNMENTS_PATH,class:'btn-secondary sequence-dashboard-link',
         'data-dashboard-plan-open':''},
