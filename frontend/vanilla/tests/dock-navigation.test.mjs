@@ -31,6 +31,13 @@ for(const role of ['student','teacher','admin','owner'])test(`${role}: Dock pres
  try{
   const dock=moduleDock(h.ctx);h.ctx.root.append(dock.node);
   const entries=h.qa('[data-dock-module]'),keys=entries.map(a=>a.dataset.dockModule);
+  const ranking=entries.find(a=>a.dataset.dockModule==='leaderboard');
+  const rankingArtwork=ranking.querySelector('svg[data-dock-reference][data-dock-artwork="leaderboard"]');
+  assert(rankingArtwork,'Leaderboard must use the existing Dock reference icon wrapper');
+  assert.equal(rankingArtwork.querySelector('image')?.getAttribute('href'),
+    '/images/dock/neon/leaderboard.webp');
+  assert.equal(rankingArtwork.getAttribute('viewBox'),'0 0 104 104');
+  assert.equal(ranking.querySelectorAll('.module-dock__icon').length,1);
   assert.deepEqual(keys.slice(0,13),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','leaderboard']);
   assert.equal(keys.includes('management'),role!=='student');
   assert.equal(keys.length,role==='student'?13:14);
