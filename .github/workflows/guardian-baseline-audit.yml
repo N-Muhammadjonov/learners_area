@@ -1,0 +1,28 @@
+name: Parent Connect baseline regression audit
+on:
+  push:
+    branches: ['audit/guardian-messaging-baseline-20261112']
+permissions:
+  contents: read
+jobs:
+  frontend-full:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --test frontend/vanilla/tests/*.test.mjs
+  backend-full:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - working-directory: services/backend
+        run: python -m pytest -q tests
