@@ -36,8 +36,7 @@ function leaderboard(ctx, content) {
   let period = 'week', scope = 'all', page = 1, panel = 'ranking', sequence = 0, latest = null;
   const cacheTtlMs = 30000;
   // Ranking periods and personal spendable coins are separate quantities.
-  // Owner accounts are not ranked as students, but their verified coins remain
-  // in the same ledger and must be visible to the account owner.
+  // All active learning roles participate in one verified coin ranking.
   const ownBalance = h('div', {class: 'coin-personal-balance', 'data-coin-personal-balance': '',
     role: 'status', 'aria-live': 'polite'});
   let walletSequence = 0;
@@ -51,9 +50,7 @@ function leaderboard(ctx, content) {
       ownBalance.replaceChildren(
         h('strong', {}, '🪙 ' + balance + ' ' + text(ctx, 'tanga', 'coins')),
         detail(text(ctx, 'Jami yig‘ilgan: ', 'Lifetime earned: ') + lifetime),
-        ctx.session?.user?.role === 'owner' ? detail(text(ctx,
-          'Owner hisobining tangalari talabalarning Top 20 reytingiga qo‘shilmaydi.',
-          'Owner coins are not included in the student Top 20 ranking.')) : null);
+        null);
     } catch {
       if (!ctx.signal.aborted && walletSequence === ticket)
         ownBalance.replaceChildren(detail(text(ctx,
@@ -162,12 +159,11 @@ function leaderboard(ctx, content) {
           h('p', {}, text(ctx, 'Bu davrda ishtirokchilar yo‘q.',
             'There are no participants in this period.'))),
       null);
-    const isOwner = ctx.session?.user?.role === 'owner';
     const featureModes = [
       ['ranking', 'Reyting', 'Ranking'],
-      ...(!isOwner ? [['earn', 'Tanga yig‘ish', 'Earn coins']] : []),
+      ['earn', 'Tanga yig‘ish', 'Earn coins'],
       ['gifts', 'Sovg‘alar', 'Gifts'],
-      ...(!isOwner ? [['purchases', 'Xaridlarim', 'My purchases']] : []),
+      ['purchases', 'Xaridlarim', 'My purchases'],
     ];
     const featureTabs = h('nav', {
       class: 'coin-market-tabs', 'aria-label': text(ctx, 'Tanga iqtisodiyoti', 'Coin economy'),
@@ -183,10 +179,10 @@ function leaderboard(ctx, content) {
     const isRanking = panel === 'ranking' || panel === 'help';
     const featureHost = h('div', {class: 'coin-market-panel', 'data-coin-feature-panel': panel});
     content.replaceChildren(h('section', {class: 'coin-ranking-board', 'data-study-leaderboard': ''},
-      h('h1', {class: 'coin-ranking-title'}, text(ctx, 'O‘quvchilar reytingi', 'Learner ranking')),
+      h('h1', {class: 'coin-ranking-title'}, text(ctx, 'Tanga reytingi', 'Coin ranking')),
       h('p', {class: 'coin-ranking-top-count', 'data-leaderboard-visible-count': rows.length},
         text(ctx, 'Top 20 · ', 'Top 20 · ') + rows.length +
-        text(ctx, ' ta faol o‘quvchi', ' active learners')),
+        text(ctx, ' ta ishtirokchi', ' participants')),
       ownBalance,
       featureTabs,
       isRanking ? tabs : null,
@@ -260,7 +256,7 @@ export function mount(ctx) {
     const content = h('div', {class: 'study-plan-content coin-ranking-page',
       'data-route-usable': 'study-plan-leaderboard'});
     ctx.root.append(content);
-    if (['student', 'owner'].includes(ctx.session?.user?.role)) leaderboard(ctx, content);
+    if (['student', 'teacher', 'admin', 'owner'].includes(ctx.session?.user?.role)) leaderboard(ctx, content);
     return;
   }
   const {content} = workspace(ctx, title, text(ctx,
