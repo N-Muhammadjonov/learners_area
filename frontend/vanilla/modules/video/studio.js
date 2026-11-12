@@ -1,3 +1,4 @@
+import {rewardBadge} from '../shared/coin-reward.js';
 import {el} from '../../js/dom.js';
 import {embedUrlFor,safeEmbedOrigin,formatClock} from './provider.js';
 import {createVideoVocabulary} from './vocabulary.js';
@@ -56,9 +57,8 @@ export function createVideoStudio(context,{mode,video}){
  blockedNote.hidden=true;
  const liveLabel=el('span',{class:'text-xs text-ink-500','data-video-live-transcript':'no'},t.liveTrackingOff);
  const stateLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-progress-state':''});
- const coinLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-coin-award':'',role:'status'},
-   context.locale==='uz' ? '+1 🟡 / 5 daqiqa' : '+1 🟡 / 5 min');
- const meta=el('div',{class:'flex flex-wrap items-center gap-2'},liveLabel,stateLabel,coinLabel);
+ const coinLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-coin-award':'',role:'status'});
+ const meta=el('div',{class:'flex flex-wrap items-center gap-2'},rewardBadge(context,lesson.mediaKind==='audio'?'podcast':'ted'),liveLabel,stateLabel,coinLabel);
  function updateCoinAward(result) {
   if(destroyed||signal.aborted||!result||typeof result!=='object')return;
   if(Number.isInteger(result.awarded)&&result.awarded>0)
