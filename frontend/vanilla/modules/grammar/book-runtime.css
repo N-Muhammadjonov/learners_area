@@ -49,3 +49,13 @@ input.t,textarea.t{background:#eef2ff;border:1px solid #c7d2fe;border-bottom:2px
 .grammar-book .aud-delete[hidden]{display:none!important}
 .grammar-book .aud-delete:hover{background:color-mix(in srgb,var(--red) 12%,var(--card))}
 .grammar-book .aud audio{max-width:100%}
+
+/* Group-level validation and targeted retries across all Grammar books. */
+.grammar-book .opt.picked:not(.ok):not(.no){background:color-mix(in srgb,var(--blue) 18%,var(--card));border-color:var(--blue);outline:2px solid color-mix(in srgb,var(--blue) 45%,transparent);outline-offset:1px}
+.grammar-book .ex-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.grammar-book .ex-actions .btn{margin-top:0;min-height:44px}
+.grammar-book .ex-actions .btn:disabled{cursor:default;opacity:.65}
+.grammar-book .ex-retry{border:1px solid var(--blue);background:var(--card);color:var(--ink);border-radius:14px}
+.grammar-book .ex-retry[hidden]{display:none!important}
+.grammar-book .ex-check-status{flex-basis:100%;margin:0;min-height:1.4em}
+.grammar-book .opt:focus-visible,.grammar-book .ex-actions .btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
