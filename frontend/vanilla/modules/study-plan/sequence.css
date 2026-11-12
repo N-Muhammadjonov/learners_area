@@ -92,3 +92,6 @@
 @media(max-width:920px){.la-dashboard-top-grid{grid-template-columns:minmax(0,1fr)}.la-dashboard-top-grid>.sequence-dashboard-card{min-height:0}}
 @media(max-width:650px){.sequence-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.la-dashboard-companion-link,.la-dashboard-companion{width:102px;height:102px}.sequence-task{grid-template-columns:1.3rem minmax(0,1fr)}.sequence-task-action,.sequence-task-status{grid-column:2;justify-self:start}}
 @media(prefers-reduced-motion:reduce){.sequence-day{transition:none}.la-dashboard-companion :is(.fluency-companion-body,.fluency-companion-eyes,.fluency-companion-gaze){animation:none!important}}
+
+.sequence-day-shifted{display:inline-block;font-size:.9em;color:rgb(var(--workspace-accent-strong));font-weight:700}
+.sequence-day[data-sequence-rescheduled="true"]{border-style:dashed}
