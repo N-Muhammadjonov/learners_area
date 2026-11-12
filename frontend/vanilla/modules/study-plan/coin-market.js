@@ -34,7 +34,7 @@ function streakCard(ctx, data, claim, claiming, message) {
       Array.from({length: 7}, (_, index) => h('div', {
         class: 'coin-streak-day' + ((claimed && index < stage) || (!claimed && index < stage) ? ' coin-streak-day--claimed' : ''),
         'data-streak-day': String(index + 1),
-      }, '+' + (index + 1))),
+      }, '+' + (index + 1)))),
     claimed ? h('p', {class: 'coin-market-ok'}, localized(ctx,
       'Bugun +' + data.todayCoins + ' tanga qo‘shildi.', 'Earned +' + data.todayCoins + ' today.')) :
       button(claiming ? localized(ctx, 'Tekshirilmoqda…', 'Claiming…') :
