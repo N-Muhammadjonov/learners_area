@@ -66,5 +66,5 @@ jobs:
       - run: node --check frontend/vanilla/modules/staff-final30/management-hub.js
       - run: node --check frontend/vanilla/modules/study-plan/motivation.js
       - run: node --check frontend/vanilla/js/workspace.js
-      - run: node --test frontend/vanilla/tests/leaderboard-podium.test.mjs
+      - run: node --test frontend/vanilla/tests/leaderboard-podium.test.mjs frontend/vanilla/tests/coin-market-ui.test.mjs
       - run: node scripts/bundle_browser.mjs
