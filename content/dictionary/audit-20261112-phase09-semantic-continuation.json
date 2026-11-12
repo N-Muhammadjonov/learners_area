@@ -9,17 +9,17 @@
     "source_lexemes": 3279
   },
   "editorial": {
-    "exact_lexeme_deltas": 15,
-    "exact_sense_deltas": 25,
+    "exact_lexeme_deltas": 18,
+    "exact_sense_deltas": 30,
     "source_verified_cefr_edits": 5,
     "corrected_english_definitions": 2,
     "corrected_uzbek_definitions": 2,
     "corrected_uzbek_translations": 2,
     "excluded_misattributed_senses_from_future_candidate": 4,
     "removed_incorrect_synonym_targets": 19,
-    "added_exact_synonym_edges": 5,
-    "added_exact_antonym_edges": 9,
-    "added_attested_collocations": 9
+    "added_exact_synonym_edges": 8,
+    "added_exact_antonym_edges": 10,
+    "added_attested_collocations": 15
   },
   "latest_verified_changes": [
     {
@@ -53,6 +53,28 @@
       "cefr_replacement": "C1",
       "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
       "scope": "SHOW HOW / provide exhibition to an audience"
+    },
+    {
+      "lemma": "audible",
+      "sense_id": "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
+      "change": "Exact antonym inaudible (adjective sense) and audible sigh collocation",
+      "source": "https://dictionary.cambridge.org/dictionary/english/audible"
+    },
+    {
+      "lemma": "appease",
+      "sense_ids": [
+        "b22c9951-6d11-4f84-868f-5b680f47a39d",
+        "e5d3562b-ea8c-48c7-a748-59a40b542a04",
+        "5ea0659a-f428-4ca0-a049-de1e410d6c41"
+      ],
+      "change": "Placate/pacify/propitiate synonyms tied to appropriate specific meanings; appease critics / appease a guilty conscience collocations",
+      "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lemma": "blurb",
+      "sense_id": "efa2e5e1-dca5-488a-85c3-03ea971ccf3f",
+      "change": "Back-cover blurb and publicity blurb",
+      "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
     }
   ],
   "r2_readback": {
@@ -61,12 +83,13 @@
       "66",
       "67",
       "68",
+      "69",
       "6b",
       "71"
     ],
-    "lexemes": 15,
-    "senses": 25,
-    "meaning_sha_matched": 25,
+    "lexemes": 18,
+    "senses": 30,
+    "meaning_sha_matched": 30,
     "cefr_originals_matched": 5,
     "english_definitions_matched": 2,
     "uzbek_definitions_matched": 2,
@@ -74,7 +97,8 @@
     "excluded_glosses_matched": 4,
     "mismatches": 0,
     "missing_lexemes": 0,
-    "method": "Independent, read-only R2 decompression and original SHA/value equality"
+    "method": "Independent, read-only R2 decompression and original SHA/value equality",
+    "retry_note": "A transient Cloudflare HTTP 500 on shard 66 was retried; the subsequent read-only verification completed with zero source failures."
   },
   "graph_integrity": {
     "incoming_exact_synonym_edges_to_excluded_senses_in_phase09_shards": 8,
