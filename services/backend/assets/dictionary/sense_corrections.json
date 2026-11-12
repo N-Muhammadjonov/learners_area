@@ -107,7 +107,12 @@
             "source": "https://www.collinsdictionary.com/dictionary/english/terzetto",
             "partOfSpeech": "n"
           }
-        ]
+        ],
+        "replace_definition_uz": {
+          "original": "Birga qo'shilgan bir va bir va birga teng natural son.",
+          "text": "Uch ovoz uchun yozilgan musiqiy asar yoki uch xonandadan iborat vokal ansambl.",
+          "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+        }
       }
     },
     "660bb696-af24-52eb-bb78-ed1c4a74a1e3": {
@@ -127,7 +132,12 @@
           "399fadbd-d220-5439-a826-adef9eca72f6",
           "caad3344-8040-5c71-872c-8a736ad3bf7b",
           "b98e3983-1e5d-5dfc-9754-fb58629c35ae"
-        ]
+        ],
+        "replace_definition_uz": {
+          "original": "Axloqiy yoki fuqarolik qonunini buzadigan faoliyat.",
+          "text": "Jinoyat tarkibining tashqi elementi: qonun bilan taqiqlangan harakat yoki bajarilishi shart bo‘lgan harakatni bajarmaslik.",
+          "source": "https://www.law.cornell.edu/wex/actus_reus"
+        }
       }
     },
     "65a09564-3f7a-57c4-87c3-b49a18a891c5": {
