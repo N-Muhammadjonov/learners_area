@@ -466,6 +466,103 @@
           {
             "text": "publicity blurb",
             "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+          },
+          {
+            "text": "publisher's blurb",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blurb"
+          }
+        ]
+      }
+    },
+    "6aeeff90-ed52-5d70-9903-467e1603bceb": {
+      "a1a40c1d-c4ec-40f3-a69e-860a7331523b": {
+        "meaning_sha": "bbab4c947c2b686afc522620a633931ab5ddb0e8d772ccf71ab2f2705e04142a",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
+          "sense_alignment": "car horn making a strident noise, Oxford verb sense 2 car-horn C1; separate from pager C2"
+        },
+        "add_synonyms": [
+          {
+            "text": "honk",
+            "lexemeId": "bbd86db0-81b3-574e-915a-dde2a60b3593",
+            "senseId": "60853a5a-2598-4eb9-aca4-6d9e6241dcdd",
+            "partOfSpeech": "v",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+          },
+          {
+            "text": "blare",
+            "lexemeId": "1de48230-a765-55c1-85af-0766f37cb607",
+            "senseId": "6fa0de95-5d4f-4368-9b91-c348292467fe",
+            "partOfSpeech": "v",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "beep a horn",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+          }
+        ]
+      }
+    },
+    "6b701590-d737-578a-8668-979739dcb79e": {
+      "e52d6121-d32a-4b26-9909-c1d53e593936": {
+        "meaning_sha": "5edf8fd89723e11d1f05fcf3607a72e4e4286848df853854d47252e286d3fd47",
+        "add_collocations": [
+          {
+            "text": "stone archway",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/archway"
+          }
+        ]
+      }
+    },
+    "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52": {
+      "033fda48-dc62-4b8e-91a7-30f327e8e66d": {
+        "meaning_sha": "82b019ecfc9267936202ba6b1c99f7f3554b0b98b3474276d4f39e334bc0fe7a",
+        "add_synonyms": [
+          {
+            "text": "tolerate",
+            "lexemeId": "6ec8d2de-ffb7-59a7-a9a6-6adc2ba4f682",
+            "senseId": "52426071-9e5b-4900-a168-e7921693f12a",
+            "partOfSpeech": "v",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/abide"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "can't abide someone or something",
+            "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+          }
+        ]
+      },
+      "28d49c76-2120-49d9-bbc9-c93f5dabdf6f": {
+        "meaning_sha": "acb5caec0f69a27bf2e5eaadfb05bd0db35c4e503adb7cf4e8355086739a5d46",
+        "add_synonyms": [
+          {
+            "text": "dwell",
+            "lexemeId": "eafdf10c-9c57-569a-88b6-751d3843c51a",
+            "senseId": "b193eeef-0dfb-4f08-9e91-31e9a420c668",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "abide in a place",
+            "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+          }
+        ]
+      }
+    },
+    "6994c256-0d3c-508a-a8e6-d3bcbbcdf4a1": {
+      "fdbfb4f7-12d0-437a-867b-47269f9bca26": {
+        "meaning_sha": "1bd8c6a7c30f0b72de39ca2699a302eecb73809a46f6075486980a57b5fd675c",
+        "add_collocations": [
+          {
+            "text": "give alms to the poor",
+            "source": "https://dictionary.cambridge.org/dictionary/english/alms"
           }
         ]
       }
