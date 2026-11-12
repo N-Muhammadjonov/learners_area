@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": {
+    "sort": "lexeme_id,sense_id",
+    "rank_start": 44165,
+    "rank_end": 49685,
+    "first": [
+      "6568847e-1b29-5ff7-b104-60393188df8e",
+      "837c0d04-016a-55ec-a735-0496b50b7752"
+    ],
+    "last": [
+      "726f905d-3146-56a5-9234-e7522f7651ce",
+      "2f62038b-2568-50b7-a17a-472bce0a39c7"
+    ]
+  },
+  "method": "Read-only Supabase ID boundary check; independently fetched and decompressed 14 R2 multi-member gzip shard objects from learners-area bucket, computed SHA-256 of compressed bytes, checked against Supabase descriptors, parsed JSON senses and validated structural fields. Does not certify translation/CEFR semantics or presentation coverage.",
+  "counts": {
+    "senses": 5521,
+    "lexemes": 3279,
+    "cefr": {
+      "A1": 57,
+      "A2": 183,
+      "B1": 703,
+      "B2": 954,
+      "C1": 751,
+      "C2": 2414,
+      "unset": 459,
+      "invalid": 0
+    },
+    "missing_translation": 0,
+    "missing_definition_en": 0,
+    "missing_definition_uz": 0,
+    "without_examples": 3073,
+    "duplicate_senses": 0,
+    "duplicate_translations": 0,
+    "invalid_local_relation_source": 0,
+    "invalid_local_collocation_source": 0,
+    "without_canonical_synonym": 4277,
+    "without_canonical_antonym": 5491,
+    "without_canonical_collocation": 5500
+  },
+  "shards": [
+    {
+      "shard": "65",
+      "senses": 270,
+      "lexemes": 150,
+      "missing_cefr": 23,
+      "c2": 116,
+      "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+      "compressed_bytes": 333669,
+      "entry_members": 256
+    },
+    {
+      "shard": "66",
+      "senses": 437,
+      "lexemes": 254,
+      "missing_cefr": 40,
+      "c2": 186,
+      "sha256": "142aa63238b35735b7c70941a1fb2e3a0c3609144d4e181235e304ecaf92c766",
+      "compressed_bytes": 333663,
+      "entry_members": 254
+    },
+    {
+      "shard": "67",
+      "senses": 380,
+      "lexemes": 248,
+      "missing_cefr": 27,
+      "c2": 163,
+      "sha256": "caf4cf81930b8adec65742492fb2ebd94ba214489e02bbc9cfebdcb71790c652",
+      "compressed_bytes": 308379,
+      "entry_members": 248
+    },
+    {
+      "shard": "68",
+      "senses": 437,
+      "lexemes": 267,
+      "missing_cefr": 27,
+      "c2": 198,
+      "sha256": "d974aad91dae93c1e58ab856fda074f66c5674ac905c54c5937ac0fcbcbfd08c",
+      "compressed_bytes": 351769,
+      "entry_members": 267
+    },
+    {
+      "shard": "69",
+      "senses": 415,
+      "lexemes": 247,
+      "missing_cefr": 35,
+      "c2": 167,
+      "sha256": "45bbfc6f0e1ad92525517af1acd715107fb1b02f00c67d813de90e1af00fc701",
+      "compressed_bytes": 322485,
+      "entry_members": 247
+    },
+    {
+      "shard": "6a",
+      "senses": 432,
+      "lexemes": 255,
+      "missing_cefr": 51,
+      "c2": 196,
+      "sha256": "4f8bed84ceaaf0bb978059fa225166103c58c9c495fe080f0fc3222b0edcd71e",
+      "compressed_bytes": 329910,
+      "entry_members": 255
+    },
+    {
+      "shard": "6b",
+      "senses": 434,
+      "lexemes": 231,
+      "missing_cefr": 28,
+      "c2": 188,
+      "sha256": "64ec812cf649bdeb3e8aad3eca922bda1fa3d1da6dfd89e1fd23372cdf69435a",
+      "compressed_bytes": 321937,
+      "entry_members": 231
+    },
+    {
+      "shard": "6c",
+      "senses": 424,
+      "lexemes": 244,
+      "missing_cefr": 26,
+      "c2": 191,
+      "sha256": "8016aef1ef0af0fdae1ee108f51da081f2ccdf5e630d7aeb627fab2a87619565",
+      "compressed_bytes": 328192,
+      "entry_members": 244
+    },
+    {
+      "shard": "6d",
+      "senses": 424,
+      "lexemes": 260,
+      "missing_cefr": 28,
+      "c2": 183,
+      "sha256": "c10cea52782fd76f358833597510024adb4fabb73d5eb9aafc96dbfcf1fd97e6",
+      "compressed_bytes": 335049,
+      "entry_members": 260
+    },
+    {
+      "shard": "6e",
+      "senses": 381,
+      "lexemes": 242,
+      "missing_cefr": 39,
+      "c2": 155,
+      "sha256": "3596864ab7b8952a9e2c4b5950033eeeda89709b79cc23faac7b77f79cf305c3",
+      "compressed_bytes": 311949,
+      "entry_members": 242
+    },
+    {
+      "shard": "6f",
+      "senses": 433,
+      "lexemes": 264,
+      "missing_cefr": 43,
+      "c2": 198,
+      "sha256": "03b35e68d6a3ba03c3bb36e7d0b269c5d513a42124cb8d6721853b31e9732820",
+      "compressed_bytes": 344174,
+      "entry_members": 264
+    },
+    {
+      "shard": "70",
+      "senses": 412,
+      "lexemes": 243,
+      "missing_cefr": 45,
+      "c2": 184,
+      "sha256": "bd58bf43fb53faf8f2a0913372545cebfe291d2ada39902d6678b67845761338",
+      "compressed_bytes": 320124,
+      "entry_members": 243
+    },
+    {
+      "shard": "71",
+      "senses": 439,
+      "lexemes": 259,
+      "missing_cefr": 33,
+      "c2": 200,
+      "sha256": "1ac5a76140d23d9fd59ba4fa62830510bffdb9e5f96ba580937b26fa0c6f8033",
+      "compressed_bytes": 339410,
+      "entry_members": 259
+    },
+    {
+      "shard": "72",
+      "senses": 203,
+      "lexemes": 115,
+      "missing_cefr": 14,
+      "c2": 89,
+      "sha256": "4080043e1c43df6b9ccc5c97182f028cf8b2c6ab10256fd94cca82ef4148fb8f",
+      "compressed_bytes": 346919,
+      "entry_members": 266
+    }
+  ],
+  "review": {
+    "priority_count": 2873,
+    "description": "459 CEFR missing and 2414 C2 labels to review individually; C2 is not automatically incorrect. Existing absence of synonyms, antonyms or collocations is not automatically a defect.",
+    "examples": [
+      {
+        "lemma": "itself",
+        "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+        "current_cefr": null,
+        "translation": "o‘zi; o‘zini (narsa yoki hayvon)",
+        "status": "source verification required"
+      },
+      {
+        "lemma": "flake",
+        "sense_id": "06640187-71be-4178-b157-73c1518bfc3f",
+        "current_cefr": "C2",
+        "translation": "qor parchasi",
+        "status": "suspect CEFR; independent source verification required"
+      },
+      {
+        "lemma": "overwrite",
+        "sense_id": "2fdc334b-2c55-5391-9c70-a90e12b94a91",
+        "current_cefr": "C2",
+        "translation": "ustidan yozmoq",
+        "status": "suspect CEFR; sense-specific evidence required"
+      }
+    ]
+  },
+  "signoff": {
+    "structural": "complete",
+    "presentation_meaningSha": "not audited",
+    "semantic": "not certified",
+    "immutable_replacement_release": "not built",
+    "production_mutation": false,
+    "main_merge": false
+  }
+}
