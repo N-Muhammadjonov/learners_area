@@ -80,12 +80,14 @@ def present(entry):
         synonyms = {}
         for item in [*links(legacy), *(row.get('synonyms', []) if row else []), *links(scoped)]:
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
-        collocations = row['collocations'] if row else [{'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)]
+        collocations = {}
+        for item in [*({'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)), *(row.get('collocations', []) if row else [])]:
+            collocations[(usage_norm(item['text']), item.get('lexemeId'), item.get('senseId'))] = item
         examples = [ex for ex in sense['examples'] if example_uses_entry(entry, ex['text_en'])]
         antonyms={}
         for item in [*reader['antonyms'].get(sid,[]), *links([r for r in entry['relations'] if r['relation_type']=='antonym' and (r.get('source_sense_id')==sid or (not r.get('source_sense_id') and len(senses)==1))])]:
             antonyms[(item.get('lexemeId'),item.get('senseId'),item['text'])]=item
-        result[sid] = {'antonyms':list(antonyms.values()),'synonyms': list(synonyms.values()), 'collocations': collocations,
+        result[sid] = {'antonyms':list(antonyms.values()),'synonyms': list(synonyms.values()), 'collocations': list(collocations.values()),
                        'examples': [*(row.get('addedExamples', []) if row else []), *examples]}
     phrases={}
     for item in [*({'text':c['text']} for c in entry['collocations']), *(c for view in result.values() for c in view['collocations'])]:
