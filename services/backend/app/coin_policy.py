@@ -164,7 +164,10 @@ def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
     buckets = [index for index in range(1, total_unique_wall_ms // BUCKET_MS + 1)
                if index not in paid]
     anchor.update(coverage=coverage, paid=paid, credited=credited)
-    short = False
+    short = (
+        short_media_ready(duration_ms, credited, position_ms)
+        and "short" not in paid
+    )
     # Returned state tracks pending milestones locally. Only the database ledger
     # makes a claim durable; the next request re-reads committed awards.
     paid.update(buckets)
