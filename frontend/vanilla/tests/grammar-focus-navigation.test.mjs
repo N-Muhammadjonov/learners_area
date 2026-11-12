@@ -8,11 +8,11 @@ import {
 
 const url=value=>new URL(value,'https://fixture.invalid');
 
-test('Grammar book focus route has a Back-enabled focus layout',()=>{
+test('Grammar book keeps Back navigation without focus mode',()=>{
   const route=routes.find(item=>item.pattern==='/app/grammar/practice');
   assert(route);
   assert.equal(route.protected,true);
-  assert.equal(route.layout,'focus');
+  assert.notEqual(route.layout,'focus');
   assert.deepEqual(returnPolicy(url('/app/grammar/practice?book=b2-65&from=plan')),
     {mode:'back',href:'/app/assignments#study-plan-30'});
   assert.deepEqual(returnPolicy(url('/app/grammar/practice?book=a0-1')),
