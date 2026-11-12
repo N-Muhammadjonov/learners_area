@@ -183,3 +183,31 @@ def test_phase09_semantic_delta_matches_verified_r2_source() -> None:
     assert dry["errors"] == []
     assert data["limits"]["production_published"] is False
     assert data["limits"]["main_merged"] is False
+
+
+def test_phase09_semantic_continuation_is_exact_source_verified() -> None:
+    receipt = load("audit-20261112-phase09-semantic-continuation.json")
+    assert receipt["phase"] == 9
+    assert receipt["source_release"] == RELEASE
+    assert receipt["scope"]["source_senses"] == 5521
+    assert receipt["scope"]["source_lexemes"] == 3279
+    deltas = receipt["editorial"]
+    assert deltas["exact_lexeme_deltas"] == 15
+    assert deltas["exact_sense_deltas"] == 25
+    assert deltas["source_verified_cefr_edits"] == 5
+    assert deltas["excluded_misattributed_senses_from_future_candidate"] == 4
+    assert deltas["added_exact_synonym_edges"] == 5
+    assert deltas["added_exact_antonym_edges"] == 9
+    assert deltas["added_attested_collocations"] == 9
+    source = receipt["r2_readback"]
+    assert source["senses"] == source["meaning_sha_matched"] == 25
+    assert source["cefr_originals_matched"] == 5
+    assert source["excluded_glosses_matched"] == 4
+    assert source["mismatches"] == 0
+    assert source["missing_lexemes"] == 0
+    assert receipt["graph_integrity"]["incoming_exact_synonym_edges_to_excluded_senses_in_phase09_shards"] == 8
+    assert receipt["graph_integrity"]["example_texts_untouched"] is True
+    assert receipt["publication"]["candidate_only"] is True
+    assert receipt["publication"]["live_release_mutated"] is False
+    assert receipt["publication"]["main_merged"] is False
+    assert receipt["publication"]["full_linguistic_signoff"] is False
