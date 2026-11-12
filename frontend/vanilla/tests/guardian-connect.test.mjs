@@ -71,3 +71,11 @@ test('guardians, leaderboard and progress filter optional children before replac
   assert(progress.includes('replaceOptionalChildren(page,'));
   assert(!guardians.includes('host.replaceChildren('));
 });
+
+
+test('guardian detail always shows an authorized full Telegram ID even with a username', () => {
+  const source = read('guardians.js');
+  assert(source.includes("l.telegramUsername ? '@' + l.telegramUsername : null"));
+  assert(source.includes("l.telegramUserId ? 'ID ' + l.telegramUserId : null"));
+  assert(!source.includes("l.telegramUsername ? '@' + l.telegramUsername : 'ID ' + l.telegramUserId"));
+});
