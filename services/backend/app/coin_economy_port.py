@@ -97,7 +97,7 @@ async def claim_daily(con, user_id) -> dict:
         if state["claimed"]:
             return {**state, "awarded": 0}
         day = state["nextCoins"]
-        today = state["date"]
+        today = date.fromisoformat(state["date"])
         awarded = await award_coin(
             con, user_id, f"daily:{today}",
             module="daily", activity_type="login",
