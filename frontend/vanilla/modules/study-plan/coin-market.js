@@ -343,7 +343,8 @@ async function ownerGiftsPanel(ctx, host) {
       fileInput,
       button(gift.active ? localized(ctx, 'Yashirish', 'Hide') : localized(ctx, 'Faollashtirish', 'Activate'),
         async event => {
-          event.currentTarget.disabled = true;
+          const control = event.currentTarget;
+          control.disabled = true;
           try {
             await api.request('/api/coins/admin/gifts/' + encodeURIComponent(gift.id), {
               method: 'PATCH', body: {active: !gift.active}, signal: ctx.signal,
@@ -351,7 +352,7 @@ async function ownerGiftsPanel(ctx, host) {
             if (!ctx.signal.aborted) await ownerGiftsPanel(ctx, host);
           } catch {
             notice.textContent = localized(ctx, 'Holatni o‘zgartirib bo‘lmadi.', 'Unable to update gift.');
-            event.currentTarget.disabled = false;
+            control.disabled = false;
           }
         }, {class: 'btn-secondary'}));
   });
@@ -375,7 +376,8 @@ async function ownerGiftsPanel(ctx, host) {
           if (!window.confirm(localized(ctx,
             status === 'rejected' ? 'Xaridni rad etib, tangalarni qaytarasizmi?' : 'Sovg‘a yetkazildimi?',
             status === 'rejected' ? 'Reject and refund the coins?' : 'Was the gift delivered?'))) return;
-          event.currentTarget.disabled = true;
+          const control = event.currentTarget;
+          control.disabled = true;
           try {
             await api.request('/api/coins/admin/purchases/' + encodeURIComponent(order.id), {
               method: 'PATCH', body: {status}, signal: ctx.signal,
@@ -384,7 +386,7 @@ async function ownerGiftsPanel(ctx, host) {
           } catch {
             notice.textContent = localized(ctx, 'Xarid holati yangilanmadi.',
               'Unable to update the order status.');
-            event.currentTarget.disabled = false;
+            control.disabled = false;
           }
         }, {class: status === 'fulfilled' ? 'btn-primary' : 'btn-secondary'}))) : null));
   host.replaceChildren(
