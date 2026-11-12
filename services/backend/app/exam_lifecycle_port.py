@@ -191,7 +191,23 @@ async def exam_finalize(req:Request,id:str):
             await expire_due(conn,id,user['id'])
             closed=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason=$3
                  WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL RETURNING id''',id,user['id'],body['reason'])
-            if closed and body['reason']=='submitted':await mark_submitted(conn,id)
+            if closed and body['reason']=='submitted':
+                await mark_submitted(conn,id)
+                # Only the server-finalized and substantively answered tasks earn
+                # once; not drafts, abandoned papers, timeouts or duplicate prompts.
+                from .coin_rewards import award_coin
+                entries = await conn.fetch(
+                    """SELECT s.id,s.prompt_id,s.word_count,s.status
+                       FROM writing_exam_paper_entries e
+                       JOIN writing_submissions s ON s.id=e.submission_id
+                       WHERE e.paper_id=$1 AND s.user_id=$2""", id, user['id'])
+                for entry in entries:
+                    if entry['status']=='submitted' and entry['word_count'] >= 20:
+                        await award_coin(
+                            conn,user['id'],f"writing:{entry['prompt_id']}",
+                            module='writing',activity_type='exam_submission',
+                            parent_content_id=str(entry['prompt_id']),
+                            exercise_id=str(entry['id']),evidence_id=str(entry['id']))
     # Reference's finalizeExamPaper calls getExamPaper() again, including timestamp expiry.
     from .writing_exam_read_port import writing_exam_read
     return await writing_exam_read(req,id)
