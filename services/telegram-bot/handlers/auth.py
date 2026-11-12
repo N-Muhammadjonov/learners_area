@@ -130,6 +130,28 @@ async def cmd_start(
         from handlers.guardian import start_invite
         await start_invite(message, state, args, lang)
         return
+    if re.fullmatch(r"r_[A-Za-z0-9_-]{24}", args):
+        # A share link never awards coins by itself. The server records an
+        # unclaimed invitation bound to this unique Telegram identity.
+        try:
+            referral_status, referral = await api_client.accept_coin_referral(telegram_id, args[2:])
+        except Exception:
+            referral_status, referral = 503, {}
+        if referral_status == 200 and isinstance(referral, dict) and referral.get("pending"):
+            await message.answer(
+                "Taklif qabul qilindi. Learners Area’da yangi talaba hisobi yarating va tasdiqlang."
+                if lang == "uz" else
+                "Invite recorded. Register and activate a new Learners Area student account."
+            )
+        else:
+            await message.answer(
+                "Taklif uchun mukofot berilmadi: havola eskirgan yoki Telegram hisobingiz oldin ro‘yxatdan o‘tgan."
+                if lang == "uz" else
+                "No referral reward is eligible: this invite is invalid or the Telegram account is already registered."
+            )
+        # Continue regular Telegram authentication; referral data must not
+        # be mistaken for a browser login intent or force repeated login.
+        args = ""
     try:
         status, data = await api_client.auth_context(telegram_id, args)
         if status == 200 and isinstance(data, dict) and data.get("ok") is True:

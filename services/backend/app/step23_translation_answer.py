@@ -68,9 +68,15 @@ async def submit(req:Request,id:str):
             vocab=average([float(v['vocabulary_band'] if v['evaluation_status']!='exact' else target) for v in checked if v['evaluation_status']=='exact' or v['vocabulary_band'] is not None])
             meaning=average([v['meaning_preserved'] for v in vals if v['meaning_preserved'] is not None])
             half=lambda n:math.floor(n*2+0.5)/2
-            await con.execute('''UPDATE writing_translation_attempts SET status='completed',completed_at=NOW(),
+            completed = await con.fetchval('''UPDATE writing_translation_attempts SET status='completed',completed_at=NOW(),
               elapsed_ms=(EXTRACT(EPOCH FROM(NOW()-started_at))*1000)::int,overall_estimate=$2,meaning_score=$3,grammar_band=$4,vocabulary_band=$5
-              WHERE id=$1 AND status='in_progress' ''',attempt['id'],half((grammar+vocab)/2) if grammar is not None and vocab is not None else None,round(meaning) if meaning is not None else None,half(grammar) if grammar is not None else None,half(vocab) if vocab is not None else None)
+              WHERE id=$1 AND status='in_progress' RETURNING id''',attempt['id'],half((grammar+vocab)/2) if grammar is not None and vocab is not None else None,round(meaning) if meaning is not None else None,half(grammar) if grammar is not None else None,half(vocab) if vocab is not None else None)
+            if completed:
+                from .coin_rewards import award_coin
+                await award_coin(con,user['id'],f"writing:translation:{attempt['set_id']}",
+                                 module='writing',activity_type='translation',
+                                 parent_content_id=str(attempt['set_id']),
+                                 exercise_id=str(attempt['id']),evidence_id=str(attempt['id']))
     v=await translation_view(req,id)
     import json as jsonlib
     data=jsonlib.loads(v.body)

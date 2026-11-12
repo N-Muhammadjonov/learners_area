@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {showCoinFeature} from './coin-market.js';
 import {privateScope} from '../../js/private-scope.js';
 import {asyncRegion, button, card, detail, formatDay, heading, labelSkill, loadStyles, request, text, workspace} from './view.js';
 
@@ -127,13 +128,38 @@ function leaderboard(ctx, content) {
           h('p', {}, text(ctx, 'Bu davrda ishtirokchilar yo‘q.',
             'There are no participants in this period.'))),
       null);
+    const isOwner = ctx.session?.user?.role === 'owner';
+    const featureModes = [
+      ['ranking', 'Reyting', 'Ranking'],
+      ...(!isOwner ? [['earn', 'Tanga yig‘ish', 'Earn coins']] : []),
+      ['gifts', 'Sovg‘alar', 'Gifts'],
+      ...(!isOwner ? [['purchases', 'Xaridlarim', 'My purchases']] : []),
+    ];
+    const featureTabs = h('nav', {
+      class: 'coin-market-tabs', 'aria-label': text(ctx, 'Tanga iqtisodiyoti', 'Coin economy'),
+    }, featureModes.map(([key, uz, en]) => button(text(ctx, uz, en), () => {
+      if (panel === key) return;
+      panel = key;
+      draw(latest || data);
+    }, {
+      class: 'coin-market-tab' + (panel === key || key === 'ranking' && panel === 'help' ?
+        ' coin-market-tab--active' : ''),
+      'data-coin-feature-tab': key, 'aria-current': String(panel === key),
+    })));
+    const isRanking = panel === 'ranking' || panel === 'help';
+    const featureHost = h('div', {class: 'coin-market-panel', 'data-coin-feature-panel': panel});
     content.replaceChildren(h('section', {class: 'coin-ranking-board', 'data-study-leaderboard': ''},
       h('h1', {class: 'coin-ranking-title'}, text(ctx, 'O‘quvchilar reytingi', 'Learner ranking')),
-      h('p', {class: 'coin-ranking-top-count', 'data-leaderboard-visible-count':rows.length},
-        text(ctx,'Top 20 · ','Top 20 · ')+rows.length+
-        text(ctx,' ta faol o‘quvchi',' active learners')),
-      tabs,
-      panel === 'help' ? coinPolicyPanel(ctx, data.policy) : rankingPanel));
+      h('p', {class: 'coin-ranking-top-count', 'data-leaderboard-visible-count': rows.length},
+        text(ctx, 'Top 20 · ', 'Top 20 · ') + rows.length +
+        text(ctx, ' ta faol o‘quvchi', ' active learners')),
+      featureTabs,
+      isRanking ? tabs : null,
+      isRanking ? (panel === 'help' ? coinPolicyPanel(ctx, data.policy) : rankingPanel) : featureHost));
+    if (!isRanking) {
+      const current = (data.standings || data.entries || []).find(item => item.mine);
+      void showCoinFeature(ctx, panel, featureHost, {stars: current?.stars ?? current?.points ?? 0});
+    }
   }
   void load();
 }

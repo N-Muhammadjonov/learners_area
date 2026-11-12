@@ -8,6 +8,7 @@ operator applies migration 0084.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from datetime import datetime, timezone
@@ -186,7 +187,7 @@ async def award_coin(con, user_id, event_key: str, *, module: str, activity_type
                      exercise_id: str | None = None, content_revision: str | None = None,
                      evidence_id: str | None = None, session_id=None) -> bool:
     """Insert one coin. A repeated event key pays nothing."""
-    if not event_key or coins < 1 or coins > 6:
+    if not event_key or coins < 1 or coins > 10:
         return False
     start = await policy_effective(con)
     if start is None:
@@ -211,6 +212,7 @@ async def award_coin(con, user_id, event_key: str, *, module: str, activity_type
                 exercise_id, content_revision, evidence_id, POLICY_VERSION)
             return bool(inserted)
     except Exception:
+        logging.getLogger(__name__).exception("coin ledger write failed for module %s", module)
         return False
 
 

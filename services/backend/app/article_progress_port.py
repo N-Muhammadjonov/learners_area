@@ -65,6 +65,13 @@ async def complete_article(req: Request, article_id: str) -> JSONResponse:
         return core.j({'error': 'not_found'}, 404, PRIVATE)
     body = await core.payload(req)
     answers = body.get('answers') if isinstance(body, dict) else None
+    from .coin_rewards import article_question_count, award_answers
+    expected = article_question_count(article_id)
+    if expected is None:
+        return core.j({'error': 'article_questions_unavailable'}, 503, PRIVATE)
+    if (not isinstance(answers, list) or len(answers) != expected or
+            any(not isinstance(item, str) or not item.strip() or len(item) > 500 for item in answers)):
+        return core.j({'error': 'incomplete'}, 400, PRIVATE)
     db = await core.pool()
     async with db.acquire() as con:
         await con.execute('''INSERT INTO activity_events(id,user_id,type,payload) VALUES($1,$2,$3,jsonb_build_object($4::text,true))

@@ -880,6 +880,8 @@ _install_article_progress()
 
 from .coin_port import install as _install_coin_economy
 _install_coin_economy()
+from .coin_economy_port import install as _install_coin_daily_gifts
+_install_coin_daily_gifts()
 
 from .live_classes_port import install as _install_live_classes
 _install_live_classes()

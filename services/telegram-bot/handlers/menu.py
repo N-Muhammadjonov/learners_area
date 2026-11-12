@@ -41,6 +41,9 @@ def main_keyboard(lang: str, bot_access: dict | None, role: str | None = None, a
     ]
     if role == "student" and account_status == "active":
         rows.append([InlineKeyboardButton(text=t(lang, "g_btn_connect"), callback_data="m:guardian")])
+        rows.append([InlineKeyboardButton(
+            text="👥 Do‘st taklif qilish" if lang == "uz" else "👥 Invite friends",
+            callback_data="m:invite")])
     rows += [
         [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support")],
         [InlineKeyboardButton(text=t(lang, "menu_language"), callback_data="m:lang")],
@@ -114,6 +117,32 @@ async def cb_owner(callback: CallbackQuery, db_user: dict | None = None, bot_acc
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
     await callback.message.edit_text(t(lang, "owner_title"), reply_markup=owner_keyboard(lang, bot_access))
+    await callback.answer()
+
+
+@menu_router.callback_query(F.data == "m:invite")
+async def cb_coin_invite(callback: CallbackQuery, db_user: dict | None = None,
+                         contact: dict | None = None, backend_error: bool = False):
+    lang = _lang(callback, db_user, contact)
+    if (backend_error or callback.from_user is None or not db_user
+            or db_user.get("role") != "student" or db_user.get("accountStatus") != "active"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    try:
+        status, result = await api_client.coin_referral_link(str(callback.from_user.id))
+    except Exception:
+        status, result = 503, {}
+    if status != 200 or not isinstance(result, dict) or not isinstance(result.get("url"), str):
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    message = (
+        "👥 Do‘stingizga quyidagi havolani yuboring. U yangi Learners Area hisobini yaratib, "
+        "tasdiqlangach sizga +10 tanga qo‘shiladi.\\n\\n"
+        if lang == "uz" else
+        "👥 Send this link to a new friend. You get +10 coins after their new "
+        "Learners Area student account becomes active.\\n\\n"
+    )
+    await callback.message.answer(message + result["url"])
     await callback.answer()
 
 

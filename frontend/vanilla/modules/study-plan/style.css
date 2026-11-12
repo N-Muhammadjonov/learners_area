@@ -92,3 +92,50 @@
 .coin-policy-example{padding:.75rem;background:rgb(var(--workspace-sunken));border-radius:12px}
 @media(max-width:760px){.coin-ranking-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.coin-ranking-tab:last-child{grid-column:1/-1}.coin-podium{gap:.3rem}.coin-podium article{min-height:14rem;padding-inline:.2rem}.coin-podium [data-place="1"]{min-height:16.5rem}.coin-podium-name{font-size:.84rem}.coin-podium-stats{font-size:.7rem}.coin-podium-stats strong{font-size:1.05rem}.coin-plinth{height:4.8rem}.coin-podium [data-place="2"] .coin-plinth{height:3.7rem}.coin-podium [data-place="3"] .coin-plinth{height:2.9rem}}
 @media(max-width:410px){.coin-ranking-board{padding:.7rem}.coin-ranking-tabs{gap:.2rem;padding:.25rem}.coin-ranking-tab{font-size:.75rem;min-height:43px}.coin-avatar{width:3rem;height:3rem;font-size:1rem}.coin-podium-name{font-size:.75rem}.coin-policy-rule{grid-template-columns:1fr;gap:.25rem}}
+
+
+/* Coin Economy lives inside Leaderboard. Existing ranking layout is untouched. */
+.coin-market-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.3rem;margin:1.15rem 0 1.35rem;padding:.35rem;border-radius:14px;background:rgb(var(--workspace-sunken))}
+.coin-market-tab{border:1px solid transparent;border-radius:10px;padding:.8rem .35rem;min-height:43px;color:rgb(var(--workspace-muted));font:inherit;font-weight:650;background:transparent;cursor:pointer}
+.coin-market-tab--active{color:rgb(var(--workspace-ink));background:rgb(var(--workspace-raised));border-color:rgb(var(--workspace-line));box-shadow:0 2px 9px rgb(0 0 0 / .08)}
+.coin-market-tab:focus-visible,.coin-market-panel button:focus-visible,.coin-market-panel a:focus-visible{outline:2px solid rgb(var(--workspace-accent-strong));outline-offset:2px}
+.coin-market-panel{display:flex;flex-direction:column;gap:1.1rem;min-width:0}
+.coin-market-balances{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid rgb(var(--workspace-line));border-radius:15px;overflow:hidden;font-variant-numeric:tabular-nums}
+.coin-market-balance{padding:1rem;display:grid;gap:.35rem}
+.coin-market-balance+.coin-market-balance{border-left:1px solid rgb(var(--workspace-line))}
+.coin-market-balance>span{font-size:1.15rem;font-weight:750;color:rgb(var(--workspace-ink))}
+.coin-market-balance p{margin:0}
+.coin-market-summary,.coin-market-invite{padding:1.3rem;border-radius:16px;border:1px solid rgb(var(--workspace-line));background:rgb(var(--workspace-raised));display:grid;gap:1rem}
+.coin-market-summary>h2{font-size:1.3rem;font-weight:750}
+.coin-market-summary>p{margin-top:-.6rem}
+.coin-market-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+.coin-market-action{display:flex;flex-direction:column;gap:.35rem;min-width:0;min-height:11rem;padding:1rem;border:1px solid rgb(var(--workspace-line));border-radius:15px;background:rgb(var(--workspace-sunken))}
+.coin-market-action>span{font-size:1.7rem;margin-bottom:.35rem}
+.coin-market-action>strong{font-size:1.25rem;color:rgb(var(--workspace-ink))}
+.coin-market-action>b{color:rgb(var(--workspace-ink))}
+.coin-market-action--friend{border-color:rgb(var(--workspace-accent-strong))}
+.coin-market-invite{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:1rem}
+.coin-market-invite-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;max-width:22rem}
+.coin-market-invite-actions a,.coin-market-invite-actions button{white-space:normal}
+.coin-market-invite-actions p{overflow-wrap:anywhere;grid-column:1/-1}
+.coin-streak-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.35rem;font-weight:800;text-align:center}
+.coin-streak-day{min-width:0;padding:.65rem .2rem;border-radius:.5rem;background:rgb(var(--workspace-sunken));color:rgb(var(--workspace-muted));font-variant-numeric:tabular-nums}
+.coin-streak-day--claimed{color:#65e0a0;background:#143c2d}
+.coin-market-ok{color:rgb(var(--workspace-accent-strong))}
+.coin-market-notice,.coin-market-error{font-size:.88rem;color:rgb(var(--workspace-muted));overflow-wrap:anywhere}
+.coin-market-error{color:#e36b6b}
+.coin-gift-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));gap:.9rem}
+.coin-gift-card{display:flex;flex-direction:column;gap:.6rem;border:1px solid rgb(var(--workspace-line));border-radius:14px;background:rgb(var(--workspace-raised));padding:1rem;min-width:0}
+.coin-gift-card strong{overflow-wrap:anywhere}
+.coin-gift-card>button{margin-top:auto}
+.coin-gift-symbol{font-size:2.1rem}
+.coin-gift-price{font-size:1.12rem;font-weight:800;color:rgb(var(--workspace-ink))}
+.coin-market-purchase-list{display:grid;gap:.6rem}
+.coin-market-purchase{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.65rem;border:1px solid rgb(var(--workspace-line));padding:.85rem 1rem;border-radius:12px}
+.coin-market-purchase>*{min-width:0;overflow-wrap:anywhere}
+.coin-gift-admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;border:1px solid rgb(var(--workspace-line));border-radius:14px;padding:1rem}
+.coin-gift-admin-form label{display:grid;gap:.3rem;font-size:.85rem;min-width:0}
+.coin-gift-admin-form input,.coin-gift-admin-form select{display:block;width:100%;min-height:42px;padding:.5rem;border:1px solid rgb(var(--workspace-line));border-radius:9px;background:rgb(var(--workspace-sunken));color:rgb(var(--workspace-ink))}
+.coin-gift-admin-form button{align-self:end}
+@media(max-width:780px){.coin-market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.coin-market-action--friend{grid-column:1/-1}.coin-market-invite{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:540px){.coin-market-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.coin-market-balances{grid-template-columns:1fr}.coin-market-balance+.coin-market-balance{border-left:0;border-top:1px solid rgb(var(--workspace-line))}.coin-market-grid{grid-template-columns:1fr}.coin-market-action--friend{grid-column:auto}.coin-gift-admin-form{grid-template-columns:1fr}.coin-streak-days{gap:.15rem}.coin-streak-day{font-size:.85rem;padding:.65rem .05rem}}

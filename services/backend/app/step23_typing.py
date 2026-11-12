@@ -287,6 +287,10 @@ async def finish_run(user_id,b,db):
                     run_id=await con.fetchval('''INSERT INTO typing_runs(user_id,target_chars,typed_chars,duration_ms,wpm,accuracy) VALUES($1,$2,$3,$4,$5,$6) RETURNING id''',user_id,m['targetChars'],m['typedChars'],m['durationMs'],format(m['wpm'],'.1f'),format(m['accuracy'],'.1f'))
                 outcome={**m,'runId':str(run_id),'presetSeconds':preset if preset else None,'title':text['title']}
                 await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'TYPING_RUN_COMPLETED',$2::jsonb)''',user_id,json.dumps({**outcome,'runTokenId':p['jti'],'typingTextId':text['id'],'startedAt':p['st'],'pausedMs':paused_ms,'finishedAt':int(time.time()*1000)}))
+                from .coin_rewards import award_coin
+                await award_coin(con,user_id,f"writing:typing:{text['id']}",module='writing',
+                                 activity_type='typing',parent_content_id=str(text['id']),
+                                 exercise_id=str(text['id']),evidence_id=str(run_id))
                 return outcome,None
     except Exception:return None,'conflict'
 

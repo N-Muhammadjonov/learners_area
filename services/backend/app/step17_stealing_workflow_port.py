@@ -162,6 +162,12 @@ async def advance_session(req:Request,id:str):
             query='UPDATE writing_stealing_sessions SET '+', '.join(sets)+',updated_at=now() WHERE id=$1 AND step=$2 RETURNING *'
             saved=await con.fetchrow(query,*vals)
             if not saved:return core.j({'error':{'code':'wrong_step','message':'Step not completed.'}},409)
+            if action=='rewrite' and saved['completed_at']:
+                from .coin_rewards import award_coin
+                await award_coin(con,u['id'],f"writing:stealing:{saved['model_text_id']}",module='writing',
+                                 activity_type='language_stealing',
+                                 parent_content_id=str(saved['model_text_id']),
+                                 exercise_id=str(saved['model_text_id']),evidence_id=str(saved['id']))
             result={'ok':True,'view':await session_view(con,saved,datetime.now(timezone.utc))}
             if recalled is not None:result['recalled']=recalled
             return core.j(result)

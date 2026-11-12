@@ -63,6 +63,14 @@ async def persist_submit(con,u,attempt_id,questions,answers):
     await con.execute("UPDATE listening_attempts SET status='completed',score=$2,total_questions=$3,submitted_at=NOW() WHERE id=$1",attempt['id'],score,len(questions))
     await con.execute('''INSERT INTO activity_events(user_id,type,payload)
       VALUES($1,'LISTENING_ATTEMPT_COMPLETED',$2::jsonb)''',u['id'],json.dumps({'attemptId':str(attempt['id']),'score':score,'totalQuestions':len(questions)}))
+    # Authored checkpoints and canonical submit share one idempotent exam event.
+    if questions and all(answers.get(str(q['id']), '').strip() for q in questions):
+        from .coin_rewards import award_coin
+        source = await con.fetchval('SELECT source_id FROM listening_packages WHERE test_id=$1',attempt['test_id'])
+        identity = source or str(attempt['test_id'])
+        await award_coin(con,u['id'],f"listening:{identity}:exam",module='listening',
+                         activity_type='exam',parent_content_id=str(attempt['test_id']),
+                         exercise_id='exam',evidence_id=str(attempt['id']))
 
 async def save(con,u,test_id,values,pkg):
     source=pkg['source_id'];key=state_key(source)

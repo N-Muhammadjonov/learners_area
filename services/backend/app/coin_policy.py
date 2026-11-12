@@ -164,7 +164,10 @@ def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
     buckets = [index for index in range(1, total_unique_wall_ms // BUCKET_MS + 1)
                if index not in paid]
     anchor.update(coverage=coverage, paid=paid, credited=credited)
-    short = False
+    short = (
+        short_media_ready(duration_ms, credited, position_ms)
+        and "short" not in paid
+    )
     # Returned state tracks pending milestones locally. Only the database ledger
     # makes a claim durable; the next request re-reads committed awards.
     paid.update(buckets)
@@ -263,6 +266,12 @@ def public_policy() -> dict:
          "en": "Speaking coins remain unavailable until the server can independently verify active speech time."},
         {"id": "vocabulary", "coins": "1 / 5", "uz": "Har 5 ta yangi o‘zlashtirilgan so‘z — 1 tanga.",
          "en": "Every 5 newly mastered words — 1 coin."},
+        {"id": "daily", "coins": "1–7", "uz": "Saytga har kuni kirganda 7 kunlik davrda +1 dan +7 gacha tanga. 7-kundan so‘ng davr qaytadan boshlanadi; kun qoldirilsa seriya uziladi.",
+         "en": "A daily login earns +1 to +7 coins through a repeating seven-day cycle. Missing a day resets the streak."},
+        {"id": "referral", "coins": "10", "uz": "Telegram bot havolasi bilan yangi do‘st taklif qiling. U yangi faol talaba hisobi bilan tasdiqlangach +10 tanga.",
+         "en": "Invite a new friend through the Telegram bot. Earn +10 once their new student account is approved and active."},
+        {"id": "gifts", "coins": "spend", "uz": "Tangalarga reyting ichidagi sovg‘alar do‘konidan virtual mukofotlar oling.",
+         "en": "Spend coins on virtual gifts in the leaderboard marketplace."},
         {"id": "assignments", "coins": "per unit",
          "uz": "Mukofot har bir tasdiqlangan mustaqil mashq bo‘yicha. Vazifa yana bonus bermaydi.",
          "en": "Each verified independent exercise counts once. Finishing the assignment does not add another coin."},
@@ -277,6 +286,10 @@ def public_policy() -> dict:
          "en": "At most 6 coins per media item per day, and 20 time-based media coins per day."},
         {"uz": "Speaking: bir sessiyada ko‘pi bilan 6, kuniga 12 tanga.",
          "en": "Speaking: at most 6 coins per session and 12 per day."},
+        {"uz": "Bir foydalanuvchi bir do‘st uchun faqat bir marta +10 tanga oladi; o‘zini taklif qilish yoki qayta ulanish mukofot bermaydi.",
+         "en": "Each verified new friend pays once. Self-referrals and relinking never earn coins."},
+        {"uz": "Sovg‘alar mavjud tanga balansidan oshmaydi va sotib olingan sovg‘a ikkinchi marta sotilmaydi.",
+         "en": "Gifts never exceed the available coin balance and cannot be purchased twice."},
         {"uz": "Speak or Die hozir tanga bermaydi: o‘yin ovoz va natijani saqlamaslikni va’da qiladi.",
          "en": "Speak or Die does not award coins yet: the game promises not to store audio or results."},
         {"uz": "Grammar ovozli mashqlari server tasdig‘isiz tanga bermaydi.",
