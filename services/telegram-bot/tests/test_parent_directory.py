@@ -108,7 +108,8 @@ async def test_parent_card_links_only_authorized_backend_students():
         await parent_card(event, bot_access=OWNER_ACCESS)
     detail.assert_awaited_once_with("123456", PROFILE_ID)
     markup = event.message.edit_text.await_args.kwargs["reply_markup"]
-    assert markup.inline_keyboard[0][0].callback_data == "usr:" + STUDENT_ID
+    assert markup.inline_keyboard[0][0].callback_data == "dmt:12345"
+    assert markup.inline_keyboard[1][0].callback_data == "usr:" + STUDENT_ID
     assert markup.inline_keyboard[-1][0].callback_data == "o:parents"
 
 
