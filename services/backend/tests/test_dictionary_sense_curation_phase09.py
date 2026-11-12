@@ -652,3 +652,73 @@ def test_chatty_and_bribe_cefr_edits_preserve_unrelated_senses() -> None:
         "take a bribe",
     }
     assert bribe["collocations"] == []
+
+
+def test_baguette_caregiver_and_annoyance_are_sense_scoped() -> None:
+    baguette = entry(
+        "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3",
+        "baguette", "n",
+        [("45af92dc-c0c8-4151-878a-18186573effe",
+          "narrow French stick loaf", "baget", "C2")],
+    )
+    caregiver = entry(
+        "707450c8-bf09-55c0-8dd4-0c4935498169",
+        "caregiver", "n",
+        [
+            ("0471da0b-e1e8-4316-b4ef-3134542ac6b4",
+             "a person who helps in identifying or preventing or treating illness or disability",
+             "tibbiy parvarishchi", "C2"),
+            ("b28678ca-7aad-4192-b56e-04f16a3715a6",
+             "a person who is responsible for attending to the needs of a child or dependent adult",
+             "parvarishlovchi", "C2"),
+            ("860fbff3-ddfb-4cc0-be73-7fb3f776e7f2",
+             "a person who regularly looks after a child or dependent person",
+             "parvarish qiluvchi shaxs", None),
+        ],
+    )
+    annoyance = entry(
+        "6b82d1f2-3022-55b2-babc-654db68ced9a",
+        "annoyance", "n",
+        [
+            ("2d183b9e-17b4-4309-ac28-f5522b6e0824",
+             "the psychological state of being irritated or annoyed",
+             "jahllanish; bezovtalik", "C1"),
+            ("5b0ac525-7a59-499c-8c7f-37f9d4ccbe77",
+             "an unpleasant person who is annoying or exasperating",
+             "bezovta qiluvchi odam", "C2"),
+            ("7684f98e-2417-4cdf-9a07-368ae9952f22",
+             "something or someone that causes trouble; a source of unhappiness",
+             "boshog'riq", "C2"),
+            ("a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+             "anger produced by some annoying irritation",
+             "bezovtalikdan kelib chiqqan jahl", "C2"),
+            ("bd4f8395-ee91-4f99-9738-47e57e3ff13b",
+             "the act of troubling or annoying someone",
+             "bezovta qilish", "C2"),
+        ],
+    )
+    originals = [copy.deepcopy(e) for e in (baguette, caregiver, annoyance)]
+    bread, carer, irritation = [
+        curate_candidate_entry(e) for e in (baguette, caregiver, annoyance)
+    ]
+    assert (baguette, caregiver, annoyance) == tuple(originals)
+    assert bread["senses"][0]["cefr"] == "B2"
+    assert bread["collocations"] == [{
+        "text": "fresh baguette",
+        "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+    }]
+    assert [s.get("cefr") for s in carer["senses"]] == ["C2", "C1", None]
+    assert {x["text"] for x in carer["collocations"]} == {
+        "primary caregiver", "family caregiver"
+    }
+    assert [s["cefr"] for s in irritation["senses"]] == [
+        "C1", "C2", "C1", "C1", "C2"
+    ]
+    assert irritation["senses"][2]["translations"][0]["text"] == (
+        "bezovta qiladigan odam yoki narsa; boshog‘riq"
+    )
+    assert len(irritation["relations"]) == 2
+    assert {r["source_sense_id"] for r in irritation["relations"]} == {
+        "7684f98e-2417-4cdf-9a07-368ae9952f22",
+        "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+    }
