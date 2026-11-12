@@ -50,8 +50,7 @@ function leaderboard(ctx, content) {
       const lifetime = Math.max(0, Number(state.earned) || 0);
       ownBalance.replaceChildren(
         h('strong', {}, '🪙 ' + balance + ' ' + text(ctx, 'tanga', 'coins')),
-        detail(text(ctx, 'Jami yig‘ilgan: ', 'Lifetime earned: ') + lifetime),
-        null);
+        detail(text(ctx, 'Jami yig‘ilgan: ', 'Lifetime earned: ') + lifetime));
     } catch {
       if (!ctx.signal.aborted && walletSequence === ticket)
         ownBalance.replaceChildren(detail(text(ctx,
@@ -165,6 +164,7 @@ function leaderboard(ctx, content) {
       ['earn', 'Tanga yig‘ish', 'Earn coins'],
       ['gifts', 'Sovg‘alar', 'Gifts'],
       ['purchases', 'Xaridlarim', 'My purchases'],
+      ...(ctx.session?.user?.role === 'owner' ? [['manage', 'Boshqaruv', 'Manage']] : []),
     ];
     const featureTabs = h('nav', {
       class: 'coin-market-tabs', 'aria-label': text(ctx, 'Tanga iqtisodiyoti', 'Coin economy'),
