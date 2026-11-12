@@ -321,6 +321,36 @@ async def test_nonowner_cannot_resolve_or_view_other_orders(setup_db, monkeypatc
                                    json={"status": "rejected"})).status_code == 403
 
 
+
+@pytest.mark.asyncio
+async def test_owner_receipt_has_buyer_telegram_link_but_other_roles_have_no_access(setup_db, monkeypatch):
+    con, _schema, buyer = setup_db
+    owner_id = uuid4()
+    await con.execute("INSERT INTO users(id,role,name) VALUES($1,'owner','Owner')", owner_id)
+    await con.execute(
+        "INSERT INTO telegram_contacts(telegram_user_id,linked_user_id,username) "
+        "VALUES('123456789',$1,'buyer_username')", buyer)
+    await rewards.award_coin(con, buyer, "earning:contact", module="reading",
+                             activity_type="exercise", coins=10)
+    gift_id = uuid4()
+    await con.execute(
+        """INSERT INTO coin_gifts(id,item_key,title_uz,title_en,category,cost_coins)
+           VALUES($1,'contact-gift','Sovg‘a','Gift','badge',5)""", gift_id)
+    client, identity = await make_client(monkeypatch, con,
+        {"id": buyer, "role": "student", "account_status": "active"})
+    async with client:
+        purchase = await client.post(f"/api/coins/gifts/{gift_id}/purchase",
+                                     json={"requestId": str(uuid4())})
+        assert purchase.status_code == 200, purchase.text
+        assert (await client.get("/api/coins/admin/purchases")).status_code == 403
+        own = await client.get("/api/coins/purchases")
+        assert "telegramUrl" not in own.text
+        identity["current"] = {"id": owner_id, "role": "owner", "account_status": "active"}
+        receipts = await client.get("/api/coins/admin/purchases")
+        assert receipts.status_code == 200, receipts.text
+        assert receipts.json()["purchases"][0]["telegramUrl"] == "https://t.me/buyer_username"
+
+
 def test_gift_validation_refuses_fake_prices_and_unsafe_categories():
     valid = {
         "key": "learning-badge",
