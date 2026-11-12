@@ -183,16 +183,7 @@ def _user_actions(user_id: str, bot_access: dict | None, lang: str,
     rows = []
     if allows(bot_access, "DIRECT_MESSAGE"):
         rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dm:{user_id}")])
-    if allows(bot_access, "ADMISSIONS"):
-        rows.append([
-            InlineKeyboardButton(text=t(lang, "approve"), callback_data=f"ust:approve:{user_id}"),
-            InlineKeyboardButton(text=t(lang, "reject"), callback_data=f"ust:reject:{user_id}"),
-        ])
     if allows(bot_access, "MANAGE_USERS"):
-        rows.append([
-            InlineKeyboardButton(text=t(lang, "suspend"), callback_data=f"ust:suspend:{user_id}"),
-            InlineKeyboardButton(text=t(lang, "unsuspend"), callback_data=f"ust:unsuspend:{user_id}"),
-        ])
         rows.append([
             InlineKeyboardButton(text=t(lang, "unlink"), callback_data=f"ust:unlink:{user_id}"),
             InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"ust:remove:{user_id}"),
@@ -232,7 +223,7 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
             text += f"\n📱 @{esc(username)}" if username else "\n📱 —"
             text += f"\n📞 {esc(phone.get('phoneNumber') or '—')}"
     await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(
-        user_id, bot_access, lang, show_parents=user.get("role") == "student")))
+        user_id, bot_access, lang, show_parents=user.get("role") == "student" and bool(user.get("hasLinkedParent")))))
     await callback.answer()
 
 
@@ -312,6 +303,9 @@ async def telegram_contact_card(
             rows.append([InlineKeyboardButton(text=t(lang, "linked_user"), callback_data=f"usr:{linked_user['id']}")])
     else:
         lines.append(f"🌐 {t(lang, 'status_none')}")
+        lines.append("👨‍👩‍👧 Hali ota-ona ulanmagan" if lang == "uz" else "👨‍👩‍👧 No parent connected yet")
+        if allows(bot_access, "DIRECT_MESSAGE"):
+            rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dmt:{telegram_id}")])
         if allows(bot_access, "MANAGE_USERS"):
             rows.append([InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"tgr:{telegram_id}")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
