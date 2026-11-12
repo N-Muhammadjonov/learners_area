@@ -73,7 +73,7 @@ def test_replacement_of_mistranslated_specialist_terms_is_exact_and_immutable() 
     assert updated["senses"][0]["definition_en"] == (
         "a musical composition for three voices, or a vocal trio"
     )
-    assert updated["senses"][0]["translations"][0]["text"].startswith("tersetto")
+    assert updated["senses"][0]["translations"][0]["text"].startswith("terzetto")
     assert "Uch ovoz" in updated["senses"][0]["definition_uz"]
     assert updated["senses"][0].get("cefr") is None
     assert [(r["display_lemma"], r["target_sense_id"]) for r in updated["relations"]] == [
