@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import copy
+import json
+from pathlib import Path
 from uuid import UUID
 
 import pytest
@@ -268,10 +270,10 @@ def test_every_correction_links_to_uuid_and_has_exact_meaning_hash() -> None:
                     UUID(relation["lexemeId"])
                     UUID(relation["senseId"])
                     assert relation["partOfSpeech"] in {"n", "v", "a", "r"}
-                    assert relation["source"].startswith("https://")
+                    assert "source" not in relation
             for relation in correction.get("add_collocations", []):
                 assert relation["text"].strip()
-                assert relation["source"].startswith("https://")
+                assert "source" not in relation
 
 
 def test_phase09_deduplicates_canonical_relation_tuples_without_touching_examples() -> None:
@@ -848,3 +850,83 @@ def test_brim_container_relations_do_not_apply_to_hat_and_burrow_keeps_grammar()
     assert {item["text"] for item in burrow_revised["collocations"]} == {
         "burrow into the soil", "burrow under the fence"
     }
+
+
+def test_dictionary_content_excludes_provenance_and_publisher_branding() -> None:
+    """Provenance is audit-only, not part of serialized dictionary entries."""
+    data = load_corrections()
+    content = json.dumps(data, ensure_ascii=False).casefold()
+    for identifier in (
+        "oxford",
+        "cambridge",
+        "collins",
+        "cornell",
+        "https://",
+        "http://",
+        "sense_alignment",
+        '"source":',
+    ):
+        assert identifier not in content
+
+    provenance_path = (
+        Path(__file__).resolve().parents[3]
+        / "content/dictionary/audit-20261112-phase09-source-evidence.json"
+    )
+    evidence = json.loads(provenance_path.read_text(encoding="utf-8"))
+    assert evidence["visibility"] == "audit_only_not_dictionary_content"
+    assert evidence["release_id"] == RELEASE
+    assert len(evidence["references"]) == 100
+    assert len(evidence["annotations"]) == 12
+
+    for reference in evidence["references"]:
+        assert reference["url"].startswith("https://")
+        assert reference["lexeme_id"] in data["entries"]
+        assert reference["sense_id"] in data["entries"][reference["lexeme_id"]]
+        assert reference["field_path"].endswith(".source") or reference["field_path"] == "source"
+
+
+def test_candidate_and_public_dictionary_view_never_leak_source_metadata(monkeypatch) -> None:
+    from app import dictionary_presentation as presentation
+    from app import dictionary_reader_metadata as reader
+
+    original = entry(
+        "6d673b56-e14b-5236-b31e-d947f28f5b42",
+        "brilliance",
+        "n",
+        [
+            (
+                "86fde680-8dd4-4286-af9b-09f93752e21a",
+                "unusual mental ability",
+                "zakovat",
+                "C2",
+            ),
+            (
+                "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+                "the quality of being magnificent or splendid or grand",
+                "ulug'vorlik; hashamat",
+                "C2",
+            ),
+            (
+                "cb1ac30e-edb8-4266-b36f-4f2a886e1a54",
+                "a light within the field of vision that is brighter than the brightness to which the eyes are adapted",
+                "ko‘zni qamashtiruvchi yorqinlik",
+                "C1",
+            ),
+        ],
+    )
+    original.update({"lexical_type": "word", "forms": []})
+    snapshot = copy.deepcopy(original)
+    revised = curate_candidate_entry(original)
+    monkeypatch.setattr(presentation, "shard", lambda _: {})
+    monkeypatch.setattr(reader, "stored", lambda _: None)
+    public_view = presentation.present(original)
+
+    assert original == snapshot
+    for result in (revised, public_view):
+        rendered = json.dumps(result, ensure_ascii=False).casefold()
+        assert "https://" not in rendered
+        for provider in ("oxford", "cambridge", "collins", "cornell"):
+            assert provider not in rendered
+        assert '"source":' not in rendered
+        assert "sense_alignment" not in rendered
+    assert public_view["senses"][original["senses"][0]["sense_id"]]["collocations"]
