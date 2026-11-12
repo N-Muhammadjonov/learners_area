@@ -101,7 +101,7 @@ async def read(req, user, kind, q):
             query = q.get('q','').strip()[:100]
             role,status = q.get('role'),q.get('status')
             online_only = q.get('online')=='1'
-            if role and role not in ('student','teacher','admin','owner'): raise HTTPException(400,'invalid_filter')
+            if role and role not in ('student','teacher','admin','owner','guardian'): raise HTTPException(400,'invalid_filter')
             if status and status not in ('pending','active','rejected','suspended'): raise HTTPException(400,'invalid_filter')
             if online_only and user['role']!='owner': raise HTTPException(403,'forbidden')
             online = "coalesce(a.created_at>now()-interval '90 seconds' AND u.account_status='active',false)"
