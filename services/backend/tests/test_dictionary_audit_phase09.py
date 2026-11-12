@@ -199,16 +199,16 @@ def test_phase09_semantic_continuation_is_exact_source_verified() -> None:
     assert receipt["scope"]["source_senses"] == 5521
     assert receipt["scope"]["source_lexemes"] == 3279
     deltas = receipt["editorial"]
-    assert deltas["exact_lexeme_deltas"] == 24
-    assert deltas["exact_sense_deltas"] == 38
-    assert deltas["source_verified_cefr_edits"] == 9
+    assert deltas["exact_lexeme_deltas"] == 27
+    assert deltas["exact_sense_deltas"] == 42
+    assert deltas["source_verified_cefr_edits"] == 13
     assert deltas["excluded_misattributed_senses_from_future_candidate"] == 4
-    assert deltas["added_exact_synonym_edges"] == 13
+    assert deltas["added_exact_synonym_edges"] == 15
     assert deltas["added_exact_antonym_edges"] == 10
-    assert deltas["added_attested_collocations"] == 25
+    assert deltas["added_attested_collocations"] == 32
     source = receipt["r2_readback"]
-    assert source["senses"] == source["meaning_sha_matched"] == 38
-    assert source["cefr_originals_matched"] == 9
+    assert source["senses"] == source["meaning_sha_matched"] == 42
+    assert source["cefr_originals_matched"] == 13
     assert source["excluded_glosses_matched"] == 4
     assert source["mismatches"] == 0
     assert source["missing_lexemes"] == 0
