@@ -270,3 +270,38 @@ def test_every_correction_links_to_uuid_and_has_exact_meaning_hash() -> None:
             for relation in correction.get("add_collocations", []):
                 assert relation["text"].strip()
                 assert relation["source"].startswith("https://")
+
+
+def test_phase09_deduplicates_canonical_relation_tuples_without_touching_examples() -> None:
+    unique = {
+        "relation_type": "synonym",
+        "display_lemma": "accurate",
+        "target_lexeme_id": "0ec27262-19f8-4e78-b08a-3f958b5aa723",
+        "target_sense_id": "3d98181b-9167-4b16-b46b-26d3099e1c8f",
+        "part_of_speech": "a",
+        "lexical_type": "word",
+    }
+    other_sense = {**unique, "source_sense_id": "178130f4-a84c-4811-a4a0-a6c6a3841a1d"}
+    source = entry(
+        "67000000-0000-4000-8000-000000000011",
+        "test lexical entry",
+        "a",
+        [
+            ("178130f4-a84c-4811-a4a0-a6c6a3841a1d", "first sense", "birinchi", None),
+            ("178130f4-a84c-4811-a4a0-a6c6a3841a1e", "second sense", "ikkinchi", None),
+        ],
+        relations=[unique, copy.deepcopy(unique), other_sense],
+    )
+    source["senses"][0]["examples"] = [
+        {"example_id": "ed166218-6c60-4ea4-b2df-66e997b73b60",
+         "text_en": "The original example remains intact.",
+         "text_uz": "Asl misol o‘zgarishsiz qoladi."}
+    ]
+    old = copy.deepcopy(source)
+    revised = curate_candidate_entry(source)
+    assert source == old
+    assert revised["senses"] == old["senses"]
+    assert revised["relations"] == [unique, other_sense]
+    assert curate_candidate_entry(revised) == revised
+    out_of_scope = {**source, "lexeme_id": "80000000-0000-4000-8000-000000000011"}
+    assert curate_candidate_entry(out_of_scope) == out_of_scope
