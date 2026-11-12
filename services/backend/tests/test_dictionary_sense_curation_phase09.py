@@ -445,3 +445,94 @@ def test_references_to_excluded_senses_are_pruned_across_lexemes() -> None:
     )
     revised_unrelated = curate_candidate_entry(no_matching_target)
     assert len(revised_unrelated["relations"]) == 2
+
+
+def test_appease_synonyms_resolve_to_correct_target_senses() -> None:
+    source = entry(
+        "71cc2552-75cf-50c8-84a0-9583b529b884",
+        "appease",
+        "v",
+        [
+            (
+                "b22c9951-6d11-4f84-868f-5b680f47a39d",
+                "cause to be more favorably inclined; gain the good will of",
+                "xayrixohligini qozonmoq",
+                "C2",
+            ),
+            (
+                "e5d3562b-ea8c-48c7-a748-59a40b542a04",
+                "make peace with",
+                "yarashtirmoq; ko‘nglini olmoq",
+                "C2",
+            ),
+            (
+                "5ea0659a-f428-4ca0-a049-de1e410d6c41",
+                "overcome or allay",
+                "bosmoq",
+                "C2",
+            ),
+        ],
+    )
+    frozen = copy.deepcopy(source)
+    result = curate_candidate_entry(source)
+    assert source == frozen
+    mapping = {
+        relation["display_lemma"]: (
+            relation["source_sense_id"],
+            relation["target_sense_id"],
+        )
+        for relation in result["relations"]
+    }
+    assert mapping == {
+        "placate": (
+            "b22c9951-6d11-4f84-868f-5b680f47a39d",
+            "21ccd99c-8b8f-4428-b14f-e16e1e38b10e",
+        ),
+        "pacify": (
+            "b22c9951-6d11-4f84-868f-5b680f47a39d",
+            "569b5a61-1fe7-4fa2-b2a3-5dce797ccc6c",
+        ),
+        "propitiate": (
+            "e5d3562b-ea8c-48c7-a748-59a40b542a04",
+            "e7f57505-ad38-58c7-8276-a22bcd7ae126",
+        ),
+    }
+    assert (
+        "75b24043-b297-4aa4-bf67-819534f5dbde"
+        not in {relation["target_sense_id"] for relation in result["relations"]}
+    )
+    assert {
+        (c["text"], c["sense_id"])
+        for c in result["collocations"]
+    } == {
+        ("appease critics", "b22c9951-6d11-4f84-868f-5b680f47a39d"),
+        (
+            "appease a guilty conscience",
+            "5ea0659a-f428-4ca0-a049-de1e410d6c41",
+        ),
+    }
+
+
+def test_audible_antonym_targets_inaudible_adjective() -> None:
+    source = entry(
+        "699705d3-0c37-5c64-85a2-e0dfa11ce66c",
+        "audible",
+        "a",
+        [(
+            "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
+            "heard or perceptible by the ear",
+            "eshitiladigan",
+            "C2",
+        )],
+    )
+    revised = curate_candidate_entry(source)
+    assert source["relations"] == []
+    assert revised["relations"][0]["relation_type"] == "antonym"
+    assert revised["relations"][0]["display_lemma"] == "inaudible"
+    assert revised["relations"][0]["target_sense_id"] == (
+        "a0e13d60-00a5-4ec2-8f13-bf8f0333412c"
+    )
+    assert revised["collocations"] == [{
+        "text": "audible sigh",
+        "sense_id": "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
+    }]
