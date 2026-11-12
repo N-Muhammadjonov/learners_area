@@ -13,6 +13,17 @@ import {moduleLayout} from '../modules/shell/module-layout.js';
 import {createShell,focusFrame} from '../modules/shell/layout.js';
 /** Shell and authority are separate lifetimes: focus routes retain the access gate. */
 export function createWorkspace(root){let pendingScroll,lastPresentation;let shell,shellController,session,key,locationKey,authorityController,authorityKey,release;const scroll=new Map();
+ let lastDailyClaim='';
+ function claimDailyCoins(current){
+  if(current?.user?.role!=='student'||current.user.accountStatus!=='active')return;
+  const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const identity=current.user.id+':'+stamp;
+  if(lastDailyClaim===identity)return;
+  lastDailyClaim=identity;
+  void api.request('/api/coins/daily/claim',{method:'POST'}).catch(()=>{
+   if(lastDailyClaim===identity)lastDailyClaim='';
+  });
+ }
  function closeShell(){shellController?.abort();shell=null;shellController=null;key=null;locationKey=null;pendingScroll=undefined;}
  function closeAuthority(){authorityController?.abort();authorityController=null;authorityKey=null;release?.();release=null;}
  function invalidate(){session=null;}
@@ -34,9 +45,11 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
   // the unchanged authority watcher still handles revocation and expiry.
   privateScope.setScope(session.user.id);return {dict,locale,session,invalidateSession:()=>{session=null;}};
  }
- function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
+ function ensureAuthority(context){const current=context.session;if(!current)return;claimDailyCoins(current);const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};
-  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});watchAuthority(current,persistent);watchPresence(persistent);watchStudyTime(persistent);
+  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')claimDailyCoins(current);},{signal:persistent.signal});
+  watchAuthority(current,persistent);watchPresence(persistent);watchStudyTime(persistent);
  }
  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
   if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}
