@@ -396,7 +396,7 @@ async def purchase_gift(req: Request, gift_id: str):
                         notification_type="COIN_GIFT_PURCHASE",
                         title="New gift purchase receipt",
                         body=f"{str(buyer or 'User')[:100]} purchased {gift['title_uz'][:100]} for {gift['cost_coins']} coins.",
-                        href="/app/leaderboard?view=manage",
+                        href="/app/management?view=coins",
                         payload={"purchaseId": str(receipt["id"]), "buyerId": str(user["id"]),
                                  "giftId": str(gift["id"]), "coins": gift["cost_coins"]})
                 return core.j({"ok": True, "status": "pending",
