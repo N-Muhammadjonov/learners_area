@@ -722,3 +722,129 @@ def test_baguette_caregiver_and_annoyance_are_sense_scoped() -> None:
         "7684f98e-2417-4cdf-9a07-368ae9952f22",
         "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
     }
+
+
+def test_brilliance_three_distinct_senses_keep_their_own_lexical_links() -> None:
+    original = entry(
+        "6d673b56-e14b-5236-b31e-d947f28f5b42",
+        "brilliance", "n",
+        [
+            ("86fde680-8dd4-4286-af9b-09f93752e21a",
+             "unusual mental ability", "zakovat", "C2"),
+            ("bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+             "the quality of being magnificent or splendid or grand",
+             "ulug'vorlik; hashamat", "C2"),
+            ("cb1ac30e-edb8-4266-b36f-4f2a886e1a54",
+             "a light within the field of vision that is brighter than the brightness to which the eyes are adapted",
+             "ko‘zni qamashtiruvchi yorqinlik", "C1"),
+        ],
+    )
+    original["senses"][0]["examples"] = [{
+        "example_id": "decc3d5c-8d9a-4ce5-a99d-e99bba20909c",
+        "text_en": "Her academic brilliance was recognized.",
+        "text_uz": "Uning ilmiy salohiyati e’tirof etildi.",
+    }]
+    preserved = copy.deepcopy(original)
+    updated = curate_candidate_entry(original)
+    assert original == preserved
+    assert updated["senses"][0]["examples"] == preserved["senses"][0]["examples"]
+    assert [sense["cefr"] for sense in updated["senses"]] == ["C1", "C1", "C1"]
+    relation_senses = {
+        relation["display_lemma"]: (
+            relation["source_sense_id"], relation["target_sense_id"]
+        )
+        for relation in updated["relations"]
+    }
+    assert relation_senses == {
+        "genius": (
+            "86fde680-8dd4-4286-af9b-09f93752e21a",
+            "3fb261c7-c5a6-44b3-9b34-cc7e4e49bf30",
+        ),
+        "glare": (
+            "cb1ac30e-edb8-4266-b36f-4f2a886e1a54",
+            "c07f9fc1-7d3a-4cb0-abc4-799f117d2a2c",
+        ),
+        "blaze": (
+            "cb1ac30e-edb8-4266-b36f-4f2a886e1a54",
+            "1599ee7f-ab04-4335-97f8-1150731662d1",
+        ),
+    }
+    assert {
+        (value["sense_id"], value["text"]) for value in updated["collocations"]
+    } == {
+        ("86fde680-8dd4-4286-af9b-09f93752e21a", "academic brilliance"),
+        ("86fde680-8dd4-4286-af9b-09f93752e21a", "flashes of brilliance"),
+        ("bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24", "technical brilliance"),
+    }
+
+
+def test_blackberry_edible_fruit_grade_does_not_change_botanical_sense() -> None:
+    original = entry(
+        "69d5e678-3e68-5081-8e63-6cb588d34827",
+        "blackberry", "n",
+        [
+            ("369e683a-bed2-4834-8743-e5871947d096",
+             "large sweet black or very dark purple edible aggregate fruit of any of various bushes of the genus Rubus",
+             "maymunjon", "C2"),
+            ("53db6d5a-434d-4e63-b213-9b7cdbfd4f4e",
+             "bramble with sweet edible black or dark purple berries that usually do not separate from the receptacle",
+             "maymunjon butasi (qora mevali tikanli buta)", "C2"),
+        ],
+    )
+    immutable = copy.deepcopy(original)
+    revised = curate_candidate_entry(original)
+    assert original == immutable
+    assert [sense["cefr"] for sense in revised["senses"]] == ["B1", "C2"]
+    assert revised["relations"] == []
+    assert revised["collocations"] == [{
+        "text": "blackberry and apple pie",
+        "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+    }]
+
+
+def test_brim_container_relations_do_not_apply_to_hat_and_burrow_keeps_grammar() -> None:
+    brim = entry(
+        "67582942-8fa4-5a45-a24b-006fcfe219fc",
+        "brim", "n",
+        [
+            ("ece50b59-a973-40b1-9add-e4c360a03983",
+             "the top edge of a vessel or other container",
+             "og‘iz cheti; yuqori chet", "C2"),
+            ("f0a1a434-41dc-4c6e-861b-7a82b29f079e",
+             "a circular projection that sticks outward from the crown of a hat",
+             "shlyapa soyaboni", "C2"),
+        ],
+    )
+    unchanged = copy.deepcopy(brim)
+    revised = curate_candidate_entry(brim)
+    assert brim == unchanged
+    assert {
+        (rel["display_lemma"], rel["source_sense_id"])
+        for rel in revised["relations"]
+    } == {
+        ("rim", "ece50b59-a973-40b1-9add-e4c360a03983"),
+        ("lip", "ece50b59-a973-40b1-9add-e4c360a03983"),
+    }
+    assert {
+        (item["sense_id"], item["text"]) for item in revised["collocations"]
+    } == {
+        ("ece50b59-a973-40b1-9add-e4c360a03983", "full to the brim"),
+        ("ece50b59-a973-40b1-9add-e4c360a03983", "fill something to the brim"),
+        ("f0a1a434-41dc-4c6e-861b-7a82b29f079e", "wide brim"),
+        ("f0a1a434-41dc-4c6e-861b-7a82b29f079e", "beneath the brim"),
+    }
+    assert [s["cefr"] for s in revised["senses"]] == ["C2", "C2"]
+
+    burrow = entry(
+        "67206e0f-045b-5e1d-bdf7-37623e627824",
+        "burrow", "v",
+        [("26a43cd7-8094-4a68-91c4-fca58ff30636",
+          "move through by or as by digging", "kovlab o‘tmoq", "C2")],
+    )
+    burrow_original = copy.deepcopy(burrow)
+    burrow_revised = curate_candidate_entry(burrow)
+    assert burrow == burrow_original
+    assert burrow_revised["senses"] == burrow_original["senses"]
+    assert {item["text"] for item in burrow_revised["collocations"]} == {
+        "burrow into the soil", "burrow under the fence"
+    }
