@@ -1,4 +1,5 @@
 import {el,button,WRITING_TABS,viewRegion,navBack,state,safeArray,d} from './shared.js';
+import {rewardBadge} from '../shared/coin-reward.js';
 const moduleFor={lessons:'./lessons.js',exam:'./exam.js',translation:'./translation.js',typing:'./typing.js',grade:'./grade.js',activation:'./activation.js','language-stealing':'./stealing.js'};
 /** Original src/app/app/(shell)/writing/page.tsx & WritingNav: eight URL-backed tabs. */
 export function mount(ctx){
@@ -13,7 +14,7 @@ export function mount(ctx){
   const b=button(d(labels,tab,d(dict,`writingWorkspace.${tab}.title`,tab)),()=>{if(tab!==current)void ctx.navigate(`/app/writing?tab=${encodeURIComponent(tab)}`,{scroll:false,focus:'[data-writing-tab="'+tab+'"]'});},{cls:'min-h-11 shrink-0 whitespace-nowrap border-b-2 px-3 text-sm font-medium transition-colors '+(tab===current?'border-signal-600 text-ink-900 dark:border-signal-400':'border-transparent text-ink-500 hover:text-ink-900'),signal,attrs:{id:`writing-tab-${tab}`,role:'tab','aria-selected':tab===current?'true':'false','aria-controls':'writing-panel',tabindex:tab===current?'0':'-1','data-writing-tab':tab,'data-navigation-route':'/app/writing?tab='+tab}});
   b.addEventListener('keydown',e=>{let next=null;if(e.key==='ArrowRight')next=(i+1)%WRITING_TABS.length;if(e.key==='ArrowLeft')next=(i+WRITING_TABS.length-1)%WRITING_TABS.length;if(e.key==='Home')next=0;if(e.key==='End')next=WRITING_TABS.length-1;if(next===null)return;e.preventDefault();void ctx.navigate(`/app/writing?tab=${encodeURIComponent(WRITING_TABS[next])}`,{scroll:false,focus:'[data-writing-tab="'+WRITING_TABS[next]+'"]'});},{signal});nav.append(b);buttons.set(tab,b);
  });
- host.append(nav,panel);
+ host.append(rewardBadge(ctx,'writing'),nav,panel);
  function select(next){
   const preserve=current===next.searchParams.get('tab')&&current==='language-stealing',scrollHost=document.querySelector('[data-shell-main]'),savedScroll=scrollHost?.scrollTop??0;if(preserve)panel.style.minHeight=panel.getBoundingClientRect().height+'px';
   const tab=WRITING_TABS.includes(next.searchParams.get('tab'))?next.searchParams.get('tab'):'lessons';current=tab;ctx.url=next;host.dataset.writingActiveTab=tab;panel.setAttribute('aria-labelledby','writing-tab-'+tab);
