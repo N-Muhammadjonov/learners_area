@@ -9,17 +9,17 @@
     "source_lexemes": 3279
   },
   "editorial": {
-    "exact_lexeme_deltas": 22,
-    "exact_sense_deltas": 35,
-    "source_verified_cefr_edits": 6,
+    "exact_lexeme_deltas": 24,
+    "exact_sense_deltas": 38,
+    "source_verified_cefr_edits": 9,
     "corrected_english_definitions": 2,
     "corrected_uzbek_definitions": 2,
     "corrected_uzbek_translations": 2,
     "excluded_misattributed_senses_from_future_candidate": 4,
     "removed_incorrect_synonym_targets": 19,
-    "added_exact_synonym_edges": 12,
+    "added_exact_synonym_edges": 13,
     "added_exact_antonym_edges": 10,
-    "added_attested_collocations": 21
+    "added_attested_collocations": 25
   },
   "latest_verified_changes": [
     {
@@ -104,6 +104,25 @@
       "sense_id": "e52d6121-d32a-4b26-9909-c1d53e593936",
       "change": "stone archway collocation",
       "source": "https://www.oxfordlearnersdictionaries.com/definition/english/archway"
+    },
+    {
+      "lemma": "chatty",
+      "sense_ids": [
+        "676b56f7-c118-4e2a-823b-0331c4f81114",
+        "c9007394-5a5e-49c7-9b8b-6e63837bc107"
+      ],
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+      "change": "Friendly talkative and conversational writing senses; exact talkative synonym and chatty letter/style collocations"
+    },
+    {
+      "lemma": "bribe",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
+      "change": "noun money/gift used to influence a person dishonestly; accept/take a bribe collocations"
     }
   ],
   "r2_readback": {
@@ -116,12 +135,13 @@
       "6a",
       "6b",
       "6c",
+      "6f",
       "71"
     ],
-    "lexemes": 22,
-    "senses": 35,
-    "meaning_sha_matched": 35,
-    "cefr_originals_matched": 6,
+    "lexemes": 24,
+    "senses": 38,
+    "meaning_sha_matched": 38,
+    "cefr_originals_matched": 9,
     "english_definitions_matched": 2,
     "uzbek_definitions_matched": 2,
     "uzbek_translations_matched": 2,
