@@ -85,7 +85,8 @@ async def setup_db():
 async def test_client(monkeypatch, connection, user):
     owner = {"current": user}
     async def auth(_req, active=False):
-        return owner["current"]
+        current = owner["current"]
+        return current if not active or current["account_status"] == "active" else None
     async def get_pool():
         return Pool(connection)
     monkeypatch.setattr(main, "current_user", auth)
@@ -167,7 +168,7 @@ async def test_telegram_invite_requires_new_active_student_and_pays_once(setup_d
             "INSERT INTO users(id,telegram_id,account_status) VALUES($1,'987654321','pending')", invitee)
         identity["current"] = {"id": invitee, "telegram_id": "987654321",
                                "role": "student", "account_status": "pending"}
-        assert (await client.post("/api/coins/daily/claim")).status_code == 403
+        assert (await client.post("/api/coins/daily/claim")).status_code == 401
         # Activate the new account; the first real website visit pays the inviter.
         await con.execute("UPDATE users SET account_status='active' WHERE id=$1", invitee)
         identity["current"]["account_status"] = "active"
