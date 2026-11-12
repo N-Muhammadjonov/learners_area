@@ -5,6 +5,7 @@ import {skillBookIndex} from './book-skill-index.js';
 import {adaptSkillUnit} from './book-skill-adapter.js';
 import {api} from '../../js/api-client.js';
 import {SEQUENCE_API} from '../study-plan/sequence-view.js';
+import {grammarPracticeHref} from './practice-route.js';
 
 const TRACKS={
  speaking:{title:'Grammar for Speaking',subtitle:'77 ta IELTS Speaking tuzilmasi va to‘rt bosqichli amaliy mashqlar.',groups:[['pre','Pre-intermediate'],['inter','Intermediate'],['upper','Upper-intermediate'],['advanced','Advanced']]},
@@ -72,7 +73,7 @@ function countProgress(meta,progress){
 function courseCard(meta,progress,context,track){
  const count=countProgress(meta,progress);
  const action=count.done===count.total?localized(context,'Tugallangan','Completed'):count.done?localized(context,'Davom etish','Continue'):localized(context,'Boshlash','Start');
- const href='/app/grammar?tab='+encodeURIComponent(track)+'&book='+encodeURIComponent(meta.id);
+ const href=grammarPracticeHref('/app/grammar?tab='+encodeURIComponent(track)+'&book='+encodeURIComponent(meta.id));
  return h('article',{class:'grammar-book-card grammar-skill-card','data-grammar-skill-unit':meta.id},
   h('div',{class:'grammar-book-card-top'},h('span',{class:'grammar-book-code'},meta.code+' · '+meta.lessons),h('span',{class:'grammar-book-stage'},localized(context,'4 bosqich','4 stages'))),
   h('h2',{class:'grammar-book-card-title'},meta.title),
