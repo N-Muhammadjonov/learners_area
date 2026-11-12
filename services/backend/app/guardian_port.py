@@ -1179,10 +1179,10 @@ async def bot_claim_guardian_replies(req: Request):
                     continue
                 if guardian:
                     role_name = {'owner': 'Owner', 'admin': 'Admin', 'teacher': 'Teacher'}[context['sender_role']]
-                    display = f"{role_name} yuborgan xabarga javob\\n{context['guardian_name'] or 'Ota-ona'}:\\n{reply['body']}"
+                    display = f"{role_name} yuborgan xabarga javob\n{context['guardian_name'] or 'Ota-ona'}:\n{reply['body']}"
                 else:
                     role_name = {'owner': 'Owner', 'admin': 'Admin', 'teacher': 'Teacher'}[context['sender_role']]
-                    display = f"{role_name} javobi:\\n{reply['body']}"
+                    display = f"{role_name} javobi:\n{reply['body']}"
                 items.append({'replyId': str(reply['id']), 'deliveryId': str(reply['delivery_id']),
                               'chatId': chat, 'text': display})
     return core.j({'ok': True, 'replies': items}, headers=PRIVATE)
