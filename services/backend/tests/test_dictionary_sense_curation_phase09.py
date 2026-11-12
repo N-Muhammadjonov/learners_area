@@ -536,3 +536,71 @@ def test_audible_antonym_targets_inaudible_adjective() -> None:
         "text": "audible sigh",
         "sense_id": "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
     }]
+
+
+def test_beep_cefr_and_exact_car_horn_synonyms_do_not_change_pager_sense() -> None:
+    source = entry(
+        "6aeeff90-ed52-5d70-9903-467e1603bceb",
+        "beep",
+        "v",
+        [
+            (
+                "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+                "make a strident noise",
+                "bipillamoq, keskin signal tovushi chiqarmoq",
+                "C2",
+            ),
+            (
+                "fe8247eb-4c07-428f-ad5d-7162e2168cb8",
+                "call, summon, or alert with a beeper",
+                "peydjer bilan chaqirmoq",
+                "C2",
+            ),
+        ],
+    )
+    before = copy.deepcopy(source)
+    result = curate_candidate_entry(source)
+    assert source == before
+    assert [sense["cefr"] for sense in result["senses"]] == ["C1", "C2"]
+    assert {
+        (item["display_lemma"], item["source_sense_id"], item["target_sense_id"])
+        for item in result["relations"]
+    } == {
+        ("honk", "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+         "60853a5a-2598-4eb9-aca4-6d9e6241dcdd"),
+        ("blare", "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+         "6fa0de95-5d4f-4368-9b91-c348292467fe"),
+    }
+    assert result["collocations"] == [
+        {"text": "beep a horn", "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b"}
+    ]
+
+
+def test_abide_distinguishes_tolerate_from_reside_and_keeps_source() -> None:
+    source = entry(
+        "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+        "abide",
+        "v",
+        [
+            ("033fda48-dc62-4b8e-91a7-30f327e8e66d",
+             "put up with something or somebody unpleasant", "chidamoq", "C2"),
+            ("28d49c76-2120-49d9-bbc9-c93f5dabdf6f",
+             "dwell", "yashamoq; turmoq", "C2"),
+        ],
+    )
+    frozen = copy.deepcopy(source)
+    result = curate_candidate_entry(source)
+    assert source == frozen
+    mapping = {
+        row["source_sense_id"]: (row["display_lemma"], row["target_sense_id"])
+        for row in result["relations"]
+    }
+    assert mapping == {
+        "033fda48-dc62-4b8e-91a7-30f327e8e66d": (
+            "tolerate", "52426071-9e5b-4900-a168-e7921693f12a"
+        ),
+        "28d49c76-2120-49d9-bbc9-c93f5dabdf6f": (
+            "dwell", "b193eeef-0dfb-4f08-9e91-31e9a420c668"
+        ),
+    }
+    assert {row["sense_id"] for row in result["collocations"]} == set(mapping)
