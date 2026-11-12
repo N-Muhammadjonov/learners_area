@@ -59,7 +59,7 @@ async def search_directory(req:Request):
         q=(req.query_params.get('q') or '').strip()
         t=q.lstrip('@')
         status=req.query_params.get('status');role=req.query_params.get('role')
-        where=[];args=[]
+        where=["u.role <> 'guardian'"];args=[]
         if status in ('pending','active','rejected','suspended'):
             args.append(status);where.append(f'u.account_status=${len(args)}')
         if role in ('student','teacher','admin','owner'):
@@ -71,7 +71,7 @@ async def search_directory(req:Request):
              OR EXISTS (SELECT 1 FROM telegram_contacts tc WHERE tc.linked_user_id=u.id AND tc.username ILIKE ${c}))''')
         filter_sql=' AND '.join(where) or 'TRUE'
         users=await conn.fetch(f'''SELECT u.id,u.name,u.email,u.role,u.account_status,u.telegram_id,u.created_at
-          FROM users u WHERE {filter_sql} ORDER BY u.created_at DESC LIMIT {limit}''',*args)
+          FROM users u WHERE {filter_sql} ORDER BY lower(coalesce(u.name,'')),u.id LIMIT {limit}''',*args)
         count=await conn.fetchval(f'SELECT count(*)::int FROM users u WHERE {filter_sql}',*args)
         contacts=[];contacts_count=0
         # Intentional: any role/status string excludes Telegram-only contacts,
@@ -81,9 +81,14 @@ async def search_directory(req:Request):
             extras=('AND (first_name ILIKE $1 OR last_name ILIKE $1 OR username ILIKE $2 OR telegram_user_id=$3)' if q else '')
             contacts=await conn.fetch(f'''SELECT id,telegram_user_id,username,first_name,last_name,
                 bot_blocked_at,removed_at,last_seen_at FROM telegram_contacts
-                WHERE linked_user_id IS NULL {extras} ORDER BY last_seen_at DESC LIMIT {limit}''',*params)
+                WHERE linked_user_id IS NULL {extras}
+                  AND NOT EXISTS (SELECT 1 FROM guardian_profiles gp
+                      WHERE gp.telegram_user_id=telegram_contacts.telegram_user_id)
+                  ORDER BY lower(coalesce(username,first_name,'')),id LIMIT {limit}''',*params)
             contacts_count=await conn.fetchval(f'''SELECT count(*)::int FROM telegram_contacts
-                WHERE linked_user_id IS NULL {extras}''',*params)
+                WHERE linked_user_id IS NULL {extras}
+                  AND NOT EXISTS (SELECT 1 FROM guardian_profiles gp
+                      WHERE gp.telegram_user_id=telegram_contacts.telegram_user_id)''',*params)
         items=[]
         for r in users:
             data=row_to_dict(r)
@@ -97,8 +102,109 @@ async def search_directory(req:Request):
               'telegramLinked':True,'botBlocked':bool(r['bot_blocked_at']), 'botRemoved':bool(r['removed_at']),
               'createdAt':jsiso(r['last_seen_at'])})
         # Original lists are individually capped at page*10 and merged by date.
-        items.sort(key=lambda e:e['createdAt'] or '',reverse=True)
+        items.sort(key=lambda e:(not bool(e.get('username')), (e.get('username') or e.get('name') or '').casefold(),str(e.get('id') or '')))
         return core.j({'items':items[offset:offset+10],'page':page,'pageSize':10,'total':int(count or 0)+int(contacts_count or 0)})
+
+
+
+def _directory_page(raw):
+    try:
+        value = int(raw or '1')
+    except (TypeError, ValueError):
+        value = 1
+    return max(1, min(value, 100000))
+
+
+@router.get('/api/internal/telegram/parents')
+async def parent_directory(req: Request):
+    denied = verify_bot(req)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        actor, error = await actor_for(conn, req.query_params.get('actorTelegramId'), 'VIEW_USERS')
+        if error:
+            return denied_response(error)
+        page = _directory_page(req.query_params.get('page'))
+        search = (req.query_params.get('q') or '').strip()[:80]
+        args = []
+        condition = ''
+        if search:
+            args = [sql_like(search), search.lstrip('@'), sql_like(search.lstrip('@'))]
+            condition = ''' AND (p.display_name ILIKE $1 OR p.telegram_user_id=$2
+                OR EXISTS (SELECT 1 FROM telegram_contacts c WHERE c.telegram_user_id=p.telegram_user_id
+                  AND (c.username ILIKE $3 OR c.phone_number ILIKE $1)))'''
+        base = ''' FROM guardian_profiles p
+            LEFT JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id
+            WHERE TRUE ''' + condition
+        total = await conn.fetchval('SELECT count(*)::int' + base, *args)
+        rows = await conn.fetch('''SELECT p.id,p.display_name,p.telegram_user_id,t.username,t.phone_number,
+           t.phone_verified_at,t.bot_blocked_at,t.removed_at''' + base +
+           ''' ORDER BY (t.username IS NULL),lower(coalesce(t.username,p.display_name,'')),p.id
+               LIMIT 10 OFFSET $''' + str(len(args)+1), *args, (page-1)*10)
+        return core.j({'page':page,'pageSize':10,'total':int(total or 0),
+            'items':[{'profileId':str(r['id']),'name':r['display_name'] or '—',
+                'username':r['username'],'telegramId':r['telegram_user_id'],
+                'phone':r['phone_number'] if actor['isPrimaryOwner'] and r['phone_verified_at'] else None,
+                'botBlocked':bool(r['bot_blocked_at']),'botRemoved':bool(r['removed_at'])}
+                for r in rows]}, headers=core.PRIVATE)
+
+
+@router.get('/api/internal/telegram/parents/{profileId}')
+async def parent_detail(req: Request, profileId: str):
+    denied = verify_bot(req)
+    if denied is not None:
+        return denied
+    if not uuid_ok(profileId):
+        return core.j({'error':'not_found'},404)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        actor,error = await actor_for(conn,req.query_params.get('actorTelegramId'),'VIEW_USERS')
+        if error:
+            return denied_response(error)
+        p = await conn.fetchrow('''SELECT p.id,p.display_name,p.telegram_user_id,p.user_id,
+            t.username,t.phone_number,t.phone_verified_at,t.bot_blocked_at,t.removed_at
+            FROM guardian_profiles p LEFT JOIN telegram_contacts t
+            ON t.telegram_user_id=p.telegram_user_id WHERE p.id=$1''',profileId)
+        if not p:
+            return core.j({'error':'not_found'},404)
+        links = await conn.fetch('''SELECT l.student_id,l.relationship,l.status,u.name AS student_name
+            FROM guardian_links l JOIN users u ON u.id=l.student_id
+            WHERE l.guardian_profile_id=$1 AND l.status IN ('linked','awaiting_student','awaiting_guardian')
+            ORDER BY u.name,l.student_id LIMIT 30''',profileId)
+        return core.j({'parent':{'profileId':str(p['id']),'name':p['display_name'] or '—',
+            'telegramId':p['telegram_user_id'],'username':p['username'],
+            'phone':p['phone_number'] if actor['isPrimaryOwner'] and p['phone_verified_at'] else None,
+            'botBlocked':bool(p['bot_blocked_at']),'botRemoved':bool(p['removed_at']),
+            'userId':str(p['user_id']) if p['user_id'] else None},
+            'students':[{'userId':str(x['student_id']),'name':x['student_name'],
+                'relationship':x['relationship'],'status':x['status']} for x in links]},
+            headers=core.PRIVATE)
+
+
+@router.get('/api/internal/telegram/directory/{userId}/parents')
+async def student_parents(req: Request, userId: str):
+    denied = verify_bot(req)
+    if denied is not None:
+        return denied
+    if not uuid_ok(userId):
+        return core.j({'error':'not_found'},404)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        actor,error = await actor_for(conn,req.query_params.get('actorTelegramId'),'VIEW_USERS')
+        if error:
+            return denied_response(error)
+        valid = await conn.fetchval("SELECT 1 FROM users WHERE id=$1 AND role='student'",userId)
+        if not valid:
+            return core.j({'error':'not_found'},404)
+        rows = await conn.fetch('''SELECT p.id,p.display_name,t.username,l.relationship,l.status
+            FROM guardian_links l JOIN guardian_profiles p ON p.id=l.guardian_profile_id
+            LEFT JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id
+            WHERE l.student_id=$1 AND l.status IN ('linked','awaiting_student','awaiting_guardian')
+            ORDER BY p.display_name,p.id LIMIT 30''',userId)
+        return core.j({'items':[{'profileId':str(x['id']),'name':x['display_name'] or '—',
+            'username':x['username'],'relationship':x['relationship'],'status':x['status']}
+            for x in rows]},headers=core.PRIVATE)
 
 
 @router.get('/api/internal/telegram/directory/{userId}')
@@ -112,7 +218,7 @@ async def directory_detail(req:Request,userId:str):
         if error:return denied_response(error)
         user=await conn.fetchrow('''SELECT id,name,email,role,account_status,status_reason,locale,telegram_id,
                 created_at,last_active_at FROM users WHERE id=$1''',userId)
-        if not user:return core.j({'error':'not_found'},404)
+        if not user or user['role']=='guardian':return core.j({'error':'not_found'},404)
         contact=await conn.fetchrow('''SELECT username,bot_blocked_at,removed_at,chat_id FROM telegram_contacts
           WHERE telegram_user_id=$1 LIMIT 1''',user['telegram_id']) if user['telegram_id'] else await conn.fetchrow('''SELECT username,bot_blocked_at,removed_at,chat_id FROM telegram_contacts WHERE linked_user_id=$1 LIMIT 1''',userId)
         audits=await conn.fetch('''SELECT action,created_at,metadata FROM audit_log WHERE target_id=$1 ORDER BY created_at DESC LIMIT 8''',userId)
