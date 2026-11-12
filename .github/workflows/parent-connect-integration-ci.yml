@@ -16,7 +16,7 @@ jobs:
       - run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
       - run: python -m compileall -q services/backend/app
       - working-directory: services/backend
-        run: python -m pytest -q tests/test_guardian_connect.py tests/test_telegram_handoff.py
+        run: python -m pytest -q tests/test_guardian_connect.py tests/test_guardian_staff_access.py tests/test_telegram_handoff.py tests/test_study_plan_staff.py tests/test_telegram_subscription_flow.py
   bot:
     runs-on: ubuntu-latest
     steps:
@@ -43,3 +43,24 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: node --test frontend/vanilla/tests/guardian-connect.test.mjs frontend/vanilla/tests/progress-v54.test.mjs
       - run: node scripts/bundle_browser.mjs
+  backend-full:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - working-directory: services/backend
+        run: python -m pytest -q tests
+  browser-full:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --test frontend/vanilla/tests/*.test.mjs
