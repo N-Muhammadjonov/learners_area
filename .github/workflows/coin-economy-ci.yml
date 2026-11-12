@@ -1,0 +1,68 @@
+name: Coin Economy end-to-end checks
+on:
+  push:
+    branches: ['feature/coin-daily-referrals-gifts-20261112', 'main']
+  pull_request:
+    paths:
+      - 'services/backend/app/coin_*.py'
+      - 'services/backend/migrations/0091_coin_daily_referrals_gifts.sql'
+      - 'frontend/vanilla/modules/study-plan/**'
+      - 'services/telegram-bot/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  backend-coin:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: coin_qa
+          POSTGRES_USER: coin_qa
+          POSTGRES_PASSWORD: coin_qa_local
+        ports:
+          - 55439:5432
+        options: >-
+          --health-cmd "pg_isready -U coin_qa -d coin_qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - run: python -m compileall -q services/backend/app
+      - working-directory: services/backend
+        run: python -m pytest -q tests/test_coin_policy.py tests/test_coin_economy_integration.py
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r services/telegram-bot/requirements.txt pytest pytest-asyncio
+      - run: python -m compileall -q services/telegram-bot
+      - working-directory: services/telegram-bot
+        env:
+          TELEGRAM_BOT_TOKEN: '123456:TestOnlyBotToken'
+          BOT_SERVICE_SECRET: 'test-only-secret'
+          INTERNAL_API_URL: 'http://localhost:3000/api/internal/telegram'
+          PUBLIC_SITE_URL: 'https://learnersarea.uz'
+        run: python -m pytest -q tests
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --check frontend/vanilla/modules/study-plan/coin-market.js
+      - run: node --check frontend/vanilla/modules/study-plan/motivation.js
+      - run: node --check frontend/vanilla/js/workspace.js
+      - run: node --test frontend/vanilla/tests/leaderboard-podium.test.mjs
+      - run: node scripts/bundle_browser.mjs
