@@ -142,7 +142,6 @@ def exclude_misattributed_senses(
             continue
         if not isinstance(correction, dict) or (
             correction.get("original_definition_en") != sense["definition_en"]
-            or not correction.get("source")
             or not correction.get("reason")
         ):
             raise ValueError("dictionary_semantic_exclusion_source_mismatch")
