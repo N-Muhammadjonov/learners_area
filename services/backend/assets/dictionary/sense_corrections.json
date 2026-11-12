@@ -105,12 +105,12 @@
         "replace_definition_en": {
           "original": "activity that transgresses moral or civil law",
           "text": "the physical element of a criminal offence, consisting of an unlawful act or omission",
-          "source": "https://dictionary.cambridge.org/dictionary/english/actus-reus"
+          "source": "https://www.law.cornell.edu/wex/actus_reus"
         },
         "replace_translation_uz": {
           "original": "huquqbuzarlik harakati",
           "text": "jinoyatning obyektiv (tashqi) elementi; jinoyatni tashkil etuvchi harakat yoki harakatsizlik",
-          "source": "https://dictionary.cambridge.org/dictionary/english/actus-reus"
+          "source": "https://www.law.cornell.edu/wex/actus_reus"
         },
         "remove_synonym_lexeme_ids": [
           "399fadbd-d220-5439-a826-adef9eca72f6",
