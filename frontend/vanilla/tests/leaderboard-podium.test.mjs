@@ -56,7 +56,7 @@ test('Top 20 shows distinct rank 2, 1, 3 podium and remaining table rows',async(
     .map(row=>Number(row.dataset.studyRank));
   assert.deepEqual(ranks,Array.from({length:17},(_,i)=>i+4));
   assert.equal(board.querySelector('[data-leaderboard-visible-count]').textContent,
-    'Top 20 · 20 ta faol o‘quvchi');
+    'Top 20 · 20 ta ishtirokchi');
   assert.equal(board.querySelectorAll('[data-study-rank]').length+positions.length,20);
   assert.equal(board.querySelector('.coin-ranking-pagination'),null);
 });
@@ -66,7 +66,7 @@ test('only real participants render: four active users means three podium and on
   mount(context());await flush();
   assert.equal(root.querySelectorAll('[data-coin-podium] article').length,3);
   assert.equal(root.querySelectorAll('[data-study-rank]').length,1);
-  assert.match(root.textContent,/4 ta faol o‘quvchi/);
+  assert.match(root.textContent,/4 ta ishtirokchi/);
   assert(!root.textContent.includes('Test Person 5'));
 });
 
@@ -85,8 +85,9 @@ test('no eligible users stays a real empty state, without fabricated podium winn
   assert.match(root.textContent,/Bu davrda ishtirokchilar yo‘q/);
 });
 
-test('owner verified coin appears in personal wallet but not in student podium', async () => {
+test('owner verified coin appears in wallet and owner is eligible for podium', async () => {
   const entries = standings(3);
+  entries[0].mine = true;
   const requests = [];
   api.request = async path => {
     requests.push(path);
@@ -98,8 +99,9 @@ test('owner verified coin appears in personal wallet but not in student podium',
   const own = root.querySelector('[data-coin-personal-balance]');
   assert(own);
   assert.match(own.textContent, /1 tanga/);
-  assert.match(own.textContent, /Owner hisobining tangalari/);
+  assert(!own.textContent.includes('Owner hisobining tangalari'));
   assert.equal(root.querySelectorAll('[data-coin-podium] article').length, 3);
+  assert.match(root.querySelector('[data-coin-podium] [data-place="1"]').textContent, /siz/);
   assert.equal(requests.filter(path => path === '/api/coins/wallet').length, 1);
 });
 
