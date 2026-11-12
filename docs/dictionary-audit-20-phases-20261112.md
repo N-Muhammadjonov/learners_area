@@ -459,3 +459,14 @@ This pass prioritizes lexical quality over sentence examples. Examples were not 
 - Regression tests cover preserving source entries and all retained example objects, preventing stale-source deletion, and preserving legitimate relation targets when pruning removed sense references. A full green CI for the latest commit is required before promoting the candidate.
 
 **Publication stays blocked:** The all-senses lexical validation of 5,521 definitions/translations and all unscoped relations is still not independently complete. No release overwrite, merge, or production mutation.
+
+
+### Phase 09 — latest exact-sense lexical expansion
+
+Following the Cambridge-sourced `demonstrate` CEFR C1 correction, the **audible**, **appease** and **blurb** entries were verified at exact sense level. The frozen R2 readback completed across shards `65`, `66`, `67`, `68`, `69`, `6b`, and `71`, despite one transient and retried Cloudflare error.
+
+Current candidate editorial totals: **18 lexemes / 30 sense records; 5 CEFR corrections, 2 English and 2 Uzbek definition corrections, 2 Uzbek translation corrections, 4 source-misattributed senses excluded only in a future candidate, 19 incorrect synonym links suppressed, 8 correct synonyms added, 10 exact antonym links added, 15 attested collocations added**. All **30/30** source meaning hashes matched, all 11 source field values matched, and four excluded original glosses matched. No R2 write or example editing.
+
+In particular `audible` is linked to the matching `inaudible` adjective sense; `appease` senses link separately to `placate`, `pacify` (goodwill meaning, not the violence-suppression meaning), and `propitiate`; `blurb` has attested book-jacket collocations. The CI regression suite covers this separation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+
+**Phase 09 is still not linguistically signed off as complete:** 5,521 source senses have been mechanically audited, but independent source-backed review has not established that every remaining translation, CEFR, synonym, antonym and collocation is correct. The unresolved ambiguity of unscoped polysemous relations must not be fabricated into sense-specific links. Examples remain deferred.
