@@ -307,3 +307,96 @@ def test_phase09_deduplicates_canonical_relation_tuples_without_touching_example
     assert curate_candidate_entry(revised) == revised
     out_of_scope = {**source, "lexeme_id": "80000000-0000-4000-8000-000000000011"}
     assert curate_candidate_entry(out_of_scope) == out_of_scope
+
+
+@pytest.mark.parametrize(
+    ("lexeme_id", "lemma", "excluded", "kept"),
+    [
+        (
+            "6620405e-571d-5504-a46e-975d52fcfc29",
+            "apprise",
+            {
+                "0a5c728a-9078-4805-bba3-8cf148e0638e": "gain in value",
+                "e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b": "increase the value of",
+            },
+            {
+                "7bb141c5-1c75-48d1-a396-d405b909c878": "inform (somebody) of something",
+                "d0ee3d9f-2168-4a66-85c3-24a1b0247cd4": "make aware of",
+            },
+        ),
+        (
+            "71369b20-c561-573d-95aa-3cf2652e4c52",
+            "apprize",
+            {
+                "6c961d4e-9329-5b02-86bf-82c8fed73443": "gain in value",
+                "d2f0df39-8f12-5d2c-9876-aa1792253d0c": "increase the value of",
+            },
+            {
+                "9a3096d8-a0ce-5d82-ac24-f708419de9d8": "inform (somebody) of something",
+                "835f44a7-ac69-5088-90c6-dfbde683202c": "make aware of",
+            },
+        ),
+    ],
+)
+def test_misattributed_senses_are_removed_only_in_candidate(
+    lexeme_id: str,
+    lemma: str,
+    excluded: dict[str, str],
+    kept: dict[str, str],
+) -> None:
+    records = {
+        **excluded,
+        **kept,
+    }
+    source = entry(
+        lexeme_id,
+        lemma,
+        "v",
+        [(sense_id, definition, "unchanged translation", "C2")
+         for sense_id, definition in records.items()],
+    )
+    for sense in source["senses"]:
+        sense["examples"] = [
+            {
+                "example_id": "10000000-0000-4000-8000-000000000001",
+                "text_en": "This example must remain unchanged.",
+                "text_uz": "Bu misol o‘zgarishsiz qolishi kerak.",
+            },
+        ]
+    original = copy.deepcopy(source)
+    revised = curate_candidate_entry(source)
+    assert source == original
+    assert {x["sense_id"] for x in revised["senses"]} == set(kept)
+    assert all(x["examples"] == original["senses"][0]["examples"]
+               for x in revised["senses"])
+    assert {r["source_sense_id"] for r in revised["relations"]} <= set(kept)
+    assert {c["sense_id"] for c in revised["collocations"]} <= set(kept)
+    assert len([r for r in revised["relations"]
+                if r["relation_type"] == "synonym"
+                and r.get("source_sense_id") in kept]) == 2
+
+
+def test_misattributed_sense_exclusion_rejects_changed_original_gloss() -> None:
+    source = entry(
+        "6620405e-571d-5504-a46e-975d52fcfc29",
+        "apprise",
+        "v",
+        [
+            ("0a5c728a-9078-4805-bba3-8cf148e0638e",
+             "gain in value", "qadri oshmoq", "C2"),
+            ("e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b",
+             "increase the value of", "qiymatini oshirmoq", "C2"),
+            ("7bb141c5-1c75-48d1-a396-d405b909c878",
+             "inform (somebody) of something", "xabardor qilmoq", "C2"),
+            ("d0ee3d9f-2168-4a66-85c3-24a1b0247cd4",
+             "make aware of", "xabardor qilmoq", "C2"),
+        ],
+    )
+    corrupted = copy.deepcopy(source)
+    corrupted["senses"][0]["definition_en"] = "inform by writing"
+    with pytest.raises(ValueError, match="meaning_sha_mismatch"):
+        curate_candidate_entry(corrupted)
+
+    assert len(curate_candidate_entry(source)["senses"]) == 2
+    other_release = {**source, "release_id": "other-release"}
+    assert curate_candidate_entry(other_release) == other_release
