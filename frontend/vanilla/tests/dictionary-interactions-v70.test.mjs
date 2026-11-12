@@ -18,3 +18,23 @@ test('dictionary direction, clearing and teardown cancel stale UI work without a
  const h=fixture();try{mountDictionary(h.ctx,h.ctx.root);await tick(4);h.input(h.q('[role=combobox]'),'bank');await tick(5);assert(!h.q('[data-dictionary-clear]').hidden);h.click(h.q('[data-dictionary-direction=UZ]'));await tick(5);assert(h.calls.filter(c=>c.path.startsWith('/api/dictionary/search')).at(-1).path.includes('direction=UZ'));h.click(h.q('[data-dictionary-clear]'));assert(h.q('[data-dictionary-recent-row]'));assert(h.q('[data-dictionary-clear]').hidden);h.click(h.q('[data-dictionary-recent-row]'));await tick(5);h.click(h.q('[data-dictionary-sense-toggle="sense-0"]'));h.click(h.q('[data-dictionary-save="sense-0"]'));h.controller.abort();assert.equal(document.querySelector('dialog'),null);assert.equal(h.calls.filter(x=>x.path==='/api/auth/state').length,0);}finally{h.dispose();}
 });
 
+
+test('dictionary back/expand controls and all part-of-speech labels use legible scoped styling',async()=>{
+ const h=fixture();
+ try{
+  await open(h);
+  const back=h.q('[data-dictionary-back]'),expand=h.q('[data-dictionary-expand-all]');
+  assert(back.classList.contains('dictionary-back-button'));
+  assert(expand.classList.contains('dictionary-expand-all'));
+  assert.equal(h.q('.dictionary-entry-meta .dictionary-pos').textContent,'noun');
+  assert.equal(h.qa('.dictionary-meaning-toggle .dictionary-pos').length,2);
+  const {readFileSync}=await import('node:fs');
+  const css=readFileSync(new URL('../css/source.css',import.meta.url),'utf8');
+  assert(css.includes('.dictionary-entry-nav .dictionary-back-button'));
+  assert(css.includes('.dictionary-expand-all'));
+  assert(css.includes('.dictionary-pos{'));
+  assert(css.includes('white-space:nowrap'));
+  assert(css.includes('flex:0 0 auto'));
+  assert(css.includes('border-radius:999px'));
+ }finally{h.dispose();}
+});

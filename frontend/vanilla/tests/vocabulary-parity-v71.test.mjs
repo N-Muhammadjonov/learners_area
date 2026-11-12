@@ -13,3 +13,26 @@ test('board route has no library search or empty sidebar and retains own name wi
 test('Use renders no literal null before a result and after folder changes',async()=>{const h=setup({path:'/app/vocabulary?tab=use',role:'student'});try{h.stub({'/api/vocabulary/folders':{folders:[folder]},'/api/vocabulary/sentences':p=>p.includes('view=words')?{words:[word(1)],hasMore:false}:{sentences:[]}});mountUse(h.ctx,h.ctx.root);await tick(6);assert(!h.ctx.root.textContent.includes('null'));h.change(h.q('[data-sentence-folder]'),folder.id);await tick(6);assert(!h.ctx.root.textContent.includes('null'));}finally{h.dispose();}});
 test('failed self-assessment stays on the same flashcard and cannot unlock the next group',async()=>{const h=setup({path:'/app/vocabulary/games/cards',role:'student'});try{const timers=[];h.ctx.gameSetTimeout=fn=>{timers.push(fn);return timers.length;};h.ctx.gameClearTimeout=()=>{};flashcards(h.ctx,h.ctx.root,{words:[word(1)],source:'Food',batches:[{index:0,count:1,known:0,complete:false,unlocked:true},{index:1,count:1,known:0,complete:false,unlocked:false}],batchIndex:0,answer:async()=>null});h.click(h.q('[data-flashcard-flip]'));h.click(h.q('[data-mark=known]'));await tick(3);assert(h.q('[data-flashcard-save-error]'));assert(h.q('[data-flashcard-batch="1"]').disabled);assert.equal(timers.length,0);assert(h.q('[data-flashcard-progress]').textContent.includes('1'));}finally{h.dispose();}});
 test('only acknowledged learning unlocks the next group and all supplied cards remain reachable',async()=>{const h=setup({path:'/app/vocabulary/games/cards',role:'student'});try{const timers=[];h.ctx.gameSetTimeout=fn=>{timers.push(fn);return timers.length;};h.ctx.gameClearTimeout=()=>{};let next=null;const words=Array.from({length:14},(_,i)=>word(i+1));flashcards(h.ctx,h.ctx.root,{words,source:'Food',batches:[{index:0,count:14,known:0,complete:false,unlocked:true},{index:1,count:4,known:0,complete:false,unlocked:false}],batchIndex:0,onBatch:n=>next=n,answer:async()=>({ok:true,verified:false})});assert.equal(h.qa('[data-card-queue-item]').length,14);for(let i=0;i<14;i++){h.click(h.q('[data-flashcard-flip]'));h.click(h.q('[data-mark=known]'));await tick();timers.shift()();timers.shift()();}assert(h.q('[data-flashcard-complete]'));assert(!h.q('[data-flashcard-batch="1"]').disabled);h.click(h.q('[data-next-flashcard-batch]'));assert.equal(next,1);}finally{h.dispose();}});
+
+test('Art ready-made pack keeps English label even in Uzbek locale',async()=>{
+ const h=setup({path:'/app/vocabulary',role:'student',locale:'uz'});
+ try{
+  h.stub({
+   '/api/vocabulary/folders':{folders:[]},
+   '/api/vocabulary/packs':{packs:[{id:'art',label:{en:'Art',uz:'San’at'},wordCount:175}]},
+   '/api/vocabulary/summary':{summary:{total:0,byMastery:{},bySource:{}}},
+   '/api/vocabulary/leaderboard':{points:0,rank:0,streak:0,name:'Student',top:[]},
+   '/api/vocabulary':{words:[],hasMore:false}
+  });
+  mountWords(h.ctx,h.ctx.root);await tick(8);
+  const art=h.q('[data-pack=art]');
+  assert(art);
+  assert.match(art.textContent,/Art/);
+  assert(!art.textContent.includes('San’at'));
+  h.click(art);
+  const dialog=document.querySelector('dialog');
+  assert(dialog.open);
+  assert(dialog.textContent.includes('Art'));
+  assert(!dialog.textContent.includes('San’at'));
+ }finally{h.dispose();}
+});

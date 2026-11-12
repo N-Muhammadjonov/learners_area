@@ -6,6 +6,7 @@ on:
       - feature/30day-learning-plan-20261112
       - feature/study-plan-7-or-30-role-fix
       - fix/grammar-focus-plan-label-skill-dots
+      - fix/grammar-group-check-vocab-ui
       - fix/plan-asgi-dashboard-leaderboard-top20
   workflow_dispatch:
 
@@ -56,6 +57,9 @@ jobs:
           node --check frontend/vanilla/modules/grammar/book-skill.js
           node --check frontend/vanilla/modules/profile/level-select.js
           node --check frontend/vanilla/modules/grammar/book-runtime.js
+          node --check frontend/vanilla/modules/grammar/quiz.js
+          node --check frontend/vanilla/modules/vocabulary/words.js
+          node --check frontend/vanilla/modules/vocabulary/dictionary.js
           node --check frontend/vanilla/modules/grammar/book-skill.js
           node --check frontend/vanilla/modules/study-plan/sequence-view.js
           node --check frontend/vanilla/modules/dashboard.js
@@ -66,7 +70,7 @@ jobs:
           node --check frontend/vanilla/modules/campus/return-policy.js
       - name: Run plan and existing page regression tests
         working-directory: frontend/vanilla
-        run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/grammar-plan-proof.test.mjs tests/dashboard-v3.test.mjs tests/student-profile-consolidation.test.mjs tests/study-plan.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs tests/dock-navigation.test.mjs tests/study-navigation-v69.test.mjs tests/navigation-v3.test.mjs tests/riwi-chat-experience.test.mjs tests/riwi-composer-shortcuts.test.mjs tests/riwi-dictation.test.mjs tests/riwi-integration.test.mjs tests/grammar-v48.test.mjs tests/instant-navigation.test.mjs tests/grammar-book-ui.test.mjs tests/grammar-focus-navigation.test.mjs tests/staff-study-plans.test.mjs tests/landing-plan-bridge.test.mjs tests/leaderboard-podium.test.mjs tests/leaderboard-podium.test.mjs
+        run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/grammar-plan-proof.test.mjs tests/dashboard-v3.test.mjs tests/student-profile-consolidation.test.mjs tests/study-plan.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs tests/dock-navigation.test.mjs tests/study-navigation-v69.test.mjs tests/navigation-v3.test.mjs tests/riwi-chat-experience.test.mjs tests/riwi-composer-shortcuts.test.mjs tests/riwi-dictation.test.mjs tests/riwi-integration.test.mjs tests/grammar-v48.test.mjs tests/instant-navigation.test.mjs tests/grammar-book-ui.test.mjs tests/grammar-focus-navigation.test.mjs tests/grammar-group-check.test.mjs tests/grammar-topic-quiz-retry.test.mjs tests/dictionary-interactions-v70.test.mjs tests/vocabulary-parity-v71.test.mjs tests/staff-study-plans.test.mjs tests/landing-plan-bridge.test.mjs tests/leaderboard-podium.test.mjs tests/leaderboard-podium.test.mjs
 
   asset-build:
     name: Production asset packaging (dry run)
