@@ -78,12 +78,12 @@
         "replace_definition_en": {
           "original": "the cardinal number that is the sum of one and one and one",
           "text": "a musical composition for three voices, or a vocal trio",
-          "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+          "source": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
         },
         "replace_translation_uz": {
           "original": "uch",
-          "text": "tersetto; uch ovoz uchun yozilgan musiqiy asar",
-          "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+          "text": "terzetto; uch ovoz uchun yozilgan musiqiy asar",
+          "source": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
         },
         "remove_synonym_lexeme_ids": [
           "223b5835-11a4-5a35-8e92-3f950e96c63e",
@@ -111,7 +111,7 @@
         "replace_definition_uz": {
           "original": "Birga qo'shilgan bir va bir va birga teng natural son.",
           "text": "Uch ovoz uchun yozilgan musiqiy asar yoki uch xonandadan iborat vokal ansambl.",
-          "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+          "source": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
         }
       }
     },
