@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "entries": {
+    "657d05d9-7940-5fe6-9e0d-13f5f665a19e": {
+      "a09f14e9-8dde-5753-974e-67540f06f258": {
+        "meaning_sha": "e414bd29b9457d0d98fb2229ea562a9c646410499b9f67a27d15e17bc96ab2f8",
+        "remove_synonym_lexeme_ids": [
+          "bad82d5d-6b87-5ed1-8499-838c8f8f7fa6",
+          "aaf345bb-44ea-5fe7-91ae-1b624ff40d23",
+          "a861b7d2-1a68-56e4-ae68-851a66c97f07",
+          "5075ba24-0bea-5505-b045-81a38055baa9"
+        ],
+        "source": "https://dictionary.cambridge.org/dictionary/english/itself"
+      }
+    },
+    "6572be42-5232-54fc-868d-67b3d9a73ae7": {
+      "8a28124b-3139-4265-88fc-1bf7f53594f6": {
+        "meaning_sha": "955f2932447a0b6aada04e059e8fe994493037bfd4ff4c9d45873db32e941f47",
+        "add_collocations": [
+          {
+            "text": "delectable cheesecake",
+            "source": "https://dictionary.cambridge.org/dictionary/english/delectable"
+          }
+        ]
+      }
+    },
+    "65a67e1f-758a-5461-a706-e2e07dbdeff6": {
+      "4d245a0c-9a49-457b-a9e5-6a3d045caac1": {
+        "meaning_sha": "ea32cb2e3e63662d245772ad3421557a8e3463604fa87f86023edadaa2a7d98f",
+        "add_collocations": [
+          {
+            "text": "birthday cake",
+            "source": "https://dictionary.cambridge.org/dictionary/english/cake"
+          },
+          {
+            "text": "chocolate cake",
+            "source": "https://dictionary.cambridge.org/dictionary/english/cake"
+          }
+        ]
+      }
+    },
+    "65735b8f-9c69-5c83-af51-86ce9e7fbfa9": {
+      "e8f9907d-4580-5a47-b354-52c9c1be2458": {
+        "meaning_sha": "5116107b6430df86c99b0975e9d887e475092f6feab16b0d10e215f750d4217c",
+        "add_collocations": [
+          {
+            "text": "countermand an order",
+            "source": "https://dictionary.cambridge.org/dictionary/english/countermand"
+          }
+        ]
+      }
+    },
+    "65769717-f5c9-5441-9313-b2b0f5dcd3e4": {
+      "2fdc334b-2c55-5391-9c70-a90e12b94a91": {
+        "meaning_sha": "d7bfa6d3c5cd4f451aabf099ed0f08ba6a380619219bd8b2eeec8ec74de78e93",
+        "add_collocations": [
+          {
+            "text": "overwrite a file",
+            "source": "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          }
+        ]
+      }
+    }
+  }
+}
