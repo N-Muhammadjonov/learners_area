@@ -296,6 +296,24 @@ class ApiClient:
     async def guardian_check_channel(self, telegram_user_id: str, link_id: str) -> tuple[int, Any]:
         return await self._request("POST", "/guardians/check-channel", json={"telegramUserId": telegram_user_id, "linkId": link_id})
 
+    async def submit_guardian_reply(self, actor: str, delivery_id: str, message_id: str, text: str) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/replies", json={
+            "actorTelegramId": actor, "deliveryId": delivery_id,
+            "incomingMessageId": message_id, "text": text,
+        })
+
+    async def claim_guardian_replies(self) -> list[dict[str, Any]]:
+        status, data = await self._request("POST", "/guardians/replies/claim", json={"limit": 10})
+        return data.get("replies", []) if status == 200 and isinstance(data, dict) else []
+
+    async def report_guardian_replies(self, results: list[dict[str, Any]]) -> None:
+        await self._request("POST", "/guardians/replies/claim", json={"results": results})
+
+    async def send_contact_message(self, actor: str, telegram_id: str, text: str) -> tuple[int, Any]:
+        return await self._request("POST", f"/contacts/{telegram_id}/message", json={
+            "actorTelegramId": actor, "text": text,
+        })
+
     async def claim_guardian_deliveries(self) -> list[dict[str, Any]]:
         status, data = await self._request("POST", "/guardians/deliveries/claim", json={"limit": 10})
         return data.get("deliveries", []) if status == 200 and isinstance(data, dict) else []
