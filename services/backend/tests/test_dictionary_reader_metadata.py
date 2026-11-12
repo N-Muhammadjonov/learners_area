@@ -383,4 +383,4 @@ def test_every_editorial_example_preserves_grammar_and_its_source_identity():
                 assert item["text_uz"][0].isupper()
                 assert len(item["text_en"].split()) >= 4
                 num_examples += 1
-    assert num_examples == 43
+    assert num_examples == 233
