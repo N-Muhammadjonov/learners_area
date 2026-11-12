@@ -23,7 +23,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | 05 | 22,083–27,603 | 5,521 | Structural/presentation audited; semantic signoff pending |
 | 06 | 27,604–33,123 | 5,520 | Structural/presentation audited; semantic signoff pending |
 | 07 | 33,124–38,644 | 5,521 | Structural, presentation and meaningSha audited; semantic signoff pending |
-| 08 | 38,645–44,164 | 5,520 | Not started |
+| 08 | 38,645–44,164 | 5,520 | Structural, presentation and meaningSha audited; semantic signoff pending |
 | 09 | 44,165–49,685 | 5,521 | Not started |
 | 10 | 49,686–55,205 | 5,520 | Not started |
 | 11 | 55,206–60,725 | 5,520 | Not started |
@@ -309,3 +309,36 @@ Source receipt: `content/dictionary/audit-20261112-phase07-flagged-records.json`
 **CEFR review queue:** **2,740** exact senses, consisting of 460 null CEFR values and 2,280 C2 labels for investigation. C2 itself is valid, not an automatically erroneous assignment. Unscoped synonyms on polysemous entries count 4,717 canonical edges, which must be disambiguated before sense-specific assignment. The reader must not attach these edges indiscriminately.
 
 **Automated R2, presentation identity and meaningSha checks: COMPLETE. Independent semantic translation, CEFR and relation correctness signoff: NOT COMPLETE.** No invented relations, no production write, no immutable release replacement and no `main` merge. Maintain the 20-stage merge gate.
+
+## Phase 08 — 12 November 2026
+
+Frozen source release: `rel-v1-1fa06d8d41d8ff701632573e`. Exactly **5,520 sense IDs** at sorted ranks **38,645–44,164**, with **3,304 distinct lexemes**. Cloudflare R2 shards `58`–`65` (14 files) were fetched and checked against Supabase descriptors: SHA-256 hash, compressed bytes, member count and lexeme shard assignment. Both boundary shards were filtered by the exact `lexeme_id/sense_id` pair.
+
+- Source receipt: `content/dictionary/audit-20261112-phase08-flagged-records.json`.
+- Presentation receipt: `content/dictionary/audit-20261112-phase08-presentation-coverage.json`.
+
+| Check | Phase 08 |
+| --- | ---: |
+| Structurally audited senses | 5,520 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| CEFR unset | 456 |
+| Invalid non-empty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 64 / 158 / 699 / 961 / 796 / 2,386 |
+| Canonical senses with no examples | 3,114 |
+| AI draft senses | 61 |
+| Duplicate source sense IDs / translations | 0 / 0 |
+| Invalid canonical source sense references | 0 |
+| Missing canonical synonyms / antonyms / collocations | 4,358 / 5,482 / 5,479 |
+| Missing supplementary presentation sense rows | 48 |
+| Existing presentation rows with stale `meaningSha` | **0** |
+| Senses with synonym in canonical or presentation layer | 3,040 |
+| Senses with collocation in canonical or presentation layer | 154 |
+| Without synonyms / collocations in counted layers | 2,480 / 5,366 |
+
+**New integrity evidence:** all **5,472 existing supplementary presentation sense rows** had their stored `meaningSha` compared against SHA-256 of the canonical serialized `{definition,lemma,pos}`. No mismatches were found. This does not verify semantic correctness or detect missing supplementary rows as necessarily erroneous.
+
+The **2,842** exact-ID CEFR review records comprise 456 unset labels and 2,386 C2 labels. The C2 population is a review priority, not proof all those labels are false. Specialist and polysemous senses must be checked individually against reliable sources. Example: `puddle` has multiple noun senses, including a small water pool and a technical clay mixture; levels must be sense-specific rather than applied indiscriminately.
+
+**Phase 08 automated structural, presentation and hash integrity checks: COMPLETE. Independent linguistic review of all 5,520 translations, CEFR, synonyms/antonyms/collocations: NOT COMPLETE.** No invented relationships, no unverified CEFR changes, no R2 overwrite, no production release switch, and no merge to `main`.
+
+After phase 08, cumulative structural coverage is **44,164 / 110,409 senses**. Full merge and production publishing remain blocked on all 20 phases plus independent semantic quality signoff and immutable candidate release readback.
