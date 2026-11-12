@@ -55,7 +55,13 @@
 .sequence-detail-heading>strong{flex-shrink:0;font-variant-numeric:tabular-nums;font-size:1.1rem}
 .sequence-task-list{padding:0;margin:0;display:grid;list-style:none;gap:.55rem}
 .sequence-task{display:grid;grid-template-columns:1.3rem minmax(0,1fr) auto;align-items:center;gap:.55rem;border-top:1px solid rgb(var(--workspace-line));padding:.65rem 0 0;min-width:0}
-.sequence-task-mark{display:grid;place-items:center;color:rgb(var(--workspace-accent-strong))}
+.sequence-task-mark{display:grid;place-items:center;color:var(--sequence-kind-color,rgb(var(--workspace-accent-strong)))}
+.sequence-task[data-sequence-task-kind="grammar"]{--sequence-kind-color:#b893ff}
+.sequence-task[data-sequence-task-kind="reading"]{--sequence-kind-color:#76a7ff}
+.sequence-task[data-sequence-task-kind="listening"]{--sequence-kind-color:#46cbd6}
+.sequence-task[data-sequence-task-kind="writing"]{--sequence-kind-color:#64d69c}
+.sequence-task[data-sequence-task-kind="speaking"]{--sequence-kind-color:#f39dcd}
+.sequence-task[data-sequence-task-kind="vocabulary"]{--sequence-kind-color:#ffbd70}
 .sequence-task-description{display:grid;gap:.2rem;min-width:0;overflow-wrap:anywhere}
 .sequence-task-description strong{font-size:.85rem;line-height:1.4}
 .sequence-task-description .sequence-subtitle{margin:0;font-size:.74rem}
