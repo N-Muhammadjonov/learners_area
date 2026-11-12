@@ -1,0 +1,682 @@
+{
+  "schema": 1,
+  "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "policy": "Provenance stays in audit receipts. Public dictionary patches and presentation must never include publisher names, source links, or editorial source annotations.",
+  "references": [
+    {
+      "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+      "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+      "field_path": "source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/itself"
+    },
+    {
+      "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+      "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/itself"
+    },
+    {
+      "lexeme_id": "6572be42-5232-54fc-868d-67b3d9a73ae7",
+      "sense_id": "8a28124b-3139-4265-88fc-1bf7f53594f6",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/delectable"
+    },
+    {
+      "lexeme_id": "65a67e1f-758a-5461-a706-e2e07dbdeff6",
+      "sense_id": "4d245a0c-9a49-457b-a9e5-6a3d045caac1",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/cake"
+    },
+    {
+      "lexeme_id": "65a67e1f-758a-5461-a706-e2e07dbdeff6",
+      "sense_id": "4d245a0c-9a49-457b-a9e5-6a3d045caac1",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/cake"
+    },
+    {
+      "lexeme_id": "65a67e1f-758a-5461-a706-e2e07dbdeff6",
+      "sense_id": "4d245a0c-9a49-457b-a9e5-6a3d045caac1",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/cake"
+    },
+    {
+      "lexeme_id": "65735b8f-9c69-5c83-af51-86ce9e7fbfa9",
+      "sense_id": "e8f9907d-4580-5a47-b354-52c9c1be2458",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/countermand"
+    },
+    {
+      "lexeme_id": "65769717-f5c9-5441-9313-b2b0f5dcd3e4",
+      "sense_id": "2fdc334b-2c55-5391-9c70-a90e12b94a91",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/overwrite"
+    },
+    {
+      "lexeme_id": "670b7b89-7e98-59f2-a02f-890028ec5165",
+      "sense_id": "aad9fee0-fbbc-5565-92ef-858166eb4920",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
+    },
+    {
+      "lexeme_id": "670b7b89-7e98-59f2-a02f-890028ec5165",
+      "sense_id": "aad9fee0-fbbc-5565-92ef-858166eb4920",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
+    },
+    {
+      "lexeme_id": "670b7b89-7e98-59f2-a02f-890028ec5165",
+      "sense_id": "aad9fee0-fbbc-5565-92ef-858166eb4920",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+    },
+    {
+      "lexeme_id": "670b7b89-7e98-59f2-a02f-890028ec5165",
+      "sense_id": "aad9fee0-fbbc-5565-92ef-858166eb4920",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
+    },
+    {
+      "lexeme_id": "660bb696-af24-52eb-bb78-ed1c4a74a1e3",
+      "sense_id": "9dc9e4dd-a4dc-5068-8541-654b596fc748",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.law.cornell.edu/wex/actus_reus"
+    },
+    {
+      "lexeme_id": "660bb696-af24-52eb-bb78-ed1c4a74a1e3",
+      "sense_id": "9dc9e4dd-a4dc-5068-8541-654b596fc748",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://www.law.cornell.edu/wex/actus_reus"
+    },
+    {
+      "lexeme_id": "660bb696-af24-52eb-bb78-ed1c4a74a1e3",
+      "sense_id": "9dc9e4dd-a4dc-5068-8541-654b596fc748",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.law.cornell.edu/wex/actus_reus"
+    },
+    {
+      "lexeme_id": "65a09564-3f7a-57c4-87c3-b49a18a891c5",
+      "sense_id": "e5759095-9273-503f-a480-76eef49235a3",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/us/thesaurus/decry"
+    },
+    {
+      "lexeme_id": "6804b2d6-f7d3-5020-90f7-6af22a359aee",
+      "sense_id": "81cf4d55-6a61-4642-87af-cbe9b4c7f5a3",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+    },
+    {
+      "lexeme_id": "6804b2d6-f7d3-5020-90f7-6af22a359aee",
+      "sense_id": "81cf4d55-6a61-4642-87af-cbe9b4c7f5a3",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+    },
+    {
+      "lexeme_id": "6804b2d6-f7d3-5020-90f7-6af22a359aee",
+      "sense_id": "81cf4d55-6a61-4642-87af-cbe9b4c7f5a3",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+    },
+    {
+      "lexeme_id": "6804b2d6-f7d3-5020-90f7-6af22a359aee",
+      "sense_id": "7d617ec3-bd87-4e10-a57d-45321521e65a",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+    },
+    {
+      "lexeme_id": "68081d76-e460-519a-9ded-28b8bbb621a5",
+      "sense_id": "17b8964d-d13f-5fed-828f-b4858b0eac26",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate"
+    },
+    {
+      "lexeme_id": "68081d76-e460-519a-9ded-28b8bbb621a5",
+      "sense_id": "54ed6100-67bf-4b1c-8fd8-2ea7a7aea8de",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate"
+    },
+    {
+      "lexeme_id": "68081d76-e460-519a-9ded-28b8bbb621a5",
+      "sense_id": "71b31415-0ad2-4d8e-98b0-59760874c45d",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate"
+    },
+    {
+      "lexeme_id": "68081d76-e460-519a-9ded-28b8bbb621a5",
+      "sense_id": "c8d85a0a-0ef8-4704-8743-207b3fabf642",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate"
+    },
+    {
+      "lexeme_id": "68081d76-e460-519a-9ded-28b8bbb621a5",
+      "sense_id": "d8dba130-d8c4-42b7-abec-798769b9b578",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate"
+    },
+    {
+      "lexeme_id": "68081d76-e460-519a-9ded-28b8bbb621a5",
+      "sense_id": "ef931b65-4577-420a-9770-e68ef9d6c697",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate"
+    },
+    {
+      "lexeme_id": "65a3521a-fee2-57ba-a9da-6986fbb48d7e",
+      "sense_id": "e4920ac3-62d9-4322-9dde-b2cb48d19237",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/nowadays"
+    },
+    {
+      "lexeme_id": "657d401a-d708-574d-96e0-4130d13b53ca",
+      "sense_id": "725120af-7844-44a6-a94b-99cad490b356",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/hysterical"
+    },
+    {
+      "lexeme_id": "6620405e-571d-5504-a46e-975d52fcfc29",
+      "sense_id": "0a5c728a-9078-4805-bba3-8cf148e0638e",
+      "field_path": "exclude_misattributed_sense.source",
+      "url": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+    },
+    {
+      "lexeme_id": "6620405e-571d-5504-a46e-975d52fcfc29",
+      "sense_id": "e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b",
+      "field_path": "exclude_misattributed_sense.source",
+      "url": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+    },
+    {
+      "lexeme_id": "6620405e-571d-5504-a46e-975d52fcfc29",
+      "sense_id": "7bb141c5-1c75-48d1-a396-d405b909c878",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lexeme_id": "6620405e-571d-5504-a46e-975d52fcfc29",
+      "sense_id": "7bb141c5-1c75-48d1-a396-d405b909c878",
+      "field_path": "add_synonyms.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lexeme_id": "6620405e-571d-5504-a46e-975d52fcfc29",
+      "sense_id": "7bb141c5-1c75-48d1-a396-d405b909c878",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lexeme_id": "71369b20-c561-573d-95aa-3cf2652e4c52",
+      "sense_id": "6c961d4e-9329-5b02-86bf-82c8fed73443",
+      "field_path": "exclude_misattributed_sense.source",
+      "url": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+    },
+    {
+      "lexeme_id": "71369b20-c561-573d-95aa-3cf2652e4c52",
+      "sense_id": "d2f0df39-8f12-5d2c-9876-aa1792253d0c",
+      "field_path": "exclude_misattributed_sense.source",
+      "url": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+    },
+    {
+      "lexeme_id": "71369b20-c561-573d-95aa-3cf2652e4c52",
+      "sense_id": "9a3096d8-a0ce-5d82-ac24-f708419de9d8",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lexeme_id": "71369b20-c561-573d-95aa-3cf2652e4c52",
+      "sense_id": "9a3096d8-a0ce-5d82-ac24-f708419de9d8",
+      "field_path": "add_synonyms.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lexeme_id": "71369b20-c561-573d-95aa-3cf2652e4c52",
+      "sense_id": "9a3096d8-a0ce-5d82-ac24-f708419de9d8",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.collinsdictionary.com/dictionary/english/apprise"
+    },
+    {
+      "lexeme_id": "6be98a49-4727-5ba5-9e5b-2818837511c4",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/demonstrate"
+    },
+    {
+      "lexeme_id": "6be98a49-4727-5ba5-9e5b-2818837511c4",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/demonstrate"
+    },
+    {
+      "lexeme_id": "699705d3-0c37-5c64-85a2-e0dfa11ce66c",
+      "sense_id": "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
+      "field_path": "add_antonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/audible"
+    },
+    {
+      "lexeme_id": "699705d3-0c37-5c64-85a2-e0dfa11ce66c",
+      "sense_id": "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/audible"
+    },
+    {
+      "lexeme_id": "71cc2552-75cf-50c8-84a0-9583b529b884",
+      "sense_id": "b22c9951-6d11-4f84-868f-5b680f47a39d",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lexeme_id": "71cc2552-75cf-50c8-84a0-9583b529b884",
+      "sense_id": "b22c9951-6d11-4f84-868f-5b680f47a39d",
+      "field_path": "add_synonyms.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lexeme_id": "71cc2552-75cf-50c8-84a0-9583b529b884",
+      "sense_id": "b22c9951-6d11-4f84-868f-5b680f47a39d",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lexeme_id": "71cc2552-75cf-50c8-84a0-9583b529b884",
+      "sense_id": "e5d3562b-ea8c-48c7-a748-59a40b542a04",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lexeme_id": "71cc2552-75cf-50c8-84a0-9583b529b884",
+      "sense_id": "5ea0659a-f428-4ca0-a049-de1e410d6c41",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lexeme_id": "71fd750c-69cb-52ee-89c8-8e83d99c03e1",
+      "sense_id": "efa2e5e1-dca5-488a-85c3-03ea971ccf3f",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/blurb"
+    },
+    {
+      "lexeme_id": "71fd750c-69cb-52ee-89c8-8e83d99c03e1",
+      "sense_id": "efa2e5e1-dca5-488a-85c3-03ea971ccf3f",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/blurb"
+    },
+    {
+      "lexeme_id": "71fd750c-69cb-52ee-89c8-8e83d99c03e1",
+      "sense_id": "efa2e5e1-dca5-488a-85c3-03ea971ccf3f",
+      "field_path": "add_collocations.2.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/blurb"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "field_path": "add_synonyms.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+    },
+    {
+      "lexeme_id": "6b701590-d737-578a-8668-979739dcb79e",
+      "sense_id": "e52d6121-d32a-4b26-9909-c1d53e593936",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/archway"
+    },
+    {
+      "lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+      "sense_id": "033fda48-dc62-4b8e-91a7-30f327e8e66d",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/abide"
+    },
+    {
+      "lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+      "sense_id": "033fda48-dc62-4b8e-91a7-30f327e8e66d",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/abide"
+    },
+    {
+      "lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+      "sense_id": "28d49c76-2120-49d9-bbc9-c93f5dabdf6f",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/abide"
+    },
+    {
+      "lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+      "sense_id": "28d49c76-2120-49d9-bbc9-c93f5dabdf6f",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/abide"
+    },
+    {
+      "lexeme_id": "6994c256-0d3c-508a-a8e6-d3bcbbcdf4a1",
+      "sense_id": "fdbfb4f7-12d0-437a-867b-47269f9bca26",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/alms"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "676b56f7-c118-4e2a-823b-0331c4f81114",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatty"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "676b56f7-c118-4e2a-823b-0331c4f81114",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatty"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "c9007394-5a5e-49c7-9b8b-6e63837bc107",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatty"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "c9007394-5a5e-49c7-9b8b-6e63837bc107",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatty"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "c9007394-5a5e-49c7-9b8b-6e63837bc107",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatty"
+    },
+    {
+      "lexeme_id": "6f6bcc4e-b979-554f-8bbc-405475172731",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/bribe"
+    },
+    {
+      "lexeme_id": "6f6bcc4e-b979-554f-8bbc-405475172731",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/bribe"
+    },
+    {
+      "lexeme_id": "6f6bcc4e-b979-554f-8bbc-405475172731",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/bribe"
+    },
+    {
+      "lexeme_id": "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette"
+    },
+    {
+      "lexeme_id": "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/baguette"
+    },
+    {
+      "lexeme_id": "707450c8-bf09-55c0-8dd4-0c4935498169",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver"
+    },
+    {
+      "lexeme_id": "707450c8-bf09-55c0-8dd4-0c4935498169",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/collocation/english/caregiver"
+    },
+    {
+      "lexeme_id": "707450c8-bf09-55c0-8dd4-0c4935498169",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/collocation/english/caregiver"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "cb1ac30e-edb8-4266-b36f-4f2a886e1a54",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "cb1ac30e-edb8-4266-b36f-4f2a886e1a54",
+      "field_path": "add_synonyms.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+    },
+    {
+      "lexeme_id": "69d5e678-3e68-5081-8e63-6cb588d34827",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry"
+    },
+    {
+      "lexeme_id": "69d5e678-3e68-5081-8e63-6cb588d34827",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry"
+    },
+    {
+      "lexeme_id": "67582942-8fa4-5a45-a24b-006fcfe219fc",
+      "sense_id": "ece50b59-a973-40b1-9add-e4c360a03983",
+      "field_path": "add_synonyms.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lexeme_id": "67582942-8fa4-5a45-a24b-006fcfe219fc",
+      "sense_id": "ece50b59-a973-40b1-9add-e4c360a03983",
+      "field_path": "add_synonyms.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lexeme_id": "67582942-8fa4-5a45-a24b-006fcfe219fc",
+      "sense_id": "ece50b59-a973-40b1-9add-e4c360a03983",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lexeme_id": "67582942-8fa4-5a45-a24b-006fcfe219fc",
+      "sense_id": "ece50b59-a973-40b1-9add-e4c360a03983",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lexeme_id": "67582942-8fa4-5a45-a24b-006fcfe219fc",
+      "sense_id": "f0a1a434-41dc-4c6e-861b-7a82b29f079e",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lexeme_id": "67582942-8fa4-5a45-a24b-006fcfe219fc",
+      "sense_id": "f0a1a434-41dc-4c6e-861b-7a82b29f079e",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lexeme_id": "67206e0f-045b-5e1d-bdf7-37623e627824",
+      "sense_id": "26a43cd7-8094-4a68-91c4-fca58ff30636",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+    },
+    {
+      "lexeme_id": "67206e0f-045b-5e1d-bdf7-37623e627824",
+      "sense_id": "26a43cd7-8094-4a68-91c4-fca58ff30636",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+    }
+  ],
+  "annotations": [
+    {
+      "lexeme_id": "6be98a49-4727-5ba5-9e5b-2818837511c4",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "demonstrate by giving an exhibition to an audience; Cambridge SHOW how something works at C1"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "car horn making a strident noise, Oxford verb sense 2 car-horn C1; separate from pager C2"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "676b56f7-c118-4e2a-823b-0331c4f81114",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "liking to talk a lot in a friendly, informal way"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "c9007394-5a5e-49c7-9b8b-6e63837bc107",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "informal, conversational writing or speech"
+    },
+    {
+      "lexeme_id": "6f6bcc4e-b979-554f-8bbc-405475172731",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "money/present given to persuade someone to act dishonestly"
+    },
+    {
+      "lexeme_id": "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "Long thin French stick loaf, Oxford Food B2; sandwich sense not represented separately in source"
+    },
+    {
+      "lexeme_id": "707450c8-bf09-55c0-8dd4-0c4935498169",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "Person responsible for attending to a child or dependent adult, Oxford caregiving noun C1; separate health-care-specific sense remains unchanged"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "[C] something that annoys a person; Cambridge headword C1 and countable example"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "[U] the feeling of being annoyed or slightly angry, Oxford Feelings C1"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "unusual intelligence/mental ability, Oxford 5000 C1 core noun sense"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "the quality of being very impressive/magnificent, Oxford 5000 C1"
+    },
+    {
+      "lexeme_id": "69d5e678-3e68-5081-8e63-6cb588d34827",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "field_path": "replace_cefr.sense_alignment",
+      "text": "Fruit sense directly tagged Food C1 in Oxford; Oxford 3000 B1 is a general word-list level and is not substituted for the sense-specific topic label"
+    }
+  ]
+}
