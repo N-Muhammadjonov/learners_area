@@ -364,3 +364,17 @@ Frozen release: `rel-v1-1fa06d8d41d8ff701632573e`. Exact ranks **44,165–49,685
 **Signoff:** structural R2 read/checksum and JSON validation COMPLETE; **presentation coverage / `meaningSha` NOT YET AUDITED**, independent translation/CEFR/relationship semantic QA NOT COMPLETE. No candidate release creation, production mutation, deploy or `main` merge. Keep PR #149 Draft until all 20 phases and linguistic review are finished.
 
 Cumulative exact-sense structural pass: **49,685 / 110,409** (phases 01–09). This is structural coverage only, not certified linguistic correctness.
+
+
+### Phase 09 continuation — exact-sense CEFR, presentation and relation checks
+
+- Complete exact-ID review queue: `content/dictionary/audit-20261112-phase09-flagged-records.json` (**2,873** senses: 459 unset, 2,414 C2). This is a source-review queue, **not 2,873 proven mistakes**.
+- All 14 bundled presentation shards `65`–`72` were independently compared by exact `lexeme_id/sense_id`, including canonical `meaningSha` for every existing row: **5,521 senses, 36 without supplementary presentation records, 0 stale hashes**. **3,122** senses have synonym presence, **110** have collocation presence across canonical + presentation layers. **2,399 / 5,411** have neither synonym / collocation in counted layers; absence can be linguistically valid.
+- Found **4,474 unscoped canonical synonym edges on polysemous entries**, which must **not** be attached to every sense. Presentation already separates `delectable` food/attraction senses and `flake` snow/odd-person/fragment senses, so preserve their curated targeting.
+- Confirmed editorial defect: `itself`, exact reflexive sense `a09f14e9-8dde-5753-974e-67540f06f258`, currently lacks CEFR and has presentation "synonyms" `myself/ourselves/themselves/yourself`. These are other-person/number reflexive pronouns, **not substitutable synonyms**. Cambridge documents reflexive `itself` as **A2**, while its emphatic use is **B1**, which must not be mixed: https://dictionary.cambridge.org/dictionary/english/itself.
+- The immutable-release candidate correction is staged in `content/dictionary/audit-20261112-phase09-reviewed-corrections.json`: propose reflexive `itself` CEFR A2 and remove the four false synonym edges from its presentation sense only. Existing canonical translation remains unchanged. **This proposal is not applied to the stable release**.
+- `startup` includes a sentence about "inauguration of fluoridation" which does not contain the headword. Queued for review without altering the original source.
+- `services/backend/tests/test_dictionary_audit_phase09.py` introduces four receipt/proposal assertions, added to the branch's focused CI workflow. **Tests must pass on GitHub Actions before describing this as a verified code change.**
+- Remaining: independent translation and CEFR review for **every** sense, confirmed target senses for synonym/antonym edges, attested sense-specific collocations, rebuilt immutable R2+presentation+reader candidate, cross-release integrity tests, and controlled publication. No deploy, no production mutation, no `main` merge.
+
+**Phase 09 status:** structural + presentation/meaning-hash integrity COMPLETE; independently certified linguistic correctness NOT COMPLETE.
