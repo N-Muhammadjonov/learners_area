@@ -63,7 +63,10 @@ async def setup_db():
     await connection.execute(
         """CREATE TABLE telegram_contacts (
               telegram_user_id varchar(40) PRIMARY KEY,
-              linked_user_id uuid
+              linked_user_id uuid,
+              username varchar(40),
+              removed_at timestamptz,
+              last_seen_at timestamptz DEFAULT now()
            )""")
     await connection.execute(
         """CREATE TABLE video_lessons (
