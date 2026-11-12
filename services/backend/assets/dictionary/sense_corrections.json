@@ -104,7 +104,8 @@
             "text": "trio",
             "lexemeId": "2eff4bba-1bb6-5dfa-9079-1a3ca8d3a601",
             "senseId": "24087232-6200-4e00-98d9-3212c842bf3b",
-            "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+            "source": "https://www.collinsdictionary.com/dictionary/english/terzetto",
+            "partOfSpeech": "n"
           }
         ]
       }
@@ -137,7 +138,8 @@
             "text": "praise",
             "lexemeId": "3d45bcd6-2393-54e1-a10f-8e7713318d0c",
             "senseId": "4045aec2-5b1d-438d-a03c-f86296e73b72",
-            "source": "https://dictionary.cambridge.org/us/thesaurus/decry"
+            "source": "https://dictionary.cambridge.org/us/thesaurus/decry",
+            "partOfSpeech": "v"
           }
         ]
       }
@@ -150,7 +152,8 @@
             "text": "bilateral",
             "lexemeId": "32d32054-ab9e-5970-8622-f66b79e43492",
             "senseId": "f499a935-d14b-42ae-ac1a-958811c9c774",
-            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral",
+            "partOfSpeech": "a"
           }
         ],
         "add_collocations": [
@@ -171,7 +174,8 @@
             "text": "bilateral",
             "lexemeId": "32d32054-ab9e-5970-8622-f66b79e43492",
             "senseId": "31493138-a28d-4ae5-99d5-05dbed79ecf4",
-            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral",
+            "partOfSpeech": "a"
           }
         ]
       }
@@ -184,7 +188,8 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "d0068dd8-15b1-4f59-ab68-b1ebc2427ea5",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
+            "partOfSpeech": "v"
           }
         ]
       },
@@ -195,7 +200,8 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "433a08d2-fbf7-4e12-b223-dad63d3aa205",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
+            "partOfSpeech": "v"
           }
         ]
       },
@@ -206,7 +212,8 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "39593359-0e47-4a6e-a8f6-117cd6eb284a",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
+            "partOfSpeech": "v"
           }
         ]
       },
@@ -217,7 +224,8 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "433a08d2-fbf7-4e12-b223-dad63d3aa205",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
+            "partOfSpeech": "v"
           }
         ]
       },
@@ -228,7 +236,8 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "866778f9-d9a6-45ee-b2d0-923a3aacf103",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
+            "partOfSpeech": "v"
           }
         ]
       },
@@ -239,7 +248,8 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "07e8a1c6-c0dc-4022-ad90-01ce7981115f",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
+            "partOfSpeech": "v"
           }
         ]
       }
