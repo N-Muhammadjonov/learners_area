@@ -855,6 +855,19 @@ ELIGIBLE = '''SELECT l.id AS link_id,l.relationship,s.id AS student_id,s.name AS
    AND t.chat_id IS NOT NULL AND p.channel_verified_at IS NOT NULL'''
 
 
+def scoped_eligible_query(user: dict, link_ids: list[str], *, lock: bool = False) -> tuple[str, tuple]:
+    """Keep teacher assignments enforced identically in preview and final send."""
+    query = ELIGIBLE
+    params = (link_ids,)
+    if user['role'] == 'teacher':
+        query += ' AND ' + teacher_assignment_sql(user, 2)
+        params += (user['id'],)
+    if lock:
+        query += ' FOR SHARE OF l'
+    return query, params
+
+
+
 @router.post('/api/staff/guardian-messages/preview')
 async def staff_preview(req: Request):
     user, failure = await staff_user(req)
@@ -865,8 +878,9 @@ async def staff_preview(req: Request):
     if error:
         return err(error)
     db = await core.pool()
+    query, params = scoped_eligible_query(user, message['ids'])
     async with db.acquire() as con:  # read-only: preview writes nothing and sends nothing
-        rows = await con.fetch(ELIGIBLE, message['ids'])
+        rows = await con.fetch(query, *params)
     ok = {str(r['link_id']): r for r in rows}
     skipped = [{'linkId': i, 'reason': 'not_eligible'} for i in message['ids'] if i not in ok]
     sample = [{'linkId': str(r['link_id']), 'studentName': r['student_name'],
@@ -901,7 +915,8 @@ async def staff_send(req: Request):
             if existing:  # double click / retry: report the same batch, queue nothing new
                 return core.j({'ok': True, 'duplicate': True, 'batchId': str(existing['id']),
                                'queued': existing['recipient_count']}, headers=PRIVATE)
-            rows = await con.fetch(ELIGIBLE + ' FOR SHARE OF l', message['ids'])
+            query, params = scoped_eligible_query(user, message['ids'], lock=True)
+            rows = await con.fetch(query, *params)
             if not rows:
                 return err('no_eligible_recipients', 409)
             batch = await con.fetchval('''INSERT INTO guardian_message_batches(sender_user_id,idempotency_key,template_key,body_template,recipient_count)
@@ -925,7 +940,12 @@ async def staff_batch(req: Request, batch_id: str):
         return err('not_found', 404)
     db = await core.pool()
     async with db.acquire() as con:
-        batch = await con.fetchrow('SELECT id,approved_at,recipient_count,template_key FROM guardian_message_batches WHERE id=$1', batch_id)
+        batch_query = 'SELECT id,approved_at,recipient_count,template_key FROM guardian_message_batches WHERE id=$1'
+        batch_args = (batch_id,)
+        if user['role'] != 'owner':
+            batch_query += ' AND sender_user_id=$2'
+            batch_args += (user['id'],)
+        batch = await con.fetchrow(batch_query, *batch_args)
         if not batch:
             return err('not_found', 404)
         counts = await con.fetch('SELECT status,count(*)::int n FROM guardian_message_deliveries WHERE batch_id=$1 GROUP BY status', batch_id)
@@ -969,18 +989,42 @@ async def bot_claim_deliveries(req: Request):
             return core.j({'ok': True}, headers=PRIVATE)
         limit = max(1, min(20, int(body.get('limit', 10)))) if isinstance(body.get('limit', 10), (int, float)) else 10
         async with con.transaction():
+            await con.execute('''UPDATE guardian_message_deliveries
+                SET status='failed',last_error='max_attempts_exceeded'
+                WHERE attempts >= $1
+                AND (status='queued' OR (status='sending' AND claimed_at < now()-interval '5 minutes'))''',
+                MAX_ATTEMPTS)
             rows = await con.fetch('''WITH picked AS (
                   SELECT id FROM guardian_message_deliveries
-                   WHERE (status='queued' AND next_attempt_at<=now()) OR (status='sending' AND claimed_at<now()-interval '5 minutes')
+                   WHERE attempts < $2 AND (
+                     (status='queued' AND next_attempt_at<=now())
+                     OR (status='sending' AND claimed_at<now()-interval '5 minutes'))
                    ORDER BY next_attempt_at LIMIT $1 FOR UPDATE SKIP LOCKED)
                 UPDATE guardian_message_deliveries d SET status='sending',attempts=d.attempts+1,claimed_at=now()
-                  FROM picked WHERE d.id=picked.id RETURNING d.id,d.link_id,d.telegram_user_id,d.rendered_text''', limit)
+                  FROM picked WHERE d.id=picked.id RETURNING d.id,d.link_id,d.telegram_user_id,d.rendered_text''',
+                limit, MAX_ATTEMPTS)
             out = []
             for r in rows:
                 # Fail closed at send time: a revoked/blocked recipient must not receive an already-queued message.
-                chat = await con.fetchval('''SELECT t.chat_id FROM guardian_links l JOIN guardian_profiles p ON p.id=l.guardian_profile_id
-                      JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id
-                     WHERE l.id=$1 AND l.status='linked' AND t.bot_blocked_at IS NULL AND t.removed_at IS NULL''', r['link_id'])
+                chat = await con.fetchval('''SELECT t.chat_id
+                    FROM guardian_message_deliveries d
+                    JOIN guardian_message_batches b ON b.id=d.batch_id
+                    JOIN users sender ON sender.id=b.sender_user_id
+                    JOIN guardian_links l ON l.id=d.link_id
+                    JOIN guardian_profiles p ON p.id=l.guardian_profile_id
+                    JOIN users guardian ON guardian.id=p.user_id
+                    JOIN users student ON student.id=l.student_id
+                    JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id
+                    WHERE d.id=$1 AND l.status='linked'
+                      AND sender.account_status='active' AND sender.role IN ('owner','admin','teacher')
+                      AND student.role='student' AND student.account_status='active'
+                      AND guardian.role='guardian' AND guardian.account_status='active'
+                      AND p.channel_verified_at IS NOT NULL
+                      AND t.bot_blocked_at IS NULL AND t.removed_at IS NULL
+                      AND (sender.role IN ('owner','admin') OR EXISTS (
+                        SELECT 1 FROM teacher_student_links assigned
+                        WHERE assigned.teacher_user_id=sender.id
+                          AND assigned.student_user_id=l.student_id))''', r['id'])
                 if not chat:
                     await con.execute("UPDATE guardian_message_deliveries SET status='blocked',last_error='link_inactive' WHERE id=$1", r['id'])
                     continue
