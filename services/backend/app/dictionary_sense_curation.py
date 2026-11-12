@@ -87,12 +87,12 @@ def _update_relations(
             ]
 
         for target in patch.get(f"add_{relation_type}s", []):
-            if not (target.get("lexemeId") and target.get("senseId") and target.get("text")):
+            if not all(target.get(key) for key in ("lexemeId", "senseId", "text", "partOfSpeech")):
                 raise ValueError("dictionary_semantic_relation_target_missing")
             record = {
                 "display_lemma": target["text"],
                 "lexical_type": "word",
-                "part_of_speech": target.get("partOfSpeech", "n"),
+                "part_of_speech": target["partOfSpeech"],
                 "relation_type": relation_type,
                 "source_sense_id": sense_id,
                 "target_lexeme_id": target["lexemeId"],
