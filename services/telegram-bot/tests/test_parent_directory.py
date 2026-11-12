@@ -35,7 +35,7 @@ def sample_students():
 
 
 def test_owner_panel_has_separate_parent_directory():
-    actions = [btn.callback_data for row in owner_keyboard("uz", OWNER_ACCESS)
+    actions = [btn.callback_data for row in owner_keyboard("uz", OWNER_ACCESS).inline_keyboard
                for btn in row]
     assert actions.index("o:parents") == actions.index("o:users") + 1
     assert len([x for x in actions if x == "o:parents"]) == 1
