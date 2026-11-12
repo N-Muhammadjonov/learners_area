@@ -282,3 +282,105 @@ def test_startup_replacement_removes_unrelated_example():
     assert all(example["text_en"].endswith(".") for example in revised)
     assert all(example["text_uz"].endswith(".") for example in revised)
     assert not any("fluoridation" in example["text_en"] for example in revised)
+
+
+def test_semantic_overrides_are_exact_sense_and_release_scoped(monkeypatch):
+    from app import dictionary_presentation as presentation
+
+    data = presentation.sense_corrections()
+    assert data["source_release"] == "rel-v1-1fa06d8d41d8ff701632573e"
+    assert len(data["entries"]) == 5
+
+    itself = {
+        "release_id": data["source_release"],
+        "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+        "display_lemma": "itself",
+        "part_of_speech": "pronoun",
+        "lexical_type": "word",
+        "senses": [{
+            "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+            "definition_en": "Refers back to the same subject.",
+            "cefr": None,
+            "translations": [{"text": "o‘zi"}],
+            "examples": [],
+        }],
+        "forms": [],
+        "relations": [],
+        "collocations": [],
+    }
+    sid = itself["senses"][0]["sense_id"]
+    forbidden = ["myself", "ourselves", "themselves", "yourself"]
+    stored = {
+        "senses": {
+            sid: {
+                "meaningSha": presentation.meaning_hash(itself, itself["senses"][0]),
+                "synonyms": [
+                    {"text": word, "lexemeId": identifier}
+                    for word, identifier in zip(
+                        forbidden,
+                        data["entries"][itself["lexeme_id"]][sid]["remove_synonym_lexeme_ids"]
+                    )
+                ],
+                "collocations": [],
+            }
+        }
+    }
+    monkeypatch.setattr(presentation, "shard", lambda _: {itself["lexeme_id"]: stored})
+    monkeypatch.setattr(reader, "stored", lambda _: None)
+    assert presentation.present(itself)["senses"][sid]["synonyms"] == []
+    other_release = {**itself, "release_id": "unrelated-release"}
+    assert [r["text"] for r in presentation.present(other_release)["senses"][sid]["synonyms"]] == forbidden
+
+    food = {
+        "release_id": data["source_release"],
+        "lexeme_id": "65a67e1f-758a-5461-a706-e2e07dbdeff6",
+        "display_lemma": "cake",
+        "part_of_speech": "n",
+        "lexical_type": "word",
+        "senses": [
+            {
+                "sense_id": "4d245a0c-9a49-457b-a9e5-6a3d045caac1",
+                "definition_en": "food made from or based on a mixture of flour, sugar, eggs, and fat, typically cooked in an oven",
+                "cefr": "B1",
+                "translations": [{"text": "tort"}],
+                "examples": [],
+            },
+            {
+                "sense_id": "8e641b23-55e5-4511-ab1d-e0433df0c93d",
+                "definition_en": "a block of solid substance (such as soap or wax)",
+                "cefr": "A2",
+                "translations": [{"text": "bo‘lak"}],
+                "examples": [],
+            },
+        ],
+        "forms": [],
+        "relations": [],
+        "collocations": [],
+    }
+    monkeypatch.setattr(presentation, "shard", lambda _: {})
+    view = presentation.present(food)
+    assert {r["text"] for r in view["senses"][food["senses"][0]["sense_id"]]["collocations"]} == {
+        "birthday cake", "chocolate cake"
+    }
+    assert view["senses"][food["senses"][1]["sense_id"]]["collocations"] == []
+    assert presentation.present({**food, "release_id": "unrelated-release"})["senses"][food["senses"][0]["sense_id"]]["collocations"] == []
+
+
+def test_every_editorial_example_preserves_grammar_and_its_source_identity():
+    corrections = presentation.example_corrections()
+    num_examples = 0
+    for lexeme_id, senses in corrections["entries"].items():
+        assert len(lexeme_id) == 36
+        for sense_id, record in senses.items():
+            assert len(sense_id) == 36
+            assert len(record["meaning_sha"]) == 64
+            for example_id, item in record["examples"].items():
+                assert len(example_id) == 36
+                assert item["original_en"].strip()
+                assert item["text_en"][-1] in ".?!"
+                assert item["text_uz"][-1] in ".?!"
+                assert item["text_en"][0].isupper()
+                assert item["text_uz"][0].isupper()
+                assert len(item["text_en"].split()) >= 4
+                num_examples += 1
+    assert num_examples == 43
