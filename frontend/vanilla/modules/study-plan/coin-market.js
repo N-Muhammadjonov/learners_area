@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {goldCoin} from '../shared/coin-reward.js';
 import {api} from '../../js/api-client.js';
 import {button, card, detail, heading, text} from './view.js';
 
@@ -16,7 +17,7 @@ function balanceCards(ctx, wallet, stars = 0) {
       detail(localized(ctx, 'Mashqdagi natijalar asosida. Reytingdagi o‘rningizni belgilang.',
         'Earned through study — determines your ranking position.'))),
     h('div', {class: 'coin-market-balance'},
-      h('span', {}, '🟡 ' + formatNumber(wallet?.balance) + ' ' + localized(ctx, 'tanga', 'coins')),
+      h('span', {class: 'inline-flex items-center gap-2'}, goldCoin(), ' ' + formatNumber(wallet?.balance) + ' ' + localized(ctx, 'tanga', 'coins')),
       detail(localized(ctx, 'Kunlik kirish, mashqlar va do‘stlar uchun. Sovg‘alarga ishlating.',
         'From daily logins, tasks and friends — spend on gifts.'))));
 }
@@ -47,17 +48,17 @@ function earnCards(ctx) {
   return h('div', {class: 'coin-market-grid'},
     h('section', {class: 'coin-market-action'},
       h('span', {'aria-hidden': 'true'}, '📅'),
-      h('strong', {}, '+1–7 🟡'),
+      h('strong', {class: 'inline-flex items-center gap-1'}, '+1–7', goldCoin()),
       h('b', {}, localized(ctx, 'Har kuni', 'Every day')),
       detail(localized(ctx, 'Saytga kirish uchun', 'For checking in'))),
     h('section', {class: 'coin-market-action'},
       h('span', {'aria-hidden': 'true'}, '✅'),
-      h('strong', {}, '+1 🟡'),
+      h('strong', {class: 'inline-flex items-center gap-1'}, '+1', goldCoin()),
       h('b', {}, localized(ctx, 'Mashqlar', 'Tasks')),
       detail(localized(ctx, 'Har bir yangi tugallangan topshiriq', 'For each new completed task'))),
     h('section', {class: 'coin-market-action coin-market-action--friend'},
       h('span', {'aria-hidden': 'true'}, '👥'),
-      h('strong', {}, '+10 🟡'),
+      h('strong', {class: 'inline-flex items-center gap-1'}, '+10', goldCoin()),
       h('b', {}, localized(ctx, 'Do‘stlar', 'Friends')),
       detail(localized(ctx, 'Har bir yangi tasdiqlangan do‘st', 'Each verified new friend'))));
 }
@@ -191,7 +192,7 @@ async function giftsPanel(ctx, host, successMessage = "") {
           {badge: '🏅', frame: '🖼️', theme: '🎨', study_tool: '📘'}[gift.category] || '🎁'),
       h('strong', {}, titleFor(ctx, gift)),
       detail(descriptionFor(ctx, gift)),
-      h('div', {class: 'coin-gift-price'}, formatNumber(gift.coins), ' 🟡'),
+      h('div', {class: 'coin-gift-price inline-flex items-center gap-1'}, formatNumber(gift.coins), goldCoin()),
       gift.stock !== null ? detail(localized(ctx, 'Qoldi: ', 'In stock: ') + gift.stock) : null,
       action);
   });
@@ -220,7 +221,7 @@ async function purchasesPanel(ctx, host) {
     detail(({pending: localized(ctx, 'Ko‘rib chiqilmoqda', 'Awaiting fulfillment'),
       fulfilled: localized(ctx, 'Bajarilgan', 'Fulfilled'),
       rejected: localized(ctx, 'Rad etildi — tangalar qaytarildi', 'Rejected — coins refunded')})[item.status]),
-    h('strong', {}, (item.status === 'rejected' ? '+' : '−') + formatNumber(item.coins) + ' 🟡'));
+    h('strong', {class: 'inline-flex items-center gap-1'}, (item.status === 'rejected' ? '+' : '−') + formatNumber(item.coins), goldCoin()));
   host.replaceChildren(balanceCards(ctx, wallet),
     processing.length ? h('section', {class: 'coin-purchase-section', 'data-coin-pending-orders': ''},
       heading(localized(ctx, 'Jarayondagi buyurtmalar', 'Pending orders')),
@@ -332,7 +333,7 @@ async function ownerGiftsPanel(ctx, host) {
     }, {signal: ctx.signal});
     return h('article', {class: 'coin-market-purchase'},
       gift.imageData ? h('img', {class: 'coin-gift-admin-thumbnail', src: gift.imageData, alt: titleFor(ctx, gift)}) : null,
-      h('strong', {}, titleFor(ctx, gift) + ' · ' + gift.coins + ' 🟡'),
+      h('strong', {}, titleFor(ctx, gift) + ' · ' + gift.coins, goldCoin()),
       detail(gift.active ? localized(ctx, 'Faol', 'Active') : localized(ctx, 'Yashirilgan', 'Hidden')),
       fileInput,
       button(gift.active ? localized(ctx, 'Yashirish', 'Hide') : localized(ctx, 'Faollashtirish', 'Activate'),
@@ -353,7 +354,7 @@ async function ownerGiftsPanel(ctx, host) {
     class: 'coin-market-purchase', 'data-purchase-id': order.id,
   },
     h('div', {}, h('strong', {}, order.buyerName),
-      detail(titleFor(ctx, order) + ' · ' + formatNumber(order.coins) + ' 🟡'),
+      h('p', {class: 'inline-flex items-center gap-1 text-sm'}, titleFor(ctx, order) + ' · ' + formatNumber(order.coins), goldCoin()),
       detail(localized(ctx, 'Chek: ', 'Receipt: ') + order.id),
       detail(new Date(order.purchasedAt).toLocaleString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US')),
       order.telegramUrl ? h('a', {href: order.telegramUrl, class: 'btn-secondary', target: '_blank',
