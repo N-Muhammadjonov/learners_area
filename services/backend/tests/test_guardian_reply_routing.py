@@ -35,7 +35,7 @@ def context(role="teacher"):
         "guardian_status": "active", "guardian_chat": "123456789",
         "guardian_blocked": None, "guardian_removed": None,
         "sender_user_id": SENDER, "sender_role": role,
-        "sender_status": "active", "sender_telegram_id": "987654321",
+        "sender_status": "active", "sender_name": "Professor Z", "sender_telegram_id": "987654321",
         "staff_chat": "987654321", "staff_blocked": None, "staff_removed": None,
         "link_status": "linked", "original_status": "sent",
     }
@@ -161,8 +161,8 @@ def test_full_guardian_id_in_staff_directory_is_not_masked():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sender_kind,expected_chat,expected_heading", [
-    ("guardian", "987654321", "Teacher yuborgan xabarga javob"),
-    ("staff", "123456789", "Teacher javobi"),
+    ("guardian", "987654321", "Teacher yuborgan xabar:"),
+    ("staff", "123456789", "Teacher (Professor Z) javobi"),
 ])
 async def test_reply_claim_routes_only_to_original_party(monkeypatch, sender_kind, expected_chat, expected_heading):
     class QueueConnection(Conn):
@@ -198,6 +198,8 @@ async def test_reply_claim_routes_only_to_original_party(monkeypatch, sender_kin
     assert out["chatId"] == expected_chat
     assert expected_heading in out["text"]
     assert "Hello" in out["text"]
+    if sender_kind == "guardian":
+        assert "Please check this homework" in out["text"]
 
 
 @pytest.mark.asyncio
