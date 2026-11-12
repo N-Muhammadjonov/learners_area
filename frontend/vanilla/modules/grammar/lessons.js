@@ -2,7 +2,8 @@ import {h} from '../../js/native.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {lessonsCatalogueDTO} from '../../js/adapters/listening-lessons-v10.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
-import {mountBookCatalog, mountBookDetail} from './book.js';
+import {mountBookCatalog} from './book.js';
+import {grammarPracticeHref} from './practice-route.js';
 
 /** Grammar lessons catalogue `/app/grammar/lessons?page=N` (the original GrammarLibraryResults). */
 export function mount(context) {
@@ -11,8 +12,7 @@ export function mount(context) {
   root.append(host);
   const bookId = url.searchParams.get('book');
   if (bookId !== null) {
-    void mountBookDetail(context, host, bookId);
-    signal.addEventListener('abort', () => host.replaceChildren(), {once: true});
+    void context.navigate(grammarPracticeHref(url.pathname + url.search), {replace:true});
     return;
   }
   const catalogHost = h('div');
