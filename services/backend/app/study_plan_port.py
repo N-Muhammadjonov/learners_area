@@ -231,7 +231,7 @@ WITH participants AS (
   FROM users u
   LEFT JOIN study_leaderboard_participants p ON p.user_id=u.id
   LEFT JOIN study_reward_ledger l ON l.user_id=u.id AND l.earned_at >= $2
-  WHERE u.role='student' AND u.account_status='active' AND (
+  WHERE u.role IN ('student','teacher','admin','owner') AND u.account_status='active' AND (
       NOT $3 OR EXISTS(SELECT 1 FROM teacher_student_links mine JOIN teacher_student_links other
         ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=u.id))
   GROUP BY u.id,p.alias
@@ -253,7 +253,7 @@ WITH participants AS (
   FROM users u
   LEFT JOIN study_leaderboard_participants p ON p.user_id=u.id
   LEFT JOIN study_reward_ledger l ON l.user_id=u.id AND l.earned_at >= $2
-  WHERE u.role='student' AND u.account_status='active' AND (
+  WHERE u.role IN ('student','teacher','admin','owner') AND u.account_status='active' AND (
       NOT $3 OR EXISTS(SELECT 1 FROM teacher_student_links mine JOIN teacher_student_links other
         ON other.teacher_user_id=mine.teacher_user_id WHERE mine.student_user_id=$1 AND other.student_user_id=u.id))
   GROUP BY u.id,p.alias
@@ -268,9 +268,9 @@ async def leaderboard(req: Request, period: str = "week", scope: str = "all", pa
     user = await core.current_user(req, active=True)
     if not user:
         return failure("unauthenticated", 401)
-    if user["role"] not in ("student", "owner"):
+    if user["role"] not in ("student", "teacher", "admin", "owner"):
         return failure("forbidden", 403)
-    if user["role"] == "owner" and scope != "all":
+    if user["role"] != "student" and scope != "all":
         return failure("invalid_filter", 400)
     if period not in PERIODS or scope not in ("all","class") or not 1 <= page <= 500:
         return failure("invalid_filter",400)
@@ -283,7 +283,7 @@ async def leaderboard(req: Request, period: str = "week", scope: str = "all", pa
     db = await core.pool()
     async with db.acquire() as con:
         mine = await con.fetchval("SELECT alias FROM study_leaderboard_participants WHERE user_id=$1",uid)
-        cohort = await con.fetchval("SELECT EXISTS(SELECT 1 FROM teacher_student_links WHERE student_user_id=$1)",uid)
+        cohort = user["role"] == "student" and await con.fetchval("SELECT EXISTS(SELECT 1 FROM teacher_student_links WHERE student_user_id=$1)",uid)
         rich = True
         try:
             async with con.transaction():
