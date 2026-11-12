@@ -875,7 +875,7 @@ def test_dictionary_content_excludes_provenance_and_publisher_branding() -> None
     evidence = json.loads(provenance_path.read_text(encoding="utf-8"))
     assert evidence["visibility"] == "audit_only_not_dictionary_content"
     assert evidence["release_id"] == RELEASE
-    assert len(evidence["references"]) == 100
+    assert len(evidence["references"]) == 108
     assert len(evidence["annotations"]) == 12
 
     for reference in evidence["references"]:
@@ -1001,3 +1001,78 @@ def test_reader_facing_overlay_whitelists_fields_even_if_source_metadata_is_inje
     assert public_response["senses"][sense["sense_id"]]["collocations"] == [
         {"text": "academic brilliance"}
     ]
+
+
+
+def test_supplemental_exact_sense_cefr_and_collocations_are_guarded() -> None:
+    """Only four attested meanings change; all other meanings and source objects stay intact."""
+    dinnertime = entry(
+        "6f87437a-2e92-5dee-932a-2dce0fb1e3fc",
+        "dinnertime", "n",
+        [("076f0d4c-4403-4cca-a6f9-91e2132189e7",
+          "the customary or habitual hour for the evening meal",
+          "kechki ovqat vaqti", "C2")],
+    )
+    casino = entry(
+        "7000821d-e8e8-5d02-8df0-85624482002c",
+        "casino", "n",
+        [
+            ("2d63e0d4-b386-462b-be11-394e39e60f29",
+             "a public building for gambling and entertainment", "kazino", "C2"),
+            ("750c43e7-a7c3-48e7-ba80-076df7ce65a3",
+             "a card game in which cards face up on the table are taken with eligible cards in the hand",
+             "kasino karta o'yini", "C2"),
+        ],
+    )
+    clash = entry(
+        "6f2fc2bf-a389-5298-98b8-19aee9820b0f",
+        "clash", "n",
+        [
+            ("58903a8b-9c0f-4cc9-bf80-0c7b385aaa60",
+             "a state of conflict between colors", "ranglar to‘qnashuvi", "C2"),
+            ("c2911c20-b7da-4d8d-acdb-332c9553ad8e",
+             "a state of conflict between persons", "to‘qnashuv; ziddiyat", "C2"),
+        ],
+    )
+    circuit = entry(
+        "685813d5-65c5-54ab-a964-5aa0c090c253",
+        "circuit", "n",
+        [
+            ("1db61f3e-afa9-5b5d-aea5-0a1e7fd2757b",
+             "a racetrack for automobile races", "avtopoyga trassasi", "C2"),
+            ("ce38d61a-705b-499e-8de4-c03aff3e4f17",
+             "a complete path through which electric current or a signal can travel",
+             "elektr zanjiri", None),
+        ],
+    )
+    scenarios = [
+        (dinnertime, "076f0d4c-4403-4cca-a6f9-91e2132189e7",
+         "b5a930f6e120c25e4e1a071c2628ddb46358ae3ed3d431e37d03b5a87b95216e",
+         ["B2"], {"before dinnertime"}),
+        (casino, "2d63e0d4-b386-462b-be11-394e39e60f29",
+         "130851f4e9052204bef8132f40828d32d8df6afc4d038d907f147b32ff86f8b3",
+         ["C1", "C2"], set()),
+        (clash, "c2911c20-b7da-4d8d-acdb-332c9553ad8e",
+         "721de9c021a5920292799102574f74c6107345975dd8fdd68602b21eab2c0c87",
+         ["C2", "C1"], {"a personality clash"}),
+        (circuit, "ce38d61a-705b-499e-8de4-c03aff3e4f17",
+         "a191d10fcc3ddfbf3a1b12429527fa2b4e7e269c23f35b44a0c0b7901b18d3c1",
+         ["C2", "B2"], {"electrical circuit", "circuit diagram"}),
+    ]
+    for original, sense_id, source_hash, levels, collocations in scenarios:
+        frozen = copy.deepcopy(original)
+        source_sense = next(s for s in original["senses"] if s["sense_id"] == sense_id)
+        assert original_meaning_hash(original, source_sense) == source_hash
+        corrected = curate_candidate_entry(original)
+        assert original == frozen
+        assert [s.get("cefr") for s in corrected["senses"]] == levels
+        assert {c["text"] for c in corrected["collocations"]} == collocations
+        assert all(c["sense_id"] == sense_id for c in corrected["collocations"])
+        assert corrected["relations"] == frozen["relations"]
+        for before, after in zip(frozen["senses"], corrected["senses"]):
+            assert before["definition_en"] == after["definition_en"]
+            assert before["definition_uz"] == after["definition_uz"]
+            assert before["translations"] == after["translations"]
+            assert before["examples"] == after["examples"]
+            if before["sense_id"] != sense_id:
+                assert before == after

@@ -603,6 +603,54 @@
       "sense_id": "26a43cd7-8094-4a68-91c4-fca58ff30636",
       "field_path": "add_collocations.1.source",
       "url": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+    },
+    {
+      "lexeme_id": "6f87437a-2e92-5dee-932a-2dce0fb1e3fc",
+      "sense_id": "076f0d4c-4403-4cca-a6f9-91e2132189e7",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.collinsdictionary.com/dictionary/english/dinnertime"
+    },
+    {
+      "lexeme_id": "6f87437a-2e92-5dee-932a-2dce0fb1e3fc",
+      "sense_id": "076f0d4c-4403-4cca-a6f9-91e2132189e7",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.collinsdictionary.com/dictionary/english/dinnertime"
+    },
+    {
+      "lexeme_id": "7000821d-e8e8-5d02-8df0-85624482002c",
+      "sense_id": "2d63e0d4-b386-462b-be11-394e39e60f29",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/casino"
+    },
+    {
+      "lexeme_id": "6f2fc2bf-a389-5298-98b8-19aee9820b0f",
+      "sense_id": "c2911c20-b7da-4d8d-acdb-332c9553ad8e",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/clash_1"
+    },
+    {
+      "lexeme_id": "6f2fc2bf-a389-5298-98b8-19aee9820b0f",
+      "sense_id": "c2911c20-b7da-4d8d-acdb-332c9553ad8e",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/clash_1"
+    },
+    {
+      "lexeme_id": "685813d5-65c5-54ab-a964-5aa0c090c253",
+      "sense_id": "ce38d61a-705b-499e-8de4-c03aff3e4f17",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/circuit"
+    },
+    {
+      "lexeme_id": "685813d5-65c5-54ab-a964-5aa0c090c253",
+      "sense_id": "ce38d61a-705b-499e-8de4-c03aff3e4f17",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/circuit"
+    },
+    {
+      "lexeme_id": "685813d5-65c5-54ab-a964-5aa0c090c253",
+      "sense_id": "ce38d61a-705b-499e-8de4-c03aff3e4f17",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/circuit"
     }
   ],
   "annotations": [

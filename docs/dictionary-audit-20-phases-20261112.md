@@ -525,3 +525,18 @@ At the owner's request, **publisher names, brand names used for source attributi
 - `dictionary_presentation.corrected_sense_presentation()` now uses a strict display-field allowlist. Synonyms and antonyms return only word text and exact lexeme/sense IDs; collocations return only phrase text. Source metadata is dropped even if someone accidentally inserts it into a future patch.
 - Regression tests verify that the dictionary correction JSON, in-memory candidate and public presentation contain no source URLs or publisher attribution. A malicious/future source-metadata injection is also explicitly tested. These tests do not remove genuine proper nouns that happen to be legitimate dictionary headwords.
 - **No example sentence revisions, no production R2 changes, no main merge.** Previous targeted linguistic QA remains in place. Structural Phase 09 signoff does not establish independent linguistic correctness for all 5,521 senses.
+
+
+
+### Phase 09 — November 13 targeted lexical continuation (unpublished)
+
+Four further Phase-09 sense identities were aligned to public learner-dictionary meaning/CEFR evidence without changing any example sentence or an unrelated meaning:
+
+- `casino` (gambling venue, not the different card-game sense): C2 → C1. [Evidence](https://www.oxfordlearnersdictionaries.com/definition/english/casino).
+- `clash` (conflict between people, not a clash of colours/noise): C2 → C1; exact-sense collocation `a personality clash`. [Evidence](https://www.oxfordlearnersdictionaries.com/definition/english/clash_1).
+- `circuit` (electrical path, not a racing circuit): missing CEFR → B2, backed by the explicit Engineering B2 sense; `electrical circuit`, `circuit diagram` added only to that meaning. This is a source-verified individual null fill, **not** a policy to assign CEFR to every ungraded sense. [Evidence](https://www.oxfordlearnersdictionaries.com/definition/english/circuit).
+- `dinnertime` (usual evening meal time): C2 → B2 and `before dinnertime` collocation. [Evidence](https://www.collinsdictionary.com/dictionary/english/dinnertime).
+
+The four meaning identities and prior labels are matched to the previously recorded, frozen Phase-09 flagged source snapshot; checks in `test_dictionary_sense_curation_phase09.py` also assert the exact original meaning hashes and preservation of all other meanings, translations, examples and relations. Four CEFR patches and four collocations are included in the candidate correction layer. Source URLs are stored **only** in `audit-20261112-phase09-source-evidence.json`, not in public dictionary content.
+
+**Verification boundary:** the existing `audit-20261112-phase09-semantic-continuation.json` readback receipt continues to describe the earlier **31 lexemes / 49 senses**, each independently rechecked against R2. The four new patches bring the candidate to **35 lexemes / 53 senses**, **20 CEFR edits**, and **46 added collocations**, but the four newest identities have **not** been independently re-read from immutable R2 in this continuation. The complete 5,521-sense linguistic verification is not yet complete. Do not publish to production or merge to main.

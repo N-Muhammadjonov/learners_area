@@ -755,6 +755,60 @@
           }
         ]
       }
+    },
+    "6f87437a-2e92-5dee-932a-2dce0fb1e3fc": {
+      "076f0d4c-4403-4cca-a6f9-91e2132189e7": {
+        "meaning_sha": "b5a930f6e120c25e4e1a071c2628ddb46358ae3ed3d431e37d03b5a87b95216e",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "B2"
+        },
+        "add_collocations": [
+          {
+            "text": "before dinnertime"
+          }
+        ]
+      }
+    },
+    "7000821d-e8e8-5d02-8df0-85624482002c": {
+      "2d63e0d4-b386-462b-be11-394e39e60f29": {
+        "meaning_sha": "130851f4e9052204bef8132f40828d32d8df6afc4d038d907f147b32ff86f8b3",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        }
+      }
+    },
+    "6f2fc2bf-a389-5298-98b8-19aee9820b0f": {
+      "c2911c20-b7da-4d8d-acdb-332c9553ad8e": {
+        "meaning_sha": "721de9c021a5920292799102574f74c6107345975dd8fdd68602b21eab2c0c87",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        },
+        "add_collocations": [
+          {
+            "text": "a personality clash"
+          }
+        ]
+      }
+    },
+    "685813d5-65c5-54ab-a964-5aa0c090c253": {
+      "ce38d61a-705b-499e-8de4-c03aff3e4f17": {
+        "meaning_sha": "a191d10fcc3ddfbf3a1b12429527fa2b4e7e269c23f35b44a0c0b7901b18d3c1",
+        "replace_cefr": {
+          "original": null,
+          "text": "B2"
+        },
+        "add_collocations": [
+          {
+            "text": "electrical circuit"
+          },
+          {
+            "text": "circuit diagram"
+          }
+        ]
+      }
     }
   }
 }
