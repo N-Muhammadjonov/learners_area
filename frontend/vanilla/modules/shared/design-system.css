@@ -291,3 +291,7 @@ html[data-theme] #root [data-listening-full-focus] .listening-workspace :is(.car
 
 html[data-theme="day"] #root [data-ui-system] :is(input,select,textarea){color-scheme:light}
 html[data-theme="night"] #root [data-ui-system] :is(input,select,textarea){color-scheme:dark}
+
+/* Verified exercise rewards: one gold coin treatment in day and night mode. */
+.la-coin-reward{display:inline-flex;align-items:center;gap:.42rem;align-self:flex-start;max-width:100%;padding:.36rem .6rem;border:1px solid #d6ab35;border-radius:999px;background:color-mix(in srgb,#d49a24 12%,transparent);color:inherit;font-size:.77rem;font-weight:650;line-height:1.35;white-space:normal}
+.la-gold-coin{display:inline-flex;flex:none;align-items:center;justify-content:center;width:1.25rem;height:1.25rem;border:2px solid #b9790a;border-radius:50%;background:radial-gradient(circle at 28% 20%,#fff6b6 0%,#f7ca49 36%,#d9910b 76%,#b36b08 100%);box-shadow:inset 0 0 0 1px #ffe596,0 1px 2px rgb(0 0 0 / .25);color:#905309;font-size:.68rem;font-weight:900;text-shadow:0 1px 0 #ffed91}

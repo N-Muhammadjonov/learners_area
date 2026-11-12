@@ -54,6 +54,7 @@ export function managementAreas(dict,role){
   add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
  }
  if(owner){
+  add('/app/management?view=coins',dict.people.name==='Ism'?'Sovg‘alar va xaridlar':'Gifts and purchases',dict.people.name==='Ism'?'Sovg‘alar, xarid cheklari va buyurtmalar.':'Manage gifts, receipts and orders.',IconSettings);
   add('/app/owner',dict.owner.title,dict.management.ownerBody,IconSettings);
   add('/app/owner/integrations',dict.owner.integrations,dict.management.integrationsBody,IconSettings);
   add('/app/owner/retention',dict.owner.retention,dict.management.retentionBody,IconRetention);
@@ -66,6 +67,20 @@ export async function mount(ctx){
  const role=session?.user?.role;
  if(!['teacher','admin','owner'].includes(role)){void navigate('/app',{replace:true});return;}
  const view=url?.searchParams?.get('view');
+ if(view==='coins'){
+  if(role!=='owner'){void navigate('/app/management',{replace:true});return;}
+  const [{showCoinFeature},{loadStyles}]=await Promise.all([
+   import('../study-plan/coin-market.js'),import('../study-plan/view.js')]);
+  if(signal?.aborted)return;
+  loadStyles();
+  const host=el('section',{'data-management-coin-gifts':'',class:'mx-auto flex w-full max-w-6xl flex-col gap-4'});
+  const back=el('a',{href:'/app/management',class:'btn-secondary self-start'},dict.common.back);
+  const panel=el('div',{class:'coin-market-panel'});
+  host.append(back,panel);root.append(host);
+  await showCoinFeature(ctx,'manage',panel);
+  return;
+ }
+
  if(['mocks','mock-create','mock-grading'].includes(view)){
   if(!['teacher','owner'].includes(role)){void navigate('/app/management',{replace:true});return;}
   const entry=view==='mocks'?await import('./mock-management.js'):

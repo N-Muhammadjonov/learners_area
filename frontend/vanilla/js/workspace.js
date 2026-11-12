@@ -15,7 +15,7 @@ import {createShell,focusFrame} from '../modules/shell/layout.js';
 export function createWorkspace(root){let pendingScroll,lastPresentation;let shell,shellController,session,key,locationKey,authorityController,authorityKey,release;const scroll=new Map();
  let lastDailyClaim='';
  function claimDailyCoins(current){
-  if(current?.user?.role!=='student'||current.user.accountStatus!=='active')return;
+  if(!['student','teacher','admin','owner'].includes(current?.user?.role)||current.user.accountStatus!=='active')return;
   const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   const identity=current.user.id+':'+stamp;
   if(lastDailyClaim===identity)return;

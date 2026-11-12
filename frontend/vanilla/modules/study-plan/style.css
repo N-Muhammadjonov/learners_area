@@ -144,3 +144,16 @@
 .coin-personal-balance{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem 1.1rem;padding:.85rem 1rem;margin:.7rem 0 1rem;border:1px solid rgb(var(--workspace-line));border-radius:12px;background:rgb(var(--workspace-sunken));font-variant-numeric:tabular-nums}
 .coin-personal-balance strong{font-size:1rem;color:rgb(var(--workspace-ink))}
 .coin-personal-balance p{margin:0;font-size:.85rem;color:rgb(var(--workspace-muted))}
+
+.coin-gift-image{width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:10px;background:rgb(var(--workspace-sunken))}
+.coin-gift-admin-thumbnail{width:4.5rem;height:4.5rem;object-fit:contain;border-radius:8px;background:rgb(var(--workspace-sunken))}
+.coin-order-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.coin-gift-admin-form input[type=file],.coin-market-purchase input[type=file]{width:100%;max-width:19rem;font-size:.8rem}
+.coin-market-notice:not(:empty){padding:.6rem .75rem;border-radius:9px;background:rgb(var(--workspace-sunken))}
+
+.coin-purchase-dialog{max-width:min(94vw,25rem);border:1px solid rgb(var(--workspace-line));border-radius:16px;padding:1.4rem;background:rgb(var(--workspace-raised));color:rgb(var(--workspace-ink));box-shadow:0 20px 65px rgb(0 0 0 / .28)}
+.coin-purchase-dialog::backdrop{background:rgb(0 0 0 / .55)}
+.coin-purchase-dialog h3{font-weight:750;font-size:1.15rem;margin-bottom:.75rem}
+.coin-purchase-dialog .coin-order-actions{justify-content:flex-end;margin-top:1.3rem}
+.coin-purchase-section{display:grid;gap:.65rem}
+.coin-gold{color:#e0a900;text-shadow:0 1px 0 #8b5a00,0 -1px 0 #ffef92}

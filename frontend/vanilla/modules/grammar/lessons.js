@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {rewardBadge} from '../shared/coin-reward.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {lessonsCatalogueDTO} from '../../js/adapters/listening-lessons-v10.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
@@ -42,6 +43,7 @@ export function mount(context) {
   function render(p) {
     const cards = p.library.rows.map(lesson => h('article', {class: 'card p-5', 'data-grammar-lesson': lesson.id},
       h('h2', {class: 'card-title'}, lesson.title),
+      rewardBadge(context,'grammar'),
       lesson.summary ? h('p', {class: 'body-text'}, lesson.summary) : null,
       h('a', {class: 'btn-primary', href: `/app/grammar/lessons/${lesson.id}`}, dict.listening.hub.open)));
     return h('div', {class: 'mx-auto flex max-w-5xl flex-col gap-5', 'data-route-usable': 'grammar-lessons'},

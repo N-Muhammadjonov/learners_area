@@ -280,17 +280,19 @@ async def record_practice(con, user_id, module: str, active_ms: int) -> None:
 
 
 async def wallet(con, user_id) -> dict:
-    empty = {"earned": 0, "spent": 0, "balance": 0, "lifetime": 0, "level": 1, "nextLevelAt": LEVEL_NEXT}
+    empty = {"earned": 0, "spent": 0, "refunded": 0, "balance": 0, "lifetime": 0, "level": 1, "nextLevelAt": LEVEL_NEXT}
     try:
         async with con.transaction():
             earned = await con.fetchval(
                 "SELECT coalesce(sum(coins),0)::int FROM coin_ledger WHERE user_id=$1", user_id) or 0
             spent = await con.fetchval(
                 "SELECT coalesce(sum(coins),0)::int FROM coin_spend WHERE user_id=$1", user_id) or 0
+            refunded = await con.fetchval(
+                "SELECT coalesce(sum(coins),0)::int FROM coin_gift_refunds WHERE user_id=$1", user_id) or 0
     except Exception:
         return empty
-    balance = max(0, earned - spent)
-    return {"earned": earned, "spent": spent, "balance": balance, "lifetime": earned,
+    balance = max(0, earned - spent + refunded)
+    return {"earned": earned, "spent": spent, "refunded": refunded, "balance": balance, "lifetime": earned,
             "level": coin_level(earned), "nextLevelAt": next_level_at(earned),
             "version": POLICY_VERSION}
 
