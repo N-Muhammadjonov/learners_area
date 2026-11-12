@@ -453,5 +453,6 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                     awarded += 1
             return {"sessionId": str(row["id"]), "awarded": awarded}
     except Exception:
+        logging.getLogger(__name__).exception("Coin media heartbeat failed for module %s", module)
         return {"sessionId": None, "awarded": 0, "unavailable": True}
 
