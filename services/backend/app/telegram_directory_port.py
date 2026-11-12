@@ -241,7 +241,8 @@ async def directory_detail(req:Request,userId:str):
           'role':user['role'],'accountStatus':user['account_status'],'statusReason':user['status_reason'],
           'locale':user['locale'],'telegramId':user['telegram_id'],'createdAt':jsiso(user['created_at']),
           'lastActiveAt':jsiso(user['last_active_at']),'telegramLinked':bool(user['telegram_id']),
-          'primaryOwner':bool(user['telegram_id'] and user['telegram_id']==await effective_owner_id(conn))},
+          'primaryOwner':bool(user['telegram_id'] and user['telegram_id']==await effective_owner_id(conn)),
+          'hasLinkedParent':bool(await conn.fetchval("SELECT 1 FROM guardian_links WHERE student_id=$1 AND status='linked' LIMIT 1",userId)) if user['role']=='student' else False},
           'contact':({'username':contact['username'],'blocked':bool(contact['bot_blocked_at']),
            'removed':bool(contact['removed_at']),'chatId':contact['chat_id']} if contact else None),
           'audit':[{'action':r['action'],'createdAt':jsiso(r['created_at']),'metadata':r['metadata']} for r in audits]})
