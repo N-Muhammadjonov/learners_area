@@ -334,12 +334,9 @@ async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user
     lang = _lang(callback, db_user, contact)
     _prefix, action, user_id = callback.data.split(":", 2)
     actor = str(callback.from_user.id)
-    if action in {"approve", "reject"}:
-        if not allows(bot_access, "ADMISSIONS"):
-            await callback.answer(t(lang, "no_permission"), show_alert=True)
-            return
-        success = await api_client.decide_access_request(actor, user_id, "approve" if action == "approve" else "reject")
-        await callback.answer("OK" if success else t(lang, "error"), show_alert=True)
+    # Admission and suspension decisions belong to the website, not the bot user card.
+    if action in {"approve", "reject", "suspend", "unsuspend"}:
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
     if action == "delete":
         if not allows(bot_access, "DANGEROUS_USER_DELETE"):
@@ -358,12 +355,11 @@ async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user
     if not allows(bot_access, permission):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    path = {"suspend": "status", "unsuspend": "status", "unlink": "unlink", "remove": "remove"}[action]
+    if action not in {"unlink", "remove"}:
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    path = {"unlink": "unlink", "remove": "remove"}[action]
     payload = {"actorTelegramId": actor}
-    if action == "suspend":
-        payload["status"] = "suspended"
-    if action == "unsuspend":
-        payload["status"] = "active"
     status, data = await api_client.user_action(user_id, path, payload)
     await callback.answer("OK" if status == 200 else esc((data or {}).get("error") or "error"), show_alert=True)
 
