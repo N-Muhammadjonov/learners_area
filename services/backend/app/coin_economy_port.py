@@ -99,7 +99,7 @@ async def claim_daily(con, user_id) -> dict:
         day = state["nextCoins"]
         today = date.fromisoformat(state["date"])
         awarded = await award_coin(
-            con, user_id, f"daily:{today}",
+            con, user_id, f"daily:{today.isoformat()}",
             module="daily", activity_type="login",
             coins=day, exercise_id=today, evidence_id=today)
         if not awarded:
