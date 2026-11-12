@@ -89,6 +89,25 @@ def corrected_examples(entry, sense):
             revised.append(example)
     return revised
 
+
+@lru_cache(maxsize=1)
+def sense_corrections():
+    """Immutable-release-specific, source-verified semantic presentation edits."""
+    path = Path(__file__).resolve().parents[1] / 'assets/dictionary/sense_corrections.json'
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
+def corrected_sense_presentation(entry, sense):
+    """Never apply a correction to a different release or meaning."""
+    data = sense_corrections()
+    if entry.get('release_id') != data['source_release']:
+        return {}
+    correction = data['entries'].get(entry['lexeme_id'], {}).get(sense['sense_id'], {})
+    if correction.get('meaning_sha') != meaning_hash(entry, sense):
+        return {}
+    return correction
+
+
 def present(entry):
     from .dictionary_reader_metadata import details
     reader=details(entry)
@@ -99,6 +118,7 @@ def present(entry):
         sid = sense['sense_id']
         candidate = stored.get('senses', {}).get(sid)
         row = candidate if candidate and candidate.get('meaningSha') == meaning_hash(entry, sense) else None
+        semantic = corrected_sense_presentation(entry, sense)
         scoped = [r for r in entry['relations'] if r['relation_type'] == 'synonym' and r.get('source_sense_id') == sid]
         legacy = [r for r in entry['relations'] if r['relation_type'] == 'synonym' and not r.get('source_sense_id')] if len(senses) == 1 else []
         def links(relations):
@@ -106,8 +126,12 @@ def present(entry):
         synonyms = {}
         for item in [*links(legacy), *(row.get('synonyms', []) if row else []), *links(scoped)]:
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
+        excluded_synonyms = set(semantic.get('remove_synonym_lexeme_ids', []))
+        if excluded_synonyms:
+            synonyms = {key: item for key, item in synonyms.items()
+                        if item.get('lexemeId') not in excluded_synonyms}
         collocations = {}
-        for item in [*({'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)), *(row.get('collocations', []) if row else [])]:
+        for item in [*({'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)), *(row.get('collocations', []) if row else []), *({'text': item['text']} for item in semantic.get('add_collocations', []))]:
             collocations[(usage_norm(item['text']), item.get('lexemeId'), item.get('senseId'))] = item
         examples = [ex for ex in corrected_examples(entry, sense) if example_uses_entry(entry, ex['text_en'])]
         antonyms={}
