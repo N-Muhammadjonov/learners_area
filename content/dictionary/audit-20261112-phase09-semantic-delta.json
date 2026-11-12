@@ -61,6 +61,19 @@
         "68"
       ],
       "method": "Read-only R2 member-by-member decompression, lexeme/sense IDs and SHA-256 of original lemma/pos/definition; compared every source field before candidate transformation."
+    },
+    "candidate_dry_run": {
+      "entries": 12,
+      "patched_senses": 18,
+      "removed_canonical_relations": 15,
+      "added_scoped_relations": 10,
+      "added_scoped_collocations": 7,
+      "preserved_number_of_senses": true,
+      "preserved_examples": true,
+      "invalid_relation_source_ids": 0,
+      "invalid_collocation_source_ids": 0,
+      "errors": [],
+      "method": "Read-only Cloudflare R2 source decompression and in-memory dry-run of exact field/relationship changes; zero R2 writes."
     }
   },
   "limits": {
