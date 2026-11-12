@@ -930,3 +930,74 @@ def test_candidate_and_public_dictionary_view_never_leak_source_metadata(monkeyp
         assert '"source":' not in rendered
         assert "sense_alignment" not in rendered
     assert public_view["senses"][original["senses"][0]["sense_id"]]["collocations"]
+
+
+def test_reader_facing_overlay_whitelists_fields_even_if_source_metadata_is_injected(
+    monkeypatch,
+) -> None:
+    """Never serialize editorial publisher links through dictionary presentation."""
+    from app import dictionary_presentation as presentation
+    from app import dictionary_reader_metadata as reader
+
+    original = entry(
+        "6d673b56-e14b-5236-b31e-d947f28f5b42",
+        "brilliance",
+        "n",
+        [("86fde680-8dd4-4286-af9b-09f93752e21a",
+          "unusual mental ability", "zakovat", "C2")],
+    )
+    original.update({"lexical_type": "word", "forms": []})
+    sense = original["senses"][0]
+    patch = {
+        "meaning_sha": presentation.meaning_hash(original, sense),
+        "source": "https://dictionary.cambridge.org/dictionary/english/brilliance",
+        "sense_alignment": "Oxford learner-level metadata stays in audit only",
+        "replace_cefr": {
+            "original": "C2",
+            "text": "C1",
+            "source": "https://www.oxfordlearnersdictionaries.com/",
+        },
+        "add_synonyms": [
+            {
+                "text": "genius",
+                "lexemeId": "90e4c3ee-e1d3-58d6-a153-98e1a24364bb",
+                "senseId": "3fb261c7-c5a6-44b3-9b34-cc7e4e49bf30",
+                "source": "https://dictionary.cambridge.org/",
+                "publisher": "Cambridge",
+            }
+        ],
+        "add_collocations": [
+            {
+                "text": "academic brilliance",
+                "source": "https://www.oxfordlearnersdictionaries.com/",
+                "publisher": "Oxford",
+            }
+        ],
+    }
+    monkeypatch.setattr(
+        presentation,
+        "sense_corrections",
+        lambda: {
+            "source_release": RELEASE,
+            "entries": {original["lexeme_id"]: {sense["sense_id"]: patch}},
+        },
+    )
+    monkeypatch.setattr(presentation, "shard", lambda _: {})
+    monkeypatch.setattr(reader, "stored", lambda _: None)
+    curated_overlay = presentation.corrected_sense_presentation(original, sense)
+    public_response = presentation.present(original)
+
+    for rendered in (curated_overlay, public_response):
+        text = json.dumps(rendered, ensure_ascii=False).casefold()
+        for forbidden in ("oxford", "cambridge", "https://", "publisher", "sense_alignment"):
+            assert forbidden not in text
+    assert public_response["senses"][sense["sense_id"]]["synonyms"] == [
+        {
+            "text": "genius",
+            "lexemeId": "90e4c3ee-e1d3-58d6-a153-98e1a24364bb",
+            "senseId": "3fb261c7-c5a6-44b3-9b34-cc7e4e49bf30",
+        },
+    ]
+    assert public_response["senses"][sense["sense_id"]]["collocations"] == [
+        {"text": "academic brilliance"}
+    ]
