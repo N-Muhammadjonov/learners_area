@@ -54,6 +54,7 @@ export function managementAreas(dict,role){
   add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
  }
  if(owner){
+  add('/app/leaderboard?view=manage',dict.people.name==='Ism'?'Sovg‘alar va xaridlar':'Gifts and purchases',dict.people.name==='Ism'?'Sovg‘alar, xarid cheklari va buyurtmalar.':'Manage gifts, receipts and orders.',IconSettings);
   add('/app/owner',dict.owner.title,dict.management.ownerBody,IconSettings);
   add('/app/owner/integrations',dict.owner.integrations,dict.management.integrationsBody,IconSettings);
   add('/app/owner/retention',dict.owner.retention,dict.management.retentionBody,IconRetention);
