@@ -45,7 +45,7 @@ test('a saved provider duration restores missing metadata without changing autho
 test('trusted provider duration supplies percent and is sent as display telemetry for unknown video length',async()=>{
  const h=setup({role:'student'});globalThis.AbortController=window.AbortController;
  const original=globalThis.fetch,requests=[];
- globalThis.fetch=async(p,o)=>{requests.push(JSON.parse(o.body));return {ok:true,json:async()=>({state:'in_progress',watchedSeconds:200,durationSeconds:1000})};};
+ globalThis.fetch=async(p,o)=>{if(!String(p).startsWith('/api/coins/'))requests.push(JSON.parse(o.body));return {ok:true,json:async()=>({state:'in_progress',watchedSeconds:200,durationSeconds:1000})};};
  let studio;
  try{
   const data=fixture();data.videoLesson.durationSeconds=null;
@@ -82,7 +82,7 @@ test('transcript is inline and exclusive, player and draft survive tab switches,
 
 test('initial/spoofed end never writes completion; trusted playing then end keeps native player replay',async()=>{
  const h=setup({role:'student'});globalThis.AbortController=window.AbortController;
- const original=globalThis.fetch,requests=[];globalThis.fetch=async(p,o)=>{requests.push(JSON.parse(o.body));return {ok:true,json:async()=>({state:'completed',watchedSeconds:600})};};
+ const original=globalThis.fetch,requests=[];globalThis.fetch=async(p,o)=>{if(!String(p).startsWith('/api/coins/'))requests.push(JSON.parse(o.body));return {ok:true,json:async()=>({state:'completed',watchedSeconds:600})};};
  let studio;
  try{
   studio=createVideoStudio(h.ctx,{mode:'standalone',video:fixture()});h.ctx.root.append(studio.node);
