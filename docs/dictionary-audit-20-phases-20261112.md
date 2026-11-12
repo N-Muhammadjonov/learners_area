@@ -423,3 +423,21 @@ The branch's `sense_corrections.json` and `dictionary_presentation.py` additiona
 **Verification boundary:** Existing automated structural inventory covers 5,521 meanings, presentation `meaningSha` checks have 0 stale rows, and 233 exact edited examples passed independent R2 readback. This **does not** certify that all 4,095 source examples, 5,521 meaning translations, remaining CEFR labels and semantic relations are correct. The unverified language content must not be labeled "finished" merely because it parsed. Focused regression tests were committed but their GitHub Actions pass status was not confirmed. `main`, live release, and production channel remain untouched.
 
 Current-turn receipt: `content/dictionary/audit-20261112-phase09-correction-receipt.json`. No invented synonyms or antonyms and no mass downgrade.
+
+
+### Phase 09 — lexical-first pass (no example work)
+
+The owner requested **definitions and Uzbek translations, sense-specific CEFR, synonyms, antonyms and collocations before example sentences**. No example content was modified in this pass.
+
+Verified semantic delta for this pass, consolidating previously committed work and new corrections:
+- `services/backend/assets/dictionary/sense_corrections.json`: **12 lexemes / 18 senses** carrying exact-sense edits: **4 CEFR corrections**, **2 English definition corrections**, **2 Uzbek translation corrections**, **19 incorrect synonym links suppressed**, **1 exact-sense synonym added**, **9 exact-sense antonyms added**, **7 collocations added**.
+- `terzetto` was incorrectly defined and translated as the cardinal number three. Collins describes the word as a musical/vocal trio. The obsolete numeric synonym group is excluded; the `trio` composition sense `24087232-6200-4e00-98d9-3212c842bf3b` is linked. Source: https://www.collinsdictionary.com/dictionary/english/terzetto.
+- `actus reus` incorrectly carried a generic crime/misconduct definition. Cornell identifies it as the physical element of a criminal offence (an act or omission). The Uzbek rendering now specifies the criminal-law element. Generic `misconduct`, `wrongdoing` and `wrongful conduct` synonyms are excluded from this exact sense. Source: https://www.law.cornell.edu/wex/actus_reus.
+- Sense-specific opposites now include `decry/praise`, distinct `unilateral/bilateral` senses, and distinct `deflate/inflate` air/economics/importance senses. All nine distinct target `lexeme_id/sense_id` pairs were verified against frozen Supabase `dictionary_entries.sense_ids`.
+- `traineeship` with its financial-aid sense is **not** rewritten merely because it differs from the everyday training-period meaning; Collins attests the financial-grant sense. Source: https://www.collinsdictionary.com/dictionary/english/traineeship.
+- Added `services/backend/app/dictionary_sense_curation.py` to transform exact, hash-verified entry copies in memory for a future **immutable replacement candidate**. This helper never writes to Supabase, live R2, active release, or examples. `dictionary_presentation.py` now recognizes exact-sense curated synonym and antonym additions/removals; it preserves unrelated meanings.
+- The focused CI workflow was expanded to include `tests/test_dictionary_sense_curation_phase09.py` and new relation/meaning tests in `tests/test_dictionary_reader_metadata.py`.
+
+Receipt: `content/dictionary/audit-20261112-phase09-semantic-delta.json`.
+
+**Signoff:** Concrete corrections above are committed; examples intentionally deferred. Full linguistic correctness of all **5,521** Phase 09 senses and full CI green status remain unverified. Do not report Phase 09 as fully complete or publish any replacement release until these gates are satisfied.
