@@ -1,5 +1,5 @@
 import {h} from '../../js/native.js';
-import {api, loadStyles, tr, marker, failureText, loadChildren, childPicker, emptyState} from './shared.js';
+import {api, loadStyles, tr, marker, failureText, loadChildren, childPicker, emptyState, replaceOptionalChildren} from './shared.js';
 
 /** Guardian Leaderboard: public aliases, ranks and points only. Rows are plain text, never links. */
 export async function mount(ctx) {
@@ -32,7 +32,7 @@ export async function mount(ctx) {
       const rows = data.standings.map(s => h('div', {class: 'pc-rank', 'data-mine': String(s.mine)},
         h('b', {}, medal(s.rank)), h('span', {}, s.mine ? `${s.alias} · ${tr(ctx, 'farzandingiz', 'your child')}` : s.alias),
         h('b', {}, String(s.stars))));
-      list.replaceChildren(...(rows.length ? rows : [h('p', {style: {padding: '1rem'}, class: 'pc-muted'}, tr(ctx, 'Reytingda hali ishtirokchi yo‘q.', 'No participants yet.'))]),
+      replaceOptionalChildren(list, ...(rows.length ? rows : [h('p', {style: {padding: '1rem'}, class: 'pc-muted'}, tr(ctx, 'Reytingda hali ishtirokchi yo‘q.', 'No participants yet.'))]),
         data.position === null ? h('p', {class: 'pc-note', style: {margin: '.75rem'}}, tr(ctx, 'Farzandingiz bu davrda reytingda ishtirok etmayapti.', 'Your child is not on the leaderboard for this period.')) : null);
     } catch (error) {
       if (signal.aborted || mine !== ticket) return;
@@ -41,7 +41,7 @@ export async function mount(ctx) {
     }
   }
   paintBar();
-  page.replaceChildren(
+  replaceOptionalChildren(page,
     h('div', {class: 'flex flex-wrap items-center justify-between gap-2'},
       h('div', {}, h('h1', {class: 'font-display text-2xl text-ink-900'}, dict.nav.leaderboard ?? tr(ctx, 'Reyting', 'Leaderboard')),
         h('p', {class: 'pc-muted'}, tr(ctx, 'Ommaviy reyting: boshqa o‘quvchilarning shaxsiy ma’lumoti ko‘rinmaydi', 'Public ranking only; other students’ private details are never shown'))), marker(ctx)),

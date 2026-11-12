@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {JSDOM} from 'jsdom';
+import {replaceOptionalChildren} from '../modules/guardian/shared.js';
 import {dockItems} from '../modules/shell/dock.js';
 import routes from '../js/routes.js';
 
@@ -45,4 +47,27 @@ test('all guardian modules parse as ESM', async () => {
   for (const file of ['shared.js', 'progress.js', 'leaderboard.js', 'guardians.js', 'progress-entry.js', 'leaderboard-entry.js']) {
     assert.ok(read(file).length > 100, file);
   }
+});
+
+
+test('native optional child replacement does not stringify null, undefined or booleans', () => {
+  const dom = new JSDOM('<!doctype html><div id="host"></div>');
+  const host = dom.window.document.querySelector('#host');
+  const node = dom.window.document.createElement('span');
+  node.textContent = 'visible';
+  replaceOptionalChildren(host, null, undefined, false, true, node, 0);
+  assert.equal(host.textContent, 'visible0');
+  assert.equal(host.children.length, 1);
+  dom.window.close();
+});
+
+test('guardians, leaderboard and progress filter optional children before replacing DOM', () => {
+  const guardians = read('guardians.js');
+  const leaderboard = read('leaderboard.js');
+  const progress = read('progress.js');
+  assert(guardians.includes('replaceOptionalChildren(host,'));
+  assert(leaderboard.includes('replaceOptionalChildren(list,'));
+  assert(leaderboard.includes('replaceOptionalChildren(page,'));
+  assert(progress.includes('replaceOptionalChildren(page,'));
+  assert(!guardians.includes('host.replaceChildren('));
 });

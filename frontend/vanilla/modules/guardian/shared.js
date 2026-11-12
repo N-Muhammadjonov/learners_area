@@ -8,6 +8,11 @@ export function loadStyles() {
 
 export const tr = (ctx, uz, en) => (ctx.locale === 'uz' ? uz : en);
 
+/** Native replaceChildren stringifies null/undefined/boolean arguments; h() skips them instead. Keep both paths consistent. */
+export function replaceOptionalChildren(parent, ...children) {
+  parent.replaceChildren(...children.filter(child => child != null && typeof child !== 'boolean'));
+}
+
 /** Read-only JSON fetch. Failures carry the HTTP status so pages can show a precise, honest state. */
 export async function api(path, {signal, method = 'GET', body} = {}) {
   const response = await fetch(path, {

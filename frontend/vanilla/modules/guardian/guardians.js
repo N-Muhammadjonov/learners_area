@@ -1,5 +1,5 @@
 import {h} from '../../js/native.js';
-import {api, loadStyles, tr, failureText} from './shared.js';
+import {api, loadStyles, tr, failureText, replaceOptionalChildren} from './shared.js';
 
 const STATUS = {
   linked: ['Ulangan', 'Linked', 'good'], awaiting_student: ['Talaba tasdig‘i kutilmoqda', 'Waiting for approval', 'warn'],
@@ -120,7 +120,7 @@ export async function mount(ctx) {
           T(`Tasdiqlayman va ${p.count} ta xabarni yuboraman`, `I confirm — send ${p.count} message(s)`))) : null);
   }
   function paint() {
-    host.replaceChildren(
+    replaceOptionalChildren(host,
       h('div', {class: 'pc-toolbar'}, h('div', {}, h('h1', {class: 'font-display text-2xl text-ink-900'}, T('Ota-onalar nazorati', 'Guardians')),
         h('p', {class: 'pc-muted'}, T('Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar', 'Student–guardian links and manually sent messages'))),
         h('button', {type: 'button', class: 'btn-secondary', onClick: () => void load()}, '↻ ' + T('Yangilash', 'Refresh'))),

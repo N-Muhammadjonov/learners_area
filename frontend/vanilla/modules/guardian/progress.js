@@ -5,7 +5,7 @@ import {skillCards} from '../progress/skills.js';
 import {trendCards} from '../progress/trends.js';
 import {statCards, vocabularyCard, courseCard} from '../progress/summary.js';
 import {mockOverview} from '../progress/mocks.js';
-import {api, loadStyles, tr, marker, failureText, loadChildren, childPicker, emptyState} from './shared.js';
+import {api, loadStyles, tr, marker, failureText, loadChildren, childPicker, emptyState, replaceOptionalChildren} from './shared.js';
 
 /** Guardian "My Progress": the child's real My Progress regions, read-only. Renders the SAME components as the
  * student page, but only through /api/guardian/children/{id}/progress. No actions, no links to other modules. */
@@ -46,7 +46,7 @@ export async function mount(ctx) {
         k.host.replaceChildren(failureNode({region, message: failureText(ctx, error), retry: dict.errorPage.retry, refresh: () => load(region)}));
       }
     }
-    page.replaceChildren(
+    replaceOptionalChildren(page,
       h('div', {class: 'flex flex-wrap items-center justify-between gap-2'},
         h('div', {},
           h('h1', {class: 'font-display text-2xl text-ink-900'}, `${child.name} — ${dict.nav.progress}`),
