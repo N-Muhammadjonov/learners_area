@@ -168,6 +168,15 @@
       "proposed": "C1",
       "source": "https://dictionary.cambridge.org/dictionary/english/hysterical",
       "scope": "general adjective: unable to control feelings or behavior because of strong emotion; distinct from historical psychiatric sense"
+    },
+    {
+      "lexeme_id": "6be98a49-4727-5ba5-9e5b-2818837511c4",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "lemma": "demonstrate",
+      "original": "B1",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
+      "scope": "give an exhibition of something to an audience; Cambridge SHOW HOW sense C1; distinct from PROTEST B2 and SHOW/PROVE B2"
     }
   ],
   "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
