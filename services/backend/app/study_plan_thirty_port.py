@@ -143,6 +143,23 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
             else:
                 verified["writing"] = (done_at, selected)
 
+        typing_task = pending.get("writing")
+        if typing_task and typing_task["source_key"].startswith("typing:"):
+            try:
+                seconds = int(typing_task["source_key"].split(":", 1)[1])
+            except (ValueError, IndexError):
+                seconds = 0
+            if seconds in (30, 60, 120, 180):
+                finished_at = await con.fetchval("""SELECT MAX(finished_at)
+                    FROM typing_runs WHERE user_id=$1
+                    AND started_at >= $2 AND finished_at <= $3
+                    AND finished_at IS NOT NULL AND duration_ms >= $4
+                    AND typed_chars >= 35 AND accuracy >= 75
+                    HAVING SUM(duration_ms) >= 300000""",
+                    uid, cycle["opened_at"], now, seconds * 1000)
+                if finished_at is not None:
+                    verified["writing"] = (finished_at, typing_task["source_key"])
+
         for kind, (completed_at, source) in verified.items():
             await con.execute("""UPDATE study_plan_30_tasks
               SET completed_at=$4,proof=$5 WHERE cycle_id=$1 AND day_number=$2
@@ -304,7 +321,7 @@ async def start_plan(req: Request) -> JSONResponse:
         today = now.astimezone(zone).date()
         plan = assign_materials(
             make_thirty_day_schedule(level, today, days=days),
-            await load_material_pools(con, user))
+            await load_material_pools(con, user, level))
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
            (user_id,started_on,timezone,cefr_level,opened_at,duration_days)
            VALUES($1,$2,$3,$4,$5,$6)
@@ -343,7 +360,7 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         plan = assign_materials(
             make_thirty_day_schedule(level, row["started_on"],
                                      revision=row["revision"] + 1, days=days),
-            await load_material_pools(con, user), revision=row["revision"] + 1)
+            await load_material_pools(con, user, level), revision=row["revision"] + 1)
         # Preserve today's attempts and all prior days. Only untouched future
         # days are replaced. No student earns completion by regeneration.
         await con.execute("""DELETE FROM study_plan_30_tasks
@@ -362,9 +379,13 @@ async def verify_skill_grammar(req: Request) -> JSONResponse:
     if error is not None:
         return error
     body = await core.payload(req)
-    if not isinstance(body, dict) or set(body) != {"day", "answers"}:
+    if (not isinstance(body, dict) or not {"day", "answers"} <= set(body)
+            or set(body) - {"day", "answers", "kind"}):
         return failure("invalid_evidence", 400)
     day, answers = body.get("day"), body.get("answers")
+    kind = body.get("kind", "grammar")
+    if kind not in ("grammar", "writing", "speaking"):
+        return failure("invalid_evidence", 400)
     if type(day) is not int or day < 1 or day > DAYS:
         return failure("invalid_evidence", 400)
     now = datetime.now(timezone.utc)
@@ -373,24 +394,27 @@ async def verify_skill_grammar(req: Request) -> JSONResponse:
         row = await con.fetchrow(CYCLE, user["id"])
         if not row or row["status"] != "active" or row["current_day"] != day:
             return failure("day_locked", 409)
-        grammar = await con.fetchrow("""SELECT source_key,completed_at
+        task = await con.fetchrow("""SELECT source_key,completed_at
           FROM study_plan_30_tasks WHERE cycle_id=$1 AND day_number=$2
-            AND kind='grammar' FOR UPDATE""", row["id"], day)
-        if not grammar or not grammar["source_key"].startswith("skill-grammar:"):
+            AND kind=$3 FOR UPDATE""", row["id"], day, kind)
+        if (not task or not task["source_key"].startswith("skill-grammar:")
+                or (kind != "grammar" and not task["source_key"].startswith(
+                    "skill-grammar:" + kind + ":"))):
             return failure("invalid_evidence", 409)
-        if grammar["completed_at"]:
+        if task["completed_at"]:
             return response(await _current(con, user["id"], now))
-        result = _score_skill_stage(grammar["source_key"], answers)
+        result = _score_skill_stage(task["source_key"], answers)
         if result is None:
             return failure("invalid_evidence", 400)
         if not result["passed"]:
             return response({"state": "retry", "correct": result["correct"],
                              "total": result["total"]}, 422)
         await con.execute("""UPDATE study_plan_30_tasks SET completed_at=$3,proof=$4
-            WHERE cycle_id=$1 AND day_number=$2 AND kind='grammar'
+            WHERE cycle_id=$1 AND day_number=$2 AND kind=$5
             AND completed_at IS NULL""",
             row["id"], day, now, {"source": "server_scored_skill_grammar",
-                                   "correct": result["correct"], "total": result["total"]})
+                                   "correct": result["correct"], "total": result["total"]},
+            kind)
         return response(await _current(con, user["id"], now))
 
 

@@ -15,11 +15,12 @@ export function typingKeystroke(target,state,key){
  const correct=key===expected[state.buffer.length];state.buffer+=key;return correct;
 }
 export function mountTab(ctx,root){const t=ctx.dict.writingWorkspace.typing,host=el('section',{class:'typing-trainer','data-typing-trainer':'','aria-label':t.title});root.append(host);
- let preset=30,phase='loading',text=null,prepareToken=null,runToken=null,runStarted=null,runPromise=null,pausedAt=null,pausedTotal=0,starting=false,finishing=false,timer=null,requestGeneration=0,pendingFinish=null,pausing=false,lastInteractionAt=0;
+ const requestedPreset=Number(ctx.url?.searchParams?.get('preset')??30);
+ let preset=[30,60,120,180].includes(requestedPreset)?requestedPreset:30,phase='loading',text=null,prepareToken=null,runToken=null,runStarted=null,runPromise=null,pausedAt=null,pausedTotal=0,starting=false,finishing=false,timer=null,requestGeneration=0,pendingFinish=null,pausing=false,lastInteractionAt=0;
  let typed={committed:[],buffer:''},keystrokes=[],samples=[],correctSamples=[],errorSeconds=[],graph=null,summary={count:0,bestWpm:null,bestAccuracy:null},history=[];
- let timeShown=30;
+ let timeShown=preset;
  const tabs=el('div',{class:'typing-presets',role:'radiogroup','aria-label':t.duration});
- const time=el('span',{class:'typing-time',role:'timer','aria-label':t.remaining,'data-typing-timer':''},clock(30));
+ const time=el('span',{class:'typing-time',role:'timer','aria-label':t.remaining,'data-typing-timer':''},clock(preset));
  const pause=button(t.pause,()=>void togglePause(),{signal:ctx.signal,cls:'typing-pause-orb',attrs:{'data-typing-full-pause':'','aria-label':t.pause}});
  const next=button(t.next,()=>void load({excludeTextId:text?.id}),{signal:ctx.signal,cls:'typing-icon-button typing-next-button',attrs:{'data-typing-next':'','aria-label':t.next,title:t.next}});next.replaceChildren(typingControlIcon('next'));
  const toolbar=el('div',{class:'typing-toolbar'},tabs,el('div',{class:'typing-toolbar-center'},time,pause),next);

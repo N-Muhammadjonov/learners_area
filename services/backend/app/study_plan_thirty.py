@@ -24,13 +24,15 @@ LEVEL_ALIASES = {
 }
 # Six achievable pieces of actual site practice, varying the relative emphasis.
 WORKLOADS = (
-    {"grammar": 25, "reading": 30, "listening": 25, "writing": 20,
-     "speaking": 10, "vocabulary": 10},
-    {"grammar": 30, "reading": 25, "listening": 25, "writing": 20,
-     "speaking": 10, "vocabulary": 10},
-    {"grammar": 25, "reading": 25, "listening": 30, "writing": 20,
-     "speaking": 10, "vocabulary": 10},
+    {"grammar": 20, "reading": 25, "listening": 30, "writing": 20,
+     "speaking": 15, "vocabulary": 10},
+    {"grammar": 25, "reading": 25, "listening": 25, "writing": 20,
+     "speaking": 15, "vocabulary": 10},
 )
+SUNDAY_WORKLOAD = {
+    "grammar": 10, "reading": 60, "listening": 20, "writing": 10,
+    "speaking": 10, "vocabulary": 10,
+}
 PRACTICE = {
     "reading": ("Reading — complete a passage and submit answers",
                 "/app/reading", "reading"),
@@ -140,12 +142,15 @@ def make_thirty_day_schedule(level: str, start: date,
     if not units:
         raise ValueError("insufficient_grammar_content")
     result = []
+    base_level = level_range(level)[0]
+    foundation = [unit for unit in units if unit["level"] == base_level]
     for offset in range(days):
         day_number = offset + 1
-        # New lesson each day while the level has enough units. Shorter
-        # curricula (e.g. C2) progress through successive practice stages.
+        # Start from the learner's own CEFR level. Introduce the harder
+        # adjacent level from week three, never on the opening days.
         position = offset
-        unit = units[(position + (revision - 1) * 7) % len(units)]
+        selection = foundation if offset < 14 and foundation else units
+        unit = selection[(position + (revision - 1) * 7) % len(selection)]
         # Later revisions rearrange units, not their required stage depth.
         stage = (position // len(units)) % 3
         if unit["source"] != "legacy" and stage != 0:
@@ -155,7 +160,9 @@ def make_thirty_day_schedule(level: str, start: date,
             if not legacy:
                 raise ValueError("insufficient_verified_grammar")
             unit = legacy[(position + (revision - 1) * 7) % len(legacy)]
-        minutes = WORKLOADS[offset % len(WORKLOADS)]
+        calendar_day = start + timedelta(days=offset)
+        minutes = (SUNDAY_WORKLOAD if calendar_day.weekday() == 6
+                   else WORKLOADS[offset % len(WORKLOADS)])
         grammar = PlanTask(
             day=day_number, slot=0, kind="grammar",
             title=f"Grammar — {unit['title']} · {STAGE_NAMES[stage]}",

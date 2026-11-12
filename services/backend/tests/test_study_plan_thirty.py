@@ -241,47 +241,130 @@ def test_early_cefr_lessons_use_existing_b1_book_evidence_provider():
                 assert not task.source_key.startswith("grammar-book:a")
 
 
-def test_assignment_materials_uses_real_published_content_ids_and_falls_back_to_site_modules():
+def test_assignment_materials_uses_general_passages_on_weekdays_and_full_reading_on_sunday():
     schedule = make_thirty_day_schedule("B2", START)
     pools = {
         "reading": [
-            {"title": "Academic Reading — Passage 1",
-             "href": "/app/reading/academic/11",
+            {"title": "Reading Test 1", "href": "/app/reading/academic/11",
              "source_key": "reading:11"},
+            {"title": "Reading Test 2", "href": "/app/reading/academic/12",
+             "source_key": "reading:12"},
+        ],
+        "general_reading": [
+            {"title": f"General Passage {number}",
+             "href": f"/app/reading/general/set?passage={number}",
+             "source_key": f"reading-practice:{number}",
+             "question_count": number * 2, "minutes": 20}
+            for number in range(1, 29)
         ],
         "listening": [
-            {"title": "Academic Listening — Test 7",
-             "href": "/app/listening/tests/22/1",
+            {"title": "Listening Test 1", "href": "/app/listening/tests/21/1",
+             "source_key": "listening:21"},
+            {"title": "Listening Test 2", "href": "/app/listening/tests/22/1",
              "source_key": "listening:22"},
         ],
-        "writing": [],
-        "speaking": [
-            {"title": "Speaking Part 2 — Hometown",
-             "href": "/app/speaking/ai?part=part2&promptId=33",
-             "source_key": "speaking:33"},
+        "writing_lesson": [
+            {"title": "Writing grammar lesson",
+             "href": "/app/grammar?tab=writing&book=unit1",
+             "source_key": "skill-grammar:writing:general:unit1:0"}
+        ],
+        "writing_exam": [
+            {"title": "Writing Task 1", "href": "/app/writing/prompts/31",
+             "source_key": "writing:31"}
+        ],
+        "typing": [
+            {"title": "Typing 30s", "href": "/app/writing?tab=typing",
+             "source_key": "typing:30"}
+        ],
+        "speaking_lesson": [
+            {"title": "Speaking grammar lesson",
+             "href": "/app/grammar?tab=speaking&book=unit1",
+             "source_key": "skill-grammar:speaking:upper:unit1:0"}
+        ],
+        "speaking_part1": [
+            {"title": "Speaking Part 1",
+             "href": "/app/speaking/ai?part=part1&promptId=33",
+             "source_key": "speaking:33"}
         ],
     }
     enriched = assign_materials(schedule, pools)
-    assert len(enriched) == 30
-    assert enriched[0]["tasks"][1].source_key == "reading:11"
-    assert enriched[0]["tasks"][1].href == "/app/reading/academic/11"
-    assert enriched[0]["tasks"][2].source_key == "listening:22"
-    assert enriched[0]["tasks"][4].source_key == "speaking:33"
-    assert enriched[1]["tasks"][1].source_key == "reading"
-    assert enriched[1]["tasks"][1].href.startswith("/app/")
-    assert enriched[0]["tasks"][3].source_key == "writing"
-    assert all(sum(task.minutes for task in day["tasks"]) == 120 for day in enriched)
-    assert schedule[0]["tasks"][1].source_key == "reading", "original plan stays immutable"
+    assert len(enriched) == DAYS
+    assert enriched[0]["tasks"][1].source_key.startswith("reading-practice:")
+    assert enriched[3]["tasks"][1].source_key == "reading:11"
+    assert enriched[10]["tasks"][1].source_key == "reading:12"
+    assert enriched[0]["tasks"][2].source_key == "listening:21"
+    assert enriched[1]["tasks"][2].source_key == "listening:22"
+    assert enriched[0]["tasks"][3].source_key.startswith("skill-grammar:writing:")
+    assert enriched[1]["tasks"][3].source_key == "typing:30"
+    assert enriched[0]["tasks"][4].source_key.startswith("skill-grammar:speaking:")
+    assert enriched[1]["tasks"][4].source_key == "speaking:33"
+    assert all(sum(task.minutes for task in day["tasks"]) == TARGET_MINUTES
+               for day in enriched)
+    assert schedule[0]["tasks"][1].source_key == "reading"
+
+
+def test_full_reading_only_on_sundays_and_general_passages_do_not_repeat():
+    schedule = make_thirty_day_schedule("B1", START)
+    pools = {
+        "reading": [
+            {"title": f"Reading Test {number}",
+             "href": f"/app/reading/academic/{number}",
+             "source_key": f"reading:{number}"}
+            for number in range(1, 8)
+        ],
+        "general_reading": [
+            {"title": f"General Passage {number}",
+             "href": f"/app/reading/general/set?passage={number}",
+             "source_key": f"reading-practice:{number}",
+             "question_count": number, "minutes": 15}
+            for number in range(1, 161)
+        ],
+    }
+    enriched = assign_materials(schedule, pools)
+    used = []
+    sunday_tests = []
+    for day in enriched:
+        reading = day["tasks"][1]
+        if date.fromisoformat(day["date"]).weekday() == 6:
+            sunday_tests.append(reading.source_key)
+            assert reading.href.startswith("/app/reading/academic/")
+            assert reading.minutes == 60
+        else:
+            used.append(reading.source_key)
+            assert reading.source_key.startswith("reading-practice:")
+            assert reading.href.startswith("/app/reading/general/")
+            assert reading.minutes < 60
+    assert sunday_tests == ["reading:1", "reading:2", "reading:3", "reading:4"]
+    assert len(used) == len(set(used))
+
+
+def test_first_two_weeks_stay_at_the_learner_level():
+    plan = make_thirty_day_schedule("B2", START)
+    assert all(":b2:" in day["tasks"][0].source_key.lower()
+               or day["tasks"][0].source_key.startswith("skill-grammar:")
+               for day in plan[:14])
+    assert all(day["tasks"][0].minutes == (10 if date.fromisoformat(day["date"]).weekday() == 6
+                                          else day["tasks"][0].minutes)
+               for day in plan[:14])
 
 
 def test_plan_materials_rejects_unsafe_or_fake_routes():
     schedule = make_thirty_day_schedule("B2", START)
-    bad = {"reading": [
-        {"title": "Untrusted", "href": "https://foreign.invalid", "source_key": "reading:fake"},
-    ]}
+    bad = {
+        "reading": [
+            {"title": "Untrusted", "href": "https://foreign.invalid",
+             "source_key": "reading:fake"}
+        ],
+        "general_reading": [
+            {"title": "Untrusted", "href": "//foreign.invalid",
+             "source_key": "reading-practice:fake"}
+        ],
+    }
     enriched = assign_materials(schedule, bad)
     assert enriched[0]["tasks"][1].source_key == "reading"
-    assert enriched[0]["tasks"][1].href == schedule[0]["tasks"][1].href
+    assert enriched[0]["tasks"][1].href == "/app/reading/general"
+    assert enriched[3]["tasks"][1].source_key == "reading"
+    assert enriched[3]["tasks"][1].href == "/app/reading/academic"
 
 
 @pytest.mark.parametrize("duration", (7, 30))

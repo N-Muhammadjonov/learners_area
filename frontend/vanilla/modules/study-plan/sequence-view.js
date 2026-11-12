@@ -121,7 +121,7 @@ function taskList(ctx, day) {
         task.kind[0].toUpperCase()+task.kind.slice(1)+' · '+task.minutes+' '+
         text(ctx,'daqiqa','min'))),
     task.status === 'ready' ?
-      h('a', {href:task.kind==='grammar'?
+      h('a', {href:task.href.startsWith('/app/grammar')?
           grammarPracticeHref(task.href,{fromPlan:true}):task.href,
         class:'btn-primary sequence-task-action',
         'data-sequence-task-open':task.kind}, statusLabel(ctx,task.status)) :

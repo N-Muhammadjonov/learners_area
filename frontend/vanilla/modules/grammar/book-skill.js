@@ -159,18 +159,20 @@ export async function mountSkillBookDetail(context,host,track,unitId){
       const data=await api.request(SEQUENCE_API,{signal:context.signal,fresh:true});
       if(context.signal.aborted)return;
       const day=data?.days?.[data.currentDay-1];
-      const task=day?.tasks?.find(entry=>entry.kind==='grammar');
       const expected='/app/grammar?tab='+encodeURIComponent(track)+'&book='+encodeURIComponent(unitId);
+      const task=day?.tasks?.find(entry=>
+       ['grammar','writing','speaking'].includes(entry.kind)&&
+       entry.status==='ready'&&entry.href===expected);
       if(data.state!=='active'||task?.status!=='ready'||task.href!==expected){
        proofStatus.textContent='';
        return;
       }
       const result=await api.request(SEQUENCE_API+'/grammar/verify',{
-       method:'POST',signal:context.signal,body:{day:data.currentDay,answers}});
+       method:'POST',signal:context.signal,body:{day:data.currentDay,answers,kind:task.kind}});
       if(context.signal.aborted)return;
       proofStatus.textContent=localized(context,
-       'Grammar vazifasi tasdiqlandi. Assignments’da yangilang.',
-       'Grammar task verified. Refresh Assignments.');
+       'Rejadagi dars tasdiqlandi. Assignments’da yangilang.',
+       'Plan lesson verified. Refresh Assignments.');
       if(!result?.days)throw Error('invalid_plan_response');
      }catch(error){
       if(context.signal.aborted)return;
