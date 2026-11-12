@@ -120,10 +120,62 @@ def test_no_automatic_message_creation_in_source():
     assert SOURCE.count('INSERT INTO guardian_message_deliveries') == 1
 
 
-def test_all_staff_endpoints_are_owner_only():
+@pytest.mark.parametrize('role', ['owner', 'admin', 'teacher'])
+def test_staff_eligible_queries_use_teacher_assignment_scope(role):
+    user = {'id': '11111111-1111-1111-1111-111111111111', 'role': role}
+    query, params = g.scoped_eligible_query(user, ['22222222-2222-2222-2222-222222222222'], lock=True)
+    assert 'FOR SHARE OF l' in query
+    if role == 'teacher':
+        assert 'EXISTS (SELECT 1 FROM teacher_student_links assigned' in query
+        assert 'assigned.teacher_user_id=$2' in query
+        assert params[1] == user['id']
+    else:
+        assert 'teacher_student_links' not in query
+    assert len(params) == (2 if role == 'teacher' else 1)
+
+
+@pytest.mark.parametrize('role', ['owner', 'admin', 'teacher'])
+@pytest.mark.asyncio
+async def test_staff_roles_authorized(monkeypatch, role):
+    async def active_user(_req, active=True):
+        assert active
+        return {'id': '11111111-1111-1111-1111-111111111111', 'role': role}
+    monkeypatch.setattr(core, 'current_user', active_user)
+    user, denial = await g.staff_user(request('/api/staff/guardians'))
+    assert denial is None
+    assert user['role'] == role
+
+
+@pytest.mark.parametrize('role', ['student', 'guardian'])
+@pytest.mark.asyncio
+async def test_nonstaff_cannot_message_guardians(monkeypatch, role):
+    async def active_user(_req, active=True):
+        return {'id': '11111111-1111-1111-1111-111111111111', 'role': role}
+    monkeypatch.setattr(core, 'current_user', active_user)
+    user, denial = await g.staff_user(request('/api/staff/guardians'))
+    assert user is None
+    assert denial.status_code == 403
+
+
+def test_all_staff_endpoints_share_role_gate():
     for name in ('staff_guardians', 'staff_guardian_detail', 'staff_templates', 'staff_preview', 'staff_send', 'staff_batch'):
         block = SOURCE[SOURCE.index(f'async def {name}'):][:400]
-        assert 'owner_user(req)' in block, name
+        assert 'staff_user(req)' in block, name
+
+
+def test_teacher_scope_filters_directory_preview_send_and_detail():
+    assert "where.append(teacher_assignment_sql(user, len(args) + 1))" in SOURCE
+    assert "assignment = (' AND ' + teacher_assignment_sql(user, 2))" in SOURCE
+    assert "rows = await con.fetch(query, *params)" in SOURCE
+    assert "sender_user_id=$2" in SOURCE
+    assert "assigned.teacher_user_id=sender.id" in SOURCE
+    assert "attempts < $2" in SOURCE
+
+
+def test_non_owner_pii_masked_in_detail():
+    detail = SOURCE.split("async def staff_guardian_detail", 1)[1].split("async def staff_templates", 1)[0]
+    assert "if user['role'] == 'owner' else mask_tg" in detail
+    assert "if user['role'] == 'owner' else mask_phone" in detail
 
 
 def test_migrations_are_forward_only():
