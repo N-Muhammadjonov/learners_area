@@ -3,6 +3,7 @@
  */
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
+import {grammarPracticeHref} from '../grammar/practice-route.js';
 
 export const SEQUENCE_API = '/api/study-plan/monthly/sequence';
 export const ASSIGNMENTS_PATH = '/app/assignments#study-plan-30';
@@ -120,7 +121,9 @@ function taskList(ctx, day) {
         task.kind[0].toUpperCase()+task.kind.slice(1)+' · '+task.minutes+' '+
         text(ctx,'daqiqa','min'))),
     task.status === 'ready' ?
-      h('a', {href:task.href, class:'btn-primary sequence-task-action',
+      h('a', {href:task.kind==='grammar'?
+          grammarPracticeHref(task.href,{fromPlan:true}):task.href,
+        class:'btn-primary sequence-task-action',
         'data-sequence-task-open':task.kind}, statusLabel(ctx,task.status)) :
       h('span', {class:'sequence-task-status','data-sequence-task-label':task.status},
         statusLabel(ctx,task.status)))));
@@ -177,7 +180,15 @@ function calendar(ctx, data, state) {
     h('div',{class:'sequence-calendar',role:'group',
       'aria-label':text(ctx,data.totalDays+' kunlik kalendar',data.totalDays+'-day calendar')},
       headers,blanks,buttons));
-  return h('div',{class:'sequence-calendar-layout'},selector,host);
+  return h('div',{class:'sequence-calendar-layout'},
+    h('div',{class:'sequence-calendar-column'},selector,
+      h('div',{class:'sequence-dots-legend',
+        'aria-label':text(ctx,'Mashq ranglari','Exercise colors')},
+        KINDS.map(kind=>h('span',{class:'sequence-dots-legend-item'},
+          h('i',{'data-kind':kind,'aria-hidden':'true'}),
+          text(ctx,({grammar:'Grammatika',reading:'O‘qish',listening:'Tinglash',
+            writing:'Yozish',speaking:'Gapirish',vocabulary:'Lug‘at'})[kind],
+            kind[0].toUpperCase()+kind.slice(1)))))),host);
 }
 
 /**
@@ -200,8 +211,8 @@ export function mountSequenceAssignments(ctx, root) {
     const title=h('h2',{},text(ctx,
       'Sizning '+selectedDays+' kunlik rejangiz','Your '+selectedDays+'-day plan'));
     const lead=h('p',{class:'sequence-subtitle'},
-      text(ctx,'Kuniga taxminan 2 soat. Har kunning barcha vazifalari tugagach keyingi kun ochiladi.',
-        'About 2 hours a day. The next day unlocks only after all current tasks are completed.'));
+      text(ctx,'Kuniga kamida 120 daqiqa ajrating. Barcha vazifalar tugagach keyingi kun ochiladi.',
+        'Allocate at least 120 minutes each day. The next day unlocks after all tasks are completed.'));
     const toolbar=h('div',{class:'sequence-heading'},h('div',{},title,lead));
     if (state.pending && !data) {
       panel.replaceChildren(toolbar,h('p',{role:'status'},ctx.dict.common.loading));return;
@@ -231,7 +242,8 @@ export function mountSequenceAssignments(ctx, root) {
         state.pending?ctx.dict.common.loading:text(ctx,'Rejani yaratish','Create plan'));
       panel.replaceChildren(toolbar,h('div',{class:'sequence-empty'},
         durationPicker(ctx,state.selectedDuration,days=>{state.selectedDuration=days;paint();},1,state.pending),
-        metric(text(ctx,'Kun','Days'),state.selectedDuration),metric(text(ctx,'Kunlik vaqt','Daily study'),'120 min'),
+        metric(text(ctx,'Kun','Days'),state.selectedDuration),metric(text(ctx,'Kunlik minimum ajratishingiz kerak bo‘lgan vaqt',
+          'Minimum daily study time to allocate'),'120 min'),
         h('p',{},text(ctx,'Daraja: ','Level: ')+data.level),
         launch),...(state.error?[h('p',{role:'alert'},state.error)]:[]));
       return;
@@ -249,7 +261,8 @@ export function mountSequenceAssignments(ctx, root) {
       metric(text(ctx,'Jami kun','Days'),data.totalDays),
       metric(text(ctx,'Yakunlangan kun','Completed days'),data.completedDays),
       metric(text(ctx,'Joriy kun','Current day'),data.currentDay),
-      metric(text(ctx,'Kunlik mashg‘ulot','Daily study'),current.minutes+' min'));
+      metric(text(ctx,'Kunlik minimum ajratishingiz kerak bo‘lgan vaqt',
+        'Minimum daily study time to allocate'),current.minutes+' min'));
     const confirm=state.confirming&&data.state==='active'?
       h('div',{class:'sequence-confirm',role:'group',
         'aria-label':text(ctx,'Rejani qayta tuzishni tasdiqlash','Confirm regeneration')},
