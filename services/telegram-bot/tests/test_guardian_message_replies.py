@@ -40,7 +40,8 @@ async def test_reply_button_records_delivery_without_trusting_username():
     state = MagicMock()
     state.set_state = AsyncMock()
     state.update_data = AsyncMock()
-    await begin_guardian_message_reply(event, state)
+    with patch("handlers.guardian._private", return_value=True):
+        await begin_guardian_message_reply(event, state)
     state.set_state.assert_awaited_once()
     state.update_data.assert_awaited_once_with(guardian_reply_delivery=DELIVERY)
     assert "Javobingizni yozing" in event.message.answer.await_args.args[0]
