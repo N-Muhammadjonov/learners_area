@@ -57,6 +57,7 @@ def owner_keyboard(lang: str, bot_access: dict | None) -> InlineKeyboardMarkup:
     rows = []
     if owner or "VIEW_USERS" in perms:
         rows.append([InlineKeyboardButton(text=t(lang, "users"), callback_data="o:users")])
+        rows.append([InlineKeyboardButton(text=t(lang, "parents"), callback_data="o:parents")])
     if owner or "ADMISSIONS" in perms:
         rows.append([InlineKeyboardButton(text=t(lang, "admissions"), callback_data="o:adm")])
     if owner or "SUPPORT" in perms:

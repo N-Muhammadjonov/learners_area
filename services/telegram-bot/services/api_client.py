@@ -182,6 +182,18 @@ class ApiClient:
             params={"actorTelegramId": actor, "q": q, "page": page, "status": status, "role": role},
         )
 
+    async def search_parents(self, actor: str, q: str = "", page: int = 1) -> tuple[int, Any]:
+        return await self._request("GET", "/parents", params={"actorTelegramId": actor, "q": q, "page": page})
+
+    async def parent_detail(self, actor: str, profile_id: str) -> tuple[int, Any]:
+        return await self._request("GET", f"/parents/{profile_id}", params={"actorTelegramId": actor})
+
+    async def student_parents(self, actor: str, user_id: str) -> tuple[int, Any]:
+        return await self._request("GET", f"/directory/{user_id}/parents", params={"actorTelegramId": actor})
+
+    async def remove_contact(self, actor: str, telegram_id: str) -> tuple[int, Any]:
+        return await self._request("POST", f"/contacts/{telegram_id}/remove", json={"actorTelegramId": actor})
+
     async def user_detail(self, actor: str, user_id: str) -> tuple[int, Any]:
         return await self._request("GET", f"/directory/{user_id}", params={"actorTelegramId": actor})
 
