@@ -797,9 +797,9 @@
         "meaning_sha": "956256578a6466166117041fe0c8b01ed18d3ef03c67dc51527e8d15f768e79f",
         "replace_cefr": {
           "original": "C2",
-          "text": "B1",
+          "text": "C1",
           "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
-          "sense_alignment": "blackberry fruit, Oxford 3000 wordlist B1; topical Food label also shows C1; fruit vocabulary list is the basis"
+          "sense_alignment": "Fruit sense directly tagged Food C1 in Oxford; Oxford 3000 B1 is a general word-list level and is not substituted for the sense-specific topic label"
         },
         "add_collocations": [
           {
