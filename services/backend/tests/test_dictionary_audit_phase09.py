@@ -167,5 +167,16 @@ def test_phase09_semantic_delta_matches_verified_r2_source() -> None:
     assert source["missing_lexemes"] == 0
     assert source["unexpected_mismatches"] == 0
     assert data["integrity"]["examples_modified_in_this_pass"] is False
+    dry = data["integrity"]["candidate_dry_run"]
+    assert dry["entries"] == 12
+    assert dry["patched_senses"] == 18
+    assert dry["removed_canonical_relations"] == 15
+    assert dry["added_scoped_relations"] == 10
+    assert dry["added_scoped_collocations"] == 7
+    assert dry["preserved_number_of_senses"] is True
+    assert dry["preserved_examples"] is True
+    assert dry["invalid_relation_source_ids"] == 0
+    assert dry["invalid_collocation_source_ids"] == 0
+    assert dry["errors"] == []
     assert data["limits"]["production_published"] is False
     assert data["limits"]["main_merged"] is False
