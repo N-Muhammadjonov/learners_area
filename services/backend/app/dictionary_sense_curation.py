@@ -50,6 +50,8 @@ def _replace_text(record: dict[str, Any], field: str, edit: dict[str, Any]) -> N
 def _update_sense(sense: dict[str, Any], patch: dict[str, Any]) -> None:
     if definition := patch.get("replace_definition_en"):
         _replace_text(sense, "definition_en", definition)
+    if definition_uz := patch.get("replace_definition_uz"):
+        _replace_text(sense, "definition_uz", definition_uz)
     if translation := patch.get("replace_translation_uz"):
         translations = sense.get("translations", [])
         if not translations:
