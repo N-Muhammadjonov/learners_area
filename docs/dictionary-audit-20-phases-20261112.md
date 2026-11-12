@@ -408,3 +408,18 @@ Implementation:
 - **Production publication is blocked** until all 20 phases have completed source-backed linguistic validation and an immutable replacement release is built, indexed, checksum-checked and tested. The above is a real set of precise branch changes; it is **not evidence that all 5,521 meanings and all 4,095 example sentences are now linguistically correct**.
 
 **Status:** Phase 09 structural/presentation inventory complete. Full sense-by-sense linguistic correction **not yet complete**. Continue in-scope verified fixes without inventing missing synonyms, antonyms, collocations or CEFR values.
+
+
+### Phase 09 — final current-turn checkpoint, 12 November 2026
+
+The first source-backed set of 43 example repairs was extended with **190 conservative mechanical sentence repairs** (pronoun-led sentences with identifiable finite verbs and exact headword/form match). Final candidate correction total: **233**, comprising **225 in Phase 09** and **8 out-of-band `happy` examples**. Corrections that only change punctuation/casing preserve the complete original sentence and Uzbek meaning. They do not convert isolated phrases into artificial sentences.
+
+**Independent readback:** Re-fetched all 14 Phase 09 R2 shard objects and the out-of-band `9e` source shard; checked every editorial record against `lexeme_id`, `sense_id`, `example_id`, exact original English text and recomputed canonical meaning SHA-256. A typo in one original example UUID was caught and fixed before re-running. **233/233 exact matches; 0 failures**. Immutable original R2 objects were not overwritten.
+
+Exact-sense, source-backed CEFR candidate edits now number **4**: `itself` reflexive `null→A2`, `nowadays` `A2→B1`, `cake` food `B1→A1`, and `hysterical` uncontrolled emotion `C2→C1`. The historic psychiatric `hysterical` sense is left untouched. Each has a Cambridge citation in the JSON correction source; no blanket level assignment. These remain edits for a future verified immutable release, **not active R2 metadata changes**.
+
+The branch's `sense_corrections.json` and `dictionary_presentation.py` additionally suppress **four false reflexive-pronoun synonym edges** for `itself` and attach **five attested collocations** strictly to their correct source-sense hashes. All other relations and collocations remain unchanged.
+
+**Verification boundary:** Existing automated structural inventory covers 5,521 meanings, presentation `meaningSha` checks have 0 stale rows, and 233 exact edited examples passed independent R2 readback. This **does not** certify that all 4,095 source examples, 5,521 meaning translations, remaining CEFR labels and semantic relations are correct. The unverified language content must not be labeled "finished" merely because it parsed. Focused regression tests were committed but their GitHub Actions pass status was not confirmed. `main`, live release, and production channel remain untouched.
+
+Current-turn receipt: `content/dictionary/audit-20261112-phase09-correction-receipt.json`. No invented synonyms or antonyms and no mass downgrade.
