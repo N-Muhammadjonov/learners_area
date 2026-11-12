@@ -88,7 +88,7 @@ def test_student_parents_lookup_uses_student_id_and_active_link_filter(prepared)
     assert response.json()["items"] == []
     sql = next(sql for kind, sql, args in prepared.queries
                if "guardian_links l" in sql)
-    assert "l.student_id=$1" in sql and "l.status IN" in sql
+    assert "l.student_id=$1" in sql and "l.status='linked'" in sql
 
 
 def test_unauthorized_actor_never_reads_guardian_profiles(prepared, monkeypatch):
