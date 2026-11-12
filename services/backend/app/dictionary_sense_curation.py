@@ -119,6 +119,23 @@ def _update_relations(
             entry["collocations"].append({"text": value, "sense_id": sense_id})
 
 
+
+def deduplicate_relations(entry: dict[str, Any]) -> None:
+    """Remove repeated identical relation targets without collapsing distinct senses."""
+    kept: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str | None, str | None]] = set()
+    for relation in entry["relations"]:
+        identity = (
+            relation["relation_type"],
+            relation["target_lexeme_id"],
+            relation.get("target_sense_id"),
+            relation.get("source_sense_id"),
+        )
+        if identity not in seen:
+            kept.append(relation)
+            seen.add(identity)
+    entry["relations"] = kept
+
 def curate_candidate_entry(entry: dict[str, Any]) -> dict[str, Any]:
     """Return a deep-copied canonical candidate; never change the source."""
     curated = copy.deepcopy(entry)
@@ -138,4 +155,5 @@ def curate_candidate_entry(entry: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("dictionary_semantic_meaning_sha_mismatch")
         _update_sense(sense, patch)
         _update_relations(curated, sense_id, patch)
+    deduplicate_relations(curated)
     return curated
