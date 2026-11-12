@@ -112,10 +112,17 @@ async def claim_daily(con, user_id) -> dict:
 
 async def finalize_referral(con, new_student: dict) -> bool:
     """One paid, genuinely new Telegram identity; never on relinks or self-invites."""
-    telegram_id = new_student.get("telegram_id")
-    if not isinstance(telegram_id, str) or not TG_ID.fullmatch(telegram_id):
+    # Authenticated user snapshots deliberately omit telegram_id. Always obtain
+    # the identity from the owned server row, not from a client or cookie claim.
+    if not new_student.get("id"):
         return False
     async with con.transaction():
+        current = await con.fetchrow(
+            "SELECT id,telegram_id FROM users WHERE id=$1 AND role='student' "
+            "AND account_status='active'", new_student["id"])
+        telegram_id = current["telegram_id"] if current else None
+        if not isinstance(telegram_id, str) or not TG_ID.fullmatch(telegram_id):
+            return False
         row = await con.fetchrow(
             "SELECT inviter_id,invitee_telegram_id,invited_at FROM coin_referrals "
             "WHERE invitee_telegram_id=$1 AND awarded_at IS NULL FOR UPDATE", telegram_id)
