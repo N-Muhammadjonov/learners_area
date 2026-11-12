@@ -8,6 +8,7 @@
  */
 export default {
   en: {
+    common: {retry: 'Try again'},
     reporter: { scopeOperations: 'Centre operations only' },
     assignments: {
       instructions: 'Instructions',
@@ -28,6 +29,7 @@ export default {
     },
   },
   uz: {
+    common: {retry: 'Qayta urinish'},
     reporter: { scopeOperations: 'Faqat markaz operatsiyalari' },
     assignments: {
       instructions: "Ko'rsatmalar",

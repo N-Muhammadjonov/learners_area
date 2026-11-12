@@ -23,7 +23,7 @@ from fastapi.responses import Response
 SESSION_COOKIE = 'la_session'
 SESSION_TTL = 60 * 60 * 24 * 30
 JS_MAX_SAFE_INTEGER = 2 ** 53 - 1
-ROLES = {'student', 'teacher', 'admin', 'owner'}
+ROLES = {'student', 'teacher', 'admin', 'owner', 'guardian'}
 
 
 def _b64(data: bytes) -> str:

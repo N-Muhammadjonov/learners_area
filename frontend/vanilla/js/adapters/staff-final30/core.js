@@ -10,9 +10,9 @@ import {api,ApiError} from '../../api-client.js';
  * source snapshot (see docs/final30/ADAPTERS_REQUIRED.md).
  */
 export const STAFF_VIEW='/api/frontend/staff';
-export const ROLES=Object.freeze(['student','teacher','admin','owner']);
+export const ROLES=Object.freeze(['student','teacher','admin','owner','guardian']);
 export const STATUSES=Object.freeze(['pending','active','rejected','suspended']);
-export const ROLE_LABELS=Object.freeze({student:{en:'Student',uz:'Talaba'},teacher:{en:'Teacher',uz:"O'qituvchi"},admin:{en:'Admin',uz:'Administrator'},owner:{en:'Owner',uz:'Egasi'}});
+export const ROLE_LABELS=Object.freeze({student:{en:'Student',uz:'Talaba'},teacher:{en:'Teacher',uz:"O'qituvchi"},admin:{en:'Admin',uz:'Administrator'},owner:{en:'Owner',uz:'Egasi'},guardian:{en:'Guardian',uz:'Ota-ona'}});
 export const STATUS_LABELS=Object.freeze({pending:{en:'Pending review',uz:"Ko'rib chiqilmoqda",tone:'warn'},active:{en:'Active',uz:'Faol',tone:'good'},rejected:{en:'Rejected',uz:'Rad etilgan',tone:'bad'},suspended:{en:'Suspended',uz:"To'xtatilgan",tone:'bad'}});
 export const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const bad=(code='invalid_staff_adapter')=>new ApiError(502,code);

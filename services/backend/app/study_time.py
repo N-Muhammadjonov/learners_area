@@ -25,7 +25,7 @@ async def heartbeat(con,user,body):
     action=body.get('action');active=body.get('active',False)
     if action not in ('start','heartbeat','end') or type(active)!=bool:raise HTTPException(400,'invalid_input')
     async with con.transaction():
-        await con.execute("SELECT pg_advisory_xact_lock(hashtextextended('active-study:'||$1::text,0))",user['id'])
+        await con.execute("SELECT pg_advisory_xact_lock(hashtextextended('active-study:'||$1::text,0))",str(user['id']))
         now=await con.fetchval('SELECT clock_timestamp()')
         if action=='start':
             if body.get('module') not in MODULES:raise HTTPException(400,'invalid_module')
