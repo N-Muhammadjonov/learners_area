@@ -1,11 +1,12 @@
 name: Coin Economy end-to-end checks
 on:
   push:
-    branches: ['feature/coin-daily-referrals-gifts-20261112', 'main']
+    branches: ['feature/coin-daily-referrals-gifts-20261112', 'feature/coins-roles-market-fulfillment-20261112', 'main']
   pull_request:
     paths:
       - 'services/backend/app/coin_*.py'
       - 'services/backend/migrations/0091_coin_daily_referrals_gifts.sql'
+      - 'services/backend/migrations/0092_coin_gift_fulfillment.sql'
       - 'frontend/vanilla/modules/study-plan/**'
       - 'services/telegram-bot/**'
   workflow_dispatch:
@@ -62,6 +63,7 @@ jobs:
           node-version: '24'
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: node --check frontend/vanilla/modules/study-plan/coin-market.js
+      - run: node --check frontend/vanilla/modules/staff-final30/management-hub.js
       - run: node --check frontend/vanilla/modules/study-plan/motivation.js
       - run: node --check frontend/vanilla/js/workspace.js
       - run: node --test frontend/vanilla/tests/leaderboard-podium.test.mjs
