@@ -11,7 +11,12 @@
           "a861b7d2-1a68-56e4-ae68-851a66c97f07",
           "5075ba24-0bea-5505-b045-81a38055baa9"
         ],
-        "source": "https://dictionary.cambridge.org/dictionary/english/itself"
+        "source": "https://dictionary.cambridge.org/dictionary/english/itself",
+        "replace_cefr": {
+          "original": null,
+          "text": "A2",
+          "source": "https://dictionary.cambridge.org/dictionary/english/itself"
+        }
       }
     },
     "6572be42-5232-54fc-868d-67b3d9a73ae7": {
@@ -37,7 +42,12 @@
             "text": "chocolate cake",
             "source": "https://dictionary.cambridge.org/dictionary/english/cake"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "B1",
+          "text": "A1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/cake"
+        }
       }
     },
     "65735b8f-9c69-5c83-af51-86ce9e7fbfa9": {
@@ -232,6 +242,26 @@
             "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
           }
         ]
+      }
+    },
+    "65a3521a-fee2-57ba-a9da-6986fbb48d7e": {
+      "e4920ac3-62d9-4322-9dde-b2cb48d19237": {
+        "meaning_sha": "8ed3993b16a9e72b73bd068415774ab35d5ffc25753ff4403f67d8a6b7ea3e55",
+        "replace_cefr": {
+          "original": "A2",
+          "text": "B1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/nowadays"
+        }
+      }
+    },
+    "657d401a-d708-574d-96e0-4130d13b53ca": {
+      "725120af-7844-44a6-a94b-99cad490b356": {
+        "meaning_sha": "2eb5dc07e943003429c3376df680978cd2cdddd076945f971024457ee35aa97f",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/hysterical"
+        }
       }
     }
   }
