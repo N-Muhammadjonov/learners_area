@@ -27,7 +27,9 @@ def test_guardian_session_token_is_valid_and_tampering_fails(monkeypatch):
     assert claims["role"] == "guardian"
     assert claims["authVersion"] == 2
     assert claims["expiresAt"] > 0
-    assert security.verify_token(token[:-1] + ("A" if token[-1] != "A" else "B")) is None
+    header, payload, signature = token.split(".")
+    corrupted = ("A" if signature[0] != "A" else "B") + signature[1:]
+    assert security.verify_token(f"{header}.{payload}.{corrupted}") is None
 
 
 class StudyConnection:
