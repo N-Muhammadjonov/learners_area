@@ -134,12 +134,8 @@ async function earnPanel(ctx, host, options) {
   render();
 }
 
-async function giftsPanel(ctx, host) {
+async function giftsPanel(ctx, host, successMessage = "") {
   host.replaceChildren(loading(ctx));
-  if (ctx.session?.user?.role === 'owner') {
-    await ownerGiftsPanel(ctx, host);
-    return;
-  }
   const data = await Promise.all([
     api.request('/api/coins/gifts', {signal: ctx.signal}),
     api.request('/api/coins/purchases', {signal: ctx.signal}),
@@ -147,8 +143,8 @@ async function giftsPanel(ctx, host) {
   ]);
   if (ctx.signal.aborted) return;
   const [catalogue, history, wallet] = data;
-  const owned = new Set((history.purchases || []).map(x => x.giftId));
-  const feedback = h('p', {role: 'status', class: 'coin-market-notice'});
+  const owned = new Set((history.purchases || []).filter(x => x.status !== 'rejected').map(x => x.giftId));
+  const feedback = h('p', {role: 'status', class: 'coin-market-notice'}, successMessage);
   const entries = (catalogue.gifts || []).map(gift => {
     const isOwned = owned.has(gift.id);
     const unavailable = gift.stock === 0 || gift.coins > wallet.balance;
@@ -160,10 +156,12 @@ async function giftsPanel(ctx, host) {
           'Buy this gift for ' + gift.coins + ' coins?'))) return;
         event.currentTarget.disabled = true;
         try {
-          await api.request('/api/coins/gifts/' + encodeURIComponent(gift.id) + '/purchase', {
+          const receipt = await api.request('/api/coins/gifts/' + encodeURIComponent(gift.id) + '/purchase', {
             method: 'POST', signal: ctx.signal, body: {requestId: crypto.randomUUID()},
           });
-          if (!ctx.signal.aborted) void giftsPanel(ctx, host);
+          if (!ctx.signal.aborted) void giftsPanel(ctx, host, localized(ctx,
+            'Xaridingiz uchun rahmat. Tez orada admin sizga aloqaga chiqadi. Chek: ' + receipt.receiptId,
+            'Thank you for your purchase. An administrator will contact you soon. Receipt: ' + receipt.receiptId));
         } catch (error) {
           feedback.textContent = error.code === 'insufficient_coins' ?
             localized(ctx, 'Tanga yetarli emas.', 'Not enough coins.') :
@@ -173,8 +171,10 @@ async function giftsPanel(ctx, host) {
         }
       }, {'data-coin-buy': gift.id, class: 'btn-primary', disabled: isOwned || unavailable});
     return h('article', {class: 'coin-gift-card', 'data-gift': gift.key},
-      h('span', {class: 'coin-gift-symbol', 'aria-hidden': 'true'},
-        {badge: '🏅', frame: '🖼️', theme: '🎨', study_tool: '📘'}[gift.category] || '🎁'),
+      gift.imageData ? h('img', {class: 'coin-gift-image', src: gift.imageData,
+        alt: titleFor(ctx, gift), loading: 'lazy', decoding: 'async'}) :
+        h('span', {class: 'coin-gift-symbol', 'aria-hidden': 'true'},
+          {badge: '🏅', frame: '🖼️', theme: '🎨', study_tool: '📘'}[gift.category] || '🎁'),
       h('strong', {}, titleFor(ctx, gift)),
       detail(descriptionFor(ctx, gift)),
       h('div', {class: 'coin-gift-price'}, formatNumber(gift.coins), ' 🪙'),
@@ -200,18 +200,41 @@ async function purchasesPanel(ctx, host) {
     h('article', {class: 'coin-market-purchase'},
       h('strong', {}, titleFor(ctx, item)),
       detail(new Date(item.purchasedAt).toLocaleDateString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US')),
-      h('strong', {}, '−' + formatNumber(item.coins) + ' 🪙')));
+      detail(({pending: localized(ctx, 'Kutilmoqda', 'Pending'),
+        fulfilled: localized(ctx, 'Tasdiqlangan', 'Fulfilled'),
+        rejected: localized(ctx, 'Rad etildi — tangalar qaytarildi', 'Rejected — coins refunded')})[item.status] || item.status),
+      h('strong', {}, (item.status === 'rejected' ? '+' : '−') + formatNumber(item.coins) + ' 🪙')));
   host.replaceChildren(balanceCards(ctx, wallet),
     heading(localized(ctx, 'Xaridlarim', 'My purchases')),
     items.length ? h('div', {class: 'coin-market-purchase-list'}, items) :
       card(detail(localized(ctx, 'Hali sovg‘a sotib olmagansiz.', 'You have not bought any gifts yet.'))));
 }
 
+async function imageDataFromFile(file) {
+  if (!(file instanceof File) || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type) ||
+      file.size < 1 || file.size > 160000) throw new Error('invalid_image');
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const valid = file.type === 'image/png' && bytes[0] === 137 && bytes[1] === 80 &&
+    bytes[2] === 78 && bytes[3] === 71 ||
+    file.type === 'image/jpeg' && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255 ||
+    file.type === 'image/webp' && String.fromCharCode(...bytes.slice(0, 4)) === 'RIFF' &&
+      String.fromCharCode(...bytes.slice(8, 12)) === 'WEBP';
+  if (!valid) throw new Error('invalid_image');
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 8192)
+    binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+  return 'data:' + file.type + ';base64,' + btoa(binary);
+}
+
 async function ownerGiftsPanel(ctx, host) {
-  const catalogue = await api.request('/api/coins/admin/gifts', {signal: ctx.signal});
+  host.replaceChildren(loading(ctx));
+  const [catalogue, orders] = await Promise.all([
+    api.request('/api/coins/admin/gifts', {signal: ctx.signal}),
+    api.request('/api/coins/admin/purchases', {signal: ctx.signal}),
+  ]);
   if (ctx.signal.aborted) return;
-  const notice = h('p', {role: 'status', class: 'coin-market-notice'});
-  const form = h('form', {class: 'coin-gift-admin-form'}, [
+  const notice = h('p', {role: 'status', class: 'coin-market-notice', 'aria-live': 'polite'});
+  const fields = [
     ['key', 'Gift key', 'text'],
     ['titleUz', 'O‘zbekcha nomi', 'text'],
     ['titleEn', 'English title', 'text'],
@@ -219,60 +242,124 @@ async function ownerGiftsPanel(ctx, host) {
     ['descriptionEn', 'English description', 'text'],
     ['coins', 'Coin price', 'number'],
     ['stock', 'Stock (blank = unlimited)', 'number'],
-  ].map(([name, label, type]) => h('label', {}, label,
-    h('input', {name, type, min: type === 'number' ? (name === 'coins' ? 1 : 0) : null,
-      max: type === 'number' ? 1000000 : null, required: !['stock', 'descriptionUz', 'descriptionEn'].includes(name),
-      'data-coin-gift-input': name}))),
-  h('label', {}, localized(ctx, 'Turi', 'Category'),
-    h('select', {name: 'category'}, ['badge', 'frame', 'theme', 'study_tool'].map(name =>
-      h('option', {value: name}, name)))),
-  h('button', {class: 'btn-primary', type: 'submit'},
-    localized(ctx, 'Sovg‘ani qo‘shish', 'Add gift')));
+  ];
+  const form = h('form', {class: 'coin-gift-admin-form'},
+    fields.map(([name, label, type]) => h('label', {}, label,
+      h('input', {name, type, min: type === 'number' ? (name === 'coins' ? 1 : 0) : null,
+        max: type === 'number' ? 1000000 : null,
+        required: !['stock', 'descriptionUz', 'descriptionEn'].includes(name),
+        'data-coin-gift-input': name}))),
+    h('label', {}, localized(ctx, 'Sovg‘a rasmi (PNG, JPG, WebP · 160 KB)', 'Gift image (PNG, JPG, WebP · 160 KB)'),
+      h('input', {name: 'image', type: 'file', accept: 'image/png,image/jpeg,image/webp'})),
+    h('label', {}, localized(ctx, 'Turi', 'Category'),
+      h('select', {name: 'category'}, ['badge', 'frame', 'theme', 'study_tool'].map(name =>
+        h('option', {value: name}, name)))),
+    h('button', {class: 'btn-primary', type: 'submit'},
+      localized(ctx, 'Sovg‘ani qo‘shish', 'Add gift')));
   form.addEventListener('submit', async event => {
     event.preventDefault();
     const data = new FormData(form);
-    const payload = {
-      key: String(data.get('key') || '').trim(),
-      titleUz: String(data.get('titleUz') || '').trim(),
-      titleEn: String(data.get('titleEn') || '').trim(),
-      descriptionUz: String(data.get('descriptionUz') || '').trim(),
-      descriptionEn: String(data.get('descriptionEn') || '').trim(),
-      coins: Number(data.get('coins')),
-      category: String(data.get('category')),
-      stock: data.get('stock') === '' ? null : Number(data.get('stock')),
-      active: true,
-    };
     const submit = form.querySelector('[type=submit]');
     submit.disabled = true;
     try {
+      const payload = {
+        key: String(data.get('key') || '').trim(),
+        titleUz: String(data.get('titleUz') || '').trim(),
+        titleEn: String(data.get('titleEn') || '').trim(),
+        descriptionUz: String(data.get('descriptionUz') || '').trim(),
+        descriptionEn: String(data.get('descriptionEn') || '').trim(),
+        coins: Number(data.get('coins')),
+        category: String(data.get('category')),
+        stock: data.get('stock') === '' ? null : Number(data.get('stock')),
+        active: true,
+      };
+      const imageFile = data.get('image');
+      if (imageFile?.size) payload.imageData = await imageDataFromFile(imageFile);
       await api.request('/api/coins/admin/gifts', {method: 'POST', body: payload, signal: ctx.signal});
       if (!ctx.signal.aborted) await ownerGiftsPanel(ctx, host);
-    } catch {
-      notice.textContent = localized(ctx, 'Sovg‘ani saqlab bo‘lmadi. Kalit noyob bo‘lishi kerak.',
-        'Unable to save gift. The gift key must be unique.');
+    } catch (error) {
+      notice.textContent = error.message === 'invalid_image' ?
+        localized(ctx, 'Faqat haqiqiy PNG/JPG/WebP, 160 KB gacha.', 'Use a real PNG/JPG/WebP image up to 160 KB.') :
+        localized(ctx, 'Sovg‘ani saqlab bo‘lmadi. Kalit noyob bo‘lishi kerak.',
+          'Unable to save gift. The gift key must be unique.');
       submit.disabled = false;
     }
   }, {signal: ctx.signal});
-  const cards = (catalogue.gifts || []).map(gift => h('div', {class: 'coin-market-purchase'},
-    h('strong', {}, titleFor(ctx, gift) + ' · ' + gift.coins + ' 🪙'),
-    detail(gift.active ? localized(ctx, 'Faol', 'Active') : localized(ctx, 'Yashirilgan', 'Hidden')),
-    button(gift.active ? localized(ctx, 'Yashirish', 'Hide') : localized(ctx, 'Faollashtirish', 'Activate'),
-      async event => {
-        event.currentTarget.disabled = true;
-        try {
-          await api.request('/api/coins/admin/gifts/' + encodeURIComponent(gift.id), {
-            method: 'PATCH', body: {active: !gift.active}, signal: ctx.signal,
-          });
-          await ownerGiftsPanel(ctx, host);
-        } catch {
-          notice.textContent = localized(ctx, 'Holatni o‘zgartirib bo‘lmadi.', 'Unable to update gift.');
-          event.currentTarget.disabled = false;
-        }
-      }, {class: 'btn-secondary'})));
-  host.replaceChildren(heading(localized(ctx, 'Sovg‘alarni boshqarish', 'Manage gifts')),
-    detail(localized(ctx, 'Sovg‘alar faqat talaba tanga balansiga sotiladi. Xaridlar qaytarilmaydi.',
-      'Only student coin balances can be spent on gifts. Purchases are final.')),
-    form, notice, h('div', {class: 'coin-market-purchase-list'}, cards));
+
+  const cards = (catalogue.gifts || []).map(gift => {
+    const fileInput = h('input', {type: 'file', accept: 'image/png,image/jpeg,image/webp',
+      'aria-label': localized(ctx, 'Sovg‘a rasmini almashtirish', 'Replace gift image'),
+      'data-gift-image-upload': gift.id});
+    fileInput.addEventListener('change', async () => {
+      if (!fileInput.files?.[0]) return;
+      fileInput.disabled = true;
+      try {
+        const imageData = await imageDataFromFile(fileInput.files[0]);
+        await api.request('/api/coins/admin/gifts/' + encodeURIComponent(gift.id), {
+          method: 'PATCH', body: {imageData}, signal: ctx.signal,
+        });
+        if (!ctx.signal.aborted) await ownerGiftsPanel(ctx, host);
+      } catch {
+        notice.textContent = localized(ctx, 'Rasm yuklanmadi (160 KB chegarasi).',
+          'Unable to upload image (160 KB limit).');
+        fileInput.disabled = false;
+      }
+    }, {signal: ctx.signal});
+    return h('article', {class: 'coin-market-purchase'},
+      gift.imageData ? h('img', {class: 'coin-gift-admin-thumbnail', src: gift.imageData, alt: titleFor(ctx, gift)}) : null,
+      h('strong', {}, titleFor(ctx, gift) + ' · ' + gift.coins + ' 🪙'),
+      detail(gift.active ? localized(ctx, 'Faol', 'Active') : localized(ctx, 'Yashirilgan', 'Hidden')),
+      fileInput,
+      button(gift.active ? localized(ctx, 'Yashirish', 'Hide') : localized(ctx, 'Faollashtirish', 'Activate'),
+        async event => {
+          event.currentTarget.disabled = true;
+          try {
+            await api.request('/api/coins/admin/gifts/' + encodeURIComponent(gift.id), {
+              method: 'PATCH', body: {active: !gift.active}, signal: ctx.signal,
+            });
+            if (!ctx.signal.aborted) await ownerGiftsPanel(ctx, host);
+          } catch {
+            notice.textContent = localized(ctx, 'Holatni o‘zgartirib bo‘lmadi.', 'Unable to update gift.');
+            event.currentTarget.disabled = false;
+          }
+        }, {class: 'btn-secondary'}));
+  });
+  const purchaseCards = (orders.purchases || []).map(order => h('article', {
+    class: 'coin-market-purchase', 'data-purchase-id': order.id,
+  },
+    h('div', {}, h('strong', {}, order.buyerName),
+      detail(titleFor(ctx, order) + ' · ' + formatNumber(order.coins) + ' 🪙'),
+      detail(localized(ctx, 'Chek: ', 'Receipt: ') + order.id),
+      detail(new Date(order.purchasedAt).toLocaleString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US'))),
+    h('span', {}, ({pending: localized(ctx, 'Kutilmoqda', 'Pending'),
+      fulfilled: localized(ctx, 'Bajarilgan', 'Fulfilled'),
+      rejected: localized(ctx, 'Rad etilgan', 'Rejected')})[order.status] || order.status),
+    order.status === 'pending' ? h('div', {class: 'coin-order-actions'},
+      ...[['fulfilled', 'Bajarildi', 'Fulfilled'], ['rejected', 'Rad etish', 'Reject']].map(
+        ([status, uz, en]) => button(localized(ctx, uz, en), async event => {
+          if (!window.confirm(localized(ctx,
+            status === 'rejected' ? 'Xaridni rad etib, tangalarni qaytarasizmi?' : 'Sovg‘a yetkazildimi?',
+            status === 'rejected' ? 'Reject and refund the coins?' : 'Was the gift delivered?'))) return;
+          event.currentTarget.disabled = true;
+          try {
+            await api.request('/api/coins/admin/purchases/' + encodeURIComponent(order.id), {
+              method: 'PATCH', body: {status}, signal: ctx.signal,
+            });
+            if (!ctx.signal.aborted) await ownerGiftsPanel(ctx, host);
+          } catch {
+            notice.textContent = localized(ctx, 'Xarid holati yangilanmadi.',
+              'Unable to update the order status.');
+            event.currentTarget.disabled = false;
+          }
+        }, {class: status === 'fulfilled' ? 'btn-primary' : 'btn-secondary'}))) : null));
+  host.replaceChildren(
+    heading(localized(ctx, 'Sovg‘alar va xaridlarni boshqarish', 'Manage gifts and purchases')),
+    detail(localized(ctx, 'Har bir xarid owner tomonidan ko‘riladi. Rad etilganda tanga qaytariladi.',
+      'Each purchase is reviewed by the owner. Rejected orders are refunded.')),
+    notice, form, h('div', {class: 'coin-market-purchase-list'}, cards),
+    heading(localized(ctx, 'Xarid cheklari', 'Purchase receipts')),
+    purchaseCards.length ? h('div', {class: 'coin-market-purchase-list'}, purchaseCards) :
+      detail(localized(ctx, 'Hali xarid yo‘q.', 'No purchases yet.')));
 }
 
 export async function showCoinFeature(ctx, mode, host, options = {}) {
@@ -283,6 +370,8 @@ export async function showCoinFeature(ctx, mode, host, options = {}) {
       await giftsPanel(ctx, host);
     } else if (mode === 'purchases') {
       await purchasesPanel(ctx, host);
+    } else if (mode === 'manage' && ctx.session?.user?.role === 'owner') {
+      await ownerGiftsPanel(ctx, host);
     }
   } catch {
     if (!ctx.signal.aborted) host.replaceChildren(errorNotice(ctx));
