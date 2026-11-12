@@ -17,7 +17,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | Phase | Sense rank (inclusive) | Sense count | Status |
 | --- | ---: | ---: | --- |
 | 01 | 1–5,521 | 5,521 | Structural audited; semantic pending |
-| 02 | 5,522–11,041 | 5,520 | Not started |
+| 02 | 5,522–11,041 | 5,520 | Structural and presentation coverage audited; semantic review pending |
 | 03 | 11,042–16,562 | 5,521 | Not started |
 | 04 | 16,563–22,082 | 5,520 | Not started |
 | 05 | 22,083–27,603 | 5,521 | Not started |
@@ -127,3 +127,34 @@ Code fix: retaining both canonical and curated collocations without losing eithe
 - Run completed successfully: **85 passed, 1 warning**, plus `compileall` PASS.
 - Includes three frozen-receipt assertions and four new sense-isolation/preservation tests (two synonym and two collocation cases).
 - External language correctness still requires source-by-source review; passing test code cannot certify unreviewed translations.
+
+
+## Phase 02 — 12 November 2026 audit
+
+Source release `rel-v1-1fa06d8d41d8ff701632573e` was frozen before starting. The phase includes exactly 5,520 sense IDs at sorted ranks 5,522–11,041, with 3,222 unique lexemes. Thirteen R2 shards (`0c`–`18`) were fetched; SHA-256, compressed byte sizes and entry counts matched production Supabase shard descriptors. Boundary shards were filtered by exact lexeme/sense ID. Audit source receipt: `content/dictionary/audit-20261112-phase02-flagged-records.json`. Additional exact sense ID presentation receipt: `content/dictionary/audit-20261112-phase02-presentation-coverage.json`.
+
+| Validation | Phase 02 observed |
+| --- | ---: |
+| Sense IDs checked structurally | 5,520 |
+| Empty translation / EN definition / UZ definition | 0 / 0 / 0 |
+| Missing CEFR | 461 |
+| Nonempty CEFR outside A1–C2 | 0 |
+| CEFR distribution A1/A2/B1/B2/C1/C2 | 64 / 185 / 733 / 975 / 768 / 2,334 |
+| Sense records without source examples | 3,111 |
+| Sense records with AI draft editorial provenance | 47 |
+| Duplicate translation rows / repeated sense IDs | 0 / 0 |
+| Invalid local source sense references in relations / collocations | 0 / 0 |
+| Canonical-only missing synonym/antonym/collocation | 4,363 / 5,492 / 5,480 |
+| Missing presentation sense row | 44 |
+| Senses with synonyms in canonical or presentation layer | 3,054 |
+| Senses with collocations in canonical or presentation layer | 129 |
+| No synonym in either counted layer | 2,466 |
+| No collocation in either counted layer | 5,391 |
+
+The counts for relationships represent *presence*, not confirmation of exact semantic correctness. The presentation comparison matched lexeme and sense IDs, but it did not independently validate every `meaningSha`, so the effective UI count can be lower when metadata is stale. The 44 absent presentation rows are follow-up candidates, not automatically errors because fallback data may be valid.
+
+**Automated structural audit: COMPLETE.** **Independent semantic translation, sense-level CEFR and relationship certification: NOT COMPLETE.** Exactly 2,795 meaning IDs are queued for missing CEFR (461) or C2 review (2,334), but C2 itself is not an invalid value. None of the 5,520 meanings has been certified as fully linguistically correct merely because all required fields are filled. No fictional synonyms, antonyms, or collocations were created. No live release, channel pointer or production content was modified.
+
+### Release and merge policy
+
+Do not merge `fix/dictionary-audit-phase-01-20261112` to `main` until all 20 planned phases are finished and separately tested. The production `stable` channel must not change before fully validated immutable release generation, backup, rollback and regression gates.
