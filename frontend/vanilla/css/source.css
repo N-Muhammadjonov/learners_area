@@ -2459,3 +2459,33 @@ html[data-theme="night"] #root [data-owner-academic-filters] input[type="search"
 }
 
 [data-focus-workspace]:has([data-listening-exam-active]) [data-shell-utilities] { display:none; }
+
+/* Dictionary navigation buttons and part-of-speech labels — responsive and legible. */
+[data-global-dictionary] .dictionary-entry-nav{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+[data-global-dictionary] .dictionary-entry-nav .dictionary-back-button,
+[data-global-dictionary] .dictionary-expand-all{
+ box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+ flex:0 1 auto;width:max-content;max-width:100%;min-width:min(100%,11rem);
+ min-height:44px;padding:10px 18px!important;border:1px solid rgba(56,189,248,.72)!important;
+ border-radius:999px!important;background:linear-gradient(125deg,rgba(20,170,185,.27),rgba(48,99,235,.29))!important;
+ color:#d8f4ff!important;font-size:15px;font-weight:650;line-height:1.4;
+ white-space:normal;text-align:center;overflow-wrap:anywhere;text-decoration:none;
+}
+[data-global-dictionary] .dictionary-entry-nav .dictionary-back-button:hover,
+[data-global-dictionary] .dictionary-expand-all:hover{
+ background:linear-gradient(125deg,rgba(20,170,185,.42),rgba(48,99,235,.45))!important;
+ border-color:#38bdf8!important
+}
+[data-global-dictionary] .dictionary-pos{
+ box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+ flex:0 0 auto;width:max-content;max-width:100%;min-width:0;
+ min-height:27px;padding:3px 10px;border:1px solid rgba(56,189,248,.62);
+ border-radius:999px;background:rgba(18,85,145,.24);color:#8ddaff!important;
+ font-size:13px;font-weight:650;line-height:1.3;white-space:nowrap;
+}
+[data-global-dictionary] .dictionary-entry-meta{align-items:center;gap:8px 12px}
+[data-global-dictionary] .dictionary-meaning-toggle .dictionary-pos{padding:3px 10px;border-radius:999px}
+@media(max-width:420px){
+ [data-global-dictionary] .dictionary-entry-heading{align-items:stretch}
+ [data-global-dictionary] .dictionary-expand-all{max-width:100%}
+}
