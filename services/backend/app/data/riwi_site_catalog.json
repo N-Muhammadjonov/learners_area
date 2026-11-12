@@ -45,7 +45,7 @@
         "admin",
         "owner"
       ],
-      "module": "modules/study-plan/motivation.js",
+      "module": "modules/guardian/leaderboard-entry.js",
       "focus": false,
       "redirect": false
     },
@@ -856,7 +856,7 @@
         "admin",
         "owner"
       ],
-      "module": "modules/progress/page.js",
+      "module": "modules/guardian/progress-entry.js",
       "focus": false,
       "redirect": false
     },
@@ -1609,6 +1609,17 @@
       "module": "modules/writing/index.js",
       "focus": false,
       "redirect": false
+    },
+    {
+      "path": "/app/management/guardians",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/guardian/guardians.js",
+      "focus": false,
+      "redirect": false
     }
   ],
   "sources": {
@@ -1785,7 +1796,7 @@
     "frontend/vanilla/js/navigation.js": "6fe8fdde47a6abcca2738a1572b6595e789547008afc2bfb897f4c3ceb36cc0b",
     "frontend/vanilla/js/plan-entry-intent.js": "2894dab0d1fb8ad789a27dceca40e9d69375103c2ff0144d4be463f7af58635a",
     "frontend/vanilla/js/preferences.js": "b27b327a69bff777cac303c4945e28613cea1af17f9a33c1f3f61c8c725a6493",
-    "frontend/vanilla/js/presence.js": "1868d38808bb1dcbb35f3f9ccbf3a1efac5fc16cf1b7c334259108075989273f",
+    "frontend/vanilla/js/presence.js": "2c168dbfbebac1b5ee0f8a18791845990e758f48858e6d0a92d214697015acb6",
     "frontend/vanilla/js/private-modules.js": "e9e4fc1464421a53b810b59cb53ae0d335e0446cd53cd60b5da2a0c3ae24d882",
     "frontend/vanilla/js/private-scope.js": "c856a1d8f7bd75dbfc9a0100e080d9eea9f1a103ccf1c8ea3e3ae792aa05caed",
     "frontend/vanilla/js/reading-destinations.js": "86a73119f6cefae061c1af603096579b2f3518a722c2ca03ac80601ad2e638bc",
@@ -1798,7 +1809,7 @@
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
-    "frontend/vanilla/js/routes.js": "a55a38504ff71af638160fa439206bd6568cdd02f4a379f69779a9c6a83ca40f",
+    "frontend/vanilla/js/routes.js": "8a3b1307e20daae9707a3539e0375b176522003208c26cae9a499b1712336f14",
     "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
     "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
     "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
@@ -1806,7 +1817,7 @@
     "frontend/vanilla/js/signals.js": "e436de0ad182af00fa9a5f43dde02e657d5e773970ab0434e055f432b28c6d01",
     "frontend/vanilla/js/study-time.js": "ada27b1210e447e145da136d20d80ac598cf5c9321472ef967a037cd75b11818",
     "frontend/vanilla/js/view-prewarm.js": "794919dd18749f8c0864e2d76148de011ab20453e1f869afeb643a0110c2f8f5",
-    "frontend/vanilla/js/workspace.js": "b45b278d23ec49d6934a855281ffdb7ae7b0860728abed91f5360abd7e35d617",
+    "frontend/vanilla/js/workspace.js": "25afe52361440e30110277638e2a10c5123c370c522ab25ff125c94268309e5e",
     "frontend/vanilla/modules/assignments/card.js": "3451187d36d999860dfef326105610f59f1ffb63ad9fc0c95efb6c37a04f2b33",
     "frontend/vanilla/modules/assignments/index.js": "20ad115431c6923153fc6527392337ea9652976b4c8d77aa82e9c3a64121e0f1",
     "frontend/vanilla/modules/auth/account.js": "56a9ab61ab0bee672550357aa41a8a6808fffb4ff6072f47ca35619887d4746d",
@@ -1852,6 +1863,13 @@
     "frontend/vanilla/modules/grammar/request.js": "c40f82d5953650d066fc92cb82eef41dc3a29e5b15bba1cd1aaaab03fc366a01",
     "frontend/vanilla/modules/grammar/topic.js": "7b65f9558967313254c401de807d4be768c39343a24b301e241c47b017f2e78d",
     "frontend/vanilla/modules/grammar/topics.js": "16f2882f3abc32afc18b7ee5291bda244b106e43d86f01e0d22949d045456b78",
+    "frontend/vanilla/modules/guardian/guardians.js": "50681dc5517ab5e0af33066225e1363a3a01b761835d08dd0f653b902fcf984d",
+    "frontend/vanilla/modules/guardian/leaderboard-entry.js": "b503a06b60dc94ed23298e0dd1907a60cd1d71fd8ce97a8c4f64032b2c65694f",
+    "frontend/vanilla/modules/guardian/leaderboard.js": "5e087173197e047b21f7aad719ef150bd4f2a692c43a54cff8af3782daaa1360",
+    "frontend/vanilla/modules/guardian/progress-entry.js": "28541b64d26b0e8827e006cd59ce4fa3f8ddacfd7e2f147b16b29834483211d8",
+    "frontend/vanilla/modules/guardian/progress.js": "b6616723d6de2a87ae4c66d98f2a36b95ec0fda8d883f336273c146a4d1a04ff",
+    "frontend/vanilla/modules/guardian/shared.js": "db3070a5e85c85ac99729948916feb1ad29464512253f3195ffa34bbab112f17",
+    "frontend/vanilla/modules/guardian/style.css": "86fed57471a6da5bd6e746ed97ed1178e4a832d90b5d7aece778f766606203c3",
     "frontend/vanilla/modules/landing.js": "520e87a9b9cf6b5b442ac655527b51e254b596a9e12cc5b3fbe686e8a7aad4b4",
     "frontend/vanilla/modules/legacy-redirect.js": "21827010c8027114504e1f32eb8e1fd2f3feee0ded80e7f158d561bcf8c03c8f",
     "frontend/vanilla/modules/listening/audio-preload.js": "e1e4280fecc149d204274d988df44676c9556b8929533f9f269f2006b993c06d",
@@ -1993,8 +2011,8 @@
     "frontend/vanilla/modules/shared/student-learning.js": "bd9a9470756b7c171b0eaaf1d5bab8d4475ecf1bf7c7e5d10b8eca9c0f183843",
     "frontend/vanilla/modules/shell/dock-icons.js": "177cb63ec4bf7c7268d5c47895a77b093f343e5f30952fef58867d3f8c99e76a",
     "frontend/vanilla/modules/shell/dock-texture.js": "ec71b7826a1758110399c41538a1517b7bfd756dc8abe7f243ec4d75bcdcad42",
-    "frontend/vanilla/modules/shell/dock.js": "4027c84b3f54d4e8d2fb6663ddc964b18ae29ce2a33129468e24da4081bcacd9",
-    "frontend/vanilla/modules/shell/layout.js": "fba64acedaff6de113bf230a6a37d6e55228a1f18991591603cce0954009f054",
+    "frontend/vanilla/modules/shell/dock.js": "09d9c312a9f3b59dcfc070e4803733d6a742a8488b620ff80e9cfa44ca7b2cd4",
+    "frontend/vanilla/modules/shell/layout.js": "11d28d8138e4a8cf928b692baf42f7449cb4fb3940a4735627870b02cd29f552",
     "frontend/vanilla/modules/shell/link-pending.js": "74e4c4d1c906dac4891511ec947c3d28d0e91ec5e5be82d4331d536e7762f9fd",
     "frontend/vanilla/modules/shell/module-layout.js": "103d74abfecdd5960b3166f87d5645b064ca56e1cff0a81cc87b22802e6a3ec8",
     "frontend/vanilla/modules/shell/navigation-list.js": "ccf94cb18b73b8f5d4061a1e811c60c95c6e31a39629767476ea5e31373ae274",
@@ -2048,7 +2066,7 @@
     "frontend/vanilla/modules/staff-final30/listening-import.js": "9cfbdde9f57bf6fe7182cd6a982cc5f0460251159b67337649f97349bc35b517",
     "frontend/vanilla/modules/staff-final30/listening-legacy-import.js": "0f107a2345b8ca17e377daad8bc5d6a410867babee32aa2a4324e30470fd4bdd",
     "frontend/vanilla/modules/staff-final30/listening.js": "064ffeb0b23dd69a0714084c69cfc519609346931c330a7e639e2e25e3905728",
-    "frontend/vanilla/modules/staff-final30/management-hub.js": "b816910377796f029401c1cae3f5baed0e54b1a78325816373699a0b353353ab",
+    "frontend/vanilla/modules/staff-final30/management-hub.js": "a637d5c0036105d8922c24dbf72ae030a46ca933555c3f3b97224b6dbf1956ba",
     "frontend/vanilla/modules/staff-final30/materials.js": "3b08d485b88028eca09b89c9d38dc50de9d5ca72b5afeb022cec1cfa32322c3d",
     "frontend/vanilla/modules/staff-final30/mock-create.js": "6d49db124dea6d1025e1338f7c1352ac8503c487f0b68829611080505892fa4c",
     "frontend/vanilla/modules/staff-final30/mock-grading.js": "86cd9ec7c2a22c2987ca7d3c62de5c93f5f185f9ffcd9bbbf598935ef16d5f16",
