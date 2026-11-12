@@ -139,3 +139,8 @@
 .coin-gift-admin-form button{align-self:end}
 @media(max-width:780px){.coin-market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.coin-market-action--friend{grid-column:1/-1}.coin-market-invite{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:540px){.coin-market-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.coin-market-balances{grid-template-columns:1fr}.coin-market-balance+.coin-market-balance{border-left:0;border-top:1px solid rgb(var(--workspace-line))}.coin-market-grid{grid-template-columns:1fr}.coin-market-action--friend{grid-column:auto}.coin-gift-admin-form{grid-template-columns:1fr}.coin-streak-days{gap:.15rem}.coin-streak-day{font-size:.85rem;padding:.65rem .05rem}}
+
+
+.coin-personal-balance{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem 1.1rem;padding:.85rem 1rem;margin:.7rem 0 1rem;border:1px solid rgb(var(--workspace-line));border-radius:12px;background:rgb(var(--workspace-sunken));font-variant-numeric:tabular-nums}
+.coin-personal-balance strong{font-size:1rem;color:rgb(var(--workspace-ink))}
+.coin-personal-balance p{margin:0;font-size:.85rem;color:rgb(var(--workspace-muted))}
