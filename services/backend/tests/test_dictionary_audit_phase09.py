@@ -100,13 +100,14 @@ def test_phase09_editorial_proposals_remain_unpublished() -> None:
 def test_phase09_cefr_edits_have_exact_sense_evidence() -> None:
     data = load("audit-20261112-phase09-reviewed-corrections.json")
     edits = data["source_verified_cefr_edits"]
-    assert len(edits) == 4
+    assert len(edits) == 5
     by_lemma = {row["lemma"]: row for row in edits}
-    assert set(by_lemma) == {"itself", "nowadays", "cake", "hysterical"}
+    assert set(by_lemma) == {"itself", "nowadays", "cake", "hysterical", "demonstrate"}
     assert (by_lemma["itself"]["original"], by_lemma["itself"]["proposed"]) == (None, "A2")
     assert (by_lemma["nowadays"]["original"], by_lemma["nowadays"]["proposed"]) == ("A2", "B1")
     assert (by_lemma["cake"]["original"], by_lemma["cake"]["proposed"]) == ("B1", "A1")
     assert (by_lemma["hysterical"]["original"], by_lemma["hysterical"]["proposed"]) == ("C2", "C1")
+    assert (by_lemma["demonstrate"]["original"], by_lemma["demonstrate"]["proposed"]) == ("B1", "C1")
     for edit in edits:
         UUID(edit["lexeme_id"])
         UUID(edit["sense_id"])
