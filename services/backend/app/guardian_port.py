@@ -1,4 +1,4 @@
-"""Parent Connect: guardian invitations, student approval, read-only child views, owner directory and
+"""Parent Connect: guardian invitations, student approval, read-only child views, staff directory and
 HUMAN-APPROVED manual messages.
 
 Hard rules enforced here (server side, never by hiding buttons):
@@ -682,14 +682,26 @@ async def guardian_leaderboard(req: Request, student_id: str):
                    'position': position, 'standings': standings}, headers=PRIVATE)
 
 
-# ───────────────────────── owner directory + manual messages ─────────────────────────
-async def owner_user(req):
+# ───────────────────────── staff directory + manual messages ─────────────────────────
+async def staff_user(req):
+    """Owner/admin can message all guardians; teachers are limited to assigned students."""
     user = await core.current_user(req, active=True)
     if not user:
         return None, err('unauthenticated', 401)
-    if user['role'] != 'owner':
+    if user['role'] not in ('owner', 'admin', 'teacher'):
         return None, err('forbidden', 403)
     return user, None
+
+
+def teacher_assignment_sql(user: dict, parameter: int) -> str:
+    """Always use a bound parameter, never an untrusted student or teacher ID."""
+    if user['role'] != 'teacher':
+        return 'TRUE'
+    return (
+        'EXISTS (SELECT 1 FROM teacher_student_links assigned '
+        'WHERE assigned.student_user_id=l.student_id '
+        f'AND assigned.teacher_user_id=${parameter})'
+    )
 
 
 def like(value):
@@ -698,7 +710,7 @@ def like(value):
 
 @router.get('/api/staff/guardians')
 async def staff_guardians(req: Request):
-    user, failure = await owner_user(req)
+    user, failure = await staff_user(req)
     if failure:
         return failure
     q = req.query_params
@@ -717,6 +729,9 @@ async def staff_guardians(req: Request):
     def param(value):
         args.append(value)
         return f'${len(args)}'
+    if user['role'] == 'teacher':
+        where.append(teacher_assignment_sql(user, len(args) + 1))
+        args.append(user['id'])
     if status == 'live':
         where.append("l.status IN ('awaiting_guardian','awaiting_student','linked')")
     elif status != 'all':
@@ -739,12 +754,19 @@ async def staff_guardians(req: Request):
         rows = await con.fetch(f'''SELECT l.id,l.status,l.relationship,l.requested_at,l.updated_at,s.name AS student_name,
               p.display_name,p.telegram_user_id,p.channel_verified_at,t.username,t.phone_number,t.phone_verified_at {base} {clause}
               ORDER BY l.updated_at DESC, l.id LIMIT ${len(args) + 1} OFFSET ${len(args) + 2}''', *args, size, (page - 1) * size)
+        metric_scope = (' WHERE ' + teacher_assignment_sql(user, 1)) if user['role'] == 'teacher' else ''
+        scope_args = (user['id'],) if user['role'] == 'teacher' else ()
         metrics = await con.fetchrow('''SELECT
               count(*) FILTER (WHERE l.status='linked')::int linked,
               count(*) FILTER (WHERE l.status='awaiting_student')::int awaiting,
               count(*) FILTER (WHERE l.status='awaiting_guardian' AND p.channel_verified_at IS NULL)::int channel_required
-            FROM guardian_links l JOIN guardian_profiles p ON p.id=l.guardian_profile_id''')
-        sent = await con.fetchval("SELECT count(*)::int FROM guardian_message_deliveries WHERE status='sent'")
+            FROM guardian_links l JOIN guardian_profiles p ON p.id=l.guardian_profile_id''' + metric_scope, *scope_args)
+        sent = await con.fetchval(
+            "SELECT count(*)::int FROM guardian_message_deliveries d "
+            "JOIN guardian_links l ON l.id=d.link_id WHERE d.status='sent'"
+            + ((' AND ' + teacher_assignment_sql(user, 1)) if user['role'] == 'teacher' else ''),
+            *scope_args,
+        )
     items = [{'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'],
               'studentName': r['student_name'], 'guardianName': r['display_name'],
               'telegram': ('@' + r['username']) if r['username'] else 'ID ' + mask_tg(r['telegram_user_id']),
@@ -757,27 +779,33 @@ async def staff_guardians(req: Request):
 
 @router.get('/api/staff/guardians/{link_id}')
 async def staff_guardian_detail(req: Request, link_id: str):
-    user, failure = await owner_user(req)
+    user, failure = await staff_user(req)
     if failure:
         return failure
     if not core.uuid_value(link_id):
         return err('not_found', 404)
     db = await core.pool()
     async with db.acquire() as con:
+        assignment = (' AND ' + teacher_assignment_sql(user, 2)) if user['role'] == 'teacher' else ''
+        detail_args = (link_id, user['id']) if user['role'] == 'teacher' else (link_id,)
         r = await con.fetchrow('''SELECT l.*,s.name AS student_name,p.display_name,p.telegram_user_id,p.channel_verified_at,
                p.language,t.username,t.phone_number,t.phone_verified_at
             FROM guardian_links l JOIN guardian_profiles p ON p.id=l.guardian_profile_id JOIN users s ON s.id=l.student_id
-            LEFT JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id WHERE l.id=$1''', link_id)
+            LEFT JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id WHERE l.id=$1''' + assignment, *detail_args)
         if not r:
             return err('not_found', 404)
+        history_scope = ' AND b.sender_user_id=$2' if user['role'] != 'owner' else ''
+        history_args = (link_id, user['id']) if user['role'] != 'owner' else (link_id,)
         history = await con.fetch('''SELECT d.id,d.status,d.attempts,d.sent_at,d.created_at,d.last_error,b.template_key
             FROM guardian_message_deliveries d JOIN guardian_message_batches b ON b.id=d.batch_id
-            WHERE d.link_id=$1 ORDER BY d.created_at DESC LIMIT 30''', link_id)
+            WHERE d.link_id=$1''' + history_scope + ' ORDER BY d.created_at DESC LIMIT 30', *history_args)
         await audit(con, 'guardian.detail.viewed', actor_user_id=user['id'], link_id=r['id'], student_id=r['student_id'])
     return core.j({'ok': True, 'link': {
         'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'], 'studentName': r['student_name'],
-        'guardianName': r['display_name'], 'telegramUsername': r['username'], 'telegramUserId': r['telegram_user_id'],
-        'phone': r['phone_number'] if r['phone_verified_at'] else None, 'channelJoined': r['channel_verified_at'] is not None,
+        'guardianName': r['display_name'], 'telegramUsername': r['username'],
+        'telegramUserId': r['telegram_user_id'] if user['role'] == 'owner' else mask_tg(r['telegram_user_id']),
+        'phone': (r['phone_number'] if user['role'] == 'owner' else mask_phone(r['phone_number']))
+                 if r['phone_verified_at'] else None, 'channelJoined': r['channel_verified_at'] is not None,
         'language': r['language'], 'requestedAt': iso(r['requested_at']), 'approvedAt': iso(r['approved_at']),
         'revokedAt': iso(r['revoked_at'])},
         'messages': [{'deliveryId': str(h['id']), 'status': h['status'], 'attempts': h['attempts'], 'template': h['template_key'],
@@ -787,7 +815,7 @@ async def staff_guardian_detail(req: Request, link_id: str):
 
 @router.get('/api/staff/guardian-message-templates')
 async def staff_templates(req: Request):
-    user, failure = await owner_user(req)
+    user, failure = await staff_user(req)
     if failure:
         return failure
     return core.j({'ok': True, 'templates': TEMPLATES, 'placeholders': list(ALLOWED_PLACEHOLDERS)}, headers=PRIVATE)
@@ -829,7 +857,7 @@ ELIGIBLE = '''SELECT l.id AS link_id,l.relationship,s.id AS student_id,s.name AS
 
 @router.post('/api/staff/guardian-messages/preview')
 async def staff_preview(req: Request):
-    user, failure = await owner_user(req)
+    user, failure = await staff_user(req)
     if failure:
         return failure
     body = await core.payload(req)
@@ -848,7 +876,7 @@ async def staff_preview(req: Request):
 
 @router.post('/api/staff/guardian-messages/send')
 async def staff_send(req: Request):
-    user, failure = await owner_user(req)
+    user, failure = await staff_user(req)
     if failure:
         return failure
     body = await core.payload(req)
@@ -890,7 +918,7 @@ async def staff_send(req: Request):
 
 @router.get('/api/staff/guardian-messages/{batch_id}')
 async def staff_batch(req: Request, batch_id: str):
-    user, failure = await owner_user(req)
+    user, failure = await staff_user(req)
     if failure:
         return failure
     if not core.uuid_value(batch_id):
