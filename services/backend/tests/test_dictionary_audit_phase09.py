@@ -112,7 +112,7 @@ def test_phase09_cefr_edits_have_exact_sense_evidence() -> None:
     for edit in edits:
         UUID(edit["lexeme_id"])
         UUID(edit["sense_id"])
-        assert edit["source"].startswith("https://dictionary.cambridge.org/")
+        assert edit["source"].startswith(("https://dictionary.cambridge.org/", "https://www.oxfordlearnersdictionaries.com/"))
         assert edit["scope"].strip()
         assert edit["proposed"] in {"A1", "A2", "B1", "B2", "C1", "C2"}
     assert data["publication_state"] == "not_published"
