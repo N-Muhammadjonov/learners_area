@@ -21,7 +21,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | 03 | 11,042–16,562 | 5,521 | Structural and presentation coverage audited; semantic review pending |
 | 04 | 16,563–22,082 | 5,520 | Structural/presentation audited; linguistic review pending |
 | 05 | 22,083–27,603 | 5,521 | Structural/presentation audited; semantic signoff pending |
-| 06 | 27,604–33,123 | 5,520 | Not started |
+| 06 | 27,604–33,123 | 5,520 | Structural/presentation audited; semantic signoff pending |
 | 07 | 33,124–38,644 | 5,521 | Not started |
 | 08 | 38,645–44,164 | 5,520 | Not started |
 | 09 | 44,165–49,685 | 5,521 | Not started |
@@ -250,3 +250,32 @@ Source: `content/dictionary/audit-20261112-phase05-flagged-records.json`; presen
 Review queue holds **2,732 exact sense IDs** (463 without CEFR and 2,269 with C2 to validate, not automatically wrong). The meaning-level CEFR distribution remains suspect and requires independent lexical evidence. Presentation numbers measure presence only, and a matching sense ID does not independently prove `meaningSha` currency or semantic quality. No absent antonyms/collocations were invented.
 
 **Automated R2 integrity and presentation presence audit: COMPLETE. Independent linguistic review of all 5,521 translations, sense-specific CEFR and relations: NOT COMPLETE.** No new production release, channel pointer or `main` merge. Preserve the 20-phase no-merge requirement.
+
+## Phase 06 — 12 November 2026
+
+Frozen source `rel-v1-1fa06d8d41d8ff701632573e`; **5,520** sense IDs at ranks **27,604–33,123**, **3,204** distinct lexemes. Cloudflare R2 shards `3f`–`4b` (13 files) independently verified against production Supabase SHA-256, compressed byte sizes and entry/member counts; exact ID range filters applied to the boundary shards.
+
+Source receipt: `content/dictionary/audit-20261112-phase06-flagged-records.json`. Presentation receipt: `content/dictionary/audit-20261112-phase06-presentation-coverage.json`.
+
+| Check | Phase 06 |
+| --- | ---: |
+| Structurally audited senses | 5,520 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| Missing CEFR | 428 |
+| Invalid non-empty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 70 / 150 / 729 / 1,008 / 833 / 2,302 |
+| Without canonical examples | 3,181 |
+| AI draft editorial senses | 49 |
+| Duplicate source sense IDs / translations | 0 / 0 |
+| Invalid local source-sense relation/collocation references | 0 / 0 |
+| Without canonical synonym / antonym / collocation | 4,311 / 5,493 / 5,474 |
+| Missing supplementary presentation sense row | 51 |
+| Senses with synonym in canonical OR presentation layer | 3,176 |
+| Senses with collocation in canonical OR presentation layer | 168 |
+| Without synonyms / collocations across counted layers | 2,344 / 5,352 |
+
+**Frozen exact-ID CEFR review queue:** 2,730 records, consisting of 428 unassigned CEFR senses and 2,302 C2 candidates. A high C2 count is a prompt for independent sense-level review, not automatic proof of error. Additional `unscopedSynonymsPolysemous`=4,875 canonical relation edges need sense disambiguation; they are not automatically attached to arbitrary senses in the presentation reader.
+
+A spot check found `bunny` (young rabbit) labelled C2 while the other stored `bunny` sense describes a nightclub costume: this requires sense-aware independent reference verification rather than word-level reassignment. No invented antonyms or collocations were inserted.
+
+**Structural integrity and presentation presence checks: COMPLETE. Full source-backed semantic translation/CEFR/relationship certification: NOT COMPLETE.** The presentation coverage comparison used exact lexeme and sense IDs but did not independently hash-verify every `meaningSha` or verify every relation target. No production R2 overwrite, stable channel switch or `main` merge. Preserve the strict 20-stage merge gate.
