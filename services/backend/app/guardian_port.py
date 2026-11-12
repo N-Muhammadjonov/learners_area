@@ -770,7 +770,7 @@ async def staff_guardians(req: Request):
         )
     items = [{'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'],
               'studentName': r['student_name'], 'guardianName': r['display_name'],
-              'telegram': ('@' + r['username']) if r['username'] else 'ID ' + mask_tg(r['telegram_user_id']),
+              'telegram': ('@' + r['username'] + ' · ID ' + r['telegram_user_id']) if r['username'] else 'ID ' + r['telegram_user_id'],
               'phone': mask_phone(r['phone_number']) if r['phone_verified_at'] else None,
               'channelJoined': r['channel_verified_at'] is not None, 'updatedAt': iso(r['updated_at'])} for r in rows]
     return core.j({'ok': True, 'page': page, 'pageSize': size, 'total': total, 'items': items,
