@@ -113,7 +113,8 @@ function leaderboard(ctx, content) {
     }, {class: 'coin-ranking-participation'});
     const podium = podiumOrder.length ? h('div', {class: 'coin-podium', 'data-coin-podium': ''},
       podiumOrder.map(item => h('article', {'data-place': String(item.rank)},
-        item.rank === 1 ? h('span', {class: 'coin-crown', 'aria-hidden': 'true'}, '♛') : null,
+        item.rank === 1 ? h('span', {class: 'coin-crown', 'aria-hidden': 'true',
+          'data-coin-crown': ''}, '👑') : null,
         h('div', {class: 'coin-avatar', 'aria-hidden': 'true'},
           initials(item.alias), h('span', {}, String(item.rank))),
         h('strong', {class: 'coin-podium-name'}, item.alias,
@@ -137,7 +138,7 @@ function leaderboard(ctx, content) {
           h('td', {}, String(item.stars ?? item.points ?? 0), ' ⭐'),
           h('td', {}, String(item.coins ?? 0), ' 🪙'),
           h('td', {}, practiceLabel(item.practiceMs))))))) : null;
-    const participation = ctx.session?.user?.role === 'owner' || panel !== 'ranking' ? null :
+    const participation = true ? null :
       h('div', {class: 'coin-ranking-participation-row'},
         h('span', {}, data.alias ? data.alias + ' · #' + (data.position ?? '—') :
           text(ctx, 'Ismingiz o‘rniga anonim taxallus ko‘rinadi.', 'An anonymous label hides your name.')),
