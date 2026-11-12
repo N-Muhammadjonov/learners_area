@@ -101,7 +101,7 @@ async def claim_daily(con, user_id) -> dict:
         awarded = await award_coin(
             con, user_id, f"daily:{today.isoformat()}",
             module="daily", activity_type="login",
-            coins=day, exercise_id=today, evidence_id=today)
+            coins=day, exercise_id=today.isoformat(), evidence_id=today.isoformat())
         if not awarded:
             raise RuntimeError("daily_ledger_unavailable")
         await con.execute(
