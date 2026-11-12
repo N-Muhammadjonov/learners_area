@@ -206,16 +206,36 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
     if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) != 120
            for tasks in groups.values()):
         raise ValueError("incomplete_plan_schedule")
-    today = now.astimezone(_timezone(cycle["timezone"])).date()
+    zone = _timezone(cycle["timezone"])
+    today = now.astimezone(zone).date()
+    # Incomplete work belongs to the current local day even after absences.
+    # The server projects future dates from that day; task IDs and evidence
+    # never change, so an unfinished day cannot be skipped or marked done.
+    current_index = cycle["current_day"]
+    current_date = max(today, cycle["started_on"] + timedelta(days=current_index - 1))
+    completed_dates: dict[int, object] = {}
+    for row in rows:
+        if row["completed_at"] is not None:
+            completed_on = row["completed_at"].astimezone(zone).date()
+            completed_dates[row["day_number"]] = max(
+                completed_on, completed_dates.get(row["day_number"], completed_on))
     result = []
     for day in range(1, duration + 1):
         tasks = groups[day]
         complete = all(task["status"] == "completed" for task in tasks)
         status = ("completed" if complete else "active"
-                  if cycle["status"] == "active" and day == cycle["current_day"]
+                  if cycle["status"] == "active" and day == current_index
                   else "locked")
+        original_date = cycle["started_on"] + timedelta(days=day - 1)
+        if complete:
+            display_date = completed_dates.get(day, original_date)
+        elif cycle["status"] == "active":
+            display_date = current_date + timedelta(days=day - current_index)
+        else:
+            display_date = original_date
         result.append({
-            "day": day, "date": cycle["started_on"] + timedelta(days=day - 1),
+            "day": day, "date": display_date, "originalDate": original_date,
+            "rescheduled": display_date != original_date,
             "status": status, "minutes": 120, "tasks": tasks,
         })
     return {
