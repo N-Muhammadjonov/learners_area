@@ -47,11 +47,34 @@ def _directory_button(item: dict) -> InlineKeyboardButton:
         )
 
     name = str(item.get("name") or "—")
-    status = str(item.get("accountStatus") or "—")
-    return InlineKeyboardButton(
-        text=f"👤 {name} · {status}"[:40],
-        callback_data=f"usr:{item['id']}",
-    )
+    username = str(item.get("username") or "").lstrip("@")
+    label = f"{name} - @{username}" if username else name
+    return InlineKeyboardButton(text=label[:64], callback_data=f"usr:{item['id']}")
+
+
+def _user_page_markup(lang: str, data: dict, page: int, draft_id: str | None = None) -> InlineKeyboardMarkup:
+    items = data.get("items") or []
+    total = max(0, int(data.get("total") or 0))
+    size = 10
+    rows = [[_directory_button(item)] for item in items]
+    navigation = []
+    prefix = f"usq:{draft_id}:" if draft_id else "usp:"
+    if page > 1:
+        navigation.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"{prefix}{page - 1}"))
+    first = (page - 1) * size + 1 if total else 0
+    last = min(total, page * size)
+    navigation.append(InlineKeyboardButton(text=f"{first} - {last}", callback_data="us:noop"))
+    if page * size < total:
+        navigation.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"{prefix}{page + 1}"))
+    rows.append(navigation)
+    rows.append([InlineKeyboardButton(text=t(lang, "search"), callback_data="us:search")])
+    rows.append([InlineKeyboardButton(text=t(lang, "home"), callback_data="m:owner")])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+@panel_router.callback_query(F.data == "us:noop")
+async def user_page_counter(callback: CallbackQuery):
+    await callback.answer()
 
 
 @panel_router.callback_query(F.data == "o:users")
@@ -60,8 +83,26 @@ async def users_home(callback: CallbackQuery, state: FSMContext, db_user: dict |
     if not allows(bot_access, "VIEW_USERS"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
+    try:
+        status, data = await api_client.search_users(str(callback.from_user.id), "", 1)
+    except Exception:
+        status, data = 503, {}
+    if status != 200:
+        await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
+        return
+    await state.clear()
+    await callback.message.edit_text(t(lang, "users"), reply_markup=_user_page_markup(lang, data, 1))
+    await callback.answer()
+
+
+@panel_router.callback_query(F.data == "us:search")
+async def users_search_start(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
+    if not allows(bot_access, "VIEW_USERS"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
     await state.set_state(PanelFlow.search)
-    await callback.message.edit_text(t(lang, "search_prompt"), reply_markup=_back(lang))
+    await callback.message.edit_text(t(lang, "search_prompt"), reply_markup=_back(lang, "o:users"))
     await callback.answer()
 
 
@@ -72,22 +113,42 @@ async def users_search(message: Message, state: FSMContext, db_user: dict | None
         await state.clear()
         await message.answer(t(lang, "no_permission"))
         return
-    query = message.text or ""
-    status, data = await api_client.search_users(str(message.from_user.id), query)
+    query = (message.text or "").strip()
+    try:
+        status, data = await api_client.search_users(str(message.from_user.id), query, 1)
+    except Exception:
+        status, data = 503, {}
     await state.clear()
     if status != 200:
         await message.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"))
         return
-    items = data.get("items") or []
-    if not items:
-        await message.answer(t(lang, "empty"))
+    draft_id = None
+    if (data.get("total") or 0) > 10:
+        try:
+            draft_status, draft = await api_client.save_draft(str(message.from_user.id), "search", {"q": query})
+            if draft_status == 200:
+                draft_id = draft.get("id")
+        except Exception:
+            pass
+    await message.answer(t(lang, "users"), reply_markup=_user_page_markup(lang, data, 1, draft_id))
+
+
+@panel_router.callback_query(F.data.regexp(r"^usp:[1-9][0-9]{0,4}$"))
+async def users_plain_page(callback: CallbackQuery, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
+    if not allows(bot_access, "VIEW_USERS"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    draft_status, draft = await api_client.save_draft(str(message.from_user.id), "search", {"q": query})
-    rows = [[_directory_button(item)] for item in items]
-    if draft_status == 200 and draft.get("id") and (data.get("total") or 0) > (data.get("pageSize") or 8):
-        rows.append([InlineKeyboardButton(text=t(lang, "next"), callback_data=f"usq:{draft['id']}:2")])
-    rows.append([InlineKeyboardButton(text=t(lang, "home"), callback_data="m:owner")])
-    await message.answer(t(lang, "users"), reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    page = int(callback.data.split(":")[1])
+    try:
+        status, data = await api_client.search_users(str(callback.from_user.id), "", page)
+    except Exception:
+        status, data = 503, {}
+    if status != 200:
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    await callback.message.edit_text(t(lang, "users"), reply_markup=_user_page_markup(lang, data, page))
+    await callback.answer()
 
 
 @panel_router.callback_query(F.data.startswith("usq:"))
@@ -97,28 +158,25 @@ async def users_page(callback: CallbackQuery, db_user: dict | None = None, bot_a
     if denied:
         await callback.answer(t(lang, denied), show_alert=True)
         return
-    _prefix, draft_id, page_text = callback.data.split(":", 2)
-    page = max(1, int(page_text or "1"))
+    try:
+        _, draft_id, page_text = callback.data.split(":", 2)
+        page = max(1, min(10000, int(page_text)))
+    except (TypeError, ValueError):
+        await callback.answer(t(lang, "stale_confirm"), show_alert=True)
+        return
     draft_status, draft = await api_client.read_draft(str(callback.from_user.id), draft_id)
     if draft_status != 200:
         await callback.answer(t(lang, "stale_confirm"), show_alert=True)
         return
     query = ((draft.get("payload") or {}).get("q")) or ""
-    status, data = await api_client.search_users(str(callback.from_user.id), query, page)
+    try:
+        status, data = await api_client.search_users(str(callback.from_user.id), query, page)
+    except Exception:
+        status, data = 503, {}
     if status != 200:
         await callback.answer(t(lang, "temporary_error" if status >= 500 else "no_permission"), show_alert=True)
         return
-    items = data.get("items") or []
-    rows = [[_directory_button(item)] for item in items]
-    nav = []
-    if page > 1:
-        nav.append(InlineKeyboardButton(text=t(lang, "prev"), callback_data=f"usq:{draft_id}:{page - 1}"))
-    if page * (data.get("pageSize") or 10) < (data.get("total") or 0):
-        nav.append(InlineKeyboardButton(text=t(lang, "next"), callback_data=f"usq:{draft_id}:{page + 1}"))
-    if nav:
-        rows.append(nav)
-    rows.append([InlineKeyboardButton(text=t(lang, "home"), callback_data="m:owner")])
-    await callback.message.edit_text(f"{t(lang, 'users')}\n{t(lang, 'page', page=page)}", reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
+    await callback.message.edit_text(t(lang, "users"), reply_markup=_user_page_markup(lang, data, page, draft_id))
     await callback.answer()
 
 
@@ -142,6 +200,7 @@ def _user_actions(user_id: str, bot_access: dict | None, lang: str) -> list[list
         ])
     if allows(bot_access, "DANGEROUS_USER_DELETE"):
         rows.append([InlineKeyboardButton(text=t(lang, "delete_account"), callback_data=f"ust:delete:{user_id}")])
+    rows.insert(0, [InlineKeyboardButton(text=t(lang, "linked_parents"), callback_data=f"stdp:{user_id}")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
     return rows
 
@@ -242,19 +301,35 @@ async def telegram_contact_card(
         if phone_status == 200:
             lines.append(f"📞 {esc(phone.get('phoneNumber') or '—')}")
 
+    rows = []
     if linked_user:
         lines.append(
             f"🌐 {esc(linked_user.get('name') or '—')} · "
             f"{esc(linked_user.get('accountStatus') or '—')}"
         )
+        if linked_user.get("id"):
+            rows.append([InlineKeyboardButton(text=t(lang, "linked_user"), callback_data=f"usr:{linked_user['id']}")])
     else:
         lines.append(f"🌐 {t(lang, 'status_none')}")
-
-    await callback.message.edit_text(
-        "\n".join(lines),
-        reply_markup=_back(lang, "o:users"),
-    )
+        if allows(bot_access, "MANAGE_USERS"):
+            rows.append([InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"tgr:{telegram_id}")])
+    rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
+    await callback.message.edit_text("\n".join(lines),
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
     await callback.answer()
+
+
+@panel_router.callback_query(F.data.regexp(r"^tgr:[0-9]{1,20}$"))
+async def remove_unlinked_contact(callback: CallbackQuery, bot_access: dict | None = None,
+                                  db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(callback, db_user, contact)
+    if not allows(bot_access, "MANAGE_USERS"):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    target = callback.data.split(":", 1)[1]
+    status, result = await api_client.remove_contact(str(callback.from_user.id), target)
+    await callback.answer(t(lang, "sent") if status == 200 else
+                          t(lang, "temporary_error") if status >= 500 else t(lang, "no_permission"), show_alert=True)
 
 
 @panel_router.callback_query(F.data.startswith("ust:"))
