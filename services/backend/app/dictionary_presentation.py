@@ -126,6 +126,10 @@ def present(entry):
         synonyms = {}
         for item in [*links(legacy), *(row.get('synonyms', []) if row else []), *links(scoped)]:
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
+        for item in semantic.get('add_synonyms', []):
+            relation = {'text': item['text'], 'lexemeId': item['lexemeId'],
+                        'senseId': item['senseId']}
+            synonyms[(relation['lexemeId'], relation['senseId'], relation['text'])] = relation
         excluded_synonyms = set(semantic.get('remove_synonym_lexeme_ids', []))
         if excluded_synonyms:
             synonyms = {key: item for key, item in synonyms.items()
@@ -137,6 +141,14 @@ def present(entry):
         antonyms={}
         for item in [*reader['antonyms'].get(sid,[]), *links([r for r in entry['relations'] if r['relation_type']=='antonym' and (r.get('source_sense_id')==sid or (not r.get('source_sense_id') and len(senses)==1))])]:
             antonyms[(item.get('lexemeId'),item.get('senseId'),item['text'])]=item
+        excluded_antonyms = set(semantic.get('remove_antonym_lexeme_ids', []))
+        if excluded_antonyms:
+            antonyms = {key: item for key, item in antonyms.items()
+                        if item.get('lexemeId') not in excluded_antonyms}
+        for item in semantic.get('add_antonyms', []):
+            relation = {'text': item['text'], 'lexemeId': item['lexemeId'],
+                        'senseId': item['senseId']}
+            antonyms[(relation['lexemeId'], relation['senseId'], relation['text'])] = relation
         result[sid] = {'antonyms':list(antonyms.values()),'synonyms': list(synonyms.values()), 'collocations': list(collocations.values()),
                        'examples': [*(row.get('addedExamples', []) if row else []), *examples]}
     phrases={}
