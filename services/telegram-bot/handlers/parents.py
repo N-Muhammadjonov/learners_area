@@ -195,6 +195,8 @@ async def parent_card(callback: CallbackQuery, db_user: dict | None = None,
     if parent.get("phone"):
         lines.append(f"📞 {esc(parent['phone'])}")
     rows = []
+    if allows(bot_access, "DIRECT_MESSAGE") and str(parent.get("telegramId") or "").isdigit():
+        rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dmt:{parent['telegramId']}")])
     students = data.get("students") or []
     if not students:
         lines.append(t(lang, "no_links"))

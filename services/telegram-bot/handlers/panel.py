@@ -183,16 +183,7 @@ def _user_actions(user_id: str, bot_access: dict | None, lang: str,
     rows = []
     if allows(bot_access, "DIRECT_MESSAGE"):
         rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dm:{user_id}")])
-    if allows(bot_access, "ADMISSIONS"):
-        rows.append([
-            InlineKeyboardButton(text=t(lang, "approve"), callback_data=f"ust:approve:{user_id}"),
-            InlineKeyboardButton(text=t(lang, "reject"), callback_data=f"ust:reject:{user_id}"),
-        ])
     if allows(bot_access, "MANAGE_USERS"):
-        rows.append([
-            InlineKeyboardButton(text=t(lang, "suspend"), callback_data=f"ust:suspend:{user_id}"),
-            InlineKeyboardButton(text=t(lang, "unsuspend"), callback_data=f"ust:unsuspend:{user_id}"),
-        ])
         rows.append([
             InlineKeyboardButton(text=t(lang, "unlink"), callback_data=f"ust:unlink:{user_id}"),
             InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"ust:remove:{user_id}"),
@@ -223,6 +214,8 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
         f"{esc(user.get('role'))} · {esc(user.get('accountStatus'))}",
         f"telegram: {esc(user.get('telegramId') or '—')}",
     ])
+    if user.get("role") == "student" and not user.get("hasLinkedParent"):
+        text += "\n👨‍👩‍👧 Hali ota-ona ulanmagan" if lang == "uz" else "\n👨‍👩‍👧 No parent connected yet"
     if (bot_access or {}).get("isPrimaryOwner") and user.get("telegramId"):
         phone_status, phone = await api_client.owner_contact_detail(
             str(callback.from_user.id), str(user["telegramId"])
@@ -232,7 +225,7 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
             text += f"\n📱 @{esc(username)}" if username else "\n📱 —"
             text += f"\n📞 {esc(phone.get('phoneNumber') or '—')}"
     await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(
-        user_id, bot_access, lang, show_parents=user.get("role") == "student")))
+        user_id, bot_access, lang, show_parents=user.get("role") == "student" and bool(user.get("hasLinkedParent")))))
     await callback.answer()
 
 
@@ -312,6 +305,9 @@ async def telegram_contact_card(
             rows.append([InlineKeyboardButton(text=t(lang, "linked_user"), callback_data=f"usr:{linked_user['id']}")])
     else:
         lines.append(f"🌐 {t(lang, 'status_none')}")
+        lines.append("👨‍👩‍👧 Hali ota-ona ulanmagan" if lang == "uz" else "👨‍👩‍👧 No parent connected yet")
+        if allows(bot_access, "DIRECT_MESSAGE"):
+            rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dmt:{telegram_id}")])
         if allows(bot_access, "MANAGE_USERS"):
             rows.append([InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"tgr:{telegram_id}")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
@@ -338,12 +334,9 @@ async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user
     lang = _lang(callback, db_user, contact)
     _prefix, action, user_id = callback.data.split(":", 2)
     actor = str(callback.from_user.id)
-    if action in {"approve", "reject"}:
-        if not allows(bot_access, "ADMISSIONS"):
-            await callback.answer(t(lang, "no_permission"), show_alert=True)
-            return
-        success = await api_client.decide_access_request(actor, user_id, "approve" if action == "approve" else "reject")
-        await callback.answer("OK" if success else t(lang, "error"), show_alert=True)
+    # Admission and suspension decisions belong to the website, not the bot user card.
+    if action in {"approve", "reject", "suspend", "unsuspend"}:
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
     if action == "delete":
         if not allows(bot_access, "DANGEROUS_USER_DELETE"):
@@ -362,12 +355,11 @@ async def user_status_action(callback: CallbackQuery, state: FSMContext, db_user
     if not allows(bot_access, permission):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    path = {"suspend": "status", "unsuspend": "status", "unlink": "unlink", "remove": "remove"}[action]
+    if action not in {"unlink", "remove"}:
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    path = {"unlink": "unlink", "remove": "remove"}[action]
     payload = {"actorTelegramId": actor}
-    if action == "suspend":
-        payload["status"] = "suspended"
-    if action == "unsuspend":
-        payload["status"] = "active"
     status, data = await api_client.user_action(user_id, path, payload)
     await callback.answer("OK" if status == 200 else esc((data or {}).get("error") or "error"), show_alert=True)
 
@@ -388,20 +380,38 @@ async def confirm_delete(message: Message, state: FSMContext, bot_access: dict |
     await message.answer(t(lang, "anonymized") if status == 200 else t(lang, "error"))
 
 
-@panel_router.callback_query(F.data.startswith("dm:"))
+@panel_router.callback_query(F.data.startswith("dm:") | F.data.startswith("dmt:"))
 async def begin_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "DIRECT_MESSAGE"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    user_id = callback.data.split(":", 1)[1]
-    status, data = await api_client.user_detail(str(callback.from_user.id), user_id)
-    name = ((data or {}).get("user") or {}).get("name") or user_id
+    is_contact = callback.data.startswith("dmt:")
+    target_id = callback.data.split(":", 1)[1]
+    if is_contact:
+        if not target_id.isdigit() or len(target_id) > 20:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        try:
+            contact_data = await api_client.get_user(target_id)
+        except Exception:
+            contact_data = None
+        target = (contact_data or {}).get("contact") or {}
+        if not target:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        name = " ".join(filter(None, [target.get("firstName"), target.get("lastName")])).strip() or target.get("username") or target_id
+    else:
+        status, data = await api_client.user_detail(str(callback.from_user.id), target_id)
+        if status != 200:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        name = ((data or {}).get("user") or {}).get("name") or target_id
     await state.set_state(PanelFlow.dm_compose)
-    await state.update_data(user_id=user_id, target_name=name)
+    await state.update_data(user_id=None if is_contact else target_id,
+                            contact_id=target_id if is_contact else None, target_name=name)
     await callback.message.edit_text(t(lang, "compose_for", name=esc(name)), reply_markup=_back(lang))
     await callback.answer()
-    del status
 
 
 @panel_router.message(PanelFlow.dm_compose)
@@ -409,12 +419,13 @@ async def preview_dm(message: Message, state: FSMContext, db_user: dict | None =
     lang = _lang(message, db_user, contact)
     data = await state.get_data()
     denied = denial_key(bot_access, backend_error, "DIRECT_MESSAGE")
-    if denied or not data.get("user_id"):
+    if denied or not (data.get("user_id") or data.get("contact_id")):
         await state.clear()
         await message.answer(t(lang, denied or "error"))
         return
     status, draft = await api_client.save_draft(str(message.from_user.id), "dm", {
         "userId": data.get("user_id"),
+        "contactTelegramId": data.get("contact_id"),
         "text": message.text or "",
         "targetName": data.get("target_name"),
     })
@@ -448,6 +459,12 @@ async def send_dm(callback: CallbackQuery, db_user: dict | None = None, bot_acce
         await callback.answer(t(lang, "stale_confirm"), show_alert=True)
         return
     data = claimed.get("payload") or {}
+    if data.get("contactTelegramId"):
+        status, result = await api_client.send_contact_message(
+            str(callback.from_user.id), data["contactTelegramId"], data.get("text") or "")
+        await callback.message.edit_text(t(lang, "sent") if status == 200 and result.get("ok") else t(lang, "error"))
+        await callback.answer()
+        return
     status, result = await api_client.user_action(
         data.get("userId"),
         "message",
