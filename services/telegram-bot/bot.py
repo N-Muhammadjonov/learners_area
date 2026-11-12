@@ -88,7 +88,11 @@ async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
             parent_results = []
             for item in await api_client.claim_guardian_deliveries():
                 try:
-                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""))
+                    parent_markup = InlineKeyboardMarkup(inline_keyboard=[[
+                        InlineKeyboardButton(text="↩️ Javob qaytarish", callback_data=f"gmr:{item['deliveryId']}")
+                    ]])
+                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""),
+                                                 reply_markup=parent_markup)
                     parent_results.append({"deliveryId": item["deliveryId"], "status": "sent", "telegramMessageId": str(sent.message_id)})
                 except Exception as exc:
                     text = str(exc).lower()
@@ -97,6 +101,26 @@ async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
                                            "error": "delivery_failed", "retryAfterSeconds": getattr(exc, "retry_after", None)})
             if parent_results:
                 await api_client.report_guardian_deliveries(parent_results)
+            # Replies are always queued by an explicit Telegram message; the backend
+            # checks the original sender and live student/guardian relationship.
+            reply_results = []
+            for item in await api_client.claim_guardian_replies():
+                try:
+                    markup = InlineKeyboardMarkup(inline_keyboard=[[
+                        InlineKeyboardButton(text="↩️ Javob qaytarish", callback_data=f"gmr:{item['deliveryId']}")
+                    ]])
+                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""),
+                                                  reply_markup=markup)
+                    reply_results.append({"replyId": item["replyId"], "status": "sent",
+                                          "telegramMessageId": str(sent.message_id)})
+                except Exception as exc:
+                    detail = str(exc).lower()
+                    blocked = "blocked" in detail or "chat not found" in detail or "user is deactivated" in detail
+                    reply_results.append({"replyId": item["replyId"],
+                                          "status": "blocked" if blocked else "failed",
+                                          "retryAfterSeconds": getattr(exc, "retry_after", None)})
+            if reply_results:
+                await api_client.report_guardian_replies(reply_results)
             notices = await api_client.claim_notices()
             notice_results = []
             for notice in notices:
