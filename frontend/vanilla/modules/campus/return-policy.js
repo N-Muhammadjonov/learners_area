@@ -12,6 +12,11 @@ export function returnPolicy(url,{previous=null}={}){
  if(path==='/app/study-plan/leaderboard')return {mode:'main',href:'/app'};
  if(path==='/app/riwi')return {mode:'back',href:'/app'};
  if(path==='/app/plan/level-check')return {mode:'back',href:'/app/assignments#study-plan-30'};
+ if(path==='/app/grammar/practice'){
+  if(url.searchParams.get('from')==='plan')return {mode:'back',href:'/app/assignments#study-plan-30'};
+  const track=url.searchParams.get('track');
+  return {mode:'back',href:track==='speaking'||track==='writing'?'/app/grammar?tab='+track:'/app/grammar/lessons'};
+ }
  if(path==='/app/management'&&['mock-create','mock-grading'].includes(url.searchParams.get('view')))return {mode:'back',href:'/app/management?view=mocks'};
  if(path==='/app/management'&&url.searchParams.get('view')==='mocks')return {mode:'back',href:'/app/management'};
  if(tabbed.has(module)&&paths.find(route=>route.match.test(path))?.layout!=='focus')return {mode:'main',href:'/app'};
