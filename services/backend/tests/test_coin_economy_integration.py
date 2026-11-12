@@ -107,7 +107,7 @@ async def test_private_schema_and_single_daily_claim(setup_db, monkeypatch):
         assert row and row["rls"]
         assert not any(f"{role}=" in row["acl"] for role in ("anon", "authenticated", "service_role"))
     user = {"id": inviter, "telegram_id": "123456789", "role": "student", "account_status": "active"}
-    client, identity = await test_client(monkeypatch, con, user)
+    client, identity = await make_client(monkeypatch, con, user)
     async with client:
         first = await client.post("/api/coins/daily/claim")
         assert first.status_code == 200, first.text
@@ -149,7 +149,7 @@ async def test_telegram_invite_requires_new_active_student_and_pays_once(setup_d
     monkeypatch.setenv("TELEGRAM_BOT_USERNAME", "test_learner_area_bot")
     monkeypatch.setattr(economy, "verify_bot", lambda _req: None)
     active = {"id": inviter, "telegram_id": "123456789", "role": "student", "account_status": "active"}
-    client, identity = await test_client(monkeypatch, con, active)
+    client, identity = await make_client(monkeypatch, con, active)
     async with client:
         link = await client.post("/api/coins/referral-link")
         assert link.status_code == 200, link.text
@@ -186,7 +186,7 @@ async def test_telegram_invite_requires_new_active_student_and_pays_once(setup_d
 async def test_gift_purchases_are_atomic_idempotent_and_cannot_overdraw(setup_db, monkeypatch):
     con, schema, inviter = setup_db
     user = {"id": inviter, "telegram_id": "123456789", "role": "student", "account_status": "active"}
-    client, identity = await test_client(monkeypatch, con, user)
+    client, identity = await make_client(monkeypatch, con, user)
     await rewards.award_coin(con, inviter, "earning:test", module="reading",
                              activity_type="exercise", coins=10)
     first = uuid4()
