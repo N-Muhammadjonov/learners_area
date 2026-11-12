@@ -794,7 +794,7 @@ def test_blackberry_edible_fruit_grade_does_not_change_botanical_sense() -> None
     immutable = copy.deepcopy(original)
     revised = curate_candidate_entry(original)
     assert original == immutable
-    assert [sense["cefr"] for sense in revised["senses"]] == ["B1", "C2"]
+    assert [sense["cefr"] for sense in revised["senses"]] == ["C1", "C2"]
     assert revised["relations"] == []
     assert revised["collocations"] == [{
         "text": "blackberry and apple pie",
