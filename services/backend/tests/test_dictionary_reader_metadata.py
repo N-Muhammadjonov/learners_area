@@ -150,3 +150,32 @@ def test_multiple_sense_unscoped_synonyms_are_not_assigned_indiscriminately(monk
     view = presentation.present(e)
     assert view['senses']['service']['synonyms'] == []
     assert view['senses']['joy']['synonyms'] == []
+
+
+def test_single_sense_canonical_collocations_survive_curated_empty_override(monkeypatch):
+    """A presentation row must not discard legitimate canonical phrases."""
+    e = fixture()
+    e['senses'] = [e['senses'][0]]
+    e['relations'] = []
+    e['collocations'] = [{'text': 'happy ending', 'sense_id': 'service'}]
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    row = {'meaningSha': presentation.meaning_hash(e, e['senses'][0]),
+           'synonyms': [], 'collocations': [], 'addedExamples': []}
+    monkeypatch.setattr(presentation, 'shard',
+                        lambda _: {HAPPY: {'senses': {'service': row}}})
+    view = presentation.present(e)
+    assert view['senses']['service']['collocations'] == [{'text': 'happy ending'}]
+    assert view['collocations'] == [{'text': 'happy ending'}]
+
+
+def test_multi_sense_unscoped_collocations_not_assigned_without_source(monkeypatch):
+    """Unscoped collocations are not silently attached to an arbitrary meaning."""
+    e = fixture()
+    e['relations'] = []
+    e['collocations'] = [{'text': 'happy ending'}]
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    monkeypatch.setattr(presentation, 'shard', lambda _: {})
+    view = presentation.present(e)
+    assert view['senses']['service']['collocations'] == []
+    assert view['senses']['joy']['collocations'] == []
+    assert view['collocations'] == [{'text': 'happy ending'}]
