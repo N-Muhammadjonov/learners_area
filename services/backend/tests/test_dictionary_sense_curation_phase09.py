@@ -21,6 +21,7 @@ def entry(
     part_of_speech: str,
     senses: list[tuple[str, str, str, str | None]],
     relations: list[dict] | None = None,
+    definition_uz_by_sense: dict[str, str] | None = None,
 ) -> dict:
     return {
         "release_id": RELEASE,
@@ -31,6 +32,7 @@ def entry(
             {
                 "sense_id": sid,
                 "definition_en": definition,
+                "definition_uz": (definition_uz_by_sense or {}).get(sid, "Default definition."),
                 "translations": [{"text": translation, "order": 0}],
                 **({"cefr": cefr} if cefr is not None else {}),
                 "examples": [],
@@ -59,6 +61,9 @@ def test_replacement_of_mistranslated_specialist_terms_is_exact_and_immutable() 
             "target_lexeme_id": "c343f3d2-5553-5418-8d63-2678f40831a5",
             "target_sense_id": "2ced960e-58db-498d-a92c-42dd6982aeaf",
         }],
+        definition_uz_by_sense={
+            "aad9fee0-fbbc-5565-92ef-858166eb4920": "Birga qo'shilgan bir va bir va birga teng natural son.",
+        },
     )
     original = copy.deepcopy(terzetto)
     updated = curate_candidate_entry(terzetto)
@@ -85,6 +90,9 @@ def test_replacement_of_mistranslated_specialist_terms_is_exact_and_immutable() 
             "huquqbuzarlik harakati",
             "C2",
         )],
+        definition_uz_by_sense={
+            "9dc9e4dd-a4dc-5068-8541-654b596fc748": "Axloqiy yoki fuqarolik qonunini buzadigan faoliyat.",
+        },
     )
     updated_actus = curate_candidate_entry(actus)
     assert "physical element of a criminal offence" in updated_actus["senses"][0]["definition_en"]
@@ -178,10 +186,34 @@ def test_exact_antonyms_are_scoped_to_the_meaning() -> None:
                 "havosi chiqmoq",
                 "C2",
             ),
+            (
+                "71b31415-0ad2-4d8e-98b0-59760874c45d",
+                "reduce or cut back the amount or availability of, creating a decline in value or prices",
+                "muomaladagi miqdorni qisqartirmoq",
+                "C2",
+            ),
+            (
+                "c8d85a0a-0ef8-4704-8743-207b3fabf642",
+                "collapse by releasing contained air or gas",
+                "havosini chiqarib so‘ndirmoq",
+                "C1",
+            ),
+            (
+                "d8dba130-d8c4-42b7-abec-798769b9b578",
+                "reduce or lessen the size or importance of",
+                "pasaytirmoq",
+                "C2",
+            ),
+            (
+                "ef931b65-4577-420a-9770-e68ef9d6c697",
+                "produce deflation in",
+                "deflyatsiyaga olib kelmoq",
+                "C2",
+            ),
         ],
     )
     result = curate_candidate_entry(deflate)
-    assert len(result["relations"]) == 2
+    assert len(result["relations"]) == 6
     mapping = {r["source_sense_id"]: r["target_sense_id"] for r in result["relations"]}
     assert mapping["54ed6100-67bf-4b1c-8fd8-2ea7a7aea8de"] == (
         "433a08d2-fbf7-4e12-b223-dad63d3aa205"
@@ -202,6 +234,9 @@ def test_stale_semantics_cannot_silently_modify_entries() -> None:
             "uch",
             None,
         )],
+        definition_uz_by_sense={
+            "aad9fee0-fbbc-5565-92ef-858166eb4920": "Birga qo'shilgan bir va bir va birga teng natural son.",
+        },
     )
     bad = copy.deepcopy(original)
     bad["senses"][0]["definition_en"] = "already editorially changed"
