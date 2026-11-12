@@ -120,14 +120,14 @@ function exCard(u,si,ei,e){
       Boolean(row.querySelector('.opt[data-user-choice="true"]'))));
   }
   else if(kind==='match'){const sels=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('span','',esc(it.l)+'  →  '));const s=$('select','s');s.append(new Option('— tanlang —',''));e.rights.forEach(r=>s.append(new Option(r,r)));m.append(s);const fb=$('span','fb');m.append(fb);sels.push([s,it,fb]);row.append(m);body.append(row)});
-    const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;sels.forEach(([s,it,fb])=>{const g=s.value===it.r;if(g)correct++;s.style.borderColor=g?'#2f7d5b':'#c0394b';fb.className='fb '+(g?'ok':'no');fb.innerHTML=g?' ✓':' ✗ <b>'+esc(it.r)+'</b>'});finish()};body.append(b)}
+    const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;sels.forEach(([s,it,fb])=>{const g=s.value===it.r;if(g)correct++;s.style.borderColor=g?'#2f7d5b':'#c0394b';fb.className='fb '+(g?'ok':'no');fb.innerHTML=g?' ✓':' ✗ <b>'+esc(it.r)+'</b>'});finish()};attachCheck(b,()=>sels.every(([select])=>Boolean(select.value)))}
   else if(kind==='bank'){const chips=$('div','chips');const blanks=[];let act=null;
     e.bank.forEach(w=>{const c=$('span','chip',esc(w));c.onclick=()=>{if(c.classList.contains('used'))return;let t=act&&!act.dataset.v?act:blanks.find(x=>!x.dataset.v);if(!t)return;t.dataset.v=w;t.textContent=w;t.dataset.c=c.dataset.id=c.dataset.id||Math.random();c.classList.add('used');t._chip=c;act=null;blanks.forEach(x=>x.classList.remove('act'))};chips.append(c)});body.append(chips);
     const items=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');const parts=it.q.split('___');const bl=[];parts.forEach((p,k)=>{m.append(document.createTextNode(p));if(k<parts.length-1){const b=$('span','blank','&nbsp;');b.onclick=()=>{if(b.dataset.d)return;if(b.dataset.v){b._chip&&b._chip.classList.remove('used');b.dataset.v='';b.innerHTML='&nbsp;';return}blanks.forEach(x=>x.classList.remove('act'));act=b;b.classList.add('act')};blanks.push(b);bl.push(b);m.append(b)}});const fb=$('div','fb');m.append(fb);items.push([bl,it,fb]);row.append(m);body.append(row)});
-    const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;items.forEach(([bl,it,fb])=>{let g=true;bl.forEach((x,k)=>{x.dataset.d=1;if(norm(x.dataset.v||'',false)!==norm(it.a[k],false))g=false;x.classList.add(norm(x.dataset.v||'',false)===norm(it.a[k],false)?'ok':'no')});if(g)correct++;else{fb.className='fb no';fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.a.join(' / '))}});finish()};body.append(b)}
+    const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;items.forEach(([bl,it,fb])=>{let g=true;bl.forEach((x,k)=>{x.dataset.d=1;if(norm(x.dataset.v||'',false)!==norm(it.a[k],false))g=false;x.classList.add(norm(x.dataset.v||'',false)===norm(it.a[k],false)?'ok':'no')});if(g)correct++;else{fb.className='fb no';fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.a.join(' / '))}});finish()};attachCheck(b,()=>blanks.every(blank=>Boolean(blank.dataset.v)))}
   else if(kind==='order'){const items=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');const pool=$('div','words');const line=$('div','line');const fb=$('div','fb');
     it.words.forEach(w=>{const c=$('span','wchip',esc(w));c.onclick=()=>{if(c.parentNode===pool){line.append(c)}else{pool.append(c)}};pool.append(c)});m.append(pool,line,fb);items.push([line,it,fb]);row.append(m);body.append(row)});
-    const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;items.forEach(([line,it,fb])=>{const s=[...line.children].map(x=>x.textContent).join(' ');const g=ok(s,it.a,false);if(g){correct++;fb.className='fb ok';fb.textContent='✓'}else{fb.className='fb no';fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.a[0])}});finish()};body.append(b)}
+    const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;items.forEach(([line,it,fb])=>{const s=[...line.children].map(x=>x.textContent).join(' ');const g=ok(s,it.a,false);if(g){correct++;fb.className='fb ok';fb.textContent='✓'}else{fb.className='fb no';fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.a[0])}});finish()};attachCheck(b,()=>items.every(([line,it])=>line.children.length===it.words.length))}
   else if(kind==='speak'){
     let completed=0;
     const canRec=!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
@@ -151,21 +151,23 @@ function exCard(u,si,ei,e){
       function mark(){
         if(marked)return;
         marked=true;correct++;completed++;sample.style.display='';
-        if(completed===e.items.length)finish();
+        // Recording alone does not finalize grading.
       }
       function unmark(){
         if(!marked)return;
         marked=false;correct=Math.max(0,correct-1);completed=Math.max(0,completed-1);
-        sample.style.display='none';clearScore(u,si,ei);
+        sample.style.display='none';
       }
-      signal?.addEventListener('abort',()=>{
+      const dispose=()=>{
         disposed=true;
         if(recorder?.state==='recording'){
           recorder.onstop=null;
           try{recorder.stop()}catch{}
         }
         stopTracks();clearAudio();
-      },{once:true});
+      };
+      marks.push(()=>{signal?.removeEventListener('abort',dispose);dispose()});
+      signal?.addEventListener('abort',dispose,{once:true});
       sample.onclick=()=>{feedback.className='fb';feedback.innerHTML='<b>Namuna:</b> '+esc(it.a[0]);sample.style.display='none'};
       remove.onclick=()=>{
         if(disposed||starting||recorder?.state==='recording')return;
@@ -232,8 +234,11 @@ function exCard(u,si,ei,e){
       }
       main.append(record,remove,sample,feedback,player);row.append(main);body.append(row);
     });
+    const b=$('button','btn','Tekshirish');
+    b.onclick=()=>{finish();body.querySelectorAll('button.aud-delete').forEach(control=>control.disabled=true)};
+    attachCheck(b,()=>completed===e.items.length);
   }
-  else if(kind==='write'){const ta=$('textarea','t');ta.placeholder=e.placeholder;const cnt=$('div','note','0 ta so\'z · kamida '+e.min);ta.oninput=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=n+' ta so\'z · kamida '+e.min};const b=$('button','btn','Yakunlash →');const mod=$('div','fb');b.onclick=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;if(n<e.min){cnt.style.color='#c0394b';return}mod.className='fb';mod.innerHTML='<b>Namuna:</b> '+esc(e.model);setScore(u,si,ei,1);if(level)fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:[ta.value]})}).catch(()=>{});};body.append(ta,cnt,b,mod)}
+  else if(kind==='write'){const ta=$('textarea','t');ta.placeholder=e.placeholder;const cnt=$('div','note','0 ta so\'z · kamida '+e.min);ta.oninput=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=n+' ta so\'z · kamida '+e.min};const b=$('button','btn','Tekshirish');const mod=$('div','fb');b.onclick=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;if(n<e.min){cnt.style.color='#c0394b';return}mod.className='fb';mod.innerHTML='<b>Namuna:</b> '+esc(e.model);setScore(u,si,ei,1);if(level)fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:[ta.value]})}).catch(()=>{});};body.append(ta,cnt,mod);attachCheck(b,()=>((ta.value.trim().match(/\S+/g)||[]).length>=e.min))}
   else{const items=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');const isTr=kind==='tr';
     if(isTr||kind==='transform'||kind==='fix'||kind==='typed'){m.append($('div',isTr?'prompt':'',esc(it.q)))}
     const inp=$('input','t');inp.placeholder=isTr?'':'';const fb=$('div','fb');m.append(inp,fb);inp.onkeydown=ev=>{if(ev.key==='Enter'){const n=inp.closest('.exc').querySelector('.btn');n&&n.click()}};items.push([inp,it,fb]);row.append(m);body.append(row)});
