@@ -9,17 +9,17 @@
     "source_lexemes": 3279
   },
   "editorial": {
-    "exact_lexeme_deltas": 27,
-    "exact_sense_deltas": 42,
-    "source_verified_cefr_edits": 13,
+    "exact_lexeme_deltas": 31,
+    "exact_sense_deltas": 49,
+    "source_verified_cefr_edits": 16,
     "corrected_english_definitions": 2,
     "corrected_uzbek_definitions": 2,
     "corrected_uzbek_translations": 3,
     "excluded_misattributed_senses_from_future_candidate": 4,
     "removed_incorrect_synonym_targets": 19,
-    "added_exact_synonym_edges": 15,
+    "added_exact_synonym_edges": 20,
     "added_exact_antonym_edges": 10,
-    "added_attested_collocations": 32
+    "added_attested_collocations": 42
   },
   "latest_verified_changes": [
     {
@@ -150,6 +150,40 @@
       "cefr_replacement": "C1",
       "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
       "scope": "countable irritating person/thing and uncountable emotion; existing C1 feeling sense unchanged; corrected one Uzbek rendering"
+    },
+    {
+      "lemma": "brilliance",
+      "sense_ids": [
+        "86fde680-8dd4-4286-af9b-09f93752e21a",
+        "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24"
+      ],
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+      "scope": "Oxford 5000 C1 applies to intellectual ability and impressiveness; third brightness sense remains C1; genius vs blaze/glare targets matched exactly"
+    },
+    {
+      "lemma": "blackberry",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
+      "scope": "Oxford fruit sense topic Food C1. Oxford3000 B1 applies to word list overall, so choose explicit sense-specific label; botanical plant sense unchanged"
+    },
+    {
+      "lemma": "brim",
+      "sense_ids": [
+        "ece50b59-a973-40b1-9add-e4c360a03983",
+        "f0a1a434-41dc-4c6e-861b-7a82b29f079e"
+      ],
+      "change": "Exact vessel rim/lip meanings, full to the brim; separate hat wide brim and beneath brim collocations",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lemma": "burrow",
+      "sense_id": "26a43cd7-8094-4a68-91c4-fca58ff30636",
+      "change": "Oxford-attested burrow into the soil and burrow under the fence collocations; no CEFR change",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
     }
   ],
   "r2_readback": {
@@ -162,15 +196,17 @@
       "6a",
       "6b",
       "6c",
+      "6d",
       "6e",
       "6f",
       "70",
-      "71"
+      "71",
+      "72"
     ],
-    "lexemes": 27,
-    "senses": 42,
-    "meaning_sha_matched": 42,
-    "cefr_originals_matched": 13,
+    "lexemes": 31,
+    "senses": 49,
+    "meaning_sha_matched": 49,
+    "cefr_originals_matched": 16,
     "english_definitions_matched": 2,
     "uzbek_definitions_matched": 2,
     "uzbek_translations_matched": 3,
@@ -185,13 +221,27 @@
       "source_cefr_matched": 4,
       "old_uz_translation_matched": 1,
       "errors": 0
+    },
+    "full_overlay_readback": {
+      "lexemes_found": 31,
+      "senses_found": 49,
+      "meaning_sha_matched": 49,
+      "cefr_originals_matched": 16,
+      "english_definition_originals_matched": 2,
+      "uzbek_definition_originals_matched": 2,
+      "uzbek_translation_originals_matched": 3,
+      "excluded_original_glosses_matched": 4,
+      "missing_lexemes": [],
+      "errors": [],
+      "read_only": true
     }
   },
   "graph_integrity": {
     "incoming_exact_synonym_edges_to_excluded_senses_in_phase09_shards": 8,
     "removal_strategy": "candidate-only whole-release target lexeme ID and sense ID matching; do not guess or reassign ambiguous unscoped edges",
     "source_lexemes_untouched": true,
-    "example_texts_untouched": true
+    "example_texts_untouched": true,
+    "new_exact_target_senses_verified_in_supabase": 5
   },
   "publication": {
     "candidate_only": true,
