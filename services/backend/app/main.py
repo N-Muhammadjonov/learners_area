@@ -425,6 +425,9 @@ async def get_notifications(req: Request):
         if user.get('role')=='student' and user.get('account_status')=='active':
             from .notification_events import notify_assignment_deadlines
             await notify_assignment_deadlines(conn,student_id=user['id'])
+        elif user.get('role') in ('owner', 'admin') and user.get('account_status') == 'active':
+            from .notification_events import reconcile_staff_notifications
+            await reconcile_staff_notifications(conn,user_id=user['id'],role=user['role'])
         unread = await conn.fetchval('SELECT COUNT(*)::int FROM notifications WHERE user_id=$1 AND read_at IS NULL', user['id'])
         if req.query_params.get('count') == '1':
             rows = []

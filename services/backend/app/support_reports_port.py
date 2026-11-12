@@ -5,6 +5,7 @@ import json
 from fastapi import APIRouter, Request
 from . import main as core
 from .db import row_to_dict
+from .notification_events import create_notification
 
 router=APIRouter()
 
@@ -26,7 +27,7 @@ async def submit_problem_report(req:Request):
             (('viewport',20),('build',60),('lastErrorCode',120)))):
         return core.j({'error':'invalid_input'},400)
     db=await core.pool()
-    async with db.acquire() as conn:
+    async with db.acquire() as conn, conn.transaction():
         created=await conn.fetchrow('''INSERT INTO problem_reports
             (user_id,route,module,message,viewport,build,last_error_code)
             VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING id,route,module''',
@@ -35,6 +36,15 @@ async def submit_problem_report(req:Request):
         await conn.execute('''INSERT INTO audit_log(actor_user_id,action,target_type,target_id,metadata)
           VALUES($1,'support.reported','problem_report',$2,$3::jsonb)''',
           user['id'],str(created['id']),json.dumps({'route':created['route'],'module':created['module']}))
+        owners=await conn.fetch('''SELECT id FROM users
+            WHERE role='owner' AND account_status='active' ORDER BY id''')
+        for owner in owners:
+            await create_notification(
+                conn,user_id=owner['id'],event_id='support-report:'+str(created['id']),
+                notification_type='SUPPORT_REPORT_RECEIVED',
+                title='New problem report or suggestion',
+                body=message[:220],href='/app/notifications',
+                payload={'reportId':str(created['id']),'module':module,'route':route})
     return core.j({'ok':True,'id':str(created['id'])})
 
 

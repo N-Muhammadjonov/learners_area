@@ -91,3 +91,96 @@ async def notify_assignment_deadlines(conn, *, student_id):
       '/app/assignments',jsonb_build_object('eventId',event_id,'assignmentId',id::text,
         'assignmentTitle',left(title,200),'module',module,'dueAt',due_at)
     FROM batch ON CONFLICT DO NOTHING''',student_id)
+
+
+async def reconcile_staff_notifications(conn, *, user_id, role):
+    """Reconcile open admissions and support reports in the existing inbox.
+
+    Owner/admin admission notifications can originate from Telegram and other
+    entry points. The read-side reconciliation catches paths that do not call
+    create_access_request, without sending duplicates or resurrecting closed
+    cases. The user/event unique index preserves read state on later polls.
+    """
+    if role not in ('owner', 'admin'):
+        return
+    await conn.execute("""
+      UPDATE notifications n SET read_at=NOW()
+      WHERE n.user_id=$1 AND n.type='ACCESS_REQUESTED'
+        AND n.read_at IS NULL
+        AND (
+          EXISTS (SELECT 1 FROM access_requests r
+            WHERE r.id::text=n.payload->>'requestId'
+              AND r.status<>'pending')
+          OR EXISTS (SELECT 1 FROM users u
+            WHERE u.id::text=n.payload->>'applicantId'
+              AND u.account_status<>'pending')
+        )
+    """, user_id)
+    await conn.execute("""
+      WITH pending_requests AS (
+        SELECT r.id,r.user_id,r.created_at
+        FROM access_requests r JOIN users applicant ON applicant.id=r.user_id
+        WHERE r.status='pending' AND applicant.account_status='pending'
+        ORDER BY r.created_at DESC LIMIT 100
+      )
+      INSERT INTO notifications(user_id,type,title,body,href,payload)
+      SELECT $1,'ACCESS_REQUESTED','New access request',
+             'An applicant is waiting for approval.','/app/admin/admissions',
+             jsonb_build_object('eventId','access-request:'||r.id::text,
+                                'requestId',r.id::text,'applicantId',r.user_id::text)
+      FROM pending_requests r
+      WHERE NOT EXISTS (
+        SELECT 1 FROM notifications existing WHERE existing.user_id=$1
+          AND existing.type='ACCESS_REQUESTED'
+          AND existing.payload->>'requestId'=r.id::text)
+      ON CONFLICT DO NOTHING
+    """, user_id)
+    await conn.execute("""
+      WITH pending_accounts AS (
+        SELECT u.id,u.created_at
+        FROM users u
+        WHERE u.account_status='pending'
+          AND NOT EXISTS (
+            SELECT 1 FROM access_requests r
+            WHERE r.user_id=u.id AND r.status='pending')
+        ORDER BY u.created_at DESC LIMIT 100
+      )
+      INSERT INTO notifications(user_id,type,title,body,href,payload)
+      SELECT $1,'ACCESS_REQUESTED','Account awaiting approval',
+             'An account is waiting for approval.','/app/admin/people',
+             jsonb_build_object('eventId','pending-account:'||u.id::text,
+                                'applicantId',u.id::text)
+      FROM pending_accounts u
+      WHERE NOT EXISTS (
+        SELECT 1 FROM notifications existing WHERE existing.user_id=$1
+          AND existing.type='ACCESS_REQUESTED'
+          AND existing.payload->>'applicantId'=u.id::text)
+      ON CONFLICT DO NOTHING
+    """, user_id)
+    if role != 'owner':
+        return
+    await conn.execute("""
+      UPDATE notifications n SET read_at=NOW()
+      WHERE n.user_id=$1 AND n.type='SUPPORT_REPORT_RECEIVED'
+        AND n.read_at IS NULL AND EXISTS (
+          SELECT 1 FROM problem_reports r
+          WHERE r.id::text=n.payload->>'reportId' AND r.status='resolved'
+        )
+    """, user_id)
+    await conn.execute("""
+      WITH unresolved AS (
+        SELECT id,route,module,message,created_at
+        FROM problem_reports
+        WHERE status <> 'resolved'
+        ORDER BY created_at DESC LIMIT 100
+      )
+      INSERT INTO notifications(user_id,type,title,body,href,payload)
+      SELECT $1,'SUPPORT_REPORT_RECEIVED','New problem report or suggestion',
+             left(r.message,220),
+             '/app/notifications',
+             jsonb_build_object('eventId','support-report:'||r.id::text,
+                                'reportId',r.id::text,'module',r.module,
+                                'route',r.route)
+      FROM unresolved r
+      ON CONFLICT DO NOTHING
+    """, user_id)
