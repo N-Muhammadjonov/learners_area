@@ -1,0 +1,66 @@
+# Dictionary sense audit — 2026-11-12
+
+## Frozen production baseline
+
+- Project: `tuoeabrrnsiuxpjmslxp`
+- Channel: `stable`
+- Release: `rel-v1-1fa06d8d41d8ff701632573e`
+- Entries: **65,277**; distinct lexeme IDs: **65,277**
+- Sense IDs: **110,409**; no null sense arrays observed.
+- Storage: **Cloudflare R2**; all active entry `payload` values are null.
+- Immutable source is never edited in place. Changes require a new validated release with checksum-based R2 shards, explicit publication and rollback to previous release.
+
+## Deterministic batch partition
+
+Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme_id, sense_id`, assign 1-based row numbers, and compute `floor((row_number - 1) * 20 / 110409) + 1`. When resuming, assert the release and total are unchanged; never silently recalculate against a different release. Keep a checkpoint keyed by `release_id`, `lexeme_id`, `sense_id`. Some entries span phase boundaries by design.
+
+| Phase | Sense rank (inclusive) | Sense count | Status |
+| --- | ---: | ---: | --- |
+| 01 | 1–5,520 | 5520 | Audit started; not certified |
+| 02 | 5,521–11,040 | 5520 | Not started |
+| 03 | 11,041–16,561 | 5521 | Not started |
+| 04 | 16,562–22,081 | 5520 | Not started |
+| 05 | 22,082–27,602 | 5521 | Not started |
+| 06 | 27,603–33,122 | 5520 | Not started |
+| 07 | 33,123–38,643 | 5521 | Not started |
+| 08 | 38,644–44,163 | 5520 | Not started |
+| 09 | 44,164–49,684 | 5521 | Not started |
+| 10 | 49,685–55,204 | 5520 | Not started |
+| 11 | 55,205–60,724 | 5520 | Not started |
+| 12 | 60,725–66,245 | 5521 | Not started |
+| 13 | 66,246–71,765 | 5520 | Not started |
+| 14 | 71,766–77,286 | 5521 | Not started |
+| 15 | 77,287–82,806 | 5520 | Not started |
+| 16 | 82,807–88,327 | 5521 | Not started |
+| 17 | 88,328–93,847 | 5520 | Not started |
+| 18 | 93,848–99,368 | 5521 | Not started |
+| 19 | 99,369–104,888 | 5520 | Not started |
+| 20 | 104,889–110,409 | 5521 | Not started |
+
+## Validation gates — every sense
+
+1. Check English lemma, part of speech, distinct homographs and the exact sense definition.
+2. Cross-check English–Uzbek translation and usage examples against that sense. Flag suspect machine translations; do not guess.
+3. CEFR must be evidence-backed at *usage/sense* granularity, not assigned from obscure synonym ranking or lexeme frequency alone.
+4. Check synonym and antonym relations for target validity, POS matching and correct sense scope. Absence of legitimate antonyms is not a defect.
+5. Validate collocations: natural attestation, meaning match and link resolution. Absence is not automatically a defect.
+6. Verify entry schema, referential integrity, no duplicate ID, source/license attribution, UI read path and readback.
+7. Record evidence URL, reviewed_by, confidence, original value, proposed value, release ID and resolution state for each intervention.
+8. Require original-shard snapshot and new-release checksum verification before any publish; run regression tests and compare counts/hashes; rollback by channel switch only if required.
+
+## Phase 01 — confirmed case: hello
+
+- Entry: `661696f8-4ed4-5321-8e0c-e4e513d768a5`, POS `n`.
+- Sense: `eadfd862-8108-42cf-b009-995653d25c2c`.
+- Exact definition: `an expression of greeting`; translation: `salom`.
+- Current R2 CEFR: **C2**; editorial reference for greeting **A1**: https://dictionary.cambridge.org/dictionary/english/hello (entry includes exclamation and noun).
+- Four existing canonical synonym edges: `hi`, `how-do-you-do`, `howdy`, `hullo`. The reader's presentation fallback had previously discarded unscoped edges when a curated sense row existed. Branch fix retains these for single-sense entries; no relation is fabricated.
+- No canonical antonyms or collocations recorded. Review whether authentic combinations such as `say hello` belong to this noun sense before adding; do not invent entries.
+- **Status:** canonical CEFR correction proposed, NOT published. Because the active release is immutable and checksum-bound, do not patch Postgres metadata, cached previews, or R2 objects in place. Build a new release with `A1` and rerun index, reader-metadata and presentation checks.
+- **Other phase-01 senses:** 5,520 still require exhaustive linguistic verification. No claims of complete QA.
+
+## QA
+
+Run relevant backend tests: `python -m pytest services/backend/tests/test_dictionary_reader_metadata.py -q` from an environment with the backend dependencies importable. Both single-sense preservation and multi-sense isolation are covered in the dedicated regression tests added on this branch.
+
+No production release, channel, data or main branch was mutated by this audit.
