@@ -470,3 +470,12 @@ Current candidate editorial totals: **18 lexemes / 30 sense records; 5 CEFR corr
 In particular `audible` is linked to the matching `inaudible` adjective sense; `appease` senses link separately to `placate`, `pacify` (goodwill meaning, not the violence-suppression meaning), and `propitiate`; `blurb` has attested book-jacket collocations. The CI regression suite covers this separation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
 
 **Phase 09 is still not linguistically signed off as complete:** 5,521 source senses have been mechanically audited, but independent source-backed review has not established that every remaining translation, CEFR, synonym, antonym and collocation is correct. The unresolved ambiguity of unscoped polysemous relations must not be fabricated into sense-specific links. Examples remain deferred.
+
+
+### Phase 09 — further lexical-first correction set
+
+Corrected the `beep` **car-horn** verb sense from C2 to Oxford's **C1** (the separate `beep a person via pager` sense remains **C2**). The exact car-horn sense now links to `honk` and `blare` with verified target `sense_id` values. In `abide`, the *tolerate* meaning links only to `tolerate`, while the archaic *live in a place* meaning links only to `dwell`. Source-backed phrases were attached to `beep`, `archway`, `alms`, `abide`, and `blurb`. Example sentences remain untouched in this pass.
+
+Current cumulative candidate delta: **22 lexemes / 35 individual sense patches, 6 CEFR updates, 2 English and 2 Uzbek definitions, 2 Uzbek translations, 4 misattributed senses excluded in candidate only, 19 excluded erroneous synonym links, 12 added sense-specific synonyms, 10 added antonyms, and 21 collocations**. All **35/35 original R2 meaning hashes**, six CEFR source values and six definition/translation source values matched in a read-only scan of nine source shards. No source mismatches, missing lexemes, or published changes.
+
+The **5,521 Phase 09 senses have not been certified semantically in full**; structural integrity and the exact edited subset are distinct from comprehensive translation, CEFR and relation validation. No example edits in this continuation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`. 
