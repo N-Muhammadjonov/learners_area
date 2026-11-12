@@ -167,6 +167,26 @@ def exclude_misattributed_senses(
     ]
 
 
+
+def prune_excluded_target_relations(
+    entry: dict[str, Any],
+    all_patches: dict[str, Any],
+) -> None:
+    """Remove references to sense IDs excluded from the same candidate release."""
+    excluded = {
+        (lexeme_id, sense_id)
+        for lexeme_id, senses in all_patches.items()
+        for sense_id, change in senses.items()
+        if change.get("exclude_misattributed_sense")
+    }
+    if excluded:
+        entry["relations"] = [
+            relation for relation in entry["relations"]
+            if (relation["target_lexeme_id"], relation.get("target_sense_id"))
+            not in excluded
+        ]
+
+
 def deduplicate_relations(entry: dict[str, Any]) -> None:
     """Remove repeated identical relation targets without collapsing distinct senses."""
     kept: list[dict[str, Any]] = []
@@ -192,6 +212,7 @@ def curate_candidate_entry(entry: dict[str, Any]) -> dict[str, Any]:
     patches = data["entries"].get(entry["lexeme_id"], {})
     in_phase09 = PHASE09_FIRST_LEXEME <= entry["lexeme_id"] <= PHASE09_LAST_LEXEME
     if not patches:
+        prune_excluded_target_relations(curated, data["entries"])
         if in_phase09:
             deduplicate_relations(curated)
         return curated
@@ -206,5 +227,6 @@ def curate_candidate_entry(entry: dict[str, Any]) -> dict[str, Any]:
         _update_sense(sense, patch)
         _update_relations(curated, sense_id, patch)
     exclude_misattributed_senses(entry, curated, patches)
+    prune_excluded_target_relations(curated, data["entries"])
     deduplicate_relations(curated)
     return curated
