@@ -82,7 +82,7 @@ async def setup_db():
         await connection.close()
 
 
-async def test_client(monkeypatch, connection, user):
+async def make_client(monkeypatch, connection, user):
     owner = {"current": user}
     async def auth(_req, active=False):
         current = owner["current"]
