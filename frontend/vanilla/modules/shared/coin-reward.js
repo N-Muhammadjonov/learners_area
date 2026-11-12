@@ -12,12 +12,16 @@ const RULES = Object.freeze({
   podcast: {coins: 1, uz: 'har 5 daqiqa faol tinglash', en: 'per 5 min active listening'},
 });
 
+export function goldCoin() {
+  return h('span', {class: 'la-gold-coin', 'aria-hidden': 'true'}, 'C');
+}
+
 export function rewardBadge(ctx, kind) {
   const rule = RULES[kind];
   if (!rule) return null;
   return h('span', {class: 'la-coin-reward', 'data-coin-reward-for': kind,
     'aria-label': (ctx.locale === 'uz' ? 'Tanga mukofoti: ' : 'Coin reward: ') +
       '+' + rule.coins + ' ' + (ctx.locale === 'uz' ? rule.uz : rule.en)},
-  h('span', {class: 'la-gold-coin', 'aria-hidden': 'true'}, 'C'),
+  goldCoin(),
   h('span', {}, '+' + rule.coins + ' ' + (ctx.locale === 'uz' ? rule.uz : rule.en)));
 }
