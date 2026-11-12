@@ -369,6 +369,17 @@
           }
         ]
       }
+    },
+    "6be98a49-4727-5ba5-9e5b-2818837511c4": {
+      "2fc82e1d-4d7b-4b8e-966e-e348482493de": {
+        "meaning_sha": "3482fb13d0417f7bb33d64bbf9b9d90f7c097505e6079ded091ab7d89de36b43",
+        "replace_cefr": {
+          "original": "B1",
+          "text": "C1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
+          "sense_alignment": "demonstrate by giving an exhibition to an audience; Cambridge SHOW how something works at C1"
+        }
+      }
     }
   }
 }
