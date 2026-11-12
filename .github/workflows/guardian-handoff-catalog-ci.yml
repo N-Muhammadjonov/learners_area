@@ -1,0 +1,16 @@
+name: Guardian handoff source catalog consistency
+on:
+  push:
+    branches: ['fix/guardian-return-handoff-20261112']
+permissions:
+  contents: read
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/riwi-site-catalog.mjs
+      - run: git diff --exit-code -- services/backend/app/data/riwi_site_catalog.json
