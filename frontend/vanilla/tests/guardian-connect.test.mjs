@@ -20,9 +20,9 @@ test('other roles keep their Dock', () => {
 test('progress and leaderboard routes use the role-aware entries; owner page is registered once', () => {
   assert.match(routes.find(r => r.pattern === '/app/progress').load.toString(), /guardian\/progress-entry\.js/);
   assert.match(routes.find(r => r.pattern === '/app/leaderboard').load.toString(), /guardian\/leaderboard-entry\.js/);
-  const owner = routes.filter(r => r.pattern === '/app/management/guardians');
-  assert.equal(owner.length, 1);
-  assert.deepEqual(owner[0].roles, ['owner']);
+  const staff = routes.filter(r => r.pattern === '/app/management/guardians');
+  assert.equal(staff.length, 1);
+  assert.deepEqual(staff[0].roles, ['teacher', 'admin', 'owner']);
 });
 
 test('guardian read pages are GET-only and contain no action controls or module links', () => {
