@@ -63,91 +63,113 @@ def build_dispatcher() -> Dispatcher:
     return dp
 
 
-async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
-    while not stop.is_set():
+async def _deliver_broadcasts(bot: Bot) -> None:
+    deliveries = await api_client.claim_broadcasts()
+    results = []
+    for item in deliveries:
         try:
-            deliveries = await api_client.claim_broadcasts()
-            results = []
-            for item in deliveries:
-                try:
-                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""))
-                    results.append({"deliveryId": item["deliveryId"], "status": "sent", "telegramMessageId": str(sent.message_id)})
-                except Exception as exc:
-                    text = str(exc).lower()
-                    retry = getattr(exc, "retry_after", None)
-                    blocked = "blocked" in text or "chat not found" in text or "user is deactivated" in text
-                    results.append({
-                        "deliveryId": item["deliveryId"],
-                        "status": "blocked" if blocked else "failed",
-                        "error": "delivery_failed",
-                        "retryAfterSeconds": retry,
-                    })
-            if results:
-                await api_client.report_broadcasts(results)
-            # Parent messages: only rows of batches a human already approved; failures are retried by the backend.
-            parent_results = []
-            for item in await api_client.claim_guardian_deliveries():
-                try:
-                    parent_markup = InlineKeyboardMarkup(inline_keyboard=[[
-                        InlineKeyboardButton(text="↩️ Javob qaytarish", callback_data=f"gmr:{item['deliveryId']}")
-                    ]])
-                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""),
-                                                 reply_markup=parent_markup)
-                    parent_results.append({"deliveryId": item["deliveryId"], "status": "sent", "telegramMessageId": str(sent.message_id)})
-                except Exception as exc:
-                    text = str(exc).lower()
-                    blocked = "blocked" in text or "chat not found" in text or "user is deactivated" in text
-                    parent_results.append({"deliveryId": item["deliveryId"], "status": "blocked" if blocked else "failed",
-                                           "error": "delivery_failed", "retryAfterSeconds": getattr(exc, "retry_after", None)})
-            if parent_results:
-                await api_client.report_guardian_deliveries(parent_results)
-            # Replies are always queued by an explicit Telegram message; the backend
-            # checks the original sender and live student/guardian relationship.
-            reply_results = []
-            for item in await api_client.claim_guardian_replies():
-                try:
-                    markup = InlineKeyboardMarkup(inline_keyboard=[[
-                        InlineKeyboardButton(text="↩️ Javob qaytarish", callback_data=f"gmr:{item['deliveryId']}")
-                    ]])
-                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""),
-                                                  reply_markup=markup)
-                    reply_results.append({"replyId": item["replyId"], "status": "sent",
-                                          "telegramMessageId": str(sent.message_id)})
-                except Exception as exc:
-                    detail = str(exc).lower()
-                    blocked = "blocked" in detail or "chat not found" in detail or "user is deactivated" in detail
-                    reply_results.append({"replyId": item["replyId"],
-                                          "status": "blocked" if blocked else "failed",
-                                          "retryAfterSeconds": getattr(exc, "retry_after", None)})
-            if reply_results:
-                await api_client.report_guardian_replies(reply_results)
-            notices = await api_client.claim_notices()
-            notice_results = []
-            for notice in notices:
-                if notice.get("unavailable") or not notice.get("chatId"):
-                    notice_results.append({"id": notice["id"], "status": "blocked", "error": "unavailable"})
-                    continue
-                try:
-                    body = notice.get("body") or ""
-                    markup = _notice_markup(notice)
-                    await bot.send_message(
-                        int(notice["chatId"]),
-                        f"{_esc(notice.get('title'))}\n{_esc(body)}".strip(),
-                        reply_markup=markup,
-                    )
-                    notice_results.append({"id": notice["id"], "status": "sent"})
-                except Exception as exc:
-                    blocked = "blocked" in str(exc).lower()
-                    notice_results.append({"id": notice["id"], "status": "blocked" if blocked else "failed", "error": "delivery_failed"})
-            if notice_results:
-                await api_client.report_notices(notice_results)
-        except Exception:
-            log.warning("delivery loop failed")
+            sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""))
+            results.append({"deliveryId": item["deliveryId"], "status": "sent", "telegramMessageId": str(sent.message_id)})
+        except Exception as exc:
+            text = str(exc).lower()
+            retry = getattr(exc, "retry_after", None)
+            blocked = "blocked" in text or "chat not found" in text or "user is deactivated" in text
+            results.append({
+                "deliveryId": item["deliveryId"],
+                "status": "blocked" if blocked else "failed",
+                "error": "delivery_failed",
+                "retryAfterSeconds": retry,
+            })
+    if results:
+        await api_client.report_broadcasts(results)
+
+
+async def _deliver_guardian_messages(bot: Bot) -> None:
+    # Parent messages: only rows of batches a human already approved; failures are retried by the backend.
+    parent_results = []
+    for item in await api_client.claim_guardian_deliveries():
+        try:
+            parent_markup = InlineKeyboardMarkup(inline_keyboard=[[
+                InlineKeyboardButton(text="↩️ Javob qaytarish", callback_data=f"gmr:{item['deliveryId']}")
+            ]])
+            sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""),
+                                         reply_markup=parent_markup)
+            parent_results.append({"deliveryId": item["deliveryId"], "status": "sent", "telegramMessageId": str(sent.message_id)})
+        except Exception as exc:
+            text = str(exc).lower()
+            blocked = "blocked" in text or "chat not found" in text or "user is deactivated" in text
+            parent_results.append({"deliveryId": item["deliveryId"], "status": "blocked" if blocked else "failed",
+                                   "error": "delivery_failed", "retryAfterSeconds": getattr(exc, "retry_after", None)})
+    if parent_results:
+        await api_client.report_guardian_deliveries(parent_results)
+
+
+async def _deliver_guardian_replies(bot: Bot) -> None:
+    # Replies are always queued by an explicit Telegram message; the backend
+    # checks the original sender and live student/guardian relationship.
+    reply_results = []
+    for item in await api_client.claim_guardian_replies():
+        try:
+            markup = InlineKeyboardMarkup(inline_keyboard=[[
+                InlineKeyboardButton(text="↩️ Javob qaytarish", callback_data=f"gmr:{item['deliveryId']}")
+            ]])
+            sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""),
+                                          reply_markup=markup)
+            reply_results.append({"replyId": item["replyId"], "status": "sent",
+                                  "telegramMessageId": str(sent.message_id)})
+        except Exception as exc:
+            detail = str(exc).lower()
+            blocked = "blocked" in detail or "chat not found" in detail or "user is deactivated" in detail
+            reply_results.append({"replyId": item["replyId"],
+                                  "status": "blocked" if blocked else "failed",
+                                  "retryAfterSeconds": getattr(exc, "retry_after", None)})
+    if reply_results:
+        await api_client.report_guardian_replies(reply_results)
+
+
+async def _deliver_notices(bot: Bot) -> None:
+    notices = await api_client.claim_notices()
+    notice_results = []
+    for notice in notices:
+        if notice.get("unavailable") or not notice.get("chatId"):
+            notice_results.append({"id": notice["id"], "status": "blocked", "error": "unavailable"})
+            continue
+        try:
+            body = notice.get("body") or ""
+            markup = _notice_markup(notice)
+            await bot.send_message(
+                int(notice["chatId"]),
+                f"{_esc(notice.get('title'))}\n{_esc(body)}".strip(),
+                reply_markup=markup,
+            )
+            notice_results.append({"id": notice["id"], "status": "sent"})
+        except Exception as exc:
+            blocked = "blocked" in str(exc).lower()
+            notice_results.append({"id": notice["id"], "status": "blocked" if blocked else "failed", "error": "delivery_failed"})
+    if notice_results:
+        await api_client.report_notices(notice_results)
+
+
+async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
+    """Keep independent delivery queues running even when one backend call fails."""
+    stages = (
+        ("broadcasts", _deliver_broadcasts),
+        ("guardian-messages", _deliver_guardian_messages),
+        ("guardian-replies", _deliver_guardian_replies),
+        ("notices", _deliver_notices),
+    )
+    while not stop.is_set():
+        for label, handler in stages:
+            try:
+                await handler(bot)
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                log.exception("delivery stage failed: %s", label)
         try:
             await asyncio.wait_for(stop.wait(), timeout=3)
         except TimeoutError:
             continue
-
 
 def health(_request: web.Request) -> web.Response:
     return web.json_response({"ok": True, "service": "learners-area-telegram-bot"})

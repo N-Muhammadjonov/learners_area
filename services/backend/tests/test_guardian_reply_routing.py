@@ -31,10 +31,11 @@ def context(role="teacher"):
     return {
         "id": DELIVERY, "link_id": DELIVERY, "student_id": STUDENT,
         "guardian_name": "Mother", "telegram_user_id": "123456789",
+        "original_text": "Please check this homework", 
         "guardian_status": "active", "guardian_chat": "123456789",
         "guardian_blocked": None, "guardian_removed": None,
         "sender_user_id": SENDER, "sender_role": role,
-        "sender_status": "active", "sender_telegram_id": "987654321",
+        "sender_status": "active", "sender_name": "Professor Z", "sender_telegram_id": "987654321",
         "staff_chat": "987654321", "staff_blocked": None, "staff_removed": None,
         "link_status": "linked", "original_status": "sent",
     }
@@ -160,8 +161,8 @@ def test_full_guardian_id_in_staff_directory_is_not_masked():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("sender_kind,expected_chat,expected_heading", [
-    ("guardian", "987654321", "Teacher yuborgan xabarga javob"),
-    ("staff", "123456789", "Teacher javobi"),
+    ("guardian", "987654321", "Teacher yuborgan xabar:"),
+    ("staff", "123456789", "Teacher (Professor Z) javobi"),
 ])
 async def test_reply_claim_routes_only_to_original_party(monkeypatch, sender_kind, expected_chat, expected_heading):
     class QueueConnection(Conn):
@@ -197,6 +198,8 @@ async def test_reply_claim_routes_only_to_original_party(monkeypatch, sender_kin
     assert out["chatId"] == expected_chat
     assert expected_heading in out["text"]
     assert "Hello" in out["text"]
+    if sender_kind == "guardian":
+        assert "Please check this homework" in out["text"]
 
 
 @pytest.mark.asyncio
@@ -233,3 +236,22 @@ async def test_reply_claim_does_not_deliver_to_blocked_target(monkeypatch):
     response = await guardian.bot_claim_guardian_replies(req())
     assert json.loads(response.body)["replies"] == []
     assert any("recipient_unavailable" in query for query, _args in con.inserts)
+
+
+def test_staff_detail_returns_full_guardian_telegram_id_with_teacher_scope_preserved():
+    source = (Path(__file__).resolve().parents[1] / "app/guardian_port.py").read_text()
+    detail = source.split("async def staff_guardian_detail", 1)[1].split("async def staff_templates", 1)[0]
+    assert "'telegramUserId': r['telegram_user_id']" in detail
+    assert "assignment = (' AND ' + teacher_assignment_sql(user, 2))" in detail
+    assert "if user['role'] == 'owner' else mask_phone" in detail
+
+
+def test_reply_includes_original_approved_text_and_name_without_cross_account_lookup():
+    source = (Path(__file__).resolve().parents[1] / "app/guardian_port.py").read_text()
+    sql = source.split("async def conversation_context", 1)[1].split("async def conversation_active", 1)[0]
+    assert "d.rendered_text AS original_text" in sql
+    assert "b.sender_user_id" in sql
+    assert "LEFT JOIN telegram_contacts sc ON sc.telegram_user_id=su.telegram_id" in sql
+    claim = source.split("async def bot_claim_guardian_replies", 1)[1].split("def install()", 1)[0]
+    assert "context['original_text']" in claim
+    assert "context['sender_name']" in claim

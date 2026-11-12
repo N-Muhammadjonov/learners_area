@@ -102,7 +102,50 @@ async def test_contact_direct_message_goes_through_backend_queue():
 
 def test_bot_worker_attaches_reply_controls_to_original_and_replies():
     import inspect
-    source = inspect.getsource(_delivery_loop)
-    assert "claim_guardian_replies()" in source
-    assert "report_guardian_replies(reply_results)" in source
-    assert source.count('callback_data=f"gmr:{item[\'deliveryId\']}"') == 2
+    from bot import _deliver_guardian_messages, _deliver_guardian_replies
+    parent = inspect.getsource(_deliver_guardian_messages)
+    replies = inspect.getsource(_deliver_guardian_replies)
+    assert "claim_guardian_replies()" in replies
+    assert "report_guardian_replies(reply_results)" in replies
+    assert "claim_guardian_deliveries()" in parent
+    assert "report_guardian_deliveries(parent_results)" in parent
+    assert parent.count('callback_data=f"gmr:{item[\'deliveryId\']}"') == 1
+    assert replies.count('callback_data=f"gmr:{item[\'deliveryId\']}"') == 1
+    assert "log.exception" in inspect.getsource(_delivery_loop)
+
+
+@pytest.mark.asyncio
+async def test_worker_failure_in_one_queue_does_not_skip_other_queues():
+    import asyncio
+    stop = asyncio.Event()
+    calls = []
+
+    async def broadcasts(_bot):
+        calls.append("broadcasts")
+        raise RuntimeError("simulated API failure")
+
+    async def guardian_messages(_bot):
+        calls.append("guardian-messages")
+
+    async def guardian_replies(_bot):
+        calls.append("guardian-replies")
+
+    async def notices(_bot):
+        calls.append("notices")
+        stop.set()
+
+    with patch("bot._deliver_broadcasts", broadcasts), \
+         patch("bot._deliver_guardian_messages", guardian_messages), \
+         patch("bot._deliver_guardian_replies", guardian_replies), \
+         patch("bot._deliver_notices", notices), \
+         patch("bot.log.exception") as errors:
+        await _delivery_loop(MagicMock(), stop)
+    assert calls == ["broadcasts", "guardian-messages", "guardian-replies", "notices"]
+    errors.assert_called_once_with("delivery stage failed: %s", "broadcasts")
+
+
+@pytest.mark.parametrize("status,payload", [(401, {}), (503, {}), (200, None)])
+def test_failed_queue_api_response_cannot_masquerade_as_an_empty_queue(status, payload):
+    from services.api_client import ApiClient
+    with pytest.raises(RuntimeError, match="guardian replies claim"):
+        ApiClient._require_worker_success(status, payload, "guardian replies claim")

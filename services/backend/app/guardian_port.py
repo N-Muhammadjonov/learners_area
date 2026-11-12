@@ -804,7 +804,7 @@ async def staff_guardian_detail(req: Request, link_id: str):
     return core.j({'ok': True, 'link': {
         'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'], 'studentName': r['student_name'],
         'guardianName': r['display_name'], 'telegramUsername': r['username'],
-        'telegramUserId': r['telegram_user_id'] if user['role'] == 'owner' else mask_tg(r['telegram_user_id']),
+        'telegramUserId': r['telegram_user_id'],
         'phone': (r['phone_number'] if user['role'] == 'owner' else mask_phone(r['phone_number']))
                  if r['phone_verified_at'] else None, 'channelJoined': r['channel_verified_at'] is not None,
         'language': r['language'], 'requestedAt': iso(r['requested_at']), 'approvedAt': iso(r['approved_at']),
@@ -1038,7 +1038,7 @@ async def bot_claim_deliveries(req: Request):
 async def conversation_context(con, delivery_id):
     """Bind a conversation to its original approved message and live staff assignment."""
     return await con.fetchrow('''SELECT d.id,d.link_id,d.telegram_user_id,p.display_name AS guardian_name,
-        gu.account_status AS guardian_status,b.sender_user_id,su.name AS sender_name,
+        gu.account_status AS guardian_status,d.rendered_text AS original_text,b.sender_user_id,su.name AS sender_name,
         su.role AS sender_role,su.account_status AS sender_status,su.telegram_id AS sender_telegram_id,
         l.status AS link_status,l.student_id,
         gc.chat_id AS guardian_chat,gc.bot_blocked_at AS guardian_blocked,
@@ -1179,10 +1179,11 @@ async def bot_claim_guardian_replies(req: Request):
                     continue
                 if guardian:
                     role_name = {'owner': 'Owner', 'admin': 'Admin', 'teacher': 'Teacher'}[context['sender_role']]
-                    display = f"{role_name} yuborgan xabarga javob\n{context['guardian_name'] or 'Ota-ona'}:\n{reply['body']}"
+                    display = (f"{role_name} yuborgan xabar:\n{context['original_text']}\n\n"
+                               f"{context['guardian_name'] or 'Ota-ona'}:\n{reply['body']}")
                 else:
                     role_name = {'owner': 'Owner', 'admin': 'Admin', 'teacher': 'Teacher'}[context['sender_role']]
-                    display = f"{role_name} javobi:\n{reply['body']}"
+                    display = f"{role_name} ({context['sender_name'] or 'Learners Area'}) javobi:\n{reply['body']}"
                 items.append({'replyId': str(reply['id']), 'deliveryId': str(reply['delivery_id']),
                               'chatId': chat, 'text': display})
     return core.j({'ok': True, 'replies': items}, headers=PRIVATE)

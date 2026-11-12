@@ -174,7 +174,8 @@ def test_teacher_scope_filters_directory_preview_send_and_detail():
 
 def test_non_owner_pii_masked_in_detail():
     detail = SOURCE.split("async def staff_guardian_detail", 1)[1].split("async def staff_templates", 1)[0]
-    assert "if user['role'] == 'owner' else mask_tg" in detail
+    assert "'telegramUserId': r['telegram_user_id']" in detail
+    assert "if user['role'] == 'owner' else mask_tg" not in detail
     assert "if user['role'] == 'owner' else mask_phone" in detail
 
 

@@ -49,6 +49,12 @@ class ApiClient:
             raise last_error
         raise RuntimeError("request failed")
 
+    @staticmethod
+    def _require_worker_success(status: int, data: Any, action: str) -> None:
+        """Expose only a trusted action and HTTP code; never log message bodies or credentials."""
+        if status != 200 or not isinstance(data, dict):
+            raise RuntimeError(f"Telegram worker {action} failed: HTTP {status}")
+
     async def get_user(self, telegram_user_id: str) -> Optional[dict[str, Any]]:
         status, data = await self._request("GET", f"/users/{telegram_user_id}")
         if status == 200:
@@ -220,12 +226,12 @@ class ApiClient:
 
     async def claim_broadcasts(self) -> list[dict[str, Any]]:
         status, data = await self._request("POST", "/broadcasts/claim", json={"limit": 15})
-        if status != 200:
-            return []
+        self._require_worker_success(status, data, "broadcasts claim")
         return data.get("deliveries", [])
 
     async def report_broadcasts(self, results: list[dict[str, Any]]) -> None:
-        await self._request("POST", "/broadcasts/claim", json={"results": results})
+        status, data = await self._request("POST", "/broadcasts/claim", json={"results": results})
+        self._require_worker_success(status, data, "broadcasts report")
 
     async def notification_prefs(self, actor: str) -> tuple[int, Any]:
         return await self._request("GET", "/notifications", params={"actorTelegramId": actor})
@@ -235,12 +241,12 @@ class ApiClient:
 
     async def claim_notices(self) -> list[dict[str, Any]]:
         status, data = await self._request("POST", "/notifications", json={"limit": 15})
-        if status != 200:
-            return []
+        self._require_worker_success(status, data, "notifications claim")
         return data.get("notices", [])
 
     async def report_notices(self, results: list[dict[str, Any]]) -> None:
-        await self._request("POST", "/notifications", json={"results": results})
+        status, data = await self._request("POST", "/notifications", json={"results": results})
+        self._require_worker_success(status, data, "notifications report")
 
     async def ops(self, actor: str, view: str, page: int = 1) -> tuple[int, Any]:
         return await self._request("GET", "/ops", params={"actorTelegramId": actor, "view": view, "page": page})
@@ -304,10 +310,12 @@ class ApiClient:
 
     async def claim_guardian_replies(self) -> list[dict[str, Any]]:
         status, data = await self._request("POST", "/guardians/replies/claim", json={"limit": 10})
-        return data.get("replies", []) if status == 200 and isinstance(data, dict) else []
+        self._require_worker_success(status, data, "guardian replies claim")
+        return data.get("replies", [])
 
     async def report_guardian_replies(self, results: list[dict[str, Any]]) -> None:
-        await self._request("POST", "/guardians/replies/claim", json={"results": results})
+        status, data = await self._request("POST", "/guardians/replies/claim", json={"results": results})
+        self._require_worker_success(status, data, "guardian replies report")
 
     async def send_contact_message(self, actor: str, telegram_id: str, text: str) -> tuple[int, Any]:
         return await self._request("POST", f"/contacts/{telegram_id}/message", json={
@@ -316,10 +324,12 @@ class ApiClient:
 
     async def claim_guardian_deliveries(self) -> list[dict[str, Any]]:
         status, data = await self._request("POST", "/guardians/deliveries/claim", json={"limit": 10})
-        return data.get("deliveries", []) if status == 200 and isinstance(data, dict) else []
+        self._require_worker_success(status, data, "guardian messages claim")
+        return data.get("deliveries", [])
 
     async def report_guardian_deliveries(self, results: list[dict[str, Any]]) -> None:
-        await self._request("POST", "/guardians/deliveries/claim", json={"results": results})
+        status, data = await self._request("POST", "/guardians/deliveries/claim", json={"results": results})
+        self._require_worker_success(status, data, "guardian messages report")
 
 
 api_client = ApiClient()

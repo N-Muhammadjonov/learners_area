@@ -94,7 +94,7 @@ export async function mount(ctx) {
     return h('section', {class: 'pc-card', 'aria-label': T('Batafsil', 'Details')},
       h('div', {class: 'pc-toolbar'}, h('h2', {class: 'card-title'}, `${l.studentName} ← ${l.guardianName || '—'}`),
         h('button', {type: 'button', class: 'btn-ghost', onClick: () => { S.detail = null; paint(); }}, dict.common.cancel ?? '×')),
-      h('p', {class: 'pc-muted'}, [`${STATUS[l.status][L]}`, l.relationship ? REL[l.relationship][L] : null, l.telegramUsername ? '@' + l.telegramUsername : 'ID ' + l.telegramUserId, l.phone].filter(Boolean).join(' · ')),
+      h('p', {class: 'pc-muted'}, [`${STATUS[l.status][L]}`, l.relationship ? REL[l.relationship][L] : null, [l.telegramUsername ? '@' + l.telegramUsername : null, l.telegramUserId ? 'ID ' + l.telegramUserId : null].filter(Boolean).join(' · '), l.phone].filter(Boolean).join(' · ')),
       h('h3', {class: 'card-title'}, T('Qo‘lda yuborilgan xabarlar tarixi', 'Manual message history')),
       S.detail.messages.length ? h('ul', {}, S.detail.messages.map(m => h('li', {class: 'pc-muted'},
         `${m.createdAt?.slice(0, 16).replace('T', ' ')} · ${m.template || 'custom'} · ${m.status}${m.error ? ' (' + m.error + ')' : ''}`))) : h('p', {class: 'pc-muted'}, T('Hali xabar yo‘q.', 'No messages yet.')));

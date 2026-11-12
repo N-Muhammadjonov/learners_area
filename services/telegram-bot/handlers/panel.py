@@ -296,6 +296,8 @@ async def telegram_contact_card(
             lines.append(f"📞 {esc(phone.get('phoneNumber') or '—')}")
 
     rows = []
+    if allows(bot_access, "DIRECT_MESSAGE"):
+        rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dmt:{telegram_id}")])
     if linked_user:
         lines.append(
             f"🌐 {esc(linked_user.get('name') or '—')} · "
@@ -306,8 +308,6 @@ async def telegram_contact_card(
     else:
         lines.append(f"🌐 {t(lang, 'status_none')}")
         lines.append("👨‍👩‍👧 Hali ota-ona ulanmagan" if lang == "uz" else "👨‍👩‍👧 No parent connected yet")
-        if allows(bot_access, "DIRECT_MESSAGE"):
-            rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dmt:{telegram_id}")])
         if allows(bot_access, "MANAGE_USERS"):
             rows.append([InlineKeyboardButton(text=t(lang, "remove_bot"), callback_data=f"tgr:{telegram_id}")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
