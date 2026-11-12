@@ -444,3 +444,18 @@ Receipt: `content/dictionary/audit-20261112-phase09-semantic-delta.json`.
 
 
 **Phase 09 lexical candidate dry-run:** Independently re-read all 12 amended source lexemes from R2 shards `65`–`68`, and verified all **18** original `meaningSha` values, all **4** prior CEFR values, **2** prior English definitions and **2** prior Uzbek translations. All matched; **0 source mismatches**. A separate, in-memory candidate simulation removed 15 canonical misleading synonym edges (the other 4 are presentation-only), added 10 exact relations (1 synonym, 9 antonyms), and attached 7 sense-specific collocations. **0 invalid relation or collocation source IDs**. Source sense counts and all examples were preserved. See `audit-20261112-phase09-semantic-delta.json`. No R2 writes.
+
+
+### Phase 09 — exact-sense translation/CEFR/relations continuation
+
+This pass prioritizes lexical quality over sentence examples. Examples were not edited. New source-backed facts:
+
+- `apprise` (inform someone) was mixed with `appreciate` (increase in value), and `apprize` contains the same misattributed value-increase senses. **Four exact incorrect senses** are excluded from an unpublished candidate copy, while all four valid inform/notify senses and their examples are kept unchanged. Cambridge and Collins confirm the inform meaning for both spellings. Some historical dictionaries attest the spelling `apprize` for *appraise* (estimate value), but that does not justify the distinct gloss *gain/increase in value*.
+- Each retained informing sense has source-backed `notify` and `inform` target sense IDs and the respective `apprise/apprize someone of something` collocation. All 4 excluded glosses matched frozen R2 SHA-256 identities.
+- Source scan found **8 incoming synonym relations** to the four excluded senses in the 14 Phase-09 R2 shards. Candidate curation now removes inbound references by the exact `target_lexeme_id/target_sense_id` pair, including when the source lexeme itself has no editorial changes. The remaining in-scope examples and senses are not altered.
+- `demonstrate` meaning showing/exhibiting something to an audience changed **B1 → C1**, exactly matching Cambridge's SHOW HOW level. Its SHOW/PROVE and PROTEST senses were left as they were.
+- The accumulated exact semantic candidate delta is **15 lexemes / 25 senses**, comprising **5 CEFR changes**, 2 corrected English definitions, 2 corrected Uzbek definitions, 2 corrected Uzbek translations, 19 removed incorrect synonym edges, 5 added synonyms, 9 added antonyms, 9 added collocations, and 4 candidate-only excluded misattributed senses.
+- Independently re-read source R2 shard objects `65/66/67/68/6b/71`: **25/25 meaning hashes matched**, original CEFR values 5/5, original definitions and translations matched, all 4 exclusions source-matched, and zero missing lexemes or mismatches. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+- Regression tests cover preserving source entries and all retained example objects, preventing stale-source deletion, and preserving legitimate relation targets when pruning removed sense references. A full green CI for the latest commit is required before promoting the candidate.
+
+**Publication stays blocked:** The all-senses lexical validation of 5,521 definitions/translations and all unscoped relations is still not independently complete. No release overwrite, merge, or production mutation.
