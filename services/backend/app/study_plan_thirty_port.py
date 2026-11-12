@@ -176,8 +176,17 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
         await con.execute("""UPDATE study_plan_30_cycles
             SET status='completed',updated_at=$2 WHERE id=$1""", cid, now)
         return {**cycle, "status": "completed"}
-    # Calendar-day gate + verified previous-day completion: no skipping.
-    if today >= cycle["started_on"] + timedelta(days=day):
+    # Every logical day must occupy at least one real calendar day.
+    # Finishing yesterday's missed tasks today never unlocks a second
+    # 120-minute study day immediately; the following day opens tomorrow.
+    last_completed = await con.fetchval("""SELECT max(completed_at)
+        FROM study_plan_30_tasks WHERE cycle_id=$1 AND day_number=$2""", cid, day)
+    if not isinstance(last_completed, datetime):
+        raise ValueError("invalid_completion_timestamp")
+    finished_on = last_completed.astimezone(_timezone(cycle["timezone"])).date()
+    opens_on = max(cycle["started_on"] + timedelta(days=day),
+                   finished_on + timedelta(days=1))
+    if today >= opens_on:
         await con.execute("""UPDATE study_plan_30_cycles SET
             current_day=$2,opened_at=$3,updated_at=$3 WHERE id=$1""",
             cid, day + 1, now)
