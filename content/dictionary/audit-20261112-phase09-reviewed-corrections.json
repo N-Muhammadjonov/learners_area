@@ -249,6 +249,33 @@
       "proposed": "C1",
       "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance",
       "scope": "Uncountable annoyance: feeling of being annoyed"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "lemma": "brilliance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+      "scope": "Oxford 5000 C1, intellectual ability and exceptional intelligence meaning"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+      "lemma": "brilliance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+      "scope": "Oxford 5000 C1, the quality of being extremely impressive or splendid"
+    },
+    {
+      "lexeme_id": "69d5e678-3e68-5081-8e63-6cb588d34827",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "lemma": "blackberry",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
+      "scope": "Oxford Food C1 directly on the edible-fruit sense; general Oxford3000 B1 label differs and is not the sense-specific source"
     }
   ],
   "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
