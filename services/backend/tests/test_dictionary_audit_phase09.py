@@ -114,3 +114,26 @@ def test_phase09_cefr_edits_have_exact_sense_evidence() -> None:
         assert edit["scope"].strip()
         assert edit["proposed"] in {"A1", "A2", "B1", "B2", "C1", "C2"}
     assert data["publication_state"] == "not_published"
+
+
+def test_phase09_exact_example_readback_receipt() -> None:
+    report = load("audit-20261112-phase09-correction-receipt.json")
+    assert report["phase"] == 9
+    assert report["source_release"] == RELEASE
+    assert report["scope"]["senses"] == 5521
+    assert report["scope"]["examples_in_source"] == 4095
+    checked = report["reviewed_integrity"]
+    assert checked["r2_shards"] == 14
+    assert checked["presentation_stale_hashes"] == 0
+    assert checked["source_verified_example_replacements"] == 233
+    assert checked["phase09_example_replacements"] == 225
+    assert checked["out_of_phase_example_replacements"] == 8
+    assert checked["source_readback_matched"] == 233
+    assert checked["source_readback_failed"] == 0
+    assert report["editorial_changes"]["cefr_source_verified_edits"] == 4
+    assert report["editorial_changes"]["synonym_exclusions"] == 4
+    assert report["editorial_changes"]["attested_collocation_phrases"] == 5
+    assert report["signoff"]["all_5521_senses_semantically_certified"] is False
+    assert report["signoff"]["all_4095_examples_linguistically_certified"] is False
+    assert report["signoff"]["production_changed"] is False
+    assert report["signoff"]["main_merged"] is False
