@@ -37,7 +37,9 @@ test('both dictionaries provide a nonempty retry label', () => {
 test('error notice never renders an unlabeled retry button', () => {
   const dom = new JSDOM('<!doctype html><html lang="uz"><body></body></html>');
   const prior = globalThis.document;
+  const priorNode = globalThis.Node;
   globalThis.document = dom.window.document;
+  globalThis.Node = dom.window.Node;
   try {
     const notice = RegionFailureNotice({region: 'people', message: 'Unavailable'});
     const button = notice.querySelector('button');
@@ -46,6 +48,7 @@ test('error notice never renders an unlabeled retry button', () => {
     assert.equal(button.getAttribute('type'), 'button');
   } finally {
     globalThis.document = prior;
+    globalThis.Node = priorNode;
     dom.window.close();
   }
 });
