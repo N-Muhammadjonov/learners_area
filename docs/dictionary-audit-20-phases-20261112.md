@@ -18,7 +18,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | --- | ---: | ---: | --- |
 | 01 | 1–5,521 | 5,521 | Structural audited; semantic pending |
 | 02 | 5,522–11,041 | 5,520 | Structural and presentation coverage audited; semantic review pending |
-| 03 | 11,042–16,562 | 5,521 | Not started |
+| 03 | 11,042–16,562 | 5,521 | Structural and presentation coverage audited; semantic review pending |
 | 04 | 16,563–22,082 | 5,520 | Not started |
 | 05 | 22,083–27,603 | 5,521 | Not started |
 | 06 | 27,604–33,123 | 5,520 | Not started |
@@ -158,3 +158,41 @@ The counts for relationships represent *presence*, not confirmation of exact sem
 ### Release and merge policy
 
 Do not merge `fix/dictionary-audit-phase-01-20261112` to `main` until all 20 planned phases are finished and separately tested. The production `stable` channel must not change before fully validated immutable release generation, backup, rollback and regression gates.
+
+## Phase 03 — 12 November 2026 audit
+
+Frozen release: `rel-v1-1fa06d8d41d8ff701632573e`. Exact rank range: 11,042–16,562 (5,521 senses, 3,343 lexemes). Cloudflare R2 shards `18`–`25` (14 shards) were read, and SHA-256, byte lengths and entry counts matched Supabase descriptors. The two boundary shards were restricted to the exact `lexeme_id/sense_id` range.
+
+Source audit receipt: `content/dictionary/audit-20261112-phase03-flagged-records.json`. Presentation receipt: `content/dictionary/audit-20261112-phase03-presentation-coverage.json`.
+
+| Validation | Phase 03 result |
+| --- | ---: |
+| Senses inventoried | 5,521 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| Missing CEFR | 444 |
+| Invalid nonempty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 164 / 696 / 944 / 766 / 2,450 |
+| Canonical source senses without examples | 3,207 |
+| AI-draft editorial senses | 48 |
+| Duplicate source sense IDs / translations | 0 / 0 |
+| Invalid local relation / collocation source sense IDs | 0 / 0 |
+| Senses without canonical synonym / antonym / collocation | 4,263 / 5,477 / 5,495 |
+| Missing supplementary presentation sense row | 33 |
+| Senses with synonyms in canonical or presentation layer | 3,059 |
+| Senses with collocations in canonical or presentation layer | 118 |
+| Senses without synonyms in counted layers | 2,462 |
+| Senses without collocations in counted layers | 5,403 |
+
+The 2,894 sense IDs with missing CEFR (444) or a C2 label (2,450) are recorded in the frozen review queue. A high C2 count is **not itself proof of wrong labels**. A missing relation or supplementary presentation row is **not automatically an error**. Supplementary comparison was performed by exact IDs, but does not prove every `meaningSha` is current or every relationship is semantically correct.
+
+A spot check illustrates why word-level inference is unsafe: `school` in this phase is a verb and includes both educating and fish schooling senses, while `OR` is a hospital operating room noun, not the conjunction. Do not apply CEFR or translations across homographs, parts of speech or senses.
+
+**Structural and presentation presence audit: COMPLETE.** **Independent source-by-source semantic correctness review, candidate immutable release generation and production readback: NOT COMPLETE**. No fabricated synonyms, antonyms or collocations, no blanket CEFR reassignment, no R2 or production writes and no merge to `main`.
+
+### Phase 03 follow-up gates
+
+1. Verify individual English–Uzbek translations and each CEFR against source-backed sense and register references.
+2. Review AI-draft meanings and investigate suspicious C2, while respecting legitimate specialist language and true synonym absence.
+3. Validate `meaningSha`, relation target lexeme/sense identities, sense matching, and provenance before finalizing a linguistic signoff.
+4. Rebuild and validate an immutable new candidate release only after accepted edits, with a backed-up rollback channel and regression tests.
+5. Keep all 20 phases on this branch until the user's no-merge rule is satisfied.
