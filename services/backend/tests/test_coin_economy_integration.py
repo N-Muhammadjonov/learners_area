@@ -78,6 +78,8 @@ async def setup_db():
     for version in ("0084_coin_economy.sql", "0091_coin_daily_referrals_gifts.sql",
                     "0092_coin_gift_fulfillment.sql"):
         await connection.execute((MIGRATIONS / version).read_text())
+    # Reapplying the additive fulfillment migration must not duplicate constraints.
+    await connection.execute((MIGRATIONS / "0092_coin_gift_fulfillment.sql").read_text())
     rewards.reset_cache()
     inviter = uuid4()
     await connection.execute(
@@ -328,3 +330,7 @@ def test_gift_validation_refuses_fake_prices_and_unsafe_categories():
     assert not economy.valid_gift({**valid, "coins": True})
     assert not economy.valid_gift({**valid, "category": "real_money"})
     assert not economy.valid_gift({**valid, "key": "../bad"})
+    assert not economy.valid_gift({**valid, "imageData": "data:image/svg+xml;base64,PHN2Zy8+"})
+    assert not economy.valid_gift({**valid, "imageData": "data:image/png;base64,YWJj"})
+    assert not economy.valid_gift({**valid, "imageData": "data:image/webp;base64," + "A" * 230001})
+
