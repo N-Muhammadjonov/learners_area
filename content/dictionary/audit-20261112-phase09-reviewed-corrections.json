@@ -213,6 +213,42 @@
       "proposed": "C1",
       "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
       "scope": "noun denoting money or gift used to influence someone dishonestly"
+    },
+    {
+      "lexeme_id": "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "lemma": "baguette",
+      "original": "C2",
+      "proposed": "B2",
+      "source": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette",
+      "scope": "Long thin French stick loaf; Oxford Food B2"
+    },
+    {
+      "lexeme_id": "707450c8-bf09-55c0-8dd4-0c4935498169",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "lemma": "caregiver",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver",
+      "scope": "Person responsible for attending to a child or dependent adult"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "lemma": "annoyance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
+      "scope": "Countable annoyance: somebody or something that bothers a person"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "lemma": "annoyance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance",
+      "scope": "Uncountable annoyance: feeling of being annoyed"
     }
   ],
   "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
