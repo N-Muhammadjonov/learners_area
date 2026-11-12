@@ -727,6 +727,146 @@
           }
         ]
       }
+    },
+    "6d673b56-e14b-5236-b31e-d947f28f5b42": {
+      "86fde680-8dd4-4286-af9b-09f93752e21a": {
+        "meaning_sha": "a512486749209f2c1aecc71d271822b644f89ad3fd0d7bcddf04798df8b57ad2",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+          "sense_alignment": "unusual intelligence/mental ability, Oxford 5000 C1 core noun sense"
+        },
+        "add_synonyms": [
+          {
+            "text": "genius",
+            "lexemeId": "90e4c3ee-e1d3-58d6-a153-98e1a24364bb",
+            "senseId": "3fb261c7-c5a6-44b3-9b34-cc7e4e49bf30",
+            "partOfSpeech": "n",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "academic brilliance",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+          },
+          {
+            "text": "flashes of brilliance",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+          }
+        ]
+      },
+      "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24": {
+        "meaning_sha": "f03dc51c82f68dfdbbeebe46c09a1c38d086cd0306ce40c23f29bd0ba813fd7b",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+          "sense_alignment": "the quality of being very impressive/magnificent, Oxford 5000 C1"
+        },
+        "add_collocations": [
+          {
+            "text": "technical brilliance",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+          }
+        ]
+      },
+      "cb1ac30e-edb8-4266-b36f-4f2a886e1a54": {
+        "meaning_sha": "82717dd9c3a1db9bfb81fca5dcca1cc4f141f7a684819c7db555fc2163cd077b",
+        "add_synonyms": [
+          {
+            "text": "glare",
+            "lexemeId": "b8e5ca15-eae6-5972-871f-d09d37771ac2",
+            "senseId": "c07f9fc1-7d3a-4cb0-abc4-799f117d2a2c",
+            "partOfSpeech": "n",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+          },
+          {
+            "text": "blaze",
+            "lexemeId": "b1ddfcae-dc35-5be9-9c42-1e8aa8d8c466",
+            "senseId": "1599ee7f-ab04-4335-97f8-1150731662d1",
+            "partOfSpeech": "n",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+          }
+        ]
+      }
+    },
+    "69d5e678-3e68-5081-8e63-6cb588d34827": {
+      "369e683a-bed2-4834-8743-e5871947d096": {
+        "meaning_sha": "956256578a6466166117041fe0c8b01ed18d3ef03c67dc51527e8d15f768e79f",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "B1",
+          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
+          "sense_alignment": "blackberry fruit, Oxford 3000 wordlist B1; topical Food label also shows C1; fruit vocabulary list is the basis"
+        },
+        "add_collocations": [
+          {
+            "text": "blackberry and apple pie",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry"
+          }
+        ]
+      }
+    },
+    "67582942-8fa4-5a45-a24b-006fcfe219fc": {
+      "ece50b59-a973-40b1-9add-e4c360a03983": {
+        "meaning_sha": "e3a578c47a0c44bd803056d9f17206b55bef673f61ef5eb4645ff867d77d8a4f",
+        "add_synonyms": [
+          {
+            "text": "rim",
+            "lexemeId": "08d324dd-ccc3-5562-981b-dbd386e723ed",
+            "senseId": "06f2248e-99d7-449c-8fa3-f307e05f8cc7",
+            "partOfSpeech": "n",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+          },
+          {
+            "text": "lip",
+            "lexemeId": "9a6dbe9e-ce1f-5233-92b8-972d1a52e778",
+            "senseId": "6c9190d8-9f1b-461a-a427-8e58fa1f08ad",
+            "partOfSpeech": "n",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "full to the brim",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+          },
+          {
+            "text": "fill something to the brim",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+          }
+        ]
+      },
+      "f0a1a434-41dc-4c6e-861b-7a82b29f079e": {
+        "meaning_sha": "d356062007e7af2f874d0d43e678a76f8e0911f4ce7ae57bda254a19ff561926",
+        "add_collocations": [
+          {
+            "text": "wide brim",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+          },
+          {
+            "text": "beneath the brim",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+          }
+        ]
+      }
+    },
+    "67206e0f-045b-5e1d-bdf7-37623e627824": {
+      "26a43cd7-8094-4a68-91c4-fca58ff30636": {
+        "meaning_sha": "c479d91d0a7e2aa2c7f8745099ceff056288d6c93acd18888c0b04569748cdd0",
+        "add_collocations": [
+          {
+            "text": "burrow into the soil",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+          },
+          {
+            "text": "burrow under the fence",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+          }
+        ]
+      }
     }
   }
 }
