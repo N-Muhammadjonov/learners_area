@@ -105,7 +105,24 @@ def corrected_sense_presentation(entry, sense):
     correction = data['entries'].get(entry['lexeme_id'], {}).get(sense['sense_id'], {})
     if correction.get('meaning_sha') != meaning_hash(entry, sense):
         return {}
-    return correction
+    # Exact allowlist: editorial evidence and source attribution never enter
+    # the reader-facing semantic presentation, even if future patches add them.
+    return {
+        'remove_synonym_lexeme_ids': list(correction.get('remove_synonym_lexeme_ids', [])),
+        'remove_antonym_lexeme_ids': list(correction.get('remove_antonym_lexeme_ids', [])),
+        'add_synonyms': [
+            {key: item[key] for key in ('text', 'lexemeId', 'senseId')}
+            for item in correction.get('add_synonyms', [])
+        ],
+        'add_antonyms': [
+            {key: item[key] for key in ('text', 'lexemeId', 'senseId')}
+            for item in correction.get('add_antonyms', [])
+        ],
+        'add_collocations': [
+            {'text': item['text']}
+            for item in correction.get('add_collocations', [])
+        ],
+    }
 
 
 def present(entry):
