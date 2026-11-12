@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": {
+    "sense_rank_start": 44165,
+    "sense_rank_end": 49685,
+    "source_senses": 5521,
+    "source_lexemes": 3279
+  },
+  "editorial": {
+    "exact_lexeme_deltas": 15,
+    "exact_sense_deltas": 25,
+    "source_verified_cefr_edits": 5,
+    "corrected_english_definitions": 2,
+    "corrected_uzbek_definitions": 2,
+    "corrected_uzbek_translations": 2,
+    "excluded_misattributed_senses_from_future_candidate": 4,
+    "removed_incorrect_synonym_targets": 19,
+    "added_exact_synonym_edges": 5,
+    "added_exact_antonym_edges": 9,
+    "added_attested_collocations": 9
+  },
+  "latest_verified_changes": [
+    {
+      "lemma": "apprise",
+      "excluded_senses": [
+        "0a5c728a-9078-4805-bba3-8cf148e0638e",
+        "e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b"
+      ],
+      "retained_senses": [
+        "7bb141c5-1c75-48d1-a396-d405b909c878",
+        "d0ee3d9f-2168-4a66-85c3-24a1b0247cd4"
+      ],
+      "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lemma": "apprize",
+      "excluded_senses": [
+        "6c961d4e-9329-5b02-86bf-82c8fed73443",
+        "d2f0df39-8f12-5d2c-9876-aa1792253d0c"
+      ],
+      "retained_senses": [
+        "9a3096d8-a0ce-5d82-ac24-f708419de9d8",
+        "835f44a7-ac69-5088-90c6-dfbde683202c"
+      ],
+      "source": "https://www.collinsdictionary.com/dictionary/english/apprise"
+    },
+    {
+      "lemma": "demonstrate",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "cefr_original": "B1",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
+      "scope": "SHOW HOW / provide exhibition to an audience"
+    }
+  ],
+  "r2_readback": {
+    "shards": [
+      "65",
+      "66",
+      "67",
+      "68",
+      "6b",
+      "71"
+    ],
+    "lexemes": 15,
+    "senses": 25,
+    "meaning_sha_matched": 25,
+    "cefr_originals_matched": 5,
+    "english_definitions_matched": 2,
+    "uzbek_definitions_matched": 2,
+    "uzbek_translations_matched": 2,
+    "excluded_glosses_matched": 4,
+    "mismatches": 0,
+    "missing_lexemes": 0,
+    "method": "Independent, read-only R2 decompression and original SHA/value equality"
+  },
+  "graph_integrity": {
+    "incoming_exact_synonym_edges_to_excluded_senses_in_phase09_shards": 8,
+    "removal_strategy": "candidate-only whole-release target lexeme ID and sense ID matching; do not guess or reassign ambiguous unscoped edges",
+    "source_lexemes_untouched": true,
+    "example_texts_untouched": true
+  },
+  "publication": {
+    "candidate_only": true,
+    "live_release_mutated": false,
+    "production_deployed": false,
+    "main_merged": false,
+    "full_linguistic_signoff": false
+  }
+}
