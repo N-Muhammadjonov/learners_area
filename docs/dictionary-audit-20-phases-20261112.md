@@ -342,3 +342,25 @@ The **2,842** exact-ID CEFR review records comprise 456 unset labels and 2,386 C
 **Phase 08 automated structural, presentation and hash integrity checks: COMPLETE. Independent linguistic review of all 5,520 translations, CEFR, synonyms/antonyms/collocations: NOT COMPLETE.** No invented relationships, no unverified CEFR changes, no R2 overwrite, no production release switch, and no merge to `main`.
 
 After phase 08, cumulative structural coverage is **44,164 / 110,409 senses**. Full merge and production publishing remain blocked on all 20 phases plus independent semantic quality signoff and immutable candidate release readback.
+
+
+## Phase 09 — 12 November 2026 (structural pass)
+
+Frozen release: `rel-v1-1fa06d8d41d8ff701632573e`. Exact ranks **44,165–49,685**: **5,521 senses / 3,279 lexemes**, across 14 R2 shards `65`–`72`. Each R2 object's compressed SHA-256, byte length and gzip-member count independently matched the production Supabase descriptor; each multi-member gzip entry was decompressed and parsed, and boundary lexeme/sense IDs were enforced. Evidence: `content/dictionary/audit-20261112-phase09-structural-receipt.json` (full shard hashes, scope and review examples).
+
+| Check | Phase 09 |
+| --- | ---: |
+| Structurally audited senses | 5,521 |
+| Missing EN definition / UZ definition / translation | 0 / 0 / 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 183 / 703 / 954 / 751 / 2,414 |
+| Unassigned / invalid CEFR | 459 / 0 |
+| No canonical examples | 3,073 |
+| Duplicate sense IDs / duplicate translation texts | 0 / 0 |
+| Invalid local relation / collocation source IDs | 0 / 0 |
+| No canonical synonym / antonym / collocation | 4,277 / 5,491 / 5,500 |
+
+**Review candidates:** **2,873 exact senses** with unset CEFR (459) or C2 (2,414). This is NOT proof those C2 labels are erroneous. Examples requiring source-backed review include `itself` (missing CEFR), `flake` meaning a snow crystal (C2), and `overwrite` meaning replace existing data (C2). No speculative CEFR replacement or invented relation was published.
+
+**Signoff:** structural R2 read/checksum and JSON validation COMPLETE; **presentation coverage / `meaningSha` NOT YET AUDITED**, independent translation/CEFR/relationship semantic QA NOT COMPLETE. No candidate release creation, production mutation, deploy or `main` merge. Keep PR #149 Draft until all 20 phases and linguistic review are finished.
+
+Cumulative exact-sense structural pass: **49,685 / 110,409** (phases 01–09). This is structural coverage only, not certified linguistic correctness.
