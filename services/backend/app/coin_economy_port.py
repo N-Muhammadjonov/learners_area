@@ -323,13 +323,14 @@ async def purchases(req: Request):
     db = await core.pool()
     async with db.acquire() as con:
         rows = await con.fetch(
-            "SELECT id,gift_id,title_uz,title_en,cost_coins,purchased_at "
+            "SELECT id,gift_id,title_uz,title_en,cost_coins,purchased_at,status "
             "FROM coin_gift_purchases WHERE user_id=$1 "
             "ORDER BY purchased_at DESC LIMIT 100", user["id"])
         return core.j({"purchases": [{
             "id": str(row["id"]), "giftId": str(row["gift_id"]),
             "titleUz": row["title_uz"], "titleEn": row["title_en"],
-            "coins": row["cost_coins"], "purchasedAt": row["purchased_at"].isoformat()
+            "coins": row["cost_coins"], "status": row["status"],
+            "purchasedAt": row["purchased_at"].isoformat()
         } for row in rows]}, headers=PRIVATE)
 
 
@@ -343,17 +344,20 @@ async def purchase_gift(req: Request, gift_id: str):
     request_id = core.uuid_value(body.get("requestId")) if isinstance(body, dict) else None
     if parsed is None or request_id is None:
         return error("invalid_input")
+    from .notification_events import create_notification
     db = await core.pool()
     async with db.acquire() as con:
         try:
             async with con.transaction():
                 await con.fetchrow(
-                    "SELECT id FROM users WHERE id=$1 FOR UPDATE", user["id"])
+                    "SELECT id FROM users WHERE id=$1 AND account_status='active' FOR UPDATE",
+                    user["id"])
                 existing = await con.fetchrow(
-                    "SELECT id FROM coin_gift_purchases WHERE user_id=$1 AND request_id=$2",
+                    "SELECT id,status FROM coin_gift_purchases WHERE user_id=$1 AND request_id=$2",
                     user["id"], request_id)
                 if existing:
                     return core.j({"ok": True, "alreadyPurchased": True,
+                                   "status": existing["status"],
                                    "wallet": await wallet(con, user["id"])}, headers=PRIVATE)
                 gift = await con.fetchrow(
                     "SELECT * FROM coin_gifts WHERE id=$1 AND is_active=true FOR UPDATE", parsed)
@@ -361,7 +365,8 @@ async def purchase_gift(req: Request, gift_id: str):
                     return error("not_found", 404)
                 owned = await con.fetchval(
                     "SELECT EXISTS(SELECT 1 FROM coin_gift_purchases "
-                    "WHERE user_id=$1 AND gift_id=$2)", user["id"], parsed)
+                    "WHERE user_id=$1 AND gift_id=$2 AND status IN ('pending','fulfilled'))",
+                    user["id"], parsed)
                 if owned:
                     return error("already_owned", 409)
                 if gift["stock_remaining"] is not None and gift["stock_remaining"] < 1:
@@ -370,24 +375,114 @@ async def purchase_gift(req: Request, gift_id: str):
                 if balance["balance"] < gift["cost_coins"]:
                     return error("insufficient_coins", 409)
                 await con.execute(
-                    """INSERT INTO coin_spend(user_id,spend_key,coins)
-                       VALUES($1,$2,$3)""", user["id"],
-                    f"gift:{gift['id']}", gift["cost_coins"])
-                await con.execute(
+                    "INSERT INTO coin_spend(user_id,spend_key,coins) VALUES($1,$2,$3)",
+                    user["id"], f"gift:{request_id}", gift["cost_coins"])
+                receipt = await con.fetchrow(
                     """INSERT INTO coin_gift_purchases
-                       (user_id,gift_id,request_id,title_uz,title_en,cost_coins)
-                       VALUES($1,$2,$3,$4,$5,$6)""",
+                       (user_id,gift_id,request_id,title_uz,title_en,cost_coins,status)
+                       VALUES($1,$2,$3,$4,$5,$6,'pending') RETURNING id""",
                     user["id"], gift["id"], request_id,
                     gift["title_uz"], gift["title_en"], gift["cost_coins"])
                 if gift["stock_remaining"] is not None:
                     await con.execute(
                         "UPDATE coin_gifts SET stock_remaining=stock_remaining-1,"
                         "updated_at=now() WHERE id=$1", gift["id"])
-                return core.j({"ok": True, "wallet": await wallet(con, user["id"])}, headers=PRIVATE)
+                buyer = await con.fetchval("SELECT name FROM users WHERE id=$1", user["id"])
+                owners = await con.fetch(
+                    "SELECT id FROM users WHERE role='owner' AND account_status='active'")
+                for owner in owners:
+                    await create_notification(
+                        con, user_id=owner["id"], event_id=f"coin-gift:{receipt['id']}",
+                        notification_type="COIN_GIFT_PURCHASE",
+                        title="New gift purchase receipt",
+                        body=f"{str(buyer or 'User')[:100]} purchased {gift['title_uz'][:100]} for {gift['cost_coins']} coins.",
+                        href="/app/leaderboard?view=manage",
+                        payload={"purchaseId": str(receipt["id"]), "buyerId": str(user["id"]),
+                                 "giftId": str(gift["id"]), "coins": gift["cost_coins"]})
+                return core.j({"ok": True, "status": "pending",
+                               "receiptId": str(receipt["id"]),
+                               "wallet": await wallet(con, user["id"])}, headers=PRIVATE)
         except Exception:
             log.exception("coin gift purchase failed")
             return error("temporarily_unavailable", 503)
 
+
+@router.get("/api/coins/admin/purchases")
+async def owner_purchases(req: Request):
+    owner, failure = await active_owner(req)
+    if failure is not None:
+        return failure
+    db = await core.pool()
+    async with db.acquire() as con:
+        rows = await con.fetch(
+            """SELECT p.id,p.user_id,p.gift_id,p.title_uz,p.title_en,p.cost_coins,
+                      p.purchased_at,p.status,p.resolved_at,
+                      coalesce(nullif(btrim(u.name),''),'User') buyer_name
+               FROM coin_gift_purchases p
+               JOIN users u ON u.id=p.user_id
+               ORDER BY (p.status='pending') DESC,p.purchased_at DESC LIMIT 200""")
+    return core.j({"purchases": [{
+        "id": str(row["id"]), "userId": str(row["user_id"]), "giftId": str(row["gift_id"]),
+        "buyerName": row["buyer_name"], "titleUz": row["title_uz"], "titleEn": row["title_en"],
+        "coins": row["cost_coins"], "status": row["status"],
+        "purchasedAt": row["purchased_at"].isoformat(),
+        "resolvedAt": row["resolved_at"].isoformat() if row["resolved_at"] else None,
+    } for row in rows]}, headers=PRIVATE)
+
+
+@router.patch("/api/coins/admin/purchases/{purchase_id}")
+async def resolve_purchase(req: Request, purchase_id: str):
+    owner, failure = await active_owner(req)
+    if failure is not None:
+        return failure
+    purchase_uuid = core.uuid_value(purchase_id)
+    body = await core.payload(req)
+    status = body.get("status") if isinstance(body, dict) else None
+    if purchase_uuid is None or status not in ("fulfilled", "rejected"):
+        return error("invalid_input")
+    from .notification_events import create_notification
+    db = await core.pool()
+    async with db.acquire() as con:
+        try:
+            async with con.transaction():
+                target = await con.fetchrow(
+                    "SELECT user_id FROM coin_gift_purchases WHERE id=$1", purchase_uuid)
+                if not target:
+                    return error("not_found", 404)
+                # Use the same lock order as purchasing: user, purchase, then gift.
+                await con.fetchrow("SELECT id FROM users WHERE id=$1 FOR UPDATE", target["user_id"])
+                purchase = await con.fetchrow(
+                    "SELECT * FROM coin_gift_purchases WHERE id=$1 FOR UPDATE", purchase_uuid)
+                if purchase["status"] == status:
+                    return core.j({"ok": True, "status": status, "alreadyResolved": True}, headers=PRIVATE)
+                if purchase["status"] != "pending":
+                    return error("already_resolved", 409)
+                if status == "rejected":
+                    await con.execute(
+                        """INSERT INTO coin_gift_refunds(purchase_id,user_id,coins)
+                           VALUES($1,$2,$3) ON CONFLICT(purchase_id) DO NOTHING""",
+                        purchase_uuid, purchase["user_id"], purchase["cost_coins"])
+                    await con.execute(
+                        """UPDATE coin_gifts SET stock_remaining=stock_remaining+1,
+                           updated_at=now() WHERE id=$1 AND stock_remaining IS NOT NULL""",
+                        purchase["gift_id"])
+                await con.execute(
+                    """UPDATE coin_gift_purchases SET status=$2,resolved_at=now(),
+                       resolved_by=$3 WHERE id=$1""", purchase_uuid, status, owner["id"])
+                await create_notification(
+                    con, user_id=purchase["user_id"],
+                    event_id=f"coin-gift:{purchase_uuid}:{status}",
+                    notification_type="COIN_GIFT_RESOLVED",
+                    title="Gift purchase update",
+                    body=("Your gift purchase has been approved." if status == "fulfilled"
+                          else "Your gift order was rejected and the coins were refunded."),
+                    href="/app/leaderboard",
+                    payload={"purchaseId": str(purchase_uuid), "status": status,
+                             "coins": purchase["cost_coins"]})
+                return core.j({"ok": True, "status": status}, headers=PRIVATE)
+        except Exception:
+            log.exception("coin gift fulfillment failed")
+            return error("temporarily_unavailable", 503)
 
 
 def valid_image_data(value: str | None) -> bool:
