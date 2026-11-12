@@ -1,4 +1,5 @@
 import {el} from '../../js/dom.js';
+import {rewardBadge} from '../shared/coin-reward.js';
 import {api} from '../../js/api-client.js';
 import {privateScope} from '../../js/private-scope.js';
 import {missing} from '../listening/catalogue-v9.js';
@@ -15,13 +16,14 @@ function ensureStyles(){
  const link=el('link',{rel:'stylesheet',href:'/modules/reading/articles.css','data-reading-articles-css':''});
  document.head.append(link);
 }
-function card(article,t){
+function card(article,t,context){
  const thumbnail=article.image?.endsWith('.jpg')?article.image.replace(/\.jpg$/,'.thumb.webp'):article.image;
  const image=thumbnail?el('img',{class:'reading-article-image',src:thumbnail,alt:'',loading:'eager',decoding:'async'}):el('div',{class:'reading-article-image reading-article-placeholder','aria-hidden':'true'},'Aa');
  const tags=el('div',{class:'reading-article-tags'},article.level?el('span',{class:'reading-article-level'},article.level):null,(article.topics??[]).map(topic=>el('span',{class:'reading-article-topic'},topic)));
  return el('article',{class:'reading-article-card','data-reading-article':article.id},image,
   el('div',{class:'reading-article-card-body'},tags,el('h2',{class:'reading-article-title'},article.title),
    el('p',{class:'reading-article-count'},`${article.questionCount??(article.questions??[]).length} ${t.questions}`),
+   rewardBadge(context,'articles'),
    el('a',{class:'btn-primary reading-article-action',href:`/app/reading/articles/${encodeURIComponent(article.id)}`},`${t.start} →`)));
 }
 export function mountArticles(context){
@@ -32,7 +34,7 @@ export function mountArticles(context){
  const levelButtons=['B2','C1'].map(level=>el('button',{type:'button','data-article-level':level,'aria-pressed':'false'},level));
  const statusButtons=[['not_completed',t.notCompleted],['completed',t.completed]].map(([status,label])=>el('button',{type:'button','data-article-status':status,'aria-pressed':'false',disabled:true},label));
  const statusMessage=el('p',{class:'reading-article-filter-message',role:'status'}),empty=el('p',{class:'reading-articles-empty',hidden:true},t.noMatches);
- const cards=articles.map(article=>card(article,t)),grid=el('div',{class:'reading-article-grid'},cards);
+ const cards=articles.map(article=>card(article,t,context)),grid=el('div',{class:'reading-article-grid'},cards);
  let level='',status='',completed=new Set();
  const apply=()=>{
   const query=search.value.trim().toLocaleLowerCase(),selectedTopic=topic.value;let visible=0;
