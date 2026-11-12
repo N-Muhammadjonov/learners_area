@@ -95,3 +95,21 @@ def test_phase09_editorial_proposals_remain_unpublished() -> None:
     assert itself["cefr"]["proposed"] == "A2"
     assert itself["synonyms"]["proposed"] == []
     assert itself["cefr"]["evidence"].startswith("https://dictionary.cambridge.org/")
+
+
+def test_phase09_cefr_edits_have_exact_sense_evidence() -> None:
+    data = load("audit-20261112-phase09-reviewed-corrections.json")
+    edits = data["source_verified_cefr_edits"]
+    assert len(edits) == 3
+    by_lemma = {row["lemma"]: row for row in edits}
+    assert set(by_lemma) == {"itself", "nowadays", "cake"}
+    assert (by_lemma["itself"]["original"], by_lemma["itself"]["proposed"]) == (None, "A2")
+    assert (by_lemma["nowadays"]["original"], by_lemma["nowadays"]["proposed"]) == ("A2", "B1")
+    assert (by_lemma["cake"]["original"], by_lemma["cake"]["proposed"]) == ("B1", "A1")
+    for edit in edits:
+        UUID(edit["lexeme_id"])
+        UUID(edit["sense_id"])
+        assert edit["source"].startswith("https://dictionary.cambridge.org/")
+        assert edit["scope"].strip()
+        assert edit["proposed"] in {"A1", "A2", "B1", "B2", "C1", "C2"}
+    assert data["publication_state"] == "not_published"
