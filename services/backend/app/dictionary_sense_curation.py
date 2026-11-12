@@ -18,6 +18,8 @@ CORRECTIONS_PATH = (
     Path(__file__).resolve().parents[1] / "assets/dictionary/sense_corrections.json"
 )
 VALID_CEFR = frozenset({"A1", "A2", "B1", "B2", "C1", "C2"})
+PHASE09_FIRST_LEXEME = "6568847e-1b29-5ff7-b104-60393188df8e"
+PHASE09_LAST_LEXEME = "726f905d-3146-56a5-9234-e7522f7651ce"
 
 
 @lru_cache(maxsize=1)
@@ -145,7 +147,10 @@ def curate_candidate_entry(entry: dict[str, Any]) -> dict[str, Any]:
     if entry.get("release_id") != data["source_release"]:
         return curated
     patches = data["entries"].get(entry["lexeme_id"], {})
+    in_phase09 = PHASE09_FIRST_LEXEME <= entry["lexeme_id"] <= PHASE09_LAST_LEXEME
     if not patches:
+        if in_phase09:
+            deduplicate_relations(curated)
         return curated
 
     senses = {sense["sense_id"]: sense for sense in curated["senses"]}
