@@ -64,6 +64,23 @@
           }
         }
       }
+    },
+    "65825765-33c0-5e04-8ad9-1cab90be90e5": {
+      "d7525883-85d3-4bd1-90f0-409545b4c051": {
+        "meaning_sha": "f8d3a27b3ed46df3391b5d7f04bc644e0e69db75d8703c6b709efd5289685db8",
+        "examples": {
+          "6d9b9b5b-699d-59de-9519-4d173a5297eb": {
+            "original_en": "the startup of the new factory was delayed by strikes",
+            "text_en": "The startup of the new factory was delayed by strikes.",
+            "text_uz": "Yangi zavodni ishga tushirish ish tashlashlar sababli kechikdi."
+          },
+          "d600f08d-ad65-58cb-aed3-135c8178df90": {
+            "original_en": "he opposed the inauguration of fluoridation",
+            "text_en": "The startup of the new production line required careful planning.",
+            "text_uz": "Yangi ishlab chiqarish liniyasini ishga tushirish puxta rejalashtirishni talab qildi."
+          }
+        }
+      }
     }
   }
 }
