@@ -149,6 +149,7 @@ def test_phase09_semantic_delta_matches_verified_r2_source() -> None:
         "senses": 18,
         "cefr_updates": 4,
         "english_definition_updates": 2,
+        "uzbek_definition_updates": 2,
         "uzbek_translation_updates": 2,
         "removed_incorrect_synonym_edges": 19,
         "added_exact_synonym_edges": 1,
@@ -161,6 +162,7 @@ def test_phase09_semantic_delta_matches_verified_r2_source() -> None:
     assert source["meaning_sha_verified"] == 18
     assert source["cefr_original_matches"] == 4
     assert source["definition_original_matches"] == 2
+    assert source["definition_uz_original_matches"] == 2
     assert source["translation_original_matches"] == 2
     assert source["canonical_synonym_exclusions_confirmed"] == 15
     assert source["presentation_only_synonym_exclusions_confirmed"] == 4
