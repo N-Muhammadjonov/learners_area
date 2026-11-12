@@ -124,6 +124,49 @@ def _update_relations(
 
 
 
+
+def exclude_misattributed_senses(
+    original: dict[str, Any],
+    curated: dict[str, Any],
+    patches: dict[str, Any],
+) -> None:
+    """Exclude independently disproven senses from a future candidate copy only.
+
+    Preserve the remaining sense and example objects unchanged, and never
+    reassign ambiguous unscoped relations to a different sense.
+    """
+    exclusions: set[str] = set()
+    for sense in original["senses"]:
+        correction = patches.get(sense["sense_id"], {}).get("exclude_misattributed_sense")
+        if correction is None:
+            continue
+        if not isinstance(correction, dict) or (
+            correction.get("original_definition_en") != sense["definition_en"]
+            or not correction.get("source")
+            or not correction.get("reason")
+        ):
+            raise ValueError("dictionary_semantic_exclusion_source_mismatch")
+        exclusions.add(sense["sense_id"])
+
+    if not exclusions:
+        return
+    retained = [
+        sense for sense in curated["senses"]
+        if sense["sense_id"] not in exclusions
+    ]
+    if not retained:
+        raise ValueError("dictionary_semantic_all_senses_excluded")
+    curated["senses"] = retained
+    curated["relations"] = [
+        relation for relation in curated["relations"]
+        if relation.get("source_sense_id") not in exclusions
+    ]
+    curated["collocations"] = [
+        item for item in curated["collocations"]
+        if item.get("sense_id") not in exclusions
+    ]
+
+
 def deduplicate_relations(entry: dict[str, Any]) -> None:
     """Remove repeated identical relation targets without collapsing distinct senses."""
     kept: list[dict[str, Any]] = []
@@ -162,5 +205,6 @@ def curate_candidate_entry(entry: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("dictionary_semantic_meaning_sha_mismatch")
         _update_sense(sense, patch)
         _update_relations(curated, sense_id, patch)
+    exclude_misattributed_senses(entry, curated, patches)
     deduplicate_relations(curated)
     return curated
