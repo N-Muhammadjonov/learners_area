@@ -144,3 +144,9 @@
 .coin-personal-balance{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem 1.1rem;padding:.85rem 1rem;margin:.7rem 0 1rem;border:1px solid rgb(var(--workspace-line));border-radius:12px;background:rgb(var(--workspace-sunken));font-variant-numeric:tabular-nums}
 .coin-personal-balance strong{font-size:1rem;color:rgb(var(--workspace-ink))}
 .coin-personal-balance p{margin:0;font-size:.85rem;color:rgb(var(--workspace-muted))}
+
+.coin-gift-image{width:100%;aspect-ratio:4/3;object-fit:contain;border-radius:10px;background:rgb(var(--workspace-sunken))}
+.coin-gift-admin-thumbnail{width:4.5rem;height:4.5rem;object-fit:contain;border-radius:8px;background:rgb(var(--workspace-sunken))}
+.coin-order-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.coin-gift-admin-form input[type=file],.coin-market-purchase input[type=file]{width:100%;max-width:19rem;font-size:.8rem}
+.coin-market-notice:not(:empty){padding:.6rem .75rem;border-radius:9px;background:rgb(var(--workspace-sunken))}
