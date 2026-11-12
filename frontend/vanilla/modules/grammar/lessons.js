@@ -12,7 +12,10 @@ export function mount(context) {
   root.append(host);
   const bookId = url.searchParams.get('book');
   if (bookId !== null) {
-    void context.navigate(grammarPracticeHref(url.pathname + url.search), {replace:true});
+    const destination=grammarPracticeHref(url.pathname+url.search);
+    if(destination!==url.pathname+url.search) void context.navigate(destination,{replace:true});
+    else host.replaceChildren(h('p',{role:'alert'},
+      context.locale==='en'?'Grammar lesson not found.':'Grammar darsi topilmadi.'));
     return;
   }
   const catalogHost = h('div');
