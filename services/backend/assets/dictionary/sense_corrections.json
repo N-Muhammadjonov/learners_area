@@ -626,6 +626,107 @@
           }
         ]
       }
+    },
+    "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3": {
+      "45af92dc-c0c8-4151-878a-18186573effe": {
+        "meaning_sha": "74475e553e157d7fa8a76208c9270ee6ac40a4feadb5a9c238c391af7bdb8abc",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "B2",
+          "source": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette",
+          "sense_alignment": "Long thin French stick loaf, Oxford Food B2; sandwich sense not represented separately in source"
+        },
+        "add_collocations": [
+          {
+            "text": "fresh baguette",
+            "source": "https://dictionary.cambridge.org/us/dictionary/english/baguette"
+          }
+        ]
+      }
+    },
+    "707450c8-bf09-55c0-8dd4-0c4935498169": {
+      "b28678ca-7aad-4192-b56e-04f16a3715a6": {
+        "meaning_sha": "0ffde6467b3710591a1219a7f6b76a23a2c5fafc2c2fb17b3f8913d7b2a8ab17",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver",
+          "sense_alignment": "Person responsible for attending to a child or dependent adult, Oxford caregiving noun C1; separate health-care-specific sense remains unchanged"
+        },
+        "add_collocations": [
+          {
+            "text": "primary caregiver",
+            "source": "https://dictionary.cambridge.org/collocation/english/caregiver"
+          },
+          {
+            "text": "family caregiver",
+            "source": "https://dictionary.cambridge.org/collocation/english/caregiver"
+          }
+        ]
+      }
+    },
+    "6b82d1f2-3022-55b2-babc-654db68ced9a": {
+      "7684f98e-2417-4cdf-9a07-368ae9952f22": {
+        "meaning_sha": "8ec91dc40d40e4b2b7d5080791d32d23b17be2df4a6b314f243b9952c0196676",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
+          "sense_alignment": "[C] something that annoys a person; Cambridge headword C1 and countable example"
+        },
+        "replace_translation_uz": {
+          "original": "boshog'riq",
+          "text": "bezovta qiladigan odam yoki narsa; boshog‘riq",
+          "source": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+        },
+        "add_synonyms": [
+          {
+            "text": "nuisance",
+            "lexemeId": "6e7c5526-61d7-5749-a754-4aa593261b39",
+            "senseId": "a866383f-8537-4ec4-9f0f-d976c480fa37",
+            "partOfSpeech": "n",
+            "source": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "minor annoyance",
+            "source": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+          },
+          {
+            "text": "petty annoyance",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+          }
+        ]
+      },
+      "a4e14c69-657b-4c47-a46d-a338b7ffac8b": {
+        "meaning_sha": "caeb8782f9593165b42e85854c77688d8a1983c3067c36b3edb2a8fa80739b59",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance",
+          "sense_alignment": "[U] the feeling of being annoyed or slightly angry, Oxford Feelings C1"
+        },
+        "add_synonyms": [
+          {
+            "text": "irritation",
+            "lexemeId": "346f5bee-09ab-5c3b-9b12-f73b80cc4803",
+            "senseId": "991a9b48-3647-4a5e-a24d-943d7a6770b9",
+            "partOfSpeech": "n",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "in annoyance",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+          },
+          {
+            "text": "much to someone's annoyance",
+            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+          }
+        ]
+      }
     }
   }
 }
