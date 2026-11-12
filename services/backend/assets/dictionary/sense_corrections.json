@@ -566,6 +566,66 @@
           }
         ]
       }
+    },
+    "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3": {
+      "676b56f7-c118-4e2a-823b-0331c4f81114": {
+        "meaning_sha": "11fc975985a56ab43b6aa385f8b43f37a36b68fac1f092a4a9ea6853b21872c1",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+          "sense_alignment": "liking to talk a lot in a friendly, informal way"
+        },
+        "add_synonyms": [
+          {
+            "text": "talkative",
+            "lexemeId": "e3f9e919-1d5b-5b3e-8e21-6ed695e63f51",
+            "senseId": "01797def-7f71-40a2-9547-2a76669dc2bc",
+            "partOfSpeech": "a",
+            "source": "https://dictionary.cambridge.org/dictionary/english/chatty"
+          }
+        ]
+      },
+      "c9007394-5a5e-49c7-9b8b-6e63837bc107": {
+        "meaning_sha": "bdd040f6f00ac4ef10422e50b072fbd5771757aa0eef7462cb7b597335ebe5d3",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+          "sense_alignment": "informal, conversational writing or speech"
+        },
+        "add_collocations": [
+          {
+            "text": "chatty letter",
+            "source": "https://dictionary.cambridge.org/dictionary/english/chatty"
+          },
+          {
+            "text": "chatty style",
+            "source": "https://dictionary.cambridge.org/dictionary/english/chatty"
+          }
+        ]
+      }
+    },
+    "6f6bcc4e-b979-554f-8bbc-405475172731": {
+      "b023ae8a-5add-4e04-85b3-f59ffd40824a": {
+        "meaning_sha": "9b1981a20c9693448cd68fc3c21c38e84f87f1f36a3c825405e11119235e392e",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1",
+          "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
+          "sense_alignment": "money/present given to persuade someone to act dishonestly"
+        },
+        "add_collocations": [
+          {
+            "text": "accept a bribe",
+            "source": "https://dictionary.cambridge.org/dictionary/english/bribe"
+          },
+          {
+            "text": "take a bribe",
+            "source": "https://dictionary.cambridge.org/dictionary/english/bribe"
+          }
+        ]
+      }
     }
   }
 }
