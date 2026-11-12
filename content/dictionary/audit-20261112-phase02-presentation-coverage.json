@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "phase": 2,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": "sense_ids_lexicographically_ordered_rank_5522_through_11041_inclusive",
+  "presentation_comparison": "matched_by_lexeme_id_and_sense_id; does not independently validate every meaningSha",
+  "counts": {
+    "senses": 5520,
+    "missing_presentation_sense_rows": 44,
+    "presentation_synonym_senses": 3050,
+    "presentation_collocation_senses": 89,
+    "combined_synonym_senses": 3054,
+    "combined_collocation_senses": 129,
+    "without_synonyms": 2466,
+    "without_collocations": 5391
+  },
+  "by_shard": [
+    {
+      "shard": "0c",
+      "senses": 192,
+      "missing_presentation": 0,
+      "presentation_synonym_senses": 108,
+      "presentation_collocation_senses": 4,
+      "combined_synonym_senses": 108,
+      "combined_collocation_senses": 4
+    },
+    {
+      "shard": "0d",
+      "senses": 458,
+      "missing_presentation": 5,
+      "presentation_synonym_senses": 239,
+      "presentation_collocation_senses": 4,
+      "combined_synonym_senses": 241,
+      "combined_collocation_senses": 9
+    },
+    {
+      "shard": "0e",
+      "senses": 399,
+      "missing_presentation": 3,
+      "presentation_synonym_senses": 231,
+      "presentation_collocation_senses": 3,
+      "combined_synonym_senses": 231,
+      "combined_collocation_senses": 6
+    },
+    {
+      "shard": "0f",
+      "senses": 476,
+      "missing_presentation": 4,
+      "presentation_synonym_senses": 261,
+      "presentation_collocation_senses": 8,
+      "combined_synonym_senses": 261,
+      "combined_collocation_senses": 10
+    },
+    {
+      "shard": "10",
+      "senses": 524,
+      "missing_presentation": 6,
+      "presentation_synonym_senses": 283,
+      "presentation_collocation_senses": 15,
+      "combined_synonym_senses": 283,
+      "combined_collocation_senses": 21
+    },
+    {
+      "shard": "11",
+      "senses": 434,
+      "missing_presentation": 8,
+      "presentation_synonym_senses": 237,
+      "presentation_collocation_senses": 6,
+      "combined_synonym_senses": 238,
+      "combined_collocation_senses": 14
+    },
+    {
+      "shard": "12",
+      "senses": 460,
+      "missing_presentation": 3,
+      "presentation_synonym_senses": 251,
+      "presentation_collocation_senses": 12,
+      "combined_synonym_senses": 251,
+      "combined_collocation_senses": 14
+    },
+    {
+      "shard": "13",
+      "senses": 471,
+      "missing_presentation": 4,
+      "presentation_synonym_senses": 252,
+      "presentation_collocation_senses": 6,
+      "combined_synonym_senses": 252,
+      "combined_collocation_senses": 10
+    },
+    {
+      "shard": "14",
+      "senses": 423,
+      "missing_presentation": 1,
+      "presentation_synonym_senses": 229,
+      "presentation_collocation_senses": 3,
+      "combined_synonym_senses": 229,
+      "combined_collocation_senses": 4
+    },
+    {
+      "shard": "15",
+      "senses": 472,
+      "missing_presentation": 2,
+      "presentation_synonym_senses": 264,
+      "presentation_collocation_senses": 11,
+      "combined_synonym_senses": 264,
+      "combined_collocation_senses": 13
+    },
+    {
+      "shard": "16",
+      "senses": 421,
+      "missing_presentation": 2,
+      "presentation_synonym_senses": 230,
+      "presentation_collocation_senses": 7,
+      "combined_synonym_senses": 230,
+      "combined_collocation_senses": 9
+    },
+    {
+      "shard": "17",
+      "senses": 413,
+      "missing_presentation": 4,
+      "presentation_synonym_senses": 237,
+      "presentation_collocation_senses": 6,
+      "combined_synonym_senses": 237,
+      "combined_collocation_senses": 9
+    },
+    {
+      "shard": "18",
+      "senses": 377,
+      "missing_presentation": 2,
+      "presentation_synonym_senses": 228,
+      "presentation_collocation_senses": 4,
+      "combined_synonym_senses": 229,
+      "combined_collocation_senses": 6
+    }
+  ],
+  "semantic_review_completed": false,
+  "production_published": false
+}
