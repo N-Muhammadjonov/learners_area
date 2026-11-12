@@ -5,6 +5,7 @@ on:
     branches:
       - feature/30day-learning-plan-20261112
       - feature/study-plan-7-or-30-role-fix
+      - fix/grammar-focus-plan-label-skill-dots
       - fix/plan-asgi-dashboard-leaderboard-top20
   workflow_dispatch:
 
@@ -46,6 +47,10 @@ jobs:
         run: |
           node --check frontend/vanilla/modules/study-plan/level-check.js
           node --check frontend/vanilla/modules/study-plan/sequence-view.js
+          node --check frontend/vanilla/modules/grammar/focus-book.js
+          node --check frontend/vanilla/modules/grammar/practice-route.js
+          node --check frontend/vanilla/modules/grammar/book.js
+          node --check frontend/vanilla/modules/grammar/book-skill.js
           node --check frontend/vanilla/modules/profile/level-select.js
           node --check frontend/vanilla/modules/grammar/book-runtime.js
           node --check frontend/vanilla/modules/grammar/book-skill.js
@@ -58,7 +63,7 @@ jobs:
           node --check frontend/vanilla/modules/campus/return-policy.js
       - name: Run plan and existing page regression tests
         working-directory: frontend/vanilla
-        run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/grammar-plan-proof.test.mjs tests/dashboard-v3.test.mjs tests/student-profile-consolidation.test.mjs tests/study-plan.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs tests/dock-navigation.test.mjs tests/study-navigation-v69.test.mjs tests/navigation-v3.test.mjs tests/riwi-chat-experience.test.mjs tests/riwi-composer-shortcuts.test.mjs tests/riwi-dictation.test.mjs tests/riwi-integration.test.mjs tests/grammar-v48.test.mjs tests/instant-navigation.test.mjs tests/leaderboard-podium.test.mjs
+        run: node --test tests/study-plan-sequence-ui.test.mjs tests/study-plan-level-check.test.mjs tests/grammar-plan-proof.test.mjs tests/dashboard-v3.test.mjs tests/student-profile-consolidation.test.mjs tests/study-plan.test.mjs tests/grammar-book.test.mjs tests/grammar-book-ui.test.mjs tests/assignments-dom-v59.test.mjs tests/dock-navigation.test.mjs tests/study-navigation-v69.test.mjs tests/navigation-v3.test.mjs tests/riwi-chat-experience.test.mjs tests/riwi-composer-shortcuts.test.mjs tests/riwi-dictation.test.mjs tests/riwi-integration.test.mjs tests/grammar-v48.test.mjs tests/instant-navigation.test.mjs tests/grammar-book-ui.test.mjs tests/grammar-focus-navigation.test.mjs tests/leaderboard-podium.test.mjs
 
   asset-build:
     name: Production asset packaging (dry run)
@@ -89,3 +94,28 @@ jobs:
         run: python scripts/build_native_assets.py
 
 # No deploy, PR, merge, production credentials, migrations or browser automation here.
+
+  catalogue-refresh:
+    name: Synchronize RIWI catalogue on QA branch
+    if: github.ref_name == 'fix/grammar-focus-plan-label-skill-dots'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Refresh source fingerprints only
+        run: node scripts/riwi-site-catalog.mjs
+      - name: Save generated source digest to QA branch
+        run: |
+          if ! git diff --quiet -- services/backend/app/data/riwi_site_catalog.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add services/backend/app/data/riwi_site_catalog.json
+            git commit -m "chore(riwi): update Grammar focus source catalogue"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
