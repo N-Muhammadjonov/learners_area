@@ -137,3 +137,35 @@ def test_phase09_exact_example_readback_receipt() -> None:
     assert report["signoff"]["all_4095_examples_linguistically_certified"] is False
     assert report["signoff"]["production_changed"] is False
     assert report["signoff"]["main_merged"] is False
+
+
+def test_phase09_semantic_delta_matches_verified_r2_source() -> None:
+    data = load("audit-20261112-phase09-semantic-delta.json")
+    assert data["phase"] == 9
+    assert data["source_release"] == RELEASE
+    edits = data["edits"]
+    assert edits == {
+        "lexemes": 12,
+        "senses": 18,
+        "cefr_updates": 4,
+        "english_definition_updates": 2,
+        "uzbek_translation_updates": 2,
+        "removed_incorrect_synonym_edges": 19,
+        "added_exact_synonym_edges": 1,
+        "added_exact_antonym_edges": 9,
+        "added_attested_collocations": 7,
+    }
+    source = data["integrity"]["original_r2_readback"]
+    assert source["source_shards"] == ["65", "66", "67", "68"]
+    assert source["lexemes"] == source["senses"] - 6 == 12
+    assert source["meaning_sha_verified"] == 18
+    assert source["cefr_original_matches"] == 4
+    assert source["definition_original_matches"] == 2
+    assert source["translation_original_matches"] == 2
+    assert source["canonical_synonym_exclusions_confirmed"] == 15
+    assert source["presentation_only_synonym_exclusions_confirmed"] == 4
+    assert source["missing_lexemes"] == 0
+    assert source["unexpected_mismatches"] == 0
+    assert data["integrity"]["examples_modified_in_this_pass"] is False
+    assert data["limits"]["production_published"] is False
+    assert data["limits"]["main_merged"] is False
