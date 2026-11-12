@@ -9,17 +9,17 @@
     "source_lexemes": 3279
   },
   "editorial": {
-    "exact_lexeme_deltas": 24,
-    "exact_sense_deltas": 38,
-    "source_verified_cefr_edits": 9,
+    "exact_lexeme_deltas": 27,
+    "exact_sense_deltas": 42,
+    "source_verified_cefr_edits": 13,
     "corrected_english_definitions": 2,
     "corrected_uzbek_definitions": 2,
-    "corrected_uzbek_translations": 2,
+    "corrected_uzbek_translations": 3,
     "excluded_misattributed_senses_from_future_candidate": 4,
     "removed_incorrect_synonym_targets": 19,
-    "added_exact_synonym_edges": 13,
+    "added_exact_synonym_edges": 15,
     "added_exact_antonym_edges": 10,
-    "added_attested_collocations": 25
+    "added_attested_collocations": 32
   },
   "latest_verified_changes": [
     {
@@ -123,6 +123,33 @@
       "cefr_replacement": "C1",
       "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
       "change": "noun money/gift used to influence a person dishonestly; accept/take a bribe collocations"
+    },
+    {
+      "lemma": "baguette",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "cefr_original": "C2",
+      "cefr_replacement": "B2",
+      "source": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette",
+      "scope": "long French stick loaf"
+    },
+    {
+      "lemma": "caregiver",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver",
+      "scope": "person responsible for a child or dependent adult; other caregiver senses unchanged"
+    },
+    {
+      "lemma": "annoyance",
+      "sense_ids": [
+        "7684f98e-2417-4cdf-9a07-368ae9952f22",
+        "a4e14c69-657b-4c47-a46d-a338b7ffac8b"
+      ],
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
+      "scope": "countable irritating person/thing and uncountable emotion; existing C1 feeling sense unchanged; corrected one Uzbek rendering"
     }
   ],
   "r2_readback": {
@@ -135,21 +162,30 @@
       "6a",
       "6b",
       "6c",
+      "6e",
       "6f",
+      "70",
       "71"
     ],
-    "lexemes": 24,
-    "senses": 38,
-    "meaning_sha_matched": 38,
-    "cefr_originals_matched": 9,
+    "lexemes": 27,
+    "senses": 42,
+    "meaning_sha_matched": 42,
+    "cefr_originals_matched": 13,
     "english_definitions_matched": 2,
     "uzbek_definitions_matched": 2,
-    "uzbek_translations_matched": 2,
+    "uzbek_translations_matched": 3,
     "excluded_glosses_matched": 4,
     "mismatches": 0,
     "missing_lexemes": 0,
     "method": "Independent, read-only R2 decompression and original SHA/value equality",
-    "retry_note": "A transient Cloudflare HTTP 500 on shard 66 was retried; the subsequent read-only verification completed with zero source failures."
+    "retry_note": "A transient Cloudflare HTTP 500 on shard 66 was retried; the subsequent read-only verification completed with zero source failures.",
+    "latest_exact_member_check": {
+      "senses": 4,
+      "meaning_sha_matched": 4,
+      "source_cefr_matched": 4,
+      "old_uz_translation_matched": 1,
+      "errors": 0
+    }
   },
   "graph_integrity": {
     "incoming_exact_synonym_edges_to_excluded_senses_in_phase09_shards": 8,
