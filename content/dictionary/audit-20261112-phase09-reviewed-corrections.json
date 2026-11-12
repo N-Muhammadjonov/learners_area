@@ -159,6 +159,15 @@
       "proposed": "A1",
       "source": "https://dictionary.cambridge.org/dictionary/english/cake",
       "scope": "noun: sweet baked food, not a block or piece of another material"
+    },
+    {
+      "lexeme_id": "657d401a-d708-574d-96e0-4130d13b53ca",
+      "sense_id": "725120af-7844-44a6-a94b-99cad490b356",
+      "lemma": "hysterical",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/hysterical",
+      "scope": "general adjective: unable to control feelings or behavior because of strong emotion; distinct from historical psychiatric sense"
     }
   ],
   "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
