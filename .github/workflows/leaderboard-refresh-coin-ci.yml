@@ -1,0 +1,37 @@
+name: Leaderboard hard-refresh and media coin regression
+on:
+  push:
+    branches: ['fix/leaderboard-refresh-media-coin-20261112']
+  pull_request:
+    paths:
+      - 'frontend/vanilla/routes.json'
+      - 'frontend/vanilla/js/routes.js'
+      - 'frontend/vanilla/modules/study-plan/**'
+      - 'frontend/vanilla/modules/video/studio.js'
+      - 'services/backend/app/coin_rewards.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --test frontend/vanilla/tests/route-refresh-regression.test.mjs frontend/vanilla/tests/leaderboard-podium.test.mjs frontend/vanilla/tests/video-workspace.test.mjs
+      - run: node scripts/bundle_browser.mjs
+      - run: node --check frontend/vanilla/modules/video/studio.js
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - run: python -m compileall -q services/backend/app
+      - working-directory: services/backend
+        run: python -m pytest -q tests/test_coin_policy.py

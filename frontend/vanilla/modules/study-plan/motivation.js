@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {api} from '../../js/api-client.js';
 import {showCoinFeature} from './coin-market.js';
 import {privateScope} from '../../js/private-scope.js';
 import {asyncRegion, button, card, detail, formatDay, heading, labelSkill, loadStyles, request, text, workspace} from './view.js';
@@ -34,6 +35,39 @@ function coinPolicyPanel(ctx, policy) {
 function leaderboard(ctx, content) {
   let period = 'week', scope = 'all', page = 1, panel = 'ranking', sequence = 0, latest = null;
   const cacheTtlMs = 30000;
+  // Ranking periods and personal spendable coins are separate quantities.
+  // Owner accounts are not ranked as students, but their verified coins remain
+  // in the same ledger and must be visible to the account owner.
+  const ownBalance = h('div', {class: 'coin-personal-balance', 'data-coin-personal-balance': '',
+    role: 'status', 'aria-live': 'polite'});
+  let walletSequence = 0;
+  async function refreshWallet() {
+    const ticket = ++walletSequence;
+    try {
+      const state = await api.request('/api/coins/wallet', {signal: ctx.signal, cache: 'no-store'});
+      if (ctx.signal.aborted || walletSequence !== ticket) return;
+      const balance = Math.max(0, Number(state.balance) || 0);
+      const lifetime = Math.max(0, Number(state.earned) || 0);
+      ownBalance.replaceChildren(
+        h('strong', {}, '🪙 ' + balance + ' ' + text(ctx, 'tanga', 'coins')),
+        detail(text(ctx, 'Jami yig‘ilgan: ', 'Lifetime earned: ') + lifetime),
+        ctx.session?.user?.role === 'owner' ? detail(text(ctx,
+          'Owner hisobining tangalari talabalarning Top 20 reytingiga qo‘shilmaydi.',
+          'Owner coins are not included in the student Top 20 ranking.')) : null);
+    } catch {
+      if (!ctx.signal.aborted && walletSequence === ticket)
+        ownBalance.replaceChildren(detail(text(ctx,
+          'Tanga balansini yuklash amalga oshmadi.',
+          'Unable to load your coin balance.')));
+    }
+  }
+  ctx.onResume?.(() => void refreshWallet());
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && content.isConnected) void refreshWallet();
+  }, {signal: ctx.signal});
+  window.addEventListener('focus', () => {
+    if (content.isConnected) void refreshWallet();
+  }, {signal: ctx.signal});
   const queryKey = () => 'view:leaderboard:' + [period, scope, page].join(':');
   async function retrieve() {
     const key = queryKey();
@@ -153,6 +187,7 @@ function leaderboard(ctx, content) {
       h('p', {class: 'coin-ranking-top-count', 'data-leaderboard-visible-count': rows.length},
         text(ctx, 'Top 20 · ', 'Top 20 · ') + rows.length +
         text(ctx, ' ta faol o‘quvchi', ' active learners')),
+      ownBalance,
       featureTabs,
       isRanking ? tabs : null,
       isRanking ? (panel === 'help' ? coinPolicyPanel(ctx, data.policy) : rankingPanel) : featureHost));
@@ -162,6 +197,7 @@ function leaderboard(ctx, content) {
     }
   }
   void load();
+  void refreshWallet();
 }
 
 function rewards(ctx, content) {

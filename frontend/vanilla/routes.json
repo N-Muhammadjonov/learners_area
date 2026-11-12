@@ -1,6 +1,9 @@
 {
   "version": 1,
   "routes": [
+    "/app/grammar/practice",
+    "/app/plan/level-check",
+    "/app/leaderboard",
     "/app/dashboard",
     "/app/study-plan",
     "/app/management/guardians",

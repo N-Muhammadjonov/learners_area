@@ -29,7 +29,7 @@ beforeEach(()=>{
     {url:'https://fixture.invalid/app/leaderboard',pretendToBeVisual:true});
   globalThis.window=dom.window;globalThis.document=dom.window.document;
   globalThis.Node=dom.window.Node;globalThis.HTMLElement=dom.window.HTMLElement;
-  root=document.getElementById('root');controller=new AbortController();
+  root=document.getElementById('root');controller=new dom.window.AbortController();
   originalRequest=api.request;privateScope.clear();
 });
 afterEach(()=>{
@@ -43,7 +43,7 @@ test('Top 20 shows distinct rank 2, 1, 3 podium and remaining table rows',async(
     requests.push(path);return response(standings(20));
   };
   mount(context());await flush();
-  assert.equal(requests.length,1);
+  assert.equal(requests.filter(path => path.includes('/leaderboard?')).length,1);
   const first=root.querySelector('[data-coin-podium] [data-place="1"]');
   assert.equal(first.querySelector('[data-coin-crown]').textContent,'👑');
   assert.equal(first.firstElementChild?.className,'coin-crown');
@@ -83,4 +83,34 @@ test('no eligible users stays a real empty state, without fabricated podium winn
   mount(context());await flush();
   assert.equal(root.querySelector('[data-coin-podium]'),null);
   assert.match(root.textContent,/Bu davrda ishtirokchilar yo‘q/);
+});
+
+test('owner verified coin appears in personal wallet but not in student podium', async () => {
+  const entries = standings(3);
+  const requests = [];
+  api.request = async path => {
+    requests.push(path);
+    if (path === '/api/coins/wallet') return {balance: 1, earned: 1, spent: 0};
+    return response(entries);
+  };
+  mount(context());
+  await flush();
+  const own = root.querySelector('[data-coin-personal-balance]');
+  assert(own);
+  assert.match(own.textContent, /1 tanga/);
+  assert.match(own.textContent, /Owner hisobining tangalari/);
+  assert.equal(root.querySelectorAll('[data-coin-podium] article').length, 3);
+  assert.equal(requests.filter(path => path === '/api/coins/wallet').length, 1);
+});
+
+test('personal wallet does not mistake ranking-period coins for spendable balance', async () => {
+  const entries = standings(2);
+  api.request = async path => path === '/api/coins/wallet'
+    ? {earned: 12, spent: 10, balance: 2}
+    : response(entries);
+  mount(context());
+  await flush();
+  const own = root.querySelector('[data-coin-personal-balance]');
+  assert.match(own.textContent, /2 tanga/);
+  assert.match(own.textContent, /Jami yig‘ilgan: 12/);
 });
