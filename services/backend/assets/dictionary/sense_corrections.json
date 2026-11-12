@@ -283,6 +283,92 @@
           "source": "https://dictionary.cambridge.org/dictionary/english/hysterical"
         }
       }
+    },
+    "6620405e-571d-5504-a46e-975d52fcfc29": {
+      "0a5c728a-9078-4805-bba3-8cf148e0638e": {
+        "meaning_sha": "530f74a08855b3b27b8ac06fd4840635df5a302e8f44c68777114c2f5f4871e3",
+        "exclude_misattributed_sense": {
+          "original_definition_en": "gain in value",
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
+          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+        }
+      },
+      "e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b": {
+        "meaning_sha": "bcf7dc3afe63d7c14dfd23b528ca5c067f1235ea76163353f500f6b363b59439",
+        "exclude_misattributed_sense": {
+          "original_definition_en": "increase the value of",
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
+          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+        }
+      },
+      "7bb141c5-1c75-48d1-a396-d405b909c878": {
+        "meaning_sha": "e99cb73f307c16ead687ba71ad40150812378b53616ec83fd890be4037780382",
+        "add_synonyms": [
+          {
+            "text": "notify",
+            "lexemeId": "49f5a11f-4d39-5572-a8f6-a8988cbc31d3",
+            "senseId": "1de9e461-9626-4b37-87ca-2948ad1dc68d",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+          },
+          {
+            "text": "inform",
+            "lexemeId": "eb70195c-481e-5907-8922-444fb33ebb0c",
+            "senseId": "7c667f36-933e-4c18-9313-8ff9f297d56c",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "apprise someone of something",
+            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+          }
+        ]
+      }
+    },
+    "71369b20-c561-573d-95aa-3cf2652e4c52": {
+      "6c961d4e-9329-5b02-86bf-82c8fed73443": {
+        "meaning_sha": "185bfb92497b8879b6e2b69dbf0d2272c57da5c272ef3b36f48eabff60b1cf2b",
+        "exclude_misattributed_sense": {
+          "original_definition_en": "gain in value",
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
+          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+        }
+      },
+      "d2f0df39-8f12-5d2c-9876-aa1792253d0c": {
+        "meaning_sha": "a5943de7dc2c77fdb7efe786cf1fa336343c7db4b978891c0d290b4bbc3403b8",
+        "exclude_misattributed_sense": {
+          "original_definition_en": "increase the value of",
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
+          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+        }
+      },
+      "9a3096d8-a0ce-5d82-ac24-f708419de9d8": {
+        "meaning_sha": "76481d732a5e4fe5036ef29f11646b89ed9297a25c55b703c3b81fe955ec7941",
+        "add_synonyms": [
+          {
+            "text": "notify",
+            "lexemeId": "49f5a11f-4d39-5572-a8f6-a8988cbc31d3",
+            "senseId": "1de9e461-9626-4b37-87ca-2948ad1dc68d",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+          },
+          {
+            "text": "inform",
+            "lexemeId": "eb70195c-481e-5907-8922-444fb33ebb0c",
+            "senseId": "7c667f36-933e-4c18-9313-8ff9f297d56c",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "apprize someone of something",
+            "source": "https://www.collinsdictionary.com/dictionary/english/apprise"
+          }
+        ]
+      }
     }
   }
 }
