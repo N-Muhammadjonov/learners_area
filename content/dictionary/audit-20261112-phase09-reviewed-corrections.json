@@ -177,6 +177,15 @@
       "proposed": "C1",
       "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
       "scope": "give an exhibition of something to an audience; Cambridge SHOW HOW sense C1; distinct from PROTEST B2 and SHOW/PROVE B2"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "lemma": "beep",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
+      "scope": "vehicle horn sound (Oxford sense 2 Transport c1); pager-call Oxford sense 3 c2 stays C2"
     }
   ],
   "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
