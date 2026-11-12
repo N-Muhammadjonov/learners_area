@@ -78,7 +78,7 @@ def present(entry):
         def links(relations):
             return [dict(text=r['display_lemma'], lexemeId=r['target_lexeme_id'], **({'senseId': r['target_sense_id']} if r.get('target_sense_id') else {})) for r in relations]
         synonyms = {}
-        for item in [*(row['synonyms'] if row else links(legacy)), *links(scoped)]:
+        for item in [*links(legacy), *(row.get('synonyms', []) if row else []), *links(scoped)]:
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
         collocations = row['collocations'] if row else [{'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)]
         examples = [ex for ex in sense['examples'] if example_uses_entry(entry, ex['text_en'])]
