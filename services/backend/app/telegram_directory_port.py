@@ -94,7 +94,8 @@ async def search_directory(req:Request):
                   AND NOT EXISTS (SELECT 1 FROM users u WHERE u.telegram_id=telegram_contacts.telegram_user_id)
                   AND NOT EXISTS (SELECT 1 FROM guardian_profiles gp
                       WHERE gp.telegram_user_id=telegram_contacts.telegram_user_id)
-                  ORDER BY lower(coalesce(username,first_name,'')),id LIMIT {limit}''',*params)
+                  ORDER BY (username IS NULL OR username=''),
+                     lower(username) NULLS LAST,lower(coalesce(first_name,'')),id LIMIT {limit}''',*params)
             contacts_count=await conn.fetchval(f'''SELECT count(*)::int FROM telegram_contacts
                 WHERE linked_user_id IS NULL {extras}
                   AND NOT EXISTS (SELECT 1 FROM users u WHERE u.telegram_id=telegram_contacts.telegram_user_id)
