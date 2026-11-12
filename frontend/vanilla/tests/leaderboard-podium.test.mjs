@@ -29,7 +29,7 @@ beforeEach(()=>{
     {url:'https://fixture.invalid/app/leaderboard',pretendToBeVisual:true});
   globalThis.window=dom.window;globalThis.document=dom.window.document;
   globalThis.Node=dom.window.Node;globalThis.HTMLElement=dom.window.HTMLElement;
-  root=document.getElementById('root');controller=new AbortController();
+  root=document.getElementById('root');controller=new dom.window.AbortController();
   originalRequest=api.request;privateScope.clear();
 });
 afterEach(()=>{
