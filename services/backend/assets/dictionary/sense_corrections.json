@@ -61,6 +61,178 @@
           }
         ]
       }
+    },
+    "670b7b89-7e98-59f2-a02f-890028ec5165": {
+      "aad9fee0-fbbc-5565-92ef-858166eb4920": {
+        "meaning_sha": "a255e654f2214077518764e1fd4af8ab29b0a4a4414ed8e678e7c1b1e17fdc2a",
+        "replace_definition_en": {
+          "original": "the cardinal number that is the sum of one and one and one",
+          "text": "a musical composition for three voices, or a vocal trio",
+          "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+        },
+        "replace_translation_uz": {
+          "original": "uch",
+          "text": "tersetto; uch ovoz uchun yozilgan musiqiy asar",
+          "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+        },
+        "remove_synonym_lexeme_ids": [
+          "223b5835-11a4-5a35-8e92-3f950e96c63e",
+          "d7163138-e950-574a-8f76-0028a0c5291e",
+          "c343f3d2-5553-5418-8d63-2678f40831a5",
+          "1d8a9be2-98c9-5302-bd29-792ee89000cf",
+          "2e3de848-d6cd-54b1-b5a6-2a986aeba2a5",
+          "40a0b5e0-a314-5c40-ba3e-a6d8cbbea967",
+          "d65f6189-90dc-557f-9cda-2c463820438e",
+          "f3352db0-68ff-5d69-bd5e-ef996c556161",
+          "d374d8e6-5b36-5e16-a779-f36efd1b68ec",
+          "2eff4bba-1bb6-5dfa-9079-1a3ca8d3a601",
+          "6ff8a2f4-1d59-5c4b-98ec-185145471fab",
+          "8a3c368e-24fa-5543-a200-c73b2544a00c"
+        ],
+        "add_synonyms": [
+          {
+            "text": "trio",
+            "lexemeId": "2eff4bba-1bb6-5dfa-9079-1a3ca8d3a601",
+            "senseId": "24087232-6200-4e00-98d9-3212c842bf3b",
+            "source": "https://www.collinsdictionary.com/dictionary/english/terzetto"
+          }
+        ]
+      }
+    },
+    "660bb696-af24-52eb-bb78-ed1c4a74a1e3": {
+      "9dc9e4dd-a4dc-5068-8541-654b596fc748": {
+        "meaning_sha": "9084f98d33de2b98b46c6cfb392b1ea39647aebb074567ad7c59a653b1d1e3a7",
+        "replace_definition_en": {
+          "original": "activity that transgresses moral or civil law",
+          "text": "the physical element of a criminal offence, consisting of an unlawful act or omission",
+          "source": "https://dictionary.cambridge.org/dictionary/english/actus-reus"
+        },
+        "replace_translation_uz": {
+          "original": "huquqbuzarlik harakati",
+          "text": "jinoyatning obyektiv (tashqi) elementi; jinoyatni tashkil etuvchi harakat yoki harakatsizlik",
+          "source": "https://dictionary.cambridge.org/dictionary/english/actus-reus"
+        },
+        "remove_synonym_lexeme_ids": [
+          "399fadbd-d220-5439-a826-adef9eca72f6",
+          "caad3344-8040-5c71-872c-8a736ad3bf7b",
+          "b98e3983-1e5d-5dfc-9754-fb58629c35ae"
+        ]
+      }
+    },
+    "65a09564-3f7a-57c4-87c3-b49a18a891c5": {
+      "e5759095-9273-503f-a480-76eef49235a3": {
+        "meaning_sha": "c6e3520e5772e6f9a72255b0daa5d4caf3691626cb6471e768f530b47fa88785",
+        "add_antonyms": [
+          {
+            "text": "praise",
+            "lexemeId": "3d45bcd6-2393-54e1-a10f-8e7713318d0c",
+            "senseId": "4045aec2-5b1d-438d-a03c-f86296e73b72",
+            "source": "https://dictionary.cambridge.org/us/thesaurus/decry"
+          }
+        ]
+      }
+    },
+    "6804b2d6-f7d3-5020-90f7-6af22a359aee": {
+      "81cf4d55-6a61-4642-87af-cbe9b4c7f5a3": {
+        "meaning_sha": "a82c4f80cfc19f43545732f37708f0c92f7334f41699a16bc7ab320b3f1b8ab4",
+        "add_antonyms": [
+          {
+            "text": "bilateral",
+            "lexemeId": "32d32054-ab9e-5970-8622-f66b79e43492",
+            "senseId": "f499a935-d14b-42ae-ac1a-958811c9c774",
+            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "unilateral decision",
+            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+          },
+          {
+            "text": "unilateral action",
+            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+          }
+        ]
+      },
+      "7d617ec3-bd87-4e10-a57d-45321521e65a": {
+        "meaning_sha": "f4381a8112d5d74c95b5edee9afac02c8904e2d9d24ec14a065e759d962a8e56",
+        "add_antonyms": [
+          {
+            "text": "bilateral",
+            "lexemeId": "32d32054-ab9e-5970-8622-f66b79e43492",
+            "senseId": "31493138-a28d-4ae5-99d5-05dbed79ecf4",
+            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+          }
+        ]
+      }
+    },
+    "68081d76-e460-519a-9ded-28b8bbb621a5": {
+      "17b8964d-d13f-5fed-828f-b4858b0eac26": {
+        "meaning_sha": "fb259db22eacd2fd5851900f7db33ff313db4847c6fe0cdd19a5930ae5450ccf",
+        "add_antonyms": [
+          {
+            "text": "inflate",
+            "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
+            "senseId": "d0068dd8-15b1-4f59-ab68-b1ebc2427ea5",
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+          }
+        ]
+      },
+      "54ed6100-67bf-4b1c-8fd8-2ea7a7aea8de": {
+        "meaning_sha": "fcc98da986dacfaec338da9a88be801a8034ad9bf0f6f2abe362e56289a76503",
+        "add_antonyms": [
+          {
+            "text": "inflate",
+            "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
+            "senseId": "433a08d2-fbf7-4e12-b223-dad63d3aa205",
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+          }
+        ]
+      },
+      "71b31415-0ad2-4d8e-98b0-59760874c45d": {
+        "meaning_sha": "4b8492737a46a79324b12cb0047bb89b38fbe8438676fe1735e209a63bea3214",
+        "add_antonyms": [
+          {
+            "text": "inflate",
+            "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
+            "senseId": "39593359-0e47-4a6e-a8f6-117cd6eb284a",
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+          }
+        ]
+      },
+      "c8d85a0a-0ef8-4704-8743-207b3fabf642": {
+        "meaning_sha": "317b5d49d73cfc38a33c69e300c94ec9b62521fcc92770ed4e65ac4862337e9b",
+        "add_antonyms": [
+          {
+            "text": "inflate",
+            "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
+            "senseId": "433a08d2-fbf7-4e12-b223-dad63d3aa205",
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+          }
+        ]
+      },
+      "d8dba130-d8c4-42b7-abec-798769b9b578": {
+        "meaning_sha": "b8bd96c4d49fffa6f4996ba4928a8c748d5515e1882ea406760103e56940ca58",
+        "add_antonyms": [
+          {
+            "text": "inflate",
+            "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
+            "senseId": "866778f9-d9a6-45ee-b2d0-923a3aacf103",
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+          }
+        ]
+      },
+      "ef931b65-4577-420a-9770-e68ef9d6c697": {
+        "meaning_sha": "2ff03ad48470441a986e8d0f5a8099420697c1eb3212c4fc008a0e841a113613",
+        "add_antonyms": [
+          {
+            "text": "inflate",
+            "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
+            "senseId": "07e8a1c6-c0dc-4022-ad90-01ce7981115f",
+            "source": "https://dictionary.cambridge.org/dictionary/english/deflate"
+          }
+        ]
+      }
     }
   }
 }
