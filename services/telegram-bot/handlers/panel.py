@@ -382,20 +382,38 @@ async def confirm_delete(message: Message, state: FSMContext, bot_access: dict |
     await message.answer(t(lang, "anonymized") if status == 200 else t(lang, "error"))
 
 
-@panel_router.callback_query(F.data.startswith("dm:"))
+@panel_router.callback_query(F.data.startswith("dm:") | F.data.startswith("dmt:"))
 async def begin_dm(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, bot_access: dict | None = None, contact: dict | None = None):
     lang = _lang(callback, db_user, contact)
     if not allows(bot_access, "DIRECT_MESSAGE"):
         await callback.answer(t(lang, "no_permission"), show_alert=True)
         return
-    user_id = callback.data.split(":", 1)[1]
-    status, data = await api_client.user_detail(str(callback.from_user.id), user_id)
-    name = ((data or {}).get("user") or {}).get("name") or user_id
+    is_contact = callback.data.startswith("dmt:")
+    target_id = callback.data.split(":", 1)[1]
+    if is_contact:
+        if not target_id.isdigit() or len(target_id) > 20:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        try:
+            contact_data = await api_client.get_user(target_id)
+        except Exception:
+            contact_data = None
+        target = (contact_data or {}).get("contact") or {}
+        if not target:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        name = " ".join(filter(None, [target.get("firstName"), target.get("lastName")])).strip() or target.get("username") or target_id
+    else:
+        status, data = await api_client.user_detail(str(callback.from_user.id), target_id)
+        if status != 200:
+            await callback.answer(t(lang, "error"), show_alert=True)
+            return
+        name = ((data or {}).get("user") or {}).get("name") or target_id
     await state.set_state(PanelFlow.dm_compose)
-    await state.update_data(user_id=user_id, target_name=name)
+    await state.update_data(user_id=None if is_contact else target_id,
+                            contact_id=target_id if is_contact else None, target_name=name)
     await callback.message.edit_text(t(lang, "compose_for", name=esc(name)), reply_markup=_back(lang))
     await callback.answer()
-    del status
 
 
 @panel_router.message(PanelFlow.dm_compose)
@@ -403,12 +421,13 @@ async def preview_dm(message: Message, state: FSMContext, db_user: dict | None =
     lang = _lang(message, db_user, contact)
     data = await state.get_data()
     denied = denial_key(bot_access, backend_error, "DIRECT_MESSAGE")
-    if denied or not data.get("user_id"):
+    if denied or not (data.get("user_id") or data.get("contact_id")):
         await state.clear()
         await message.answer(t(lang, denied or "error"))
         return
     status, draft = await api_client.save_draft(str(message.from_user.id), "dm", {
         "userId": data.get("user_id"),
+        "contactTelegramId": data.get("contact_id"),
         "text": message.text or "",
         "targetName": data.get("target_name"),
     })
@@ -442,6 +461,12 @@ async def send_dm(callback: CallbackQuery, db_user: dict | None = None, bot_acce
         await callback.answer(t(lang, "stale_confirm"), show_alert=True)
         return
     data = claimed.get("payload") or {}
+    if data.get("contactTelegramId"):
+        status, result = await api_client.send_contact_message(
+            str(callback.from_user.id), data["contactTelegramId"], data.get("text") or "")
+        await callback.message.edit_text(t(lang, "sent") if status == 200 and result.get("ok") else t(lang, "error"))
+        await callback.answer()
+        return
     status, result = await api_client.user_action(
         data.get("userId"),
         "message",
