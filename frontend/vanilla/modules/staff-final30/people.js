@@ -16,7 +16,7 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
    catch(e){if(signal.aborted)throw e;S.busy=null;S.error=`${t.failed} ${errorText(e,dict)}`;view.rerender();throw e;}
   }
   const roleControl=p=>{
-   const locked=p.id===data.actorId||p.role==='owner'||!data.grantableRoles.length;
+   const locked=p.id===data.actorId||['owner','guardian'].includes(p.role)||!data.grantableRoles.length;
    if(locked)return el('span',{class:'text-xs text-ink-500'},label(ROLE_LABELS,p.role));
    const roles=[...new Set([p.role,...data.grantableRoles])];
    return confirmSelect({signal,value:p.role,disabled:S.busy===p.id,ariaLabel:`${t.role} for ${p.name}`,options:roles.map(r=>({value:r,label:label(ROLE_LABELS,r)})),title:t.confirmRoleTitle,description:t.confirmRoleBody,confirmLabel:dict.common.confirm,cancelLabel:dict.common.cancel,pendingLabel:dict.loadingPage.label,failureMessage:t.failed,onConfirm:v=>run('role',p,v)}).node;
