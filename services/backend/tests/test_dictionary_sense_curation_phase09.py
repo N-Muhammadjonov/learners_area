@@ -74,6 +74,7 @@ def test_replacement_of_mistranslated_specialist_terms_is_exact_and_immutable() 
         "a musical composition for three voices, or a vocal trio"
     )
     assert updated["senses"][0]["translations"][0]["text"].startswith("tersetto")
+    assert "Uch ovoz" in updated["senses"][0]["definition_uz"]
     assert updated["senses"][0].get("cefr") is None
     assert [(r["display_lemma"], r["target_sense_id"]) for r in updated["relations"]] == [
         ("trio", "24087232-6200-4e00-98d9-3212c842bf3b")
@@ -97,6 +98,7 @@ def test_replacement_of_mistranslated_specialist_terms_is_exact_and_immutable() 
     updated_actus = curate_candidate_entry(actus)
     assert "physical element of a criminal offence" in updated_actus["senses"][0]["definition_en"]
     assert "harakatsizlik" in updated_actus["senses"][0]["translations"][0]["text"]
+    assert "Jinoyat tarkibining" in updated_actus["senses"][0]["definition_uz"]
     assert updated_actus["senses"][0]["cefr"] == "C2"
     assert actus["senses"][0]["definition_en"] != updated_actus["senses"][0]["definition_en"]
 
