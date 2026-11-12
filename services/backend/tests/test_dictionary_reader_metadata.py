@@ -118,3 +118,35 @@ def test_collocation_homographs_keep_every_exact_target_sense(monkeypatch):
     monkeypatch.setattr(presentation,'shard',lambda _:{HAPPY:stored})
     p=presentation.present(e)
     assert {c.get('senseId') for c in p['collocations'] if c['text']=='same phrase'}=={'0','1'}
+
+
+def test_single_sense_unscoped_synonyms_survive_empty_presentation_override(monkeypatch):
+    """Existing canonical synonym edges must survive a curated empty list."""
+    e = fixture()
+    e['senses'] = [e['senses'][0]]
+    e['relations'] = [
+        {'relation_type': 'synonym', 'display_lemma': 'prepared',
+         'target_lexeme_id': 'target-id', 'target_sense_id': 'target-sense'}
+    ]
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    row = {'meaningSha': presentation.meaning_hash(e, e['senses'][0]),
+           'synonyms': [], 'collocations': [], 'addedExamples': []}
+    monkeypatch.setattr(presentation, 'shard', lambda _: {HAPPY: {'senses': {'service': row}}})
+    view = presentation.present(e)
+    assert view['senses']['service']['synonyms'] == [
+        {'text': 'prepared', 'lexemeId': 'target-id', 'senseId': 'target-sense'}
+    ]
+
+
+def test_multiple_sense_unscoped_synonyms_are_not_assigned_indiscriminately(monkeypatch):
+    """Do not attach a generic relation to unrelated meanings."""
+    e = fixture()
+    e['relations'] = [
+        {'relation_type': 'synonym', 'display_lemma': 'prepared',
+         'target_lexeme_id': 'target-id', 'target_sense_id': 'target-sense'}
+    ]
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    monkeypatch.setattr(presentation, 'shard', lambda _: {})
+    view = presentation.present(e)
+    assert view['senses']['service']['synonyms'] == []
+    assert view['senses']['joy']['synonyms'] == []
