@@ -1,6 +1,7 @@
 import {enableDiagnostics} from '../../js/diagnostics.js';
 import {api} from '../../js/api-client.js';
 import {publishSessionEvent} from '../../js/session-events.js';
+import {consumeLandingPlanIntent} from '../../js/plan-entry-intent.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {passwordForm} from './password-form.js';
 import {el,listen} from '../../js/dom.js';
@@ -37,7 +38,8 @@ export async function mount(context){
     if(signal.aborted)return;
     publishSessionEvent('refresh');
     context.invalidateSession?.();
-    const destination=result.accountStatus==='active'?(result.onboarded?'/app':'/onboarding'):'/pending';
+    const destination=result.accountStatus==='active'?
+      (result.onboarded?(consumeLandingPlanIntent()??'/app'):'/onboarding'):'/pending';
     await navigate(destination,{replace:true});
    }catch(error){
     if(signal.aborted)return;
