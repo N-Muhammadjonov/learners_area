@@ -49,7 +49,7 @@ function leaderboard(ctx, content) {
       const balance = Math.max(0, Number(state.balance) || 0);
       const lifetime = Math.max(0, Number(state.earned) || 0);
       ownBalance.replaceChildren(
-        h('strong', {}, '🪙 ' + balance + ' ' + text(ctx, 'tanga', 'coins')),
+        h('strong', {}, '🟡 ' + balance + ' ' + text(ctx, 'tanga', 'coins')),
         detail(text(ctx, 'Jami yig‘ilgan: ', 'Lifetime earned: ') + lifetime));
     } catch {
       if (!ctx.signal.aborted && walletSequence === ticket)
@@ -136,7 +136,7 @@ function leaderboard(ctx, content) {
         h('div', {class: 'coin-podium-stats'},
           h('strong', {}, String(item.stars ?? item.points ?? 0), ' ⭐'),
           h('span', {}, practiceLabel(item.practiceMs)),
-          h('span', {}, String(item.coins ?? 0), ' 🪙')),
+          h('span', {}, String(item.coins ?? 0), ' 🟡')),
         h('div', {class: 'coin-plinth', 'aria-hidden': 'true'}, String(item.rank))))) : null;
     const table = rest.length ? h('div', {class: 'coin-board-scroll'},
       h('table', {class: 'coin-board'},
@@ -150,7 +150,7 @@ function leaderboard(ctx, content) {
             item.mine ? h('span', {class: 'coin-mine'}, text(ctx, ' (siz)', ' (you)')) : null,
             item.premium ? h('span', {class: 'coin-premium'}, 'PREMIUM') : null),
           h('td', {}, String(item.stars ?? item.points ?? 0), ' ⭐'),
-          h('td', {}, String(item.coins ?? 0), ' 🪙'),
+          h('td', {}, String(item.coins ?? 0), ' 🟡'),
           h('td', {}, practiceLabel(item.practiceMs))))))) : null;
     const rankingPanel = h('div', {class: 'coin-ranking-content', role: 'tabpanel'},
       scopeControl ? h('div', {class: 'coin-ranking-filters'}, scopeControl) : null,
