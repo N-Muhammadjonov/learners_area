@@ -5,6 +5,9 @@ No client-supplied balance, activity count, streak or reward amount is accepted.
 """
 from __future__ import annotations
 
+import base64
+import binascii
+import json
 import logging
 import os
 import re
@@ -26,17 +29,19 @@ REFERRAL_CODE = re.compile(r"^[A-Za-z0-9_-]{24}$")
 TG_ID = re.compile(r"^[0-9]{4,20}$")
 GIFT_KEY = re.compile(r"^[a-z0-9][a-z0-9-]{2,63}$")
 CATEGORIES = {"badge", "frame", "theme", "study_tool"}
+PARTICIPANT_ROLES = ("student", "teacher", "admin", "owner")
+MAX_ARTWORK_BYTES = 160000
 
 
 def error(code: str, status: int = 400):
     return core.j({"error": code}, status, PRIVATE)
 
 
-async def student(req: Request):
+async def participant(req: Request):
     user = await core.current_user(req, active=True)
     if not user:
         return None, error("unauthenticated", 401)
-    if user["role"] != "student":
+    if user["role"] not in PARTICIPANT_ROLES:
         return None, error("forbidden", 403)
     return user, None
 
@@ -62,6 +67,7 @@ def gift_view(row: dict) -> dict:
         "coins": row["cost_coins"],
         "stock": row["stock_remaining"],
         "active": row["is_active"],
+        "imageData": row["image_data"],
     }
 
 
@@ -89,10 +95,10 @@ async def claim_daily(con, user_id) -> dict:
     async with con.transaction():
         # Serialize daily and purchase operations for a single learner.
         row = await con.fetchrow(
-            "SELECT id FROM users WHERE id=$1 AND role='student' AND account_status='active' FOR UPDATE",
-            user_id)
+            "SELECT id FROM users WHERE id=$1 AND role=ANY($2::text[]) AND account_status='active' FOR UPDATE",
+            user_id, list(PARTICIPANT_ROLES))
         if not row:
-            raise ValueError("inactive_student")
+            raise ValueError("inactive_participant")
         state = await daily_status(con, user_id)
         if state["claimed"]:
             return {**state, "awarded": 0}
@@ -137,7 +143,7 @@ async def finalize_referral(con, new_student: dict) -> bool:
             new_student["id"])
         if (not inviter or not invitee or inviter["id"] == invitee["id"]
                 or inviter["telegram_id"] == telegram_id
-                or inviter["role"] != "student" or inviter["account_status"] != "active"
+                or inviter["role"] not in PARTICIPANT_ROLES or inviter["account_status"] != "active"
                 or invitee["role"] != "student" or invitee["account_status"] != "active"
                 or invitee["telegram_id"] != telegram_id
                 or invitee["created_at"] < row["invited_at"]):
@@ -157,7 +163,7 @@ async def finalize_referral(con, new_student: dict) -> bool:
 
 @router.get("/api/coins/daily")
 async def daily_read(req: Request):
-    user, failure = await student(req)
+    user, failure = await participant(req)
     if failure is not None:
         return failure
     db = await core.pool()
@@ -167,7 +173,7 @@ async def daily_read(req: Request):
 
 @router.post("/api/coins/daily/claim")
 async def daily_claim(req: Request):
-    user, failure = await student(req)
+    user, failure = await participant(req)
     if failure is not None:
         return failure
     db = await core.pool()
@@ -214,7 +220,7 @@ async def referral_data(user_id) -> dict:
 
 @router.post("/api/coins/referral-link")
 async def referral_link(req: Request):
-    user, failure = await student(req)
+    user, failure = await participant(req)
     if failure is not None:
         return failure
     try:
@@ -237,8 +243,8 @@ async def bot_referral_link(req: Request):
     db = await core.pool()
     async with db.acquire() as con:
         user = await con.fetchrow(
-            "SELECT id FROM users WHERE telegram_id=$1 AND role='student' "
-            "AND account_status='active'", telegram_id)
+            "SELECT id FROM users WHERE telegram_id=$1 AND role=ANY($2::text[]) "
+            "AND account_status='active'", telegram_id, list(PARTICIPANT_ROLES))
     if not user:
         return error("forbidden", 403)
     try:
@@ -269,7 +275,7 @@ async def record_referral(req: Request):
                 inviter = await con.fetchrow(
                     """SELECT u.id,u.telegram_id FROM coin_referral_codes c
                        JOIN users u ON u.id=c.user_id
-                       WHERE c.code=$1 AND u.role='student' AND u.account_status='active'""",
+                       WHERE c.code=$1 AND u.role IN ('student','teacher','admin','owner') AND u.account_status='active'""",
                     code)
                 if not inviter:
                     return error("invalid_code", 404)
@@ -299,7 +305,7 @@ async def record_referral(req: Request):
 
 @router.get("/api/coins/gifts")
 async def gifts(req: Request):
-    user, failure = await student(req)
+    user, failure = await participant(req)
     if failure is not None:
         return failure
     db = await core.pool()
@@ -311,7 +317,7 @@ async def gifts(req: Request):
 
 @router.get("/api/coins/purchases")
 async def purchases(req: Request):
-    user, failure = await student(req)
+    user, failure = await participant(req)
     if failure is not None:
         return failure
     db = await core.pool()
@@ -329,7 +335,7 @@ async def purchases(req: Request):
 
 @router.post("/api/coins/gifts/{gift_id}/purchase")
 async def purchase_gift(req: Request, gift_id: str):
-    user, failure = await student(req)
+    user, failure = await participant(req)
     if failure is not None:
         return failure
     parsed = core.uuid_value(gift_id)
@@ -383,6 +389,42 @@ async def purchase_gift(req: Request, gift_id: str):
             return error("temporarily_unavailable", 503)
 
 
+
+def valid_image_data(value: str | None) -> bool:
+    if value is None:
+        return True
+    if not isinstance(value, str) or len(value) > 230000:
+        return False
+    prefix, sep, data = value.partition(";base64,")
+    if not sep or prefix not in ("data:image/jpeg", "data:image/png", "data:image/webp"):
+        return False
+    try:
+        image = base64.b64decode(data, validate=True)
+    except (ValueError, binascii.Error):
+        return False
+    if not 0 < len(image) <= MAX_ARTWORK_BYTES:
+        return False
+    return ((prefix == "data:image/png" and image.startswith(bytes.fromhex("89504e470d0a1a0a")))
+            or (prefix == "data:image/jpeg" and image.startswith(bytes.fromhex("ffd8ff")))
+            or (prefix == "data:image/webp" and image.startswith(b"RIFF")
+                and image[8:12] == b"WEBP"))
+
+
+async def gift_payload(req: Request) -> dict | None:
+    if not req.headers.get("content-type", "").startswith("application/json"):
+        return None
+    payload = bytearray()
+    async for chunk in req.stream():
+        if len(payload) + len(chunk) > 260000:
+            return None
+        payload.extend(chunk)
+    try:
+        value = json.loads(payload)
+    except (ValueError, UnicodeDecodeError):
+        return None
+    return value if isinstance(value, dict) else None
+
+
 def valid_gift(data: dict) -> bool:
     return (
         isinstance(data, dict) and
@@ -395,7 +437,8 @@ def valid_gift(data: dict) -> bool:
         type(data.get("coins")) is int and 1 <= data["coins"] <= 10000 and
         (data.get("stock") is None or
          (type(data["stock"]) is int and 0 <= data["stock"] <= 1000000)) and
-        type(data.get("active", True)) is bool
+        type(data.get("active", True)) is bool and
+        valid_image_data(data.get("imageData"))
     )
 
 
@@ -415,7 +458,7 @@ async def create_gift(req: Request):
     owner, failure = await active_owner(req)
     if failure is not None:
         return failure
-    body = await core.payload(req)
+    body = await gift_payload(req)
     if not valid_gift(body):
         return error("invalid_input")
     db = await core.pool()
@@ -423,13 +466,13 @@ async def create_gift(req: Request):
         async with db.acquire() as con:
             row = await con.fetchrow(
                 """INSERT INTO coin_gifts(item_key,title_uz,title_en,description_uz,
-                   description_en,category,cost_coins,stock_remaining,is_active,created_by)
-                   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                   description_en,category,cost_coins,stock_remaining,is_active,created_by,image_data)
+                   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
                    ON CONFLICT(item_key) DO NOTHING RETURNING *""",
                 body["key"], body["titleUz"].strip(), body["titleEn"].strip(),
                 body.get("descriptionUz", ""), body.get("descriptionEn", ""),
                 body["category"], body["coins"], body.get("stock"),
-                body.get("active", True), owner["id"])
+                body.get("active", True), owner["id"], body.get("imageData"))
             if not row:
                 return error("duplicate_key", 409)
         return core.j({"ok": True, "gift": gift_view(row)}, headers=PRIVATE)
@@ -444,10 +487,10 @@ async def update_gift(req: Request, gift_id: str):
     if failure is not None:
         return failure
     gift_id = core.uuid_value(gift_id)
-    body = await core.payload(req)
+    body = await gift_payload(req)
     if gift_id is None or not isinstance(body, dict) or not body or any(
         key not in {"titleUz", "titleEn", "descriptionUz", "descriptionEn",
-                    "category", "coins", "stock", "active"} for key in body
+                    "category", "coins", "stock", "active", "imageData"} for key in body
     ):
         return error("invalid_input")
     db = await core.pool()
@@ -462,18 +505,18 @@ async def update_gift(req: Request, gift_id: str):
                     "titleEn": row["title_en"], "descriptionUz": row["description_uz"],
                     "descriptionEn": row["description_en"], "category": row["category"],
                     "coins": row["cost_coins"], "stock": row["stock_remaining"],
-                    "active": row["is_active"], **body,
+                    "active": row["is_active"], "imageData": row["image_data"], **body,
                 }
                 if not valid_gift(merged):
                     return error("invalid_input")
                 updated = await con.fetchrow(
                     """UPDATE coin_gifts SET title_uz=$2,title_en=$3,
                        description_uz=$4,description_en=$5,category=$6,
-                       cost_coins=$7,stock_remaining=$8,is_active=$9,updated_at=now()
+                       cost_coins=$7,stock_remaining=$8,is_active=$9,image_data=$10,updated_at=now()
                        WHERE id=$1 RETURNING *""",
                     gift_id, merged["titleUz"].strip(), merged["titleEn"].strip(),
                     merged["descriptionUz"], merged["descriptionEn"], merged["category"],
-                    merged["coins"], merged["stock"], merged["active"])
+                    merged["coins"], merged["stock"], merged["active"], merged["imageData"])
                 return core.j({"ok": True, "gift": gift_view(updated)}, headers=PRIVATE)
     except Exception:
         log.exception("coin gift update failed")
