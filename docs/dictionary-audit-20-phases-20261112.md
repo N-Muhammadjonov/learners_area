@@ -19,7 +19,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | 01 | 1–5,521 | 5,521 | Structural audited; semantic pending |
 | 02 | 5,522–11,041 | 5,520 | Structural and presentation coverage audited; semantic review pending |
 | 03 | 11,042–16,562 | 5,521 | Structural and presentation coverage audited; semantic review pending |
-| 04 | 16,563–22,082 | 5,520 | Not started |
+| 04 | 16,563–22,082 | 5,520 | Structural/presentation audited; linguistic review pending |
 | 05 | 22,083–27,603 | 5,521 | Not started |
 | 06 | 27,604–33,123 | 5,520 | Not started |
 | 07 | 33,124–38,644 | 5,521 | Not started |
@@ -196,3 +196,30 @@ A spot check illustrates why word-level inference is unsafe: `school` in this ph
 3. Validate `meaningSha`, relation target lexeme/sense identities, sense matching, and provenance before finalizing a linguistic signoff.
 4. Rebuild and validate an immutable new candidate release only after accepted edits, with a backed-up rollback channel and regression tests.
 5. Keep all 20 phases on this branch until the user's no-merge rule is satisfied.
+
+## Phase 04 — 12 November 2026
+
+**Baseline unchanged:** `rel-v1-1fa06d8d41d8ff701632573e`. Frozen exact-sense ranks **16,563–22,082** (5,520 senses, 3,322 distinct lexemes). Cloudflare R2 shards `25`–`32` (14 files) were retrieved and independently verified against production Supabase SHA-256, compressed byte counts and entry counts. Start/end boundary shards were filtered by `lexeme_id/sense_id` identity. Initial script checksum typo was diagnosed against R2/Supabase and corrected before publishing the audit receipt; no source shard changed.
+
+Source receipt: `content/dictionary/audit-20261112-phase04-flagged-records.json`; presentation receipt: `content/dictionary/audit-20261112-phase04-presentation-coverage.json`.
+
+| Check | Phase 04 |
+| --- | ---: |
+| Senses examined structurally | 5,520 |
+| Missing translation / EN definition / UZ definition | 0 / 0 / 0 |
+| Missing CEFR | 456 |
+| Invalid non-empty CEFR | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 149 / 699 / 1,009 / 757 / 2,393 |
+| Canonical sense records without examples | 3,172 |
+| AI draft editorial senses | 55 |
+| Invalid local relation/collocation source sense references | 0 |
+| Duplicate source sense IDs / duplicate translations | 0 / 0 |
+| Without canonical synonym / antonym / collocation | 4,262 / 5,479 / 5,485 |
+| Absent supplementary presentation sense row | 42 |
+| Synonym presence in canonical OR presentation layer | 3,077 |
+| Collocation presence in canonical OR presentation layer | 157 |
+| No synonym / collocation across counted layers | 2,443 / 5,363 |
+
+**Review queue:** 2,849 exact sense IDs (456 missing CEFR; 2,393 C2 for *review*, not wholesale invalidation). Presentation presence was matched by exact IDs; not every `meaningSha` or relation target is separately source-certified. Missing antonyms and collocations may be linguistically appropriate. All translations and CEFR labels still require independent sense-level checks. No speculative synonym/antonym/collocation has been created.
+
+**Phase 04 automated structural and presentation presence audit: COMPLETE. Full independent linguistic verification: NOT COMPLETE.** No production release switch, destructive migration or `main` merge. Keep the original 20-phase no-merge policy.
