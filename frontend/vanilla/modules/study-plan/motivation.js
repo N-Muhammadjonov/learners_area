@@ -33,7 +33,8 @@ function coinPolicyPanel(ctx, policy) {
 }
 
 function leaderboard(ctx, content) {
-  let period = 'week', scope = 'all', page = 1, panel = 'ranking', sequence = 0, latest = null;
+  let period = 'week', scope = 'all', page = 1, panel = ctx.session?.user?.role === 'owner' &&
+    ctx.url.searchParams.get('view') === 'manage' ? 'manage' : 'ranking', sequence = 0, latest = null;
   const cacheTtlMs = 30000;
   // Ranking periods and personal spendable coins are separate quantities.
   // All active learning roles participate in one verified coin ranking.
