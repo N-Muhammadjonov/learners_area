@@ -23,6 +23,16 @@ export function GrammarQuiz({context, dict, topicId, exercises}) {
 
   const errorNode = h('p', {role: 'alert', class: 'text-sm text-band-bad', hidden: true});
   const submit = Button({variant: 'primary', onClick: () => void onSubmit()});
+  const retry = Button({variant: 'secondary', onClick: () => {
+    if (!results || submitting) return;
+    results = null;
+    answers.clear();
+    error = '';
+    paint();
+  }});
+  retry.dataset.grammarGroupRetry = '';
+  const actions = h('div', {class: 'flex flex-wrap items-center gap-3',
+    'data-grammar-quiz-actions': ''}, submit, retry);
 
   for (const ex of exercises) {
     const radios = [];
@@ -52,7 +62,7 @@ export function GrammarQuiz({context, dict, topicId, exercises}) {
   const node = h('div', {class: 'flex flex-col gap-4', 'data-grammar-quiz': topicId},
     errorNode,
     ...exercises.map(ex => views.get(ex.id).card),
-    submit);
+    actions);
 
   function paint() {
     for (const ex of exercises) {
@@ -77,6 +87,8 @@ export function GrammarQuiz({context, dict, topicId, exercises}) {
     }
     // `btn-primary` sets display, which would override the `hidden` attribute; hide with inline style.
     submit.style.display = results ? 'none' : '';
+    retry.style.display = results && [...results.values()].some(row => !row.isCorrect) ? '' : 'none';
+    retry.textContent = dict.common.retry ?? 'Qayta urinish';
     submit.disabled = submitting || answers.size < exercises.length;
     submit.textContent = submitting ? dict.common.loading : t.submit;
     errorNode.hidden = !error;
@@ -84,7 +96,7 @@ export function GrammarQuiz({context, dict, topicId, exercises}) {
   }
 
   async function onSubmit() {
-    if (submitting || results) return;
+    if (submitting || results || answers.size !== exercises.length) return;
     submitting = true;
     error = '';
     paint();
