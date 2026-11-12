@@ -11,11 +11,9 @@
           "a861b7d2-1a68-56e4-ae68-851a66c97f07",
           "5075ba24-0bea-5505-b045-81a38055baa9"
         ],
-        "source": "https://dictionary.cambridge.org/dictionary/english/itself",
         "replace_cefr": {
           "original": null,
-          "text": "A2",
-          "source": "https://dictionary.cambridge.org/dictionary/english/itself"
+          "text": "A2"
         }
       }
     },
@@ -24,8 +22,7 @@
         "meaning_sha": "955f2932447a0b6aada04e059e8fe994493037bfd4ff4c9d45873db32e941f47",
         "add_collocations": [
           {
-            "text": "delectable cheesecake",
-            "source": "https://dictionary.cambridge.org/dictionary/english/delectable"
+            "text": "delectable cheesecake"
           }
         ]
       }
@@ -35,18 +32,15 @@
         "meaning_sha": "ea32cb2e3e63662d245772ad3421557a8e3463604fa87f86023edadaa2a7d98f",
         "add_collocations": [
           {
-            "text": "birthday cake",
-            "source": "https://dictionary.cambridge.org/dictionary/english/cake"
+            "text": "birthday cake"
           },
           {
-            "text": "chocolate cake",
-            "source": "https://dictionary.cambridge.org/dictionary/english/cake"
+            "text": "chocolate cake"
           }
         ],
         "replace_cefr": {
           "original": "B1",
-          "text": "A1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/cake"
+          "text": "A1"
         }
       }
     },
@@ -55,8 +49,7 @@
         "meaning_sha": "5116107b6430df86c99b0975e9d887e475092f6feab16b0d10e215f750d4217c",
         "add_collocations": [
           {
-            "text": "countermand an order",
-            "source": "https://dictionary.cambridge.org/dictionary/english/countermand"
+            "text": "countermand an order"
           }
         ]
       }
@@ -66,8 +59,7 @@
         "meaning_sha": "d7bfa6d3c5cd4f451aabf099ed0f08ba6a380619219bd8b2eeec8ec74de78e93",
         "add_collocations": [
           {
-            "text": "overwrite a file",
-            "source": "https://dictionary.cambridge.org/dictionary/english/overwrite"
+            "text": "overwrite a file"
           }
         ]
       }
@@ -77,13 +69,11 @@
         "meaning_sha": "a255e654f2214077518764e1fd4af8ab29b0a4a4414ed8e678e7c1b1e17fdc2a",
         "replace_definition_en": {
           "original": "the cardinal number that is the sum of one and one and one",
-          "text": "a musical composition for three voices, or a vocal trio",
-          "source": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
+          "text": "a musical composition for three voices, or a vocal trio"
         },
         "replace_translation_uz": {
           "original": "uch",
-          "text": "terzetto; uch ovoz uchun yozilgan musiqiy asar",
-          "source": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
+          "text": "terzetto; uch ovoz uchun yozilgan musiqiy asar"
         },
         "remove_synonym_lexeme_ids": [
           "223b5835-11a4-5a35-8e92-3f950e96c63e",
@@ -104,14 +94,12 @@
             "text": "trio",
             "lexemeId": "2eff4bba-1bb6-5dfa-9079-1a3ca8d3a601",
             "senseId": "24087232-6200-4e00-98d9-3212c842bf3b",
-            "source": "https://www.collinsdictionary.com/dictionary/english/terzetto",
             "partOfSpeech": "n"
           }
         ],
         "replace_definition_uz": {
           "original": "Birga qo'shilgan bir va bir va birga teng natural son.",
-          "text": "Uch ovoz uchun yozilgan musiqiy asar yoki uch xonandadan iborat vokal ansambl.",
-          "source": "https://dictionary.cambridge.org/us/dictionary/italian-english/terzetto"
+          "text": "Uch ovoz uchun yozilgan musiqiy asar yoki uch xonandadan iborat vokal ansambl."
         }
       }
     },
@@ -120,13 +108,11 @@
         "meaning_sha": "9084f98d33de2b98b46c6cfb392b1ea39647aebb074567ad7c59a653b1d1e3a7",
         "replace_definition_en": {
           "original": "activity that transgresses moral or civil law",
-          "text": "the physical element of a criminal offence, consisting of an unlawful act or omission",
-          "source": "https://www.law.cornell.edu/wex/actus_reus"
+          "text": "the physical element of a criminal offence, consisting of an unlawful act or omission"
         },
         "replace_translation_uz": {
           "original": "huquqbuzarlik harakati",
-          "text": "jinoyatning obyektiv (tashqi) elementi; jinoyatni tashkil etuvchi harakat yoki harakatsizlik",
-          "source": "https://www.law.cornell.edu/wex/actus_reus"
+          "text": "jinoyatning obyektiv (tashqi) elementi; jinoyatni tashkil etuvchi harakat yoki harakatsizlik"
         },
         "remove_synonym_lexeme_ids": [
           "399fadbd-d220-5439-a826-adef9eca72f6",
@@ -135,8 +121,7 @@
         ],
         "replace_definition_uz": {
           "original": "Axloqiy yoki fuqarolik qonunini buzadigan faoliyat.",
-          "text": "Jinoyat tarkibining tashqi elementi: qonun bilan taqiqlangan harakat yoki bajarilishi shart bo‘lgan harakatni bajarmaslik.",
-          "source": "https://www.law.cornell.edu/wex/actus_reus"
+          "text": "Jinoyat tarkibining tashqi elementi: qonun bilan taqiqlangan harakat yoki bajarilishi shart bo‘lgan harakatni bajarmaslik."
         }
       }
     },
@@ -148,7 +133,6 @@
             "text": "praise",
             "lexemeId": "3d45bcd6-2393-54e1-a10f-8e7713318d0c",
             "senseId": "4045aec2-5b1d-438d-a03c-f86296e73b72",
-            "source": "https://dictionary.cambridge.org/us/thesaurus/decry",
             "partOfSpeech": "v"
           }
         ]
@@ -162,18 +146,15 @@
             "text": "bilateral",
             "lexemeId": "32d32054-ab9e-5970-8622-f66b79e43492",
             "senseId": "f499a935-d14b-42ae-ac1a-958811c9c774",
-            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral",
             "partOfSpeech": "a"
           }
         ],
         "add_collocations": [
           {
-            "text": "unilateral decision",
-            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+            "text": "unilateral decision"
           },
           {
-            "text": "unilateral action",
-            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral"
+            "text": "unilateral action"
           }
         ]
       },
@@ -184,7 +165,6 @@
             "text": "bilateral",
             "lexemeId": "32d32054-ab9e-5970-8622-f66b79e43492",
             "senseId": "31493138-a28d-4ae5-99d5-05dbed79ecf4",
-            "source": "https://dictionary.cambridge.org/dictionary/english/unilateral",
             "partOfSpeech": "a"
           }
         ]
@@ -198,7 +178,6 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "d0068dd8-15b1-4f59-ab68-b1ebc2427ea5",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
             "partOfSpeech": "v"
           }
         ]
@@ -210,7 +189,6 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "433a08d2-fbf7-4e12-b223-dad63d3aa205",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
             "partOfSpeech": "v"
           }
         ]
@@ -222,7 +200,6 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "39593359-0e47-4a6e-a8f6-117cd6eb284a",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
             "partOfSpeech": "v"
           }
         ]
@@ -234,7 +211,6 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "433a08d2-fbf7-4e12-b223-dad63d3aa205",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
             "partOfSpeech": "v"
           }
         ]
@@ -246,7 +222,6 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "866778f9-d9a6-45ee-b2d0-923a3aacf103",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
             "partOfSpeech": "v"
           }
         ]
@@ -258,7 +233,6 @@
             "text": "inflate",
             "lexemeId": "d2c5ba92-72ee-51e5-a974-613106b388cb",
             "senseId": "07e8a1c6-c0dc-4022-ad90-01ce7981115f",
-            "source": "https://dictionary.cambridge.org/dictionary/english/deflate",
             "partOfSpeech": "v"
           }
         ]
@@ -269,8 +243,7 @@
         "meaning_sha": "8ed3993b16a9e72b73bd068415774ab35d5ffc25753ff4403f67d8a6b7ea3e55",
         "replace_cefr": {
           "original": "A2",
-          "text": "B1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/nowadays"
+          "text": "B1"
         }
       }
     },
@@ -279,8 +252,7 @@
         "meaning_sha": "2eb5dc07e943003429c3376df680978cd2cdddd076945f971024457ee35aa97f",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/hysterical"
+          "text": "C1"
         }
       }
     },
@@ -289,16 +261,14 @@
         "meaning_sha": "530f74a08855b3b27b8ac06fd4840635df5a302e8f44c68777114c2f5f4871e3",
         "exclude_misattributed_sense": {
           "original_definition_en": "gain in value",
-          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
-          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword."
         }
       },
       "e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b": {
         "meaning_sha": "bcf7dc3afe63d7c14dfd23b528ca5c067f1235ea76163353f500f6b363b59439",
         "exclude_misattributed_sense": {
           "original_definition_en": "increase the value of",
-          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
-          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword."
         }
       },
       "7bb141c5-1c75-48d1-a396-d405b909c878": {
@@ -308,21 +278,18 @@
             "text": "notify",
             "lexemeId": "49f5a11f-4d39-5572-a8f6-a8988cbc31d3",
             "senseId": "1de9e461-9626-4b37-87ca-2948ad1dc68d",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+            "partOfSpeech": "v"
           },
           {
             "text": "inform",
             "lexemeId": "eb70195c-481e-5907-8922-444fb33ebb0c",
             "senseId": "7c667f36-933e-4c18-9313-8ff9f297d56c",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+            "partOfSpeech": "v"
           }
         ],
         "add_collocations": [
           {
-            "text": "apprise someone of something",
-            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+            "text": "apprise someone of something"
           }
         ]
       }
@@ -332,16 +299,14 @@
         "meaning_sha": "185bfb92497b8879b6e2b69dbf0d2272c57da5c272ef3b36f48eabff60b1cf2b",
         "exclude_misattributed_sense": {
           "original_definition_en": "gain in value",
-          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
-          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword."
         }
       },
       "d2f0df39-8f12-5d2c-9876-aa1792253d0c": {
         "meaning_sha": "a5943de7dc2c77fdb7efe786cf1fa336343c7db4b978891c0d290b4bbc3403b8",
         "exclude_misattributed_sense": {
           "original_definition_en": "increase the value of",
-          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword.",
-          "source": "https://our-languages.canada.ca/en/writing-tips-plus/appraise-apprise"
+          "reason": "The source gloss describes appreciation/increase of value, not informing another person. Do not reassign this identity to an unrelated headword."
         }
       },
       "9a3096d8-a0ce-5d82-ac24-f708419de9d8": {
@@ -351,21 +316,18 @@
             "text": "notify",
             "lexemeId": "49f5a11f-4d39-5572-a8f6-a8988cbc31d3",
             "senseId": "1de9e461-9626-4b37-87ca-2948ad1dc68d",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+            "partOfSpeech": "v"
           },
           {
             "text": "inform",
             "lexemeId": "eb70195c-481e-5907-8922-444fb33ebb0c",
             "senseId": "7c667f36-933e-4c18-9313-8ff9f297d56c",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+            "partOfSpeech": "v"
           }
         ],
         "add_collocations": [
           {
-            "text": "apprize someone of something",
-            "source": "https://www.collinsdictionary.com/dictionary/english/apprise"
+            "text": "apprize someone of something"
           }
         ]
       }
@@ -375,14 +337,11 @@
         "meaning_sha": "3482fb13d0417f7bb33d64bbf9b9d90f7c097505e6079ded091ab7d89de36b43",
         "replace_cefr": {
           "original": "B1",
-          "text": "C1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
-          "sense_alignment": "demonstrate by giving an exhibition to an audience; Cambridge SHOW how something works at C1"
+          "text": "C1"
         },
         "add_collocations": [
           {
-            "text": "demonstrate how to use equipment",
-            "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate"
+            "text": "demonstrate how to use equipment"
           }
         ]
       }
@@ -395,14 +354,12 @@
             "text": "inaudible",
             "lexemeId": "fc291b04-777a-5bb5-9753-70635c19ad7a",
             "senseId": "a0e13d60-00a5-4ec2-8f13-bf8f0333412c",
-            "partOfSpeech": "a",
-            "source": "https://dictionary.cambridge.org/dictionary/english/audible"
+            "partOfSpeech": "a"
           }
         ],
         "add_collocations": [
           {
-            "text": "audible sigh",
-            "source": "https://dictionary.cambridge.org/dictionary/english/audible"
+            "text": "audible sigh"
           }
         ]
       }
@@ -415,21 +372,18 @@
             "text": "placate",
             "lexemeId": "529498e5-450f-55c0-a32f-c88494e9a77d",
             "senseId": "21ccd99c-8b8f-4428-b14f-e16e1e38b10e",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+            "partOfSpeech": "v"
           },
           {
             "text": "pacify",
             "lexemeId": "3a960a34-d2c8-5ec0-a8f5-e1751b7d0e00",
             "senseId": "569b5a61-1fe7-4fa2-b2a3-5dce797ccc6c",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+            "partOfSpeech": "v"
           }
         ],
         "add_collocations": [
           {
-            "text": "appease critics",
-            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+            "text": "appease critics"
           }
         ]
       },
@@ -440,8 +394,7 @@
             "text": "propitiate",
             "lexemeId": "96805e36-01e5-548c-8712-646a113d928e",
             "senseId": "e7f57505-ad38-58c7-8276-a22bcd7ae126",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+            "partOfSpeech": "v"
           }
         ]
       },
@@ -449,8 +402,7 @@
         "meaning_sha": "438774671f35751db5f062fbb9eb153ecbc91eb6affcc4a21d8b148e8d48dfa4",
         "add_collocations": [
           {
-            "text": "appease a guilty conscience",
-            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+            "text": "appease a guilty conscience"
           }
         ]
       }
@@ -460,16 +412,13 @@
         "meaning_sha": "2f9b1e74f42d7013add1669280f31c47836c9491a6070e0557038e26fd95986a",
         "add_collocations": [
           {
-            "text": "back-cover blurb",
-            "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+            "text": "back-cover blurb"
           },
           {
-            "text": "publicity blurb",
-            "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+            "text": "publicity blurb"
           },
           {
-            "text": "publisher's blurb",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blurb"
+            "text": "publisher's blurb"
           }
         ]
       }
@@ -479,30 +428,25 @@
         "meaning_sha": "bbab4c947c2b686afc522620a633931ab5ddb0e8d772ccf71ab2f2705e04142a",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
-          "sense_alignment": "car horn making a strident noise, Oxford verb sense 2 car-horn C1; separate from pager C2"
+          "text": "C1"
         },
         "add_synonyms": [
           {
             "text": "honk",
             "lexemeId": "bbd86db0-81b3-574e-915a-dde2a60b3593",
             "senseId": "60853a5a-2598-4eb9-aca4-6d9e6241dcdd",
-            "partOfSpeech": "v",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+            "partOfSpeech": "v"
           },
           {
             "text": "blare",
             "lexemeId": "1de48230-a765-55c1-85af-0766f37cb607",
             "senseId": "6fa0de95-5d4f-4368-9b91-c348292467fe",
-            "partOfSpeech": "v",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+            "partOfSpeech": "v"
           }
         ],
         "add_collocations": [
           {
-            "text": "beep a horn",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2"
+            "text": "beep a horn"
           }
         ]
       }
@@ -512,8 +456,7 @@
         "meaning_sha": "5edf8fd89723e11d1f05fcf3607a72e4e4286848df853854d47252e286d3fd47",
         "add_collocations": [
           {
-            "text": "stone archway",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/archway"
+            "text": "stone archway"
           }
         ]
       }
@@ -526,14 +469,12 @@
             "text": "tolerate",
             "lexemeId": "6ec8d2de-ffb7-59a7-a9a6-6adc2ba4f682",
             "senseId": "52426071-9e5b-4900-a168-e7921693f12a",
-            "partOfSpeech": "v",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/abide"
+            "partOfSpeech": "v"
           }
         ],
         "add_collocations": [
           {
-            "text": "can't abide someone or something",
-            "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+            "text": "can't abide someone or something"
           }
         ]
       },
@@ -544,14 +485,12 @@
             "text": "dwell",
             "lexemeId": "eafdf10c-9c57-569a-88b6-751d3843c51a",
             "senseId": "b193eeef-0dfb-4f08-9e91-31e9a420c668",
-            "partOfSpeech": "v",
-            "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+            "partOfSpeech": "v"
           }
         ],
         "add_collocations": [
           {
-            "text": "abide in a place",
-            "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+            "text": "abide in a place"
           }
         ]
       }
@@ -561,8 +500,7 @@
         "meaning_sha": "1bd8c6a7c30f0b72de39ca2699a302eecb73809a46f6075486980a57b5fd675c",
         "add_collocations": [
           {
-            "text": "give alms to the poor",
-            "source": "https://dictionary.cambridge.org/dictionary/english/alms"
+            "text": "give alms to the poor"
           }
         ]
       }
@@ -572,17 +510,14 @@
         "meaning_sha": "11fc975985a56ab43b6aa385f8b43f37a36b68fac1f092a4a9ea6853b21872c1",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
-          "sense_alignment": "liking to talk a lot in a friendly, informal way"
+          "text": "C1"
         },
         "add_synonyms": [
           {
             "text": "talkative",
             "lexemeId": "e3f9e919-1d5b-5b3e-8e21-6ed695e63f51",
             "senseId": "01797def-7f71-40a2-9547-2a76669dc2bc",
-            "partOfSpeech": "a",
-            "source": "https://dictionary.cambridge.org/dictionary/english/chatty"
+            "partOfSpeech": "a"
           }
         ]
       },
@@ -590,18 +525,14 @@
         "meaning_sha": "bdd040f6f00ac4ef10422e50b072fbd5771757aa0eef7462cb7b597335ebe5d3",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
-          "sense_alignment": "informal, conversational writing or speech"
+          "text": "C1"
         },
         "add_collocations": [
           {
-            "text": "chatty letter",
-            "source": "https://dictionary.cambridge.org/dictionary/english/chatty"
+            "text": "chatty letter"
           },
           {
-            "text": "chatty style",
-            "source": "https://dictionary.cambridge.org/dictionary/english/chatty"
+            "text": "chatty style"
           }
         ]
       }
@@ -611,18 +542,14 @@
         "meaning_sha": "9b1981a20c9693448cd68fc3c21c38e84f87f1f36a3c825405e11119235e392e",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
-          "sense_alignment": "money/present given to persuade someone to act dishonestly"
+          "text": "C1"
         },
         "add_collocations": [
           {
-            "text": "accept a bribe",
-            "source": "https://dictionary.cambridge.org/dictionary/english/bribe"
+            "text": "accept a bribe"
           },
           {
-            "text": "take a bribe",
-            "source": "https://dictionary.cambridge.org/dictionary/english/bribe"
+            "text": "take a bribe"
           }
         ]
       }
@@ -632,14 +559,11 @@
         "meaning_sha": "74475e553e157d7fa8a76208c9270ee6ac40a4feadb5a9c238c391af7bdb8abc",
         "replace_cefr": {
           "original": "C2",
-          "text": "B2",
-          "source": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette",
-          "sense_alignment": "Long thin French stick loaf, Oxford Food B2; sandwich sense not represented separately in source"
+          "text": "B2"
         },
         "add_collocations": [
           {
-            "text": "fresh baguette",
-            "source": "https://dictionary.cambridge.org/us/dictionary/english/baguette"
+            "text": "fresh baguette"
           }
         ]
       }
@@ -649,18 +573,14 @@
         "meaning_sha": "0ffde6467b3710591a1219a7f6b76a23a2c5fafc2c2fb17b3f8913d7b2a8ab17",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver",
-          "sense_alignment": "Person responsible for attending to a child or dependent adult, Oxford caregiving noun C1; separate health-care-specific sense remains unchanged"
+          "text": "C1"
         },
         "add_collocations": [
           {
-            "text": "primary caregiver",
-            "source": "https://dictionary.cambridge.org/collocation/english/caregiver"
+            "text": "primary caregiver"
           },
           {
-            "text": "family caregiver",
-            "source": "https://dictionary.cambridge.org/collocation/english/caregiver"
+            "text": "family caregiver"
           }
         ]
       }
@@ -670,32 +590,26 @@
         "meaning_sha": "8ec91dc40d40e4b2b7d5080791d32d23b17be2df4a6b314f243b9952c0196676",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
-          "sense_alignment": "[C] something that annoys a person; Cambridge headword C1 and countable example"
+          "text": "C1"
         },
         "replace_translation_uz": {
           "original": "boshog'riq",
-          "text": "bezovta qiladigan odam yoki narsa; boshog‘riq",
-          "source": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+          "text": "bezovta qiladigan odam yoki narsa; boshog‘riq"
         },
         "add_synonyms": [
           {
             "text": "nuisance",
             "lexemeId": "6e7c5526-61d7-5749-a754-4aa593261b39",
             "senseId": "a866383f-8537-4ec4-9f0f-d976c480fa37",
-            "partOfSpeech": "n",
-            "source": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+            "partOfSpeech": "n"
           }
         ],
         "add_collocations": [
           {
-            "text": "minor annoyance",
-            "source": "https://dictionary.cambridge.org/dictionary/english/annoyance"
+            "text": "minor annoyance"
           },
           {
-            "text": "petty annoyance",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+            "text": "petty annoyance"
           }
         ]
       },
@@ -703,27 +617,22 @@
         "meaning_sha": "caeb8782f9593165b42e85854c77688d8a1983c3067c36b3edb2a8fa80739b59",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance",
-          "sense_alignment": "[U] the feeling of being annoyed or slightly angry, Oxford Feelings C1"
+          "text": "C1"
         },
         "add_synonyms": [
           {
             "text": "irritation",
             "lexemeId": "346f5bee-09ab-5c3b-9b12-f73b80cc4803",
             "senseId": "991a9b48-3647-4a5e-a24d-943d7a6770b9",
-            "partOfSpeech": "n",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+            "partOfSpeech": "n"
           }
         ],
         "add_collocations": [
           {
-            "text": "in annoyance",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+            "text": "in annoyance"
           },
           {
-            "text": "much to someone's annoyance",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance"
+            "text": "much to someone's annoyance"
           }
         ]
       }
@@ -733,27 +642,22 @@
         "meaning_sha": "a512486749209f2c1aecc71d271822b644f89ad3fd0d7bcddf04798df8b57ad2",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
-          "sense_alignment": "unusual intelligence/mental ability, Oxford 5000 C1 core noun sense"
+          "text": "C1"
         },
         "add_synonyms": [
           {
             "text": "genius",
             "lexemeId": "90e4c3ee-e1d3-58d6-a153-98e1a24364bb",
             "senseId": "3fb261c7-c5a6-44b3-9b34-cc7e4e49bf30",
-            "partOfSpeech": "n",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+            "partOfSpeech": "n"
           }
         ],
         "add_collocations": [
           {
-            "text": "academic brilliance",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+            "text": "academic brilliance"
           },
           {
-            "text": "flashes of brilliance",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+            "text": "flashes of brilliance"
           }
         ]
       },
@@ -761,14 +665,11 @@
         "meaning_sha": "f03dc51c82f68dfdbbeebe46c09a1c38d086cd0306ce40c23f29bd0ba813fd7b",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
-          "sense_alignment": "the quality of being very impressive/magnificent, Oxford 5000 C1"
+          "text": "C1"
         },
         "add_collocations": [
           {
-            "text": "technical brilliance",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+            "text": "technical brilliance"
           }
         ]
       },
@@ -779,15 +680,13 @@
             "text": "glare",
             "lexemeId": "b8e5ca15-eae6-5972-871f-d09d37771ac2",
             "senseId": "c07f9fc1-7d3a-4cb0-abc4-799f117d2a2c",
-            "partOfSpeech": "n",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+            "partOfSpeech": "n"
           },
           {
             "text": "blaze",
             "lexemeId": "b1ddfcae-dc35-5be9-9c42-1e8aa8d8c466",
             "senseId": "1599ee7f-ab04-4335-97f8-1150731662d1",
-            "partOfSpeech": "n",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance"
+            "partOfSpeech": "n"
           }
         ]
       }
@@ -797,14 +696,11 @@
         "meaning_sha": "956256578a6466166117041fe0c8b01ed18d3ef03c67dc51527e8d15f768e79f",
         "replace_cefr": {
           "original": "C2",
-          "text": "C1",
-          "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
-          "sense_alignment": "Fruit sense directly tagged Food C1 in Oxford; Oxford 3000 B1 is a general word-list level and is not substituted for the sense-specific topic label"
+          "text": "C1"
         },
         "add_collocations": [
           {
-            "text": "blackberry and apple pie",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry"
+            "text": "blackberry and apple pie"
           }
         ]
       }
@@ -817,25 +713,21 @@
             "text": "rim",
             "lexemeId": "08d324dd-ccc3-5562-981b-dbd386e723ed",
             "senseId": "06f2248e-99d7-449c-8fa3-f307e05f8cc7",
-            "partOfSpeech": "n",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+            "partOfSpeech": "n"
           },
           {
             "text": "lip",
             "lexemeId": "9a6dbe9e-ce1f-5233-92b8-972d1a52e778",
             "senseId": "6c9190d8-9f1b-461a-a427-8e58fa1f08ad",
-            "partOfSpeech": "n",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+            "partOfSpeech": "n"
           }
         ],
         "add_collocations": [
           {
-            "text": "full to the brim",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+            "text": "full to the brim"
           },
           {
-            "text": "fill something to the brim",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+            "text": "fill something to the brim"
           }
         ]
       },
@@ -843,12 +735,10 @@
         "meaning_sha": "d356062007e7af2f874d0d43e678a76f8e0911f4ce7ae57bda254a19ff561926",
         "add_collocations": [
           {
-            "text": "wide brim",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+            "text": "wide brim"
           },
           {
-            "text": "beneath the brim",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+            "text": "beneath the brim"
           }
         ]
       }
@@ -858,12 +748,10 @@
         "meaning_sha": "c479d91d0a7e2aa2c7f8745099ceff056288d6c93acd18888c0b04569748cdd0",
         "add_collocations": [
           {
-            "text": "burrow into the soil",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+            "text": "burrow into the soil"
           },
           {
-            "text": "burrow under the fence",
-            "source": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+            "text": "burrow under the fence"
           }
         ]
       }
