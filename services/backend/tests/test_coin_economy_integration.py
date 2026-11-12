@@ -166,7 +166,8 @@ async def test_telegram_invite_requires_new_active_student_and_pays_once(setup_d
         invitee = uuid4()
         await con.execute(
             "INSERT INTO users(id,telegram_id,account_status) VALUES($1,'987654321','pending')", invitee)
-        identity["current"] = {"id": invitee, "telegram_id": "987654321",
+        # Production current_user() intentionally omits telegram_id.
+        identity["current"] = {"id": invitee,
                                "role": "student", "account_status": "pending"}
         assert (await client.post("/api/coins/daily/claim")).status_code == 401
         # Activate the new account; the first real website visit pays the inviter.
