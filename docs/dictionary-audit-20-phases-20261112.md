@@ -16,7 +16,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 
 | Phase | Sense rank (inclusive) | Sense count | Status |
 | --- | ---: | ---: | --- |
-| 01 | 1–5,520 | 5520 | Audit started; not certified |
+| 01 | 1–5,520 | 5520 | Structural audited; semantic pending |
 | 02 | 5,521–11,040 | 5520 | Not started |
 | 03 | 11,041–16,561 | 5521 | Not started |
 | 04 | 16,562–22,081 | 5520 | Not started |
@@ -48,7 +48,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 7. Record evidence URL, reviewed_by, confidence, original value, proposed value, release ID and resolution state for each intervention.
 8. Require original-shard snapshot and new-release checksum verification before any publish; run regression tests and compare counts/hashes; rollback by channel switch only if required.
 
-## Phase 01 — confirmed case: hello
+## Priority regression outside Phase 01 — confirmed case: hello
 
 - Entry: `661696f8-4ed4-5321-8e0c-e4e513d768a5`, POS `n`.
 - Sense: `eadfd862-8108-42cf-b009-995653d25c2c`.
@@ -64,3 +64,20 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 Run relevant backend tests: `python -m pytest services/backend/tests/test_dictionary_reader_metadata.py -q` from an environment with the backend dependencies importable. Both single-sense preservation and multi-sense isolation are covered in the dedicated regression tests added on this branch.
 
 No production release, channel, data or main branch was mutated by this audit.
+
+## Phase 01 — November 12 comprehensive structural pass
+
+- Frozen rank range: **1–5,521** (lexeme/sense IDs sorted). The first 13 R2 shards `00` through `0c` were downloaded and their entire content parsed. Shard `0c` contains additional senses beyond this phase; only rank <=5,521 was included in phase totals.
+- Parsed: **3,408 entries**, of which **5,521 sense IDs** belong to Phase 01. Every shard's **SHA-256 and entry count match** production Supabase `dictionary_r2_shards` descriptors, checked independently.
+- **0** missing EN/UZ definitions, **0** empty translations, **0** invalid nonempty CEFR enumerations, **0** missing attribution objects, **0** empty Uzbek example text in authored sense records.
+- CEFR: A1=62; A2=166; B1=756; B2=954; C1=770; C2=2,377; unassigned=436. Counts sum to **5,521**.
+- Canonical sense records lacking authored examples: **3,140**. Canonical relations not directly linked to a sense: synonyms **4,345**, antonyms **5,478**, collocations **5,482**. These **are not evidence that supplementary presentation is empty** and not proof of a factual defect.
+- **436** unassigned CEFR senses and **2,377** C2 senses were preserved in the exact-ID review queue: `content/dictionary/audit-20261112-phase01-flagged-records.json`. Each of the 13 immutable shard hashes is included so the source can be reverified.
+- Independently source-checked: **you**, pronoun referring to the addressed person(s), has absent CEFR, Cambridge rates this exact usage **A1**: https://dictionary.cambridge.org/dictionary/english/you. Proposed immutable correction.
+- Independently source-checked: **come**, noun meaning semen, is marked **slang** in Cambridge rather than the common movement verb. Current **A1** is semantically suspect; leave proposed value unset pending evidence instead of automatically replacing with C2: https://dictionary.cambridge.org/dictionary/english/come.
+- **hello** is a priority out-of-band regression, **not within the phase-01 lexeme-ID partition**, and is still a source-checked C2→A1 correction proposal. Synonym presentation code fix lives on the same branch.
+
+### Signoff
+
+**Structural inventory and flag generation: COMPLETE.** **Semantic verification of all 5,521 translations, CEFR labels, synonyms, antonyms and collocations: NOT COMPLETE.** A populated field cannot be treated as a correct translation; an absent relation is not necessarily a mistake. All 5,521 entries require provenance-backed semantic review before this phase can truthfully be certified as fully corrected. The branch includes no newly published R2 release and no production data mutation. The two focused tests were added but have not yet been run within this connector environment. The project must not equate structural coverage with linguistic signoff.
+
