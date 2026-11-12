@@ -34,6 +34,51 @@
       "collocations": "needs_evidence",
       "review_status": "source_checked",
       "production_applied": false
+    },
+    {
+      "lexeme_id": "020757cc-ce98-5cdd-b24a-4f53d9e4171a",
+      "sense_id": "b4977bce-739a-59e9-b6f8-252cc1e6ac07",
+      "lemma": "you",
+      "part_of_speech": "pronoun",
+      "definition_en": "The listener or people addressed.",
+      "field": "cefr",
+      "before": null,
+      "proposed": "A1",
+      "translation_uz": "sen; siz",
+      "source_urls": [
+        "https://dictionary.cambridge.org/dictionary/english/you"
+      ],
+      "rationale": "Cambridge English Dictionary lists you (pronoun: person or people addressed) as A1; this matches the exact stored sense.",
+      "checks": [
+        "verify target sense in source release",
+        "create immutable replacement release",
+        "regenerate metadata and index previews",
+        "verify exact-sense lookup"
+      ],
+      "review_status": "source_checked",
+      "production_applied": false
+    },
+    {
+      "lexeme_id": "088dacc7-90d8-511a-bb38-158a68c12880",
+      "sense_id": "4433dde2-e38f-4d2f-8821-a3b163d613be",
+      "lemma": "come",
+      "part_of_speech": "n",
+      "definition_en": "the thick white fluid containing spermatozoa that is ejaculated by the male genital tract",
+      "field": "cefr",
+      "before": "A1",
+      "proposed": null,
+      "translation_uz": "sperma",
+      "source_urls": [
+        "https://dictionary.cambridge.org/dictionary/english/come"
+      ],
+      "rationale": "The stored word is the uncommon slang noun, NOT common A1 motion verb; Cambridge identifies it as slang and does not assign an A1 level here. Do not map C2 automatically; classify only after independent sense-level evidence.",
+      "checks": [
+        "review sense-level CEFR source",
+        "preserve noun and verb distinctions",
+        "verify exact sense in release"
+      ],
+      "review_status": "source_checked_issue_unresolved",
+      "production_applied": false
     }
   ]
 }
