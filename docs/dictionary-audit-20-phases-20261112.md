@@ -478,4 +478,13 @@ Corrected the `beep` **car-horn** verb sense from C2 to Oxford's **C1** (the sep
 
 Current cumulative candidate delta: **22 lexemes / 35 individual sense patches, 6 CEFR updates, 2 English and 2 Uzbek definitions, 2 Uzbek translations, 4 misattributed senses excluded in candidate only, 19 excluded erroneous synonym links, 12 added sense-specific synonyms, 10 added antonyms, and 21 collocations**. All **35/35 original R2 meaning hashes**, six CEFR source values and six definition/translation source values matched in a read-only scan of nine source shards. No source mismatches, missing lexemes, or published changes.
 
-The **5,521 Phase 09 senses have not been certified semantically in full**; structural integrity and the exact edited subset are distinct from comprehensive translation, CEFR and relation validation. No example edits in this continuation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`. 
+The **5,521 Phase 09 senses have not been certified semantically in full**; structural integrity and the exact edited subset are distinct from comprehensive translation, CEFR and relation validation. No example edits in this continuation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+
+
+### Phase 09 — targeted CEFR and relation repair, November 12, 2026
+
+On the frozen release `rel-v1-1fa06d8d41d8ff701632573e`, Cambridge Dictionary explicitly supports **C1** for `chatty` in its friendly/talkative and conversational senses, and **C1** for `bribe` as a noun meaning corrupt payment. Both `chatty` source sense IDs and the `bribe` source sense ID were C2. Exact-source candidate patches change only these three senses to C1; source `meaningSha` and old CEFR values matched independently in the immutable R2 objects (3/3). The correct `talkative` sense is linked only to the friendly adjective meaning. Attested `chatty letter`, `chatty style`, `accept a bribe` and `take a bribe` phrases are attached by `sense_id`. No example sentences were edited in this pass.
+
+Cumulative candidate changes: **24 lexemes / 38 sense-level patches, 9 source-backed CEFR updates, 2 EN definitions, 2 UZ definitions, 2 UZ translations, 4 misattributed candidate-only exclusions, 19 incorrect synonym links suppressed, 13 correct synonyms, 10 antonyms, 25 collocations**. R2 readback verified all **38/38** original meaning hashes, 9/9 CEFR originals, 2/2 each EN definition/UZ definition/UZ translation originals and 4/4 excluded source glosses; no missing lexemes or mismatches.
+
+**Unresolved:** this does **not** constitute a full independent source-level check of all 5,521 meanings, so Phase 09 semantic completion cannot be claimed. Leave the immutable release unchanged, keep PR #149 Draft, and do not touch examples until the lexical verification finishes.
