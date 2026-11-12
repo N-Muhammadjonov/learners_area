@@ -179,3 +179,77 @@ def test_multi_sense_unscoped_collocations_not_assigned_without_source(monkeypat
     assert view['senses']['service']['collocations'] == []
     assert view['senses']['joy']['collocations'] == []
     assert view['collocations'] == [{'text': 'happy ending'}]
+
+
+def test_happy_example_replacements_are_complete_and_sense_specific():
+    import re
+
+    corrections = presentation.example_corrections()
+    lexeme_id = HAPPY
+    senses = corrections["entries"][lexeme_id]
+    assert len(senses) == 4
+    assert sum(len(s["examples"]) for s in senses.values()) == 8
+    expected = [
+        "I am happy to help you.",
+        "They have a happy marriage.",
+        "We spent many happy days on the beach.",
+        "She greeted us with a happy smile.",
+        "That was a happy choice of words.",
+        "The writer used a happy turn of phrase.",
+        "The negotiations had a happy outcome.",
+        "It was a happy coincidence that we met.",
+    ]
+    actual = [
+        example["text_en"]
+        for sense in senses.values()
+        for example in sense["examples"].values()
+    ]
+    assert set(actual) == set(expected)
+    assert all(example.endswith(".") for example in actual)
+    assert all(re.search(r"\\b(?:I|We|They|She|That|The|It)\\b", example)
+               for example in actual)
+    for sense in senses.values():
+        assert len(sense["meaning_sha"]) == 64
+        for replacement in sense["examples"].values():
+            assert replacement["original_en"]
+            assert replacement["text_uz"].strip().endswith(".")
+
+
+def test_example_correction_is_bound_to_release_sense_meaning_and_source():
+    corrections = presentation.example_corrections()
+    sense_id = "9a8f14f5-ea1c-4af7-afa2-ebeb957a8903"
+    source = corrections["entries"][HAPPY][sense_id]
+    originals = [
+        {"example_id": identifier, "text_en": replacement["original_en"],
+         "text_uz": "ORIGINAL"}
+        for identifier, replacement in source["examples"].items()
+    ]
+    entry = {
+        "release_id": corrections["source_release"],
+        "lexeme_id": HAPPY,
+        "display_lemma": "happy",
+        "part_of_speech": "a",
+    }
+    sense = {
+        "sense_id": sense_id,
+        "definition_en": "enjoying or showing or marked by joy or pleasure",
+        "examples": originals,
+    }
+    original = copy.deepcopy(sense)
+    revised = presentation.corrected_examples(entry, sense)
+    assert len(revised) == 3
+    assert all(item["text_en"].endswith(".") for item in revised)
+    assert all(item["text_uz"].endswith(".") for item in revised)
+    assert sense == original
+
+    different_release = {**entry, "release_id": "another-release"}
+    assert presentation.corrected_examples(different_release, sense) == originals
+
+    different_meaning = {**sense, "definition_en": "another meaning"}
+    assert presentation.corrected_examples(entry, different_meaning) == originals
+
+    unmatched = copy.deepcopy(sense)
+    unmatched["examples"][0]["text_en"] = "Edited in source."
+    fallback = presentation.corrected_examples(entry, unmatched)
+    assert fallback[0] == unmatched["examples"][0]
+    assert fallback[1]["text_en"] != originals[1]["text_en"]
