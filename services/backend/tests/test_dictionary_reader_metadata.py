@@ -206,7 +206,7 @@ def test_happy_example_replacements_are_complete_and_sense_specific():
     ]
     assert set(actual) == set(expected)
     assert all(example.endswith(".") for example in actual)
-    assert all(re.search(r"\\b(?:I|We|They|She|That|The|It)\\b", example)
+    assert all(re.search(r"\b(?:I|We|They|She|That|The|It)\b", example)
                for example in actual)
     for sense in senses.values():
         assert len(sense["meaning_sha"]) == 64
