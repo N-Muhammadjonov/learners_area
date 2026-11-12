@@ -777,6 +777,126 @@
       "sense_id": "fb292a59-1068-43cf-a07a-7efbdf0fb92a",
       "field_path": "replace_translation_uz.source",
       "url": "https://dictionary.cambridge.org/dictionary/english/chatterbox"
+    },
+    {
+      "lexeme_id": "662ff778-3168-5447-af81-268e423d5f02",
+      "sense_id": "31f266af-0418-47f0-8f16-0fb3563e96f2",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/sneaker"
+    },
+    {
+      "lexeme_id": "662ff778-3168-5447-af81-268e423d5f02",
+      "sense_id": "31f266af-0418-47f0-8f16-0fb3563e96f2",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/sneaker"
+    },
+    {
+      "lexeme_id": "66324681-894b-5766-bdb8-22ccea5b3a2e",
+      "sense_id": "e7b07f8c-4c9b-4afc-b3a3-cb8a9ceb0f4b",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sportsmanship"
+    },
+    {
+      "lexeme_id": "66324681-894b-5766-bdb8-22ccea5b3a2e",
+      "sense_id": "e7b07f8c-4c9b-4afc-b3a3-cb8a9ceb0f4b",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sportsmanship"
+    },
+    {
+      "lexeme_id": "66324681-894b-5766-bdb8-22ccea5b3a2e",
+      "sense_id": "e7b07f8c-4c9b-4afc-b3a3-cb8a9ceb0f4b",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sportsmanship"
+    },
+    {
+      "lexeme_id": "66324681-894b-5766-bdb8-22ccea5b3a2e",
+      "sense_id": "e7b07f8c-4c9b-4afc-b3a3-cb8a9ceb0f4b",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sportsmanship"
+    },
+    {
+      "lexeme_id": "6632d6e8-6e8d-58a4-89e2-d404613874d0",
+      "sense_id": "2bd78441-65b9-46c1-af6e-72cde56d9ad1",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/manga"
+    },
+    {
+      "lexeme_id": "6632d6e8-6e8d-58a4-89e2-d404613874d0",
+      "sense_id": "2bd78441-65b9-46c1-af6e-72cde56d9ad1",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/manga"
+    },
+    {
+      "lexeme_id": "6645cb25-9b43-51cf-b697-20faf0ad0316",
+      "sense_id": "04f5bee3-8d25-590c-8fae-117392a82cd9",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/compiler"
+    },
+    {
+      "lexeme_id": "6645cb25-9b43-51cf-b697-20faf0ad0316",
+      "sense_id": "04f5bee3-8d25-590c-8fae-117392a82cd9",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/compiler"
+    },
+    {
+      "lexeme_id": "66be821d-37ee-59c6-aab9-c748c56ec812",
+      "sense_id": "02fffd48-1cda-4196-9b03-8958eb087213",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/kilogram"
+    },
+    {
+      "lexeme_id": "66902d1d-2764-51da-a4b0-bec9e29576b3",
+      "sense_id": "c16a72af-f2ac-4acd-a8b3-fcd1cf9f306f",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/landowner"
+    },
+    {
+      "lexeme_id": "66902d1d-2764-51da-a4b0-bec9e29576b3",
+      "sense_id": "c16a72af-f2ac-4acd-a8b3-fcd1cf9f306f",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/landowner"
+    },
+    {
+      "lexeme_id": "66902d1d-2764-51da-a4b0-bec9e29576b3",
+      "sense_id": "c16a72af-f2ac-4acd-a8b3-fcd1cf9f306f",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/landowner"
+    },
+    {
+      "lexeme_id": "681e1f3c-08bb-5add-9d61-e8f6d6710a5a",
+      "sense_id": "ce25e634-5ab8-4dab-97b5-8209cb6e4f7e",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/alright"
+    },
+    {
+      "lexeme_id": "681e1f3c-08bb-5add-9d61-e8f6d6710a5a",
+      "sense_id": "ce25e634-5ab8-4dab-97b5-8209cb6e4f7e",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/alright"
+    },
+    {
+      "lexeme_id": "6638eee7-d9e1-555b-8a22-5a6260d4aa8d",
+      "sense_id": "c46f3149-2928-59c4-bb3b-cd070492fa0b",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/grammar/british-grammar/present-perfect-i-have-worked"
+    },
+    {
+      "lexeme_id": "6638eee7-d9e1-555b-8a22-5a6260d4aa8d",
+      "sense_id": "c46f3149-2928-59c4-bb3b-cd070492fa0b",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/grammar/british-grammar/present-perfect-i-have-worked"
+    },
+    {
+      "lexeme_id": "67a2cacc-4df3-5f8c-bf4b-8a43b8ed4381",
+      "sense_id": "1d771187-8475-4b78-8d91-f3fd2cb17079",
+      "field_path": "replace_definition_en.source",
+      "url": "https://oceanservice.noaa.gov/facts/tsunami.html"
+    },
+    {
+      "lexeme_id": "67a2cacc-4df3-5f8c-bf4b-8a43b8ed4381",
+      "sense_id": "1d771187-8475-4b78-8d91-f3fd2cb17079",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://oceanservice.noaa.gov/facts/tsunami.html"
     }
   ],
   "annotations": [

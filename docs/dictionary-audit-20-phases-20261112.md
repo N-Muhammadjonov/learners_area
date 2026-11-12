@@ -558,3 +558,21 @@ Evidence-backed corrections in this batch (applied immediately to the candidate 
 This batch adds **8 exact-sense correction records**, **5 CEFR replacements**, **6 collocations** and 21 audit-only source evidence links. Publisher references stay out of dictionary-facing correction data. All source examples and other meanings remain unchanged.
 
 **Scope gate:** R2 completeness/identity is verified for all 200 entries, but this is **not a claim of independent external linguistic confirmation for every one of the 353 senses**; unspecified CEFR grades are not automatically populated, unscoped polysemous relations are not guessed. The 20-phase audit, candidate publication, production R2 changes, and main merge remain blocked.
+
+
+### Phase 09 — next 500 lexemes (201–700), November 13 (unpublished)
+
+The exact immutable-source batch runs from `662fec4a-afb8-563b-a494-c093c80b5ad6` (conscious) through `6822c2c2-41d6-508c-9d04-d3397fcbd406` (tears), inclusive. Cloudflare R2 source entries were decoded by each stored Supabase offset/length: **500/500 lexemes**, **822/822 senses**, shards 66 (204 entries), 67 (248), 68 (48). Each sense's canonical original meaning SHA-256 was recomputed. Existing labels include **66 unset**, **355 C2**, and **1,076 unscoped lexical relation edges**. Evidence is preserved in `content/dictionary/audit-20261113-phase09-next-500-lexemes.json`.
+
+Confirmed exact-sense editorial corrections:
+- `sneaker` sports shoe B2 → A2; one sneaker collocation. The separate informal informant sense is untouched.
+- `sportsmanship` C2 → C1, fairness/respect definition and one attested collocation.
+- `manga` removes the incorrect claim that the Japanese graphic form is usually only for adults.
+- `compiler` corrects its outdated definition: compilation targets are not limited to an assembly-language program.
+- `kilogram` C1 → A2, matching the explicitly graded 1,000-gram noun.
+- `landowner` C2 → C1, with two independently attested collocations.
+- `alright` clarifies its non-standard spelling and actual satisfactory/well meaning (CEFR A2 preserved).
+- `present perfect tense` clarifies the have/has + past-participle construction and present relevance (CEFR B1 preserved).
+- `tsunami` fixes the false equation of a wave phenomenon with the resulting catastrophe; adopts the source-verified series-of-waves definition.
+
+**9 senses edited**, 4 CEFR changes and 4 phrases added; 20 field-level references preserved only in the private audit evidence. No brand/publisher labels, citations, or source URLs enter dictionary-facing corrections. No example sentences changed. This readback and automated source-structure verification **do not certify** full independent translation/CEFR/synonym accuracy of all 822 senses; missing CEFR values remain unset unless independently substantiated. Unscoped relations were not guessed or auto-attached to meanings. No production R2 publication and no merge to main.

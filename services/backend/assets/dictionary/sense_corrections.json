@@ -933,6 +933,133 @@
           "text": "sergap odam; gapdon"
         }
       }
+    },
+    "662ff778-3168-5447-af81-268e423d5f02": {
+      "31f266af-0418-47f0-8f16-0fb3563e96f2": {
+        "meaning_sha": "4bfbbd0dc4d336e491d8e9c6e8b79e9a79ec5b05a8c1c56b702af7a769e6fbb6",
+        "replace_cefr": {
+          "original": "B2",
+          "text": "A2"
+        },
+        "add_collocations": [
+          {
+            "text": "a pair of sneakers"
+          }
+        ]
+      }
+    },
+    "66324681-894b-5766-bdb8-22ccea5b3a2e": {
+      "e7b07f8c-4c9b-4afc-b3a3-cb8a9ceb0f4b": {
+        "meaning_sha": "dff8c4230670f4c4cdf4165b794c9c0c53d1f75bfcc34e034a8b399bd300b256",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        },
+        "replace_definition_en": {
+          "original": "fairness in following the rules of the game",
+          "text": "fair, generous and respectful behaviour towards others in sports or games"
+        },
+        "replace_definition_uz": {
+          "original": "O‘yin qoidalariga halol va adolatli rioya qilish xulqi.",
+          "text": "Sport yoki o‘yinda raqiblarga nisbatan halol, odobli va hurmatli munosabatda bo‘lish."
+        },
+        "add_collocations": [
+          {
+            "text": "good sportsmanship"
+          }
+        ]
+      }
+    },
+    "6632d6e8-6e8d-58a4-89e2-d404613874d0": {
+      "2bd78441-65b9-46c1-af6e-72cde56d9ad1": {
+        "meaning_sha": "c1f6cf47050c5e168e601f7d330152e7b5622eb89c4ed6f6375ac1842b117b2b",
+        "replace_definition_en": {
+          "original": "graphic novel that originated in Japan, usually intended for adults and characterized by highly stylized art",
+          "text": "Japanese comics and graphic novels that tell stories through sequences of pictures"
+        },
+        "replace_definition_uz": {
+          "original": "Yaponiyada paydo bo‘lgan, odatda o‘ziga xos kuchli stilizatsiyalangan rasmlar bilan beriladigan grafik asar turi.",
+          "text": "Yaponiyada shakllangan, rasmlar ketma-ketligi orqali hikoya qilinadigan komikslar va grafik romanlar."
+        }
+      }
+    },
+    "6645cb25-9b43-51cf-b697-20faf0ad0316": {
+      "04f5bee3-8d25-590c-8fae-117392a82cd9": {
+        "meaning_sha": "b1b9269d3bf7069eb2c17464877661bb59d1034720c0f9b5116fb5bc351d96ee",
+        "replace_definition_en": {
+          "original": "(computer science) a program that decodes instructions written in a higher order language and produces an assembly language program",
+          "text": "a computer program that translates source code from one programming language into another form, often machine code"
+        },
+        "replace_definition_uz": {
+          "original": "(Informatika) Yuqori darajali tilda yozilgan buyruqlarni o‘qib, assembler tilidagi dastur hosil qiladigan dastur.",
+          "text": "Dastur kodini bir dasturlash tilidan boshqa ko‘rinishga, ko‘pincha mashina kodiga o‘giradigan dastur."
+        }
+      }
+    },
+    "66be821d-37ee-59c6-aab9-c748c56ec812": {
+      "02fffd48-1cda-4196-9b03-8958eb087213": {
+        "meaning_sha": "ad6beb489fd4b6845094be5a105335662293857495ef4b0a2a39788450a3cc07",
+        "replace_cefr": {
+          "original": "C1",
+          "text": "A2"
+        }
+      }
+    },
+    "66902d1d-2764-51da-a4b0-bec9e29576b3": {
+      "c16a72af-f2ac-4acd-a8b3-fcd1cf9f306f": {
+        "meaning_sha": "0bfc57c08702744b51ad81720368b54c8cae0ad66eaa8ba7d8dc3ce19c41c5e8",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        },
+        "add_collocations": [
+          {
+            "text": "large landowner"
+          },
+          {
+            "text": "absentee landowner"
+          }
+        ]
+      }
+    },
+    "681e1f3c-08bb-5add-9d61-e8f6d6710a5a": {
+      "ce25e634-5ab8-4dab-97b5-8209cb6e4f7e": {
+        "meaning_sha": "e05ad514d953fbf289e6842fbd0da3ff91e75effdf1ef843e8761bb0a5af1dea",
+        "replace_definition_en": {
+          "original": "nonstandard usage",
+          "text": "an informal spelling of all right, meaning satisfactory, acceptable or well"
+        },
+        "replace_definition_uz": {
+          "original": "Standart bo'lmagan til qo'llanilishi sifatida tavsiflanadigan.",
+          "text": "All right so‘zining norasmiy yozilishi: qoniqarli, ma’qul yoki yaxshi holatda."
+        }
+      }
+    },
+    "6638eee7-d9e1-555b-8a22-5a6260d4aa8d": {
+      "c46f3149-2928-59c4-bb3b-cd070492fa0b": {
+        "meaning_sha": "092afcdea5141571212bd6c7b3119dd307a95135967df9ac6ee7a931500ddde8",
+        "replace_definition_en": {
+          "original": "a perfective tense used to express action completed in the present",
+          "text": "an English tense formed with have or has and a past participle, used for past events or situations connected with the present"
+        },
+        "replace_definition_uz": {
+          "original": "Hozirgi vaqtga aloqador tugallangan harakatni ifodalovchi grammatik zamon.",
+          "text": "Have yoki has va fe’lning uchinchi shakli bilan tuziladigan, o‘tmishdagi hodisa yoki hozirga bog‘liq holatni ifodalaydigan ingliz tili zamoni."
+        }
+      }
+    },
+    "67a2cacc-4df3-5f8c-bf4b-8a43b8ed4381": {
+      "1d771187-8475-4b78-8d91-f3fd2cb17079": {
+        "meaning_sha": "dfdd69239cf44a019875a53e373359ab57a58a4c26ec63e9a755530edadf2c91",
+        "replace_definition_en": {
+          "original": "a cataclysm resulting from a destructive sea wave caused by an earthquake or volcanic eruption",
+          "text": "a series of long sea waves caused by a sudden displacement of water, usually due to an undersea earthquake or volcanic eruption"
+        },
+        "replace_definition_uz": {
+          "original": "Zilzila yoki vulqon otilishi keltirib chiqargan vayronkor dengiz to‘lqini sabab yuz beradigan falokat.",
+          "text": "Odatda dengiz tubidagi zilzila yoki vulqon otilishi oqibatida suvning keskin siljishidan hosil bo‘ladigan uzun dengiz to‘lqinlari ketma-ketligi."
+        }
+      }
     }
   }
 }
