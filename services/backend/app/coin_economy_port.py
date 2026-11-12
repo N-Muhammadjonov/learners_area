@@ -9,7 +9,7 @@ import logging
 import os
 import re
 import secrets
-from datetime import timedelta
+from datetime import date, timedelta
 from uuid import UUID
 
 from fastapi import APIRouter, Request
