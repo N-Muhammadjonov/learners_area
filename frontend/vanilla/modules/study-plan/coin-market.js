@@ -79,7 +79,7 @@ async function earnPanel(ctx, host, options) {
   let daily = dailyResult.value;
   const link = referralResult.status === 'fulfilled' ? referralResult.value?.url : null;
   const referrals = referralResult.status === 'fulfilled' ? referralResult.value?.count ?? 0 : 0;
-  const stars = pointsResult.status === 'fulfilled' ? pointsResult.value?.balance ?? 0 : options.stars;
+  const stars = pointsResult.status === 'fulfilled' ? pointsResult.value?.totalEarned ?? 0 : options.stars;
   const status = h('p', {role: 'status', class: 'coin-market-notice'});
   let claiming = false;
   async function claim() {
