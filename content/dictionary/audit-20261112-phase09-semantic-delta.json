@@ -12,7 +12,8 @@
     "removed_incorrect_synonym_edges": 19,
     "added_exact_synonym_edges": 1,
     "added_exact_antonym_edges": 9,
-    "added_attested_collocations": 7
+    "added_attested_collocations": 7,
+    "uzbek_definition_updates": 2
   },
   "reliable_sources": [
     {
@@ -60,7 +61,8 @@
         "67",
         "68"
       ],
-      "method": "Read-only R2 member-by-member decompression, lexeme/sense IDs and SHA-256 of original lemma/pos/definition; compared every source field before candidate transformation."
+      "method": "Read-only R2 member-by-member decompression, lexeme/sense IDs and SHA-256 of original lemma/pos/definition; compared every source field before candidate transformation.",
+      "definition_uz_original_matches": 2
     },
     "candidate_dry_run": {
       "entries": 12,
@@ -73,7 +75,9 @@
       "invalid_relation_source_ids": 0,
       "invalid_collocation_source_ids": 0,
       "errors": [],
-      "method": "Read-only Cloudflare R2 source decompression and in-memory dry-run of exact field/relationship changes; zero R2 writes."
+      "method": "Read-only Cloudflare R2 source decompression and in-memory dry-run of exact field/relationship changes; zero R2 writes.",
+      "phase09_duplicate_relations_detected": 430,
+      "phase09_exact_scope": "Lexeme UUIDs between 6568847e-1b29-5ff7-b104-60393188df8e and 726f905d-3146-56a5-9234-e7522f7651ce, including endpoints, restricted to frozen release"
     }
   },
   "limits": {
@@ -88,5 +92,15 @@
     "services/backend/app/dictionary_presentation.py",
     "services/backend/tests/test_dictionary_sense_curation_phase09.py",
     "services/backend/tests/test_dictionary_reader_metadata.py"
-  ]
+  ],
+  "quality_findings": {
+    "canonical_relation_edges": 12114,
+    "unscoped_polysemous_relation_edges": 7983,
+    "unscoped_single_sense_relation_edges": 4123,
+    "exact_scoped_relation_edges": 8,
+    "duplicate_relation_identity_keys": 430,
+    "unscoped_collocations_polysemous": 0,
+    "collocation_source_ids_invalid": 0,
+    "interpretation": "Canonical relation inventory is structurally assessed. Unscoped relations on multi-sense lexemes must not be applied to every sense; deduplication is mechanical and does not certify semantic correctness."
+  }
 }
