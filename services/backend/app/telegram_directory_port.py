@@ -70,7 +70,9 @@ async def search_directory(req:Request):
             args.extend((sql_like(q[:80]),t,sql_like(t[:80])))
             a,b,c=range(len(args)-2,len(args)+1)
             where.append(f'''(u.name ILIKE ${a} OR u.email ILIKE ${a} OR u.telegram_id=${b}
-             OR EXISTS (SELECT 1 FROM telegram_contacts tc WHERE tc.linked_user_id=u.id AND tc.username ILIKE ${c}))''')
+             OR EXISTS (SELECT 1 FROM telegram_contacts tc
+                WHERE (tc.linked_user_id=u.id OR tc.telegram_user_id=u.telegram_id)
+                  AND (tc.username ILIKE ${c} OR tc.phone_number ILIKE ${a})))''')
         filter_sql=' AND '.join(where) or 'TRUE'
         users=await conn.fetch(f'''SELECT u.id,u.name,u.email,u.role,u.account_status,u.telegram_id,u.created_at,
               tc.username
@@ -87,7 +89,7 @@ async def search_directory(req:Request):
         # even unrecognised filters, matching the source.
         if not status and not role:
             params=[sql_like(q[:80]),sql_like(t[:80]),t] if q else []
-            extras=('AND (first_name ILIKE $1 OR last_name ILIKE $1 OR username ILIKE $2 OR telegram_user_id=$3)' if q else '')
+            extras=('AND (first_name ILIKE $1 OR last_name ILIKE $1 OR username ILIKE $2 OR telegram_user_id=$3 OR phone_number ILIKE $1)' if q else '')
             contacts=await conn.fetch(f'''SELECT id,telegram_user_id,username,first_name,last_name,
                 bot_blocked_at,removed_at,last_seen_at FROM telegram_contacts
                 WHERE linked_user_id IS NULL {extras}
