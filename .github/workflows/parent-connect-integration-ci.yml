@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: '24'
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: node --test frontend/vanilla/tests/guardian-connect.test.mjs frontend/vanilla/tests/progress-v54.test.mjs
+      - run: node --test frontend/vanilla/tests/guardian-connect.test.mjs frontend/vanilla/tests/guardian-return-handoff.test.mjs frontend/vanilla/tests/progress-v54.test.mjs
       - run: node scripts/bundle_browser.mjs
   backend-full:
     runs-on: ubuntu-latest
