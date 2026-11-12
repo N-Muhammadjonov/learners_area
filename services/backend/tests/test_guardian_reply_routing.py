@@ -31,6 +31,7 @@ def context(role="teacher"):
     return {
         "id": DELIVERY, "link_id": DELIVERY, "student_id": STUDENT,
         "guardian_name": "Mother", "telegram_user_id": "123456789",
+        "original_text": "Please check this homework", 
         "guardian_status": "active", "guardian_chat": "123456789",
         "guardian_blocked": None, "guardian_removed": None,
         "sender_user_id": SENDER, "sender_role": role,
