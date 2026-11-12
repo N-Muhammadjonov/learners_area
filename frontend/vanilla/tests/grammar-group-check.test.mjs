@@ -44,7 +44,7 @@ beforeEach(()=>{
   dom=new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>',{
     url:'https://grammar.test/',pretendToBeVisual:true});
   for(const name of ['window','document','Node','localStorage','Option','navigator'])
-    globalThis[name]=dom.window[name];
+    Object.defineProperty(globalThis,name,{configurable:true,writable:true,value:dom.window[name]});
   window.scrollTo=()=>{};
   window.HTMLMediaElement.prototype.load=()=>{};
   window.HTMLMediaElement.prototype.pause=()=>{};
