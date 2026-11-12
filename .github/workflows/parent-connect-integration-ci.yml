@@ -1,7 +1,7 @@
 name: Parent Connect integration review
 on:
   push:
-    branches: ['feature/parent-connect-integration-20261112', 'fix/guardian-staff-messaging-20261112', 'fix/guardian-return-handoff-20261112', 'main']
+    branches: ['feature/parent-connect-integration-20261112', 'fix/guardian-staff-messaging-20261112', 'fix/guardian-return-handoff-20261112', 'fix/guardian-session-people-retry-20261112', 'main']
   workflow_dispatch:
 permissions:
   contents: read
