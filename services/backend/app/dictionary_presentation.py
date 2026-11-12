@@ -126,14 +126,16 @@ def present(entry):
         synonyms = {}
         for item in [*links(legacy), *(row.get('synonyms', []) if row else []), *links(scoped)]:
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
-        for item in semantic.get('add_synonyms', []):
-            relation = {'text': item['text'], 'lexemeId': item['lexemeId'],
-                        'senseId': item['senseId']}
-            synonyms[(relation['lexemeId'], relation['senseId'], relation['text'])] = relation
+        # Remove misleading legacy edges first. New exact-sense replacements
+        # may legitimately target the same lexeme with a different sense ID.
         excluded_synonyms = set(semantic.get('remove_synonym_lexeme_ids', []))
         if excluded_synonyms:
             synonyms = {key: item for key, item in synonyms.items()
                         if item.get('lexemeId') not in excluded_synonyms}
+        for item in semantic.get('add_synonyms', []):
+            relation = {'text': item['text'], 'lexemeId': item['lexemeId'],
+                        'senseId': item['senseId']}
+            synonyms[(relation['lexemeId'], relation['senseId'], relation['text'])] = relation
         collocations = {}
         for item in [*({'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)), *(row.get('collocations', []) if row else []), *({'text': item['text']} for item in semantic.get('add_collocations', []))]:
             collocations[(usage_norm(item['text']), item.get('lexemeId'), item.get('senseId'))] = item
