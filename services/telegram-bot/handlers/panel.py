@@ -40,11 +40,9 @@ def _directory_button(item: dict) -> InlineKeyboardButton:
     if item.get("entryType") == "telegram_contact":
         telegram_id = str(item.get("telegramUserId") or "")
         name = str(item.get("name") or item.get("username") or telegram_id)
-        label = f"🤖 {name} · Telegram"
-        return InlineKeyboardButton(
-            text=label[:40],
-            callback_data=f"tgc:{telegram_id}",
-        )
+        username = str(item.get("username") or "").lstrip("@")
+        label = f"{name} - @{username}" if username and name.lstrip("@") != username else name
+        return InlineKeyboardButton(text=label[:64], callback_data=f"tgc:{telegram_id}")
 
     name = str(item.get("name") or "—")
     username = str(item.get("username") or "").lstrip("@")
@@ -180,7 +178,8 @@ async def users_page(callback: CallbackQuery, db_user: dict | None = None, bot_a
     await callback.answer()
 
 
-def _user_actions(user_id: str, bot_access: dict | None, lang: str) -> list[list[InlineKeyboardButton]]:
+def _user_actions(user_id: str, bot_access: dict | None, lang: str,
+                  show_parents: bool = False) -> list[list[InlineKeyboardButton]]:
     rows = []
     if allows(bot_access, "DIRECT_MESSAGE"):
         rows.append([InlineKeyboardButton(text=t(lang, "message"), callback_data=f"dm:{user_id}")])
@@ -200,7 +199,8 @@ def _user_actions(user_id: str, bot_access: dict | None, lang: str) -> list[list
         ])
     if allows(bot_access, "DANGEROUS_USER_DELETE"):
         rows.append([InlineKeyboardButton(text=t(lang, "delete_account"), callback_data=f"ust:delete:{user_id}")])
-    rows.insert(0, [InlineKeyboardButton(text=t(lang, "linked_parents"), callback_data=f"stdp:{user_id}")])
+    if show_parents:
+        rows.insert(0, [InlineKeyboardButton(text=t(lang, "linked_parents"), callback_data=f"stdp:{user_id}")])
     rows.append([InlineKeyboardButton(text=t(lang, "back"), callback_data="o:users")])
     return rows
 
@@ -231,7 +231,8 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
             username = phone.get("username")
             text += f"\n📱 @{esc(username)}" if username else "\n📱 —"
             text += f"\n📞 {esc(phone.get('phoneNumber') or '—')}"
-    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(user_id, bot_access, lang)))
+    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=_user_actions(
+        user_id, bot_access, lang, show_parents=user.get("role") == "student")))
     await callback.answer()
 
 
