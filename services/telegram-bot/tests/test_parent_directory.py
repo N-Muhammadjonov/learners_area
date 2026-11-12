@@ -128,6 +128,40 @@ async def test_student_profile_links_to_verified_parent_profile():
 def test_existing_user_management_actions_remain_available():
     data = [button.callback_data for row in _user_actions(STUDENT_ID, OWNER_ACCESS, "uz", show_parents=True)
             for button in row]
-    for action in ("dm:", "ust:approve:", "ust:reject:", "ust:suspend:", "ust:unsuspend:",
-                   "ust:unlink:", "ust:remove:", "ust:delete:", "stdp:"):
+    for action in ("dm:", "ust:unlink:", "ust:remove:", "ust:delete:", "stdp:"):
         assert any(item.startswith(action) for item in data), action
+    for blocked in ("ust:approve:", "ust:reject:", "ust:suspend:", "ust:unsuspend:"):
+        assert not any(item.startswith(blocked) for item in data), blocked
+    assert not any(item.startswith("stdp:") for row in _user_actions(STUDENT_ID, OWNER_ACCESS, "uz", show_parents=False)
+                   for item in [button.callback_data for button in row])
+
+
+@pytest.mark.asyncio
+async def test_contact_without_account_offers_manual_message_and_parent_absent_notice():
+    from handlers.panel import telegram_contact_card
+    event = callback("tgc:7500000000")
+    detail = {"contact": {"firstName": "Contact", "lastName": None, "username": "sample",
+                           "removed": False, "blocked": False}, "user": None}
+    with patch("handlers.panel.api_client.get_user", AsyncMock(return_value=detail)), \
+         patch("handlers.panel.api_client.owner_contact_detail", AsyncMock(return_value=(200, {"phoneNumber": None}))):
+        await telegram_contact_card(event, bot_access=OWNER_ACCESS)
+    text = event.message.edit_text.await_args.args[0]
+    markup = event.message.edit_text.await_args.kwargs["reply_markup"]
+    actions = [button.callback_data for row in markup.inline_keyboard for button in row]
+    assert "Hali ota-ona ulanmagan" in text
+    assert "Hali Learners Area" in text
+    assert "dmt:7500000000" in actions
+    assert "tgr:7500000000" in actions
+
+
+@pytest.mark.asyncio
+async def test_parent_card_has_direct_message_button_for_parent_contact():
+    event = callback("pc:" + PROFILE_ID)
+    result = {"parent": {"name": "Parent", "telegramId": "730000001", "botRemoved": False, "botBlocked": False},
+              "students": [{"userId": STUDENT_ID, "name": "Student", "status": "linked"}]}
+    with patch("handlers.parents.api_client.parent_detail", AsyncMock(return_value=(200, result))):
+        await parent_card(event, bot_access=OWNER_ACCESS)
+    actions = [button.callback_data for row in event.message.edit_text.await_args.kwargs["reply_markup"].inline_keyboard
+               for button in row]
+    assert actions[0] == "dmt:730000001"
+    assert "usr:" + STUDENT_ID in actions
