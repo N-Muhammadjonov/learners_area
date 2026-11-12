@@ -126,7 +126,7 @@ async def test_student_profile_links_to_verified_parent_profile():
 
 
 def test_existing_user_management_actions_remain_available():
-    data = [button.callback_data for row in _user_actions(STUDENT_ID, OWNER_ACCESS, "uz")
+    data = [button.callback_data for row in _user_actions(STUDENT_ID, OWNER_ACCESS, "uz", show_parents=True)
             for button in row]
     for action in ("dm:", "ust:approve:", "ust:reject:", "ust:suspend:", "ust:unsuspend:",
                    "ust:unlink:", "ust:remove:", "ust:delete:", "stdp:"):
