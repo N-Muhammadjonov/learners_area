@@ -100,15 +100,18 @@ def test_phase09_editorial_proposals_remain_unpublished() -> None:
 def test_phase09_cefr_edits_have_exact_sense_evidence() -> None:
     data = load("audit-20261112-phase09-reviewed-corrections.json")
     edits = data["source_verified_cefr_edits"]
-    assert len(edits) == 6
+    assert len(edits) == 9
     by_lemma = {row["lemma"]: row for row in edits}
-    assert set(by_lemma) == {"itself", "nowadays", "cake", "hysterical", "demonstrate", "beep"}
+    assert set(by_lemma) == {"itself", "nowadays", "cake", "hysterical", "demonstrate", "beep", "chatty", "bribe"}
     assert (by_lemma["itself"]["original"], by_lemma["itself"]["proposed"]) == (None, "A2")
     assert (by_lemma["nowadays"]["original"], by_lemma["nowadays"]["proposed"]) == ("A2", "B1")
     assert (by_lemma["cake"]["original"], by_lemma["cake"]["proposed"]) == ("B1", "A1")
     assert (by_lemma["hysterical"]["original"], by_lemma["hysterical"]["proposed"]) == ("C2", "C1")
     assert (by_lemma["demonstrate"]["original"], by_lemma["demonstrate"]["proposed"]) == ("B1", "C1")
     assert (by_lemma["beep"]["original"], by_lemma["beep"]["proposed"]) == ("C2", "C1")
+    assert sum(edit["lemma"] == "chatty" for edit in edits) == 2
+    assert {edit["proposed"] for edit in edits if edit["lemma"] in {"chatty", "bribe"}} == {"C1"}
+    assert len({edit["sense_id"] for edit in edits}) == len(edits)
     for edit in edits:
         UUID(edit["lexeme_id"])
         UUID(edit["sense_id"])
