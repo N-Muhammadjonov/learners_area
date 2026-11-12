@@ -9,17 +9,17 @@
     "source_lexemes": 3279
   },
   "editorial": {
-    "exact_lexeme_deltas": 18,
-    "exact_sense_deltas": 30,
-    "source_verified_cefr_edits": 5,
+    "exact_lexeme_deltas": 22,
+    "exact_sense_deltas": 35,
+    "source_verified_cefr_edits": 6,
     "corrected_english_definitions": 2,
     "corrected_uzbek_definitions": 2,
     "corrected_uzbek_translations": 2,
     "excluded_misattributed_senses_from_future_candidate": 4,
     "removed_incorrect_synonym_targets": 19,
-    "added_exact_synonym_edges": 8,
+    "added_exact_synonym_edges": 12,
     "added_exact_antonym_edges": 10,
-    "added_attested_collocations": 15
+    "added_attested_collocations": 21
   },
   "latest_verified_changes": [
     {
@@ -75,6 +75,35 @@
       "sense_id": "efa2e5e1-dca5-488a-85c3-03ea971ccf3f",
       "change": "Back-cover blurb and publicity blurb",
       "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+    },
+    {
+      "lemma": "beep",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
+      "scope": "car horn C1; pager C2 remains unchanged"
+    },
+    {
+      "lemma": "abide",
+      "sense_ids": [
+        "033fda48-dc62-4b8e-91a7-30f327e8e66d",
+        "28d49c76-2120-49d9-bbc9-c93f5dabdf6f"
+      ],
+      "change": "Tolerate vs dwell synonyms matched to the respective meaning only",
+      "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+    },
+    {
+      "lemma": "alms",
+      "sense_id": "fdbfb4f7-12d0-437a-867b-47269f9bca26",
+      "change": "give alms to the poor collocation",
+      "source": "https://dictionary.cambridge.org/dictionary/english/alms"
+    },
+    {
+      "lemma": "archway",
+      "sense_id": "e52d6121-d32a-4b26-9909-c1d53e593936",
+      "change": "stone archway collocation",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/archway"
     }
   ],
   "r2_readback": {
@@ -84,13 +113,15 @@
       "67",
       "68",
       "69",
+      "6a",
       "6b",
+      "6c",
       "71"
     ],
-    "lexemes": 18,
-    "senses": 30,
-    "meaning_sha_matched": 30,
-    "cefr_originals_matched": 5,
+    "lexemes": 22,
+    "senses": 35,
+    "meaning_sha_matched": 35,
+    "cefr_originals_matched": 6,
     "english_definitions_matched": 2,
     "uzbek_definitions_matched": 2,
     "uzbek_translations_matched": 2,
