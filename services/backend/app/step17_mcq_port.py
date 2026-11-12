@@ -181,5 +181,10 @@ async def advance(req:Request,id:str):
         args=(action[1],text,session['id'],user['id'],session['stage']) if field else (action[1],session['id'],user['id'],session['stage'])
         updated=await con.fetchrow(statement,*args)
         if not updated:return err('not_found')
+        if updated['stage']=='reasoned':
+            from .coin_rewards import award_coin
+            await award_coin(con,user['id'],f"listening:mcq:{q['id']}",module='listening',
+                             activity_type='mcq_mastery',parent_content_id=str(q['test_id']),
+                             exercise_id='mcq:'+str(q['id']),evidence_id=str(updated['id']))
     return core.j(view(updated,q),headers=PRIVATE)
 def install():core.app.include_router(router)
