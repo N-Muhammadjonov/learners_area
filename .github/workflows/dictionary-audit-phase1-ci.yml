@@ -1,0 +1,26 @@
+name: Dictionary phase-01 regression checks
+on:
+  push:
+    branches:
+      - fix/dictionary-audit-phase-01-20261112
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  focused-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: services/backend/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - name: Compile all backend modules
+        run: python -m compileall -q services/backend/app
+      - name: Dictionary regression suite
+        working-directory: services/backend
+        run: python -m pytest -q tests/test_dictionary_reader_metadata.py tests/test_dictionary_search_delivery_guard.py tests/test_dictionary_optimization_tools.py tests/test_step41_dictionary_r2_publish.py
