@@ -154,8 +154,7 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
                     FROM typing_runs WHERE user_id=$1
                     AND started_at >= $2 AND finished_at <= $3
                     AND finished_at IS NOT NULL AND duration_ms >= $4
-                    AND typed_chars >= 35 AND accuracy >= 75
-                    HAVING SUM(duration_ms) >= 300000""",
+                    AND typed_chars >= 35 AND accuracy >= 75""",
                     uid, cycle["opened_at"], now, seconds * 1000)
                 if finished_at is not None:
                     verified["writing"] = (finished_at, typing_task["source_key"])
