@@ -89,6 +89,12 @@ class ApiClient:
             "GET", f"/contacts/{target_id}", params={"actorTelegramId": actor_id}
         )
 
+    async def accept_coin_referral(self, telegram_user_id: str, code: str) -> tuple[int, Any]:
+        """Record an untrusted deep link as a pending first-time invite, never pay here."""
+        return await self._request("POST", "/coins/referral", json={
+            "telegramUserId": telegram_user_id, "code": code,
+        })
+
     async def create_login_handoff(self, telegram_user_id: str) -> tuple[int, Any]:
         return await self._request("POST", "/auth/handoff", json={
             "telegramUserId": telegram_user_id,
