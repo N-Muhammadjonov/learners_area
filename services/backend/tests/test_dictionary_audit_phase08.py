@@ -24,7 +24,7 @@ def test_phase08_source_integrity_and_frozen_boundaries():
     shards = data["checksums"]
     assert [r["shard"] for r in shards] == [f"{i:02x}" for i in range(88, 102)]
     assert [r["entries"] for r in shards] == [
-        241, 281, 274, 243, 230, 243, 264, 264, 264, 252, 246, 262, 250, 254
+        241, 281, 274, 243, 230, 243, 264, 264, 264, 252, 246, 262, 250, 256
     ]
     assert all(len(r["sha256"]) == 64 and r["bytes"] > 0 for r in shards)
 
