@@ -56,7 +56,15 @@ export function createVideoStudio(context,{mode,video}){
  blockedNote.hidden=true;
  const liveLabel=el('span',{class:'text-xs text-ink-500','data-video-live-transcript':'no'},t.liveTrackingOff);
  const stateLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-progress-state':''});
- const meta=el('div',{class:'flex flex-wrap items-center gap-2'},liveLabel,stateLabel);
+ const coinLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-coin-award':'',role:'status'});
+ const meta=el('div',{class:'flex flex-wrap items-center gap-2'},liveLabel,stateLabel,coinLabel);
+ function updateCoinAward(result) {
+  if(destroyed||signal.aborted||!result||typeof result!=='object')return;
+  if(Number.isInteger(result.awarded)&&result.awarded>0)
+   coinLabel.textContent='+'+result.awarded+' 🪙 '+(context.locale==='uz'?'tanga hisoblandi':'coins earned');
+  else if(result.unavailable===true)
+   coinLabel.textContent=context.locale==='uz'?'Tanga hisoblash vaqtincha ishlamayapti':'Coin tracking is temporarily unavailable';
+ }
  const tablist=el('div',{class:'flex flex-wrap gap-2',role:'tablist','aria-label':t.stagesLabel,'data-video-tablist':''});
  const requestErr=el('p',{role:'alert','data-video-request-error':''},dict.common.error);
  requestErr.hidden=true;
@@ -127,7 +135,7 @@ export function createVideoStudio(context,{mode,video}){
      body:JSON.stringify({sessionId:youtubeSession,mediaId:String(lesson.id),module:lesson.mediaKind==='audio'?'podcast':'ted',
        positionMs:Math.round(position*1000),playbackRate:youtubeRate,playing:youtubePlaying&&document.visibilityState==='visible',
        durationMs:playbackDuration?Math.round(playbackDuration*1000):null})})
-     .then(async response=>{if(!response.ok)return;const data=await response.json();if(data.sessionId)youtubeSession=data.sessionId;})
+     .then(async response=>{if(!response.ok)return;const data=await response.json();if(data.sessionId)youtubeSession=data.sessionId;updateCoinAward(data);})
      .catch(()=>{}).finally(()=>{youtubePulsePending=false;if(youtubeQueued){youtubeQueued=false;youtubePulse(youtubePosition,true);}});
   }
   const ask=()=>{postTo(node,{event:'listening',id:1,channel:'widget'});postTo(node,{event:'command',func:'addEventListener',args:['onStateChange']});};
@@ -334,6 +342,7 @@ export function createVideoStudio(context,{mode,video}){
        if(!response.ok)return;
        const data=await response.json();
        if(data.sessionId)sessionId=data.sessionId;
+       updateCoinAward(data);
       }).catch(()=>{});
      },
     });
