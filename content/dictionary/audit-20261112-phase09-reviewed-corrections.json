@@ -131,5 +131,43 @@
     "automated_mass_cefr_downgrade": false,
     "automatic_relation_invention": false,
     "production_changes": false
-  }
+  },
+  "source_verified_cefr_edits": [
+    {
+      "lexeme_id": "65700dea-c5bd-4747-b069-eb958e8d2524",
+      "sense_id": "d095acda-ffbd-4ed9-99ef-2b7c3632edec",
+      "lemma": "visual impact",
+      "original": null,
+      "proposed": null,
+      "reason": "No independently attested CEFR grade for exact phrase; leave nullable"
+    },
+    {
+      "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+      "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+      "lemma": "itself",
+      "original": null,
+      "proposed": "A2",
+      "source": "https://dictionary.cambridge.org/dictionary/english/itself",
+      "scope": "reflexive pronoun referring back to the same subject"
+    },
+    {
+      "lexeme_id": "65a3521a-fee2-57ba-a9da-6986fbb48d7e",
+      "sense_id": "e4920ac3-62d9-4322-9dde-b2cb48d19237",
+      "lemma": "nowadays",
+      "original": "A2",
+      "proposed": "B1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/nowadays",
+      "scope": "adverb meaning at the present time compared to the past"
+    },
+    {
+      "lexeme_id": "65a67e1f-758a-5461-a706-e2e07dbdeff6",
+      "sense_id": "4d245a0c-9a49-457b-a9e5-6a3d045caac1",
+      "lemma": "cake",
+      "original": "B1",
+      "proposed": "A1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/cake",
+      "scope": "noun: sweet baked food, not a block or piece of another material"
+    }
+  ],
+  "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
 }
