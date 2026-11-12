@@ -145,6 +145,7 @@ function calendar(ctx, data, state) {
     const button = h('button', {
       type:'button',class:'sequence-day', 'data-sequence-day':day.day,
       'data-sequence-state':day.status, 'data-sequence-today':day.date===data.today,
+      'data-sequence-rescheduled':String(day.rescheduled===true),
       'aria-pressed':day.day===selected,
       'aria-label':text(ctx,'Kun ','Day ')+day.day+' — '+dateLabel(ctx,day.date)+' — '+
         (locked?statusLabel(ctx,'locked'):day.status==='completed'?
@@ -152,7 +153,11 @@ function calendar(ctx, data, state) {
       disabled:locked,
       onClick:()=>{state.selectedDay=day.day;drawSelected();},
     }, h('strong',{},day.day),
-    h('small',{},dateLabel(ctx,day.date)),
+    h('small',{},dateLabel(ctx,day.date),day.rescheduled===true?
+      h('span',{class:'sequence-day-shifted',title:text(ctx,
+        'Tugallanmagan mashqlar yangi sanaga ko‘chirildi',
+        'Unfinished exercises moved to this date'),'aria-label':text(ctx,
+        'Ko‘chirildi','Rescheduled')},' ↻'):null),
     h('span',{class:'sequence-day-dots','aria-hidden':'true'},
       day.tasks.map(task=>h('i',{'data-kind':task.kind,'data-state':task.status}))));
     buttons.push(button);
