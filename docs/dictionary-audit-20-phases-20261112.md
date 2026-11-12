@@ -89,3 +89,34 @@ No production release, channel, data or main branch was mutated by this audit.
 - Added `.github/workflows/dictionary-audit-phase1-ci.yml`. GitHub Actions run `43231278384` completed successfully: **82 passed, 1 warning** in the focused backend suite; `compileall` also succeeded. CI only verifies code, not independent translation/CEFR source correctness.
 - Current `main` has advanced independently. This audit branch is not automatically rebased or merged. Production data and immutable R2 objects have not been altered.
 - **Final classification:** structural data integrity QA and code regression complete; phase-01 human/independent linguistic certification, immutable release generation, and production readback still incomplete. The phase cannot be marked fully verified until those deliverables exist. The 436 null CEFR and 2,377 C2 records are review candidates, not blanket errors.
+
+## Presentation cross-check — all 5,521 phase-01 senses
+
+The frozen canonical R2 entries were independently matched by `lexeme_id` and `sense_id` against all 13 locally bundled presentation shards `00`–`0c`. The final shard `0c` was restricted to the first 309 senses ordered by lexeme/sense ID; its other 192 senses belong to phase 02.
+
+| Count across exact phase-01 scope | Count |
+| --- | ---: |
+| Source senses checked | 5,521 |
+| Matching presentation sense IDs observed | 5,473 |
+| No presentation sense row | 48 |
+| Senses with presentation synonyms | 3,059 |
+| Senses with canonical synonyms scoped to the exact sense or safe single-sense fallback | 1,176 |
+| Senses with synonyms in either counted layer | 3,064 |
+| Senses with presentation collocations | 114 |
+| Senses with canonical collocations scoped to the exact sense or safe single-sense fallback | 39 |
+| Senses with collocations in either counted layer | 153 |
+| Senses with no synonym in either counted layer | 2,457 |
+| Senses with no collocation in either counted layer | 5,368 |
+
+These are **presence counts**, not semantic validation. Missing presentation rows may be custom additions, stale supplementary metadata or expected base fallback; all 48 must be inspected against exact source hashes and provenance before assigning a defect. The presence audit matched sense IDs but did **not independently validate every presentation `meaningSha`**, so effective rendered counts may be lower. Unscoped relations on polysemous entries require sense disambiguation; the UI must not distribute them across unrelated senses. All missing relation numbers are review candidates rather than invented antonyms/collocations.
+
+Code fix: retaining both canonical and curated collocations without losing either when curated metadata is present. GitHub CI on branch runs the preservation and sense-isolation regression tests.
+
+### Completion criteria still outstanding
+
+- Independently verify **every one of 5,521 EN→UZ sense translations**, not merely its nonempty JSON string.
+- Check CEFR at the exact sense and register, resolve 436 null labels appropriately, and investigate 2,377 C2 labels without mass downgrading.
+- Validate that each proposed synonym, antonym and collocation is genuine, appropriately scoped and sourced. `no antonym` can be legitimate.
+- Produce reproducible immutable candidate R2 release, full source/presentation/hash QA, rollback pointer and deployment readback before changing the stable channel.
+- Rebase or reconcile independently advanced `main` only after test gates; do not silently merge.
+
