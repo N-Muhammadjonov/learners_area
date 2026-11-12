@@ -80,6 +80,304 @@
             "text_uz": "Yangi ishlab chiqarish liniyasini ishga tushirish puxta rejalashtirishni talab qildi."
           }
         }
+      },
+      "f56773d3-7e2d-4d35-9b42-f79de2ddf783": {
+        "meaning_sha": "388425765907174c9fbcc78b328b963d93e9ac498315190287a5c2ed239c35ca",
+        "examples": {
+          "f232d1af-862c-5e35-aa5f-c3b22b4872fb": {
+            "original_en": "repeated shutdowns and startups are expensive",
+            "text_en": "Repeated shutdowns and startups are expensive.",
+            "text_uz": "Takroriy to‘xtatish va ishga tushirishlar katta xarajat talab qiladi."
+          }
+        }
+      }
+    },
+    "6568847e-1b29-5ff7-b104-60393188df8e": {
+      "837c0d04-016a-55ec-a735-0496b50b7752": {
+        "meaning_sha": "3b4ff0fcae84086f94643b8ca7a79bd7d4a565dc893d848461cc6b4ae9e0f9be",
+        "examples": {
+          "181242f1-0fa6-581b-979b-073743d29793": {
+            "original_en": "Will this wallpaper adhere to the wall?",
+            "text_en": "The adhesive will hold fast to the wall.",
+            "text_uz": "Yelim devorga mahkam yopishadi."
+          }
+        }
+      }
+    },
+    "656c7ebe-a5ba-5a68-b1d4-a5e0fd553ec0": {
+      "c9861d39-7699-5ccd-a188-45d7a20dab2c": {
+        "meaning_sha": "d787796b390564200cc236c291f0738fa7bb7ce035d5c8f506f36ba65fd7d385",
+        "examples": {
+          "2ac3f36c-eb49-520d-8d8c-dd2447ffd241": {
+            "original_en": "under the circumstances I cannot buy the house",
+            "text_en": "Under the circumstances, I cannot buy the house.",
+            "text_uz": "Hozirgi sharoitda men bu uyni sotib ololmayman."
+          }
+        }
+      }
+    },
+    "65735b8f-9c69-5c83-af51-86ce9e7fbfa9": {
+      "e8f9907d-4580-5a47-b354-52c9c1be2458": {
+        "meaning_sha": "5116107b6430df86c99b0975e9d887e475092f6feab16b0d10e215f750d4217c",
+        "examples": {
+          "65692c01-4a99-5261-bcd9-8ee5a7a45de3": {
+            "original_en": "He revoked the ban on smoking",
+            "text_en": "The minister countermanded the previous order.",
+            "text_uz": "Vazir oldingi buyruqni bekor qildi."
+          },
+          "8e283d13-82d2-5bf2-9263-afc672258d7d": {
+            "original_en": "lift an embargo",
+            "text_en": "The officer countermanded the order to advance.",
+            "text_uz": "Ofitser oldinga yurish haqidagi buyruqni bekor qildi."
+          }
+        }
+      }
+    },
+    "65769717-f5c9-5441-9313-b2b0f5dcd3e4": {
+      "2fdc334b-2c55-5391-9c70-a90e12b94a91": {
+        "meaning_sha": "d7bfa6d3c5cd4f451aabf099ed0f08ba6a380619219bd8b2eeec8ec74de78e93",
+        "examples": {
+          "749247b9-e0fb-530f-9115-f551d38331fd": {
+            "original_en": "overwrite that file",
+            "text_en": "Please overwrite that file with the updated version.",
+            "text_uz": "Iltimos, o‘sha faylning ustidan yangilangan versiyasini yozing."
+          }
+        }
+      }
+    },
+    "65795ee0-894d-5ef1-87d9-67317b0821e9": {
+      "e7d88279-16ca-5bb8-80e0-e0cb6864dbff": {
+        "meaning_sha": "6e76bad406327110ea6127add7df5750d41007477ed3602cf5031767fe3b53a7",
+        "examples": {
+          "1c826704-5105-51df-9bb2-20a22ec29250": {
+            "original_en": "They intrust him to write the letter",
+            "text_en": "They intrust him with the responsibility of writing the letter.",
+            "text_uz": "Ular xatni yozish mas’uliyatini unga ishonib topshirishadi."
+          },
+          "6f041da4-e44a-500a-a4f0-59c4e12df0b1": {
+            "original_en": "The messenger was entrusted with the general's secret",
+            "text_en": "They intrusted the general's secret to the messenger.",
+            "text_uz": "Ular generalning sirini xabarchiga ishonib topshirdilar."
+          }
+        }
+      }
+    },
+    "657a3cc5-c380-5e80-8b2b-253585c708b9": {
+      "e3d17978-a3ac-4585-8165-64ec3bf4e308": {
+        "meaning_sha": "eb2103fd7bb9baf762fc2b4914219edaa2d03959e384e968fa3f54112b09b926",
+        "examples": {
+          "3eb6e9c5-9656-5217-b825-54a7e625fcd2": {
+            "original_en": "a bit of rock caught him in the eye",
+            "text_en": "A small flake of rock struck him near the eye.",
+            "text_uz": "Toshning kichik parchasi uning ko‘zi yaqiniga tegdi."
+          }
+        }
+      }
+    },
+    "657d401a-d708-574d-96e0-4130d13b53ca": {
+      "725120af-7844-44a6-a94b-99cad490b356": {
+        "meaning_sha": "2eb5dc07e943003429c3376df680978cd2cdddd076945f971024457ee35aa97f",
+        "examples": {
+          "64c9b103-a405-5c09-8b2f-7d52c0fc27e4": {
+            "original_en": "a mob of hysterical vigilantes",
+            "text_en": "A hysterical crowd gathered outside the building.",
+            "text_uz": "Bino tashqarisida o‘zini tuta olmayotgan olomon to‘plandi."
+          },
+          "daaffd89-d7f7-56b5-bb40-812a48088728": {
+            "original_en": "hysterical laughter",
+            "text_en": "Her hysterical laughter interrupted the meeting.",
+            "text_uz": "Uning o‘zini tutolmay kulishi yig‘ilishni bo‘ldi."
+          }
+        }
+      },
+      "f68dd2ea-347f-4d64-8dd8-8eeecfbf385f": {
+        "meaning_sha": "e55eff684b2eacdee535f74e05bc459823b69149c0e1b7b3711a329db0c27a58",
+        "examples": {
+          "a910c8d0-4120-5e58-a8fe-e546ff4c6645": {
+            "original_en": "hysterical amnesia",
+            "text_en": "The historical medical report described a case of hysterical amnesia.",
+            "text_uz": "Eski tibbiy hisobotda isterik amneziya holati tasvirlangan."
+          },
+          "e44e04b1-54cb-5abc-9ef0-e28fbe72a319": {
+            "original_en": "during hysterical conditions various functions of the human body are disordered",
+            "text_en": "The report described how hysterical symptoms affected the patient's movement.",
+            "text_uz": "Hisobotda isterik alomatlar bemorning harakatiga qanday ta’sir qilgani tasvirlangan."
+          }
+        }
+      }
+    },
+    "6593479b-a156-5934-b577-770e5ba283b2": {
+      "28840d80-0ca0-4b79-bf67-8a45145205ec": {
+        "meaning_sha": "68c47fca33605a81c086555060832ef6fd9b1d76152065fddaf5ff435fdf8eee",
+        "examples": {
+          "2dda6d04-7848-5cb7-830c-2ea47b0a986e": {
+            "original_en": "the recipe listed all the makings for a chocolate cake",
+            "text_en": "The recipe listed all the makings for a chocolate cake.",
+            "text_uz": "Retseptda shokoladli tort uchun barcha masalliqlar sanab o‘tilgan."
+          }
+        }
+      },
+      "41c52d6b-b76b-406f-80f1-c28087ac0d29": {
+        "meaning_sha": "583eeca3612dc43efa0ac49486f06e144ea56a32903fc8eb1aab13da0540ac9e",
+        "examples": {
+          "2ee0802f-acdb-5787-a705-68b86b2625f9": {
+            "original_en": "she has the makings of fine musician",
+            "text_en": "She has the makings of a fine musician.",
+            "text_uz": "Unda yaxshi musiqachi bo‘lish uchun zarur layoqat bor."
+          },
+          "e2020ba6-33b6-561e-b9e5-3dd72a1a0a0d": {
+            "original_en": "her qualifications for the job are excellent",
+            "text_en": "She has the makings of an excellent teacher.",
+            "text_uz": "Unda ajoyib o‘qituvchi bo‘lish uchun zarur fazilatlar bor."
+          },
+          "f72106c7-69b6-52eb-8073-df9fb068b27a": {
+            "original_en": "one of the qualifications for admission is an academic degree",
+            "text_en": "Patience is one of the makings of a good leader.",
+            "text_uz": "Sabr-toqat yaxshi rahbar bo‘lish uchun zarur fazilatlardan biridir."
+          }
+        }
+      },
+      "fe24776a-3681-43f3-ae6d-9c9b2d16b08e": {
+        "meaning_sha": "b397e8a4c46c80c4195f2da8b7d85340371b827bb12ce76be30d09867257dc2e",
+        "examples": {
+          "36eccae7-3eab-5c60-9a1f-9a3b533d0af0": {
+            "original_en": "the devising of plans",
+            "text_en": "The making of a detailed plan took several days.",
+            "text_uz": "Batafsil reja tuzishga bir necha kun ketdi."
+          },
+          "550df31b-97a0-5c69-86bf-4246ff4fe128": {
+            "original_en": "the making of measurements",
+            "text_en": "The making of these measurements requires special equipment.",
+            "text_uz": "Bu o‘lchovlarni amalga oshirish uchun maxsus jihozlar kerak."
+          },
+          "5ad732ce-c188-5f2e-a33a-61254841d4b7": {
+            "original_en": "the fashioning of pots and pans",
+            "text_en": "The making of pots and pans requires skilled workers.",
+            "text_uz": "Qozon-tovoq yasash uchun malakali ishchilar kerak."
+          },
+          "ce1731a2-645d-5db5-9859-4d566c24586a": {
+            "original_en": "it was already in the making",
+            "text_en": "The agreement was already in the making.",
+            "text_uz": "Kelishuv allaqachon tayyorlanayotgan edi."
+          }
+        }
+      }
+    },
+    "659b0dcc-29c8-57ac-887e-8354b0df395d": {
+      "0498e8ed-14dd-42ff-ab0e-c21aa3903525": {
+        "meaning_sha": "de33fafef47d97db776de1e7788bf130a929302a9103c7b88428f52dd3f4f818",
+        "examples": {
+          "a5aa7d90-205b-5943-b655-4e0332a8924b": {
+            "original_en": "furrow soil",
+            "text_en": "The machine can groove the soil in straight lines.",
+            "text_uz": "Mashina tuproqda to‘g‘ri chiziqli egatlar ocha oladi."
+          }
+        }
+      },
+      "22c20981-3d1d-40af-8c88-8d11c3bfcc0e": {
+        "meaning_sha": "19421c2f9a9f90754266a2be9b855754ca44c4847b16d4ad2c0722adaf97f030",
+        "examples": {
+          "04af75c6-33c7-5c6b-9b16-dde3940d08b3": {
+            "original_en": "groove a vinyl record",
+            "text_en": "The technician used a tool to groove the metal surface.",
+            "text_uz": "Texnik metall yuzaga o‘yiq ochish uchun asbob ishlatdi."
+          }
+        }
+      }
+    },
+    "659d57b8-ed6a-53b4-b416-e44480852b12": {
+      "a6ae3437-46cb-4dca-a038-98ae1c86f0f0": {
+        "meaning_sha": "d5a5cda42dcad489f4c2acb87760cf611792c5db3a85e837d36af55ca88f2363",
+        "examples": {
+          "12052aad-3316-5421-93fc-2d1f4750dec4": {
+            "original_en": "rope the bag securely",
+            "text_en": "They leashed the dog before leaving the yard.",
+            "text_uz": "Ular hovlidan chiqishdan oldin itga tasma taqishdi."
+          }
+        }
+      }
+    },
+    "65a09564-3f7a-57c4-87c3-b49a18a891c5": {
+      "e5759095-9273-503f-a480-76eef49235a3": {
+        "meaning_sha": "c6e3520e5772e6f9a72255b0daa5d4caf3691626cb6471e768f530b47fa88785",
+        "examples": {
+          "2432c407-45fd-57f3-8272-ead03255f8a5": {
+            "original_en": "We condemn the racism in South Africa",
+            "text_en": "We decry all forms of racial discrimination.",
+            "text_uz": "Biz irqiy kamsitishning barcha shakllarini qoralaymiz."
+          },
+          "31c2e137-c2f7-5e9e-9d4c-112433ef6097": {
+            "original_en": "These ideas were reprobated",
+            "text_en": "Several experts decried the proposal.",
+            "text_uz": "Bir necha mutaxassis bu taklifni keskin qoraladi."
+          }
+        }
+      }
+    },
+    "65a3521a-fee2-57ba-a9da-6986fbb48d7e": {
+      "e4920ac3-62d9-4322-9dde-b2cb48d19237": {
+        "meaning_sha": "8ed3993b16a9e72b73bd068415774ab35d5ffc25753ff4403f67d8a6b7ea3e55",
+        "examples": {
+          "257f0c54-4fe1-5fe7-b948-395221c58121": {
+            "original_en": "we now rarely see horse-drawn vehicles on city streets",
+            "text_en": "Nowadays, we rarely see horse-drawn vehicles on city streets.",
+            "text_uz": "Hozirgi kunda shahar ko‘chalarida ot aravalarini kamdan-kam ko‘ramiz."
+          },
+          "8a3aa5e9-196c-5c76-a92a-afc754d7aaf3": {
+            "original_en": "today almost every home has television",
+            "text_en": "Nowadays, almost every home has a television.",
+            "text_uz": "Hozirgi kunda deyarli har bir uyda televizor bor."
+          }
+        }
+      }
+    },
+    "65a67e1f-758a-5461-a706-e2e07dbdeff6": {
+      "8e641b23-55e5-4511-ab1d-e0433df0c93d": {
+        "meaning_sha": "327967f901d1c3544a308d9e7b76b05b38b9dea1cd021a9704c83f3122c9ee2d",
+        "examples": {
+          "e023645b-0ac7-596c-87f1-98cc04415450": {
+            "original_en": "a bar of chocolate",
+            "text_en": "She bought a cake of soap at the shop.",
+            "text_uz": "U do‘kondan bir bo‘lak sovun sotib oldi."
+          }
+        }
+      }
+    },
+    "65ab00c4-427a-5712-b7b6-f667b4c95500": {
+      "65badb1d-b723-4831-9a2a-432b7163f73a": {
+        "meaning_sha": "69b3caa9fde1cd67c43968e6f8836f55605cd7f3e31691694282281e3ff38eec",
+        "examples": {
+          "c75489f8-04f5-5c7c-a83f-b8f747b984d0": {
+            "original_en": "Stone tools precede bronze tools",
+            "text_en": "Stone tools precede bronze tools in human history.",
+            "text_uz": "Insoniyat tarixida tosh qurollar bronza qurollardan oldin paydo bo‘lgan."
+          }
+        }
+      },
+      "d29d7f41-ec95-4031-8e47-dd8f925ebbd4": {
+        "meaning_sha": "4f3ca647eb2264017cfaddc82eef67425112d6e242c0922d48c24e36edfd1a9d",
+        "examples": {
+          "0b610111-6de2-5c17-969f-6adfa227bbe1": {
+            "original_en": "She always precedes her lectures with a joke",
+            "text_en": "She always precedes her lectures with a joke.",
+            "text_uz": "U ma’ruzalarini har doim hazil bilan boshlaydi."
+          },
+          "59ac1acd-612c-5f8b-a6f7-71477f891e": {
+            "original_en": "He prefaced his lecture with a critical remark about the institution",
+            "text_en": "He preceded his lecture with a critical remark about the institution.",
+            "text_uz": "U ma’ruzasini muassasa haqidagi tanqidiy fikr bilan boshladi."
+          }
+        }
+      },
+      "f48e44d0-2d2d-471e-bd05-b4ffde187194": {
+        "meaning_sha": "584f6d211bb555d391e3ea3c52dab81eebeef49f5d7727498e11a7a7c0e57eaa",
+        "examples": {
+          "fabf034a-74a7-5689-a276-c26c361bda82": {
+            "original_en": "Bill preceded John in the long line of Susan's husbands",
+            "text_en": "Bill preceded John as the director of the company.",
+            "text_uz": "Bill kompaniya direktori lavozimida Jondan oldin ishlagan."
+          }
+        }
       }
     }
   }
