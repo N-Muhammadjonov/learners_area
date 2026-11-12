@@ -134,14 +134,6 @@
   },
   "source_verified_cefr_edits": [
     {
-      "lexeme_id": "65700dea-c5bd-4747-b069-eb958e8d2524",
-      "sense_id": "d095acda-ffbd-4ed9-99ef-2b7c3632edec",
-      "lemma": "visual impact",
-      "original": null,
-      "proposed": null,
-      "reason": "No independently attested CEFR grade for exact phrase; leave nullable"
-    },
-    {
       "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
       "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
       "lemma": "itself",
