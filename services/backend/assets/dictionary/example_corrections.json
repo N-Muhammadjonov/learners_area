@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "purpose": "Sense-verified example replacements; no production R2 mutation. Original text must match before applying.",
+  "entries": {
+    "9eae6a37-2750-5469-9403-8073c95d0a24": {
+      "223a31ee-4d2a-4310-bcb3-73347ad01b3c": {
+        "meaning_sha": "5ebe5e4b087b6b6c3b949896984c497a684180a1e6ac5a0466cf127d1edfc352",
+        "examples": {
+          "2dc0f088-f36c-5486-8bc8-3aa92a0ee724": {
+            "original_en": "glad to help",
+            "text_en": "I am happy to help you.",
+            "text_uz": "Men sizga yordam berishdan mamnunman."
+          }
+        }
+      },
+      "9a8f14f5-ea1c-4af7-afa2-ebeb957a8903": {
+        "meaning_sha": "74084334496acc37f479881e34c7e764725323a09d08b713df66875623c797ca",
+        "examples": {
+          "1e01944c-4020-5ffc-b438-0dcd8d344719": {
+            "original_en": "a happy marriage",
+            "text_en": "They have a happy marriage.",
+            "text_uz": "Ularning turmushi baxtli."
+          },
+          "696e0868-5701-5f21-8c9d-61afc19bb60d": {
+            "original_en": "spent many happy days on the beach",
+            "text_en": "We spent many happy days on the beach.",
+            "text_uz": "Biz sohilda ko‘p baxtli kunlarni o‘tkazdik."
+          },
+          "8eed47a6-e219-5d8f-8797-4dedca6c5b64": {
+            "original_en": "a happy smile",
+            "text_en": "She greeted us with a happy smile.",
+            "text_uz": "U bizni quvonchli tabassum bilan kutib oldi."
+          }
+        }
+      },
+      "b2c5f984-96a9-4602-9e41-59caf8435129": {
+        "meaning_sha": "e0bfd02efada79e5ad5250baef4d22b13eafd59226a767c85363a8264acf5a58",
+        "examples": {
+          "b7bf23d7-ad75-5e11-9a1d-2f4649ddc69f": {
+            "original_en": "a few well-chosen words",
+            "text_en": "That was a happy choice of words.",
+            "text_uz": "Bu so‘zlarning juda o‘rinli tanlovi edi."
+          },
+          "f762133a-175e-5898-b784-656df749191e": {
+            "original_en": "a happy turn of phrase",
+            "text_en": "The writer used a happy turn of phrase.",
+            "text_uz": "Yozuvchi o‘rinli ibora ishlatdi."
+          }
+        }
+      },
+      "f0888b90-7451-4505-af02-9d6f1283d56e": {
+        "meaning_sha": "63b3f4574eb05db6d7a8874234367653a79cb2c7735264d6f952d719f1f02c8f",
+        "examples": {
+          "2f467880-fed0-5901-9447-801fb97ece76": {
+            "original_en": "a happy outcome",
+            "text_en": "The negotiations had a happy outcome.",
+            "text_uz": "Muzokaralar yaxshi natija bilan yakunlandi."
+          },
+          "9b213772-d20a-5fa4-9a68-4a1a70799768": {
+            "original_en": "a felicitous life",
+            "text_en": "It was a happy coincidence that we met.",
+            "text_uz": "Uchrashib qolganimiz omadli tasodif edi."
+          }
+        }
+      }
+    }
+  }
+}
