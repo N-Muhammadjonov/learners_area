@@ -21,6 +21,7 @@ from handlers.guardian import guardian_router
 from handlers.menu import menu_router
 from handlers.owner import owner_router
 from handlers.panel import panel_router
+from handlers.parents import parents_router
 from handlers.support import support_router
 from middlewares.auth import AuthMiddleware, DedupMiddleware
 from owner_callbacks import notice_button_specs
@@ -57,6 +58,7 @@ def build_dispatcher() -> Dispatcher:
     dp.include_router(menu_router)
     dp.include_router(admission_router)
     dp.include_router(support_router)
+    dp.include_router(parents_router)
     dp.include_router(panel_router)
     return dp
 
