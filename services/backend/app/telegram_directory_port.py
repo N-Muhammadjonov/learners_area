@@ -64,14 +64,23 @@ async def search_directory(req:Request):
             args.append(status);where.append(f'u.account_status=${len(args)}')
         if role in ('student','teacher','admin','owner'):
             args.append(role);where.append(f'u.role=${len(args)}')
+        elif role:
+            return core.j({'items': [], 'page': page, 'pageSize': 10, 'total': 0})
         if q:
             args.extend((sql_like(q[:80]),t,sql_like(t[:80])))
             a,b,c=range(len(args)-2,len(args)+1)
             where.append(f'''(u.name ILIKE ${a} OR u.email ILIKE ${a} OR u.telegram_id=${b}
              OR EXISTS (SELECT 1 FROM telegram_contacts tc WHERE tc.linked_user_id=u.id AND tc.username ILIKE ${c}))''')
         filter_sql=' AND '.join(where) or 'TRUE'
-        users=await conn.fetch(f'''SELECT u.id,u.name,u.email,u.role,u.account_status,u.telegram_id,u.created_at
-          FROM users u WHERE {filter_sql} ORDER BY lower(coalesce(u.name,'')),u.id LIMIT {limit}''',*args)
+        users=await conn.fetch(f'''SELECT u.id,u.name,u.email,u.role,u.account_status,u.telegram_id,u.created_at,
+              tc.username
+          FROM users u LEFT JOIN LATERAL
+            (SELECT c.username FROM telegram_contacts c
+               WHERE c.telegram_user_id=u.telegram_id OR c.linked_user_id=u.id
+               ORDER BY c.updated_at DESC LIMIT 1) tc ON TRUE
+          WHERE {filter_sql}
+          ORDER BY (tc.username IS NULL OR tc.username=''),
+                   lower(tc.username) NULLS LAST,lower(u.name),u.id LIMIT {limit}''',*args)
         count=await conn.fetchval(f'SELECT count(*)::int FROM users u WHERE {filter_sql}',*args)
         contacts=[];contacts_count=0
         # Intentional: any role/status string excludes Telegram-only contacts,
@@ -82,11 +91,13 @@ async def search_directory(req:Request):
             contacts=await conn.fetch(f'''SELECT id,telegram_user_id,username,first_name,last_name,
                 bot_blocked_at,removed_at,last_seen_at FROM telegram_contacts
                 WHERE linked_user_id IS NULL {extras}
+                  AND NOT EXISTS (SELECT 1 FROM users u WHERE u.telegram_id=telegram_contacts.telegram_user_id)
                   AND NOT EXISTS (SELECT 1 FROM guardian_profiles gp
                       WHERE gp.telegram_user_id=telegram_contacts.telegram_user_id)
                   ORDER BY lower(coalesce(username,first_name,'')),id LIMIT {limit}''',*params)
             contacts_count=await conn.fetchval(f'''SELECT count(*)::int FROM telegram_contacts
                 WHERE linked_user_id IS NULL {extras}
+                  AND NOT EXISTS (SELECT 1 FROM users u WHERE u.telegram_id=telegram_contacts.telegram_user_id)
                   AND NOT EXISTS (SELECT 1 FROM guardian_profiles gp
                       WHERE gp.telegram_user_id=telegram_contacts.telegram_user_id)''',*params)
         items=[]
@@ -94,7 +105,8 @@ async def search_directory(req:Request):
             data=row_to_dict(r)
             items.append({'id':data['id'],'name':r['name'],'email':r['email'],'role':r['role'],
               'accountStatus':r['account_status'],'telegramId':r['telegram_id'],
-              'createdAt':jsiso(r['created_at']),'entryType':'website_user','telegramLinked':bool(r['telegram_id'])})
+              'createdAt':jsiso(r['created_at']),'entryType':'website_user','telegramLinked':bool(r['telegram_id']),
+              'username':r['username']})
         for r in contacts:
             name=(' '.join((r['first_name'] or '',r['last_name'] or ''))).strip() or ('@'+r['username'] if r['username'] else r['telegram_user_id'])
             items.append({'id':str(r['id']),'entryType':'telegram_contact','telegramUserId':r['telegram_user_id'],
@@ -170,7 +182,7 @@ async def parent_detail(req: Request, profileId: str):
             return core.j({'error':'not_found'},404)
         links = await conn.fetch('''SELECT l.student_id,l.relationship,l.status,u.name AS student_name
             FROM guardian_links l JOIN users u ON u.id=l.student_id
-            WHERE l.guardian_profile_id=$1 AND l.status IN ('linked','awaiting_student','awaiting_guardian')
+            WHERE l.guardian_profile_id=$1 AND l.status='linked'
             ORDER BY u.name,l.student_id LIMIT 30''',profileId)
         return core.j({'parent':{'profileId':str(p['id']),'name':p['display_name'] or '—',
             'telegramId':p['telegram_user_id'],'username':p['username'],
@@ -200,7 +212,7 @@ async def student_parents(req: Request, userId: str):
         rows = await conn.fetch('''SELECT p.id,p.display_name,t.username,l.relationship,l.status
             FROM guardian_links l JOIN guardian_profiles p ON p.id=l.guardian_profile_id
             LEFT JOIN telegram_contacts t ON t.telegram_user_id=p.telegram_user_id
-            WHERE l.student_id=$1 AND l.status IN ('linked','awaiting_student','awaiting_guardian')
+            WHERE l.student_id=$1 AND l.status='linked'
             ORDER BY p.display_name,p.id LIMIT 30''',userId)
         return core.j({'items':[{'profileId':str(x['id']),'name':x['display_name'] or '—',
             'username':x['username'],'relationship':x['relationship'],'status':x['status']}
