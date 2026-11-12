@@ -153,6 +153,7 @@ async function giftsPanel(ctx, host, successMessage = "") {
       gift.stock === 0 ? localized(ctx, 'Tugagan', 'Out of stock') :
       unavailable ? localized(ctx, 'Tanga yetarli emas', 'Not enough coins') :
       localized(ctx, 'Sotib olish', 'Buy gift'), async event => {
+        const buyButton = event.currentTarget;
         const dialog = h('dialog', {class: 'coin-purchase-dialog', 'data-coin-purchase-dialog': gift.id},
           h('h3', {}, titleFor(ctx, gift)),
           detail(localized(ctx,
@@ -162,7 +163,7 @@ async function giftsPanel(ctx, host, successMessage = "") {
             button(localized(ctx, 'Yo‘q', 'No'), () => dialog.close(), {class: 'btn-secondary'}),
             button(localized(ctx, 'Ha', 'Yes'), async confirmEvent => {
               confirmEvent.currentTarget.disabled = true;
-              event.currentTarget.disabled = true;
+              buyButton.disabled = true;
               try {
                 const receipt = await api.request('/api/coins/gifts/' + encodeURIComponent(gift.id) + '/purchase', {
                   method: 'POST', signal: ctx.signal, body: {requestId: crypto.randomUUID()},
@@ -177,11 +178,15 @@ async function giftsPanel(ctx, host, successMessage = "") {
                   error.code === 'already_owned' ? localized(ctx, 'Bu sovg‘a sizda bor.', 'Already owned.') :
                   localized(ctx, 'Xarid amalga oshmadi.', 'Purchase failed.');
                 confirmEvent.currentTarget.disabled = false;
-                event.currentTarget.disabled = false;
+                buyButton.disabled = false;
                 dialog.close();
               }
             }, {class: 'btn-primary', 'data-coin-purchase-confirm': gift.id})));
         dialog.addEventListener('close', () => dialog.remove(), {once: true});
+        ctx.signal.addEventListener('abort', () => {
+          if (dialog.open) dialog.close();
+          dialog.remove();
+        }, {once: true});
         document.body.append(dialog);
         dialog.showModal();
       }, {'data-coin-buy': gift.id, class: 'btn-primary', disabled: isOwned || unavailable});
