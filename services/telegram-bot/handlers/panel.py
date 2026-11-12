@@ -214,6 +214,8 @@ async def user_card(callback: CallbackQuery, db_user: dict | None = None, bot_ac
         f"{esc(user.get('role'))} · {esc(user.get('accountStatus'))}",
         f"telegram: {esc(user.get('telegramId') or '—')}",
     ])
+    if user.get("role") == "student" and not user.get("hasLinkedParent"):
+        text += "\n👨‍👩‍👧 Hali ota-ona ulanmagan" if lang == "uz" else "\n👨‍👩‍👧 No parent connected yet"
     if (bot_access or {}).get("isPrimaryOwner") and user.get("telegramId"):
         phone_status, phone = await api_client.owner_contact_detail(
             str(callback.from_user.id), str(user["telegramId"])
