@@ -540,3 +540,21 @@ Four further Phase-09 sense identities were aligned to public learner-dictionary
 The four meaning identities and prior labels are matched to the previously recorded, frozen Phase-09 flagged source snapshot; checks in `test_dictionary_sense_curation_phase09.py` also assert the exact original meaning hashes and preservation of all other meanings, translations, examples and relations. Four CEFR patches and four collocations are included in the candidate correction layer. Source URLs are stored **only** in `audit-20261112-phase09-source-evidence.json`, not in public dictionary content.
 
 **Verification boundary:** the existing `audit-20261112-phase09-semantic-continuation.json` readback receipt continues to describe the earlier **31 lexemes / 49 senses**, each independently rechecked against R2. The four new patches bring the candidate to **35 lexemes / 53 senses**, **20 CEFR edits**, and **46 added collocations**, but the four newest identities have **not** been independently re-read from immutable R2 in this continuation. The complete 5,521-sense linguistic verification is not yet complete. Do not publish to production or merge to main.
+
+
+### Phase 09 — first 200 lexemes, read-only R2 lexical continuation (November 13)
+
+Exact lexeme range: `6568847e-1b29-5ff7-b104-60393188df8e` through `662fd442-a929-56d2-a5c6-2a7999ee10b1` (inclusive), sorted by lexeme UUID, covering **200 lexemes and 353 senses**, 150 source entries from shard 65 and 50 from shard 66. Every source gzip member was read by its immutable Supabase offset and decoded, and **353 original SHA-256 meaning identities were computed**. Receipt: `content/dictionary/audit-20261113-phase09-first-200-lexemes.json`.
+
+Evidence-backed corrections in this batch (applied immediately to the candidate and guarded by original `meaning_sha`):
+- `hello` greeting noun: C2 → A1; `say hello` and `a big hello` collocations.
+- `margin of error`: replaces the incorrectly imported safety-margin English gloss, Uzbek gloss and translation with calculation/statistical error meaning; B1 → C2; suppresses exactly two inappropriate synonyms; adds two attested phrases.
+- `diner`: people eating and small roadside restaurant senses each C2 → C1; the separate railway dining-car meaning stays unchanged; adds `a roadside diner`.
+- `startup` (new company only): ungraded → C1; the other two start-operation senses keep their labels; adds `an Internet startup`.
+- `hame`: removes corrupted foreign characters and replaces broken Uzbek translation with the proper horse-harness term.
+- `zakat`: corrects the English/Uzbek definitions to specify obligatory almsgiving as an Islamic pillar; no unsupported CEFR overwrite.
+- `chatterbox` (talkative person): removes the erroneous implication that all chatterboxes are foolish; corrects English/Uzbek definitions and Uzbek translation. The separate botanical homonym remains intact.
+
+This batch adds **8 exact-sense correction records**, **5 CEFR replacements**, **6 collocations** and 21 audit-only source evidence links. Publisher references stay out of dictionary-facing correction data. All source examples and other meanings remain unchanged.
+
+**Scope gate:** R2 completeness/identity is verified for all 200 entries, but this is **not a claim of independent external linguistic confirmation for every one of the 353 senses**; unspecified CEFR grades are not automatically populated, unscoped polysemous relations are not guessed. The 20-phase audit, candidate publication, production R2 changes, and main merge remain blocked.

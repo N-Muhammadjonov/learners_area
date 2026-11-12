@@ -809,6 +809,130 @@
           }
         ]
       }
+    },
+    "661696f8-4ed4-5321-8e0c-e4e513d768a5": {
+      "eadfd862-8108-42cf-b009-995653d25c2c": {
+        "meaning_sha": "d5459ac7ce232205bb42c590655cc8d5cc68468132fb3d35f8be8bc88ee3dbc6",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "A1"
+        },
+        "add_collocations": [
+          {
+            "text": "say hello"
+          },
+          {
+            "text": "a big hello"
+          }
+        ]
+      }
+    },
+    "660656d0-c0fc-5ffd-8ac2-cdb3a967209f": {
+      "2da29542-2016-5d1b-8cda-6d3edc52ae8b": {
+        "meaning_sha": "05fe5437e0b9123435e4ed50575b7010e91f8585cfa7033d5d199ab1cf1455d3",
+        "replace_cefr": {
+          "original": "B1",
+          "text": "C2"
+        },
+        "replace_definition_en": {
+          "original": "the margin required in order to insure safety",
+          "text": "the amount by which a calculated or estimated value may differ from the actual value"
+        },
+        "replace_definition_uz": {
+          "original": "Xavfsizlikni ta’minlash uchun zarur bo‘lgan qo‘shimcha farq yoki zaxira.",
+          "text": "Hisoblangan yoki taxmin qilingan qiymat haqiqiy qiymatdan qanchaga farq qilishi mumkinligini bildiruvchi xatolik chegarasi."
+        },
+        "replace_translation_uz": {
+          "original": "xavfsizlik zaxirasi",
+          "text": "xatolik chegarasi"
+        },
+        "remove_synonym_lexeme_ids": [
+          "cf0e48d3-5946-59ab-afdf-8a6675e08eea",
+          "e6214f6a-9860-5f65-82ec-9ccea167c1c4"
+        ],
+        "add_collocations": [
+          {
+            "text": "a wide margin of error"
+          },
+          {
+            "text": "a margin of error of three percentage points"
+          }
+        ]
+      }
+    },
+    "65804d42-453f-58e3-b22d-471b7b331ef9": {
+      "7e147f4d-e484-4807-a4c1-118e634c628e": {
+        "meaning_sha": "d5645287420896fa5b2d5a0607e467725bd00e1c294e0635e6bde1a7406e5f41",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        }
+      },
+      "c558d849-f291-4c12-9ba5-9e9d11b81a07": {
+        "meaning_sha": "c156e46863024233acb7995cf2926d8783115ec5bcde9d8eef777598b1b0f4ba",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        },
+        "add_collocations": [
+          {
+            "text": "a roadside diner"
+          }
+        ]
+      }
+    },
+    "65825765-33c0-5e04-8ad9-1cab90be90e5": {
+      "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9": {
+        "meaning_sha": "c9f09618ace72d83b49dafda116ef4655548af96ef8ee7fd8499003471867e32",
+        "replace_cefr": {
+          "original": null,
+          "text": "C1"
+        },
+        "add_collocations": [
+          {
+            "text": "an Internet startup"
+          }
+        ]
+      }
+    },
+    "6615c29f-0877-50dc-9534-9f250d0779a0": {
+      "253afd90-f0ca-433a-b33c-22e5cbd42d7e": {
+        "meaning_sha": "1e56ee56f523f3dac0d2f38060d1775f11302373359c0037445e2652346155f0",
+        "replace_translation_uz": {
+          "original": "xomut qisqichi (ot bo‘yinbog‘ining tortقي bog‘lanadigan egri qismi)",
+          "text": "xomutning tortqi tasmalari ulanadigan egri tayanchi"
+        }
+      }
+    },
+    "658e2b90-e8a6-54ac-8155-73fc7904e2a2": {
+      "17267eb7-fa10-5501-b8de-a78cec3d4d1c": {
+        "meaning_sha": "bb55b2f6f443e4559d320b7897b90126408893c887e93dcaa7ddd45d5e74002a",
+        "replace_definition_en": {
+          "original": "the fourth pillar of Islam is almsgiving as an act of worship",
+          "text": "obligatory charitable giving in Islam, one of its five pillars"
+        },
+        "replace_definition_uz": {
+          "original": "Islomning to‘rtinchi ustuni bo‘lib, ibodat sifatida ehson berish",
+          "text": "Islomning besh ruknidan biri bo‘lgan, belgilangan mol-mulkdan muhtojlarga berilishi shart bo‘lgan zakot."
+        }
+      }
+    },
+    "661aa3c8-cf2d-5b75-9e5d-8d5922bb17c4": {
+      "fb292a59-1068-43cf-a07a-7efbdf0fb92a": {
+        "meaning_sha": "a01f360ebc968c1fd2c7be5cab1a33b146fa2bfb30bbee93c308fcdeb8ba1923",
+        "replace_definition_en": {
+          "original": "an obnoxious and foolish and loquacious talker",
+          "text": "a person, especially a child, who talks a lot"
+        },
+        "replace_definition_uz": {
+          "original": "Juda ko‘p gapiradigan, bezovta qiluvchi va aqlsiz odam.",
+          "text": "Juda ko‘p gapiradigan odam, ayniqsa bola."
+        },
+        "replace_translation_uz": {
+          "original": "sergap ahmoq; gapdon",
+          "text": "sergap odam; gapdon"
+        }
+      }
     }
   }
 }

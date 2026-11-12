@@ -875,7 +875,7 @@ def test_dictionary_content_excludes_provenance_and_publisher_branding() -> None
     evidence = json.loads(provenance_path.read_text(encoding="utf-8"))
     assert evidence["visibility"] == "audit_only_not_dictionary_content"
     assert evidence["release_id"] == RELEASE
-    assert len(evidence["references"]) == 108
+    assert len(evidence["references"]) == 129
     assert len(evidence["annotations"]) == 12
 
     for reference in evidence["references"]:
@@ -1076,3 +1076,122 @@ def test_supplemental_exact_sense_cefr_and_collocations_are_guarded() -> None:
             assert before["examples"] == after["examples"]
             if before["sense_id"] != sense_id:
                 assert before == after
+
+
+def test_phase09_first_200_source_receipt_and_targeted_repairs() -> None:
+    """Verify 200 frozen lexical objects, 353 hashes and each exact-sense patch."""
+    import hashlib
+    from app.dictionary_canonical import stable
+
+    path = (
+        Path(__file__).resolve().parents[3]
+        / "content/dictionary/audit-20261113-phase09-first-200-lexemes.json"
+    )
+    report = json.loads(path.read_text(encoding="utf-8"))
+    assert report["schema"] == 1
+    assert report["phase"] == 9
+    assert report["scope"]["lexemes"] == 200
+    assert report["scope"]["senses"] == 353
+    assert report["scope"]["shards"] == ["65", "66"]
+    assert report["signoff"]["main_merged"] is False
+    assert report["signoff"]["release_published"] is False
+    assert report["signoff"]["lexeme_semantics_independently_certified"] is False
+    assert len(report["lexemes"]) == 200
+    all_senses = [
+        (word, sense)
+        for word in report["lexemes"]
+        for sense in word["senses"]
+    ]
+    assert len(all_senses) == 353
+    assert len({sense["sense_id"] for _, sense in all_senses}) == 353
+    for word, sense in all_senses:
+        source = {
+            "definition": sense["definition_en"],
+            "lemma": word["lemma"],
+            "pos": word["part_of_speech"],
+        }
+        digest = hashlib.sha256(stable(source).encode("utf-8")).hexdigest()
+        assert sense["meaning_sha"] == digest
+
+    patches = load_corrections()["entries"]
+    expected = {
+        "hello": {"eadfd862-8108-42cf-b009-995653d25c2c": "A1"},
+        "margin of error": {"2da29542-2016-5d1b-8cda-6d3edc52ae8b": "C2"},
+        "diner": {
+            "7e147f4d-e484-4807-a4c1-118e634c628e": "C1",
+            "c558d849-f291-4c12-9ba5-9e9d11b81a07": "C1",
+        },
+        "startup": {"94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9": "C1"},
+    }
+    by_lemma = {w["lemma"]: w for w in report["lexemes"]}
+    for lemma, levels in expected.items():
+        word = by_lemma[lemma]
+        for sense_id, level in levels.items():
+            assert patches[word["lexeme_id"]][sense_id]["replace_cefr"]["text"] == level
+    for lemma in ("hame", "zakat", "chatterbox"):
+        word = by_lemma[lemma]
+        assert word["lexeme_id"] in patches
+
+    for word in report["lexemes"]:
+        if word["lexeme_id"] not in patches:
+            continue
+        original = {
+            "release_id": report["source_release"],
+            "lexeme_id": word["lexeme_id"],
+            "display_lemma": word["lemma"],
+            "part_of_speech": word["part_of_speech"],
+            "senses": [
+                {
+                    "sense_id": s["sense_id"],
+                    "definition_en": s["definition_en"],
+                    "definition_uz": s["definition_uz"],
+                    "translations": [{"text": s["translation_uz"]}],
+                    **({"cefr": s["cefr"]} if s["cefr"] is not None else {}),
+                    "examples": [],
+                }
+                for s in word["senses"]
+            ],
+            "relations": [
+                {
+                    **{
+                        "relation_type": r["relation_type"],
+                        "display_lemma": r["display_lemma"],
+                        "target_lexeme_id": r["target_lexeme_id"],
+                    },
+                    **({"target_sense_id": r["target_sense_id"]}
+                       if r["target_sense_id"] else {}),
+                    **({"source_sense_id": r["source_sense_id"]}
+                       if r["source_sense_id"] else {}),
+                }
+                for r in word["relations"]
+            ],
+            "collocations": [
+                {"text": c["text"], **({"sense_id": c["sense_id"]}
+                  if c["sense_id"] else {})}
+                for c in word["collocations"]
+            ],
+        }
+        immutable = copy.deepcopy(original)
+        candidate = curate_candidate_entry(original)
+        assert original == immutable
+        assert candidate is not original
+        changed = patches[word["lexeme_id"]]
+        for sense in candidate["senses"]:
+            patch = changed.get(sense["sense_id"], {})
+            before = next(s for s in immutable["senses"] if s["sense_id"] == sense["sense_id"])
+            if "replace_cefr" in patch:
+                assert sense.get("cefr") == patch["replace_cefr"]["text"]
+            else:
+                assert sense.get("cefr") == before.get("cefr")
+            for field in ("definition_en", "definition_uz"):
+                replacement = patch.get("replace_" + field)
+                assert sense[field] == (replacement["text"] if replacement else before[field])
+            translation = patch.get("replace_translation_uz")
+            assert sense["translations"][0]["text"] == (
+                translation["text"] if translation else before["translations"][0]["text"]
+            )
+            assert sense["examples"] == before["examples"]
+
+    margin = by_lemma["margin of error"]
+    assert len(patches[margin["lexeme_id"]][margin["senses"][0]["sense_id"]]
+               ["remove_synonym_lexeme_ids"]) == 2

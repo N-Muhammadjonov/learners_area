@@ -651,6 +651,132 @@
       "sense_id": "ce38d61a-705b-499e-8de4-c03aff3e4f17",
       "field_path": "add_collocations.1.source",
       "url": "https://www.oxfordlearnersdictionaries.com/definition/english/circuit"
+    },
+    {
+      "lexeme_id": "661696f8-4ed4-5321-8e0c-e4e513d768a5",
+      "sense_id": "eadfd862-8108-42cf-b009-995653d25c2c",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/hello"
+    },
+    {
+      "lexeme_id": "661696f8-4ed4-5321-8e0c-e4e513d768a5",
+      "sense_id": "eadfd862-8108-42cf-b009-995653d25c2c",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/hello"
+    },
+    {
+      "lexeme_id": "661696f8-4ed4-5321-8e0c-e4e513d768a5",
+      "sense_id": "eadfd862-8108-42cf-b009-995653d25c2c",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/hello"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "remove_synonym_lexeme_ids.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "660656d0-c0fc-5ffd-8ac2-cdb3a967209f",
+      "sense_id": "2da29542-2016-5d1b-8cda-6d3edc52ae8b",
+      "field_path": "add_collocations.1.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/margin-of-error"
+    },
+    {
+      "lexeme_id": "65804d42-453f-58e3-b22d-471b7b331ef9",
+      "sense_id": "7e147f4d-e484-4807-a4c1-118e634c628e",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diner"
+    },
+    {
+      "lexeme_id": "65804d42-453f-58e3-b22d-471b7b331ef9",
+      "sense_id": "c558d849-f291-4c12-9ba5-9e9d11b81a07",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diner"
+    },
+    {
+      "lexeme_id": "65804d42-453f-58e3-b22d-471b7b331ef9",
+      "sense_id": "c558d849-f291-4c12-9ba5-9e9d11b81a07",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diner"
+    },
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "sense_id": "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/start-up_1"
+    },
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "sense_id": "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/start-up_1"
+    },
+    {
+      "lexeme_id": "6615c29f-0877-50dc-9534-9f250d0779a0",
+      "sense_id": "253afd90-f0ca-433a-b33c-22e5cbd42d7e",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://ozdic.com/word/hame"
+    },
+    {
+      "lexeme_id": "658e2b90-e8a6-54ac-8155-73fc7904e2a2",
+      "sense_id": "17267eb7-fa10-5501-b8de-a78cec3d4d1c",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/zakat"
+    },
+    {
+      "lexeme_id": "658e2b90-e8a6-54ac-8155-73fc7904e2a2",
+      "sense_id": "17267eb7-fa10-5501-b8de-a78cec3d4d1c",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/zakat"
+    },
+    {
+      "lexeme_id": "661aa3c8-cf2d-5b75-9e5d-8d5922bb17c4",
+      "sense_id": "fb292a59-1068-43cf-a07a-7efbdf0fb92a",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatterbox"
+    },
+    {
+      "lexeme_id": "661aa3c8-cf2d-5b75-9e5d-8d5922bb17c4",
+      "sense_id": "fb292a59-1068-43cf-a07a-7efbdf0fb92a",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatterbox"
+    },
+    {
+      "lexeme_id": "661aa3c8-cf2d-5b75-9e5d-8d5922bb17c4",
+      "sense_id": "fb292a59-1068-43cf-a07a-7efbdf0fb92a",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/chatterbox"
     }
   ],
   "annotations": [
