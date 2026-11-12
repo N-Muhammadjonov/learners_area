@@ -1,6 +1,7 @@
 import {el,listen} from '../../js/dom.js';
 import {field,formSubmit,errorNode} from '../shared/forms.js';
 import {publishSessionEvent} from '../../js/session-events.js';
+import {consumeLandingPlanIntent} from '../../js/plan-entry-intent.js';
 
 /** Main's study fields, shared by first-time onboarding and the profile editor. */
 export function studyForm(context,{initial={},profile=false}={}){
@@ -28,6 +29,6 @@ export function studyForm(context,{initial={},profile=false}={}){
   listen(inputs[name],inputs[name].tagName==='SELECT'?'change':'input',()=>{draft[name]=inputs[name].value;delete draft.saved;saved.remove();},signal);
  }
  const error=errorNode(),saved=el('p',{role:'status',class:'mt-2 text-sm text-band-good'},dict.profile.studySaved),button=el('button',{type:'submit',class:'btn-primary w-full'},profile?dict.profile.saveStudy:dict.onboarding.finish),actions=el('div',{class:'sm:col-span-2'},error,button);form.append(actions);if(draft.saved)actions.append(saved);
- formSubmit({form,button,error,dict,signal,method:profile?'PATCH':'POST',endpoint:profile?'/api/profile/study':'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:async()=>{draft.saved=true;publishSessionEvent('refresh');context.invalidateSession?.();if(profile){actions.append(saved);await context.refresh();}else await context.navigate('/app');}});
+ formSubmit({form,button,error,dict,signal,method:profile?'PATCH':'POST',endpoint:profile?'/api/profile/study':'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:async()=>{draft.saved=true;publishSessionEvent('refresh');context.invalidateSession?.();if(profile){actions.append(saved);await context.refresh();}else await context.navigate(consumeLandingPlanIntent()??'/app');}});
  return form;
 }
