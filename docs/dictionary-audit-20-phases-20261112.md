@@ -576,3 +576,22 @@ Confirmed exact-sense editorial corrections:
 - `tsunami` fixes the false equation of a wave phenomenon with the resulting catastrophe; adopts the source-verified series-of-waves definition.
 
 **9 senses edited**, 4 CEFR changes and 4 phrases added; 20 field-level references preserved only in the private audit evidence. No brand/publisher labels, citations, or source URLs enter dictionary-facing corrections. No example sentences changed. This readback and automated source-structure verification **do not certify** full independent translation/CEFR/synonym accuracy of all 822 senses; missing CEFR values remain unset unless independently substantiated. Unscoped relations were not guessed or auto-attached to meanings. No production R2 publication and no merge to main.
+
+
+### Phase 09 — next 500 lexemes (701–1200), November 13 (unpublished)
+
+The exact immutable-source range is `6823fe72-835e-5119-8853-51e24d1e683d` (`studious`) through `6a1ec259-771a-5642-beef-848917b610d4` (`Lipitor`), inclusive. Every 500 immutable gzip member was decoded and matched against Supabase storage offsets and exact source lexeme/sense identities, covering **819 senses**, shard `68` (219 entries), `69` (247), `6a` (34). All 819 English meaning hashes are recorded in `content/dictionary/audit-20261113-phase09-third-500-lexemes.json`. The source includes 60 unset CEFR, 346 C2 labels, 1,122 ambiguous unscoped lexical relations; no empty Uzbek definitions or translations.
+
+Independently verified exact-sense repairs:
+- `Thursday` weekday: B2 → A1.
+- `airplane` aircraft: B1 → A1.
+- `secretary` clerical role: B1 → A2; government department head: A2 → B2; separate meanings unchanged.
+- `etiquette`: both independent but semantically overlapping etiquette definitions C2 → B2 and unset → B2.
+- `log in`: B1 → B2, clarifies authenticating to an account or computer system rather than merely entering a physical computer.
+- `pediatrician`: English/Uzbek definitions and Uzbek translation broaden corrected from infants only to children including babies; preserves otherwise unverified CEFR.
+- `light bulb`: updates dated incandescent-filament-only English/Uzbek definitions to include LED bulbs; preserves otherwise unverified CEFR.
+- Added two exact-sense collocations for `Thursday` and `airplane`.
+
+**9 exact senses, 7 CEFR changes, 2 collocations**, and 16 field-specific audit-only source references. Existing `circuit` edits are retained untouched, even though this entry falls within the current 500-source range.
+
+No attribution brands, publisher URLs or evidence citations are written to the public dictionary correction JSON. No existing examples, other unrelated senses, published R2 shards, or production Supabase tables are changed. Complete external linguistic certification of every 819 senses remains **unverified**: keep 60 unspecified CEFR values unchanged unless grounded; do not invent links for 1,122 unscoped source relations. No main merge or production release.

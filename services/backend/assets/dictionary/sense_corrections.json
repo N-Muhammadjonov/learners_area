@@ -1060,6 +1060,113 @@
           "text": "Odatda dengiz tubidagi zilzila yoki vulqon otilishi oqibatida suvning keskin siljishidan hosil bo‘ladigan uzun dengiz to‘lqinlari ketma-ketligi."
         }
       }
+    },
+    "69398909-4c46-5639-b04b-4f918e636dc7": {
+      "c923a375-22c8-57d8-a201-4b3fdc867d14": {
+        "meaning_sha": "affd1c6e174b9ad96544ae6399151c283c854b136388901555b5801348d8c3ee",
+        "replace_cefr": {
+          "original": "B2",
+          "text": "A1"
+        },
+        "add_collocations": [
+          {
+            "text": "Thursday morning"
+          }
+        ]
+      }
+    },
+    "68509a6b-b2a9-5e3a-8c64-1ccd3bfef848": {
+      "41f44af9-509c-4d45-8dc4-44e71caa2c13": {
+        "meaning_sha": "6cd059c7faeb3f4498df204bddc299201cdbdddfea2cfb50c90f6eaf4527cfbf",
+        "replace_cefr": {
+          "original": "B1",
+          "text": "A1"
+        },
+        "add_collocations": [
+          {
+            "text": "airplane crash"
+          }
+        ]
+      }
+    },
+    "68ea7f72-c7fe-5174-a54c-e16139cc4003": {
+      "bd660b7b-71af-414a-a566-0a42d67a5461": {
+        "meaning_sha": "8d673a57280407875dce159ec245f528f99232552de906bcb715609e75cc7069",
+        "replace_cefr": {
+          "original": "B1",
+          "text": "A2"
+        }
+      },
+      "e58abe27-e1f7-4c74-beaa-00cf30d1789c": {
+        "meaning_sha": "43c45ad220e3406db4ee3d601c50f4c6b2423912d799641a42d8bcb7e0108aae",
+        "replace_cefr": {
+          "original": "A2",
+          "text": "B2"
+        }
+      }
+    },
+    "6a0b465d-521a-5ea3-9e33-27ab18f14a35": {
+      "212df488-f976-4bfd-97cd-6b322528b32d": {
+        "meaning_sha": "f2d5f0e6ee49b2b57065ff9125a343b0c045b5c3ae30340e7b43956c9103df89",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "B2"
+        }
+      },
+      "5d44c082-2b56-41c5-b2b7-0594dbf11438": {
+        "meaning_sha": "9db63501f698df4455588d6cbb1fb07d10e9d2bdfb2d826fdf959e7c33997137",
+        "replace_cefr": {
+          "original": null,
+          "text": "B2"
+        }
+      }
+    },
+    "69deaed3-6be7-5bce-8656-07ea0d4e9548": {
+      "f549d2de-7e3e-5dda-b564-c11c0e96de53": {
+        "meaning_sha": "c0895cfb464bdd4aad469fd995959e93d0e4706083311efabad2aa5eda22b2a1",
+        "replace_cefr": {
+          "original": "B1",
+          "text": "B2"
+        },
+        "replace_definition_en": {
+          "original": "enter a computer",
+          "text": "enter a computer system or online account by providing the required login details"
+        },
+        "replace_definition_uz": {
+          "original": "Kompyuterga kirmoq.",
+          "text": "Foydalanuvchi nomi, parol yoki boshqa kirish ma’lumotlarini kiritib kompyuter tizimi yoki onlayn hisobga kirish."
+        }
+      }
+    },
+    "688ae91a-f998-58eb-88cc-8e5918220b73": {
+      "86ff5ec9-6237-4b9f-b10a-0f3e1a68b7c8": {
+        "meaning_sha": "30d1199fffa6235bc7c900453d18d8f2f054ec13d03b7b2e8631ec71a4a416b8",
+        "replace_definition_en": {
+          "original": "a specialist in the care of babies",
+          "text": "a doctor who specializes in the medical care of children, including babies"
+        },
+        "replace_definition_uz": {
+          "original": "Goʻdaklarning salomatligi va parvarishi bilan shugʻullanadigan mutaxassis.",
+          "text": "Go‘daklar va katta yoshdagi bolalarni davolashga ixtisoslashgan shifokor."
+        },
+        "replace_translation_uz": {
+          "original": "goʻdaklar shifokori",
+          "text": "bolalar shifokori; pediatr"
+        }
+      }
+    },
+    "68b8dc29-e905-5cd9-bf17-2635966066a3": {
+      "c0299d3d-6eb3-526d-a97b-8c0ceef33b34": {
+        "meaning_sha": "dcc7216a3ac8608b7d7bea4554c9f959431920e341ef0bd53e41967a3b4bc048",
+        "replace_definition_en": {
+          "original": "electric lamp consisting of a transparent or translucent glass housing containing a wire filament (usually tungsten) that emits light when heated by electricity",
+          "text": "an electric light source, usually enclosed in glass, that produces light using a filament or light-emitting diodes"
+        },
+        "replace_definition_uz": {
+          "original": "Ichida odatda volfram sim tolasi bo'lgan shaffof yoki yarim shaffof shisha korpusli elektr chiroq; tok bilan qiziganda yorug'lik chiqaradi.",
+          "text": "Odatda shisha qobiq ichida joylashgan, qiziydigan tolacha yoki LED yordamida elektr energiyasidan yorug‘lik chiqaradigan lampochka."
+        }
+      }
     }
   }
 }

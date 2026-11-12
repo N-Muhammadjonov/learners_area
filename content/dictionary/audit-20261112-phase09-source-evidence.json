@@ -897,6 +897,102 @@
       "sense_id": "1d771187-8475-4b78-8d91-f3fd2cb17079",
       "field_path": "replace_definition_uz.source",
       "url": "https://oceanservice.noaa.gov/facts/tsunami.html"
+    },
+    {
+      "lexeme_id": "69398909-4c46-5639-b04b-4f918e636dc7",
+      "sense_id": "c923a375-22c8-57d8-a201-4b3fdc867d14",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/thursday"
+    },
+    {
+      "lexeme_id": "69398909-4c46-5639-b04b-4f918e636dc7",
+      "sense_id": "c923a375-22c8-57d8-a201-4b3fdc867d14",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/thursday"
+    },
+    {
+      "lexeme_id": "68509a6b-b2a9-5e3a-8c64-1ccd3bfef848",
+      "sense_id": "41f44af9-509c-4d45-8dc4-44e71caa2c13",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/airplane"
+    },
+    {
+      "lexeme_id": "68509a6b-b2a9-5e3a-8c64-1ccd3bfef848",
+      "sense_id": "41f44af9-509c-4d45-8dc4-44e71caa2c13",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/airplane"
+    },
+    {
+      "lexeme_id": "68ea7f72-c7fe-5174-a54c-e16139cc4003",
+      "sense_id": "bd660b7b-71af-414a-a566-0a42d67a5461",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/secretary"
+    },
+    {
+      "lexeme_id": "68ea7f72-c7fe-5174-a54c-e16139cc4003",
+      "sense_id": "e58abe27-e1f7-4c74-beaa-00cf30d1789c",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/secretary"
+    },
+    {
+      "lexeme_id": "6a0b465d-521a-5ea3-9e33-27ab18f14a35",
+      "sense_id": "212df488-f976-4bfd-97cd-6b322528b32d",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/etiquette"
+    },
+    {
+      "lexeme_id": "6a0b465d-521a-5ea3-9e33-27ab18f14a35",
+      "sense_id": "5d44c082-2b56-41c5-b2b7-0594dbf11438",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/etiquette"
+    },
+    {
+      "lexeme_id": "69deaed3-6be7-5bce-8656-07ea0d4e9548",
+      "sense_id": "f549d2de-7e3e-5dda-b564-c11c0e96de53",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/log-in-on"
+    },
+    {
+      "lexeme_id": "69deaed3-6be7-5bce-8656-07ea0d4e9548",
+      "sense_id": "f549d2de-7e3e-5dda-b564-c11c0e96de53",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/log-in-on"
+    },
+    {
+      "lexeme_id": "69deaed3-6be7-5bce-8656-07ea0d4e9548",
+      "sense_id": "f549d2de-7e3e-5dda-b564-c11c0e96de53",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/log-in-on"
+    },
+    {
+      "lexeme_id": "688ae91a-f998-58eb-88cc-8e5918220b73",
+      "sense_id": "86ff5ec9-6237-4b9f-b10a-0f3e1a68b7c8",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/pediatrician"
+    },
+    {
+      "lexeme_id": "688ae91a-f998-58eb-88cc-8e5918220b73",
+      "sense_id": "86ff5ec9-6237-4b9f-b10a-0f3e1a68b7c8",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/pediatrician"
+    },
+    {
+      "lexeme_id": "688ae91a-f998-58eb-88cc-8e5918220b73",
+      "sense_id": "86ff5ec9-6237-4b9f-b10a-0f3e1a68b7c8",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/pediatrician"
+    },
+    {
+      "lexeme_id": "68b8dc29-e905-5cd9-bf17-2635966066a3",
+      "sense_id": "c0299d3d-6eb3-526d-a97b-8c0ceef33b34",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/light-bulb"
+    },
+    {
+      "lexeme_id": "68b8dc29-e905-5cd9-bf17-2635966066a3",
+      "sense_id": "c0299d3d-6eb3-526d-a97b-8c0ceef33b34",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/light-bulb"
     }
   ],
   "annotations": [
