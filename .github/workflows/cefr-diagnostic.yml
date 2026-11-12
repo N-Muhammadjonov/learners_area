@@ -1,0 +1,59 @@
+name: CEFR placement diagnostic regression
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - services/backend/app/study_plan_level.py
+      - services/backend/app/study_plan_level_port.py
+      - services/backend/app/data/plan_level_bank.json
+      - services/backend/tests/test_study_plan_level.py
+      - frontend/vanilla/modules/premium-landing.js
+      - frontend/vanilla/modules/study-plan/level-check.js
+      - frontend/vanilla/tests/study-plan-level-check.test.mjs
+      - .github/workflows/cefr-diagnostic.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Server scoring and audio access
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install backend test dependencies
+        run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - name: Check Python syntax
+        run: python -m py_compile services/backend/app/study_plan_level.py services/backend/app/study_plan_level_port.py services/backend/tests/test_study_plan_level.py
+      - name: Run placement tests
+        working-directory: services/backend
+        run: python -m pytest -q tests/test_study_plan_level.py
+
+  frontend:
+    name: Landing and private level-check UI
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/vanilla/package-lock.json
+      - name: Install frontend test dependencies
+        run: npm ci --prefix frontend/vanilla --no-audit --no-fund
+      - name: Validate JS syntax
+        run: |
+          node --check frontend/vanilla/modules/premium-landing.js
+          node --check frontend/vanilla/modules/study-plan/level-check.js
+          node --check frontend/vanilla/tests/study-plan-level-check.test.mjs
+      - name: Run level check and landing plan tests
+        working-directory: frontend/vanilla
+        run: node --test tests/study-plan-level-check.test.mjs tests/landing-plan-bridge.test.mjs
