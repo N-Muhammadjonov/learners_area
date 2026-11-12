@@ -604,3 +604,51 @@ def test_abide_distinguishes_tolerate_from_reside_and_keeps_source() -> None:
         ),
     }
     assert {row["sense_id"] for row in result["collocations"]} == set(mapping)
+
+
+def test_chatty_and_bribe_cefr_edits_preserve_unrelated_senses() -> None:
+    chatty = entry(
+        "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+        "chatty",
+        "a",
+        [
+            ("676b56f7-c118-4e2a-823b-0331c4f81114",
+             "prone to friendly informal communication", "gapdon", "C2"),
+            ("c9007394-5a5e-49c7-9b8b-6e63837bc107",
+             "full of trivial conversation", "sergap; mayda gapga to‘la", "C2"),
+        ],
+    )
+    source_copy = copy.deepcopy(chatty)
+    curated = curate_candidate_entry(chatty)
+    assert chatty == source_copy
+    assert [sense["cefr"] for sense in curated["senses"]] == ["C1", "C1"]
+    assert curated["senses"][0]["translations"] == chatty["senses"][0]["translations"]
+    assert curated["senses"][1]["translations"] == chatty["senses"][1]["translations"]
+    assert [(r["display_lemma"], r["source_sense_id"], r["target_sense_id"])
+            for r in curated["relations"]] == [
+        ("talkative", "676b56f7-c118-4e2a-823b-0331c4f81114",
+         "01797def-7f71-40a2-9547-2a76669dc2bc")
+    ]
+    assert {r["sense_id"] for r in curated["collocations"]} == {
+        "c9007394-5a5e-49c7-9b8b-6e63837bc107"
+    }
+
+    bribe = entry(
+        "6f6bcc4e-b979-554f-8bbc-405475172731",
+        "bribe",
+        "n",
+        [(
+            "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+            "payment made to a person in a position of trust to corrupt their judgment",
+            "pora",
+            "C2",
+        )],
+    )
+    assert bribe["senses"][0]["cefr"] == "C2"
+    result = curate_candidate_entry(bribe)
+    assert result["senses"][0]["cefr"] == "C1"
+    assert {item["text"] for item in result["collocations"]} == {
+        "accept a bribe",
+        "take a bribe",
+    }
+    assert bribe["collocations"] == []
