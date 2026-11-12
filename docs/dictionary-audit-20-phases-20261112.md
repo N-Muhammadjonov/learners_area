@@ -24,7 +24,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | 06 | 27,604–33,123 | 5,520 | Structural/presentation audited; semantic signoff pending |
 | 07 | 33,124–38,644 | 5,521 | Structural, presentation and meaningSha audited; semantic signoff pending |
 | 08 | 38,645–44,164 | 5,520 | Structural, presentation and meaningSha audited; semantic signoff pending |
-| 09 | 44,165–49,685 | 5,521 | Not started |
+| 09 | 44,165–49,685 | 5,521 | Structural R2 integrity audited; presentation and semantic review pending |
 | 10 | 49,686–55,205 | 5,520 | Not started |
 | 11 | 55,206–60,725 | 5,520 | Not started |
 | 12 | 60,726–66,246 | 5,521 | Not started |
