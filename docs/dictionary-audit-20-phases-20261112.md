@@ -20,7 +20,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 | 02 | 5,522–11,041 | 5,520 | Structural and presentation coverage audited; semantic review pending |
 | 03 | 11,042–16,562 | 5,521 | Structural and presentation coverage audited; semantic review pending |
 | 04 | 16,563–22,082 | 5,520 | Structural/presentation audited; linguistic review pending |
-| 05 | 22,083–27,603 | 5,521 | Not started |
+| 05 | 22,083–27,603 | 5,521 | Structural/presentation audited; semantic signoff pending |
 | 06 | 27,604–33,123 | 5,520 | Not started |
 | 07 | 33,124–38,644 | 5,521 | Not started |
 | 08 | 38,645–44,164 | 5,520 | Not started |
@@ -223,3 +223,30 @@ Source receipt: `content/dictionary/audit-20261112-phase04-flagged-records.json`
 **Review queue:** 2,849 exact sense IDs (456 missing CEFR; 2,393 C2 for *review*, not wholesale invalidation). Presentation presence was matched by exact IDs; not every `meaningSha` or relation target is separately source-certified. Missing antonyms and collocations may be linguistically appropriate. All translations and CEFR labels still require independent sense-level checks. No speculative synonym/antonym/collocation has been created.
 
 **Phase 04 automated structural and presentation presence audit: COMPLETE. Full independent linguistic verification: NOT COMPLETE.** No production release switch, destructive migration or `main` merge. Keep the original 20-phase no-merge policy.
+
+## Phase 05 — 12 November 2026
+
+Production release `rel-v1-1fa06d8d41d8ff701632573e` remains frozen. Exactly **5,521** senses (3,176 distinct lexemes) at sorted ID ranks **22,083–27,603** were structurally audited. All 14 Cloudflare R2 shards (`32`–`3f`) were fetched, parsed and checked against production Supabase SHA-256, byte count and member count. Boundary shards were restricted to exact `lexeme_id/sense_id` identifiers.
+
+Source: `content/dictionary/audit-20261112-phase05-flagged-records.json`; presentation coverage: `content/dictionary/audit-20261112-phase05-presentation-coverage.json`.
+
+| Check | Phase 05 result |
+| --- | ---: |
+| Senses checked structurally | 5,521 |
+| Missing translation / EN definition / UZ definition | 0 / 0 / 0 |
+| Unassigned CEFR | 463 |
+| Invalid non-empty CEFR | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 63 / 168 / 748 / 991 / 819 / 2,269 |
+| Source senses without examples | 3,014 |
+| AI draft senses | 57 |
+| Duplicate sense IDs / translation strings | 0 / 0 |
+| Invalid canonical source-sense relation/collocation references | 0 / 0 |
+| Without canonical synonym / antonym / collocation | 4,369 / 5,490 / 5,473 |
+| Missing presentation sense record | 57 |
+| Senses with synonym in canonical or presentation layer | 3,042 |
+| Senses with collocation in canonical or presentation layer | 179 |
+| Missing synonym / collocation across counted layers | 2,479 / 5,342 |
+
+Review queue holds **2,732 exact sense IDs** (463 without CEFR and 2,269 with C2 to validate, not automatically wrong). The meaning-level CEFR distribution remains suspect and requires independent lexical evidence. Presentation numbers measure presence only, and a matching sense ID does not independently prove `meaningSha` currency or semantic quality. No absent antonyms/collocations were invented.
+
+**Automated R2 integrity and presentation presence audit: COMPLETE. Independent linguistic review of all 5,521 translations, sense-specific CEFR and relations: NOT COMPLETE.** No new production release, channel pointer or `main` merge. Preserve the 20-phase no-merge requirement.
