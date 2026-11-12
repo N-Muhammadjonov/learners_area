@@ -289,7 +289,7 @@ def test_semantic_overrides_are_exact_sense_and_release_scoped(monkeypatch):
 
     data = presentation.sense_corrections()
     assert data["source_release"] == "rel-v1-1fa06d8d41d8ff701632573e"
-    assert len(data["entries"]) == 5
+    assert len(data["entries"]) == 12
 
     itself = {
         "release_id": data["source_release"],
