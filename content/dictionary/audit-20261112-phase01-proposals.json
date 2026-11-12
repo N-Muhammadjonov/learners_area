@@ -1,0 +1,39 @@
+{
+  "audit_version": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "status": "reviewed_proposal_not_published",
+  "changes": [
+    {
+      "lexeme_id": "661696f8-4ed4-5321-8e0c-e4e513d768a5",
+      "sense_id": "eadfd862-8108-42cf-b009-995653d25c2c",
+      "lemma": "hello",
+      "part_of_speech": "n",
+      "definition_en": "an expression of greeting",
+      "field": "cefr",
+      "before": "C2",
+      "proposed": "A1",
+      "translation_uz": "salom",
+      "source_urls": [
+        "https://dictionary.cambridge.org/dictionary/english/hello"
+      ],
+      "rationale": "Cambridge marks the greeting usage A1, for exclamation and noun contexts; C2 is unsupported for this stored greeting sense.",
+      "checks": [
+        "verify target sense identity and existing R2 content checksum",
+        "generate a new immutable dictionary release",
+        "regenerate reader metadata and search previews",
+        "verify synonyms in API/UI",
+        "validate and publish via normal release pipeline"
+      ],
+      "relations_present": [
+        "hi",
+        "how-do-you-do",
+        "howdy",
+        "hullo"
+      ],
+      "antonyms": "not_applicable",
+      "collocations": "needs_evidence",
+      "review_status": "source_checked",
+      "production_applied": false
+    }
+  ]
+}
