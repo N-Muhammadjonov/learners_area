@@ -130,7 +130,7 @@ async def intent_exchange(req:Request):
                     RETURNING id''',iid,nonce_hash)
                 if not consumed:raise IntentNotConsumable()
         resp=core.j({'success':True,'onboarded':bool(user['onboarding_completed_at']),
-                     'accountStatus':user['account_status'],'outcome':outcome})
+                     'accountStatus':user['account_status'],'role':user['role'],'outcome':outcome})
         core.clear_session_cookie(resp,req)
         core.write_cookie(resp,req,core.SESSION_COOKIE,token,core.SESSION_TTL,http_only=True)
         return resp

@@ -166,7 +166,8 @@ async def guardian_channel_gate(telegram_user_id: str):
 def guardian_path_allowed(path: str) -> bool:
     """Central allow-list for role 'guardian'. Everything else under /api is forbidden for guardians."""
     return (path.startswith('/api/guardian/') or path in (
-        '/api/frontend/session', '/api/frontend/public', '/api/auth/logout', '/api/auth/changes', '/api/locale', '/api/theme'))
+        '/api/frontend/session', '/api/frontend/public', '/api/auth/logout', '/api/auth/changes',
+        '/api/auth/state', '/api/auth/telegram/intent/exchange', '/api/locale', '/api/theme'))
 
 
 async def audit(con, action, *, actor_user_id=None, actor_telegram_id=None, link_id=None, student_id=None, metadata=None):

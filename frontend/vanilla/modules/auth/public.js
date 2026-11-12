@@ -39,7 +39,7 @@ export async function mount(context){
     publishSessionEvent('refresh');
     context.invalidateSession?.();
     const destination=result.accountStatus==='active'?
-      (result.onboarded?(consumeLandingPlanIntent()??'/app'):'/onboarding'):'/pending';
+      (result.role==='guardian'?'/app/progress':result.onboarded?(consumeLandingPlanIntent()??'/app'):'/onboarding'):'/pending';
     await navigate(destination,{replace:true});
    }catch(error){
     if(signal.aborted)return;

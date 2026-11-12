@@ -3,7 +3,7 @@ import {api,ApiError} from '../api-client.js';
 import {viewPolicy,presentationKey} from '../cache-policy.js';
 /** Versioned FastAPI presentation adapters. Identity and permissions come from the server. */
 export const ADAPTERS=Object.freeze({public:'/api/frontend/public',session:'/api/frontend/session',view:'/api/frontend/view'});
-const roles=['student','teacher','admin','owner'];
+const roles=['student','teacher','admin','owner','guardian'];
 export function validateSession(value){
  const s=value?.session,u=s?.user;
  if(value?.version!==1||s?.diagnostics!==undefined&&typeof s.diagnostics!=='boolean'||!u||typeof u.id!=='string'||!u.id||typeof u.name!=='string'||u.email!=null&&typeof u.email!=='string'||!roles.includes(u.role)||!['active','pending','suspended','rejected'].includes(u.accountStatus)||!Number.isSafeInteger(s.expiresAt)||typeof s.accessEventsEnabled!=='boolean'||typeof u.photoPresent!=='boolean')throw new ApiError(502,'invalid_session_adapter');

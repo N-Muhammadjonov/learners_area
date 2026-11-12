@@ -59,7 +59,7 @@ async def test_guardian_is_forbidden_everywhere_except_allow_list(monkeypatch, p
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('path', ['/api/guardian/children', '/api/guardian/children/x/progress', '/api/frontend/session',
-                                  '/api/auth/logout'])
+                                  '/api/auth/logout', '/api/auth/state', '/api/auth/telegram/intent/exchange'])
 async def test_guardian_allowed_paths(monkeypatch, path):
     assert (await authority(monkeypatch, 'guardian', path))['user']['role'] == 'guardian'
 
@@ -70,7 +70,7 @@ async def test_students_are_unaffected(monkeypatch):
 
 
 def test_guardian_cannot_reach_mutations_even_by_prefix_tricks():
-    for path in ('/api/guardians/links/x/approve', '/api/guardianX/children', '/api/guardian', '/api/frontend/staff/x'):
+    for path in ('/api/guardians/links/x/approve', '/api/guardianX/children', '/api/guardian', '/api/frontend/staff/x', '/api/auth/telegram/intent/exchange/forged'):
         assert not g.guardian_path_allowed(path)
 
 

@@ -10,7 +10,7 @@ export function watchAuthority(session,{navigate,refresh,signal,window:win=windo
  const logout=()=>{if(!live())return;scope.setScope(null);stop();void navigate('/login',{replace:true});};
  function schedule(seconds){clearTimer(timer);if(!Number.isSafeInteger(seconds))return;const remaining=seconds*1000-now();if(remaining<=0){logout();return;}timer=setTimer(()=>schedule(seconds),Math.min(remaining,2147000000));}
  async function update(force=false){if(!live())return;if(pending){if(force)queued=true;return;}pending=true;requestController=new AbortController();const deadline=setTimer(()=>requestController?.abort(),8000);
-  try{const state=await request('/api/auth/state',{signal:requestController.signal});if(!live())return;if(!['student','teacher','admin','owner'].includes(state.role)||!['active','pending','suspended','rejected'].includes(state.accountStatus))return;needsReconcile=false;
+  try{const state=await request('/api/auth/state',{signal:requestController.signal});if(!live())return;if(!['student','teacher','admin','owner','guardian'].includes(state.role)||!['active','pending','suspended','rejected'].includes(state.accountStatus))return;needsReconcile=false;
    if(status==='active'&&state.accountStatus!=='active'){logout();return;}if(status!==state.accountStatus){status=state.accountStatus;scope.clear('authority-change');void refresh();return;}if(Number.isSafeInteger(state.expiresAt))schedule(state.expiresAt);if(role!==state.role){role=state.role;scope.clear('authority-change');void refresh();}
   }catch(error){if(live()&&error.status===401)logout();}
   finally{clearTimer(deadline);requestController=null;pending=false;if(queued&&live()){queued=false;void update();}}
