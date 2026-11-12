@@ -253,3 +253,32 @@ def test_example_correction_is_bound_to_release_sense_meaning_and_source():
     fallback = presentation.corrected_examples(entry, unmatched)
     assert fallback[0] == unmatched["examples"][0]
     assert fallback[1]["text_en"] != originals[1]["text_en"]
+
+
+def test_startup_replacement_removes_unrelated_example():
+    corrections = presentation.example_corrections()
+    lexeme_id = "65825765-33c0-5e04-8ad9-1cab90be90e5"
+    sense_id = "d7525883-85d3-4bd1-90f0-409545b4c051"
+    change = corrections["entries"][lexeme_id][sense_id]
+    assert len(change["examples"]) == 2
+    entry = {
+        "lexeme_id": lexeme_id,
+        "release_id": corrections["source_release"],
+        "display_lemma": "startup",
+        "part_of_speech": "n",
+    }
+    sense = {
+        "sense_id": sense_id,
+        "definition_en": "the act of starting a new operation or practice",
+        "examples": [
+            {"example_id": example_id, "text_en": replacement["original_en"],
+             "text_uz": "Original translation"}
+            for example_id, replacement in change["examples"].items()
+        ],
+    }
+    revised = presentation.corrected_examples(entry, sense)
+    assert len(revised) == 2
+    assert all("startup" in example["text_en"].lower() for example in revised)
+    assert all(example["text_en"].endswith(".") for example in revised)
+    assert all(example["text_uz"].endswith(".") for example in revised)
+    assert not any("fluoridation" in example["text_en"] for example in revised)
