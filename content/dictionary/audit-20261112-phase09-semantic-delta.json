@@ -42,7 +42,26 @@
     "source_meaning_sha_required": true,
     "immutable_candidate_copy": true,
     "existing_release_changed": false,
-    "examples_modified_in_this_pass": false
+    "examples_modified_in_this_pass": false,
+    "original_r2_readback": {
+      "lexemes": 12,
+      "senses": 18,
+      "meaning_sha_verified": 18,
+      "cefr_original_matches": 4,
+      "definition_original_matches": 2,
+      "translation_original_matches": 2,
+      "canonical_synonym_exclusions_confirmed": 15,
+      "presentation_only_synonym_exclusions_confirmed": 4,
+      "missing_lexemes": 0,
+      "unexpected_mismatches": 0,
+      "source_shards": [
+        "65",
+        "66",
+        "67",
+        "68"
+      ],
+      "method": "Read-only R2 member-by-member decompression, lexeme/sense IDs and SHA-256 of original lemma/pos/definition; compared every source field before candidate transformation."
+    }
   },
   "limits": {
     "all_5521_senses_semantically_validated": false,
