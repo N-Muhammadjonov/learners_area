@@ -21,14 +21,16 @@ function ctx(path='/app/plan/level-check'){
  };
 }
 function questions(){
- return Array.from({length:15},(_,i)=>({
-  id:'test-'+i,skill:SKILLS[i%5],q:'Question '+(i+1),
-  options:['A','B','C','D'],...(i%5===3?{audio:'Listen to the sentence.'}:{}),
-  ...(i%5===2?{passage:'Text to read.'}:{}),
+ const sequence=[...SKILLS.flatMap(skill=>Array(3).fill(skill)),'reading','use'];
+ return sequence.map((skill,i)=>({
+  id:'test-'+i,skill,q:'Question '+(i+1),
+  options:skill==='listening'?['A','B','C']:['A','B','C','D'],
+  ...(skill==='listening'?{audio:'Listen to the sentence.'}:{}),
+  ...(skill==='reading'?{passage:'Text to read.'}:{}),
  }));
 }
-const quiz=()=>({state:'quiz',attemptId:'fixture-attempt',level:'B2',total:15,questions:questions()});
-const scored=()=>({state:'result',level:'B2',correct:14,total:15,passed:true,
+const quiz=()=>({state:'quiz',attemptId:'fixture-attempt',level:'B2',total:17,questions:questions()});
+const scored=()=>({state:'result',level:'B2',correct:16,total:17,passed:true,
  savedLevel:'B2',label:'strong',suggestedLevel:'B2',nextLevel:null,
  skills:Object.fromEntries(SKILLS.map(s=>[s,{correct:3,total:3}])),
  review:questions().map(q=>({id:q.id,correct:true,selected:'A',answer:'A',explanation:'Reason'})),
@@ -43,7 +45,7 @@ beforeEach(()=>{
 });
 afterEach(()=>{controller.abort();api.request=oldRequest;dom.window.close();});
 
-test('level quiz validates 15 questions, 5 skills, and forbids leaked answer keys',()=>{
+test('level quiz validates 17 questions, 5 skills, and forbids leaked answer keys',()=>{
  assert.equal(validateLevelForm(quiz()).state,'quiz');
  const invalid=quiz();invalid.questions[0].options[2]=false;
  assert.throws(()=>validateLevelForm(invalid),/invalid_level_question/);
@@ -64,7 +66,7 @@ test('30-day level check renders separate page and launches selected B2 test',as
  root.querySelector('[data-level-select="B2"]').click();
  root.querySelector('[data-level-begin]').click();await tick();
  assert.deepEqual(calls[1],{path:API+'/start',method:'POST',body:{level:'B2'}});
- assert.equal(root.querySelectorAll('[data-level-step]').length,15);
+ assert.equal(root.querySelectorAll('[data-level-step]').length,17);
  assert.equal(root.querySelectorAll('[data-level-answer]').length,4);
  assert.match(root.textContent,/Question 1/);
  assert.match(root.textContent,/Assignments/);
@@ -77,7 +79,7 @@ test('selected answers navigate back without losing progress and only submit whe
   return path===API?quiz():scored();
  };
  levelCheck(ctx());await tick();
- for(let i=0;i<15;i++){
+ for(let i=0;i<17;i++){
   root.querySelector('[data-level-answer="0"]').click();
   root.querySelector('[data-level-next]').click();
  }
@@ -85,10 +87,10 @@ test('selected answers navigate back without losing progress and only submit whe
  const submit=calls.filter(row=>row.path===API+'/submit');
  assert.equal(submit.length,1);
  assert.equal(submit[0].method,'POST');
- assert.equal(submit[0].body.answers.length,15);
+ assert.equal(submit[0].body.answers.length,17);
  assert(submit[0].body.answers.every(v=>v===0));
  assert.equal(root.querySelector('[data-level-check-result]')!=null,true);
- assert.match(root.textContent,/14\/15/);
+ assert.match(root.textContent,/16\/17/);
 });
 
 test('passed assessment opens duration selection without silently starting 30 days',async()=>{
@@ -101,7 +103,7 @@ test('passed assessment opens duration selection without silently starting 30 da
   throw Error('unexpected '+path);
  };
  levelCheck(ctx());await tick();
- for(let i=0;i<15;i++){
+ for(let i=0;i<17;i++){
   root.querySelector('[data-level-answer="1"]').click();
   root.querySelector('[data-level-next]').click();
  }

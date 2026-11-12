@@ -1301,76 +1301,81 @@
       "id": "B2-listening-1",
       "level": "B2",
       "skill": "listening",
-      "q": "What is the speaker’s main reservation?",
+      "q": "What was Jack's attitude to nutritional food labels before this project?",
       "options": [
-        "The timeline may be unrealistic",
-        "The goals are irrelevant",
-        "The costs were not calculated",
-        "The stakeholders have withdrawn"
+        "He didn't read everything on them.",
+        "He didn't think they were important.",
+        "He thought they were too complicated."
       ],
       "answer": 0,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The aims are sensible and the funding is secured. My concern is how much we expect to achieve before December."
+      "explanation": "Original Listening MCQ Day 1, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/1",
+      "sourceDay": 1,
+      "sourceQuestion": 1
     },
     {
       "id": "B2-listening-2",
       "level": "B2",
       "skill": "listening",
-      "q": "Which change was made to the research design?",
+      "q": "Why didn’t Amy phone her family?",
       "options": [
-        "The control group was dropped",
-        "A follow-up phase was added",
-        "The sample was reduced",
-        "The questionnaire was shortened"
+        "She didn't have enough credit left on her phone.",
+        "She forgot that she had promised to call them.",
+        "She didn't want them to hear her sounding unhappy."
       ],
-      "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "We kept the same sample and control group but added interviews three months later to see whether the effects lasted."
+      "answer": 2,
+      "explanation": "Original Listening MCQ Day 4, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/4",
+      "sourceDay": 4,
+      "sourceQuestion": 1
     },
     {
       "id": "B2-listening-3",
       "level": "B2",
       "skill": "listening",
-      "q": "Why does the speaker favour the second proposal?",
+      "q": "How does the expert feel about leaving visible cracks in the finished vase?",
       "options": [
-        "It is cheaper upfront",
-        "It addresses the underlying cause",
-        "It needs fewer staff",
-        "It has more publicity"
+        "They affect the value of the vase rather than its appearance.",
+        "They are part of the vase's history and should be seen.",
+        "They should be avoided if at all possible."
       ],
       "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The first proposal would give visible results quickly, but the second tackles why the problem keeps returning."
+      "explanation": "Original Listening MCQ Day 7, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/7",
+      "sourceDay": 7,
+      "sourceQuestion": 1
     },
     {
       "id": "B2-listening-4",
       "level": "B2",
       "skill": "listening",
-      "q": "What can be inferred about the feedback?",
+      "q": "Why do they want to make an extension to the library?",
       "options": [
-        "It was unanimously favourable",
-        "It was mixed but useful",
-        "It did not address the project",
-        "It was ignored entirely"
+        "It has had no renovation since it was founded.",
+        "It needs to double the number of computers.",
+        "There has been an increased number of visiting people."
       ],
-      "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "Several people praised the new format, while others found it confusing. We’ve used both sets of comments to revise it."
+      "answer": 2,
+      "explanation": "Original Listening MCQ Day 9, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/9",
+      "sourceDay": 9,
+      "sourceQuestion": 1
     },
     {
       "id": "B2-listening-5",
       "level": "B2",
       "skill": "listening",
-      "q": "What does the man imply about the deadline?",
+      "q": "What is the main thing the manager is looking for in his staff?",
       "options": [
-        "The deadline is fixed",
-        "A short extension may be possible",
-        "The deadline has passed",
-        "No deadline was set"
+        "Experience",
+        "Enthusiasm",
+        "Good qualifications"
       ],
       "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The date is officially Friday, though if there’s a genuine problem we might be able to allow another day or two."
+      "explanation": "Original Listening MCQ Day 13, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/13",
+      "sourceDay": 13,
+      "sourceQuestion": 1
     },
     {
       "id": "B2-use-1",
@@ -1588,10 +1593,10 @@
       "skill": "reading",
       "q": "What rhetorical strategy does the author use?",
       "options": [
-        "Dismissal of all objections",
-        "Appeal to popularity",
+        "A tentative finding followed by a definitive dismissal",
+        "A comparison of two mutually exclusive models",
         "Concession followed by qualification",
-        "An unrelated anecdote"
+        "A chronological explanation with no evaluative stance"
       ],
       "answer": 2,
       "explanation": "Avval afzallikni tan oladi, keyin cheklovni ko‘rsatadi.",
@@ -1603,10 +1608,10 @@
       "skill": "reading",
       "q": "Which inference is best supported?",
       "options": [
-        "The data are deliberately falsified.",
+        "All groups improved, but at different rates.",
         "The analysis may mask internal differences.",
-        "The intervention had no benefits.",
-        "All participants improved equally."
+        "The improvement cannot be attributed to the intervention.",
+        "Prior experience was excluded from the analysis."
       ],
       "answer": 1,
       "explanation": "O‘rtacha ko‘rsatkich subguruhlar farqini yashirishi mumkin.",
@@ -1618,9 +1623,9 @@
       "skill": "reading",
       "q": "What does “contingent” mean here?",
       "options": [
-        "Permanent",
-        "Unexpected",
-        "Unethical",
+        "Insulated from external constraints",
+        "Decided by administrative consensus",
+        "Confined to a single agency",
         "Dependent on conditions"
       ],
       "answer": 3,
@@ -1634,9 +1639,9 @@
       "q": "What is the author criticising?",
       "options": [
         "An oversimplified causal explanation",
-        "The existence of demographic data",
-        "The value of follow-up studies",
-        "The need for measurable outcomes"
+        "A causal model with too many independent variables",
+        "The collection of non-digital evidence",
+        "An overly cautious refusal to identify any cause"
       ],
       "answer": 0,
       "explanation": "Bir sababga haddan ziyod katta rol berilishi tanqid qilinadi.",
@@ -1648,10 +1653,10 @@
       "skill": "reading",
       "q": "What does the final sentence suggest?",
       "options": [
-        "The project has been abandoned.",
-        "The approach was copied exactly.",
+        "The researchers rejected the original objective entirely.",
+        "The framework was unchanged, but its results were reinterpreted.",
         "The team adapted its strategy in response to limitations.",
-        "The results were fabricated."
+        "Regional infrastructure proved less important than expected."
       ],
       "answer": 2,
       "explanation": "Cheklovlar tan olinib, yondashuv o‘zgartirilgan.",
@@ -1661,76 +1666,81 @@
       "id": "C1-listening-1",
       "level": "C1",
       "skill": "listening",
-      "q": "What qualification does the speaker make?",
+      "q": "What problem did the woman have with the swan?",
       "options": [
-        "The reform may work only in some contexts",
-        "The reform is universally beneficial",
-        "Implementation is irrelevant",
-        "The overall direction is wrong"
+        "She misunderstood its intentions.",
+        "She underestimated the speed of its approach.",
+        "She failed to realise the consequences of disturbing it."
       ],
-      "answer": 0,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "I support the reform in principle, but outcomes will depend on local capacity. It would be a mistake to expect the same results everywhere."
+      "answer": 2,
+      "explanation": "Original Listening MCQ Day 8, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/8",
+      "sourceDay": 8,
+      "sourceQuestion": 1
     },
     {
       "id": "C1-listening-2",
       "level": "C1",
       "skill": "listening",
-      "q": "Why is the follow-up study mentioned?",
+      "q": "Scott and Liz agree that using Maori terminology in their presentation",
       "options": [
-        "It replicated the original effect exactly",
-        "It found a smaller effect, challenging the first estimate",
-        "It used unrelated participants",
-        "It rejected the topic entirely"
+        "will be of interest to international students.",
+        "is required as a component of their research.",
+        "would be best avoided."
       ],
-      "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The first study found a large improvement. The bigger follow-up, however, detected a smaller effect and wider uncertainty."
+      "answer": 2,
+      "explanation": "Original Listening MCQ Day 10, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/10",
+      "sourceDay": 10,
+      "sourceQuestion": 1
     },
     {
       "id": "C1-listening-3",
       "level": "C1",
       "skill": "listening",
-      "q": "What attitude is conveyed?",
+      "q": "When Scott mentions the engines at Stone Point, Liz advises him to",
       "options": [
-        "Cautious optimism",
-        "Unreserved enthusiasm",
-        "Firm rejection",
-        "Personal hostility"
+        "focus on the human aspect instead.",
+        "check the accuracy of specific dates.",
+        "explain complex technical language."
       ],
       "answer": 0,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "This is encouraging, but I would not call it a breakthrough until an independent team can reproduce the findings."
+      "explanation": "Original Listening MCQ Day 11, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/11",
+      "sourceDay": 11,
+      "sourceQuestion": 1
     },
     {
       "id": "C1-listening-4",
       "level": "C1",
       "skill": "listening",
-      "q": "What is implied about the public summary?",
+      "q": "If the peer assessment marks seem incorrect,",
       "options": [
-        "It is more detailed than the appendix",
-        "It omits an important methodological caveat",
-        "It reports exactly the same uncertainty",
-        "It directly challenges the study"
+        "students should mark the assignments again.",
+        "the tutor should check those assignments.",
+        "the marking criteria should be rewritten."
       ],
       "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The technical appendix shows overlapping confidence intervals. That detail, rather conveniently, is absent from the executive summary."
+      "explanation": "Original Listening MCQ Day 15, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/15",
+      "sourceDay": 15,
+      "sourceQuestion": 1
     },
     {
       "id": "C1-listening-5",
       "level": "C1",
       "skill": "listening",
-      "q": "Why does the speaker withhold judgement?",
+      "q": "What is said about the different types of heel injury?",
       "options": [
-        "The study lacks sufficient follow-up evidence",
-        "The study has been withdrawn",
-        "The funding has ended",
-        "The method was never documented"
+        "Diagnosis is straightforward.",
+        "They are expensive to treat.",
+        "Some are more serious than others."
       ],
-      "answer": 0,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The early signals look promising, yet the observation window is short. I’d prefer to see longer-term data before taking a firm position."
+      "answer": 2,
+      "explanation": "Original Listening MCQ Day 16, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/16",
+      "sourceDay": 16,
+      "sourceQuestion": 1
     },
     {
       "id": "C1-use-1",
@@ -1808,10 +1818,10 @@
       "skill": "grammar",
       "q": "No sooner ___ the announcement been made than speculation intensified.",
       "options": [
+        "should",
         "has",
-        "was",
         "had",
-        "did"
+        "would have"
       ],
       "answer": 2,
       "explanation": "No sooner had + subject + V3 than..."
@@ -1823,9 +1833,9 @@
       "q": "Were it not for the preliminary data, the hypothesis ___ untenable.",
       "options": [
         "would remain",
-        "will remain",
-        "had remained",
-        "remains"
+        "would have remained",
+        "will have remained",
+        "had remained"
       ],
       "answer": 0,
       "explanation": "Were it not for — formal unreal conditional."
@@ -1836,7 +1846,7 @@
       "skill": "grammar",
       "q": "He demanded that the allegation ___ independently verified.",
       "options": [
-        "is",
+        "were",
         "was",
         "being",
         "be"
@@ -1852,8 +1862,8 @@
       "options": [
         "were",
         "was",
-        "has",
-        "did"
+        "had been",
+        "has been"
       ],
       "answer": 1,
       "explanation": "Such was the intensity ... that — formal inversion."
@@ -1864,10 +1874,10 @@
       "skill": "grammar",
       "q": "The report is all the more compelling ___ its limitations are candidly acknowledged.",
       "options": [
-        "unless",
-        "whereas",
+        "although",
+        "insofar as",
         "because",
-        "despite"
+        "whereas"
       ],
       "answer": 2,
       "explanation": "Because qo‘shimcha asos keltiradi; all the more compelling because..."
@@ -1879,9 +1889,9 @@
       "q": "“Perspicacious” most nearly means ___.",
       "options": [
         "astute and perceptive",
-        "fiercely impatient",
-        "deliberately vague",
-        "emotionally detached"
+        "analytical but indecisive",
+        "precise and methodical",
+        "sceptical and dismissive"
       ],
       "answer": 0,
       "explanation": "Perspicacious — teran fahmli."
@@ -1892,9 +1902,9 @@
       "skill": "vocabulary",
       "q": "“Obfuscate” an argument means to ___.",
       "options": [
-        "refute it",
-        "summarise it",
-        "strengthen it",
+        "challenge its assumptions",
+        "compress its complexity",
+        "qualify its conclusions",
         "make it less clear"
       ],
       "answer": 3,
@@ -1906,10 +1916,10 @@
       "skill": "vocabulary",
       "q": "A “pyrrhic victory” is ___.",
       "options": [
-        "a decisive effortless success",
+        "a victory achieved despite a narrow margin",
         "a win gained at excessive cost",
-        "a victory in sport",
-        "a victory by chance"
+        "a narrowly contested victory",
+        "a triumph with unforeseen benefits"
       ],
       "answer": 1,
       "explanation": "Pyrrhic victory — juda katta evaziga erishilgan g‘alaba."
@@ -1920,10 +1930,10 @@
       "skill": "vocabulary",
       "q": "“Inchoate” refers to something ___.",
       "options": [
-        "fully mature",
-        "deliberately deceptive",
+        "already approaching completion",
+        "internally inconsistent",
         "not yet fully formed",
-        "no longer relevant"
+        "temporarily suspended"
       ],
       "answer": 2,
       "explanation": "Inchoate — hali to‘liq shakllanmagan."
@@ -1935,9 +1945,9 @@
       "q": "To “prevaricate” is to ___.",
       "options": [
         "evade the truth or speak evasively",
-        "state facts precisely",
-        "openly apologise",
-        "reach agreement immediately"
+        "avoid a decision while remaining candid",
+        "refuse to state an opinion",
+        "shift the discussion to an earlier issue"
       ],
       "answer": 0,
       "explanation": "Prevaricate — haqiqatdan qochib, mujmal gapirmoq."
@@ -1948,9 +1958,9 @@
       "skill": "reading",
       "q": "Which underlying critique is implied?",
       "options": [
-        "All quantification is invalid.",
-        "Individual judgement is irrelevant.",
-        "Metrics are always deliberately manipulated.",
+        "Staff deliberately misreported all completion figures.",
+        "The main source of inefficiency was administrative duplication.",
+        "The metrics worked poorly because too little information was collected.",
         "A measurement framework can distort the phenomenon it purports to capture."
       ],
       "answer": 3,
@@ -1963,10 +1973,10 @@
       "skill": "reading",
       "q": "What is the author’s central paradox?",
       "options": [
-        "Open standards always fail.",
+        "Uniform rules inevitably erase all socioeconomic differences.",
         "Safeguards designed to improve fairness may introduce new inequities.",
-        "Every reform has identical outcomes.",
-        "Private data have no value."
+        "The reform failed solely because staff misapplied the scoring rules.",
+        "Extracurricular achievements provide no useful admissions evidence."
       ],
       "answer": 1,
       "explanation": "Adolatni oshirish uchun qilingan choralar yangi tengsizlik yaratishi mumkin.",
@@ -1978,10 +1988,10 @@
       "skill": "reading",
       "q": "What does the tone most strongly suggest?",
       "options": [
-        "Unrestrained admiration",
-        "Outright contempt",
+        "Measured appreciation of an otherwise workable proposal",
+        "A reluctant defence of the proposal's funding assumptions",
         "Qualified irony",
-        "Personal resentment"
+        "A neutral explanation of unresolved policy alternatives"
       ],
       "answer": 2,
       "explanation": "“Impressive, if one disregards...” — kinoyali cheklov.",
@@ -1994,9 +2004,9 @@
       "q": "What assumption is being exposed?",
       "options": [
         "That correlation necessarily entails causation",
-        "That numerical comparisons are useful",
-        "That institutions collect data",
-        "That funding can affect outcomes"
+        "That the apparent relationship is statistically insignificant",
+        "That the direction of the relationship cannot be evaluated",
+        "That screen time has no independent effect on learning"
       ],
       "answer": 0,
       "explanation": "Muallif korrelyatsiyadan sababiyat chiqarishni savol ostiga qo‘yadi.",
@@ -2008,9 +2018,9 @@
       "skill": "reading",
       "q": "What is most strongly implied about the consensus?",
       "options": [
-        "It emerged from exhaustive independent debate.",
-        "It has been formally rejected.",
-        "It is supported by every dataset.",
+        "The agreement arose principally from the reviewers' shared methodology.",
+        "The exclusion of dissenters strengthened the representativeness of the review.",
+        "The agreement was independently verified after the meeting.",
         "It may reflect institutional pressures rather than genuine agreement."
       ],
       "answer": 3,
@@ -2021,76 +2031,81 @@
       "id": "C2-listening-1",
       "level": "C2",
       "skill": "listening",
-      "q": "What rhetorical strategy does the speaker use?",
+      "q": "What do the students think about research into the impact of nutritional food labelling?",
       "options": [
-        "Concede the aim but question a hidden premise",
-        "Dismiss the proposal through ridicule",
-        "Appeal only to tradition",
-        "Shift to an unrelated issue"
+        "It did not produce clear results.",
+        "It focused on the wrong people.",
+        "It made unrealistic recommendations."
       ],
       "answer": 0,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The ambition is admirable, and I do not dispute its merits. It does, however, presuppose the institutional capacity it purports to create."
+      "explanation": "Original Listening MCQ Day 2, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/2",
+      "sourceDay": 2,
+      "sourceQuestion": 1
     },
     {
       "id": "C2-listening-2",
       "level": "C2",
       "skill": "listening",
-      "q": "What is implied by the reference to decimal points?",
+      "q": "What does Darren now think about the Latin name of the red squirrel?",
       "options": [
-        "The projection has been audited",
-        "The precision is not justified by its assumptions",
-        "The uncertainty is negligible",
-        "The methodology is unusually robust"
+        "It is meaningless.",
+        "It is an amusing description.",
+        "It is suitable for this species."
       ],
-      "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The projected savings are stated to the nearest decimal point. Given how speculative the assumptions are, the precision strikes me as theatrical."
+      "answer": 2,
+      "explanation": "Original Listening MCQ Day 26, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/26",
+      "sourceDay": 26,
+      "sourceQuestion": 1
     },
     {
       "id": "C2-listening-3",
       "level": "C2",
       "skill": "listening",
-      "q": "What tension is highlighted?",
+      "q": "How does Arthur deal with difficult problems?",
       "options": [
-        "Full disclosure can undermine confidential participation",
-        "Transparency always prevents participation",
-        "Confidentiality makes accountability impossible",
-        "Public accountability has already been achieved"
+        "Ask for advice from friends",
+        "Seek help from experts",
+        "Try to get advice from books"
       ],
-      "answer": 0,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "We promise transparent governance, but publishing raw submissions would betray the trust of confidential contributors. Disclosure and accountability are not always identical."
+      "answer": 1,
+      "explanation": "Original Listening MCQ Day 28, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/28",
+      "sourceDay": 28,
+      "sourceQuestion": 1
     },
     {
       "id": "C2-listening-4",
       "level": "C2",
       "skill": "listening",
-      "q": "Why does the speaker resist calling the pilot a failure?",
+      "q": "According to the speaker, what is the danger of relying entirely on self-confidence?",
       "options": [
-        "Targets were fully achieved",
-        "It revealed useful structural constraints",
-        "It was never implemented",
-        "It generated an immediate financial surplus"
+        "It may reduce a person's chance of succeeding.",
+        "It can make self-help books less effective.",
+        "It prevents people from taking risks."
       ],
-      "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "I wouldn’t call the pilot a failure. It missed its targets, yes, yet it exposed bottlenecks the design team could not otherwise have seen."
+      "answer": 0,
+      "explanation": "Original Listening MCQ Day 29, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/29",
+      "sourceDay": 29,
+      "sourceQuestion": 1
     },
     {
       "id": "C2-listening-5",
       "level": "C2",
       "skill": "listening",
-      "q": "What does “conveniently” imply about the summary?",
+      "q": "What does Arthur say about taking risks?",
       "options": [
-        "It was efficiently written",
-        "It may have selected evidence favouring its claim",
-        "It was written for a general audience",
-        "It included every relevant indicator"
+        "He advises being cautious.",
+        "He favours a long-term view.",
+        "He believes it is financially advantageous."
       ],
-      "answer": 1,
-      "explanation": "Audio yozuvdagi asosiy ma’lumot, taqqoslash yoki tuzatish javobni aniqlaydi.",
-      "audio": "The summary mentions the three measures that improved. Conveniently, it says nothing about the two indicators that worsened."
+      "answer": 0,
+      "explanation": "Original Listening MCQ Day 30, question 1. The recorded dialogue establishes the selected answer.",
+      "audio": "/api/study-plan/monthly/sequence/level/landing/audio/30",
+      "sourceDay": 30,
+      "sourceQuestion": 1
     },
     {
       "id": "C2-use-1",
@@ -2098,10 +2113,10 @@
       "skill": "use",
       "q": "Which version makes a subtle reservation without outright dismissal?",
       "options": [
-        "The thesis is misguided in every respect.",
-        "The thesis has merit, though its underlying assumptions warrant scrutiny.",
-        "The thesis is beyond further examination.",
-        "The thesis is unlikely because it is complicated."
+        "The thesis is defensible only if its critics abandon their objections.",
+        "The thesis has merit, though its underlying assumptions warrant scrutiny",
+        "The thesis is persuasive in all essential respects, notwithstanding minor uncertainties.",
+        "The thesis warrants dismissal unless every assumption is empirically proven."
       ],
       "answer": 1,
       "explanation": "The concessive structure retains merit while questioning premises."
@@ -2112,10 +2127,10 @@
       "skill": "use",
       "q": "“The arrangement was a ___ solution, intended to bridge the gap until the full system was ready.”",
       "options": [
-        "far-reaching",
+        "piecemeal",
         "stopgap",
-        "sweeping",
-        "definitive"
+        "comprehensive",
+        "permanent"
       ],
       "answer": 1,
       "explanation": "Stopgap specifically means a temporary expedient until a lasting solution exists."
@@ -2127,9 +2142,9 @@
       "q": "Which expression most naturally concedes a point before refocusing the argument?",
       "options": [
         "Be that as it may, the central question remains unresolved.",
-        "Insofar meanwhile, the central question remains.",
-        "Albeit hence, the matter has resolved.",
-        "Although nevertheless, the central question remains."
+        "Granted as much, the central question is being unresolved.",
+        "Albeit the foregoing, the central question remains unresolved.",
+        "Despite that may be, the central question has remained unresolved."
       ],
       "answer": 0,
       "explanation": "Be that as it may is a concessive idiom."
@@ -2140,10 +2155,10 @@
       "skill": "use",
       "q": "Which formulation is the most precise about an uncertain finding?",
       "options": [
-        "The approach changed many things significantly.",
-        "The initiative was evidently very helpful.",
-        "The intervention was associated with a small, statistically detectable improvement.",
-        "The experiment conclusively established universal effectiveness."
+        "The intervention was proven to cause a modest improvement for all participants.",
+        "The initiative showed a positive relationship, which resolves the causal question.",
+        "The intervention was associated with a small, statistically detectable improvement, although the study cannot establish causality.",
+        "The intervention produced an improvement too small to be statistically detectable."
       ],
       "answer": 2,
       "explanation": "It distinguishes association from proof and specifies effect magnitude."
@@ -2156,8 +2171,8 @@
       "options": [
         "Notwithstanding of the delay, the review continued.",
         "Notwithstanding the delay, the review continued.",
-        "Notwithstanding although the delay, the review continued.",
-        "Notwithstanding to the delay, the review continued."
+        "The delay notwithstanding to which, the review continued.",
+        "Notwithstanding although delayed, the review continued."
       ],
       "answer": 1,
       "explanation": "Notwithstanding can function as a preposition without of."

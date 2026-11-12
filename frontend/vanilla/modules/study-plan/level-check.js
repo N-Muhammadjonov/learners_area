@@ -6,6 +6,7 @@ import {api} from '../../js/api-client.js';
 import {SEQUENCE_API,ASSIGNMENTS_PATH} from './sequence-view.js';
 
 const API=SEQUENCE_API+'/level';
+const QUESTION_COUNT=17;
 const LEVELS=['A1','A2','B1','B2','C1','C2'];
 const SKILLS=['grammar','vocabulary','reading','listening','use'];
 const text=(ctx,uz,en)=>ctx.locale==='uz'?uz:en;
@@ -28,23 +29,23 @@ export function validateLevelForm(data){
  }
  if(data.state==='quiz'){
   if(!LEVELS.includes(data.level)||typeof data.attemptId!=='string'||
-     !Array.isArray(data.questions)||data.questions.length!==15)throw Error('invalid_level_quiz');
+     !Array.isArray(data.questions)||data.questions.length!==QUESTION_COUNT)throw Error('invalid_level_quiz');
   const ids=new Set(),totals={};
   for(const q of data.questions){
    if(!q||typeof q.id!=='string'||ids.has(q.id)||!SKILLS.includes(q.skill)||
-      typeof q.q!=='string'||!Array.isArray(q.options)||q.options.length!==4||
+      typeof q.q!=='string'||!Array.isArray(q.options)||![3,4].includes(q.options.length) || (q.skill!=='listening'&&q.options.length!==4)||
       q.options.some(o=>typeof o!=='string')||q.audio!=null&&typeof q.audio!=='string'||
       q.passage!=null&&typeof q.passage!=='string')throw Error('invalid_level_question');
    ids.add(q.id);totals[q.skill]=(totals[q.skill]||0)+1;
   }
-  if(SKILLS.some(s=>totals[s]!==3))throw Error('unbalanced_level_test');
+  if(SKILLS.some(s=>totals[s]!==((s==='reading'||s==='use')?4:3)))throw Error('unbalanced_level_test');
   return data;
  }
  if(data.state==='result'){
-  if(!Number.isInteger(data.correct)||data.correct<0||data.correct>15||
-     data.total!==15||!LEVELS.includes(data.level)||
+  if(!Number.isInteger(data.correct)||data.correct<0||data.correct>QUESTION_COUNT||
+     data.total!==QUESTION_COUNT||!LEVELS.includes(data.level)||
      typeof data.passed!=='boolean'||!Array.isArray(data.review)||
-     data.review.length!==15||!data.skills||
+     data.review.length!==QUESTION_COUNT||!data.skills||
      SKILLS.some(skill=>!data.skills[skill]||
        !Number.isInteger(data.skills[skill].correct)||
        data.skills[skill].total!==3))throw Error('invalid_level_result');
@@ -68,7 +69,7 @@ function selector(ctx,state,paint,change){
 export function mount(ctx){
  const {root,signal}=ctx;
  loadStyle();
- const state={data:null,mode:'loading',level:'B1',index:0,answers:Array(15).fill(null),
+ const state={data:null,mode:'loading',level:'B1',index:0,answers:Array(QUESTION_COUNT).fill(null),
   pending:false,error:null,result:null};
  const page=h('div',{class:'level-check-page','data-level-check-page':''});
  root.append(page);
@@ -79,20 +80,30 @@ export function mount(ctx){
     ASSIGNMENTS_PATH);
  const note=()=>state.error?h('p',{class:'level-check-error',role:'alert'},state.error):null;
 
+ let mcqAudio=null;
  function stopAudio(){
+  if(mcqAudio){mcqAudio.pause();mcqAudio.removeAttribute('src');mcqAudio=null;}
   if(typeof window!=='undefined'&&'speechSynthesis' in window)window.speechSynthesis.cancel();
  }
  function speak(q){
   stopAudio();
   if(!q?.audio)return;
+  if(q.audio.startsWith('/api/study-plan/monthly/sequence/level/landing/audio/')){
+   mcqAudio=new Audio(q.audio);
+   mcqAudio.play().catch(()=>{
+    if(signal.aborted)return;
+    state.error=text(ctx,'MCQ audio yuklanmadi. Qayta urinib ko‘ring.',
+      'The original MCQ audio could not be played. Retry.');paint();
+   });
+   return;
+  }
   if(typeof window==='undefined'||!('speechSynthesis' in window)||
      typeof window.SpeechSynthesisUtterance!=='function'){
    state.error=text(ctx,'Brauzeringiz ovozli sinovni qo‘llamaydi.',
      'Speech playback is not available in this browser.');paint();return;
   }
   const utter=new window.SpeechSynthesisUtterance(q.audio);
-  utter.lang='en-GB';utter.rate=.94;
-  window.speechSynthesis.speak(utter);
+  utter.lang='en-GB';utter.rate=.94;window.speechSynthesis.speak(utter);
  }
  signal.addEventListener('abort',stopAudio,{once:true});
 
@@ -104,8 +115,8 @@ export function mount(ctx){
      'The same Grammar, Vocabulary, Reading, Listening and Use of English check used on the landing page. Choose a level.')),
    selector(ctx,state,paint),
    h('p',{class:'level-check-meta'},
-     text(ctx,'15 savol · 5 ko‘nikma · 10–15 daqiqa',
-       '15 questions · 5 skills · 10–15 minutes')),
+     text(ctx,'17 savol · 5 ko‘nikma · 15–20 daqiqa',
+       '17 questions · 5 skills · 15–20 minutes')),
    h('div',{class:'level-check-actions'},
      h('button',{type:'button',class:'btn-primary',disabled:state.pending,
        'data-level-begin':'',onClick:()=>void start()},
@@ -119,9 +130,9 @@ export function mount(ctx){
   return h('section',{class:'card level-check-card','data-level-check-quiz':''},
    h('div',{class:'level-check-top'},
     h('p',{class:'level-check-meta'},'LEARNERS AREA / '+data.level),
-    h('strong',{},(state.index+1)+' / 15')),
+    h('strong',{},(state.index+1)+' / '+QUESTION_COUNT)),
    h('p',{class:'level-check-meta'},labels[q.skill][ctx.locale==='uz'?0:1]+
-     ' · '+answered+'/15 '+text(ctx,'javob','answered')),
+     ' · '+answered+'/'+QUESTION_COUNT+' '+text(ctx,'javob','answered')),
    h('div',{class:'level-check-tracker',role:'group',
      'aria-label':text(ctx,'Savollarga o‘tish','Jump to question')},
      data.questions.map((item,index)=>h('button',{
@@ -152,7 +163,7 @@ export function mount(ctx){
    h('div',{class:'level-check-actions'},
     h('button',{type:'button',class:'btn-secondary',disabled:state.pending,
       'data-level-restart':'',onClick:()=>{stopAudio();state.mode='select';
-        state.data=null;state.answers=Array(15).fill(null);state.index=0;
+        state.data=null;state.answers=Array(QUESTION_COUNT).fill(null);state.index=0;
         state.error=null;paint();}},
       text(ctx,'Boshqa daraja','Choose a level')),
     h('button',{type:'button',class:'btn-secondary',disabled:state.pending||state.index===0,
@@ -160,12 +171,12 @@ export function mount(ctx){
       text(ctx,'Ortga','Previous')),
     h('button',{type:'button',class:'btn-primary',disabled:state.pending,
       'data-level-next':'',
-      onClick:()=>{stopAudio();if(state.index<14){state.index++;paint();}
-        else if(answered===15)void submit();else{
-         state.error=text(ctx,'Barcha 15 ta savolga javob bering.',
-           'Answer all 15 questions before submitting.');paint();
+      onClick:()=>{stopAudio();if(state.index<QUESTION_COUNT-1){state.index++;paint();}
+        else if(answered===QUESTION_COUNT)void submit();else{
+         state.error=text(ctx,'Barcha 17 ta savolga javob bering.',
+           'Answer all 17 questions before submitting.');paint();
         }}},
-      state.index===14?text(ctx,'Natijani hisoblash','Show results'):
+      state.index===QUESTION_COUNT-1?text(ctx,'Natijani hisoblash','Show results'):
         text(ctx,'Keyingi savol','Next'))),note());
  }
 
@@ -177,7 +188,7 @@ export function mount(ctx){
    h('h1',{},text(ctx,'Daraja testi natijasi','Level check result')),
    h('div',{class:'level-check-score'},
      h('strong',{},score),h('span',{},result.level+' · '+
-       Math.round(result.correct*100/15)+'%')),
+       Math.round(result.correct*100/QUESTION_COUNT)+'%')),
    h('p',{},passed?text(ctx,
      'Sinov natijasi tanlangan daraja uchun yetarli. Daraja profilga saqlandi.',
      'Your score supports this study level. Your profile has been updated.'):
@@ -230,7 +241,7 @@ export function mount(ctx){
    if(signal.aborted)return;
    state.data=data;state.mode=data.state;state.error=null;
    if(data.state==='quiz'){
-    state.level=data.level;state.answers=Array(15).fill(null);state.index=0;
+    state.level=data.level;state.answers=Array(QUESTION_COUNT).fill(null);state.index=0;
    }else state.level=data.currentLevel&&LEVELS.includes(data.currentLevel)?
     data.currentLevel:'B1';
   }catch{
@@ -247,7 +258,7 @@ export function mount(ctx){
    const data=validateLevelForm(await api.request(API+'/start',{
      method:'POST',body:{level:state.level},signal}));
    if(signal.aborted)return;
-   state.data=data;state.mode='quiz';state.answers=Array(15).fill(null);state.index=0;
+   state.data=data;state.mode='quiz';state.answers=Array(QUESTION_COUNT).fill(null);state.index=0;
   }catch{
    if(!signal.aborted)state.error=text(ctx,
      'Testni boshlashda xatolik. Qayta urinib ko‘ring.',

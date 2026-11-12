@@ -4,18 +4,21 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 
 from . import main as core
 from .study_plan_level import (
-    LEVELS, PASS_SCORE, interpretation, new_attempt, public_questions,
+    LEVELS, QUESTION_COUNT, interpretation, new_attempt, public_questions,
     read_bank, score_attempt,
 )
 from .study_plan_port import body_object, failure, response, plan_participant
 from .study_plan_thirty import normalize_level
+from .step19_storage import head_object
+from .media_streaming import object_response
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence/level")
 WINDOW = timedelta(minutes=30)
+PUBLIC_MCQS = frozenset({1, 2, 4, 7, 8, 9, 10, 11, 13, 15, 16, 26, 28, 29, 30})
 
 
 def _public(row: dict, bank: dict) -> dict:
@@ -23,7 +26,7 @@ def _public(row: dict, bank: dict) -> dict:
         "state": "quiz", "attemptId": row["attempt_id"],
         "level": row["selected_level"],
         "questions": public_questions(row["question_order"], bank),
-        "total": 15,
+        "total": QUESTION_COUNT,
     }
 
 
@@ -33,6 +36,41 @@ async def _save_level(con, user_id, level: str) -> None:
            VALUES($1,$2)
            ON CONFLICT(user_id) DO UPDATE SET current_level=EXCLUDED.current_level""",
         user_id, level)
+
+
+@router.get("/landing/audio/{day}")
+async def landing_mcq_audio(req: Request, day: int) -> Response:
+    """Public preview of 15 allowlisted published MCQ clips, one per day.
+
+    No arbitrary object keys, correct answers, or private programme access
+    are accepted. Other media resources retain their existing access policy.
+    """
+    if day not in PUBLIC_MCQS:
+        return Response(status_code=404)
+    key = f"listening/mcq/day-{day:02d}/question-01.mp3"
+    db = await core.pool()
+    async with db.acquire() as con:
+        found = await con.fetchval("""SELECT EXISTS (
+            SELECT 1 FROM listening_tests t
+            JOIN listening_packages p ON p.test_id=t.id
+            WHERE t.program_ref IS NOT NULL AND t.program_ordinal=$1
+              AND p.audio_object_key=$2 AND t.publication_state='published'
+              AND t.is_active
+              AND NOT EXISTS(SELECT 1 FROM activity_events e
+                  WHERE e.id=md5('deleted-content:'||t.id::text)::uuid
+                    AND e.type='CONTENT_DELETED'))""", day, key)
+    if not found:
+        return Response(status_code=404)
+    info = await head_object(key)
+    if not info or not 1000 <= info["size"] <= 4_000_000:
+        return Response(status_code=404)
+    return await object_response(
+        req, key, info, {
+            "Content-Type": "audio/mpeg",
+            "Content-Disposition": "inline",
+            "Cache-Control": "public, max-age=900",
+            "X-Content-Type-Options": "nosniff",
+        }, None, False)
 
 
 @router.get("")
@@ -47,12 +85,13 @@ async def read_level_check(req: Request) -> JSONResponse:
             "SELECT current_level FROM onboarding_profiles WHERE user_id=$1", user["id"]))
         row = await con.fetchrow(
             "SELECT * FROM study_plan_30_level_checks WHERE user_id=$1", user["id"])
-        if row and not row["submitted_at"] and row["started_at"] + WINDOW > now:
+        if (row and not row["submitted_at"] and row["started_at"] + WINDOW > now
+                and len(row["question_order"] or []) == QUESTION_COUNT):
             return response(_public(dict(row), read_bank()))
         return response({
             "state": "select", "levels": list(LEVELS),
             "currentLevel": level,
-            "total": 15, "skills": 5, "estimatedMinutes": 15,
+            "total": QUESTION_COUNT, "skills": 5, "estimatedMinutes": 20,
         })
 
 
@@ -96,7 +135,8 @@ async def submit_level_check(req: Request) -> JSONResponse:
         row = await con.fetchrow(
             "SELECT * FROM study_plan_30_level_checks WHERE user_id=$1 FOR UPDATE", user["id"])
         if (row is None or str(row["attempt_id"]) != data["attemptId"] or
-                row["submitted_at"] is not None or row["started_at"] + WINDOW <= now):
+                row["submitted_at"] is not None or row["started_at"] + WINDOW <= now or
+                len(row["question_order"] or []) != QUESTION_COUNT):
             return failure("assessment_expired", 409)
         bank = read_bank()
         grade = score_attempt(row["question_order"], data["answers"], bank)
@@ -111,7 +151,7 @@ async def submit_level_check(req: Request) -> JSONResponse:
             user["id"], now, grade["correct"], approved)
         if approved is not None:
             await _save_level(con, user["id"], approved)
-        details = interpretation(level, grade["correct"])
+        details = interpretation(level, grade["correct"], grade["passed"])
         return response({
             "state": "result", "level": level, "correct": grade["correct"],
             "total": grade["total"], "passed": grade["passed"],
