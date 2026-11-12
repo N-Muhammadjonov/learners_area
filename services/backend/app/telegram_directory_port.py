@@ -292,6 +292,36 @@ async def directory_remove(req:Request,userId:str):
         return core.j({'ok':True,'already':False})
 
 
+@router.post('/api/internal/telegram/contacts/{telegramId}/message')
+async def directory_contact_message(req: Request, telegramId: str):
+    """A deliberate manual DM to a verified Telegram contact without a website account."""
+    denied = verify_bot(req)
+    if denied is not None:
+        return denied
+    if not telegramId.isdigit() or not 1 <= len(telegramId) <= 20:
+        return core.j({'error': 'invalid_input'}, 400)
+    body = await core.payload(req)
+    body = body if isinstance(body, dict) else {}
+    raw = body.get('text')
+    if not isinstance(raw, str) or not 1 <= len(raw.strip()) <= 4000:
+        return core.j({'error': 'invalid_input'}, 400)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        actor, error = await actor_for(conn, body.get('actorTelegramId'), 'DIRECT_MESSAGE')
+        if error:
+            return denied_response(error)
+        contact = await conn.fetchrow('''SELECT chat_id,removed_at,bot_blocked_at
+            FROM telegram_contacts WHERE telegram_user_id=$1''', telegramId)
+        if not contact or not contact['chat_id'] or contact['removed_at'] or contact['bot_blocked_at']:
+            return core.j({'error': 'recipient_unavailable'}, 409)
+        notification_id = await conn.fetchval('''INSERT INTO telegram_notifications
+            (telegram_user_id,category,type,title,body,status,next_attempt_at)
+            VALUES($1,'direct','directory.manual_message','Learners Area',$2,'queued',NOW())
+            RETURNING id''', telegramId, raw.strip())
+        await audit(conn, actor, 'telegram.contact_message_queued', 'telegram_contact', telegramId)
+    return core.j({'ok': True, 'notificationId': str(notification_id)}, headers=core.PRIVATE)
+
+
 @router.post('/api/internal/telegram/directory/{userId}/message')
 async def directory_message(req:Request,userId:str):
     denied=verify_bot(req)
