@@ -488,3 +488,16 @@ On the frozen release `rel-v1-1fa06d8d41d8ff701632573e`, Cambridge Dictionary ex
 Cumulative candidate changes: **24 lexemes / 38 sense-level patches, 9 source-backed CEFR updates, 2 EN definitions, 2 UZ definitions, 2 UZ translations, 4 misattributed candidate-only exclusions, 19 incorrect synonym links suppressed, 13 correct synonyms, 10 antonyms, 25 collocations**. R2 readback verified all **38/38** original meaning hashes, 9/9 CEFR originals, 2/2 each EN definition/UZ definition/UZ translation originals and 4/4 excluded source glosses; no missing lexemes or mismatches.
 
 **Unresolved:** this does **not** constitute a full independent source-level check of all 5,521 meanings, so Phase 09 semantic completion cannot be claimed. Leave the immutable release unchanged, keep PR #149 Draft, and do not touch examples until the lexical verification finishes.
+
+
+### Phase 09 — four further sense-exact Cambridge/Oxford corrections
+
+Prioritize verified lexical meaning over example edits. Four further CEFR source mismatches were independently confirmed in frozen release `rel-v1-1fa06d8d41d8ff701632573e`:
+- `baguette` (long, thin French stick loaf) **C2→B2**, Oxford Food classification, with exact-sense `fresh baguette`.
+- `caregiver` (responsible for a child or dependent adult) **C2→C1**, Oxford. Its separate medically focused sense stays C2; its separate ungraded sense remains **without a CEFR label**. `primary caregiver` and `family caregiver` attached to the care-responsibility sense.
+- `annoyance` (countable trouble-causing thing/person) **C2→C1** and clarified Uzbek as `bezovta qiladigan odam yoki narsa; boshog‘riq`, with the exact `nuisance` sense linked.
+- `annoyance` (uncountable irritation/annoyed emotion) **C2→C1** with exact `irritation` emotional sense linked. Three other `annoyance` senses were preserved unchanged.
+
+The four source `meaningSha` checks passed 4/4 and all four previous C2 labels matched R2. Added relations target Supabase-present `nuisance` and `irritation` sense UUIDs. The accumulated correction overlay now covers **27 lexemes / 42 exact senses**, **13 evidence-backed CEFR edits**, 3 translations, 15 sense-specific synonym additions, 10 antonym additions and 32 collocations. The previously verified 38 hashes plus four new hashes give **42 verified source hashes**, not 5,521 linguistically reviewed senses. No example text was modified in this continuation; production R2 remains untouched.
+
+Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`. Publication remains blocked pending complete sense-by-sense linguistic audit and all 20 phases.
