@@ -441,3 +441,6 @@ Verified semantic delta for this pass, consolidating previously committed work a
 Receipt: `content/dictionary/audit-20261112-phase09-semantic-delta.json`.
 
 **Signoff:** Concrete corrections above are committed; examples intentionally deferred. Full linguistic correctness of all **5,521** Phase 09 senses and full CI green status remain unverified. Do not report Phase 09 as fully complete or publish any replacement release until these gates are satisfied.
+
+
+**Phase 09 lexical candidate dry-run:** Independently re-read all 12 amended source lexemes from R2 shards `65`–`68`, and verified all **18** original `meaningSha` values, all **4** prior CEFR values, **2** prior English definitions and **2** prior Uzbek translations. All matched; **0 source mismatches**. A separate, in-memory candidate simulation removed 15 canonical misleading synonym edges (the other 4 are presentation-only), added 10 exact relations (1 synonym, 9 antonyms), and attached 7 sense-specific collocations. **0 invalid relation or collocation source IDs**. Source sense counts and all examples were preserved. See `audit-20261112-phase09-semantic-delta.json`. No R2 writes.
