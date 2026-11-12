@@ -57,7 +57,7 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 - Four existing canonical synonym edges: `hi`, `how-do-you-do`, `howdy`, `hullo`. The reader's presentation fallback had previously discarded unscoped edges when a curated sense row existed. Branch fix retains these for single-sense entries; no relation is fabricated.
 - No canonical antonyms or collocations recorded. Review whether authentic combinations such as `say hello` belong to this noun sense before adding; do not invent entries.
 - **Status:** canonical CEFR correction proposed, NOT published. Because the active release is immutable and checksum-bound, do not patch Postgres metadata, cached previews, or R2 objects in place. Build a new release with `A1` and rerun index, reader-metadata and presentation checks.
-- **Other phase-01 senses:** 5,520 still require exhaustive linguistic verification. No claims of complete QA.
+- **Phase-01 senses:** All 5,521 require full sense-specific linguistic verification; `hello` is outside the frozen phase-01 range. No claims of complete QA.
 
 ## QA
 
@@ -79,5 +79,13 @@ No production release, channel, data or main branch was mutated by this audit.
 
 ### Signoff
 
-**Structural inventory and flag generation: COMPLETE.** **Semantic verification of all 5,521 translations, CEFR labels, synonyms, antonyms and collocations: NOT COMPLETE.** A populated field cannot be treated as a correct translation; an absent relation is not necessarily a mistake. All 5,521 entries require provenance-backed semantic review before this phase can truthfully be certified as fully corrected. The branch includes no newly published R2 release and no production data mutation. The two focused tests were added but have not yet been run within this connector environment. The project must not equate structural coverage with linguistic signoff.
+**Structural inventory and flag generation: COMPLETE.** **Semantic verification of all 5,521 translations, CEFR labels, synonyms, antonyms and collocations: NOT COMPLETE.** A populated field cannot be treated as a correct translation; an absent relation is not necessarily a mistake. All 5,521 entries require provenance-backed semantic review before this phase can truthfully be certified as fully corrected. The branch includes no newly published R2 release and no production data mutation. The four added preservation/isolation regression tests were executed with the broader focused backend suite on GitHub Actions. **82 passed, 1 warning**; see https://github.com/N-Muhammadjonov/learners_area/actions/runs/43231278384 . This proves focused code behavior, not linguistic correctness of all 5,521 senses. The project must not equate structural coverage with linguistic signoff.
 
+
+## Continuation: execution evidence (2026-11-12)
+
+- Fixed an additional display defect in `services/backend/app/dictionary_presentation.py`: when exact-sense curated metadata was present (even an empty curated collocation array), the reader previously discarded valid canonical collocations. The display now deduplicates the canonical and curated phrases by normalized text and target identifiers, without assigning unscoped phrases to arbitrary senses.
+- Added single- and multi-sense collocation regression tests. These extend the earlier two synonym tests.
+- Added `.github/workflows/dictionary-audit-phase1-ci.yml`. GitHub Actions run `43231278384` completed successfully: **82 passed, 1 warning** in the focused backend suite; `compileall` also succeeded. CI only verifies code, not independent translation/CEFR source correctness.
+- Current `main` has advanced independently. This audit branch is not automatically rebased or merged. Production data and immutable R2 objects have not been altered.
+- **Final classification:** structural data integrity QA and code regression complete; phase-01 human/independent linguistic certification, immutable release generation, and production readback still incomplete. The phase cannot be marked fully verified until those deliverables exist. The 436 null CEFR and 2,377 C2 records are review candidates, not blanket errors.
