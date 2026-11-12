@@ -417,13 +417,26 @@ async def owner_purchases(req: Request):
         rows = await con.fetch(
             """SELECT p.id,p.user_id,p.gift_id,p.title_uz,p.title_en,p.cost_coins,
                       p.purchased_at,p.status,p.resolved_at,
-                      coalesce(nullif(btrim(u.name),''),'User') buyer_name
+                      coalesce(nullif(btrim(u.name),''),'User') buyer_name,
+                      u.telegram_id,
+                      (SELECT t.username FROM telegram_contacts t
+                       WHERE t.linked_user_id=u.id AND t.telegram_user_id=u.telegram_id
+                         AND t.removed_at IS NULL ORDER BY t.last_seen_at DESC LIMIT 1) telegram_username
                FROM coin_gift_purchases p
                JOIN users u ON u.id=p.user_id
                ORDER BY (p.status='pending') DESC,p.purchased_at DESC LIMIT 200""")
     return core.j({"purchases": [{
         "id": str(row["id"]), "userId": str(row["user_id"]), "giftId": str(row["gift_id"]),
-        "buyerName": row["buyer_name"], "titleUz": row["title_uz"], "titleEn": row["title_en"],
+        "buyerName": row["buyer_name"],
+        "telegramUrl": (
+            f"https://t.me/{row['telegram_username'].lstrip('@')}"
+            if isinstance(row["telegram_username"], str) and
+               BOT_NAME.fullmatch(row["telegram_username"].lstrip('@'))
+            else f"tg://user?id={row['telegram_id']}"
+            if isinstance(row["telegram_id"], str) and TG_ID.fullmatch(row["telegram_id"])
+            else None
+        ),
+        "titleUz": row["title_uz"], "titleEn": row["title_en"],
         "coins": row["cost_coins"], "status": row["status"],
         "purchasedAt": row["purchased_at"].isoformat(),
         "resolvedAt": row["resolved_at"].isoformat() if row["resolved_at"] else None,
