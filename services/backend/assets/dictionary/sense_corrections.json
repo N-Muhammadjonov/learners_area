@@ -378,7 +378,96 @@
           "text": "C1",
           "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
           "sense_alignment": "demonstrate by giving an exhibition to an audience; Cambridge SHOW how something works at C1"
-        }
+        },
+        "add_collocations": [
+          {
+            "text": "demonstrate how to use equipment",
+            "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate"
+          }
+        ]
+      }
+    },
+    "699705d3-0c37-5c64-85a2-e0dfa11ce66c": {
+      "fd1560ca-4e94-461d-8e67-beef46ebf5d4": {
+        "meaning_sha": "3ef93801cf342716cd314cdb5a7a431bc6856396ecfa0a39b541d462be30e916",
+        "add_antonyms": [
+          {
+            "text": "inaudible",
+            "lexemeId": "fc291b04-777a-5bb5-9753-70635c19ad7a",
+            "senseId": "a0e13d60-00a5-4ec2-8f13-bf8f0333412c",
+            "partOfSpeech": "a",
+            "source": "https://dictionary.cambridge.org/dictionary/english/audible"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "audible sigh",
+            "source": "https://dictionary.cambridge.org/dictionary/english/audible"
+          }
+        ]
+      }
+    },
+    "71cc2552-75cf-50c8-84a0-9583b529b884": {
+      "b22c9951-6d11-4f84-868f-5b680f47a39d": {
+        "meaning_sha": "c03402deada4de9bf7bf837720e3af6b7dfe90113448b25bb9d9ffd70aeb5701",
+        "add_synonyms": [
+          {
+            "text": "placate",
+            "lexemeId": "529498e5-450f-55c0-a32f-c88494e9a77d",
+            "senseId": "21ccd99c-8b8f-4428-b14f-e16e1e38b10e",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+          },
+          {
+            "text": "pacify",
+            "lexemeId": "3a960a34-d2c8-5ec0-a8f5-e1751b7d0e00",
+            "senseId": "569b5a61-1fe7-4fa2-b2a3-5dce797ccc6c",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "appease critics",
+            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+          }
+        ]
+      },
+      "e5d3562b-ea8c-48c7-a748-59a40b542a04": {
+        "meaning_sha": "c92ca1b414f12360075076f0c911331e3dea0c1f527f349b1a5d3143c38872b0",
+        "add_synonyms": [
+          {
+            "text": "propitiate",
+            "lexemeId": "96805e36-01e5-548c-8712-646a113d928e",
+            "senseId": "e7f57505-ad38-58c7-8276-a22bcd7ae126",
+            "partOfSpeech": "v",
+            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+          }
+        ]
+      },
+      "5ea0659a-f428-4ca0-a049-de1e410d6c41": {
+        "meaning_sha": "438774671f35751db5f062fbb9eb153ecbc91eb6affcc4a21d8b148e8d48dfa4",
+        "add_collocations": [
+          {
+            "text": "appease a guilty conscience",
+            "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+          }
+        ]
+      }
+    },
+    "71fd750c-69cb-52ee-89c8-8e83d99c03e1": {
+      "efa2e5e1-dca5-488a-85c3-03ea971ccf3f": {
+        "meaning_sha": "2f9b1e74f42d7013add1669280f31c47836c9491a6070e0557038e26fd95986a",
+        "add_collocations": [
+          {
+            "text": "back-cover blurb",
+            "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+          },
+          {
+            "text": "publicity blurb",
+            "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+          }
+        ]
       }
     }
   }
