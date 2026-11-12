@@ -262,6 +262,25 @@ test('daily minimum study-time label appears for both uncreated and active plans
   assert.match(host.textContent,/Allocate at least 120 minutes each day/);
 });
 
+test('overdue dates and rescheduled markers are rendered without unlocking future tasks',async()=>{
+  const data=activePlan();
+  data.today='2026-11-16';
+  for(let i=0;i<data.days.length;i++){
+    data.days[i].originalDate=data.days[i].date;
+    data.days[i].date=new Date(Date.UTC(2026,10,16+i)).toISOString().slice(0,10);
+    data.days[i].rescheduled=i<30;
+  }
+  api.request=async()=>data;
+  mountSequenceAssignments(context(),host);
+  await flush();
+  const active=host.querySelector('[data-sequence-day="1"]');
+  assert.equal(active.dataset.sequenceRescheduled,'true');
+  assert.match(active.textContent,/16/);
+  assert.match(active.textContent,/↻/);
+  assert.equal(host.querySelector('[data-sequence-day="2"]').disabled,true);
+  assert.equal(host.querySelectorAll('[data-sequence-task-open]').length,6);
+});
+
 test('calendar displays six distinct skill dots and a readable color legend',async()=>{
   api.request=async()=>activePlan();
   mountSequenceAssignments(context(),host);
