@@ -384,3 +384,73 @@ def test_every_editorial_example_preserves_grammar_and_its_source_identity():
                 assert len(item["text_en"].split()) >= 4
                 num_examples += 1
     assert num_examples == 233
+
+
+def test_terzetto_curation_excludes_numerical_synonyms_and_keeps_musical_trio(monkeypatch):
+    e = {
+        'release_id': 'rel-v1-1fa06d8d41d8ff701632573e',
+        'lexeme_id': '670b7b89-7e98-59f2-a02f-890028ec5165',
+        'display_lemma': 'terzetto',
+        'part_of_speech': 'n',
+        'lexical_type': 'word',
+        'forms': [],
+        'senses': [{
+            'sense_id': 'aad9fee0-fbbc-5565-92ef-858166eb4920',
+            'definition_en': 'the cardinal number that is the sum of one and one and one',
+            'translations': [{'text': 'uch'}],
+            'examples': [],
+        }],
+        'relations': [
+            {
+                'relation_type': 'synonym',
+                'display_lemma': 'three',
+                'target_lexeme_id': 'c343f3d2-5553-5418-8d63-2678f40831a5',
+                'target_sense_id': '2ced960e-58db-498d-a92c-42dd6982aeaf',
+            },
+        ],
+        'collocations': [],
+    }
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    monkeypatch.setattr(presentation, 'shard', lambda _: {})
+    sense_id = e['senses'][0]['sense_id']
+    row = presentation.present(e)['senses'][sense_id]
+    assert row['synonyms'] == [{
+        'text': 'trio',
+        'lexemeId': '2eff4bba-1bb6-5dfa-9079-1a3ca8d3a601',
+        'senseId': '24087232-6200-4e00-98d9-3212c842bf3b',
+    }]
+    assert row['antonyms'] == []
+    untouched = presentation.present({**e, 'release_id': 'unrelated-release'})
+    assert [s['text'] for s in untouched['senses'][sense_id]['synonyms']] == ['three']
+
+
+def test_corrected_actus_reus_does_not_retain_generic_wrongdoing_synonyms(monkeypatch):
+    e = {
+        'release_id': 'rel-v1-1fa06d8d41d8ff701632573e',
+        'lexeme_id': '660bb696-af24-52eb-bb78-ed1c4a74a1e3',
+        'display_lemma': 'actus reus',
+        'part_of_speech': 'n',
+        'lexical_type': 'word',
+        'forms': [],
+        'senses': [{
+            'sense_id': '9dc9e4dd-a4dc-5068-8541-654b596fc748',
+            'definition_en': 'activity that transgresses moral or civil law',
+            'translations': [{'text': 'huquqbuzarlik harakati'}],
+            'examples': [],
+        }],
+        'relations': [
+            {
+                'relation_type': 'synonym',
+                'display_lemma': 'misconduct',
+                'target_lexeme_id': '399fadbd-d220-5439-a826-adef9eca72f6',
+                'target_sense_id': '8e731676-ea88-4765-b384-50f533fdd550',
+            },
+        ],
+        'collocations': [],
+    }
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    monkeypatch.setattr(presentation, 'shard', lambda _: {})
+    sid = e['senses'][0]['sense_id']
+    view = presentation.present(e)
+    assert view['senses'][sid]['synonyms'] == []
+    assert e['relations'][0]['display_lemma'] == 'misconduct'
