@@ -26,9 +26,11 @@ CREATE TABLE IF NOT EXISTS coin_referrals (
     invited_at timestamptz NOT NULL DEFAULT now(),
     awarded_at timestamptz,
     CONSTRAINT coin_referral_ident_check CHECK (invitee_telegram_id ~ '^[0-9]{4,20}$'),
+    -- A completed referral remains auditable if an invitee later deletes
+    -- their account (ON DELETE SET NULL). Historical coin awards are not recreated.
     CONSTRAINT coin_referral_award_check CHECK (
         (awarded_at IS NULL AND invitee_user_id IS NULL)
-        OR (awarded_at IS NOT NULL AND invitee_user_id IS NOT NULL)
+        OR awarded_at IS NOT NULL
     )
 );
 CREATE INDEX IF NOT EXISTS coin_referrals_inviter ON coin_referrals (inviter_id, awarded_at);
