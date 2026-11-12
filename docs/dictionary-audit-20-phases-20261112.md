@@ -378,3 +378,21 @@ Cumulative exact-sense structural pass: **49,685 / 110,409** (phases 01–09). T
 - Remaining: independent translation and CEFR review for **every** sense, confirmed target senses for synonym/antonym edges, attested sense-specific collocations, rebuilt immutable R2+presentation+reader candidate, cross-release integrity tests, and controlled publication. No deploy, no production mutation, no `main` merge.
 
 **Phase 09 status:** structural + presentation/meaning-hash integrity COMPLETE; independently certified linguistic correctness NOT COMPLETE.
+
+
+## Direct example correction workflow — 12 November 2026
+
+Editorial rule updated: **do not defer verified errors to a generic review queue**. Correct the individual frozen `lexeme_id/sense_id/example_id` record immediately in the versioned candidate correction layer, checking the original English and Uzbek text, grammar, target meaning and UI presentation. Preserve the stable R2 release unchanged until the completed 20-stage release gate. The existence of a CEFR-null value is **not** a defect: not every sense has evidence for a CEFR classification. Only assign a CEFR label when the referenced sense-specific level is substantiated; never downgrade all C2 entries automatically.
+
+The screenshot's `happy` example was located in R2 shard `9e`, lexeme `9eae6a37-2750-5469-9403-8073c95d0a24`, sense `9a8f14f5-ea1c-4af7-afa2-ebeb957a8903`:
+- Incorrect fragment: `spent many happy days on the beach` / `Sohilda ko'p baxtli kunlarni o'tkazdi.`
+- Corrected full example: `We spent many happy days on the beach.` / `Biz sohilda ko‘p baxtli kunlarni o‘tkazdik.`
+
+All **eight authored examples** spanning `happy`'s four source senses were repaired as complete, natural English sentences with aligned Uzbek translations. The `startup` sense `d7525883-85d3-4bd1-90f0-409545b4c051` received two corrected sentences; in particular, a semantically unrelated fluoridation/inauguration example was replaced with a genuinely relevant startup example.
+
+Implementation:
+- `services/backend/assets/dictionary/example_corrections.json` — exactly keyed bilingual replacements, expected original English and meaning SHA.
+- `services/backend/app/dictionary_presentation.py` — `corrected_examples()` applies only when release, lexeme, sense, canonical meaning SHA, and original example ID/text match. The original frozen R2 data remains untouched. Legitimate examples from unaffected senses continue unchanged.
+- `services/backend/tests/test_dictionary_reader_metadata.py` — correction count, exact content, release/sense/hash/source isolation and the formerly unrelated `startup` sentence.
+
+**Scope:** Ten concrete examples repaired in the versioned presentation path, not all 110,409 dictionary senses. These are code changes on the audit branch; they do not yet constitute a new published immutable R2 release. The expanded CI has not yet been reported successful. Continue correcting individual examples in place rather than only accumulating issue lists.
