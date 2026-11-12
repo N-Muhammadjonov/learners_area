@@ -400,3 +400,48 @@ def test_misattributed_sense_exclusion_rejects_changed_original_gloss() -> None:
     assert len(curate_candidate_entry(source)["senses"]) == 2
     other_release = {**source, "release_id": "other-release"}
     assert curate_candidate_entry(other_release) == other_release
+
+
+def test_references_to_excluded_senses_are_pruned_across_lexemes() -> None:
+    deleted_lexeme = "6620405e-571d-5504-a46e-975d52fcfc29"
+    deleted_sense = "0a5c728a-9078-4805-bba3-8cf148e0638e"
+    valid_sense = "7bb141c5-1c75-48d1-a396-d405b909c878"
+    original = entry(
+        "6b44fefa-f6d3-55d5-a6de-7b7e0fa3973a",
+        "appreciate",
+        "v",
+        [("00000000-0000-4000-8000-000000000001",
+          "gain in value", "qadri oshmoq", "C2")],
+        relations=[
+            {
+                "relation_type": "synonym",
+                "target_lexeme_id": deleted_lexeme,
+                "target_sense_id": deleted_sense,
+                "display_lemma": "apprise",
+                "lexical_type": "word",
+                "part_of_speech": "v",
+            },
+            {
+                "relation_type": "synonym",
+                "target_lexeme_id": deleted_lexeme,
+                "target_sense_id": valid_sense,
+                "display_lemma": "apprise",
+                "lexical_type": "word",
+                "part_of_speech": "v",
+            },
+        ],
+    )
+    original_copy = copy.deepcopy(original)
+    revised = curate_candidate_entry(original)
+    assert original == original_copy
+    assert len(revised["relations"]) == 1
+    assert revised["relations"][0]["target_sense_id"] == valid_sense
+    assert revised["senses"] == original_copy["senses"]
+
+    # Incoming targets outside the exact UUID pair must remain untouched.
+    no_matching_target = copy.deepcopy(original)
+    no_matching_target["relations"][0]["target_lexeme_id"] = (
+        "00000000-0000-4000-8000-000000000099"
+    )
+    revised_unrelated = curate_candidate_entry(no_matching_target)
+    assert len(revised_unrelated["relations"]) == 2
