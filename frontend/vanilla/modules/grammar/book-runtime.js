@@ -235,7 +235,7 @@ function exCard(u,si,ei,e){
       main.append(record,remove,sample,feedback,player);row.append(main);body.append(row);
     });
     const b=$('button','btn','Tekshirish');
-    b.onclick=()=>{finish();body.querySelectorAll('button.aud-delete').forEach(control=>control.disabled=true)};
+    b.onclick=()=>{finish();body.querySelectorAll('.item button.btn:not(.ghost),button.aud-delete').forEach(control=>control.disabled=true)};
     attachCheck(b,()=>completed===e.items.length);
   }
   else if(kind==='write'){const ta=$('textarea','t');ta.placeholder=e.placeholder;const cnt=$('div','note','0 ta so\'z · kamida '+e.min);ta.oninput=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=n+' ta so\'z · kamida '+e.min};const b=$('button','btn','Tekshirish');const mod=$('div','fb');b.onclick=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;if(n<e.min){cnt.style.color='#c0394b';return}mod.className='fb';mod.innerHTML='<b>Namuna:</b> '+esc(e.model);setScore(u,si,ei,1);if(level)fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:[ta.value]})}).catch(()=>{});};body.append(ta,cnt,mod);attachCheck(b,()=>((ta.value.trim().match(/\S+/g)||[]).length>=e.min))}
