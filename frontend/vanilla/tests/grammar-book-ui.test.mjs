@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
 import {bookIndex} from '../modules/grammar/book-index.js';
 import {mountBookCatalog, mountBookDetail} from '../modules/grammar/book.js';
+import {mount as mountFocusedBook} from '../modules/grammar/focus-book.js';
 import {renderInteractiveBook} from '../modules/grammar/book-runtime.js';
 
 function setup(path = '/app/grammar/lessons') {
@@ -130,6 +131,24 @@ test('voice capture can be removed and re-recorded without leaving dangling audi
     controller.abort();
     URL.createObjectURL = originalCreate;
     URL.revokeObjectURL = originalRevoke;
+    dom.window.close();
+  }
+});
+
+test('focus page renders unchanged original book HTML inside its ShadowRoot',async()=>{
+  const {dom,controller,context}=setup('/app/grammar/practice?book=a0-1&from=plan');
+  try {
+    mountFocusedBook(context);
+    await new Promise(resolve=>setTimeout(resolve,40));
+    const host=context.root.querySelector('[data-grammar-book-exercise="a0-1"]');
+    assert(host,'the original interactive book host must render');
+    const shadow=host.shadowRoot;
+    assert(shadow,'book content must keep ShadowRoot encapsulation');
+    assert(shadow.querySelector('.grammar-book #units'));
+    assert(shadow.querySelector('link[href="/modules/grammar/book-runtime.css"]'));
+    assert(context.root.querySelector('[data-grammar-book-detail="a0-1"]'));
+  } finally {
+    controller.abort();
     dom.window.close();
   }
 });

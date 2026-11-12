@@ -2,6 +2,7 @@
 import {h} from '../../js/native.js';
 import {bookIndex} from './book-index.js';
 import {renderInteractiveBook} from './book-runtime.js';
+import {grammarPracticeHref} from './practice-route.js';
 import {BackLink} from '../shared/presentation.js';
 
 const LEVELS = ['B1', 'B2', 'C1', 'C2'];
@@ -70,7 +71,7 @@ function card(unit, progress, t) {
     h('div', {class: 'grammar-book-card-bottom'},
       h('span', {class: 'grammar-book-progress'}, status.done + '/' + status.total + ' ' + t.blocks),
       h('a', {class: 'btn-primary grammar-book-card-link',
-        href: '/app/grammar/lessons?book=' + encodeURIComponent(unit.id),
+        href: grammarPracticeHref('/app/grammar/lessons?book=' + encodeURIComponent(unit.id)),
         'data-grammar-book-open': unit.id}, action)));
 }
 export function mountBookCatalog(ctx, host) {

@@ -7,6 +7,7 @@
 const t=(m,name)=>()=>import(`./${m}.js`).then(x=>name?{mount:x[name]}:x);
 export default [
  {pattern:'/app/management',roles:['teacher','admin','owner'],load:t('management-hub')},
+ {pattern:'/app/management/study-plans',roles:['teacher','admin','owner'],load:t('study-plans')},
  {pattern:'/app/admin/statistics',roles:['owner'],load:t('statistics')},
  {pattern:'/app/admin/admissions',roles:['admin','owner'],load:t('admissions')},
  {pattern:'/app/admin/people',roles:['admin','owner'],load:t('people')},

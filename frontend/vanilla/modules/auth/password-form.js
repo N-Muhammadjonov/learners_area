@@ -5,6 +5,7 @@ import {api} from '../../js/api-client.js';
 import {accountResult,accountDiagnostic,resetDevUrl} from '../../js/adapters/account.js';
 import {failure} from '../../js/request-errors.js';
 import {safeNextPath} from '../../js/safe-next.js';
+import {consumeLandingPlanIntent} from '../../js/plan-entry-intent.js';
 import {accountMutation} from '../../js/mutation-lifetime.js';
 import {FieldError} from '../shared/inputs.js';
 /** Stable native form nodes: errors/pending never remount fields or providers.
@@ -36,7 +37,7 @@ export async function passwordForm(context,auth,telegram){
    const result=accountResult(await api.request(endpoint,{method:'POST',body,signal}),register?'register':reset?'reset':'login');if(signal.aborted)return;
    if(reset&&!confirm){draft.done=true;draft.devUrl=resetDevUrl(result.devResetUrl);host.replaceChildren(view.done({dict,devUrl:draft.devUrl}));host.querySelector('a')?.focus();return;}
    publishSessionEvent('refresh');context.invalidateSession?.();
-   await navigate(register?'/pending':reset?'/login':result.accountStatus&&result.accountStatus!=='active'?'/pending':safeNextPath(url.searchParams.get('next'))??(result.onboarded?'/app':'/onboarding'));
+   await navigate(register?'/pending':reset?'/login':result.accountStatus&&result.accountStatus!=='active'?'/pending':(result.onboarded?(consumeLandingPlanIntent()??safeNextPath(url.searchParams.get('next'))??'/app'):'/onboarding'));
   }catch(e){if(!signal.aborted&&auth.diagnostics&&!register&&!reset)console.info('[qa-auth] '+JSON.stringify(accountDiagnostic(e)));if(!signal.aborted){draft.failure={status:e?.status,code:Object.hasOwn(known,e?.code)||e?.code==='invalid_response'?e.code:undefined,name:e?.name==='TimeoutError'?'TimeoutError':undefined};error=failure(draft.failure,dict,known);}}
   finally{pending=false;paint();settle();}
  }

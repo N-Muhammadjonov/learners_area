@@ -43,3 +43,7 @@
 .grammar-book-level-group .grammar-book-level{flex-shrink:0}
 .grammar-book-card-link,.grammar-book-level{font-weight:700}
 @media(max-width:600px){.grammar-book-search-box{width:100%;max-width:none;flex-basis:auto}}
+
+/* The focus shell supplies Back; never duplicate it inside unchanged book HTML. */
+.grammar-focus-page{width:100%;min-width:0;padding:0 clamp(.25rem,1.4vw,1rem) 2rem}
+.grammar-focus-page .grammar-book-back{display:none}

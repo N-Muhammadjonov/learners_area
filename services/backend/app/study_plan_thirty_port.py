@@ -176,8 +176,17 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
         await con.execute("""UPDATE study_plan_30_cycles
             SET status='completed',updated_at=$2 WHERE id=$1""", cid, now)
         return {**cycle, "status": "completed"}
-    # Calendar-day gate + verified previous-day completion: no skipping.
-    if today >= cycle["started_on"] + timedelta(days=day):
+    # Every logical day must occupy at least one real calendar day.
+    # Finishing yesterday's missed tasks today never unlocks a second
+    # 120-minute study day immediately; the following day opens tomorrow.
+    last_completed = await con.fetchval("""SELECT max(completed_at)
+        FROM study_plan_30_tasks WHERE cycle_id=$1 AND day_number=$2""", cid, day)
+    if not isinstance(last_completed, datetime):
+        raise ValueError("invalid_completion_timestamp")
+    finished_on = last_completed.astimezone(_timezone(cycle["timezone"])).date()
+    opens_on = max(cycle["started_on"] + timedelta(days=day),
+                   finished_on + timedelta(days=1))
+    if today >= opens_on:
         await con.execute("""UPDATE study_plan_30_cycles SET
             current_day=$2,opened_at=$3,updated_at=$3 WHERE id=$1""",
             cid, day + 1, now)
@@ -206,16 +215,36 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
     if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) != 120
            for tasks in groups.values()):
         raise ValueError("incomplete_plan_schedule")
-    today = now.astimezone(_timezone(cycle["timezone"])).date()
+    zone = _timezone(cycle["timezone"])
+    today = now.astimezone(zone).date()
+    # Incomplete work belongs to the current local day even after absences.
+    # The server projects future dates from that day; task IDs and evidence
+    # never change, so an unfinished day cannot be skipped or marked done.
+    current_index = cycle["current_day"]
+    current_date = max(today, cycle["started_on"] + timedelta(days=current_index - 1))
+    completed_dates: dict[int, object] = {}
+    for row in rows:
+        if row["completed_at"] is not None:
+            completed_on = row["completed_at"].astimezone(zone).date()
+            completed_dates[row["day_number"]] = max(
+                completed_on, completed_dates.get(row["day_number"], completed_on))
     result = []
     for day in range(1, duration + 1):
         tasks = groups[day]
         complete = all(task["status"] == "completed" for task in tasks)
         status = ("completed" if complete else "active"
-                  if cycle["status"] == "active" and day == cycle["current_day"]
+                  if cycle["status"] == "active" and day == current_index
                   else "locked")
+        original_date = cycle["started_on"] + timedelta(days=day - 1)
+        if complete:
+            display_date = completed_dates.get(day, original_date)
+        elif cycle["status"] == "active":
+            display_date = current_date + timedelta(days=day - current_index)
+        else:
+            display_date = original_date
         result.append({
-            "day": day, "date": cycle["started_on"] + timedelta(days=day - 1),
+            "day": day, "date": display_date, "originalDate": original_date,
+            "rescheduled": display_date != original_date,
             "status": status, "minutes": 120, "tasks": tasks,
         })
     return {

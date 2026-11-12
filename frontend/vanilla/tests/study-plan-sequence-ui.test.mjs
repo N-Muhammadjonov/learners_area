@@ -248,3 +248,59 @@ test('dashboard offers Create plan when no cycle exists, with or without CEFR le
     assert.equal(host.querySelector('[data-dashboard-30-plan] progress'),null);
   }
 });
+
+test('daily minimum study-time label appears for both uncreated and active plans',async()=>{
+  api.request=async()=>({state:'available',level:'B2',totalDays:30,dailyMinutes:120});
+  mountSequenceAssignments(context(),host);
+  await flush();
+  assert.match(host.textContent,/Minimum daily study time to allocate/);
+  host.replaceChildren();
+  api.request=async()=>activePlan();
+  mountSequenceAssignments(context(),host);
+  await flush();
+  assert.match(host.textContent,/Minimum daily study time to allocate/);
+  assert.match(host.textContent,/Allocate at least 120 minutes each day/);
+});
+
+test('overdue dates and rescheduled markers are rendered without unlocking future tasks',async()=>{
+  const data=activePlan();
+  data.today='2026-11-16';
+  for(let i=0;i<data.days.length;i++){
+    data.days[i].originalDate=data.days[i].date;
+    data.days[i].date=new Date(Date.UTC(2026,10,16+i)).toISOString().slice(0,10);
+    data.days[i].rescheduled=i<30;
+  }
+  api.request=async()=>data;
+  mountSequenceAssignments(context(),host);
+  await flush();
+  const active=host.querySelector('[data-sequence-day="1"]');
+  assert.equal(active.dataset.sequenceRescheduled,'true');
+  assert.match(active.textContent,/16/);
+  assert.match(active.textContent,/↻/);
+  assert.equal(host.querySelector('[data-sequence-day="2"]').disabled,true);
+  assert.equal(host.querySelectorAll('[data-sequence-task-open]').length,6);
+});
+
+test('calendar displays six distinct skill dots and a readable color legend',async()=>{
+  api.request=async()=>activePlan();
+  mountSequenceAssignments(context(),host);
+  await flush();
+  const dots=[...host.querySelectorAll('[data-sequence-day="1"] .sequence-day-dots i')];
+  assert.deepEqual(dots.map(dot=>dot.dataset.kind),KINDS);
+  const legend=[...host.querySelectorAll('.sequence-dots-legend-item i')];
+  assert.deepEqual(legend.map(dot=>dot.dataset.kind),KINDS);
+  assert.equal(host.querySelectorAll('[data-sequence-day="2"] .sequence-day-dots i[data-state="locked"]').length,6);
+});
+
+test('plan opens a book Grammar lesson in a separate focus view but preserves canonical proof URL',async()=>{
+  const plan=activePlan();
+  plan.days[0].tasks[0].href='/app/grammar/lessons?book=b2-65';
+  api.request=async()=>plan;
+  mountSequenceAssignments(context(),host);
+  await flush();
+  const link=host.querySelector('[data-sequence-task-open="grammar"]');
+  assert.equal(link.getAttribute('href'),
+    '/app/grammar/practice?book=b2-65&from=plan');
+  assert.equal(plan.days[0].tasks[0].href,
+    '/app/grammar/lessons?book=b2-65');
+});

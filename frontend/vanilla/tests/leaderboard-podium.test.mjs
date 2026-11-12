@@ -8,7 +8,7 @@ import {mount} from '../modules/study-plan/motivation.js';
 let dom,controller,root,originalRequest;
 const flush=()=>new Promise(resolve=>setTimeout(resolve,0));
 const standings=count=>Array.from({length:count},(_,i)=>({
-  rank:i+1,alias:'Learner-'+String(i+1).padStart(6,'0'),
+  rank:i+1,alias:'Test Person '+(i+1),
   stars:Math.max(0,count-i-1),coins:Math.max(0,count-i-1)*2,
   practiceMs:(count-i-1)*60000,premium:i%3===0,mine:false,
 }));
@@ -44,6 +44,9 @@ test('Top 20 shows distinct rank 2, 1, 3 podium and remaining table rows',async(
   };
   mount(context());await flush();
   assert.equal(requests.length,1);
+  const first=root.querySelector('[data-coin-podium] [data-place="1"]');
+  assert.equal(first.querySelector('[data-coin-crown]').textContent,'👑');
+  assert.equal(first.firstElementChild?.className,'coin-crown');
   const board=root.querySelector('[data-study-leaderboard]');
   assert(board);
   const positions=[...board.querySelectorAll('[data-coin-podium] [data-place]')]
@@ -64,7 +67,7 @@ test('only real participants render: four active users means three podium and on
   assert.equal(root.querySelectorAll('[data-coin-podium] article').length,3);
   assert.equal(root.querySelectorAll('[data-study-rank]').length,1);
   assert.match(root.textContent,/4 ta faol o‘quvchi/);
-  assert(!root.textContent.includes('Learner-000005'));
+  assert(!root.textContent.includes('Test Person 5'));
 });
 
 test('malformed extra leaderboard entries cannot create ranks beyond twentieth',async()=>{

@@ -4,7 +4,8 @@ import {grammarArea, grammarDTO} from '../../js/adapters/entry-routes-v35.js';
 import {Card, ProgressBar} from '../../js/generated/ui.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {MASTERY_SESSIONS_DISPLAY} from './mastery.js';
-import {mountSkillBookCatalog, mountSkillBookDetail} from './book-skill.js';
+import {mountSkillBookCatalog} from './book-skill.js';
+import {grammarPracticeHref} from './practice-route.js';
 
 /**
  * Grammar topics `/app/grammar?tab=writing|speaking` (the original GrammarPage + GrammarTopics).
@@ -23,8 +24,10 @@ export function mount(context) {
   root.append(host);
   const requestedBook = url.searchParams.get('book');
   if (requestedBook) {
-    void mountSkillBookDetail(context, host, area, requestedBook);
-    signal.addEventListener('abort', () => host.replaceChildren(), {once: true});
+    const destination=grammarPracticeHref(url.pathname+url.search);
+    if(destination!==url.pathname+url.search) void navigate(destination,{replace:true});
+    else host.replaceChildren(h('p',{role:'alert'},
+      context.locale==='en'?'Grammar lesson not found.':'Grammar darsi topilmadi.'));
     return;
   }
   const bookHost = h('div', {'data-grammar-skill-book-host': area});

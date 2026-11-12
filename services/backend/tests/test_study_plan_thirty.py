@@ -173,6 +173,8 @@ def test_next_day_never_unlocks_before_previous_completion_or_calendar_date():
                     ("listening",25), ("writing",20), ("speaking",10), ("vocabulary",10))]
 
         async def fetchval(self, query, *args):
+            if "max(completed_at)" in query:
+                return datetime(2026, 11, 12, 8, tzinfo=timezone.utc)
             return self.remaining
 
         async def execute(self, query, *args):
@@ -413,3 +415,104 @@ def test_production_asgi_dispatch_exposes_sequenced_plan_and_level_check(monkeyp
             result = client.get(path)
             assert result.status_code == 401, (path, result.text)
             assert result.json()["error"] == "unauthenticated"
+
+
+@pytest.mark.parametrize("duration", [7, 30])
+def test_overdue_plan_days_roll_forward_and_preserve_source_task_links(duration):
+    class Fake:
+        async def fetch(self, query, cycle_id):
+            return [
+                {"day_number": day, "slot": slot, "kind": kind,
+                 "title": kind, "href": "/app/" + kind, "source_key": kind,
+                 "minutes": minutes, "stage_index": 0 if slot == 0 else None,
+                 "completed_at": None}
+                for day in range(1, duration + 1)
+                for slot, (kind, minutes) in enumerate((
+                    ("grammar", 25), ("reading", 30), ("listening", 25),
+                    ("writing", 20), ("speaking", 10), ("vocabulary", 10),
+                ))
+            ]
+
+    cycle = {"id": "fixture", "status": "active", "current_day": 1,
+             "timezone": "Asia/Tashkent", "user_id": "user",
+             "cefr_level": "B2", "revision": 1, "duration_days": duration,
+             "started_on": START}
+    now = datetime(2026, 11, 16, 8, tzinfo=timezone.utc)
+    plan = asyncio.run(_present(Fake(), cycle, now))
+    assert plan["days"][0]["date"] == date(2026, 11, 16)
+    assert plan["days"][0]["originalDate"] == START
+    assert plan["days"][0]["rescheduled"] is True
+    assert plan["days"][1]["date"] == date(2026, 11, 17)
+    assert plan["days"][-1]["date"] == date(2026, 11, 16) + timedelta(days=duration-1)
+    assert all(task["status"] == "ready" for task in plan["days"][0]["tasks"])
+    assert all(task["href"] is None for day in plan["days"][1:] for task in day["tasks"])
+    assert all(day["status"] == "locked" for day in plan["days"][1:])
+
+
+def test_completed_days_keep_verified_dates_while_remaining_days_shift():
+    class Fake:
+        async def fetch(self, query, cycle_id):
+            rows = []
+            for day in range(1, 8):
+                for slot, (kind, minutes) in enumerate((
+                    ("grammar",25), ("reading",30), ("listening",25),
+                    ("writing",20), ("speaking",10), ("vocabulary",10),
+                )):
+                    done = (datetime(2026, 11, 12 + day, 10, tzinfo=timezone.utc)
+                            if day < 3 else None)
+                    rows.append({"day_number": day, "slot": slot, "kind": kind,
+                                 "title": kind, "href": "/app/" + kind,
+                                 "source_key": kind, "minutes": minutes,
+                                 "stage_index": 0 if slot == 0 else None,
+                                 "completed_at": done})
+            return rows
+
+    cycle = {"id": "fixture", "status": "active", "current_day": 3,
+             "timezone": "Asia/Tashkent", "started_on": START,
+             "user_id": "user", "cefr_level": "B2", "revision": 1,
+             "duration_days": 7}
+    plan = asyncio.run(_present(Fake(), cycle,
+                                datetime(2026, 11, 20, 8, tzinfo=timezone.utc)))
+    assert [x["date"] for x in plan["days"][:4]] == [
+        date(2026,11,13), date(2026,11,14),
+        date(2026,11,20), date(2026,11,21),
+    ]
+    assert [x["status"] for x in plan["days"][:4]] == [
+        "completed", "completed", "active", "locked"]
+    assert plan["completedDays"] == 2
+    assert all(x["status"] == "completed" for x in plan["days"][0]["tasks"])
+
+
+def test_late_daily_completion_waits_until_the_following_real_calendar_day():
+    class FakeConnection:
+        def __init__(self):
+            self.executed = []
+
+        async def fetch(self, query, *args):
+            return [{"kind": kind, "minutes": minutes,
+                     "completed_at": datetime(2026, 11, 16, 10, tzinfo=timezone.utc)}
+                    for kind, minutes in (
+                        ("grammar",25), ("reading",30), ("listening",25),
+                        ("writing",20), ("speaking",10), ("vocabulary",10))]
+
+        async def fetchval(self, query, *args):
+            if "max(completed_at)" in query:
+                return datetime(2026, 11, 16, 10, tzinfo=timezone.utc)
+            return 0
+
+        async def execute(self, query, *args):
+            self.executed.append(query)
+
+    cycle = {"status": "active", "user_id": "user", "id": "cycle",
+             "current_day": 1, "duration_days": 7,
+             "started_on": START, "timezone": "Asia/Tashkent"}
+    same_day = FakeConnection()
+    outcome = asyncio.run(_sync(
+        same_day, cycle, datetime(2026, 11, 16, 14, tzinfo=timezone.utc)))
+    assert outcome["current_day"] == 1
+    assert same_day.executed == []
+    following = FakeConnection()
+    opened = asyncio.run(_sync(
+        following, cycle, datetime(2026, 11, 17, 8, tzinfo=timezone.utc)))
+    assert opened["current_day"] == 2
+    assert len(following.executed) == 1

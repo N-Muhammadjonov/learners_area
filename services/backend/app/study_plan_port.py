@@ -221,13 +221,12 @@ async def redeem(req: Request,item_key: str) -> JSONResponse:
         return response(await reward_state(con,uid))
 
 
-# Default to stable anonymous labels so active learners can appear in Top 20
-# without revealing their names or requiring public leaderboard opt-in.
-# A voluntary profile alias replaces the anonymous label.
+# Show real saved account names to authenticated learners; do not invent
+# 'Learner-<hash>' identities. The leaderboard remains login-protected.
 RANKING = """
 WITH participants AS (
   SELECT u.id AS user_id,
-         coalesce(nullif(p.alias,''),'Learner-'||substr(md5(u.id::text),1,6)) AS alias,
+         coalesce(nullif(btrim(u.name),''),'O‘quvchi') AS alias,
          coalesce(sum(l.points),0)::int points
   FROM users u
   LEFT JOIN study_leaderboard_participants p ON p.user_id=u.id
@@ -243,7 +242,7 @@ WITH participants AS (
 COIN_RANKING = """
 WITH participants AS (
   SELECT u.id AS user_id,
-         coalesce(nullif(p.alias,''),'Learner-'||substr(md5(u.id::text),1,6)) AS alias,
+         coalesce(nullif(btrim(u.name),''),'O‘quvchi') AS alias,
          coalesce(sum(l.points),0)::int points,
          coalesce((SELECT sum(c.coins)::int FROM coin_ledger c
                    WHERE c.user_id=u.id AND c.earned_at >= $2),0) coins,
