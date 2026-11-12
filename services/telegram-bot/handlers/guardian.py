@@ -257,3 +257,62 @@ async def check_channel(callback: CallbackQuery, bot: Bot, state: FSMContext, db
         except Exception:
             pass  # the student still sees the request under "Connect a parent"
     await proceed(callback.message, state, lang, tg, link_id)
+
+
+class GuardianMessageReplyFlow(StatesGroup):
+    awaiting_reply = State()
+
+
+@guardian_router.callback_query(F.data.regexp(r"^gmr:[0-9a-fA-F-]{36}$"))
+async def begin_guardian_message_reply(callback: CallbackQuery, state: FSMContext,
+                                       db_user: dict | None = None, contact: dict | None = None):
+    """Start a human-authored reply; backend rechecks the original sender on submission."""
+    lang = _lang(callback, db_user, contact)
+    if not _private(callback):
+        await callback.answer(t(lang, "no_permission"), show_alert=True)
+        return
+    delivery_id = callback.data.split(":", 1)[1]
+    await state.set_state(GuardianMessageReplyFlow.awaiting_reply)
+    await state.update_data(guardian_reply_delivery=delivery_id)
+    prompt = ("Javobingizni yozing. Bekor qilish: /cancel" if lang == "uz"
+              else "Write your reply. Cancel: /cancel")
+    await callback.message.answer(prompt)
+    await callback.answer()
+
+
+@guardian_router.message(GuardianMessageReplyFlow.awaiting_reply)
+async def send_guardian_message_reply(message: Message, state: FSMContext,
+                                      db_user: dict | None = None, contact: dict | None = None):
+    lang = _lang(message, db_user, contact)
+    if not _private(message):
+        await state.clear()
+        return
+    text = (message.text or "").strip()
+    if text == "/cancel":
+        await state.clear()
+        await message.answer(t(lang, "cancelled"))
+        return
+    if not 1 <= len(text) <= 1500:
+        await message.answer("1–1500 belgilik matn yuboring." if lang == "uz"
+                             else "Send a text message of 1–1500 characters.")
+        return
+    data = await state.get_data()
+    delivery_id = data.get("guardian_reply_delivery")
+    if not isinstance(delivery_id, str):
+        await state.clear()
+        await message.answer(t(lang, "error"))
+        return
+    try:
+        status, result = await api_client.submit_guardian_reply(
+            str(message.from_user.id), delivery_id, str(message.message_id), text)
+    except Exception:
+        status, result = 503, {}
+    if status == 200 and isinstance(result, dict) and result.get("ok"):
+        await state.clear()
+        await message.answer("Javob navbatga qo‘yildi." if lang == "uz" else "Reply queued.")
+    elif status in (403, 404, 409):
+        await state.clear()
+        await message.answer("Suhbat mavjud emas yoki ruxsat bekor qilingan."
+                             if lang == "uz" else "This conversation is unavailable.")
+    else:
+        await message.answer(t(lang, "temporary_error"))
