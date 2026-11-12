@@ -154,7 +154,7 @@ async def test_telegram_invite_requires_new_active_student_and_pays_once(setup_d
         link = await client.post("/api/coins/referral-link")
         assert link.status_code == 200, link.text
         assert "?start=r_" in link.json()["url"]
-        code = link.json()["url"].split("r_", 1)[1]
+        code = link.json()["url"].split("?start=r_", 1)[1]
         self_invite = await client.post("/api/internal/telegram/coins/referral",
                                         json={"telegramUserId": "123456789", "code": code})
         assert self_invite.status_code == 409
