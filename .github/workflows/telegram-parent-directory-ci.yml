@@ -33,3 +33,12 @@ jobs:
       - run: python -m compileall -q services/backend/app
       - working-directory: services/backend
         run: python -m pytest -q tests/test_telegram_directory_parents.py tests/test_guardian_connect.py tests/test_telegram_handoff.py
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/riwi-site-catalog.mjs
+      - run: git diff --exit-code -- services/backend/app/data/riwi_site_catalog.json
