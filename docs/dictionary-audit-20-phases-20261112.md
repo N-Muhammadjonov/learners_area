@@ -16,26 +16,26 @@ Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme
 
 | Phase | Sense rank (inclusive) | Sense count | Status |
 | --- | ---: | ---: | --- |
-| 01 | 1–5,520 | 5520 | Structural audited; semantic pending |
-| 02 | 5,521–11,040 | 5520 | Not started |
-| 03 | 11,041–16,561 | 5521 | Not started |
-| 04 | 16,562–22,081 | 5520 | Not started |
-| 05 | 22,082–27,602 | 5521 | Not started |
-| 06 | 27,603–33,122 | 5520 | Not started |
-| 07 | 33,123–38,643 | 5521 | Not started |
-| 08 | 38,644–44,163 | 5520 | Not started |
-| 09 | 44,164–49,684 | 5521 | Not started |
-| 10 | 49,685–55,204 | 5520 | Not started |
-| 11 | 55,205–60,724 | 5520 | Not started |
-| 12 | 60,725–66,245 | 5521 | Not started |
-| 13 | 66,246–71,765 | 5520 | Not started |
-| 14 | 71,766–77,286 | 5521 | Not started |
-| 15 | 77,287–82,806 | 5520 | Not started |
-| 16 | 82,807–88,327 | 5521 | Not started |
-| 17 | 88,328–93,847 | 5520 | Not started |
-| 18 | 93,848–99,368 | 5521 | Not started |
-| 19 | 99,369–104,888 | 5520 | Not started |
-| 20 | 104,889–110,409 | 5521 | Not started |
+| 01 | 1–5,521 | 5,521 | Structural audited; semantic pending |
+| 02 | 5,522–11,041 | 5,520 | Not started |
+| 03 | 11,042–16,562 | 5,521 | Not started |
+| 04 | 16,563–22,082 | 5,520 | Not started |
+| 05 | 22,083–27,603 | 5,521 | Not started |
+| 06 | 27,604–33,123 | 5,520 | Not started |
+| 07 | 33,124–38,644 | 5,521 | Not started |
+| 08 | 38,645–44,164 | 5,520 | Not started |
+| 09 | 44,165–49,685 | 5,521 | Not started |
+| 10 | 49,686–55,205 | 5,520 | Not started |
+| 11 | 55,206–60,725 | 5,520 | Not started |
+| 12 | 60,726–66,246 | 5,521 | Not started |
+| 13 | 66,247–71,766 | 5,520 | Not started |
+| 14 | 71,767–77,287 | 5,521 | Not started |
+| 15 | 77,288–82,807 | 5,520 | Not started |
+| 16 | 82,808–88,328 | 5,521 | Not started |
+| 17 | 88,329–93,848 | 5,520 | Not started |
+| 18 | 93,849–99,369 | 5,521 | Not started |
+| 19 | 99,370–104,889 | 5,520 | Not started |
+| 20 | 104,890–110,409 | 5,520 | Not started |
 
 ## Validation gates — every sense
 
