@@ -489,7 +489,8 @@ def test_late_daily_completion_waits_until_the_following_real_calendar_day():
             self.executed = []
 
         async def fetch(self, query, *args):
-            return [{"kind": kind, "minutes": minutes, "completed_at": None}
+            return [{"kind": kind, "minutes": minutes,
+                     "completed_at": datetime(2026, 11, 16, 10, tzinfo=timezone.utc)}
                     for kind, minutes in (
                         ("grammar",25), ("reading",30), ("listening",25),
                         ("writing",20), ("speaking",10), ("vocabulary",10))]
