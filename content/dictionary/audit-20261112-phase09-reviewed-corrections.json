@@ -186,6 +186,33 @@
       "proposed": "C1",
       "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
       "scope": "vehicle horn sound (Oxford sense 2 Transport c1); pager-call Oxford sense 3 c2 stays C2"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "676b56f7-c118-4e2a-823b-0331c4f81114",
+      "lemma": "chatty",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+      "scope": "friendly talkative interpersonal adjective sense"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "c9007394-5a5e-49c7-9b8b-6e63837bc107",
+      "lemma": "chatty",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+      "scope": "informal conversational style of writing/speech"
+    },
+    {
+      "lexeme_id": "6f6bcc4e-b979-554f-8bbc-405475172731",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "lemma": "bribe",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
+      "scope": "noun denoting money or gift used to influence someone dishonestly"
     }
   ],
   "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
