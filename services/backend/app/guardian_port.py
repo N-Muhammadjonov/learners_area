@@ -1033,5 +1033,161 @@ async def bot_claim_deliveries(req: Request):
     return core.j({'ok': True, 'deliveries': out}, headers=PRIVATE)
 
 
+
+# ───────────────────────── two-way manually triggered guardian messages ─────────────────────────
+async def conversation_context(con, delivery_id):
+    """Bind a conversation to its original approved message and live staff assignment."""
+    return await con.fetchrow('''SELECT d.id,d.link_id,d.telegram_user_id,p.display_name AS guardian_name,
+        gu.account_status AS guardian_status,b.sender_user_id,su.name AS sender_name,
+        su.role AS sender_role,su.account_status AS sender_status,su.telegram_id AS sender_telegram_id,
+        l.status AS link_status,l.student_id,
+        gc.chat_id AS guardian_chat,gc.bot_blocked_at AS guardian_blocked,
+        gc.removed_at AS guardian_removed,
+        sc.chat_id AS staff_chat,sc.bot_blocked_at AS staff_blocked,
+        sc.removed_at AS staff_removed,d.status AS original_status
+      FROM guardian_message_deliveries d
+      JOIN guardian_message_batches b ON b.id=d.batch_id
+      JOIN guardian_links l ON l.id=d.link_id
+      JOIN guardian_profiles p ON p.id=d.guardian_profile_id
+      JOIN users gu ON gu.id=p.user_id AND gu.role='guardian'
+      JOIN users su ON su.id=b.sender_user_id
+      LEFT JOIN telegram_contacts gc ON gc.telegram_user_id=d.telegram_user_id
+      LEFT JOIN telegram_contacts sc ON sc.telegram_user_id=su.telegram_id
+      WHERE d.id=$1''', delivery_id)
+
+
+async def conversation_active(con, row):
+    if not row or row['original_status'] != 'sent' or row['link_status'] != 'linked':
+        return False
+    if row['guardian_status'] != 'active' or row['sender_status'] != 'active':
+        return False
+    if row['sender_role'] not in ('teacher', 'admin', 'owner'):
+        return False
+    if row['sender_role'] == 'teacher':
+        assigned = await con.fetchval('''SELECT 1 FROM teacher_student_links
+            WHERE teacher_user_id=$1 AND student_user_id=$2 LIMIT 1''',
+            row['sender_user_id'], row['student_id'])
+        if not assigned:
+            return False
+    return True
+
+
+@router.post('/api/internal/telegram/guardians/replies')
+async def bot_guardian_reply(req: Request):
+    body, denied = await bot_body(req)
+    if denied is not None:
+        return denied
+    actor = body.get('actorTelegramId')
+    delivery_id = core.uuid_value(body.get('deliveryId'))
+    incoming_id = body.get('incomingMessageId')
+    message = clean_text(body.get('text'))
+    if (not valid_actor(actor) or not delivery_id or
+            not isinstance(incoming_id, str) or not re.fullmatch(r'[1-9][0-9]{0,19}', incoming_id) or
+            not 1 <= len(message) <= MAX_BODY):
+        return err('invalid_input', 400)
+    db = await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            row = await conversation_context(con, delivery_id)
+            if not await conversation_active(con, row):
+                return err('conversation_unavailable', 409)
+            guardian = actor == row['telegram_user_id']
+            staff = actor == row['sender_telegram_id']
+            if guardian == staff:
+                return err('forbidden', 403)
+            if guardian and (not row['guardian_chat'] or row['guardian_blocked'] or row['guardian_removed']):
+                return err('conversation_unavailable', 409)
+            if staff and (not row['staff_chat'] or row['staff_blocked'] or row['staff_removed']):
+                return err('conversation_unavailable', 409)
+            if guardian and (not row['staff_chat'] or row['staff_blocked'] or row['staff_removed']):
+                return err('recipient_unavailable', 409)
+            if staff and (not row['guardian_chat'] or row['guardian_blocked'] or row['guardian_removed']):
+                return err('recipient_unavailable', 409)
+            reply = await con.fetchval('''INSERT INTO guardian_message_replies
+                (delivery_id,actor_telegram_id,source_message_id,sender_kind,body)
+                VALUES($1,$2,$3,$4,$5)
+                ON CONFLICT (actor_telegram_id,source_message_id) DO NOTHING RETURNING id''',
+                delivery_id, actor, incoming_id, 'guardian' if guardian else 'staff', message)
+            if reply is None:
+                previous = await con.fetchrow('''SELECT id,delivery_id FROM guardian_message_replies
+                    WHERE actor_telegram_id=$1 AND source_message_id=$2''', actor, incoming_id)
+                if not previous or previous['delivery_id'] != delivery_id:
+                    return err('replay_conflict', 409)
+                return core.j({'ok': True, 'duplicate': True, 'replyId': str(previous['id'])}, headers=PRIVATE)
+            await audit(con, 'guardian.message.reply_queued',
+                actor_user_id=row['sender_user_id'] if staff else None,
+                actor_telegram_id=actor, link_id=row['link_id'], student_id=row['student_id'],
+                metadata={'deliveryId': str(delivery_id), 'replyId': str(reply)})
+    return core.j({'ok': True, 'duplicate': False, 'replyId': str(reply)}, headers=PRIVATE)
+
+
+@router.post('/api/internal/telegram/guardians/replies/claim')
+async def bot_claim_guardian_replies(req: Request):
+    body, denied = await bot_body(req)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as con:
+        results = body.get('results')
+        if isinstance(results, list):
+            for item in results[:50]:
+                if not isinstance(item, dict) or not core.uuid_value(item.get('replyId')):
+                    continue
+                status = item.get('status')
+                if status == 'sent':
+                    await con.execute('''UPDATE guardian_message_replies SET status='sent',
+                      sent_at=now(), telegram_message_id=$2,last_error=NULL
+                      WHERE id=$1 AND status='sending' ''', item['replyId'], clip(item.get('telegramMessageId'), 32))
+                elif status == 'blocked':
+                    await con.execute('''UPDATE guardian_message_replies SET status='blocked',last_error='recipient_blocked'
+                      WHERE id=$1 AND status='sending' ''', item['replyId'])
+                else:
+                    retry_after = item.get('retryAfterSeconds')
+                    retry_after = int(retry_after) if isinstance(retry_after, (int, float)) and 0 < retry_after < 3600 else None
+                    await con.execute('''UPDATE guardian_message_replies SET
+                      status=CASE WHEN attempts >= $2 THEN 'failed' ELSE 'queued' END,
+                      next_attempt_at=now()+make_interval(secs => COALESCE($3::int, LEAST(900,30*attempts*attempts))),
+                      last_error='delivery_failed' WHERE id=$1 AND status='sending' ''',
+                      item['replyId'], MAX_ATTEMPTS, retry_after)
+            return core.j({'ok': True}, headers=PRIVATE)
+        async with con.transaction():
+            await con.execute('''UPDATE guardian_message_replies
+                SET status='failed',last_error='max_attempts_exceeded'
+                WHERE attempts >= $1 AND (status='queued' OR
+                  (status='sending' AND claimed_at < now()-interval '5 minutes'))''', MAX_ATTEMPTS)
+            picked = await con.fetch('''WITH picked AS (
+                SELECT id FROM guardian_message_replies
+                WHERE attempts < $2 AND ((status='queued' AND next_attempt_at<=now())
+                   OR (status='sending' AND claimed_at < now()-interval '5 minutes'))
+                ORDER BY created_at,id LIMIT $1 FOR UPDATE SKIP LOCKED)
+                UPDATE guardian_message_replies r
+                SET status='sending', attempts=r.attempts+1,claimed_at=now()
+                FROM picked WHERE r.id=picked.id
+                RETURNING r.id,r.delivery_id,r.sender_kind,r.body''', 10, MAX_ATTEMPTS)
+            items = []
+            for reply in picked:
+                context = await conversation_context(con, reply['delivery_id'])
+                if not await conversation_active(con, context):
+                    await con.execute("UPDATE guardian_message_replies SET status='blocked',last_error='conversation_inactive' WHERE id=$1", reply['id'])
+                    continue
+                guardian = reply['sender_kind'] == 'guardian'
+                chat = context['staff_chat'] if guardian else context['guardian_chat']
+                blocked = context['staff_blocked'] if guardian else context['guardian_blocked']
+                removed = context['staff_removed'] if guardian else context['guardian_removed']
+                if not chat or blocked or removed:
+                    await con.execute("UPDATE guardian_message_replies SET status='blocked',last_error='recipient_unavailable' WHERE id=$1", reply['id'])
+                    continue
+                if guardian:
+                    role_name = {'owner': 'Owner', 'admin': 'Admin', 'teacher': 'Teacher'}[context['sender_role']]
+                    display = f"{role_name} yuborgan xabarga javob\\n{context['guardian_name'] or 'Ota-ona'}:\\n{reply['body']}"
+                else:
+                    role_name = {'owner': 'Owner', 'admin': 'Admin', 'teacher': 'Teacher'}[context['sender_role']]
+                    display = f"{role_name} javobi:\\n{reply['body']}"
+                items.append({'replyId': str(reply['id']), 'deliveryId': str(reply['delivery_id']),
+                              'chatId': chat, 'text': display})
+    return core.j({'ok': True, 'replies': items}, headers=PRIVATE)
+
+
+
 def install():
     core.app.include_router(router)
