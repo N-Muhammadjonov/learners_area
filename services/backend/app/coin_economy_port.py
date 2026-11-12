@@ -179,38 +179,68 @@ async def daily_claim(req: Request):
         return core.j(result, headers=PRIVATE)
 
 
+async def referral_data(user_id) -> dict:
+    bot = os.getenv("TELEGRAM_BOT_USERNAME", "").strip().lstrip("@")
+    if not BOT_NAME.fullmatch(bot):
+        raise ValueError("referral_bot_not_configured")
+    db = await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            code = await con.fetchval(
+                "SELECT code FROM coin_referral_codes WHERE user_id=$1", user_id)
+            if not code:
+                candidate = secrets.token_urlsafe(18)
+                await con.execute(
+                    "INSERT INTO coin_referral_codes(user_id,code) VALUES($1,$2) "
+                    "ON CONFLICT(user_id) DO NOTHING", user_id, candidate)
+                code = await con.fetchval(
+                    "SELECT code FROM coin_referral_codes WHERE user_id=$1", user_id)
+            count = await con.fetchval(
+                "SELECT count(*)::int FROM coin_referrals WHERE inviter_id=$1 "
+                "AND awarded_at IS NOT NULL", user_id)
+    return {
+        "url": f"https://t.me/{bot}?start=r_{code}",
+        "count": count,
+        "coinsPerFriend": 10,
+    }
+
+
 @router.post("/api/coins/referral-link")
 async def referral_link(req: Request):
     user, failure = await student(req)
     if failure is not None:
         return failure
-    bot = os.getenv("TELEGRAM_BOT_USERNAME", "").strip().lstrip("@")
-    if not BOT_NAME.fullmatch(bot):
+    try:
+        return core.j(await referral_data(user["id"]), headers=PRIVATE)
+    except ValueError:
         return error("referral_bot_not_configured", 503)
+    except Exception:
+        log.exception("coin referral link failed")
+        return error("temporarily_unavailable", 503)
+
+
+@router.get("/api/internal/telegram/coins/referral-link")
+async def bot_referral_link(req: Request):
+    denied = verify_bot(req)
+    if denied is not None:
+        return denied
+    telegram_id = req.query_params.get("telegramUserId") or ""
+    if not TG_ID.fullmatch(telegram_id):
+        return error("invalid_actor")
     db = await core.pool()
     async with db.acquire() as con:
-        try:
-            async with con.transaction():
-                code = await con.fetchval(
-                    "SELECT code FROM coin_referral_codes WHERE user_id=$1", user["id"])
-                if not code:
-                    code = secrets.token_urlsafe(18)
-                    await con.execute(
-                        "INSERT INTO coin_referral_codes(user_id,code) VALUES($1,$2) "
-                        "ON CONFLICT(user_id) DO NOTHING", user["id"], code)
-                    code = await con.fetchval(
-                        "SELECT code FROM coin_referral_codes WHERE user_id=$1", user["id"])
-                count = await con.fetchval(
-                    "SELECT count(*)::int FROM coin_referrals WHERE inviter_id=$1 "
-                    "AND awarded_at IS NOT NULL", user["id"])
-        except Exception:
-            log.exception("coin referral link failed")
-            return error("temporarily_unavailable", 503)
-    return core.j({
-        "url": f"https://t.me/{bot}?start=r_{code}",
-        "count": count,
-        "coinsPerFriend": 10,
-    }, headers=PRIVATE)
+        user = await con.fetchrow(
+            "SELECT id FROM users WHERE telegram_id=$1 AND role='student' "
+            "AND account_status='active'", telegram_id)
+    if not user:
+        return error("forbidden", 403)
+    try:
+        return core.j(await referral_data(user["id"]), headers=PRIVATE)
+    except ValueError:
+        return error("referral_bot_not_configured", 503)
+    except Exception:
+        log.exception("bot coin referral link failed")
+        return error("temporarily_unavailable", 503)
 
 
 @router.post("/api/internal/telegram/coins/referral")
