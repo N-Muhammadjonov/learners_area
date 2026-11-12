@@ -16,7 +16,7 @@ function balanceCards(ctx, wallet, stars = 0) {
       detail(localized(ctx, 'Mashqdagi natijalar asosida. Reytingdagi o‘rningizni belgilang.',
         'Earned through study — determines your ranking position.'))),
     h('div', {class: 'coin-market-balance'},
-      h('span', {}, '🪙 ' + formatNumber(wallet?.balance) + ' ' + localized(ctx, 'tanga', 'coins')),
+      h('span', {}, '🟡 ' + formatNumber(wallet?.balance) + ' ' + localized(ctx, 'tanga', 'coins')),
       detail(localized(ctx, 'Kunlik kirish, mashqlar va do‘stlar uchun. Sovg‘alarga ishlating.',
         'From daily logins, tasks and friends — spend on gifts.'))));
 }
@@ -47,17 +47,17 @@ function earnCards(ctx) {
   return h('div', {class: 'coin-market-grid'},
     h('section', {class: 'coin-market-action'},
       h('span', {'aria-hidden': 'true'}, '📅'),
-      h('strong', {}, '+1–7 🪙'),
+      h('strong', {}, '+1–7 🟡'),
       h('b', {}, localized(ctx, 'Har kuni', 'Every day')),
       detail(localized(ctx, 'Saytga kirish uchun', 'For checking in'))),
     h('section', {class: 'coin-market-action'},
       h('span', {'aria-hidden': 'true'}, '✅'),
-      h('strong', {}, '+1 🪙'),
+      h('strong', {}, '+1 🟡'),
       h('b', {}, localized(ctx, 'Mashqlar', 'Tasks')),
       detail(localized(ctx, 'Har bir yangi tugallangan topshiriq', 'For each new completed task'))),
     h('section', {class: 'coin-market-action coin-market-action--friend'},
       h('span', {'aria-hidden': 'true'}, '👥'),
-      h('strong', {}, '+10 🪙'),
+      h('strong', {}, '+10 🟡'),
       h('b', {}, localized(ctx, 'Do‘stlar', 'Friends')),
       detail(localized(ctx, 'Har bir yangi tasdiqlangan do‘st', 'Each verified new friend'))));
 }
@@ -152,23 +152,37 @@ async function giftsPanel(ctx, host, successMessage = "") {
       gift.stock === 0 ? localized(ctx, 'Tugagan', 'Out of stock') :
       unavailable ? localized(ctx, 'Tanga yetarli emas', 'Not enough coins') :
       localized(ctx, 'Sotib olish', 'Buy gift'), async event => {
-        if (!window.confirm(localized(ctx, 'Sovg‘ani ' + gift.coins + ' tangaga sotib olasizmi?',
-          'Buy this gift for ' + gift.coins + ' coins?'))) return;
-        event.currentTarget.disabled = true;
-        try {
-          const receipt = await api.request('/api/coins/gifts/' + encodeURIComponent(gift.id) + '/purchase', {
-            method: 'POST', signal: ctx.signal, body: {requestId: crypto.randomUUID()},
-          });
-          if (!ctx.signal.aborted) void giftsPanel(ctx, host, localized(ctx,
-            'Xaridingiz uchun rahmat. Tez orada admin sizga aloqaga chiqadi. Chek: ' + receipt.receiptId,
-            'Thank you for your purchase. An administrator will contact you soon. Receipt: ' + receipt.receiptId));
-        } catch (error) {
-          feedback.textContent = error.code === 'insufficient_coins' ?
-            localized(ctx, 'Tanga yetarli emas.', 'Not enough coins.') :
-            error.code === 'already_owned' ? localized(ctx, 'Bu sovg‘a sizda bor.', 'Already owned.') :
-            localized(ctx, 'Xarid amalga oshmadi.', 'Purchase failed.');
-          event.currentTarget.disabled = false;
-        }
+        const dialog = h('dialog', {class: 'coin-purchase-dialog', 'data-coin-purchase-dialog': gift.id},
+          h('h3', {}, titleFor(ctx, gift)),
+          detail(localized(ctx,
+            'Ushbu sovg‘ani ' + gift.coins + ' tilla tangaga sotib olishga rozimisiz?',
+            'Do you agree to buy this gift for ' + gift.coins + ' gold coins?')),
+          h('div', {class: 'coin-order-actions'},
+            button(localized(ctx, 'Yo‘q', 'No'), () => dialog.close(), {class: 'btn-secondary'}),
+            button(localized(ctx, 'Ha', 'Yes'), async confirmEvent => {
+              confirmEvent.currentTarget.disabled = true;
+              event.currentTarget.disabled = true;
+              try {
+                const receipt = await api.request('/api/coins/gifts/' + encodeURIComponent(gift.id) + '/purchase', {
+                  method: 'POST', signal: ctx.signal, body: {requestId: crypto.randomUUID()},
+                });
+                dialog.close();
+                if (!ctx.signal.aborted) void giftsPanel(ctx, host, localized(ctx,
+                  'Xaridingiz uchun raxmat tez orada admin sizga aloqaga chiqadi. Chek: ' + receipt.receiptId,
+                  'Thank you for your purchase. An administrator will contact you soon. Receipt: ' + receipt.receiptId));
+              } catch (error) {
+                feedback.textContent = error.code === 'insufficient_coins' ?
+                  localized(ctx, 'Tanga yetarli emas.', 'Not enough coins.') :
+                  error.code === 'already_owned' ? localized(ctx, 'Bu sovg‘a sizda bor.', 'Already owned.') :
+                  localized(ctx, 'Xarid amalga oshmadi.', 'Purchase failed.');
+                confirmEvent.currentTarget.disabled = false;
+                event.currentTarget.disabled = false;
+                dialog.close();
+              }
+            }, {class: 'btn-primary', 'data-coin-purchase-confirm': gift.id})));
+        dialog.addEventListener('close', () => dialog.remove(), {once: true});
+        document.body.append(dialog);
+        dialog.showModal();
       }, {'data-coin-buy': gift.id, class: 'btn-primary', disabled: isOwned || unavailable});
     return h('article', {class: 'coin-gift-card', 'data-gift': gift.key},
       gift.imageData ? h('img', {class: 'coin-gift-image', src: gift.imageData,
@@ -177,7 +191,7 @@ async function giftsPanel(ctx, host, successMessage = "") {
           {badge: '🏅', frame: '🖼️', theme: '🎨', study_tool: '📘'}[gift.category] || '🎁'),
       h('strong', {}, titleFor(ctx, gift)),
       detail(descriptionFor(ctx, gift)),
-      h('div', {class: 'coin-gift-price'}, formatNumber(gift.coins), ' 🪙'),
+      h('div', {class: 'coin-gift-price'}, formatNumber(gift.coins), ' 🟡'),
       gift.stock !== null ? detail(localized(ctx, 'Qoldi: ', 'In stock: ') + gift.stock) : null,
       action);
   });
@@ -196,18 +210,29 @@ async function purchasesPanel(ctx, host) {
     api.request('/api/coins/wallet', {signal: ctx.signal}),
   ]);
   if (ctx.signal.aborted) return;
-  const items = (history.purchases || []).map(item =>
-    h('article', {class: 'coin-market-purchase'},
-      h('strong', {}, titleFor(ctx, item)),
-      detail(new Date(item.purchasedAt).toLocaleDateString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US')),
-      detail(({pending: localized(ctx, 'Kutilmoqda', 'Pending'),
-        fulfilled: localized(ctx, 'Tasdiqlangan', 'Fulfilled'),
-        rejected: localized(ctx, 'Rad etildi — tangalar qaytarildi', 'Rejected — coins refunded')})[item.status] || item.status),
-      h('strong', {}, (item.status === 'rejected' ? '+' : '−') + formatNumber(item.coins) + ' 🪙')));
+  const completed = (history.purchases || []).filter(item => item.status === 'fulfilled');
+  const processing = (history.purchases || []).filter(item => item.status === 'pending');
+  const rejected = (history.purchases || []).filter(item => item.status === 'rejected');
+  const purchaseCard = item => h('article', {class: 'coin-market-purchase',
+    'data-coin-purchase-status': item.status},
+    h('strong', {}, titleFor(ctx, item)),
+    detail(new Date(item.purchasedAt).toLocaleDateString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US')),
+    detail(({pending: localized(ctx, 'Ko‘rib chiqilmoqda', 'Awaiting fulfillment'),
+      fulfilled: localized(ctx, 'Bajarilgan', 'Fulfilled'),
+      rejected: localized(ctx, 'Rad etildi — tangalar qaytarildi', 'Rejected — coins refunded')})[item.status]),
+    h('strong', {}, (item.status === 'rejected' ? '+' : '−') + formatNumber(item.coins) + ' 🟡'));
   host.replaceChildren(balanceCards(ctx, wallet),
+    processing.length ? h('section', {class: 'coin-purchase-section', 'data-coin-pending-orders': ''},
+      heading(localized(ctx, 'Jarayondagi buyurtmalar', 'Pending orders')),
+      h('div', {class: 'coin-market-purchase-list'}, processing.map(purchaseCard))) : null,
     heading(localized(ctx, 'Xaridlarim', 'My purchases')),
-    items.length ? h('div', {class: 'coin-market-purchase-list'}, items) :
-      card(detail(localized(ctx, 'Hali sovg‘a sotib olmagansiz.', 'You have not bought any gifts yet.'))));
+    completed.length ? h('div', {class: 'coin-market-purchase-list', 'data-coin-completed-orders': ''},
+      completed.map(purchaseCard)) :
+      card(detail(localized(ctx, 'Hali bajarilgan xaridingiz yo‘q.',
+        'You do not have fulfilled purchases yet.'))),
+    rejected.length ? h('section', {class: 'coin-purchase-section', 'data-coin-rejected-orders': ''},
+      heading(localized(ctx, 'Rad etilgan buyurtmalar', 'Rejected orders')),
+      h('div', {class: 'coin-market-purchase-list'}, rejected.map(purchaseCard))) : null);
 }
 
 async function imageDataFromFile(file) {
@@ -307,7 +332,7 @@ async function ownerGiftsPanel(ctx, host) {
     }, {signal: ctx.signal});
     return h('article', {class: 'coin-market-purchase'},
       gift.imageData ? h('img', {class: 'coin-gift-admin-thumbnail', src: gift.imageData, alt: titleFor(ctx, gift)}) : null,
-      h('strong', {}, titleFor(ctx, gift) + ' · ' + gift.coins + ' 🪙'),
+      h('strong', {}, titleFor(ctx, gift) + ' · ' + gift.coins + ' 🟡'),
       detail(gift.active ? localized(ctx, 'Faol', 'Active') : localized(ctx, 'Yashirilgan', 'Hidden')),
       fileInput,
       button(gift.active ? localized(ctx, 'Yashirish', 'Hide') : localized(ctx, 'Faollashtirish', 'Activate'),
@@ -328,9 +353,13 @@ async function ownerGiftsPanel(ctx, host) {
     class: 'coin-market-purchase', 'data-purchase-id': order.id,
   },
     h('div', {}, h('strong', {}, order.buyerName),
-      detail(titleFor(ctx, order) + ' · ' + formatNumber(order.coins) + ' 🪙'),
+      detail(titleFor(ctx, order) + ' · ' + formatNumber(order.coins) + ' 🟡'),
       detail(localized(ctx, 'Chek: ', 'Receipt: ') + order.id),
-      detail(new Date(order.purchasedAt).toLocaleString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US'))),
+      detail(new Date(order.purchasedAt).toLocaleString(ctx.locale === 'uz' ? 'uz-UZ' : 'en-US')),
+      order.telegramUrl ? h('a', {href: order.telegramUrl, class: 'btn-secondary', target: '_blank',
+        rel: 'noopener noreferrer', 'data-coin-telegram-contact': order.id},
+        localized(ctx, 'Telegram orqali bog‘lanish', 'Contact on Telegram')) :
+        detail(localized(ctx, 'Telegram akkaunti topilmadi', 'Telegram account unavailable'))),
     h('span', {}, ({pending: localized(ctx, 'Kutilmoqda', 'Pending'),
       fulfilled: localized(ctx, 'Bajarilgan', 'Fulfilled'),
       rejected: localized(ctx, 'Rad etilgan', 'Rejected')})[order.status] || order.status),
