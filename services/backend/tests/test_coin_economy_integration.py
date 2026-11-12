@@ -49,8 +49,16 @@ async def setup_db():
         """CREATE TABLE users (
               id uuid PRIMARY KEY, telegram_id varchar(40) UNIQUE,
               role text NOT NULL DEFAULT 'student',
+              name text NOT NULL DEFAULT 'Test person',
               account_status text NOT NULL DEFAULT 'active',
               created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+           )""")
+    await connection.execute(
+        """CREATE TABLE notifications (
+              id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+              user_id uuid NOT NULL REFERENCES users(id),
+              type text NOT NULL, title text NOT NULL, body text NOT NULL,
+              href text NOT NULL, payload jsonb NOT NULL DEFAULT '{}'::jsonb
            )""")
     await connection.execute(
         """CREATE TABLE telegram_contacts (
@@ -67,7 +75,8 @@ async def setup_db():
         exists = await connection.fetchval("SELECT EXISTS(SELECT 1 FROM pg_roles WHERE rolname=$1)", role)
         if not exists:
             await connection.execute(f'CREATE ROLE "{role}"')
-    for version in ("0084_coin_economy.sql", "0091_coin_daily_referrals_gifts.sql"):
+    for version in ("0084_coin_economy.sql", "0091_coin_daily_referrals_gifts.sql",
+                    "0092_coin_gift_fulfillment.sql"):
         await connection.execute((MIGRATIONS / version).read_text())
     rewards.reset_cache()
     inviter = uuid4()
@@ -99,7 +108,7 @@ async def make_client(monkeypatch, connection, user):
 async def test_private_schema_and_single_daily_claim(setup_db, monkeypatch):
     con, schema, inviter = setup_db
     for name in ("coin_referrals", "coin_referral_codes", "coin_daily_claims",
-                 "coin_gifts", "coin_gift_purchases"):
+                 "coin_gifts", "coin_gift_purchases", "coin_gift_refunds"):
         row = await con.fetchrow(
             """SELECT c.relrowsecurity AS rls, coalesce(c.relacl::text,'') AS acl
                FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
@@ -202,6 +211,8 @@ async def test_gift_purchases_are_atomic_idempotent_and_cannot_overdraw(setup_db
             f"/api/coins/gifts/{first}/purchase", json={"requestId": req_id})
         assert response.status_code == 200, response.text
         assert response.json()["wallet"]["balance"] == 2
+        assert response.json()["status"] == "pending"
+        assert response.json()["receiptId"]
         repeat = await client.post(
             f"/api/coins/gifts/{first}/purchase", json={"requestId": req_id})
         assert repeat.status_code == 200 and repeat.json()["alreadyPurchased"]
@@ -214,6 +225,95 @@ async def test_gift_purchases_are_atomic_idempotent_and_cannot_overdraw(setup_db
     assert await con.fetchval("SELECT sum(coins) FROM coin_spend") == 8
     assert await con.fetchval("SELECT count(*) FROM coin_gift_purchases") == 1
     assert await con.fetchval("SELECT stock_remaining FROM coin_gifts WHERE id=$1", first) == 1
+    assert await con.fetchval("SELECT count(*) FROM notifications WHERE type='COIN_GIFT_PURCHASE'") == 0
+
+
+
+@pytest.mark.asyncio
+async def test_all_active_roles_can_claim_daily_and_shop(setup_db, monkeypatch):
+    con, _schema, inviter = setup_db
+    owner_id = uuid4()
+    await con.execute("INSERT INTO users(id,role,name) VALUES($1,'owner','Owner')", owner_id)
+    owner_identity = {"id": owner_id, "role": "owner", "account_status": "active"}
+    client, identity = await make_client(monkeypatch, con, owner_identity)
+    gift_id = uuid4()
+    await con.execute(
+        """INSERT INTO coin_gifts(id,item_key,title_uz,title_en,category,cost_coins)
+           VALUES($1,'role-gift','Sovg‘a','Gift','badge',1)""", gift_id)
+    async with client:
+        daily = await client.post("/api/coins/daily/claim")
+        assert daily.status_code == 200, daily.text
+        assert daily.json()["wallet"]["balance"] == 1
+        buy = await client.post(f"/api/coins/gifts/{gift_id}/purchase",
+                                json={"requestId": str(uuid4())})
+        assert buy.status_code == 200, buy.text
+        assert buy.json()["status"] == "pending"
+        assert buy.json()["wallet"]["balance"] == 0
+        for role in ("teacher", "admin", "student"):
+            user_id = uuid4()
+            await con.execute("INSERT INTO users(id,role) VALUES($1,$2)", user_id, role)
+            identity["current"] = {"id": user_id, "role": role, "account_status": "active"}
+            result = await client.post("/api/coins/daily/claim")
+            assert result.status_code == 200, (role, result.text)
+            assert result.json()["awarded"] == 1
+    assert await con.fetchval("SELECT count(*) FROM coin_daily_claims") == 4
+    assert await con.fetchval("SELECT count(*) FROM notifications WHERE type='COIN_GIFT_PURCHASE'") == 1
+
+
+@pytest.mark.asyncio
+async def test_owner_rejects_order_once_and_refunds_exact_coins(setup_db, monkeypatch):
+    con, _schema, student_id = setup_db
+    owner_id = uuid4()
+    await con.execute("INSERT INTO users(id,role,name) VALUES($1,'owner','Owner')", owner_id)
+    await rewards.award_coin(con, student_id, "earning:test", module="reading",
+                             activity_type="exercise", coins=10)
+    gift_id = uuid4()
+    await con.execute(
+        """INSERT INTO coin_gifts(id,item_key,title_uz,title_en,category,cost_coins,stock_remaining)
+           VALUES($1,'refund-gift','Sovg‘a','Gift','badge',8,2)""", gift_id)
+    user = {"id": student_id, "role": "student", "account_status": "active"}
+    client, identity = await make_client(monkeypatch, con, user)
+    async with client:
+        purchase = await client.post(f"/api/coins/gifts/{gift_id}/purchase",
+                                     json={"requestId": str(uuid4())})
+        assert purchase.status_code == 200, purchase.text
+        purchase_id = purchase.json()["receiptId"]
+        assert purchase.json()["wallet"]["balance"] == 2
+        identity["current"] = {"id": owner_id, "role": "owner", "account_status": "active"}
+        receipt = await client.get("/api/coins/admin/purchases")
+        assert receipt.status_code == 200
+        assert any(row["id"] == purchase_id for row in receipt.json()["purchases"])
+        rejection = await client.patch(f"/api/coins/admin/purchases/{purchase_id}",
+                                        json={"status": "rejected"})
+        assert rejection.status_code == 200, rejection.text
+        again = await client.patch(f"/api/coins/admin/purchases/{purchase_id}",
+                                    json={"status": "rejected"})
+        assert again.status_code == 200 and again.json()["alreadyResolved"]
+        assert (await client.patch(f"/api/coins/admin/purchases/{purchase_id}",
+                                   json={"status": "fulfilled"})).status_code == 409
+        identity["current"] = user
+        balance = await client.get("/api/coins/wallet")
+        assert balance.json()["balance"] == 10
+        history = await client.get("/api/coins/purchases")
+        assert history.json()["purchases"][0]["status"] == "rejected"
+        repeat = await client.post(f"/api/coins/gifts/{gift_id}/purchase",
+                                   json={"requestId": str(uuid4())})
+        assert repeat.status_code == 200, repeat.text
+        assert repeat.json()["wallet"]["balance"] == 2
+    assert await con.fetchval("SELECT count(*) FROM coin_gift_refunds") == 1
+    assert await con.fetchval("SELECT count(*) FROM notifications WHERE type='COIN_GIFT_RESOLVED'") == 1
+    assert await con.fetchval("SELECT stock_remaining FROM coin_gifts WHERE id=$1", gift_id) == 1
+
+
+@pytest.mark.asyncio
+async def test_nonowner_cannot_resolve_or_view_other_orders(setup_db, monkeypatch):
+    con, _schema, student_id = setup_db
+    client, identity = await make_client(monkeypatch, con,
+        {"id": student_id, "role": "student", "account_status": "active"})
+    async with client:
+        assert (await client.get("/api/coins/admin/purchases")).status_code == 403
+        assert (await client.patch(f"/api/coins/admin/purchases/{uuid4()}",
+                                   json={"status": "rejected"})).status_code == 403
 
 
 def test_gift_validation_refuses_fake_prices_and_unsafe_categories():
