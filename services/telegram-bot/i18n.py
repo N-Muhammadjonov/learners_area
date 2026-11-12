@@ -256,6 +256,12 @@ STRINGS = {
 }
 
 
+from guardian_i18n import GUARDIAN_STRINGS  # noqa: E402
+
+for _lang_code, _extra in GUARDIAN_STRINGS.items():
+    STRINGS[_lang_code].update(_extra)
+
+
 def t(lang: str | None, key: str, **kwargs: object) -> str:
     table = STRINGS.get(lang or "uz", STRINGS["uz"])
     template = table.get(key) or STRINGS["uz"].get(key) or key

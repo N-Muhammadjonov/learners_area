@@ -22,6 +22,10 @@ async def gates(conn,tg):
     contact=await conn.fetchrow('SELECT phone_number,phone_verified_at FROM telegram_contacts WHERE telegram_user_id=$1',tg)
     if not contact or not contact['phone_number'] or not contact['phone_verified_at']:
         return {'error':'phone_required'}
+    holder=await conn.fetchrow('SELECT role FROM users WHERE telegram_id=$1',tg)
+    if holder and holder['role']=='guardian':
+        from .guardian_port import guardian_channel_gate
+        return await guardian_channel_gate(tg)
     channels=await list_channels(conn)
     if not channels:return None
     token=os.getenv('TELEGRAM_BOT_TOKEN')

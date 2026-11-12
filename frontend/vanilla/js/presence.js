@@ -1,6 +1,6 @@
 /** A single heartbeat for the signed-in workspace, including detached focus routes. */
 export function watchPresence({signal,session}){
- if(session?.user.accountStatus!=='active'||signal.aborted)return;
+ if(session?.user.accountStatus!=='active'||session.user.role==='guardian'||signal.aborted)return;
  let busy=false,lastInput=Date.now();
  const activity=()=>{lastInput=Date.now();};
  for(const event of ['pointerdown','pointermove','keydown','touchstart'])window.addEventListener(event,activity,{signal,passive:true});

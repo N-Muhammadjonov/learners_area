@@ -22,8 +22,9 @@ export function createTopbar(context){
  const search=globalSearch(context),profile=profileMenu(context),pref=controls(context);
  pref.className='native-topbar-preferences';pref.removeAttribute('data-auth-controls');
  pref.setAttribute('data-campus-header-preferences','');
- top.append(el('div',{'data-campus-header-search':''},search.node),pref,
-  el('div',{'data-campus-header-profile':''},notificationBell(context),profile.node));
+ const guardian=context.session?.user?.role==='guardian';
+ top.append(el('div',{'data-campus-header-search':''},guardian?null:search.node),pref,
+  el('div',{'data-campus-header-profile':''},...(guardian?[]:[notificationBell(context)]),profile.node));
  const chrome=campusHeader(top,context);
  chrome.update(context.url);return {top,chrome,search,profile,pref};
 }

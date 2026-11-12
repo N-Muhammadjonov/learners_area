@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urlsplit
 
 from aiogram import F, Router
@@ -124,6 +125,11 @@ async def cmd_start(
         await message.answer(t(lang, "confirm_failed"))
         return
     telegram_id = str(message.from_user.id)
+    if re.fullmatch(r"g_[0-9a-f]{24}", args):
+        # Parent invitation deep link: separate flow, never creates a student account or admission request.
+        from handlers.guardian import start_invite
+        await start_invite(message, state, args, lang)
+        return
     try:
         status, data = await api_client.auth_context(telegram_id, args)
         if status == 200 and isinstance(data, dict) and data.get("ok") is True:

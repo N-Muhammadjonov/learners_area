@@ -28,9 +28,20 @@ def _lang(event, db_user, contact=None) -> str:
     return "en" if str(code).startswith("en") else "uz"
 
 
-def main_keyboard(lang: str, bot_access: dict | None) -> InlineKeyboardMarkup:
+def main_keyboard(lang: str, bot_access: dict | None, role: str | None = None, account_status: str | None = None) -> InlineKeyboardMarkup:
+    if role == "guardian":
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=t(lang, "g_btn_results"), callback_data="m:login")],
+            [InlineKeyboardButton(text=t(lang, "g_btn_site"), callback_data="m:login")],
+            [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support")],
+            [InlineKeyboardButton(text=t(lang, "menu_language"), callback_data="m:lang")],
+        ])
     rows = [
         [InlineKeyboardButton(text=t(lang, "menu_login"), callback_data="m:login")],
+    ]
+    if role == "student" and account_status == "active":
+        rows.append([InlineKeyboardButton(text=t(lang, "g_btn_connect"), callback_data="m:guardian")])
+    rows += [
         [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support")],
         [InlineKeyboardButton(text=t(lang, "menu_language"), callback_data="m:lang")],
     ]
@@ -71,7 +82,7 @@ async def show_home(event: Message | CallbackQuery, lang: str, bot_access: dict 
     else:
         name = (db_user or {}).get("name") or (event.from_user.full_name if event.from_user else "")
         text = t(lang, "welcome_linked", name=esc(name)) if db_user else t(lang, "welcome_new")
-    markup = main_keyboard(lang, bot_access)
+    markup = main_keyboard(lang, bot_access, (db_user or {}).get("role"), (db_user or {}).get("accountStatus"))
     if isinstance(event, CallbackQuery) and event.message:
         await event.message.edit_text(text, reply_markup=markup)
         await event.answer()

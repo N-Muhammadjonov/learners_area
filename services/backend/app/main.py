@@ -128,6 +128,12 @@ async def _load_authority(req: Request):
           LIMIT 1''', identifier, token['authVersion'], token['sessionKey'])
     if not row: return None
     user = dict(row)
+    if user['role'] == 'guardian':
+        # Parent Connect: a guardian may reach ONLY the guardian allow-list. Enforced here, once, for every
+        # route that resolves the session, so no student/staff endpoint can ever serve a guardian.
+        from .guardian_port import guardian_path_allowed
+        from fastapi import HTTPException
+        if not guardian_path_allowed(req.url.path): raise HTTPException(403, 'forbidden')
     return {'user': user, 'expiresAt': token['expiresAt'], 'sessionKey': token['sessionKey'], 'authVersion': token['authVersion']}
 
 
@@ -896,5 +902,8 @@ from .study_plan_thirty_port import install as _install_study_plan_thirty
 _install_study_plan_thirty()
 from .study_plan_level_port import install as _install_plan_level_check
 _install_plan_level_check()
+
+from .guardian_port import install as _install_guardian
+_install_guardian()
 from .study_plan_staff_port import install as _install_study_plan_staff
 _install_study_plan_staff()

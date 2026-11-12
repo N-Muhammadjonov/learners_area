@@ -17,6 +17,7 @@ from html_text import esc as _esc
 from handlers.admission import admission_router
 from handlers.channels import channels_router
 from handlers.auth import auth_router
+from handlers.guardian import guardian_router
 from handlers.menu import menu_router
 from handlers.owner import owner_router
 from handlers.panel import panel_router
@@ -49,6 +50,7 @@ def build_dispatcher() -> Dispatcher:
     dp.update.outer_middleware(DedupMiddleware())
     dp.message.outer_middleware(AuthMiddleware())
     dp.callback_query.outer_middleware(AuthMiddleware())
+    dp.include_router(guardian_router)  # before auth_router: its contact handler is state-bound
     dp.include_router(auth_router)
     dp.include_router(owner_router)
     dp.include_router(channels_router)
@@ -80,6 +82,19 @@ async def _delivery_loop(bot: Bot, stop: asyncio.Event) -> None:
                     })
             if results:
                 await api_client.report_broadcasts(results)
+            # Parent messages: only rows of batches a human already approved; failures are retried by the backend.
+            parent_results = []
+            for item in await api_client.claim_guardian_deliveries():
+                try:
+                    sent = await bot.send_message(int(item["chatId"]), _esc(item.get("text") or ""))
+                    parent_results.append({"deliveryId": item["deliveryId"], "status": "sent", "telegramMessageId": str(sent.message_id)})
+                except Exception as exc:
+                    text = str(exc).lower()
+                    blocked = "blocked" in text or "chat not found" in text or "user is deactivated" in text
+                    parent_results.append({"deliveryId": item["deliveryId"], "status": "blocked" if blocked else "failed",
+                                           "error": "delivery_failed", "retryAfterSeconds": getattr(exc, "retry_after", None)})
+            if parent_results:
+                await api_client.report_guardian_deliveries(parent_results)
             notices = await api_client.claim_notices()
             notice_results = []
             for notice in notices:

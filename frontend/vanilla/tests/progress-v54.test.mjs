@@ -115,5 +115,5 @@ test('heat levels match the original thresholds 0 / 1 / 2–3 / 4–5 / 6+', () 
 test('/app/progress is a protected native route, not the unavailable placeholder', () => {
   const route = routes.find(r => r.pattern === '/app/progress');
   assert.equal(route.protected, true);
-  assert.equal(route.load.toString().includes('modules/progress/page.js'), true);
+  assert.equal(route.load.toString().includes('modules/guardian/progress-entry.js'), true); // role-aware entry: non-guardians get modules/progress/page.js unchanged
 });

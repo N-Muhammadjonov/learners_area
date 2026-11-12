@@ -2186,7 +2186,7 @@ async def _authenticate_ws(ws: WebSocket) -> dict[str, Any] | None:
     except Exception:
         LOG.error('Database failure during WebSocket authentication; denying fail-closed', exc_info=True)
         return None
-    if not row or row.get('account_status') != 'active':
+    if not row or row.get('account_status') != 'active' or row.get('role') == 'guardian':
         return None
     user_dict = dict(row)
     user_dict['_session_expires_at'] = float(expires_at) if isinstance(expires_at, (int, float)) else None

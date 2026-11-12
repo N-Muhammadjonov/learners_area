@@ -260,5 +260,36 @@ class ApiClient:
             json={"actorTelegramId": actor, "challengeId": challenge_id, "decision": decision},
         )
 
+    # ── Parent Connect ──────────────────────────────────────────────
+    async def guardian_invite(self, telegram_user_id: str, relationship: str | None = None) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/invitations", json={"telegramUserId": telegram_user_id, "relationship": relationship})
+
+    async def guardian_student_links(self, telegram_user_id: str) -> tuple[int, Any]:
+        return await self._request("GET", "/guardians/student-links", params={"telegramUserId": telegram_user_id})
+
+    async def guardian_decide(self, actor: str, link_id: str, decision: str) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/decide", json={"actorTelegramId": actor, "linkId": link_id, "decision": decision})
+
+    async def guardian_redeem(self, telegram_user_id: str, token: str, display_name: str, language: str) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/redeem", json={
+            "telegramUserId": telegram_user_id, "token": token, "displayName": display_name, "languageCode": language})
+
+    async def guardian_state(self, telegram_user_id: str) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/state", json={"telegramUserId": telegram_user_id})
+
+    async def guardian_relationship(self, telegram_user_id: str, link_id: str, relationship: str) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/relationship", json={
+            "telegramUserId": telegram_user_id, "linkId": link_id, "relationship": relationship})
+
+    async def guardian_check_channel(self, telegram_user_id: str, link_id: str) -> tuple[int, Any]:
+        return await self._request("POST", "/guardians/check-channel", json={"telegramUserId": telegram_user_id, "linkId": link_id})
+
+    async def claim_guardian_deliveries(self) -> list[dict[str, Any]]:
+        status, data = await self._request("POST", "/guardians/deliveries/claim", json={"limit": 10})
+        return data.get("deliveries", []) if status == 200 and isinstance(data, dict) else []
+
+    async def report_guardian_deliveries(self, results: list[dict[str, Any]]) -> None:
+        await self._request("POST", "/guardians/deliveries/claim", json={"results": results})
+
 
 api_client = ApiClient()

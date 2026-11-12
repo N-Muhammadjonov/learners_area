@@ -3,6 +3,7 @@
   "routes": [
     "/app/dashboard",
     "/app/study-plan",
+    "/app/management/guardians",
     "/app/study-plan/leaderboard",
     "/app/study-plan/rewards",
     "/study-plan/shared",
