@@ -120,3 +120,10 @@ Code fix: retaining both canonical and curated collocations without losing eithe
 - Produce reproducible immutable candidate R2 release, full source/presentation/hash QA, rollback pointer and deployment readback before changing the stable channel.
 - Rebase or reconcile independently advanced `main` only after test gates; do not silently merge.
 
+
+## Verified regression gate — final focused run
+
+- GitHub Actions: https://github.com/N-Muhammadjonov/learners_area/actions/runs/43232070037
+- Run completed successfully: **85 passed, 1 warning**, plus `compileall` PASS.
+- Includes three frozen-receipt assertions and four new sense-isolation/preservation tests (two synonym and two collocation cases).
+- External language correctness still requires source-by-source review; passing test code cannot certify unreviewed translations.
