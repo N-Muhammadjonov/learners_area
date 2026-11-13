@@ -158,6 +158,16 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
   }
   post('learners-area-media-state',packet);
  }
+ let savedScriptPart=null;
+ async function refreshScriptSaved(){
+  if(!content?.nativePersistence||!stateReady||authorityBlocked||navigationExpired||liveSignal.aborted)return;
+  const owner=frame;
+  try{
+   const response=await request('/api/vocabulary/source-saved?sourceType=listening&sourceId='+encodeURIComponent(id));
+   if(owner!==frame||!stateReady||authorityBlocked||navigationExpired||!Array.isArray(response.savedOccurrences))return;
+   post('learners-area-script-saved',{savedOccurrences:response.savedOccurrences});
+  }catch{}
+ }
  function post(channel,data){if(!liveSignal.aborted&&!authorityBlocked&&!navigationExpired)frame?.contentWindow?.postMessage({channel,token,...data},'*');}
  activityBack({host,signal:liveSignal,active:()=>!!content?.nativePersistence&&host.hasAttribute('data-activity-active'),back:()=>post('learners-area-activity-back',{})});
  host.returnToHub=()=>post('learners-area-activity-back',{});
@@ -176,7 +186,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  // Native page already has a single accessible parent Back control.
  // Hide the redundant authored activity strip (Activities + Telegram brand).
  if(content.nativePersistence){html=html.replace(/<\/head>/i,'<style id="la-listening-parent-navigation">.activity-top{display:none!important}.exam-header{top:0!important;z-index:1000!important}.exam-interface{min-height:100vh!important}.part-header{scroll-margin-top:65px!important}.questions-section{scroll-margin-top:65px!important}html{scroll-padding-top:65px!important}</style></head>');}
- const progressive=content.sharedMedia,doc=isolateAuthoredDocument(html,(progressive?authoredMediaBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:String(index),path:item.path})),path):rangeBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:'la-pending:'+index,path:item.path})),path))+paintedBridge(token,stored,dict.fullListeningHub.examScreen.noteTaking,content.storageKey,content.course,progressive,content.contextualOccurrences??[])+(content.nativePersistence?originalExamPolicy(content.storageKey)+originalExamWorkflow()+authoredHeader()+checkpointNotice(token)+examTools()+originalReview()+originalReviewV16(token)+reviewNavigationBridge(token)+originalPracticeState()+originalScriptAccessibility()+originalRetryPolicy(token):''));
+ const progressive=content.sharedMedia,doc=isolateAuthoredDocument(html,(progressive?authoredMediaBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:String(index),path:item.path})),path):rangeBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:'la-pending:'+index,path:item.path})),path))+paintedBridge(token,stored,dict.fullListeningHub.examScreen.noteTaking,content.storageKey,content.course,progressive,content.contextualOccurrences??[])+(content.nativePersistence?originalExamPolicy(content.storageKey)+originalExamWorkflow()+authoredHeader()+checkpointNotice(token)+examTools()+originalReview()+originalReviewV16(token)+reviewNavigationBridge(token)+originalPracticeState()+originalScriptAccessibility(token)+originalRetryPolicy(token):''));
  frame?.remove();frame=el('iframe',{title:dict.nav.listening,sandbox:AUTHORED_SANDBOX,referrerpolicy:'no-referrer',src:`/api/listening/full/${encodeURIComponent(id)}/sandbox${content.nativePersistence?(location.hash.startsWith('#review')?'':location.hash):''}`,class:'h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0',allow:'autoplay; fullscreen'});const owner=frame;owner.addEventListener('load',()=>{if(frame!==owner||!owner.isConnected)return;post('learners-area-sandbox-init',{html:doc,assets:blobs});},{once:true,signal:anySignal([liveSignal,frameAbort.signal])});owner.addEventListener('error',()=>{if(frame===owner)frameFailure();},{once:true,signal:anySignal([liveSignal,frameAbort.signal])});loading.remove();host.append(frame);frameReadyTimer=setTimeout(()=>{if(frame===owner&&!hubReady)frameFailure();},12000);}
  async function load(){try{const response=await request(`/api/listening/full/${id}/authored`);if(liveSignal.aborted)return;if(response?.kind==='exam_required'){host.replaceChildren(secureExamGate(context,response,id));return;}const data=authoredContent(response);if(liveSignal.aborted)return;if(!data.runtime?.files||typeof data.runtime.entryPath!=='string'||!Array.isArray(data.vocabulary))throw Error('Invalid authored DTO');vocabulary=data.vocabulary;hydratedCourse=data.course??null;content=data;data.sharedMedia=!!data.nativePersistence||Object.values(data.runtime.files).some(html=>/id=["']sharedAudio["']/.test(html));
  {for(const [index,item]of [{path:data.audioPath,url:data.audioUrl},...(data.additionalAudio??[])].entries())assets[item.path]=(data.sharedMedia?'la-media:':'la-pending:')+index;if(data.imagePath)assets[data.imagePath]='la-image:0';
@@ -201,7 +211,9 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
   host.append(anchor);
   popup=contextualWordPopover({...context,signal},{
    anchor,dict,word,sourceType:'listening',sourceId:id,occurrenceId:d.occurrenceId,
-   section:d.part,startChar:d.startChar,endChar:d.endChar,onClose:selectionClose
+   section:d.part,startChar:d.startChar,endChar:d.endChar,
+   onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
+   onClose:selectionClose
   });
  }
  async function contextualScriptWord(d){
@@ -217,7 +229,9 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
   host.append(anchor);
   popup=contextualWordPopover({...context,signal},{
    anchor,dict,word,sourceType:'listening',sourceId:id,
-   section:d.part,startChar:d.startChar,endChar:d.endChar,onClose:selectionClose
+   section:d.part,startChar:d.startChar,endChar:d.endChar,
+    onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
+    onClose:selectionClose
   });
  }
  async function guardedWord(d){if(!content?.nativePersistence)return word(d);if(navigationExpired||authorityBlocked||examLock||!stateReady)return;const term=reviewTerm(d.word);if(!term)return;selectionClose();const generation=reviewLexicalVersion,owner=frame,controller=new AbortController();reviewLexicalController=controller;const lexicalSignal=anySignal([liveSignal,controller.signal]);try{const access=await request(`/api/vocabulary/meaning?sourceId=${encodeURIComponent(id)}&q=${encodeURIComponent(term)}`,{signal:lexicalSignal});if(lexicalSignal.aborted||generation!==reviewLexicalVersion||owner!==frame||authorityBlocked||examLock||!stateReady)return;if(access?.status!=='unresolved'||access.contextual!==null)throw Error('Invalid spelling permission response');await word(d);}catch(cause){if(lexicalSignal.aborted||generation!==reviewLexicalVersion)return;reviewLexicalNotice.textContent=checkpointMessage(cause,document.documentElement.lang);if(!reviewLexicalNotice.isConnected)host.prepend(reviewLexicalNotice);if([401,403,404].includes(cause.status))checkpointFailure(cause);}}
@@ -241,7 +255,12 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  if(d.op==='media'&&!content?.sharedMedia&&hubReady){if(d.action==='range-pull')void rangeMedia?.pull(d.mediaId,d.offset);else if(d.action==='range-failed')error();return;}
  if(d.op==='media'&&content?.sharedMedia){if(hubReady&&stateReady)void media?.command(d);else if(earlyMedia.length<128)earlyMedia.push(d);else if(d.requestId!==undefined)post('learners-area-media-state',{requestId:d.requestId,ok:false,error:'InvalidStateError'});return;}
  if(!stateReady&&['storage','course','word'].includes(d.op))return;
- if(d.op==='view'&&typeof d.hub==='boolean'){if((authorityBlocked||navigationPending)&&!d.navigationSequence||d.navigationSequence&&(authorityBlocked||d.navigationSequence!==navigationPending))return;recordLocation(d);if(d.navigationSequence&&!d.navigationFocused&&d.navigation?.activity==='review')return;if(typeof d.reviewActive==='boolean'){const next=d.reviewActive&&Number.isInteger(d.reviewPart)?d.reviewPart:null;if(next!==reviewView){selectionClose();invalidateDiscovery();reviewView=next;reviewEpoch++;resetRecoveryReads();host.querySelector('[data-review-recovery]')?.remove();reviewAckVisible=false;reviewWriter.saved=null;if(next!==null)recoverReview();}}host.toggleAttribute('data-listening-exam-active',!d.hub&&d.navigation?.activity==='exam');if(d.hub){cancelRetries();host.removeAttribute('data-activity-active');}else host.setAttribute('data-activity-active','true');return;}
+ if(d.op==='view'&&typeof d.hub==='boolean'){if((authorityBlocked||navigationPending)&&!d.navigationSequence||d.navigationSequence&&(authorityBlocked||d.navigationSequence!==navigationPending))return;recordLocation(d);
+   if(d.navigation?.activity==='script'&&d.navigation.part!==savedScriptPart){
+    savedScriptPart=d.navigation.part;
+    void refreshScriptSaved();
+   }else if(d.navigation?.activity!=='script')savedScriptPart=null;
+   if(d.navigationSequence&&!d.navigationFocused&&d.navigation?.activity==='review')return;if(typeof d.reviewActive==='boolean'){const next=d.reviewActive&&Number.isInteger(d.reviewPart)?d.reviewPart:null;if(next!==reviewView){selectionClose();invalidateDiscovery();reviewView=next;reviewEpoch++;resetRecoveryReads();host.querySelector('[data-review-recovery]')?.remove();reviewAckVisible=false;reviewWriter.saved=null;if(next!==null)recoverReview();}}host.toggleAttribute('data-listening-exam-active',!d.hub&&d.navigation?.activity==='exam');if(d.hub){cancelRetries();host.removeAttribute('data-activity-active');}else host.setAttribute('data-activity-active','true');return;}
  if(d.op==='course'&&content?.nativePersistence&&d.activity==='retry'&&Number.isSafeInteger(d.cancelRequestId)){retryReads.get(d.cancelRequestId)?.abort();retryReads.delete(d.cancelRequestId);return;}
  if(d.op==='course'&&content?.nativePersistence&&d.activity==='retry'&&Number.isSafeInteger(d.requestId)&&d.requestId>0){const owner=frame,answers=d.answers,questions=Object.keys(answers).map(n=>({number:Number(n)}));if(!questions.length||Object.entries(answers).some(([key,value])=>!/^([1-9]|[1-3][0-9]|40)$/.test(key)||value.length>500))return;if(retryReads.has(d.requestId))return;cancelRetries();const controller=new AbortController();retryReads.set(d.requestId,controller);void request(`/api/listening/full/${id}/practice`,{method:'POST',body:{kind:'retry',answers,complete:false},signal:controller.signal,timeoutMs:12000}).then(data=>{if(frame!==owner||controller.signal.aborted)return;const results=practiceResult(data,questions);if(results.length!==questions.length||new Set(results.map(r=>r.number)).size!==results.length)throw Error('Invalid retry result');post('learners-area-retry-result',{requestId:d.requestId,ok:true,results});}).catch(()=>{if(frame===owner&&!controller.signal.aborted)post('learners-area-retry-result',{requestId:d.requestId,ok:false});}).finally(()=>{if(retryReads.get(d.requestId)===controller)retryReads.delete(d.requestId);});return;}
 
