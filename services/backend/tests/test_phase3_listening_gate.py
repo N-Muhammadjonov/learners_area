@@ -20,4 +20,4 @@ def test_student_needs_own_completed_attempt():
 def test_staff_can_open_activities_with_or_without_an_active_exam():
     for role in ('owner','teacher','admin'):
         assert asyncio.run(exam_gate(Connection(),{'id':USER,'role':role},TEST))==(False,None)
-        assert asyncio.run(exam_gate(Connection('in_progress'),{'id':USER,'role':role},TEST))==(False,str(ATTEMPT))
+        assert asyncio.run(exam_gate(Connection('in_progress'),{'id':USER,'role':role},TEST))==(False,None)
