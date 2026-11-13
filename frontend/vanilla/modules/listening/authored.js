@@ -197,7 +197,20 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  function queue(task){writes=writes.then(async()=>{for(let retry=0;retry<3;retry++){if(liveSignal.aborted)return;try{await task();if(!liveSignal.aborted&&!pending)clearError();return;}catch{if(retry<2)await new Promise(resolve=>{const timer=setTimeout(done,1000*(retry+1));function done(){clearTimeout(timer);liveSignal.removeEventListener('abort',done);resolve();}liveSignal.addEventListener('abort',done,{once:true});});}}error();});}
  async function reviewWord(d){if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;const term=reviewTerm(d.word);if(!term)return;selectionClose();const generation=reviewLexicalVersion,owner=frame;reviewLexicalController=new AbortController();const lexicalSignal=anySignal([liveSignal,reviewLexicalController.signal]);try{const access=await request(`/api/vocabulary/meaning?sourceId=${encodeURIComponent(id)}&q=${encodeURIComponent(term)}`,{signal:lexicalSignal});if(lexicalSignal.aborted||generation!==reviewLexicalVersion||frame!==owner||authorityBlocked||examLock||!stateReady)return;if(access?.status!=='unresolved'||access.contextual!==null)throw Error('Invalid spelling-only lexical response');const position=frame.getBoundingClientRect();anchor=el('span',{class:'fixed h-px w-px',style:{left:Math.max(8,Math.min(position.left+d.x,innerWidth-24))+'px',top:Math.max(8,Math.min(position.top+d.y,innerHeight-24))+'px'}});host.append(anchor);popup=wordPopover({...context,signal:lexicalSignal},{anchor,dict,word:term,sourceType:'listening',sourceId:id,catalogueLookup:true,accessibleDismiss:true,onClose:()=>{selectionClose();post('learners-area-review-lexical-close',{});}});}catch(cause){if(lexicalSignal.aborted||generation!==reviewLexicalVersion)return;reviewLexicalNotice.textContent=checkpointMessage(cause,document.documentElement.lang);if(!reviewLexicalNotice.isConnected)host.prepend(reviewLexicalNotice);if([401,403,404].includes(cause.status))checkpointFailure(cause);}}
  // Native legacy modes share the SAME server gate: child mode cannot route around Review permission.
- async function exactScriptWord(d){selectionClose();const controller=new AbortController();reviewLexicalController=controller;const signal=anySignal([liveSignal,controller.signal]),owner=frame,version=reviewLexicalVersion;try{const result=await request('/api/vocabulary/lookup?sourceType=listening&sourceId='+encodeURIComponent(id)+'&occurrenceId='+encodeURIComponent(d.occurrenceId),{signal});if(signal.aborted||frame!==owner||version!==reviewLexicalVersion||authorityBlocked||examLock||!stateReady)return;if(result.status!=='resolved'||!result.contextual||result.occurrenceId!==d.occurrenceId)return;anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});host.append(anchor);popup=contextualWordPopover({...context,signal},{anchor,dict,word:result.contextual.term,sourceType:'listening',sourceId:id,occurrenceId:d.occurrenceId,onClose:selectionClose});}catch(cause){if(!signal.aborted&&[401,403].includes(cause?.status))checkpointFailure(cause);}}
+ async function exactScriptWord(d){
+  if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;
+  const word=reviewTerm(d.word);
+  if(!word||typeof d.occurrenceId!=='string')return;
+  selectionClose();
+  const controller=new AbortController();reviewLexicalController=controller;
+  const signal=anySignal([liveSignal,controller.signal]);
+  anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
+  host.append(anchor);
+  popup=contextualWordPopover({...context,signal},{
+   anchor,dict,word,sourceType:'listening',sourceId:id,occurrenceId:d.occurrenceId,
+   section:d.part,startChar:d.startChar,endChar:d.endChar,onClose:selectionClose
+  });
+ }
  async function contextualScriptWord(d){
   if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;
   const word=reviewTerm(d.word);
