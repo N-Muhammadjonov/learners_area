@@ -87,7 +87,32 @@ async def meaning(req:Request):
             if access!='allowed':return core.j({'error':'lexical_assistance_locked'},403,PRIVATE)
             if result is None:return core.j({'error':'source_not_found'},404,PRIVATE)
             return core.j({'status':'resolved' if result.get('contextual') else 'unresolved','known':None,**result},headers=PRIVATE)
-        return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
+        try:
+            start=int(req.query_params['startChar'])
+            end=int(req.query_params['endChar'])
+        except (KeyError,ValueError):
+            return core.j({'error':'invalid_input'},400,PRIVATE)
+        section=req.query_params.get('section')
+        async with db.acquire() as con:
+            if source=='reading':
+                passage=await con.fetchrow('SELECT body_text FROM reading_passages WHERE id=$1',core.uuid_value(id))
+                body=passage['body_text'] if passage else None
+            else:
+                import json
+                record=await con.fetchrow('SELECT payload FROM listening_packages WHERE test_id=$1',core.uuid_value(id))
+                package=record['payload'] if record else {}
+                if isinstance(package,str):package=json.loads(package)
+                parts=package.get('sections',[]) if isinstance(package,dict) else []
+                try:part=int(section or '0')
+                except ValueError:part=0
+                body=parts[part-1].get('transcript') if 1<=part<=len(parts) and isinstance(parts[part-1],dict) else None
+            if not isinstance(body,str):
+                return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
+            from .retention_meaning import lookup_source_text
+            result=await lookup_source_text(con,user,body,term,start,end)
+            if result is None:return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
+            return core.j({'status':'resolved' if result.get('contextual') else 'unresolved',
+                           'known':None,**result},headers=PRIVATE)
     except Exception:return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
 
 def install():core.app.include_router(router)
