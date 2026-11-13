@@ -136,11 +136,6 @@
     "/app/admin/materials/[^/]+/[^/]+",
     "/app/admin/writing/[^/]+/[^/]+",
     "/app/writing/prompts/[^/]+",
-    "/method",
-    "/about",
-    "/faq",
-    "/contact",
-    "/privacy",
     "/landing",
     "/app/reading/articles",
     "/app/reading/articles/[^/]+"
