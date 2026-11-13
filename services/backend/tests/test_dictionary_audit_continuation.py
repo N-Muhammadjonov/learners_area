@@ -156,3 +156,52 @@ def test_twenty_phase_recovery_cannot_claim_structural_coverage_as_linguistic_pa
     assert data['full_linguistic_senses_completed'] is None
     for phase in phases[:9]:
         assert hashlib.sha256((ROOT / phase['source_receipt']).read_bytes()).hexdigest() == phase['receipt_sha256']
+
+
+def test_lexical_decisions_cover_each_field_and_match_current_candidate_values():
+    from app.dictionary_presentation import present
+    ledger = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-lexical-decisions-1701-1702.json').read_text())
+    required = {'definition_en', 'definition_uz', 'translation_uz', 'cefr', 'synonyms', 'antonyms', 'collocations'}
+    seen = set()
+    for row in ledger['senses']:
+        key = (row['lexeme_id'], row['sense_id'])
+        assert key not in seen
+        seen.add(key)
+        original = source(row['lemma'])
+        sense = next(s for s in original['senses'] if s['sense_id'] == row['sense_id'])
+        assert row['meaning_sha'] == curation.original_meaning_hash(original, sense)
+        candidate = curation.curate_candidate_entry(original)
+        revised = next(s for s in candidate['senses'] if s['sense_id'] == row['sense_id'])
+        view = present(candidate)['senses'][row['sense_id']]
+        assert set(row['fields']) == required
+        for name, decision in row['fields'].items():
+            assert decision['evidence_urls'] and decision['reasoning'] and decision['decision']
+            if name in ('synonyms', 'antonyms', 'collocations'):
+                assert decision['after'] == view[name]
+            else:
+                assert decision['after'] == revised.get('translations' if name == 'translation_uz' else name)
+        assert row['full_pipeline_signoff'] is False
+    assert ledger['scope']['senses'] == len(seen)
+    assert ledger['scope']['field_decisions'] == len(seen) * len(required)
+    assert ledger['scope']['new_source_readback_lexemes'] == 0
+    assert ledger['phase_complete'] is False
+
+
+def test_unproven_levels_become_null_without_clearing_evidenced_or_unreviewed_senses():
+    assert curation.curate_candidate_entry(source('mottle'))['senses'][0].get('cefr') is None
+    quart = curation.curate_candidate_entry(source('quart'))
+    levels = {s['sense_id']: s.get('cefr') for s in quart['senses']}
+    assert levels == {
+        '11e70d5b-274a-42ec-aaff-de64838e111e': 'C2',
+        '62e0a647-d75f-42fc-8d02-5f116a32b9ec': None,
+        '981a5175-47af-445c-9ca2-651373deebfd': 'C2',
+    }
+    patches = curation.load_corrections()['entries']
+    for original in receipt()['lexemes']:
+        candidate = curation.curate_candidate_entry(original)
+        for before, after in zip(original['senses'], candidate['senses']):
+            patch = patches.get(original['lexeme_id'], {}).get(before['sense_id'], {})
+            if 'replace_cefr' not in patch:
+                assert before.get('cefr') == after.get('cefr')
+    imperial = next(s for s in quart['senses'] if s['sense_id'] == '981a5175-47af-445c-9ca2-651373deebfd')
+    assert 'approximately 1.137 litres' in imperial['definition_en']

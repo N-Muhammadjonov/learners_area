@@ -669,3 +669,13 @@ Collocation saqlashda mavjud bo‘lmagan target sense ID yoki ma’nosi ko‘rsa
 DOM interaction regressiyalari: **20 passed / 0 failed / 0 skipped**. Bu synthetic transport sinovlari; production brauzer QA deb hisoblanmaydi. Manba matnlari yoki misol gaplar tahrirlanmagan.
 
 Native asset build PASS (1 008 fayl), JavaScript parse PASS, diff check PASS. UI tuzatishlari yangi audit qilingan leksema yoki ma’no soniga qo‘shilmadi. Dalil: `content/dictionary/audit-20261113-ui-meaning-boundaries.json`.
+
+### Ma’nolar bo‘yicha alohida til maydonlari qarorlari
+
+`mottle` va `quart`ning **4 ma’nosi uchun 28 ta alohida maydon qarori** yozildi: English ta’rif, Uzbek ta’rif, tarjima, CEFR, synonym, antonym va collocation. Har birida dastlabki va candidate qiymat, manba havolasi va sabab bor. O‘zbekcha semantik tekshiruv editorial deb ochiq belgilandi; bilingual lug‘at buni mustaqil tasdiqladi degan da’vo yo‘q. Bu **yangi source readback emas** va 1 730 leksema hisobiga qayta qo‘shilmaydi.
+
+`mottle` noun va AQSh quruq `quart` ma’nosi uchun tekshirilgan manbalarda ishonchli CEFR dalili bo‘lmagani sabab daraja null qilindi. Suyuqlik quarti haqidagi C2 boshqa hajmga avtomatik ko‘chirilmagan. Britaniya imperial quarti ta’rifida yaxlitlangan litr “taxminan” deb aniqlandi. Qolgan tekshirilmagan CEFRlar ommaviy o‘zgartirilmagan. Leksema, source ma’no ID va meaning_sha saqlangan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1701-1702.json`. Ushbu guruhda ham misol gaplar keyingi bosqichga qoldirilgan; **butun 9-bosqich yoki butun lug‘at tugamagan**. Yangi mahalliy backend gate: **176 passed / 0 failed / 0 skipped / 1 warning**.
+
+Avvalgi UI commit `86be7f1c1cd5402945335c3cc5cff5db516129f8` uchun GitHub Actions `43358661596`: backend va browser-dictionary joblari SUCCESS. Dalil: `content/dictionary/audit-20261113-validation-86be7f1c.json`.

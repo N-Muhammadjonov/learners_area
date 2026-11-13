@@ -1914,6 +1914,30 @@
         "replace_definition_uz": {
           "original": "AQShning quruq hajm birligi bo‘lib, 2 pint yoki 67,2 kub dyuymga teng",
           "text": "AQShda sochiluvchan mahsulotlar hajmini o‘lchash birligi: ikki quruq pintga, taxminan 1,101 litr yoki 67,2 kub dyuymga teng."
+        },
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      },
+      "981a5175-47af-445c-9ca2-651373deebfd": {
+        "meaning_sha": "ff9a552dd3a54d004bfc74099c8c78d5a5c324dd792e26d4091094ed51f01e0b",
+        "replace_definition_en": {
+          "original": "a British imperial capacity measure (liquid or dry) equal to 2 pints or 1.136 liters",
+          "text": "a British imperial volume unit equal to two imperial pints, approximately 1.137 litres"
+        },
+        "replace_definition_uz": {
+          "original": "Britaniya imperiya o'lchov tizimidagi suyuq yoki sochiluvchan hajm birligi; ikki pintga yoki 1,136 litrga teng.",
+          "text": "Britaniya imperiya tizimidagi suyuqlik yoki sochiluvchan mahsulotlar hajmini o‘lchash birligi: ikki imperiya pintiga, taxminan 1,137 litrga teng."
+        }
+      }
+    },
+    "6c38dae1-0602-5770-81c5-c4ae23eee1c2": {
+      "26b7ca51-2502-53b0-b350-127cc1202bef": {
+        "meaning_sha": "1f007b5275b7c3bdbf7851fa20ec99576a4386233bf3627488ea10ddbb617632",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
         }
       }
     }
