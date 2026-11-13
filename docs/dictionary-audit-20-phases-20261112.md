@@ -729,3 +729,16 @@ Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1711-1717.js
 Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1718-1719.json`. Mahalliy backend: **184 passed / 0 failed / 0 skipped / 1 warning**. Ma’no chegaralari uchun eski assertion haqiqiy candidate qiymatlariga mos yangilandi; skip qo‘shilmadi. Misollar o‘zgarmagan. Hali **0/20** bosqich to‘liq tugagan; joriy guruhning qolgan **11 leksema / 19 ma’nosi** `airspeed`dan boshlanadi.
 
 Avvalgi `e0632e284421aeb2bb96b91ad8999ad55e3ea633` uchun GitHub Actions `43363547286`: **182 backend + 20 DOM testi PASS**, 0 failed/skip, compile PASS. Vercel aynan shu SHA uchun 0 deployment qaytardi. Dalil: `content/dictionary/audit-20261113-validation-e0632e28.json`.
+
+
+### 1 720–1 726-leksemalar — aviatsiya, musiqa va aniq terminlar
+
+**7 leksema / 8 ma’no / 56 maydon qarori**: `airspeed`, `bird’s-eye`, `quaver` ikki ma’nosi, `aforementioned`, `preliminary prospectus`, `acerola`, `breathing`. Jami batafsil qamrov **26 leksema / 37 ma’no / 259 qaror**; yangi source readback 0.
+
+`airspeed` C2 → B2 — aynan havo tezligi noun uchun birlamchi dalil bor; UZ havo kemasini faqat samolyot bilan cheklamaydi. `quaver`ning musiqiy nota ma’nosida dalilli C2 saqlandi, titroq tovush ma’nosida null qilindi; Britaniya usage aniqlandi. Qolgan besh leksemaning ishonchsiz darajalari null qilindi. `aforementioned`dagi rasmiy sifat ma’nosi va `breathing`ning odatdagidek nafas olayotgan/ola oladigan mazmuni to‘g‘rilandi. `acerola` ta’rifida S vitamini → C vitamini. Dastlabki prospekt qimmatli qog‘ozlar hujjati sifatida aniqlandi; bir yurisdiksiyadagi majburiyat universal lug‘aviy ta’rif qilinmadi.
+
+Mavjud synonym/antonym targetlarining aniq ma’nolari saqlandi: `panoramic` faqat yuqoridan ko‘rinish; `said` adjective; `red herring` moliyaviy hujjat; `breathless` nafas qiyinligi. Oltita dalilli collocation tegishli ma’nolarga qo‘shildi. `eighth note` va `barbados cherry` uchun exact frozen lemma so‘rovi target topmadi; ID o‘ylab topilmadi.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1720-1726.json`. Mahalliy backend: **185 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar o‘zgarmagan; **0/20** bosqich to‘liq tugagan. Joriy source guruhida keyingi **4 leksema / 11 ma’no**: `vacuity`, `price`, `ooh`, `hum`.
+
+`0a56bbe76042d23c96c4180ad9969ce9251a4e42` uchun GitHub Actions `43364401387`: **184 backend + 20 DOM testi PASS**, compile PASS, 0 failed/skip. Vercel shu SHA uchun 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-0a56bbe7.json`.

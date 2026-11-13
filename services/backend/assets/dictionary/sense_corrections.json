@@ -1818,6 +1818,15 @@
             "senseId": "b00023a4-913b-481e-bdb4-1a9586120194",
             "partOfSpeech": "a"
           }
+        ],
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "bird’s-eye view"
+          }
         ]
       }
     },
@@ -1837,6 +1846,23 @@
             "senseId": "a791fda9-234e-4e64-bef6-f9c59ea1d3f0",
             "partOfSpeech": "a"
           }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "being the one previously mentioned or spoken of",
+          "text": "(formal) already mentioned earlier in a text or discussion."
+        },
+        "replace_definition_uz": {
+          "original": "Oldinroq aytilgan yoki yozuvda eslatilgan shaxs yoki narsaga tegishli.",
+          "text": "(rasmiy) oldinroq tilga olingan yoki yozuvda eslatilgan."
+        },
+        "add_collocations": [
+          {
+            "text": "the aforementioned person"
+          }
         ]
       }
     },
@@ -1850,7 +1876,23 @@
             "senseId": "0a9abbfb-c2fe-5388-9f6a-e50c7bf64f4d",
             "partOfSpeech": "n"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a first draft of a prospectus; must be clearly marked to indicate that parts may be changed in the final prospectus",
+          "text": "An early version of a document describing securities offered for sale to potential investors, issued before the final prospectus and subject to revision."
+        },
+        "replace_definition_uz": {
+          "original": "prospektning birinchi loyihasi bo‘lib, yakuniy nusxada ayrim qismlar o‘zgarishi mumkinligi aniq belgilanishi kerak",
+          "text": "Qimmatli qog‘ozlar taklifini potensial investorlarga tushuntiruvchi, yakuniy nusxadan oldin chiqariladigan va o‘zgartirilishi mumkin bo‘lgan dastlabki hujjat."
+        },
+        "replace_translation_uz": {
+          "original": "dastlabki prospekt",
+          "text": "qimmatli qog‘ozlar emissiyasining dastlabki prospekti"
+        }
       }
     },
     "6c503495-e4a8-5173-92c1-19ab8cad8a91": {
@@ -1877,7 +1919,19 @@
             "senseId": "acd35a3a-ddde-5910-a5ab-875cc75b571a",
             "partOfSpeech": "a"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "O‘pkaga havoni odatdagidek kiritib-chiqara oladigan; ba’zan qo‘shma shaklda ishlatiladi.",
+          "text": "Havoni o‘pkaga odatdagidek olib kirib-chiqarayotgan yoki shunday nafas ola oladigan."
+        },
+        "replace_translation_uz": {
+          "original": "nafas olayotgan",
+          "text": "odatdagidek nafas olayotgan yoki nafas ola oladigan"
+        }
       }
     },
     "6c5572d6-4a84-5c62-a87e-8b5c6e416070": {
@@ -2220,6 +2274,78 @@
         "add_collocations": [
           {
             "text": "caught in the crossfire"
+          }
+        ]
+      }
+    },
+    "6c4a2ca3-fe53-5a00-b1c3-eb789cfeeb8a": {
+      "91ad6046-493d-41e1-8673-a4543efb3409": {
+        "meaning_sha": "361a2b9137c02817bbfb9a76e0b33159840ca5dd8091c3fbd20401a4195e06d5",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "B2"
+        },
+        "replace_definition_uz": {
+          "original": "Samolyotning o'zi uchayotgan havoga nisbatan tezligi.",
+          "text": "Havo kemasining o‘zi uchayotgan havoga nisbatan tezligi."
+        },
+        "replace_translation_uz": {
+          "original": "havoga nisbiy tezlik",
+          "text": "havoga nisbatan tezlik"
+        },
+        "add_collocations": [
+          {
+            "text": "true airspeed"
+          },
+          {
+            "text": "indicated airspeed"
+          }
+        ]
+      }
+    },
+    "6c4d9c3a-7094-5b5e-b02d-3d4057525838": {
+      "09faa653-ccae-55f5-8719-878ca2763467": {
+        "meaning_sha": "a19e1d87186be41b125d530f281df79141b5f9de3024a2cfa446d5a9a1f80af6",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_translation_uz": {
+          "original": "titrashli tovush",
+          "text": "titroq tovush"
+        },
+        "add_collocations": [
+          {
+            "text": "a quaver in her voice"
+          }
+        ]
+      },
+      "e67bf88c-580d-5f48-bb7b-329e346b279b": {
+        "meaning_sha": "ff41449beb369a39d647bd7e962199ab124637e2c3d3029323e01bbb7661150a",
+        "replace_definition_en": {
+          "original": "a musical note having the time value of an eighth of a whole note",
+          "text": "(British English) a musical note lasting one eighth of a whole note."
+        },
+        "replace_definition_uz": {
+          "original": "Butun notaning sakkizdan bir vaqt qiymatiga ega musiqiy nota.",
+          "text": "(Britaniya inglizchasida) davomiyligi butun notaning sakkizdan biriga teng musiqiy nota."
+        }
+      }
+    },
+    "6c4fa2ea-0ed6-5b89-b20a-adcdcd2a328a": {
+      "6fe9c4b0-6a7a-5280-acfb-cb85ad4b8793": {
+        "meaning_sha": "24eba0a2daf6ad89e1814b6a3396f17c2e51537e3f2d48ff0a1cf79894ab22ba",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "S vitaminiga nihoyatda boy bo'lgan, tropik Amerikada o'suvchi butaning nordon qizil yoki sariq olchasimon mevasi.",
+          "text": "C vitaminiga nihoyatda boy bo‘lgan, tropik Amerikada o‘suvchi butaning nordon qizil yoki sariq olchasimon mevasi."
+        },
+        "add_collocations": [
+          {
+            "text": "acerola juice"
           }
         ]
       }
