@@ -39,7 +39,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  const fragment=document.createDocumentFragment();
  for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,class:'rounded-sm bg-signal-100 text-ink-900'}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word'},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
  region.append(fragment);
- if(lexicalAssistance&&sourceType==='reading'&&sourceId){
+ if(lexicalAssistance&&(sourceType==='reading'||sourceType==='listening')&&sourceId){
   void sourceSaved(context,sourceType,sourceId).then(saved=>{
    if(signal.aborted)return;
    const ids=new Set(saved.map(row=>row.occurrenceId));
