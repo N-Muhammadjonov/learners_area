@@ -89,5 +89,6 @@ def reply(actor, message, locale):
     lines.append(instructions(entry, locale))
     lines.append('Mashqning tayyor javobini bermayman. O‘zingiz urinib ko‘ring; qaysi qadam qiyinligini aytsangiz usulini tushuntiraman.' if uz else
         'I explain the method rather than give the exercise key. Try it yourself and tell me which step is difficult.')
-    return {'answer': '\n\n'.join(lines)[:5800], 'provenance': 'canonical_grammar', 'citations': [],
+    answer = '\n\n'.join(lines).replace('**', '').replace('`', '')
+    return {'answer': answer[:5800], 'provenance': 'canonical_grammar', 'citations': [],
         'provider': {'id': 'riwi', 'model': 'riwi-site-grammar-v1', 'grammarUnitId': entry['id']}}

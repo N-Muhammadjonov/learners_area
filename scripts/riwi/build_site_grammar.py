@@ -17,8 +17,15 @@ def compile_pack():
             units = json.loads(raw.decode().split('export default', 1)[1].strip().removesuffix(';'))
             for unit in units:
                 rule = unit['rule']
+                points = list(rule['points'])
+                if unit['id'] == 'a0-2':
+                    # Preserve the book itself; correct the derived tutor's
+                    # overgeneralisation. Full forms also occur in speech.
+                    original = "Og'zaki nutqda doim shunday."
+                    assert original in points[0]
+                    points[0] = points[0].replace(original, 'Og‘zaki nutqda qisqa shakllar ko‘p ishlatiladi; urg‘u yoki qarama-qarshilikda to‘liq shakl ham keladi.')
                 entries.append({'id': unit['id'], 'track': 'grammar', 'title': unit['title'],
-                    'pattern': rule['title'], 'pointsUz': rule['points'], 'table': rule['table'],
+                    'pattern': rule['title'], 'pointsUz': points, 'table': rule['table'],
                     'examples': [{'en': x[0], 'uz': x[1]} for x in rule['examples']],
                     'stages': [{'title': s['name'], 'kinds': [e['kind'] for e in s['ex']]} for s in unit['stages']]})
         else:

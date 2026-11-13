@@ -35,3 +35,10 @@ def test_every_unit_can_teach_three_examples_and_how_to_do_all_stages(entry):
 def test_ambiguous_generic_queries_do_not_pick_a_random_unit():
     assert g.select('grammar') is None
     assert g.reply(RiwiActor(ACTOR.id, 'student', 'suspended'), 'spk-01', 'uz') is None
+
+
+def test_spoken_contractions_are_common_not_mandatory_and_markup_is_readable():
+    reply = g.reply(ACTOR, 'a0-2 darsini tushuntir', 'uz')
+    assert 'urg‘u yoki qarama-qarshilikda to‘liq shakl ham keladi' in reply['answer']
+    assert 'Og\'zaki nutqda doim shunday' not in reply['answer']
+    assert '**' not in reply['answer'] and '`' not in reply['answer']
