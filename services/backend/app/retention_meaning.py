@@ -134,7 +134,7 @@ async def lookup_source_text(con, user, body, word, start, end, *,
     if source_type in ('reading', 'listening') and source_id:
         if source_type == 'reading':
             rows = await con.fetch("""
-                SELECT o.id, o.start_char, o.end_char, o.surface_form,
+                SELECT o.id, o.lexeme_id, o.start_char, o.end_char, o.surface_form,
                        l.term, l.definition_en, l.translation_uz, l.part_of_speech,
                        l.provenance, l.verification_status
                 FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
@@ -145,7 +145,7 @@ async def lookup_source_text(con, user, body, word, start, end, *,
             """, source_id, start, end)
         elif isinstance(section, int) and 1 <= section <= 4:
             rows = await con.fetch("""
-                SELECT o.id, o.start_char, o.end_char, o.surface_form,
+                SELECT o.id, o.lexeme_id, o.start_char, o.end_char, o.surface_form,
                        l.term, l.definition_en, l.translation_uz, l.part_of_speech,
                        l.provenance, l.verification_status
                 FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
@@ -166,7 +166,13 @@ async def lookup_source_text(con, user, body, word, start, end, *,
         )]
         if len(exact) == 1:
             row = exact[0]
-            return {'contextual': {
+            saved = await con.fetchrow(
+                """SELECT id, mastery FROM user_vocabulary
+                   WHERE user_id=$1 AND lexeme_id=$2 LIMIT 1""",
+                user['id'], row['lexeme_id'])
+            return {'known': {'id': str(saved['id']),
+                              'mastery': saved['mastery']} if saved else None,
+                    'contextual': {
                 'term': row['term'], 'definitionEn': row['definition_en'],
                 'translationUz': row['translation_uz'],
                 'partOfSpeech': row['part_of_speech'],
