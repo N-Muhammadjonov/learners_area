@@ -11,7 +11,7 @@ function el(tag,{onclick,...attributes}={},...children){
 
 const VIEW_STYLE = `
 .la-exam-scroll{height:100%;overflow:auto;overscroll-behavior:contain}
-.la-exam-scroll .exam-header{top:0}
+.la-exam-scroll .exam-header{position:sticky!important;top:0!important;z-index:100!important}
 .la-exam-scroll :is(.loading-screen,.start-screen){inset:0}
 .la-exam-scroll .exam-interface{min-height:100%}
 .la-exam-scroll [data-listening-source-question]{scroll-margin-top:70px}
