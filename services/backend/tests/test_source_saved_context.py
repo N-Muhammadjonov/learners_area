@@ -91,3 +91,39 @@ def test_saved_sense_is_bound_to_exact_dictionary_sense_not_surface_spelling():
     assert saved['known']=={'id':str(MATCH),'mastery':'learning'}
     unknown=asyncio.run(with_saved_sense(con,{'id':USER},{'contextual':None,'known':None}))
     assert unknown['known'] is None
+
+
+class ExactMeaningConnection:
+    async def fetch(self,query,*arguments):
+        assert 'lexical_occurrences' in query and 'o.passage_id' in query
+        assert arguments==(PASSAGE,2,9)
+        return [{
+            'id':MATCH,'lexeme_id':SENSE,'start_char':2,'end_char':9,
+            'surface_form':'offered','term':'offer',
+            'definition_en':'to present for acceptance',
+            'translation_uz':'taklif qilmoq','part_of_speech':'verb',
+            'provenance':'dictionary_release','verification_status':'verified'
+        }]
+
+    async def fetchrow(self,query,*arguments):
+        assert 'user_vocabulary' in query
+        assert arguments==(USER,SENSE)
+        return {'id':STALE,'mastery':'learning'}
+
+
+def test_source_meaning_prefers_exact_verified_occurrence_and_owners_saved_status():
+    from app.retention_meaning import lookup_source_text
+    result=asyncio.run(lookup_source_text(
+        ExactMeaningConnection(),{'id':USER},'😀offered food','offered',2,9,
+        source_type='reading',source_id=PASSAGE))
+    assert result['occurrenceId']==str(MATCH)
+    assert result['contextual']['translationUz']=='taklif qilmoq'
+    assert result['contextual']['definitionEn']=='to present for acceptance'
+    assert result['known']=={'id':str(STALE),'mastery':'learning'}
+
+
+def test_source_meaning_rejects_spoofed_word_positions_before_lookup():
+    from app.retention_meaning import lookup_source_text
+    assert asyncio.run(lookup_source_text(
+        ExactMeaningConnection(),{'id':USER},'😀offered food','offered',1,8,
+        source_type='reading',source_id=PASSAGE)) is None
