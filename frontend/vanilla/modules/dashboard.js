@@ -42,14 +42,9 @@ export async function mount(context){
    top.append(hero);
    if(heading){
    const mascot=fluencyCompanion();
-   const shortcut=el('a',{
-     href:'/app/speaking/speak-or-die',
-     class:'la-dashboard-companion-link',
-     'data-dashboard-companion-link':'',
-     'aria-label':context.locale==='uz'?'Speak or Die mashqini ochish':'Open Speak or Die',
-   },mascot.node);
+   // The companion is decorative; practice routes have their own explicit actions.
    mascot.node.classList.add('la-dashboard-companion');
-   heading.after(shortcut);
+   heading.after(mascot.node);
   }
   mountSequenceDashboard(context,top);
   }
