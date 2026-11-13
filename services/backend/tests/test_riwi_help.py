@@ -1,5 +1,6 @@
 import asyncio
 import pytest
+from unittest.mock import AsyncMock,patch
 from app import riwi_help as h
 from app import riwi_new_questions as q
 from app.riwi_capabilities import RiwiActor
@@ -53,3 +54,24 @@ async def test_gateway_fallback_then_click_question_returns_real_method():
     second = await handle_riwi_chat(None, actor, {'message': first['questionSuggestions'][0]['question']}, env={})
     assert second['provenance'] == 'deterministic_learning_data'
     assert second['provider']['model'] == 'riwi-new-questions-v1'
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('module', ['reading', 'listening', 'writing', 'speaking', 'retention', 'podcast'])
+async def test_live_material_resolution_path_also_offers_role_safe_question_buttons(module):
+    from app.riwi_gateway import handle_riwi_chat
+    actor = RiwiActor(UID, 'student')
+    with patch('app.riwi_material_search.resolve_material', AsyncMock(return_value={'clarification':'name','kinds':[module]})):
+        first = await handle_riwi_chat(None, actor, {'message': module+' uchun binafsha daraxt ekaymi?'}, env={})
+    assert len(first['questionSuggestions']) == 3
+    assert first['provider']['suggestionIds'] == [q['id'] for q in first['questionSuggestions']]
+    assert first['provider']['materialSearchKinds'] == [module]
+
+
+@pytest.mark.asyncio
+async def test_active_assessment_refusal_does_not_offer_a_material_lookup_bypass():
+    from app.riwi_gateway import handle_riwi_chat
+    with patch('app.riwi_material_search.resolve_material', AsyncMock(return_value={'clarification':'active_exam_lookup_forbidden','kinds':['reading']})):
+        result = await handle_riwi_chat(None, RiwiActor(UID,'student'), {'message':'Reading uchun boshqa matnni top'}, env={})
+    assert result['provenance'] == 'policy_refusal'
+    assert not result.get('questionSuggestions')

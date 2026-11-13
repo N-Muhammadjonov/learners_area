@@ -307,6 +307,13 @@ async def handle_riwi_chat(
             text=clarification(reason,locale)
             meta={'id':'riwi','model':'riwi-material-resolution-v1','materialSearchKinds':found['kinds']}
             source='policy_refusal' if blocked else 'unavailable'
+            choices=[]
+            if not blocked:
+                from .riwi_help import fallback
+                unmatched=fallback(actor,message,locale)
+                text=unmatched['answer'];source=unmatched['provenance']
+                choices=unmatched.get('questionSuggestions',[])
+                meta.update(suggestionIds=[x['id'] for x in choices],suggestionLocale=locale)
             saved=await append_conversation_turn(conn,actor=actor,conversation_id=conversation_id,
                 user_message=original_message,assistant_answer=text,correlation_id=correlation_id,
                 provenance=source,provider=meta,citations=[],report_snapshot=None,now=now)
@@ -314,7 +321,7 @@ async def handle_riwi_chat(
                 target_type='riwi_conversation',target_id=saved,
                 metadata={'role':actor.role,'intent':intent_info.intent,'provenance':source,'providerId':'riwi','status':'succeeded'})
             return {'ok':True,'conversationId':saved,'correlationId':correlation_id,'intent':intent_info.intent,
-                'answer':text,'provenance':source,'provider':meta,'citations':[],'reportSnapshot':None,'roleSurface':role_surface}
+                'answer':text,'provenance':source,'provider':meta,'citations':[],'reportSnapshot':None,'roleSurface':role_surface,'questionSuggestions':choices}
         material_reference=found
     if material_reference:
         from .riwi_materials import read_material, teach_material
