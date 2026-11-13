@@ -103,3 +103,36 @@ async def test_people_guardian_filter_is_recognized(monkeypatch):
     assert result["filters"]["role"] == "guardian"
     assert result["total"] == 0
     assert any("u.role=$1" in sql and args == ("guardian",) for sql, args in conn.calls)
+
+
+@pytest.mark.asyncio
+async def test_people_are_ordered_by_last_activity_before_pagination(monkeypatch):
+    conn = PeopleConnection()
+
+    async def pool():
+        return PeoplePool(conn)
+
+    monkeypatch.setattr(core, "pool", pool)
+    actor = {"id": UUID("11111111-1111-4111-8111-111111111111"), "role": "owner"}
+    await browser_staff_people.read(None, actor, "people", {"page": "2"})
+    sql = next(query for query, _args in conn.calls if "LIMIT 25 OFFSET" in query)
+    assert "ORDER BY coalesce(a.created_at,u.last_active_at) DESC NULLS LAST," in sql
+    assert "u.last_active_at DESC NULLS LAST,u.created_at DESC,u.id DESC" in sql
+    assert "ORDER BY CASE u.role" not in sql
+    assert "LIMIT 25 OFFSET" in sql
+
+
+@pytest.mark.asyncio
+async def test_people_without_owner_presence_still_sort_by_recent_activity(monkeypatch):
+    conn = PeopleConnection()
+
+    async def pool():
+        return PeoplePool(conn)
+
+    monkeypatch.setattr(core, "pool", pool)
+    actor = {"id": UUID("11111111-1111-4111-8111-111111111111"), "role": "admin"}
+    await browser_staff_people.read(None, actor, "people", {})
+    sql = next(query for query, _args in conn.calls if "LIMIT 25 OFFSET" in query)
+    assert "ORDER BY u.last_active_at DESC NULLS LAST,u.created_at DESC,u.id DESC" in sql
+    assert "activity_events a" not in sql
+    assert "NULL::timestamptz AS last_active_at" in sql
