@@ -35,7 +35,7 @@ function repairListeningTest10(){
  let html=source;
  const {begin,end,data}=spanJson(html);
  const audioTranscription=JSON.parse(readFileSync('content/listening/academic/test-10/part3-audio-transcription.json','utf8'));
- if(audioTranscription.test!=='listening-test-10'||audioTranscription.part!==3||audioTranscription.transcript.length<1000)throw Error('Invalid Part 3 audio transcript');
+ if(audioTranscription.test!=='listening-test-10'||audioTranscription.part!==3||audioTranscription.transcript.length<1000||!audioTranscription.transcript.includes('Professor North')||!audioTranscription.transcript.includes('Sarah')||!audioTranscription.transcript.includes('Mike')||audioTranscription.transcript.includes('Maya:'))throw Error('Invalid Part 3 audio transcript');
  data.transcript={1:supplied.parts['1'],2:supplied.parts['2'],3:audioTranscription.transcript,4:supplied.parts['4']};
  data.transcript_source='User-supplied Parts 1, 2 and 4, checked against recorded audio. Part 3 separately transcribed directly from the same Cloudflare R2 recording; submitted Maya/Liam dialogue excluded because it does not match the original questions. Minor ASR word-level uncertainty.';
  data.audio_available=true;
