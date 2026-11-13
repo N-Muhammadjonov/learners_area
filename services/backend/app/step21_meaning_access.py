@@ -87,6 +87,11 @@ async def meaning(req:Request):
             if access!='allowed':return core.j({'error':'lexical_assistance_locked'},403,PRIVATE)
             if result is None:return core.j({'error':'source_not_found'},404,PRIVATE)
             return core.j({'status':'resolved' if result.get('contextual') else 'unresolved','known':None,**result},headers=PRIVATE)
+        context=req.query_params.get('context','').strip()
+        if context and len(context)<=360 and term.casefold() in context.casefold():
+            from .retention_meaning import lookup_contextual
+            result=await lookup_contextual(PooledReads(db),user,term,context)
+            return core.j({'status':'resolved' if result.get('contextual') else 'unresolved',**result},headers=PRIVATE)
         return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
     except Exception:return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
 
