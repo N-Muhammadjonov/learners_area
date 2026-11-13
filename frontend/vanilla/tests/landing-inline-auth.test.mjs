@@ -22,14 +22,31 @@ test('landing is public and inline scripts inherit the server nonce',()=>{
  assert.match(read('../modules/auth/public.js'),/allowed\.has\(target\.pathname\)/);
 });
 
-test('landing links use canonical SPA routes and mouse lighting is exactly 10 percent dimmer',()=>{
+test('landing routes are canonical and the current mouse lighting remains unchanged',()=>{
  assert.match(LANDING_HTML,/href="\/login"/);
  assert.match(LANDING_HTML,/href="\/register"/);
  assert.doesNotMatch(LANDING_HTML,/https:\/\/learnersarea\.uz\/#\/(?:login|register)/);
- assert.match(LANDING_HTML,/rgba\(76,169,255,\.594\)/);
- assert.match(LANDING_HTML,/rgba\(80,170,255,\.225\)/);
+ assert.match(LANDING_HTML,/rgba\(76,169,255,\.5346\)/);
+ assert.match(LANDING_HTML,/rgba\(80,170,255,\.2025\)/);
  assert.match(LANDING_HTML,/la:landing:navigate/);
  assert.match(LANDING_HTML,/id="bandJourney"/);
  assert.match(LANDING_HTML,/data-locale="en"/);
  assert.match(LANDING_HTML,/data-locale="uz"/);
+});
+
+test('legacy premium landing was removed without changing the current landing',()=>{
+ const routes=read('../js/routes.js');
+ const manifest=JSON.parse(read('../routes.json'));
+ const fsFiles=['../modules/premium-landing.js','../modules/premium-landing.css','../modules/premium-i18n.js'];
+ for(const obsolete of fsFiles){
+  assert.throws(()=>read(obsolete),{code:'ENOENT'});
+ }
+ for(const legacy of ['/method','/about','/faq','/contact','/privacy']){
+  assert(!manifest.routes.includes(legacy),legacy+' still in build routes');
+  assert(!routes.includes('pattern:"'+legacy+'"'),legacy+' still in SPA routes');
+ }
+ assert(!LANDING_HTML.includes('href="/privacy"'));
+ assert(!LANDING_HTML.includes('>Maxfiylik</a>'));
+ assert.match(LANDING_HTML,/href="https:\/\/t\.me\/Learnersareaaccessbot"/);
+ assert.match(LANDING_HTML,/id="bandJourney"/);
 });
