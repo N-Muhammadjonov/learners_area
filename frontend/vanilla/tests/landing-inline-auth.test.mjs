@@ -23,7 +23,7 @@ test('landing is public and inline scripts inherit the server nonce',()=>{
  assert.match(read('../modules/auth/public.js'),/allowed\.has\(target\.pathname\)/);
 });
 
-test('landing routes are canonical and the current mouse lighting remains unchanged',()=>{
+test('landing routes are canonical and cursor lighting uses teal-green',()=>{
  assert.match(LANDING_HTML,/href="\/login"/);
  assert.match(LANDING_HTML,/href="\/register"/);
  assert.doesNotMatch(LANDING_HTML,/https:\/\/learnersarea\.uz\/#\/(?:login|register)/);
