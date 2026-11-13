@@ -78,10 +78,13 @@ export async function mount(ctx) {
           return h('tr', {},
             h('td', {}, r.status === 'linked' ? h('input', {type: 'checkbox', 'aria-label': T('Tanlash', 'Select') + ' ' + r.studentName, checked: S.selected.has(r.linkId),
               onChange: e => { e.target.checked ? S.selected.add(r.linkId) : S.selected.delete(r.linkId); resetPreview(); paint(); }}) : null),
-            h('td', {}, r.studentName), h('td', {}, `${r.guardianName || '—'} · ${r.relationship ? REL[r.relationship][L] : '—'}`), h('td', {}, r.telegram),
+            h('td', {}, r.studentName), h('td', {}, `${r.guardianName || '—'} · ${r.relationship ? REL[r.relationship][L] : '—'}`),
+            h('td', {}, h('div', {class: 'pc-telegram-contact'},
+              h('span', {'data-guardian-telegram-phone': ''}, r.phone || '—'),
+              h('span', {class: 'pc-muted', 'data-guardian-telegram-username': ''}, r.telegramUsername ? '@' + r.telegramUsername.replace(/^@/, '') : T('Username yo‘q', 'No username')))),
             h('td', {}, h('span', {class: 'pc-pill', 'data-tone': st[2]}, st[L])),
             h('td', {}, h('span', {class: 'pc-pill', 'data-tone': r.channelJoined ? 'good' : 'warn'}, r.channelJoined ? T('Qo‘shilgan', 'Joined') : T('Kerak', 'Required'))),
-            h('td', {}, h('button', {type: 'button', class: 'btn-ghost', onClick: () => void openDetail(r.linkId)}, T('Ko‘rish', 'View'))));
+            h('td', {}, h('button', {type: 'button', class: 'pc-view-button btn-secondary', 'data-guardian-view': r.linkId, onClick: () => void openDetail(r.linkId)}, T('Ko‘rish', 'View'))));
         })))),
       h('div', {class: 'pc-toolbar', style: {marginTop: '.75rem'}},
         h('button', {type: 'button', class: 'btn-secondary', disabled: d.page <= 1, onClick: () => { S.page--; void load(); }}, '←'),
@@ -94,7 +97,7 @@ export async function mount(ctx) {
     return h('section', {class: 'pc-card', 'aria-label': T('Batafsil', 'Details')},
       h('div', {class: 'pc-toolbar'}, h('h2', {class: 'card-title'}, `${l.studentName} ← ${l.guardianName || '—'}`),
         h('button', {type: 'button', class: 'btn-ghost', onClick: () => { S.detail = null; paint(); }}, dict.common.cancel ?? '×')),
-      h('p', {class: 'pc-muted'}, [`${STATUS[l.status][L]}`, l.relationship ? REL[l.relationship][L] : null, [l.telegramUsername ? '@' + l.telegramUsername : null, l.telegramUserId ? 'ID ' + l.telegramUserId : null].filter(Boolean).join(' · '), l.phone].filter(Boolean).join(' · ')),
+      h('p', {class: 'pc-muted'}, [`${STATUS[l.status][L]}`, l.relationship ? REL[l.relationship][L] : null, [l.telegramUsername ? '@' + l.telegramUsername.replace(/^@/, '') : null, l.phone].filter(Boolean).join(' · ')].filter(Boolean).join(' · ')),
       h('h3', {class: 'card-title'}, T('Qo‘lda yuborilgan xabarlar tarixi', 'Manual message history')),
       S.detail.messages.length ? h('ul', {}, S.detail.messages.map(m => h('li', {class: 'pc-muted'},
         `${m.createdAt?.slice(0, 16).replace('T', ' ')} · ${m.template || 'custom'} · ${m.status}${m.error ? ' (' + m.error + ')' : ''}`))) : h('p', {class: 'pc-muted'}, T('Hali xabar yo‘q.', 'No messages yet.')));

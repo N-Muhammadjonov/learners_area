@@ -24,3 +24,7 @@
 .pc-note{border-left:3px solid rgb(var(--accent));padding:.5rem .75rem;color:rgb(var(--ink-500));background:rgb(var(--paper-sunken));border-radius:.5rem}
 .pc-actions{display:flex;flex-wrap:wrap;gap:.5rem}
 @media (max-width:480px){.pc-metric b{font-size:1.4rem}.pc-rank{grid-template-columns:2.5rem 1fr auto}}
+
+.pc-telegram-contact{display:flex;flex-direction:column;gap:.15rem;min-width:8rem;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.pc-view-button{display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;min-width:5.75rem;border:1px solid rgb(var(--ink-100));border-radius:.65rem;padding:.45rem .9rem;background:rgb(var(--paper-raised));color:rgb(var(--ink-900));font-weight:600;white-space:nowrap}
+.pc-view-button:is(:hover,:focus-visible){border-color:rgb(var(--accent));color:rgb(var(--accent))}

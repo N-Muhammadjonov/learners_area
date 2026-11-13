@@ -2,6 +2,7 @@ import {el,listen,mountStaff,BackLink,errorText,centreDateTime,badge,pager,pageP
 import {students,studentDetail,sendFeedback,assignable,createAssignment,support,resolveReport} from '../../js/adapters/staff-final30/teacher.js';
 import {renderResults} from './people-detail.js';
 import {studentLearningPanel} from './learning-results.js';
+import {studentPlanInline} from './student-plan-inline.js';
 import {learningExtras} from '../shared/student-learning.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
@@ -128,10 +129,8 @@ export const studentMount=mountStaff({name:'management-student',roles:STAFF,notF
    d.submissions.length?el('div',{class:'flex flex-col gap-3'},submissionCards):el('p',{class:'text-sm text-ink-500'},t.noSubmissions),
    pager({label:dict.teacher.submissionsTitle,page:d.submissionsPage,totalPages:d.submissionsPages,href:n=>`/app/teacher/students/${d.student.id}?writingPage=${n}`,pageOf:t.pageOf,previous:dict.people.previousPage,next:dict.people.nextPage,attr:'data-writing-submissions-pagination'}));
   return el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-student-full-review':''},BackLink({fallbackHref:ctx.url.pathname.startsWith('/app/admin/people/')?'/app/admin/people':'/app/teacher/students',label:dict.common.back}),
-   el('div',{class:'flex flex-wrap items-start justify-between gap-3'},el('div',{},el('h1',{class:'font-display text-2xl text-ink-900'},d.student.name),el('p',{class:'text-sm text-ink-500'},d.student.email??'Telegram account'),el('a',{
-     class:'inline-block mt-2 btn-secondary',href:'/app/management/study-plans?student='+encodeURIComponent(d.student.id),
-     'data-staff-student-plan-link':d.student.id},
-     ctx.locale==='uz'?'Kunlik reja natijalari':'Daily plan progress')),assignmentForm(ctx,d.student.id,d.prompts,view)),
+   el('div',{class:'flex flex-wrap items-start justify-between gap-3'},el('div',{},el('h1',{class:'font-display text-2xl text-ink-900'},d.student.name),el('p',{class:'text-sm text-ink-500'},d.student.email??'Telegram account')),assignmentForm(ctx,d.student.id,d.prompts,view)),
+   studentPlanInline(ctx,d.student.id),
    renderResults(dict,d.results),
    weaknessPanel(ctx,d.weaknesses),
    studentLearningPanel(ctx,d.student.id,`/app/teacher/students/${d.student.id}`),

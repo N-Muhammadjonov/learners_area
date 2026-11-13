@@ -205,3 +205,58 @@ async def test_guardian_and_student_cannot_view_staff_templates(monkeypatch):
         response = await g.staff_templates(request("/api/staff/guardian-message-templates"))
         assert response.status_code == 403
     assert conn.calls == []
+
+@pytest.mark.parametrize("role", ["owner", "admin", "teacher"])
+@pytest.mark.asyncio
+async def test_directory_sorts_latin_names_first_before_pagination(monkeypatch, role):
+    conn = Conn()
+    install(monkeypatch, role, conn)
+    response = await g.staff_guardians(request())
+    assert response.status_code == 200
+    queries = [sql for kind, sql, _ in conn.calls if kind == "fetch" and "guardian_links" in sql]
+    assert len(queries) == 1
+    query = queries[0]
+    assert "CASE WHEN btrim(s.name) ~ '^[A-Za-z]' THEN 0 ELSE 1 END" in query
+    assert 'lower(btrim(s.name)) COLLATE "C"' in query
+    assert query.index("ORDER BY CASE") < query.index("LIMIT")
+
+
+@pytest.mark.parametrize("role,full_phone", [("owner", True), ("admin", False), ("teacher", False)])
+@pytest.mark.asyncio
+async def test_directory_contact_excludes_telegram_id_and_respects_phone_scope(monkeypatch, role, full_phone):
+    from datetime import datetime, timezone
+    from uuid import uuid4
+    now = datetime.now(timezone.utc)
+    conn = Conn(eligible=[{
+        "id": uuid4(), "status": "linked", "relationship": "father",
+        "student_name": "Learner", "display_name": "Parent",
+        "telegram_user_id": "1234567890", "channel_verified_at": now,
+        "username": "parent_account", "phone_number": "+998901234567",
+        "phone_verified_at": now, "updated_at": now,
+    }])
+    install(monkeypatch, role, conn)
+    response = await g.staff_guardians(request())
+    assert response.status_code == 200
+    import json
+    item = json.loads(response.body)["items"][0]
+    assert item["telegramUsername"] == "parent_account"
+    assert "telegram" not in item
+    assert "telegramUserId" not in item
+    if full_phone:
+        assert item["phone"] == "+998901234567"
+    else:
+        assert item["phone"] != "+998901234567"
+        assert item["phone"] is not None
+
+
+def test_message_samples_remain_manual_and_only_use_supported_tokens():
+    import re
+    assert len(g.TEMPLATES) == 6
+    for template in g.TEMPLATES:
+        for locale in ("uz", "en"):
+            body = template["body"][locale]
+            assert len(body) <= 1500
+            assert set(re.findall(r"\{([^{}]+)\}", body)) <= set(g.ALLOWED_PLACEHOLDERS)
+            if template["key"] != "custom":
+                assert body.startswith(("Assalomu alaykum", "Hello"))
+                assert "Learners Area" in body

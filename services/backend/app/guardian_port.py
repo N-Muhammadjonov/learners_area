@@ -49,20 +49,20 @@ RELATION_LABEL = {
 # Editable starting texts only. Picking one fills the composer; it never sends anything and never claims a fact.
 TEMPLATES = [
     {'key': 'homework', 'title': {'uz': 'Vazifalar bajarilmagani haqida', 'en': 'Missing homework'},
-     'body': {'uz': "Assalomu alaykum!\nFarzandingiz {student_name}ning bajarilmagan vazifalari haqida sizni xabardor qilmoqchiman.\nIltimos, uning o'qish rejasiga e'tibor qarating.\nHurmat bilan, Learners Area.",
-              'en': "Hello!\nI would like to let you know about {student_name}'s unfinished homework.\nPlease pay attention to the study plan.\nBest regards, Learners Area."}},
+     'body': {'uz': "Assalomu alaykum, hurmatli ota-ona!\n{student_name}ning o‘quv rejasidagi ayrim topshiriqlar hali yakunlanmaganini ma’lum qilamiz. Iltimos, farzandingiz bilan birga bajarilmagan vazifalarni ko‘rib chiqing va ularni yakunlash uchun qulay vaqt belgilang.\nSavollaringiz bo‘lsa, ushbu xabarga javob yozishingiz mumkin.\nHurmat bilan, Learners Area jamoasi.",
+              'en': "Hello, dear parent!\nSome tasks in {student_name}'s study plan are still incomplete. Please review the outstanding work together and agree on a suitable time to finish it.\nIf you have questions, reply to this message.\nBest regards, Learners Area team."}},
     {'key': 'good_result', 'title': {'uz': 'Yaxshi natija', 'en': 'Positive result'},
-     'body': {'uz': "Assalomu alaykum!\nFarzandingiz {student_name} yaxshi natija ko'rsatdi. Rahmat sizga qo'llab-quvvatlaganingiz uchun.\nHurmat bilan, Learners Area.",
-              'en': "Hello!\n{student_name} has shown a good result. Thank you for your support.\nBest regards, Learners Area."}},
+     'body': {'uz': "Assalomu alaykum, hurmatli ota-ona!\n{student_name}ning so‘nggi o‘quv faoliyatida ijobiy natijalar qayd etildi. Bu yutuqni e’tirof etib, farzandingizni izchil davom ettirishga ruhlantirishingizni so‘raymiz.\nUning o‘qishini qo‘llab-quvvatlayotganingiz uchun rahmat.\nHurmat bilan, Learners Area jamoasi.",
+              'en': "Hello, dear parent!\n{student_name}'s recent learning activity shows encouraging progress. Please recognize this achievement and encourage consistent study habits.\nThank you for supporting their learning.\nBest regards, Learners Area team."}},
     {'key': 'lower_result', 'title': {'uz': 'Natija pasaygani haqida', 'en': 'Concern about progress'},
-     'body': {'uz': "Assalomu alaykum!\nFarzandingiz {student_name}ning natijalari haqida gaplashmoqchimiz. Iltimos, biz bilan bog'laning.\nHurmat bilan, Learners Area.",
-              'en': "Hello!\nWe would like to talk about {student_name}'s progress. Please get in touch with us.\nBest regards, Learners Area."}},
+     'body': {'uz': "Assalomu alaykum, hurmatli ota-ona!\n{student_name}ning so‘nggi o‘quv natijalarini birgalikda ko‘rib chiqishni taklif qilamiz. Ayrim ko‘nikmalarda qo‘shimcha mashq qilish zarurati sezilmoqda.\nFarzandingizga yordam berish rejasini kelishib olish uchun shu xabarga qulay vaqtingizni yozib yuboring.\nHurmat bilan, Learners Area jamoasi.",
+              'en': "Hello, dear parent!\nWe would like to review {student_name}'s recent learning results with you. Some skills may benefit from additional practice.\nPlease reply with a convenient time so that we can agree on next steps together.\nBest regards, Learners Area team."}},
     {'key': 'meeting', 'title': {'uz': "Ota-onalar uchrashuvi", 'en': 'Parent meeting'},
-     'body': {'uz': "Assalomu alaykum!\nSizni ota-onalar uchrashuviga taklif qilamiz. Vaqt va joyni yozing yoki shu xabarga javob bering.\nHurmat bilan, Learners Area.",
-              'en': "Hello!\nYou are invited to a parent meeting. Please fill in the date and place before sending.\nBest regards, Learners Area."}},
+     'body': {'uz': "Assalomu alaykum, hurmatli ota-ona!\nSizni {student_name}ning ta’lim jarayoni va keyingi maqsadlarini muhokama qilish uchun ota-onalar uchrashuviga taklif qilamiz.\nSana: [sanani kiriting]\nVaqt: [vaqtni kiriting]\nJoy yoki onlayn havola: [ma’lumotni kiriting]\nIshtirokingizni ushbu xabarga javob orqali tasdiqlashingizni so‘raymiz.\nHurmat bilan, Learners Area jamoasi.",
+              'en': "Hello, dear parent!\nYou are invited to discuss {student_name}'s learning progress and next goals at a parent meeting.\nDate: [enter date]\nTime: [enter time]\nLocation or meeting link: [enter details]\nPlease reply to confirm your attendance.\nBest regards, Learners Area team."}},
     {'key': 'encouragement', 'title': {'uz': "Rag'batlantirish", 'en': 'Encouragement'},
-     'body': {'uz': "Assalomu alaykum!\n{student_name} o'qishda harakat qilmoqda. Unga iliq so'z ayting — bu juda muhim.\nHurmat bilan, Learners Area.",
-              'en': "Hello!\n{student_name} is working hard. A kind word from you means a lot.\nBest regards, Learners Area."}},
+     'body': {'uz': "Assalomu alaykum, hurmatli ota-ona!\n{student_name}ni kundalik mashqlarni muntazam bajarishga rag‘batlantirishda yordamingiz muhim. Hatto kichik yutuqlarni ham e’tirof eting, bajarilgan mashqlarni birga kuzating va aniq, erishish mumkin bo‘lgan maqsadlarni belgilang.\nHamkorligingiz uchun rahmat.\nHurmat bilan, Learners Area jamoasi.",
+              'en': "Hello, dear parent!\nYour encouragement can help {student_name} practise more consistently. Recognize small achievements, review completed exercises together, and set realistic goals for the next study days.\nThank you for your support.\nBest regards, Learners Area team."}},
     {'key': 'custom', 'title': {'uz': "O'zim yozaman", 'en': 'Write my own'}, 'body': {'uz': '', 'en': ''}},
 ]
 TEMPLATE_KEYS = tuple(t['key'] for t in TEMPLATES)
@@ -754,7 +754,10 @@ async def staff_guardians(req: Request):
         total = await con.fetchval('SELECT count(*)::int ' + base + clause, *args)
         rows = await con.fetch(f'''SELECT l.id,l.status,l.relationship,l.requested_at,l.updated_at,s.name AS student_name,
               p.display_name,p.telegram_user_id,p.channel_verified_at,t.username,t.phone_number,t.phone_verified_at {base} {clause}
-              ORDER BY l.updated_at DESC, l.id LIMIT ${len(args) + 1} OFFSET ${len(args) + 2}''', *args, size, (page - 1) * size)
+              ORDER BY CASE WHEN btrim(s.name) ~ '^[A-Za-z]' THEN 0 ELSE 1 END,
+                       lower(btrim(s.name)) COLLATE "C",
+                       lower(btrim(p.display_name)) COLLATE "C", l.id
+              LIMIT ${len(args) + 1} OFFSET ${len(args) + 2}''', *args, size, (page - 1) * size)
         metric_scope = (' WHERE ' + teacher_assignment_sql(user, 1)) if user['role'] == 'teacher' else ''
         scope_args = (user['id'],) if user['role'] == 'teacher' else ()
         metrics = await con.fetchrow('''SELECT
@@ -770,8 +773,9 @@ async def staff_guardians(req: Request):
         )
     items = [{'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'],
               'studentName': r['student_name'], 'guardianName': r['display_name'],
-              'telegram': ('@' + r['username'] + ' · ID ' + r['telegram_user_id']) if r['username'] else 'ID ' + r['telegram_user_id'],
-              'phone': mask_phone(r['phone_number']) if r['phone_verified_at'] else None,
+              'telegramUsername': r['username'],
+              'phone': (r['phone_number'] if user['role'] == 'owner'
+                        else mask_phone(r['phone_number'])) if r['phone_verified_at'] else None,
               'channelJoined': r['channel_verified_at'] is not None, 'updatedAt': iso(r['updated_at'])} for r in rows]
     return core.j({'ok': True, 'page': page, 'pageSize': size, 'total': total, 'items': items,
                    'metrics': {'linked': metrics['linked'], 'awaitingApproval': metrics['awaiting'],
