@@ -615,3 +615,45 @@ Verified, exact-sense edits applied in the unpublished correction layer:
 - `invoice` (verb) English/Uzbek definition now specifies bills for goods/services provided, plus `invoice a customer`; existing CEFR retained.
 
 **11 exact-sense records edited**, 9 CEFR edits, 12 English/Uzbek definition field edits, 2 Uzbek translation edits, 11 phrase additions, 34 audit-only evidence references. Brand/source names and links stay exclusively in the private audit provenance, never in public dictionary corrections. Existing examples and unrelated senses remain untouched. Pending full external linguistic verification of all 890 senses and safe review of 1,245 unscoped edges. The working branch is **not** a production release; no R2 or Supabase mutations, no main merge.
+
+
+## 2026-11-13 — Work rejimida dalillarni tiklash va davom ettirish
+
+Davom ettirish bazasi: `05ddbd5eff511001a9c89a0742654d1f37f25133`. GitHub Actions `43354734782` logi va yangi alohida ishchi nusxadagi boshlang‘ich tekshiruv bir xil natija berdi: **148 passed, 1 warning, 0 failed**. Bu til mazmunining to‘liq tasdig‘i emas.
+
+1–8 bosqichning dastlabki receiptlari, ularni yaratgan commitlar va fayl SHA-256 qiymatlari `content/dictionary/audit-20261113-20-phase-recovery.json` da qayd etildi. 1–9 bosqich bo‘yicha **49 685 ma’no strukturaviy tekshirilgan**. Hech bir bosqichning barcha ma’nolari uchun barcha talab etilgan til maydonlarini tasdiqlaydigan dalil mavjud emas. Shuning uchun to‘liq tugagan lingvistik bosqichlar soni **0**; to‘liq tasdiqlangan ma’nolarning tarixiy umumiy soni **aniqlanmagan**, nol deb taxmin qilinmaydi.
+
+| Bosqich | Ma’no oralig‘i | Ma’nolar | Tasdiqlangan holat |
+| --- | --- | ---: | --- |
+| 01 | 1–5521 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 02 | 5522–11041 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 03 | 11042–16562 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 04 | 16563–22082 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 05 | 22083–27603 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 06 | 27604–33123 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 07 | 33124–38644 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 08 | 38645–44164 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 09 | 44165–49685 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 10 | 49686–55205 | 5520 | Boshlanmagan |
+| 11 | 55206–60725 | 5520 | Boshlanmagan |
+| 12 | 60726–66246 | 5521 | Boshlanmagan |
+| 13 | 66247–71766 | 5520 | Boshlanmagan |
+| 14 | 71767–77287 | 5521 | Boshlanmagan |
+| 15 | 77288–82807 | 5520 | Boshlanmagan |
+| 16 | 82808–88328 | 5521 | Boshlanmagan |
+| 17 | 88329–93848 | 5520 | Boshlanmagan |
+| 18 | 93849–99369 | 5521 | Boshlanmagan |
+| 19 | 99370–104889 | 5520 | Boshlanmagan |
+| 20 | 104890–110409 | 5520 | Boshlanmagan |
+
+Oldingi 1 700 leksemaning readbacki qayta sanalmadi. Keyingi guruh — **1 701–1 730**, `mottle` → `hum`: **30 leksema / 48 ma’no**. Har bir to‘liq entry content SHA, ma’no SHA, barcha sense IDlar va Supabase offset/length qiymatlari asl R2 baytlari bilan tekshirildi. Bundan tashqari bog‘lanish nishonlari sifatidagi **58 leksema** 52 shardan o‘qildi; ular ketma-ket 30 leksema yoki 48 ma’no hisobiga qo‘shilmadi. Receipt: `content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json`.
+
+**58 mavjud synonym va 1 mavjud antonym bog‘lanishi** aniq source sense ID bilan bog‘landi. Synonymlarda manba va nishonning aynan bir xil asl ta’rifi yagona ma’noga mos kelishi tekshirildi; antonymda `breathing` va `breathless`ning qarama-qarshi ma’nolari tekshirildi. Bu nishon ID yaxlitligi va ma’no bo‘yicha bog‘lash dalilidir; barcha bog‘lanishlarning mustaqil tashqi lingvistik tasdig‘i tugadi degani emas. Noaniq nishon taxminan ulanmagan. Candidate kodiga mavjud qirrani **ikkala target ID** va dastlabki matn/POS bo‘yicha tekshirib source ID bilan bog‘lash operatsiyasi qo‘shildi; yo‘qolgan, takrorlangan yoki boshqa ma’noga bog‘langan qirra xato bilan to‘xtaydi.
+
+Yangi dalilli tuzatishlar: `fermion` tarjimasidagi faqat elementar zarraga cheklash olib tashlandi; AQSh suyuq `quart` C1→C2; quruq `quart` ta’rifida quruq pint va taxminiy litr aniqlandi; `introduction`ning ikki yangilikni joriy etish ma’nosi B2ga moslandi; mavhum `price` ma’nosi C1 va “badal” tarjimasi bilan aniqlashtirildi; tovush ma’nosidagi `hum`ga 3 attested collocation qo‘shildi. Manba URL va nomlari faqat audit receiptida.
+
+`abide`ning avvalgi 2 synonym/collocation tuzatishi yangi tuzatish hisobiga qo‘shilmadi. Misol gaplarga tegilmagan. **Yangi 48 ma’noning barcha til maydonlari to‘liq tasdiqlanmagan; 9-bosqich tugamagan.**
+
+Branch commitlari avtomatik preview deploy yaratmasligi uchun `vercel.json`da faqat `fix/dictionary-audit-phase-01-20261112` branchi uchun avtomatik deployment o‘chirildi. Boshqa branchlarning sozlamasi o‘zgarmaydi. GitHub dictionary testlari yangi audit testlarini ham qamraydi. `main`, production DB, R2, release va kanalga yozilmagan; merge ruxsati faqat barcha ishlar yakunlangach so‘raladi.
+
+Yakuniy mahalliy tekshiruv: **174 passed / 0 failed / 0 skipped / 1 warning**, backend compile PASS, diff check PASS. Qo‘shimcha owner-dictionary tekshiruvida eski “345 route” assertioni dastlab FAIL bo‘ldi; asl 345 route va keyin qo‘shilgan 59 route uchun aniq snapshot birlashmasi bilan to‘g‘rilandi. Hech bir route olib tashlanmadi, test skip qilinmadi. Yangi commitning masofaviy CI natijasi hali kelmagan.

@@ -21,14 +21,18 @@ NEW={
  ('DELETE','/api/owner/dictionary/{action:path}'),
 }
 
-def test_inventory_actual_strict_250():
+def test_inventory_preserves_historical_and_additive_routes_without_duplicates():
     report=json.loads(Path('PORT_STATUS.json').read_text())
     actual=[(m,r.path) for r in core.app.routes if r.path.startswith('/api/') for m in getattr(r,'methods',())]
-    expected={(e['method'],e['path']) for e in report['endpoints'] if e['status'].startswith('ported_')}
-    assert len(actual)==len(set(actual))==345
-    assert set(actual)==expected and NEW<=expected
-    assert report['ported_methods']==345 and report['unported_methods']==0
-    assert report['total_methods']==345 and len(report['endpoints'])==345
+    historical={(e['method'],e['path']) for e in report['endpoints'] if e['status'].startswith('ported_')}
+    snapshot=json.loads((Path(__file__).parent/'fixtures/api_routes_after_port_snapshot.json').read_text())
+    additions={(e['method'],e['path']) for e in snapshot['additional_endpoints']}
+    assert len(actual)==len(set(actual))==snapshot['actual_methods']
+    assert not historical & additions
+    assert set(actual)==historical | additions and NEW<=historical
+    assert report['ported_methods']==snapshot['base_methods']==len(historical)
+    assert report['unported_methods']==0
+    assert report['total_methods']==len(report['endpoints'])==len(historical)
 
 @pytest.mark.parametrize('method,uri',[
  ('POST','/api/internal/telegram/owner/handover'),

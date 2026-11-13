@@ -476,6 +476,74 @@
           {
             "text": "can't abide someone or something"
           }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "bear",
+            "lexemeId": "8d13f30f-d929-586c-80a8-9acfd3d0f8b7",
+            "senseId": "fbbb979e-d3da-4fd5-97b5-f6fa520080aa",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "brook",
+            "lexemeId": "451fb7a1-5dae-5850-9309-2ae6c6274b4a",
+            "senseId": "fcab9446-f9bb-43dc-a9b9-89649237666b",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "digest",
+            "lexemeId": "1aa71ca3-a9e0-5770-8fe0-81d5b97bb0cb",
+            "senseId": "fbcaccd8-8370-4160-84fe-3bd53d40fe18",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "endure",
+            "lexemeId": "6ff163bf-68da-5f9c-b133-bf2b93b4ddf8",
+            "senseId": "f752d355-0430-4ae4-af59-230a05a11d5a",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "put up",
+            "lexemeId": "4a632a8d-26ed-5eb1-8ba5-bf0e8339a391",
+            "senseId": "36029630-eefa-5ffd-b795-f90251acef50",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "stand",
+            "lexemeId": "a102232a-db02-51db-9134-f0aaf8b0129a",
+            "senseId": "558c28d6-182a-4c6e-8471-47f132c2804d",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "stick out",
+            "lexemeId": "f6f66616-c0cb-51b3-8f7f-0da2f296c613",
+            "senseId": "12161c7e-db2b-55ef-a9ab-08aa3ea913b7",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "stomach",
+            "lexemeId": "fa4de0de-90b1-5954-b049-7aeccbed0177",
+            "senseId": "2f7c8eeb-b3ba-42df-8ba8-acda168ab983",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "suffer",
+            "lexemeId": "0d0d2deb-a8ea-59ca-96a8-c5c0142baee7",
+            "senseId": "9e914c22-5583-46d2-b4fb-69c2f59ec201",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "support",
+            "lexemeId": "726881e7-4341-5eb6-ab55-93a3b4dc4295",
+            "senseId": "facb229c-ef78-509e-9069-85a7fe0520ab",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "tolerate",
+            "lexemeId": "6ec8d2de-ffb7-59a7-a9a6-6adc2ba4f682",
+            "senseId": "52426071-9e5b-4900-a168-e7921693f12a",
+            "partOfSpeech": "v"
+          }
         ]
       },
       "28d49c76-2120-49d9-bbc9-c93f5dabdf6f": {
@@ -491,6 +559,20 @@
         "add_collocations": [
           {
             "text": "abide in a place"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "bide",
+            "lexemeId": "95b70a47-5ca2-5678-9c0a-39040fa0f527",
+            "senseId": "813c86c3-e5fd-40e3-961d-dac543a54023",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "stay",
+            "lexemeId": "0b47da18-63b5-5ebe-b856-043063c07d13",
+            "senseId": "27357825-72ff-421d-b4b2-e0add441aa9f",
+            "partOfSpeech": "v"
           }
         ]
       }
@@ -1366,6 +1448,473 @@
             "text": "invoice a customer"
           }
         ]
+      }
+    },
+    "6c46aa14-a268-56aa-9f22-dbd737f8d729": {
+      "e2e9d296-5c16-54b1-97fd-7103d8461dac": {
+        "meaning_sha": "fe1e1816fba5db18012f324475f28c8ba94b9b1b5f4bf322703dd4a4768411a0",
+        "replace_translation_uz": {
+          "original": "yarim butun spinli elementar zarracha (fermion)",
+          "text": "fermion; yarim butun spinli zarracha"
+        }
+      }
+    },
+    "6c3a0132-9b2d-5c9e-a948-237eb29b0aa2": {
+      "6ec7fe00-f63a-548b-9893-0500d616705a": {
+        "meaning_sha": "35e9513f822761030c6cca54212f3150a8e41311e61601762093c9b50ccc787f",
+        "scope_synonyms": [
+          {
+            "text": "stomatous",
+            "lexemeId": "9e03f1aa-6783-54c5-b47c-f4b9bf4ea141",
+            "senseId": "56307b14-e814-5b2d-9d10-bf740204e7dd",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "6c3b5083-3e06-5f63-83cf-8c3c9e2b2162": {
+      "6959c20b-7fa9-5d95-b75b-9425414510a6": {
+        "meaning_sha": "5053a0132fa2bb003473612ca10e11ed8345ebdc72327cf1853d4029898b4fa3",
+        "scope_synonyms": [
+          {
+            "text": "path",
+            "lexemeId": "67e21c9e-01de-5aa2-a368-26e2e7274eba",
+            "senseId": "be64ac4c-ebc7-4fff-a3f7-8e2988dfe094",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "way",
+            "lexemeId": "d6486bb4-bb8e-5c54-a709-d4966627831f",
+            "senseId": "4f39661c-597e-401d-9b5d-b5e2b2b13230",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c3cfe69-4089-5454-9e83-1b3bf2a781b5": {
+      "a601afef-e192-595e-a8bc-7417b4a54f3e": {
+        "meaning_sha": "8754e1849f64d3129ecd85b0baa48080a1ed620754ae3e46ef4e9a23b30020fd",
+        "scope_synonyms": [
+          {
+            "text": "rough",
+            "lexemeId": "498fcf66-0546-51fc-b731-8cb29ad56def",
+            "senseId": "53313f2e-9346-4501-ae03-fbdc33f643f0",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "6c3d053a-6ae6-5827-a54e-491b32a2875d": {
+      "02cd7be7-2ed3-581b-8ae1-311b769f4733": {
+        "meaning_sha": "87cd3111c1f4011fdfa0b78f5e40a7f87321c0d60baef0a5ac08e8b098093d22",
+        "scope_synonyms": [
+          {
+            "text": "chemisorption",
+            "lexemeId": "9ad13bd2-2873-5a51-a907-8023b98affc8",
+            "senseId": "c4bdac5c-3ff9-5cc7-81ba-99570f58cb04",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c4692d2-d13e-540a-8d81-7d5cdf8f61b9": {
+      "89cf0a9d-dffc-5f8f-9b61-f322a4851e64": {
+        "meaning_sha": "b62910ca57d3f5907cd0f71341a6b6fadba935f65f9067ba745eaf3c11aae444",
+        "scope_synonyms": [
+          {
+            "text": "mental state",
+            "lexemeId": "f9f7cf2f-e386-5881-ba18-de5577d928a5",
+            "senseId": "b81dd89b-b3f9-5a9e-b97c-3d8f8a96bde3",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "psychological condition",
+            "lexemeId": "e2227485-0cce-5b88-a45a-6d17ab003cad",
+            "senseId": "763ba58b-f2ab-5a33-965b-5c6722eb5209",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "psychological state",
+            "lexemeId": "6c8d29ee-b457-5288-9f95-47711dbb8a41",
+            "senseId": "6aacee27-6f43-5805-81eb-4e48943c3a5d",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c48e538-e5ea-5539-9d63-d36ad017909e": {
+      "87e4704d-e524-5712-84f5-4107e71de6dc": {
+        "meaning_sha": "c769f098babd0f6f1d595006209dde86e4d43f0dbbbb5a498878d3449a17b789",
+        "scope_synonyms": [
+          {
+            "text": "creation",
+            "lexemeId": "af044cb7-3df7-5219-90a8-5e364ba5f205",
+            "senseId": "77f62298-c94b-48b6-bcd8-cb5ed8eda021",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "foundation",
+            "lexemeId": "390ba9e5-df5f-5936-9e59-14e790767038",
+            "senseId": "35c74dd5-d32d-5c0b-9780-b4b8251b695c",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "founding",
+            "lexemeId": "3f2e648b-afd3-54a2-887e-33d09727e3e5",
+            "senseId": "db18cbff-1366-4b29-b8a8-4ddef5546263",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "initiation",
+            "lexemeId": "dbc28746-f24f-5b72-9d2c-ff2fea602a8a",
+            "senseId": "1e622c43-37fc-4c50-bac6-b0add6c3918e",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "innovation",
+            "lexemeId": "a18236d7-2b9f-59c7-bdb9-1932edf9d491",
+            "senseId": "5b02dd44-8b92-416d-ab0a-afbe3300cfb1",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "instauration",
+            "lexemeId": "107b8ada-8e2c-5284-a823-f030030e1ba0",
+            "senseId": "66005b49-59ef-58f4-97bc-4afe060a6dc5",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "institution",
+            "lexemeId": "42747302-5859-57d5-9cf5-ca6588823fe7",
+            "senseId": "ca4cbe81-a325-4a3f-ad65-9092ae4ba503",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "origination",
+            "lexemeId": "881cda03-8521-5dfc-8509-e70339b1366e",
+            "senseId": "4276d0b5-997c-5f0d-88c0-db2b3f0b5a1f",
+            "partOfSpeech": "n"
+          }
+        ],
+        "replace_cefr": {
+          "original": "C1",
+          "text": "B2"
+        }
+      },
+      "203af725-79b3-470d-a449-00a04e84049a": {
+        "meaning_sha": "d5ba711b95e67b75e619244226265699b383ade30ae467707425a4129688874c",
+        "scope_synonyms": [
+          {
+            "text": "debut",
+            "lexemeId": "f6576e50-1dc5-56d9-b55e-dc5d3eb35d28",
+            "senseId": "a49fc3be-d7ae-4b20-9ed3-65a92045ffa9",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "entry",
+            "lexemeId": "f8dfc3b9-7804-5903-95af-46cf411bec07",
+            "senseId": "af8c1bbe-d45e-4ccf-820d-1348ee4e2951",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "first appearance",
+            "lexemeId": "13e82255-1f3e-5881-93f7-6f0c1183a444",
+            "senseId": "fcb777d7-1a02-593d-8c29-d6ff429a50ba",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "launching",
+            "lexemeId": "edd7e25c-c9a8-5999-bea6-534a9529d3b9",
+            "senseId": "c270b02f-1a63-4a1d-900f-dc8f44ea012f",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "unveiling",
+            "lexemeId": "5551ea67-9f6a-54d3-8201-2fdecc5a3add",
+            "senseId": "665ca93c-af07-4efd-ba7d-788baced9ccf",
+            "partOfSpeech": "n"
+          }
+        ],
+        "replace_cefr": {
+          "original": "B1",
+          "text": "B2"
+        }
+      },
+      "b1307a3e-8b99-5ad7-a99c-73688bf49738": {
+        "meaning_sha": "5e11657b2f96a4691f778e57e67b569dd8fd34ad015048d1644ead8f2b697137",
+        "scope_synonyms": [
+          {
+            "text": "insertion",
+            "lexemeId": "95143f27-f92d-5fcc-96f6-38255caefa50",
+            "senseId": "d519944d-c05d-43eb-a8e8-3d275c44c006",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "intromission",
+            "lexemeId": "fba418b4-5e6e-50da-b8db-7cdb11ddbf13",
+            "senseId": "12a9fab7-285c-5ef0-9229-ad9823e4eb1e",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "d1671499-8a60-4bf3-bb51-bfd5055a40fa": {
+        "meaning_sha": "5fd20f9f5d8ae42dd532ad2a731b56e10f14612c52b847048a3f2348976013fa",
+        "scope_synonyms": [
+          {
+            "text": "intro",
+            "lexemeId": "d87828e8-50df-5820-be6e-051292977564",
+            "senseId": "0695088a-7392-42a0-8144-9fabb621f4b8",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "presentation",
+            "lexemeId": "061bad48-4d69-5a87-9356-7d1c8a5f17c5",
+            "senseId": "7e30c8c5-7fd5-57ca-9de2-ddb58e193807",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c4d0373-3dd6-54f4-8a00-380df8706558": {
+      "95ead99b-43af-5c59-b48b-65beac86c18c": {
+        "meaning_sha": "8e04f9a768c89e25a2601bde13ab77d4617b8c37656d3d2564b1b2766198e8f6",
+        "scope_synonyms": [
+          {
+            "text": "panoramic",
+            "lexemeId": "edfc656b-d45e-51e4-99a9-b71b7510b449",
+            "senseId": "b00023a4-913b-481e-bdb4-1a9586120194",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "6c4e2ea5-a64f-5e3f-8b8b-55bc2b08d005": {
+      "da797cca-5d58-4cc5-9600-06fd17f4e8e9": {
+        "meaning_sha": "be46410337e54e12b6e08149e39c9f0d66aa4bc825612020ffed8ecd8c10a664",
+        "scope_synonyms": [
+          {
+            "text": "aforesaid",
+            "lexemeId": "cf711cd6-68b7-5d54-bcf3-b128bba48c87",
+            "senseId": "4ec9d85e-34cf-5164-a6fe-0cc89defeb0f",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "said",
+            "lexemeId": "20230bfc-58d0-5ea0-a455-e96b1c812138",
+            "senseId": "a791fda9-234e-4e64-bef6-f9c59ea1d3f0",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "6c4e4de0-6c2e-565f-bf5f-885b13798145": {
+      "e201bb87-9d73-5e6e-9af4-ff52cadf2227": {
+        "meaning_sha": "d499401a039453f582d2c6c0867c0ef6126a142a9f8eb89b25dc1da9b581073f",
+        "scope_synonyms": [
+          {
+            "text": "red herring",
+            "lexemeId": "c28e4bc6-55e3-554d-983e-c25ad8e49856",
+            "senseId": "0a9abbfb-c2fe-5388-9f6a-e50c7bf64f4d",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c503495-e4a8-5173-92c1-19ab8cad8a91": {
+      "42bf80b7-eaaa-4a07-ac9c-03bc4430f539": {
+        "meaning_sha": "ee8aa6d717d500c98207006fa1e9cd6e0b888af433285f2e05d4044acf4c7faa",
+        "scope_antonyms": [
+          {
+            "text": "breathless",
+            "lexemeId": "2d149bcb-4349-5201-b3fe-481dad429d4c",
+            "senseId": "fb165acf-90b1-4aa5-9f10-72f09e257ab8",
+            "partOfSpeech": "a"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "eupneic",
+            "lexemeId": "e3878826-f7f8-542b-a57d-97169cf633e3",
+            "senseId": "47c13666-6516-5172-921d-3f4f30ac4110",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "eupnoeic",
+            "lexemeId": "02669ef6-eb6a-55f1-9d3f-e8fb67ae1810",
+            "senseId": "acd35a3a-ddde-5910-a5ab-875cc75b571a",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "6c5572d6-4a84-5c62-a87e-8b5c6e416070": {
+      "d665b940-7907-5722-82e5-f2fb3839042a": {
+        "meaning_sha": "42c88d4b50bd4b544606e7a2e24ec425f2d85db72c4e0961573b31e3063d422a",
+        "scope_synonyms": [
+          {
+            "text": "inanity",
+            "lexemeId": "3fea73ad-57f0-577b-ad55-d2e5e4cd0849",
+            "senseId": "2577e8f4-526a-517c-a1c8-a4c71d876df3",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "mindlessness",
+            "lexemeId": "c1a3c5db-df7b-5e78-81b0-9ea433936f25",
+            "senseId": "e4719a61-1e5f-5cfb-af35-85b57937798a",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "pointlessness",
+            "lexemeId": "ef0627f1-9706-5217-8fd4-509c68ff6785",
+            "senseId": "319c5db4-903a-5742-9bf2-b58e2a12290b",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "senselessness",
+            "lexemeId": "5a5ffb61-bdee-5e8c-b4b1-4d3e113cc9c2",
+            "senseId": "506c577e-bef8-5fbd-b550-cac720210644",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "fa41c90f-8d0c-5492-91d1-496c27308081": {
+        "meaning_sha": "0f77c67e40362904eb8ed31d6fba7a81ed89c905cadc51b5e85c62a7e12fa716",
+        "scope_synonyms": [
+          {
+            "text": "vacuum",
+            "lexemeId": "d1028b87-901a-5aa8-a3ba-5d132ab33b79",
+            "senseId": "aae03343-e0e8-4507-98f7-428684b8e389",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c562e26-a875-5f40-8812-2436b3a87650": {
+      "ecb89969-0607-46a8-9826-ba749353d0c5": {
+        "meaning_sha": "73cbf9364a564c8031ac68236c885aab87dc144ca494069c8e2178be0d1fd850",
+        "scope_synonyms": [
+          {
+            "text": "cost",
+            "lexemeId": "8bdfa3e7-e731-5a75-bf3f-1658bc6223f0",
+            "senseId": "7863fc1b-12ed-47a7-bb4b-92eecabc1c65",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "monetary value",
+            "lexemeId": "73809a94-89f4-520d-a7d9-eab61799d23e",
+            "senseId": "14ddf5d2-c02c-5a25-804d-cb8af11c1534",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "ff71e820-7dff-4756-b28e-651281440186": {
+        "meaning_sha": "41ab71b6dbc7ec8eb05df4ef7a0a46cd032fd56cd3d92fa650cf7ce38add49bd",
+        "scope_synonyms": [
+          {
+            "text": "cost",
+            "lexemeId": "8bdfa3e7-e731-5a75-bf3f-1658bc6223f0",
+            "senseId": "9e913e90-ce6f-4fac-a4b9-2f4060b6a433",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "toll",
+            "lexemeId": "10c70c1a-1ace-5f0e-a9b2-59f9a1898592",
+            "senseId": "83c0ac24-44ec-4b9e-bea7-33144623c87f",
+            "partOfSpeech": "n"
+          }
+        ],
+        "replace_cefr": {
+          "original": "A2",
+          "text": "C1"
+        },
+        "replace_translation_uz": {
+          "original": "narx",
+          "text": "badal; erishish uchun to‘lanadigan narx"
+        }
+      },
+      "cd3d6941-11be-4f1f-9781-8f2bcc843a08": {
+        "meaning_sha": "b5d7939b0e2ca08ac4c247f10f9c8e1e1968bf6597631b091f1db329b74e562d",
+        "scope_synonyms": [
+          {
+            "text": "damage",
+            "lexemeId": "f32fc76a-d43f-5cbd-b7a4-6cc93794ba27",
+            "senseId": "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "terms",
+            "lexemeId": "44ebd8ee-371f-5f0d-8131-965c6295c058",
+            "senseId": "94ef6d3b-8e75-408a-a8fb-fe98d7e30037",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6c56e518-c51a-5d71-8d40-43057dca343c": {
+      "9f7041e3-51e5-494a-b38d-03b31da1108e": {
+        "meaning_sha": "cb397755778405530559e712a3da92440f496b8d63766b83605fdbbc6f83c1ea",
+        "scope_synonyms": [
+          {
+            "text": "aah",
+            "lexemeId": "70784186-080e-52c1-80e5-444d79b82720",
+            "senseId": "a73e7f14-d80a-4aae-a7f0-db2dcaca7312",
+            "partOfSpeech": "v"
+          }
+        ]
+      }
+    },
+    "6c577bf2-afae-5d7d-8cac-05956995003d": {
+      "e754ac6a-e982-45c2-9c34-449ed04215bc": {
+        "meaning_sha": "8271e6ab96e964a9da8f6a97b8b895d12834d724ad903f622a907958cd6afc6c",
+        "scope_synonyms": [
+          {
+            "text": "busyness",
+            "lexemeId": "a32b5751-de8c-5ff2-a668-1047499266bf",
+            "senseId": "ad9928cc-3f57-545e-8e80-4eef7a41dcb2",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "69db394f-7df9-4871-b8bb-fefb256a0424": {
+        "meaning_sha": "555178a7e4df3b810a337599cf224d8d802e71977e2ad71984234c1ac8a0c9f3",
+        "scope_synonyms": [
+          {
+            "text": "humming",
+            "lexemeId": "d5f93087-0064-50d8-84e4-cd8ed21ed713",
+            "senseId": "c77b7f94-f546-434d-a681-e941a139830a",
+            "partOfSpeech": "n"
+          }
+        ],
+        "add_collocations": [
+          {
+            "text": "the hum of traffic"
+          },
+          {
+            "text": "the hum of conversation"
+          },
+          {
+            "text": "background hum"
+          }
+        ]
+      }
+    },
+    "6c3948e3-57fa-56bb-86bf-690673a20406": {
+      "11e70d5b-274a-42ec-aaff-de64838e111e": {
+        "meaning_sha": "5cd7481b9d9984b0133c9f59c6ba0327afaeb9ab6daf9ab1516027f28b95c6af",
+        "replace_cefr": {
+          "original": "C1",
+          "text": "C2"
+        }
+      },
+      "62e0a647-d75f-42fc-8d02-5f116a32b9ec": {
+        "meaning_sha": "2cc050dceed38e3b5753d757d688f756a655cfc5c7cb1dd514650a0c60268bd8",
+        "replace_definition_en": {
+          "original": "a United States dry unit equal to 2 pints or 67.2 cubic inches",
+          "text": "a US dry-volume unit equal to two dry pints, approximately 1.101 litres or 67.2 cubic inches"
+        },
+        "replace_definition_uz": {
+          "original": "AQShning quruq hajm birligi bo‘lib, 2 pint yoki 67,2 kub dyuymga teng",
+          "text": "AQShda sochiluvchan mahsulotlar hajmini o‘lchash birligi: ikki quruq pintga, taxminan 1,101 litr yoki 67,2 kub dyuymga teng."
+        }
       }
     }
   }

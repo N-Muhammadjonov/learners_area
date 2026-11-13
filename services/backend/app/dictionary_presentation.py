@@ -112,11 +112,11 @@ def corrected_sense_presentation(entry, sense):
         'remove_antonym_lexeme_ids': list(correction.get('remove_antonym_lexeme_ids', [])),
         'add_synonyms': [
             {key: item[key] for key in ('text', 'lexemeId', 'senseId')}
-            for item in correction.get('add_synonyms', [])
+            for item in [*correction.get('scope_synonyms', []), *correction.get('add_synonyms', [])]
         ],
         'add_antonyms': [
             {key: item[key] for key in ('text', 'lexemeId', 'senseId')}
-            for item in correction.get('add_antonyms', [])
+            for item in [*correction.get('scope_antonyms', []), *correction.get('add_antonyms', [])]
         ],
         'add_collocations': [
             {'text': item['text']}

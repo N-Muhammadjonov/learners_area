@@ -78,6 +78,25 @@ def _update_relations(
 ) -> None:
     senses = entry["senses"]
     for relation_type in ("synonym", "antonym"):
+        # A reviewed scope operation identifies one existing edge by both target
+        # IDs. Never infer its source meaning from the lemma or target alone.
+        for target in patch.get(f"scope_{relation_type}s", []):
+            if not all(target.get(key) for key in ("lexemeId", "senseId", "text", "partOfSpeech")):
+                raise ValueError("dictionary_semantic_relation_target_missing")
+            matches = [
+                relation for relation in entry["relations"]
+                if relation["relation_type"] == relation_type
+                and relation["target_lexeme_id"] == target["lexemeId"]
+                and relation.get("target_sense_id") == target["senseId"]
+            ]
+            if len(matches) != 1 or (
+                matches[0].get("source_sense_id") not in (None, sense_id)
+                or matches[0]["display_lemma"] != target["text"]
+                or matches[0]["part_of_speech"] != target["partOfSpeech"]
+            ):
+                raise ValueError("dictionary_semantic_relation_scope_mismatch")
+            matches[0]["source_sense_id"] = sense_id
+
         excluded = set(patch.get(f"remove_{relation_type}_lexeme_ids", []))
         if excluded:
             if len(senses) != 1:

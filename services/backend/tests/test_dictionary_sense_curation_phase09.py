@@ -265,7 +265,7 @@ def test_every_correction_links_to_uuid_and_has_exact_meaning_hash() -> None:
         for sense_id, correction in senses.items():
             UUID(sense_id)
             assert len(correction["meaning_sha"]) == 64
-            for kind in ("add_synonyms", "add_antonyms"):
+            for kind in ("add_synonyms", "add_antonyms", "scope_synonyms", "scope_antonyms"):
                 for relation in correction.get(kind, []):
                     UUID(relation["lexemeId"])
                     UUID(relation["senseId"])
@@ -579,32 +579,27 @@ def test_beep_cefr_and_exact_car_horn_synonyms_do_not_change_pager_sense() -> No
 
 
 def test_abide_distinguishes_tolerate_from_reside_and_keeps_source() -> None:
-    source = entry(
-        "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
-        "abide",
-        "v",
-        [
-            ("033fda48-dc62-4b8e-91a7-30f327e8e66d",
-             "put up with something or somebody unpleasant", "chidamoq", "C2"),
-            ("28d49c76-2120-49d9-bbc9-c93f5dabdf6f",
-             "dwell", "yashamoq; turmoq", "C2"),
-        ],
-    )
+    receipt = json.loads((Path(__file__).resolve().parents[3] /
+        "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json"
+    ).read_text(encoding="utf-8"))
+    source = next(e for e in receipt["lexemes"] if e["display_lemma"] == "abide")
     frozen = copy.deepcopy(source)
     result = curate_candidate_entry(source)
     assert source == frozen
-    mapping = {
-        row["source_sense_id"]: (row["display_lemma"], row["target_sense_id"])
-        for row in result["relations"]
+    mapping = {}
+    for row in result["relations"]:
+        if row["relation_type"] == "synonym":
+            mapping.setdefault(row["source_sense_id"], set()).add(
+                (row["display_lemma"], row["target_sense_id"]))
+    tolerate = "033fda48-dc62-4b8e-91a7-30f327e8e66d"
+    reside = "28d49c76-2120-49d9-bbc9-c93f5dabdf6f"
+    assert ("tolerate", "52426071-9e5b-4900-a168-e7921693f12a") in mapping[tolerate]
+    assert mapping[reside] == {
+        ("bide", "813c86c3-e5fd-40e3-961d-dac543a54023"),
+        ("stay", "27357825-72ff-421d-b4b2-e0add441aa9f"),
+        ("dwell", "b193eeef-0dfb-4f08-9e91-31e9a420c668"),
     }
-    assert mapping == {
-        "033fda48-dc62-4b8e-91a7-30f327e8e66d": (
-            "tolerate", "52426071-9e5b-4900-a168-e7921693f12a"
-        ),
-        "28d49c76-2120-49d9-bbc9-c93f5dabdf6f": (
-            "dwell", "b193eeef-0dfb-4f08-9e91-31e9a420c668"
-        ),
-    }
+    assert not mapping[tolerate] & mapping[reside]
     assert {row["sense_id"] for row in result["collocations"]} == set(mapping)
 
 
