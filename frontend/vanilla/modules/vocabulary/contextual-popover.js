@@ -14,23 +14,11 @@ import {privateScope} from '../../js/private-scope.js';
 const enc=encodeURIComponent;
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,onClose}=props,t=dict.vocabulary;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,onSavedStatus,onClose}=props,t=dict.vocabulary;
  let occurrenceId=initialOccurrenceId,alternatives=[],contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
  let observer=null;
- function place(){
-  if(!popup||stopped)return;
-  if(sourceType==='retention'){
-   // Retention keeps the dictionary in the same predictable corner at every word.
-   position={left:null,top:null};popup.style.removeProperty('left');popup.style.removeProperty('top');popup.style.visibility='visible';return;
-  }
-  const rect=anchor.getBoundingClientRect(),width=document.documentElement.clientWidth,height=innerHeight,box=popup.getBoundingClientRect(),bounds=anchor.closest('[data-clickable-text]')?.getBoundingClientRect();
-  // Keep the panel inside its text column when it fits there, so it does not cover the answer controls beside it.
-  const edge=bounds&&bounds.width>=box.width?Math.min(width-8,bounds.right):width-8;
-  const above=rect.top-box.height-6,top=above>=8?above:rect.bottom+6;
-  position={left:Math.max(8,Math.min(rect.left,edge-box.width)),top:Math.max(8,Math.min(top,height-box.height-8))};
-  popup.style.left=position.left+'px';popup.style.top=position.top+'px';popup.style.visibility='visible';
- }
+ function place(){if(!popup||stopped)return;position={left:null,top:null};popup.style.removeProperty('left');popup.style.removeProperty('top');popup.style.visibility='visible';}
  const controls=()=>popup?[...popup.querySelectorAll('button,input,select,textarea')]:[];
  function draw(){
   if(localSignal.aborted)return;
@@ -53,10 +41,10 @@ export function contextualWordPopover(context,props){
    if(lookupResult.status==='rejected')error=failure(lookupResult.reason,dict);
    else{
     let data=lookupResult.value;
-    if(sourceType==='retention'&&data?.status==='unresolved'&&occurrenceId){data=await api.request(`/api/vocabulary/meaning?sourceType=retention&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+    if(data?.status==='unresolved'&&occurrenceId){data=await api.request(`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
     alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
-    else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};}
+    else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
     else if(data?.contextual===null)unresolved=true;
     else error=dict.auth.errorServer;
    }
@@ -75,7 +63,7 @@ export function contextualWordPopover(context,props){
     ?await api.request('/api/dictionary/save',{method:'POST',body:{...contextual.dictionary,folderId:folderId||null},signal:localSignal})
     :await api.request('/api/vocabulary',{method:'POST',body:{items:[{term:word,translationUz:null}],sourceType,sourceId,occurrenceId,folderId:folderId||null},signal:localSignal});
    if(localSignal.aborted)return;
-   if(result?.ok===true){privateScope.invalidate('vocabulary:');saved=true;}
+   if(result?.ok===true){privateScope.invalidate('vocabulary:');saved=true;onSavedStatus?.(true);}
    else error=dict.auth.errorServer;
   }catch(e){
    if(localSignal.aborted)return;
@@ -113,7 +101,7 @@ export function contextualWordPopover(context,props){
  }
  function view(){
   const study=!loading?contextual?.study:null;
-  return el('div',{tabIndex:-1,role:'dialog','aria-label':word,'data-word-popover':true,'data-word-source':sourceType,class:'dictionary-context-panel fixed overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised',style:{...(sourceType==='retention'?{}:{left:(position?.left??0)+'px',top:(position?.top??0)+'px'}),visibility:position?'visible':'hidden'}},
+  return el('div',{tabIndex:-1,role:'dialog','aria-label':word,'data-word-popover':true,'data-word-source':sourceType,class:'dictionary-context-panel fixed overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised',style:{visibility:position?'visible':'hidden'}},
    el('div',{class:'flex items-start justify-between gap-2'},
     el('span',{class:'font-display text-lg text-ink-900'},word),
     button('btn-ghost px-2 py-1 text-xs',{'aria-label':t.games.pronounce},'🔊',()=>speak(word)),
@@ -122,7 +110,7 @@ export function contextualWordPopover(context,props){
    loading?el('p',{class:'mt-2 text-xs text-ink-300'},dict.common.loading):null,
    !loading&&known?knownBlock():null,
    !loading&&!known&&!saved?el('div',{class:'mt-2 flex flex-col gap-2'},
-    unresolved?el('div',{role:'status',class:'text-xs text-ink-500','data-word-unresolved':true},alternatives.length?el('div',{class:'space-y-2'},el('p',{},context.locale==='uz'?"Matnga mos ma’noni tanlang:":'Choose the meaning used here:'),alternatives.map(candidate=>button('w-full rounded-md border p-2 text-left',{'data-context-alternative':''},candidate.definitionEn+(candidate.translationUz?' · '+candidate.translationUz:''),()=>{contextual=candidate;unresolved=false;draw();}))):el('a',{class:'link-inline',href:'/app/vocabulary?tab=dictionary&q='+enc(word)},dict.globalDictionary.search)):null,
+    unresolved?el('div',{role:'status',class:'text-xs text-ink-500','data-word-unresolved':true},alternatives.length?el('div',{class:'space-y-2'},el('p',{},context.locale==='uz'?"Matnga mos ma’noni tanlang:":'Choose the meaning used here:'),alternatives.map(candidate=>button('w-full rounded-md border p-2 text-left',{'data-context-alternative':''},candidate.definitionEn+(candidate.translationUz?' · '+candidate.translationUz:''),()=>{contextual=candidate;unresolved=false;draw();}))):el('p',{},context.locale==='uz'?'Bu kontekstdagi ma’no hali tasdiqlanmagan.':'The meaning in this context has not been verified yet.')):null,
     contextual?[contextualBlock(),...folderAndSave()]:null):null,
    study?studyBlock(study):null,
    saved?el('p',{class:'mt-2 text-xs text-band-good','data-word-saved':true},`${t.add.added} · ${t.tab.words}`):null,
