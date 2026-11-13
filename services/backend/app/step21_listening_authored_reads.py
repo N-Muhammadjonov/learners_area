@@ -113,22 +113,22 @@ async def authored(req:Request,id:str):
                  'imageUrl':f'/api/resources/{image_key}?download=1' if image_key else None,'vocabulary':[]}
             # Only editor-resolved, source-exact lexical occurrences.
             # Never choose a sense by search rank, spelling, or proximity.
-            if source in ('listening-test-1','listening-test-2'):
-                sections=content.get('sections',[])
-                rows=await con.fetch("""SELECT id,section_number,start_char,end_char,surface_form
-                  FROM lexical_occurrences WHERE listening_test_id=$1
-                    AND source_type='listening' AND segment_key IN ('s1','s2','s3','s4')
-                    AND resolution_status='resolved' AND lexeme_id IS NOT NULL
-                  ORDER BY section_number,start_char,end_char""",core.uuid_value(id))
-                spans=[]
-                for row in rows:
-                    part=row['section_number'];start=row['start_char'];end=row['end_char']
-                    if not isinstance(part,int) or not 1<=part<=4 or len(sections)<part:continue
-                    transcript=sections[part-1].get('transcript','')
-                    if not isinstance(transcript,str) or not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=len(transcript):continue
-                    if transcript[start:end]!=row['surface_form']:continue
-                    spans.append({'part':part,'start':start,'end':end,'surface':row['surface_form'],'occurrenceId':str(row['id'])})
-                out['contextualOccurrences']=spans
+            # Project authorized, editor-verified transcript senses for all authored tests.
+            sections=content.get('sections',[])
+            rows=await con.fetch("""SELECT id,section_number,start_char,end_char,surface_form
+              FROM lexical_occurrences WHERE listening_test_id=$1
+                AND source_type='listening' AND segment_key IN ('s1','s2','s3','s4')
+                AND resolution_status='resolved' AND lexeme_id IS NOT NULL
+              ORDER BY section_number,start_char,end_char""",core.uuid_value(id))
+            spans=[]
+            for row in rows:
+                part=row['section_number'];start=row['start_char'];end=row['end_char']
+                if not isinstance(part,int) or not 1<=part<=4 or len(sections)<part:continue
+                transcript=sections[part-1].get('transcript','')
+                if not isinstance(transcript,str) or not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=len(transcript):continue
+                if transcript[start:end]!=row['surface_form']:continue
+                spans.append({'part':part,'start':start,'end':end,'surface':row['surface_form'],'occurrenceId':str(row['id'])})
+            out['contextualOccurrences']=spans
             if definition:out['storageKey']=definition['storageKey']
             if definition and definition['media']:out['audioPath']=definition['media'][0]['path']
             elif 'path' in audio:out['audioPath']=audio['path']
