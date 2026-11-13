@@ -15,7 +15,7 @@ import {LANDING_HTML} from '../landing-inline.js';
 export async function mount(context){
  // The standalone landing is supplied by this already-loaded auth module.
  // srcdoc isolates the original typography, CSS and animations from AuthShell.
- if(context.url.pathname==='/landing'){
+ if(context.url.pathname==='/'||context.url.pathname==='/landing'){
   const {root,signal,navigate}=context;
   const frame=document.createElement('iframe');
   frame.title='Learners Area — platforma bilan tanishing';
@@ -43,7 +43,7 @@ export async function mount(context){
  const {root,url,signal,navigate}=context,{locale}=readPreferences(),dict=await dictionary(locale);if(signal.aborted)return;
  const path=url.pathname,register=path==='/register',reset=path.startsWith('/reset-password'),confirm=path.endsWith('/confirm');
  const title=register?dict.auth.registerTitle:reset?confirm?dict.auth.resetConfirmTitle:dict.auth.resetTitle:dict.auth.loginTitle;
- const footer=reset?undefined:[register?dict.auth.haveAccount:'',el('a',{href:register?'/login':'/landing',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'))];
+ const footer=reset?undefined:[register?dict.auth.haveAccount:'',el('a',{href:register?'/login':'/register',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'))];
  const region=el('div',{'data-public-auth':''}),shell=authShell({...context,dict,locale},{title,children:region,footer});root.append(shell);let busy=false;
  // A bot-issued login proof is kept in the URL fragment, not a server-visible query.
  // Remove the fragment synchronously before exchanging it for an HttpOnly session.
