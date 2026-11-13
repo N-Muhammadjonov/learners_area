@@ -742,3 +742,18 @@ Mavjud synonym/antonym targetlarining aniq ma’nolari saqlandi: `panoramic` faq
 Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1720-1726.json`. Mahalliy backend: **185 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar o‘zgarmagan; **0/20** bosqich to‘liq tugagan. Joriy source guruhida keyingi **4 leksema / 11 ma’no**: `vacuity`, `price`, `ooh`, `hum`.
 
 `0a56bbe76042d23c96c4180ad9969ce9251a4e42` uchun GitHub Actions `43364401387`: **184 backend + 20 DOM testi PASS**, compile PASS, 0 failed/skip. Vercel shu SHA uchun 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-0a56bbe7.json`.
+
+
+### 1 727–1 730-leksemalar — joriy 30 talik guruhning til maydonlari
+
+`vacuity`, `price`, `ooh`, `hum`: **4 leksema / 11 ma’no / 77 maydon qarori**. Shu bilan **1 701–1 730 leksemalarning 48 ma’nosi** bo‘yicha yetti til maydonining **336 qarori** hujjatlashtirildi. Bu faqat ushbu 30 talik source guruhining lexical qamrovi; barcha 9-bosqich yoki 20 bosqich tugagan degani emas. Har bir original sense ID uchun bir martalik ledger borligi va hech biri tushib qolmaganligi test bilan tekshirildi.
+
+Vacuityning ma’nosizlik/bo‘shliq ma’nolari ajratildi. Price xarid narxi A2 va oldin tuzatilgan badal C1 dalil bilan saqlandi; mukofot, pora, eskirgan yuksak qadr hamda abstrakt moddiy qimmatning tasdiqlanmagan CEFRlari null qilindi. `ooh` fe’lining hamda `hum` tovush/bandlik otlarining ishonchsiz C2lari null. Humning tovush ta’rifi self-reference o‘rniga ravshan ifodalandi; faoliyat tarjimasidan tovush bilan chalg‘ituvchi ibora olib tashlandi. O‘nta collocation aynan tegishli ma’nolarga qo‘shildi.
+
+Price bilan bog‘langan `damage`ning faqat norasmiy narx ma’nosi aniqlandi, dalilsiz B2 null qilindi va aniq savol iborasi qo‘shildi; uning qolgan to‘rt fizik/huquqiy zarar ma’nosi o‘zgarmagan. Bu target surgical edit alohida sanalgan, 48 source ma’no hisobiga qo‘shilmagan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1727-1730.json`. Mahalliy backend: **188 passed / 0 failed / 0 skipped / 1 warning**. Qamrov testi to‘liq 48 source IDni ledgerlarga 1:1 moslashtiradi; damage testi boshqa ma’nolar o‘zgarmaganini tekshiradi. Misollar global lexical audit tugashigacha qoldirilgan; oldingi 233 example correction saqlangan.
+
+Joriy 48 ma’noning CEFR holati: **33 null, 1 A2, 1 B1, 6 B2, 2 C1, 5 C2**. Bular yangi qamrovning yakuniy candidate qiymatlari, butun lug‘at statistikasi emas. Barcha 110 409 ma’no auditi va **0/20** bosqich holati ochiq qoladi. Oldingi 1 700 source leksemaning yetishmayotgan til maydonlari ham alohida dalillar bilan tugatilishi kerak; source readback hisoblari qayta oshirilmaydi.
+
+`530752e6c496b9a5602d41426b94dea9c5706255` uchun GitHub Actions `43365048469`: **185 backend + 20 DOM testi PASS**, 0 failed/skip, compile PASS, aynan shu SHA uchun Vercel 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-530752e6.json`.

@@ -1,0 +1,1627 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "prior_candidate_commit": "530752e6c496b9a5602d41426b94dea9c5706255",
+  "scope": {
+    "lexemes": 4,
+    "senses": 11,
+    "field_decisions": 77,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "additional_target_readbacks": 0,
+    "out_of_phase_target_interventions": 1
+  },
+  "senses": [
+    {
+      "lexeme_id": "6c5572d6-4a84-5c62-a87e-8b5c6e416070",
+      "sense_id": "d665b940-7907-5722-82e5-f2fb3839042a",
+      "lemma": "vacuity",
+      "meaning_sha": "42c88d4b50bd4b544606e7a2e24ec425f2d85db72c4e0961573b31e3063d422a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "total lack of meaning or ideas",
+          "after": "(formal, disapproving) a complete lack of meaningful thought or ideas.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Intellectual/content emptiness confirmed; formal disapproving register added."
+        },
+        "definition_uz": {
+          "before": "ma’no yoki g‘oyalarning mutlaqo yo‘qligi",
+          "after": "(rasmiy, salbiy) mazmunli fikr yoki g‘oyalarning butunlay yo‘qligi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Mazmunli fikr/g‘oya yo‘qligi va salbiy rasmiy ohang ifodalandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "mazmunsizlik",
+              "translation_id": "af3d27ed-332e-5d6f-b4a9-318150d2cada"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "mazmunsizlik",
+              "translation_id": "af3d27ed-332e-5d6f-b4a9-318150d2cada"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Mazmunsizlik conveys lack of meaningful content, not physical space."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Exact primary entries have no CEFR; source C2 unsupported, null."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "inanity",
+              "lexemeId": "3fea73ad-57f0-577b-ad55-d2e5e4cd0849",
+              "senseId": "2577e8f4-526a-517c-a1c8-a4c71d876df3"
+            },
+            {
+              "text": "mindlessness",
+              "lexemeId": "c1a3c5db-df7b-5e78-81b0-9ea433936f25",
+              "senseId": "e4719a61-1e5f-5cfb-af35-85b57937798a"
+            },
+            {
+              "text": "pointlessness",
+              "lexemeId": "ef0627f1-9706-5217-8fd4-509c68ff6785",
+              "senseId": "319c5db4-903a-5742-9bf2-b58e2a12290b"
+            },
+            {
+              "text": "senselessness",
+              "lexemeId": "5a5ffb61-bdee-5e8c-b4b1-4d3e113cc9c2",
+              "senseId": "506c577e-bef8-5fbd-b550-cac720210644"
+            }
+          ],
+          "after": [
+            {
+              "text": "inanity",
+              "lexemeId": "3fea73ad-57f0-577b-ad55-d2e5e4cd0849",
+              "senseId": "2577e8f4-526a-517c-a1c8-a4c71d876df3"
+            },
+            {
+              "text": "mindlessness",
+              "lexemeId": "c1a3c5db-df7b-5e78-81b0-9ea433936f25",
+              "senseId": "e4719a61-1e5f-5cfb-af35-85b57937798a"
+            },
+            {
+              "text": "pointlessness",
+              "lexemeId": "ef0627f1-9706-5217-8fd4-509c68ff6785",
+              "senseId": "319c5db4-903a-5742-9bf2-b58e2a12290b"
+            },
+            {
+              "text": "senselessness",
+              "lexemeId": "5a5ffb61-bdee-5e8c-b4b1-4d3e113cc9c2",
+              "senseId": "506c577e-bef8-5fbd-b550-cac720210644"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Inanity, mindlessness, pointlessness, senselessness target exact original ideas/meaning-absence senses. Rashness and physical unconsciousness senses excluded; inanity independently attested."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Profundity/intelligence are possible contrasts, but no exact frozen opposite selected."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "intellectual vacuity"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/vacuity",
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Intellectual vacuity is attested in the primary intellectual-emptiness entry."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c5572d6-4a84-5c62-a87e-8b5c6e416070",
+      "sense_id": "fa41c90f-8d0c-5492-91d1-496c27308081",
+      "lemma": "vacuity",
+      "meaning_sha": "0f77c67e40362904eb8ed31d6fba7a81ed89c905cadc51b5e85c62a7e12fa716",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the absence of matter",
+          "after": "the absence of matter",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Physical void/vacuum usage confirmed; source absence-of-matter gloss retained."
+        },
+        "definition_uz": {
+          "before": "Moddaning mavjud emasligi.",
+          "after": "Moddaning mavjud emasligi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Modda mavjud emasligi physical sensega mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "bo‘shliq; moddasizlik",
+              "translation_id": "c2147700-213a-5127-979b-7b969188050e"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "bo‘shliq; moddasizlik",
+              "translation_id": "c2147700-213a-5127-979b-7b969188050e"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Bo‘shliq; moddasizlik distinguishes physical from intellectual emptiness."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "No documented exact physical-sense level; do not borrow vacuum’s label."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "vacuum",
+              "lexemeId": "d1028b87-901a-5aa8-a3ba-5d132ab33b79",
+              "senseId": "aae03343-e0e8-4507-98f7-428684b8e389"
+            }
+          ],
+          "after": [
+            {
+              "text": "vacuum",
+              "lexemeId": "d1028b87-901a-5aa8-a3ba-5d132ab33b79",
+              "senseId": "aae03343-e0e8-4507-98f7-428684b8e389"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Primary dictionary explicitly gives vacuum; frozen target is absence of matter, not cleaning appliance or vacant social role."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Matter/presence are broad contrasts, not a verified exact edge here."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/vacuity",
+            "https://www.merriam-webster.com/dictionary/vacuity"
+          ],
+          "reasoning": "Intellectual vacuity excluded from this physical sense. No additional physical combination independently selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+      "sense_id": "43f8a8c2-b023-4aee-a965-e0da0f7648f2",
+      "lemma": "price",
+      "meaning_sha": "b17fc8c98bab8f5d7f69fc48b476821e980ca093cd3cd6db20979559184bc31a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a monetary reward for helping to catch a criminal",
+          "after": "a monetary reward for helping to catch a criminal",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Capture reward is explicitly recognized; purchase/sacrifice meanings excluded."
+        },
+        "definition_uz": {
+          "before": "Jinoyatchini ushlashga yordam bergan kishiga beriladigan pul mukofoti.",
+          "after": "Jinoyatchini ushlashga yordam bergan kishiga beriladigan pul mukofoti.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Jinoyatchini ushlashga yordam uchun mukofot mazmuni mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "bosh uchun mukofot",
+              "translation_id": "dcfdbddb-08d1-5554-8600-d456bc933e64"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "bosh uchun mukofot",
+              "translation_id": "dcfdbddb-08d1-5554-8600-d456bc933e64"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Bosh uchun mukofot is reward usage, not a price for buying a person."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Head-reward sense has no independent CEFR; common purchase A2 not transferable. Clear B1."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Bounty/reward can be equivalents but no exact target readback selected; no guessed UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Punishment is not the opposite of the money paid to capture someone; no edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "a price on his head"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/head_1"
+          ],
+          "reasoning": "Price-on-head construction explicitly attested for capture reward."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+      "sense_id": "567c9d2d-948c-57fb-86ed-ceaeca47ae68",
+      "lemma": "price",
+      "meaning_sha": "0736a44f10a1f377a20eb44845a74d6465dda4c09e0138fd8a907d84670ad4de",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "cost of bribing someone",
+          "after": "cost of bribing someone",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "Amount needed to bribe a person explicitly recognized."
+        },
+        "definition_uz": {
+          "before": "Biror kishini pora bilan og‘dirish uchun talab qilinadigan miqdor.",
+          "after": "Biror kishini pora bilan og‘dirish uchun talab qilinadigan miqdor.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "Pora bilan og‘dirish uchun talab etiladigan pul miqdori mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "pora narxi; sotib olish bahosi",
+              "translation_id": "ceee5817-9e55-51da-8680-2e3f8a81a017"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "pora narxi; sotib olish bahosi",
+              "translation_id": "ceee5817-9e55-51da-8680-2e3f8a81a017"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "Pora narxi; sotib olish bahosi denotes bribing, not ordinary goods."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "No exact bribery-sense learner label established; source B1 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "Bribe can denote payment rather than amount required; no unverified equivalence target."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "Honesty is a quality, not an opposite sum of money; no edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "every man has his price"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.dictionary.com/browse/price"
+          ],
+          "reasoning": "Every-man-has-his-price construction expresses bribability; primary entry attests it in past tense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+      "sense_id": "991c7254-0914-4f91-b425-bef5a8a1058e",
+      "lemma": "price",
+      "meaning_sha": "263f3c6b0ad232afc4bbfbb3963c8c2c2deeceb22dc48d46ddcdec40790f6321",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the high value or worth of something",
+          "after": "(archaic) the high value or worth of something.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Value/worth sense explicitly archaic; register added, meaning retained."
+        },
+        "definition_uz": {
+          "before": "Biror narsaning juda katta qiymati yoki ahamiyati.",
+          "after": "(eskirgan yoki kitobiy) biror narsaning yuksak qadri yoki qimmati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Yuksak qadr/qimmat ma’nosi eskirgan-kitobiy usage bilan aniqlandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yuksak qadr",
+              "translation_id": "128519ba-47cc-5871-af87-983f68c5770d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yuksak qadr",
+              "translation_id": "128519ba-47cc-5871-af87-983f68c5770d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Yuksak qadr conveys intrinsic worth, not a retail charge."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Archaic intrinsic-worth sense has no CEFR label; source B1 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Value/worth are attested but no exact frozen target readback for intrinsic worth selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Low price is not opposite intrinsic high worth; no money-price edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "No additional archaic construction selected. Source examples remain deferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+      "sense_id": "cd3d6941-11be-4f1f-9781-8f2bcc843a08",
+      "lemma": "price",
+      "meaning_sha": "b5d7939b0e2ca08ac4c247f10f9c8e1e1968bf6597631b091f1db329b74e562d",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the amount of money needed to purchase something",
+          "after": "the amount of money needed to purchase something",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "Ordinary purchase amount matches exact primary monetary-price meaning."
+        },
+        "definition_uz": {
+          "before": "Biror narsani sotib olish uchun kerak bo'ladigan pul miqdori.",
+          "after": "Biror narsani sotib olish uchun kerak bo'ladigan pul miqdori.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "Xarid uchun kerak bo‘ladigan pul miqdori mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "narx",
+              "translation_id": "c7d1deaa-4da0-5179-a282-c0ded5eb3109"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "narx",
+              "translation_id": "c7d1deaa-4da0-5179-a282-c0ded5eb3109"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "Narx is the ordinary purchase-price noun."
+        },
+        "cefr": {
+          "before": "A2",
+          "after": "A2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "Purchase monetary-price group explicitly A2; retained."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "damage",
+              "lexemeId": "f32fc76a-d43f-5cbd-b7a4-6cc93794ba27",
+              "senseId": "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40"
+            },
+            {
+              "text": "terms",
+              "lexemeId": "44ebd8ee-371f-5f0d-8131-965c6295c058",
+              "senseId": "94ef6d3b-8e75-408a-a8fb-fe98d7e30037"
+            }
+          ],
+          "after": [
+            {
+              "text": "damage",
+              "lexemeId": "f32fc76a-d43f-5cbd-b7a4-6cc93794ba27",
+              "senseId": "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40"
+            },
+            {
+              "text": "terms",
+              "lexemeId": "44ebd8ee-371f-5f0d-8131-965c6295c058",
+              "senseId": "94ef6d3b-8e75-408a-a8fb-fe98d7e30037"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "Terms target is exact purchase amount, not interpersonal relations. Damage target is financial cost, not harm; informal whats-the-damage construction now clarified on target. These context-limited equivalents are not all interchangeable in every sentence."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "Free/expensive are adjectives; no fabricated noun antonym edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "high price"
+            },
+            {
+              "text": "low price"
+            },
+            {
+              "text": "price cuts"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price",
+            "https://www.collinsdictionary.com/dictionary/english/damage"
+          ],
+          "reasoning": "High/low price and price cuts explicitly attested in exact monetary group."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+      "sense_id": "ecb89969-0607-46a8-9826-ba749353d0c5",
+      "lemma": "price",
+      "meaning_sha": "73cbf9364a564c8031ac68236c885aab87dc144ca494069c8e2178be0d1fd850",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the property of having material worth (often indicated by the amount of money something would bring if sold)",
+          "after": "the property of having material worth (often indicated by the amount of money something would bring if sold)",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "Material monetary worth is distinguished from amount charged and from nonmonetary sacrifice."
+        },
+        "definition_uz": {
+          "before": "Biror narsaning moddiy qimmatga ega bo‘lish xususiyati, ko‘pincha u sotilganda qancha pul keltirishi bilan ifodalanadi.",
+          "after": "Biror narsaning moddiy qimmatga ega bo‘lish xususiyati, ko‘pincha u sotilganda qancha pul keltirishi bilan ifodalanadi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "Sotilganda pulga ifodalanadigan moddiy qimmat to‘g‘ri berilgan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "moddiy qiymat; baho",
+              "translation_id": "4e5e668e-9474-5d78-a60b-895adcdb2319"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "moddiy qiymat; baho",
+              "translation_id": "4e5e668e-9474-5d78-a60b-895adcdb2319"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "Moddiy qiymat; baho preserves monetary valuation."
+        },
+        "cefr": {
+          "before": "A1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "Original A1 for abstract material-worth property lacks exact evidence. Price purchase A2 and value noun labels are not automatically transferred; null."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "cost",
+              "lexemeId": "8bdfa3e7-e731-5a75-bf3f-1658bc6223f0",
+              "senseId": "7863fc1b-12ed-47a7-bb4b-92eecabc1c65"
+            },
+            {
+              "text": "monetary value",
+              "lexemeId": "73809a94-89f4-520d-a7d9-eab61799d23e",
+              "senseId": "14ddf5d2-c02c-5a25-804d-cb8af11c1534"
+            }
+          ],
+          "after": [
+            {
+              "text": "cost",
+              "lexemeId": "8bdfa3e7-e731-5a75-bf3f-1658bc6223f0",
+              "senseId": "7863fc1b-12ed-47a7-bb4b-92eecabc1c65"
+            },
+            {
+              "text": "monetary value",
+              "lexemeId": "73809a94-89f4-520d-a7d9-eab61799d23e",
+              "senseId": "14ddf5d2-c02c-5a25-804d-cb8af11c1534"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "Cost target selects material-worth property; monetary value has identical exact gloss. Other cost target meaning belongs to sacrifices, not this sense."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "Worthlessness not an independently verified frozen target here; no edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/price",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/price_1?q=price"
+          ],
+          "reasoning": "A price asked and value estimated can differ; no ambiguous generic collocation newly attached to property sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+      "sense_id": "ff71e820-7dff-4756-b28e-651281440186",
+      "lemma": "price",
+      "meaning_sha": "41ab71b6dbc7ec8eb05df4ef7a0a46cd032fd56cd3d92fa650cf7ce38add49bd",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "value measured by what must be given or done or undergone to obtain something",
+          "after": "value measured by what must be given or done or undergone to obtain something",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Nonmonetary cost/sacrifice matches adverse consequences or effort to obtain something."
+        },
+        "definition_uz": {
+          "before": "biror narsaga erishish uchun berilishi, qilinishi yoki boshdan kechirilishi kerak bo‘lgan qiymat",
+          "after": "Biror narsaga erishish evaziga qilinadigan qurbonlik, sarflanadigan kuch yoki boshdan kechiriladigan yo‘qotish.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Literal qiymat wording replaced by sacrifice, effort and loss given in exchange for achieving something."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "badal; erishish uchun to‘lanadigan narx",
+              "translation_id": "e5bddd89-ae63-5c7a-a3ba-cc355cc66597"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "badal; erishish uchun to‘lanadigan narx",
+              "translation_id": "e5bddd89-ae63-5c7a-a3ba-cc355cc66597"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Previously repaired badal-based translation retained; not counted as new edit."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Explicit consequence/sacrifice C1 retained from exact primary group; purchase A2 excluded."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "cost",
+              "lexemeId": "8bdfa3e7-e731-5a75-bf3f-1658bc6223f0",
+              "senseId": "9e913e90-ce6f-4fac-a4b9-2f4060b6a433"
+            },
+            {
+              "text": "toll",
+              "lexemeId": "10c70c1a-1ace-5f0e-a9b2-59f9a1898592",
+              "senseId": "83c0ac24-44ec-4b9e-bea7-33144623c87f"
+            }
+          ],
+          "after": [
+            {
+              "text": "cost",
+              "lexemeId": "8bdfa3e7-e731-5a75-bf3f-1658bc6223f0",
+              "senseId": "9e913e90-ce6f-4fac-a4b9-2f4060b6a433"
+            },
+            {
+              "text": "toll",
+              "lexemeId": "10c70c1a-1ace-5f0e-a9b2-59f9a1898592",
+              "senseId": "83c0ac24-44ec-4b9e-bea7-33144623c87f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Cost target selects what must be given/done/undergone; toll exact target is same sacrifice gloss, not road fee."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Benefit is a possible consequence but no independently verified antonym target selected."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "price of success"
+            },
+            {
+              "text": "a small price to pay"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/price?topic=yes-no-and-not",
+            "https://www.merriam-webster.com/dictionary/price"
+          ],
+          "reasoning": "Success-price and small-price-to-pay combinations are attested in exact abstract consequence group."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c56e518-c51a-5d71-8d40-43057dca343c",
+      "sense_id": "9f7041e3-51e5-494a-b38d-03b31da1108e",
+      "lemma": "ooh",
+      "meaning_sha": "cb397755778405530559e712a3da92440f496b8d63766b83605fdbbc6f83c1ea",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "express admiration and pleasure by uttering ‘ooh’ or ‘aah’",
+          "after": "express admiration and pleasure by uttering ‘ooh’ or ‘aah’",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "Verb expressing admiration/pleasure directly confirmed; not confused with an interjection label."
+        },
+        "definition_uz": {
+          "before": "Hayrat yoki mamnunlikni 'oh' yoki 'voh' kabi undovlar bilan ifodalamoq.",
+          "after": "Hayrat yoki mamnunlikni 'oh' yoki 'voh' kabi undovlar bilan ifodalamoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "Hayrat/mamnunlikni undov bilan bildirish fe’li mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "hayrat va zavq bilan 'oh' demoq",
+              "translation_id": "3fa56ab8-f9ab-5f29-bac2-c5a5f26e6f22"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "hayrat va zavq bilan 'oh' demoq",
+              "translation_id": "3fa56ab8-f9ab-5f29-bac2-c5a5f26e6f22"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "Hayrat va zavq bilan oh demoq keeps the exclaiming action."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "No reliable exact verb CEFR; source C2 cleared, interjection or third-party estimate not used."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "aah",
+              "lexemeId": "70784186-080e-52c1-80e5-444d79b82720",
+              "senseId": "a73e7f14-d80a-4aae-a7f0-db2dcaca7312"
+            }
+          ],
+          "after": [
+            {
+              "text": "aah",
+              "lexemeId": "70784186-080e-52c1-80e5-444d79b82720",
+              "senseId": "a73e7f14-d80a-4aae-a7f0-db2dcaca7312"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "Aah target is exact admiration-expression verb; noun/cry meanings excluded."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "Disapproving boo is not a verified exact opposite edge here; no guess."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "ooh and aah"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://scrabble.m-w.com/dictionary/ooh",
+            "https://www.dictionary.com/browse/ooh",
+            "https://www.collinsdictionary.com/us/dictionary/english/ooh"
+          ],
+          "reasoning": "Ooh and aah is explicitly a verbal admiration construction in primary entry."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c577bf2-afae-5d7d-8cac-05956995003d",
+      "sense_id": "69db394f-7df9-4871-b8bb-fefb256a0424",
+      "lemma": "hum",
+      "meaning_sha": "555178a7e4df3b810a337599cf224d8d802e71977e2ad71984234c1ac8a0c9f3",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a humming noise",
+          "after": "A low, continuous sound, such as that made by machinery, insects or many people speaking quietly.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "Replace circular humming-noise gloss with low continuous sound and typical sources; primary exact sound sense supports it."
+        },
+        "definition_uz": {
+          "before": "Bir maromda past va uzluksiz eshitiladigan g'uvillash ovozi.",
+          "after": "Bir maromda past va uzluksiz eshitiladigan g'uvillash ovozi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "Past uzluksiz g‘uvillash correctly describes sound."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "g'uvillagan tovush",
+              "translation_id": "a2b5be26-5a70-5d7c-b257-1e3730a88d63"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "g'uvillagan tovush",
+              "translation_id": "a2b5be26-5a70-5d7c-b257-1e3730a88d63"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "G‘uvillagan tovush denotes the sound; retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "Exact noun sound entries provide no CEFR. Unrelated footer levels excluded; C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "humming",
+              "lexemeId": "d5f93087-0064-50d8-84e4-cd8ed21ed713",
+              "senseId": "c77b7f94-f546-434d-a681-e941a139830a"
+            }
+          ],
+          "after": [
+            {
+              "text": "humming",
+              "lexemeId": "d5f93087-0064-50d8-84e4-cd8ed21ed713",
+              "senseId": "c77b7f94-f546-434d-a681-e941a139830a"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "Humming target is sound/noise UUID, not closed-lips singing action."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "Silence could contrast with sound but no exact target verified here; no guessed edge."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "the hum of traffic"
+            },
+            {
+              "text": "the hum of conversation"
+            },
+            {
+              "text": "background hum"
+            }
+          ],
+          "after": [
+            {
+              "text": "the hum of traffic"
+            },
+            {
+              "text": "the hum of conversation"
+            },
+            {
+              "text": "background hum"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/hum_2",
+            "https://www.wordwebonline.com/en/HUM",
+            "https://dictionary.cambridge.org/dictionary/english/hum"
+          ],
+          "reasoning": "Previously added traffic/conversation/background combinations retained only on sound sense, not counted as new additions."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c577bf2-afae-5d7d-8cac-05956995003d",
+      "sense_id": "e754ac6a-e982-45c2-9c34-449ed04215bc",
+      "lemma": "hum",
+      "meaning_sha": "8271e6ab96e964a9da8f6a97b8b895d12834d724ad903f622a907958cd6afc6c",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the state of being or appearing to be actively engaged in an activity",
+          "after": "the state of being or appearing to be actively engaged in an activity",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "WordWeb primary noun entry explicitly documents active-engagement state and busyness. Merriam run-on noun supports family but is not claimed to supply a distinct noun gloss."
+        },
+        "definition_uz": {
+          "before": "Ko‘p faoliyat bilan band bo‘lish yoki shunday ko‘rinish holati.",
+          "after": "Biror ish bilan faol band bo‘lish yoki shunday ko‘rinish holati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "Faol bandlik yoki uning ko‘rinishi retained without requiring multiple simultaneous activities."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "faol shovqin; qizg‘in faoliyat",
+              "translation_id": "9df6722d-ea6f-53a4-9e02-f014a77db5be"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qizg‘in faoliyat; bandlik",
+              "translation_id": "9df6722d-ea6f-53a4-9e02-f014a77db5be"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "Remove faol shovqin sound suggestion; qizg‘in faoliyat; bandlik matches activity state."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "No exact busy-state noun CEFR; source C2 cleared, verb level not transferred."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "busyness",
+              "lexemeId": "a32b5751-de8c-5ff2-a668-1047499266bf",
+              "senseId": "ad9928cc-3f57-545e-8e80-4eef7a41dcb2"
+            }
+          ],
+          "after": [
+            {
+              "text": "busyness",
+              "lexemeId": "a32b5751-de8c-5ff2-a668-1047499266bf",
+              "senseId": "ad9928cc-3f57-545e-8e80-4eef7a41dcb2"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "Busyness target is exact active-engagement state, verified original gloss; not business or abstract acoustic sound."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "Inactivity plausible, but no exact target proof selected; no guessed edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "hum of military preparation"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/HUM",
+            "https://www.merriam-webster.com/dictionary/hum"
+          ],
+          "reasoning": "Military-preparation noun combination is directly attested in primary WordWeb activity sense; distinct from traffic noise."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense and primary lexical references, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "target_interventions": [
+    {
+      "entry": {
+        "attribution": [
+          {
+            "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "legacy_batches_656",
+            "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+            "source_url": "https://en-word.net/"
+          },
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "damage",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "f32fc76a-d43f-5cbd-b7a4-6cc93794ba27",
+        "lexical_type": "word",
+        "normalized_search_form": "damage",
+        "part_of_speech": "n",
+        "pronunciations": [
+          {
+            "ipa": "ˈdæmɪdʒ"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "damage",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "derivation",
+            "target_lexeme_id": "80e34807-bfbf-5823-b5a7-c78291cc52b6",
+            "target_sense_id": "11139a8d-b2af-4219-9ea4-174062a20c48"
+          },
+          {
+            "display_lemma": "damage",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "derivation",
+            "target_lexeme_id": "80e34807-bfbf-5823-b5a7-c78291cc52b6",
+            "target_sense_id": "11139a8d-b2af-4219-9ea4-174062a20c48"
+          },
+          {
+            "display_lemma": "burn",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "404146e9-7b3e-5fa7-8343-bdc3e0a78432",
+            "target_sense_id": "fcce0377-f535-4435-922f-40b3aa2163a5"
+          },
+          {
+            "display_lemma": "highway robbery",
+            "lexical_type": "other",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "2f401c13-fa2f-5992-b3a7-daf85cd17e6b",
+            "target_sense_id": "4fd15128-5daa-5fb9-8887-94e7b4eba96e"
+          },
+          {
+            "display_lemma": "impairment",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "5efefef3-e7d2-57a5-b6ca-6934b8afebff",
+            "target_sense_id": "54d28bf8-d9fa-4b33-922b-3e17a48da32d"
+          },
+          {
+            "display_lemma": "valuation",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "67037aa7-63be-5cf2-af0c-47c632cccd18",
+            "target_sense_id": "d1a9c094-d66f-432d-bcde-5ff492eca0f9"
+          },
+          {
+            "display_lemma": "harm",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "b8f8653b-0804-5c91-8899-bcc9b9afacd4",
+            "target_sense_id": "677a9051-76ff-45a9-b341-2f50fcca5f60"
+          },
+          {
+            "display_lemma": "harm",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "b8f8653b-0804-5c91-8899-bcc9b9afacd4",
+            "target_sense_id": "78114ef9-7d31-4424-95cf-1440bf314edd"
+          },
+          {
+            "display_lemma": "hurt",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "38ed8903-c34e-5d29-9eee-659b74434ba1",
+            "target_sense_id": "51562273-c598-4613-bb1f-033d4ecd94f6"
+          },
+          {
+            "display_lemma": "impairment",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "5efefef3-e7d2-57a5-b6ca-6934b8afebff",
+            "target_sense_id": "e8ea865f-3903-4912-8e56-bac8ff5080b4"
+          },
+          {
+            "display_lemma": "price",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6c562e26-a875-5f40-8812-2436b3a87650",
+            "target_sense_id": "cd3d6941-11be-4f1f-9781-8f2bcc843a08"
+          },
+          {
+            "display_lemma": "scathe",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "5795cd8a-1f1c-5ce9-ba9f-6d03a7adfff4",
+            "target_sense_id": "9ca5e31b-5c19-5443-a7ae-b5557b423185"
+          },
+          {
+            "display_lemma": "terms",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "44ebd8ee-371f-5f0d-8131-965c6295c058",
+            "target_sense_id": "94ef6d3b-8e75-408a-a8fb-fe98d7e30037"
+          },
+          {
+            "display_lemma": "wrong",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "679474e9-04a6-52a4-a58d-8c71a61027a0",
+            "target_sense_id": "ba842890-b20c-487a-8536-831276546093"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "B2",
+            "definition_en": "the amount of money needed to purchase something",
+            "definition_uz": "Biror narsani sotib olish uchun kerak bo‘ladigan pul miqdori.",
+            "examples": [
+              {
+                "example_id": "21e9892d-e9d2-5db7-8c0f-d288e8ba5a20",
+                "text_en": "the price of gasoline",
+                "text_uz": "Benzinning narxi."
+              },
+              {
+                "example_id": "63fcdc13-dfab-501c-8dc2-0e3219eb4911",
+                "text_en": "he got his new car on excellent terms",
+                "text_uz": "U yangi mashinasini juda yaxshi shartlarda oldi."
+              },
+              {
+                "example_id": "b659d313-6e0a-551c-a60c-7eb46b2749bd",
+                "text_en": "how much is the damage?",
+                "text_uz": "Qancha turadi?"
+              }
+            ],
+            "sense_id": "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40",
+            "translations": [
+              {
+                "order": 0,
+                "text": "narx",
+                "translation_id": "ed35d5d8-2873-5b78-8e06-31e91c14db0f"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "any harm or injury resulting from a violation of a legal right",
+            "definition_uz": "Qonuniy huquqning buzilishi natijasida yuzaga keladigan zarar yoki shikast.",
+            "examples": [],
+            "sense_id": "56bf5443-e9a0-426a-b7df-922b48a6cdab",
+            "translations": [
+              {
+                "order": 0,
+                "text": "huquqiy zarar",
+                "translation_id": "b74b0104-e81a-55ac-b2ae-120fb18c5138"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "the occurrence of a change for the worse",
+            "definition_uz": "Holat yoki sifatning yomonlashuvi va shikastlanish hodisasi.",
+            "examples": [],
+            "sense_id": "6d78f89d-26f5-408c-b67d-77ab1b9ccdcb",
+            "translations": [
+              {
+                "order": 0,
+                "text": "yomon tomonga o'zgarish (zarar)",
+                "translation_id": "51f808aa-9f84-5b61-a46a-9d3b0859df16"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "loss of military equipment",
+            "definition_uz": "Harbiy uskunalarning yo'qotilishi yoki ishdan chiqishi.",
+            "examples": [],
+            "sense_id": "97f7b0cf-5b73-4584-b549-96307a4f2d08",
+            "translations": [
+              {
+                "order": 0,
+                "text": "harbiy texnika yo'qotilishi",
+                "translation_id": "ec5ed61b-1a1a-5cd6-af19-1973ae63b4f0"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "the act of damaging something or someone",
+            "definition_uz": "Biror narsa yoki kishiga zarar yetkazish harakati.",
+            "examples": [],
+            "sense_id": "b783042d-bd5d-4455-9e16-e4098eb194d5",
+            "translations": [
+              {
+                "order": 0,
+                "text": "zarar yetkazish, shikastlash",
+                "translation_id": "d0eab139-3d7a-5f93-b9b9-79c680bcf1f3"
+              }
+            ]
+          }
+        ]
+      },
+      "entry_projection": {
+        "lexeme_id": "f32fc76a-d43f-5cbd-b7a4-6cc93794ba27",
+        "sense_ids": [
+          "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40",
+          "56bf5443-e9a0-426a-b7df-922b48a6cdab",
+          "6d78f89d-26f5-408c-b67d-77ab1b9ccdcb",
+          "97f7b0cf-5b73-4584-b549-96307a4f2d08",
+          "b783042d-bd5d-4455-9e16-e4098eb194d5"
+        ],
+        "lemma_norm": "damage",
+        "content_sha": "5e6f7a0683e0bfc9b517d3155bf688389fb2bf068791e8aa34804765fff35c9d",
+        "storage_shard": "f3",
+        "part_of_speech": "n",
+        "storage_length": 2444,
+        "storage_offset": 87225,
+        "storage_raw_bytes": 7034
+      },
+      "sense_id": "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40",
+      "meaning_sha": "ffd92a7750e841dbc30bb413e9f99069ff34dc203ab9ee60d4ce87b0a7da1987",
+      "fields": {
+        "definition_en": {
+          "before": "the amount of money needed to purchase something",
+          "after": "(informal) the amount to be paid for something, especially in 'what’s the damage?'."
+        },
+        "definition_uz": {
+          "before": "Biror narsani sotib olish uchun kerak bo‘ladigan pul miqdori.",
+          "after": "(norasmiy, hazilomuz) biror narsa uchun to‘lanadigan pul miqdori; odatda qancha to‘lash kerakligini so‘rashda ishlatiladi."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": null
+        }
+      },
+      "collocation_added": "what’s the damage?",
+      "evidence_urls": [
+        "https://www.collinsdictionary.com/dictionary/english/damage",
+        "https://dictionary.cambridge.org/es/diccionario/ingles/what-s-the-damage?topic=costs-expenses"
+      ],
+      "reasoning": "Clarify the financial-cost sense as informal/humorous, not physical/legal harm; inherited B2 has no exact financial-sense support. Other four target senses preserved.",
+      "full_seven_field_review_complete": false,
+      "new_readback": false
+    }
+  ],
+  "reference_observations": [
+    {
+      "url": "https://www.wordwebonline.com/en/HUM",
+      "access": "direct public HTTPS GET after web cache miss",
+      "html_sha256": "c7e6693103efdb515e91e9cd6442250b85facc7a3568ed48a38d554ba18d0663",
+      "observed": "Two lowercase hum noun senses: noise; state of active engagement with busyness synonym. Uppercase HUM organization excluded.",
+      "independent_of_upstream_wordnet_certification": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "local_validation": {
+    "backend_regression_suite": {
+      "passed": 188,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "result": "PASS"
+    },
+    "live_browser_qa_performed": false
+  }
+}

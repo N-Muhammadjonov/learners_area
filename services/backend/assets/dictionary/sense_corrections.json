@@ -1962,6 +1962,23 @@
             "senseId": "506c577e-bef8-5fbd-b550-cac720210644",
             "partOfSpeech": "n"
           }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "total lack of meaning or ideas",
+          "text": "(formal, disapproving) a complete lack of meaningful thought or ideas."
+        },
+        "replace_definition_uz": {
+          "original": "ma’no yoki g‘oyalarning mutlaqo yo‘qligi",
+          "text": "(rasmiy, salbiy) mazmunli fikr yoki g‘oyalarning butunlay yo‘qligi."
+        },
+        "add_collocations": [
+          {
+            "text": "intellectual vacuity"
+          }
         ]
       },
       "fa41c90f-8d0c-5492-91d1-496c27308081": {
@@ -1973,7 +1990,11 @@
             "senseId": "aae03343-e0e8-4507-98f7-428684b8e389",
             "partOfSpeech": "n"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
       }
     },
     "6c562e26-a875-5f40-8812-2436b3a87650": {
@@ -1992,7 +2013,11 @@
             "senseId": "14ddf5d2-c02c-5a25-804d-cb8af11c1534",
             "partOfSpeech": "n"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "A1",
+          "text": null
+        }
       },
       "ff71e820-7dff-4756-b28e-651281440186": {
         "meaning_sha": "41ab71b6dbc7ec8eb05df4ef7a0a46cd032fd56cd3d92fa650cf7ce38add49bd",
@@ -2017,7 +2042,19 @@
         "replace_translation_uz": {
           "original": "narx",
           "text": "badal; erishish uchun to‘lanadigan narx"
-        }
+        },
+        "replace_definition_uz": {
+          "original": "biror narsaga erishish uchun berilishi, qilinishi yoki boshdan kechirilishi kerak bo‘lgan qiymat",
+          "text": "Biror narsaga erishish evaziga qilinadigan qurbonlik, sarflanadigan kuch yoki boshdan kechiriladigan yo‘qotish."
+        },
+        "add_collocations": [
+          {
+            "text": "price of success"
+          },
+          {
+            "text": "a small price to pay"
+          }
+        ]
       },
       "cd3d6941-11be-4f1f-9781-8f2bcc843a08": {
         "meaning_sha": "b5d7939b0e2ca08ac4c247f10f9c8e1e1968bf6597631b091f1db329b74e562d",
@@ -2034,7 +2071,57 @@
             "senseId": "94ef6d3b-8e75-408a-a8fb-fe98d7e30037",
             "partOfSpeech": "n"
           }
+        ],
+        "add_collocations": [
+          {
+            "text": "high price"
+          },
+          {
+            "text": "low price"
+          },
+          {
+            "text": "price cuts"
+          }
         ]
+      },
+      "43f8a8c2-b023-4aee-a965-e0da0f7648f2": {
+        "meaning_sha": "b17fc8c98bab8f5d7f69fc48b476821e980ca093cd3cd6db20979559184bc31a",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "a price on his head"
+          }
+        ]
+      },
+      "567c9d2d-948c-57fb-86ed-ceaeca47ae68": {
+        "meaning_sha": "0736a44f10a1f377a20eb44845a74d6465dda4c09e0138fd8a907d84670ad4de",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "every man has his price"
+          }
+        ]
+      },
+      "991c7254-0914-4f91-b425-bef5a8a1058e": {
+        "meaning_sha": "263f3c6b0ad232afc4bbfbb3963c8c2c2deeceb22dc48d46ddcdec40790f6321",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "the high value or worth of something",
+          "text": "(archaic) the high value or worth of something."
+        },
+        "replace_definition_uz": {
+          "original": "Biror narsaning juda katta qiymati yoki ahamiyati.",
+          "text": "(eskirgan yoki kitobiy) biror narsaning yuksak qadri yoki qimmati."
+        }
       }
     },
     "6c56e518-c51a-5d71-8d40-43057dca343c": {
@@ -2046,6 +2133,15 @@
             "lexemeId": "70784186-080e-52c1-80e5-444d79b82720",
             "senseId": "a73e7f14-d80a-4aae-a7f0-db2dcaca7312",
             "partOfSpeech": "v"
+          }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "ooh and aah"
           }
         ]
       }
@@ -2059,6 +2155,23 @@
             "lexemeId": "a32b5751-de8c-5ff2-a668-1047499266bf",
             "senseId": "ad9928cc-3f57-545e-8e80-4eef7a41dcb2",
             "partOfSpeech": "n"
+          }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Ko‘p faoliyat bilan band bo‘lish yoki shunday ko‘rinish holati.",
+          "text": "Biror ish bilan faol band bo‘lish yoki shunday ko‘rinish holati."
+        },
+        "replace_translation_uz": {
+          "original": "faol shovqin; qizg‘in faoliyat",
+          "text": "qizg‘in faoliyat; bandlik"
+        },
+        "add_collocations": [
+          {
+            "text": "hum of military preparation"
           }
         ]
       },
@@ -2082,7 +2195,15 @@
           {
             "text": "background hum"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a humming noise",
+          "text": "A low, continuous sound, such as that made by machinery, insects or many people speaking quietly."
+        }
       }
     },
     "6c3948e3-57fa-56bb-86bf-690673a20406": {
@@ -2346,6 +2467,28 @@
         "add_collocations": [
           {
             "text": "acerola juice"
+          }
+        ]
+      }
+    },
+    "f32fc76a-d43f-5cbd-b7a4-6cc93794ba27": {
+      "1d3b7aaf-59a7-4b97-a37b-d2125c6e2d40": {
+        "meaning_sha": "ffd92a7750e841dbc30bb413e9f99069ff34dc203ab9ee60d4ce87b0a7da1987",
+        "replace_cefr": {
+          "original": "B2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "the amount of money needed to purchase something",
+          "text": "(informal) the amount to be paid for something, especially in 'what’s the damage?'."
+        },
+        "replace_definition_uz": {
+          "original": "Biror narsani sotib olish uchun kerak bo‘ladigan pul miqdori.",
+          "text": "(norasmiy, hazilomuz) biror narsa uchun to‘lanadigan pul miqdori; odatda qancha to‘lash kerakligini so‘rashda ishlatiladi."
+        },
+        "add_collocations": [
+          {
+            "text": "what’s the damage?"
           }
         ]
       }

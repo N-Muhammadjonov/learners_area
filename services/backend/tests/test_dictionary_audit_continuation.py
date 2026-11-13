@@ -141,7 +141,8 @@ def test_new_editorial_repairs_preserve_meaning_boundaries_and_source():
     rendered = present(humming)['senses']
     assert {c['text'] for c in rendered['69db394f-7df9-4871-b8bb-fefb256a0424']['collocations']} == {
         'the hum of traffic', 'the hum of conversation', 'background hum'}
-    assert rendered['e754ac6a-e982-45c2-9c34-449ed04215bc']['collocations'] == []
+    assert {c['text'] for c in rendered['e754ac6a-e982-45c2-9c34-449ed04215bc']['collocations']} == {
+        'hum of military preparation'}
 
 
 def test_twenty_phase_recovery_cannot_claim_structural_coverage_as_linguistic_pass():
@@ -261,6 +262,35 @@ def test_introduction_opposite_selects_text_section_not_reasoning_or_time():
     view = present(revised)['senses']
     for sid, rendered in view.items():
         assert bool(rendered['antonyms']) == (sid == 'aafda03f-c624-4adb-90d6-48d7fb728bac')
+
+
+def test_completed_1701_1730_lexical_ledgers_have_no_missing_or_recounted_senses():
+    expected = {(e['lexeme_id'], s['sense_id']) for e in receipt()['lexemes'] for s in e['senses']}
+    actual = []
+    for path in (ROOT / 'content/dictionary').glob('audit-*-phase*-lexical-decisions-*.json'):
+        data = json.loads(path.read_text())
+        if data['source_readback_receipt'] == RECEIPT.relative_to(ROOT).as_posix():
+            actual.extend((r['lexeme_id'], r['sense_id']) for r in data['senses'])
+    assert len(actual) == len(set(actual))
+    assert set(actual) == expected
+
+
+def test_damage_financial_usage_preserves_physical_and_legal_harm_senses():
+    ledger = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-lexical-decisions-1727-1730.json').read_text())
+    intervention = ledger['target_interventions'][0]
+    entry = intervention['entry']
+    assert hashlib.sha256(stable({k: v for k, v in entry.items() if k != 'release_id'}).encode()).hexdigest() == intervention['entry_projection']['content_sha']
+    assert set(intervention['entry_projection']['sense_ids']) == {s['sense_id'] for s in entry['senses']}
+    frozen = copy.deepcopy(entry)
+    candidate = curation.curate_candidate_entry(entry)
+    assert entry == frozen
+    for old, new in zip(entry['senses'], candidate['senses']):
+        if old['sense_id'] == intervention['sense_id']:
+            assert new.get('cefr') is None
+            assert 'informal' in new['definition_en'] and 'damage?' in new['definition_en']
+            assert old['examples'] == new['examples']
+        else:
+            assert old == new
 
 
 def test_unproven_levels_become_null_without_clearing_evidenced_or_unreviewed_senses():
