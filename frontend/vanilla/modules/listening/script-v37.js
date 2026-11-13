@@ -1,8 +1,9 @@
 /** Decorate the owner's existing Script controls. No copied material, grading,
  * progress writer or media owner. Drafts remain in the existing source bridge. */
-export function originalScriptAccessibility(){return `(()=>{document.addEventListener('DOMContentLoaded',()=>{
+export function originalScriptAccessibility(token){return `(()=>{const token=${JSON.stringify(token)};document.addEventListener('DOMContentLoaded',()=>{
  if(typeof renderScript!=='function'||!document.getElementById('scriptTabs'))return;
  const tabs=document.getElementById('scriptTabs');let disposed=false;
+ let savedOccurrences=[];
  tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Script parts');
  const decorate=()=>{const host=document.getElementById('scriptHost');if(!host)return;
  host.setAttribute('role','tabpanel');host.setAttribute('aria-label','Script Completion · Part '+scriptPart);
@@ -44,6 +45,12 @@ export function originalScriptAccessibility(){return `(()=>{document.addEventLis
    textNode.replaceWith(fragment);
    cursor=at+raw.length;
   }
+  for(const element of host.querySelectorAll('.la-script-lexical-word')){
+   const start=Number(element.dataset.scriptSourceStart);
+   const finish=start+element.textContent.length;
+   element.dataset.lexicalSaved=String(savedOccurrences.some(row=>
+    row.section===scriptPart&&row.startChar<=start&&row.endChar>=finish));
+  }
  };
  // Repair only a source with gap numbering out of transcript order. All original
  // labels and grading keys stay intact; ambiguous source matches stay untouched.
@@ -75,4 +82,30 @@ export function originalScriptAccessibility(){return `(()=>{document.addEventLis
  }
  const render=renderScript;renderScript=function(){if(disposed)return;const value=render.apply(this,arguments);decorate();decorateLexical();return value;};
  const key=event=>{const tab=event.target.closest?.('[data-spart]');if(!tab||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const available=[...tabs.querySelectorAll('[data-spart]')],index=available.indexOf(tab),next=event.key==='Home'?0:event.key==='End'?available.length-1:(index+(event.key==='ArrowRight'?1:available.length-1))%available.length;const part=available[next]?.dataset.spart;available[next]?.click();tabs.querySelector('[data-spart="'+part+'"]')?.focus();};
- tabs.addEventListener('keydown',key);decorate();decorateLexical();addEventListener('pagehide',()=>{disposed=true;tabs.removeEventListener('keydown',key);},{once:true});});})();`;}
+ const showSaved=()=>{
+  const host=document.querySelector('#activity-script.active #scriptHost .script-transcript');
+  if(!host)return;
+  for(const element of host.querySelectorAll('.la-script-lexical-word')){
+   const start=Number(element.dataset.scriptSourceStart),end=start+element.textContent.length;
+   element.dataset.lexicalSaved=String(savedOccurrences.some(row=>
+    row.section===scriptPart&&row.startChar<=start&&row.endChar>=end));
+  }
+ };
+ const receive=event=>{
+  if(disposed||event.source!==parent||event.data?.token!==token)return;
+  const packet=event.data;
+  if(packet.channel==='learners-area-script-saved'&&Array.isArray(packet.savedOccurrences)){
+   savedOccurrences=packet.savedOccurrences.filter(row=>Number.isInteger(row.section)&&
+    Number.isSafeInteger(row.startChar)&&Number.isSafeInteger(row.endChar)&&
+    row.endChar>row.startChar);
+   showSaved();
+  }else if(packet.channel==='learners-area-script-save-status'){
+   const {part,start,end,saved}=packet;
+   if(!Number.isInteger(part)||!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||end<=start)return;
+   savedOccurrences=savedOccurrences.filter(row=>!(row.section===part&&row.startChar<=start&&row.endChar>=end));
+   if(saved)savedOccurrences.push({section:part,startChar:start,endChar:end});
+   showSaved();
+  }
+ };
+ addEventListener('message',receive);
+ tabs.addEventListener('keydown',key);decorate();decorateLexical();addEventListener('pagehide',()=>{disposed=true;removeEventListener('message',receive);tabs.removeEventListener('keydown',key);},{once:true});});})();`;}
