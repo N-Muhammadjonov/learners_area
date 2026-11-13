@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "commit": "5e106a15433969ebcafd051dc6fd097f75dedfaf",
+  "workflow_run_id": 43398578646,
+  "workflow_url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43398578646",
+  "conclusion": "success",
+  "backend_job": 131795450365,
+  "browser_job": 131795450762,
+  "backend_tests": {
+    "passed": 220,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "browser_tests": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0
+  },
+  "compile": "PASS",
+  "vercel_deployments_for_commit": null,
+  "deployment_readback": "UNAVAILABLE: connector tool unavailable. Last independently verified zero Vercel deployments was239972a9. Branch automatic deploy disabled; no deploy command issued.",
+  "production_writes": false,
+  "main_merged": false,
+  "full_linguistic_signoff": false,
+  "log_access": "Read-only GitHub CLI workflow log inspected.",
+  "workflow_log_sha256": "2a87c8d3acd636a76988f7a64e971af6201dbb93bef23d88f50b2d6723ae1dbf"
+}

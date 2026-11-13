@@ -547,8 +547,9 @@ def test_latest_backfill_retains_previously_approved_example_presentations():
             assert corrected_examples(original, old) == corrected_examples(candidate, new)
 
 
-def test_cached_selected_source_authenticates_archived_offsets_without_claiming_fresh_database_checks():
-    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0031-0046.json').read_text())
+@pytest.mark.parametrize('selected_source_path', sorted((ROOT / 'content/dictionary').glob('audit-*-phase09-source-enrichment-selected-*.json')), ids=lambda p: p.stem)
+def test_cached_selected_source_authenticates_archived_offsets_without_claiming_fresh_database_checks(selected_source_path):
+    report = json.loads(selected_source_path.read_text())
     historical = json.loads((ROOT / report['historical_receipt']).read_text())['lexemes']
     old = {e['lexeme_id']: (i, e) for i, e in enumerate(historical, 1)}
     rows = {e['lexeme_id']: e for e in report['source_projection']}
@@ -608,6 +609,36 @@ def test_dropkick_first_bounce_and_explicit_sport_level_preserve_original_source
     assert 'rises from its first bounce' in sense['definition_en']
     assert sense['cefr'] == 'C2' and sense['sense_id'] == entry['senses'][0]['sense_id']
     assert sense['examples'] == entry['senses'][0]['examples']
+
+
+def test_closed_end_lease_is_about_residual_value_risk_not_mandatory_return():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0047-0064.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'closed-end lease')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    old, new = original['senses'][0], candidate['senses'][0]
+    assert 'requires the asset to be returned' in old['definition_en']
+    assert 'can return' in new['definition_en'] and 'residual value' in new['definition_en']
+    assert 'U.S. consumer leasing' in new['definition_en'] and 'other contractual charges may still apply' in new['definition_en']
+    assert 'qoldiq qiymatdan past' in new['definition_uz'] and 'boshqa to‘lovlar' in new['definition_uz']
+    assert new['sense_id'] == old['sense_id'] and new.get('cefr') is None
+    assert new['examples'] == old['examples'] == []
+
+
+def test_flavin_classification_repairs_all_three_language_fields_without_guessing_level():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0047-0064.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'flavin')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    sense = candidate['senses'][0]
+    assert 'ketone' in original['senses'][0]['definition_en']
+    assert 'ketone' not in sense['definition_en'] and 'isoalloxazine' in sense['definition_en']
+    assert 'keton' not in sense['definition_uz'] and 'izoalloksazin' in sense['definition_uz']
+    assert 'keton' not in sense['translations'][0]['text'] and 'flavin' in sense['translations'][0]['text']
+    assert sense.get('cefr') is None
+    assert candidate['relations'] == original['relations']
 
 
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():

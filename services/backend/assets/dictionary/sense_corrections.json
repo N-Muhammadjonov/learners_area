@@ -3659,6 +3659,96 @@
           "text": "To‘pni qo‘ldan yerga tashlab, birinchi marta sapchib ko‘tarilayotgan paytda tepish usuli."
         }
       }
+    },
+    "659902e5-5ee8-5db6-a98e-699556151c63": {
+      "a51da463-36bc-54d5-842c-d9a38ba0b413": {
+        "meaning_sha": "ec7bed56a07efc542b1d97371302c4488e385642b2b169d1f11e0fa94b790c2b",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a ketone that forms the nucleus of certain natural yellow pigments like riboflavin",
+          "text": "One of a group of yellow, nitrogen-containing pigments with an isoalloxazine-based structure, including riboflavin."
+        },
+        "replace_definition_uz": {
+          "original": "Riboflavin kabi ayrim tabiiy sariq pigmentlarning asosini tashkil etuvchi keton.",
+          "text": "Azot tutuvchi sariq pigmentlar turkumidan biri; riboflavin singari izoalloksazin tuzilishiga ega birikma."
+        },
+        "replace_translation_uz": {
+          "original": "tabiiy sariq pigmentlar asosini tashkil etuvchi keton",
+          "text": "flavin; azot tutuvchi sariq pigment"
+        }
+      }
+    },
+    "659eeef9-44db-544e-aa0b-351af9c3713d": {
+      "fbde9dd8-2eee-54d1-84bd-54b95b4285f9": {
+        "meaning_sha": "5fc3111e84a3c5c2819ca62ee7a5a41ebebdcae5ac23b9076baf36ea03904ab7",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "a Mediterranean climate"
+          },
+          {
+            "text": "Mediterranean coast"
+          }
+        ]
+      }
+    },
+    "65a5e59d-7bd8-574d-8c2b-e600349b5e70": {
+      "d4e3adb7-1871-540c-93db-9a46c838ac09": {
+        "meaning_sha": "f334a012d5409bf4985e1cb468739a729b8fe2c778af7ea3724f7035de082aba",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "in relation to eschatology",
+          "text": "In relation to religious beliefs about death, the end of the world, or the ultimate destiny of humankind."
+        },
+        "replace_definition_uz": {
+          "original": "Eschatologiyaga, ya’ni oxirzamon va yakuniy taqdir haqidagi ta’limotga nisbatan.",
+          "text": "O‘lim, oxirzamon yoki insoniyatning yakuniy taqdiri haqidagi diniy qarashlar nuqtayi nazaridan."
+        }
+      }
+    },
+    "65aa4aee-5c46-4cf5-b908-699a10ecdb72": {
+      "4673bf07-a6c4-4f1f-adf0-f95534c3e73c": {
+        "meaning_sha": "5e127af260090c45b4f92eb016f70648eea4b4019b33c5aa2a5f799afa2b1766",
+        "replace_definition_en": {
+          "original": "a lease that requires the asset to be returned at the end of the agreed period",
+          "text": "In U.S. consumer leasing, a lease under which the lessee can return the asset at the scheduled end without liability for a shortfall below its agreed residual value; other contractual charges may still apply."
+        },
+        "replace_definition_uz": {
+          "original": "muddat oxirida qaytariladigan yopiq lizing",
+          "text": "AQSH iste’mol lizingida, muddat oxirida mol-mulkning haqiqiy qiymati shartnomada belgilangan qoldiq qiymatdan past chiqsa, ijarachi shu farqni qoplamaydigan lizing; shartnomadagi boshqa to‘lovlar saqlanishi mumkin."
+        },
+        "replace_translation_uz": {
+          "original": "muddat oxirida qaytariladigan yopiq lizing",
+          "text": "yopiq turdagi lizing"
+        }
+      }
+    },
+    "65ab4d18-6a09-53c5-a005-30c172068bbd": {
+      "82260623-7e17-42fa-a87a-bf437c7342be": {
+        "meaning_sha": "949eb444a7085f7b6cf1e63026a8181f6acb61ca3c0596784e162ae90afb0af5",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Rasmiy qaror bilan huquq amaliyoti olib borish vakolatini bekor qilmoq.",
+          "text": "Advokatlik faoliyatini olib borish huquqidan rasmiy ravishda mahrum etmoq."
+        },
+        "add_collocations": [
+          {
+            "text": "disbar somebody from the practice of law"
+          }
+        ]
+      }
     }
   }
 }
