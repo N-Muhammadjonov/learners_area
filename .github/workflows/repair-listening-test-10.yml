@@ -40,8 +40,8 @@ jobs:
           assert len(data['transcript']['1'])>1000
           assert len(data['transcript']['2'])>1000
           assert len(data['transcript']['4'])>1000
-          assert data['transcript']['3']=='' # Submitted dialogue conflicts with source questions.
-          assert len(data['script_completion'])==24
+          assert len(data['transcript']['3'])>1000 and 'Professor North' in data['transcript']['3']
+          assert len(data['script_completion'])==32
           print('source, runtime and checksums verified')
           PY
       - name: Commit only modified Test 10 source and checksums
