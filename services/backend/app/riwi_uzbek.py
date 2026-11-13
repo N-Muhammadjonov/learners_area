@@ -13,7 +13,7 @@ _DIALECT_WORDS={'raxmat':'rahmat','rahmattt':'rahmat','qalesan':'qalaysan','qale
     'tushunmiman':'tushunmayman','chunmadim':'tushunmadim','chunmadm':'tushunmadim',
     'tushunmadm':'tushunmadim','soddaro':'soddaroq','soddaroqchi':'soddaroq'}
 _DIALECT_PHRASES=(
-    (r'\bsan\s+(?=kimsan\b|kimsen\b)','sen '),
+    (r'\bsan\s+(?=kimsan\b|kimsen\b|nima\b)','sen '),
     (r'\b(?:sen\s+)?kimsen\b','sen kimsan'),
     (r'\b(?:nima|nma)\s*(?:qilissan|qilissiz|qilyapsen|qilyabsan|qilvosan|qilvossan|qivossan|qilyabssan|qilayapsan)\b','nima qilyapsan'),
     (r'\b(?:nima|nma)\s*(?:qilvossiz|qivossiz|qilyabsiz|qilayapsiz)\b','nima qilyapsiz'),
@@ -38,7 +38,7 @@ _MATCH_WORDS=('present','perfect','continuous','progressive','simple','passive',
 
 # Closed loan-word roots: remove Uzbek suffixes only from a known English root,
 # never from arbitrary names or Uzbek words (e.g. landscape+ni, picnic+ga).
-_LOANS=frozenset(_MATCH_WORDS)|frozenset(_FIXES)|frozenset(('although despite borrow lend fun funny big large actually eventually finally '
+_LOANS=frozenset(('mcq','tfng','ynng','coin','partner','folder','streak'))|frozenset(_MATCH_WORDS)|frozenset(_FIXES)|frozenset(('although despite borrow lend fun funny big large actually eventually finally '
  'interested decision information homework overview essay thesis paragraph sentence word meaning example examples '
  'landscape picnic podcast transcript grammar article noun verb adjective adverb phrasal collocation '
  'education environment opportunity achievement reliable relevant efficient evidence approach outcome inversion cleft ellipsis '

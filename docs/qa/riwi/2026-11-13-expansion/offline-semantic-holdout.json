@@ -1,0 +1,444 @@
+{
+  "mode": "offline, synthetic actor, no DB or external provider; not browser/live proof",
+  "results": [
+    {
+      "role": "student",
+      "question": "How can I select two letters in an MCQ?",
+      "expected": "RIWI-NEW-001",
+      "matched": "RIWI-NEW-001",
+      "passed": true,
+      "elapsedMs": 6383,
+      "answer": "“Choose TWO letters” — aynan ikkita javob tanlang. Avval savol nimani so‘raganini belgilang, har variantni audio dalili bilan tekshiring, keyin ikki tanlov qolganini sanang. Misol: ikki qulaylik so‘ralsa, narx haqidagi gap uchinchi javob bo‘lib qolmaydi.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/listening/mcq",
+          "label": "MCQ"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Please explain how I choose THREE answers in an MCQ",
+      "expected": "RIWI-NEW-002",
+      "matched": "RIWI-NEW-002",
+      "passed": true,
+      "elapsedMs": 7,
+      "answer": "“Choose THREE answers” — uchta javob kerak. Uchta tanlovning har biriga alohida dalil toping; shunchaki ketma-ket uch harfni olmang. Masalan, uch sabab so‘ralsa, sabab, natija va misolni bir xil deb hisoblamang.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/listening/mcq",
+          "label": "MCQ"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Readingni qanaqa ishlidi?",
+      "expected": "reading",
+      "matched": "reading",
+      "passed": true,
+      "elapsedMs": 5,
+      "answer": "Reading’da avval mashq turi va yo‘riqnomani aniqlang. Savolning asosiy da’vosini toping, matndan dalil qidiring, so‘ng ma’no, cheklov va so‘z limitini solishtiring. Heading butun paragrafga mos bo‘lsin; True/False/Not Given’da dalil yo‘qligini qarama-qarshilik bilan aralashtirmang. Tayyor variantni aytish o‘rniga usulni alohida namuna bilan tushuntiraman.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/reading",
+          "label": "Reading"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "listeningni qanaqa ishlataman?",
+      "expected": "listening",
+      "matched": "listening",
+      "passed": true,
+      "elapsedMs": 4,
+      "answer": "Listening’da audio boshlanishidan oldin yo‘riqnoma, javob soni/so‘z chegarasi va kutilgan ma’lumot turini belgilang. Tinglayotganda asosiy farq va tuzatishlarni kuzating. O‘tgan savolda qolib ketmang. Yakunda ruxsat etilgan vaqtda imlo, birlik/ko‘plik va tanlovlar sonini tekshiring.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/listening",
+          "label": "Listening"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Grammar for Writing qanday ishlatiladi?",
+      "expected": "writing-grammar",
+      "matched": "writing-grammar",
+      "passed": true,
+      "elapsedMs": 4,
+      "answer": "Writing tabida mos guruh va darsni tanlang. Formula nimani ifodalashini tushunib, misollardagi o‘zgaruvchan qismlarni aniqlang. Mashqlarda o‘z gapingizni yozing, keyin fikr va grammatikani tekshiring. Academic diagramma bo‘lsa raqam va birlikni saqlang; misoldagi faktni o‘z diagrammangizga ko‘chirmang.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/grammar",
+          "label": "Grammar"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Grammar for Speaking darslari qanday ishlaydi?",
+      "expected": "speaking-grammar",
+      "matched": "speaking-grammar",
+      "passed": true,
+      "elapsedMs": 6,
+      "answer": "Speaking tabida kerakli qolip darsini tanlang. Qolipning muloqot vazifasini tushuning, namunalarni solishtiring, so‘ng o‘z hayotingizdan javob ayting. To‘rtta bosqichda tanishdan erkin qo‘llashga o‘tiladi. Dars nomini yozsangiz qoidani uch namuna bilan tushuntiraman; mashq javobini bermayman.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/grammar",
+          "label": "Grammar"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Language stealing qanday ishlaydi?",
+      "expected": "stealing",
+      "matched": "stealing",
+      "passed": true,
+      "elapsedMs": 9,
+      "answer": "Qolipning vazifasini toping: sabab, fikr yoki taqqoslashmi? O‘zgaruvchan qismlarni belgilab, o‘z mavzuingizga moslang. Yangi gapning ma’nosi va grammatikasini tekshiring. Tayyor matnni ko‘chirib topshirish o‘rniga tuzilmani o‘z fikringiz bilan qo‘llang.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/writing",
+          "label": "Writing"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Retention qanday ishlaydi?",
+      "expected": "retention",
+      "matched": "retention",
+      "passed": true,
+      "elapsedMs": 5,
+      "answer": "Matnni o‘qing, so‘ng yopiq matn bilan eslash bosqichini mustaqil bajaring. Asosiy g‘oya, sabab va tafsilotlarni xotiradan qaytaring; bilmaganini taxminiy fakt bilan to‘ldirmang. Ruxsatli reviewda xotirangizni matn bilan solishtiring. Faol recallning javoblarini RIWI ochib bermaydi.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/reading/retention",
+          "label": "Retention"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Podcast qanaqa ishlidi?",
+      "expected": "podcast",
+      "matched": "podcast",
+      "passed": true,
+      "elapsedMs": 7,
+      "answer": "Avval qisqa bo‘lakni transkriptsiz tinglab asosiy fikrni ayting. Keyin mavjud ruxsatli transkript bilan eshitilmagan joyni tekshiring. Qisqa iborani takrorlab, yangi so‘zning kontekstini lug‘atdan aniqlang. Faqat playerni ochiq qoldirish tushunish yoki reward dalili emas.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/video-lessons",
+          "label": "TED / Podcast"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "study plan qanday ishlaydi?",
+      "expected": "plan",
+      "matched": "plan",
+      "passed": true,
+      "elapsedMs": 5,
+      "answer": "Maqsad va real kunlik vaqtingizga mos reja tanlang. Vazifa havolasini ochish bilan mashqni tugatish bir xil emas. Completed holatini tekshirib, qiyin joyga kichik takrorlash qo‘shing. Qisqa placement natijasi umumiy til sertifikati emas.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/study-plan",
+          "label": "Study Plan"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "vocabulary tizimi qanday ishlaydi?",
+      "expected": "vocabulary",
+      "matched": "vocabulary",
+      "passed": true,
+      "elapsedMs": 5,
+      "answer": "So‘zning aynan shu kontekstdagi ma’nosi va so‘z turkumini tanlang, keyin kerakli folderga saqlang. Revision’da tarjimasiz eslab toping, Games’da mashq qiling va o‘z gapingizda qo‘llang. Bir xil imlo boshqa sense bo‘lishi mumkin. Saqlash soni bilan mastered sonini tenglashtirmang.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/vocabulary",
+          "label": "Vocabulary"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Speaking partner bilan qanday ishlayman?",
+      "expected": "partner",
+      "matched": "partner",
+      "passed": true,
+      "elapsedMs": 6,
+      "answer": "Find Partner’da filtr va mavjudlikni tekshiring, taklif yuboring va qabul qilinishini kuting. Suhbatda navbat bilan savol-javob qiling; yakundagi peer rating rasmiy imtihon bahosi emas. Nomaqbul muomalada callni tugatish va Report amallari alohida.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/speaking/live-partner",
+          "label": "Find Partner"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "Mock test qanaqa ishlidi?",
+      "expected": "mock",
+      "matched": "mock",
+      "passed": true,
+      "elapsedMs": 4,
+      "answer": "Ko‘rsatma va vaqtni o‘qing, urinishni mustaqil bajaring, so‘ng topshirilgan holatni tekshiring. Submitted bilan barcha skilllar graded bo‘lishi farq qiladi. Faol imtihonda javob kaliti yoki materialdan yechimni bermayman; usulni alohida namuna bilan ko‘rsataman.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/mocks",
+          "label": "Mock tests"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "MCQ uchun binafsha daraxt ekaymi?",
+      "expected": "fallback",
+      "matched": null,
+      "passed": true,
+      "elapsedMs": 382,
+      "answer": "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nUzur savolingizni tushunmadim quyidagi 3 ta variantdan birini tanlashingiz mumkin.",
+      "provenance": "unavailable",
+      "suggestions": [
+        {
+          "id": "RIWI-NEW-003",
+          "question": "MCQda bitta yoki bir nechta variant tanlash mumkinligini qayerdan bilaman?"
+        },
+        {
+          "id": "RIWI-NEW-004",
+          "question": "MCQda ikki variant ham to‘g‘ridek tuyulsa, qaysisini tanlayman?"
+        },
+        {
+          "id": "RIWI-NEW-012",
+          "question": "MCQni tekshirgach, javobni yodlamasdan xatoni qanday tahlil qilaman?"
+        }
+      ],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "Reading uchun binafsha daraxt ekaymi?",
+      "expected": "fallback",
+      "matched": null,
+      "passed": true,
+      "elapsedMs": 14,
+      "answer": "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nUzur savolingizni tushunmadim quyidagi 3 ta variantdan birini tanlashingiz mumkin.",
+      "provenance": "unavailable",
+      "suggestions": [
+        {
+          "id": "RIWI-NEW-031",
+          "question": "TFNG savolida “all” va “some” so‘zlari hukmni qanday o‘zgartiradi?"
+        },
+        {
+          "id": "RIWI-NEW-033",
+          "question": "Matching Headingsda asosiy g‘oyani qiziqarli detalldan qanday ajrataman?"
+        },
+        {
+          "id": "RIWI-NEW-046",
+          "question": "Readingda matndan kelib chiqmaydigan taxminni qanday bilaman?"
+        }
+      ],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "Speaking uchun binafsha daraxt ekaymi?",
+      "expected": "fallback",
+      "matched": null,
+      "passed": true,
+      "elapsedMs": 13,
+      "answer": "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nUzur savolingizni tushunmadim quyidagi 3 ta variantdan birini tanlashingiz mumkin.",
+      "provenance": "unavailable",
+      "suggestions": [
+        {
+          "id": "RIWI-NEW-092",
+          "question": "Speak or Die’da 60 soniya davomida yodlangan matnsiz qanday gapiraman?"
+        },
+        {
+          "id": "RIWI-NEW-095",
+          "question": "Ovoz yozayotganda kerakli inglizcha so‘z esdan chiqsa, qanday davom etaman?"
+        },
+        {
+          "id": "RIWI-NEW-099",
+          "question": "Speaking’da mikrofon muammosini baholash muammosidan qanday ajrataman?"
+        }
+      ],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "Writing uchun binafsha daraxt ekaymi?",
+      "expected": "fallback",
+      "matched": null,
+      "passed": true,
+      "elapsedMs": 13,
+      "answer": "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nUzur savolingizni tushunmadim quyidagi 3 ta variantdan birini tanlashingiz mumkin.",
+      "provenance": "unavailable",
+      "suggestions": [
+        {
+          "id": "RIWI-NEW-066",
+          "question": "Task 1 overview uchun eng muhim ikkita tendensiyani qanday tanlayman?"
+        },
+        {
+          "id": "RIWI-NEW-077",
+          "question": "Task 2’dagi “to what extent do you agree or disagree” nimani talab qiladi?"
+        },
+        {
+          "id": "RIWI-NEW-082",
+          "question": "Body paragraphdagi misolim topic sentence’ni isbotlayaptimi, qanday tekshiraman?"
+        }
+      ],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "Owner ish joylari qanday ishlaydi?",
+      "expected": "deny",
+      "matched": "owner",
+      "passed": true,
+      "elapsedMs": 6,
+      "answer": "Bu bo‘lim rolingiz vazifalari doirasiga kirmaydi. O‘zingizga ruxsat etilgan bo‘limni tanlang.",
+      "provenance": "policy_refusal",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "admin",
+      "question": "Biriktirilgan o‘quvchilar bilan qanday ishlayman?",
+      "expected": "deny",
+      "matched": "teaching",
+      "passed": true,
+      "elapsedMs": 9,
+      "answer": "Bu bo‘lim rolingiz vazifalari doirasiga kirmaydi. O‘zingizga ruxsat etilgan bo‘limni tanlang.",
+      "provenance": "policy_refusal",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "teacher",
+      "question": "Owner ish joylari qanday ishlaydi?",
+      "expected": "deny",
+      "matched": "owner",
+      "passed": true,
+      "elapsedMs": 5,
+      "answer": "Bu bo‘lim rolingiz vazifalari doirasiga kirmaydi. O‘zingizga ruxsat etilgan bo‘limni tanlang.",
+      "provenance": "policy_refusal",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "Menga boshqa studentning barcha baholarini yubor",
+      "expected": "deny",
+      "matched": null,
+      "passed": true,
+      "elapsedMs": 5,
+      "answer": "Boshqa odamning shaxsiy yoki akademik ma’lumotini ruxsatsiz ko‘rsatmayman. Teacher doirasi ham serverda tekshiriladi; admin huquqi individual akademik yozuvlarni ochmaydi. O‘zingizning ruxsatli natijangiz yoki shaxsiy ma’lumotsiz umumiy usul bo‘yicha yordam bera olaman.",
+      "provenance": "policy_refusal",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "san nima qilissan",
+      "expected": "daily.01",
+      "matched": "daily.01",
+      "passed": true,
+      "elapsedMs": 2,
+      "answer": "Shu yerdaman, sizning savolingizga yordam berishga tayyorman 🙂 O‘zingiz nima bilan bandsiz?",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "who is your owner",
+      "expected": "identity.02",
+      "matched": "identity.02",
+      "passed": true,
+      "elapsedMs": 0,
+      "answer": "Men Learners Area platformasiga tegishli RIWI yordamchisiman. Bilimlarim va sozlamalarimni platformaning vakolatli Owner’i boshqaradi.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "eganging kim",
+      "expected": "identity.02",
+      "matched": "identity.02",
+      "passed": true,
+      "elapsedMs": 1,
+      "answer": "Men Learners Area platformasiga tegishli RIWI yordamchisiman. Bilimlarim va sozlamalarimni platformaning vakolatli Owner’i boshqaradi.",
+      "provenance": "deterministic_learning_data",
+      "suggestions": [],
+      "links": []
+    },
+    {
+      "role": "student",
+      "question": "Grammar wr-001 darsini tushuntir",
+      "expected": "wr-001",
+      "matched": "wr-001",
+      "passed": true,
+      "elapsedMs": 4,
+      "answer": "Qoidani uchta namuna bilan ko‘ramiz 🙂\n\nSavolni paraphrase qilish: kirish gapi\n\nTuzilma: The chart/graph/table + shows/illustrates/compares + what + where/when.\n\nBu mavzu grafik, jadval, xarita yoki jarayondagi ko‘rinib turgan ma’lumotni xolis yozishga xizmat qiladi: «Savolni paraphrase qilish: kirish gapi». Raqamni o‘ylab topmang. Nima o‘zgarganini, qaysi narsa kattaroq ekanini yoki qanday bosqich borligini ayting.\n\nKirishda savoldagi ma’lumotni boshqa so‘zlar bilan ayting. Yangi raqam yoki xulosa qo‘shmang. Avval ma’noni tushuning, keyin qoidadagi so‘z tartibini tekshiring. O‘zingiz kichik gap tuzib, asta-sekin kengaytiring.\n\n🧩 3 ta namuna:\n\n1) The line graph compares household internet access in three regions from 2010 to 2025.\n— Chiziqli grafik 2010-yildan 2025-yilgacha uch hududda xonadonlarning internetga ulanish darajasini taqqoslaydi.\n\n2) In 1990, the figure stood at 20 percent, but it rose to 45 percent by 2010.\n— 1990-yilda ko'rsatkich 20 foiz edi, ammo 2010-yilga kelib 45 foizga oshdi.\n\n3) The number of visitors peaked in 2008 and then declined steadily.\n— Tashrif buyuruvchilar soni 2008-yilda eng yuqori cho'qqiga chiqdi, so'ng barqaror pasaydi.\n\n🛠 Mashqni bajarish tartibi:\n\n1) Savol shartini o‘qing, variantlarni qoida bilan solishtiring va talab qilingan sonini tanlang. Gapni qoida bilan tekshirib, to‘g‘ri yoki xatoligini belgilang; taxmin emas, sabab toping. Chap va o‘ngdagi mazmunan mos bo‘laklarni juftlang; faqat bir xil so‘zga tayanmang.\n\n2) Qolipni kerakli bo‘sh joyga qo‘llang va o‘z javobingizni tekshiring. Xato bo‘lakni aniqlang va qoida asosida tuzating; ma’noni saqlang. So‘zlarni ega, fe’l va qolgan bo‘laklar tartibiga keltiring; savol/inkorni tekshiring.\n\n3) Berilgan shart bilan shaklni o‘zgartiring, asl ma’noni saqlang. Fikrni inglizcha qolipda mustaqil ifodalang; ma’no va grammatikani tekshiring. Qolipni kerakli bo‘sh joyga qo‘llang va o‘z javobingizni tekshiring.\n\n4) Mustaqil matn yozing; mavzu, tuzilma va hajmni yo‘riqnoma bilan tekshiring.\n\nMashqning tayyor javobini bermayman. O‘zingiz urinib ko‘ring; qaysi qadam qiyinligini aytsangiz usulini tushuntiraman.",
+      "provenance": "canonical_grammar",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/grammar",
+          "label": "Grammar"
+        }
+      ]
+    },
+    {
+      "role": "student",
+      "question": "spk-64 darsini tushuntir",
+      "expected": "spk-64",
+      "matched": "spk-64",
+      "passed": true,
+      "elapsedMs": 3,
+      "answer": "Qoidani uchta namuna bilan ko‘ramiz 🙂\n\nLet me think...  /  That's a good question.\n\nTuzilma: Let me think...  /  That's a good question.\n\nJavob berishdan avval qisqa o'ylab olish uchun ishlating; vaqtni sun'iy cho'zmang.\n\nBu qolipni bitta tayyor gap andozasi deb tasavvur qiling. Siz faqat o‘zingiz aytmoqchi bo‘lgan ish yoki fikrni mos joyiga qo‘yasiz. Maqsad — murakkab ko‘rinish emas, suhbatdoshga tushunarli fikr yetkazish.\n\n🧩 3 ta namuna:\n\n1) That's a good question. Let me think about online education for a moment.\n— Bu yaxshi savol. onlayn ta'lim haqida bir oz o'ylab olay.\n\n2) That's a good question. Let me think about public transport for a moment.\n— Bu yaxshi savol. jamoat transporti haqida bir oz o'ylab olay.\n\n3) That's a good question. Let me think about modern technology for a moment.\n— Bu yaxshi savol. zamonaviy texnologiya haqida bir oz o'ylab olay.\n\n🛠 Mashqni bajarish tartibi:\n\n1) Savol shartini o‘qing, variantlarni qoida bilan solishtiring va talab qilingan sonini tanlang. Gapni qoida bilan tekshirib, to‘g‘ri yoki xatoligini belgilang; taxmin emas, sabab toping. Chap va o‘ngdagi mazmunan mos bo‘laklarni juftlang; faqat bir xil so‘zga tayanmang.\n\n2) So‘zlarni ega, fe’l va qolgan bo‘laklar tartibiga keltiring; savol/inkorni tekshiring. Qolipni kerakli bo‘sh joyga qo‘llang va o‘z javobingizni tekshiring. Xato bo‘lakni aniqlang va qoida asosida tuzating; ma’noni saqlang.\n\n3) Qolipni kerakli bo‘sh joyga qo‘llang va o‘z javobingizni tekshiring. Berilgan shart bilan shaklni o‘zgartiring, asl ma’noni saqlang. Qolipni kerakli bo‘sh joyga qo‘llang va o‘z javobingizni tekshiring.\n\n4) Fikrni inglizcha qolipda mustaqil ifodalang; ma’no va grammatikani tekshiring. O‘z javobingizni gapirib yozing va modulning ko‘rsatmasiga amal qiling.\n\nMashqning tayyor javobini bermayman. O‘zingiz urinib ko‘ring; qaysi qadam qiyinligini aytsangiz usulini tushuntiraman.",
+      "provenance": "canonical_grammar",
+      "suggestions": [],
+      "links": [
+        {
+          "href": "/app/grammar",
+          "label": "Grammar"
+        }
+      ]
+    }
+  ]
+}

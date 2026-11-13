@@ -550,18 +550,9 @@ async def explain_objective_question(
                 bound=await conn.fetchval('SELECT content_version_id=$2::uuid FROM listening_questions WHERE id=$1::uuid',question_id,version)
                 if not bound:questions=[]
             question=next((q for i,q in enumerate(questions) if isinstance(q,dict) and q.get('order',i+1)==row['question_order']),None)
-    if question is not None:
-        row['official_answer']=question.get('correct_answer',question.get('correctAnswer',''))
-        row['authored_explanation']=question.get('explanation') or ''
-    else:
-        # Never substitute today's answer key for an unrecorded historical key.
-        row['official_answer']=''
-        row['authored_explanation']=('Historical answer evidence is unavailable. The correctness result below is the saved attempt outcome.'
-            if locale=='en' else 'Tarixiy javob dalili mavjud emas. Quyida saqlangan urinish natijasi ko‘rsatilgan.')
-
-    official = str(row.get("official_answer") or "").strip()
+    # The historical snapshot supplies the task TYPE, never its solution.
+    # Keep the attempt/roster checks above even for procedural explanations.
     learner_ans = str(row.get("learner_answer") or "").strip()
-    authored = str(row.get("authored_explanation") or "").strip()
     is_correct = row.get("is_correct") if type(row.get("is_correct")) is bool else None
     from .riwi_assessment_contracts import derive_objective_contract
     contract=derive_objective_contract(module,(question.get('typeCode') or question.get('type')) if question else None)
@@ -577,15 +568,19 @@ async def explain_objective_question(
 
     if locale == "en":
         explanation = (
-            f"Official answer: {official}. Your answer: {learner_ans or '(blank)'} "
-            f"({'Not assessed' if is_correct is None else 'Correct' if is_correct else 'Incorrect'}). "
-            f"{authored or 'Verified against the official server answer key.'}"
+            "I explain how to do this task rather than provide its answer key. "
+            "1) Read the instruction and required answer count/word limit. "
+            "2) Identify the information requested and locate supporting evidence in the permitted material. "
+            "3) Compare the full meaning, including negatives and numbers, then check your own response. "
+            "Tell me which step is unclear; I can use a separate example."
         )
     else:
         explanation = (
-            f"Rasmiy javob: {official}. Sizning javobingiz: {learner_ans or '(boʻsh)'} "
-            f"({'Baholanmagan' if is_correct is None else 'Toʻgʻri' if is_correct else 'Notoʻgʻri'}). "
-            f"{authored or 'Serverdagi rasmiy javob kaliti asosida tekshirildi.'}"
+            "Mashqning javobini emas, uni qanday bajarishni tushuntiraman. "
+            "1) Yo‘riqnoma, javob soni yoki so‘z chegarasini o‘qing. "
+            "2) So‘ralgan ma’lumotni aniqlab, ruxsatli materialdan dalil toping. "
+            "3) To‘liq ma’no, inkor va raqamlarni solishtirib, o‘z javobingizni tekshiring. "
+            "Qaysi qadam qiyinligini ayting; boshqa namuna bilan tushuntiraman."
         )
 
     return {
@@ -594,7 +589,8 @@ async def explain_objective_question(
         "attemptId": attempt_id.lower(),
         "questionId": question_id.lower(),
         "isCorrect": is_correct,
-        "officialAnswer": official,
+        "officialAnswer": "",
+        "teachingOnly": True,
         "sourceRevisionId":str(version) if version else None,
         "assessmentContractKey":contract.key if contract else None,
         "promptVersion":contract.version if contract else None,

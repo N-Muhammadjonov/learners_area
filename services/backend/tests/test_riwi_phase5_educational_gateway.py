@@ -293,8 +293,10 @@ class RiwiPhase5EducationalGatewayTest(unittest.TestCase):
                 },
             )
             self.assertTrue(ok_exp["ok"])
-            self.assertEqual(ok_exp["officialAnswer"], "TRUE")
-            self.assertIn("calcification", ok_exp["explanation"])
+            self.assertEqual(ok_exp["officialAnswer"], "")
+            self.assertTrue(ok_exp['teachingOnly'])
+            self.assertIn('instruction', ok_exp['explanation'])
+            self.assertNotIn('calcification', ok_exp['explanation'])
 
             with self.assertRaises(PermissionError):
                 await post_riwi_objective_explanation(

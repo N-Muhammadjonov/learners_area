@@ -168,6 +168,39 @@ async def handle_riwi_chat(
         if mapped:
             message=mapped;intent_info=assess_riwi_intent(message)
 
+    # Reviewed workflow questions precede broad module-name routing. Never let
+    # a keyword such as MCQ override the question's specific instruction.
+    if not any(req.get(k) for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')):
+        from .riwi_new_questions import reply as new_question_reply
+        from .riwi_dialogues import reply as dialogue_reply
+        reviewed = await dialogue_reply(conn, actor, message, locale, conversation_id)
+        if not reviewed:
+            reviewed = new_question_reply(actor, message, locale)
+        if not reviewed:
+            from .riwi_help import reply as help_reply
+            reviewed = help_reply(actor, message, locale)
+        if not reviewed:
+            from .riwi_grammar_examples import reply as grammar_examples_reply
+            reviewed = await grammar_examples_reply(conn, actor, message, locale, broker or build_default_riwi_tool_broker())
+        if not reviewed:
+            from .riwi_site_grammar import reply as site_grammar_reply
+            reviewed = site_grammar_reply(actor, message, locale)
+        if reviewed:
+            from .riwi_help import navigation as help_navigation
+            reviewed['navigationLinks'] = help_navigation(actor, message, reviewed['provider']) if reviewed['provenance'] != 'policy_refusal' else []
+            if reviewed['provenance'] == 'unavailable':
+                from .riwi_help import suggestions as help_suggestions
+                reviewed['questionSuggestions'] = help_suggestions(actor, message, locale)
+                reviewed['provider'].update(suggestionIds=[x['id'] for x in reviewed['questionSuggestions']], suggestionLocale=locale)
+            saved = await append_conversation_turn(conn, actor=actor, conversation_id=conversation_id,
+                user_message=original_message, assistant_answer=reviewed['answer'], correlation_id=correlation_id,
+                provenance=reviewed['provenance'], provider=reviewed['provider'], citations=[], navigation_links=reviewed['navigationLinks'], now=now)
+            await record_riwi_audit(conn,actor_user_id=actor.id,action='riwi.chat.completed',
+                target_type='riwi_conversation',target_id=saved,
+                metadata={'role':actor.role,'intent':intent_info.intent,'provenance':reviewed['provenance'],'providerId':'riwi','status':'succeeded'})
+            return {'ok':True,'conversationId':saved,'correlationId':correlation_id,'intent':intent_info.intent,
+                **reviewed,'reportSnapshot':None,'roleSurface':role_surface}
+
     from .riwi_site import site_response
     site_reply = (site_response(actor.role, message, locale, req.get('siteContext', []))
         if not any(req.get(k) for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')) else None)
@@ -469,13 +502,16 @@ async def handle_riwi_chat(
             allowed_map = {c["ref"]: c for c in citations}
             citations = [allowed_map[r] for r in ext_res["citations"] if r in allowed_map]
 
+    question_suggestions = []
     if not answer_text:
         dialogue=smalltalk(message,locale)
-        if locale == "en":
-            answer_text = dialogue or "I could not find a reliable match in my learning material 🤔\n\nCould you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!"
-        else:
-            answer_text = dialogue or "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nSavolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"
-        provenance = "unavailable"
+        from .riwi_help import fallback
+        unmatched = fallback(actor, message, locale)
+        answer_text = dialogue or unmatched['answer']
+        provenance = 'deterministic_learning_data' if dialogue else unmatched['provenance']
+        if not dialogue:
+            provider_meta = unmatched['provider']
+            question_suggestions = unmatched.get('questionSuggestions', [])
 
     from .riwi_conversation_learning import attach_clarification_alias,capture_safely
     provider_meta=await attach_clarification_alias(conn,actor,conversation_id,message,provider_meta)
@@ -524,4 +560,5 @@ async def handle_riwi_chat(
         "reportSnapshot": report_snapshot,
         "roleSurface": role_surface,
         "learningReview": review_capture,
+        "questionSuggestions": question_suggestions,
     }

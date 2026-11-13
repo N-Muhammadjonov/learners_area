@@ -10,6 +10,11 @@ export const RIWI_WORKSPACE_ROUTE = "/app/riwi";
 export const RIWI_MESSAGE_TTL_MS=7*24*60*60*1000;
 export const RIWI_CONVERSATION_MAX_CHARS=128000;
 
+export function safeQuestionSuggestions(value){
+  return (Array.isArray(value)?value:[]).filter(x=>x&&typeof x.id==='string'&&/^(?:[a-z][a-z-]{1,40}|RIWI-NEW-\d{3})$/.test(x.id)&&
+    typeof x.question==='string'&&x.question.length>=5&&x.question.length<=400&&!/^[\s/@]/.test(x.question)).slice(0,3);
+}
+
 export function escapeHtml(raw) {
   return String(raw ?? "")
     .replace(/&/g, "&amp;")
@@ -141,7 +146,7 @@ export function createRiwiWorkspaceController({
     return true;
   }
 
-  async function sendMessage(text) {
+  async function sendMessage(text, {standaloneHelp=false} = {}) {
     expireMessages();
     const trimmed = String(text || "").trim();
     if (!trimmed) return null;
@@ -165,14 +170,14 @@ export function createRiwiWorkspaceController({
     state.error = null;
     try {
       const payload = { message: learningMessage, replyLocale: state.replyLocale };
-      if (state.material) payload.material = {kind: state.material.kind, id: state.material.id};
+      if (state.material&&!standaloneHelp) payload.material = {kind: state.material.kind, id: state.material.id};
       if (state.conversationId) payload.conversationId = state.conversationId;
-      if (state.targetUserId && (state.role === "teacher" || state.role === "owner")) {
+      if (!standaloneHelp&&state.targetUserId && (state.role === "teacher" || state.role === "owner")) {
         payload.targetUserId = state.targetUserId;
       }
       const websiteQuestion=siteQuestion(learningMessage);
       const fileQuestion=/fayl(?:dagi|ni|dan|ning)|rasm(?:dagi|ni|dan|ning)|\b(?:this|attached|uploaded).{0,20}(?:file|image|photo|document)|\bpdf\b|\bdocx\b/i.test(learningMessage);
-      const useFiles=state.attachments.length&&(!websiteQuestion||fileQuestion||state.attachments.some(f=>!f.sent));
+      const useFiles=!standaloneHelp&&state.attachments.length&&(!websiteQuestion||fileQuestion||state.attachments.some(f=>!f.sent));
       if(useFiles)payload.attachments=state.attachments.map(({name,kind,text})=>({name,kind,text}));
       if(websiteQuestion&&!useFiles&&!state.material&&!state.targetUserId){
         const surfaces=readSiteContext();if(surfaces.length)payload.siteContext=surfaces;
@@ -190,7 +195,7 @@ export function createRiwiWorkspaceController({
       }
       state.conversationId = res.conversationId;
       state.messages.push(
-        { role: "user", content: trimmed, files:state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})), createdAt },
+        { role: "user", content: trimmed, files:standaloneHelp?[]:state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})), createdAt },
         {
           role: "assistant",
           content: res.answer,
@@ -199,10 +204,11 @@ export function createRiwiWorkspaceController({
           provenance: res.provenance,
           citations: res.citations || [],
           navigationLinks: safeNavigation(res.navigationLinks),
+          questionSuggestions: safeQuestionSuggestions(res.questionSuggestions),
           reportSnapshot: res.reportSnapshot || null
         }
       );
-      state.attachments.forEach(item=>{item.sent=true;item.sentAt??=createdAt;});
+      if(!standaloneHelp)state.attachments.forEach(item=>{item.sent=true;item.sentAt??=createdAt;});
       if (res.roleSurface && Array.isArray(res.roleSurface.targetOptions)) {
         state.targetOptions = res.roleSurface.targetOptions;
         state.nextTargetCursor = res.roleSurface.nextCursor || null;
@@ -401,11 +407,15 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     catch(error){m.documentError=error?.code||error?.message;}
     finally{ctrl.state.loading=false;renderMessages();}
   }
+  let selectedHelpQuestion=null;
   const bubble = m => {
     const time=new Date(m.createdAt);
     const clock=Number.isNaN(time.getTime())?'':new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{hour:'2-digit',minute:'2-digit'}).format(time);
     return h('article',{class:`riwi-msg riwi-msg--${m.role}`,'data-riwi-role':m.role},
       h('div',{class:'riwi-msg__body'},m.content),
+      m.role==='assistant'&&safeQuestionSuggestions(m.questionSuggestions).length?h('div',{class:'riwi-question-suggestions','aria-label':uz?'Savol tanlang':'Choose a question'},
+        ...safeQuestionSuggestions(m.questionSuggestions).map(item=>h('button',{type:'button',class:'riwi-question-suggestion',disabled:ctrl.state.loading||filesReading||voiceBusy||!!pending,
+          onClick:()=>{if(ctrl.state.loading||filesReading||voiceBusy||pending)return;selectedHelpQuestion=item.question;input.value=item.question;form.requestSubmit();}},item.question))):null,
       safeNavigation(m.navigationLinks).length?h('nav',{class:'riwi-navigation','aria-label':uz?'Bo‘limni ochish':'Open a section'},
         ...safeNavigation(m.navigationLinks).map(item=>h('a',{href:item.href},item.label))):null,
       m.files?.length?h('div',{class:'riwi-message-files'},...m.files.map(item=>{
@@ -527,11 +537,12 @@ export function mount(ctx,{readAttachment=readFile,dictationFactory=createLocalD
     if(ctrl.state.loading||filesReading||voiceBusy||pending)return;
     slashDismissed=true;drawSlash();
     const msg=input.value.trim()||(ctrl.state.attachments.some(f=>!f.sent)?(uz?'Faylni o‘qib, asosiy mazmunini ko‘rsat.':'Read the file and show its main content.'):'');if(!msg)return;
+    const standaloneHelp=selectedHelpQuestion===msg;selectedHelpQuestion=null;
     if(ctrl.getChatSizing().full&&!msg.startsWith('/')){status.textContent=text('chatLimit');status.hidden=false;return;}
-    input.value='';input.style.height='auto';pending=msg.startsWith('/')?null:{role:'user',content:msg,files:ctrl.state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})),createdAt:new Date().toISOString()};status.hidden=true;
+    input.value='';input.style.height='auto';pending=msg.startsWith('/')?null:{role:'user',content:msg,files:standaloneHelp?[]:ctrl.state.attachments.filter(f=>!f.sent).map(({name,kind,previewUrl})=>({name,kind,previewUrl})),createdAt:new Date().toISOString()};status.hidden=true;
     // Publish the user's bubble and Thinking before loading parsers/OCR.
-    filesReading=!!pending&&ctrl.state.attachments.some(item=>item.text===null);renderMessages();
-    try{if(pending&&ctrl.state.attachments.some(item=>item.text===null))await prepareFiles();const work=ctrl.sendMessage(msg);renderMessages();await work;}
+    filesReading=!standaloneHelp&&!!pending&&ctrl.state.attachments.some(item=>item.text===null);renderMessages();
+    try{if(!standaloneHelp&&pending&&ctrl.state.attachments.some(item=>item.text===null))await prepareFiles();const work=ctrl.sendMessage(msg,{standaloneHelp});renderMessages();await work;}
     catch(error){
       if(signal?.aborted)return;
       input.value=msg;

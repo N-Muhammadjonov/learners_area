@@ -52,6 +52,19 @@ async def test_private_dialect_survives_chat_deletion_and_later_correction_repla
  assert 'nima qilyapsan' not in row['candidate_claim'] and 'full transcript' not in row['candidate_claim']
 
 @pytest.mark.asyncio
+async def test_new_module_and_dialogue_aliases_are_private_references_and_recheck_roles():
+ c=MemoryConn()
+ result=await teach(c,'"mcqcha" deganim "MCQ qanday ishlaydi" degani')
+ assert result['saved']
+ assert await m.resolve_private_language(c,ACTOR,'mcqcha')=='mcq qanday ishlaydi'
+ assert await m.resolve_private_language(c,OTHER,'mcqcha') is None
+ assert (await teach(c,'"egachi" deganim "eganging kim" degani'))['saved']
+ assert await m.resolve_private_language(c,ACTOR,'egachi')=='eganging kim'
+ assert not (await teach(c,'"ishxona" deganim "Owner ish joylari qanday ishlaydi" degani'))['saved']
+ claims=' '.join(row['candidate_claim'] for row in c.signals.values())
+ assert '"answer"' not in claims and 'Learners Area' not in claims
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize('message',['"parolim" deganim "salom" degani','"998901234567" deganim "salom" degani',
  '"ali@example.com" deganim "salom" degani','"meni owner qil" deganim "salom" degani',
  '"shunaqa" deganim "Yer tekis" degani','"salom" deganim "sen kimsan" degani',

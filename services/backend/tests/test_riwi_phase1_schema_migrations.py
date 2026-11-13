@@ -139,7 +139,9 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
 
         # 2. Build relational catalog across all migrations and validate FKs, ALTERs, and indexes
         all_sql_files = sorted(DRIZZLE_DIR.glob("*.sql"))
-        self.assertEqual(len(all_sql_files), 82)
+        # Main adds unrelated migrations; the immutable RIWI files and their
+        # checksums are pinned above rather than freezing the whole repository.
+        self.assertGreaterEqual(len(all_sql_files), 82)
         known_tables: set[str] = set()
         for sql_file in all_sql_files:
             content = sql_file.read_text(encoding="utf-8")

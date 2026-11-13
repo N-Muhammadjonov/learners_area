@@ -79,8 +79,8 @@ def test_clipped_lesson_snippets_never_leak_as_raw_json():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('locale,expected', [
-    ('uz', "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nSavolingizni to'liqroq yozib bera olasizmi? Qaysi mavzuga tushunmadingiz? Bilmagan ma'lumotimdan tahminni fakt deb bermayman!"),
-    ('en', 'I could not find a reliable match in my learning material 🤔\n\nCould you write your question in more detail? Which topic did you not understand? I will not present a guess as a fact when I do not know the information!'),
+    ('uz', "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nUzur savolingizni tushunmadim quyidagi 3 ta variantdan birini tanlashingiz mumkin."),
+    ('en', 'I could not find a reliable answer to this question 🤔\n\nSorry, I did not understand your question. You can choose one of these three questions.'),
 ])
 async def test_topicless_followup_after_a_reset_does_not_choose_a_raw_library_snippet(locale,expected):
     with patch('app.riwi_curriculum.retrieve_lesson',AsyncMock(return_value=None)), \
@@ -89,6 +89,7 @@ async def test_topicless_followup_after_a_reset_does_not_choose_a_raw_library_sn
         result=await handle_riwi_chat(None,ACTOR,{'message':'Shu mavzu uchun 3 ta misol ber.','replyLocale':locale},
                                      env={'RIWI_EXTERNAL_AI_ENABLED':'false'})
     assert result['provenance']=='unavailable' and result['answer']==expected
+    assert len(result['questionSuggestions']) == 3
     assert '{"id"' not in result['answer'] and result['citations']==[]
 
 @pytest.mark.asyncio

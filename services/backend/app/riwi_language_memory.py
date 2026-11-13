@@ -63,6 +63,18 @@ async def canonical_target(conn,actor,canonical):
     entry=match_question(canonical)
     if entry and entry.get('decision')=='answer' and entry.get('responseId') in SOCIAL_IDS:
         return {'kind':'social','id':entry['responseId']}
+    # New mappings may point only to exact reviewed intents, never a nearest
+    # keyword guess, answer body, role claim or arbitrary user-supplied fact.
+    from .riwi_dialogues import indexes as dialogue_indexes
+    dialogue = dialogue_indexes()[1].get(normalize_query(canonical))
+    if dialogue:return {'kind':'dialogue','id':dialogue['id']}
+    from .riwi_help import indexes as help_indexes, permitted
+    workflow = help_indexes()[0].get(normalize_query(canonical))
+    if workflow and permitted(actor,workflow):return {'kind':'workflow','id':workflow['id']}
+    from .riwi_new_questions import exact_index,allowed
+    questions = exact_index().get(normalize_query(canonical),[])
+    if questions and len({q['id'] for q in questions})==1 and allowed(actor,questions[0]):
+        return {'kind':'faq','id':questions[0]['id']}
     topic=entry.get('lessonId') if entry and entry.get('decision')=='answer' else choose_entry(canonical)
     if not topic or topic not in library():return None
     aliases=[normalize_query(x) for x in (*library()[topic]['aliases'],*EXTRA_ALIASES.get(topic,()))]
@@ -181,7 +193,7 @@ async def resolve_private_language(conn,actor,message):
     for row in rows:
         payload=decode(row.get('candidate_claim'));alias=payload.get('alias');canonical=payload.get('canonical');target=payload.get('target')
         if payload.get('version')!=1 or phrase(alias)!=alias or phrase(canonical)!=canonical or not isinstance(target,dict):continue
-        if target.get('kind') in ('social','lesson'):
+        if target.get('kind') in ('social','lesson','dialogue','workflow','faq'):
             if alias==q and await canonical_target(conn,actor,canonical)==target:
                 known=await canonical_target(conn,actor,alias)
                 if not known or known==target:return canonical

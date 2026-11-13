@@ -38,7 +38,7 @@ test('RIWI workspace and objective explanation widgets escape untrusted HTML and
   assert.equal(renderObjectiveExplanationWidget({attemptSubmitted: false, attemptId: 'a', questionId: 'q'}), '');
   const btnHtml = renderObjectiveExplanationWidget({attemptSubmitted: true, attemptId: 'a1', questionId: 'q1', locale: 'en'});
   assert(btnHtml.includes('data-attempt-id="a1"'));
-  assert(btnHtml.includes('Explain Official Answer'));
+  assert(btnHtml.includes('Explain How to Do This Task'));
 
   const resolvedHtml = renderObjectiveExplanationWidget({
     attemptSubmitted: true,

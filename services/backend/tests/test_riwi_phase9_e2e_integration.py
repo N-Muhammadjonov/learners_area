@@ -469,7 +469,9 @@ class RiwiPhase9E2EIntegrationTest(unittest.TestCase):
             headers=student_headers,
         )
         self.assertEqual(r_obj.status_code, 200)
-        self.assertEqual(r_obj.json()["officialAnswer"], "B")
+        self.assertEqual(r_obj.json()["officialAnswer"], "")
+        self.assertTrue(r_obj.json()['teachingOnly'])
+        self.assertNotIn('urban trees', r_obj.json()['explanation'])
 
         # Student is forbidden from /api/riwi/targets and /api/riwi/owner/*
         self.assertEqual(self.client.get("/api/riwi/targets", headers=student_headers).status_code, 403)

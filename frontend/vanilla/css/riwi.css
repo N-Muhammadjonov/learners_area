@@ -125,3 +125,8 @@
 [data-focus-workspace] [data-shell-main]>.riwi-workspace{flex:1;width:100%;height:100%;min-height:0;max-height:100%;margin:0 auto;border-radius:1.4rem}
 [data-focus-workspace] .riwi-conversation{min-height:0;flex:1}
 [data-focus-workspace] .riwi-transcript{height:auto;min-height:0;flex:1;overflow-y:auto}
+.riwi-question-suggestions{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;margin-top:1rem}
+.riwi-question-suggestion{max-width:100%;padding:.65rem .9rem;border:0;border-radius:1rem;background:var(--riwi-bg);color:var(--riwi-text);text-align:start;font:inherit;cursor:pointer;box-shadow:0 1px 3px rgb(0 0 0/.08)}
+.riwi-question-suggestion:hover{filter:brightness(.95)}
+.riwi-question-suggestion:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.riwi-question-suggestion:disabled{opacity:.55;cursor:wait}

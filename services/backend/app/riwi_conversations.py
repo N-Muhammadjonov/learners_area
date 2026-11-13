@@ -124,6 +124,8 @@ async def get_conversation_transcript(
             created_at = created_at.replace(tzinfo=timezone.utc)
         prov = meta.get("provenance")
         from .riwi_site import safe_navigation
+        from .riwi_help import items as help_items
+        suggestion_provider = meta.get('provider') if isinstance(meta.get('provider'), dict) else {}
         messages.append({
             "role": row["role"],
             "content": str(row["content"])[:RIWI_MAX_ANSWER_CHARS],
@@ -134,6 +136,7 @@ async def get_conversation_transcript(
             "citations": meta.get("citations") if isinstance(meta.get("citations"), list) else [],
             "reportSnapshot": meta.get("reportSnapshot") if isinstance(meta.get("reportSnapshot"), dict) else None,
             "navigationLinks": safe_navigation(actor.role, meta.get("navigationLinks")),
+            "questionSuggestions": help_items(actor, suggestion_provider.get('suggestionIds'), suggestion_provider.get('suggestionLocale') if suggestion_provider.get('suggestionLocale') in ('uz','en') else actor.locale),
         })
 
     return {
