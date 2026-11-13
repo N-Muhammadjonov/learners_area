@@ -106,3 +106,53 @@ async def lookup(con,user,attempt_id,word,start,end):
     _cache[key]=(time.monotonic(),result)
     while len(_cache)>1024:_cache.popitem(last=False)
     return result
+
+
+async def lookup_source_text(con, user, body, word, start, end):
+    """Resolve an exact token in authorized source text to an existing dictionary sense."""
+    if (not isinstance(body, str) or not isinstance(word, str) or
+            not 0 <= start < end <= length(body) or
+            normalize_search(js_slice(body, start, end)) != normalize_search(word)):
+        return None
+    release = (await active_release(con))['active_release_id']
+    key = (release, hashlib.sha256(body.encode()).hexdigest(), start, end)
+    cached = _cache.get(key)
+    if cached and time.monotonic() - cached[0] < 3600:
+        _cache.move_to_end(key)
+        return cached[1]
+    norm = normalize_search(word)
+    if not norm:
+        return None
+    index = await con.fetchrow(
+        """SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->'EN:*',
+                  CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) directory
+           FROM dictionary_search_indexes WHERE release_id=$1""", release, 'EN:' + norm[0])
+    hits = []
+    if index and index['directory']:
+        result = await worker({'action': 'search', 'release': release, 'directory': index['directory'],
+                               'query': word, 'direction': 'EN'})
+        if result.get('release_id') != release:
+            raise ValueError('release_mismatch')
+        hits = [h for h in result.get('results', []) if h.get('match_type') in
+                ('exact_lemma', 'canonical_normalized', 'form')]
+    elif not index:
+        registry = await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1', release)
+        if registry and registry['state'] == 'validated' and registry['delivery'] == 'legacy':
+            hits = [dict(r) for r in await con.fetch(
+                """SELECT DISTINCT lexeme_id FROM dictionary_search_terms
+                   WHERE release_id=$1 AND direction='EN' AND term=$2 LIMIT 3""", release, norm)]
+    candidates = []
+    for hit in hits[:3]:
+        value = await entry(con, core.uuid_value(hit['lexeme_id']), release)
+        if value:
+            candidates.extend({'entry': value, 'sense': sense}
+                              for sense in value['senses'] if sense.get('definition_en'))
+    sentence = js_slice(body, max(0, start-240), start) + '[[' + word + ']]' + js_slice(body, end, min(length(body), end+240))
+    selected = await select_sense(sentence, word, candidates[:40], user_id=user['id']) if candidates else None
+    result = ({'contextual': presentation(selected, release), 'occurrenceId': None} if selected else
+              {'contextual': None, 'known': None,
+               'alternatives': [presentation(c, release) for c in candidates[:12]]})
+    _cache[key] = (time.monotonic(), result)
+    while len(_cache) > 1024:
+        _cache.popitem(last=False)
+    return result
