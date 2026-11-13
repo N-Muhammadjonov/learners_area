@@ -100,8 +100,16 @@ async def detail_progress(req: Request, student_id: str):
                              "state": "uncreated", "plan": None})
         updated = await _sync(con, dict(cycle), now)
         plan = await _present(con, updated, now)
+        # Credited study time is produced exclusively by server-clock study_intervals.
+        # It covers all recorded site learning since this plan began, not just plan tasks.
+        # It does not expose evidence, answers, scores or learner credentials.
+        tracked_seconds = await con.fetchval("""SELECT COALESCE(SUM(i.seconds),0)::float8
+            FROM study_intervals i WHERE i.user_id=$1
+              AND i.ended_at > ($2::date::timestamp AT TIME ZONE $3)""",
+            ident, updated["started_on"], updated["timezone"])
         return response({"studentId": ident, "name": student["name"] or "O‘quvchi",
-                         "state": plan["state"], "plan": plan})
+                         "state": plan["state"], "plan": plan,
+                         "trackedStudySeconds": max(0, int(tracked_seconds or 0))})
 
 
 def install() -> None:
