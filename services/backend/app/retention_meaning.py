@@ -124,12 +124,55 @@ async def lookup(con,user,attempt_id,word,start,end):
     return await with_saved_sense(con,user,result)
 
 
-async def lookup_source_text(con, user, body, word, start, end):
-    """Resolve an exact token in authorized source text to an existing dictionary sense."""
+async def lookup_source_text(con, user, body, word, start, end, *,
+                             source_type=None, source_id=None, section=None):
+    """Prefer an exact editor-linked source occurrence, then dictionary context."""
     if (not isinstance(body, str) or not isinstance(word, str) or
             not 0 <= start < end <= length(body) or
             normalize_search(js_slice(body, start, end)) != normalize_search(word)):
         return None
+    if source_type in ('reading', 'listening') and source_id:
+        if source_type == 'reading':
+            rows = await con.fetch("""
+                SELECT o.id, o.start_char, o.end_char, o.surface_form,
+                       l.term, l.definition_en, l.translation_uz, l.part_of_speech,
+                       l.provenance, l.verification_status
+                FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
+                WHERE o.source_type='reading' AND o.passage_id=$1
+                  AND o.resolution_status='resolved'
+                  AND o.start_char<=$2 AND o.end_char>=$3
+                ORDER BY o.end_char-o.start_char DESC LIMIT 4
+            """, source_id, start, end)
+        elif isinstance(section, int) and 1 <= section <= 4:
+            rows = await con.fetch("""
+                SELECT o.id, o.start_char, o.end_char, o.surface_form,
+                       l.term, l.definition_en, l.translation_uz, l.part_of_speech,
+                       l.provenance, l.verification_status
+                FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
+                WHERE o.source_type='listening' AND o.listening_test_id=$1
+                  AND o.section_number=$4 AND o.segment_key=$5
+                  AND o.resolution_status='resolved'
+                  AND o.start_char<=$2 AND o.end_char>=$3
+                ORDER BY o.end_char-o.start_char DESC LIMIT 4
+            """, source_id, start, end, section, 's' + str(section))
+        else:
+            rows = []
+        exact = [row for row in rows if (
+            js_slice(body, row['start_char'], row['end_char']) == row['surface_form']
+            and normalize_search(js_slice(body, start, end)) ==
+                normalize_search(js_slice(row['surface_form'],
+                                          start-row['start_char'],
+                                          end-row['start_char']))
+        )]
+        if len(exact) == 1:
+            row = exact[0]
+            return {'contextual': {
+                'term': row['term'], 'definitionEn': row['definition_en'],
+                'translationUz': row['translation_uz'],
+                'partOfSpeech': row['part_of_speech'],
+                'provenance': row['provenance'],
+                'verificationStatus': row['verification_status']
+            }, 'occurrenceId': str(row['id'])}
     release = (await active_release(con))['active_release_id']
     key = (release, hashlib.sha256(body.encode()).hexdigest(), start, end)
     cached = _cache.get(key)
