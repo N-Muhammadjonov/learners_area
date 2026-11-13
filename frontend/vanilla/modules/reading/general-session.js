@@ -11,6 +11,7 @@ import {isUnstatedAnswer} from '../../js/generated/reading-lib/unstated.js';
 import {occurrenceSpans} from '../../js/generated/reading-lib/occurrence-spans.js';
 import {groupHeading,groupQuestions,questionCard} from './questions.js';
 import {readingHighlighted} from './lesson-text.js';
+import {clickableText} from '../vocabulary/clickable-text.js';
 import {createWorkspace} from './workspace.js';
 import {failure} from '../../js/request-errors.js';
 import {evidence} from './analysis.js';
@@ -120,7 +121,7 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
    el('h2',{class:'reading-pane-heading'},dict.readingWorkspace.passageHeading.replace('{n}',String(passage.passageNo))),
    el('p',{class:'reading-part-instruction'},range),
    el('h3',{class:'reading-passage-title'},passage.title),
-   passage.sourceHtml?sourceDocument(passage.sourceHtml,{skipTitle:true}):el('div',{class:'reading-passage-text','data-passage-body':true},
+   passage.sourceHtml?decorateSourcePassage(context,passage.sourceHtml,passageId):el('div',{class:'reading-passage-text','data-passage-body':true},
     passage.paragraphs.length?passage.paragraphs.map(paragraph=>el('div',{class:'reading-paragraph'},
      paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
      readingHighlighted(context,{scope:highlightScope,textKey:paragraph.id,text:paragraph.text,lexicalAssistance:true,occurrences:occurrenceSpans(passage.body,paragraph.text,passage.occurrences),sourceId:passageId,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))):
@@ -174,6 +175,22 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  }
  draw();
 }
+/** Preserve the authored HTML layout while making each plain-text fragment lexical. */
+function decorateSourcePassage(context,html,sourceId){
+ const source=sourceDocument(html,{skipTitle:true});
+ const walker=document.createTreeWalker(source,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ for(const node of nodes){
+  const parent=node.parentElement;
+  if(!parent||parent.closest('script,style,textarea,button,a,input,select,option,[contenteditable]'))continue;
+  if(!/[A-Za-z]{2}/.test(node.textContent??''))continue;
+  const lexical=clickableText(context,{text:node.textContent,sourceType:'reading',sourceId,
+   inline:true,lexicalAssistance:true,doubleClickLookup:true,phraseAware:true});
+  node.replaceWith(lexical.node);
+ }
+ return source;
+}
+
 /** Original `<ol className="reading-feedback">`: each checked question with its key, accepted answers, evidence and explanation. */
 function feedback(check,t,dict,passage){
  return el('ol',{class:'reading-feedback'},(check?.rows??[]).map(row=>el('li',{'data-general-question':row.questionId},el('div',{'data-general-result':row.isCorrect?'correct':'incorrect'},
