@@ -657,3 +657,15 @@ Yangi dalilli tuzatishlar: `fermion` tarjimasidagi faqat elementar zarraga chekl
 Branch commitlari avtomatik preview deploy yaratmasligi uchun `vercel.json`da faqat `fix/dictionary-audit-phase-01-20261112` branchi uchun avtomatik deployment o‘chirildi. Boshqa branchlarning sozlamasi o‘zgarmaydi. GitHub dictionary testlari yangi audit testlarini ham qamraydi. `main`, production DB, R2, release va kanalga yozilmagan; merge ruxsati faqat barcha ishlar yakunlangach so‘raladi.
 
 Yakuniy mahalliy tekshiruv: **174 passed / 0 failed / 0 skipped / 1 warning**, backend compile PASS, diff check PASS. Qo‘shimcha owner-dictionary tekshiruvida eski “345 route” assertioni dastlab FAIL bo‘ldi; asl 345 route va keyin qo‘shilgan 59 route uchun aniq snapshot birlashmasi bilan to‘g‘rilandi. Hech bir route olib tashlanmadi, test skip qilinmadi. Yangi commitning masofaviy CI natijasi hali kelmagan.
+
+Masofaviy tekshiruv ham tasdiqlandi: `8d163ef2782e8443155cad73520091a976493923`, GitHub Actions `43357646899`, **174 passed / 0 failed / 0 skipped / 1 warning**, compile PASS. Vercel API ushbu commit uchun **0 deployment** qaytardi. Dalil: `content/dictionary/audit-20261113-validation-8d163ef.json`.
+
+### Dictionary ko‘rinishi va ma’no bilan saqlash regressiyasi
+
+Umumiy dictionary panelida attribution matni ko‘rinayotgan edi; ekrandagi shu blok olib tashlandi. Ownerning custom/upstream tahrirlash belgisi saqlanadi. Tekshiruvga maxsus kiritilgan manba nomlari va URL DOMda ko‘rinmaydi.
+
+Collocation saqlashda mavjud bo‘lmagan target sense ID yoki ma’nosi ko‘rsatilmagan ko‘p ma’noli nishon avval birinchi/primary ma’noga avtomatik ulanardi. Endi aniq mavjud sense ID saqlanadi; xato sense ID bilan operatsiya xato beradi; ma’nosi noaniq ko‘p ma’noli ibora mavjud manual-phrase yo‘li orqali saqlanadi, lug‘atning tasodifiy ma’nosiga biriktirilmaydi. Yagona ma’noli nishon uchun xavfsiz bir ma’noli yo‘l saqlangan.
+
+DOM interaction regressiyalari: **20 passed / 0 failed / 0 skipped**. Bu synthetic transport sinovlari; production brauzer QA deb hisoblanmaydi. Manba matnlari yoki misol gaplar tahrirlanmagan.
+
+Native asset build PASS (1 008 fayl), JavaScript parse PASS, diff check PASS. UI tuzatishlari yangi audit qilingan leksema yoki ma’no soniga qo‘shilmadi. Dalil: `content/dictionary/audit-20261113-ui-meaning-boundaries.json`.

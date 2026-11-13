@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "commit": "8d163ef2782e8443155cad73520091a976493923",
+  "workflow_run_id": 43357646899,
+  "workflow_url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43357646899",
+  "job_id": 131663397193,
+  "conclusion": "success",
+  "tests": {
+    "passed": 174,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "compile": "pass",
+  "vercel_deployments_for_commit": 0,
+  "production_writes": false,
+  "main_merged": false,
+  "full_linguistic_signoff": false
+}

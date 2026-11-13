@@ -83,7 +83,7 @@ export function dictionaryPanel(ctx,{owner=true,onEdit,onAddSense,onAddWord}={})
    el('div',{class:'space-y-3'},e.senses.map((s,i)=>senseView(e,s,i))),owner?btn(t.addSense,'btn-secondary',()=>onAddSense?.(e),{'data-dictionary-add-sense':''}):null,
    e.forms.length?el('details',{class:'card p-4'},el('summary',{class:'min-h-11 cursor-pointer py-2 font-semibold'},t.forms),el('p',{class:'leading-relaxed'},e.forms.map(f=>f.surface_form).join(' · '))):null,
    e.collocations.length?el('details',{class:'card p-4'},el('summary',{class:'min-h-11 cursor-pointer py-2 font-semibold'},t.collocations),el('div',{class:'flex flex-wrap gap-2'},e.collocations.map(c=>el('span',{class:'rounded-lg bg-paper-sunken px-3 py-2'},c.text)))):null,
-   section(t.synonyms,syn),section(t.relations,rel),el('details',{class:'text-xs text-ink-500'},el('summary',{class:'min-h-11 cursor-pointer py-3'},t.attribution),e.attribution.map(a=>el('p',{class:'mb-2 max-w-[85ch] break-words leading-relaxed'},a.attribution_text))));
+   section(t.synonyms,syn),section(t.relations,rel));
  }
  function paintBody(){
   const inp=barHost.querySelector('[data-dictionary-search]');if(inp){inp.setAttribute('aria-expanded',String(S.hits.length>0));if(S.active>=0)inp.setAttribute('aria-activedescendant',`dictionary-hit-${S.active}`);else inp.removeAttribute('aria-activedescendant');}

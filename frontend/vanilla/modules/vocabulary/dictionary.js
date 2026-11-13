@@ -47,7 +47,11 @@ export function mountDictionary(ctx,host){
   try{let target=item.lexemeId;
    if(!target){const result=await api.request('/api/dictionary/search?'+new URLSearchParams({q:item.text,direction:'EN',release_id:S.release}),{signal});target=result.results?.find(hit=>hit.display_lemma.normalize('NFKC').toLowerCase()===item.text.normalize('NFKC').toLowerCase())?.lexeme_id;}
    if(!alive())return;
-   if(target){const result=await api.request('/api/dictionary/entries/'+encodeURIComponent(target)+'?release_id='+encodeURIComponent(S.release),{signal});if(!alive())return;const entry=result.entry,sense=entry.senses.find(s=>s.sense_id===(item.senseId??result.presentation?.primarySenseId))??entry.senses[0];chooseFolder(entry,sense,()=>S.phraseSaved.add(item.text));return;}
+   if(target){const result=await api.request('/api/dictionary/entries/'+encodeURIComponent(target)+'?release_id='+encodeURIComponent(S.release),{signal});if(!alive())return;const entry=result.entry;
+    const sense=item.senseId?entry.senses.find(s=>s.sense_id===item.senseId):(entry.senses.length===1?entry.senses[0]:null);
+    if(item.senseId&&!sense)throw Error('dictionary_target_sense_missing');
+    if(sense){chooseFolder(entry,sense,()=>S.phraseSaved.add(item.text));return;}
+   }
    // Authored phrases without a standalone dictionary entry use the existing
    // personal-word path. Never save the parent word/sense under another spelling.
    const entry={display_lemma:item.text,lexical_type:'collocation',pronunciations:[]},sense={translations:[]};

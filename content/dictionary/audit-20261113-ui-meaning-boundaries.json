@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "visibility": "audit_only_not_dictionary_content",
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "findings": [
+    {
+      "code": "dictionary_source_branding_visible",
+      "resolution": "Removed attribution disclosure from shared owner/learner dictionary panel; retained internal custom-entry detection for editing"
+    },
+    {
+      "code": "collocation_arbitrary_target_sense",
+      "resolution": "Exact target sense required when supplied; missing explicit ID fails; ambiguous unspecified targets use manual phrase storage; single-sense targets stay supported"
+    }
+  ],
+  "regressions": {
+    "dom_interactions": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    "javascript_parse": "pass",
+    "native_asset_build": {
+      "status": "pass",
+      "revision": "0a1d6dbec009f18e603c",
+      "files": 1008
+    },
+    "diff_check": "pass",
+    "live_browser_qa": false
+  },
+  "dictionary_source_lexemes_newly_audited": 0,
+  "production_mutation": false,
+  "main_merged": false
+}
