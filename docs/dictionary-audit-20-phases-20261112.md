@@ -707,3 +707,14 @@ Avvalgi `9fee9ae0e72b68f5d1df24602c73255a7c60f923` uchun GitHub Actions `4336049
 `973c0af1a83c40fa88b5a805ccfc26d4232afd97` uchun GitHub Actions `43361620298`: **181 backend testi + 20 DOM interaction testi PASS**, 0 failed / 0 skipped, 1 backend ogohlantirishi; compile PASS. Vercel API aynan shu SHA uchun **0 deployment** qaytardi. Dalil: `content/dictionary/audit-20261113-validation-973c0af1.json`.
 
 Joriy holat: 1 730 ketma-ket source leksema / 2 932 source ma’no; ushbu davom ettirishning alohida til maydonlari hujjatlarida 10 leksema / 13 ma’no / 91 qaror. **To‘liq tugagan bosqich — 0/20.** Oldingi branchdagi 233 example correction yozuvi saqlangan; ushbu davom ettirishda ularga yangi tahrir kiritilmagan. Keyingi lexical ma’no — `arles` (1 711-leksema); joriy 30 talik source guruhining yana 20 leksema / 35 ma’nosi bo‘yicha barcha maydon qarorlari hali yozilmagan. Keyin oldingi bosqichlarning tugamagan lingvistik qamrovi ham yopilishi kerak.
+
+
+### 1 711–1 717-leksemalar — dalilli darajalar va atamalar
+
+`arles`, `nanotechnology`, `distortable`, `thermodynamics`, `boustrophedon`, `mental condition`, `fermion`: **7 leksema / 7 ma’no / 49 maydon qarori**. Ushbu davom ettirishdagi batafsil qamrov endi **17 leksema / 20 ma’no / 140 qaror**. Yangi source readback hisobiga 0 qo‘shildi; avval tekshirilgan immutable entrylar ishlatildi.
+
+`nanotechnology` C2 → C1: aynan noun C1 bo‘lgan birlamchi topic-list dalili bor; qo‘shni `nanotechnological` adjective C2 ko‘chirilmagan. Ta’rif 1–100 nanometrning taxminiy diapazoni va shu o‘lchamga xos xossalardan foydalanishni ifodalaydi. `arles`, `thermodynamics`, `boustrophedon`, `mental condition`, `fermion`ning tasdiqlanmagan darajalari null qilindi; `distortable`ning null qiymati saqlandi.
+
+Scottish `arles`ning zakalat ma’nosi, termodinamikaning issiqlik/ish mazmuni va `mental condition`ning kasallik bilan cheklanmagan ruhiy holat ta’rifi aniqlandi. `distortable` tarjimasi sifat shakliga keltirildi. Fermionning oldingi elementar-only tuzatishi yangi tarjima tuzatishi deb qayta sanalmadi. `the laws of thermodynamics` faqat aniq termodinamika ma’nosiga ulandi. Mavjud uchta `mental condition` sinonimining source/target sense IDlari saqlandi.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1711-1717.json`. Mahalliy backend: **182 passed / 0 failed / 0 skipped / 1 warning**. Testlar skip qilinmagan. API va frontend kodi bu guruhda o‘zgarmagan; yangi live brauzer QA da’vosi yo‘q. Misollar keyinga qoldirilgan, to‘liq bosqichlar **0/20**. Keyingi ma’no `crossfire` (1 718); joriy 30 talik guruhdan **13 leksema / 28 ma’no**ning to‘liq yetti maydonli qarorlari hali yakunlanmagan.

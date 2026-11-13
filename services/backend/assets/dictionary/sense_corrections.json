@@ -1476,6 +1476,10 @@
         "replace_translation_uz": {
           "original": "yarim butun spinli elementar zarracha (fermion)",
           "text": "fermion; yarim butun spinli zarracha"
+        },
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
         }
       }
     },
@@ -1603,7 +1607,19 @@
             "senseId": "6aacee27-6f43-5805-81eb-4e48943c3a5d",
             "partOfSpeech": "n"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "(psychology) a mental condition in which the qualities of a state are relatively constant even though the state itself may be dynamic",
+          "text": "A person’s psychological state, including their thoughts and feelings, at a particular time."
+        },
+        "replace_definition_uz": {
+          "original": "O'zi o'zgaruvchan bo'lsa ham, belgilarining nisbatan barqarorligi saqlanadigan psixologik holat.",
+          "text": "Kishining muayyan paytdagi fikr va his-tuyg‘ularini o‘z ichiga olgan ruhiy holati."
+        }
       }
     },
     "6c48e538-e5ea-5539-9d63-d36ad017909e": {
@@ -2048,6 +2064,80 @@
             "text": "put up with"
           }
         ]
+      }
+    },
+    "6c40c18d-f37d-5e42-96a1-f0c86d58f968": {
+      "4b65c391-9615-414e-9430-320050f0504b": {
+        "meaning_sha": "3a01c6a63a76d55261d3ee02b7732645e4f0d54845ad0dc27959d19e85e9d045",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "money given by a buyer to a seller to bind a contract",
+          "text": "(Scottish) money paid by a buyer to a seller as a token that a bargain has been agreed."
+        },
+        "replace_definition_uz": {
+          "original": "xaridor tomonidan shartnomani mustahkamlash uchun sotuvchiga beriladigan pul",
+          "text": "(Shotlandiyada) oldi-sotdi kelishuvi tuzilganini tasdiqlash uchun xaridor sotuvchiga beradigan pul."
+        }
+      }
+    },
+    "6c41ca75-bf6b-587f-a959-5514162ce289": {
+      "28508529-1841-4f7c-be62-e2cbd73c98f8": {
+        "meaning_sha": "cc6e0a5c168582e2291a3c086e426f4d75a22403e29cfc518d2b7c23fdc37665",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        },
+        "replace_definition_en": {
+          "original": "the branch of engineering that deals with things smaller than 100 nanometers (especially with the manipulation of individual molecules)",
+          "text": "The study and practical control of matter at dimensions of approximately 1 to 100 nanometres, using properties that arise at this scale."
+        },
+        "replace_definition_uz": {
+          "original": "100 nanometrdan kichik tuzilmalar, ayniqsa alohida molekulalarni boshqarish bilan shug‘ullanuvchi muhandislik sohasi.",
+          "text": "Moddani taxminan 1–100 nanometr o‘lchamda o‘rganish va boshqarish hamda shu miqyosda yuzaga keladigan xossalaridan amalda foydalanish sohasi."
+        }
+      }
+    },
+    "6c4326b4-2758-5113-a820-259a5356eddc": {
+      "d002a530-b006-594b-94bb-48d7d0155415": {
+        "meaning_sha": "5afcdf54ef82d27044a2ab8e4e535990102270d853ffb4cc9877c4759c87805d",
+        "replace_translation_uz": {
+          "original": "ma’nosi buzib talqin qilinishi mumkin",
+          "text": "ma’nosi buzib talqin qilinishi mumkin bo‘lgan"
+        }
+      }
+    },
+    "6c43a330-19f8-5440-960c-9bedeba0efc4": {
+      "2d25a757-d3f9-4b2b-acbc-5d17a0966667": {
+        "meaning_sha": "d53fe4c65789724771939d0b6d028e10097afc3b62fb7514ec586e79da74306c",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "the branch of physics concerned with the conversion of different forms of energy",
+          "text": "The branch of physics that studies heat, work and their relation to other forms of energy."
+        },
+        "replace_definition_uz": {
+          "original": "Energiyaning turli shakllari o‘rtasidagi almashinuv va o‘zgarishlarni o‘rganadigan fizika sohasi.",
+          "text": "Issiqlik, ish va ularning energiyaning boshqa shakllari bilan bog‘liqligini o‘rganadigan fizika sohasi."
+        },
+        "add_collocations": [
+          {
+            "text": "the laws of thermodynamics"
+          }
+        ]
+      }
+    },
+    "6c44367e-f8b7-5b7d-bc0b-b25730403674": {
+      "23c690e5-decf-5d90-8fcb-311f4da82ed3": {
+        "meaning_sha": "091d374af40a58701afc4006ce434af77fe8c6211ca78e238620d31fab94728b",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
       }
     }
   }

@@ -1,0 +1,777 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "prior_candidate_commit": "aa689adda34b735d5e9a01b619a66d2a8d036d9a",
+  "scope": {
+    "lexemes": 7,
+    "senses": 7,
+    "field_decisions": 49,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "additional_target_readbacks": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "6c40c18d-f37d-5e42-96a1-f0c86d58f968",
+      "sense_id": "4b65c391-9615-414e-9430-320050f0504b",
+      "lemma": "arles",
+      "meaning_sha": "3a01c6a63a76d55261d3ee02b7732645e4f0d54845ad0dc27959d19e85e9d045",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "money given by a buyer to a seller to bind a contract",
+          "after": "(Scottish) money paid by a buyer to a seller as a token that a bargain has been agreed.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "Scottish earnest-money usage and agreement-token function are explicit in the primary regional dictionary. Preserve the original buyer/seller bargain sense; do not import its separate service-hiring, foretaste or reward senses."
+        },
+        "definition_uz": {
+          "before": "xaridor tomonidan shartnomani mustahkamlash uchun sotuvchiga beriladigan pul",
+          "after": "(Shotlandiyada) oldi-sotdi kelishuvi tuzilganini tasdiqlash uchun xaridor sotuvchiga beradigan pul.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "Zakalatning kelishuvni tasdiqlovchi pul ekanligi va Shotlandiyaga xos qo‘llanishi aniqlandi. Bu sud-huquqiy oqibatlar haqida yangi da’vo emas."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "zakalat",
+              "translation_id": "7737ad92-8e00-59fb-a13d-70c8e4f14133"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "zakalat",
+              "translation_id": "7737ad92-8e00-59fb-a13d-70c8e4f14133"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "Zakalat names money paid as a token of a bargain, rather than the French place name Arles."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "The reviewed exact regional noun supplies no CEFR label. Rarity is not evidence of C2; clear it to null."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "Earnest-money is an attested equivalent, but the frozen dictionary SELECT found no matching earnest money/earnest-money lexeme. Do not fabricate a target UUID; retain empty links."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "No conventional opposite money-token sense is established; not every payment/refund pair is an antonym."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dsl.ac.uk/entry/snd/arles"
+          ],
+          "reasoning": "Regional examples include hiring uses as well as bargains; no new collocation for this narrower buyer/seller sense is selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c41ca75-bf6b-587f-a959-5514162ce289",
+      "sense_id": "28508529-1841-4f7c-be62-e2cbd73c98f8",
+      "lemma": "nanotechnology",
+      "meaning_sha": "cc6e0a5c168582e2291a3c086e426f4d75a22403e29cfc518d2b7c23fdc37665",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the branch of engineering that deals with things smaller than 100 nanometers (especially with the manipulation of individual molecules)",
+          "after": "The study and practical control of matter at dimensions of approximately 1 to 100 nanometres, using properties that arise at this scale.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "National coordinating-office definition gives an approximate 1–100 nm range and scale-dependent properties. Original engineering-only wording was unnecessarily narrow; do not make the approximate boundaries absolute."
+        },
+        "definition_uz": {
+          "before": "100 nanometrdan kichik tuzilmalar, ayniqsa alohida molekulalarni boshqarish bilan shug‘ullanuvchi muhandislik sohasi.",
+          "after": "Moddani taxminan 1–100 nanometr o‘lchamda o‘rganish va boshqarish hamda shu miqyosda yuzaga keladigan xossalaridan amalda foydalanish sohasi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "O‘lchamning taxminiyligi, moddani o‘rganish/boshqarish va nanosathga xos xossalardan foydalanish birgalikda berildi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "nanotexnologiya",
+              "translation_id": "b0f1d0f0-e27e-541d-8683-f53285e6ac72"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "nanotexnologiya",
+              "translation_id": "b0f1d0f0-e27e-541d-8683-f53285e6ac72"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "Nanotexnologiya matches the established science/technology term."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "Primary physics-and-chemistry topic list explicitly pairs nanotechnology noun with C1. It separately labels nanotechnological adjective C2; do not transfer that adjective label. Exact headword page returned403; level evidence is the cached primary topic-list result, not a claimed page-body read."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "Nanoscience and nanotechnology overlap but study alone does not entail practical control; no independently verified exact synonym UUID selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "Macroscopic technology is a scale contrast, not a conventional antonym; keep empty."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nano.gov/about-nanotechnology/",
+            "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+            "https://dictionary.cambridge.org/dictionary/english/nanotechnology"
+          ],
+          "reasoning": "No separately selected exact combination is certified in this batch; optional list retained empty rather than generating a plausible phrase."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4326b4-2758-5113-a820-259a5356eddc",
+      "sense_id": "d002a530-b006-594b-94bb-48d7d0155415",
+      "lemma": "distortable",
+      "meaning_sha": "5afcdf54ef82d27044a2ab8e4e535990102270d853ffb4cc9877c4759c87805d",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "capable of having the meaning altered or twisted",
+          "after": "capable of having the meaning altered or twisted",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Exact primary adjective entry is the meaning-alteration/twisting sense, not necessarily deformation of a physical body."
+        },
+        "definition_uz": {
+          "before": "Ma’nosini o‘zgartirish yoki burib yuborish mumkin bo‘lgan.",
+          "after": "Ma’nosini o‘zgartirish yoki burib yuborish mumkin bo‘lgan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Ma’noni o‘zgartirish yoki buzib talqin qilishga imkon borligi shu ma’noga mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ma’nosi buzib talqin qilinishi mumkin",
+              "translation_id": "8c746f19-53ac-5059-b7fb-4027951687d3"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ma’nosi buzib talqin qilinishi mumkin bo‘lgan",
+              "translation_id": "8c746f19-53ac-5059-b7fb-4027951687d3"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Added bo‘lgan to make the Uzbek rendering explicitly adjectival, preserving the semantic-distortion sense."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Original level absent; reviewed entry supplies no reliable CEFR, so null retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Changeable/changeful are broad see-also terms in the reference, not exact sense synonyms. No edge inserted from a see-also list."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Undistortable is a possible formation but no attested exact target sense was established. Do not invent an ID."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.wordwebonline.com/en/DISTORTABLE"
+          ],
+          "reasoning": "Reference example is not promoted to an audited example or treated as a conventional multiword collocation. Empty optional list retained."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c43a330-19f8-5440-960c-9bedeba0efc4",
+      "sense_id": "2d25a757-d3f9-4b2b-acbc-5d17a0966667",
+      "lemma": "thermodynamics",
+      "meaning_sha": "d53fe4c65789724771939d0b6d028e10097afc3b62fb7514ec586e79da74306c",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the branch of physics concerned with the conversion of different forms of energy",
+          "after": "The branch of physics that studies heat, work and their relation to other forms of energy.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "Heat and other energy forms define this field; editorial wording names work explicitly, avoiding the original overly generic energy-conversion description."
+        },
+        "definition_uz": {
+          "before": "Energiyaning turli shakllari o‘rtasidagi almashinuv va o‘zgarishlarni o‘rganadigan fizika sohasi.",
+          "after": "Issiqlik, ish va ularning energiyaning boshqa shakllari bilan bog‘liqligini o‘rganadigan fizika sohasi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "Issiqlik va ish tushunchalari aniq kiritildi; energiyaning boshqa shakllari bilan aloqasi saqlandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "termodinamika",
+              "translation_id": "4fb52157-aad0-5438-b62f-6ea6186fe3af"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "termodinamika",
+              "translation_id": "4fb52157-aad0-5438-b62f-6ea6186fe3af"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "Termodinamika names this physical science; not confused with mechanics in general."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "Reviewed exact primary dictionary bodies provide no sense-level CEFR. Oxford page footer Word-of-Day B2 belongs to deforestation and is excluded. Third-party estimated C2 not adopted; source C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "Thermal physics is related but broader/differently scoped; no exact equivalent target established."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "Other branches of physics are not lexical opposites of this discipline; keep empty."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "the laws of thermodynamics"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/thermodynamics",
+            "https://dictionary.cambridge.org/dictionary/english/thermodynamics",
+            "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/work-done-by-a-gas-3/"
+          ],
+          "reasoning": "The laws of thermodynamics is explicitly attested in the exact primary entry; attach only to this discipline sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c44367e-f8b7-5b7d-bc0b-b25730403674",
+      "sense_id": "23c690e5-decf-5d90-8fcb-311f4da82ed3",
+      "lemma": "boustrophedon",
+      "meaning_sha": "091d374af40a58701afc4006ce434af77fe8c6211ca78e238620d31fab94728b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "an ancient writing system: having alternate lines written in opposite directions; literally ‘as the ox ploughs’",
+          "after": "an ancient writing system: having alternate lines written in opposite directions; literally ‘as the ox ploughs’",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Primary noun definition confirms alternate writing directions on successive lines. Mathematical boustrophedon transforms and adjective uses are not imported into this writing-system noun."
+        },
+        "definition_uz": {
+          "before": "qatorlari navbatma-navbat qarama-qarshi yo‘nalishda yoziladigan qadimgi yozuv tizimi",
+          "after": "qatorlari navbatma-navbat qarama-qarshi yo‘nalishda yoziladigan qadimgi yozuv tizimi",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Qatorlari navbatma-navbat qarama-qarshi tomonga yoziladigan qadimgi yozuv tizimi aniq ifodalangan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "bustrofedon",
+              "translation_id": "a559f42a-b23d-5a70-bff2-8b1e4ed87eea"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "bustrofedon",
+              "translation_id": "a559f42a-b23d-5a70-bff2-8b1e4ed87eea"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Bustrofedon is retained as a term with the explanatory Uzbek definition; this is editorial equivalence, not independently certified bilingual attestation."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Reviewed noun entry has no documented CEFR; uncommon orthographic terminology does not establish C2."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Alternating-direction writing is a description, not a verified frozen synonym lexeme; no new edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Left-to-right writing is one alternative system, not a conventional lexical antonym; retain empty."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/boustrophedon"
+          ],
+          "reasoning": "Do not transfer the mathematical boustrophedon transform combination to this ancient-writing-system noun. No exact addition selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4692d2-d13e-540a-8d81-7d5cdf8f61b9",
+      "sense_id": "89cf0a9d-dffc-5f8f-9b61-f322a4851e64",
+      "lemma": "mental condition",
+      "meaning_sha": "b62910ca57d3f5907cd0f71341a6b6fadba935f65f9067ba745eaf3c11aae444",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "(psychology) a mental condition in which the qualities of a state are relatively constant even though the state itself may be dynamic",
+          "after": "A person’s psychological state, including their thoughts and feelings, at a particular time.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "Replace self-referential a-mental-condition gloss with an accessible psychological-state description. The source synonym group is mental state/psychological condition/psychological state; this is not a newly introduced mental-disorder diagnosis."
+        },
+        "definition_uz": {
+          "before": "O'zi o'zgaruvchan bo'lsa ham, belgilarining nisbatan barqarorligi saqlanadigan psixologik holat.",
+          "after": "Kishining muayyan paytdagi fikr va his-tuyg‘ularini o‘z ichiga olgan ruhiy holati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "Muayyan vaqtdagi fikr va his-tuyg‘ular bilan bog‘liq ruhiy holat ravshan berildi; kasallik degan cheklov qo‘shilmadi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ruhiy holat",
+              "translation_id": "3366bd48-77f0-5345-ae21-4d787b2e0137"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ruhiy holat",
+              "translation_id": "3366bd48-77f0-5345-ae21-4d787b2e0137"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "Ruhiy holat matches the broad psychological-state meaning and does not imply a diagnosed illness."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "No exact mental-condition sense level established. B2 for general state(CONDITION) cannot be transferred to this phrase; source C1 cleared rather than guessed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "mental state",
+              "lexemeId": "f9f7cf2f-e386-5881-ba18-de5577d928a5",
+              "senseId": "b81dd89b-b3f9-5a9e-b97c-3d8f8a96bde3"
+            },
+            {
+              "text": "psychological condition",
+              "lexemeId": "e2227485-0cce-5b88-a45a-6d17ab003cad",
+              "senseId": "763ba58b-f2ab-5a33-965b-5c6722eb5209"
+            },
+            {
+              "text": "psychological state",
+              "lexemeId": "6c8d29ee-b457-5288-9f95-47711dbb8a41",
+              "senseId": "6aacee27-6f43-5805-81eb-4e48943c3a5d"
+            }
+          ],
+          "after": [
+            {
+              "text": "mental state",
+              "lexemeId": "f9f7cf2f-e386-5881-ba18-de5577d928a5",
+              "senseId": "b81dd89b-b3f9-5a9e-b97c-3d8f8a96bde3"
+            },
+            {
+              "text": "psychological condition",
+              "lexemeId": "e2227485-0cce-5b88-a45a-6d17ab003cad",
+              "senseId": "763ba58b-f2ab-5a33-965b-5c6722eb5209"
+            },
+            {
+              "text": "psychological state",
+              "lexemeId": "6c8d29ee-b457-5288-9f95-47711dbb8a41",
+              "senseId": "6aacee27-6f43-5805-81eb-4e48943c3a5d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "All three existing links select the identical original psychological-state gloss with immutable verified target UUIDs. Mental state is independently supported by the primary thesaurus; psychological variants remain in the same broad-state meaning, not disease diagnoses."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "Different moods/states are not the opposite of mental condition as a category; empty retained."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/state-of-mind",
+            "https://dictionary.cambridge.org/us/dictionary/english/state-frame-of-mind",
+            "https://dictionary.cambridge.org/us/thesaurus/state-of-mind"
+          ],
+          "reasoning": "Poor/serious mental condition can invoke a clinical-disorder reading; no ambiguous combination is inserted for this broad psychological-state sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c46aa14-a268-56aa-9f22-dbd737f8d729",
+      "sense_id": "e2e9d296-5c16-54b1-97fd-7103d8461dac",
+      "lemma": "fermion",
+      "meaning_sha": "fe1e1816fba5db18012f324475f28c8ba94b9b1b5f4bf322703dd4a4768411a0",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "any particle that obeys Fermi-Dirac statistics and is subject to the Pauli exclusion principle",
+          "after": "any particle that obeys Fermi-Dirac statistics and is subject to the Pauli exclusion principle",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "Statistics and Pauli-exclusion definition agrees with the primary physics references and covers both elementary and composite particles."
+        },
+        "definition_uz": {
+          "before": "Fermi–Dirak statistikasi va Pauli taqiqlash prinsipiga bo‘ysunadigan zarracha",
+          "after": "Fermi–Dirak statistikasi va Pauli taqiqlash prinsipiga bo‘ysunadigan zarracha",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "Fermi–Dirak statistikasi va Pauli taqiqlash prinsipi mos; zarracha elementar bilan cheklanmagan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "fermion; yarim butun spinli zarracha",
+              "translation_id": "d7408ec9-3c70-58bd-87ae-772d02d32a0a"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "fermion; yarim butun spinli zarracha",
+              "translation_id": "d7408ec9-3c70-58bd-87ae-772d02d32a0a"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "Previously corrected elementary-only restriction remains fixed in candidate fermion; yarim butun spinli zarracha. Retained existing correction, not counted as a new translation edit."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "Specialized physics entry has no documented learner CEFR; C2 not inferred from technical subject matter."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "Electron, proton and neutron are examples/subclasses, not synonyms of every fermion; no erroneous equivalence edge added."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "Boson is a contrasting particle class, not automatically a lexical antonym. No unverified boson target edge added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+            "https://www2.lbl.gov/abc/wallchart/glossary/fermion.html",
+            "https://dictionary.cambridge.org/dictionary/english/fermion?topic=atoms-molecules-and-sub-atomic-particles"
+          ],
+          "reasoning": "No new collocation is independently selected here; source optional list remains empty. Example auditing remains globally deferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the exact cited English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "reference_observations": [
+    {
+      "url": "https://www.oxfordlearnersdictionaries.com/topic/physics-and-chemistry",
+      "access": "primary_search_cached_body",
+      "observed_headword_pos_level": "nanotechnology noun C1",
+      "nearby_different_entry": "nanotechnological adjective C2",
+      "direct_open": "403; not treated as a successful body read"
+    },
+    {
+      "url": "https://dictionary.apa.org/mental-state",
+      "access": "one-line iframe only; no definition obtained; not used as evidence"
+    },
+    {
+      "url": "https://www.wordwebonline.com/en/MENTALCONDITION",
+      "access": "cache miss; not used as evidence"
+    },
+    {
+      "url": "https://www.energy.gov/science/doe-explainsbosons-and-fermions",
+      "access": "primary_search_cached_body",
+      "observation": "Half-integer spins, composite particles and Pauli exclusion discussed; no CEFR evidence."
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "local_validation": {
+    "backend_regression_suite": {
+      "passed": 182,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "warning": "Existing Starlette/AnyIO deprecation warning",
+      "result": "PASS"
+    },
+    "browser_code_changed": false,
+    "live_browser_qa_performed": false
+  }
+}
