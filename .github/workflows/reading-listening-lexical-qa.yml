@@ -27,7 +27,7 @@ jobs:
           python -m py_compile services/backend/app/retention_meaning.py services/backend/app/step21_meaning_access.py services/backend/app/step20_retention_transitions_port.py services/backend/app/listening_review_access.py services/backend/app/step21_listening_authored_reads.py
       - name: Run existing targeted regressions
         working-directory: services/backend
-        run: python -m pytest -q tests/test_phase3_listening_gate.py tests/test_phase3_listening_visuals.py tests/test_reading_source_cd.py tests/test_retention_reference_recovery.py tests/test_public_seo.py
+        run: python -m pytest -q tests/test_phase3_listening_gate.py tests/test_phase3_listening_visuals.py tests/test_reading_source_cd.py tests/test_retention_reference_recovery.py tests/test_public_seo.py tests/test_source_saved_context.py
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
