@@ -79,11 +79,27 @@ test('Script annotator preserves readable text and excludes common grammatical w
     w.DATA={transcript:{"1":"He offered food to the visitor."},script_completion:[]};
     w.scriptPart=1;
     w.buildScriptTranscript=()=>'';w.renderScript=()=>null;
-    w.eval(originalScriptAccessibility());
+    w.eval(originalScriptAccessibility('fixture'));
     w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
     const words=[...w.document.querySelectorAll('.la-script-lexical-word')];
     assert.deepEqual(words.map(el=>el.textContent),['offered','food','visitor']);
     assert.deepEqual(words.map(el=>Number(el.dataset.scriptSourceStart)),[3,11,23]);
     assert.equal(w.document.querySelector('.script-transcript').textContent,'He offered food to the visitor.');
+    w.dispatchEvent(new w.MessageEvent('message',{source:w.parent,data:{
+      token:'fixture',channel:'learners-area-script-saved',
+      savedOccurrences:[{section:1,startChar:3,endChar:10}]
+    }}));
+    assert.equal(words[0].dataset.lexicalSaved,'true');
+    assert.equal(words[1].dataset.lexicalSaved,'false');
+    w.dispatchEvent(new w.MessageEvent('message',{source:w.parent,data:{
+      token:'fixture',channel:'learners-area-script-save-status',
+      part:1,start:11,end:15,saved:true
+    }}));
+    assert.equal(words[1].dataset.lexicalSaved,'true');
+    w.dispatchEvent(new w.MessageEvent('message',{source:w.parent,data:{
+      token:'foreign',channel:'learners-area-script-save-status',
+      part:1,start:23,end:30,saved:true
+    }}));
+    assert.equal(words[2].dataset.lexicalSaved,'false');
   }finally{dom.window.close();}
 });
