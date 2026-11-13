@@ -117,3 +117,13 @@ test('server-rendered public first paint shows landing, not login',()=>{
  assert.match(firstPaint,/href="\/register"/);
  assert.doesNotMatch(firstPaint,/la-static-login|Telegram orqali davom etish|Xush kelibsiz/);
 });
+
+test('9.0 reveal uses bounded zoom and recalculates on page resume',()=>{
+ assert.match(LANDING_HTML,/const zoom=1\+5\.5\*Math\.pow/);
+ assert.doesNotMatch(LANDING_HTML,/const zoom=1\+15\*Math\.pow/);
+ assert.doesNotMatch(LANDING_HTML,/pointer-events:none;will-change:transform;display:flex/);
+ assert.match(LANDING_HTML,/addEventListener\('pageshow',queueJourney\)/);
+ assert.match(LANDING_HTML,/visibilitychange',\(\)=>\{if\(!document\.hidden\)queueJourney\(\)\}/);
+ assert.match(LANDING_HTML,/story\.inert=p<=\.64/);
+ assert.match(LANDING_HTML,/id="bandStory"/);
+});
