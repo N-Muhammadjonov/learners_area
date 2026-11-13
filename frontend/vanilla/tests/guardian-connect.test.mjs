@@ -73,9 +73,11 @@ test('guardians, leaderboard and progress filter optional children before replac
 });
 
 
-test('guardian detail always shows an authorized full Telegram ID even with a username', () => {
+test('guardian list and detail display verified phone and username without exposing raw Telegram IDs', () => {
   const source = read('guardians.js');
-  assert(source.includes("l.telegramUsername ? '@' + l.telegramUsername : null"));
-  assert(source.includes("l.telegramUserId ? 'ID ' + l.telegramUserId : null"));
-  assert(!source.includes("l.telegramUsername ? '@' + l.telegramUsername : 'ID ' + l.telegramUserId"));
+  assert(source.includes("r.phone || '—'"));
+  assert(source.includes("r.telegramUsername ? '@' + r.telegramUsername.replace(/^@/, '')"));
+  assert(source.includes("l.phone].filter(Boolean).join(' · ')"));
+  assert(!source.includes("l.telegramUserId ? 'ID '"));
+  assert(source.includes("class: 'pc-view-button btn-secondary'"));
 });
