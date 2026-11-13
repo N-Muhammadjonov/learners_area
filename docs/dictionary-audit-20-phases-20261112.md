@@ -757,3 +757,12 @@ Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1727-1730.js
 Joriy 48 ma’noning CEFR holati: **33 null, 1 A2, 1 B1, 6 B2, 2 C1, 5 C2**. Bular yangi qamrovning yakuniy candidate qiymatlari, butun lug‘at statistikasi emas. Barcha 110 409 ma’no auditi va **0/20** bosqich holati ochiq qoladi. Oldingi 1 700 source leksemaning yetishmayotgan til maydonlari ham alohida dalillar bilan tugatilishi kerak; source readback hisoblari qayta oshirilmaydi.
 
 `530752e6c496b9a5602d41426b94dea9c5706255` uchun GitHub Actions `43365048469`: **185 backend + 20 DOM testi PASS**, 0 failed/skip, compile PASS, aynan shu SHA uchun Vercel 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-530752e6.json`.
+
+
+### 30 talik guruh — CI va davom ettirish checkpointi
+
+`192a312b3d874a3e3d3c5bcc27399bed3f8fc93c` uchun GitHub Actions `43365892006` loglari tekshirildi: **188 backend + 20 DOM testi PASS**, 0 failed / 0 skipped, 1 backend ogohlantirishi; compile PASS. Vercel aynan shu SHA uchun 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-192a312b.json`.
+
+**0/20 bosqich to‘liq tugagan.** Jami yangi yetti maydonli qamrov 30 leksema / 48 ma’no / 336 qaror; bu so‘zlarning examples auditi hali tugamagan. Keyin 9-bosqichning oldingi 1–1 700 leksemalaridagi yetishmayotgan lingvistik qamrov to‘ldiriladi. Birinchi o‘nlik `hold fast` → `countermand` (10 leksema / 11 ma’no): eski receiptlar to‘liq entry o‘rniga qisqa projection saqlagani uchun asl ma’lumot tekshiruv uchun mahalliy nusxaga boyitildi. Barcha IDlar, original meaning SHA, UZ qiymatlari va offsetlari eski receiptga mos; bu yangi lingvistik tasdiq yoki yangi readback coverage deb sanalmagan. Ular bo‘yicha yetti maydonli qarorlar hali yozilmagan.
+
+Main merge/push, production DB/R2 write va release/deploy bajarilmadi. Draft PR saqlangan. Merge ruxsati barcha 20 bosqich va examples amalda tugagachgina so‘raladi.
