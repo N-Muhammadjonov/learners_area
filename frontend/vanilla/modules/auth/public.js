@@ -9,9 +9,37 @@ import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
 import {telegram} from './telegram.js';
+import {LANDING_HTML} from '../landing-inline.js';
 /** Public policy loads inside the stable source AuthShell, not a blank route.
  * Retrying bootstrap never remounts controls or replays an account mutation. */
 export async function mount(context){
+ // The standalone landing is supplied by this already-loaded auth module.
+ // srcdoc isolates the original typography, CSS and animations from AuthShell.
+ if(context.url.pathname==='/landing'){
+  const {root,signal,navigate}=context;
+  const frame=document.createElement('iframe');
+  frame.title='Learners Area — platforma bilan tanishing';
+  frame.setAttribute('data-inline-landing','');
+  frame.setAttribute('loading','eager');
+  frame.style.cssText='display:block;width:100%;height:100dvh;min-height:100vh;border:0;background:#06101f';
+  // A srcdoc document inherits the site's nonce-based CSP.
+  // Reuse the nonce from the server-rendered module bootstrap.
+  const nonce=document.querySelector('script[nonce]')?.nonce;
+  if(!nonce)throw new Error('Missing CSP nonce for the public landing');
+  frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
+  const allowed=new Set(['/login','/register','/privacy','/faq','/method','/about','/contact']);
+  const receive=event=>{
+   if(event.source!==frame.contentWindow||event.origin!==window.location.origin)return;
+   const message=event.data;
+   if(message?.type!=='la:landing:navigate'||typeof message.path!=='string')return;
+   const target=new URL(message.path,window.location.origin);
+   if(target.origin!==window.location.origin||!allowed.has(target.pathname))return;
+   void navigate(target.pathname+target.search+target.hash);
+  };
+  window.addEventListener('message',receive,{signal});
+  root.append(frame);
+  return;
+ }
  const {root,url,signal,navigate}=context,{locale}=readPreferences(),dict=await dictionary(locale);if(signal.aborted)return;
  const path=url.pathname,register=path==='/register',reset=path.startsWith('/reset-password'),confirm=path.endsWith('/confirm');
  const title=register?dict.auth.registerTitle:reset?confirm?dict.auth.resetConfirmTitle:dict.auth.resetTitle:dict.auth.loginTitle;
