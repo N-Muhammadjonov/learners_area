@@ -106,3 +106,44 @@ async def lookup(con,user,attempt_id,word,start,end):
     _cache[key]=(time.monotonic(),result)
     while len(_cache)>1024:_cache.popitem(last=False)
     return result
+
+
+async def lookup_contextual(con, user, word, sentence):
+    """Select an existing dictionary sense in a verified study source's sentence."""
+    norm=normalize_search(word)
+    if not norm or len(sentence)>360 or norm not in normalize_search(sentence):
+        return {'contextual':None,'known':None,'alternatives':[]}
+    release=(await active_release(con))['active_release_id']
+    key=(release,hashlib.sha256(('context:'+norm+'|'+sentence).encode()).hexdigest())
+    cached=_cache.get(key)
+    if cached and time.monotonic()-cached[0]<3600:
+        _cache.move_to_end(key)
+        return cached[1]
+    index=await con.fetchrow("""SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->'EN:*',
+      CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) directory
+      FROM dictionary_search_indexes WHERE release_id=$1""",release,'EN:'+norm[0])
+    hits=[]
+    if index:
+        if index['directory']:
+            found=await worker({'action':'search','release':release,'directory':index['directory'],'query':word,'direction':'EN'})
+            if found.get('release_id')!=release:raise ValueError('release_mismatch')
+            hits=[h for h in found.get('results',[]) if h.get('match_type') in ('exact_lemma','canonical_normalized','form')]
+    else:
+        state=await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1',release)
+        if not state or state['state']!='validated' or state['delivery']!='legacy':
+            raise ValueError('dictionary_worker_unavailable')
+        hits=[dict(r) for r in await con.fetch("""SELECT DISTINCT lexeme_id FROM dictionary_search_terms
+            WHERE release_id=$1 AND direction='EN' AND term=$2 LIMIT 3""",release,norm)]
+    candidates=[]
+    for hit in hits[:3]:
+        candidate=await entry(con,core.uuid_value(hit['lexeme_id']),release)
+        if candidate:
+            candidates.extend({'entry':candidate,'sense':sense} for sense in candidate['senses']
+                              if sense.get('definition_en'))
+    chosen=await select_sense(sentence,word,candidates[:40],user_id=user['id']) if candidates else None
+    result=({'contextual':presentation(chosen,release),'known':None,'occurrenceId':None}
+            if chosen else {'contextual':None,'known':None,
+                            'alternatives':[presentation(item,release) for item in candidates[:12]]})
+    _cache[key]=(time.monotonic(),result)
+    while len(_cache)>1024:_cache.popitem(last=False)
+    return result
