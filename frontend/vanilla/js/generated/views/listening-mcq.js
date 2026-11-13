@@ -22,7 +22,7 @@ export function render(scope) {
             h("span", { className: "chip", "data-listening-mcq-card-day": true }, t.dayLabel.replace("{n}", String(card.day))),
             h("span", { className: "text-xs text-ink-300", "data-listening-mcq-card-questions": true }, t.questions.replace("{n}", String(card.questionCount))),
             card.draft && (h("span", { className: "text-xs text-ink-300", "data-listening-mcq-card-draft": true }, t.draftNotice))),
-        h("h2", { className: "font-display text-lg text-ink-900" }, card.title),
+        h("h2", { className: "font-display text-lg text-ink-900" }, card.title.replace(/^(?:(?:DAY\s*\d+|\d+\s*[-–]?\s*KUN)\s*(?:[.·:—–-]\s*)?)+/i, '').trim() || t.dayLabel.replace("{n}", String(card.day))),
         h("p", { className: "learning-progress", "data-listening-mcq-card-status": card.status.state },
             card.status.state === "completed" ? t.completed : card.status.state === "in_progress" ? t.inProgress : t.notStarted,
             card.status.state === "in_progress" &&
