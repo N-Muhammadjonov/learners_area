@@ -34,14 +34,14 @@ export function contextualWordPopover(context,props){
   const current=++version;loading=true;error=null;unresolved=false;contextual=null;known=null;saved=false;draw();
   const url=occurrenceId
    ?`/api/vocabulary/lookup?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&occurrenceId=${enc(occurrenceId)}`
-   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${sourceType==='retention'?`&startChar=${startChar}&endChar=${endChar}`:''}`;
+   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${Number.isInteger(startChar)&&Number.isInteger(endChar)?`&startChar=${startChar}&endChar=${endChar}`:''}`;
   try{
    const [lookupResult,folderResult]=await Promise.allSettled([api.request(url,{signal:localSignal}),api.request('/api/vocabulary/folders',{signal:localSignal})]);
    if(localSignal.aborted||current!==version)return;
    if(lookupResult.status==='rejected')error=failure(lookupResult.reason,dict);
    else{
     let data=lookupResult.value;
-    if(data?.status==='unresolved'&&occurrenceId){data=await api.request(`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+    if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
     alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
     else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
