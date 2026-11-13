@@ -14,15 +14,19 @@ export function managementAreas(dict,role){
  const staff=['teacher','admin','owner'].includes(role);const areas=[];
  const stats=dict.managementStats??(dict.people.name==='Ism'?STATS_UZ:STATS_EN);
  const add=(href,title,body,icon)=>areas.push({href,title,body,icon});
+ const addGuardians=()=>add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',
+   dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
  if(admin){
   if(owner)add('/app/admin/statistics',dict.nav.statistics??stats.title,stats.scope,IconAudit);
   add('/app/admin/people',dict.nav.adminUsers,dict.management.peopleBody,IconPeople);
+  addGuardians();
   add('/app/admin/admissions',dict.admission.title,dict.management.admissionsBody,IconAdmissions);
   add('/app/admin/roster',dict.reporter.roster.title,dict.reporter.roster.body,IconPeople);
  }
  if(role==='teacher'||owner){
   const academic=dict.people.name==='Ism'?ACADEMIC_UZ:ACADEMIC_EN;
   add('/app/teacher/students',dict.nav.people,dict.management.studentsBody,IconPeople);
+  if(role==='teacher')addGuardians();
   add('/app/teacher/homework',academic.homework,academic.homeworkBody,IconWriting);
   add('/app/management?view=mocks',dict.people.name==='Ism'?'Mock testlar':'Mock Tests',dict.people.name==='Ism'?'Mock yaratish, materiallarni nashr qilish va natijalarni tekshirish.':'Create mocks, publish materials, review and grade results.',IconAudit);
  }
@@ -50,9 +54,7 @@ export function managementAreas(dict,role){
  }
  add('/app/reports',dict.reporter.title,dict.reporter.managementBody,IconAudit);
  add('/app/support',dict.nav.support,dict.support.subtitle,IconSupport);
- if(staff){
-  add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
- }
+
  if(owner){
   add('/app/management?view=coins',dict.people.name==='Ism'?'Sovg‘alar va xaridlar':'Gifts and purchases',dict.people.name==='Ism'?'Sovg‘alar, xarid cheklari va buyurtmalar.':'Manage gifts, receipts and orders.',IconSettings);
   add('/app/owner',dict.owner.title,dict.management.ownerBody,IconSettings);
