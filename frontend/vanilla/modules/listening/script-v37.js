@@ -22,7 +22,7 @@ export function originalScriptAccessibility(){return `(()=>{document.addEventLis
   }
   const skipped=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
   const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT),nodes=[];let node;
-  while((node=walker.nextNode()))if(!node.parentElement?.closest('.script-gap-wrap,[data-script-source-start]'))nodes.push(node);
+  while((node=walker.nextNode()))if(!node.parentElement?.closest('.script-gap-wrap'))nodes.push(node);
   let cursor=0;
   for(const textNode of nodes){
    const raw=textNode.nodeValue||'';
@@ -45,6 +45,34 @@ export function originalScriptAccessibility(){return `(()=>{document.addEventLis
    cursor=at+raw.length;
   }
  };
+ // Repair only a source with gap numbering out of transcript order. All original
+ // labels and grading keys stay intact; ambiguous source matches stay untouched.
+ if(typeof buildScriptTranscript==='function'){
+  const originalTranscript=buildScriptTranscript;
+  buildScriptTranscript=function(part){
+   const source=typeof DATA==='object'?DATA.transcript?.[String(part)]:null;
+   if(typeof source!=='string'||!source)return originalTranscript(part);
+   const rows=(DATA.script_completion||[]).filter(g=>g.part===part).sort((a,b)=>a.n-b.n);
+   const lowered=source.toLowerCase(),positions=[];
+   for(const gap of rows){
+    const needle=String(gap.match||'').toLowerCase();
+    if(!needle)return originalTranscript(part);
+    const at=lowered.indexOf(needle);
+    if(at<0||lowered.indexOf(needle,at+1)>=0)return originalTranscript(part);
+    positions.push({gap,start:at,end:at+needle.length});
+   }
+   const ordered=[...positions].sort((a,b)=>a.start-b.start);
+   if(ordered.some((item,i)=>i>0&&ordered[i-1].end>item.start))return originalTranscript(part);
+   if(positions.every((item,i)=>item===ordered[i]))return originalTranscript(part);
+   let cursor=0,result='';
+   for(const {gap,start,end} of ordered){
+    result+=escapeHtml(source.slice(cursor,start));
+    result+='<span class="script-gap-wrap"><b class="script-gap-number">'+gap.n+'</b><input class="script-gap-input" data-gap="'+gap.q+'" autocomplete="off" aria-label="Part '+part+' gap '+gap.n+'" placeholder=""><span class="script-gap-answer" data-gapresult="'+gap.q+'"></span></span>';
+    cursor=end;
+   }
+   return result+escapeHtml(source.slice(cursor));
+  };
+ }
  const render=renderScript;renderScript=function(){if(disposed)return;const value=render.apply(this,arguments);decorate();decorateLexical();return value;};
  const key=event=>{const tab=event.target.closest?.('[data-spart]');if(!tab||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const available=[...tabs.querySelectorAll('[data-spart]')],index=available.indexOf(tab),next=event.key==='Home'?0:event.key==='End'?available.length-1:(index+(event.key==='ArrowRight'?1:available.length-1))%available.length;const part=available[next]?.dataset.spart;available[next]?.click();tabs.querySelector('[data-spart="'+part+'"]')?.focus();};
  tabs.addEventListener('keydown',key);decorate();decorateLexical();addEventListener('pagehide',()=>{disposed=true;tabs.removeEventListener('keydown',key);},{once:true});});})();`;}
