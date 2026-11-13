@@ -1,5 +1,6 @@
 /** Explicit source DTO/streaming checks; no API/server implementation. */
-import {test,afterEach} from 'node:test';import assert from 'node:assert/strict';import {JSDOM} from 'jsdom';
+import {test,afterEach} from 'node:test';
+import {readFileSync} from 'node:fs';import assert from 'node:assert/strict';import {JSDOM} from 'jsdom';
 import {dashboardDTO,openLessonsDTO,mockDTO} from '../js/adapters/dashboard.js';import {mount} from '../modules/dashboard.js';import {api} from '../js/api-client.js';import {viewFixture,fixtureSession} from './fixtures.mjs';import dict from '../js/i18n/en.js';import {render} from '../js/generated/dashboard.js';
 const request=api.request;let dom,controller;afterEach(()=>{controller?.abort();api.request=request;dom?.window.close();});const tick=()=>new Promise(r=>setTimeout(r,0));
 function setup(){dom=new JSDOM('<div id="root"></div>',{url:'https://fixture.invalid/app',pretendToBeVisual:true});for(const k of ['window','document','Node'])globalThis[k]=dom.window[k];controller=new dom.window.AbortController();return {root:document.querySelector('#root'),dict,locale:'en',url:new URL(window.location.href),signal:controller.signal,session:fixtureSession().session,refresh:()=>{}};}
@@ -27,4 +28,10 @@ test('owner dashboard mounts plan and Speak or Die companion in the greeting',as
   assert.equal(ctx.root.querySelector('[data-dashboard-companion-link]').getAttribute('href'),
     '/app/speaking/speak-or-die');
   assert(paths.includes('/api/study-plan/monthly/sequence'));
+});
+
+test('dashboard no longer renders redundant assignments card',()=>{
+ const source=readFileSync(new URL('../js/generated/dashboard.js',import.meta.url),'utf8');
+ assert(!source.includes("data-my-tasks"));
+ assert(source.includes("data-dashboard-skills"));
 });
