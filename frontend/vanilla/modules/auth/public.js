@@ -27,7 +27,7 @@ export async function mount(context){
   const nonce=document.querySelector('script[nonce]')?.nonce;
   if(!nonce)throw new Error('Missing CSP nonce for the public landing');
   frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
-  const allowed=new Set(['/login','/register','/privacy','/faq','/method','/about','/contact']);
+  const allowed=new Set(['/login','/register']);
   const receive=event=>{
    if(event.source!==frame.contentWindow||event.origin!==window.location.origin)return;
    const message=event.data;
