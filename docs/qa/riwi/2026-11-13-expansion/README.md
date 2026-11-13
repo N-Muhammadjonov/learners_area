@@ -4,6 +4,8 @@ Work started from remote main `69c1b46e0a21976d21532b9a1ce991ea49a629d4`.
 The earlier RIWI checkpoint and remote QA branch are ancestors of this main.
 Implementation is on local main. Production release and database migration are
 outside this change. The existing QA Preview branch is used for deployment only.
+Remote main advanced during implementation; `3a1cef04bad066cf7002d99509b67a6928c34a56`
+was merged without conflicts before preparing the Preview.
 
 ## Delivered behaviour
 
