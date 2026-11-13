@@ -12,7 +12,7 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
  if(skipTitle)doc.body.querySelector('.pass-title')?.remove();
  root.append(...doc.body.childNodes);
  if(lexicalContext&&sourceId&&typeof sourceBody==='string'){
-  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const walker=root.ownerDocument.createTreeWalker(root,root.ownerDocument.defaultView.NodeFilter.SHOW_TEXT);
   const textNodes=[];let node;
   while((node=walker.nextNode()))textNodes.push(node);
   let cursor=0;
@@ -22,13 +22,12 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
    let at=sourceBody.indexOf(value,cursor);
    if(at<0)at=sourceBody.indexOf(value.trim(),cursor);
    if(at<0)continue;
-   const base=at+(value.startsWith(value.trim())?0:Math.max(0,value.indexOf(value.trim())));
    const item=clickableText(lexicalContext,{
     text:value,sourceType:'reading',sourceId,inline:true,
     lexicalAssistance:true,doubleClickLookup:true,offsetBase:at
    });
    textNode.replaceWith(item.node);
-   cursor=Math.max(cursor,base+value.trim().length);
+   cursor=Math.max(cursor,at+value.length);
   }
  }
  return root;
