@@ -127,3 +127,73 @@ def test_owner_and_admin_can_read_school_wide_plan_list(monkeypatch, role):
         assert result.status_code == 200, result.text
         assert result.json()["students"][0]["name"] == "Saved Learner"
         assert result.json()["students"][0]["state"] == "uncreated"
+
+@pytest.mark.parametrize("role", ["owner", "teacher", "admin"])
+@pytest.mark.asyncio
+async def test_student_plan_detail_adds_only_server_recorded_study_time(monkeypatch, role):
+    import json
+    from datetime import date
+    from contextlib import asynccontextmanager
+    from starlette.requests import Request
+    from app import study_plan_staff_port as staff
+
+    actor, ident = uuid4(), uuid4()
+    cycle = {"id": uuid4(), "started_on": date(2026, 11, 1),
+             "timezone": "Asia/Tashkent"}
+    calls = []
+
+    class FakeConnection:
+        @asynccontextmanager
+        async def transaction(self):
+            yield self
+
+        async def fetchrow(self, sql, *args):
+            calls.append(("fetchrow", sql, args))
+            if "FROM users u" in sql:
+                assert "teacher_student_links" in sql
+                assert args == (actor, role == "teacher", ident)
+                return {"id": ident, "name": "Test Learner"}
+            return cycle
+
+        async def fetchval(self, sql, *args):
+            calls.append(("fetchval", sql, args))
+            assert "study_intervals" in sql
+            assert args == (ident, cycle["started_on"], cycle["timezone"])
+            assert "SUM(i.seconds)" in sql
+            return 7260.4
+
+    class FakePool:
+        @asynccontextmanager
+        async def acquire(self):
+            yield FakeConnection()
+
+    async def current_user(req, active=True):
+        assert active
+        return {"id": actor, "role": role}
+
+    async def pool():
+        return FakePool()
+
+    async def sync(con, saved, now):
+        assert saved == cycle
+        return saved
+
+    async def present(con, saved, now):
+        return {"state": "active", "totalDays": 7, "currentDay": 2,
+                "days": [{"day": 1, "tasks": [{"status": "completed"}]}]}
+
+    monkeypatch.setattr(core, "current_user", current_user)
+    monkeypatch.setattr(core, "pool", pool)
+    monkeypatch.setattr(staff, "_sync", sync)
+    monkeypatch.setattr(staff, "_present", present)
+
+    req = Request({"type": "http", "method": "GET",
+                   "path": "/api/study-plan/monthly/sequence/staff/" + str(ident),
+                   "query_string": b"", "headers": []})
+    response = await staff.detail_progress(req, str(ident))
+    assert response.status_code == 200
+    data = json.loads(response.body)
+    assert data["trackedStudySeconds"] == 7260
+    assert data["studentId"] == str(ident)
+    assert "proof" not in str(data)
+    assert any(kind == "fetchval" for kind, *_ in calls)
