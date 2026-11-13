@@ -137,6 +137,8 @@ test('dashboard card links to the Assignments plan and uses server completion',a
   mountSequenceDashboard(context(),host);
   await flush();
   assert.equal(host.querySelector('[data-dashboard-plan-open]').getAttribute('href'),ASSIGNMENTS_PATH);
+  assert(host.querySelector('[data-dashboard-plan-open]').classList.contains('btn-primary'));
+  assert.equal(host.querySelector('[data-dashboard-plan-open]').textContent,'Open today’s plan →');
   assert.match(host.textContent,/Day 5 \/ 30/);
   assert.equal(host.querySelector('progress').value,4);
 });
@@ -303,4 +305,16 @@ test('plan opens a book Grammar lesson in a separate focus view but preserves ca
     '/app/grammar/practice?book=b2-65&from=plan');
   assert.equal(plan.days[0].tasks[0].href,
     '/app/grammar/lessons?book=b2-65');
+});
+
+test('dashboard plan button has the same primary style and correct Uzbek label',async()=>{
+ api.request=async()=>activePlan();
+ const ctx=context();ctx.locale='uz';
+ mountSequenceDashboard(ctx,host);
+ await flush();
+ const action=host.querySelector('[data-dashboard-plan-open]');
+ assert(action);
+ assert(action.classList.contains('btn-primary'));
+ assert.equal(action.textContent,'Bugungi rejani ochish →');
+ assert.equal(action.getAttribute('href'),ASSIGNMENTS_PATH);
 });

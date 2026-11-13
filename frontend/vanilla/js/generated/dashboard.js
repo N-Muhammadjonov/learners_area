@@ -30,13 +30,6 @@ export function render(scope) {
                 h(StatCard,{label:dict.dashboard.streak,value:data.streak===null?'—':String(data.streak)}),
                 h(StatCard,{label:dict.writing.historyTitle,value:data.writingAttempts===null?'—':String(data.writingAttempts)}),
                 h(StatCard,{label:dict.dashboard.vocabDue,value:data.vocabDueCount===null?'—':String(data.vocabDueCount)})),
-            h(Card,{'data-my-tasks':true,kind:'practice'},
-                h('div',{className:'flex flex-wrap items-start justify-between gap-4'},
-                    h('div',{},h('p',{className:'la-eyebrow'},dict.assignments.title),h('h2',{className:'section-title'},dict.dashboard.myTasks)),
-                    action('/app/assignments',dict.assignments.title,'primary')),
-                data.openAssignments===null?h('p',{'data-tasks-unavailable':true,className:'mt-3 text-sm text-ink-500'},dict.errors.unknown):
-                data.openAssignments.length===0?h('p',{'data-tasks-empty':true,className:'mt-3 text-sm text-ink-500'},dict.dashboard.noTasks):
-                h('ul',{className:'mt-3 flex flex-col divide-y divide-ink-100'},data.openAssignments.map(task=>h('li',{'data-task':task.id,className:'flex flex-wrap items-center justify-between gap-2 py-3'},h('span',{className:'text-sm text-ink-900'},task.title),h('span',{className:'text-xs text-ink-500'},task.dueAt?`${dict.assignments.due}: ${formatDate(task.dueAt,locale)}`:''))))),
             h('section',{'data-dashboard-skills':true},
                 h('h2',{className:'mb-3 section-title'},dict.dashboard.skillSummary),
                 h('div',{},SKILLS.map(skill=>h(Link,{href:({listening:'/app/listening/lessons',reading:'/app/reading/lessons',writing:'/app/writing',speaking:'/app/speaking'})[skill],className:'card la-skill-shortcut','data-skill':skill,'data-ui-skill':skill,'data-ui-card':'module'},

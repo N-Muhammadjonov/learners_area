@@ -10,7 +10,7 @@ from .step21_safe_reads_port import OWNER, get_owner
 ADMIN = ('admin','owner')
 STAFF = ('teacher','admin','owner')
 TEACHER_OWNER = ('teacher','owner')
-BRAND = {'logoMasterDark':'learners-area-logo-master-dark.png','logoMarkDark':'Learners_Area_V11_Exact_Cutout_Logo.png','logoMarkLight':'owner-neon-day.png','logoHorizontalDark':'learners-area-logo-horizontal-dark.png','logoHorizontalLight':'learners-area-logo-horizontal-light.png','favicon':'learners-area-favicon.png'}
+BRAND = {'logoMasterDark':'learners-area-la-glass.svg','logoMarkDark':'learners-area-la-glass.svg','logoMarkLight':'learners-area-la-glass.svg','logoHorizontalDark':'learners-area-la-glass.svg','logoHorizontalLight':'learners-area-la-glass.svg','favicon':'derived/learners-area-tab.png'}
 
 
 async def integrations(con):

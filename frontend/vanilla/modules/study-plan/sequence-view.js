@@ -389,11 +389,11 @@ export function mountSequenceDashboard(ctx, root) {
         h('span',{class:'sequence-dashboard-number','aria-hidden':'true'},
           data.state==='active'?String(data.currentDay):data.state==='completed'?String(data.totalDays):'—')),
       progress,
-      h('a',{href:ASSIGNMENTS_PATH,class:'btn-secondary sequence-dashboard-link',
+      h('a',{href:ASSIGNMENTS_PATH,class:'btn-primary sequence-dashboard-link',
         'data-dashboard-plan-open':''},
         ['available','level_required'].includes(data.state)
           ? text(ctx,'Reja tuzish','Create plan')
-          : text(ctx,'Rejani ochish','Open plan')),
+          : text(ctx,'Bugungi rejani ochish →','Open today’s plan →')),
     ].filter(Boolean));
   }
   async function load() {
