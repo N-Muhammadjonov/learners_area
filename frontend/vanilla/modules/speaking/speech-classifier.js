@@ -24,7 +24,7 @@ export async function openSpeechClassifier(module){
   throw Error('vad_init');
  }
  const pcm=new Int16Array(memory.buffer,frame,frameSamples);
- let disposed=false,previousLevel=0,previousCorrelation=0,recentChanges=0;
+ let disposed=false,previousLevel=0,previousCorrelation=0,recentChanges=0,voiceFrames=0;
  return {
   classify(samples){
    if(disposed||samples.length<frameSamples)return false;
@@ -35,7 +35,7 @@ export async function openSpeechClassifier(module){
     let sum=0;
     for(let j=from;j<to;j++)sum+=samples[j];
     const value=sum/(to-from);
-    pcm[i]=Math.max(-32768,Math.min(32767,Math.round(value*98304)));
+    pcm[i]=Math.max(-32768,Math.min(32767,Math.round(value*32767)));
     power+=value*value;
     laggedPower+=value*previous;
     previous=value;
@@ -47,7 +47,12 @@ export async function openSpeechClassifier(module){
    // changes in twelve frames and reject uncorrelated broadband noise.
    recentChanges=((recentChanges<<1)|Number(changing))&4095;
    previousLevel=level;previousCorrelation=correlation;
-   return process(vad,frame,frameSamples)===1&&correlation>.25&&(recentChanges&(recentChanges-1))!==0;
+   const candidate=process(vad,frame,frameSamples)===1&&correlation>.25&&
+    (recentChanges&(recentChanges-1))!==0;
+   // Debounce single noisy VAD positives. A brief continuous speech onset
+   // must be present before game physics counts the microphone as speech.
+   voiceFrames=candidate?Math.min(3,voiceFrames+1):0;
+   return voiceFrames>=3;
   },
   dispose(){if(!disposed){disposed=true;freeVad(vad);free(frame);}}
  };
