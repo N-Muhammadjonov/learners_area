@@ -289,7 +289,12 @@ def test_semantic_overrides_are_exact_sense_and_release_scoped(monkeypatch):
 
     data = presentation.sense_corrections()
     assert data["source_release"] == "rel-v1-1fa06d8d41d8ff701632573e"
-    assert len(data["entries"]) == 31
+    from app.dictionary_sense_curation import load_corrections
+
+    # The audited lexeme set grows across batches; match the canonical patch
+    # registry rather than a frozen, obsolete count from the initial 31 items.
+    assert len(data["entries"]) >= 31
+    assert data["entries"] == load_corrections()["entries"]
 
     itself = {
         "release_id": data["source_release"],
