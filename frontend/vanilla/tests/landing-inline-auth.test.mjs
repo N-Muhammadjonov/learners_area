@@ -13,7 +13,7 @@ test('public login eagerly includes the landing document in the same module grap
  assert.match(source,/frame\.srcdoc=LANDING_HTML/);
  assert.match(source,/frame\.setAttribute\('loading','eager'\)/);
  assert.match(routes,/pattern:"\/landing",load:\(\)=>import\('\.\.\/modules\/auth\/public\.js'\)/);
- assert.match(read('../index.html'),/href="\/landing"/);
+ assert.match(read('../index.html'),/Birinchi marta keldingizmi\? <a href="\/register"/);
 });
 
 test('landing is public and inline scripts inherit the server nonce',()=>{
@@ -92,4 +92,17 @@ test('srcdoc navigation scrolls to local sections and starts the existing quiz w
  assert(scrolls.every(x=>x.opts.behavior==='smooth'&&x.opts.block==='start'));
  assert.equal(click('#unknown'),false,'Unknown fragments should not be captured');
  assert.equal(messages.length,0,'Local fragments must not trigger SPA navigation');
+});
+
+test('site root uses the shared landing, while login and registration keep their SPA routes',()=>{
+ const source=read('../modules/auth/public.js');
+ const routes=read('../js/routes.js');
+ assert.match(source,/context\.url\.pathname==='\/'\|\|context\.url\.pathname==='\/landing'/);
+ assert.match(source,/href:register\?'\/login':'\/register'/);
+ for(const route of ['/','/landing','/login','/register']){
+  assert(routes.includes('pattern:"'+route+'",load:()=>import(\'../modules/auth/public.js\')'),'Missing shared public route: '+route);
+ }
+ assert.match(LANDING_HTML,/<a class="hn" href="\/register">/);
+ assert.match(LANDING_HTML,/@media\(min-width:861px\)\{\.hero h1 \.rot\{display:block\}\}/);
+ assert.match(LANDING_HTML,/\.rot\.o\{opacity:0;transform:translateY\(\.25em\);filter:blur\(8px\)\}/);
 });
