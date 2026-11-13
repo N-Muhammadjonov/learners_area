@@ -572,6 +572,8 @@ def test_separate_scalar_interventions_are_exact_guarded_edits_and_not_full_sens
     data = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-surgical-scalars-0032-0035.json').read_text())
     historical = {e['lexeme_id']: e for e in json.loads((ROOT / data['historical_receipt']).read_text())['lexemes']}
     full_ids = {(r['lexeme_id'], r['sense_id']) for f in (ROOT / 'content/dictionary').glob('audit-*-phase*-lexical-decisions-*.json') for r in json.loads(f.read_text())['senses']}
+    scopes = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json').read_text())
+    scoped_edges = {(x['source_lexeme_id'], x['target_lexeme_id'], x['target_sense_id']): x['source_sense_id'] for x in scopes['scope_decisions']}
     assert data['scope']['new_fully_seven_field_reviewed_senses'] == 0
     for row in data['interventions']:
         original = row['original_entry']
@@ -584,7 +586,12 @@ def test_separate_scalar_interventions_are_exact_guarded_edits_and_not_full_sens
         candidate = curation.curate_candidate_entry(original)
         revised = candidate['senses'][0]
         view = present(candidate)['senses'][row['sense_id']]
-        assert candidate['relations'] == original['relations']
+        expected_relations = copy.deepcopy(original['relations'])
+        for edge in expected_relations:
+            key = (original['lexeme_id'], edge['target_lexeme_id'], edge.get('target_sense_id'))
+            if edge['relation_type'] == 'synonym' and key in scoped_edges:
+                edge['source_sense_id'] = scoped_edges[key]
+        assert candidate['relations'] == expected_relations
         assert revised['examples'] == sense['examples']
         assert corrected_examples(candidate, revised) == corrected_examples(original, sense)
         for field, decision in row['fields'].items():
@@ -744,6 +751,36 @@ def test_crossed_banking_and_limb_position_keep_separate_collocations_and_old_ex
         new = senses[old['sense_id']]
         assert new['examples'] == old['examples']
         assert corrected_examples(original, old) == corrected_examples(candidate, new)
+
+
+def test_freely_level_is_bound_to_unrestricted_adverb_and_preserves_approved_examples():
+    from app.dictionary_presentation import corrected_examples
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0104-0122.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'freely')
+    candidate = curation.curate_candidate_entry(original)
+    old, new = original['senses'][0], candidate['senses'][0]
+    assert old['cefr'] == 'B1' and new['cefr'] == 'B2'
+    assert 'restriction' in new['definition_en'] and 'Cheklov' in new['definition_uz']
+    assert new['translations'] == old['translations']
+    assert {c['text'] for c in present(candidate)['senses'][new['sense_id']]['collocations']} == {'move freely', 'travel freely'}
+    assert corrected_examples(original, old) == corrected_examples(candidate, new)
+    assert old['examples'] == new['examples']
+
+
+def test_bunting_does_not_mix_raw_fabric_with_bird_or_finished_decorative_flags():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0104-0122.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'bunting')
+    candidate = curation.curate_candidate_entry(original)
+    senses = {s['sense_id']: s for s in candidate['senses']}
+    fabric = senses['3dce79e3-53b3-429a-a5dc-055d5c5a4914']
+    bird = senses['778febde-913c-4b64-941b-1d9a2d4ed7b2']
+    assert 'loosely woven fabric' in fabric['definition_en']
+    assert 'Europe or North America' not in bird['definition_en'] and 'stout-billed songbirds' in bird['definition_en']
+    views = present(candidate)['senses']
+    assert views[fabric['sense_id']]['collocations'] == []
+    assert {r['text'] for r in views[bird['sense_id']]['collocations']} == {'reed bunting'}
+    assert all(s.get('cefr') is None for s in senses.values())
+    assert candidate['relations'] == original['relations']
 
 
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():

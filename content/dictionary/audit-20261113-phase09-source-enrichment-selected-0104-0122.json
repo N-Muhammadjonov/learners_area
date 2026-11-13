@@ -1,0 +1,546 @@
+{
+  "schema": 2,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "purpose": "Lexical review using authenticated cached originals and archived Supabase offsets; no new source coverage or fresh database-content-hash claim.",
+  "historical_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "historical_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "scope": {
+    "lexemes": 6,
+    "senses": 7,
+    "historical_sequential_positions": [
+      104,
+      107,
+      115,
+      116,
+      119,
+      122
+    ],
+    "contiguous_range_claimed": false,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "target_lexemes": 0
+  },
+  "source_projection": [
+    {
+      "lexeme_id": "65d5a111-0dc0-53d8-baa4-fa0a2cb45f95",
+      "lemma_norm": "bailiffship",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "d765bedd-55b7-5f55-bf80-d5918662efa7"
+      ],
+      "content_sha": "6ddd9a3bd44b7b9f7909eca8fe6bb52ca2aefc60e51e4a91ae61bb3fabb2f8e9",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 259423,
+      "storage_length": 774,
+      "storage_raw_bytes": 1443,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65d84eb9-da60-533f-a37e-229eac06b897",
+      "lemma_norm": "implicitness",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "8fc33ee8-a3b9-5021-9940-6e6a7788cae9"
+      ],
+      "content_sha": "f20b3280806a78be914c075d9a47946fc1661663f29a7d8735122c5175f06779",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 264815,
+      "storage_length": 825,
+      "storage_raw_bytes": 1522,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65dc9669-8102-5cec-bbc3-394d12e76651",
+      "lemma_norm": "freely",
+      "part_of_speech": "r",
+      "sense_ids": [
+        "5685fd47-543e-4f6d-bf01-3be39539de21"
+      ],
+      "content_sha": "4778408c5d7dcb643c1828b8b026e3234f68d1d0b6f2f311ae5933487ba98e88",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 278911,
+      "storage_length": 1092,
+      "storage_raw_bytes": 2617,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65dda6da-3dd8-53c2-bd52-892ed13d808a",
+      "lemma_norm": "bunting",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "3dce79e3-53b3-429a-a5dc-055d5c5a4914",
+        "778febde-913c-4b64-941b-1d9a2d4ed7b2"
+      ],
+      "content_sha": "961fd67811f7b35b8eff93568f2385e741b9ef9051a2677d0a9362825e6baf80",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 280003,
+      "storage_length": 1132,
+      "storage_raw_bytes": 2693,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65de6e8c-6544-5c90-9e40-490842ed02ba",
+      "lemma_norm": "stridulation",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "2f08b514-3171-587e-a8ab-4b6999a2d798"
+      ],
+      "content_sha": "1a45fab82569f7ba1104d65d4ad84f4ff8b939b86f62dd358e6b7858e18dabac",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 282988,
+      "storage_length": 877,
+      "storage_raw_bytes": 1605,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65e1e652-870f-518b-be64-74ce23277f4e",
+      "lemma_norm": "redistribution",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "9e434077-d137-4d6e-846d-569ba7688e6a"
+      ],
+      "content_sha": "de1c1283163be61a2d2ab5ee9818d1d0e6e85256d986495e931384edf90ec177",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 287375,
+      "storage_length": 1130,
+      "storage_raw_bytes": 2714,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    }
+  ],
+  "lexemes": [
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "bailiffship",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65d5a111-0dc0-53d8-baa4-fa0a2cb45f95",
+      "lexical_type": "word",
+      "normalized_search_form": "bailiffship",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "definition_en": "the office of bailiff",
+          "definition_uz": "beylifning xizmat lavozimi yoki mansabi",
+          "examples": [],
+          "sense_id": "d765bedd-55b7-5f55-bf80-d5918662efa7",
+          "translations": [
+            {
+              "order": 0,
+              "text": "beylif lavozimi",
+              "translation_id": "4696069a-246d-5ccd-9afa-3770a1f13ad1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "implicitness",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65d84eb9-da60-533f-a37e-229eac06b897",
+      "lexical_type": "word",
+      "normalized_search_form": "implicitness",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "inexplicitness as a consequence of being implied or indirect",
+          "definition_uz": "Ishora orqali yoki bevosita aytilmay anglashilishi sabab noochiqlik.",
+          "examples": [],
+          "sense_id": "8fc33ee8-a3b9-5021-9940-6e6a7788cae9",
+          "translations": [
+            {
+              "order": 0,
+              "text": "bilvositalik",
+              "translation_id": "0d92239d-5fcc-5c14-9ca5-6a8bc447f383"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "freely",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65dc9669-8102-5cec-bbc3-394d12e76651",
+      "lexical_type": "word",
+      "normalized_search_form": "freely",
+      "part_of_speech": "r",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "free",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "pertainym",
+          "target_lexeme_id": "23ce7f63-c3b6-53a3-aaf7-5acf5692818f",
+          "target_sense_id": "04d69d93-117a-4af0-80ea-476fac664c16"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "in a free manner",
+          "definition_uz": "Cheklovsiz yoki erkin usulda.",
+          "examples": [
+            {
+              "example_id": "3b686655-9340-5545-8f0b-55c480deae12",
+              "text_en": "the painting featured freely brushed strokes",
+              "text_uz": "Rasmda erkin mo‘yqalam zarbalari qo‘llangan."
+            }
+          ],
+          "sense_id": "5685fd47-543e-4f6d-bf01-3be39539de21",
+          "translations": [
+            {
+              "order": 0,
+              "text": "erkin tarzda",
+              "translation_id": "57b15dc4-9800-57a7-8185-8bc078cea0d3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "bunting",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65dda6da-3dd8-53c2-bd52-892ed13d808a",
+      "lexical_type": "word",
+      "normalized_search_form": "bunting",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "a loosely woven fabric used for flags, etc.",
+          "definition_uz": "Bayroq va shunga o‘xshash buyumlar tayyorlashda ishlatiladigan siyrak to‘qilgan mato.",
+          "examples": [],
+          "sense_id": "3dce79e3-53b3-429a-a5dc-055d5c5a4914",
+          "translations": [
+            {
+              "order": 0,
+              "text": "bayroq matosi",
+              "translation_id": "39339e9b-6327-5483-a876-64c9e68a68bf"
+            }
+          ]
+        },
+        {
+          "cefr": "C2",
+          "definition_en": "any of numerous seed-eating songbirds of Europe or North America",
+          "definition_uz": "Yevropa yoki Shimoliy Amerikada yashaydigan urug'xo'r sayroqi qushlardan biri.",
+          "examples": [],
+          "sense_id": "778febde-913c-4b64-941b-1d9a2d4ed7b2",
+          "translations": [
+            {
+              "order": 0,
+              "text": "dehqonchumchuq",
+              "translation_id": "8b54928d-c2c0-598c-96ee-11352eebffb9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "stridulation",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65de6e8c-6544-5c90-9e40-490842ed02ba",
+      "lexical_type": "word",
+      "normalized_search_form": "stridulation",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "a shrill grating or chirping noise made by some insects by rubbing body parts together",
+          "definition_uz": "Ayrim hasharotlar tana qismlarini ishqalab chiqaradigan o‘tkir g‘ijirlash yoki chirillash tovushi.",
+          "examples": [],
+          "sense_id": "2f08b514-3171-587e-a8ab-4b6999a2d798",
+          "translations": [
+            {
+              "order": 0,
+              "text": "stridulyatsiya; ishqalanish tovushi",
+              "translation_id": "bd92396a-6852-5876-b9a2-943a705b82ca"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "redistribution",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65e1e652-870f-518b-be64-74ce23277f4e",
+      "lexical_type": "word",
+      "normalized_search_form": "redistribution",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "ˌɹiːdɪstɹəˈbjuːʃən"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "redistribute",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "3bbc6d9a-d6ad-5ddf-99ff-b6f8e69fdc6a",
+          "target_sense_id": "6da837b9-8c73-4f5a-bbc0-2a260e243764"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C1",
+          "definition_en": "distributing again",
+          "definition_uz": "Narsalarni yoki resurslarni yana taqsimlash.",
+          "examples": [
+            {
+              "example_id": "6a36b4eb-f52e-57ce-8782-cfee83b5c539",
+              "text_en": "the revolution resulted in a redistribution of wealth",
+              "text_uz": "Inqilob boylikning qayta taqsimlanishiga olib keldi."
+            }
+          ],
+          "sense_id": "9e434077-d137-4d6e-846d-569ba7688e6a",
+          "translations": [
+            {
+              "order": 0,
+              "text": "qayta taqsimlash",
+              "translation_id": "154f9997-da46-5cb8-ba79-2582008accc4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "meaning_hashes": {
+    "65d5a111-0dc0-53d8-baa4-fa0a2cb45f95": {
+      "d765bedd-55b7-5f55-bf80-d5918662efa7": "3732b4006f6c0de40f9aab68da6bd59b81b07069eea5e3eca842b6c16dc516cc"
+    },
+    "65d84eb9-da60-533f-a37e-229eac06b897": {
+      "8fc33ee8-a3b9-5021-9940-6e6a7788cae9": "27d90e961900ce21ed897565f28e5dd05135aa6685ca18334763554b5ae3becc"
+    },
+    "65dc9669-8102-5cec-bbc3-394d12e76651": {
+      "5685fd47-543e-4f6d-bf01-3be39539de21": "d75d0ff00e16314080f136b4c24083b18cb5f5d12fc09afc3430875f734194ee"
+    },
+    "65dda6da-3dd8-53c2-bd52-892ed13d808a": {
+      "3dce79e3-53b3-429a-a5dc-055d5c5a4914": "5292410ef4e8661c6b1ba5b1f0a1a52361e5427a11099d287deed524cceb3f1e",
+      "778febde-913c-4b64-941b-1d9a2d4ed7b2": "46a713d6e5ca46ebeee4ee2d9990c5eae4442e93c6378dc716eeb98ad6ef4df6"
+    },
+    "65de6e8c-6544-5c90-9e40-490842ed02ba": {
+      "2f08b514-3171-587e-a8ab-4b6999a2d798": "8c4616bf22fc2cd8484c1ed69dc747d99bc91871e4a6c4a48061e1829fd9e5ae"
+    },
+    "65e1e652-870f-518b-be64-74ce23277f4e": {
+      "9e434077-d137-4d6e-846d-569ba7688e6a": "85550667f126c3453d2fee62ba3020080b0818eaaca56f479fe128446a00af4d"
+    }
+  },
+  "target_projection": [],
+  "target_entries": [],
+  "existing_relation_matches": [],
+  "source_verification": {
+    "full_compressed_and_raw_shard_sha_size_count": "PASS_against_previously_independently_verified_descriptor",
+    "historical_supabase_member_offsets_and_complete_original_meaning_hashes": "PASS",
+    "original_uzbek_scalars_and_full_sense_arrays": "PASS",
+    "fresh_database_content_sha_comparison": "NOT_RERUN_connector_unavailable",
+    "member_content_sha_and_raw_size": "computed_from_authenticated_immutable_member"
+  },
+  "phase_complete": false,
+  "full_linguistic_global_signoff": false,
+  "production_mutation": false
+}

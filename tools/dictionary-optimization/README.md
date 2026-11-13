@@ -1,5 +1,7 @@
 # Dictionary optimization review tools
 
+Dictionary lexical audit acceleration: [measured offline index and compact context workflow](../../docs/dictionary-audit-acceleration-20261113.md). The `offline-index` and `sense-pack` commands reuse the strict immutable decoder and existing curation; they do not certify editorial completion or access production. Current dictionary audit work stays on its draft branch; the historical release authorization below does not authorize merging this audit.
+
 Current production continuation: [PRODUCTION_VERIFICATION_20261026.md](PRODUCTION_VERIFICATION_20261026.md). The Retention context-selection fix and legacy fallback guard are deployed on main as 4c3a3f6. All protected R2 object bytes and database identities were verified, authenticated API baselines were measured, and a private full database archive was captured. Full restore/rehearsal, complete multi-user/module QA, paired performance and production Cloudflare administration evidence remain open. Cleanup is still BLOCKED; see evidence/production-gates.json. Historical evidence below is retained.
 
 The owner authorized merging this prepared code into main on 26 October 2026. Production database cleanup remains BLOCKED by the open backup, live parity, performance and approval gates.

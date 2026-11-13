@@ -146,25 +146,18 @@ def test_cefr_changes_are_sense_specific_without_blanket_null_fills() -> None:
 
 
 def test_exact_antonyms_are_scoped_to_the_meaning() -> None:
-    decry = entry(
-        "65a09564-3f7a-57c4-87c3-b49a18a891c5",
-        "decry",
-        "v",
-        [(
-            "e5759095-9273-503f-a480-76eef49235a3",
-            "express strong disapproval of",
-            "qattiq qoralamoq",
-            "C2",
-        )],
-    )
+    # Exact existing synonym scopes require the real complete source graph.
+    source_path = Path(__file__).resolve().parents[3] / "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json"
+    decry = next(e for e in json.loads(source_path.read_text())["source_entries"] if e["display_lemma"] == "decry")
+    frozen_decry = copy.deepcopy(decry)
     result = curate_candidate_entry(decry)
-    relation = result["relations"][0]
+    relation = next(r for r in result["relations"] if r["relation_type"] == "antonym" and r["display_lemma"] == "praise")
     assert relation["relation_type"] == "antonym"
     assert relation["display_lemma"] == "praise"
     assert relation["part_of_speech"] == "v"
     assert relation["source_sense_id"] == decry["senses"][0]["sense_id"]
     assert relation["target_sense_id"] == "4045aec2-5b1d-438d-a03c-f86296e73b72"
-    assert decry["relations"] == []
+    assert decry == frozen_decry
 
     deflate = entry(
         "68081d76-e460-519a-9ded-28b8bbb621a5",
@@ -1125,6 +1118,8 @@ def test_phase09_first_200_source_receipt_and_targeted_repairs() -> None:
         enriched = json.loads(full_path.read_text(encoding="utf-8"))
         if enriched["historical_receipt"] == path.relative_to(path.parents[2]).as_posix():
             full_sources.update({item["lexeme_id"]: item for item in enriched["lexemes"]})
+    scoped_source = json.loads((path.parent / "audit-20261113-phase09-relation-scope-accelerated-first200.json").read_text())
+    full_sources.update({item["lexeme_id"]: item for item in scoped_source["source_entries"]})
 
     for word in report["lexemes"]:
         if word["lexeme_id"] not in patches:
