@@ -6,10 +6,10 @@ import {consumeLandingPlanIntent} from '../../js/plan-entry-intent.js';
 /** Main's study fields, shared by first-time onboarding and the profile editor. */
 export function studyForm(context,{initial={},profile=false}={}){
  const {dict,locale,signal}=context,form=el('form',{class:'grid grid-cols-1 gap-5 sm:grid-cols-2','data-study-form':profile?'profile':'onboarding'}),inputs={};
- const defaults={preferredLanguage:locale,currentLevel:'B1',currentBand:'',targetBand:7,examDate:'',dailyStudyMinutes:60,strongestSkill:'reading',weakestSkill:'writing',...initial};
+ const defaults={currentLevel:'B1',targetBand:7,examDate:'',dailyStudyMinutes:60,strongestSkill:'reading',weakestSkill:'writing',...initial};
  const state=context.state??{},draft=state[profile?'profileStudy':'onboarding']??={};
- const options={preferredLanguage:[['uz',"O'zbek"],['en','English']],currentLevel:['A2','B1','B2','C1','C2'].map(v=>[v,v]),strongestSkill:['listening','reading','writing','speaking'].map(v=>[v,dict.nav[v]]),weakestSkill:['listening','reading','writing','speaking'].map(v=>[v,dict.nav[v]])};
- for(const name of ['preferredLanguage','currentLevel','currentBand','targetBand','examDate','dailyStudyMinutes','strongestSkill','weakestSkill']){
+ const options={currentLevel:['A2','B1','B2','C1','C2'].map(v=>[v,v]),strongestSkill:['listening','reading','writing','speaking'].map(v=>[v,dict.nav[v]]),weakestSkill:['listening','reading','writing','speaking'].map(v=>[v,dict.nav[v]])};
+ for(const name of ['currentLevel','targetBand','examDate','dailyStudyMinutes','strongestSkill','weakestSkill']){
   const value=String(draft[name]??defaults[name]??'');
   if(name==='examDate'){
    const hidden=el('input',{type:'hidden',name,id:name,value}),parts=value.split('-'),box=el('fieldset',{},el('legend',{class:'mb-1.5 text-sm font-medium'},dict.onboarding.examDate)),row=el('div',{class:'grid grid-cols-[1fr_1fr_1.4fr] gap-2'}),dates={};inputs[name]=hidden;box.append(row,hidden);
@@ -29,6 +29,6 @@ export function studyForm(context,{initial={},profile=false}={}){
   listen(inputs[name],inputs[name].tagName==='SELECT'?'change':'input',()=>{draft[name]=inputs[name].value;delete draft.saved;saved.remove();},signal);
  }
  const error=errorNode(),saved=el('p',{role:'status',class:'mt-2 text-sm text-band-good'},dict.profile.studySaved),button=el('button',{type:'submit',class:'btn-primary w-full'},profile?dict.profile.saveStudy:dict.onboarding.finish),actions=el('div',{class:'sm:col-span-2'},error,button);form.append(actions);if(draft.saved)actions.append(saved);
- formSubmit({form,button,error,dict,signal,method:profile?'PATCH':'POST',endpoint:profile?'/api/profile/study':'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:async()=>{draft.saved=true;publishSessionEvent('refresh');context.invalidateSession?.();if(profile){actions.append(saved);await context.refresh();}else await context.navigate(consumeLandingPlanIntent()??'/app');}});
+ formSubmit({form,button,error,dict,signal,method:profile?'PATCH':'POST',endpoint:profile?'/api/profile/study':'/api/onboarding',body:()=>({preferredLanguage:locale,...Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,key==='examDate'?input.value||undefined:input.value]))}),success:async()=>{draft.saved=true;publishSessionEvent('refresh');context.invalidateSession?.();if(profile){actions.append(saved);await context.refresh();}else await context.navigate(consumeLandingPlanIntent()??'/app');}});
  return form;
 }
