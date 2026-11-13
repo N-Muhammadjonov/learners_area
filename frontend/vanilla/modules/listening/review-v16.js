@@ -36,7 +36,10 @@ export function originalReviewV16(token){return `(()=>{document.addEventListener
  const host=document.getElementById('reviewHost');
  if(data.incompleteSource){
   for(const button of host.querySelectorAll('.evidence button[onclick]')){
-   button.disabled=true;button.removeAttribute('onclick');button.textContent='Clip timing not verified';
+   button.removeAttribute('onclick');
+   button.textContent='▶ Listen to full Part audio';
+   button.setAttribute('aria-label','Listen to the original recording of Part '+reviewPart+'; exact question-specific clip timing has not been verified');
+   button.onclick=()=>playWindow(data.start,data.end,button);
   }
  }
  const status=node('p','Self-study checking is separate from server course progress.');status.dataset.reviewProgress='';status.setAttribute('role','status');status.setAttribute('aria-live','polite');host.prepend(status);
