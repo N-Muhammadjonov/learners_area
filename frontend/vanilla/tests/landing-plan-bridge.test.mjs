@@ -16,13 +16,12 @@ beforeEach(()=>{
 });
 afterEach(()=>{delete globalThis.sessionStorage;});
 
-test('public landing quiz continues into authenticated 7/30-day plan setup',()=>{
-  const source=readFileSync(new URL('../modules/premium-landing.js',import.meta.url),'utf8');
-  assert(source.includes('data-v5-plan-entry'));
-  assert(source.includes('7 yoki 30 kunlik reja tuzish'));
-  assert(source.includes('/login?next=%2Fapp%2Fassignments%23study-plan-30'));
-  assert(source.includes('markLandingPlanIntent()'));
-  assert(source.includes('server tasdiqlagan daraja'));
+test('current public landing no longer depends on the deleted premium entry',()=>{
+  const source=readFileSync(new URL('../modules/landing-inline.js',import.meta.url),'utf8');
+  const publicAuth=readFileSync(new URL('../modules/auth/public.js',import.meta.url),'utf8');
+  assert(source.includes('LANDING_HTML'));
+  assert(publicAuth.includes("import {LANDING_HTML} from '../landing-inline.js'"));
+  assert(source.includes('href=\\\"/register\\\"'));
   assert.equal(LANDING_PLAN_DESTINATION,'/app/assignments#study-plan-30');
 });
 
