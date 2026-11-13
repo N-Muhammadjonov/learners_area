@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {createEnergyDetector,createVoiceInput,rmsEnergy,CALIBRATION_MS} from '../modules/speaking/voice-activity.js';
 import {readFileSync} from 'node:fs';
 import {openSpeechClassifier} from '../modules/speaking/speech-classifier.js';
+import {readFileSync as readSource} from 'node:fs';
 import {DIFFICULTIES} from '../modules/speaking/fluency-engine.js';
 function detector(noise=.002){const d=createEnergyDetector(DIFFICULTIES.intermediate);let t=0,s;for(;t<=CALIBRATION_MS;t+=20)s=d.sample(noise,t);assert(s.ready);return {d,get t(){return t;},run(level,ms,speech){for(let n=0;n<ms;n+=20){t+=20;s=d.sample(level,t,speech);}return s;}};}
 test('RMS uses real samples and rejects DC offset and invalid samples',()=>{assert.equal(rmsEnergy([1,-1,1,-1]),1);assert.equal(rmsEnergy([.5,.5]),0);assert.equal(rmsEnergy([]),0);assert.throws(()=>rmsEnergy([NaN]));});
@@ -59,4 +60,12 @@ test('local WASM detects recorded speech but does not trigger on fan or broadban
  assert.equal(await activeFrames(Float32Array.from({length:160000},(_,i)=>
   .065*Math.sin(2*Math.PI*120*i/16000)+.008*random())),0);
  assert.equal(await activeFrames(Float32Array.from({length:160000},()=>.1*random())),0);
+});
+
+test('speech gate uses unamplified PCM and requires sustained classifier positives',()=>{
+ const code=readSource(new URL('../modules/speaking/speech-classifier.js',import.meta.url),'utf8');
+ assert.match(code,/Math\.round\(value\*32767\)/);
+ assert.doesNotMatch(code,/Math\.round\(value\*98304\)/);
+ assert.match(code,/voiceFrames=candidate\?Math\.min\(3,voiceFrames\+1\):0/);
+ assert.match(code,/return voiceFrames>=3/);
 });
