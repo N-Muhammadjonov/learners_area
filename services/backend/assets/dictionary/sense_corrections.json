@@ -3749,6 +3749,131 @@
           }
         ]
       }
+    },
+    "65b0ef85-677b-5ac3-9d04-e46ed612bdd9": {
+      "6f1278a2-6172-5598-99c8-ab310aa5fa42": {
+        "meaning_sha": "ee25b8986134f20ef44ae624a25869f9021f796060ac032a6e7e01eb6d91146f",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a large dark low cloud",
+          "text": "A low-lying cloud type, usually seen as a grey sheet with an even underside or as irregular fragments."
+        },
+        "replace_definition_uz": {
+          "original": "Osmonni pastda bir tekis qoplab oladigan kulrang qatlamli bulut turi.",
+          "text": "Odatda pastda kulrang qatlam bo‘lib ko‘rinadigan, pastki yuzasi deyarli tekis bulut turi; notekis parchalar ko‘rinishida ham uchrashi mumkin."
+        },
+        "add_collocations": [
+          {
+            "text": "a stratus layer"
+          }
+        ]
+      }
+    },
+    "65b373ba-3e9f-55c3-b770-0243d8c6afe6": {
+      "cbc9f0d2-e166-48fe-a862-88d30b93d436": {
+        "meaning_sha": "1a9b770f46e29756afc9a13ac4170a90b5a03e0a60a56f9c9edb45dc35fa31c6",
+        "replace_cefr": {
+          "original": "B2",
+          "text": "C2"
+        },
+        "replace_definition_en": {
+          "original": "a small chin beard trimmed to a point; named for its resemblance to a goat's beard",
+          "text": "A small beard confined to the chin, often trimmed to a point."
+        },
+        "replace_definition_uz": {
+          "original": "Echki soqoliga o‘xshash, iyakda uchli qilib qirqilgan kichik soqol.",
+          "text": "Faqat iyakda o‘stiriladigan, odatda uchli shakl beriladigan kichik soqol."
+        },
+        "replace_translation_uz": {
+          "original": "iyak uchida uchli qilib qo‘yilgan echki soqol",
+          "text": "iyakdagi kichik soqol"
+        },
+        "add_collocations": [
+          {
+            "text": "goatee beard"
+          }
+        ]
+      }
+    },
+    "65b3f442-7dde-5554-9a5b-3cdbd24d29cb": {
+      "b6c42b3b-dbf8-4b9a-ad1c-5bcea0e46351": {
+        "meaning_sha": "268558830ce00e7c5792c2d8a9eb40d2025c46e190b1dc4465fcba8eeb4b6219",
+        "replace_cefr": {
+          "original": "B2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Biror narsani to‘liq yoki benuqson darajada bajargan holda.",
+          "text": "To‘liq yoki mukammal tarzda; ayniqsa biror narsani puxta bilish yoki o‘zlashtirish haqida."
+        },
+        "add_collocations": [
+          {
+            "text": "have something down pat"
+          }
+        ]
+      }
+    },
+    "65b741aa-c169-581e-a98a-25ca4fae7ef1": {
+      "ab5ee940-2955-56a9-afad-e5fbf78dbabb": {
+        "meaning_sha": "e58b9f7092142331aa48e7564dfaecb92fbae304fb37cd3e395e0bda24e543e9",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      },
+      "d6c810a6-8a86-41fe-aa97-93fa3c87e4f0": {
+        "meaning_sha": "f5baee32990c967c3ed4db54ed0c7a9f5655f3a3a7245c62ddb925b93e5d145b",
+        "replace_definition_en": {
+          "original": "a young male horse under the age of four",
+          "text": "A young male horse, typically under four years old."
+        },
+        "replace_definition_uz": {
+          "original": "to‘rt yoshga to‘lmagan yosh erkak ot",
+          "text": "Odatda to‘rt yoshga to‘lmagan yosh erkak ot."
+        },
+        "replace_translation_uz": {
+          "original": "toychoq",
+          "text": "erkak toy; yosh erkak ot"
+        }
+      }
+    },
+    "65b814b7-22f4-5a16-beaa-0873f4f2f30a": {
+      "08a099d3-3485-58fb-a24f-5c5fb7a95943": {
+        "meaning_sha": "c46a26b69307e706ecfc7618426c4840d69078db77ef062d3fe2cf99500afcad",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a complex polymer; the chief constituent of wood other than carbohydrates; binds to cellulose fibers to harden and strengthen cell walls of plants",
+          "text": "A complex structural polymer in plant cell walls, especially in wood, that adds rigidity and strength."
+        },
+        "replace_definition_uz": {
+          "original": "Yog‘ochning uglevodlardan tashqari asosiy tarkibiy qismi bo‘lgan murakkab polimer; u selluloza tolalariga bog‘lanib, o‘simlik hujayra devorlarini qattiqlashtiradi va mustahkamlaydi.",
+          "text": "O‘simlik hujayra devorlarida, ayniqsa yog‘ochda uchraydigan, ularga qattiqlik va mustahkamlik beruvchi murakkab polimer."
+        },
+        "add_collocations": [
+          {
+            "text": "lignin content"
+          }
+        ]
+      }
+    },
+    "65b817d3-b2a4-5ec9-8098-51fa33ece52f": {
+      "6df8902a-51e4-59bf-a749-706af28055ef": {
+        "meaning_sha": "6b49ec2c3ff64513ba76ed7853d384fae6e10750aa3c9ddd864b4df30e408887",
+        "replace_definition_uz": {
+          "original": "Ko'tarinki kayfiyat va sun'iy xursandchilik (eyforiya) uyg'otadigan psixofaol dori moddasi.",
+          "text": "Ko‘tarinki kayfiyat yoki kuchli xushnudlik (eyforiya) uyg‘otishga moyil bo‘lgan psixofaol modda."
+        },
+        "replace_translation_uz": {
+          "original": "eyforiya chaqiruvchi vosita",
+          "text": "eyforiya keltiruvchi psixofaol modda"
+        }
+      }
     }
   }
 }

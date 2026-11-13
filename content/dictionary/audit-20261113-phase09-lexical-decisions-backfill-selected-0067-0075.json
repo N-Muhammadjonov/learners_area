@@ -1,0 +1,734 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-selected-0067-0075.json",
+  "prior_candidate_commit": "74f8684e1c08f83ae15741dea451c9850a181493",
+  "scope": {
+    "lexemes": 6,
+    "senses": 7,
+    "field_decisions": 49,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "65b0ef85-677b-5ac3-9d04-e46ed612bdd9",
+      "sense_id": "6f1278a2-6172-5598-99c8-ab310aa5fa42",
+      "lemma": "stratus",
+      "meaning_sha": "ee25b8986134f20ef44ae624a25869f9021f796060ac032a6e7e01eb6d91146f",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a large dark low cloud",
+          "after": "A low-lying cloud type, usually seen as a grey sheet with an even underside or as irregular fragments.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "Primary meteorological authority defines generally grey layer with uniform base and possible ragged patches. Replace inaccurate generic large-dark-cloud gloss; darkness and large size are not compulsory."
+        },
+        "definition_uz": {
+          "before": "Osmonni pastda bir tekis qoplab oladigan kulrang qatlamli bulut turi.",
+          "after": "Odatda pastda kulrang qatlam bo‘lib ko‘rinadigan, pastki yuzasi deyarli tekis bulut turi; notekis parchalar ko‘rinishida ham uchrashi mumkin.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "Clarify usual grey sheet/even underside and possible fragments, without asserting every cloud covers the whole sky."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "qatlamli bulut (stratus)",
+              "translation_id": "a0c347a2-9c6d-5b69-af58-2814cae19dff"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qatlamli bulut (stratus)",
+              "translation_id": "a0c347a2-9c6d-5b69-af58-2814cae19dff"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "Qatlamli bulut (stratus) accurately retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "No reliable exact noun learner-level evidence established; source C2 cleared. Scientific cloud classification is not CEFR."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "Low cloud is broader and fog can touch ground; no exact independently verified frozen equivalent selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "Other cloud genera are categories rather than lexical opposites."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "a stratus layer"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://cloudatlas.wmo.int/en/definition-stratus-st.html",
+            "https://cloudatlas.wmo.int/en/observation-of-clouds-from-aircraft-descriptions-stratus.html"
+          ],
+          "reasoning": "A stratus layer directly attested in authoritative observation description."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65b373ba-3e9f-55c3-b770-0243d8c6afe6",
+      "sense_id": "cbc9f0d2-e166-48fe-a862-88d30b93d436",
+      "lemma": "goatee",
+      "meaning_sha": "1a9b770f46e29756afc9a13ac4170a90b5a03e0a60a56f9c9edb45dc35fa31c6",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a small chin beard trimmed to a point; named for its resemblance to a goat's beard",
+          "after": "A small beard confined to the chin, often trimmed to a point.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "Chin-only small beard corroborated. Primary learner entry qualifies pointed as usual, so avoid requiring every goatee to have a pointed cut."
+        },
+        "definition_uz": {
+          "before": "Echki soqoliga o‘xshash, iyakda uchli qilib qirqilgan kichik soqol.",
+          "after": "Faqat iyakda o‘stiriladigan, odatda uchli shakl beriladigan kichik soqol.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "Natural chin-only beard definition with usual shape rather than literal goat hair."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "iyak uchida uchli qilib qo‘yilgan echki soqol",
+              "translation_id": "f3781264-97d4-5d83-a4f0-316110179d6d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "iyakdagi kichik soqol",
+              "translation_id": "f3781264-97d4-5d83-a4f0-316110179d6d"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "Replace awkward repeated pointed-tip description with simple iyakdagi kichik soqol; shape in definition."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "Explicit Appearance C2 labels the exact beard noun. Original B2 corrected; unrelated moonlight B1 footer and translation-page C1 not used."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "Beard is a broader category, not an exact interchangeable hairstyle. No frozen target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target ID added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "goatee beard"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/goatee",
+            "https://dictionary.cambridge.org/dictionary/english/goatee?q=Goatee"
+          ],
+          "reasoning": "Goatee beard supported by primary collocation beard list and specifically labelled external corpus usage on the learner page; not claimed to be an editor-written example."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65b3f442-7dde-5554-9a5b-3cdbd24d29cb",
+      "sense_id": "b6c42b3b-dbf8-4b9a-ad1c-5bcea0e46351",
+      "lemma": "pat",
+      "meaning_sha": "268558830ce00e7c5792c2d8a9eb40d2025c46e190b1dc4465fcba8eeb4b6219",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "completely or perfectly",
+          "after": "completely or perfectly",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "Primary reference explicitly separates adverb perfectly/aptly from adjective, noun tapping and verb touching; existing completeness/perfection gloss retained."
+        },
+        "definition_uz": {
+          "before": "Biror narsani to‘liq yoki benuqson darajada bajargan holda.",
+          "after": "To‘liq yoki mukammal tarzda; ayniqsa biror narsani puxta bilish yoki o‘zlashtirish haqida.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "Clarify common thoroughly-mastered knowledge/skill use rather than any physical action."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "puxta, mukammal tarzda",
+              "translation_id": "c13a2592-92a5-5464-9a20-e5e9b93772a4"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "puxta, mukammal tarzda",
+              "translation_id": "c13a2592-92a5-5464-9a20-e5e9b93772a4"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "Puxta, mukammal tarzda accurately retained as adverbial phrase."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "No exact standalone adverb learner badge established; source B2 cleared. A level on a separately listed idiom is not automatically this adverb’s level."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "Perfectly is attested as adverb equivalent, but no frozen exact target sense independently read; no guessed ID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "Imperfectly can contrast in context, but no frozen exact target verified; stand pat has a different meaning and is excluded."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "have something down pat"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/pat"
+          ],
+          "reasoning": "Have something down pat paraphrases directly attested moves-down-pat construction, not a new example sentence."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65b741aa-c169-581e-a98a-25ca4fae7ef1",
+      "sense_id": "ab5ee940-2955-56a9-afad-e5fbf78dbabb",
+      "lemma": "colt",
+      "meaning_sha": "e58b9f7092142331aa48e7564dfaecb92fbae304fb37cd3e395e0bda24e543e9",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a kind of revolver",
+          "after": "a kind of revolver",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Primary reference separately lists firearm/trademark noun. Source revolver type retained, not confused with horse or young team member."
+        },
+        "definition_uz": {
+          "before": "Ma'lum turdagi revolver.",
+          "after": "Ma'lum turdagi revolver.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Ma’lum turdagi revolver matches the stored firearm sense."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kolt to‘pponchasi (revolver turi)",
+              "translation_id": "63fb592b-178d-5366-8866-9aa60451147a"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kolt to‘pponchasi (revolver turi)",
+              "translation_id": "63fb592b-178d-5366-8866-9aa60451147a"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Kolt to‘pponchasi with revolver explanation retained for weapon meaning."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Exact firearm meaning has no independent level badge. Animal C2 is not transferred; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Gun/revolver broader than a named type; no exact verified frozen target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Horse sense is a homonym, not a lexical opposite; no edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "No firearm-specific combination independently selected; horse combinations excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65b741aa-c169-581e-a98a-25ca4fae7ef1",
+      "sense_id": "d6c810a6-8a86-41fe-aa97-93fa3c87e4f0",
+      "lemma": "colt",
+      "meaning_sha": "f5baee32990c967c3ed4db54ed0c7a9f5655f3a3a7245c62ddb925b93e5d145b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a young male horse under the age of four",
+          "after": "A young male horse, typically under four years old.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Primary young-male-horse definition especially under four supports qualifying usual age instead of asserting an invariant legal/breed cutoff."
+        },
+        "definition_uz": {
+          "before": "to‘rt yoshga to‘lmagan yosh erkak ot",
+          "after": "Odatda to‘rt yoshga to‘lmagan yosh erkak ot.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Retain male sex and typical under-four age."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "toychoq",
+              "translation_id": "ba174705-0899-58a2-8754-afe6369cc1e4"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "erkak toy; yosh erkak ot",
+              "translation_id": "ba174705-0899-58a2-8754-afe6369cc1e4"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Toychoq alone loses male distinction. Erkak toy/yosh erkak ot makes sex explicit."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Explicit Animals/Sports C2 applies to exact horse sense; retained and kept separate from firearm."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Foal can be either sex; filly is female and stallion is mature. No guessed exact equivalent target."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "Filly is a contrasting sex category, not automatically an exact antonym edge; target sense not independently read."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/colt",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/colt"
+          ],
+          "reasoning": "No independently selected exact young-horse combination added; weapon phrases excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65b814b7-22f4-5a16-beaa-0873f4f2f30a",
+      "sense_id": "08a099d3-3485-58fb-a24f-5c5fb7a95943",
+      "lemma": "lignin",
+      "meaning_sha": "c46a26b69307e706ecfc7618426c4840d69078db77ef062d3fe2cf99500afcad",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a complex polymer; the chief constituent of wood other than carbohydrates; binds to cellulose fibers to harden and strengthen cell walls of plants",
+          "after": "A complex structural polymer in plant cell walls, especially in wood, that adds rigidity and strength.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "Primary dictionary and energy-research sources corroborate structural polymer in plant cell walls. Simplify dense binding wording to stiffness/strength function without inventing a molecular bonding mechanism."
+        },
+        "definition_uz": {
+          "before": "Yog‘ochning uglevodlardan tashqari asosiy tarkibiy qismi bo‘lgan murakkab polimer; u selluloza tolalariga bog‘lanib, o‘simlik hujayra devorlarini qattiqlashtiradi va mustahkamlaydi.",
+          "after": "O‘simlik hujayra devorlarida, ayniqsa yog‘ochda uchraydigan, ularga qattiqlik va mustahkamlik beruvchi murakkab polimer.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "Natural matching structural-role explanation; original compound identity retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "lignin (yog‘och tarkibidagi polimer modda)",
+              "translation_id": "97a99e89-6fe3-5835-b6b4-ae58e73161dd"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "lignin (yog‘och tarkibidagi polimer modda)",
+              "translation_id": "97a99e89-6fe3-5835-b6b4-ae58e73161dd"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "Lignin (yog‘och tarkibidagi polimer modda) retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "No exact chemical noun learner level established; source C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "Cellulose/hemicellulose are different polymers and lignocellulose is a composite, not exact synonyms."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "Different cell-wall constituents are not lexical opposites."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "lignin content"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/lignin",
+            "https://afdc.energy.gov/glossary",
+            "https://www.energy.gov/science/ber/articles/make-valuable-bioproducts-pick-right-solvent-pretreatment",
+            "https://www.energy.gov/sites/default/files/2021-04/beto-13-peer-review-2021-sdi-starace.pdf"
+          ],
+          "reasoning": "Lignin content directly attested in primary national-laboratory research presentation; no product name copied."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65b817d3-b2a4-5ec9-8098-51fa33ece52f",
+      "sense_id": "6df8902a-51e4-59bf-a749-706af28055ef",
+      "lemma": "euphoriant",
+      "meaning_sha": "6b49ec2c3ff64513ba76ed7853d384fae6e10750aa3c9ddd864b4df30e408887",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a psychoactive drug that tends to produce elation and euphoria",
+          "after": "a psychoactive drug that tends to produce elation and euphoria",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "Exact noun reference describes a drug tending to induce euphoria; source psychoactive-drug meaning retained, not adjective use."
+        },
+        "definition_uz": {
+          "before": "Ko'tarinki kayfiyat va sun'iy xursandchilik (eyforiya) uyg'otadigan psixofaol dori moddasi.",
+          "after": "Ko‘tarinki kayfiyat yoki kuchli xushnudlik (eyforiya) uyg‘otishga moyil bo‘lgan psixofaol modda.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "Replace artificial-happiness phrasing with neutral tendency to produce elevated mood/euphoria; no treatment efficacy claim."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "eyforiya chaqiruvchi vosita",
+              "translation_id": "0964b8a2-0cf5-5039-8254-7f6bfe939923"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "eyforiya keltiruvchi psixofaol modda",
+              "translation_id": "0964b8a2-0cf5-5039-8254-7f6bfe939923"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "Psixofaol modda identifies substance rather than an everyday cheerful activity."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "Original null retained; no exact noun level established and euphoric adjective label not borrowed."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "Mood enhancer is broader/context-dependent; no exact verified frozen drug-class target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target ID added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/euphoriant"
+          ],
+          "reasoning": "No dosing/use instruction or unverified drug-name combination added."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Seven selected earlier senses in six lexemes; not a full interval or new source coverage.",
+  "reference_access_notes": [
+    "Primary cached entry bodies used when direct source failed.",
+    "Goatee phrase corpus attribution is distinguished from editor-authored dictionary definition.",
+    "Archived Supabase offsets and cached independent full-shard SHA used; fresh database content_sha comparison not rerun."
+  ],
+  "example_asset_changed": false,
+  "local_validation": {
+    "final_run": {
+      "passed": 232,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}

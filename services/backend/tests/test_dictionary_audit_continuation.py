@@ -641,6 +641,34 @@ def test_flavin_classification_repairs_all_three_language_fields_without_guessin
     assert candidate['relations'] == original['relations']
 
 
+def test_colt_animal_level_and_male_translation_do_not_spread_to_firearm():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0067-0075.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'colt')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    senses = {s['sense_id']: s for s in candidate['senses']}
+    gun = senses['ab5ee940-2955-56a9-afad-e5fbf78dbabb']
+    horse = senses['d6c810a6-8a86-41fe-aa97-93fa3c87e4f0']
+    assert gun.get('cefr') is None and gun['definition_en'] == 'a kind of revolver'
+    assert horse['cefr'] == 'C2' and 'typically under four' in horse['definition_en']
+    assert 'erkak' in horse['translations'][0]['text']
+    assert set(senses) == {s['sense_id'] for s in original['senses']}
+    assert [s['examples'] for s in candidate['senses']] == [s['examples'] for s in original['senses']]
+
+
+def test_stratus_and_goatee_remove_false_mandatory_appearance_criteria():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0067-0075.json').read_text())
+    words = {e['display_lemma']: e for e in report['lexemes']}
+    stratus = curation.curate_candidate_entry(words['stratus'])['senses'][0]
+    assert 'dark' in words['stratus']['senses'][0]['definition_en']
+    assert 'grey sheet' in stratus['definition_en'] and 'irregular fragments' in stratus['definition_en']
+    assert 'dark' not in stratus['definition_en'] and stratus.get('cefr') is None
+    goatee = curation.curate_candidate_entry(words['goatee'])['senses'][0]
+    assert goatee['cefr'] == 'C2' and words['goatee']['senses'][0]['cefr'] == 'B2'
+    assert 'often trimmed' in goatee['definition_en'] and 'chin' in goatee['definition_en']
+
+
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():
     report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
     targets = {e['lexeme_id']: e for e in report['target_entries']}
