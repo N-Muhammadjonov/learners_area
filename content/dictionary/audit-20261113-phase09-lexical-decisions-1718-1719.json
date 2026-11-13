@@ -1,0 +1,1692 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "prior_candidate_commit": "e0632e284421aeb2bb96b91ad8999ad55e3ea633",
+  "scope": {
+    "lexemes": 2,
+    "senses": 9,
+    "field_decisions": 63,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "additional_target_readbacks": 1
+  },
+  "senses": [
+    {
+      "lexeme_id": "6c47dbd4-1ac4-5925-8d34-bedd88b823c5",
+      "sense_id": "367ba751-c970-4722-b92b-77e0e69d0397",
+      "lemma": "crossfire",
+      "meaning_sha": "454695f389e8daead21fed5fcab3c559a9f6c19c2942d676f17000165db5d2d9",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a lively or heated interchange of ideas and opinions",
+          "after": "a lively or heated interchange of ideas and opinions",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "Primary dictionary separately attests energetic opinion exchange; source gloss retained."
+        },
+        "definition_uz": {
+          "before": "G‘oya va fikrlarning jonli yoki keskin almashinuvi.",
+          "after": "G‘oya va fikrlarning jonli yoki keskin almashinuvi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "Fikrlarning jonli/keskin almashinuvi o‘q otish bilan aralashtirilmagan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "qizg‘in fikrlar to‘qnashuvi",
+              "translation_id": "25873169-cdeb-56c0-8a7c-9a4b30919e2d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qizg‘in fikrlar to‘qnashuvi",
+              "translation_id": "25873169-cdeb-56c0-8a7c-9a4b30919e2d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "Qizg‘in fikrlar to‘qnashuvi conveys the figurative exchange."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "No reliable level for this exact figurative sense; inherited C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "Debate/interchange can be broader; no independently exact frozen target established."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "Agreement can result from exchange; it is not its categorical opposite."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "a crossfire of arguments"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+          ],
+          "reasoning": "Arguments combination is attested in the primary Wordsmyth cached entry; literal bullet context excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c47dbd4-1ac4-5925-8d34-bedd88b823c5",
+      "sense_id": "b19225f9-d10d-435f-a1b5-d3af1bdc4640",
+      "lemma": "crossfire",
+      "meaning_sha": "c2e7beb908e382744467a4a87c352f1bf7835e67759b2bcf49427296cbb347ae",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "fire from two or more points so that the lines of fire cross",
+          "after": "fire from two or more points so that the lines of fire cross",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "Intersecting gunfire from multiple positions is directly attested."
+        },
+        "definition_uz": {
+          "before": "O'q uzish yo'nalishlari kesishadigan qilib ikki yoki undan ortiq nuqtadan o'q uzilishi.",
+          "after": "O'q uzish yo'nalishlari kesishadigan qilib ikki yoki undan ortiq nuqtadan o'q uzilishi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "O‘t ochish yo‘nalishlarining kesishishi to‘g‘ri berilgan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "o'zaro kesishuvchi o'q yomg'iri",
+              "translation_id": "98882f67-813c-58f8-82ea-482de3db6857"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kesishuvchi yo‘nalishlarda o‘t ochish",
+              "translation_id": "98882f67-813c-58f8-82ea-482de3db6857"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "Replace o‘q-yomg‘iri metaphor with the precise intersecting-fire action."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "Exact primary entries supply no sense-level CEFR; C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "Gunfire alone lacks intersecting-direction meaning; no loose synonym edge added."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "Ceasefire is cessation of fighting, not a directional-fire lexical opposite."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "caught in the crossfire"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+          ],
+          "reasoning": "Caught-in combination is attested with civilians/bullets; assigned to this literal sense only in this patch."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "203af725-79b3-470d-a449-00a04e84049a",
+      "lemma": "introduction",
+      "meaning_sha": "d5ba711b95e67b75e619244226265699b383ade30ae467707425a4129688874c",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the act of beginning something new",
+          "after": "the act of beginning something new",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Beginning/launching a new thing agrees with first-use meaning."
+        },
+        "definition_uz": {
+          "before": "Yangi narsani boshlash yoki ilk bor taqdim etish harakati.",
+          "after": "Yangi narsani boshlash yoki ilk bor taqdim etish harakati.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Yangi narsani boshlash va ilk bor taqdim etish mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "joriy etish; boshlash",
+              "translation_id": "69eb86f3-e5e3-52ee-98f8-a616e095757d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "joriy etish; boshlash",
+              "translation_id": "69eb86f3-e5e3-52ee-98f8-a616e095757d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Joriy etish; boshlash is the act sense."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Previously corrected B2 retained from explicitly labelled first-use group; not counted as another CEFR edit."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "debut",
+              "lexemeId": "f6576e50-1dc5-56d9-b55e-dc5d3eb35d28",
+              "senseId": "a49fc3be-d7ae-4b20-9ed3-65a92045ffa9"
+            },
+            {
+              "text": "entry",
+              "lexemeId": "f8dfc3b9-7804-5903-95af-46cf411bec07",
+              "senseId": "af8c1bbe-d45e-4ccf-820d-1348ee4e2951"
+            },
+            {
+              "text": "first appearance",
+              "lexemeId": "13e82255-1f3e-5881-93f7-6f0c1183a444",
+              "senseId": "fcb777d7-1a02-593d-8c29-d6ff429a50ba"
+            },
+            {
+              "text": "launching",
+              "lexemeId": "edd7e25c-c9a8-5999-bea6-534a9529d3b9",
+              "senseId": "c270b02f-1a63-4a1d-900f-dc8f44ea012f"
+            },
+            {
+              "text": "unveiling",
+              "lexemeId": "5551ea67-9f6a-54d3-8201-2fdecc5a3add",
+              "senseId": "665ca93c-af07-4efd-ba7d-788baced9ccf"
+            }
+          ],
+          "after": [
+            {
+              "text": "debut",
+              "lexemeId": "f6576e50-1dc5-56d9-b55e-dc5d3eb35d28",
+              "senseId": "a49fc3be-d7ae-4b20-9ed3-65a92045ffa9"
+            },
+            {
+              "text": "entry",
+              "lexemeId": "f8dfc3b9-7804-5903-95af-46cf411bec07",
+              "senseId": "af8c1bbe-d45e-4ccf-820d-1348ee4e2951"
+            },
+            {
+              "text": "first appearance",
+              "lexemeId": "13e82255-1f3e-5881-93f7-6f0c1183a444",
+              "senseId": "fcb777d7-1a02-593d-8c29-d6ff429a50ba"
+            },
+            {
+              "text": "launching",
+              "lexemeId": "edd7e25c-c9a8-5999-bea6-534a9529d3b9",
+              "senseId": "c270b02f-1a63-4a1d-900f-dc8f44ea012f"
+            },
+            {
+              "text": "unveiling",
+              "lexemeId": "5551ea67-9f6a-54d3-8201-2fdecc5a3add",
+              "senseId": "665ca93c-af07-4efd-ba7d-788baced9ccf"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Debut, entry, first appearance, launching and unveiling target original first-launch gloss, not communication prefaces; IDs already pinned."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "No exact termination/withdrawal target independently read here; do not reuse conclusion’s text-section sense."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "the introduction of new working practices"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "New-working-practices combination attests implementation, not meeting a person."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "287d92bd-1cd3-4a02-9923-19bbd52d4325",
+      "lemma": "introduction",
+      "meaning_sha": "91ddc8a25f545f3094674fa5c1051b455e7a88da8d3ac0927a39468478eb8bbb",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a basic or elementary instructional text",
+          "after": "a basic or elementary instructional text",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Beginner teaching text matches the elementary-book/course meaning."
+        },
+        "definition_uz": {
+          "before": "Mavzu bo‘yicha asosiy yoki boshlang‘ich bilim beradigan o‘quv matni.",
+          "after": "Mavzu bo‘yicha asosiy yoki boshlang‘ich bilim beradigan o‘quv matni.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Boshlang‘ich bilim beradigan o‘quv matni mazmuni mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kirish qo‘llanmasi",
+              "translation_id": "8e5ee0e6-1251-5a86-8817-057df6cfc23f"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kirish qo‘llanmasi",
+              "translation_id": "8e5ee0e6-1251-5a86-8817-057df6cfc23f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Kirish qo‘llanmasi names an introductory text."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Primary beginner-book/course group explicitly B2; retained for this text meaning."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "No existing exact equivalent target; generic book is a broader class."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Advanced textbook is a contrasting resource, not an exact verified antonym target."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "an introduction to psychology"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Psychology introductory-course/title construction attested in the beginner-resource group."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "3162d0c6-19d9-4de0-9b2a-23f2a75f893f",
+      "lemma": "introduction",
+      "meaning_sha": "7617aead6b6f17c3346b367d561db0e8a0b8ca6b8622516631f6f551b2a24a41",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a new proposal",
+          "after": "a new proposal",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Source is a newly proposed thing; dictionary’s thing-introduced category supports noun rather than act."
+        },
+        "definition_uz": {
+          "before": "Ilgari bo‘lmagan yangi taklif yoki g‘oyani kiritish.",
+          "after": "Yangi taklif yoki oldin bildirilmagan g‘oya.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Correct act-of-kiritish wording to the new proposal/idea itself."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yangi taklif",
+              "translation_id": "fcb8ef00-4e71-56da-94cb-f1cade791b54"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yangi taklif",
+              "translation_id": "fcb8ef00-4e71-56da-94cb-f1cade791b54"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Yangi taklif correctly names the proposal."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Countable new-proposal sense lacks its own reliable label; uncountable first-use B2 not transferred. Clear B2 to null."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Innovation target is precisely original new-proposal sense; not technological process or person-introduction meaning."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Old proposal is a contrast, not an established lexical opposite with verified target."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Implementation combinations describe an act; none added to proposal-result noun."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "87e4704d-e524-5712-84f5-4107e71de6dc",
+      "lemma": "introduction",
+      "meaning_sha": "c769f098babd0f6f1d595006209dde86e4d43f0dbbbb5a498878d3449a17b789",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the act of starting something for the first time; introducing something new",
+          "after": "the act of starting something for the first time; introducing something new",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Starting something new matches establishment/first-use act."
+        },
+        "definition_uz": {
+          "before": "Biror narsani birinchi marta boshlab, yangilik kiritish harakati.",
+          "after": "Biror narsani birinchi marta boshlab, yangilik kiritish harakati.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Birinchi marta boshlash va yangilik kiritish bir-biriga mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ilk bor joriy etish",
+              "translation_id": "305e5a6f-3301-574c-a399-43162bcda586"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ilk bor joriy etish",
+              "translation_id": "305e5a6f-3301-574c-a399-43162bcda586"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Ilk bor joriy etish is an action, not first personal experience."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Previously corrected B2 retained for first-use/establishment; C1 personal-experience label excluded."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "creation",
+              "lexemeId": "af044cb7-3df7-5219-90a8-5e364ba5f205",
+              "senseId": "77f62298-c94b-48b6-bcd8-cb5ed8eda021"
+            },
+            {
+              "text": "foundation",
+              "lexemeId": "390ba9e5-df5f-5936-9e59-14e790767038",
+              "senseId": "35c74dd5-d32d-5c0b-9780-b4b8251b695c"
+            },
+            {
+              "text": "founding",
+              "lexemeId": "3f2e648b-afd3-54a2-887e-33d09727e3e5",
+              "senseId": "db18cbff-1366-4b29-b8a8-4ddef5546263"
+            },
+            {
+              "text": "initiation",
+              "lexemeId": "dbc28746-f24f-5b72-9d2c-ff2fea602a8a",
+              "senseId": "1e622c43-37fc-4c50-bac6-b0add6c3918e"
+            },
+            {
+              "text": "innovation",
+              "lexemeId": "a18236d7-2b9f-59c7-bdb9-1932edf9d491",
+              "senseId": "5b02dd44-8b92-416d-ab0a-afbe3300cfb1"
+            },
+            {
+              "text": "instauration",
+              "lexemeId": "107b8ada-8e2c-5284-a823-f030030e1ba0",
+              "senseId": "66005b49-59ef-58f4-97bc-4afe060a6dc5"
+            },
+            {
+              "text": "institution",
+              "lexemeId": "42747302-5859-57d5-9cf5-ca6588823fe7",
+              "senseId": "ca4cbe81-a325-4a3f-ad65-9092ae4ba503"
+            },
+            {
+              "text": "origination",
+              "lexemeId": "881cda03-8521-5dfc-8509-e70339b1366e",
+              "senseId": "4276d0b5-997c-5f0d-88c0-db2b3f0b5a1f"
+            }
+          ],
+          "after": [
+            {
+              "text": "creation",
+              "lexemeId": "af044cb7-3df7-5219-90a8-5e364ba5f205",
+              "senseId": "77f62298-c94b-48b6-bcd8-cb5ed8eda021"
+            },
+            {
+              "text": "foundation",
+              "lexemeId": "390ba9e5-df5f-5936-9e59-14e790767038",
+              "senseId": "35c74dd5-d32d-5c0b-9780-b4b8251b695c"
+            },
+            {
+              "text": "founding",
+              "lexemeId": "3f2e648b-afd3-54a2-887e-33d09727e3e5",
+              "senseId": "db18cbff-1366-4b29-b8a8-4ddef5546263"
+            },
+            {
+              "text": "initiation",
+              "lexemeId": "dbc28746-f24f-5b72-9d2c-ff2fea602a8a",
+              "senseId": "1e622c43-37fc-4c50-bac6-b0add6c3918e"
+            },
+            {
+              "text": "innovation",
+              "lexemeId": "a18236d7-2b9f-59c7-bdb9-1932edf9d491",
+              "senseId": "5b02dd44-8b92-416d-ab0a-afbe3300cfb1"
+            },
+            {
+              "text": "instauration",
+              "lexemeId": "107b8ada-8e2c-5284-a823-f030030e1ba0",
+              "senseId": "66005b49-59ef-58f4-97bc-4afe060a6dc5"
+            },
+            {
+              "text": "institution",
+              "lexemeId": "42747302-5859-57d5-9cf5-ca6588823fe7",
+              "senseId": "ca4cbe81-a325-4a3f-ad65-9092ae4ba503"
+            },
+            {
+              "text": "origination",
+              "lexemeId": "881cda03-8521-5dfc-8509-e70339b1366e",
+              "senseId": "4276d0b5-997c-5f0d-88c0-db2b3f0b5a1f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Creation, foundation, founding, initiation, instauration, institution, origination select identical original start/establish glosses; not resulting buildings or institutions."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "No verified ending-action target selected; text-section conclusion cannot serve this sense."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "the introduction of a new computer system"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "New-computer-system implementation combination belongs to establishment/use, not physical insertion."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "aafda03f-c624-4adb-90d6-48d7fb728bac",
+      "lemma": "introduction",
+      "meaning_sha": "3bbcae33d78877c2aafa62cc9b17f1daa33e731ba34e009b2cbf4240b10fd363",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the first section of a communication",
+          "after": "the first section of a communication",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Opening communication section is directly attested."
+        },
+        "definition_uz": {
+          "before": "Yozma yoki og'zaki xabarning boshida keladigan birinchi qism.",
+          "after": "Yozma yoki og'zaki xabarning boshida keladigan birinchi qism.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Xabar/matnning birinchi qismi aniq ifodalangan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kirish qismi",
+              "translation_id": "008be560-92f5-583a-8651-ff60fac0c4b5"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kirish qismi",
+              "translation_id": "008be560-92f5-583a-8651-ff60fac0c4b5"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Kirish qismi matches opening section."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Opening-section group explicitly B2; retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Intro is independently listed for the preface group and selects frozen first-section UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [
+            {
+              "text": "conclusion",
+              "lexemeId": "4639dc87-1df3-56f8-a8b9-492096702e5b",
+              "senseId": "5182c42a-d298-5088-8cc7-eade5407642e"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Conclusion is explicitly near-antonymous in primary preface group. Added target is final communication section, excluding all eight reasoning/time/settlement/ending-action senses."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "brief introduction"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://www.merriam-webster.com/thesaurus/introduction"
+          ],
+          "reasoning": "Brief introduction is an attested opening-text combination, scoped to section sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "b1307a3e-8b99-5ad7-a99c-73688bf49738",
+      "lemma": "introduction",
+      "meaning_sha": "5e11657b2f96a4691f778e57e67b569dd8fd34ad015048d1644ead8f2b697137",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the act of putting one thing into another",
+          "after": "the act of putting one thing into another",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Primary dictionary explicitly recognizes physical putting-in/insertion."
+        },
+        "definition_uz": {
+          "before": "Bir narsani boshqasining ichiga joylashtirish harakati.",
+          "after": "Bir narsani boshqasining ichiga joylashtirish harakati.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Bir narsani boshqasining ichiga joylashtirish mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kiritish",
+              "translation_id": "bf68fb36-3a64-5aa1-bc96-1754e83e2663"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kiritish",
+              "translation_id": "bf68fb36-3a64-5aa1-bc96-1754e83e2663"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Kiritish conveys physical insertion in this sense."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "C1 labels first personal experience elsewhere, not insertion. Cambridge specialized tube example sits under broader first-use group without a separate technical-submeaning badge; conservative null rather than assuming an exact level."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "insertion",
+              "lexemeId": "95143f27-f92d-5fcc-96f6-38255caefa50",
+              "senseId": "d519944d-c05d-43eb-a8e8-3d275c44c006"
+            },
+            {
+              "text": "intromission",
+              "lexemeId": "fba418b4-5e6e-50da-b8db-7cdb11ddbf13",
+              "senseId": "12a9fab7-285c-5ef0-9229-ad9823e4eb1e"
+            }
+          ],
+          "after": [
+            {
+              "text": "insertion",
+              "lexemeId": "95143f27-f92d-5fcc-96f6-38255caefa50",
+              "senseId": "d519944d-c05d-43eb-a8e8-3d275c44c006"
+            },
+            {
+              "text": "intromission",
+              "lexemeId": "fba418b4-5e6e-50da-b8db-7cdb11ddbf13",
+              "senseId": "12a9fab7-285c-5ef0-9229-ad9823e4eb1e"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Insertion and intromission frozen targets have same physical putting-in gloss; not speech prefaces or social meetings."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "Removal/extraction plausible but no exact target proof selected; no guessed UUID."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/introduction",
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction"
+          ],
+          "reasoning": "No new technical phrase selected; avoid assigning beginner-course/title construction to physical insertion."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c48e538-e5ea-5539-9d63-d36ad017909e",
+      "sense_id": "d1671499-8a60-4bf3-bb51-bfd5055a40fa",
+      "lemma": "introduction",
+      "meaning_sha": "5fd20f9f5d8ae42dd532ad2a731b56e10f14612c52b847048a3f2348976013fa",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "formally making a person known to another or to the public",
+          "after": "formally making a person known to another or to the public",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Formal presentation of a person matches the name-giving meaning."
+        },
+        "definition_uz": {
+          "before": "Bir kishini boshqasiga yoki ommaga rasmiy ravishda tanishtirish harakati.",
+          "after": "Bir kishini boshqasiga yoki ommaga rasmiy ravishda tanishtirish harakati.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Kishini boshqalarga tanishtirish mazmuni mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tanishtirish",
+              "translation_id": "8bcc67a6-4b30-59ac-9589-d2fc2cddc6ab"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tanishtirish",
+              "translation_id": "8bcc67a6-4b30-59ac-9589-d2fc2cddc6ab"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Tanishtirish is the social/person meaning."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Person/name-giving group explicitly B2; retained."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "intro",
+              "lexemeId": "d87828e8-50df-5820-be6e-051292977564",
+              "senseId": "0695088a-7392-42a0-8144-9fabb621f4b8"
+            },
+            {
+              "text": "presentation",
+              "lexemeId": "061bad48-4d69-5a87-9356-7d1c8a5f17c5",
+              "senseId": "7e30c8c5-7fd5-57ca-9de2-ddb58e193807"
+            }
+          ],
+          "after": [
+            {
+              "text": "intro",
+              "lexemeId": "d87828e8-50df-5820-be6e-051292977564",
+              "senseId": "0695088a-7392-42a0-8144-9fabb621f4b8"
+            },
+            {
+              "text": "presentation",
+              "lexemeId": "061bad48-4d69-5a87-9356-7d1c8a5f17c5",
+              "senseId": "7e30c8c5-7fd5-57ca-9de2-ddb58e193807"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Presentation frozen target selects formally-making-person-known gloss, not slides, a gift or childbirth."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Farewell is a different social event, not an established exact opposite here."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "need no introduction"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+            "https://www.merriam-webster.com/dictionary/introduction"
+          ],
+          "reasoning": "Need-no construction is explicitly attested when the next guest is already known; scoped to person introduction."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and cited primary references; not independent bilingual certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "additional_target_proofs": [
+    {
+      "entry_projection": {
+        "lexeme_id": "4639dc87-1df3-56f8-a8b9-492096702e5b",
+        "lemma_norm": "conclusion",
+        "part_of_speech": "n",
+        "sense_ids": [
+          "0c68d7f8-5463-4342-b25d-b51c32f7629b",
+          "0f47d281-ac07-42f1-89e9-e0588fd56b8e",
+          "5182c42a-d298-5088-8cc7-eade5407642e",
+          "57876bc8-c37f-4a95-9119-94b215271a67",
+          "57f656d9-d54a-49cc-a174-11fd1d98b50d",
+          "5e84b3a4-9943-5426-a8d4-4369cd22d434",
+          "776e8b85-266d-5ec4-aa39-966bad94ecad",
+          "9b83a335-52d8-49f3-8f5a-586a85a9c599",
+          "de1826bc-2b5d-5353-bb9b-180f148db9c8"
+        ],
+        "content_sha": "94c96aad66588e49bbe0889cb2d2c517cea725425e4da2f7d27a461a2f01e505",
+        "storage_shard": "46",
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_offset": 74148,
+        "storage_length": 4588,
+        "storage_raw_bytes": 14032
+      },
+      "shard_descriptor": {
+        "shard": "46",
+        "descriptor": {
+          "shard": "46",
+          "format": "entry-jsonl-gzip-v1",
+          "sha256": "2c57b6bd9340424f988b38b09ee7be93ccc954c551752d19691ac4117edae601",
+          "entries": 252,
+          "raw_bytes": 841773,
+          "raw_sha256": "6becaf73182a370508852e6af6519eb06478df6426c925cb772e28d327d6c3b7",
+          "compressed_bytes": 342360
+        },
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e"
+      },
+      "entry": {
+        "attribution": [
+          {
+            "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "legacy_batches_656",
+            "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+            "source_url": "https://en-word.net/"
+          },
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "conclusion",
+        "forms": [
+          {
+            "form_type": "corpus_regular_noun",
+            "surface_form": "conclusions"
+          }
+        ],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "4639dc87-1df3-56f8-a8b9-492096702e5b",
+        "lexical_type": "word",
+        "normalized_search_form": "conclusion",
+        "part_of_speech": "n",
+        "pronunciations": [
+          {
+            "ipa": "kənˈkluːʒən"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "conclude",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "derivation",
+            "target_lexeme_id": "e82c1994-89d9-50e9-87ca-3d38c41f2ca5",
+            "target_sense_id": "6125b940-ea57-4df0-a047-f1e5b8600d38"
+          },
+          {
+            "display_lemma": "conclude",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "derivation",
+            "target_lexeme_id": "e82c1994-89d9-50e9-87ca-3d38c41f2ca5",
+            "target_sense_id": "65bfc23f-fae0-4210-828a-7d6b43552268"
+          },
+          {
+            "display_lemma": "conclude",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "derivation",
+            "target_lexeme_id": "e82c1994-89d9-50e9-87ca-3d38c41f2ca5",
+            "target_sense_id": "b2a642ea-cfec-47db-8c69-fbcf0dbebd26"
+          },
+          {
+            "display_lemma": "settlement",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hypernym",
+            "target_lexeme_id": "e36854a4-5678-5f28-a5a3-ef048b98efad",
+            "target_sense_id": "c250bb17-2a40-4eb6-96ed-4e30e32930cc"
+          },
+          {
+            "display_lemma": "abort",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "96aac2fe-7b6a-514d-98e2-906d3fcef206",
+            "target_sense_id": "10d68f32-3d3c-4209-9064-690a73a5d364"
+          },
+          {
+            "display_lemma": "call",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "233ea43a-66f6-561f-a25a-fb7fd0a7b336",
+            "target_sense_id": "7b842559-5722-55d6-8298-d053568900dd"
+          },
+          {
+            "display_lemma": "move",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "ab9469af-d33a-57ce-bcb7-10affbfd5393",
+            "target_sense_id": "798e2122-d7ad-44ad-b01f-5a644ca50d05"
+          },
+          {
+            "display_lemma": "non sequitur",
+            "lexical_type": "other",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "d8115043-6105-56ea-9dd2-89c3ccf89be0",
+            "target_sense_id": "86512e53-b40a-5523-ab3a-ad2ff44c62e8"
+          },
+          {
+            "display_lemma": "peroration",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "ed5a3765-d8b6-5dc6-ac4b-c59ae4714392",
+            "target_sense_id": "4502fa88-33f3-5dcb-9773-2a1163c93f09"
+          },
+          {
+            "display_lemma": "release",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "a1bc80ec-80ec-568d-a94e-a835d68a772f",
+            "target_sense_id": "b3634107-61a0-5dc6-8bc2-84ecd8ad01f6"
+          },
+          {
+            "display_lemma": "resolution",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "40f7b39e-9442-52b5-a2ab-31e87202779a",
+            "target_sense_id": "c676056f-1a2e-5b14-84c0-cc9dbadb7c6d"
+          },
+          {
+            "display_lemma": "retirement",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "e139c721-9ee8-5273-b52a-84f093fd0845",
+            "target_sense_id": "e00c0e23-8fca-4b6e-9c0e-f513328c34fc"
+          },
+          {
+            "display_lemma": "close",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "926deb5f-14cf-5944-ae2d-54a4162eaec1",
+            "target_sense_id": "85d4f90f-dd32-46c5-914b-5c60dd68ef30"
+          },
+          {
+            "display_lemma": "close",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "926deb5f-14cf-5944-ae2d-54a4162eaec1",
+            "target_sense_id": "d22f78bf-309e-485a-9ee0-59f484fb598c"
+          },
+          {
+            "display_lemma": "closing",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "f6722369-19d3-54c2-b88c-6349125cf51f",
+            "target_sense_id": "5595daa7-6665-4c38-b081-0fa03894b87f"
+          },
+          {
+            "display_lemma": "decision",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "64cbd448-6d58-541d-b326-affeadd5f103",
+            "target_sense_id": "7e2cd530-dac6-4758-856c-ce57930e6bdc"
+          },
+          {
+            "display_lemma": "decision",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "64cbd448-6d58-541d-b326-affeadd5f103",
+            "target_sense_id": "e6b14300-0e4c-40af-8427-f0a5e7297365"
+          },
+          {
+            "display_lemma": "determination",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "cede5754-76b3-59db-9907-13c86854ba2c",
+            "target_sense_id": "085260e9-cd94-4a20-9927-7740cbaf62a1"
+          },
+          {
+            "display_lemma": "determination",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "cede5754-76b3-59db-9907-13c86854ba2c",
+            "target_sense_id": "7672de88-997a-462b-ade4-ab86d9f05384"
+          },
+          {
+            "display_lemma": "end",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "b6816510-e7a5-579a-879c-5727f75528c7",
+            "target_sense_id": "bdf989ce-7ed3-5535-aed9-098dc72382a9"
+          },
+          {
+            "display_lemma": "ending",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "3a339eb5-aff4-5d41-aeaf-6e11283214f5",
+            "target_sense_id": "17eecc72-d78e-473c-b7a5-c4cbeea11714"
+          },
+          {
+            "display_lemma": "ending",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "3a339eb5-aff4-5d41-aeaf-6e11283214f5",
+            "target_sense_id": "d3b6bcf7-e3bc-43c0-9f3c-6ad6e63af71a"
+          },
+          {
+            "display_lemma": "ending",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "3a339eb5-aff4-5d41-aeaf-6e11283214f5",
+            "target_sense_id": "fa0d08c7-18b3-4a42-9bb5-8001235a7925"
+          },
+          {
+            "display_lemma": "finale",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "ca4050ae-5367-5689-b896-6fe20c21fa4f",
+            "target_sense_id": "97477964-bdd9-4478-8d72-78d19692072b"
+          },
+          {
+            "display_lemma": "finis",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "bc99d274-fba6-548a-b750-4d15a418c875",
+            "target_sense_id": "b5028cdb-da54-563d-9157-ffcf5e896770"
+          },
+          {
+            "display_lemma": "finish",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "cbe3d1ed-0cfb-5858-8b89-52a197233137",
+            "target_sense_id": "07ccbc56-d5ec-4508-92df-b439ae9d82b6"
+          },
+          {
+            "display_lemma": "finish",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "cbe3d1ed-0cfb-5858-8b89-52a197233137",
+            "target_sense_id": "96616003-5129-55ff-b5a6-2d6af3a674a4"
+          },
+          {
+            "display_lemma": "last",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7e592f82-62dc-5ff3-b031-eb67ed89a576",
+            "target_sense_id": "798308c3-df92-49dd-866e-40cce8000f6c"
+          },
+          {
+            "display_lemma": "ratiocination",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "4ea433ed-4d47-5fe9-88a8-6f687758e82c",
+            "target_sense_id": "c46ac9a7-16c0-5b90-865e-98d1869dce29"
+          },
+          {
+            "display_lemma": "stopping point",
+            "lexical_type": "other",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "f1fdf4da-fe74-5b06-9dc2-0fa6b844b8a8",
+            "target_sense_id": "0abd4b6c-32df-5a55-92af-0dcc17d276f1"
+          },
+          {
+            "display_lemma": "termination",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "de4a8eb3-0e18-5355-847a-07a47f902c2c",
+            "target_sense_id": "65114ea8-cefb-4257-81a1-7840eae1c57f"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "B2",
+            "definition_en": "the temporal end; the concluding time",
+            "definition_uz": "biror davr yoki voqeaning vaqt bo‘yicha oxiri",
+            "examples": [
+              {
+                "example_id": "36d4102e-332e-5deb-8c6c-5a31e54ce516",
+                "text_en": "they were playing better at the close of the season",
+                "text_uz": "ular mavsum oxirida yaxshiroq o‘ynayotgan edi"
+              },
+              {
+                "example_id": "5275f215-3959-528e-8c47-614afc07f07f",
+                "text_en": "the market was up at the finish",
+                "text_uz": "bozor yopilishida ko‘tarilgan edi"
+              },
+              {
+                "example_id": "a5dcefcf-53cb-5504-adcc-66839d9c1cd5",
+                "text_en": "the stopping point of each round was signaled by a bell",
+                "text_uz": "har raundning tugash payti qo‘ng‘iroq bilan bildirildi"
+              }
+            ],
+            "sense_id": "0c68d7f8-5463-4342-b25d-b51c32f7629b",
+            "translations": [
+              {
+                "order": 0,
+                "text": "tugash vaqti",
+                "translation_id": "3fe84198-15cd-5806-bf82-7c9bbdff127f"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "the proposition arrived at by logical reasoning (such as the proposition that must follow from the major and minor premises of a syllogism)",
+            "definition_uz": "mantiqiy fikrlash natijasida kelib chiqadigan hukm yoki taklif",
+            "examples": [],
+            "sense_id": "0f47d281-ac07-42f1-89e9-e0588fd56b8e",
+            "translations": [
+              {
+                "order": 0,
+                "text": "xulosa",
+                "translation_id": "2b7be436-c030-55b8-974f-e55cd0d5fa86"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "the last section of a communication",
+            "definition_uz": "nutq yoki yozma muloqotning oxirgi bo‘limi",
+            "examples": [
+              {
+                "example_id": "39b39984-b024-53aa-85a9-2179c6839d0f",
+                "text_en": "in conclusion I want to say …",
+                "text_uz": "xulosa qilib aytganda, men shuni demoqchiman..."
+              }
+            ],
+            "sense_id": "5182c42a-d298-5088-8cc7-eade5407642e",
+            "translations": [
+              {
+                "order": 0,
+                "text": "xulosa qismi",
+                "translation_id": "d9fd3d53-bbc2-5fa2-984f-670cb43b4f4b"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "event whose occurrence ends something",
+            "definition_uz": "Sodir bo‘lishi bilan biror voqea, davr yoki jarayonni tugatadigan hodisa.",
+            "examples": [
+              {
+                "example_id": "14b1631e-39d1-549c-b2e2-ecc9cc998b81",
+                "text_en": "his death marked the ending of an era",
+                "text_uz": "Uning o‘limi bir davrning tugashini belgiladi."
+              },
+              {
+                "example_id": "d1291518-bc44-51f9-903c-2502c649d7b2",
+                "text_en": "when these final episodes are broadcast it will be the finish of the show",
+                "text_uz": "Bu so‘nggi qismlar efirga uzatilgach, ko‘rsatuv yakunlanadi."
+              }
+            ],
+            "sense_id": "57876bc8-c37f-4a95-9119-94b215271a67",
+            "translations": [
+              {
+                "order": 0,
+                "text": "yakun; tugallanish",
+                "translation_id": "f0c6fa8c-b70f-536e-ad5d-4eb4f3a97214"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "an intuitive assumption",
+            "definition_uz": "Yetarli tahlilsiz yoki bevosita dalilsiz sezgi asosida chiqarilgan taxminiy xulosa.",
+            "examples": [
+              {
+                "example_id": "9cd9ccc1-d4b9-5563-b3e4-a7a441d78a89",
+                "text_en": "jump to a conclusion",
+                "text_uz": "Shoshilib xulosa qilmoq."
+              }
+            ],
+            "sense_id": "57f656d9-d54a-49cc-a174-11fd1d98b50d",
+            "translations": [
+              {
+                "order": 0,
+                "text": "xulosa; intuitiv taxmin",
+                "translation_id": "39b71e2d-13b7-5b9a-b0c0-ae281cb60505"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "a final settlement",
+            "definition_uz": "muzokara yoki jarayon oxirida erishilgan yakuniy bitim",
+            "examples": [
+              {
+                "example_id": "50f554a1-52de-59e3-89d8-686ff415db42",
+                "text_en": "the conclusion of the peace treaty",
+                "text_uz": "tinchlik shartnomasining tuzilishi"
+              },
+              {
+                "example_id": "ab05862e-b8d4-54fd-b4eb-8298ef10b40a",
+                "text_en": "the conclusion of a business deal",
+                "text_uz": "biznes bitimining yakunlanishi"
+              }
+            ],
+            "sense_id": "5e84b3a4-9943-5426-a8d4-4369cd22d434",
+            "translations": [
+              {
+                "order": 0,
+                "text": "yakuniy kelishuv",
+                "translation_id": "348244d8-34f6-5b33-b43c-3ba2e57602ca"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "the act of ending something",
+            "definition_uz": "Biror narsaga yakun yasash harakati.",
+            "examples": [
+              {
+                "example_id": "03b52d35-891d-56cf-a3ca-b3b784b39db5",
+                "text_en": "the termination of the agreement",
+                "text_uz": "kelishuvni tugatish"
+              }
+            ],
+            "sense_id": "776e8b85-266d-5ec4-aa39-966bad94ecad",
+            "translations": [
+              {
+                "order": 0,
+                "text": "tugatish",
+                "translation_id": "e644c372-8c93-55cd-bf3a-f99b2c153a18"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "a position or opinion or judgment reached after consideration",
+            "definition_uz": "Dalillarni ko'rib chiqib shakllantirilgan qarash, fikr yoki hukm.",
+            "examples": [
+              {
+                "example_id": "61c7d9d1-7393-5217-af5a-9d7a1a22c5c3",
+                "text_en": "a decision unfavorable to the opposition",
+                "text_uz": "Muxolifat uchun noqulay qaror."
+              },
+              {
+                "example_id": "ae4c178d-5cc0-5d1f-9078-59e884a2ca19",
+                "text_en": "satisfied with the panel's determination",
+                "text_uz": "Hay'at chiqargan xulosadan mamnun bo'ldi."
+              },
+              {
+                "example_id": "d2238f25-4bb4-55ef-94d0-f4c2db0122bd",
+                "text_en": "his conclusion took the evidence into account",
+                "text_uz": "Uning xulosasida dalillar hisobga olindi."
+              }
+            ],
+            "sense_id": "9b83a335-52d8-49f3-8f5a-586a85a9c599",
+            "translations": [
+              {
+                "order": 0,
+                "text": "mulohazadan keyin chiqarilgan xulosa yoki hukm",
+                "translation_id": "aaa935a7-f00f-538a-bd16-559330fe62d4"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "the act of making up your mind about something",
+            "definition_uz": "Biror masala bo‘yicha fikrni yakunlab, qarorga kelish harakati.",
+            "examples": [
+              {
+                "example_id": "6c2e56de-ccc0-50d5-b049-dcd2eea6bb43",
+                "text_en": "the burden of decision was his",
+                "text_uz": "Qaror yukini u ko‘tardi."
+              },
+              {
+                "example_id": "ed9127d1-d988-5a62-84a8-860e3fde5c3e",
+                "text_en": "he drew his conclusions quickly",
+                "text_uz": "U xulosalarini tez chiqardi."
+              }
+            ],
+            "sense_id": "de1826bc-2b5d-5353-bb9b-180f148db9c8",
+            "translations": [
+              {
+                "order": 0,
+                "text": "qaror qabul qilish",
+                "translation_id": "1d3c1025-9851-5da4-9ae8-bd0e77ed2405"
+              }
+            ]
+          }
+        ]
+      },
+      "selected_sense_id": "5182c42a-d298-5088-8cc7-eade5407642e",
+      "verification": "PASS full compressed/raw shard SHA+size+entry count, member offset/length/raw size, canonical content_sha, complete sense-ID array"
+    }
+  ],
+  "reference_access": {
+    "cached_primary_bodies_used": [
+      "https://dictionary.cambridge.org/us/dictionary/english/introduction",
+      "https://www.collinsdictionary.com/us/dictionary/english/crossfire",
+      "https://dictionary.cambridge.org/us/dictionary/english/crossfire",
+      "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire",
+      "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+    ],
+    "direct_open_403": [
+      "https://dictionary.cambridge.org/dictionary/english/introduction",
+      "https://www.oxfordlearnersdictionaries.com/definition/english/crossfire"
+    ],
+    "not_a_successful_body_read": [
+      "https://www.merriam-webster.com/dictionary/crossfire",
+      "https://www.wordsmyth.net/?mode=qmfree&rid=9875"
+    ]
+  },
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "local_validation": {
+    "backend_regression_suite": {
+      "passed": 184,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "result": "PASS"
+    },
+    "live_browser_qa_performed": false
+  }
+}

@@ -131,12 +131,12 @@ def test_new_editorial_repairs_preserve_meaning_boundaries_and_source():
     assert revised['senses'][0]['translations'][0]['text'] == 'fermion; yarim butun spinli zarracha'
     intro = source('introduction')
     result = curation.curate_candidate_entry(intro)
-    changed = {'203af725-79b3-470d-a449-00a04e84049a', '87e4704d-e524-5712-84f5-4107e71de6dc'}
+    unassigned = {'3162d0c6-19d9-4de0-9b2a-23f2a75f893f', 'b1307a3e-8b99-5ad7-a99c-73688bf49738'}
     for old, new in zip(intro['senses'], result['senses']):
-        if old['sense_id'] in changed:
-            assert new['cefr'] == 'B2'
-        else:
-            assert old == new
+        assert new.get('cefr') == (None if old['sense_id'] in unassigned else 'B2')
+        assert old['examples'] == new['examples']
+        assert old['sense_id'] == new['sense_id']
+        assert old['definition_en'] == new['definition_en']
     humming = source('hum')
     rendered = present(humming)['senses']
     assert {c['text'] for c in rendered['69db394f-7df9-4871-b8bb-fefb256a0424']['collocations']} == {
@@ -241,6 +241,26 @@ def test_abide_target_proofs_and_put_up_grammar_change_preserve_other_senses():
     assert levels == {literal: None, tolerate: 'C2'}
     antonyms = [r for r in revised['relations'] if r['relation_type'] == 'antonym']
     assert [(r['source_sense_id'], r['target_sense_id']) for r in antonyms] == [(literal, '2b083025-bfe2-4aa3-836d-9927e8ff28e5')]
+
+
+def test_introduction_opposite_selects_text_section_not_reasoning_or_time():
+    ledger = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-lexical-decisions-1718-1719.json').read_text())
+    proof = ledger['additional_target_proofs'][0]
+    target = proof['entry']
+    assert hashlib.sha256(stable({k: v for k, v in target.items() if k != 'release_id'}).encode()).hexdigest() == proof['entry_projection']['content_sha']
+    assert set(proof['entry_projection']['sense_ids']) == {s['sense_id'] for s in target['senses']}
+    selected = next(s for s in target['senses'] if s['sense_id'] == proof['selected_sense_id'])
+    assert selected['definition_en'] == 'the last section of a communication'
+    entry = source('introduction')
+    frozen = copy.deepcopy(entry)
+    revised = curation.curate_candidate_entry(entry)
+    assert entry == frozen
+    antonyms = [r for r in revised['relations'] if r['relation_type'] == 'antonym']
+    assert [(r['source_sense_id'], r['target_lexeme_id'], r['target_sense_id']) for r in antonyms] == [
+        ('aafda03f-c624-4adb-90d6-48d7fb728bac', target['lexeme_id'], selected['sense_id'])]
+    view = present(revised)['senses']
+    for sid, rendered in view.items():
+        assert bool(rendered['antonyms']) == (sid == 'aafda03f-c624-4adb-90d6-48d7fb728bac')
 
 
 def test_unproven_levels_become_null_without_clearing_evidenced_or_unreviewed_senses():

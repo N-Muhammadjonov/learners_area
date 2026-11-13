@@ -718,3 +718,14 @@ Joriy holat: 1 730 ketma-ket source leksema / 2 932 source ma’no; ushbu davom 
 Scottish `arles`ning zakalat ma’nosi, termodinamikaning issiqlik/ish mazmuni va `mental condition`ning kasallik bilan cheklanmagan ruhiy holat ta’rifi aniqlandi. `distortable` tarjimasi sifat shakliga keltirildi. Fermionning oldingi elementar-only tuzatishi yangi tarjima tuzatishi deb qayta sanalmadi. `the laws of thermodynamics` faqat aniq termodinamika ma’nosiga ulandi. Mavjud uchta `mental condition` sinonimining source/target sense IDlari saqlandi.
 
 Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1711-1717.json`. Mahalliy backend: **182 passed / 0 failed / 0 skipped / 1 warning**. Testlar skip qilinmagan. API va frontend kodi bu guruhda o‘zgarmagan; yangi live brauzer QA da’vosi yo‘q. Misollar keyinga qoldirilgan, to‘liq bosqichlar **0/20**. Keyingi ma’no `crossfire` (1 718); joriy 30 talik guruhdan **13 leksema / 28 ma’no**ning to‘liq yetti maydonli qarorlari hali yakunlanmagan.
+
+
+### 1 718–1 719-leksemalar — crossfire va introduction ma’nolari
+
+**2 leksema / 9 ma’no / 63 maydon qarori**. Jami yangi batafsil qamrov: **19 leksema / 29 ma’no / 203 qaror**. `crossfire`ning fikr almashish va kesishuvchi o‘t ochish ma’nolarida tasdiqsiz C2 null qilindi; literal tarjima aniqlandi. Ikkalasiga ma’noga mos, alohida dalilli collocation qo‘shildi.
+
+`introduction`ning 7 ma’nosi alohida tekshirildi. Dalilli beshta B2 saqlandi, shu jumladan avvalgi ikkita tuzatish qayta sanalmadi. Yangi taklifning o‘zi va fizik ichiga kiritish ma’nolarining ishonchsiz CEFRlari null qilindi; taklif ma’nosining UZ ta’rifi harakatni emas, taklifning o‘zini ifodalaydi. Beshta collocation aynan tegishli ma’noga ulandi. `introduction` → `conclusion` antonimi faqat birinchi/yakuniy matn qismi ma’nolariga bog‘landi. Nishonning barcha 9 ma’nosi original R2/Supabase orqali o‘qilib, butun shard/content SHA va member offsetlari tasdiqlandi; fikriy xulosa yoki vaqt yakuni ma’nolariga ulanmagan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1718-1719.json`. Mahalliy backend: **184 passed / 0 failed / 0 skipped / 1 warning**. Ma’no chegaralari uchun eski assertion haqiqiy candidate qiymatlariga mos yangilandi; skip qo‘shilmadi. Misollar o‘zgarmagan. Hali **0/20** bosqich to‘liq tugagan; joriy guruhning qolgan **11 leksema / 19 ma’nosi** `airspeed`dan boshlanadi.
+
+Avvalgi `e0632e284421aeb2bb96b91ad8999ad55e3ea633` uchun GitHub Actions `43363547286`: **182 backend + 20 DOM testi PASS**, 0 failed/skip, compile PASS. Vercel aynan shu SHA uchun 0 deployment qaytardi. Dalil: `content/dictionary/audit-20261113-validation-e0632e28.json`.
