@@ -1208,8 +1208,17 @@
         },
         "replace_definition_uz": {
           "original": "Islomning to‘rtinchi ustuni bo‘lib, ibodat sifatida ehson berish",
-          "text": "Islomning besh ruknidan biri bo‘lgan, belgilangan mol-mulkdan muhtojlarga berilishi shart bo‘lgan zakot."
-        }
+          "text": "Islomda belgilangan shartlarga javob beradigan mol-mulkning bir qismini belgilangan haqdorlarga berish majburiyati; Islomning besh ruknidan biri."
+        },
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "pay zakat"
+          }
+        ]
       }
     },
     "661aa3c8-cf2d-5b75-9e5d-8d5922bb17c4": {
@@ -3501,6 +3510,153 @@
         "replace_cefr": {
           "original": "B1",
           "text": null
+        }
+      }
+    },
+    "6589ef64-0821-5ee5-abd9-810dc7dd6403": {
+      "d6d47135-896f-5608-ad2f-6339ff2d54c1": {
+        "meaning_sha": "9b24f168ad0db24d2d959b2a1a77e975486b70c16e8147efba5b9553ce6ec4ca",
+        "replace_definition_en": {
+          "original": "by phonetics",
+          "text": "In a way based on the sounds of speech, especially representing those sounds in writing."
+        },
+        "replace_definition_uz": {
+          "original": "fonetika asosida yoki fonetik usulda",
+          "text": "Nutq tovushlariga asoslangan holda, xususan so‘zlarni aytilishiga mos yozish usulida."
+        },
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "spell words phonetically"
+          },
+          {
+            "text": "transcribe phonetically"
+          }
+        ]
+      }
+    },
+    "658b3fc4-cd75-50c6-bb2b-be29a4511f30": {
+      "a3587531-da07-5dbf-8bf1-ab89579834c3": {
+        "meaning_sha": "408c19707ce567c21cc9ef0e5c3af590894999d2d9ee8d35f802b980100400e5",
+        "replace_definition_en": {
+          "original": "strong green liqueur flavored with wormwood and anise",
+          "text": "A strong distilled alcoholic drink flavoured with wormwood and anise, often green but sometimes colourless."
+        },
+        "replace_definition_uz": {
+          "original": "Shuvoq va anis ta'mi berilgan kuchli, yashil rangli likyori.",
+          "text": "Shuvoq va anis bilan ta’m berilgan kuchli distillangan spirtli ichimlik; ko‘pincha yashil, ba’zan rangsiz bo‘ladi."
+        },
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
+    },
+    "658bb69e-966b-577e-b32f-b3ddc341536b": {
+      "32aa99ff-11fd-5b88-a5b7-9121723410aa": {
+        "meaning_sha": "3bf2812fe51af6990e04781f65b4bce294d2960e10bf650d57aec1fe733ba71c",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
+    },
+    "658bcb4d-b2ef-5769-955a-63bf9ad4a2f9": {
+      "11d8b258-b931-421a-937e-ed98b7a04ac6": {
+        "meaning_sha": "89364aacfca0319e17337e847fc0ab61854be4240b7b8cbf9bec4a1bb215dca2",
+        "replace_definition_en": {
+          "original": "distinguish oneself",
+          "text": "To be exceptionally good at something or to perform better than most others."
+        },
+        "replace_cefr": {
+          "original": "B2",
+          "text": "C2"
+        },
+        "add_collocations": [
+          {
+            "text": "excel in languages"
+          },
+          {
+            "text": "excel at something"
+          }
+        ]
+      }
+    },
+    "658c2d4d-c077-5311-b6ff-188640e40474": {
+      "6fa7e837-3a6d-5510-8b63-c7c68271733d": {
+        "meaning_sha": "b94e5f950dd5c69851367e22e9e3d0bbe1eef4146c16514dcce1ac1572589911",
+        "replace_definition_en": {
+          "original": "divest of the frock; of church officials",
+          "text": "To remove a member of the clergy from their official religious position or status."
+        },
+        "replace_definition_uz": {
+          "original": "Cherkov xizmatchisini rasman ruhoniylik unvoni va libosidan chetlatmoq.",
+          "text": "Ruhoniyni rasmiy diniy lavozimi yoki maqomidan mahrum etmoq."
+        },
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
+    },
+    "65961e36-7cdf-50dc-8b88-1b572fa493dd": {
+      "e74f6b13-3941-5450-9da8-784223dbec12": {
+        "meaning_sha": "7439b471c69490e19d8da00c63e5d4bb315e4696c611fa47d1818350c27c701b",
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "an institution that issues something (securities or publications or currency etc.)",
+          "text": "A person or organization that officially issues or supplies something, such as securities, publications, currency, or cards."
+        },
+        "replace_definition_uz": {
+          "original": "Qimmatli qog‘oz, nashr, valyuta yoki boshqa narsani rasmiy ravishda chiqaradigan muassasa.",
+          "text": "Qimmatli qog‘oz, nashr, valyuta, karta yoki boshqa narsani rasmiy chiqaradigan yoxud taqdim etadigan shaxs yoki tashkilot."
+        },
+        "replace_translation_uz": {
+          "original": "emitent; chiqaruvchi tashkilot",
+          "text": "emitent; rasmiy chiqaruvchi shaxs yoki tashkilot"
+        },
+        "add_collocations": [
+          {
+            "text": "credit card issuer"
+          },
+          {
+            "text": "bond issuer"
+          }
+        ]
+      }
+    },
+    "6596e7e9-a504-54a2-afd6-06471ef687d2": {
+      "a7d4f224-d4ce-5ca5-9b62-81c86cc5259b": {
+        "meaning_sha": "1796512049a0dca4c3e9fd564a90dda332332934d3d35320e21935a13a1316c3",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      },
+      "fb6a9094-503b-5cbf-a78e-8f1239523437": {
+        "meaning_sha": "10bfcf154453f232e12d9c9995768eee12625c9b050ef5b11233b26b562cbbb4",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
+    },
+    "65974bad-1db2-5d40-8355-df2d08a15c44": {
+      "6d88dc0d-6b69-5c75-ab46-9f293b315a17": {
+        "meaning_sha": "8bbf4c16ebf206e5e51c9db32520304edab7440afa812e6f7b71db13c1c2574b",
+        "replace_definition_en": {
+          "original": "(football) kicking (as for a field goal) in which the football is dropped and kicked as it touches the ground",
+          "text": "A kick made by dropping a ball onto the ground and kicking it as it rises from its first bounce."
+        },
+        "replace_definition_uz": {
+          "original": "Futbol va regbida to'pni qo'ldan yerga tashlab, u yerga tegib sakragan zahoti oyoq bilan tepish usuli.",
+          "text": "To‘pni qo‘ldan yerga tashlab, birinchi marta sapchib ko‘tarilayotgan paytda tepish usuli."
         }
       }
     }

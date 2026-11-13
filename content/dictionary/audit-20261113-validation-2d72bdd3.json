@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "commit": "2d72bdd3c5f0eb775c540f098c51d8dbcf5ed7f7",
+  "workflow_run_id": 43373816673,
+  "workflow_url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43373816673",
+  "conclusion": "success",
+  "backend_job": 131715528044,
+  "browser_job": 131715528200,
+  "backend_tests": {
+    "passed": 214,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "browser_tests": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0
+  },
+  "compile": "PASS",
+  "vercel_deployments_for_commit": null,
+  "deployment_readback": "UNAVAILABLE: connector tool unavailable in this turn. Last independently verified zero deployments was239972a9. Branch automatic deployment remains disabled; no deployment command issued.",
+  "production_writes": false,
+  "main_merged": false,
+  "full_linguistic_signoff": false,
+  "log_access": "GitHub CLI read-only fallback after connector unavailable; backend raw job log and browser run-view log read. Initial TLS download timeout resolved by fresh download/alternate endpoint.",
+  "logs_sha256": {
+    "ci-2d72-backend.log": "6e2081ec623ac919626b87cc075eeb8e64613a43c5f940bea0c9d7ab643e050c",
+    "ci-2d72-browser-runview.log": "be6cfb621eff6f90f335078bf586e0f8b8cfa8bfd04d1cad93f51ede607eb3c6"
+  }
+}

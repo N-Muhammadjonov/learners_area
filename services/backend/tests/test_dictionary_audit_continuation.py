@@ -547,6 +547,69 @@ def test_latest_backfill_retains_previously_approved_example_presentations():
             assert corrected_examples(original, old) == corrected_examples(candidate, new)
 
 
+def test_cached_selected_source_authenticates_archived_offsets_without_claiming_fresh_database_checks():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0031-0046.json').read_text())
+    historical = json.loads((ROOT / report['historical_receipt']).read_text())['lexemes']
+    old = {e['lexeme_id']: (i, e) for i, e in enumerate(historical, 1)}
+    rows = {e['lexeme_id']: e for e in report['source_projection']}
+    positions = []
+    for entry in report['lexemes']:
+        index, archived = old[entry['lexeme_id']]
+        positions.append(index)
+        row = rows[entry['lexeme_id']]
+        assert (row['storage_offset'], row['storage_length']) == (archived['storage_offset'], archived['storage_length'])
+        assert 'not a fresh database' in row['content_sha_provenance']
+        assert not any(r['relation_type'] in ('synonym', 'antonym') for r in entry['relations'])
+    assert positions == report['scope']['historical_sequential_positions']
+    assert report['scope']['contiguous_range_claimed'] is False
+    assert report['source_verification']['fresh_database_content_sha_comparison'] == 'NOT_RERUN_connector_unavailable'
+    assert report['scope']['new_source_readback_senses'] == 0
+
+
+def test_separate_scalar_interventions_are_exact_guarded_edits_and_not_full_sense_signoffs():
+    from app.dictionary_presentation import corrected_examples
+    data = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-surgical-scalars-0032-0035.json').read_text())
+    historical = {e['lexeme_id']: e for e in json.loads((ROOT / data['historical_receipt']).read_text())['lexemes']}
+    full_ids = {(r['lexeme_id'], r['sense_id']) for f in (ROOT / 'content/dictionary').glob('audit-*-phase*-lexical-decisions-*.json') for r in json.loads(f.read_text())['senses']}
+    assert data['scope']['new_fully_seven_field_reviewed_senses'] == 0
+    for row in data['interventions']:
+        original = row['original_entry']
+        assert (row['lexeme_id'], row['sense_id']) not in full_ids
+        assert row['full_seven_field_review_counted'] is False
+        assert row['synonym_antonym_target_readback_completed'] is False
+        sense = original['senses'][0]
+        archived = next(s for s in historical[original['lexeme_id']]['senses'] if s['sense_id'] == row['sense_id'])
+        assert curation.original_meaning_hash(original, sense) == row['meaning_sha'] == archived['meaning_sha']
+        candidate = curation.curate_candidate_entry(original)
+        revised = candidate['senses'][0]
+        view = present(candidate)['senses'][row['sense_id']]
+        assert candidate['relations'] == original['relations']
+        assert revised['examples'] == sense['examples']
+        assert corrected_examples(candidate, revised) == corrected_examples(original, sense)
+        for field, decision in row['fields'].items():
+            assert decision['evidence_urls'] and decision['reasoning']
+            assert decision['after'] == (view[field] if field == 'collocations' else revised.get('translations' if field == 'translation_uz' else field))
+        if original['display_lemma'] == 'absinth':
+            assert 'sometimes colourless' in revised['definition_en'] and 'ko‘pincha' in revised['definition_uz']
+        elif original['display_lemma'] == 'excel':
+            assert sense['cefr'] == 'B2' and revised['cefr'] == 'C2'
+            assert 'exceptionally good' in revised['definition_en']
+        elif original['display_lemma'] == 'unfrock':
+            assert 'clergy' in revised['definition_en'] and 'lavozimi' in revised['definition_uz']
+
+
+def test_dropkick_first_bounce_and_explicit_sport_level_preserve_original_source():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0031-0046.json').read_text())
+    entry = next(e for e in report['lexemes'] if e['display_lemma'] == 'dropkick')
+    frozen = copy.deepcopy(entry)
+    candidate = curation.curate_candidate_entry(entry)
+    assert entry == frozen
+    sense = candidate['senses'][0]
+    assert 'rises from its first bounce' in sense['definition_en']
+    assert sense['cefr'] == 'C2' and sense['sense_id'] == entry['senses'][0]['sense_id']
+    assert sense['examples'] == entry['senses'][0]['examples']
+
+
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():
     report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
     targets = {e['lexeme_id']: e for e in report['target_entries']}

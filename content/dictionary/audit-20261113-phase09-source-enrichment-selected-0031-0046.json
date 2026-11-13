@@ -1,0 +1,418 @@
+{
+  "schema": 2,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "purpose": "Lexical review using authenticated cached originals and archived Supabase offsets; no new source coverage or fresh database-content-hash claim.",
+  "historical_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "historical_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "scope": {
+    "lexemes": 5,
+    "senses": 6,
+    "historical_sequential_positions": [
+      31,
+      36,
+      44,
+      45,
+      46
+    ],
+    "contiguous_range_claimed": false,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "target_lexemes": 0
+  },
+  "source_projection": [
+    {
+      "lexeme_id": "6589ef64-0821-5ee5-abd9-810dc7dd6403",
+      "lemma_norm": "phonetically",
+      "part_of_speech": "r",
+      "sense_ids": [
+        "d6d47135-896f-5608-ad2f-6339ff2d54c1"
+      ],
+      "content_sha": "489790b7e2db5558165e87d3cd8be8837f874f6c79d5878a524254f619948209",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 167459,
+      "storage_length": 772,
+      "storage_raw_bytes": 1446,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "658e2b90-e8a6-54ac-8155-73fc7904e2a2",
+      "lemma_norm": "zakat",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "17267eb7-fa10-5501-b8de-a78cec3d4d1c"
+      ],
+      "content_sha": "a7e46f84b0a324f1aa2aff6d1364b446d1a134017544f2dc1a13ea32df1f8f05",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 172510,
+      "storage_length": 827,
+      "storage_raw_bytes": 1502,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65961e36-7cdf-50dc-8b88-1b572fa493dd",
+      "lemma_norm": "issuer",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "e74f6b13-3941-5450-9da8-784223dbec12"
+      ],
+      "content_sha": "cd88a05a7a2d404c1bf958248f8725b84dc35e9a33b8064cab8f9521126758ca",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 186184,
+      "storage_length": 870,
+      "storage_raw_bytes": 1574,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "6596e7e9-a504-54a2-afd6-06471ef687d2",
+      "lemma_norm": "provident",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "a7d4f224-d4ce-5ca5-9b62-81c86cc5259b",
+        "fb6a9094-503b-5cbf-a78e-8f1239523437"
+      ],
+      "content_sha": "20fa416a45fed209a6f65bc67c7009da3d2a16561b12900eb7f8a511c341dd37",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 187054,
+      "storage_length": 996,
+      "storage_raw_bytes": 1897,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65974bad-1db2-5d40-8355-df2d08a15c44",
+      "lemma_norm": "dropkick",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "6d88dc0d-6b69-5c75-ab46-9f293b315a17"
+      ],
+      "content_sha": "2ac54727b1a592ccf70bd394581d43dc6ee8e98e8b260af4704987f2efcfe1ee",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 188050,
+      "storage_length": 882,
+      "storage_raw_bytes": 1618,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    }
+  ],
+  "lexemes": [
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "phonetically",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "6589ef64-0821-5ee5-abd9-810dc7dd6403",
+      "lexical_type": "word",
+      "normalized_search_form": "phonetically",
+      "part_of_speech": "r",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "by phonetics",
+          "definition_uz": "fonetika asosida yoki fonetik usulda",
+          "examples": [],
+          "sense_id": "d6d47135-896f-5608-ad2f-6339ff2d54c1",
+          "translations": [
+            {
+              "order": 0,
+              "text": "fonetik jihatdan",
+              "translation_id": "d68a8f44-be6e-5093-aa97-a51a46baab08"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "zakat",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "658e2b90-e8a6-54ac-8155-73fc7904e2a2",
+      "lexical_type": "word",
+      "normalized_search_form": "zakat",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "the fourth pillar of Islam is almsgiving as an act of worship",
+          "definition_uz": "Islomning to‘rtinchi ustuni bo‘lib, ibodat sifatida ehson berish",
+          "examples": [],
+          "sense_id": "17267eb7-fa10-5501-b8de-a78cec3d4d1c",
+          "translations": [
+            {
+              "order": 0,
+              "text": "zakot",
+              "translation_id": "b42f2042-d6c8-502c-bdbd-e9af9b7e2945"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "issuer",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65961e36-7cdf-50dc-8b88-1b572fa493dd",
+      "lexical_type": "word",
+      "normalized_search_form": "issuer",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C1",
+          "definition_en": "an institution that issues something (securities or publications or currency etc.)",
+          "definition_uz": "Qimmatli qog‘oz, nashr, valyuta yoki boshqa narsani rasmiy ravishda chiqaradigan muassasa.",
+          "examples": [],
+          "sense_id": "e74f6b13-3941-5450-9da8-784223dbec12",
+          "translations": [
+            {
+              "order": 0,
+              "text": "emitent; chiqaruvchi tashkilot",
+              "translation_id": "08853cae-03bb-52e0-8cb6-f286fd65734c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "provident",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "6596e7e9-a504-54a2-afd6-06471ef687d2",
+      "lexical_type": "word",
+      "normalized_search_form": "provident",
+      "part_of_speech": "a",
+      "pronunciations": [
+        {
+          "ipa": "ˈpɹɒvɪdənt"
+        }
+      ],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "providing carefully for the future",
+          "definition_uz": "Kelgusidagi ehtiyojlar uchun puxta va ehtiyotkorlik bilan zaxira tayyorlaydigan.",
+          "examples": [],
+          "sense_id": "a7d4f224-d4ce-5ca5-9b62-81c86cc5259b",
+          "translations": [
+            {
+              "order": 0,
+              "text": "kelajak uchun tejamkorlik bilan hozirlik ko'radigan",
+              "translation_id": "2f5fa6dc-0cc2-5083-a921-bdec26bd9002"
+            }
+          ]
+        },
+        {
+          "cefr": "C2",
+          "definition_en": "careful in regard to your own interests",
+          "definition_uz": "o‘z manfaatlariga nisbatan ehtiyotkor",
+          "examples": [],
+          "sense_id": "fb6a9094-503b-5cbf-a78e-8f1239523437",
+          "translations": [
+            {
+              "order": 0,
+              "text": "o‘z manfaatini o‘ylaydigan, ehtiyotkor",
+              "translation_id": "a846bf27-a5b5-5e2b-9242-02f4902f7e6d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "dropkick",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65974bad-1db2-5d40-8355-df2d08a15c44",
+      "lexical_type": "word",
+      "normalized_search_form": "dropkick",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "(football) kicking (as for a field goal) in which the football is dropped and kicked as it touches the ground",
+          "definition_uz": "Futbol va regbida to'pni qo'ldan yerga tashlab, u yerga tegib sakragan zahoti oyoq bilan tepish usuli.",
+          "examples": [],
+          "sense_id": "6d88dc0d-6b69-5c75-ab46-9f293b315a17",
+          "translations": [
+            {
+              "order": 0,
+              "text": "sakragan to'pga tepish (drop-kik)",
+              "translation_id": "b0517374-1088-5f46-a639-a1c51a7bd824"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "meaning_hashes": {
+    "6589ef64-0821-5ee5-abd9-810dc7dd6403": {
+      "d6d47135-896f-5608-ad2f-6339ff2d54c1": "9b24f168ad0db24d2d959b2a1a77e975486b70c16e8147efba5b9553ce6ec4ca"
+    },
+    "658e2b90-e8a6-54ac-8155-73fc7904e2a2": {
+      "17267eb7-fa10-5501-b8de-a78cec3d4d1c": "bb55b2f6f443e4559d320b7897b90126408893c887e93dcaa7ddd45d5e74002a"
+    },
+    "65961e36-7cdf-50dc-8b88-1b572fa493dd": {
+      "e74f6b13-3941-5450-9da8-784223dbec12": "7439b471c69490e19d8da00c63e5d4bb315e4696c611fa47d1818350c27c701b"
+    },
+    "6596e7e9-a504-54a2-afd6-06471ef687d2": {
+      "a7d4f224-d4ce-5ca5-9b62-81c86cc5259b": "1796512049a0dca4c3e9fd564a90dda332332934d3d35320e21935a13a1316c3",
+      "fb6a9094-503b-5cbf-a78e-8f1239523437": "10bfcf154453f232e12d9c9995768eee12625c9b050ef5b11233b26b562cbbb4"
+    },
+    "65974bad-1db2-5d40-8355-df2d08a15c44": {
+      "6d88dc0d-6b69-5c75-ab46-9f293b315a17": "8bbf4c16ebf206e5e51c9db32520304edab7440afa812e6f7b71db13c1c2574b"
+    }
+  },
+  "target_projection": [],
+  "target_entries": [],
+  "existing_relation_matches": [],
+  "source_verification": {
+    "full_compressed_and_raw_shard_sha_size_count": "PASS_against_previously_independently_verified_descriptor",
+    "historical_supabase_member_offsets_and_complete_original_meaning_hashes": "PASS",
+    "original_uzbek_scalars_and_full_sense_arrays": "PASS",
+    "fresh_database_content_sha_comparison": "NOT_RERUN_connector_unavailable",
+    "member_content_sha_and_raw_size": "computed_from_authenticated_immutable_member"
+  },
+  "phase_complete": false,
+  "full_linguistic_global_signoff": false,
+  "production_mutation": false
+}

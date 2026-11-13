@@ -1,0 +1,692 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "prior_candidate_commit": "2d72bdd3c5f0eb775c540f098c51d8dbcf5ed7f7",
+  "historical_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "historical_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "source_authentication": {
+    "full_compressed_and_raw_shard_sha_size_count": "PASS_against_previously_independently_verified_descriptor",
+    "historical_supabase_member_offsets_and_complete_original_meaning_hashes": "PASS",
+    "original_uzbek_scalars_and_full_sense_arrays": "PASS",
+    "fresh_database_content_sha_comparison": "NOT_RERUN_connector_unavailable",
+    "member_content_sha_and_raw_size": "computed_from_authenticated_immutable_member"
+  },
+  "scope": {
+    "surgical_source_senses": 4,
+    "scalar_and_collocation_field_reviews": 20,
+    "new_fully_seven_field_reviewed_senses": 0,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "interventions": [
+    {
+      "lexeme_id": "658b3fc4-cd75-50c6-bb2b-be29a4511f30",
+      "sense_id": "a3587531-da07-5dbf-8bf1-ab89579834c3",
+      "meaning_sha": "408c19707ce567c21cc9ef0e5c3af590894999d2d9ee8d35f802b980100400e5",
+      "original_entry": {
+        "attribution": [
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "absinth",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "658b3fc4-cd75-50c6-bb2b-be29a4511f30",
+        "lexical_type": "word",
+        "normalized_search_form": "absinth",
+        "part_of_speech": "n",
+        "pronunciations": [
+          {
+            "ipa": "ˈæb.sɪnθ",
+            "variety": "GB"
+          },
+          {
+            "ipa": "ˈæb.sɪnθ",
+            "variety": "US"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "absinthe",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7b9088b1-0c50-5100-b6d2-9cdb0c8a834c",
+            "target_sense_id": "5d46f029-65cc-48d6-aa21-36698911c3fd"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "C2",
+            "definition_en": "strong green liqueur flavored with wormwood and anise",
+            "definition_uz": "Shuvoq va anis ta'mi berilgan kuchli, yashil rangli likyori.",
+            "examples": [],
+            "sense_id": "a3587531-da07-5dbf-8bf1-ab89579834c3",
+            "translations": [
+              {
+                "order": 0,
+                "text": "absint",
+                "translation_id": "a2632c9e-559d-5577-aab8-d92221f2d170"
+              }
+            ]
+          }
+        ]
+      },
+      "historical_position": 32,
+      "source_projection": {
+        "lexeme_id": "658b3fc4-cd75-50c6-bb2b-be29a4511f30",
+        "lemma_norm": "absinth",
+        "part_of_speech": "n",
+        "sense_ids": [
+          "a3587531-da07-5dbf-8bf1-ab89579834c3"
+        ],
+        "content_sha": "df0d7ffb88aac6e23ea1f7c298eb3dacfc433ecb079f6a2220f76aba832dffe1",
+        "storage_shard": "65",
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_offset": 168231,
+        "storage_length": 949,
+        "storage_raw_bytes": 1778,
+        "descriptor": {
+          "shard": "65",
+          "format": "entry-jsonl-gzip-v1",
+          "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+          "entries": 256,
+          "raw_bytes": 796154,
+          "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+          "compressed_bytes": 333669
+        },
+        "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+        "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+        "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+      },
+      "fields": {
+        "definition_en": {
+          "before": "strong green liqueur flavored with wormwood and anise",
+          "after": "A strong distilled alcoholic drink flavoured with wormwood and anise, often green but sometimes colourless.",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/absinth"
+          ],
+          "reasoning": "Primary spelling variant includes colourless distilled liquor. Correct mandatory green colour; alcohol sense kept separate from wormwood plant. Exact noun CEFR unproven."
+        },
+        "definition_uz": {
+          "before": "Shuvoq va anis ta'mi berilgan kuchli, yashil rangli likyori.",
+          "after": "Shuvoq va anis bilan ta’m berilgan kuchli distillangan spirtli ichimlik; ko‘pincha yashil, ba’zan rangsiz bo‘ladi.",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/absinth"
+          ],
+          "reasoning": "Primary spelling variant includes colourless distilled liquor. Correct mandatory green colour; alcohol sense kept separate from wormwood plant. Exact noun CEFR unproven."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "absint",
+              "translation_id": "a2632c9e-559d-5577-aab8-d92221f2d170"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "absint",
+              "translation_id": "a2632c9e-559d-5577-aab8-d92221f2d170"
+            }
+          ],
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/absinth"
+          ],
+          "reasoning": "Primary spelling variant includes colourless distilled liquor. Correct mandatory green colour; alcohol sense kept separate from wormwood plant. Exact noun CEFR unproven."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/absinth"
+          ],
+          "reasoning": "Primary spelling variant includes colourless distilled liquor. Correct mandatory green colour; alcohol sense kept separate from wormwood plant. Exact noun CEFR unproven."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/absinth"
+          ],
+          "reasoning": "Primary spelling variant includes colourless distilled liquor. Correct mandatory green colour; alcohol sense kept separate from wormwood plant. Exact noun CEFR unproven."
+        }
+      },
+      "synonym_antonym_target_readback_completed": false,
+      "full_seven_field_review_counted": false,
+      "examples_editorial_review_started": false
+    },
+    {
+      "lexeme_id": "658bb69e-966b-577e-b32f-b3ddc341536b",
+      "sense_id": "32aa99ff-11fd-5b88-a5b7-9121723410aa",
+      "meaning_sha": "3bf2812fe51af6990e04781f65b4bce294d2960e10bf650d57aec1fe733ba71c",
+      "original_entry": {
+        "attribution": [
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "unchangeability",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "658bb69e-966b-577e-b32f-b3ddc341536b",
+        "lexical_type": "word",
+        "normalized_search_form": "unchangeability",
+        "part_of_speech": "n",
+        "pronunciations": [],
+        "relations": [
+          {
+            "display_lemma": "changelessness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "1c694af6-43ba-50b7-ba11-3696280c9c12",
+            "target_sense_id": "5b4122d6-caa1-5de0-9aa3-59765f5b378e"
+          },
+          {
+            "display_lemma": "unchangeableness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7809c138-1989-5aa4-8eb9-3a293cb6d9d5",
+            "target_sense_id": "ef315e2e-ddbb-5c99-b4f9-02980074d9f5"
+          },
+          {
+            "display_lemma": "unchangingness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "synonym",
+            "target_lexeme_id": "634323e3-e636-5f37-a9c7-82ca590e57cb",
+            "target_sense_id": "b229e66d-246a-5cd1-b5f7-de6eecfccab5"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "C2",
+            "definition_en": "the quality of being unchangeable; having a marked tendency to remain unchanged",
+            "definition_uz": "O‘zgarmas bo‘lish yoki o‘z holatini saqlashga kuchli moyillik xususiyati.",
+            "examples": [],
+            "sense_id": "32aa99ff-11fd-5b88-a5b7-9121723410aa",
+            "translations": [
+              {
+                "order": 0,
+                "text": "o‘zgarmaslik",
+                "translation_id": "409ba475-ab51-55ba-ad18-d0c5a885bc60"
+              }
+            ]
+          }
+        ]
+      },
+      "historical_position": 33,
+      "source_projection": {
+        "lexeme_id": "658bb69e-966b-577e-b32f-b3ddc341536b",
+        "lemma_norm": "unchangeability",
+        "part_of_speech": "n",
+        "sense_ids": [
+          "32aa99ff-11fd-5b88-a5b7-9121723410aa"
+        ],
+        "content_sha": "a0a6e2c6312870b36e083eb7d3fa21a45f83eba740fa694393e53f5fa88a2ec7",
+        "storage_shard": "65",
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_offset": 169180,
+        "storage_length": 1062,
+        "storage_raw_bytes": 2218,
+        "descriptor": {
+          "shard": "65",
+          "format": "entry-jsonl-gzip-v1",
+          "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+          "entries": 256,
+          "raw_bytes": 796154,
+          "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+          "compressed_bytes": 333669
+        },
+        "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+        "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+        "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+      },
+      "fields": {
+        "definition_en": {
+          "before": "the quality of being unchangeable; having a marked tendency to remain unchanged",
+          "after": "the quality of being unchangeable; having a marked tendency to remain unchanged",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unchangeability"
+          ],
+          "reasoning": "Quality noun and Uzbek meaning corroborated. No reliable exact noun-level CEFR documented; C2 cleared."
+        },
+        "definition_uz": {
+          "before": "O‘zgarmas bo‘lish yoki o‘z holatini saqlashga kuchli moyillik xususiyati.",
+          "after": "O‘zgarmas bo‘lish yoki o‘z holatini saqlashga kuchli moyillik xususiyati.",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unchangeability"
+          ],
+          "reasoning": "Quality noun and Uzbek meaning corroborated. No reliable exact noun-level CEFR documented; C2 cleared."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "o‘zgarmaslik",
+              "translation_id": "409ba475-ab51-55ba-ad18-d0c5a885bc60"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "o‘zgarmaslik",
+              "translation_id": "409ba475-ab51-55ba-ad18-d0c5a885bc60"
+            }
+          ],
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unchangeability"
+          ],
+          "reasoning": "Quality noun and Uzbek meaning corroborated. No reliable exact noun-level CEFR documented; C2 cleared."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unchangeability"
+          ],
+          "reasoning": "Quality noun and Uzbek meaning corroborated. No reliable exact noun-level CEFR documented; C2 cleared."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unchangeability"
+          ],
+          "reasoning": "Quality noun and Uzbek meaning corroborated. No reliable exact noun-level CEFR documented; C2 cleared."
+        }
+      },
+      "synonym_antonym_target_readback_completed": false,
+      "full_seven_field_review_counted": false,
+      "examples_editorial_review_started": false
+    },
+    {
+      "lexeme_id": "658bcb4d-b2ef-5769-955a-63bf9ad4a2f9",
+      "sense_id": "11d8b258-b931-421a-937e-ed98b7a04ac6",
+      "meaning_sha": "89364aacfca0319e17337e847fc0ab61854be4240b7b8cbf9bec4a1bb215dca2",
+      "original_entry": {
+        "attribution": [
+          {
+            "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "legacy_batches_656",
+            "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+            "source_url": "https://en-word.net/"
+          },
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "excel",
+        "forms": [
+          {
+            "surface_form": "excelled"
+          },
+          {
+            "surface_form": "excelling"
+          }
+        ],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "658bcb4d-b2ef-5769-955a-63bf9ad4a2f9",
+        "lexical_type": "word",
+        "normalized_search_form": "excel",
+        "part_of_speech": "v",
+        "pronunciations": [
+          {
+            "ipa": "ɪkˈsɛl"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "excellence",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2475b33e-4fde-56d1-9e9e-bfb542685427",
+            "target_sense_id": "95f38379-2df2-497c-9565-5f240fd86da9"
+          },
+          {
+            "display_lemma": "excellent",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "derivation",
+            "target_lexeme_id": "335acf37-18d8-57d9-b48d-fd5e3e3f9fd1",
+            "target_sense_id": "e0f0e137-809c-46cf-b23a-e22e2582ec53"
+          },
+          {
+            "display_lemma": "stand out",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "e5bef7ee-f77a-5e1f-885d-7e040631553d",
+            "target_sense_id": "344c23df-c086-5692-876f-76d7e8997fd9"
+          },
+          {
+            "display_lemma": "surpass",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "ace308ee-443d-59a9-93b8-ef9bae141047",
+            "target_sense_id": "a11737e7-32a9-408d-bd73-8bc7c214c467"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "B2",
+            "definition_en": "distinguish oneself",
+            "definition_uz": "Muayyan sohada boshqalardan yuqori mahorat yoki natija bilan ajralib turmoq.",
+            "examples": [
+              {
+                "example_id": "23bef52d-f4ff-576c-8b68-cf42800e0a20",
+                "text_en": "She excelled in math",
+                "text_uz": "U matematikada juda yaxshi natija ko‘rsatdi."
+              }
+            ],
+            "sense_id": "11d8b258-b931-421a-937e-ed98b7a04ac6",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ajralib turmoq; juda yaxshi natija ko‘rsatmoq",
+                "translation_id": "23bb1d0c-6469-5422-ae09-0437c2cb5ccb"
+              }
+            ]
+          }
+        ]
+      },
+      "historical_position": 34,
+      "source_projection": {
+        "lexeme_id": "658bcb4d-b2ef-5769-955a-63bf9ad4a2f9",
+        "lemma_norm": "excel",
+        "part_of_speech": "v",
+        "sense_ids": [
+          "11d8b258-b931-421a-937e-ed98b7a04ac6"
+        ],
+        "content_sha": "c84fddeed5b0c05b393743e205b88b9e789d75da845385bbb64723c05453f4a4",
+        "storage_shard": "65",
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_offset": 170242,
+        "storage_length": 1360,
+        "storage_raw_bytes": 3400,
+        "descriptor": {
+          "shard": "65",
+          "format": "entry-jsonl-gzip-v1",
+          "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+          "entries": 256,
+          "raw_bytes": 796154,
+          "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+          "compressed_bytes": 333669
+        },
+        "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+        "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+        "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+      },
+      "fields": {
+        "definition_en": {
+          "before": "distinguish oneself",
+          "after": "To be exceptionally good at something or to perform better than most others.",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/excel"
+          ],
+          "reasoning": "Exact intransitive exceptional-performance sense has explicit C2; change erroneous B2. Clarify overbroad distinguish-oneself gloss; primary in/at constructions attested, spreadsheet noun excluded."
+        },
+        "definition_uz": {
+          "before": "Muayyan sohada boshqalardan yuqori mahorat yoki natija bilan ajralib turmoq.",
+          "after": "Muayyan sohada boshqalardan yuqori mahorat yoki natija bilan ajralib turmoq.",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/excel"
+          ],
+          "reasoning": "Exact intransitive exceptional-performance sense has explicit C2; change erroneous B2. Clarify overbroad distinguish-oneself gloss; primary in/at constructions attested, spreadsheet noun excluded."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ajralib turmoq; juda yaxshi natija ko‘rsatmoq",
+              "translation_id": "23bb1d0c-6469-5422-ae09-0437c2cb5ccb"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ajralib turmoq; juda yaxshi natija ko‘rsatmoq",
+              "translation_id": "23bb1d0c-6469-5422-ae09-0437c2cb5ccb"
+            }
+          ],
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/excel"
+          ],
+          "reasoning": "Exact intransitive exceptional-performance sense has explicit C2; change erroneous B2. Clarify overbroad distinguish-oneself gloss; primary in/at constructions attested, spreadsheet noun excluded."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": "C2",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/excel"
+          ],
+          "reasoning": "Exact intransitive exceptional-performance sense has explicit C2; change erroneous B2. Clarify overbroad distinguish-oneself gloss; primary in/at constructions attested, spreadsheet noun excluded."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "excel in languages"
+            },
+            {
+              "text": "excel at something"
+            }
+          ],
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/excel"
+          ],
+          "reasoning": "Exact intransitive exceptional-performance sense has explicit C2; change erroneous B2. Clarify overbroad distinguish-oneself gloss; primary in/at constructions attested, spreadsheet noun excluded."
+        }
+      },
+      "synonym_antonym_target_readback_completed": false,
+      "full_seven_field_review_counted": false,
+      "examples_editorial_review_started": false
+    },
+    {
+      "lexeme_id": "658c2d4d-c077-5311-b6ff-188640e40474",
+      "sense_id": "6fa7e837-3a6d-5510-8b63-c7c68271733d",
+      "meaning_sha": "b94e5f950dd5c69851367e22e9e3d0bbe1eef4146c16514dcce1ac1572589911",
+      "original_entry": {
+        "attribution": [
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "unfrock",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "658c2d4d-c077-5311-b6ff-188640e40474",
+        "lexical_type": "word",
+        "normalized_search_form": "unfrock",
+        "part_of_speech": "v",
+        "pronunciations": [],
+        "relations": [
+          {
+            "display_lemma": "defrock",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "f258f9d7-b7b1-59ec-9d94-3f57af188852",
+            "target_sense_id": "95e27b1e-c53e-5450-ae9a-fa48f1197815"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "C2",
+            "definition_en": "divest of the frock; of church officials",
+            "definition_uz": "Cherkov xizmatchisini rasman ruhoniylik unvoni va libosidan chetlatmoq.",
+            "examples": [],
+            "sense_id": "6fa7e837-3a6d-5510-8b63-c7c68271733d",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ruhoniylik rutbasidan mahrum etmoq",
+                "translation_id": "abbde535-3e59-5170-9fe3-fe4f92f7fc38"
+              }
+            ]
+          }
+        ]
+      },
+      "historical_position": 35,
+      "source_projection": {
+        "lexeme_id": "658c2d4d-c077-5311-b6ff-188640e40474",
+        "lemma_norm": "unfrock",
+        "part_of_speech": "v",
+        "sense_ids": [
+          "6fa7e837-3a6d-5510-8b63-c7c68271733d"
+        ],
+        "content_sha": "f0efaac0d2ff9b3eddd62fa2a807c6bd097bf2cfe841e666939bcda76672b920",
+        "storage_shard": "65",
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_offset": 171602,
+        "storage_length": 908,
+        "storage_raw_bytes": 1728,
+        "descriptor": {
+          "shard": "65",
+          "format": "entry-jsonl-gzip-v1",
+          "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+          "entries": 256,
+          "raw_bytes": 796154,
+          "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+          "compressed_bytes": 333669
+        },
+        "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+        "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+        "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+      },
+      "fields": {
+        "definition_en": {
+          "before": "divest of the frock; of church officials",
+          "after": "To remove a member of the clergy from their official religious position or status.",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/unfrock",
+            "https://www.merriam-webster.com/dictionary/defrock"
+          ],
+          "reasoning": "Clarify formal removal of clerical role rather than literal clothing removal. Exact verb-level CEFR unproven."
+        },
+        "definition_uz": {
+          "before": "Cherkov xizmatchisini rasman ruhoniylik unvoni va libosidan chetlatmoq.",
+          "after": "Ruhoniyni rasmiy diniy lavozimi yoki maqomidan mahrum etmoq.",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/unfrock",
+            "https://www.merriam-webster.com/dictionary/defrock"
+          ],
+          "reasoning": "Clarify formal removal of clerical role rather than literal clothing removal. Exact verb-level CEFR unproven."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ruhoniylik rutbasidan mahrum etmoq",
+              "translation_id": "abbde535-3e59-5170-9fe3-fe4f92f7fc38"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ruhoniylik rutbasidan mahrum etmoq",
+              "translation_id": "abbde535-3e59-5170-9fe3-fe4f92f7fc38"
+            }
+          ],
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/unfrock",
+            "https://www.merriam-webster.com/dictionary/defrock"
+          ],
+          "reasoning": "Clarify formal removal of clerical role rather than literal clothing removal. Exact verb-level CEFR unproven."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/unfrock",
+            "https://www.merriam-webster.com/dictionary/defrock"
+          ],
+          "reasoning": "Clarify formal removal of clerical role rather than literal clothing removal. Exact verb-level CEFR unproven."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/unfrock",
+            "https://www.merriam-webster.com/dictionary/defrock"
+          ],
+          "reasoning": "Clarify formal removal of clerical role rather than literal clothing removal. Exact verb-level CEFR unproven."
+        }
+      },
+      "synonym_antonym_target_readback_completed": false,
+      "full_seven_field_review_counted": false,
+      "examples_editorial_review_started": false
+    }
+  ],
+  "phase_complete": false,
+  "production_mutation": false,
+  "local_validation": {
+    "initial_before_added_boundary_tests": {
+      "passed": 217,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "final_run": {
+      "passed": 220,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}
