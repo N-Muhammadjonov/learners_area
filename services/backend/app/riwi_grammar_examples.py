@@ -20,7 +20,9 @@ async def reply(conn, actor, message, locale, broker):
     topic = next((t for t in ('present simple', 'past simple', 'present continuous', 'present perfect') if t in q), None)
     if not topic:
         return None
-    out = await broker.execute(conn, actor=actor, tool_name='dictionary.lookup', raw_input={'term': term, 'locale': locale})
+    meaning = VERBS[term][4] + 'moq'
+    out = await broker.execute(conn, actor=actor, tool_name='dictionary.lookup', raw_input={
+        'term': term, 'locale': locale, 'partOfSpeech': 'verb', 'meaningUz': meaning})
     if not out.get('resolved') or out.get('partOfSpeech', '').lower() not in ('verb', 'v'):
         return {'answer': ('So‘zning fe’l ma’nosi lug‘atda tasdiqlanmadi. Uni noto‘g‘ri shaklda gapga joylamayman; aniq so‘z va ma’noni yozing.' if locale == 'uz' else
             'I could not verify the verb sense in the dictionary. I will not invent its forms; specify the word and intended sense.'),

@@ -21,7 +21,7 @@ class RiwiDomainToolError(ValueError):
 def _validate_dictionary_input(raw: Any) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise ValueError("invalid_input")
-    allowed = {"term", "occurrenceId", "locale"}
+    allowed = {"term", "occurrenceId", "locale", "partOfSpeech", "meaningUz"}
     if set(raw.keys()) - allowed:
         raise ValueError("invalid_input")
     term = str(raw.get("term") or "").strip().lower()
@@ -32,8 +32,14 @@ def _validate_dictionary_input(raw: Any) -> dict[str, Any]:
         raise ValueError("invalid_input")
     if len(term) > 80:
         raise ValueError("invalid_input")
+    pos = raw.get("partOfSpeech")
+    meaning = raw.get("meaningUz")
+    if pos not in (None, "verb") or (meaning is not None and
+        (pos != "verb" or not isinstance(meaning, str) or not meaning.strip() or len(meaning) > 80)):
+        raise ValueError("invalid_input")
     locale = "en" if str(raw.get("locale") or "uz").lower() == "en" else "uz"
-    return {"term": term, "occurrenceId": occ.lower() if isinstance(occ, str) else None, "locale": locale}
+    return {"term": term, "occurrenceId": occ.lower() if isinstance(occ, str) else None, "locale": locale,
+            "partOfSpeech": pos, "meaningUz": meaning.strip() if meaning is not None else None}
 
 
 def _validate_dictionary_output(raw: Any) -> dict[str, Any]:
@@ -63,11 +69,21 @@ async def lookup_canonical_dictionary(conn: Any, actor: RiwiActor, data: dict[st
                         SELECT 1 FROM jsonb_array_elements(e.payload->'senses') s WHERE s->>'sense_id'=m.sense_id::text)))
                     WHERE o.id=$1::uuid LIMIT 1""",occ_id,release)
             else:
-                found=await conn.fetchrow("SELECT lexeme_id FROM dictionary_entries WHERE release_id=$1 AND lemma_norm=$2 ORDER BY part_of_speech,lexeme_id LIMIT 1",release,normalize_search(term))
+                verb_filter = " AND part_of_speech IN ('v','verb')" if data.get('partOfSpeech') == 'verb' else ""
+                found=await conn.fetchrow("SELECT lexeme_id FROM dictionary_entries WHERE release_id=$1 AND lemma_norm=$2" + verb_filter + " ORDER BY part_of_speech,lexeme_id LIMIT 1",release,normalize_search(term))
             value=await entry(conn,found['lexeme_id'],release) if found else None
-            if value:
+            if value and value['senses'] and (not data.get('partOfSpeech') or value['part_of_speech'] in ('v', 'verb')):
                 selected=str(found.get('sense_id') or '')
-                sense=next((s for s in value['senses'] if s['sense_id']==selected),None) if selected else next(iter(value['senses']),None)
+                from .dictionary_reader_metadata import details
+                order = details(value)['senseOrder']
+                senses = {s['sense_id']: s for s in value['senses']}
+                candidates = [senses[selected]] if selected in senses else ([] if selected else [senses[sid] for sid in order])
+                # Grammar generation requests a reviewed meaning. Never use an
+                # unrelated first sense (e.g. spell vs write) or override an
+                # occurrence's bound sense. Dictionary content stays immutable.
+                meaning = data.get('meaningUz')
+                sense=next((s for s in candidates if not meaning or any(
+                    normalize_search(t['text']) == normalize_search(meaning) for t in s['translations'])), None)
                 if sense:
                     row={'id':value['lexeme_id'],'headword':value['display_lemma'],'part_of_speech':value['part_of_speech'],
                          'definition_en':sense['definition_en'],'definition_uz':', '.join(x['text'] for x in sense['translations']),

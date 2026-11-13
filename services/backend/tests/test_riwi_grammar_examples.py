@@ -14,6 +14,8 @@ async def test_dictionary_verified_sense_generates_supported_tense_examples():
     assert all(x in result['answer'] for x in ('I wrote a letter.', 'She wrote a letter.', 'They wrote a letter.'))
     assert result['provider']['senseId'] == 'verified'
     assert broker.execute.call_args.kwargs['raw_input']['term'] == 'write'
+    assert broker.execute.call_args.kwargs['raw_input']['partOfSpeech'] == 'verb'
+    assert broker.execute.call_args.kwargs['raw_input']['meaningUz'] == 'yozmoq'
 
 
 @pytest.mark.asyncio
