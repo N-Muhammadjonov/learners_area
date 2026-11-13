@@ -13,7 +13,7 @@ test('public login eagerly includes the landing document in the same module grap
  assert.match(source,/frame\.srcdoc=LANDING_HTML/);
  assert.match(source,/frame\.setAttribute\('loading','eager'\)/);
  assert.match(routes,/pattern:"\/landing",load:\(\)=>import\('\.\.\/modules\/auth\/public\.js'\)/);
- assert.match(read('../index.html'),/Birinchi marta keldingizmi\? <a href="\/register"/);
+ assert.match(read('../index.html'),/class="la-static-landing"/);
 });
 
 test('landing is public and inline scripts inherit the server nonce',()=>{
@@ -27,8 +27,8 @@ test('landing routes are canonical and the current mouse lighting remains unchan
  assert.match(LANDING_HTML,/href="\/login"/);
  assert.match(LANDING_HTML,/href="\/register"/);
  assert.doesNotMatch(LANDING_HTML,/https:\/\/learnersarea\.uz\/#\/(?:login|register)/);
- assert.match(LANDING_HTML,/rgba\(76,169,255,\.5346\)/);
- assert.match(LANDING_HTML,/rgba\(80,170,255,\.2025\)/);
+ assert.match(LANDING_HTML,/rgba\(50,222,208,\.5346\)/);
+ assert.match(LANDING_HTML,/rgba\(50,222,208,\.2025\)/);
  assert.match(LANDING_HTML,/la:landing:navigate/);
  assert.match(LANDING_HTML,/id="bandJourney"/);
  assert.match(LANDING_HTML,/data-locale="en"/);
@@ -105,4 +105,15 @@ test('site root uses the shared landing, while login and registration keep their
  assert.match(LANDING_HTML,/<a class="hn" href="\/register">/);
  assert.match(LANDING_HTML,/@media\(min-width:861px\)\{\.hero h1 \.rot\{display:block\}\}/);
  assert.match(LANDING_HTML,/\.rot\.o\{opacity:0;transform:translateY\(\.25em\);filter:blur\(8px\)\}/);
+});
+
+test('server-rendered public first paint shows landing, not login',()=>{
+ const initial=read('../index.html');
+ const firstPaint=initial.split('<!--public-content-start-->')[1]?.split('<!--public-content-end-->')[0];
+ assert(firstPaint,'Missing static public fallback');
+ assert.match(firstPaint,/class="la-static-landing"/);
+ assert.match(firstPaint,/Darajangizni aniqlang/);
+ assert.match(firstPaint,/Birinchi marta keldingizmi\?/);
+ assert.match(firstPaint,/href="\/register"/);
+ assert.doesNotMatch(firstPaint,/la-static-login|Telegram orqali davom etish|Xush kelibsiz/);
 });
