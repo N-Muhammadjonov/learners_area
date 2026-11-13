@@ -8,4 +8,4 @@ async def exam_gate(con,user,test_id):
     # Staff can inspect all Listening activities even if they have an unfinished exam.
     # Learner exam integrity is unchanged; staff practice does not alter exam scores.
     required=not staff and (active or not (row and row['status']=='completed'))
-    return required,str(row['id']) if active else None
+    return required,str(row['id']) if (active and not staff) else None
