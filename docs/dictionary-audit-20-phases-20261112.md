@@ -688,7 +688,7 @@ Avvalgi UI commit `86be7f1c1cd5402945335c3cc5cff5db516129f8` uchun GitHub Action
 
 `unsmooth` uchun yangi antonym: `smooth` (`0faf5d86-48f5-5881-8903-41e494caa336` / `0ca93477-2e12-4db3-a65f-245bb18cf933`). Uning aynan sirt ma’nosi qo‘shimcha R2 readback, content SHA va barcha source sense IDlar bilan tekshirildi; boshqa 7 smooth ma’nosi ulanmagan. `astomatal` yoki `lepidopterology` uchun nishon ID topilmagani sabab hech qanday UUID to‘qib kiritilmagan.
 
-Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json`. Mahalliy backend: **179 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar tekshiruvi boshlanmagan; 9-bosqich va 20 bosqichlik umumiy audit ochiq.
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json`. Mahalliy backend: **179 passed / 0 failed / 0 skipped / 1 warning**. Ushbu davom ettirishda misol gaplar tekshiruvi boshlanmagan; 9-bosqich va 20 bosqichlik umumiy audit ochiq.
 
 ### 1 710-leksema — abide ikki ma’nosi va bog‘langan ibora grammatikasi
 
@@ -701,3 +701,9 @@ Bog‘langan `put up`ning faqat chidash ma’nosi (`4a632a8d-26ed-5eb1-8ba5-bf0e
 Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json`. Mahalliy backend: **181 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar o‘zgarmagan.
 
 Avvalgi `9fee9ae0e72b68f5d1df24602c73255a7c60f923` uchun GitHub Actions `43360491308`: **179 backend + 20 DOM testi PASS**, 0 fail/skip; Vercel shu commit uchun 0 deployment qaytardi. Dalil: `content/dictionary/audit-20261113-validation-9fee9ae0.json`.
+
+### Tasdiqlangan davom ettirish checkpointi
+
+`973c0af1a83c40fa88b5a805ccfc26d4232afd97` uchun GitHub Actions `43361620298`: **181 backend testi + 20 DOM interaction testi PASS**, 0 failed / 0 skipped, 1 backend ogohlantirishi; compile PASS. Vercel API aynan shu SHA uchun **0 deployment** qaytardi. Dalil: `content/dictionary/audit-20261113-validation-973c0af1.json`.
+
+Joriy holat: 1 730 ketma-ket source leksema / 2 932 source ma’no; ushbu davom ettirishning alohida til maydonlari hujjatlarida 10 leksema / 13 ma’no / 91 qaror. **To‘liq tugagan bosqich — 0/20.** Oldingi branchdagi 233 example correction yozuvi saqlangan; ushbu davom ettirishda ularga yangi tahrir kiritilmagan. Keyingi lexical ma’no — `arles` (1 711-leksema); joriy 30 talik source guruhining yana 20 leksema / 35 ma’nosi bo‘yicha barcha maydon qarorlari hali yozilmagan. Keyin oldingi bosqichlarning tugamagan lingvistik qamrovi ham yopilishi kerak.
