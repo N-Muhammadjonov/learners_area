@@ -56,6 +56,22 @@ def presentation(candidate,release):
       'dictionary':{'lexemeId':e['lexeme_id'],'senseId':s['sense_id'],'releaseId':release}}
 
 
+
+async def with_saved_sense(con,user,result):
+    """Attach only the requesting user's already-saved exact dictionary sense."""
+    contextual=result.get('contextual')
+    dictionary=contextual.get('dictionary') if isinstance(contextual,dict) else None
+    identifier=core.uuid_value(dictionary.get('senseId')) if isinstance(dictionary,dict) else None
+    if not identifier:
+        return result
+    owned=await con.fetchrow("""SELECT v.id,v.mastery
+       FROM dictionary_sense_mappings m JOIN user_vocabulary v
+       ON v.lexeme_id=m.app_sense_id
+       WHERE m.sense_id=$1 AND v.user_id=$2 LIMIT 1""",identifier,user['id'])
+    return {**result,'known':{'id':str(owned['id']),'mastery':owned['mastery']} if owned else None}
+
+
+
 async def lookup(con,user,attempt_id,word,start,end):
     from .step21_vocabulary_create import resolve_occurrence
     row=await con.fetchrow('''SELECT v.body_text,a.retention_text_version_id FROM retention_attempts a
@@ -76,7 +92,7 @@ async def lookup(con,user,attempt_id,word,start,end):
     key=(release,hashlib.sha256(row['body_text'].encode()).hexdigest(),start,end)
     cached=_cache.get(key)
     if cached and time.monotonic()-cached[0]<3600:
-        _cache.move_to_end(key);return cached[1]
+        _cache.move_to_end(key);return await with_saved_sense(con,user,cached[1])
     norm=normalize_search(word)
     index=await con.fetchrow("""SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->'EN:*',
       CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) directory
@@ -105,7 +121,7 @@ async def lookup(con,user,attempt_id,word,start,end):
       'contextual':None,'known':None,'alternatives':[presentation(c,release) for c in candidates[:12]]}
     _cache[key]=(time.monotonic(),result)
     while len(_cache)>1024:_cache.popitem(last=False)
-    return result
+    return await with_saved_sense(con,user,result)
 
 
 async def lookup_source_text(con, user, body, word, start, end):
@@ -119,7 +135,7 @@ async def lookup_source_text(con, user, body, word, start, end):
     cached = _cache.get(key)
     if cached and time.monotonic() - cached[0] < 3600:
         _cache.move_to_end(key)
-        return cached[1]
+        return await with_saved_sense(con,user,cached[1])
     norm = normalize_search(word)
     if not norm:
         return None
@@ -155,4 +171,4 @@ async def lookup_source_text(con, user, body, word, start, end):
     _cache[key] = (time.monotonic(), result)
     while len(_cache) > 1024:
         _cache.popitem(last=False)
-    return result
+    return await with_saved_sense(con,user,result)
