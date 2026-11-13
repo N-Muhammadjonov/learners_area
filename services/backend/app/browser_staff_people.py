@@ -121,7 +121,7 @@ async def read(req, user, kind, q):
             # Verified phone numbers and presence are visible to the owner only.
             phone = "CASE WHEN tc.phone_verified_at IS NOT NULL THEN tc.phone_number END" if user['role']=='owner' else 'NULL::text'
             if user['role']=='owner':
-                last_active='u.last_active_at';presence=f"{online} AS online,a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,(a.payload->>'totalSeconds')::bigint AS total_seconds";ordering="coalesce(a.created_at,u.last_active_at) DESC NULLS LAST,"
+                last_active='u.last_active_at';presence=f"{online} AS online,a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,(a.payload->>'totalSeconds')::bigint AS total_seconds";ordering="GREATEST(a.created_at,u.last_active_at) DESC NULLS LAST,"
             else:
                 last_active='NULL::timestamptz AS last_active_at';presence='NULL::boolean AS online,NULL::timestamptz AS seen_at,NULL::int AS visit_seconds,NULL::bigint AS total_seconds';ordering=''
             rows = await con.fetch(f"""SELECT u.id,u.name,u.email,u.role,u.account_status,u.status_reason,u.created_at,{last_active},
