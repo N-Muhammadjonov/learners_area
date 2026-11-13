@@ -72,6 +72,13 @@ test('Review displays the original source questions without fabricating Test 10 
  }
 });
 
+test('Test 10 Review uses verified original full-Part audio rather than a fabricated question clip',()=>{
+ const code=readFileSync(new URL('frontend/vanilla/modules/listening/review-v16.js',root),'utf8');
+ assert.match(code,/Listen to full Part audio/);
+ assert.match(code,/playWindow\(data\.start,data\.end,button\)/);
+ assert.doesNotMatch(code,/button\.disabled=true;button\.removeAttribute\('onclick'\)/);
+});
+
 test('all other Listening reviews still enforce complete source and precise question audio windows',()=>{
  const broken={...data,test_id:'listening-test-11'};
  assert.throws(()=>reviewMaterial(broken,1),/Review feedback or question mapping unavailable/);
