@@ -144,7 +144,22 @@ function retentionSession(context,initial,onTerminal){
  const state={payload:initial,selected:'A2',busy:false,error:null,unknown:false,rechecking:false,refreshFailed:false,skew:initial?Date.parse(initial.serverNow)-Date.now():0};
  let ticker=null,poll=null,inFlight=null;
  const alive=()=>!signal.aborted;
- signal.addEventListener('abort',()=>{clearInterval(ticker);clearInterval(poll);},{once:true});
+ // Abandon only unfinished attempts when a user leaves this route.
+ // The route signal is already aborted, therefore use a keepalive request.
+ let abandonSent=false;
+ function abandon(){
+  const attempt=state.payload;
+  if(abandonSent||!attempt||!isActive(attempt)||!attempt.attemptId)return;
+  abandonSent=true;
+  void fetch(`/api/retention/attempts/${encodeURIComponent(attempt.attemptId)}/abandon`,{
+   method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',keepalive:true,
+  }).catch(()=>{});
+ }
+ const onPageHide=()=>abandon();
+ window.addEventListener('pagehide',onPageHide);
+ signal.addEventListener('abort',()=>{
+  clearInterval(ticker);clearInterval(poll);window.removeEventListener('pagehide',onPageHide);abandon();
+ },{once:true});
  const errorText=code=>(code&&t.errors[code])||t.errors.retention_unavailable;
  const banner=msg=>el('p',{class:'panel border-signal-300 text-sm text-signal-700',role:'alert','data-retention-error':true},msg);
  function setPayload(next){state.payload=next;if(next?.serverNow)state.skew=Date.parse(next.serverNow)-Date.now();draw();
