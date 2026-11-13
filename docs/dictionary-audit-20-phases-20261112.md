@@ -766,3 +766,14 @@ Joriy 48 ma’noning CEFR holati: **33 null, 1 A2, 1 B1, 6 B2, 2 C1, 5 C2**. Bul
 **0/20 bosqich to‘liq tugagan.** Jami yangi yetti maydonli qamrov 30 leksema / 48 ma’no / 336 qaror; bu so‘zlarning examples auditi hali tugamagan. Keyin 9-bosqichning oldingi 1–1 700 leksemalaridagi yetishmayotgan lingvistik qamrov to‘ldiriladi. Birinchi o‘nlik `hold fast` → `countermand` (10 leksema / 11 ma’no): eski receiptlar to‘liq entry o‘rniga qisqa projection saqlagani uchun asl ma’lumot tekshiruv uchun mahalliy nusxaga boyitildi. Barcha IDlar, original meaning SHA, UZ qiymatlari va offsetlari eski receiptga mos; bu yangi lingvistik tasdiq yoki yangi readback coverage deb sanalmagan. Ular bo‘yicha yetti maydonli qarorlar hali yozilmagan.
 
 Main merge/push, production DB/R2 write va release/deploy bajarilmadi. Draft PR saqlangan. Merge ruxsati barcha 20 bosqich va examples amalda tugagachgina so‘raladi.
+
+
+### Oldingi 1–10-leksemalarning yetishmayotgan til maydonlari
+
+`hold fast` → `countermand`: **10 leksema / 11 ma’no / 77 maydon qarori**. Mavjud 1 730 leksema / 2 932 ma’no source readbackiga **0** qo‘shildi. Birinchi 200 talik tarixiy receipt o‘zgarmagan; to‘liq original entrylar bilan boyitilgan nusxa oldingi ID, meaning SHA, UZ qiymatlari va offsetlarga mosligi tekshirildi. Jami yangi batafsil yetti maydonli qamrov **40 leksema / 59 ma’no / 413 qaror** bo‘ldi, barcha bosqichlar bo‘yicha tugash holati esa hamon **0/20**.
+
+`brand-name drug`ning patent doimo amalda bo‘lishi shart degan noto‘g‘ri EN/UZ ta’rifi savdo nomi va patent farqi bilan tuzatildi. `sound system`ning aynan tilshunoslik ma’nosi saqlandi va UZ ta’rifi to‘ldirildi; audio uskunasi ma’nosiga o‘tkazilmadi. `visual impact` EN/UZ ta’rifi ravshanlandi. `amicableness` ot sifatida do‘stonalik xususiyatini ifodalaydi; tarjima aniqlandi. Dalilsiz 6 ta CEFR null qilindi, 5 ta avvalgi null saqlandi; boshqa so‘z yoki ma’noning darajasi ko‘chirilmagan.
+
+24 ta original target leksema 24 shardan tekshirildi. 23 mavjud synonym qirrasi aynan source/target sense ID bilan bog‘landi; `delectable`ning 4 ta ta’m sinonimi joziba ma’nosidagi yagona sinonimdan alohida. `affranchise`ning ozodlik berish ma’nosiga `enslave`ning qullikka solish ma’nosi antonim sifatida qo‘shildi; saylov huquqiga oid ma’noga ulanmagan. Uchta dalilli collocation qo‘shildi; oldingi delectable/countermand collocationlari qayta tuzatish sifatida sanalmadi.
+
+Dalillar: `content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json` va `content/dictionary/audit-20261113-phase09-lexical-decisions-backfill-0001-0010.json`. Dastlabki regression run: **188 passed / 1 failed** — eski test fixture target so‘z turkumini tashlab ketgan. Test haqiqiy canonical entry bilan ishlashga tuzatildi, production guard yumshatilmadi. Yakuniy mahalliy run: **191 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplarga yangi tahrir kiritilmadi; source/production/main o‘zgarmagan.

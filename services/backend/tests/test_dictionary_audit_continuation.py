@@ -293,6 +293,64 @@ def test_damage_financial_usage_preserves_physical_and_legal_harm_senses():
             assert old == new
 
 
+def test_backfill_source_enrichment_preserves_historical_receipt_and_canonical_identities():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
+    historical_path = ROOT / report['historical_receipt']
+    assert hashlib.sha256(historical_path.read_bytes()).hexdigest() == report['historical_receipt_sha256']
+    historical = {e['lexeme_id']: e for e in json.loads(historical_path.read_text())['lexemes']}
+    assert report['scope']['new_source_readback_lexemes'] == report['scope']['new_source_readback_senses'] == 0
+    for originals, projection in ((report['lexemes'], report['source_projection']),
+                                  (report['target_entries'], report['target_projection'])):
+        rows = {e['lexeme_id']: e for e in projection}
+        assert len(rows) == len(originals)
+        for entry in originals:
+            row = rows[entry['lexeme_id']]
+            assert hashlib.sha256(stable({k: v for k, v in entry.items() if k != 'release_id'}).encode()).hexdigest() == row['content_sha']
+            assert set(row['sense_ids']) == {s['sense_id'] for s in entry['senses']}
+    for entry in report['lexemes']:
+        old = historical[entry['lexeme_id']]
+        assert entry['display_lemma'] == old['lemma'] and entry['part_of_speech'] == old['part_of_speech']
+        assert {s['sense_id'] for s in entry['senses']} == {s['sense_id'] for s in old['senses']}
+        for sense in entry['senses']:
+            previous = next(s for s in old['senses'] if s['sense_id'] == sense['sense_id'])
+            assert curation.original_meaning_hash(entry, sense) == previous['meaning_sha']
+            assert sense['definition_uz'] == previous['definition_uz']
+            assert sense['translations'][0]['text'] == previous['translation_uz']
+            assert sense.get('cefr') == previous['cefr']
+
+
+def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
+    targets = {e['lexeme_id']: e for e in report['target_entries']}
+    for entry in report['lexemes']:
+        frozen = copy.deepcopy(entry)
+        candidate = curation.curate_candidate_entry(entry)
+        assert entry == frozen
+        assert [s['examples'] for s in entry['senses']] == [s['examples'] for s in candidate['senses']]
+        matches = [r for r in report['existing_relation_matches'] if r['source_lexeme_id'] == entry['lexeme_id']]
+        for match in matches:
+            target = targets[match['target_lexeme_id']]
+            target_sense = next(s for s in target['senses'] if s['sense_id'] == match['target_sense_id'])
+            source_sense = next(s for s in entry['senses'] if s['sense_id'] == match['source_sense_id'])
+            assert target_sense['definition_en'] == source_sense['definition_en'] == match['target_definition_en']
+            edge = [r for r in candidate['relations'] if r['relation_type'] == 'synonym'
+                    and r['target_lexeme_id'] == target['lexeme_id'] and r['target_sense_id'] == target_sense['sense_id']]
+            assert len(edge) == 1 and edge[0]['source_sense_id'] == source_sense['sense_id']
+        if entry['display_lemma'] == 'delectable':
+            views = present(candidate)['senses']
+            assert {s['text'] for s in views['8a28124b-3139-4265-88fc-1bf7f53594f6']['synonyms']} == {'delicious', 'luscious', 'scrumptious', 'yummy'}
+            assert {s['text'] for s in views['f479ba8d-fdf3-4cb4-b48a-3156dc1409c9']['synonyms']} == {'sexually attractive'}
+        elif entry['display_lemma'] == 'affranchise':
+            proof = report['new_antonym_target']
+            target = targets[proof['target_lexeme_id']]
+            sense = next(s for s in target['senses'] if s['sense_id'] == proof['target_sense_id'])
+            assert sense['definition_en'] == 'make a slave of; bring into servitude'
+            assert curation.original_meaning_hash(target, sense) == proof['target_meaning_sha']
+            edge = [r for r in candidate['relations'] if r['relation_type'] == 'antonym']
+            assert [(r['source_sense_id'], r['target_lexeme_id'], r['target_sense_id']) for r in edge] == [
+                (proof['source_sense_id'], proof['target_lexeme_id'], proof['target_sense_id'])]
+
+
 def test_unproven_levels_become_null_without_clearing_evidenced_or_unreviewed_senses():
     assert curation.curate_candidate_entry(source('mottle'))['senses'][0].get('cefr') is None
     quart = curation.curate_candidate_entry(source('quart'))

@@ -1127,6 +1127,12 @@ def test_phase09_first_200_source_receipt_and_targeted_repairs() -> None:
         word = by_lemma[lemma]
         assert word["lexeme_id"] in patches
 
+    full_sources = {}
+    for full_path in path.parent.glob("audit-*-phase09-source-enrichment-*.json"):
+        enriched = json.loads(full_path.read_text(encoding="utf-8"))
+        if enriched["historical_receipt"] == path.relative_to(path.parents[2]).as_posix():
+            full_sources.update({item["lexeme_id"]: item for item in enriched["lexemes"]})
+
     for word in report["lexemes"]:
         if word["lexeme_id"] not in patches:
             continue
@@ -1166,6 +1172,9 @@ def test_phase09_first_200_source_receipt_and_targeted_repairs() -> None:
                 for c in word["collocations"]
             ],
         }
+        # Historical projections omit target POS and full example objects.
+        # Keep the production scope guards strict and use verified source data.
+        original = copy.deepcopy(full_sources.get(word["lexeme_id"], original))
         immutable = copy.deepcopy(original)
         candidate = curate_candidate_entry(original)
         assert original == immutable

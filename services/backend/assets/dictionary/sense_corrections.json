@@ -24,6 +24,51 @@
           {
             "text": "delectable cheesecake"
           }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "scope_synonyms": [
+          {
+            "text": "delicious",
+            "lexemeId": "268377d7-fd31-5f61-ac31-b221cf76bed8",
+            "senseId": "59f73e3e-45d4-4d62-9847-4cf337e397ae",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "luscious",
+            "lexemeId": "e28bf0c4-6749-553a-b2cc-57ed7c04da09",
+            "senseId": "06ec2365-fd25-4351-b1bf-3db6707bfc86",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "scrumptious",
+            "lexemeId": "96edf145-6384-5aad-b852-35a6d188d229",
+            "senseId": "4ec21c38-28f6-4914-b4ad-9b104f700f4d",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "yummy",
+            "lexemeId": "4e141c2d-e0ea-5471-8edc-5597c7280bae",
+            "senseId": "95ebace7-683a-4c21-b4ed-f4e6ac5851f8",
+            "partOfSpeech": "a"
+          }
+        ]
+      },
+      "f479ba8d-fdf3-4cb4-b48a-3156dc1409c9": {
+        "meaning_sha": "6074d412bdb7d3687e804ec37d65a25e6478a88d4d96461d5194f0776e91caf2",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "scope_synonyms": [
+          {
+            "text": "sexually attractive",
+            "lexemeId": "6d7f510c-1b52-504c-ad98-73bc266acd57",
+            "senseId": "0ae3fd37-64c3-5e04-ad73-8ea87c2de1ec",
+            "partOfSpeech": "a"
+          }
         ]
       }
     },
@@ -50,6 +95,60 @@
         "add_collocations": [
           {
             "text": "countermand an order"
+          }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "scope_synonyms": [
+          {
+            "text": "annul",
+            "lexemeId": "b272a065-d0e8-587e-925b-307052ad78f4",
+            "senseId": "9117a821-728b-4592-a9a0-1f95d3209267",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "lift",
+            "lexemeId": "ccaba4d4-d98d-57ba-ad2e-4c1174e77ca4",
+            "senseId": "3aafd90b-4cc9-5070-ac92-477e4f468e93",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "overturn",
+            "lexemeId": "87616fec-b991-52c8-a476-5650278a20f8",
+            "senseId": "fae68a7b-54d3-4555-a430-34d361eaa256",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "repeal",
+            "lexemeId": "4d294ff9-d879-5db3-afc0-36a8a5456d6f",
+            "senseId": "d2b38fee-0bac-417b-a116-ed1b2b34934e",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "rescind",
+            "lexemeId": "cd50db73-1d15-5465-869f-84ac8437865d",
+            "senseId": "5b43b8f5-5568-4839-ab2a-468053dce671",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "reverse",
+            "lexemeId": "e387b787-b194-5a51-91ed-a08f2af8c28a",
+            "senseId": "75987d4c-4589-476d-9814-b6e6e95764b7",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "revoke",
+            "lexemeId": "976261d0-e00d-50fb-b136-b4c8e4cc0068",
+            "senseId": "b0a0567c-671e-40a0-8417-d35ddbf93970",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "vacate",
+            "lexemeId": "363bfa1d-8531-5dc2-b993-d625d89dff9e",
+            "senseId": "6636e283-1b95-4047-b047-e1d8c9135171",
+            "partOfSpeech": "v"
           }
         ]
       }
@@ -2489,6 +2588,181 @@
         "add_collocations": [
           {
             "text": "what’s the damage?"
+          }
+        ]
+      }
+    },
+    "6568847e-1b29-5ff7-b104-60393188df8e": {
+      "837c0d04-016a-55ec-a735-0496b50b7752": {
+        "meaning_sha": "3b4ff0fcae84086f94643b8ca7a79bd7d4a565dc893d848461cc6b4ae9e0f9be",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "scope_synonyms": [
+          {
+            "text": "adhere",
+            "lexemeId": "b5fcda8d-bb59-590f-a83d-6c591ea63644",
+            "senseId": "d785c7f9-a8f7-5fc2-8143-e52113b68051",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "bind",
+            "lexemeId": "512afc95-35aa-553d-9465-1d9953c1cb57",
+            "senseId": "bcc6ef84-3dbe-4150-b64b-5de8a977e7a5",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "bond",
+            "lexemeId": "cf8ecd42-6cc3-5e7a-b9db-a7a159feba90",
+            "senseId": "60ee90c0-89fe-4a1f-9008-dd2c2e4df0ee",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "stick",
+            "lexemeId": "35d934fc-f30c-5aae-989a-16df8279653a",
+            "senseId": "435cdbd7-5704-4988-89e7-177b929b5e92",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "stick to",
+            "lexemeId": "1952b0ea-4ee9-57f8-b327-50e1e4d72175",
+            "senseId": "e2696dd5-c150-5df0-bc9e-5a7dd5028876",
+            "partOfSpeech": "v"
+          }
+        ]
+      }
+    },
+    "6568f383-9e76-5cf2-8622-2a4916fbb937": {
+      "3a20a1ca-f49a-5e00-bd8b-341448a6ffa9": {
+        "meaning_sha": "2cde39c33813bf59a39b1be5fbbbd304cf75e72fea37ef50697d4bc9c80f0329",
+        "replace_cefr": {
+          "original": "B2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a drug that has a trade name and is protected by a patent (can be produced and sold only by the company holding the patent)",
+          "text": "A medicine sold using a company's protected trade name, whether or not a patent on the medicine remains in force."
+        },
+        "replace_definition_uz": {
+          "original": "Savdo nomiga ega va patent bilan himoyalangan, odatda patent egasi kompaniya ishlab chiqaradigan dori.",
+          "text": "Tovar belgisi bilan himoyalangan savdo nomi ostida sotiladigan dori; uning patenti hali amalda bo‘lishi shart emas."
+        }
+      }
+    },
+    "656c7ebe-a5ba-5a68-b1d4-a5e0fd553ec0": {
+      "c9861d39-7699-5ccd-a188-45d7a20dab2c": {
+        "meaning_sha": "d787796b390564200cc236c291f0738fa7bb7ce035d5c8f506f36ba65fd7d385",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        }
+      }
+    },
+    "656d9d34-7d6a-4230-a489-e68bbcad76a7": {
+      "bd2f8786-98de-4707-9a0f-7330827cbfab": {
+        "meaning_sha": "e6b3b172e3c846514fbf8177182f4a1593f1f2a180964553d7d8bf6275d1b3e2",
+        "replace_definition_uz": {
+          "original": "tilning tovush tizimi",
+          "text": "Tilga xos nutq tovushlari va ularning birikish tartibidan iborat tizim."
+        },
+        "add_collocations": [
+          {
+            "text": "sound system of a language"
+          }
+        ]
+      }
+    },
+    "65700dea-c5bd-4747-b069-eb958e8d2524": {
+      "d095acda-ffbd-4ed9-99ef-2b7c3632edec": {
+        "meaning_sha": "cf7e8771a2ce5673a4aeba75b3b09dd1be18439a466ed80b9d229b61ed9536f3",
+        "replace_definition_en": {
+          "original": "visual effect on an audience",
+          "text": "The effect that something's appearance has on the people who see it."
+        },
+        "replace_definition_uz": {
+          "original": "vizual ta’sir",
+          "text": "Biror narsaning ko‘rinishi uni ko‘rgan odamlarga qanday ta’sir qilishi."
+        },
+        "add_collocations": [
+          {
+            "text": "huge visual impact"
+          }
+        ]
+      }
+    },
+    "6571434e-17d4-588a-b95b-db4f97be4f0a": {
+      "662854ba-a44f-5076-8bce-6102a48c2b22": {
+        "meaning_sha": "baae66228c2979fe7657d164f429f1f89449430cb82dc06a17b7fbeb79f498ab",
+        "add_collocations": [
+          {
+            "text": "an unhoped-for advantage"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "unhoped",
+            "lexemeId": "fb3688bc-f775-52f5-badd-56696439715b",
+            "senseId": "6404c343-80cb-566d-b583-f536b8e6788f",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "unthought",
+            "lexemeId": "ed65f93c-0ac3-57ee-8e1c-8e68d437c32f",
+            "senseId": "f0217ed2-62a2-54af-a736-eb08b54895c0",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "unthought-of",
+            "lexemeId": "9cac87be-15dd-5960-b84d-e6e18386366a",
+            "senseId": "23ef6497-26fb-51e8-a75b-3b868f1f2476",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "65727037-8d8c-5ee3-9991-b5fe6c272d8d": {
+      "9320ddac-727d-5677-ae89-bbade9022455": {
+        "meaning_sha": "365500a27be9e510d63efe9942e1d7ff2a7efa3950eded1903c364aa106b3daf",
+        "replace_definition_en": {
+          "original": "having a disposition characterized by warmth and friendliness",
+          "text": "The quality of being warm and friendly in relations with others."
+        },
+        "replace_definition_uz": {
+          "original": "Iliq va do'stona muomalaga moyil tabiat.",
+          "text": "Iliq va do‘stona muomalaga moyillik xususiyati."
+        },
+        "replace_translation_uz": {
+          "original": "mehribonlik",
+          "text": "do‘stonalik"
+        },
+        "scope_synonyms": [
+          {
+            "text": "amicability",
+            "lexemeId": "12290dbe-60a1-52ce-9e3b-f5c6cccf6155",
+            "senseId": "97a20225-49c0-5c76-816f-2f375413f5f1",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6571fcdb-cfe5-518c-a30f-d5f69215c970": {
+      "f463e708-a119-5705-99b2-19d6e5f8a14e": {
+        "meaning_sha": "a089029b283d8b16bfebb44107ff9ba522ee7d97a9697f8b4eff2c14d1f8c534",
+        "scope_synonyms": [
+          {
+            "text": "enfranchise",
+            "lexemeId": "67d17e62-0168-5212-aeca-91e1b12f6f2d",
+            "senseId": "8e32f6b9-a603-5b20-95aa-d9377e0cabda",
+            "partOfSpeech": "v"
+          }
+        ],
+        "add_antonyms": [
+          {
+            "text": "enslave",
+            "lexemeId": "3fddb8bd-d18a-5b9e-8a5d-c25240fa3813",
+            "senseId": "a2c4bdcb-37de-46eb-b1a6-1f70f9b5ba77",
+            "partOfSpeech": "v"
           }
         ]
       }
