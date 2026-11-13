@@ -17,7 +17,7 @@ export function bridge(token, stored, notesLabel, storageKey = 'la_listening_tes
  const link=el.closest('a[href]');if(link){const href=link.getAttribute('href');if(href&&!href.startsWith('#')){e.preventDefault();e.stopImmediatePropagation();send('navigate',{path:href});return;}}
  },true);
  document.addEventListener('dblclick',e=>{
-  if(!ready||e.button!==0||!(e.target instanceof Element))return;
+  if(!ready||e.button!==0||!(e.target instanceof Element)||e.target.closest('[data-la-script-word]'))return;
   const transcript=e.target.closest('#activity-script.active #scriptHost .script-transcript');
   if(!transcript||e.target.closest('input,textarea,button,select,a,[contenteditable],.script-gap-wrap,.script-gap-answer'))return;
   const hit=document.elementFromPoint?.(e.clientX,e.clientY);
