@@ -875,7 +875,7 @@ def test_dictionary_content_excludes_provenance_and_publisher_branding() -> None
     evidence = json.loads(provenance_path.read_text(encoding="utf-8"))
     assert evidence["visibility"] == "audit_only_not_dictionary_content"
     assert evidence["release_id"] == RELEASE
-    assert len(evidence["references"]) == 165
+    assert len(evidence["references"]) == 199
     assert len(evidence["annotations"]) == 12
 
     for reference in evidence["references"]:
@@ -1431,3 +1431,129 @@ def test_phase09_third_500_source_and_exact_sense_corrections() -> None:
             for colloc in result["collocations"]
         }
         assert result["relations"] == before["relations"]
+
+
+def test_phase09_fourth_500_source_and_exact_sense_repairs() -> None:
+    """Immutable source inventory and surgical sense edits for lexemes 1201–1700."""
+    import hashlib
+    from app.dictionary_canonical import stable
+
+    path = (
+        Path(__file__).resolve().parents[3]
+        / "content/dictionary/audit-20261113-phase09-fourth-500-lexemes.json"
+    )
+    report = json.loads(path.read_text(encoding="utf-8"))
+    scope = report["scope"]
+    assert report["schema"] == 1 and report["phase"] == 9
+    assert report["batch"] == "lexemes-1201-1700"
+    assert scope["lexemes"] == 500
+    assert scope["senses"] == 890
+    assert scope["shards"] == {"6a": 221, "6b": 231, "6c": 48}
+    assert scope["first_lexeme_id"] == "6a218520-9c74-5549-a2ca-a4548d06f32b"
+    assert scope["last_lexeme_id"] == "6c38da6c-1d2d-57b3-bdb4-38fa1a8a4c1c"
+    assert scope["missing_cefr"] == 82
+    assert scope["c2"] == 397
+    assert scope["unscoped_relations"] == 1245
+    assert scope["source_missing_translations"] == 0
+    assert scope["source_missing_definition_uz"] == 0
+    assert report["signoff"]["linguistic_external_certification_complete"] is False
+    assert report["signoff"]["production_published"] is False
+    assert report["signoff"]["main_merged"] is False
+    assert len(report["lexemes"]) == 500
+    assert len({w["lexeme_id"] for w in report["lexemes"]}) == 500
+    assert sum(len(w["senses"]) for w in report["lexemes"]) == 890
+    for word in report["lexemes"]:
+        for sense in word["senses"]:
+            content = {
+                "definition": sense["definition_en"],
+                "lemma": word["lemma"],
+                "pos": word["part_of_speech"],
+            }
+            assert hashlib.sha256(stable(content).encode("utf-8")).hexdigest() == sense["meaning_sha"]
+
+    expected_levels = {
+        ("committee", "84398b89-9fca-4d27-827d-881518e85281"): "B2",
+        ("tonight", "35a82d63-dd4a-4dda-9284-f90b4be66ec3"): "A1",
+        ("pricey", "dd616329-2a56-49fa-94d9-9e9f80237e1a"): "B2",
+        ("kebab", "b8d6fb2a-9ffa-48f8-b84d-3dd8d85d4d97"): "B2",
+        ("sequel", "581e179e-c811-4b8a-babf-d069db03cb80"): "C1",
+        ("saying", "6aba55e5-4a0e-427d-84bf-2bd113d8cc29"): "B1",
+        ("orphan", "7fc7746d-e07a-46eb-80b2-d2dc8cd8dc36"): "C1",
+        ("napkin", "e2c9cd82-de5f-44e0-b6f3-584dc1729c03"): "C1",
+        ("e-mail", "93f476ea-6cfd-405b-9177-36afcf333ead"): "A2",
+    }
+    names = {
+        "committee", "tonight", "pricey", "kebab", "sequel", "saying",
+        "orphan", "napkin", "e-mail", "bubble", "invoice",
+    }
+    patches = load_corrections()["entries"]
+    for word in report["lexemes"]:
+        if word["lemma"] not in names:
+            continue
+        original = entry(
+            word["lexeme_id"],
+            word["lemma"],
+            word["part_of_speech"],
+            [
+                (
+                    s["sense_id"],
+                    s["definition_en"],
+                    s["translations"][0]["text"],
+                    s["cefr"],
+                )
+                for s in word["senses"]
+            ],
+            relations=[
+                {
+                    "relation_type": r["type"],
+                    "display_lemma": r["text"],
+                    "target_lexeme_id": r["target_lexeme_id"],
+                    **({"target_sense_id": r["target_sense_id"]}
+                       if r["target_sense_id"] else {}),
+                    **({"source_sense_id": r["source_sense_id"]}
+                       if r["source_sense_id"] else {}),
+                }
+                for r in word["relations"]
+            ],
+            definition_uz_by_sense={
+                s["sense_id"]: s["definition_uz"] for s in word["senses"]
+            },
+        )
+        original["collocations"] = copy.deepcopy(word["collocations"])
+        frozen = copy.deepcopy(original)
+        revised = curate_candidate_entry(original)
+        assert original == frozen
+        assert revised is not original
+        edits = patches[word["lexeme_id"]]
+        for old_sense, new_sense in zip(frozen["senses"], revised["senses"]):
+            sense_id = old_sense["sense_id"]
+            patch = edits.get(sense_id, {})
+            assert original_meaning_hash(frozen, old_sense) == next(
+                s["meaning_sha"] for s in word["senses"]
+                if s["sense_id"] == sense_id
+            )
+            for field in ("definition_en", "definition_uz"):
+                replacement = patch.get("replace_" + field)
+                assert new_sense[field] == (
+                    replacement["text"] if replacement else old_sense[field]
+                )
+            t_patch = patch.get("replace_translation_uz")
+            assert new_sense["translations"][0]["text"] == (
+                t_patch["text"] if t_patch else old_sense["translations"][0]["text"]
+            )
+            c_patch = patch.get("replace_cefr")
+            assert new_sense.get("cefr") == (
+                c_patch["text"] if c_patch else old_sense.get("cefr")
+            )
+            assert new_sense["examples"] == old_sense["examples"]
+            if (word["lemma"], sense_id) in expected_levels:
+                assert new_sense["cefr"] == expected_levels[(word["lemma"], sense_id)]
+        expected_collocations = {
+            (value["text"], sense_id)
+            for sense_id, patch in edits.items()
+            for value in patch.get("add_collocations", [])
+        }
+        assert expected_collocations <= {
+            (c["text"], c.get("sense_id")) for c in revised["collocations"]
+        }
+        assert revised["relations"] == frozen["relations"]

@@ -595,3 +595,23 @@ Independently verified exact-sense repairs:
 **9 exact senses, 7 CEFR changes, 2 collocations**, and 16 field-specific audit-only source references. Existing `circuit` edits are retained untouched, even though this entry falls within the current 500-source range.
 
 No attribution brands, publisher URLs or evidence citations are written to the public dictionary correction JSON. No existing examples, other unrelated senses, published R2 shards, or production Supabase tables are changed. Complete external linguistic certification of every 819 senses remains **unverified**: keep 60 unspecified CEFR values unchanged unless grounded; do not invent links for 1,122 unscoped source relations. No main merge or production release.
+
+
+### Phase 09 — next 500 lexemes (1201–1700), November 13 (candidate-only)
+
+Immutable source interval `6a218520-9c74-5549-a2ca-a4548d06f32b` (`conjunctive`) through `6c38da6c-1d2d-57b3-bdb4-38fa1a8a4c1c` (`fibrillation`). All **500 entries** and **890 senses** were loaded from Cloudflare R2 using release-scoped Supabase offsets and gzip members, across shards `6a` (221 lexemes), `6b` (231), and `6c` (48). The complete 500-record source evidence is versioned at `content/dictionary/audit-20261113-phase09-fourth-500-lexemes.json`. All original `meaning_sha` values are recorded. The read-only source contains **82 unlabeled CEFR senses**, **397 originally graded C2**, **1,245 original synonym/antonym edges without a source-sense identity**, and no completely empty Uzbek definitions or translation arrays.
+
+Verified, exact-sense edits applied in the unpublished correction layer:
+- `committee` (selected decision-making group) A2 → B2, plus `committee meeting`.
+- `tonight` (noun) A2 → A1.
+- `pricey` (expensive, informal) C2 → B2, plus `a bit pricey`.
+- `kebab` (meat and vegetables on a skewer) C1 → B2, plus `shish kebab`.
+- `sequel` (continuation of a published or performed story) C2 → C1, updated English and Uzbek definitions and translation to cover films and series; `sequel to a film`.
+- `saying` (common maxim/idiom) A1 → B1, aligned English and Uzbek definitions and translation, plus `as the saying goes`.
+- `orphan` (child whose parents are dead) B2 → C1, plus `orphan child`.
+- `napkin` (table napkin only) B2 → C1, definitions now cover cloth *or paper*, plus `table napkin`; baby nappy meaning left unchanged.
+- `e-mail` (verb) B2 → A2, aligned English/Uzbek definition and `email a report` phrase.
+- `bubble` (air or gas bubble) English/Uzbek definitions improved, two attested collocations; existing CEFR retained.
+- `invoice` (verb) English/Uzbek definition now specifies bills for goods/services provided, plus `invoice a customer`; existing CEFR retained.
+
+**11 exact-sense records edited**, 9 CEFR edits, 12 English/Uzbek definition field edits, 2 Uzbek translation edits, 11 phrase additions, 34 audit-only evidence references. Brand/source names and links stay exclusively in the private audit provenance, never in public dictionary corrections. Existing examples and unrelated senses remain untouched. Pending full external linguistic verification of all 890 senses and safe review of 1,245 unscoped edges. The working branch is **not** a production release; no R2 or Supabase mutations, no main merge.

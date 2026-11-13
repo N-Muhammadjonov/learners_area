@@ -1167,6 +1167,206 @@
           "text": "Odatda shisha qobiq ichida joylashgan, qiziydigan tolacha yoki LED yordamida elektr energiyasidan yorug‘lik chiqaradigan lampochka."
         }
       }
+    },
+    "6a31fc2a-e27f-536b-aaa3-2f642fa7c2ca": {
+      "84398b89-9fca-4d27-827d-881518e85281": {
+        "meaning_sha": "824f7b16be1df04778a50e5fd47dcd61614ee55c021cd987cdb0278f74a3a3df",
+        "replace_cefr": {
+          "original": "A2",
+          "text": "B2"
+        },
+        "add_collocations": [
+          {
+            "text": "committee meeting"
+          }
+        ]
+      }
+    },
+    "6a370a2f-f9a1-5631-ab8d-92d9f50d0a9d": {
+      "35a82d63-dd4a-4dda-9284-f90b4be66ec3": {
+        "meaning_sha": "4cec9729e79b9170e6bf0f00f9969a91c7c4f434a2c6e6257c588c040ed236f9",
+        "replace_cefr": {
+          "original": "A2",
+          "text": "A1"
+        }
+      }
+    },
+    "6a386ac9-0b13-5814-9793-4db131c44332": {
+      "dd616329-2a56-49fa-94d9-9e9f80237e1a": {
+        "meaning_sha": "43a06437f4c52d3762e836405c4a5913dfce6a157fcce0f0ceae8579605d30e1",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "B2"
+        },
+        "add_collocations": [
+          {
+            "text": "a bit pricey"
+          }
+        ]
+      }
+    },
+    "6af4187b-dfdc-5a4b-ad8f-00861d7ab661": {
+      "b8d6fb2a-9ffa-48f8-b84d-3dd8d85d4d97": {
+        "meaning_sha": "d89a70d209e21378a703fb01b05be63baa8eb15afa67df5d636190f6d640174a",
+        "replace_cefr": {
+          "original": "C1",
+          "text": "B2"
+        },
+        "add_collocations": [
+          {
+            "text": "shish kebab"
+          }
+        ]
+      }
+    },
+    "6ad9de1b-01f5-57c4-8e38-b46777c88649": {
+      "581e179e-c811-4b8a-babf-d069db03cb80": {
+        "meaning_sha": "6630d84e19fb62fd79dd41a2a3cbfecd26be0ac4ab0eba4454c0fd90f8336699",
+        "replace_cefr": {
+          "original": "C2",
+          "text": "C1"
+        },
+        "replace_definition_en": {
+          "original": "a part added to a book or play that continues and extends it",
+          "text": "a book, film, television series or play that continues the story of an earlier work"
+        },
+        "replace_definition_uz": {
+          "original": "Kitob yoki pyesaga qo‘shilib, uning voqealarini davom ettiradigan qism.",
+          "text": "Avvalgi kitob, film, teleserial yoki spektakl voqeasini davom ettiradigan yangi asar."
+        },
+        "replace_translation_uz": {
+          "original": "davomi; sequel",
+          "text": "davom asari; sikvel"
+        },
+        "add_collocations": [
+          {
+            "text": "sequel to a film"
+          }
+        ]
+      }
+    },
+    "6b1bed15-9bf7-5562-b4e0-4f443bdf8bd5": {
+      "6aba55e5-4a0e-427d-84bf-2bd113d8cc29": {
+        "meaning_sha": "df724230c0f5eec278ccf6baf1528ad9993c6cef0c2d745fb5c3386d660c8cd5",
+        "replace_cefr": {
+          "original": "A1",
+          "text": "B1"
+        },
+        "replace_definition_en": {
+          "original": "a word or phrase that particular people use in particular situations",
+          "text": "a well-known phrase or statement expressing an observation or widely accepted idea about life"
+        },
+        "replace_definition_uz": {
+          "original": "Muayyan vaziyatda ma'lum kishilar tomonidan ishlatiladigan odatiy so'z yoki birikma.",
+          "text": "Hayot haqida ko‘pchilik to‘g‘ri yoki dono deb biladigan fikrni ifodalovchi mashhur ibora."
+        },
+        "replace_translation_uz": {
+          "original": "ibora va aytim",
+          "text": "maqol; hikmatli ibora"
+        },
+        "add_collocations": [
+          {
+            "text": "as the saying goes"
+          }
+        ]
+      }
+    },
+    "6a5990d4-4772-57b1-9349-119d73de91bf": {
+      "7fc7746d-e07a-46eb-80b2-d2dc8cd8dc36": {
+        "meaning_sha": "f1638ae6cf76c4d8e02830e63f96eabb3a3e46384a2ac754dd7d37fe48fdaf9e",
+        "replace_cefr": {
+          "original": "B2",
+          "text": "C1"
+        },
+        "add_collocations": [
+          {
+            "text": "orphan child"
+          }
+        ]
+      }
+    },
+    "6c01bbbb-5d6b-5994-8b94-0a85bdc0d965": {
+      "e2c9cd82-de5f-44e0-b6f3-584dc1729c03": {
+        "meaning_sha": "f7f671dcd49534212dcee0a6ff682220c227a1f6ff0076b2d9fb9706e9fb186d",
+        "replace_cefr": {
+          "original": "B2",
+          "text": "C1"
+        },
+        "replace_definition_en": {
+          "original": "a small piece of table linen that is used to wipe the mouth and to cover the lap in order to protect clothing",
+          "text": "a piece of cloth or paper used while eating to protect clothes and wipe the mouth and fingers"
+        },
+        "replace_definition_uz": {
+          "original": "og‘izni artish va kiyimni himoya qilish uchun tizzaga qo‘yiladigan kichik stol matosi",
+          "text": "Ovqatlanish paytida kiyimni himoyalash va og‘iz hamda barmoqlarni artish uchun ishlatiladigan mato yoki qog‘oz salfetka."
+        },
+        "add_collocations": [
+          {
+            "text": "table napkin"
+          }
+        ]
+      }
+    },
+    "6aa1131c-bc16-54d2-917d-aaf5a101e4f0": {
+      "93f476ea-6cfd-405b-9177-36afcf333ead": {
+        "meaning_sha": "c935fde39a84a7e098b84c5403e0a26dd50c6738ed38a8482235a974a4f52e5d",
+        "replace_cefr": {
+          "original": "B2",
+          "text": "A2"
+        },
+        "replace_definition_en": {
+          "original": "communicate electronically on the computer",
+          "text": "send someone a message or document by email"
+        },
+        "replace_definition_uz": {
+          "original": "Kompyuter orqali elektron aloqa qilmoq.",
+          "text": "Biror kishiga elektron pochta orqali xabar yoki hujjat yubormoq."
+        },
+        "add_collocations": [
+          {
+            "text": "email a report"
+          }
+        ]
+      }
+    },
+    "6a9412b6-0473-53fa-bcda-a7ae08e51c23": {
+      "cb103ace-b527-4f7b-b5fc-44e3151b22ff": {
+        "meaning_sha": "6874ca24e52e4637fa85acd0ae24d620cf0d431c1550f93bf9bb94fe1734d910",
+        "replace_definition_en": {
+          "original": "a hollow globule of gas (e.g., air or carbon dioxide)",
+          "text": "a small ball of air or another gas inside a liquid or solid, or enclosed by a thin film of liquid"
+        },
+        "replace_definition_uz": {
+          "original": "Ichida havo, karbonat angidrid yoki boshqa gaz bo‘lgan ichi bo‘sh sharsimon tomchi.",
+          "text": "Suyuqlik yoki qattiq modda ichidagi yoxud suyuqlikning yupqa pardasi bilan o‘ralgan havo yoki boshqa gazning kichik sharsimon pufakchasi."
+        },
+        "add_collocations": [
+          {
+            "text": "air bubble"
+          },
+          {
+            "text": "soap bubble"
+          }
+        ]
+      }
+    },
+    "6c09bb4b-5b53-5a18-a75a-f9c46edc3242": {
+      "df647c81-551e-4df8-ad1d-91d82e53e6a2": {
+        "meaning_sha": "560450ba36bef60cd3b4c46ac5e36859380f35a971e4520b30f53bd17cd1965a",
+        "replace_definition_en": {
+          "original": "send a bill to",
+          "text": "write or send someone a bill for goods supplied or services provided"
+        },
+        "replace_definition_uz": {
+          "original": "biror kishiga yoki tashkilotga to‘lov hisobini yubormoq",
+          "text": "Yetkazib berilgan tovarlar yoki ko‘rsatilgan xizmatlar uchun hisob-faktura tuzmoq yoki yubormoq."
+        },
+        "add_collocations": [
+          {
+            "text": "invoice a customer"
+          }
+        ]
+      }
     }
   }
 }

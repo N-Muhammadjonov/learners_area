@@ -993,6 +993,210 @@
       "sense_id": "c0299d3d-6eb3-526d-a97b-8c0ceef33b34",
       "field_path": "replace_definition_uz.source",
       "url": "https://dictionary.cambridge.org/dictionary/english/light-bulb"
+    },
+    {
+      "lexeme_id": "6a31fc2a-e27f-536b-aaa3-2f642fa7c2ca",
+      "sense_id": "84398b89-9fca-4d27-827d-881518e85281",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/committee"
+    },
+    {
+      "lexeme_id": "6a31fc2a-e27f-536b-aaa3-2f642fa7c2ca",
+      "sense_id": "84398b89-9fca-4d27-827d-881518e85281",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/committee"
+    },
+    {
+      "lexeme_id": "6a370a2f-f9a1-5631-ab8d-92d9f50d0a9d",
+      "sense_id": "35a82d63-dd4a-4dda-9284-f90b4be66ec3",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/tonight_2"
+    },
+    {
+      "lexeme_id": "6a386ac9-0b13-5814-9793-4db131c44332",
+      "sense_id": "dd616329-2a56-49fa-94d9-9e9f80237e1a",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/pricey"
+    },
+    {
+      "lexeme_id": "6a386ac9-0b13-5814-9793-4db131c44332",
+      "sense_id": "dd616329-2a56-49fa-94d9-9e9f80237e1a",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/pricey"
+    },
+    {
+      "lexeme_id": "6af4187b-dfdc-5a4b-ad8f-00861d7ab661",
+      "sense_id": "b8d6fb2a-9ffa-48f8-b84d-3dd8d85d4d97",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/kebab"
+    },
+    {
+      "lexeme_id": "6af4187b-dfdc-5a4b-ad8f-00861d7ab661",
+      "sense_id": "b8d6fb2a-9ffa-48f8-b84d-3dd8d85d4d97",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/kebab"
+    },
+    {
+      "lexeme_id": "6ad9de1b-01f5-57c4-8e38-b46777c88649",
+      "sense_id": "581e179e-c811-4b8a-babf-d069db03cb80",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sequel"
+    },
+    {
+      "lexeme_id": "6ad9de1b-01f5-57c4-8e38-b46777c88649",
+      "sense_id": "581e179e-c811-4b8a-babf-d069db03cb80",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sequel"
+    },
+    {
+      "lexeme_id": "6ad9de1b-01f5-57c4-8e38-b46777c88649",
+      "sense_id": "581e179e-c811-4b8a-babf-d069db03cb80",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sequel"
+    },
+    {
+      "lexeme_id": "6ad9de1b-01f5-57c4-8e38-b46777c88649",
+      "sense_id": "581e179e-c811-4b8a-babf-d069db03cb80",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sequel"
+    },
+    {
+      "lexeme_id": "6ad9de1b-01f5-57c4-8e38-b46777c88649",
+      "sense_id": "581e179e-c811-4b8a-babf-d069db03cb80",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sequel"
+    },
+    {
+      "lexeme_id": "6b1bed15-9bf7-5562-b4e0-4f443bdf8bd5",
+      "sense_id": "6aba55e5-4a0e-427d-84bf-2bd113d8cc29",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/saying"
+    },
+    {
+      "lexeme_id": "6b1bed15-9bf7-5562-b4e0-4f443bdf8bd5",
+      "sense_id": "6aba55e5-4a0e-427d-84bf-2bd113d8cc29",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/saying"
+    },
+    {
+      "lexeme_id": "6b1bed15-9bf7-5562-b4e0-4f443bdf8bd5",
+      "sense_id": "6aba55e5-4a0e-427d-84bf-2bd113d8cc29",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/saying"
+    },
+    {
+      "lexeme_id": "6b1bed15-9bf7-5562-b4e0-4f443bdf8bd5",
+      "sense_id": "6aba55e5-4a0e-427d-84bf-2bd113d8cc29",
+      "field_path": "replace_translation_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/saying"
+    },
+    {
+      "lexeme_id": "6b1bed15-9bf7-5562-b4e0-4f443bdf8bd5",
+      "sense_id": "6aba55e5-4a0e-427d-84bf-2bd113d8cc29",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/saying"
+    },
+    {
+      "lexeme_id": "6a5990d4-4772-57b1-9349-119d73de91bf",
+      "sense_id": "7fc7746d-e07a-46eb-80b2-d2dc8cd8dc36",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/orphan_1"
+    },
+    {
+      "lexeme_id": "6a5990d4-4772-57b1-9349-119d73de91bf",
+      "sense_id": "7fc7746d-e07a-46eb-80b2-d2dc8cd8dc36",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/orphan_1"
+    },
+    {
+      "lexeme_id": "6c01bbbb-5d6b-5994-8b94-0a85bdc0d965",
+      "sense_id": "e2c9cd82-de5f-44e0-b6f3-584dc1729c03",
+      "field_path": "replace_cefr.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/napkin"
+    },
+    {
+      "lexeme_id": "6c01bbbb-5d6b-5994-8b94-0a85bdc0d965",
+      "sense_id": "e2c9cd82-de5f-44e0-b6f3-584dc1729c03",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/napkin"
+    },
+    {
+      "lexeme_id": "6c01bbbb-5d6b-5994-8b94-0a85bdc0d965",
+      "sense_id": "e2c9cd82-de5f-44e0-b6f3-584dc1729c03",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/napkin"
+    },
+    {
+      "lexeme_id": "6c01bbbb-5d6b-5994-8b94-0a85bdc0d965",
+      "sense_id": "e2c9cd82-de5f-44e0-b6f3-584dc1729c03",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/napkin"
+    },
+    {
+      "lexeme_id": "6aa1131c-bc16-54d2-917d-aaf5a101e4f0",
+      "sense_id": "93f476ea-6cfd-405b-9177-36afcf333ead",
+      "field_path": "replace_cefr.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/email"
+    },
+    {
+      "lexeme_id": "6aa1131c-bc16-54d2-917d-aaf5a101e4f0",
+      "sense_id": "93f476ea-6cfd-405b-9177-36afcf333ead",
+      "field_path": "replace_definition_en.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/email"
+    },
+    {
+      "lexeme_id": "6aa1131c-bc16-54d2-917d-aaf5a101e4f0",
+      "sense_id": "93f476ea-6cfd-405b-9177-36afcf333ead",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/email"
+    },
+    {
+      "lexeme_id": "6aa1131c-bc16-54d2-917d-aaf5a101e4f0",
+      "sense_id": "93f476ea-6cfd-405b-9177-36afcf333ead",
+      "field_path": "add_collocations.0.source",
+      "url": "https://dictionary.cambridge.org/dictionary/english/email"
+    },
+    {
+      "lexeme_id": "6a9412b6-0473-53fa-bcda-a7ae08e51c23",
+      "sense_id": "cb103ace-b527-4f7b-b5fc-44e3151b22ff",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/bubble_1"
+    },
+    {
+      "lexeme_id": "6a9412b6-0473-53fa-bcda-a7ae08e51c23",
+      "sense_id": "cb103ace-b527-4f7b-b5fc-44e3151b22ff",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/bubble_1"
+    },
+    {
+      "lexeme_id": "6a9412b6-0473-53fa-bcda-a7ae08e51c23",
+      "sense_id": "cb103ace-b527-4f7b-b5fc-44e3151b22ff",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/bubble_1"
+    },
+    {
+      "lexeme_id": "6a9412b6-0473-53fa-bcda-a7ae08e51c23",
+      "sense_id": "cb103ace-b527-4f7b-b5fc-44e3151b22ff",
+      "field_path": "add_collocations.1.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/bubble_1"
+    },
+    {
+      "lexeme_id": "6c09bb4b-5b53-5a18-a75a-f9c46edc3242",
+      "sense_id": "df647c81-551e-4df8-ad1d-91d82e53e6a2",
+      "field_path": "replace_definition_en.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/invoice_2"
+    },
+    {
+      "lexeme_id": "6c09bb4b-5b53-5a18-a75a-f9c46edc3242",
+      "sense_id": "df647c81-551e-4df8-ad1d-91d82e53e6a2",
+      "field_path": "replace_definition_uz.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/invoice_2"
+    },
+    {
+      "lexeme_id": "6c09bb4b-5b53-5a18-a75a-f9c46edc3242",
+      "sense_id": "df647c81-551e-4df8-ad1d-91d82e53e6a2",
+      "field_path": "add_collocations.0.source",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/invoice_2"
     }
   ],
   "annotations": [
