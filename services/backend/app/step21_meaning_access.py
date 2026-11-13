@@ -109,7 +109,7 @@ async def meaning(req:Request):
             if not isinstance(body,str):
                 return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
             from .retention_meaning import lookup_source_text
-            result=await lookup_source_text(con,user,body,term,start,end)
+            result=await lookup_source_text(con,user,body,term,start,end,source_type=source,source_id=core.uuid_value(id),section=part if source=='listening' else None)
             if result is None:return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
             return core.j({'status':'resolved' if result.get('contextual') else 'unresolved',
                            'known':None,**result},headers=PRIVATE)
