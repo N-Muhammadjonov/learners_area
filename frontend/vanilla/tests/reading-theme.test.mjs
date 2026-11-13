@@ -50,7 +50,6 @@ test('Reading uses the site Day/Night theme, not frozen light-only palette varia
 });
 
 for(const wrapped of [false,true]){
- const colors=new Map();
  for(const theme of ['day','night']){
   test(`Reading ${theme} contrast and surfaces ${wrapped?'inside focus shell':'as standalone focus'}`,()=>{
    const h=setup({path:'/app/reading/attempts/00000000-0000-4000-8000-000000000099',role:'student',theme});
@@ -64,11 +63,22 @@ for(const wrapped of [false,true]){
      assert(contrast>=4.5,`${theme} ${node.dataset.check} contrast ${contrast.toFixed(2)}`);
     }
     assert.equal(cascade.unknown.size,0,[...cascade.unknown].join(', '));
-    colors.set(theme,cascade.get(h.q('[data-check="passage"]')).background);
    }finally{h.dispose();}
   });
  }
- test(`Reading paper follows theme toggles ${wrapped?'inside shell':'outside shell'}`,()=>{
-  assert.notDeepEqual(colors.get('day'),colors.get('night'));
+ test(`Reading theme toggle repaints existing answers ${wrapped?'inside shell':'outside shell'}`,()=>{
+  const h=setup({path:'/app/reading/attempts/00000000-0000-4000-8000-000000000099',role:'student'});
+  try{
+   h.ctx.root.innerHTML=paperFixture(wrapped);
+   const answer=h.q('[data-answer-input]');
+   answer.value='preservation';
+   document.documentElement.dataset.theme='day';
+   const light=colorCascade(document,[themeCSS,readingCSS]).get(h.q('[data-check="passage"]')).background;
+   document.documentElement.dataset.theme='night';
+   const dark=colorCascade(document,[themeCSS,readingCSS]).get(h.q('[data-check="passage"]')).background;
+   assert.notDeepEqual(light,dark,'The same paper switches color when the global theme changes');
+   assert.equal(h.q('[data-answer-input]'),answer,'The answer field must not remount');
+   assert.equal(answer.value,'preservation','Typed answers survive the theme toggle');
+  }finally{h.dispose();}
  });
 }
