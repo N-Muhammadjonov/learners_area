@@ -3953,6 +3953,128 @@
           "text": null
         }
       }
+    },
+    "65c737c4-ccd2-5c4d-bbd4-c9e651e83f08": {
+      "087fe5f8-fed3-4b0f-be7c-740da13aa4cb": {
+        "meaning_sha": "ab216750735301455c93f39a6d04dac340952f9290bc25597d9ec4b232ee3edb",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "difficult to please",
+          "text": "Informal: very particular when choosing things and therefore difficult to please."
+        },
+        "replace_definition_uz": {
+          "original": "Ko‘nglini topish qiyin, juda tanlab qaraydigan.",
+          "text": "Norasmiy uslubda: tanlashda juda sinchkov, osonlikcha biror narsani ma’qul ko‘rmaydigan."
+        },
+        "replace_translation_uz": {
+          "original": "tanlab oladigan",
+          "text": "tanlovchan; juda sinchiklab tanlaydigan"
+        },
+        "add_collocations": [
+          {
+            "text": "choosy about clothes"
+          }
+        ]
+      }
+    },
+    "65ce4abf-3de6-5bac-b230-47f4172ee1ba": {
+      "ff7770be-c557-4344-98fe-0f61ca4d349f": {
+        "meaning_sha": "5952c213e6b2f1d4623c21e98a4b081e5a0d5c180a3fc97d3fcb1fbf6f8371db",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
+    },
+    "65ce775b-77c6-5d6d-9323-ee43eade833a": {
+      "231934f3-ba23-415f-bba3-a866556a50f1": {
+        "meaning_sha": "c1b2711ba6c63cee833ae187cbe9eed857d29467c5e132100e946fd6262ac007",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "(of a check) marked for deposit only as indicated by having two lines drawn across it",
+          "text": "In British banking, marked with two parallel lines to indicate that a cheque must be paid into a bank account rather than cashed directly."
+        },
+        "replace_definition_uz": {
+          "original": "chekning faqat hisobga o‘tkazilishini ko‘rsatish uchun ustidan ikkita chiziq tortilgan",
+          "text": "Britaniya bank amaliyotida: pulini bevosita naqd olish emas, bank hisobiga o‘tkazish kerakligini bildirish uchun ustiga ikkita parallel chiziq tortilgan (chek)."
+        },
+        "replace_translation_uz": {
+          "original": "chiziq bilan belgilangan",
+          "text": "parallel chiziq bilan belgilangan (chek)"
+        },
+        "add_collocations": [
+          {
+            "text": "crossed cheque"
+          }
+        ]
+      },
+      "96afbfd1-08d4-4a0e-ae9b-c11c4a127726": {
+        "meaning_sha": "2ad8dc1b58be75bb47662e2ffee3ab2b9dcdcb9ca1fd2bd23d39182a77abc7d2",
+        "replace_cefr": {
+          "original": "A2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Bir narsaning ustiga yoki bo'ylab kesishma holatda joylashtirilgan.",
+          "text": "Biri ikkinchisining ustidan o‘tadigan qilib chalishtirib yoki ko‘ndalang qo‘yilgan."
+        },
+        "replace_translation_uz": {
+          "original": "ko'ndalang qo'yilgan",
+          "text": "chalishtirilgan; ko‘ndalang qo‘yilgan"
+        },
+        "add_collocations": [
+          {
+            "text": "crossed arms"
+          },
+          {
+            "text": "crossed legs"
+          }
+        ]
+      }
+    },
+    "65daf5ac-2cbf-5dd6-b06d-6fb4d219a6e4": {
+      "606ed390-363e-5b20-9148-17ada23efcca": {
+        "meaning_sha": "7c9e1aa765e0da0c16d373eeb53ad3711746618a57d40896f5e4766e59fb0ac9",
+        "replace_cefr": {
+          "original": "B2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "disorder showing symptoms for which no physiological or anatomical cause can be identified",
+          "text": "A disorder in which an organ or bodily system functions abnormally without an identifiable structural abnormality that explains the symptoms."
+        },
+        "replace_definition_uz": {
+          "original": "fiziologik yoki anatomik sababi aniqlanmaydigan alomatlar bilan namoyon bo‘ladigan buzilish",
+          "text": "A’zo yoki organizm tizimining faoliyati buzilgan, ammo alomatlarni izohlovchi tuzilmaviy o‘zgarish aniqlanmagan holat."
+        }
+      }
+    },
+    "65eb2243-c65f-5d51-b3c3-630b574f6478": {
+      "487b6542-9d06-5cd6-9450-c99e65c1a865": {
+        "meaning_sha": "6e192a12787031971b016e21489f8d6b71a95d06f69e353d72d8f97e848122c6",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "an electric cell that generates an electromotive force by an irreversible conversion of chemical to electrical energy; cannot be recharged",
+          "text": "An electrochemical cell that converts chemical energy into electrical energy through a spontaneous chemical reaction."
+        },
+        "replace_definition_uz": {
+          "original": "Kimyoviy energiyani qaytarib bo‘lmaydigan tarzda elektr energiyasiga aylantirib elektr yurituvchi kuch hosil qiladigan, qayta zaryadlab bo‘lmaydigan element.",
+          "text": "O‘z-o‘zidan boradigan kimyoviy reaksiya hisobiga kimyoviy energiyani elektr energiyasiga aylantiradigan elektrokimyoviy element."
+        },
+        "replace_translation_uz": {
+          "original": "volta elementi",
+          "text": "galvanik element; volta elementi"
+        }
+      }
     }
   }
 }

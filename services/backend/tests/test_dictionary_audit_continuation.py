@@ -692,6 +692,60 @@ def test_lunch_keeps_evidenced_intransitive_level_without_assigning_it_to_feedin
         assert corrected_examples(original, old) == corrected_examples(candidate, new)
 
 
+def test_voltaic_cell_does_not_exclude_rechargeable_galvanic_cells():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0090-0127.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'voltaic cell')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    old, new = original['senses'][0], candidate['senses'][0]
+    assert 'cannot be recharged' in old['definition_en'] and 'irreversible' in old['definition_en']
+    assert 'spontaneous chemical reaction' in new['definition_en']
+    assert 'chemical energy into electrical energy' in new['definition_en']
+    assert 'irreversible' not in new['definition_en'] and 'cannot be recharged' not in new['definition_en']
+    assert 'qayta zaryadlab bo‘lmaydigan' not in new['definition_uz']
+    assert 'O‘z-o‘zidan' in new['definition_uz'] and 'galvanik element' in new['translations'][0]['text']
+    assert new.get('cefr') is None and new['sense_id'] == old['sense_id']
+    assert candidate['relations'] == original['relations']
+
+
+def test_functional_disorder_does_not_deny_physiological_mechanisms_or_imply_one_subtype():
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0090-0127.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'functional disorder')
+    candidate = curation.curate_candidate_entry(original)
+    old, new = original['senses'][0], candidate['senses'][0]
+    assert 'no physiological' in old['definition_en']
+    assert 'functions abnormally' in new['definition_en'] and 'structural abnormality that explains the symptoms' in new['definition_en']
+    assert 'physiological' not in new['definition_en']
+    assert all(word not in new['definition_en'].lower() for word in ('imaginary', 'psychogenic', 'neurological', 'bowel'))
+    assert 'tuzilmaviy o‘zgarish aniqlanmagan' in new['definition_uz']
+    assert new['translations'] == old['translations'] and new.get('cefr') is None
+    assert candidate['relations'] == original['relations'] == []
+
+
+def test_crossed_banking_and_limb_position_keep_separate_collocations_and_old_examples():
+    from app.dictionary_presentation import corrected_examples
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0090-0127.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'crossed')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    senses = {s['sense_id']: s for s in candidate['senses']}
+    bank = senses['231934f3-ba23-415f-bba3-a866556a50f1']
+    physical = senses['96afbfd1-08d4-4a0e-ae9b-c11c4a127726']
+    views = present(candidate)['senses']
+    assert 'two parallel lines' in bank['definition_en'] and 'British banking' in bank['definition_en']
+    assert physical['definition_en'] == 'placed crosswise'
+    assert {r['text'] for r in views[bank['sense_id']]['collocations']} == {'crossed cheque'}
+    assert {r['text'] for r in views[physical['sense_id']]['collocations']} == {'crossed arms', 'crossed legs'}
+    assert bank.get('cefr') is None and physical.get('cefr') is None
+    assert candidate['relations'] == original['relations']
+    for old in original['senses']:
+        new = senses[old['sense_id']]
+        assert new['examples'] == old['examples']
+        assert corrected_examples(original, old) == corrected_examples(candidate, new)
+
+
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():
     report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
     targets = {e['lexeme_id']: e for e in report['target_entries']}

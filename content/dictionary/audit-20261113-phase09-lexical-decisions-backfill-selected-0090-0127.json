@@ -1,0 +1,655 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-selected-0090-0127.json",
+  "prior_candidate_commit": "e7eef5cca15d1b64a8ddb181d3cc45372b44978e",
+  "scope": {
+    "lexemes": 5,
+    "senses": 6,
+    "field_decisions": 42,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "65c737c4-ccd2-5c4d-bbd4-c9e651e83f08",
+      "sense_id": "087fe5f8-fed3-4b0f-be7c-740da13aa4cb",
+      "lemma": "choosy",
+      "meaning_sha": "ab216750735301455c93f39a6d04dac340952f9290bc25597d9ec4b232ee3edb",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "difficult to please",
+          "after": "Informal: very particular when choosing things and therefore difficult to please.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "Exact adjective is informal, careful in choosing and hard to please. Add selection context and informal register to the overly generic source."
+        },
+        "definition_uz": {
+          "before": "Ko‘nglini topish qiyin, juda tanlab qaraydigan.",
+          "after": "Norasmiy uslubda: tanlashda juda sinchkov, osonlikcha biror narsani ma’qul ko‘rmaydigan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "Sinchkov selection and reluctance to accept express the same meaning without the generic personal-appeasement ambiguity."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tanlab oladigan",
+              "translation_id": "04cde8f7-7298-537c-a935-8a432be0bb7c"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tanlovchan; juda sinchiklab tanlaydigan",
+              "translation_id": "04cde8f7-7298-537c-a935-8a432be0bb7c"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "Tanlovchan captures selectiveness; bare tanlab oladigan could mean any person choosing."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "No explicit exact adjective CEFR label documented; original C2 cleared. Unrelated page-footer word level excluded."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "Fussy/picky explicitly suggested by primary reference, but their frozen target meanings/UUIDs have not been independently read; no guessed graph links. Existing similar relation is not a synonym."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "choosy about clothes"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/choosy"
+          ],
+          "reasoning": "Choosy about clothes directly follows the exact primary adjective usage, rather than importing base choose constructions."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65ce4abf-3de6-5bac-b230-47f4172ee1ba",
+      "sense_id": "ff7770be-c557-4344-98fe-0f61ca4d349f",
+      "lemma": "playboy",
+      "meaning_sha": "5952c213e6b2f1d4623c21e98a4b081e5a0d5c180a3fc97d3fcb1fbf6f8371db",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a man devoted to the pursuit of pleasure",
+          "after": "a man devoted to the pursuit of pleasure",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "Primary definition supports a man chiefly devoted to pleasure; retained broad lexical meaning. Wealth is typical in a narrower learner definition, not made a universal condition."
+        },
+        "definition_uz": {
+          "before": "asosan ko‘ngilxushlik va zavq ortidan quvadigan erkak",
+          "after": "asosan ko‘ngilxushlik va zavq ortidan quvadigan erkak",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "Existing pleasure-seeking-man description has correct scope and gender; retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "aysh-ishratparast erkak",
+              "translation_id": "942fed1a-2a5e-5a00-ad93-2e04691ad40f"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "aysh-ishratparast erkak",
+              "translation_id": "942fed1a-2a5e-5a00-ad93-2e04691ad40f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "Aysh-ishratparast erkak expresses the intended common noun; no magazine or unrelated brand imported."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "No exact noun CEFR documented in accessed primary definitions; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "Hedonist need not be male and can express a philosophical position. No exact frozen equivalent independently selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/playboy",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/playboy"
+          ],
+          "reasoning": "A rich American playboy is illustrative, but no additional general collocation independently selected. No personal names or publisher content copied."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65ce775b-77c6-5d6d-9323-ee43eade833a",
+      "sense_id": "231934f3-ba23-415f-bba3-a866556a50f1",
+      "lemma": "crossed",
+      "meaning_sha": "c1b2711ba6c63cee833ae187cbe9eed857d29467c5e132100e946fd6262ac007",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "(of a check) marked for deposit only as indicated by having two lines drawn across it",
+          "after": "In British banking, marked with two parallel lines to indicate that a cheque must be paid into a bank account rather than cashed directly.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Exact CHEQUE sense is UK specialized finance: two parallel lines require payment into an account. Add scope and parallelism. Crossing alone is not made payee-only/nontransferable."
+        },
+        "definition_uz": {
+          "before": "chekning faqat hisobga o‘tkazilishini ko‘rsatish uchun ustidan ikkita chiziq tortilgan",
+          "after": "Britaniya bank amaliyotida: pulini bevosita naqd olish emas, bank hisobiga o‘tkazish kerakligini bildirish uchun ustiga ikkita parallel chiziq tortilgan (chek).",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Explain the bank-account route rather than direct cash payment, retaining cheque-specific scope."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "chiziq bilan belgilangan",
+              "translation_id": "42618a61-6450-5e07-a04a-474b3df44bbd"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "parallel chiziq bilan belgilangan (chek)",
+              "translation_id": "42618a61-6450-5e07-a04a-474b3df44bbd"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Explicit cheque qualifier and parallel lines distinguish this sense from crossed limbs or intersecting objects."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "No exact specialized cheque-sense CEFR documented; original B1 cleared. Cross verb/hope idiom levels not transferred."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "No exact cheque adjective equivalent independently selected; intersecting similar relation is not reclassified as banking synonym."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Uncrossed is explicitly opposite in this exact banking sense, but no independently authenticated frozen target sense/UUID available; no fabricated link."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "crossed cheque"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Crossed cheque attested under CHEQUE, attached only to this sense, never to physical limb position."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65ce775b-77c6-5d6d-9323-ee43eade833a",
+      "sense_id": "96afbfd1-08d4-4a0e-ae9b-c11c4a127726",
+      "lemma": "crossed",
+      "meaning_sha": "2ad8dc1b58be75bb47662e2ffee3ab2b9dcdcb9ca1fd2bd23d39182a77abc7d2",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "placed crosswise",
+          "after": "placed crosswise",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Placed crosswise covers stored forks/limbs correctly; retain literal source definition, not the hope idiom or finance sense."
+        },
+        "definition_uz": {
+          "before": "Bir narsaning ustiga yoki bo'ylab kesishma holatda joylashtirilgan.",
+          "after": "Biri ikkinchisining ustidan o‘tadigan qilib chalishtirib yoki ko‘ndalang qo‘yilgan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Natural chalishtirib/ko‘ndalang description clarifies one object or limb over another."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ko'ndalang qo'yilgan",
+              "translation_id": "4fdc28d9-8213-56d9-8f35-5baca3132b2d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "chalishtirilgan; ko‘ndalang qo‘yilgan",
+              "translation_id": "4fdc28d9-8213-56d9-8f35-5baca3132b2d"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Chalishtirilgan is needed for arms/legs in addition to ko‘ndalang qo‘yilgan for objects."
+        },
+        "cefr": {
+          "before": "A2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "No exact literal-position adjective level documented; original A2 cleared. No borrowing from cross or fingers-crossed idiom."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Intersecting is a broader related orientation, not automatically an exact equivalent for folded arms; existing similar edge retained without promoting to synonym."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Uncrossed explicitly opposite for limb position, but exact frozen opposite sense has not been independently authenticated; no guessed target ID."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "crossed arms"
+            },
+            {
+              "text": "crossed legs"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/crossed",
+            "https://dictionary.cambridge.org/us/dictionary/english/crossed"
+          ],
+          "reasoning": "Crossed arms and crossed legs directly attested under physical BODY PART sense, not assigned to banking; idiomatic hope phrase excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65daf5ac-2cbf-5dd6-b06d-6fb4d219a6e4",
+      "sense_id": "606ed390-363e-5b20-9148-17ada23efcca",
+      "lemma": "functional disorder",
+      "meaning_sha": "7c9e1aa765e0da0c16d373eeb53ad3711746618a57d40896f5e4766e59fb0ac9",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "disorder showing symptoms for which no physiological or anatomical cause can be identified",
+          "after": "A disorder in which an organ or bodily system functions abnormally without an identifiable structural abnormality that explains the symptoms.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "Primary medical adjective describes impaired organ function without apparent structural change. Remove categorical no-physiological-cause claim. NHS functional bowel explanation corroborates that physiological mechanisms can matter; it is a counterexample, not a restriction of all disorders to bowel or neurology."
+        },
+        "definition_uz": {
+          "before": "fiziologik yoki anatomik sababi aniqlanmaydigan alomatlar bilan namoyon bo‘ladigan buzilish",
+          "after": "A’zo yoki organizm tizimining faoliyati buzilgan, ammo alomatlarni izohlovchi tuzilmaviy o‘zgarish aniqlanmagan holat.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "Describe altered organ/system functioning with no identified structural explanation. Do not imply imaginary symptoms, inevitable psychiatric cause or total absence of physiological mechanisms."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "funksional buzilish",
+              "translation_id": "183ddf15-7bf1-5b64-9230-99d56f3c8649"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "funksional buzilish",
+              "translation_id": "183ddf15-7bf1-5b64-9230-99d56f3c8649"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "Funksional buzilish retained as exact medical term; explanatory definition carries the distinction."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "No exact medical multiword noun CEFR documented; original B2 cleared, no level borrowed from functional/disorder separately."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "Somatoform/psychogenic disorders and FND are not universal synonyms for every functional disorder. No guessed graph equivalent."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "Structural/organic contrasts are context-dependent and do not establish a verified frozen lexical antonym; none invented."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/functional",
+            "https://myhealth-devon.nhs.uk/my-condition/condition/irritable-bowel-syndrome-ibs/"
+          ],
+          "reasoning": "No extra treatment or diagnostic combination selected; functional bowel disorder would introduce a subtype rather than a universal property."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65eb2243-c65f-5d51-b3c3-630b574f6478",
+      "sense_id": "487b6542-9d06-5cd6-9450-c99e65c1a865",
+      "lemma": "voltaic cell",
+      "meaning_sha": "6e192a12787031971b016e21489f8d6b71a95d06f69e353d72d8f97e848122c6",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "an electric cell that generates an electromotive force by an irreversible conversion of chemical to electrical energy; cannot be recharged",
+          "after": "An electrochemical cell that converts chemical energy into electrical energy through a spontaneous chemical reaction.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "IUPAC galvanic-cell definition and primary chemistry glossary identify spontaneous chemical-to-electric energy conversion; voltaic is equivalent terminology. Rechargeable lead-acid battery comprises galvanic cells, disproving the source universal cannot-be-recharged and irreversible requirements. Remove both, without claiming every cell rechargeable."
+        },
+        "definition_uz": {
+          "before": "Kimyoviy energiyani qaytarib bo‘lmaydigan tarzda elektr energiyasiga aylantirib elektr yurituvchi kuch hosil qiladigan, qayta zaryadlab bo‘lmaydigan element.",
+          "after": "O‘z-o‘zidan boradigan kimyoviy reaksiya hisobiga kimyoviy energiyani elektr energiyasiga aylantiradigan elektrokimyoviy element.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "State spontaneous chemical-energy conversion; remove false mandatory irreversibility and nonrechargeability."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "volta elementi",
+              "translation_id": "c33ccad8-24ff-503a-a40a-d898f0b4e2da"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "galvanik element; volta elementi",
+              "translation_id": "c33ccad8-24ff-503a-a40a-d898f0b4e2da"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "Galvanik element plus volta elementi names the verified same scientific concept; plain translation is not a graph target link."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "No exact scientific phrase CEFR label documented; original C2 cleared. Technicality alone is not CEFR evidence."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "Galvanic cell is primary-attested equivalent, but frozen exact target entry/sense not independently read; no fabricated relation UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "Electrolytic cell describes a contrasting energy/conversion mode, not automatically a lexical antonym; no guessed opposite target."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/09066",
+            "https://openstax.org/books/chemistry-2e/pages/17-key-terms",
+            "https://openstax.org/books/chemistry-2e/pages/17-5-batteries-and-fuel-cells"
+          ],
+          "reasoning": "No extra electrode-material collocation selected; primary/secondary distinctions are not applied as mandatory attributes."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Six selected earlier senses; no contiguous-interval or new-source-coverage claim.",
+  "reference_access_notes": [
+    "Collins medical functional senses were read in direct body, including apparent structural-change qualification.",
+    "NHS bowel context is a physiological-mechanism counterexample, not a definition restricted to that subtype.",
+    "APA functional/functional-disorder pages exposed no readable definition; no evidence claimed from them.",
+    "Cambridge choosy/playboy direct access failed; no claim to have read those inaccessible bodies.",
+    "Crossed primary cached English body separately labels literal BODY PART and specialized UK CHEQUE.",
+    "OpenStax section 17.5 and glossary directly corroborate rechargeable galvanic cells.",
+    "Cached full-shard SHA and archived Supabase offsets reused; fresh database content_sha comparison not rerun."
+  ],
+  "example_asset_changed": false,
+  "local_validation": {
+    "final_run": {
+      "passed": 244,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "compile": "PASS",
+    "dom_initial_run": {
+      "passed": 0,
+      "failed": 4,
+      "skipped": 0,
+      "cause": "Locked jsdom dependencies were absent from this checkout; test files could not load."
+    },
+    "dom_resolution": "npm ci --ignore-scripts --no-audit with existing lockfile; package-lock unchanged.",
+    "dom_final_run": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS"
+    },
+    "dom_final_log_sha256": "784117310c27960b45d10c4e0a59fcabc62d47a8de7209a8c68ef3e465345b7b",
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}

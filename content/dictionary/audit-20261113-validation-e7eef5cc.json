@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "commit": "e7eef5cca15d1b64a8ddb181d3cc45372b44978e",
+  "workflow_run_id": 43405013049,
+  "workflow_url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43405013049",
+  "conclusion": "success",
+  "backend_job": 131817112542,
+  "browser_job": 131817112551,
+  "backend_tests": {
+    "passed": 237,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 1
+  },
+  "browser_tests": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0
+  },
+  "compile": "PASS",
+  "vercel_deployments_for_commit": null,
+  "deployment_readback": "UNAVAILABLE: connector tool unavailable. No deployment command issued; automatic deployment disabled for this branch.",
+  "production_writes": false,
+  "main_merged": false,
+  "full_linguistic_signoff": false,
+  "workflow_log_sha256": "cd4b039bdb0aa5a600c61b7909880fbb9c46ffbc5014f21e512c6bad25770816"
+}
