@@ -100,6 +100,27 @@ async def resolve_occurrence(con,u,source,source_id,oid):
     lex=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',r['lexeme_id'])
     return {'status':'resolved','snapshot':snapshot,'lexeme':dict(lex)} if lex else {'status':'unresolved','snapshot':snapshot}
 
+@router.post('/api/vocabulary/saved-terms')
+async def saved_terms(req:Request):
+    """Bounded, owner-only exact saved-lemma status for inline reading underlines."""
+    user=await core.current_user(req,active=True)
+    if not user:return core.auth_error()
+    body=await core.payload(req)
+    values=body.get('terms') if isinstance(body,dict) else None
+    if not isinstance(values,list) or len(values)>1000 or any(
+        not isinstance(term,str) or not 1<=len(term)<=80 for term in values
+    ):
+        return core.j({'error':'invalid_input'},400,PRIVATE)
+    terms=list(dict.fromkeys(term.strip().lower() for term in values if term.strip()))
+    db=await core.pool()
+    async with db.acquire() as con:
+        rows=await con.fetch("""SELECT DISTINCT lower(l.term) AS term FROM user_vocabulary uv
+            JOIN lexemes l ON l.id=uv.lexeme_id
+            WHERE uv.user_id=$1 AND lower(l.term)=ANY($2::text[])""",
+            user['id'],terms)
+    return core.j({'saved':[row['term'] for row in rows]},headers=PRIVATE)
+
+
 @router.post('/api/vocabulary')
 async def create_vocabulary(req:Request):
     user=await core.current_user(req,active=True)
