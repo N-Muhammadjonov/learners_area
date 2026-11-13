@@ -22,7 +22,11 @@ export async function mount(context){
   frame.setAttribute('data-inline-landing','');
   frame.setAttribute('loading','eager');
   frame.style.cssText='display:block;width:100%;height:100dvh;min-height:100vh;border:0;background:#06101f';
-  frame.srcdoc=LANDING_HTML;
+  // A srcdoc document inherits the site's nonce-based CSP.
+  // Reuse the nonce from the server-rendered module bootstrap.
+  const nonce=document.querySelector('script[nonce]')?.nonce;
+  if(!nonce)throw new Error('Missing CSP nonce for the public landing');
+  frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
   const allowed=new Set(['/login','/register','/privacy','/faq','/method','/about','/contact']);
   const receive=event=>{
    if(event.source!==frame.contentWindow||event.origin!==window.location.origin)return;
