@@ -34,13 +34,16 @@ function repairListeningTest10(){
  }
  let html=source;
  const {begin,end,data}=spanJson(html);
- data.transcript={1:supplied.parts['1'],2:supplied.parts['2'],3:'',4:supplied.parts['4']};
- data.transcript_source='Cleaned user-supplied Parts 1, 2 and 4. Part 3 was not copied because the supplied Maya/Liam conversation contradicts the original Sarah/Mike/Professor North questions. Audio transcript alignment not independently verified.';
+ const audioTranscription=JSON.parse(readFileSync('content/listening/academic/test-10/part3-audio-transcription.json','utf8'));
+ if(audioTranscription.test!=='listening-test-10'||audioTranscription.part!==3||audioTranscription.transcript.length<1000)throw Error('Invalid Part 3 audio transcript');
+ data.transcript={1:supplied.parts['1'],2:supplied.parts['2'],3:audioTranscription.transcript,4:supplied.parts['4']};
+ data.transcript_source='User-supplied Parts 1, 2 and 4, checked against recorded audio. Part 3 separately transcribed directly from the same Cloudflare R2 recording; submitted Maya/Liam dialogue excluded because it does not match the original questions. Minor ASR word-level uncertainty.';
  data.audio_available=true;
- data.audio_status='Cloudflare R2 original recording exists: listening/academic/test-10/full.mp3; transcript versus audio alignment is not verified.';
+ data.audio_status='Cloudflare R2 audio file listening/academic/test-10/full.mp3 confirmed present; Part 3 recovered from that recording with speech recognition and Parts 1, 2, 4 beginnings checked acoustically.';
  data.script_completion=[];
  const picks={1:['noisy neighbours','south-east','washing machine','One year','15th of May','employer','bank statement','bus stop'],
               2:['glass bottom boat','water is so clear','Churchill Peters','rainfall','east wind','Feeding the fish','professional underwater photographers','own boat'],
+              3:['Professor North','musical tastes','36,000 people','romantic partner','scale of the study','high self-esteem','objective fact','limitations of the study'],
               4:['confidence','unscripted improvisation','taking risks','listening to one another','responsible','role reversal','taboo subjects','reenact scenes']};
  for(const [n,phrases]of Object.entries(picks)){
   let cursor=0;const body=data.transcript[n],lower=body.toLowerCase();
