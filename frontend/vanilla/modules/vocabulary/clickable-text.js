@@ -1,4 +1,5 @@
 import {el,listen} from '../../js/dom.js';
+import {api} from '../../js/api-client.js';
 import {tokenise,splitByHighlights,offsetWithin} from '../../js/generated/lexical-text-helpers.js';
 import {phraseTarget} from '../../js/generated/reading-lib/phrase-target.js';
 import {wordPopover} from './word-popover.js';
@@ -13,6 +14,18 @@ import {contextualWordPopover} from './contextual-popover.js';
 /** Reading and Retention places follow the current original contextual rules (see ./contextual-popover.js). */
 const CONTEXTUAL_SOURCES=new Set(['reading','retention','listening']);
 const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
+const savedSources=new WeakMap();
+function sourceSaved(context,sourceType,sourceId){
+ let cache=savedSources.get(context.signal);
+ if(!cache){cache=new Map();savedSources.set(context.signal,cache);}
+ const key=sourceType+':'+sourceId;
+ if(!cache.has(key)){
+  const url='/api/vocabulary/source-saved?sourceType='+encodeURIComponent(sourceType)+'&sourceId='+encodeURIComponent(sourceId);
+  cache.set(key,api.request(url,{signal:context.signal}).then(value=>Array.isArray(value?.savedOccurrences)?value.savedOccurrences:[]).catch(()=>[]));
+ }
+ return cache.get(key);
+}
+
 export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,highlights=[],onHighlightRange,onRemoveHighlight}){
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
@@ -26,6 +39,20 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  const fragment=document.createDocumentFragment();
  for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,class:'rounded-sm bg-signal-100 text-ink-900'}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word'},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
  region.append(fragment);
+ if(lexicalAssistance&&sourceType==='reading'&&sourceId){
+  void sourceSaved(context,sourceType,sourceId).then(saved=>{
+   if(signal.aborted)return;
+   const ids=new Set(saved.map(row=>row.occurrenceId));
+   for(const [index,node] of wordNodes){
+    const row=target(index).occurrence,token=tokens[index],
+     start=offsetBase+token.start,end=offsetBase+token.end;
+    if(row&&ids.has(row.id)||
+       saved.some(item=>item.startChar<=start&&item.endChar>=end)){
+      node.dataset.lexicalSaved='true';
+    }
+   }
+  });
+ }
  function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i)){const n=wordNodes.get(i);if(n)n.classList.remove('rounded-sm','bg-signal-50','text-ink-900');}for(const i of next){const n=wordNodes.get(i);if(n)n.classList.add('rounded-sm','bg-signal-50','text-ink-900');}lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
  function close(focus=false){popup?.stop();popup=null;active=null;paint();if(focus&&!signal.aborted)region.focus({preventScroll:true});}
  /** The lookup target of one word token: the phrase (when phrase-aware) or the single contextual hit. */
