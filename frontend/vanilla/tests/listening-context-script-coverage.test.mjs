@@ -76,7 +76,9 @@ test('Script annotator preserves readable text and excludes common grammatical w
   const dom=new JSDOM('<div id="scriptTabs"><button data-spart="1" class="active">Part 1</button></div><div id="activity-script" class="active"><div id="scriptHost"><div class="script-transcript">He offered food to the visitor.</div></div></div>',{runScripts:'outside-only'});
   try{
     const w=dom.window;
-    w.eval('const DATA={transcript:{"1":"He offered food to the visitor."},script_completion:[]};let scriptPart=1;function buildScriptTranscript(){return ""};function renderScript(){return null;}');
+    w.DATA={transcript:{"1":"He offered food to the visitor."},script_completion:[]};
+    w.scriptPart=1;
+    w.buildScriptTranscript=()=>'';w.renderScript=()=>null;
     w.eval(originalScriptAccessibility());
     w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
     const words=[...w.document.querySelectorAll('.la-script-lexical-word')];
