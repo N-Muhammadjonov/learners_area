@@ -1,0 +1,1732 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+  "prior_candidate_commit": "239972a978566ea3e2b2054df56f333664f07a77",
+  "scope": {
+    "lexemes": 10,
+    "senses": 14,
+    "field_decisions": 98,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "sense_id": "d7525883-85d3-4bd1-90f0-409545b4c051",
+      "lemma": "startup",
+      "meaning_sha": "f8d3a27b3ed46df3391b5d7f04bc644e0e69db75d8703c6b709efd5289685db8",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the act of starting a new operation or practice",
+          "after": "the act of starting a new operation or practice",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Initial creation of an operation/practice is a documented action use; business-entity meaning excluded."
+        },
+        "definition_uz": {
+          "before": "yangi faoliyat yoki amaliyotni boshlash harakati",
+          "after": "Yangi faoliyat yoki amaliyotni ilk bor boshlash harakati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Clarify first introduction of a practice or operation, distinct from switching on existing machinery."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ishga tushirish",
+              "translation_id": "4d7b0973-dad1-51db-9d44-17df81ab1452"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yangi faoliyatni boshlash; yangi amaliyotni joriy etish",
+              "translation_id": "4d7b0973-dad1-51db-9d44-17df81ab1452"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Explicitly includes beginning a new practice, not only powering equipment."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Company C1 does not label this action sense; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "59c64765-84ba-50b5-8416-8298fc8edb09",
+              "senseId": "a80057f8-669f-40ee-9e42-9d671e55fd1f",
+              "text": "inauguration"
+            }
+          ],
+          "after": [
+            {
+              "text": "inauguration",
+              "lexemeId": "59c64765-84ba-50b5-8416-8298fc8edb09",
+              "senseId": "a80057f8-669f-40ee-9e42-9d671e55fd1f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Inauguration exact target means starting an operation/practice, not swearing a person into office; scope exact pair."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "No additional independently attested action-noun combination selected; Internet startup belongs to business sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "sense_id": "f56773d3-7e2d-4d35-9b42-f79de2ddf783",
+      "lemma": "startup",
+      "meaning_sha": "388425765907174c9fbcc78b328b963d93e9ac498315190287a5c2ed239c35ca",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the act of setting in operation",
+          "after": "the act of setting in operation",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "Setting an operation in motion corroborated; repeatable operation sense retained."
+        },
+        "definition_uz": {
+          "before": "Ishga tushirish harakati.",
+          "after": "Qurilma yoki tizimni ishlay boshlaydigan holatga keltirish harakati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "Specify a device/system beginning operation, distinct from founding a company."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ishga tushirish",
+              "translation_id": "409f6dfb-bb79-5619-83ec-13415523b687"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ishga tushirish",
+              "translation_id": "409f6dfb-bb79-5619-83ec-13415523b687"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "Ishga tushirish retained for activation."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "No reliable exact activation-noun CEFR documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "Inauguration edge is assigned only to distinct first-introduction sense; not copied here."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [
+            {
+              "text": "shutdown",
+              "lexemeId": "0080b2a0-52bd-5582-8c99-a827925e22e2",
+              "senseId": "79563ea3-df3d-4bd6-9ecd-0b67a5111218"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "Shutdown exact frozen noun means termination of operations, independently corroborated cessation/suspension. Add this target only to setting-in-operation sense, not company entity."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1",
+            "https://www.merriam-webster.com/dictionary/shutdown"
+          ],
+          "reasoning": "No additional independently selected activation collocation; company collocation excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "sense_id": "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9",
+      "lemma": "startup",
+      "meaning_sha": "c9f09618ace72d83b49dafda116ef4655548af96ef8ee7fd8499003471867e32",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a newly established business, especially an innovative one",
+          "after": "a newly established business, especially an innovative one",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "New business meaning corroborated; innovation is qualified as especially, not mandatory."
+        },
+        "definition_uz": {
+          "before": "yangi tashkil etilgan kompaniya, startap",
+          "after": "yangi tashkil etilgan kompaniya, startap",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Yangi tashkil etilgan kompaniya/startap retained for business entity."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yangi tashkil etilgan kompaniya, startap",
+              "translation_id": "b3f2a622-8a1d-51dd-a987-65d3f5cc7770"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yangi tashkil etilgan kompaniya, startap",
+              "translation_id": "b3f2a622-8a1d-51dd-a987-65d3f5cc7770"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Business translation retained, distinct from action noun."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Explicit company C1 verified in primary cached body; prior correction retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Inauguration names an event, not a company; no business-entity edge guessed."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "an Internet startup"
+            }
+          ],
+          "after": [
+            {
+              "text": "an Internet startup"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/startup",
+            "https://dictionary.cambridge.org/dictionary/english/start-up",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/start-up_1"
+          ],
+          "reasoning": "Existing an Internet startup supported by exact collocation entry; not counted again."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65843352-a16b-4140-80a4-9e10900df31d",
+      "sense_id": "eb745d1d-f5d2-4dba-9822-b23d7ae5acb1",
+      "lemma": "epigenesis",
+      "meaning_sha": "c2b48f4e4819d6bd7f11730836c41718e92501112dbd4ba4d71e7879aa51a635",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "change in gene activity caused by regulatory processes without altering DNA sequence",
+          "after": "The development of a plant or animal through the gradual differentiation of initially unspecialized cells into tissues and organs.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "Original gene-activity-without-sequence-change definition describes epigenetic change, not this developmental term. Correct to gradual differentiation into tissues/organs; no extra geology sense invented."
+        },
+        "definition_uz": {
+          "before": "epigenez",
+          "after": "O‘simlik yoki hayvonning dastlab ixtisoslashmagan hujayralari asta-sekin to‘qima va a’zolarga ajralib rivojlanishi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "Replace repeated epigenez label with actual developmental differentiation explanation."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "epigenez",
+              "translation_id": "9ad72945-973d-526b-a1e0-a20c6254d332"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "epigenez",
+              "translation_id": "9ad72945-973d-526b-a1e0-a20c6254d332"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "Epigenez correctly names the developmental term; retained."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "Original null retained; specialist status supplies no CEFR."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "Epigenetics is a different concept, not an interchangeable sense; no guessed link."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/epigenesis",
+            "https://www.genome.gov/genetics-glossary/Epigenetics"
+          ],
+          "reasoning": "No independently selected noun collocation established; epigenetic modification not transferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+      "sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae",
+      "lemma": "Empirin",
+      "meaning_sha": "bf63416a2909c455ecdfc632751c2279f69c113d1386c924761c3c2f723f4046",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "after": "A former trade name for aspirin (acetylsalicylic acid), a medicine used to relieve pain and reduce fever and inflammation.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "Official brand list identifies former aspirin product. Clarify trade-name status; remove unrelated brand list and misleading poisoning-platelets language. No dosing advice."
+        },
+        "definition_uz": {
+          "before": "Salitsil kislotasining atsetillangan hosilasi; og'riq qoldiruvchi va yallig'lanishga qarshi dori, Bayer, Empirin va St. Joseph savdo nomlari bilan sotiladi; odatda tabletka shaklida qabul qilinadi, isitmani tushiradi va trombotsitlarga ta'sir qilib qon ivishini sekinlashtiradi.",
+          "after": "Og‘riqni kamaytirish, isitmani tushirish va yallig‘lanishni kamaytirish uchun ishlatiladigan aspirin (atsetilsalitsil kislota)ning ilgari qo‘llangan savdo nomi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "Clearly identifies former trade name rather than another chemical; removes brand enumeration."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "atsetilsalitsil kislotasi og‘riq qoldiruvchi dorisi (aspirin)",
+              "translation_id": "909c8a85-53d7-58b4-a715-0abb6b3c4c04"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "aspirinning ilgari qo‘llangan savdo nomi",
+              "translation_id": "909c8a85-53d7-58b4-a715-0abb6b3c4c04"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "Translation identifies aspirin trade name, not a separate active ingredient."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "No exact product-name CEFR; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+              "senseId": "09660fb5-2412-407b-bc00-5e38c62ee0a8",
+              "text": "aspirin"
+            },
+            {
+              "lexemeId": "0e108586-d229-52bb-9df0-292c3ccf2070",
+              "senseId": "c9184f9c-86aa-550c-8b00-4aeeef5909b7",
+              "text": "Bayer"
+            },
+            {
+              "lexemeId": "76b14134-cc81-5eea-af86-28546eeb8caf",
+              "senseId": "ae75638b-b764-5513-837c-78263664e336",
+              "text": "St. Joseph"
+            }
+          ],
+          "after": [
+            {
+              "text": "aspirin",
+              "lexemeId": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+              "senseId": "09660fb5-2412-407b-bc00-5e38c62ee0a8"
+            },
+            {
+              "text": "Bayer",
+              "lexemeId": "0e108586-d229-52bb-9df0-292c3ccf2070",
+              "senseId": "c9184f9c-86aa-550c-8b00-4aeeef5909b7"
+            },
+            {
+              "text": "St. Joseph",
+              "lexemeId": "76b14134-cc81-5eea-af86-28546eeb8caf",
+              "senseId": "ae75638b-b764-5513-837c-78263664e336"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "Aspirin and two frozen aspirin trade-name senses are contextual naming equivalents, not dosing/formulation interchangeability. Exact IDs verified; brand versus generic explained."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://medlineplus.gov/druginfo/meds/a682878.html",
+            "https://www.medlineplus.gov/druginfo/drug_Ea.html",
+            "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c0c31523-c4c5-43c2-8d72-4d1456c720e9&type=display"
+          ],
+          "reasoning": "No product-use or dosage combination added; optional field empty."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+      "sense_id": "ae713590-fdd6-4c28-a502-5e75690201cf",
+      "lemma": "tropic",
+      "meaning_sha": "507fe51cf6b2c231bde2ffc57dee5280ac6066c365693531e82f22d683ee169a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "relating to or situated in or characteristic of the tropics (the region on either side of the equator)",
+          "after": "relating to or situated in or characteristic of the tropics (the region on either side of the equator)",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Less common adjective meaning relating to tropical regions corroborated; not noun latitude or biochemical suffix."
+        },
+        "definition_uz": {
+          "before": "Ekvatorning ikki tomonidagi issiq mintaqaga tegishli yoki unga xos.",
+          "after": "Ekvatorning ikki tomonidagi issiq mintaqaga tegishli yoki unga xos.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Equatorial tropical-region description retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tropiklarga oid",
+              "translation_id": "b292ed20-c662-516c-b126-95907d0b1295"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tropiklarga oid",
+              "translation_id": "b292ed20-c662-516c-b126-95907d0b1295"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Tropiklarga oid accurately retained."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Exact tropic adjective label unproven; tropical B2 not transferred. Original B2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+              "senseId": "eddea5b3-45d1-4ac7-922f-78db4adcddf7",
+              "text": "tropical"
+            }
+          ],
+          "after": [
+            {
+              "text": "tropical",
+              "lexemeId": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+              "senseId": "eddea5b3-45d1-4ac7-922f-78db4adcddf7"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Exact tropical geographic target selected, not figurative trope or hot-weather target. Its independently verified B2 replaces erroneous B1 as partial target edit."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "tropic skies"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Tropic skies directly attested for geographic adjective."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+      "sense_id": "da64dfcd-435c-4eb9-a554-f7f3846cf98d",
+      "lemma": "tropic",
+      "meaning_sha": "be205fa04163b898ac31123369063b0e0813bd1fbdb2329bedfd7489008e20dc",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "of weather or climate; hot and humid as in the tropics",
+          "after": "of weather or climate; hot and humid as in the tropics",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Hot/humid weather use corroborated through explicitly documented less-common tropical adjective variant, not a claim all tropical climates are humid."
+        },
+        "definition_uz": {
+          "before": "Tropiklardagidek issiq va nam ob-havo yoki iqlimga ega.",
+          "after": "Tropiklardagidek issiq va nam ob-havo yoki iqlimga ega.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Hot humid weather sense retained, separate from location alone."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tropik iqlimli",
+              "translation_id": "c1960ca2-6bff-5437-8465-eff869846c58"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tropik iqlimli",
+              "translation_id": "c1960ca2-6bff-5437-8465-eff869846c58"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Tropik iqlimli retained with hot/humid scope in definition."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "No independent exact tropic weather CEFR; original C1 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+              "senseId": "b9667020-8295-457b-a5a0-21fa69cacd99",
+              "text": "tropical"
+            }
+          ],
+          "after": [
+            {
+              "text": "tropical",
+              "lexemeId": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+              "senseId": "b9667020-8295-457b-a5a0-21fa69cacd99"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Second tropical target exact hot/humid weather sense selected; no source/target sense mixing."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/tropic",
+            "https://www.collinsdictionary.com/dictionary/english/tropical",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/tropical"
+          ],
+          "reasoning": "Tropical heat is a different headword spelling; no automatic tropic collocation transfer."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+      "sense_id": "3605bf25-ccdd-50cc-b80a-d464cf0cfe04",
+      "lemma": "fattiness",
+      "meaning_sha": "9279ce74e389484f4b58375c9b5d4e0a7a1dfccd4e33b0fa1200c5ef9f0f05a4",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "having the property of containing fat",
+          "after": "The quality of containing fat, especially a large amount of it.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "Rewrite adjective-like having-property wording as a noun quality of containing fat."
+        },
+        "definition_uz": {
+          "before": "Tarkibida yog‘ bo‘lish xususiyati.",
+          "after": "Tarkibida yog‘ bo‘lish xususiyati.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "Tarkibida yog‘ bo‘lish xususiyati accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yog‘lilik",
+              "translation_id": "27b2fda2-d656-5860-aa10-556129ec006e"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yog‘lilik",
+              "translation_id": "27b2fda2-d656-5860-aa10-556129ec006e"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "Yog‘lilik retained as quality noun."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "No independent noun level documented; original C2 cleared, fatty adjective level not borrowed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "e614edae-642a-5106-a407-1548417e8171",
+              "senseId": "0065cd51-0c9a-552c-bdf7-867e97263ae2",
+              "text": "adiposeness"
+            },
+            {
+              "lexemeId": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+              "senseId": "186b2914-c125-5357-90dd-db714e178591",
+              "text": "adiposity"
+            }
+          ],
+          "after": [
+            {
+              "text": "adiposeness",
+              "lexemeId": "e614edae-642a-5106-a407-1548417e8171",
+              "senseId": "0065cd51-0c9a-552c-bdf7-867e97263ae2"
+            },
+            {
+              "text": "adiposity",
+              "lexemeId": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+              "senseId": "186b2914-c125-5357-90dd-db714e178591"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "Adiposeness/adiposity frozen exact fat-content-quality targets are contextual biological-fat equivalents; not claimed interchangeable in every food context."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/fatty",
+            "https://www.merriam-webster.com/dictionary/adiposity"
+          ],
+          "reasoning": "Fatty foods is adjective usage, not fattiness noun collocation; no forced transfer."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+      "sense_id": "85b76ca6-f508-56c0-9710-80913c55fe20",
+      "lemma": "knock back",
+      "meaning_sha": "c68a41e8fcb7f59d3f82fb5d42f8105e6b7ee2ad0d0a07b10af2f53ecbf25999",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "cost a certain amount",
+          "after": "(British English, informal; knock somebody back an amount) to cost someone a sum of money, often a large one.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "Document British informal cost construction with person and amount; distinguish drinking, rejection and shock."
+        },
+        "definition_uz": {
+          "before": "Muayyan miqdorda pul talab qilmoq.",
+          "after": "(Britaniya inglizchasi, norasmiy) birovga muayyan, ko‘pincha katta miqdorda pulga tushmoq.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "Money cost to someone clarified with informal British register."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "xarajatga tushirmoq",
+              "translation_id": "97244a68-3728-5406-90ba-90fcb6e2b75b"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "xarajatga tushirmoq",
+              "translation_id": "97244a68-3728-5406-90ba-90fcb6e2b75b"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "Xarajatga tushirmoq retained for financial-cost sense."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "Exact cost-phrase label unproven; original B1 cleared. Unrelated A2 footer excluded."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+              "senseId": "b4b60c1e-152a-50dd-bc9c-4c5660218321",
+              "text": "put back"
+            },
+            {
+              "lexemeId": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+              "senseId": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874",
+              "text": "set back"
+            }
+          ],
+          "after": [
+            {
+              "text": "put back",
+              "lexemeId": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+              "senseId": "b4b60c1e-152a-50dd-bc9c-4c5660218321"
+            },
+            {
+              "text": "set back",
+              "lexemeId": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+              "senseId": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "Put back/set back exact frozen cost senses, not returning objects or delaying events; both IDs scoped."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "knock somebody back a bit"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/knock-back_1",
+            "https://www.collinsdictionary.com/dictionary/english/knock-back"
+          ],
+          "reasoning": "Knock somebody back a bit attested in cost use, with exact source sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+      "sense_id": "045d066d-960e-5f90-bee5-17a0d73314e7",
+      "lemma": "secretary of the interior",
+      "meaning_sha": "7019763e8c2ad9a86bf9eb678ebe66440e0829cdf39ad1f69d77d97f1e532f39",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the person who holds the secretaryship of the Interior Department",
+          "after": "The person who heads the U.S. Department of the Interior, which manages public lands, natural resources and cultural heritage.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Head of US Interior Department corroborated by official agency history and responsibilities; no current holder named."
+        },
+        "definition_uz": {
+          "before": "AQSH Ichki ishlar departamenti kotibi lavozimini egallagan shaxs.",
+          "after": "AQSHning tabiiy resurslar, federal yerlar va madaniy meros bilan shug‘ullanuvchi Ichki ishlar departamentiga rahbarlik qiladigan shaxs.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Clarify natural/cultural resources and public lands, avoiding internal-policing interpretation."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "Ichki ishlar departamenti kotibi (AQSH)",
+              "translation_id": "6f670e75-67ac-5dda-a48f-a429c99a0314"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "Ichki ishlar departamenti kotibi (AQSH)",
+              "translation_id": "6f670e75-67ac-5dda-a48f-a429c99a0314"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Existing US Department title retained with scope explained in definition."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "No exact US officeholder-title learner level documented; original B1 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+              "senseId": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7",
+              "text": "interior secretary"
+            }
+          ],
+          "after": [
+            {
+              "text": "interior secretary",
+              "lexemeId": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+              "senseId": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Interior secretary person target selected separately from office/post target; exact ID scope."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "No independently selected extra title combination added."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+      "sense_id": "e743d613-eb7a-5518-8304-6ca7184efc94",
+      "lemma": "secretary of the interior",
+      "meaning_sha": "1084a8ca51f2a989a32c4d465cbc5f92160d0057901902b9ef84617f79d4ceaf",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the position of the head of the Department of the Interior",
+          "after": "The office of the head of the U.S. Department of the Interior, responsible for public lands, natural resources and cultural heritage.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Office/post distinguished from the person who holds it; official departmental scope added."
+        },
+        "definition_uz": {
+          "before": "AQSH Ichki ishlar departamentiga rahbarlik qiluvchi kotibning rasmiy lavozimi.",
+          "after": "AQSHning tabiiy resurslar, federal yerlar va madaniy meros bilan shug‘ullanuvchi Ichki ishlar departamenti rahbarining lavozimi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Explicit lavozim wording retained and resource responsibilities clarified."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "Ichki ishlar departamenti rahbari lavozimi; ichki ishlar kotibi lavozimi",
+              "translation_id": "29f02a01-bbab-5b5d-b245-fe4bec4eae64"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "Ichki ishlar departamenti rahbari lavozimi; ichki ishlar kotibi lavozimi",
+              "translation_id": "29f02a01-bbab-5b5d-b245-fe4bec4eae64"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Lavozim translation kept distinct from officeholder person."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "No exact US office/post level; original B1 cleared, secretary component level not borrowed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+              "senseId": "34bd8264-47d4-54ff-b66b-f03afd0fef11",
+              "text": "interior secretary"
+            }
+          ],
+          "after": [
+            {
+              "text": "interior secretary",
+              "lexemeId": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+              "senseId": "34bd8264-47d4-54ff-b66b-f03afd0fef11"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "Interior secretary office/post target selected, not person target; separate exact UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.doi.gov/about",
+            "https://www.doi.gov/interiormuseum/past-secretaries"
+          ],
+          "reasoning": "No independently selected extra post-specific collocation added."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6588d3b5-bd32-5d9c-ac3b-a6df69ba5384",
+      "sense_id": "115268b2-8380-54bc-af9a-860b7c1e3af4",
+      "lemma": "wrongheaded",
+      "meaning_sha": "edeebc4a3e7f4fe690d0cbb5694492d6b15d81fedcc1723e42e26c85b4a9408a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "obstinately perverse in judgment or opinion",
+          "after": "obstinately perverse in judgment or opinion",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "Stubborn wrong judgment/opinion meaning corroborated; source retained."
+        },
+        "definition_uz": {
+          "before": "Hukm yoki fikrida noto‘g‘ri yo‘nalishni o‘jarlik bilan saqlab qoladigan.",
+          "after": "Hukm yoki fikrida noto‘g‘ri yo‘nalishni o‘jarlik bilan saqlab qoladigan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "O‘jarlik bilan yanglish fikrni saqlash meaning retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "qaysarona noto‘g‘ri fikrdagi; o‘jarlik bilan yanglish",
+              "translation_id": "f33e59bf-50e7-5a0b-8ca2-1d70c1ddd766"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qaysarona noto‘g‘ri fikrdagi; o‘jarlik bilan yanglish",
+              "translation_id": "f33e59bf-50e7-5a0b-8ca2-1d70c1ddd766"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "Qaysarona noto‘g‘ri fikrdagi accurate."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "No exact adjective CEFR documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "Misguided broader than stubbornly wrong; no independently verified target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "Rightheaded exact target absent in read-only stable-release lookup; no invented ID or guessed substitute."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "wrongheaded in one's opinions"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/wrongheaded"
+          ],
+          "reasoning": "Wrongheaded in one's opinions paraphrases attested wrongheaded-in-his-opinions construction."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "658914e1-3a6b-5468-b4c9-368316b5d683",
+      "sense_id": "b4bf0699-28a9-59e7-8e16-ff0ac63c190b",
+      "lemma": "despitefully",
+      "meaning_sha": "4b45ccf5dbf7be889ce9f556804b6b67dca9e10abcf32f260a1f53aabcec7060",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "in a maliciously spiteful manner",
+          "after": "in a maliciously spiteful manner",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "Primary entry explicitly derives this adverb from malicious/hateful adjective; source spiteful manner retained, unrelated despite preposition excluded."
+        },
+        "definition_uz": {
+          "before": "Birovga qasddan ozor berishni ko‘zlab, adovat bilan.",
+          "after": "Birovga qasddan ozor berishni ko‘zlab, adovat bilan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "Qasddan ozor berish/adovat manner retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yomon niyat va gina bilan",
+              "translation_id": "59b1482f-847e-5416-a8c6-740421ece486"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yomon niyat va gina bilan",
+              "translation_id": "59b1482f-847e-5416-a8c6-740421ece486"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "Yomon niyat va gina bilan retained for malicious manner."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "No exact adverb learner level; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+              "senseId": "7e9eb0b7-f050-5d60-be03-08c9226c379d",
+              "text": "spitefully"
+            }
+          ],
+          "after": [
+            {
+              "text": "spitefully",
+              "lexemeId": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+              "senseId": "7e9eb0b7-f050-5d60-be03-08c9226c379d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "Spitefully exact frozen malicious-manner target matches adverb; scope exact source/target."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; no guessed relation added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/despiteful"
+          ],
+          "reasoning": "Adjective despiteful treatment not a despitefully-adverb combination; no forced transfer."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+      "sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef",
+      "lemma": "daunted",
+      "meaning_sha": "8b4e830f4954521a68e7c5aabf887fae68180f36ffe243511010aa0da33f354f",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "caused to show discomposure",
+          "after": "Discouraged or made less confident by something difficult or frightening.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "Add discouraged/intimidated loss-of-confidence meaning missing from overly generic discomposure gloss."
+        },
+        "definition_uz": {
+          "before": "O'zini yo'qotadigan holatga tushirilgan.",
+          "after": "Qiyinchilik yoki qo‘rqinchli vaziyat sababli jur’ati so‘ngan yoki o‘ziga ishonchi kamaygan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "Clarifies confidence/courage diminished by difficulty, rather than mere surprise or confusion."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "dovdiratilgan",
+              "translation_id": "18bcbc62-eb83-514b-83ec-6f802fe8970b"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "jur’ati so‘ngan; yuragi dov bermagan",
+              "translation_id": "18bcbc62-eb83-514b-83ec-6f802fe8970b"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "Jur’ati so‘ngan is more precise than generic dovdiratilgan."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "No exact adjectival/participle CEFR established; original C2 cleared, verb level not borrowed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "94a19f83-681b-563c-9516-dd259faf0501",
+              "senseId": "1e5f4978-56f5-4f8c-bc70-d40d1730953e",
+              "text": "bothered"
+            },
+            {
+              "lexemeId": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+              "senseId": "8f3225c4-ea15-5fdd-948f-5d01dd641846",
+              "text": "fazed"
+            }
+          ],
+          "after": [
+            {
+              "text": "bothered",
+              "lexemeId": "94a19f83-681b-563c-9516-dd259faf0501",
+              "senseId": "1e5f4978-56f5-4f8c-bc70-d40d1730953e"
+            },
+            {
+              "text": "fazed",
+              "lexemeId": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+              "senseId": "8f3225c4-ea15-5fdd-948f-5d01dd641846"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "Bothered/fazed exact frozen discomposure adjective targets retained only as contextual uneasy/disconcerted equivalents, not universal confidence-loss synonyms."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [
+            {
+              "text": "undaunted",
+              "lexemeId": "909df1f1-086a-5bba-a628-fbec463a9a89",
+              "senseId": "1d8c8cb1-07db-4aac-a4fa-9189c0cf49cc"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "Undaunted unshaken-in-purpose target chosen for not-discouraged contrast, independently defined by primary source. Separate broad courageous target not guessed."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "daunted by the size of something"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/daunted",
+            "https://www.merriam-webster.com/dictionary/daunted",
+            "https://www.merriam-webster.com/dictionary/undaunted"
+          ],
+          "reasoning": "Daunted by the size of something supported by exact primary size-of-problem usage."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Earlier phase09 source21–30; full enrichment adds no source coverage.",
+  "relation_verification": {
+    "existing_synonyms_scoped": 15,
+    "new_antonyms": 2,
+    "target_lexemes_verified": 15,
+    "automatic_definition_equality_is_not_independent_language_certification": true
+  },
+  "partial_target_interventions": [
+    {
+      "lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+      "sense_id": "eddea5b3-45d1-4ac7-922f-78db4adcddf7",
+      "meaning_sha": "78e13098e6102b21a94fcfc7bffa09613417eedb0f9eeda9e58434f1e45c040d",
+      "fields_reviewed": [
+        "cefr"
+      ],
+      "full_seven_field_review_counted": false
+    },
+    {
+      "lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+      "sense_id": "09660fb5-2412-407b-bc00-5e38c62ee0a8",
+      "meaning_sha": "2e9569c4735f4293d2f5df539bae3d32b7d249d67f8de5d160c68aeb1928df75",
+      "fields_reviewed": [
+        "definition_en",
+        "definition_uz"
+      ],
+      "full_seven_field_review_counted": false
+    },
+    {
+      "lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+      "sense_id": "c9184f9c-86aa-550c-8b00-4aeeef5909b7",
+      "meaning_sha": "b109711e382608b62c828d516a9871489225e33100e39f328ff829d7b06d7fff",
+      "fields_reviewed": [
+        "definition_en",
+        "definition_uz"
+      ],
+      "full_seven_field_review_counted": false
+    },
+    {
+      "lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+      "sense_id": "ae75638b-b764-5513-837c-78263664e336",
+      "meaning_sha": "35a7bd142af02bf33bbdac755ff229360c1d8eb28762ed721b3e8f3a1965da31",
+      "fields_reviewed": [
+        "definition_en",
+        "definition_uz"
+      ],
+      "full_seven_field_review_counted": false
+    },
+    {
+      "lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+      "sense_id": "34bd8264-47d4-54ff-b66b-f03afd0fef11",
+      "meaning_sha": "d166773b08e5ae8650b5d0dc9639fe0c4dba3e56df519d0e3c128f4275fb51ce",
+      "fields_reviewed": [
+        "definition_uz",
+        "cefr"
+      ],
+      "full_seven_field_review_counted": false
+    },
+    {
+      "lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+      "sense_id": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7",
+      "meaning_sha": "b1dd151bb5c6c02d30b1dfd2a3cdc3cf53fdf019044eadb19f8d0991fb202839",
+      "fields_reviewed": [
+        "definition_uz",
+        "cefr"
+      ],
+      "full_seven_field_review_counted": false
+    }
+  ],
+  "reference_access_notes": [
+    "Primary cached page bodies used where direct opens failed; failed opens do not count as read.",
+    "No CEFR transferred from related spelling, another sense, component word, or unrelated footer."
+  ],
+  "absent_optional_target_lookup": {
+    "lemma": "rightheaded",
+    "read_only_release_lookup_rows": 0
+  },
+  "example_asset_changed": false,
+  "local_validation": {
+    "initial_pre_new_boundary_tests": {
+      "passed": 206,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "first_new_boundary_run": {
+      "passed": 213,
+      "failed": 1,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "FAIL",
+      "test": "test_interior_officeholder_and_post_are_separate_resource_management_senses",
+      "cause": "New regression expectation reversed the two target UUIDs; canonical matches and candidate edges were already correct."
+    },
+    "resolution": "Read exact target glosses again and correct the regression expected UUID mapping; candidate mapping unchanged. No skip/xfail.",
+    "final_run": {
+      "passed": 214,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "compile": "PASS",
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "example_asset_unchanged_from_prior_candidate": true
+  }
+}

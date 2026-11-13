@@ -439,6 +439,114 @@ def test_partial_variant_and_historical_target_repairs_do_not_start_example_audi
             assert 'tarixiy' in candidate['senses'][0]['translations'][0]['text']
 
 
+def backfill_thirty():
+    return json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json').read_text())
+
+
+@pytest.mark.parametrize('enrichment_path', sorted((ROOT / 'content/dictionary').glob('audit-*-phase09-source-enrichment-*.json')), ids=lambda p: p.stem)
+def test_enriched_backfill_has_complete_unique_lexical_ledgers_and_exact_existing_edges(enrichment_path):
+    report = json.loads(enrichment_path.read_text())
+    targets = {e['lexeme_id']: e for e in report['target_entries']}
+    expected = {(e['lexeme_id'], s['sense_id']) for e in report['lexemes'] for s in e['senses']}
+    actual = []
+    for path in (ROOT / 'content/dictionary').glob('audit-*-phase*-lexical-decisions-*.json'):
+        ledger = json.loads(path.read_text())
+        if ledger['source_readback_receipt'] == enrichment_path.relative_to(ROOT).as_posix():
+            actual.extend((s['lexeme_id'], s['sense_id']) for s in ledger['senses'])
+    assert len(actual) == len(set(actual)) and set(actual) == expected
+    words = {e['lexeme_id']: e for e in report['lexemes']}
+    for match in report['existing_relation_matches']:
+        original = words[match['source_lexeme_id']]
+        sense = next(s for s in original['senses'] if s['sense_id'] == match['source_sense_id'])
+        target = targets[match['target_lexeme_id']]
+        target_sense = next(s for s in target['senses'] if s['sense_id'] == match['target_sense_id'])
+        assert sense['definition_en'] == target_sense['definition_en'] == match['target_definition_en']
+        assert (target['display_lemma'], target['part_of_speech']) == (match['display_lemma'], match['part_of_speech'])
+        candidate = curation.curate_candidate_entry(original)
+        edges = [r for r in candidate['relations'] if r['relation_type'] == 'synonym'
+                 and r['target_lexeme_id'] == target['lexeme_id'] and r['target_sense_id'] == target_sense['sense_id']]
+        assert len(edges) == 1 and edges[0]['source_sense_id'] == sense['sense_id']
+
+
+def test_startup_shutdown_and_daunted_undaunted_select_only_the_reviewed_meanings():
+    report = backfill_thirty()
+    words = {e['lexeme_id']: e for e in report['lexemes']}
+    targets = {e['lexeme_id']: e for e in report['target_entries']}
+    for proof in report['new_antonym_targets']:
+        target = targets[proof['target_lexeme_id']]
+        selected = next(s for s in target['senses'] if s['sense_id'] == proof['target_sense_id'])
+        assert selected['definition_en'] == proof['target_definition_en']
+        assert curation.original_meaning_hash(target, selected) == proof['target_meaning_sha']
+        candidate = curation.curate_candidate_entry(words[proof['source_lexeme_id']])
+        opposites = [r for r in candidate['relations'] if r['relation_type'] == 'antonym']
+        assert [(r['source_sense_id'], r['target_lexeme_id'], r['target_sense_id']) for r in opposites] == [
+            (proof['source_sense_id'], target['lexeme_id'], selected['sense_id'])]
+        if candidate['display_lemma'] == 'startup':
+            assert proof['source_sense_id'] == 'f56773d3-7e2d-4d35-9b42-f79de2ddf783'
+            assert selected['definition_en'] == 'termination of operations'
+            assert {s['sense_id']: s.get('cefr') for s in candidate['senses']} == {
+                'd7525883-85d3-4bd1-90f0-409545b4c051': None, 'f56773d3-7e2d-4d35-9b42-f79de2ddf783': None,
+                '94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9': 'C1'}
+        else:
+            assert candidate['display_lemma'] == 'daunted'
+            assert selected['definition_en'] == 'unshaken in purpose'
+            assert selected['sense_id'] != 'cfbd5174-13f3-4e59-b276-23a0d881898e'
+
+
+def test_epigenesis_is_development_not_gene_activity_and_keeps_frozen_source():
+    original = next(e for e in backfill_thirty()['lexemes'] if e['display_lemma'] == 'epigenesis')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    before, after = original['senses'][0], candidate['senses'][0]
+    assert 'gene activity' in before['definition_en']
+    assert 'differentiation' in after['definition_en'] and 'tissues and organs' in after['definition_en']
+    assert 'DNA' not in after['definition_en'] and 'a’zolarga' in after['definition_uz']
+    assert after['sense_id'] == before['sense_id'] and after['translations'] == before['translations']
+    assert after.get('cefr') is None and after['examples'] == before['examples'] == []
+
+
+def test_interior_officeholder_and_post_are_separate_resource_management_senses():
+    original = next(e for e in backfill_thirty()['lexemes'] if e['display_lemma'] == 'secretary of the interior')
+    candidate = curation.curate_candidate_entry(original)
+    person, post = candidate['senses']
+    assert 'person who heads' in person['definition_en'] and 'shaxs' in person['definition_uz']
+    assert 'office of the head' in post['definition_en'] and 'lavozimi' in post['definition_uz']
+    for sense in candidate['senses']:
+        assert 'natural resources' in sense['definition_en'] and 'federal yerlar' in sense['definition_uz']
+        assert sense.get('cefr') is None
+    edges = [r for r in candidate['relations'] if r['relation_type'] == 'synonym']
+    assert {r['source_sense_id']: r['target_sense_id'] for r in edges} == {
+        '045d066d-960e-5f90-bee5-17a0d73314e7': '5d1aead2-3a62-5030-8f60-3f3bb5ee16c7',
+        'e743d613-eb7a-5518-8304-6ca7184efc94': '34bd8264-47d4-54ff-b66b-f03afd0fef11'}
+
+
+def test_tropic_does_not_inherit_tropical_level_or_change_other_target_senses():
+    report = backfill_thirty()
+    tropic = next(e for e in report['lexemes'] if e['display_lemma'] == 'tropic')
+    assert all(s.get('cefr') is None for s in curation.curate_candidate_entry(tropic)['senses'])
+    target = next(e for e in report['target_entries'] if e['display_lemma'] == 'tropical')
+    revised = curation.curate_candidate_entry(target)
+    for old, new in zip(target['senses'], revised['senses']):
+        if old['sense_id'] == 'eddea5b3-45d1-4ac7-922f-78db4adcddf7':
+            assert old['cefr'] == 'B1' and new['cefr'] == 'B2'
+            assert {k: v for k, v in old.items() if k != 'cefr'} == {k: v for k, v in new.items() if k != 'cefr'}
+        else:
+            assert new == old
+
+
+def test_latest_backfill_retains_previously_approved_example_presentations():
+    from app.dictionary_presentation import corrected_examples
+    report = backfill_thirty()
+    for original in report['lexemes'] + report['target_entries']:
+        frozen = copy.deepcopy(original)
+        candidate = curation.curate_candidate_entry(original)
+        assert original == frozen
+        for old, new in zip(original['senses'], candidate['senses']):
+            assert old['examples'] == new['examples']
+            assert corrected_examples(original, old) == corrected_examples(candidate, new)
+
+
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():
     report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
     targets = {e['lexeme_id']: e for e in report['target_entries']}

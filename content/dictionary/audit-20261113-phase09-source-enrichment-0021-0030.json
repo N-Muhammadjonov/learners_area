@@ -1,0 +1,3084 @@
+{
+  "schema": 2,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "purpose": "Enrich earlier immutable originals for missing lexical-field review, without recounting source coverage.",
+  "historical_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "historical_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "scope": {
+    "lexemes": 10,
+    "senses": 14,
+    "sequential_lexemes_from": 21,
+    "sequential_lexemes_to": 30,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "target_lexemes": 15
+  },
+  "lexemes": [
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Owner-provided course glossary. Source meaning and Uzbek translation have not received an independent human editorial review. External reference URLs identify fact checks only.",
+          "creator": "Learners Area course author",
+          "license_reference": "Owner-provided course material; reuse requested by owner",
+          "license_url": "",
+          "snapshot_id": "course-material-20261020",
+          "source_name": "Learners Area",
+          "source_url": "https://learnersarea.uz"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "startup",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "lexical_type": "word",
+      "normalized_search_form": "startup",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "ˈstɑːtəp",
+          "variety": "GB"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "start up",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "a83965a2-d9c5-5a07-9755-8356627aad4e",
+          "target_sense_id": "5756de58-14bb-56ab-a889-d57b73c0fa17"
+        },
+        {
+          "display_lemma": "start up",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "a83965a2-d9c5-5a07-9755-8356627aad4e",
+          "target_sense_id": "d15be5c7-210f-5cea-b6ab-b97f64b4afa1"
+        },
+        {
+          "display_lemma": "inauguration",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "59c64765-84ba-50b5-8416-8298fc8edb09",
+          "target_sense_id": "a80057f8-669f-40ee-9e42-9d671e55fd1f"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "the act of starting a new operation or practice",
+          "definition_uz": "yangi faoliyat yoki amaliyotni boshlash harakati",
+          "examples": [
+            {
+              "example_id": "6d9b9b5b-699d-59de-9519-4d173a5297eb",
+              "text_en": "the startup of the new factory was delayed by strikes",
+              "text_uz": "Yangi zavodni ishga tushirish ish tashlashlar sabab kechikdi"
+            },
+            {
+              "example_id": "d600f08d-ad65-58cb-aed3-135c8178df90",
+              "text_en": "he opposed the inauguration of fluoridation",
+              "text_uz": "U ftorlashni joriy etishga qarshi chiqdi"
+            }
+          ],
+          "sense_id": "d7525883-85d3-4bd1-90f0-409545b4c051",
+          "translations": [
+            {
+              "order": 0,
+              "text": "ishga tushirish",
+              "translation_id": "4d7b0973-dad1-51db-9d44-17df81ab1452"
+            }
+          ]
+        },
+        {
+          "cefr": "C2",
+          "definition_en": "the act of setting in operation",
+          "definition_uz": "Ishga tushirish harakati.",
+          "examples": [
+            {
+              "example_id": "f232d1af-862c-5e35-aa5f-c3b22b4872fb",
+              "text_en": "repeated shutdowns and startups are expensive",
+              "text_uz": "takroriy to‘xtatish va ishga tushirishlar qimmatga tushadi"
+            }
+          ],
+          "sense_id": "f56773d3-7e2d-4d35-9b42-f79de2ddf783",
+          "translations": [
+            {
+              "order": 0,
+              "text": "ishga tushirish",
+              "translation_id": "409f6dfb-bb79-5619-83ec-13415523b687"
+            }
+          ]
+        },
+        {
+          "definition_en": "a newly established business, especially an innovative one",
+          "definition_uz": "yangi tashkil etilgan kompaniya, startap",
+          "editorial": {
+            "provenance": "derived",
+            "reference_urls": [],
+            "status": "owner_supplied",
+            "translation_status": "owner_supplied"
+          },
+          "examples": [],
+          "sense_id": "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9",
+          "translations": [
+            {
+              "order": 0,
+              "text": "yangi tashkil etilgan kompaniya, startap",
+              "translation_id": "b3f2a622-8a1d-51dd-a987-65d3f5cc7770"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Owner-provided course glossary. Source meaning and Uzbek translation have not received an independent human editorial review. External reference URLs identify fact checks only.",
+          "creator": "Learners Area course author",
+          "license_reference": "Owner-provided course material; reuse requested by owner",
+          "license_url": "",
+          "snapshot_id": "course-material-20261020",
+          "source_name": "Learners Area",
+          "source_url": "https://learnersarea.uz"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "epigenesis",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65843352-a16b-4140-80a4-9e10900df31d",
+      "lexical_type": "word",
+      "normalized_search_form": "epigenesis",
+      "part_of_speech": "noun",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "definition_en": "change in gene activity caused by regulatory processes without altering DNA sequence",
+          "definition_uz": "epigenez",
+          "editorial": {
+            "provenance": "derived",
+            "reference_urls": [],
+            "status": "owner_supplied",
+            "translation_status": "owner_supplied"
+          },
+          "examples": [],
+          "sense_id": "eb745d1d-f5d2-4dba-9822-b23d7ae5acb1",
+          "translations": [
+            {
+              "order": 0,
+              "text": "epigenez",
+              "translation_id": "9ad72945-973d-526b-a1e0-a20c6254d332"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "Empirin",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+      "lexical_type": "word",
+      "normalized_search_form": "empirin",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "aspirin",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+          "target_sense_id": "09660fb5-2412-407b-bc00-5e38c62ee0a8"
+        },
+        {
+          "display_lemma": "Bayer",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+          "target_sense_id": "c9184f9c-86aa-550c-8b00-4aeeef5909b7"
+        },
+        {
+          "display_lemma": "St. Joseph",
+          "lexical_type": "multiword",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+          "target_sense_id": "ae75638b-b764-5513-837c-78263664e336"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "definition_uz": "Salitsil kislotasining atsetillangan hosilasi; og'riq qoldiruvchi va yallig'lanishga qarshi dori, Bayer, Empirin va St. Joseph savdo nomlari bilan sotiladi; odatda tabletka shaklida qabul qilinadi, isitmani tushiradi va trombotsitlarga ta'sir qilib qon ivishini sekinlashtiradi.",
+          "examples": [],
+          "sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae",
+          "translations": [
+            {
+              "order": 0,
+              "text": "atsetilsalitsil kislotasi og‘riq qoldiruvchi dorisi (aspirin)",
+              "translation_id": "909c8a85-53d7-58b4-a715-0abb6b3c4c04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "tropic",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+      "lexical_type": "word",
+      "normalized_search_form": "tropic",
+      "part_of_speech": "a",
+      "pronunciations": [
+        {
+          "ipa": "ˈtɹɒpɪk"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "equatorial",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "similar",
+          "target_lexeme_id": "f59fe7ab-af12-5492-bdd9-98de981f7da1",
+          "target_sense_id": "27152c2a-d118-4cf8-b237-4150caf488fd"
+        },
+        {
+          "display_lemma": "hot",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "similar",
+          "target_lexeme_id": "04717c1f-cf4c-5406-8b59-89da680fe057",
+          "target_sense_id": "c4a3fb50-ca51-46ae-80e2-1c57bf5f305a"
+        },
+        {
+          "display_lemma": "tropical",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+          "target_sense_id": "b9667020-8295-457b-a5a0-21fa69cacd99"
+        },
+        {
+          "display_lemma": "tropical",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+          "target_sense_id": "eddea5b3-45d1-4ac7-922f-78db4adcddf7"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B2",
+          "definition_en": "relating to or situated in or characteristic of the tropics (the region on either side of the equator)",
+          "definition_uz": "Ekvatorning ikki tomonidagi issiq mintaqaga tegishli yoki unga xos.",
+          "examples": [
+            {
+              "example_id": "56f376ab-2618-5a09-ada3-420a13a4539d",
+              "text_en": "tropical islands",
+              "text_uz": "tropik orollar"
+            },
+            {
+              "example_id": "653220ae-e857-5e9b-95ea-6dd4d1ba898a",
+              "text_en": "tropical fruit",
+              "text_uz": "tropik mevalar"
+            }
+          ],
+          "sense_id": "ae713590-fdd6-4c28-a502-5e75690201cf",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tropiklarga oid",
+              "translation_id": "b292ed20-c662-516c-b126-95907d0b1295"
+            }
+          ]
+        },
+        {
+          "cefr": "C1",
+          "definition_en": "of weather or climate; hot and humid as in the tropics",
+          "definition_uz": "Tropiklardagidek issiq va nam ob-havo yoki iqlimga ega.",
+          "examples": [
+            {
+              "example_id": "936147ff-263d-540e-a54d-6295f1a2759e",
+              "text_en": "tropical weather",
+              "text_uz": "Tropik ob-havo."
+            }
+          ],
+          "sense_id": "da64dfcd-435c-4eb9-a554-f7f3846cf98d",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tropik iqlimli",
+              "translation_id": "c1960ca2-6bff-5437-8465-eff869846c58"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "fattiness",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+      "lexical_type": "word",
+      "normalized_search_form": "fattiness",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "adiposeness",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e614edae-642a-5106-a407-1548417e8171",
+          "target_sense_id": "0065cd51-0c9a-552c-bdf7-867e97263ae2"
+        },
+        {
+          "display_lemma": "adiposity",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+          "target_sense_id": "186b2914-c125-5357-90dd-db714e178591"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "having the property of containing fat",
+          "definition_uz": "Tarkibida yog‘ bo‘lish xususiyati.",
+          "examples": [],
+          "sense_id": "3605bf25-ccdd-50cc-b80a-d464cf0cfe04",
+          "translations": [
+            {
+              "order": 0,
+              "text": "yog‘lilik",
+              "translation_id": "27b2fda2-d656-5860-aa10-556129ec006e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "knock back",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+      "lexical_type": "other",
+      "normalized_search_form": "knock back",
+      "part_of_speech": "v",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "put back",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+          "target_sense_id": "b4b60c1e-152a-50dd-bc9c-4c5660218321"
+        },
+        {
+          "display_lemma": "set back",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+          "target_sense_id": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "cost a certain amount",
+          "definition_uz": "Muayyan miqdorda pul talab qilmoq.",
+          "examples": [
+            {
+              "example_id": "ce160f0a-ddc6-524b-a2f6-e877e13223ed",
+              "text_en": "My daughter's wedding set me back $20,000",
+              "text_uz": "Qizimning to'yi menga 20 000 dollarga tushdi."
+            }
+          ],
+          "sense_id": "85b76ca6-f508-56c0-9710-80913c55fe20",
+          "translations": [
+            {
+              "order": 0,
+              "text": "xarajatga tushirmoq",
+              "translation_id": "97244a68-3728-5406-90ba-90fcb6e2b75b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "secretary of the interior",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+      "lexical_type": "other",
+      "normalized_search_form": "secretary of the interior",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "secretary",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "hypernym",
+          "target_lexeme_id": "68ea7f72-c7fe-5174-a54c-e16139cc4003",
+          "target_sense_id": "e58abe27-e1f7-4c74-beaa-00cf30d1789c"
+        },
+        {
+          "display_lemma": "interior secretary",
+          "lexical_type": "other",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+          "target_sense_id": "34bd8264-47d4-54ff-b66b-f03afd0fef11"
+        },
+        {
+          "display_lemma": "interior secretary",
+          "lexical_type": "other",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+          "target_sense_id": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "the person who holds the secretaryship of the Interior Department",
+          "definition_uz": "AQSH Ichki ishlar departamenti kotibi lavozimini egallagan shaxs.",
+          "examples": [
+            {
+              "example_id": "cc226421-886c-51e9-8e27-a853f36ff7df",
+              "text_en": "President Taylor appointed Thomas Ewing as the first Secretary of the Interior",
+              "text_uz": "Prezident Teylor Tomas Yuingni birinchi Ichki ishlar departamenti kotibi etib tayinladi"
+            }
+          ],
+          "sense_id": "045d066d-960e-5f90-bee5-17a0d73314e7",
+          "translations": [
+            {
+              "order": 0,
+              "text": "Ichki ishlar departamenti kotibi (AQSH)",
+              "translation_id": "6f670e75-67ac-5dda-a48f-a429c99a0314"
+            }
+          ]
+        },
+        {
+          "cefr": "B1",
+          "definition_en": "the position of the head of the Department of the Interior",
+          "definition_uz": "AQSH Ichki ishlar departamentiga rahbarlik qiluvchi kotibning rasmiy lavozimi.",
+          "examples": [
+            {
+              "example_id": "37fe3423-34cc-53f3-8e1a-dc5dc63ba104",
+              "text_en": "the position of Interior Secretary was created in 1849",
+              "text_uz": "Ichki ishlar kotibi lavozimi 1849-yilda tashkil etilgan."
+            }
+          ],
+          "sense_id": "e743d613-eb7a-5518-8304-6ca7184efc94",
+          "translations": [
+            {
+              "order": 0,
+              "text": "Ichki ishlar departamenti rahbari lavozimi; ichki ishlar kotibi lavozimi",
+              "translation_id": "29f02a01-bbab-5b5d-b245-fe4bec4eae64"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "wrongheaded",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "6588d3b5-bd32-5d9c-ac3b-a6df69ba5384",
+      "lexical_type": "word",
+      "normalized_search_form": "wrongheaded",
+      "part_of_speech": "a",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "obstinately perverse in judgment or opinion",
+          "definition_uz": "Hukm yoki fikrida noto‘g‘ri yo‘nalishni o‘jarlik bilan saqlab qoladigan.",
+          "examples": [],
+          "sense_id": "115268b2-8380-54bc-af9a-860b7c1e3af4",
+          "translations": [
+            {
+              "order": 0,
+              "text": "qaysarona noto‘g‘ri fikrdagi; o‘jarlik bilan yanglish",
+              "translation_id": "f33e59bf-50e7-5a0b-8ca2-1d70c1ddd766"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "despitefully",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "658914e1-3a6b-5468-b4c9-368316b5d683",
+      "lexical_type": "word",
+      "normalized_search_form": "despitefully",
+      "part_of_speech": "r",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "spitefully",
+          "lexical_type": "word",
+          "part_of_speech": "r",
+          "relation_type": "synonym",
+          "target_lexeme_id": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+          "target_sense_id": "7e9eb0b7-f050-5d60-be03-08c9226c379d"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "in a maliciously spiteful manner",
+          "definition_uz": "Birovga qasddan ozor berishni ko‘zlab, adovat bilan.",
+          "examples": [],
+          "sense_id": "b4bf0699-28a9-59e7-8e16-ff0ac63c190b",
+          "translations": [
+            {
+              "order": 0,
+              "text": "yomon niyat va gina bilan",
+              "translation_id": "59b1482f-847e-5416-a8c6-740421ece486"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "daunted",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+      "lexical_type": "word",
+      "normalized_search_form": "daunted",
+      "part_of_speech": "a",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "bothered",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "94a19f83-681b-563c-9516-dd259faf0501",
+          "target_sense_id": "1e5f4978-56f5-4f8c-bc70-d40d1730953e"
+        },
+        {
+          "display_lemma": "fazed",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+          "target_sense_id": "8f3225c4-ea15-5fdd-948f-5d01dd641846"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "caused to show discomposure",
+          "definition_uz": "O'zini yo'qotadigan holatga tushirilgan.",
+          "examples": [],
+          "sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef",
+          "translations": [
+            {
+              "order": 0,
+              "text": "dovdiratilgan",
+              "translation_id": "18bcbc62-eb83-514b-83ec-6f802fe8970b"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_projection": [
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "lemma_norm": "startup",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "d7525883-85d3-4bd1-90f0-409545b4c051",
+        "f56773d3-7e2d-4d35-9b42-f79de2ddf783",
+        "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9"
+      ],
+      "content_sha": "87d2865e0bcd86929f0bf986fac38c7fec511f89b80eeabbd47fdddb4351f910",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 156086,
+      "storage_length": 1859,
+      "storage_raw_bytes": 4703,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "65843352-a16b-4140-80a4-9e10900df31d",
+      "lemma_norm": "epigenesis",
+      "part_of_speech": "noun",
+      "sense_ids": [
+        "eb745d1d-f5d2-4dba-9822-b23d7ae5acb1"
+      ],
+      "content_sha": "e8ac15c56e0cb1f83c6012c8f22ae0d06b234731514937f4ed44edcb321e81c7",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 157945,
+      "storage_length": 714,
+      "storage_raw_bytes": 1239,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+      "lemma_norm": "empirin",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "b03d867b-6bd9-5ee7-948a-af75e50c2aae"
+      ],
+      "content_sha": "968bf93e72133aa84d14b3615a5402b1bbf11af0e017e91ddc1b33e1d316a7d6",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 158659,
+      "storage_length": 1286,
+      "storage_raw_bytes": 2592,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+      "lemma_norm": "tropic",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "ae713590-fdd6-4c28-a502-5e75690201cf",
+        "da64dfcd-435c-4eb9-a554-f7f3846cf98d"
+      ],
+      "content_sha": "d03f8aad8c62b8649cfcd6e7f1f15f2a675f7791f05ebff294ab72e9e4aa1bbf",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 159945,
+      "storage_length": 1516,
+      "storage_raw_bytes": 3893,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+      "lemma_norm": "fattiness",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "3605bf25-ccdd-50cc-b80a-d464cf0cfe04"
+      ],
+      "content_sha": "de83d9833f84884f7d3308dcd48c80d4b8c8657a37a0599b7bed103660e73808",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 161461,
+      "storage_length": 950,
+      "storage_raw_bytes": 1891,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+      "lemma_norm": "knock back",
+      "part_of_speech": "v",
+      "sense_ids": [
+        "85b76ca6-f508-56c0-9710-80913c55fe20"
+      ],
+      "content_sha": "677cfa00a50b8884e55a2bf86d32bb27e07538383a016496b573828c98206ad3",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 162411,
+      "storage_length": 1037,
+      "storage_raw_bytes": 2045,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+      "lemma_norm": "secretary of the interior",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "045d066d-960e-5f90-bee5-17a0d73314e7",
+        "e743d613-eb7a-5518-8304-6ca7184efc94"
+      ],
+      "content_sha": "3c2d0c70ace77cd55dc6716ae56309fd43bd30d2f7a6f87a61793b551a210318",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 163448,
+      "storage_length": 1320,
+      "storage_raw_bytes": 3092,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "6588d3b5-bd32-5d9c-ac3b-a6df69ba5384",
+      "lemma_norm": "wrongheaded",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "115268b2-8380-54bc-af9a-860b7c1e3af4"
+      ],
+      "content_sha": "4aa722f80deb1edfc5a4b9598f3f965076c4d42f4396b50f06facae9d982af1f",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 164768,
+      "storage_length": 849,
+      "storage_raw_bytes": 1562,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "658914e1-3a6b-5468-b4c9-368316b5d683",
+      "lemma_norm": "despitefully",
+      "part_of_speech": "r",
+      "sense_ids": [
+        "b4bf0699-28a9-59e7-8e16-ff0ac63c190b"
+      ],
+      "content_sha": "2996ff376fc83c74dc9e20f3ee0750d5f82678059c0cfa9415ec39cc8b72aa71",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 165617,
+      "storage_length": 901,
+      "storage_raw_bytes": 1707,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+      "lemma_norm": "daunted",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "948f1639-4e2f-5e72-8104-bdd91f7a09ef"
+      ],
+      "content_sha": "ce4ab0dc11ebe28c9c676b6e47c45aba5583e1578ee9b4a29daec9ca71d17781",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 166518,
+      "storage_length": 941,
+      "storage_raw_bytes": 1874,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    }
+  ],
+  "target_entries": [
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "fazed",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+      "lexical_type": "word",
+      "normalized_search_form": "fazed",
+      "part_of_speech": "a",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "bothered",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "94a19f83-681b-563c-9516-dd259faf0501",
+          "target_sense_id": "1e5f4978-56f5-4f8c-bc70-d40d1730953e"
+        },
+        {
+          "display_lemma": "daunted",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+          "target_sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "caused to show discomposure",
+          "definition_uz": "Osoyishtaligini yo'qotishga majbur qilingan.",
+          "examples": [],
+          "sense_id": "8f3225c4-ea15-5fdd-948f-5d01dd641846",
+          "translations": [
+            {
+              "order": 0,
+              "text": "sarosimaga solingan",
+              "translation_id": "1cd640cf-52fc-55ea-a921-a9dbedc08bd4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "put back",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+      "lexical_type": "other",
+      "normalized_search_form": "put back",
+      "part_of_speech": "v",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "knock back",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+          "target_sense_id": "85b76ca6-f508-56c0-9710-80913c55fe20"
+        },
+        {
+          "display_lemma": "replace",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "2823468e-ecb2-5ce0-af77-542a05dcd887",
+          "target_sense_id": "d9e44104-006a-4824-a90e-b9a75018bede"
+        },
+        {
+          "display_lemma": "set back",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+          "target_sense_id": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "put something back where it belongs",
+          "definition_uz": "Biror narsani avvalgi yoki tegishli joyiga qayta qo‘ymoq.",
+          "examples": [
+            {
+              "example_id": "2bd514e4-6622-50a3-9d3e-452ebf87deed",
+              "text_en": "please put the clean dishes back in the cabinet when you have washed them",
+              "text_uz": "Idishlarni yuvgach, iltimos, ularni shkafga qaytarib qo‘ying."
+            },
+            {
+              "example_id": "a909f13e-eab9-5d39-9692-540425d8d688",
+              "text_en": "replace the book on the shelf after you have finished reading it",
+              "text_uz": "Kitobni o‘qib bo‘lgach, javonga qaytarib qo‘ying."
+            }
+          ],
+          "sense_id": "6639862a-148a-5579-b078-e022a91d93a6",
+          "translations": [
+            {
+              "order": 0,
+              "text": "joyiga qaytarib qo‘ymoq",
+              "translation_id": "44f787ba-be0c-5174-a727-3a12b0dc4f79"
+            }
+          ]
+        },
+        {
+          "cefr": "B1",
+          "definition_en": "cost a certain amount",
+          "definition_uz": "Biror narsaning narxi yoki xarajati muayyan miqdorda bo‘lmoq.",
+          "examples": [
+            {
+              "example_id": "48d10cae-88d9-5a0f-9fef-2d8c8e3d01b9",
+              "text_en": "My daughter's wedding set me back $20,000",
+              "text_uz": "Qizimning to‘yi menga 20 000 dollarga tushdi."
+            }
+          ],
+          "sense_id": "b4b60c1e-152a-50dd-bc9c-4c5660218321",
+          "translations": [
+            {
+              "order": 0,
+              "text": "muayyan summaga tushmoq",
+              "translation_id": "9a9c3ba2-c031-5621-b061-7b0a15944141"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "Bayer",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+      "lexical_type": "word",
+      "normalized_search_form": "bayer",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "aspirin",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+          "target_sense_id": "09660fb5-2412-407b-bc00-5e38c62ee0a8"
+        },
+        {
+          "display_lemma": "Empirin",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+          "target_sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae"
+        },
+        {
+          "display_lemma": "St. Joseph",
+          "lexical_type": "multiword",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+          "target_sense_id": "ae75638b-b764-5513-837c-78263664e336"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "definition_uz": "Asetillangan salitsil kislota hosilasi; og‘riq qoldiruvchi, yallig‘lanishga qarshi va isitma tushiruvchi dori bo‘lib, qon ivishini ham sekinlashtiradi.",
+          "examples": [],
+          "sense_id": "c9184f9c-86aa-550c-8b00-4aeeef5909b7",
+          "translations": [
+            {
+              "order": 0,
+              "text": "aspirin",
+              "translation_id": "b84bbc4c-2a96-5942-bd6d-427e8860bd5f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "interior secretary",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+      "lexical_type": "other",
+      "normalized_search_form": "interior secretary",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "secretary",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "hypernym",
+          "target_lexeme_id": "68ea7f72-c7fe-5174-a54c-e16139cc4003",
+          "target_sense_id": "e58abe27-e1f7-4c74-beaa-00cf30d1789c"
+        },
+        {
+          "display_lemma": "secretary of the interior",
+          "lexical_type": "other",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+          "target_sense_id": "045d066d-960e-5f90-bee5-17a0d73314e7"
+        },
+        {
+          "display_lemma": "secretary of the interior",
+          "lexical_type": "other",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+          "target_sense_id": "e743d613-eb7a-5518-8304-6ca7184efc94"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "the position of the head of the Department of the Interior",
+          "definition_uz": "AQSh Ichki ishlar departamenti rahbarining lavozimi.",
+          "examples": [
+            {
+              "example_id": "efa6aad5-b648-5cb6-98c1-305761b93684",
+              "text_en": "the position of Interior Secretary was created in 1849",
+              "text_uz": "Ichki ishlar kotibi lavozimi 1849-yilda tashkil etilgan."
+            }
+          ],
+          "sense_id": "34bd8264-47d4-54ff-b66b-f03afd0fef11",
+          "translations": [
+            {
+              "order": 0,
+              "text": "ichki ishlar kotibi lavozimi",
+              "translation_id": "2e876ae5-6d7a-5a02-8ade-4dab91fa14b3"
+            }
+          ]
+        },
+        {
+          "cefr": "B1",
+          "definition_en": "the person who holds the secretaryship of the Interior Department",
+          "definition_uz": "AQSh Ichki ishlar departamenti kotibi lavozimini egallagan shaxs",
+          "examples": [
+            {
+              "example_id": "73101765-c891-5928-b1a4-30a0d365dde6",
+              "text_en": "President Taylor appointed Thomas Ewing as the first Secretary of the Interior",
+              "text_uz": "Prezident Teylor Tomas Yuingni birinchi Ichki ishlar kotibi etib tayinladi"
+            }
+          ],
+          "sense_id": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7",
+          "translations": [
+            {
+              "order": 0,
+              "text": "ichki ishlar vaziri",
+              "translation_id": "10875cbb-2a62-54ec-add8-33363b2910e4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "tropical",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+      "lexical_type": "word",
+      "normalized_search_form": "tropical",
+      "part_of_speech": "a",
+      "pronunciations": [
+        {
+          "ipa": "ˈtɹɒp.ɪ.kəl"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "tropic",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "042374b5-fdd6-5a2b-b963-d67e7aa971fb",
+          "target_sense_id": "a9fbf086-b346-453b-a0f0-d1ce0e8241dd"
+        },
+        {
+          "display_lemma": "tropic",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "042374b5-fdd6-5a2b-b963-d67e7aa971fb",
+          "target_sense_id": "a9fbf086-b346-453b-a0f0-d1ce0e8241dd"
+        },
+        {
+          "display_lemma": "tropic",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "042374b5-fdd6-5a2b-b963-d67e7aa971fb",
+          "target_sense_id": "a9fbf086-b346-453b-a0f0-d1ce0e8241dd"
+        },
+        {
+          "display_lemma": "tropic",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "pertainym",
+          "target_lexeme_id": "042374b5-fdd6-5a2b-b963-d67e7aa971fb",
+          "target_sense_id": "a9fbf086-b346-453b-a0f0-d1ce0e8241dd"
+        },
+        {
+          "display_lemma": "equatorial",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "similar",
+          "target_lexeme_id": "f59fe7ab-af12-5492-bdd9-98de981f7da1",
+          "target_sense_id": "27152c2a-d118-4cf8-b237-4150caf488fd"
+        },
+        {
+          "display_lemma": "hot",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "similar",
+          "target_lexeme_id": "04717c1f-cf4c-5406-8b59-89da680fe057",
+          "target_sense_id": "c4a3fb50-ca51-46ae-80e2-1c57bf5f305a"
+        },
+        {
+          "display_lemma": "tropic",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+          "target_sense_id": "ae713590-fdd6-4c28-a502-5e75690201cf"
+        },
+        {
+          "display_lemma": "tropic",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+          "target_sense_id": "da64dfcd-435c-4eb9-a554-f7f3846cf98d"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B2",
+          "definition_en": "of or relating to the tropics, or either tropic",
+          "definition_uz": "Tropik mintaqalar yoki ikki tropik chiziqdan biriga oid.",
+          "examples": [
+            {
+              "example_id": "54274029-130b-5a64-84fd-e7abdded1612",
+              "text_en": "tropical year",
+              "text_uz": "Tropik yil."
+            }
+          ],
+          "sense_id": "3e3185a6-cb71-458e-85a1-44d339c0aae6",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tropiklarga oid",
+              "translation_id": "42cbb68d-feac-5914-8c05-97c14f248a50"
+            }
+          ]
+        },
+        {
+          "cefr": "B2",
+          "definition_en": "of weather or climate; hot and humid as in the tropics",
+          "definition_uz": "Tropik mintaqalardagidek issiq va nam ob-havoga tegishli.",
+          "examples": [
+            {
+              "example_id": "55d07c14-7c44-583a-af51-b15d67a34b77",
+              "text_en": "tropical weather",
+              "text_uz": "Issiq va nam tropik ob-havo"
+            }
+          ],
+          "sense_id": "b9667020-8295-457b-a5a0-21fa69cacd99",
+          "translations": [
+            {
+              "order": 0,
+              "text": "issiq va nam tropik iqlimga xos",
+              "translation_id": "b47b541a-820f-5993-9001-368380a6f08f"
+            }
+          ]
+        },
+        {
+          "cefr": "B2",
+          "definition_en": "characterized by or of the nature of a trope or tropes; changed from its literal sense",
+          "definition_uz": "Trop yoki tropalarga xos bo‘lib, so‘zning to‘g‘ri ma’nosidan ko‘chirilgan.",
+          "examples": [],
+          "sense_id": "db6a4b39-1a2e-4c8c-a49e-6192e55d8b89",
+          "translations": [
+            {
+              "order": 0,
+              "text": "ko‘chma ma’noli",
+              "translation_id": "48efa470-07aa-53f6-a3c3-111c98457c0b"
+            }
+          ]
+        },
+        {
+          "cefr": "B1",
+          "definition_en": "relating to or situated in or characteristic of the tropics (the region on either side of the equator)",
+          "definition_uz": "Ekvatorning ikki tomonidagi tropik hududlarga oid, u yerda joylashgan yoki ularga xos",
+          "examples": [
+            {
+              "example_id": "96e7f7cf-107f-5dce-a064-bdb6c4001323",
+              "text_en": "tropical fruit",
+              "text_uz": "Tropik meva."
+            },
+            {
+              "example_id": "cf095899-73b4-56a7-bf3a-2562783b99b2",
+              "text_en": "tropical islands",
+              "text_uz": "Tropik orollar."
+            }
+          ],
+          "sense_id": "eddea5b3-45d1-4ac7-922f-78db4adcddf7",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tropik",
+              "translation_id": "6971d2a8-f7b6-52ee-b362-4343edd2d84d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Owner-provided course glossary. Source meaning and Uzbek translation have not received an independent human editorial review. External reference URLs identify fact checks only.",
+          "creator": "Learners Area course author",
+          "license_reference": "Owner-provided course material; reuse requested by owner",
+          "license_url": "",
+          "snapshot_id": "course-material-20261020",
+          "source_name": "Learners Area",
+          "source_url": "https://learnersarea.uz"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "inauguration",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "59c64765-84ba-50b5-8416-8298fc8edb09",
+      "lexical_type": "word",
+      "normalized_search_form": "inauguration",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "ɪnɔːɡ(j)ʊˈɹeɪʃən",
+          "variety": "GB"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "inaugurate",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "efa4bc10-1bcc-5f44-a6f7-f0c4a45d6991",
+          "target_sense_id": "9270e4a6-9e79-489a-b3fd-4d69a348da30"
+        },
+        {
+          "display_lemma": "inaugurate",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "efa4bc10-1bcc-5f44-a6f7-f0c4a45d6991",
+          "target_sense_id": "9270e4a6-9e79-489a-b3fd-4d69a348da30"
+        },
+        {
+          "display_lemma": "inaugurate",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "efa4bc10-1bcc-5f44-a6f7-f0c4a45d6991",
+          "target_sense_id": "d19ccd0a-3052-4f30-9bd8-ee8d0ee32dd2"
+        },
+        {
+          "display_lemma": "inaugural",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "b3511218-df71-5fdb-b5f4-c3d443d83b01",
+          "target_sense_id": "6b57fe91-1a40-4c84-b94f-4b20322d0b2d"
+        },
+        {
+          "display_lemma": "startup",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+          "target_sense_id": "d7525883-85d3-4bd1-90f0-409545b4c051"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C1",
+          "definition_en": "the ceremonial induction into a position",
+          "definition_uz": "Biror lavozimga tantanali ravishda kiritish.",
+          "examples": [
+            {
+              "example_id": "86db5cfe-3767-526c-a30a-06fb10062ec2",
+              "text_en": "the new president obviously enjoyed his inauguration",
+              "text_uz": "Yangi prezident lavozimga kirish marosimidan ochiqdan-ochiq zavq oldi."
+            }
+          ],
+          "sense_id": "927cec70-12dd-4a76-bc3b-835e6027edb3",
+          "translations": [
+            {
+              "order": 0,
+              "text": "lavozimga kirish marosimi",
+              "translation_id": "53b063c6-6173-55a5-92d6-a60cfe97ee69"
+            }
+          ]
+        },
+        {
+          "cefr": "B2",
+          "definition_en": "the act of starting a new operation or practice",
+          "definition_uz": "Yangi faoliyat yoki amaliyotni boshlash harakati.",
+          "examples": [
+            {
+              "example_id": "18af591b-ede8-5dc1-ba4e-00890d092fdb",
+              "text_en": "he opposed the inauguration of fluoridation",
+              "text_uz": "U suvni ftorlashni joriy etishga qarshi chiqdi."
+            },
+            {
+              "example_id": "5ce8bd7e-0ee4-5823-99d6-8644b20d1fac",
+              "text_en": "the startup of the new factory was delayed by strikes",
+              "text_uz": "Yangi zavodning ishga tushishi ish tashlashlar tufayli kechikdi."
+            }
+          ],
+          "sense_id": "a80057f8-669f-40ee-9e42-9d671e55fd1f",
+          "translations": [
+            {
+              "order": 0,
+              "text": "ishga tushirish",
+              "translation_id": "7b0cd5d8-9e36-5881-bab4-9dc83c407446"
+            }
+          ]
+        },
+        {
+          "definition_en": "the formal opening or beginning of an institution or activity",
+          "definition_uz": "tantanali ochilish, ishga tushirish",
+          "editorial": {
+            "provenance": "derived",
+            "reference_urls": [],
+            "status": "owner_supplied",
+            "translation_status": "owner_supplied"
+          },
+          "examples": [],
+          "sense_id": "e1d96a01-1522-4e8b-9625-d60579b71280",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tantanali ochilish, ishga tushirish",
+              "translation_id": "bb7b4a62-207b-5ffa-a85c-f1d46798857c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "set back",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+      "lexical_type": "other",
+      "normalized_search_form": "set back",
+      "part_of_speech": "v",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "setback",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "b327f234-ac42-51ec-b7f7-0675f56b419f",
+          "target_sense_id": "92dbb206-10cd-4bf5-8e91-40b814f56463"
+        },
+        {
+          "display_lemma": "delay",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "hypernym",
+          "target_lexeme_id": "5e2c5e15-70db-5b1f-b6eb-d847fedbf0e8",
+          "target_sense_id": "4b187eb9-1373-44d9-9028-74aa98b00a4d"
+        },
+        {
+          "display_lemma": "probate",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "hyponym",
+          "target_lexeme_id": "d5d82e6f-7a0f-514f-9ead-1c2715f0a09f",
+          "target_sense_id": "ba96f564-84bb-4b93-8860-c02e2f1f3ad6"
+        },
+        {
+          "display_lemma": "procrastinate",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "hyponym",
+          "target_lexeme_id": "b677169c-99f6-599e-82e7-b86c92d2901e",
+          "target_sense_id": "7f95e72f-62b9-4547-9e24-646cce8d574b"
+        },
+        {
+          "display_lemma": "suspend",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "hyponym",
+          "target_lexeme_id": "6821db07-a4f3-5dda-98f4-2add6f961aca",
+          "target_sense_id": "b0bb5067-3df6-5529-af8e-f5e97040d502"
+        },
+        {
+          "display_lemma": "defer",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "fde0f8be-f83b-52e4-8f10-3ea50270593a",
+          "target_sense_id": "2ed34d6c-b0d7-4ab3-8e25-97f406cdb40e"
+        },
+        {
+          "display_lemma": "hold over",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "6a0a997e-d23e-57d4-aaff-8700cc842a3f",
+          "target_sense_id": "7f358e29-b717-59d7-9bd3-67ee43599c3f"
+        },
+        {
+          "display_lemma": "knock back",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+          "target_sense_id": "85b76ca6-f508-56c0-9710-80913c55fe20"
+        },
+        {
+          "display_lemma": "postpone",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "6e55d6de-f1ba-524d-97b6-5a9e78120980",
+          "target_sense_id": "fda9180e-c1c2-4861-a0f2-eb7a524526f4"
+        },
+        {
+          "display_lemma": "prorogue",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "465b9382-945e-5ffc-abe4-12f0cedc7903",
+          "target_sense_id": "ccfe24fe-feb0-5a25-b7b5-10a63699b171"
+        },
+        {
+          "display_lemma": "put back",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+          "target_sense_id": "b4b60c1e-152a-50dd-bc9c-4c5660218321"
+        },
+        {
+          "display_lemma": "put off",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "3a9a2f28-fcb1-5dfd-a0ee-849370b19f18",
+          "target_sense_id": "f742f158-c2f6-5367-90cd-9b30216cc43d"
+        },
+        {
+          "display_lemma": "put over",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "aedd7018-1758-5181-b799-8d087ce6c6e4",
+          "target_sense_id": "8f356253-1bdd-55e6-b790-1e613bd854bf"
+        },
+        {
+          "display_lemma": "remit",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "af3f3a38-8941-52f5-b4f7-16b323d2b8a2",
+          "target_sense_id": "59721706-8b50-48a3-8dac-f9615f596dcc"
+        },
+        {
+          "display_lemma": "shelve",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e0c9e045-9da7-5748-bf7b-c4cd34080620",
+          "target_sense_id": "4c194fb7-3855-421a-a3a3-d4a8b38e591b"
+        },
+        {
+          "display_lemma": "table",
+          "lexical_type": "word",
+          "part_of_speech": "v",
+          "relation_type": "synonym",
+          "target_lexeme_id": "59dc6df7-b0ab-519f-a42e-99fe8e9f9439",
+          "target_sense_id": "4f2ee4f7-dab4-4e55-b569-588dea407714"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "hold back to a later time",
+          "definition_uz": "Biror ishni keyinroq vaqtga surmoq.",
+          "examples": [
+            {
+              "example_id": "7358c710-af3b-55cb-897e-e88f0d3c33ea",
+              "text_en": "let's postpone the exam",
+              "text_uz": "Imtihonni keyinga qoldiraylik."
+            }
+          ],
+          "sense_id": "3622adce-7d08-52c7-9088-2e5e8a1b6b05",
+          "translations": [
+            {
+              "order": 0,
+              "text": "kechiktirmoq",
+              "translation_id": "82c375f9-7d31-531a-96a8-1cffd65a30f5"
+            }
+          ]
+        },
+        {
+          "cefr": "B1",
+          "definition_en": "slow down the progress of; hinder",
+          "definition_uz": "Taraqqiyot yoki rivojlanishni sekinlashtirmoq yoki to'sqinlik qilmoq.",
+          "examples": [
+            {
+              "example_id": "893d29c2-2f43-5dbe-b5a2-33b41bacf55e",
+              "text_en": "His late start set him back",
+              "text_uz": "Kech boshlagani uni orqaga surdi."
+            }
+          ],
+          "sense_id": "c5cd3890-26ff-5d21-9fc8-b1dd4b5a9dba",
+          "translations": [
+            {
+              "order": 0,
+              "text": "orqaga surmoq; sekinlashtirmoq",
+              "translation_id": "15fe0d57-6487-5016-b52b-6fdaa6902545"
+            }
+          ]
+        },
+        {
+          "cefr": "B1",
+          "definition_en": "cost a certain amount",
+          "definition_uz": "Biror narsa ma’lum miqdorda xarajat qildirmoq.",
+          "examples": [
+            {
+              "example_id": "3bb384a5-fb1d-5525-a570-33eefe4bfe6d",
+              "text_en": "My daughter's wedding set me back $20,000",
+              "text_uz": "Qizimning to‘yi menga 20 000 dollarga tushdi."
+            }
+          ],
+          "sense_id": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874",
+          "translations": [
+            {
+              "order": 0,
+              "text": "falon pulga tushmoq",
+              "translation_id": "0652cf46-e338-5a20-b5a5-0ce0e3045e55"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "spitefully",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+      "lexical_type": "word",
+      "normalized_search_form": "spitefully",
+      "part_of_speech": "r",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "despitefully",
+          "lexical_type": "word",
+          "part_of_speech": "r",
+          "relation_type": "synonym",
+          "target_lexeme_id": "658914e1-3a6b-5468-b4c9-368316b5d683",
+          "target_sense_id": "b4bf0699-28a9-59e7-8e16-ff0ac63c190b"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "with spite; in a spiteful manner",
+          "definition_uz": "gina yoki adovat bilan",
+          "examples": [],
+          "sense_id": "0a2658b3-98a5-55b7-a64c-058d2e7c9303",
+          "translations": [
+            {
+              "order": 0,
+              "text": "kin bilan",
+              "translation_id": "6d5fe6fe-f5fd-513b-89db-dff1f2cfc1d8"
+            }
+          ]
+        },
+        {
+          "cefr": "C2",
+          "definition_en": "in a maliciously spiteful manner",
+          "definition_uz": "Birovga zarar yetkazish niyatidagi kek bilan.",
+          "examples": [],
+          "sense_id": "7e9eb0b7-f050-5d60-be03-08c9226c379d",
+          "translations": [
+            {
+              "order": 0,
+              "text": "qasddan yomonlik bilan",
+              "translation_id": "89c4583c-5cb5-5814-992d-4952245ef3a4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "St. Joseph",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+      "lexical_type": "multiword",
+      "normalized_search_form": "st. joseph",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "aspirin",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+          "target_sense_id": "09660fb5-2412-407b-bc00-5e38c62ee0a8"
+        },
+        {
+          "display_lemma": "Bayer",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+          "target_sense_id": "c9184f9c-86aa-550c-8b00-4aeeef5909b7"
+        },
+        {
+          "display_lemma": "Empirin",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+          "target_sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B2",
+          "definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "definition_uz": "Og'riq qoldiruvchi va yallig'lanishga qarshi atsetillangan salitsil kislotasi hosilasi; odatda tabletka shaklida, isitma tushirish va trombotsitlarni susaytirib qon ivishini sekinlatish uchun ham ishlatiladi.",
+          "examples": [],
+          "sense_id": "ae75638b-b764-5513-837c-78263664e336",
+          "translations": [
+            {
+              "order": 0,
+              "text": "aspirin",
+              "translation_id": "4f990823-9615-5111-aba9-d88cc6d42130"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "adiposity",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+      "lexical_type": "word",
+      "normalized_search_form": "adiposity",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "adiposeness",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e614edae-642a-5106-a407-1548417e8171",
+          "target_sense_id": "0065cd51-0c9a-552c-bdf7-867e97263ae2"
+        },
+        {
+          "display_lemma": "fattiness",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+          "target_sense_id": "3605bf25-ccdd-50cc-b80a-d464cf0cfe04"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "having the property of containing fat",
+          "definition_uz": "tarkibida yog‘ bo‘lish yoki yog‘ saqlash xususiyati",
+          "examples": [],
+          "sense_id": "186b2914-c125-5357-90dd-db714e178591",
+          "translations": [
+            {
+              "order": 0,
+              "text": "yog‘lilik; yog‘ saqlash xususiyati",
+              "translation_id": "e9053641-97c4-54b4-a796-33121add8e69"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "bothered",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "94a19f83-681b-563c-9516-dd259faf0501",
+      "lexical_type": "word",
+      "normalized_search_form": "bothered",
+      "part_of_speech": "a",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "daunted",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+          "target_sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef"
+        },
+        {
+          "display_lemma": "fazed",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+          "target_sense_id": "8f3225c4-ea15-5fdd-948f-5d01dd641846"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B2",
+          "definition_en": "caused to show discomposure",
+          "definition_uz": "Biror sabab ta’sirida xotirjamligini yo‘qotgan.",
+          "examples": [
+            {
+              "example_id": "4ac3714f-4a10-52d3-b2f3-7f85931dea2a",
+              "text_en": "refused to be fazed by the objections",
+              "text_uz": "U e’tirozlardan dovdirab qolishni rad etdi."
+            }
+          ],
+          "sense_id": "1e5f4978-56f5-4f8c-bc70-d40d1730953e",
+          "translations": [
+            {
+              "order": 0,
+              "text": "bezovta bo‘lgan",
+              "translation_id": "b3ce83b1-abb7-55ec-9387-55c63b2ed821"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "aspirin",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+      "lexical_type": "word",
+      "normalized_search_form": "aspirin",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "ˈæsp(ɪ)ɹɪn"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "Bayer",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+          "target_sense_id": "c9184f9c-86aa-550c-8b00-4aeeef5909b7"
+        },
+        {
+          "display_lemma": "Empirin",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+          "target_sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae"
+        },
+        {
+          "display_lemma": "St. Joseph",
+          "lexical_type": "multiword",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+          "target_sense_id": "ae75638b-b764-5513-837c-78263664e336"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C1",
+          "definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "definition_uz": "Salitsil kislotasining atsetillangan hosilasi; og‘riq qoldiruvchi, yallig‘lanishga qarshi va isitma tushiruvchi dori sifatida ishlatiladi hamda trombotsitlarga ta’sir qilib qon ivishini sekinlashtiradi.",
+          "examples": [],
+          "sense_id": "09660fb5-2412-407b-bc00-5e38c62ee0a8",
+          "translations": [
+            {
+              "order": 0,
+              "text": "aspirin (atsetilsalitsil kislota preparati)",
+              "translation_id": "38848cb8-11db-5df5-8cf2-a9d717457530"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "adiposeness",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "e614edae-642a-5106-a407-1548417e8171",
+      "lexical_type": "word",
+      "normalized_search_form": "adiposeness",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "adiposity",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+          "target_sense_id": "186b2914-c125-5357-90dd-db714e178591"
+        },
+        {
+          "display_lemma": "fattiness",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+          "target_sense_id": "3605bf25-ccdd-50cc-b80a-d464cf0cfe04"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "definition_en": "having the property of containing fat",
+          "definition_uz": "Tarkibida yog' bo'lish xususiyati.",
+          "examples": [],
+          "sense_id": "0065cd51-0c9a-552c-bdf7-867e97263ae2",
+          "translations": [
+            {
+              "order": 0,
+              "text": "yog'lilik",
+              "translation_id": "a72f05e5-bb51-5617-bd14-c063db25b85c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "shutdown",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "0080b2a0-52bd-5582-8c99-a827925e22e2",
+      "lexical_type": "word",
+      "normalized_search_form": "shutdown",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "shut down",
+          "lexical_type": "other",
+          "part_of_speech": "v",
+          "relation_type": "derivation",
+          "target_lexeme_id": "7fedad19-fd8a-508b-b16f-28d96c10d181",
+          "target_sense_id": "28508f55-53a5-5fe4-bb37-6fe5145afab0"
+        },
+        {
+          "display_lemma": "layoff",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "hyponym",
+          "target_lexeme_id": "d2367bae-8ac9-5518-bfd3-5df813478e3d",
+          "target_sense_id": "3832380e-105b-4134-b217-6fc0e8802492"
+        },
+        {
+          "display_lemma": "closedown",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "e0464c47-0877-5146-bb2e-6ff384c00dfb",
+          "target_sense_id": "0673b61c-a773-5853-9b2a-979d601957fe"
+        },
+        {
+          "display_lemma": "closing",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "f6722369-19d3-54c2-b88c-6349125cf51f",
+          "target_sense_id": "145d3565-4005-484a-abc6-8c470dac8b35"
+        },
+        {
+          "display_lemma": "closure",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "synonym",
+          "target_lexeme_id": "c5a346bf-33dd-5fdb-8ec3-1578465adb3d",
+          "target_sense_id": "10398bf8-1f11-539a-bf60-d469a3e92e3c"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "termination of operations",
+          "definition_uz": "Ishlashni tugatish yoki yopish.",
+          "examples": [
+            {
+              "example_id": "b3d7ed5c-f60c-5d34-8c05-5614c954754e",
+              "text_en": "they regretted the closure of the day care center",
+              "text_uz": "Ular kunduzgi parvarish markazi yopilganidan afsuslanishdi."
+            }
+          ],
+          "sense_id": "79563ea3-df3d-4bd6-9ecd-0b67a5111218",
+          "translations": [
+            {
+              "order": 0,
+              "text": "faoliyatni to'xtatish",
+              "translation_id": "38dcf4d9-0bba-5b06-a9d0-04b4d9d1769d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "undaunted",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "909df1f1-086a-5bba-a628-fbec463a9a89",
+      "lexical_type": "word",
+      "normalized_search_form": "undaunted",
+      "part_of_speech": "a",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "resolute",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "similar",
+          "target_lexeme_id": "614db1ef-2c3a-509d-abcc-6da6c7f6ccd8",
+          "target_sense_id": "bf510d82-674f-44ed-8700-c7a4abb59b1c"
+        },
+        {
+          "display_lemma": "undismayed",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "1117a222-f618-5cfb-8a57-1cb18efcdfc8",
+          "target_sense_id": "cb8d89ed-af35-596a-a7ff-66d2a56100d6"
+        },
+        {
+          "display_lemma": "unshaken",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "synonym",
+          "target_lexeme_id": "5a1651e5-4f3a-5046-a456-afa53ee7a2e4",
+          "target_sense_id": "d6aada94-c1b6-5f59-9bba-570bf24b867e"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "unshaken in purpose",
+          "definition_uz": "Maqsadi va qat’iyati qiyinchilikdan larzaga kelmagan.",
+          "examples": [
+            {
+              "example_id": "49968123-d5ee-55ce-9c73-84c326eeb519",
+              "text_en": "wholly undismayed by the commercial failure of the three movies he had made",
+              "text_uz": "U suratga olgan uch filmning tijoriy muvaffaqiyatsizligidan mutlaqo tushkunlikka tushmadi."
+            }
+          ],
+          "sense_id": "1d8c8cb1-07db-4aac-a4fa-9189c0cf49cc",
+          "translations": [
+            {
+              "order": 0,
+              "text": "dovyurak",
+              "translation_id": "a5772569-2564-52d0-afde-2e8d4db8a740"
+            }
+          ]
+        },
+        {
+          "cefr": "C2",
+          "definition_en": "resolutely courageous",
+          "definition_uz": "Qat'iy jasoratli, xavf oldida cho'chimaydigan.",
+          "examples": [
+            {
+              "example_id": "20da8bf4-51fc-5cb4-abcb-0de476f51ab3",
+              "text_en": "undaunted in the face of death",
+              "text_uz": "O'lim qarshisida ham qo'rqmas."
+            }
+          ],
+          "sense_id": "cfbd5174-13f3-4e59-b276-23a0d881898e",
+          "translations": [
+            {
+              "order": 0,
+              "text": "qo'rqmas; dadil",
+              "translation_id": "29acbf15-2209-5a28-b8c3-0e55d254285a"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "target_projection": [
+    {
+      "lexeme_id": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+      "lemma_norm": "fazed",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "8f3225c4-ea15-5fdd-948f-5d01dd641846"
+      ],
+      "content_sha": "823c99cc50b56e765d571e33d5c71b7c1cb062242c1e8914cda2151d9477718e",
+      "storage_shard": "04",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 92315,
+      "storage_length": 946,
+      "storage_raw_bytes": 1882,
+      "descriptor": {
+        "shard": "04",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "576fada153c4cd124393bc9e484c356e08f3867160b294947bc866ee5119965a",
+        "entries": 288,
+        "raw_bytes": 907200,
+        "raw_sha256": "e6de1f518327b03fe9245ab037705960970ac09860370b63bec4f13c9fa957c2",
+        "compressed_bytes": 377996
+      }
+    },
+    {
+      "lexeme_id": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+      "lemma_norm": "put back",
+      "part_of_speech": "v",
+      "sense_ids": [
+        "6639862a-148a-5579-b078-e022a91d93a6",
+        "b4b60c1e-152a-50dd-bc9c-4c5660218321"
+      ],
+      "content_sha": "5836504493a0aa84aebb958c6a52d529768c3c15b663cd68c8dfcf8892b10801",
+      "storage_shard": "06",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 316653,
+      "storage_length": 1438,
+      "storage_raw_bytes": 3034,
+      "descriptor": {
+        "shard": "06",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fa7c53497754174f2ca8a2461ec5e19dfd329ad381d06776ca1d34c303a20def",
+        "entries": 288,
+        "raw_bytes": 893343,
+        "raw_sha256": "ad1ce774520156113f35df60c067207629f6745210760521cb824694e67fbb66",
+        "compressed_bytes": 374092
+      }
+    },
+    {
+      "lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+      "lemma_norm": "bayer",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "c9184f9c-86aa-550c-8b00-4aeeef5909b7"
+      ],
+      "content_sha": "50c0b8d87e4df3e2498045af745ad5aa86e55cfc3d6a710c4a510e7ca71209e0",
+      "storage_shard": "0e",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 32978,
+      "storage_length": 1202,
+      "storage_raw_bytes": 2413,
+      "descriptor": {
+        "shard": "0e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3a5e84f46a8b309da6dca6a09009d9a2eb539d30e25050105528aad5f490984a",
+        "entries": 248,
+        "raw_bytes": 769135,
+        "raw_sha256": "6651a3d89026deb75bbaebfc88935fdf39c79010e79d0a4395d2167b73960e74",
+        "compressed_bytes": 321638
+      }
+    },
+    {
+      "lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+      "lemma_norm": "interior secretary",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "34bd8264-47d4-54ff-b66b-f03afd0fef11",
+        "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7"
+      ],
+      "content_sha": "1165d4a07f17df256375a2608497bb0641342802ca96a61a8fc12e4c9010bc2c",
+      "storage_shard": "3d",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 43876,
+      "storage_length": 1288,
+      "storage_raw_bytes": 2988,
+      "descriptor": {
+        "shard": "3d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3a042590c9c42bb2e8303c3b22b0d4e3e22c88de23f3c4b98e68cf8763cd3afd",
+        "entries": 263,
+        "raw_bytes": 857581,
+        "raw_sha256": "05064af033cb77cfbfa34379efc70445c1338970dbaed6dcb447606f44fb33f6",
+        "compressed_bytes": 353539
+      }
+    },
+    {
+      "lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+      "lemma_norm": "tropical",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "3e3185a6-cb71-458e-85a1-44d339c0aae6",
+        "b9667020-8295-457b-a5a0-21fa69cacd99",
+        "db6a4b39-1a2e-4c8c-a49e-6192e55d8b89",
+        "eddea5b3-45d1-4ac7-922f-78db4adcddf7"
+      ],
+      "content_sha": "05e5cba6b075b4f06dc724a745a66b346b1b4063ac3b8ee8e015ab0f7a20d54c",
+      "storage_shard": "49",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 173728,
+      "storage_length": 1918,
+      "storage_raw_bytes": 5626,
+      "descriptor": {
+        "shard": "49",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a46d95f1500a36697610f5810c365f7b77dc641e871ca6e82e28946d2c504adf",
+        "entries": 251,
+        "raw_bytes": 777715,
+        "raw_sha256": "0bd8b6d8f999f7cc5f731e56707e72d9f91518825ad63e039708fd1b8bcb3acc",
+        "compressed_bytes": 323757
+      }
+    },
+    {
+      "lexeme_id": "59c64765-84ba-50b5-8416-8298fc8edb09",
+      "lemma_norm": "inauguration",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "927cec70-12dd-4a76-bc3b-835e6027edb3",
+        "a80057f8-669f-40ee-9e42-9d671e55fd1f",
+        "e1d96a01-1522-4e8b-9625-d60579b71280"
+      ],
+      "content_sha": "84d1e7973fac6846f4e43e0d28244aaa601fbae6124a72a9b7d9fc2eb0f45164",
+      "storage_shard": "59",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 280783,
+      "storage_length": 1966,
+      "storage_raw_bytes": 5216,
+      "descriptor": {
+        "shard": "59",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0bb8ba173f0c745a4480553ce31e79da333cb340dad3cc93e2b6883cbd2b92c9",
+        "entries": 281,
+        "raw_bytes": 910541,
+        "raw_sha256": "37638779874634efae2ca5f65ec5b222b38422a1c398fc5559c49888215e8368",
+        "compressed_bytes": 374713
+      }
+    },
+    {
+      "lexeme_id": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+      "lemma_norm": "set back",
+      "part_of_speech": "v",
+      "sense_ids": [
+        "3622adce-7d08-52c7-9088-2e5e8a1b6b05",
+        "c5cd3890-26ff-5d21-9fc8-b1dd4b5a9dba",
+        "eaedf193-e31d-53ad-8ba8-5b0bd3d84874"
+      ],
+      "content_sha": "799e9e6f7149a87b7c6f7b3f29d62d338d1337eff1cce488d182eb3849bfda28",
+      "storage_shard": "71",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 255488,
+      "storage_length": 2223,
+      "storage_raw_bytes": 5933,
+      "descriptor": {
+        "shard": "71",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1ac5a76140d23d9fd59ba4fa62830510bffdb9e5f96ba580937b26fa0c6f8033",
+        "entries": 259,
+        "raw_bytes": 811242,
+        "raw_sha256": "b418d432137f2786145ce37816b0c9b711df76f480a9b70bff6af8bdb20fc79e",
+        "compressed_bytes": 339410
+      }
+    },
+    {
+      "lexeme_id": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+      "lemma_norm": "spitefully",
+      "part_of_speech": "r",
+      "sense_ids": [
+        "0a2658b3-98a5-55b7-a64c-058d2e7c9303",
+        "7e9eb0b7-f050-5d60-be03-08c9226c379d"
+      ],
+      "content_sha": "7f259cec631b58a367b9d0f8b3f0fa6ecc125122a161e2a5d8ca675ff260b8eb",
+      "storage_shard": "75",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 240536,
+      "storage_length": 978,
+      "storage_raw_bytes": 1967,
+      "descriptor": {
+        "shard": "75",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "17589d2b1e74477df2eee723c057947e5b9240e2e9adc3e9d4356c9e7727d537",
+        "entries": 236,
+        "raw_bytes": 761172,
+        "raw_sha256": "927ee283bd5c8dc66ab49f9181545df1e4fd6dcae443680b9a550b47475b4365",
+        "compressed_bytes": 313190
+      }
+    },
+    {
+      "lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+      "lemma_norm": "st. joseph",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "ae75638b-b764-5513-837c-78263664e336"
+      ],
+      "content_sha": "8c0dd2e1b4de1fbbce08401df5b0d510ce82a5bf140d43241a49d1c5ce59f1c9",
+      "storage_shard": "76",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 194802,
+      "storage_length": 1231,
+      "storage_raw_bytes": 2469,
+      "descriptor": {
+        "shard": "76",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ee9ddb288b269781ff62d22dc8ba57b471db59087e2e818530e65f18e4860041",
+        "entries": 230,
+        "raw_bytes": 690235,
+        "raw_sha256": "2defb2c25ca5894a21dfbd214d1685dfeffa70a9101dbf1f1098d057b997b3fb",
+        "compressed_bytes": 292838
+      }
+    },
+    {
+      "lexeme_id": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+      "lemma_norm": "adiposity",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "186b2914-c125-5357-90dd-db714e178591"
+      ],
+      "content_sha": "cc669ef97ad2113383074d4a80153a627d825a7d85b1faa279990b864ba96afe",
+      "storage_shard": "87",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 283660,
+      "storage_length": 962,
+      "storage_raw_bytes": 1937,
+      "descriptor": {
+        "shard": "87",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "671359d13d98a723d3ed86df4423004b1ba9c30a7387a7b2adfd3dd77df7cc37",
+        "entries": 251,
+        "raw_bytes": 796213,
+        "raw_sha256": "66078a494c64578c8af50618c2aa542553b577249e5e5950d7d418079846c8c7",
+        "compressed_bytes": 329508
+      }
+    },
+    {
+      "lexeme_id": "94a19f83-681b-563c-9516-dd259faf0501",
+      "lemma_norm": "bothered",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "1e5f4978-56f5-4f8c-bc70-d40d1730953e"
+      ],
+      "content_sha": "cddc771b10fb28875629b28a2c81b0740778ee0f6f053ec820cd2a1788be57c8",
+      "storage_shard": "94",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 188938,
+      "storage_length": 1179,
+      "storage_raw_bytes": 2860,
+      "descriptor": {
+        "shard": "94",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "72adef47c06fee4967eff27ba12537013d99b261f8bba04bd48d10bda966cb99",
+        "entries": 226,
+        "raw_bytes": 746259,
+        "raw_sha256": "e488e7b5d8a93205623648f1cb7566aa322f6579faa5252ba4f02d71afb32c60",
+        "compressed_bytes": 305493
+      }
+    },
+    {
+      "lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+      "lemma_norm": "aspirin",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "09660fb5-2412-407b-bc00-5e38c62ee0a8"
+      ],
+      "content_sha": "83e3797ce9f24df5d56684206746170dee3dc47d0ca966db25861e545cd57998",
+      "storage_shard": "e0",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 20289,
+      "storage_length": 1415,
+      "storage_raw_bytes": 3336,
+      "descriptor": {
+        "shard": "e0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f657e0a0a751b262790fd53823f7472f761a837240392ea497769056bc014b87",
+        "entries": 276,
+        "raw_bytes": 879755,
+        "raw_sha256": "30021b7d57a19524d3a57852740341f403070d24d3372bf78b133c23db90398f",
+        "compressed_bytes": 365596
+      }
+    },
+    {
+      "lexeme_id": "e614edae-642a-5106-a407-1548417e8171",
+      "lemma_norm": "adiposeness",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "0065cd51-0c9a-552c-bdf7-867e97263ae2"
+      ],
+      "content_sha": "377a605ff55f5b83b1ea2229deefbbde235c9d866ed6d3d555ca858aecc816ad",
+      "storage_shard": "e6",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 28224,
+      "storage_length": 934,
+      "storage_raw_bytes": 1875,
+      "descriptor": {
+        "shard": "e6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f6d781a4327f2012ded0a30f3bb7b707eda8075e2d4cb1ecbbf65aa1546dd872",
+        "entries": 277,
+        "raw_bytes": 926164,
+        "raw_sha256": "353a0b55013678d5d4954c87c9f125c461b248801ac96f540bbc79793b5054ce",
+        "compressed_bytes": 379001
+      }
+    },
+    {
+      "lexeme_id": "0080b2a0-52bd-5582-8c99-a827925e22e2",
+      "lemma_norm": "shutdown",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "79563ea3-df3d-4bd6-9ecd-0b67a5111218"
+      ],
+      "content_sha": "fda154d0e51aff5fc4970f7578cc9a804c560313ea67fdf7799d784b1cc30553",
+      "storage_shard": "00",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 158276,
+      "storage_length": 1376,
+      "storage_raw_bytes": 3513,
+      "descriptor": {
+        "shard": "00",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f5b99f4cd2c5deddfa401c882926940bae86e7a7e8a3a513a060dd16a751d0c7",
+        "entries": 252,
+        "raw_bytes": 791990,
+        "raw_sha256": "9615743974627dfa51b2648b27104578bf882fd6ba53435ce216a33c5cba6970",
+        "compressed_bytes": 329491
+      }
+    },
+    {
+      "lexeme_id": "909df1f1-086a-5bba-a628-fbec463a9a89",
+      "lemma_norm": "undaunted",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "1d8c8cb1-07db-4aac-a4fa-9189c0cf49cc",
+        "cfbd5174-13f3-4e59-b276-23a0d881898e"
+      ],
+      "content_sha": "73e91da7706648a8136d528750c7e4f6841819169306bb6327ac4d01c3ae887a",
+      "storage_shard": "90",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 177857,
+      "storage_length": 1472,
+      "storage_raw_bytes": 3583,
+      "descriptor": {
+        "shard": "90",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8fc943d563ebcebf2a85b3e44a113770f22f0e9a8b52bec97d0972592e6cb7fc",
+        "entries": 230,
+        "raw_bytes": 730851,
+        "raw_sha256": "47e38f4562e2e987c744fa6338e37819d81d3e804f0bc3235dd7558bdc9fa893",
+        "compressed_bytes": 303306
+      }
+    }
+  ],
+  "meaning_hashes": {
+    "65825765-33c0-5e04-8ad9-1cab90be90e5": {
+      "d7525883-85d3-4bd1-90f0-409545b4c051": "f8d3a27b3ed46df3391b5d7f04bc644e0e69db75d8703c6b709efd5289685db8",
+      "f56773d3-7e2d-4d35-9b42-f79de2ddf783": "388425765907174c9fbcc78b328b963d93e9ac498315190287a5c2ed239c35ca",
+      "94cb1d1c-56f4-42e0-89bf-fcf8ecab3cc9": "c9f09618ace72d83b49dafda116ef4655548af96ef8ee7fd8499003471867e32"
+    },
+    "65843352-a16b-4140-80a4-9e10900df31d": {
+      "eb745d1d-f5d2-4dba-9822-b23d7ae5acb1": "c2b48f4e4819d6bd7f11730836c41718e92501112dbd4ba4d71e7879aa51a635"
+    },
+    "65844735-df83-5b23-afe0-7a941b7d0b3e": {
+      "b03d867b-6bd9-5ee7-948a-af75e50c2aae": "bf63416a2909c455ecdfc632751c2279f69c113d1386c924761c3c2f723f4046"
+    },
+    "65847efd-7694-5d1e-9ff6-584a3426b34e": {
+      "ae713590-fdd6-4c28-a502-5e75690201cf": "507fe51cf6b2c231bde2ffc57dee5280ac6066c365693531e82f22d683ee169a",
+      "da64dfcd-435c-4eb9-a554-f7f3846cf98d": "be205fa04163b898ac31123369063b0e0813bd1fbdb2329bedfd7489008e20dc"
+    },
+    "65855386-68e0-5f71-9fcb-eb7ce4d0be83": {
+      "3605bf25-ccdd-50cc-b80a-d464cf0cfe04": "9279ce74e389484f4b58375c9b5d4e0a7a1dfccd4e33b0fa1200c5ef9f0f05a4"
+    },
+    "65863d81-1bf9-58d5-a2aa-7e4bed708e5e": {
+      "85b76ca6-f508-56c0-9710-80913c55fe20": "c68a41e8fcb7f59d3f82fb5d42f8105e6b7ee2ad0d0a07b10af2f53ecbf25999"
+    },
+    "6587510a-8789-5ab6-9be6-67f8c0ebe26d": {
+      "045d066d-960e-5f90-bee5-17a0d73314e7": "7019763e8c2ad9a86bf9eb678ebe66440e0829cdf39ad1f69d77d97f1e532f39",
+      "e743d613-eb7a-5518-8304-6ca7184efc94": "1084a8ca51f2a989a32c4d465cbc5f92160d0057901902b9ef84617f79d4ceaf"
+    },
+    "6588d3b5-bd32-5d9c-ac3b-a6df69ba5384": {
+      "115268b2-8380-54bc-af9a-860b7c1e3af4": "edeebc4a3e7f4fe690d0cbb5694492d6b15d81fedcc1723e42e26c85b4a9408a"
+    },
+    "658914e1-3a6b-5468-b4c9-368316b5d683": {
+      "b4bf0699-28a9-59e7-8e16-ff0ac63c190b": "4b45ccf5dbf7be889ce9f556804b6b67dca9e10abcf32f260a1f53aabcec7060"
+    },
+    "65893d1c-0091-5611-983e-aedf308f95a4": {
+      "948f1639-4e2f-5e72-8104-bdd91f7a09ef": "8b4e830f4954521a68e7c5aabf887fae68180f36ffe243511010aa0da33f354f"
+    }
+  },
+  "existing_relation_matches": [
+    {
+      "source_lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "source_lemma": "startup",
+      "display_lemma": "inauguration",
+      "lexical_type": "word",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "59c64765-84ba-50b5-8416-8298fc8edb09",
+      "target_sense_id": "a80057f8-669f-40ee-9e42-9d671e55fd1f",
+      "source_sense_id": "d7525883-85d3-4bd1-90f0-409545b4c051",
+      "target_definition_en": "the act of starting a new operation or practice"
+    },
+    {
+      "source_lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+      "source_lemma": "Empirin",
+      "display_lemma": "aspirin",
+      "lexical_type": "word",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+      "target_sense_id": "09660fb5-2412-407b-bc00-5e38c62ee0a8",
+      "source_sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae",
+      "target_definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets"
+    },
+    {
+      "source_lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+      "source_lemma": "Empirin",
+      "display_lemma": "Bayer",
+      "lexical_type": "word",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "0e108586-d229-52bb-9df0-292c3ccf2070",
+      "target_sense_id": "c9184f9c-86aa-550c-8b00-4aeeef5909b7",
+      "source_sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae",
+      "target_definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets"
+    },
+    {
+      "source_lexeme_id": "65844735-df83-5b23-afe0-7a941b7d0b3e",
+      "source_lemma": "Empirin",
+      "display_lemma": "St. Joseph",
+      "lexical_type": "multiword",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "76b14134-cc81-5eea-af86-28546eeb8caf",
+      "target_sense_id": "ae75638b-b764-5513-837c-78263664e336",
+      "source_sense_id": "b03d867b-6bd9-5ee7-948a-af75e50c2aae",
+      "target_definition_en": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets"
+    },
+    {
+      "source_lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+      "source_lemma": "tropic",
+      "display_lemma": "tropical",
+      "lexical_type": "word",
+      "part_of_speech": "a",
+      "relation_type": "synonym",
+      "target_lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+      "target_sense_id": "b9667020-8295-457b-a5a0-21fa69cacd99",
+      "source_sense_id": "da64dfcd-435c-4eb9-a554-f7f3846cf98d",
+      "target_definition_en": "of weather or climate; hot and humid as in the tropics"
+    },
+    {
+      "source_lexeme_id": "65847efd-7694-5d1e-9ff6-584a3426b34e",
+      "source_lemma": "tropic",
+      "display_lemma": "tropical",
+      "lexical_type": "word",
+      "part_of_speech": "a",
+      "relation_type": "synonym",
+      "target_lexeme_id": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+      "target_sense_id": "eddea5b3-45d1-4ac7-922f-78db4adcddf7",
+      "source_sense_id": "ae713590-fdd6-4c28-a502-5e75690201cf",
+      "target_definition_en": "relating to or situated in or characteristic of the tropics (the region on either side of the equator)"
+    },
+    {
+      "source_lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+      "source_lemma": "fattiness",
+      "display_lemma": "adiposeness",
+      "lexical_type": "word",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "e614edae-642a-5106-a407-1548417e8171",
+      "target_sense_id": "0065cd51-0c9a-552c-bdf7-867e97263ae2",
+      "source_sense_id": "3605bf25-ccdd-50cc-b80a-d464cf0cfe04",
+      "target_definition_en": "having the property of containing fat"
+    },
+    {
+      "source_lexeme_id": "65855386-68e0-5f71-9fcb-eb7ce4d0be83",
+      "source_lemma": "fattiness",
+      "display_lemma": "adiposity",
+      "lexical_type": "word",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+      "target_sense_id": "186b2914-c125-5357-90dd-db714e178591",
+      "source_sense_id": "3605bf25-ccdd-50cc-b80a-d464cf0cfe04",
+      "target_definition_en": "having the property of containing fat"
+    },
+    {
+      "source_lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+      "source_lemma": "knock back",
+      "display_lemma": "put back",
+      "lexical_type": "other",
+      "part_of_speech": "v",
+      "relation_type": "synonym",
+      "target_lexeme_id": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+      "target_sense_id": "b4b60c1e-152a-50dd-bc9c-4c5660218321",
+      "source_sense_id": "85b76ca6-f508-56c0-9710-80913c55fe20",
+      "target_definition_en": "cost a certain amount"
+    },
+    {
+      "source_lexeme_id": "65863d81-1bf9-58d5-a2aa-7e4bed708e5e",
+      "source_lemma": "knock back",
+      "display_lemma": "set back",
+      "lexical_type": "other",
+      "part_of_speech": "v",
+      "relation_type": "synonym",
+      "target_lexeme_id": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+      "target_sense_id": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874",
+      "source_sense_id": "85b76ca6-f508-56c0-9710-80913c55fe20",
+      "target_definition_en": "cost a certain amount"
+    },
+    {
+      "source_lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+      "source_lemma": "secretary of the interior",
+      "display_lemma": "interior secretary",
+      "lexical_type": "other",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+      "target_sense_id": "34bd8264-47d4-54ff-b66b-f03afd0fef11",
+      "source_sense_id": "e743d613-eb7a-5518-8304-6ca7184efc94",
+      "target_definition_en": "the position of the head of the Department of the Interior"
+    },
+    {
+      "source_lexeme_id": "6587510a-8789-5ab6-9be6-67f8c0ebe26d",
+      "source_lemma": "secretary of the interior",
+      "display_lemma": "interior secretary",
+      "lexical_type": "other",
+      "part_of_speech": "n",
+      "relation_type": "synonym",
+      "target_lexeme_id": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+      "target_sense_id": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7",
+      "source_sense_id": "045d066d-960e-5f90-bee5-17a0d73314e7",
+      "target_definition_en": "the person who holds the secretaryship of the Interior Department"
+    },
+    {
+      "source_lexeme_id": "658914e1-3a6b-5468-b4c9-368316b5d683",
+      "source_lemma": "despitefully",
+      "display_lemma": "spitefully",
+      "lexical_type": "word",
+      "part_of_speech": "r",
+      "relation_type": "synonym",
+      "target_lexeme_id": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+      "target_sense_id": "7e9eb0b7-f050-5d60-be03-08c9226c379d",
+      "source_sense_id": "b4bf0699-28a9-59e7-8e16-ff0ac63c190b",
+      "target_definition_en": "in a maliciously spiteful manner"
+    },
+    {
+      "source_lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+      "source_lemma": "daunted",
+      "display_lemma": "bothered",
+      "lexical_type": "word",
+      "part_of_speech": "a",
+      "relation_type": "synonym",
+      "target_lexeme_id": "94a19f83-681b-563c-9516-dd259faf0501",
+      "target_sense_id": "1e5f4978-56f5-4f8c-bc70-d40d1730953e",
+      "source_sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef",
+      "target_definition_en": "caused to show discomposure"
+    },
+    {
+      "source_lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+      "source_lemma": "daunted",
+      "display_lemma": "fazed",
+      "lexical_type": "word",
+      "part_of_speech": "a",
+      "relation_type": "synonym",
+      "target_lexeme_id": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+      "target_sense_id": "8f3225c4-ea15-5fdd-948f-5d01dd641846",
+      "source_sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef",
+      "target_definition_en": "caused to show discomposure"
+    }
+  ],
+  "new_antonym_targets": [
+    {
+      "source_lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "source_sense_id": "f56773d3-7e2d-4d35-9b42-f79de2ddf783",
+      "target_lexeme_id": "0080b2a0-52bd-5582-8c99-a827925e22e2",
+      "target_sense_id": "79563ea3-df3d-4bd6-9ecd-0b67a5111218",
+      "target_definition_en": "termination of operations",
+      "target_meaning_sha": "80898b4e9dcbe7cd75d740f930684c138642720b4d58b8db5f57843136ecc296"
+    },
+    {
+      "source_lexeme_id": "65893d1c-0091-5611-983e-aedf308f95a4",
+      "source_sense_id": "948f1639-4e2f-5e72-8104-bdd91f7a09ef",
+      "target_lexeme_id": "909df1f1-086a-5bba-a628-fbec463a9a89",
+      "target_sense_id": "1d8c8cb1-07db-4aac-a4fa-9189c0cf49cc",
+      "target_definition_en": "unshaken in purpose",
+      "target_meaning_sha": "5c5bf08de350f4a440f8cfd1be05408085801ccd70daf07fcdcf58a945af8afa"
+    }
+  ],
+  "source_verification": {
+    "full_compressed_and_raw_shard_sha_size_count": "PASS",
+    "each_member_offset_length_and_raw_size": "PASS",
+    "each_complete_canonical_content_sha": "PASS",
+    "complete_source_and_target_sense_arrays": "PASS",
+    "historical_original_meaning_sha_and_uz_scalars": "PASS",
+    "target_labels_pos_and_original_definition_matches": "PASS",
+    "distinct_source_and_target_shards": 16
+  },
+  "phase_complete": false,
+  "full_linguistic_global_signoff": false,
+  "production_mutation": false
+}

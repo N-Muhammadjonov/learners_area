@@ -1146,6 +1146,48 @@
             "text": "an Internet startup"
           }
         ]
+      },
+      "d7525883-85d3-4bd1-90f0-409545b4c051": {
+        "meaning_sha": "f8d3a27b3ed46df3391b5d7f04bc644e0e69db75d8703c6b709efd5289685db8",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "yangi faoliyat yoki amaliyotni boshlash harakati",
+          "text": "Yangi faoliyat yoki amaliyotni ilk bor boshlash harakati."
+        },
+        "replace_translation_uz": {
+          "original": "ishga tushirish",
+          "text": "yangi faoliyatni boshlash; yangi amaliyotni joriy etish"
+        },
+        "scope_synonyms": [
+          {
+            "text": "inauguration",
+            "lexemeId": "59c64765-84ba-50b5-8416-8298fc8edb09",
+            "senseId": "a80057f8-669f-40ee-9e42-9d671e55fd1f",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "f56773d3-7e2d-4d35-9b42-f79de2ddf783": {
+        "meaning_sha": "388425765907174c9fbcc78b328b963d93e9ac498315190287a5c2ed239c35ca",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Ishga tushirish harakati.",
+          "text": "Qurilma yoki tizimni ishlay boshlaydigan holatga keltirish harakati."
+        },
+        "add_antonyms": [
+          {
+            "text": "shutdown",
+            "lexemeId": "0080b2a0-52bd-5582-8c99-a827925e22e2",
+            "senseId": "79563ea3-df3d-4bd6-9ecd-0b67a5111218",
+            "partOfSpeech": "n"
+          }
+        ]
       }
     },
     "6615c29f-0877-50dc-9534-9f250d0779a0": {
@@ -3106,6 +3148,359 @@
         "replace_translation_uz": {
           "original": "gisteriyaga oid",
           "text": "isteriyaga oid (tarixiy tibbiy atama)"
+        }
+      }
+    },
+    "65843352-a16b-4140-80a4-9e10900df31d": {
+      "eb745d1d-f5d2-4dba-9822-b23d7ae5acb1": {
+        "meaning_sha": "c2b48f4e4819d6bd7f11730836c41718e92501112dbd4ba4d71e7879aa51a635",
+        "replace_definition_en": {
+          "original": "change in gene activity caused by regulatory processes without altering DNA sequence",
+          "text": "The development of a plant or animal through the gradual differentiation of initially unspecialized cells into tissues and organs."
+        },
+        "replace_definition_uz": {
+          "original": "epigenez",
+          "text": "O‘simlik yoki hayvonning dastlab ixtisoslashmagan hujayralari asta-sekin to‘qima va a’zolarga ajralib rivojlanishi."
+        }
+      }
+    },
+    "65844735-df83-5b23-afe0-7a941b7d0b3e": {
+      "b03d867b-6bd9-5ee7-948a-af75e50c2aae": {
+        "meaning_sha": "bf63416a2909c455ecdfc632751c2279f69c113d1386c924761c3c2f723f4046",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "text": "A former trade name for aspirin (acetylsalicylic acid), a medicine used to relieve pain and reduce fever and inflammation."
+        },
+        "replace_definition_uz": {
+          "original": "Salitsil kislotasining atsetillangan hosilasi; og'riq qoldiruvchi va yallig'lanishga qarshi dori, Bayer, Empirin va St. Joseph savdo nomlari bilan sotiladi; odatda tabletka shaklida qabul qilinadi, isitmani tushiradi va trombotsitlarga ta'sir qilib qon ivishini sekinlashtiradi.",
+          "text": "Og‘riqni kamaytirish, isitmani tushirish va yallig‘lanishni kamaytirish uchun ishlatiladigan aspirin (atsetilsalitsil kislota)ning ilgari qo‘llangan savdo nomi."
+        },
+        "replace_translation_uz": {
+          "original": "atsetilsalitsil kislotasi og‘riq qoldiruvchi dorisi (aspirin)",
+          "text": "aspirinning ilgari qo‘llangan savdo nomi"
+        },
+        "scope_synonyms": [
+          {
+            "text": "aspirin",
+            "lexemeId": "e009cdd6-bd53-5cd4-8074-be6a8802850d",
+            "senseId": "09660fb5-2412-407b-bc00-5e38c62ee0a8",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "Bayer",
+            "lexemeId": "0e108586-d229-52bb-9df0-292c3ccf2070",
+            "senseId": "c9184f9c-86aa-550c-8b00-4aeeef5909b7",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "St. Joseph",
+            "lexemeId": "76b14134-cc81-5eea-af86-28546eeb8caf",
+            "senseId": "ae75638b-b764-5513-837c-78263664e336",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "65847efd-7694-5d1e-9ff6-584a3426b34e": {
+      "ae713590-fdd6-4c28-a502-5e75690201cf": {
+        "meaning_sha": "507fe51cf6b2c231bde2ffc57dee5280ac6066c365693531e82f22d683ee169a",
+        "replace_cefr": {
+          "original": "B2",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "tropic skies"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "tropical",
+            "lexemeId": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+            "senseId": "eddea5b3-45d1-4ac7-922f-78db4adcddf7",
+            "partOfSpeech": "a"
+          }
+        ]
+      },
+      "da64dfcd-435c-4eb9-a554-f7f3846cf98d": {
+        "meaning_sha": "be205fa04163b898ac31123369063b0e0813bd1fbdb2329bedfd7489008e20dc",
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "scope_synonyms": [
+          {
+            "text": "tropical",
+            "lexemeId": "498f86b3-8c05-5fa0-9e4d-32bb422f2576",
+            "senseId": "b9667020-8295-457b-a5a0-21fa69cacd99",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "65855386-68e0-5f71-9fcb-eb7ce4d0be83": {
+      "3605bf25-ccdd-50cc-b80a-d464cf0cfe04": {
+        "meaning_sha": "9279ce74e389484f4b58375c9b5d4e0a7a1dfccd4e33b0fa1200c5ef9f0f05a4",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "having the property of containing fat",
+          "text": "The quality of containing fat, especially a large amount of it."
+        },
+        "scope_synonyms": [
+          {
+            "text": "adiposeness",
+            "lexemeId": "e614edae-642a-5106-a407-1548417e8171",
+            "senseId": "0065cd51-0c9a-552c-bdf7-867e97263ae2",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "adiposity",
+            "lexemeId": "87d83acc-5a2c-58c6-9dd2-a0fdb623bb26",
+            "senseId": "186b2914-c125-5357-90dd-db714e178591",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "65863d81-1bf9-58d5-a2aa-7e4bed708e5e": {
+      "85b76ca6-f508-56c0-9710-80913c55fe20": {
+        "meaning_sha": "c68a41e8fcb7f59d3f82fb5d42f8105e6b7ee2ad0d0a07b10af2f53ecbf25999",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "cost a certain amount",
+          "text": "(British English, informal; knock somebody back an amount) to cost someone a sum of money, often a large one."
+        },
+        "replace_definition_uz": {
+          "original": "Muayyan miqdorda pul talab qilmoq.",
+          "text": "(Britaniya inglizchasi, norasmiy) birovga muayyan, ko‘pincha katta miqdorda pulga tushmoq."
+        },
+        "add_collocations": [
+          {
+            "text": "knock somebody back a bit"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "put back",
+            "lexemeId": "06ddf8da-ac0a-53c5-8b48-6b70a2ca0583",
+            "senseId": "b4b60c1e-152a-50dd-bc9c-4c5660218321",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "set back",
+            "lexemeId": "71c97644-e2ce-51b2-afdb-178f286e2d59",
+            "senseId": "eaedf193-e31d-53ad-8ba8-5b0bd3d84874",
+            "partOfSpeech": "v"
+          }
+        ]
+      }
+    },
+    "6587510a-8789-5ab6-9be6-67f8c0ebe26d": {
+      "045d066d-960e-5f90-bee5-17a0d73314e7": {
+        "meaning_sha": "7019763e8c2ad9a86bf9eb678ebe66440e0829cdf39ad1f69d77d97f1e532f39",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "the person who holds the secretaryship of the Interior Department",
+          "text": "The person who heads the U.S. Department of the Interior, which manages public lands, natural resources and cultural heritage."
+        },
+        "replace_definition_uz": {
+          "original": "AQSH Ichki ishlar departamenti kotibi lavozimini egallagan shaxs.",
+          "text": "AQSHning tabiiy resurslar, federal yerlar va madaniy meros bilan shug‘ullanuvchi Ichki ishlar departamentiga rahbarlik qiladigan shaxs."
+        },
+        "scope_synonyms": [
+          {
+            "text": "interior secretary",
+            "lexemeId": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+            "senseId": "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "e743d613-eb7a-5518-8304-6ca7184efc94": {
+        "meaning_sha": "1084a8ca51f2a989a32c4d465cbc5f92160d0057901902b9ef84617f79d4ceaf",
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "the position of the head of the Department of the Interior",
+          "text": "The office of the head of the U.S. Department of the Interior, responsible for public lands, natural resources and cultural heritage."
+        },
+        "replace_definition_uz": {
+          "original": "AQSH Ichki ishlar departamentiga rahbarlik qiluvchi kotibning rasmiy lavozimi.",
+          "text": "AQSHning tabiiy resurslar, federal yerlar va madaniy meros bilan shug‘ullanuvchi Ichki ishlar departamenti rahbarining lavozimi."
+        },
+        "scope_synonyms": [
+          {
+            "text": "interior secretary",
+            "lexemeId": "3d21b0cd-3cb8-560e-ade5-f10bb8511883",
+            "senseId": "34bd8264-47d4-54ff-b66b-f03afd0fef11",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "6588d3b5-bd32-5d9c-ac3b-a6df69ba5384": {
+      "115268b2-8380-54bc-af9a-860b7c1e3af4": {
+        "meaning_sha": "edeebc4a3e7f4fe690d0cbb5694492d6b15d81fedcc1723e42e26c85b4a9408a",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "wrongheaded in one's opinions"
+          }
+        ]
+      }
+    },
+    "658914e1-3a6b-5468-b4c9-368316b5d683": {
+      "b4bf0699-28a9-59e7-8e16-ff0ac63c190b": {
+        "meaning_sha": "4b45ccf5dbf7be889ce9f556804b6b67dca9e10abcf32f260a1f53aabcec7060",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "scope_synonyms": [
+          {
+            "text": "spitefully",
+            "lexemeId": "75bcd622-6c83-5219-a263-11fe896a2d0b",
+            "senseId": "7e9eb0b7-f050-5d60-be03-08c9226c379d",
+            "partOfSpeech": "r"
+          }
+        ]
+      }
+    },
+    "65893d1c-0091-5611-983e-aedf308f95a4": {
+      "948f1639-4e2f-5e72-8104-bdd91f7a09ef": {
+        "meaning_sha": "8b4e830f4954521a68e7c5aabf887fae68180f36ffe243511010aa0da33f354f",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "caused to show discomposure",
+          "text": "Discouraged or made less confident by something difficult or frightening."
+        },
+        "replace_definition_uz": {
+          "original": "O'zini yo'qotadigan holatga tushirilgan.",
+          "text": "Qiyinchilik yoki qo‘rqinchli vaziyat sababli jur’ati so‘ngan yoki o‘ziga ishonchi kamaygan."
+        },
+        "replace_translation_uz": {
+          "original": "dovdiratilgan",
+          "text": "jur’ati so‘ngan; yuragi dov bermagan"
+        },
+        "add_collocations": [
+          {
+            "text": "daunted by the size of something"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "bothered",
+            "lexemeId": "94a19f83-681b-563c-9516-dd259faf0501",
+            "senseId": "1e5f4978-56f5-4f8c-bc70-d40d1730953e",
+            "partOfSpeech": "a"
+          },
+          {
+            "text": "fazed",
+            "lexemeId": "0441816e-2277-5cce-ad5e-260b1c12b5d2",
+            "senseId": "8f3225c4-ea15-5fdd-948f-5d01dd641846",
+            "partOfSpeech": "a"
+          }
+        ],
+        "add_antonyms": [
+          {
+            "text": "undaunted",
+            "lexemeId": "909df1f1-086a-5bba-a628-fbec463a9a89",
+            "senseId": "1d8c8cb1-07db-4aac-a4fa-9189c0cf49cc",
+            "partOfSpeech": "a"
+          }
+        ]
+      }
+    },
+    "498f86b3-8c05-5fa0-9e4d-32bb422f2576": {
+      "eddea5b3-45d1-4ac7-922f-78db4adcddf7": {
+        "meaning_sha": "78e13098e6102b21a94fcfc7bffa09613417eedb0f9eeda9e58434f1e45c040d",
+        "replace_cefr": {
+          "original": "B1",
+          "text": "B2"
+        }
+      }
+    },
+    "e009cdd6-bd53-5cd4-8074-be6a8802850d": {
+      "09660fb5-2412-407b-bc00-5e38c62ee0a8": {
+        "meaning_sha": "2e9569c4735f4293d2f5df539bae3d32b7d249d67f8de5d160c68aeb1928df75",
+        "replace_definition_en": {
+          "original": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "text": "Acetylsalicylic acid, a medicine used to relieve pain and reduce fever and inflammation; it also reduces the ability of platelets to form blood clots."
+        },
+        "replace_definition_uz": {
+          "original": "Salitsil kislotasining atsetillangan hosilasi; og‘riq qoldiruvchi, yallig‘lanishga qarshi va isitma tushiruvchi dori sifatida ishlatiladi hamda trombotsitlarga ta’sir qilib qon ivishini sekinlashtiradi.",
+          "text": "Atsetilsalitsil kislota: og‘riq, isitma va yallig‘lanishni kamaytiruvchi dori; trombotsitlarning qon laxtasini hosil qilish qobiliyatini ham pasaytiradi."
+        }
+      }
+    },
+    "0e108586-d229-52bb-9df0-292c3ccf2070": {
+      "c9184f9c-86aa-550c-8b00-4aeeef5909b7": {
+        "meaning_sha": "b109711e382608b62c828d516a9871489225e33100e39f328ff829d7b06d7fff",
+        "replace_definition_en": {
+          "original": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "text": "A trade name for aspirin (acetylsalicylic acid), a medicine used to relieve pain and reduce fever and inflammation."
+        },
+        "replace_definition_uz": {
+          "original": "Asetillangan salitsil kislota hosilasi; og‘riq qoldiruvchi, yallig‘lanishga qarshi va isitma tushiruvchi dori bo‘lib, qon ivishini ham sekinlashtiradi.",
+          "text": "Og‘riq, isitma va yallig‘lanishni kamaytirish uchun ishlatiladigan aspirin (atsetilsalitsil kislota)ning savdo nomi."
+        }
+      }
+    },
+    "76b14134-cc81-5eea-af86-28546eeb8caf": {
+      "ae75638b-b764-5513-837c-78263664e336": {
+        "meaning_sha": "35a7bd142af02bf33bbdac755ff229360c1d8eb28762ed721b3e8f3a1965da31",
+        "replace_definition_en": {
+          "original": "the acetylated derivative of salicylic acid; used as an analgesic anti-inflammatory drug (trade names Bayer, Empirin, and St. Joseph) usually taken in tablet form; used as an antipyretic; slows clotting of the blood by poisoning platelets",
+          "text": "A trade name for aspirin (acetylsalicylic acid), a medicine used to relieve pain and reduce fever and inflammation."
+        },
+        "replace_definition_uz": {
+          "original": "Og'riq qoldiruvchi va yallig'lanishga qarshi atsetillangan salitsil kislotasi hosilasi; odatda tabletka shaklida, isitma tushirish va trombotsitlarni susaytirib qon ivishini sekinlatish uchun ham ishlatiladi.",
+          "text": "Og‘riq, isitma va yallig‘lanishni kamaytirish uchun ishlatiladigan aspirin (atsetilsalitsil kislota)ning savdo nomi."
+        }
+      }
+    },
+    "3d21b0cd-3cb8-560e-ade5-f10bb8511883": {
+      "34bd8264-47d4-54ff-b66b-f03afd0fef11": {
+        "meaning_sha": "d166773b08e5ae8650b5d0dc9639fe0c4dba3e56df519d0e3c128f4275fb51ce",
+        "replace_definition_uz": {
+          "original": "AQSh Ichki ishlar departamenti rahbarining lavozimi.",
+          "text": "AQSHning tabiiy resurslar, federal yerlar va madaniy meros bilan shug‘ullanuvchi Ichki ishlar departamenti rahbarining lavozimi."
+        },
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
+        }
+      },
+      "5d1aead2-3a62-5030-8f60-3f3bb5ee16c7": {
+        "meaning_sha": "b1dd151bb5c6c02d30b1dfd2a3cdc3cf53fdf019044eadb19f8d0991fb202839",
+        "replace_definition_uz": {
+          "original": "AQSh Ichki ishlar departamenti kotibi lavozimini egallagan shaxs",
+          "text": "AQSHning tabiiy resurslar, federal yerlar va madaniy meros bilan shug‘ullanuvchi Ichki ishlar departamentiga rahbarlik qiladigan shaxs."
+        },
+        "replace_cefr": {
+          "original": "B1",
+          "text": null
         }
       }
     }
