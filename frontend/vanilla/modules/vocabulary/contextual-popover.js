@@ -14,13 +14,13 @@ import {privateScope} from '../../js/private-scope.js';
 const enc=encodeURIComponent;
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,onClose}=props,t=dict.vocabulary;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,sentence='',onClose}=props,t=dict.vocabulary;
  let occurrenceId=initialOccurrenceId,alternatives=[],contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
  let observer=null;
  function place(){
   if(!popup||stopped)return;
-  if(sourceType==='retention'){
+  if(['reading','retention','listening'].includes(sourceType)){
    // Retention keeps the dictionary in the same predictable corner at every word.
    position={left:null,top:null};popup.style.removeProperty('left');popup.style.removeProperty('top');popup.style.visibility='visible';return;
   }
@@ -46,7 +46,7 @@ export function contextualWordPopover(context,props){
   const current=++version;loading=true;error=null;unresolved=false;contextual=null;known=null;saved=false;draw();
   const url=occurrenceId
    ?`/api/vocabulary/lookup?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&occurrenceId=${enc(occurrenceId)}`
-   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${sourceType==='retention'?`&startChar=${startChar}&endChar=${endChar}`:''}`;
+   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${sourceType==='retention'?`&startChar=${startChar}&endChar=${endChar}`:sentence?`&context=${enc(sentence.slice(0,360))}`:''}`;
   try{
    const [lookupResult,folderResult]=await Promise.allSettled([api.request(url,{signal:localSignal}),api.request('/api/vocabulary/folders',{signal:localSignal})]);
    if(localSignal.aborted||current!==version)return;
@@ -54,6 +54,7 @@ export function contextualWordPopover(context,props){
    else{
     let data=lookupResult.value;
     if(sourceType==='retention'&&data?.status==='unresolved'&&occurrenceId){data=await api.request(`/api/vocabulary/meaning?sourceType=retention&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+    if(['reading','listening'].includes(sourceType)&&data?.status==='unresolved'&&occurrenceId&&sentence){data=await api.request(`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}&context=${enc(sentence.slice(0,360))}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
     alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
     else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};}
@@ -75,7 +76,7 @@ export function contextualWordPopover(context,props){
     ?await api.request('/api/dictionary/save',{method:'POST',body:{...contextual.dictionary,folderId:folderId||null},signal:localSignal})
     :await api.request('/api/vocabulary',{method:'POST',body:{items:[{term:word,translationUz:null}],sourceType,sourceId,occurrenceId,folderId:folderId||null},signal:localSignal});
    if(localSignal.aborted)return;
-   if(result?.ok===true){privateScope.invalidate('vocabulary:');saved=true;}
+   if(result?.ok===true){privateScope.invalidate('vocabulary:');saved=true;window.dispatchEvent(new CustomEvent('la:vocabulary-saved',{detail:{term:contextual.term??word}}));}
    else error=dict.auth.errorServer;
   }catch(e){
    if(localSignal.aborted)return;
