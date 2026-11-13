@@ -166,7 +166,8 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  }
  function post(channel,data){if(!liveSignal.aborted&&!authorityBlocked&&!navigationExpired)frame?.contentWindow?.postMessage({channel,token,...data},'*');}
  activityBack({host,signal:liveSignal,active:()=>!!content?.nativePersistence&&host.hasAttribute('data-activity-active'),back:()=>post('learners-area-activity-back',{})});
- const objectUrl=blob=>{if(liveSignal.aborted)throw new DOMException('Aborted','AbortError');const url=URL.createObjectURL(blob);urls.push(url);blobs[url]=blob;return url;};
+ host.returnToHub=()=>post('learners-area-activity-back',{});
+  const objectUrl=blob=>{if(liveSignal.aborted)throw new DOMException('Aborted','AbortError');const url=URL.createObjectURL(blob);urls.push(url);blobs[url]=blob;return url;};
  async function request(url,options={}){const result=await api.request(url,{...options,signal:options.signal?anySignal([liveSignal,options.signal]):liveSignal});if(liveSignal.aborted||options.signal?.aborted)throw new DOMException('Disposed request','AbortError');return result;}
  function cancelRetries(){for(const read of retryReads.values())read.abort();retryReads.clear();}
  async function readBlob(url,signal){if(!url.startsWith('/api/resources/'))throw Error('Invalid authored resource');const r=await fetch(url,{signal:anySignal([liveSignal,...(signal?[signal]:[]),AbortSignal.timeout(25000)]),credentials:'same-origin',cache:'no-store',redirect:'error'});if(r.status===401)window.dispatchEvent(new Event('learners-area:auth-failure'));if(!r.ok)throw Error('Resource unavailable');return r.blob();}

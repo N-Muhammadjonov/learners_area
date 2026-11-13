@@ -12,7 +12,7 @@ export function render(scope) {
             h("h1", { className: "mt-2 font-display text-2xl text-ink-900", "data-listening-mcq-day-title": true },
                 t.dayLabel.replace("{n}", String(day.day)),
                 " \u00B7 ",
-                day.title),
+                day.title.replace(/^(?:(?:DAY\s*\d+|\d+\s*[-–]?\s*KUN)\s*(?:[.·:—–-]\s*)?)+/i, '').trim() || t.dayLabel.replace("{n}", String(day.day))),
             h("p", { className: "mt-1 flex flex-wrap gap-x-4 text-sm text-ink-500" },
                 h("span", { "data-listening-mcq-day-progress": `${day.status.completed}/${day.status.total}` }, t.dayProgress.replace("{done}", String(day.status.completed)).replace("{total}", String(day.status.total))),
                 h("span", { "data-listening-mcq-day-status": day.status.state }, day.status.state === "completed" ? t.completed : day.status.state === "in_progress" ? t.inProgress : t.notStarted)),
