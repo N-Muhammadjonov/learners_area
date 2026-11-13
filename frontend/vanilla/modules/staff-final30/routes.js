@@ -11,7 +11,7 @@ export default [
  {pattern:'/app/admin/statistics',roles:['owner'],load:t('statistics')},
  {pattern:'/app/admin/admissions',roles:['admin','owner'],load:t('admissions')},
  {pattern:'/app/admin/people',roles:['admin','owner'],load:t('people')},
- {pattern:'/app/admin/people/:id',roles:['owner'],load:t('teacher','studentMount')},
+ {pattern:'/app/admin/people/:id',roles:['admin','owner'],load:t('staff-student-entry')},
  {pattern:'/app/admin/roster',roles:['admin','owner'],load:t('roster')},
  {pattern:'/app/admin/content/workspace',roles:['admin','owner'],load:t('content-workspace')},
  {pattern:'/app/admin/grammar',roles:['admin','owner'],load:t('grammar','listMount')},
