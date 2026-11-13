@@ -26,7 +26,7 @@ function sourceSaved(context,sourceType,sourceId){
  return cache.get(key);
 }
 
-export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,highlights=[],onHighlightRange,onRemoveHighlight}){
+export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,sourceOffsetExact=false,highlights=[],onHighlightRange,onRemoveHighlight}){
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
  const host=el(tag,{class:className});if(!lexicalAssistance&&!onHighlightRange&&!highlights.length){host.className=`whitespace-pre-line ${className}`;host.setAttribute('data-plain-text','');host.textContent=text;return {node:host,stop:()=>own.abort()};}
@@ -47,7 +47,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
     const row=target(index).occurrence,token=tokens[index],
      start=offsetBase+token.start,end=offsetBase+token.end;
     if(row&&ids.has(row.id)||
-       saved.some(item=>item.startChar<=start&&item.endChar>=end)){
+       sourceOffsetExact&&saved.some(item=>item.startChar<=start&&item.endChar>=end)){
       node.dataset.lexicalSaved='true';
     }
    }
