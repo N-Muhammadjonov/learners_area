@@ -256,7 +256,7 @@ def test_message_samples_remain_manual_and_only_use_supported_tokens():
         for locale in ("uz", "en"):
             body = template["body"][locale]
             assert len(body) <= 1500
-            assert set(re.findall(r"\\{([^{}]+)\\}", body)) <= set(g.ALLOWED_PLACEHOLDERS)
+            assert set(re.findall(r"\{([^{}]+)\}", body)) <= set(g.ALLOWED_PLACEHOLDERS)
             if template["key"] != "custom":
                 assert body.startswith(("Assalomu alaykum", "Hello"))
                 assert "Learners Area" in body
