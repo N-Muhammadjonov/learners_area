@@ -1,0 +1,1706 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "prior_candidate_commit": "9fee9ae0",
+  "scope": {
+    "lexemes": 1,
+    "senses": 2,
+    "field_decisions": 14,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "additional_target_readbacks": 2,
+    "out_of_phase_target_interventions": 1
+  },
+  "senses": [
+    {
+      "lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+      "sense_id": "033fda48-dc62-4b8e-91a7-30f327e8e66d",
+      "lemma": "abide",
+      "meaning_sha": "82b019ecfc9267936202ba6b1c99f7f3554b0b98b3474276d4f39e334bc0fe7a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "put up with something or somebody unpleasant",
+          "after": "put up with something or somebody unpleasant",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Unpleasant-person/situation toleration matches the negative cannot-abide construction; source definition retained."
+        },
+        "definition_uz": {
+          "before": "Yoqimsiz kishi yoki narsaga chidamoq.",
+          "after": "Yoqimsiz kishi yoki narsaga chidamoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Yoqimsiz kishi yoki narsaga chidash ma’nosi to‘g‘ri saqlangan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "chidamoq",
+              "translation_id": "c1156c17-b087-5110-8c45-cab1cf6b2ebc"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "chidamoq",
+              "translation_id": "c1156c17-b087-5110-8c45-cab1cf6b2ebc"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Chidamoq means toleration, not residence."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Preferences and decisions C2 is explicitly attached to cannot/could not abide; retained for this exact toleration meaning."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "bear",
+              "lexemeId": "8d13f30f-d929-586c-80a8-9acfd3d0f8b7",
+              "senseId": "fbbb979e-d3da-4fd5-97b5-f6fa520080aa"
+            },
+            {
+              "text": "brook",
+              "lexemeId": "451fb7a1-5dae-5850-9309-2ae6c6274b4a",
+              "senseId": "fcab9446-f9bb-43dc-a9b9-89649237666b"
+            },
+            {
+              "text": "digest",
+              "lexemeId": "1aa71ca3-a9e0-5770-8fe0-81d5b97bb0cb",
+              "senseId": "fbcaccd8-8370-4160-84fe-3bd53d40fe18"
+            },
+            {
+              "text": "endure",
+              "lexemeId": "6ff163bf-68da-5f9c-b133-bf2b93b4ddf8",
+              "senseId": "f752d355-0430-4ae4-af59-230a05a11d5a"
+            },
+            {
+              "text": "put up",
+              "lexemeId": "4a632a8d-26ed-5eb1-8ba5-bf0e8339a391",
+              "senseId": "36029630-eefa-5ffd-b795-f90251acef50"
+            },
+            {
+              "text": "stand",
+              "lexemeId": "a102232a-db02-51db-9134-f0aaf8b0129a",
+              "senseId": "558c28d6-182a-4c6e-8471-47f132c2804d"
+            },
+            {
+              "text": "stick out",
+              "lexemeId": "f6f66616-c0cb-51b3-8f7f-0da2f296c613",
+              "senseId": "12161c7e-db2b-55ef-a9ab-08aa3ea913b7"
+            },
+            {
+              "text": "stomach",
+              "lexemeId": "fa4de0de-90b1-5954-b049-7aeccbed0177",
+              "senseId": "2f7c8eeb-b3ba-42df-8ba8-acda168ab983"
+            },
+            {
+              "text": "suffer",
+              "lexemeId": "0d0d2deb-a8ea-59ca-96a8-c5c0142baee7",
+              "senseId": "9e914c22-5583-46d2-b4fb-69c2f59ec201"
+            },
+            {
+              "text": "support",
+              "lexemeId": "726881e7-4341-5eb6-ab55-93a3b4dc4295",
+              "senseId": "facb229c-ef78-509e-9069-85a7fe0520ab"
+            },
+            {
+              "text": "tolerate",
+              "lexemeId": "6ec8d2de-ffb7-59a7-a9a6-6adc2ba4f682",
+              "senseId": "52426071-9e5b-4900-a168-e7921693f12a"
+            }
+          ],
+          "after": [
+            {
+              "text": "bear",
+              "lexemeId": "8d13f30f-d929-586c-80a8-9acfd3d0f8b7",
+              "senseId": "fbbb979e-d3da-4fd5-97b5-f6fa520080aa"
+            },
+            {
+              "text": "brook",
+              "lexemeId": "451fb7a1-5dae-5850-9309-2ae6c6274b4a",
+              "senseId": "fcab9446-f9bb-43dc-a9b9-89649237666b"
+            },
+            {
+              "text": "digest",
+              "lexemeId": "1aa71ca3-a9e0-5770-8fe0-81d5b97bb0cb",
+              "senseId": "fbcaccd8-8370-4160-84fe-3bd53d40fe18"
+            },
+            {
+              "text": "endure",
+              "lexemeId": "6ff163bf-68da-5f9c-b133-bf2b93b4ddf8",
+              "senseId": "f752d355-0430-4ae4-af59-230a05a11d5a"
+            },
+            {
+              "text": "put up",
+              "lexemeId": "4a632a8d-26ed-5eb1-8ba5-bf0e8339a391",
+              "senseId": "36029630-eefa-5ffd-b795-f90251acef50"
+            },
+            {
+              "text": "stand",
+              "lexemeId": "a102232a-db02-51db-9134-f0aaf8b0129a",
+              "senseId": "558c28d6-182a-4c6e-8471-47f132c2804d"
+            },
+            {
+              "text": "stick out",
+              "lexemeId": "f6f66616-c0cb-51b3-8f7f-0da2f296c613",
+              "senseId": "12161c7e-db2b-55ef-a9ab-08aa3ea913b7"
+            },
+            {
+              "text": "stomach",
+              "lexemeId": "fa4de0de-90b1-5954-b049-7aeccbed0177",
+              "senseId": "2f7c8eeb-b3ba-42df-8ba8-acda168ab983"
+            },
+            {
+              "text": "suffer",
+              "lexemeId": "0d0d2deb-a8ea-59ca-96a8-c5c0142baee7",
+              "senseId": "9e914c22-5583-46d2-b4fb-69c2f59ec201"
+            },
+            {
+              "text": "support",
+              "lexemeId": "726881e7-4341-5eb6-ab55-93a3b4dc4295",
+              "senseId": "facb229c-ef78-509e-9069-85a7fe0520ab"
+            },
+            {
+              "text": "tolerate",
+              "lexemeId": "6ec8d2de-ffb7-59a7-a9a6-6adc2ba4f682",
+              "senseId": "52426071-9e5b-4900-a168-e7921693f12a"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide",
+            "https://www.collinsdictionary.com/dictionary/english/digest"
+          ],
+          "reasoning": "Bear, stand, endure, tolerate, stomach, support, brook, suffer and stick out match the toleration group; exact target glosses are pinned in the readback. Digest is assessed as figurative toleration. The put-up target now explicitly requires the put-up-with construction, rather than bare transitive usage. The digest reference separately confirms its archaic tolerate/endure usage, rather than its food-processing sense."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "No exact new antonym target was verified for this broad toleration sense in this batch; no unsupported rejection-edge inserted."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "can't abide someone or something"
+            }
+          ],
+          "after": [
+            {
+              "text": "can't abide"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Can’t abide is an attested lexical construction; replaces a metalinguistic someone-or-something placeholder."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+      "sense_id": "28d49c76-2120-49d9-bbc9-c93f5dabdf6f",
+      "lemma": "abide",
+      "meaning_sha": "acb5caec0f69a27bf2e5eaadfb05bd0db35c4e503adb7cf4e8355086739a5d46",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "dwell",
+          "after": "to stay or live in a place (old-fashioned or formal usage)",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Stay/live sense explicitly marked old-fashioned or formal, rather than confused with toleration."
+        },
+        "definition_uz": {
+          "before": "Muayyan joyda yashab yoki qolib turmoq.",
+          "after": "Muayyan joyda yashamoq yoki qolmoq (eskirgan yoki kitobiy qo‘llanish).",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Yashash yoki qolish ma’nosi va uning eskirgan/kitobiy qo‘llanishi aniqlandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yashamoq; turmoq",
+              "translation_id": "c870eef1-4498-5cd0-a641-50b9052cfa0f"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yashamoq; turmoq",
+              "translation_id": "c870eef1-4498-5cd0-a641-50b9052cfa0f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Yashamoq; turmoq denotes residing/staying, not enduring."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "C2 label is attached only to the separate preferences/toleration sense in the exact reference; no live/stay level documented, so null."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "bide",
+              "lexemeId": "95b70a47-5ca2-5678-9c0a-39040fa0f527",
+              "senseId": "813c86c3-e5fd-40e3-961d-dac543a54023"
+            },
+            {
+              "text": "stay",
+              "lexemeId": "0b47da18-63b5-5ebe-b856-043063c07d13",
+              "senseId": "27357825-72ff-421d-b4b2-e0add441aa9f"
+            },
+            {
+              "text": "dwell",
+              "lexemeId": "eafdf10c-9c57-569a-88b6-751d3843c51a",
+              "senseId": "b193eeef-0dfb-4f08-9e91-31e9a420c668"
+            }
+          ],
+          "after": [
+            {
+              "text": "bide",
+              "lexemeId": "95b70a47-5ca2-5678-9c0a-39040fa0f527",
+              "senseId": "813c86c3-e5fd-40e3-961d-dac543a54023"
+            },
+            {
+              "text": "stay",
+              "lexemeId": "0b47da18-63b5-5ebe-b856-043063c07d13",
+              "senseId": "27357825-72ff-421d-b4b2-e0add441aa9f"
+            },
+            {
+              "text": "dwell",
+              "lexemeId": "eafdf10c-9c57-569a-88b6-751d3843c51a",
+              "senseId": "b193eeef-0dfb-4f08-9e91-31e9a420c668"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Bide is an explicit variant; stay and dwell are independently listed for residence. Frozen targets select dwell inhabitant sense, not brooding, recurrence or origin."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [
+            {
+              "text": "depart",
+              "lexemeId": "5905ac40-ea16-55df-89e7-75dd578b9046",
+              "senseId": "2b083025-bfe2-4aa3-836d-9927e8ff28e5"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Depart is explicitly a near-antonym in the stay/remain group. Added target is the go-away/leave sense, not deviate, withdraw from participation or differ."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "abide in a place"
+            }
+          ],
+          "after": [
+            {
+              "text": "abide in the wilderness"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/abide",
+            "https://dictionary.cambridge.org/us/dictionary/english/abide",
+            "https://www.merriam-webster.com/thesaurus/abide"
+          ],
+          "reasoning": "Abide in the wilderness is attested by the reference’s abided-in-wilderness usage. Replaces the former generic place placeholder."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English sense, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "additional_target_proofs": [
+    {
+      "entry_projection": {
+        "lexeme_id": "5905ac40-ea16-55df-89e7-75dd578b9046",
+        "sense_ids": [
+          "0bd9efbd-bd06-44bf-84c9-19d59fa578cd",
+          "1d4fb94e-2419-4832-8e8a-fe164fb83e07",
+          "2b083025-bfe2-4aa3-836d-9927e8ff28e5",
+          "4a159eb2-b96e-5cdf-9e48-dc66575b27c5",
+          "4bb75510-ccc1-4dc0-aaee-71785b8e8272",
+          "f7dbb4aa-2048-4fde-8ac2-0a8f67ce8806"
+        ],
+        "lemma_norm": "depart",
+        "content_sha": "024896f1c0ce1eac8f9f6b11d18202cb17ea82c8cf3b3f943b3f127892aa25f3",
+        "storage_shard": "59",
+        "part_of_speech": "v",
+        "storage_length": 3734,
+        "storage_offset": 10991,
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_raw_bytes": 12283
+      },
+      "shard_descriptor": {
+        "shard": "59",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0bb8ba173f0c745a4480553ce31e79da333cb340dad3cc93e2b6883cbd2b92c9",
+        "entries": 281,
+        "raw_bytes": 910541,
+        "raw_sha256": "37638779874634efae2ca5f65ec5b222b38422a1c398fc5559c49888215e8368",
+        "compressed_bytes": 374713
+      },
+      "entry": {
+        "attribution": [
+          {
+            "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "legacy_batches_656",
+            "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+            "source_url": "https://en-word.net/"
+          },
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "depart",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "5905ac40-ea16-55df-89e7-75dd578b9046",
+        "lexical_type": "word",
+        "normalized_search_form": "depart",
+        "part_of_speech": "v",
+        "pronunciations": [
+          {
+            "ipa": "dɪˈpɑɹt",
+            "variety": "US"
+          },
+          {
+            "ipa": "dɪˈpɑːt",
+            "variety": "GB"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "stay",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "antonym",
+            "target_lexeme_id": "0b47da18-63b5-5ebe-b856-043063c07d13",
+            "target_sense_id": "04c197f6-aa2e-42a5-8e64-e51419f4ed6e"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "0b26cc3c-f906-43d3-bde8-edefe24d7ea9"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "0b26cc3c-f906-43d3-bde8-edefe24d7ea9"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "0b26cc3c-f906-43d3-bde8-edefe24d7ea9"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "89b0fd3a-b51d-4c4c-bdb1-b34255a8c189"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "d61657b9-f768-432d-af97-dd67399976a4"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "d61657b9-f768-432d-af97-dd67399976a4"
+          },
+          {
+            "display_lemma": "departure",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "515abeff-4e7d-56d5-b76c-2a2833796de5",
+            "target_sense_id": "d61657b9-f768-432d-af97-dd67399976a4"
+          },
+          {
+            "display_lemma": "aberrate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "151428e4-b306-5a3f-8278-ae357e746228",
+            "target_sense_id": "12ee10b7-9e0a-55ba-9250-e5d0c4e73603"
+          },
+          {
+            "display_lemma": "aberrate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "151428e4-b306-5a3f-8278-ae357e746228",
+            "target_sense_id": "acedc338-0b98-5e68-8ceb-0ecd5ca62475"
+          },
+          {
+            "display_lemma": "congee",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "2a3b3439-3b72-5bcf-8436-2e4a898c456e",
+            "target_sense_id": "5e0c498b-1c6e-4b9d-a482-f2b2eba9c1bc"
+          },
+          {
+            "display_lemma": "drop out",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "a005c67c-e8a3-59b5-9dad-470fae5db184",
+            "target_sense_id": "c8433f2f-5776-50b9-bc8f-937be66c6860"
+          },
+          {
+            "display_lemma": "plump out",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "6a0c5610-b72c-58ab-8a38-997372671030",
+            "target_sense_id": "694945ff-6e26-566c-ab7d-5025352726e3"
+          },
+          {
+            "display_lemma": "roar off",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "6cfeccb1-05a2-57f8-89f6-a9a0ecedf121",
+            "target_sense_id": "00f90302-86a0-5ac3-b49d-d4cad4d331fa"
+          },
+          {
+            "display_lemma": "deviate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "9b946b52-79c9-5754-a47f-cd6bb75dcd38",
+            "target_sense_id": "d7cd44ba-bc22-4778-81c4-5c198bc1dd38"
+          },
+          {
+            "display_lemma": "digress",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "00bfbe73-2d80-5a66-a88d-d61387bc9385",
+            "target_sense_id": "a373d93f-b7ff-4683-9ca7-dc827a1728cc"
+          },
+          {
+            "display_lemma": "diverge",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "349d6803-d14d-5994-9552-03466b0ae086",
+            "target_sense_id": "a46f1ee1-6f3a-5cc8-bd10-c17512f175aa"
+          },
+          {
+            "display_lemma": "go",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "3a9f7ce9-768b-5546-89d2-80eed43ec44e",
+            "target_sense_id": "7a16b63e-e1f3-4989-a716-cbc238239fdc"
+          },
+          {
+            "display_lemma": "go away",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "e5d2b462-bf1a-55b6-965a-6079d4577443",
+            "target_sense_id": "b4a62f6b-7c7f-576c-a8f6-225ccba656d5"
+          },
+          {
+            "display_lemma": "leave",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "b93b5fcc-a926-5745-b25d-d06073681fc8",
+            "target_sense_id": "2c1e920e-a043-5cf5-905f-65774f5afd41"
+          },
+          {
+            "display_lemma": "part",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "e00b4745-1cac-5d11-95e7-e7b0719734e7",
+            "target_sense_id": "1530a9f0-88b4-4202-9795-3f3ea5cf1064"
+          },
+          {
+            "display_lemma": "pull up stakes",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "edb50d88-2d8a-5e92-8d27-e5c20dd3a7b8",
+            "target_sense_id": "b9522c60-9a8b-5c1c-a67a-7c5612ed03a8"
+          },
+          {
+            "display_lemma": "quit",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "b20ed1d9-bb7c-5e0b-bf28-de9fb672665c",
+            "target_sense_id": "cf900e1c-5e47-441b-9652-4ce0cdac4484"
+          },
+          {
+            "display_lemma": "set forth",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "ed440bd7-4cef-51d5-8f25-c2a0ac4a185f",
+            "target_sense_id": "ed20c21c-51ac-57dc-b236-dfaeeaf02cef"
+          },
+          {
+            "display_lemma": "set off",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "d27df6ee-58ac-55af-8e8c-511e5633a416",
+            "target_sense_id": "ba3310c1-87e5-5f9a-aba1-d9d481b79a62"
+          },
+          {
+            "display_lemma": "set out",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "597bf076-befb-5fb5-a751-8f7bc40f2c89",
+            "target_sense_id": "b8f1bec0-75d6-5a52-a374-d6d964dcecea"
+          },
+          {
+            "display_lemma": "sidetrack",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "e89325f2-b430-5f89-b9d5-4c1640d93c23",
+            "target_sense_id": "26f5100f-f131-4794-9805-1f760b353111"
+          },
+          {
+            "display_lemma": "start",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "098e99b3-c08a-5a2c-bf42-0f67629b9851",
+            "target_sense_id": "4d7d5f39-ae92-458c-aee2-ec6d1ec788f3"
+          },
+          {
+            "display_lemma": "start out",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "5cc316c7-c9a4-5abf-a5b3-3cca9e553252",
+            "target_sense_id": "80c1c123-5d44-59f9-8076-046b63b79c93"
+          },
+          {
+            "display_lemma": "straggle",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7a19d413-4ed7-5528-bd76-b64c124e859a",
+            "target_sense_id": "65ae8960-7b9f-54df-9a37-d795ec1319c8"
+          },
+          {
+            "display_lemma": "take leave",
+            "lexical_type": "multiword",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "ee9ca963-6611-567c-a338-d0d6cfeb8d05",
+            "target_sense_id": "1aefdcee-21d4-5b21-aa87-dfb4fd8c075b"
+          },
+          {
+            "display_lemma": "take off",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "8376fb0a-afd6-571f-a7ef-6f4d5ca2a0bc",
+            "target_sense_id": "05012607-b65a-5c96-bf97-cf2e674d4444"
+          },
+          {
+            "display_lemma": "vary",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "d0555b4a-8ce7-5d08-b62c-8543924d4dc5",
+            "target_sense_id": "a0f1302a-0998-4c0e-8713-349cb305be5d"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "B1",
+            "definition_en": "move away from a place into another direction",
+            "definition_uz": "bir joydan boshqa yo‘nalishga chiqib ketmoq",
+            "examples": [
+              {
+                "example_id": "0881c7ee-ab8a-5b9f-9d4a-6561d39b8feb",
+                "text_en": "The train departs at noon",
+                "text_uz": "poyezd tushda jo‘naydi"
+              },
+              {
+                "example_id": "cca7b308-fc0a-559e-a534-f2890f53b33f",
+                "text_en": "Go away before I start to cry",
+                "text_uz": "men yig‘lashni boshlashimdan oldin ket"
+              }
+            ],
+            "sense_id": "0bd9efbd-bd06-44bf-84c9-19d59fa578cd",
+            "translations": [
+              {
+                "order": 0,
+                "text": "jo‘nab ketmoq",
+                "translation_id": "a3c6251b-8107-55ff-afc8-9407c96684ac"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "depart for someplace",
+            "definition_uz": "Biror joyga yo‘l olish uchun ketmoq.",
+            "examples": [
+              {
+                "example_id": "791941be-45cf-5d2f-beab-84175af25794",
+                "text_en": "The family took off for Florida",
+                "text_uz": "Oila Floridaga jo‘nab ketdi."
+              },
+              {
+                "example_id": "dd32c980-3545-51fc-a4ed-4b90417e1b01",
+                "text_en": "These cars won't depart",
+                "text_uz": "Bu mashinalar jo‘namaydi."
+              }
+            ],
+            "sense_id": "1d4fb94e-2419-4832-8e8a-fe164fb83e07",
+            "translations": [
+              {
+                "order": 0,
+                "text": "jo‘nab ketmoq",
+                "translation_id": "d56f95cb-7775-5f20-98a5-4e51da424630"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "go away or leave",
+            "definition_uz": "bir joydan chiqib, uzoqlashmoq",
+            "examples": [],
+            "sense_id": "2b083025-bfe2-4aa3-836d-9927e8ff28e5",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ketmoq",
+                "translation_id": "8d4411a2-31e2-536d-a4bf-19f7ad1694c3"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "wander from a direct or straight course",
+            "definition_uz": "To‘g‘ri yoki bevosita yo‘nalishdan chetga chiqib yurmoq.",
+            "examples": [],
+            "sense_id": "4a159eb2-b96e-5cdf-9e48-dc66575b27c5",
+            "translations": [
+              {
+                "order": 0,
+                "text": "yo‘ldan og‘moq",
+                "translation_id": "8aede230-2fce-503f-ae6b-caadaf083910"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "remove oneself from an association with or participation in",
+            "definition_uz": "Biror tashkilot, faoliyat yoki ishtirokdan o‘zini chetga olib, undan chiqib ketmoq.",
+            "examples": [
+              {
+                "example_id": "26ae38e3-1fd9-5235-9e95-460bf285928d",
+                "text_en": "He left the Senate after two terms",
+                "text_uz": "U ikki muddatdan keyin Senatni tark etdi."
+              },
+              {
+                "example_id": "b3e5e6da-90cd-5c1a-a247-bc6007f0459e",
+                "text_en": "She wants to leave",
+                "text_uz": "U ketmoqchi."
+              },
+              {
+                "example_id": "cca44fd3-8748-5033-99d6-57227b6df8d0",
+                "text_en": "after 20 years with the same company, she pulled up stakes",
+                "text_uz": "Bir kompaniyada 20 yil ishlagach, u yerdan butunlay ketdi."
+              },
+              {
+                "example_id": "e99a0b40-a1c1-5e9b-9b55-4a2769ca4ac4",
+                "text_en": "She left her position with the Red Cross",
+                "text_uz": "U Qizil Xochdagi lavozimini tark etdi."
+              },
+              {
+                "example_id": "f5120b7b-bf86-5027-991e-cb3c43917554",
+                "text_en": "The teenager left home",
+                "text_uz": "O‘smir uydan ketdi."
+              }
+            ],
+            "sense_id": "4bb75510-ccc1-4dc0-aaee-71785b8e8272",
+            "translations": [
+              {
+                "order": 0,
+                "text": "tark etmoq",
+                "translation_id": "9f607e5f-e528-5517-82dd-3f4388f6659b"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "be at variance with; be out of line with",
+            "definition_uz": "Mos kelmaslik, belgilangan yo‘nalish yoki me’yordan chetga chiqmoq.",
+            "examples": [],
+            "sense_id": "f7dbb4aa-2048-4fde-8ac2-0a8f67ce8806",
+            "translations": [
+              {
+                "order": 0,
+                "text": "chetga chiqmoq; farq qilmoq",
+                "translation_id": "68190a2a-360d-576e-a34e-030a1a360479"
+              }
+            ]
+          }
+        ]
+      },
+      "selected_sense_id": "2b083025-bfe2-4aa3-836d-9927e8ff28e5"
+    },
+    {
+      "entry_projection": {
+        "lexeme_id": "eafdf10c-9c57-569a-88b6-751d3843c51a",
+        "sense_ids": [
+          "03d43883-db96-43be-873e-921154348c3e",
+          "642ee07a-b56a-4e75-8352-b370e7224c82",
+          "b193eeef-0dfb-4f08-9e91-31e9a420c668",
+          "c3745c2e-00c4-4942-acf5-8b241450292d",
+          "cd8e341b-03b9-4150-8e93-c2b682f4368f"
+        ],
+        "lemma_norm": "dwell",
+        "content_sha": "e5a7ab15adfa99163613077a23cc8b9c50bd89b78bd181c6b09ebcdec172fba3",
+        "storage_shard": "ea",
+        "part_of_speech": "v",
+        "storage_length": 2807,
+        "storage_offset": 337772,
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_raw_bytes": 7624
+      },
+      "shard_descriptor": {
+        "shard": "ea",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2960d1b475695757fdae53b6e0c95601f156f2f18bd4b05ca56e2ec2d0ac1791",
+        "entries": 265,
+        "raw_bytes": 829962,
+        "raw_sha256": "047b507d59dcf013810ff3509e9041bc89c68910349d48d33dda10fe4105b025",
+        "compressed_bytes": 344630
+      },
+      "entry": {
+        "attribution": [
+          {
+            "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "legacy_batches_656",
+            "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+            "source_url": "https://en-word.net/"
+          },
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "dwell",
+        "forms": [
+          {
+            "surface_form": "dwelt"
+          }
+        ],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "eafdf10c-9c57-569a-88b6-751d3843c51a",
+        "lexical_type": "word",
+        "normalized_search_form": "dwell",
+        "part_of_speech": "v",
+        "pronunciations": [
+          {
+            "ipa": "dwɛl"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "dweller",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "a42f864d-1182-535f-9fd1-91e29fcb5a1e",
+            "target_sense_id": "af55a70b-d185-4a93-9d0f-767524867fb2"
+          },
+          {
+            "display_lemma": "dwelling",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "def86f17-aa33-538c-b863-1e4e638397a6",
+            "target_sense_id": "3c1282d1-959c-4203-a20c-fac3367e762d"
+          },
+          {
+            "display_lemma": "people",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "cc44d030-50e3-5aa2-b3fe-4ceaac144c5f",
+            "target_sense_id": "f77eeeb6-920c-4468-9400-7a24be35494d"
+          },
+          {
+            "display_lemma": "tenant",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "5469dd80-d084-5a85-9378-a294928c3adb",
+            "target_sense_id": "7430d6f7-d482-4dc2-91ec-ebb68db1c6df"
+          },
+          {
+            "display_lemma": "brood",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "ba918460-48d9-5c4f-bef5-aabadb0f3b7d",
+            "target_sense_id": "c5227a13-65c8-420f-b8a1-981bbba666e0"
+          },
+          {
+            "display_lemma": "consist",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "4c63e93f-9f2f-549a-9bcb-45c4c9bdcfdd",
+            "target_sense_id": "e076097f-977a-46fd-9aa3-45b44607e775"
+          },
+          {
+            "display_lemma": "harp",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "5125a6b0-e745-525c-999f-e5559bb557c9",
+            "target_sense_id": "e0f46161-575c-449d-827f-5cc50a06f32e"
+          },
+          {
+            "display_lemma": "inhabit",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "bccae658-8bd3-568f-8021-f09b8192c4e8",
+            "target_sense_id": "cdc6c331-c256-4cea-a9ba-04cf7758380a"
+          },
+          {
+            "display_lemma": "inhabit",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "bccae658-8bd3-568f-8021-f09b8192c4e8",
+            "target_sense_id": "f8c45911-5b3e-4cb5-a8ff-e01823929a49"
+          },
+          {
+            "display_lemma": "lie",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "4753601c-4efa-5413-a20a-cc2d3f1265ad",
+            "target_sense_id": "5007b46b-45d0-445d-8ef4-a48f6a3e87c3"
+          },
+          {
+            "display_lemma": "lie in",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "ba09a17c-d628-5db9-9be7-140517f78b15",
+            "target_sense_id": "f7848607-2418-5321-b7da-2b80caf8f989"
+          },
+          {
+            "display_lemma": "live",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7711ab5c-3957-5a59-af3e-b59cb0535d1b",
+            "target_sense_id": "617e9c10-880e-40f0-aa1b-645ff48eb799"
+          },
+          {
+            "display_lemma": "populate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "626425a5-36de-58fa-88a9-0ec4fbef721a",
+            "target_sense_id": "e5ac6431-b01a-4e91-bc3c-42072958bc64"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "C2",
+            "definition_en": "come back to",
+            "definition_uz": "Bir mavzuga qayta-qayta qaytib turmoq.",
+            "examples": [
+              {
+                "example_id": "4fe3a6da-047a-5899-a064-41e1a35a73c9",
+                "text_en": "She is always harping on the same old things",
+                "text_uz": "u doim bir xil eski gaplarni takrorlayveradi"
+              },
+              {
+                "example_id": "e27cedd2-7873-54d3-935c-95ff8c109f3c",
+                "text_en": "Don't dwell on the past",
+                "text_uz": "o‘tmishga qaytaverma"
+              }
+            ],
+            "sense_id": "03d43883-db96-43be-873e-921154348c3e",
+            "translations": [
+              {
+                "order": 0,
+                "text": "qayta-qayta qaytmoq",
+                "translation_id": "295c0ea0-be36-5b27-8ea7-daaf3ca3fa99"
+              }
+            ]
+          },
+          {
+            "cefr": "C2",
+            "definition_en": "exist or be situated within",
+            "definition_uz": "Biror narsaning ichida mavjud bo‘lmoq yoki joylashmoq.",
+            "examples": [
+              {
+                "example_id": "f1cbdcc2-2351-5800-815d-2046b85f0308",
+                "text_en": "Strange notions inhabited her mind",
+                "text_uz": "uning xayolida g‘alati fikrlar yashardi"
+              }
+            ],
+            "sense_id": "642ee07a-b56a-4e75-8352-b370e7224c82",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ichida mavjud bo‘lmoq",
+                "translation_id": "8d9bc5ad-f6b7-5564-908e-e83f955544b4"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "be an inhabitant of or reside in",
+            "definition_uz": "Biror joyda istiqomat qilmoq yoki yashamoq.",
+            "examples": [
+              {
+                "example_id": "507bb63b-870d-54d0-bba6-22c0948ff841",
+                "text_en": "People lived in Africa millions of years ago",
+                "text_uz": "Millionlab yil avval odamlar Afrikada yashagan."
+              },
+              {
+                "example_id": "9c41cd8d-1005-54ed-9d5b-7f95130ed7db",
+                "text_en": "this kind of fish dwells near the bottom of the ocean",
+                "text_uz": "Bu turdagi baliq okean tubi yaqinida yashaydi."
+              },
+              {
+                "example_id": "e5bf8563-1449-50c1-8bc6-697e1d91673c",
+                "text_en": "The people inhabited the islands that are now deserted",
+                "text_uz": "Odamlar hozir kimsasiz bo'lgan orollarda yashagan."
+              },
+              {
+                "example_id": "f2119b0b-f2f1-567f-8867-ae0a66efbed1",
+                "text_en": "deer are populating the woods",
+                "text_uz": "O'rmonlarda kiyiklar ko'payib bormoqda."
+              }
+            ],
+            "sense_id": "b193eeef-0dfb-4f08-9e91-31e9a420c668",
+            "translations": [
+              {
+                "order": 0,
+                "text": "yashamoq",
+                "translation_id": "a7cef331-be8b-51c1-9dbf-dd15b3dd9c3d"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "think moodily or anxiously about something",
+            "definition_uz": "Biror narsa haqida g'amgin yoki xavotirli tarzda qayta-qayta o'ylamoq.",
+            "examples": [],
+            "sense_id": "c3745c2e-00c4-4942-acf5-8b241450292d",
+            "translations": [
+              {
+                "order": 0,
+                "text": "o'yga botmoq",
+                "translation_id": "497d1ff9-d3dc-5931-bdf7-612f10991878"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "originate (in)",
+            "definition_uz": "Biror narsadan kelib chiqmoq yoki manbai o'sha yerda bo'lmoq.",
+            "examples": [
+              {
+                "example_id": "46e18182-0629-53e7-840f-1f83c31fbbe2",
+                "text_en": "The problems dwell in the social injustices in this country",
+                "text_uz": "Muammolarning ildizi bu mamlakatdagi ijtimoiy adolatsizliklarda."
+              }
+            ],
+            "sense_id": "cd8e341b-03b9-4150-8e93-c2b682f4368f",
+            "translations": [
+              {
+                "order": 0,
+                "text": "kelib chiqmoq; ildizi bo'lmoq",
+                "translation_id": "6c9d2430-7862-5908-95fc-dda7fcd84dfc"
+              }
+            ]
+          }
+        ]
+      },
+      "selected_sense_id": "b193eeef-0dfb-4f08-9e91-31e9a420c668"
+    }
+  ],
+  "target_interventions": [
+    {
+      "entry": {
+        "attribution": [
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "put up",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "4a632a8d-26ed-5eb1-8ba5-bf0e8339a391",
+        "lexical_type": "other",
+        "normalized_search_form": "put up",
+        "part_of_speech": "v",
+        "pronunciations": [],
+        "relations": [
+          {
+            "display_lemma": "offer",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hypernym",
+            "target_lexeme_id": "4b3f3965-2faa-5ac7-9c67-480c14da79a0",
+            "target_sense_id": "66efdcd9-4bb5-5f9c-9782-b3d3608318d1"
+          },
+          {
+            "display_lemma": "pay",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hypernym",
+            "target_lexeme_id": "61a06862-6402-5963-b5ea-03db014ba46e",
+            "target_sense_id": "38a693a4-52a1-4af4-84a4-a55101257b72"
+          },
+          {
+            "display_lemma": "shelter",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hypernym",
+            "target_lexeme_id": "1e844bc2-2048-54a5-91fc-89cbc8f813af",
+            "target_sense_id": "8597f791-f7af-42bf-b120-5106549c0ada"
+          },
+          {
+            "display_lemma": "bear up",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "59dcb68c-224d-57a3-8c0a-f76f22b3f651",
+            "target_sense_id": "f73b081f-f1f9-5f83-8dfe-6a9389a205bb"
+          },
+          {
+            "display_lemma": "chamber",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "608add18-a5e0-5e1d-a56f-acb4e07b0612",
+            "target_sense_id": "e72b4bb9-fd18-4c5a-b5a4-55429cd25878"
+          },
+          {
+            "display_lemma": "home",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "944afab1-7d75-550e-a12a-e97907f41757",
+            "target_sense_id": "9be04184-f322-41ba-b69e-d23e0ae47cf6"
+          },
+          {
+            "display_lemma": "take a joke",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "dfea37ce-b1f4-5b70-9378-c967cb0aaf01",
+            "target_sense_id": "08a74329-0192-5f04-9b36-2cea402a9d9b"
+          },
+          {
+            "display_lemma": "take lying down",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "hyponym",
+            "target_lexeme_id": "c37589d1-cde7-571e-b976-3f7aacca6d53",
+            "target_sense_id": "48e80cd8-b178-59d7-a2be-36b7abfc6d5f"
+          },
+          {
+            "display_lemma": "abide",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6c3fc2ae-5f8f-55b6-a1e6-b5e2dc4aac52",
+            "target_sense_id": "033fda48-dc62-4b8e-91a7-30f327e8e66d"
+          },
+          {
+            "display_lemma": "bear",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "8d13f30f-d929-586c-80a8-9acfd3d0f8b7",
+            "target_sense_id": "fbbb979e-d3da-4fd5-97b5-f6fa520080aa"
+          },
+          {
+            "display_lemma": "brook",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "451fb7a1-5dae-5850-9309-2ae6c6274b4a",
+            "target_sense_id": "fcab9446-f9bb-43dc-a9b9-89649237666b"
+          },
+          {
+            "display_lemma": "can",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "df8ba5a7-b01a-5db6-93cd-12a40d304455",
+            "target_sense_id": "8500a7bd-9f25-461b-88de-c57b51d2757c"
+          },
+          {
+            "display_lemma": "contribute",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "77a2e728-586c-5f1f-9a65-6b8e75e8d790",
+            "target_sense_id": "65be000d-f849-4bab-a97f-512ad241e3a0"
+          },
+          {
+            "display_lemma": "digest",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "1aa71ca3-a9e0-5770-8fe0-81d5b97bb0cb",
+            "target_sense_id": "fbcaccd8-8370-4160-84fe-3bd53d40fe18"
+          },
+          {
+            "display_lemma": "domiciliate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "eba75d83-10b3-5959-8c36-8e6739cb6dd9",
+            "target_sense_id": "a80cfc5b-a47b-5ae5-8c8e-1e0fb2bb3a8a"
+          },
+          {
+            "display_lemma": "endure",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6ff163bf-68da-5f9c-b133-bf2b93b4ddf8",
+            "target_sense_id": "f752d355-0430-4ae4-af59-230a05a11d5a"
+          },
+          {
+            "display_lemma": "erect",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "e0632f28-efc8-50c6-8764-90e459c68384",
+            "target_sense_id": "9e6a2f4a-1af3-45fa-b45c-fdb731e9fbfa"
+          },
+          {
+            "display_lemma": "house",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7211aca7-3c4f-5fdd-9ebd-879ddc402a3a",
+            "target_sense_id": "60c1914d-9486-4a3f-b14e-94d0f7f791f9"
+          },
+          {
+            "display_lemma": "nominate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "adf5c9b9-1f9f-582b-a0c1-d9e9cd5c43e4",
+            "target_sense_id": "c8109428-d0e8-4949-9d37-bb0943bd5306"
+          },
+          {
+            "display_lemma": "offer",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "4b3f3965-2faa-5ac7-9c67-480c14da79a0",
+            "target_sense_id": "ab1dba39-bc10-5230-a866-7560a3d3a5e3"
+          },
+          {
+            "display_lemma": "post",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6ccd903b-c32e-5900-bfd1-ef8e58e4c584",
+            "target_sense_id": "9d184918-11d7-59ee-b218-1065b064c7aa"
+          },
+          {
+            "display_lemma": "provide",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6d5fcf60-7efd-5bdf-9150-e8fff908e469",
+            "target_sense_id": "14a17613-c71e-4f17-b109-f4fddfbcd680"
+          },
+          {
+            "display_lemma": "put forward",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "5ae2cfca-bf7b-5cbf-b4af-4fea48d9c7f2",
+            "target_sense_id": "994d3be8-1c9b-5ffd-948e-52861e42ae10"
+          },
+          {
+            "display_lemma": "rear",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "5698d635-1b2c-537f-be4a-4a1d8c687d22",
+            "target_sense_id": "4e847682-3e5f-43bf-af41-e48158e8c0b5"
+          },
+          {
+            "display_lemma": "set up",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "09f178a0-5281-5e29-abc0-f21cc310b186",
+            "target_sense_id": "f63b4b91-bda8-5a42-a95a-5ff55e80f807"
+          },
+          {
+            "display_lemma": "stand",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "a102232a-db02-51db-9134-f0aaf8b0129a",
+            "target_sense_id": "558c28d6-182a-4c6e-8471-47f132c2804d"
+          },
+          {
+            "display_lemma": "stick out",
+            "lexical_type": "other",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "f6f66616-c0cb-51b3-8f7f-0da2f296c613",
+            "target_sense_id": "12161c7e-db2b-55ef-a9ab-08aa3ea913b7"
+          },
+          {
+            "display_lemma": "stomach",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "fa4de0de-90b1-5954-b049-7aeccbed0177",
+            "target_sense_id": "2f7c8eeb-b3ba-42df-8ba8-acda168ab983"
+          },
+          {
+            "display_lemma": "suffer",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "0d0d2deb-a8ea-59ca-96a8-c5c0142baee7",
+            "target_sense_id": "9e914c22-5583-46d2-b4fb-69c2f59ec201"
+          },
+          {
+            "display_lemma": "support",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "726881e7-4341-5eb6-ab55-93a3b4dc4295",
+            "target_sense_id": "facb229c-ef78-509e-9069-85a7fe0520ab"
+          },
+          {
+            "display_lemma": "tin",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "0bb2700d-84c6-5fa0-a837-f9cf0de4c277",
+            "target_sense_id": "0a41fb3c-6d49-44f1-90ea-9f884e13c2ce"
+          },
+          {
+            "display_lemma": "tolerate",
+            "lexical_type": "word",
+            "part_of_speech": "v",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6ec8d2de-ffb7-59a7-a9a6-6adc2ba4f682",
+            "target_sense_id": "52426071-9e5b-4900-a168-e7921693f12a"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "B1",
+            "definition_en": "mount or put up",
+            "definition_uz": "qarshilik yoki kurashni boshlamoq va davom ettirmoq",
+            "examples": [
+              {
+                "example_id": "339b8323-4bdb-561d-8986-401473e85eb3",
+                "text_en": "offer resistance",
+                "text_uz": "Qarshilik ko‘rsatmoq."
+              },
+              {
+                "example_id": "4e409ab8-55a7-5812-a17c-e43d83eccef9",
+                "text_en": "put up a good fight",
+                "text_uz": "Yaxshi kurash olib bormoq."
+              }
+            ],
+            "sense_id": "0dbeda12-2965-5944-aac2-dafd421c88dc",
+            "translations": [
+              {
+                "order": 0,
+                "text": "qarshilik ko‘rsatmoq",
+                "translation_id": "fae1e274-5289-52f3-9140-c44c2d229000"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "make available for sale at an auction",
+            "definition_uz": "biror narsani auksionda sotish uchun taklif qilmoq",
+            "examples": [
+              {
+                "example_id": "52773619-73bc-5a00-979f-264c04f883d9",
+                "text_en": "The dealer put up three of his most valuable paintings for auction",
+                "text_uz": "sotuvchi o‘zining eng qimmat uchta rasmini auksionga qo‘ydi"
+              }
+            ],
+            "sense_id": "17f4e0b8-af07-532b-9eed-7aa84bb79597",
+            "translations": [
+              {
+                "order": 0,
+                "text": "auksionga qo‘ymoq",
+                "translation_id": "791a38df-6c8d-5559-ba96-9169211f4a0b"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "put up with something or somebody unpleasant",
+            "definition_uz": "Yoqimsiz narsa yoki odamga sabr qilib toqat qilmoq.",
+            "examples": [
+              {
+                "example_id": "d130817b-bdf4-5cea-a7d0-f9e20a0bcf2b",
+                "text_en": "The new secretary had to endure a lot of unprofessional remarks",
+                "text_uz": "Yangi kotib ko‘plab noprofessional gaplarga chidashi kerak edi."
+              },
+              {
+                "example_id": "e7907dc6-8259-5996-a562-3791bd490689",
+                "text_en": "I cannot bear his constant criticism",
+                "text_uz": "Men uning tinimsiz tanqidiga chiday olmayman."
+              }
+            ],
+            "sense_id": "36029630-eefa-5ffd-b795-f90251acef50",
+            "translations": [
+              {
+                "order": 0,
+                "text": "chidamoq",
+                "translation_id": "298ec694-3646-51b9-9ef9-6802c4d15ccd"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "preserve in a can or tin",
+            "definition_uz": "Oziq-ovqatni banka yoki metall idishga solib saqlamoq.",
+            "examples": [
+              {
+                "example_id": "64ac67e0-703b-5ec3-953b-27c9e1d09ffb",
+                "text_en": "The chefs put up the vegetables",
+                "text_uz": "Oshpazlar sabzavotlarni konservalashadi."
+              },
+              {
+                "example_id": "72ece139-b574-553e-8ee4-95ea513ec708",
+                "text_en": "tinned foods are not very tasty",
+                "text_uz": "Konservalangan ovqatlar unchalik mazali emas."
+              }
+            ],
+            "sense_id": "739ac4e2-7dcc-54fe-b524-c5d8e64f2b7a",
+            "translations": [
+              {
+                "order": 0,
+                "text": "konservalamoq",
+                "translation_id": "4f9afd2d-61c8-5eb0-94a5-5264cb945500"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "construct, build, or erect",
+            "definition_uz": "Bino yoki inshootni barpo etmoq.",
+            "examples": [
+              {
+                "example_id": "92ec4253-3d75-5ac2-b76e-80e8a7a84027",
+                "text_en": "Raise a barn",
+                "text_uz": "Omborxona quring."
+              }
+            ],
+            "sense_id": "741ee996-14ad-5578-aefc-5c6405f9eef5",
+            "translations": [
+              {
+                "order": 0,
+                "text": "qurmoq",
+                "translation_id": "383c87b1-f96a-565b-9a55-4047817d42fb"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "place so as to be noticed",
+            "definition_uz": "Sezilishi uchun biror joyga joylashtirmoq.",
+            "examples": [
+              {
+                "example_id": "3c68e43a-454a-5982-bef0-76bbc280d868",
+                "text_en": "post a warning at the dump",
+                "text_uz": "Chiqindixonaga ogohlantirish osing."
+              },
+              {
+                "example_id": "5c76c613-803b-5f45-ad33-e56f3aad5a31",
+                "text_en": "post a sign",
+                "text_uz": "Belgi qo'ying."
+              }
+            ],
+            "sense_id": "942dc55d-ccd1-55c9-9f05-6599ce59e409",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ko'zga ko'rinarli qo'ymoq",
+                "translation_id": "2f77e357-11ad-5e7d-9d05-f7d3a36bb815"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "provide someone with accommodation",
+            "definition_uz": "Kishiga turar joy bermoq.",
+            "examples": [
+              {
+                "example_id": "6f8d98d4-121b-5a26-a4a9-2843ab136e96",
+                "text_en": "The immigrants were housed in a new development outside the town",
+                "text_uz": "Muhojirlarni shahar tashqarisidagi yangi turar joylarga joylashtirishdi."
+              }
+            ],
+            "sense_id": "96f93039-c87c-51b1-999d-eee7b673e846",
+            "translations": [
+              {
+                "order": 0,
+                "text": "turar joy bilan ta'minlamoq",
+                "translation_id": "6ce4676b-dfee-501d-95e4-d3dbe7a185b8"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "propose as a candidate for some honor",
+            "definition_uz": "Birovni biror sharaf yoki mukofot uchun nomzod sifatida taklif qilmoq.",
+            "examples": [],
+            "sense_id": "cddd843f-f102-5f84-921c-033431dcdca2",
+            "translations": [
+              {
+                "order": 0,
+                "text": "nomzod qilib ko'rsatmoq",
+                "translation_id": "89aaf167-140d-52b0-b1bb-8eb95af1b119"
+              }
+            ]
+          },
+          {
+            "cefr": "B1",
+            "definition_en": "provide",
+            "definition_uz": "Kerakli resurs yoki mablag'ni bermoq",
+            "examples": [
+              {
+                "example_id": "c07a833d-09c7-5cdb-a4fe-ff1ab53cefdc",
+                "text_en": "The city has to put up half the required amount",
+                "text_uz": "Shahar zarur summaning yarmini ta'minlashi kerak."
+              }
+            ],
+            "sense_id": "f1948ae0-491d-5e75-a1c5-fc891aae04ac",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ta'minlamoq",
+                "translation_id": "3efb02e9-3d71-5713-b2cb-b93890030017"
+              }
+            ]
+          }
+        ]
+      },
+      "entry_projection": {
+        "lexeme_id": "4a632a8d-26ed-5eb1-8ba5-bf0e8339a391",
+        "sense_ids": [
+          "0dbeda12-2965-5944-aac2-dafd421c88dc",
+          "17f4e0b8-af07-532b-9eed-7aa84bb79597",
+          "36029630-eefa-5ffd-b795-f90251acef50",
+          "739ac4e2-7dcc-54fe-b524-c5d8e64f2b7a",
+          "741ee996-14ad-5578-aefc-5c6405f9eef5",
+          "942dc55d-ccd1-55c9-9f05-6599ce59e409",
+          "96f93039-c87c-51b1-999d-eee7b673e846",
+          "cddd843f-f102-5f84-921c-033431dcdca2",
+          "f1948ae0-491d-5e75-a1c5-fc891aae04ac"
+        ],
+        "lemma_norm": "put up",
+        "content_sha": "121035097bca85c0c9b267aa4fe231b6796fd2e2d52b173f31dcb8159a3de217",
+        "storage_shard": "4a",
+        "part_of_speech": "v",
+        "storage_length": 4305,
+        "storage_offset": 124911,
+        "storage_raw_bytes": 12518
+      },
+      "sense_id": "36029630-eefa-5ffd-b795-f90251acef50",
+      "meaning_sha": "6114116942d0853bca1ac2dde69745d007eaa3ad4c02bcbef53320aedcdbb02e",
+      "fields": {
+        "definition_en": {
+          "before": "put up with something or somebody unpleasant",
+          "after": "to tolerate an unpleasant person or situation, used in the construction 'put up with'"
+        },
+        "definition_uz": {
+          "before": "Yoqimsiz narsa yoki odamga sabr qilib toqat qilmoq.",
+          "after": "Yoqimsiz kishi yoki vaziyatga chidamoq; bu ma’noda 'put up with' birikmasi qo‘llanadi."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": "B2"
+        }
+      },
+      "collocation_added": "put up with",
+      "evidence_urls": [
+        "https://dictionary.cambridge.org/dictionary/english/put-up-with",
+        "https://www.merriam-webster.com/dictionary/put%20up"
+      ],
+      "reasoning": "Toleration is the put-up-with construction; explicitly annotate its grammar and documented B2 without relabelling the lexeme or touching its other senses. B2 is not borrowed from put-up construction/building uses.",
+      "full_seven_field_review_complete": false,
+      "new_readback": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "regression": {
+    "backend": {
+      "passed": 181,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1
+    },
+    "source_integrity": "pass",
+    "diff_check": "pass",
+    "remote_ci": "not_yet_run_for_this_commit"
+  }
+}

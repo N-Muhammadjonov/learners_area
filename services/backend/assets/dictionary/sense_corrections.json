@@ -474,7 +474,7 @@
         ],
         "add_collocations": [
           {
-            "text": "can't abide someone or something"
+            "text": "can't abide"
           }
         ],
         "scope_synonyms": [
@@ -558,7 +558,7 @@
         ],
         "add_collocations": [
           {
-            "text": "abide in a place"
+            "text": "abide in the wilderness"
           }
         ],
         "scope_synonyms": [
@@ -572,6 +572,26 @@
             "text": "stay",
             "lexemeId": "0b47da18-63b5-5ebe-b856-043063c07d13",
             "senseId": "27357825-72ff-421d-b4b2-e0add441aa9f",
+            "partOfSpeech": "v"
+          }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "dwell",
+          "text": "to stay or live in a place (old-fashioned or formal usage)"
+        },
+        "replace_definition_uz": {
+          "original": "Muayyan joyda yashab yoki qolib turmoq.",
+          "text": "Muayyan joyda yashamoq yoki qolmoq (eskirgan yoki kitobiy qo‘llanish)."
+        },
+        "add_antonyms": [
+          {
+            "text": "depart",
+            "lexemeId": "5905ac40-ea16-55df-89e7-75dd578b9046",
+            "senseId": "2b083025-bfe2-4aa3-836d-9927e8ff28e5",
             "partOfSpeech": "v"
           }
         ]
@@ -2004,6 +2024,28 @@
         "add_collocations": [
           {
             "text": "batik dress"
+          }
+        ]
+      }
+    },
+    "4a632a8d-26ed-5eb1-8ba5-bf0e8339a391": {
+      "36029630-eefa-5ffd-b795-f90251acef50": {
+        "meaning_sha": "6114116942d0853bca1ac2dde69745d007eaa3ad4c02bcbef53320aedcdbb02e",
+        "replace_definition_en": {
+          "original": "put up with something or somebody unpleasant",
+          "text": "to tolerate an unpleasant person or situation, used in the construction 'put up with'"
+        },
+        "replace_definition_uz": {
+          "original": "Yoqimsiz narsa yoki odamga sabr qilib toqat qilmoq.",
+          "text": "Yoqimsiz kishi yoki vaziyatga chidamoq; bu ma’noda 'put up with' birikmasi qo‘llanadi."
+        },
+        "replace_cefr": {
+          "original": "B1",
+          "text": "B2"
+        },
+        "add_collocations": [
+          {
+            "text": "put up with"
           }
         ]
       }

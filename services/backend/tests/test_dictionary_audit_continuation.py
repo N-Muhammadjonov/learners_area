@@ -216,6 +216,33 @@ def test_unsmooth_antonym_uses_physical_surface_not_other_smooth_senses():
     assert (antonyms[0]['target_lexeme_id'], antonyms[0]['target_sense_id']) == (target['lexeme_id'], sense['sense_id'])
 
 
+def test_abide_target_proofs_and_put_up_grammar_change_preserve_other_senses():
+    data = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json').read_text())
+    for proof in data['additional_target_proofs']:
+        entry = proof['entry']
+        assert hashlib.sha256(stable({k: v for k, v in entry.items() if k != 'release_id'}).encode()).hexdigest() == proof['entry_projection']['content_sha']
+        assert proof['selected_sense_id'] in proof['entry_projection']['sense_ids']
+    intervention = data['target_interventions'][0]
+    original = intervention['entry']
+    frozen = copy.deepcopy(original)
+    result = curation.curate_candidate_entry(original)
+    assert original == frozen
+    for before, after in zip(original['senses'], result['senses']):
+        if before['sense_id'] == intervention['sense_id']:
+            assert curation.original_meaning_hash(original, before) == intervention['meaning_sha']
+            assert after['cefr'] == 'B2' and "'put up with'" in after['definition_en']
+            assert before['examples'] == after['examples']
+        else:
+            assert before == after
+    literal = '28d49c76-2120-49d9-bbc9-c93f5dabdf6f'
+    tolerate = '033fda48-dc62-4b8e-91a7-30f327e8e66d'
+    revised = curation.curate_candidate_entry(source('abide'))
+    levels = {s['sense_id']: s.get('cefr') for s in revised['senses']}
+    assert levels == {literal: None, tolerate: 'C2'}
+    antonyms = [r for r in revised['relations'] if r['relation_type'] == 'antonym']
+    assert [(r['source_sense_id'], r['target_sense_id']) for r in antonyms] == [(literal, '2b083025-bfe2-4aa3-836d-9927e8ff28e5')]
+
+
 def test_unproven_levels_become_null_without_clearing_evidenced_or_unreviewed_senses():
     assert curation.curate_candidate_entry(source('mottle'))['senses'][0].get('cefr') is None
     quart = curation.curate_candidate_entry(source('quart'))

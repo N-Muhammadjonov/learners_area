@@ -689,3 +689,15 @@ Avvalgi UI commit `86be7f1c1cd5402945335c3cc5cff5db516129f8` uchun GitHub Action
 `unsmooth` uchun yangi antonym: `smooth` (`0faf5d86-48f5-5881-8903-41e494caa336` / `0ca93477-2e12-4db3-a65f-245bb18cf933`). Uning aynan sirt ma’nosi qo‘shimcha R2 readback, content SHA va barcha source sense IDlar bilan tekshirildi; boshqa 7 smooth ma’nosi ulanmagan. `astomatal` yoki `lepidopterology` uchun nishon ID topilmagani sabab hech qanday UUID to‘qib kiritilmagan.
 
 Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json`. Mahalliy backend: **179 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar tekshiruvi boshlanmagan; 9-bosqich va 20 bosqichlik umumiy audit ochiq.
+
+### 1 710-leksema — abide ikki ma’nosi va bog‘langan ibora grammatikasi
+
+`abide`: **2 ma’no / 14 maydon qarori**. Dastlabki yangi guruh bo‘yicha jami **10 leksema / 13 ma’no / 91 alohida qaror** hujjatlashtirildi. “Chidamoq” ma’nosidagi C2 dalil bilan saqlandi; eski/kitobiy “yashamoq yoki qolmoq” ma’nosidagi tasdiqsiz C2 null qilindi va qo‘llanish ta’rifda aniqlandi. Ikki avvalgi collocationdagi umumiy placeholderlar manbada attested birikmalar bilan almashtirildi.
+
+Yashash ma’nosining antonymi `depart`ning faqat ketish/tark etish ma’nosiga ulandi (`5905ac40-ea16-55df-89e7-75dd578b9046` / `2b083025-bfe2-4aa3-836d-9927e8ff28e5`). `depart` va `dwell`ning asl R2 yozuvlari alohida o‘qilib, target ma’no tanlovi SHA/ID dalillari bilan tekshirildi. Bu target readbacklari ketma-ket source hisobga qo‘shilmagan.
+
+Bog‘langan `put up`ning faqat chidash ma’nosi (`4a632a8d-26ed-5eb1-8ba5-bf0e8339a391` / `36029630-eefa-5ffd-b795-f90251acef50`) bu ma’noda **put up with** shaklida ishlatilishi bilan aniqlashtirildi; aynan shu usage B2 ekaniga dalil bor. Boshqa put up ma’nolari o‘zgarmagan; lemma yoki ID qayta nomlanmagan. Bu alohida target surgical tuzatishi, to‘liq yetti maydonli yangi source audit sifatida sanalmaydi.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json`. Mahalliy backend: **181 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar o‘zgarmagan.
+
+Avvalgi `9fee9ae0e72b68f5d1df24602c73255a7c60f923` uchun GitHub Actions `43360491308`: **179 backend + 20 DOM testi PASS**, 0 fail/skip; Vercel shu commit uchun 0 deployment qaytardi. Dalil: `content/dictionary/audit-20261113-validation-9fee9ae0.json`.
