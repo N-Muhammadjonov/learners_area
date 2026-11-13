@@ -17,7 +17,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
  const host=el(tag,{class:className});if(!lexicalAssistance&&!onHighlightRange&&!highlights.length){host.className=`whitespace-pre-line ${className}`;host.setAttribute('data-plain-text','');host.textContent=text;return {node:host,stop:()=>own.abort()};}
- const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
+ const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
  let active=null,cursor=null,popup,gesture=null,pending=null,hold=null,selection,control;
  // Word spans by token index: a lookup or cursor move touches two nodes, never the whole passage.
  const wordNodes=new Map();let lit=new Set();
@@ -26,7 +26,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  const fragment=document.createDocumentFragment();
  for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,class:'rounded-sm bg-signal-100 text-ink-900'}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word'},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
  region.append(fragment);
- function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i)){const n=wordNodes.get(i);if(n)n.classList.remove('rounded-sm','bg-signal-50','text-ink-900');}for(const i of next){const n=wordNodes.get(i);if(n)n.className='rounded-sm bg-signal-50 text-ink-900';}lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
+ function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i)){const n=wordNodes.get(i);if(n)n.classList.remove('rounded-sm','bg-signal-50','text-ink-900');}for(const i of next){const n=wordNodes.get(i);if(n)n.classList.add('rounded-sm','bg-signal-50','text-ink-900');}lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
  function close(focus=false){popup?.stop();popup=null;active=null;paint();if(focus&&!signal.aborted)region.focus({preventScroll:true});}
  /** The lookup target of one word token: the phrase (when phrase-aware) or the single contextual hit. */
  function target(i){
