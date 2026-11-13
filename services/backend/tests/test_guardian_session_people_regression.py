@@ -116,7 +116,7 @@ async def test_people_are_ordered_by_last_activity_before_pagination(monkeypatch
     actor = {"id": UUID("11111111-1111-4111-8111-111111111111"), "role": "owner"}
     await browser_staff_people.read(None, actor, "people", {"page": "2"})
     sql = next(query for query, _args in conn.calls if "LIMIT 25 OFFSET" in query)
-    assert "ORDER BY coalesce(a.created_at,u.last_active_at) DESC NULLS LAST," in sql
+    assert "ORDER BY GREATEST(a.created_at,u.last_active_at) DESC NULLS LAST," in sql
     assert "u.last_active_at DESC NULLS LAST,u.created_at DESC,u.id DESC" in sql
     assert "ORDER BY CASE u.role" not in sql
     assert "LIMIT 25 OFFSET" in sql
