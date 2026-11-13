@@ -102,6 +102,25 @@ async def start(req:Request):
     except RetentionFault as e:return problem(e.code)
     except Exception:return core.j({'error':'retention_unavailable'},500)
 
+@router.post('/api/retention/attempts/{id}/abandon')
+async def abandon(req:Request,id:str):
+    """Discard an unfinished attempt on navigation without scoring or recording history."""
+    user=await core.current_user(req,active=True)
+    if not user:return core.auth_error()
+    attempt_id=core.uuid_value(id)
+    if not attempt_id:return problem('retention_attempt_not_found')
+    try:
+        db=await core.pool()
+        async with db.acquire() as con:
+            # A submitted or already timed-out attempt is immutable here.
+            await con.execute("""DELETE FROM retention_attempts
+                WHERE id=$1 AND user_id=$2 AND status IN ('reading','recall')""",
+                attempt_id,user['id'])
+        return core.j({'ok':True},headers={'Cache-Control':'private, no-store'})
+    except Exception:
+        return core.j({'error':'retention_unavailable'},500)
+
+
 @router.post('/api/retention/attempts/{id}/submit')
 async def submit(req:Request,id:str):
     user=await core.current_user(req,active=True)
