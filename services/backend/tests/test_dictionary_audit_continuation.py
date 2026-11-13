@@ -158,16 +158,18 @@ def test_twenty_phase_recovery_cannot_claim_structural_coverage_as_linguistic_pa
         assert hashlib.sha256((ROOT / phase['source_receipt']).read_bytes()).hexdigest() == phase['receipt_sha256']
 
 
-def test_lexical_decisions_cover_each_field_and_match_current_candidate_values():
+@pytest.mark.parametrize('ledger_path', sorted((ROOT / 'content/dictionary').glob('audit-*-phase*-lexical-decisions-*.json')), ids=lambda p: p.stem)
+def test_lexical_decisions_cover_each_field_and_match_current_candidate_values(ledger_path):
     from app.dictionary_presentation import present
-    ledger = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-lexical-decisions-1701-1702.json').read_text())
+    ledger = json.loads(ledger_path.read_text())
+    source_words = {e['lexeme_id']: e for e in json.loads((ROOT / ledger['source_readback_receipt']).read_text())['lexemes']}
     required = {'definition_en', 'definition_uz', 'translation_uz', 'cefr', 'synonyms', 'antonyms', 'collocations'}
     seen = set()
     for row in ledger['senses']:
         key = (row['lexeme_id'], row['sense_id'])
         assert key not in seen
         seen.add(key)
-        original = source(row['lemma'])
+        original = source_words[row['lexeme_id']]
         sense = next(s for s in original['senses'] if s['sense_id'] == row['sense_id'])
         assert row['meaning_sha'] == curation.original_meaning_hash(original, sense)
         candidate = curation.curate_candidate_entry(original)
@@ -185,6 +187,33 @@ def test_lexical_decisions_cover_each_field_and_match_current_candidate_values()
     assert ledger['scope']['field_decisions'] == len(seen) * len(required)
     assert ledger['scope']['new_source_readback_lexemes'] == 0
     assert ledger['phase_complete'] is False
+
+
+def test_lexical_ledgers_do_not_recount_the_same_sense_or_source_readback():
+    seen = set()
+    for file in (ROOT / 'content/dictionary').glob('audit-*-phase*-lexical-decisions-*.json'):
+        data = json.loads(file.read_text())
+        assert data['scope']['new_source_readback_senses'] == 0
+        for row in data['senses']:
+            key = (data['source_release'], row['lexeme_id'], row['sense_id'])
+            assert key not in seen
+            seen.add(key)
+
+
+def test_unsmooth_antonym_uses_physical_surface_not_other_smooth_senses():
+    file = ROOT / 'content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json'
+    proof = json.loads(file.read_text())['additional_target_proofs'][0]
+    target = proof['entry']
+    assert hashlib.sha256(stable({k: v for k, v in target.items() if k != 'release_id'}).encode()).hexdigest() == proof['entry_projection']['content_sha']
+    assert set(proof['entry_projection']['sense_ids']) == {s['sense_id'] for s in target['senses']}
+    sense = next(s for s in target['senses'] if s['sense_id'] == proof['selected_sense_id'])
+    assert sense['definition_en'] == 'having a surface free from roughness or bumps or ridges or irregularities'
+    entry = source('unsmooth')
+    candidate = curation.curate_candidate_entry(entry)
+    antonyms = [r for r in candidate['relations'] if r['relation_type'] == 'antonym']
+    assert len(antonyms) == 1
+    assert antonyms[0]['source_sense_id'] == entry['senses'][0]['sense_id']
+    assert (antonyms[0]['target_lexeme_id'], antonyms[0]['target_sense_id']) == (target['lexeme_id'], sense['sense_id'])
 
 
 def test_unproven_levels_become_null_without_clearing_evidenced_or_unreviewed_senses():

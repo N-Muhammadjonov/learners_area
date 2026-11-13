@@ -679,3 +679,13 @@ Native asset build PASS (1 008 fayl), JavaScript parse PASS, diff check PASS. UI
 Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1701-1702.json`. Ushbu guruhda ham misol gaplar keyingi bosqichga qoldirilgan; **butun 9-bosqich yoki butun lug‘at tugamagan**. Yangi mahalliy backend gate: **176 passed / 0 failed / 0 skipped / 1 warning**.
 
 Avvalgi UI commit `86be7f1c1cd5402945335c3cc5cff5db516129f8` uchun GitHub Actions `43358661596`: backend va browser-dictionary joblari SUCCESS. Dalil: `content/dictionary/audit-20261113-validation-86be7f1c.json`.
+
+### 1 703–1 709-leksemalar — keyingi yetti maydonli qarorlar
+
+`stomatal` → `lepidoptery`: **7 leksema / 7 ma’no / 49 maydon qarori**. Dastlabki ikki leksema bilan jami **9 leksema / 11 ma’no / 77 qaror** hujjatlashtirildi. Bu source readback sonini oshirmaydi; ketma-ket source hisob hali **1 730 leksema / 2 932 ma’no**. Yangi mustaqil Uzbek bilingual sertifikati deb da’vo qilinmaydi.
+
+`stomatal`, `surtout`, `unsmooth` uchun tasdiqsiz C2 boshqa daraja bilan taxminan almashtirilmay, null qilindi. `way of life` B1 va `batik` mato ma’nosi C2 aniq dalil bilan saqlandi; avval null bo‘lgan ikki texnik ma’no null qoldi. Stomatal Uzbek ta’rifi faqat bargga asossiz cheklashdan tozalandi; xemosorbsiya ta’rifi kimyoviy bog‘ hosil bo‘lishi orqali aniqlandi; batik tarjimasi turli mum-naqsh usullarini qamrab oladi. 3 collocation dalil bilan qo‘shildi.
+
+`unsmooth` uchun yangi antonym: `smooth` (`0faf5d86-48f5-5881-8903-41e494caa336` / `0ca93477-2e12-4db3-a65f-245bb18cf933`). Uning aynan sirt ma’nosi qo‘shimcha R2 readback, content SHA va barcha source sense IDlar bilan tekshirildi; boshqa 7 smooth ma’nosi ulanmagan. `astomatal` yoki `lepidopterology` uchun nishon ID topilmagani sabab hech qanday UUID to‘qib kiritilmagan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json`. Mahalliy backend: **179 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar tekshiruvi boshlanmagan; 9-bosqich va 20 bosqichlik umumiy audit ochiq.

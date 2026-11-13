@@ -1469,6 +1469,26 @@
             "senseId": "56307b14-e814-5b2d-9d10-bf740204e7dd",
             "partOfSpeech": "a"
           }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Botanikada o'simlik bargidagi gaz almashinuv teshikchalari (og'izchalari) bilan bog'liq bo'lgan.",
+          "text": "O‘simlik og‘izchalariga oid yoki ularni tashkil etadigan."
+        },
+        "replace_translation_uz": {
+          "original": "og'izchaga oid (barg ustitsasiga tegishli)",
+          "text": "o‘simlik og‘izchalariga oid"
+        },
+        "add_collocations": [
+          {
+            "text": "stomatal pore"
+          },
+          {
+            "text": "stomatal conductance"
+          }
         ]
       }
     },
@@ -1501,6 +1521,18 @@
             "senseId": "53313f2e-9346-4501-ae03-fbdc33f643f0",
             "partOfSpeech": "a"
           }
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "add_antonyms": [
+          {
+            "text": "smooth",
+            "lexemeId": "0faf5d86-48f5-5881-8903-41e494caa336",
+            "senseId": "0ca93477-2e12-4db3-a65f-245bb18cf933",
+            "partOfSpeech": "a"
+          }
         ]
       }
     },
@@ -1514,7 +1546,19 @@
             "senseId": "c4bdac5c-3ff9-5cc7-81ba-99570f58cb04",
             "partOfSpeech": "n"
           }
-        ]
+        ],
+        "replace_definition_en": {
+          "original": "adsorption (especially when irreversible) by means of chemical instead of physical forces",
+          "text": "adsorption in which the adsorbed substance forms chemical bonds with the surface"
+        },
+        "replace_definition_uz": {
+          "original": "Jismoniy kuchlar o‘rniga kimyoviy kuchlar yordamida (ko‘pincha qaytmas) sodir bo‘ladigan adsorbsiya.",
+          "text": "Adsorblangan modda bilan sirt o‘rtasida kimyoviy bog‘lar hosil bo‘lishi orqali yuz beradigan adsorbsiya."
+        },
+        "replace_translation_uz": {
+          "original": "xemosorbsiya",
+          "text": "xemosorbsiya; kimyoviy adsorbsiya"
+        }
       }
     },
     "6c4692d2-d13e-540a-8d81-7d5cdf8f61b9": {
@@ -1939,6 +1983,29 @@
           "original": "C2",
           "text": null
         }
+      }
+    },
+    "6c3ce822-0888-572a-bc1c-d413e12896f8": {
+      "8e67be9a-5309-541d-8b0d-69d72144e7d6": {
+        "meaning_sha": "d71da11c1c31b66bd625a6afa80321e3ad91be4cad692e8bf631a6f8cc103448",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
+    },
+    "6c3e1dfe-008a-5664-bb25-9c9f9c6e2e93": {
+      "4dc0dd14-f1ef-5ed8-a8fe-44dadfa9077b": {
+        "meaning_sha": "27f1c449904df90c1595df5c6866380b7cd666f5e73f01873f215e933743727b",
+        "replace_translation_uz": {
+          "original": "batik (mum surtib gul bosilgan rangdor mato)",
+          "text": "batik; mum yordamida naqsh berib bo‘yalgan mato"
+        },
+        "add_collocations": [
+          {
+            "text": "batik dress"
+          }
+        ]
       }
     }
   }
