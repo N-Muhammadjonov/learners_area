@@ -8,7 +8,7 @@
 .reading-attempt-route { display: flex; flex-direction: column; overflow: auto; }
 .reading-session { flex: 1; overflow: hidden; }
 .reading-workspace { display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: auto minmax(0,1fr) auto; width: 100%; height: 100%; min-width: 0; overflow: hidden; background: rgb(var(--paper-raised)); }
-.reading-workspace-header { display: flex; min-height: 56px; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 20px; border-bottom: 1px solid rgb(var(--ink-100)); box-shadow: 0 1px 3px rgb(var(--ink-900))0d; }
+.reading-workspace-header { display: flex; min-height: 56px; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 20px; border-bottom: 1px solid rgb(var(--ink-100)); box-shadow: 0 1px 3px rgb(var(--ink-900) / .05); }
 .reading-workspace-identity { display: flex; min-width: 0; align-items: center; gap: 20px; }
 .reading-workspace-brand { font-size: 14px; font-weight: 700; white-space: nowrap; }
 .reading-workspace-identity h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 400; color: rgb(var(--ink-500)); }
@@ -44,7 +44,7 @@
 .reading-workspace [data-answer-input]::placeholder { color: rgb(var(--ink-500)); }
 .reading-workspace [data-answer-slot] { display: inline-block; max-width: 100%; white-space: nowrap; }
 .reading-workspace :focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; }
-.reading-workspace-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 68px; padding: 10px 20px max(10px,env(safe-area-inset-bottom)); border-top: 1px solid rgb(var(--ink-100)); box-shadow: 0 -1px 3px rgb(var(--ink-900))08; }
+.reading-workspace-footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 68px; padding: 10px 20px max(10px,env(safe-area-inset-bottom)); border-top: 1px solid rgb(var(--ink-100)); box-shadow: 0 -1px 3px rgb(var(--ink-900) / .035); }
 .reading-question-navigation { display: flex; flex: 1; flex-wrap: wrap; align-items: center; gap: 12px 24px; min-width: 0; }
 .reading-part-navigation { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .reading-part-button { min-height: 38px; font-size: 14px; font-weight: 700; white-space: nowrap; }
