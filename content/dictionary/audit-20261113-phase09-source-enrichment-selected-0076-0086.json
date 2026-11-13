@@ -1,0 +1,507 @@
+{
+  "schema": 2,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "purpose": "Lexical review using authenticated cached originals and archived Supabase offsets; no new source coverage or fresh database-content-hash claim.",
+  "historical_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "historical_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "scope": {
+    "lexemes": 5,
+    "senses": 6,
+    "historical_sequential_positions": [
+      76,
+      79,
+      82,
+      85,
+      86
+    ],
+    "contiguous_range_claimed": false,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "target_lexemes": 0
+  },
+  "source_projection": [
+    {
+      "lexeme_id": "65b87835-4170-533a-a3ae-e3ebb5ba2b51",
+      "lemma_norm": "judaica",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "5cfd5ac9-0da5-5403-b029-75ef83064115"
+      ],
+      "content_sha": "d1a022e7f1210d501bee820fb2c34adc828c31a87f9724863d31beb9379faa8b",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 225122,
+      "storage_length": 837,
+      "storage_raw_bytes": 1521,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65bd1cff-3eef-5936-8411-294dc382bfa5",
+      "lemma_norm": "swami",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "79b6ef4a-95ea-473b-a48f-42d343a26859"
+      ],
+      "content_sha": "79d3dae4ff21656134df07d6dadacaa2d93c90e65b20f4f74f635856e90f8faa",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 229056,
+      "storage_length": 979,
+      "storage_raw_bytes": 2345,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65bf577c-5727-582f-a7d1-e4ddf2f19dad",
+      "lemma_norm": "lunch",
+      "part_of_speech": "v",
+      "sense_ids": [
+        "5b618a77-27eb-4911-bf2c-2548fe953a95",
+        "ec67e05b-90e8-464e-ad53-542babd1ca68"
+      ],
+      "content_sha": "0e0af4916eea954d21eed8ae43ed07e218e2aa455112856e2f6cf30ad923baa5",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 232288,
+      "storage_length": 1389,
+      "storage_raw_bytes": 3577,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65c37605-389a-5a81-a184-05ad9f948f98",
+      "lemma_norm": "categorized",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "fa725da7-3270-4738-869c-9b34ccace8a2"
+      ],
+      "content_sha": "1044a2ac4e7417d63c49dcc5686d3762defb2af5e1e388c6045b4195c5fcc3f3",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 235583,
+      "storage_length": 986,
+      "storage_raw_bytes": 2443,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65c428c9-807f-5a7f-8f54-050a363b075d",
+      "lemma_norm": "subphylum",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "b1143e88-8454-50b6-9b0a-1090385e9247"
+      ],
+      "content_sha": "d4d2c49025eacb0e845b96f96f6d5719dcf35ed287ea027f7493d6179015ceb4",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 236569,
+      "storage_length": 825,
+      "storage_raw_bytes": 1511,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    }
+  ],
+  "lexemes": [
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "Judaica",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65b87835-4170-533a-a3ae-e3ebb5ba2b51",
+      "lexical_type": "word",
+      "normalized_search_form": "judaica",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "dʒuˈdeɪ̯.ɪk"
+        }
+      ],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "materials relating to Judaism",
+          "definition_uz": "Yahudiylik dini, tarixi yoki madaniyatiga oid buyum va materiallar",
+          "examples": [],
+          "sense_id": "5cfd5ac9-0da5-5403-b029-75ef83064115",
+          "translations": [
+            {
+              "order": 0,
+              "text": "Yahudiylikka oid materiallar",
+              "translation_id": "18f47b3a-6325-592d-868a-227b55e9008a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "swami",
+      "forms": [
+        {
+          "surface_form": "swamies"
+        }
+      ],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65bd1cff-3eef-5936-8411-294dc382bfa5",
+      "lexical_type": "word",
+      "normalized_search_form": "swami",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "ˈswɑː.mi"
+        }
+      ],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C1",
+          "definition_en": "a Hindu religious teacher; used as a title of respect",
+          "definition_uz": "Hinduiylikdagi diniy ustoz; hurmat unvoni sifatida ishlatiladi.",
+          "examples": [],
+          "sense_id": "79b6ef4a-95ea-473b-a48f-42d343a26859",
+          "translations": [
+            {
+              "order": 0,
+              "text": "svami",
+              "translation_id": "c365dd1b-7329-586f-9ef7-cd6029981512"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "lunch",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65bf577c-5727-582f-a7d1-e4ddf2f19dad",
+      "lexical_type": "word",
+      "normalized_search_form": "lunch",
+      "part_of_speech": "v",
+      "pronunciations": [
+        {
+          "ipa": "lʌnt͡ʃ"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "lunch",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "0385e3d9-421b-5f75-8118-b05e4cce1f56",
+          "target_sense_id": "6880c645-d96e-42a9-bd06-c60e7c462bc6"
+        },
+        {
+          "display_lemma": "lunch",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "0385e3d9-421b-5f75-8118-b05e4cce1f56",
+          "target_sense_id": "6880c645-d96e-42a9-bd06-c60e7c462bc6"
+        },
+        {
+          "display_lemma": "lunching",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "93f6a04b-d635-5176-9771-a5843184603b",
+          "target_sense_id": "5d89363b-3080-4ef8-930f-e256280f97f5"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "A1",
+          "definition_en": "take the midday meal",
+          "definition_uz": "kunduzgi ovqatni yemoq",
+          "examples": [
+            {
+              "example_id": "05296852-a2fd-5317-9a01-4769c88a4ff9",
+              "text_en": "At what time are you lunching?",
+              "text_uz": "qaysi vaqtda tushlik qilasiz?"
+            },
+            {
+              "example_id": "e42819ec-e785-58f4-9b84-07a2acf8b004",
+              "text_en": "Sam and Sue lunch",
+              "text_uz": "Sem va Syu tushlik qilishadi"
+            }
+          ],
+          "sense_id": "5b618a77-27eb-4911-bf2c-2548fe953a95",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tushlik qilmoq",
+              "translation_id": "a0b5bdc2-991c-509e-b1d8-3273c5ac46f8"
+            }
+          ]
+        },
+        {
+          "cefr": "A2",
+          "definition_en": "provide a midday meal for",
+          "definition_uz": "Kimnidir tushlik ovqati bilan ta’minlamoq.",
+          "examples": [
+            {
+              "example_id": "a8bd2ebc-1429-5280-94dc-adb2d954845f",
+              "text_en": "She lunched us well",
+              "text_uz": "U bizga yaxshi tushlik berdi."
+            }
+          ],
+          "sense_id": "ec67e05b-90e8-464e-ad53-542babd1ca68",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tushlik bermoq",
+              "translation_id": "ffe310f1-9e43-5b92-a998-c5d88098bb39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "categorized",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65c37605-389a-5a81-a184-05ad9f948f98",
+      "lexical_type": "word",
+      "normalized_search_form": "categorized",
+      "part_of_speech": "a",
+      "pronunciations": [],
+      "relations": [
+        {
+          "display_lemma": "classified",
+          "lexical_type": "word",
+          "part_of_speech": "a",
+          "relation_type": "similar",
+          "target_lexeme_id": "236b9c05-3c0e-5fba-a018-0c87e87f70e7"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "arranged into categories",
+          "definition_uz": "Kategoriyalar yoki toifalar bo‘yicha tartiblangan.",
+          "examples": [],
+          "sense_id": "fa725da7-3270-4738-869c-9b34ccace8a2",
+          "translations": [
+            {
+              "order": 0,
+              "text": "toifalarga ajratilgan",
+              "translation_id": "4d17f99f-088f-53b7-b71d-510276190980"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "subphylum",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65c428c9-807f-5a7f-8f54-050a363b075d",
+      "lexical_type": "word",
+      "normalized_search_form": "subphylum",
+      "part_of_speech": "n",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "(biology) a taxonomic group ranking between a phylum and a class",
+          "definition_uz": "Biologiyada: tip va sinf o'rtasida turadigan taksonomik guruh.",
+          "examples": [],
+          "sense_id": "b1143e88-8454-50b6-9b0a-1090385e9247",
+          "translations": [
+            {
+              "order": 0,
+              "text": "kenja tip",
+              "translation_id": "9f84e4b8-8f89-5659-b1d0-4771a8be23ca"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "meaning_hashes": {
+    "65b87835-4170-533a-a3ae-e3ebb5ba2b51": {
+      "5cfd5ac9-0da5-5403-b029-75ef83064115": "9c38f6e7fb4820f3b5f0813d3bfd5d8e27173e7088fd77026739a44eee7a25ae"
+    },
+    "65bd1cff-3eef-5936-8411-294dc382bfa5": {
+      "79b6ef4a-95ea-473b-a48f-42d343a26859": "52ffd8ef111be9be33973df82f7278d1bdbe4899c2e65a674601250980157ef3"
+    },
+    "65bf577c-5727-582f-a7d1-e4ddf2f19dad": {
+      "5b618a77-27eb-4911-bf2c-2548fe953a95": "da05f48e76c7ea0a83d94f6439e6e816fb5ef47d72deada5f68176e05448e6dd",
+      "ec67e05b-90e8-464e-ad53-542babd1ca68": "5dfefb43a14a0792b2fa45046661ba5bf2291be96d357bc38e971dda2c31237a"
+    },
+    "65c37605-389a-5a81-a184-05ad9f948f98": {
+      "fa725da7-3270-4738-869c-9b34ccace8a2": "7960e0e8fdc0f938d70c081d0d43bb704bb5ae8efc2089b3a28b1546d382c060"
+    },
+    "65c428c9-807f-5a7f-8f54-050a363b075d": {
+      "b1143e88-8454-50b6-9b0a-1090385e9247": "c00a4c4cc397f07f98397dec43d408a7884cde0a57f855d410d4db9e81578d52"
+    }
+  },
+  "target_projection": [],
+  "target_entries": [],
+  "existing_relation_matches": [],
+  "source_verification": {
+    "full_compressed_and_raw_shard_sha_size_count": "PASS_against_previously_independently_verified_descriptor",
+    "historical_supabase_member_offsets_and_complete_original_meaning_hashes": "PASS",
+    "original_uzbek_scalars_and_full_sense_arrays": "PASS",
+    "fresh_database_content_sha_comparison": "NOT_RERUN_connector_unavailable",
+    "member_content_sha_and_raw_size": "computed_from_authenticated_immutable_member"
+  },
+  "phase_complete": false,
+  "full_linguistic_global_signoff": false,
+  "production_mutation": false
+}

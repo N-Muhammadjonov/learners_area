@@ -3874,6 +3874,85 @@
           "text": "eyforiya keltiruvchi psixofaol modda"
         }
       }
+    },
+    "65b87835-4170-533a-a3ae-e3ebb5ba2b51": {
+      "5cfd5ac9-0da5-5403-b029-75ef83064115": {
+        "meaning_sha": "9c38f6e7fb4820f3b5f0813d3bfd5d8e27173e7088fd77026739a44eee7a25ae",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "materials relating to Judaism",
+          "text": "Literary, historical, or cultural materials connected with Jewish people or Judaism."
+        },
+        "replace_definition_uz": {
+          "original": "Yahudiylik dini, tarixi yoki madaniyatiga oid buyum va materiallar",
+          "text": "Yahudiy xalqi, uning dini, tarixi yoki madaniyatiga oid asarlar, hujjatlar va buyumlar."
+        },
+        "replace_translation_uz": {
+          "original": "Yahudiylikka oid materiallar",
+          "text": "yahudiylar dini, tarixi va madaniyatiga oid materiallar"
+        },
+        "add_collocations": [
+          {
+            "text": "Judaica collection"
+          }
+        ]
+      }
+    },
+    "65bd1cff-3eef-5936-8411-294dc382bfa5": {
+      "79b6ef4a-95ea-473b-a48f-42d343a26859": {
+        "meaning_sha": "52ffd8ef111be9be33973df82f7278d1bdbe4899c2e65a674601250980157ef3",
+        "replace_cefr": {
+          "original": "C1",
+          "text": "C2"
+        }
+      }
+    },
+    "65bf577c-5727-582f-a7d1-e4ddf2f19dad": {
+      "5b618a77-27eb-4911-bf2c-2548fe953a95": {
+        "meaning_sha": "da05f48e76c7ea0a83d94f6439e6e816fb5ef47d72deada5f68176e05448e6dd",
+        "replace_definition_uz": {
+          "original": "kunduzgi ovqatni yemoq",
+          "text": "Rasmiyroq uslubda: kun o‘rtasida ovqatlanmoq, tushlik qilmoq."
+        },
+        "add_collocations": [
+          {
+            "text": "lunch at a restaurant"
+          }
+        ]
+      },
+      "ec67e05b-90e8-464e-ad53-542babd1ca68": {
+        "meaning_sha": "5dfefb43a14a0792b2fa45046661ba5bf2291be96d357bc38e971dda2c31237a",
+        "replace_cefr": {
+          "original": "A2",
+          "text": null
+        }
+      }
+    },
+    "65c37605-389a-5a81-a184-05ad9f948f98": {
+      "fa725da7-3270-4738-869c-9b34ccace8a2": {
+        "meaning_sha": "7960e0e8fdc0f938d70c081d0d43bb704bb5ae8efc2089b3a28b1546d382c060",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "add_collocations": [
+          {
+            "text": "categorized according to subject"
+          }
+        ]
+      }
+    },
+    "65c428c9-807f-5a7f-8f54-050a363b075d": {
+      "b1143e88-8454-50b6-9b0a-1090385e9247": {
+        "meaning_sha": "c00a4c4cc397f07f98397dec43d408a7884cde0a57f855d410d4db9e81578d52",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      }
     }
   }
 }

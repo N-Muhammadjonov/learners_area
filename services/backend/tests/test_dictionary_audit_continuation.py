@@ -669,6 +669,29 @@ def test_stratus_and_goatee_remove_false_mandatory_appearance_criteria():
     assert 'often trimmed' in goatee['definition_en'] and 'chin' in goatee['definition_en']
 
 
+def test_lunch_keeps_evidenced_intransitive_level_without_assigning_it_to_feeding_someone():
+    from app.dictionary_presentation import corrected_examples
+    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-selected-0076-0086.json').read_text())
+    original = next(e for e in report['lexemes'] if e['display_lemma'] == 'lunch')
+    frozen = copy.deepcopy(original)
+    candidate = curation.curate_candidate_entry(original)
+    assert original == frozen
+    senses = {s['sense_id']: s for s in candidate['senses']}
+    eat = senses['5b618a77-27eb-4911-bf2c-2548fe953a95']
+    provide = senses['ec67e05b-90e8-464e-ad53-542babd1ca68']
+    assert eat['cefr'] == 'A1' and 'Rasmiyroq' in eat['definition_uz']
+    assert provide.get('cefr') is None and provide['definition_en'] == 'provide a midday meal for'
+    assert eat['translations'][0]['text'] == 'tushlik qilmoq'
+    assert provide['translations'][0]['text'] == 'tushlik bermoq'
+    views = present(candidate)['senses']
+    assert {r['text'] for r in views[eat['sense_id']]['collocations']} == {'lunch at a restaurant'}
+    assert views[provide['sense_id']]['collocations'] == []
+    for old in original['senses']:
+        new = senses[old['sense_id']]
+        assert new['examples'] == old['examples']
+        assert corrected_examples(original, old) == corrected_examples(candidate, new)
+
+
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():
     report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
     targets = {e['lexeme_id']: e for e in report['target_entries']}

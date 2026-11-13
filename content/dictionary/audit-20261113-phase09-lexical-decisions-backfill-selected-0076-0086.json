@@ -1,0 +1,626 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-selected-0076-0086.json",
+  "prior_candidate_commit": "b5e98106cab2f4c2c67132430dba02b0681e1bb0",
+  "scope": {
+    "lexemes": 5,
+    "senses": 6,
+    "field_decisions": 42,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "65b87835-4170-533a-a3ae-e3ebb5ba2b51",
+      "sense_id": "5cfd5ac9-0da5-5403-b029-75ef83064115",
+      "lemma": "Judaica",
+      "meaning_sha": "9c38f6e7fb4820f3b5f0813d3bfd5d8e27173e7088fd77026739a44eee7a25ae",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "materials relating to Judaism",
+          "after": "Literary, historical, or cultural materials connected with Jewish people or Judaism.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "Primary plural noun includes literary/historical materials relating to Jewish people or Judaism. Expand religion-only shorthand; do not turn it into a label for people."
+        },
+        "definition_uz": {
+          "before": "Yahudiylik dini, tarixi yoki madaniyatiga oid buyum va materiallar",
+          "after": "Yahudiy xalqi, uning dini, tarixi yoki madaniyatiga oid asarlar, hujjatlar va buyumlar.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "Natural description includes works/documents/objects and Jewish religion/history/culture."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "Yahudiylikka oid materiallar",
+              "translation_id": "18f47b3a-6325-592d-868a-227b55e9008a"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yahudiylar dini, tarixi va madaniyatiga oid materiallar",
+              "translation_id": "18f47b3a-6325-592d-868a-227b55e9008a"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "Expand to material category rather than religion alone."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "No exact plural-noun learner level documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "Hebraica concerns Hebrew-language material and is not universally equivalent; no exact verified frozen target."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "Judaica collection"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/Judaica",
+            "https://blogs.loc.gov/international-collections/2017/05/4-corners-of-the-world-blog-launches-a-new-series-new-videos-monthly/"
+          ],
+          "reasoning": "Judaica collection directly attested in national-library context. No institution or speaker name copied into dictionary text."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65bd1cff-3eef-5936-8411-294dc382bfa5",
+      "sense_id": "79b6ef4a-95ea-473b-a48f-42d343a26859",
+      "lemma": "swami",
+      "meaning_sha": "52ffd8ef111be9be33973df82f7278d1bdbe4899c2e65a674601250980157ef3",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a Hindu religious teacher; used as a title of respect",
+          "after": "a Hindu religious teacher; used as a title of respect",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "Hindu religious teacher/respectful title meaning corroborated; figurative seer/pundit meaning is separate and not imported."
+        },
+        "definition_uz": {
+          "before": "Hinduiylikdagi diniy ustoz; hurmat unvoni sifatida ishlatiladi.",
+          "after": "Hinduiylikdagi diniy ustoz; hurmat unvoni sifatida ishlatiladi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "Existing Hindu religious teacher/title explanation retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "svami",
+              "translation_id": "c365dd1b-7329-586f-9ef7-cd6029981512"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "svami",
+              "translation_id": "c365dd1b-7329-586f-9ef7-cd6029981512"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "Svami transliteration retained with meaning in definition."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "Explicit Religion and festivals C2 labels exact teacher/title sense; original C1 corrected. Unrelated indicate footer not used."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "Guru overlaps but no exact frozen teacher/title target independently read; no guessed link to figurative seer."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/swami",
+            "https://www.merriam-webster.com/dictionary/swami"
+          ],
+          "reasoning": "Proper-name title example demonstrates use as title, not a reusable extra collocation. No unrelated personal name inserted."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65bf577c-5727-582f-a7d1-e4ddf2f19dad",
+      "sense_id": "5b618a77-27eb-4911-bf2c-2548fe953a95",
+      "lemma": "lunch",
+      "meaning_sha": "da05f48e76c7ea0a83d94f6439e6e816fb5ef47d72deada5f68176e05448e6dd",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "take the midday meal",
+          "after": "take the midday meal",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Primary eating midday-meal intransitive verb exactly matches source definition; retained."
+        },
+        "definition_uz": {
+          "before": "kunduzgi ovqatni yemoq",
+          "after": "Rasmiyroq uslubda: kun o‘rtasida ovqatlanmoq, tushlik qilmoq.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Add documented formal-style usage; keep person eating separate from feeding someone."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tushlik qilmoq",
+              "translation_id": "a0b5bdc2-991c-509e-b1d8-3273c5ac46f8"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tushlik qilmoq",
+              "translation_id": "a0b5bdc2-991c-509e-b1d8-3273c5ac46f8"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Tushlik qilmoq is exact intransitive meaning."
+        },
+        "cefr": {
+          "before": "A1",
+          "after": "A1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Direct primary body separately marks 2. verb A1 at lines236–241 for eating lunch; original A1 retained. This is not a noun-label transfer."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Have lunch is an equivalent construction, but no exact frozen phrase target verified; no fabricated UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "lunch at a restaurant"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Lunch at a restaurant follows directly attested verb definition and lunch-at-named-restaurant usage; noun lunch meeting/healthy lunch not transferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65bf577c-5727-582f-a7d1-e4ddf2f19dad",
+      "sense_id": "ec67e05b-90e8-464e-ad53-542babd1ca68",
+      "lemma": "lunch",
+      "meaning_sha": "5dfefb43a14a0792b2fa45046661ba5bf2291be96d357bc38e971dda2c31237a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "provide a midday meal for",
+          "after": "provide a midday meal for",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Primary separate transitive provide/buy lunch for usage corroborates stored meaning; rare does not mean invalid."
+        },
+        "definition_uz": {
+          "before": "Kimnidir tushlik ovqati bilan ta’minlamoq.",
+          "after": "Kimnidir tushlik ovqati bilan ta’minlamoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Kimnidir tushlik ovqati bilan ta’minlamoq correctly distinguishes providing from eating."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tushlik bermoq",
+              "translation_id": "ffe310f1-9e43-5b92-a998-c5d88098bb39"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tushlik bermoq",
+              "translation_id": "ffe310f1-9e43-5b92-a998-c5d88098bb39"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Tushlik bermoq accurately retained."
+        },
+        "cefr": {
+          "before": "A2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "No reliable exact transitive sense label documented; original A2 cleared. Intransitive A1 label not transferred."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Feed is broader than providing midday meal; no exact verified frozen target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/lunch",
+            "https://www.collinsdictionary.com/us/dictionary/english/lunch"
+          ],
+          "reasoning": "Noun meal combinations and intransitive restaurant construction excluded; no additional transitive combination independently selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65c37605-389a-5a81-a184-05ad9f948f98",
+      "sense_id": "fa725da7-3270-4738-869c-9b34ccace8a2",
+      "lemma": "categorized",
+      "meaning_sha": "7960e0e8fdc0f938d70c081d0d43bb704bb5ae8efc2089b3a28b1546d382c060",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "arranged into categories",
+          "after": "arranged into categories",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "Primary participle entry explicitly allows adjective use; arranged-into-categories meaning retained, not changed to verb action or categorical certainty."
+        },
+        "definition_uz": {
+          "before": "Kategoriyalar yoki toifalar bo‘yicha tartiblangan.",
+          "after": "Kategoriyalar yoki toifalar bo‘yicha tartiblangan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "Existing toifalar bo‘yicha tartiblangan description retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "toifalarga ajratilgan",
+              "translation_id": "4d17f99f-088f-53b7-b71d-510276190980"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "toifalarga ajratilgan",
+              "translation_id": "4d17f99f-088f-53b7-b71d-510276190980"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "Toifalarga ajratilgan correctly expresses classified state."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "No exact participial-adjective learner badge documented; original C2 cleared. No label inferred from base verb or footer."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "Classified can also mean secret, and sorted can mean resolved; no unverified target senses linked."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "categorized according to subject"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/categorized",
+            "https://dictionary.cambridge.org/dictionary/learner-english/categorize"
+          ],
+          "reasoning": "Categorized according to subject directly attested in primary learner entry, matching classified-state meaning."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65c428c9-807f-5a7f-8f54-050a363b075d",
+      "sense_id": "b1143e88-8454-50b6-9b0a-1090385e9247",
+      "lemma": "subphylum",
+      "meaning_sha": "c00a4c4cc397f07f98397dec43d408a7884cde0a57f855d410d4db9e81578d52",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "(biology) a taxonomic group ranking between a phylum and a class",
+          "after": "(biology) a taxonomic group ranking between a phylum and a class",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "Biological category below phylum and above class exactly corroborated; source retained."
+        },
+        "definition_uz": {
+          "before": "Biologiyada: tip va sinf o'rtasida turadigan taksonomik guruh.",
+          "after": "Biologiyada: tip va sinf o'rtasida turadigan taksonomik guruh.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "Tip va sinf o‘rtasidagi taksonomik group accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kenja tip",
+              "translation_id": "9f84e4b8-8f89-5659-b1d0-4771a8be23ca"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kenja tip",
+              "translation_id": "9f84e4b8-8f89-5659-b1d0-4771a8be23ca"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "Kenja tip is precise Uzbek rank term; retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "No exact taxonomy noun CEFR documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "Subdivision is a general division and can be a different taxonomic convention; no exact independently verified frozen equivalent."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "Phylum/class/superphylum are ranks, not automatic lexical opposites."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/subphylum"
+          ],
+          "reasoning": "No specific named taxon assigned without primary rank verification; no guessed subphylum-name combination."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Six selected earlier senses; no contiguous-interval or new-source-coverage claim.",
+  "reference_access_notes": [
+    "Lunch A1 verified in direct primary page body under verb sense, not only search excerpt.",
+    "Noun/participle levels are not transferred across stored senses.",
+    "Cached full-shard SHA and archived Supabase offsets reused; fresh database content_sha comparison not rerun."
+  ],
+  "example_asset_changed": false,
+  "local_validation": {
+    "final_run": {
+      "passed": 237,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}
