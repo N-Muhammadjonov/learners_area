@@ -14,6 +14,14 @@
         "replace_cefr": {
           "original": null,
           "text": "A2"
+        },
+        "replace_definition_en": {
+          "original": "Refers back to the same subject.",
+          "text": "A reflexive pronoun used when a thing, animal, situation, or idea is both the subject and the object of an action."
+        },
+        "replace_definition_uz": {
+          "original": "o‘zi; o‘zini (narsa yoki hayvon)",
+          "text": "Narsa, hayvon, vaziyat yoki tushuncha harakatning ham bajaruvchisi, ham obyekti bo‘lganda qo‘llanadigan o‘zlik olmoshi."
         }
       }
     },
@@ -160,7 +168,11 @@
           {
             "text": "overwrite a file"
           }
-        ]
+        ],
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
       }
     },
     "670b7b89-7e98-59f2-a02f-890028ec5165": {
@@ -352,7 +364,40 @@
         "replace_cefr": {
           "original": "C2",
           "text": "C1"
-        }
+        },
+        "add_collocations": [
+          {
+            "text": "hysterical laughter"
+          }
+        ]
+      },
+      "f68dd2ea-347f-4d64-8dd8-8eeecfbf385f": {
+        "meaning_sha": "e55eff684b2eacdee535f74e05bc459823b69149c0e1b7b3711a329db0c27a58",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "characterized by or arising from psychoneurotic hysteria",
+          "text": "(historical medical usage) characterized by or arising from the condition formerly called hysteria."
+        },
+        "replace_definition_uz": {
+          "original": "Psixonevrotik isteriyaga xos yoki undan kelib chiqqan.",
+          "text": "(tarixiy tibbiy qo‘llanish) ilgari isteriya deb atalgan holatga xos yoki undan kelib chiqqan."
+        },
+        "replace_translation_uz": {
+          "original": "isterik",
+          "text": "isterik (tarixiy tibbiy atama)"
+        },
+        "preserve_example_corrections": true,
+        "scope_synonyms": [
+          {
+            "text": "hysteric",
+            "lexemeId": "4962ae8b-eef8-524b-bd41-a8ae7c530819",
+            "senseId": "00a2f5aa-96f9-4f7c-9daf-284e95566d29",
+            "partOfSpeech": "a"
+          }
+        ]
       }
     },
     "6620405e-571d-5504-a46e-975d52fcfc29": {
@@ -1080,6 +1125,13 @@
             "text": "a roadside diner"
           }
         ]
+      },
+      "56c90606-2887-4f56-8269-77fd9f3ba836": {
+        "meaning_sha": "888c7b716dd7f4126f443af8f021a541dd95add52d8905d5249e1dbf65197132",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
       }
     },
     "65825765-33c0-5e04-8ad9-1cab90be90e5": {
@@ -2765,6 +2817,296 @@
             "partOfSpeech": "v"
           }
         ]
+      }
+    },
+    "657a8965-bbc3-545e-abc3-dc702f6e587b": {
+      "a1dafb0e-d2ac-4d12-99a7-16aad1e3655f": {
+        "meaning_sha": "7a695c31a4f60328e4329ae409c93765a8eb5c79308e62326f8d0ffc4f452088",
+        "replace_definition_en": {
+          "original": "music in three-four time for dancing a jig",
+          "text": "Lively music for a jig dance, typically in a compound metre such as 6/8."
+        },
+        "replace_definition_uz": {
+          "original": "Jig raqsiga mo'ljallangan, uch chorak o'lchovli musiqa.",
+          "text": "Jig raqsi uchun jonli musiqa; odatda 6/8 kabi murakkab o‘lchovda ijro etiladi."
+        }
+      },
+      "02852879-0f73-4e39-bf16-1a0745ea5145": {
+        "meaning_sha": "1bc8ece62ecae872637fb65a35841d12335fa3be4482b978054b73755e9f9232",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        }
+      },
+      "4a1e98e9-6f08-4a21-976b-b06ffb62fbca": {
+        "meaning_sha": "f52a04a98e72959dc9176e7a5a773df578664757a0065cbf68a8b11f136a30d5",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Suvda yuqoriga-pastga silkib ishlatiladigan, bir yoki bir nechta ilgagi bor baliq ovlash o‘ljasi.",
+          "text": "Suvda yuqoriga-pastga silkib ishlatiladigan, bir yoki bir nechta ilgagi bor sun’iy baliq ovlash xo‘ragi."
+        }
+      },
+      "b4fdfb92-df7b-4f59-8ef5-b19277c0686e": {
+        "meaning_sha": "027a794e0568de6477cb5edab805b9e613e446de11fe37efcd43ee2bfbfbd1cb",
+        "add_collocations": [
+          {
+            "text": "an Irish jig"
+          }
+        ]
+      }
+    },
+    "6575e91b-0bf7-57a2-b35e-516d43b661a6": {
+      "b9c64f1e-205d-5e1f-a748-4c4b253a93a0": {
+        "meaning_sha": "cc70b0b2c9bc1da4c160966718abd632f7b83812bcbb530418affacc3e412b73",
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "without musical accompaniment",
+          "text": "(of singing) without instrumental accompaniment."
+        },
+        "replace_definition_uz": {
+          "original": "Musiqiy jo‘rnavozlikdan foydalanmasdan.",
+          "text": "(kuylash haqida) cholg‘u asboblari jo‘rligisiz."
+        },
+        "replace_translation_uz": {
+          "original": "musiqiy jo‘rnavozliksiz",
+          "text": "cholg‘u asboblari jo‘rligisiz"
+        },
+        "add_collocations": [
+          {
+            "text": "sing a cappella"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "a capella",
+            "lexemeId": "78d7a5a7-e0d7-5406-8d51-7b3458b0f6fb",
+            "senseId": "43a5774c-e75f-529d-929e-6edb4c6a8b81",
+            "partOfSpeech": "r"
+          }
+        ]
+      }
+    },
+    "657883fe-636c-5804-b837-7af812739ca0": {
+      "312fbe8a-62ae-5a0d-959c-09a5a4275216": {
+        "meaning_sha": "50e5fff2b79226b4982ac67717207c80b43d48f4b3212d3c2b550a911708c4fa",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_uz": {
+          "original": "Obro‘siz va axloqan bo‘sh, biroq ma’lum darajada jozibali.",
+          "text": "Obro‘si yoki axloqi shubhali, ammo o‘ziga xos jozibaga ega."
+        },
+        "replace_translation_uz": {
+          "original": "shubhali jozibali",
+          "text": "obro‘si shubhali, ammo jozibali"
+        },
+        "add_collocations": [
+          {
+            "text": "louche character"
+          }
+        ]
+      }
+    },
+    "65795ee0-894d-5ef1-87d9-67317b0821e9": {
+      "e7d88279-16ca-5bb8-80e0-e0cb6864dbff": {
+        "meaning_sha": "6e76bad406327110ea6127add7df5750d41007477ed3602cf5031767fe3b53a7",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "confer a trust upon",
+          "text": "(less common spelling of entrust) to give someone a responsibility or something to look after in confidence."
+        },
+        "scope_synonyms": [
+          {
+            "text": "commit",
+            "lexemeId": "d3d20bb2-0a6f-5a01-a56c-15c6edccd6e4",
+            "senseId": "40338123-c004-4c47-bb85-ed1fc59eb216",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "confide",
+            "lexemeId": "d38b8549-5e61-5944-8050-e3df0e8bbfe3",
+            "senseId": "f032d58c-1040-4e4c-a769-36bc76abaf4d",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "entrust",
+            "lexemeId": "f797858d-60aa-5587-93d0-fb3065db59f9",
+            "senseId": "51bf2968-c58a-41fb-952c-8466b5325e04",
+            "partOfSpeech": "v"
+          },
+          {
+            "text": "trust",
+            "lexemeId": "c255eac9-4508-577c-a775-f06bb167aa8e",
+            "senseId": "e8fa5931-aefd-4ab0-aa58-ea00c6e7bc48",
+            "partOfSpeech": "v"
+          }
+        ]
+      }
+    },
+    "657a3cc5-c380-5e80-8b2b-253585c708b9": {
+      "06640187-71be-4178-b157-73c1518bfc3f": {
+        "meaning_sha": "2c67b9bd29edf103f9cd28016af8d1fd12942cec874226c501ccb6316e83f57e",
+        "add_collocations": [
+          {
+            "text": "flakes of snow"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "snowflake",
+            "lexemeId": "180e9292-dd42-5796-a632-0654528e82a2",
+            "senseId": "92eb3128-2a35-41a0-bc57-71aaaca4b9b1",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "a4e4aa6d-2c53-4002-ad18-d5224208aa66": {
+        "meaning_sha": "914082c7f698337bbc5b17d4e31e0bc29a0e247002ce0e1ceb3ac50c5e3eea44",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "a person with an unusual or odd personality",
+          "text": "(informal, sometimes disparaging) a person with a strange or unusual personality."
+        },
+        "replace_definition_uz": {
+          "original": "O'ziga xos yoki noodatiy xarakterga ega odam.",
+          "text": "(norasmiy, ba’zan kamsituvchi) fe’l-atvori g‘alati yoki noodatiy bo‘lgan kishi."
+        },
+        "scope_synonyms": [
+          {
+            "text": "eccentric",
+            "lexemeId": "80216806-6016-5631-96b0-9b2608d586cc",
+            "senseId": "e26cfc11-4d7f-46d2-b125-2990fe412eb0",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "geek",
+            "lexemeId": "3ed4823e-2bac-5b38-b547-a1bb8c19c480",
+            "senseId": "898dbb8d-3d2c-40af-b7b2-d8dee7df53ff",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "oddball",
+            "lexemeId": "7c225b19-af3b-5757-aa3f-301387e81858",
+            "senseId": "d400cb6e-ca87-4f7c-87ad-3141c585f304",
+            "partOfSpeech": "n"
+          }
+        ]
+      },
+      "e3d17978-a3ac-4585-8165-64ec3bf4e308": {
+        "meaning_sha": "eb2103fd7bb9baf762fc2b4914219edaa2d03959e384e968fa3f54112b09b926",
+        "replace_definition_en": {
+          "original": "a small fragment of something broken off from the whole",
+          "text": "A small, thin piece of material, especially one broken off from a larger whole."
+        },
+        "replace_definition_uz": {
+          "original": "butun narsadan sinib ajralgan kichik bo‘lak",
+          "text": "Materialning kichik, yupqa parchasi, ayniqsa kattaroq narsadan sinib ajralgan bo‘lak."
+        },
+        "add_collocations": [
+          {
+            "text": "flakes of paint"
+          }
+        ],
+        "scope_synonyms": [
+          {
+            "text": "bit",
+            "lexemeId": "9b39319e-47ee-56e7-b3c8-47eea0909215",
+            "senseId": "8b6771f5-a1f6-4290-8767-6473d1bc86ab",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "chip",
+            "lexemeId": "8d8e92c9-3279-585f-a1b0-15fbf277b68e",
+            "senseId": "7440006c-c553-41fd-a0eb-bf24f0f04972",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "fleck",
+            "lexemeId": "493e6bbd-6d8b-5cbb-86f1-9a568eec69a1",
+            "senseId": "18a3b63c-dfe7-4dcf-8d1b-1ae90bef4055",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "scrap",
+            "lexemeId": "62373d42-5899-54d9-bff9-b7ff561863b0",
+            "senseId": "61a7e40e-81e6-46a9-9bac-1208a11f623b",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "657b461f-ca2d-5d85-a323-67adf272a3fb": {
+      "3249dad5-c3d8-5be1-88d0-85f0d4c292c0": {
+        "meaning_sha": "64412d5f6e10b11542cdac1ff03ec246d49e29a5eb27061c176c7abfc85f30ae",
+        "replace_definition_en": {
+          "original": "the quality of being exotic",
+          "text": "The quality of seeming unusual and interesting, especially because of an association with a distant country."
+        },
+        "replace_definition_uz": {
+          "original": "G‘ayrioddiy yoki chet ellikka xos ko‘rinish va jozibaga ega bo‘lish sifati.",
+          "text": "Ayniqsa olis yurtga xosligi sababli g‘ayrioddiy va qiziqarli tuyulish xususiyati."
+        },
+        "scope_synonyms": [
+          {
+            "text": "exoticism",
+            "lexemeId": "ccbad12a-09aa-5230-b806-aba36d46c104",
+            "senseId": "f7ece62e-e98b-5b39-b0d4-9ec63cb3b8b2",
+            "partOfSpeech": "n"
+          },
+          {
+            "text": "exoticness",
+            "lexemeId": "16360f8e-124e-5057-b622-11b0c7eab6c9",
+            "senseId": "3f1107b7-db15-5a06-b45d-5d2f0909f209",
+            "partOfSpeech": "n"
+          }
+        ]
+      }
+    },
+    "78d7a5a7-e0d7-5406-8d51-7b3458b0f6fb": {
+      "43a5774c-e75f-529d-929e-6edb4c6a8b81": {
+        "meaning_sha": "0bab1d170c451d6e59c70b4de951e4864b6f2c31f40047d48a56b6973fb1be6f",
+        "replace_cefr": {
+          "original": "C1",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "without musical accompaniment",
+          "text": "(of singing) without instrumental accompaniment."
+        }
+      }
+    },
+    "4962ae8b-eef8-524b-bd41-a8ae7c530819": {
+      "00a2f5aa-96f9-4f7c-9daf-284e95566d29": {
+        "meaning_sha": "f7431ac2dbc528e7eb42d3ae6ec1c4465f3b2833b596a5254e4027e2ffa291b5",
+        "replace_cefr": {
+          "original": "C2",
+          "text": null
+        },
+        "replace_definition_en": {
+          "original": "characterized by or arising from psychoneurotic hysteria",
+          "text": "(historical medical usage) characterized by or arising from the condition formerly called hysteria."
+        },
+        "replace_definition_uz": {
+          "original": "Psixoneyrotik gisteriya bilan tavsiflanadigan yoki undan kelib chiqadigan.",
+          "text": "(tarixiy tibbiy qo‘llanish) ilgari isteriya deb atalgan holatga xos yoki undan kelib chiqqan."
+        },
+        "replace_translation_uz": {
+          "original": "gisteriyaga oid",
+          "text": "isteriyaga oid (tarixiy tibbiy atama)"
+        }
       }
     }
   }

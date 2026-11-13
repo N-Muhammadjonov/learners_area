@@ -293,8 +293,9 @@ def test_damage_financial_usage_preserves_physical_and_legal_harm_senses():
             assert old == new
 
 
-def test_backfill_source_enrichment_preserves_historical_receipt_and_canonical_identities():
-    report = json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json').read_text())
+@pytest.mark.parametrize('enrichment_path', sorted((ROOT / 'content/dictionary').glob('audit-*-phase09-source-enrichment-*.json')), ids=lambda p: p.stem)
+def test_backfill_source_enrichment_preserves_historical_receipt_and_canonical_identities(enrichment_path):
+    report = json.loads(enrichment_path.read_text())
     historical_path = ROOT / report['historical_receipt']
     assert hashlib.sha256(historical_path.read_bytes()).hexdigest() == report['historical_receipt_sha256']
     historical = {e['lexeme_id']: e for e in json.loads(historical_path.read_text())['lexemes']}
@@ -317,6 +318,125 @@ def test_backfill_source_enrichment_preserves_historical_receipt_and_canonical_i
             assert sense['definition_uz'] == previous['definition_uz']
             assert sense['translations'][0]['text'] == previous['translation_uz']
             assert sense.get('cefr') == previous['cefr']
+
+
+def backfill_twenty():
+    return json.loads((ROOT / 'content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json').read_text())
+
+
+def test_backfill_twenty_pins_fragment_person_snow_and_historical_clinical_relations():
+    report = backfill_twenty()
+    words = {e['lexeme_id']: e for e in report['lexemes']}
+    targets = {e['lexeme_id']: e for e in report['target_entries']}
+    assert len(report['existing_relation_matches']) == 16
+    for match in report['existing_relation_matches']:
+        source = words[match['source_lexeme_id']]
+        original_sense = next(s for s in source['senses'] if s['sense_id'] == match['source_sense_id'])
+        target = targets[match['target_lexeme_id']]
+        target_sense = next(s for s in target['senses'] if s['sense_id'] == match['target_sense_id'])
+        assert original_sense['definition_en'] == target_sense['definition_en'] == match['target_definition_en']
+        assert (target['display_lemma'], target['part_of_speech']) == (match['display_lemma'], match['part_of_speech'])
+        candidate = curation.curate_candidate_entry(source)
+        edges = [r for r in candidate['relations'] if r['relation_type'] == 'synonym'
+                 and r['target_lexeme_id'] == target['lexeme_id'] and r['target_sense_id'] == target_sense['sense_id']]
+        assert len(edges) == 1 and edges[0]['source_sense_id'] == original_sense['sense_id']
+    flake = next(e for e in report['lexemes'] if e['display_lemma'] == 'flake')
+    views = present(curation.curate_candidate_entry(flake))['senses']
+    assert {r['text'] for r in views['06640187-71be-4178-b157-73c1518bfc3f']['synonyms']} == {'snowflake'}
+    assert {r['text'] for r in views['a4e4aa6d-2c53-4002-ad18-d5224208aa66']['synonyms']} == {'eccentric', 'geek', 'oddball'}
+    assert {r['text'] for r in views['e3d17978-a3ac-4585-8165-64ec3bf4e308']['synonyms']} == {'bit', 'chip', 'fleck', 'scrap'}
+    hysterical = next(e for e in report['lexemes'] if e['display_lemma'] == 'hysterical')
+    views = present(curation.curate_candidate_entry(hysterical))['senses']
+    assert views['725120af-7844-44a6-a94b-99cad490b356']['synonyms'] == []
+    assert [(r['lexemeId'], r['senseId']) for r in views['f68dd2ea-347f-4d64-8dd8-8eeecfbf385f']['synonyms']] == [
+        ('4962ae8b-eef8-524b-bd41-a8ae7c530819', '00a2f5aa-96f9-4f7c-9daf-284e95566d29')]
+
+
+def test_jig_compound_metre_repair_preserves_tool_lure_and_dance_boundaries():
+    original = next(e for e in backfill_twenty()['lexemes'] if e['display_lemma'] == 'jig')
+    frozen = copy.deepcopy(original)
+    revised = curation.curate_candidate_entry(original)
+    assert original == frozen
+    levels = {s['sense_id']: s.get('cefr') for s in revised['senses']}
+    assert levels == {'02852879-0f73-4e39-bf16-1a0745ea5145': None, '4a1e98e9-6f08-4a21-976b-b06ffb62fbca': None,
+                      'a1dafb0e-d2ac-4d12-99a7-16aad1e3655f': 'C2', 'b4fdfb92-df7b-4f59-8ef5-b19277c0686e': 'C2'}
+    for old, new in zip(original['senses'], revised['senses']):
+        assert old['sense_id'] == new['sense_id'] and old['examples'] == new['examples']
+        if old['sense_id'] == 'a1dafb0e-d2ac-4d12-99a7-16aad1e3655f':
+            assert 'three-four' in old['definition_en']
+            assert 'compound metre' in new['definition_en'] and 'typically' in new['definition_en'] and '6/8' in new['definition_en']
+            assert 'uch chorak' not in new['definition_uz'] and '6/8' in new['definition_uz']
+        else:
+            assert old['definition_en'] == new['definition_en']
+    views = present(revised)['senses']
+    assert {c['text'] for c in views['b4fdfb92-df7b-4f59-8ef5-b19277c0686e']['collocations']} == {'an Irish jig'}
+    assert all(not view['collocations'] for sid, view in views.items() if sid != 'b4fdfb92-df7b-4f59-8ef5-b19277c0686e')
+
+
+def test_same_meaning_historical_note_preserves_previously_approved_examples():
+    from app.dictionary_presentation import corrected_examples
+    original = next(e for e in backfill_twenty()['lexemes'] if e['display_lemma'] == 'hysterical')
+    candidate = curation.curate_candidate_entry(original)
+    for old, new in zip(original['senses'], candidate['senses']):
+        expected = corrected_examples(original, old)
+        assert len(expected) == 2 and expected != old['examples']
+        assert new['examples'] == old['examples']
+        assert corrected_examples(candidate, new) == expected
+    clinical = candidate['senses'][1]
+    assert 'historical medical usage' in clinical['definition_en']
+    assert clinical.get('cefr') is None
+    assert candidate['senses'][0]['cefr'] == 'C1'
+
+
+@pytest.mark.parametrize('damage', ['no_opt_in', 'wrong_original', 'wrong_hash', 'wrong_replacement', 'wrong_semantic_release', 'wrong_entry_release'])
+def test_example_carryover_requires_explicit_exact_original_and_replacement_guards(monkeypatch, damage):
+    from app import dictionary_presentation as presentation
+    original = next(e for e in backfill_twenty()['lexemes'] if e['display_lemma'] == 'hysterical')
+    candidate = curation.curate_candidate_entry(original)
+    clinical = candidate['senses'][1]
+    metadata = copy.deepcopy(presentation.sense_corrections())
+    patch = metadata['entries'][candidate['lexeme_id']][clinical['sense_id']]
+    if damage == 'no_opt_in':
+        patch.pop('preserve_example_corrections')
+    elif damage == 'wrong_original':
+        patch['replace_definition_en']['original'] += ' changed'
+    elif damage == 'wrong_hash':
+        patch['meaning_sha'] = '0' * 64
+    elif damage == 'wrong_replacement':
+        patch['replace_definition_en']['text'] += ' changed'
+    elif damage == 'wrong_semantic_release':
+        metadata['source_release'] = 'other-release'
+    else:
+        candidate['release_id'] = 'other-release'
+    monkeypatch.setattr(presentation, 'sense_corrections', lambda: metadata)
+    assert presentation.corrected_examples(candidate, clinical) == clinical['examples']
+
+
+def test_carried_example_corrections_still_require_exact_original_example_text():
+    from app.dictionary_presentation import corrected_examples
+    original = next(e for e in backfill_twenty()['lexemes'] if e['display_lemma'] == 'hysterical')
+    candidate = curation.curate_candidate_entry(original)
+    clinical = candidate['senses'][1]
+    expected = corrected_examples(candidate, clinical)
+    clinical['examples'][0]['text_en'] += ' changed'
+    result = corrected_examples(candidate, clinical)
+    assert result[0] == clinical['examples'][0]
+    assert result[1] == expected[1]
+
+
+def test_partial_variant_and_historical_target_repairs_do_not_start_example_audit():
+    report = backfill_twenty()
+    for original in report['target_entries']:
+        if original['display_lemma'] not in ('a capella', 'hysteric'):
+            continue
+        candidate = curation.curate_candidate_entry(original)
+        assert candidate['senses'][0].get('cefr') is None
+        assert candidate['senses'][0]['examples'] == original['senses'][0]['examples']
+        if original['display_lemma'] == 'a capella':
+            assert candidate['senses'][0]['definition_en'] == '(of singing) without instrumental accompaniment.'
+        else:
+            assert 'historical medical usage' in candidate['senses'][0]['definition_en']
+            assert 'tarixiy' in candidate['senses'][0]['translations'][0]['text']
 
 
 def test_backfill_scopes_exact_targets_without_crossing_taste_attraction_or_voting_senses():

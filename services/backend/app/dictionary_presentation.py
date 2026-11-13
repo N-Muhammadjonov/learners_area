@@ -77,8 +77,26 @@ def corrected_examples(entry, sense):
     if entry.get('release_id') != data['source_release']:
         return sense['examples']
     change = data['entries'].get(entry['lexeme_id'], {}).get(sense['sense_id'])
-    if not change or change['meaning_sha'] != meaning_hash(entry, sense):
+    if not change:
         return sense['examples']
+    if change['meaning_sha'] != meaning_hash(entry, sense):
+        semantic = sense_corrections()
+        patch = semantic['entries'].get(entry['lexeme_id'], {}).get(sense['sense_id'], {})
+        replacement = patch.get('replace_definition_en', {})
+        # An explicit editorial decision may preserve approved example edits
+        # across a wording/register clarification of the same meaning.
+        # Both original and replacement glosses remain hash-bound; never infer
+        # semantic identity from the lemma, target ID or a similar definition.
+        original = replacement.get('original')
+        if not (
+            semantic['source_release'] == entry.get('release_id')
+            and patch.get('preserve_example_corrections') is True
+            and patch.get('meaning_sha') == change['meaning_sha']
+            and isinstance(original, str)
+            and meaning_hash(entry, {'definition_en': original}) == change['meaning_sha']
+            and replacement.get('text') == sense.get('definition_en')
+        ):
+            return sense['examples']
     revised = []
     for example in sense['examples']:
         replacement = change['examples'].get(example['example_id'])

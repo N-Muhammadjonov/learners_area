@@ -137,17 +137,10 @@ def test_cefr_changes_are_sense_specific_without_blanket_null_fills() -> None:
         "chocolate cake",
     }
 
-    itself = entry(
-        "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
-        "itself",
-        "pronoun",
-        [(
-            "a09f14e9-8dde-5753-974e-67540f06f258",
-            "Refers back to the same subject.",
-            "o‘zi; o‘zini (narsa yoki hayvon)",
-            None,
-        )],
-    )
+    # Use the full frozen source rather than the helper's placeholder Uzbek
+    # definition: editorial replacements deliberately require exact old text.
+    source_path = Path(__file__).resolve().parents[3] / "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json"
+    itself = next(e for e in json.loads(source_path.read_text())["lexemes"] if e["display_lemma"] == "itself")
     assert curate_candidate_entry(itself)["senses"][0]["cefr"] == "A2"
     assert "cefr" not in itself["senses"][0]
 
