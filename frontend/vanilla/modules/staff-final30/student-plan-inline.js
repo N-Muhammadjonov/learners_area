@@ -91,7 +91,8 @@ export function studentPlanInline(ctx,studentId){
   try{
    const data=await api.request(ENDPOINT+encodeURIComponent(studentId),{signal:ctx.signal,fresh:true});
    if(ctx.signal.aborted||ticket!==requestId||!host.isConnected)return;
-   title.textContent=label(ctx,'Kunlik reja natijalari','Daily plan progress')+' · '+data.name;
+   title.textContent=label(ctx,'Kunlik reja natijalari','Daily plan progress')+
+    (typeof data.name==='string'&&data.name.trim()?' · '+data.name.trim():'');
    status.replaceChildren(planSummary(ctx,data));
   }catch(error){
    if(ctx.signal.aborted||ticket!==requestId||!host.isConnected)return;
