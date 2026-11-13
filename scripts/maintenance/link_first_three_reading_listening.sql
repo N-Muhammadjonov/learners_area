@@ -3,7 +3,10 @@
 -- Only a unique previously verified dictionary lexeme is ever assigned;
 -- ambiguous/missing senses are left to the existing context-sensitive dictionary lookup.
 -- Never change pre-existing occurrences, answers, user vocabulary or passages.
+-- Slow bulk source scan: for production apply per source in bounded batches, not as one web/API request.
+-- The live batch was applied in six small groups and separately audited for exact offsets.
 BEGIN;
+SET LOCAL statement_timeout = '120s';
 WITH target_sources AS (
   SELECT 'reading'::text AS source_type, p.id AS source_id, 1::int AS part, p.body_text AS body
     FROM general_reading_sets s
@@ -48,7 +51,7 @@ WITH target_sources AS (
       'before','after','since','while','until','because','about','into',
       'from','over','under','around','through','between','among','during',
       'up','down','out','off','back','again','too','so','such','both',
-      'either','neither','ours','theirs','somewhere','anything','someone')
+      'either','neither','ours','theirs','somewhere','anything','someone','well','good','left','free','business')
 ), eligible AS (
   SELECT c.* FROM candidates c
    WHERE c.start_char>=0 AND c.start_char+length(c.surface)<=length(c.body)
@@ -57,7 +60,7 @@ WITH target_sources AS (
        SELECT 1 FROM lexical_occurrences o
        WHERE (c.source_type='reading' AND o.passage_id=c.source_id
                OR c.source_type='listening' AND o.listening_test_id=c.source_id
-                 AND o.section_number=c.part AND o.segment_key='s'||c.part)
+                 AND o.section_number=c.part)
          AND o.start_char<c.start_char+length(c.surface) AND o.end_char>c.start_char
      )
 )
