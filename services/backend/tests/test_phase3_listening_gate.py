@@ -17,7 +17,7 @@ def test_student_needs_own_completed_attempt():
         assert asyncio.run(exam_gate(con,{'id':USER,'role':'student'},TEST))==expected
         assert con.args==(USER,TEST)
 
-def test_staff_preview_preserves_existing_content_authority_but_active_exam_stays_locked():
+def test_staff_can_open_activities_with_or_without_an_active_exam():
     for role in ('owner','teacher','admin'):
         assert asyncio.run(exam_gate(Connection(),{'id':USER,'role':role},TEST))==(False,None)
-        assert asyncio.run(exam_gate(Connection('in_progress'),{'id':USER,'role':role},TEST))==(True,str(ATTEMPT))
+        assert asyncio.run(exam_gate(Connection('in_progress'),{'id':USER,'role':role},TEST))==(False,str(ATTEMPT))
