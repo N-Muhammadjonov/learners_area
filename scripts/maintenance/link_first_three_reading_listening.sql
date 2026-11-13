@@ -74,7 +74,7 @@ SELECT c.source_type,
  CASE WHEN c.source_type='listening' THEN 's'||c.part END,
  c.lexeme_id,c.lexical_unit_id,c.surface,c.start_char,c.start_char+length(c.surface),
  substring(c.body FROM greatest(1,c.start_char-110) FOR 240),
- 'token',true,'resolved','unique_verified_dictionary'
+ 'token',true,'resolved','verified_unique'
 FROM eligible c
 ON CONFLICT DO NOTHING;
 COMMIT;
