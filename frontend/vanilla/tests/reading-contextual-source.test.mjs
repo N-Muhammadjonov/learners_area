@@ -12,7 +12,7 @@ test('rich General Reading source keeps the exact passage and excludes basic wor
       lexicalContext:h.ctx,sourceId:ID(1),sourceBody:passage
     });
     h.ctx.root.append(source);
-    assert.equal(source.querySelector('p').textContent,passage);
+    assert.equal(source.querySelector('[data-clickable-text]').textContent,passage);
     const words=[...source.querySelectorAll('.lexical-dotted-word')];
     assert.deepEqual(words.map(x=>x.textContent),['offered','food','visitor']);
     assert.equal(source.querySelector('[data-word=He]'),null);
