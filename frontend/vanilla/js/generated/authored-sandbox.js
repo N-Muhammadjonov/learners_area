@@ -18,5 +18,5 @@ export function validRuntimeMessage(event, frameWindow, token) {
         return false;
     const data = event.data;
     // A view message is UI state only; it remains bound to this exact frame/token.
-    return data.channel === "learners-area-authored-v1" && data.token === token && ["storage", "navigate", "word", "view", "course", "hub-ready", "hydrated", "media"].includes(String(data.op));
+    return data.channel === "learners-area-authored-v1" && data.token === token && ["storage", "navigate", "word", "saved-terms", "view", "course", "hub-ready", "hydrated", "media"].includes(String(data.op));
 }
