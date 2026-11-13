@@ -87,7 +87,7 @@ async def authored(req:Request,id:str):
                 return core.j({'vocabulary':await vocabulary_session(con,id,content.get('vocabulary',[]))},headers=AUTHOR_HEADERS)
             from .listening_review_access import exam_gate
             required,active_attempt=await exam_gate(con,user,core.uuid_value(id))
-            if required:
+            if required and user['role'] not in ('teacher','admin','owner'):
                 # Static presentation only: original cards may render before the
                 # answer-bearing source document or any review data is released.
                 activities=SPEC.get(source,{}).get('activities',{})
