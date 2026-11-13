@@ -808,6 +808,7 @@ async def staff_guardian_detail(req: Request, link_id: str):
     return core.j({'ok': True, 'link': {
         'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'], 'studentName': r['student_name'],
         'guardianName': r['display_name'], 'telegramUsername': r['username'],
+        'telegramUserId': r['telegram_user_id'],
         'phone': (r['phone_number'] if user['role'] == 'owner' else mask_phone(r['phone_number']))
                  if r['phone_verified_at'] else None, 'channelJoined': r['channel_verified_at'] is not None,
         'language': r['language'], 'requestedAt': iso(r['requested_at']), 'approvedAt': iso(r['approved_at']),
