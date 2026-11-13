@@ -14,7 +14,7 @@ import {privateScope} from '../../js/private-scope.js';
 const enc=encodeURIComponent;
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,onSavedStatus,onClose}=props,t=dict.vocabulary;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose}=props,t=dict.vocabulary;
  let occurrenceId=initialOccurrenceId,alternatives=[],contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
  let observer=null;
@@ -34,14 +34,14 @@ export function contextualWordPopover(context,props){
   const current=++version;loading=true;error=null;unresolved=false;contextual=null;known=null;saved=false;draw();
   const url=occurrenceId
    ?`/api/vocabulary/lookup?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&occurrenceId=${enc(occurrenceId)}`
-   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${Number.isInteger(startChar)&&Number.isInteger(endChar)?`&startChar=${startChar}&endChar=${endChar}`:''}`;
+   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${Number.isInteger(startChar)&&Number.isInteger(endChar)?`&startChar=${startChar}&endChar=${endChar}`:''}${Number.isInteger(section)?`&section=${section}`:''}`;
   try{
    const [lookupResult,folderResult]=await Promise.allSettled([api.request(url,{signal:localSignal}),api.request('/api/vocabulary/folders',{signal:localSignal})]);
    if(localSignal.aborted||current!==version)return;
    if(lookupResult.status==='rejected')error=failure(lookupResult.reason,dict);
    else{
     let data=lookupResult.value;
-    if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+    if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}${Number.isInteger(section)?`&section=${section}`:''}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
     alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
     else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
