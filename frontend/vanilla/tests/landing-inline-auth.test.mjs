@@ -12,7 +12,7 @@ test('public login eagerly includes the landing document in the same module grap
  assert.match(source,/frame\.srcdoc=LANDING_HTML/);
  assert.match(source,/frame\.setAttribute\('loading','eager'\)/);
  assert.match(routes,/pattern:"\/landing",load:\(\)=>import\('\.\.\/modules\/auth\/public\.js'\)/);
- assert.match(read('../../index.html'),/href="\/landing"/);
+ assert.match(read('../index.html'),/href="\/landing"/);
 });
 
 test('landing is public and inline scripts inherit the server nonce',()=>{
