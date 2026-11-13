@@ -104,6 +104,52 @@ def test_compact_context_preserves_requested_meanings_and_lexical_fields_without
     assert small['new_editorial_senses_certified'] == 0
 
 
+def test_compact_context_records_previously_removed_sense_without_first_sense_fallback():
+    from app.dictionary_sense_curation import original_meaning_hash
+    original = source()
+    sense = original['senses'][0]
+    packet = {'source_release': RELEASE, 'entries': [{'original_entry': original,
+        'candidate_entry': dict(original, senses=[]), 'requested_sense_ids': [sense['sense_id']],
+        'meaning_hashes': {sense['sense_id']: original_meaning_hash(original, sense)},
+        'candidate_presentation': {'senses': {}}, 'relation_structure_checks': []}], 'target_entries': []}
+    result = a.compact_context(packet)
+    row = result['senses'][0]
+    assert row['sense_id'] == sense['sense_id'] and row['original']['en'] == sense['definition_en']
+    assert row['candidate_present'] is False and row['candidate_changes'] == {}
+    assert row['candidate_links'] == {'synonyms': [], 'antonyms': [], 'collocations': []}
+
+
+@pytest.mark.parametrize('change', [None, 'content_inventory', 'offset_inventory'])
+def test_fresh_projection_requires_complete_content_and_offset_inventories(tmp_path, change):
+    from app.dictionary_canonical import stable
+    repo, cache, _, shard, _ = fixture(tmp_path)
+    database, proof = tmp_path / 'offline.sqlite', tmp_path / 'index.json'
+    proof.write_text(json.dumps(a.build_index(repo, cache, database, RELEASE)))
+    original = source()
+    raw_bytes = len(stable(original).encode()) + 1
+    content_sha = a.digest(stable({k: v for k, v in original.items() if k != 'release_id'}).encode())
+    senses = sorted(s['sense_id'] for s in original['senses'])
+    examples = sorted(e['example_id'] for s in original['senses'] for e in s['examples'])
+    value = {'release_id': RELEASE, 'entries': 1, 'senses': len(senses), 'distinct_senses': len(set(senses)),
+             'examples': len(examples), 'distinct_examples': len(set(examples)), 'invalid_storage_rows': 0,
+             'entry_inventory_sha256': a.digest((original['lexeme_id'] + ':' + content_sha).encode()),
+             'offset_inventory_sha256': a.digest(':'.join(map(str, (original['lexeme_id'], original['lexeme_id'][:2], 0, shard.stat().st_size, raw_bytes, RELEASE))).encode()),
+             'sense_set_sha256': a.digest(json.dumps(senses, separators=(',', ':')).encode()),
+             'example_set_sha256': a.digest(json.dumps(examples, separators=(',', ':')).encode())}
+    if change:
+        value['entry_inventory_sha256' if change == 'content_inventory' else 'offset_inventory_sha256'] = '0' * 64
+    projection = tmp_path / 'projection.json'
+    projection.write_text(json.dumps(value))
+    if change:
+        with pytest.raises(ValueError, match='fresh_database_source_projection_mismatch'):
+            a.verify_projection(repo, database, proof, projection, cache)
+    else:
+        result = a.verify_projection(repo, database, proof, projection, cache)
+        assert result['status'] == 'PASS'
+        assert result['new_editorial_senses_certified'] == 0 and result['full_linguistic_signoff'] is False
+        assert result['example_identity_only_not_editorial_review'] is True
+
+
 @pytest.mark.parametrize('change', ['different_release', 'conflicting_descriptor'])
 def test_descriptor_identity_cannot_silently_drift(tmp_path, change):
     repo, cache, receipt, _, _ = fixture(tmp_path)

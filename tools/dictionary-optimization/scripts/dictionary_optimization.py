@@ -361,6 +361,9 @@ def parser():
     pack.add_argument('--limit', type=int, default=250)
     pack.add_argument('--compact', action='store_true', help='Omit repeated originals and all examples from lexical context')
     pack.add_argument('--out', required=True)
+    projection = commands.add_parser('verify-offline-projection', help='Compare all cached source identities and packed offsets with a captured read-only database projection')
+    for flag in ('repo', 'database', 'index-receipt', 'projection', 'cache-dir', 'out'):
+        projection.add_argument('--' + flag, required=True)
     return p
 
 
@@ -382,6 +385,9 @@ def main():
     elif args.command == 'sense-pack':
         from audit_accelerator import export_pack
         result = export_pack(args.repo, args.database, args.index_receipt, args.source_receipt, args.out, args.limit, args.compact)
+    elif args.command == 'verify-offline-projection':
+        from audit_accelerator import verify_projection
+        result = verify_projection(args.repo, args.database, args.index_receipt, args.projection, args.cache_dir)
     else:
         result = asyncio.run(verify_r2(args))
     if args.command not in ('benchmark', 'verify-r2', 'sense-pack'):

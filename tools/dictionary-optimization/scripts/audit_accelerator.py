@@ -124,7 +124,7 @@ def build_index(repo, cache_dir, database, release):
         result = {'schema': 1, 'status': 'PASS', 'source_release': release,
                   'scope': 'authenticated_cached_source_index_only', 'indexed': counts,
                   'distinct_pos_gloss_groups': glosses, 'elapsed_seconds': round(time.perf_counter() - started, 6),
-                  'fresh_database_content_sha_comparison': 'NOT_RERUN_connector_unavailable',
+                  'fresh_database_content_sha_comparison': 'NOT_RUN_offline_index_only',
                   'source_proofs': proofs, 'new_editorial_senses_certified': 0,
                   'new_source_coverage_counted': 0, 'production_mutation': False,
                   'full_linguistic_signoff': False, 'examples_audited': False}
@@ -164,6 +164,57 @@ def relation_proof(entry, edge, target):
     return dict(proof, status='unique_exact_pos_gloss_match_only', proposed_source_sense_id=matches[0])
 
 
+def verify_projection(repo, database, index_receipt, projection, cache_dir):
+    """Compare every content/identity hash and packed offset to a captured SELECT."""
+    started = time.perf_counter()
+    database = Path(database)
+    proof = json.loads(Path(index_receipt).read_bytes())
+    expected = json.loads(Path(projection).read_bytes())
+    if proof.get('status') != 'PASS' or digest(database.read_bytes()) != proof.get('index_sha256'):
+        raise ValueError('offline_index_checksum_mismatch')
+    if expected['release_id'] != proof['source_release']:
+        raise ValueError('projection_release_mismatch')
+    runtime(repo)
+    from app.step40_dictionary_storage import _prepared_remote_shard
+    con = sqlite3.connect(database.resolve().as_uri() + '?mode=ro', uri=True)
+    records, offset_records, senses, examples = [], [], [], []
+    try:
+        for shard, proof_json in con.execute('SELECT shard,proof FROM shards ORDER BY shard'):
+            shard_proof = json.loads(proof_json)
+            rows = list(con.execute('SELECT lexeme_id,content_sha,entry_json FROM lexemes WHERE shard=? ORDER BY lexeme_id', (shard,)))
+            entries = [json.loads(row[2]) for row in rows]
+            body = (Path(cache_dir) / (shard + '.json.gz')).read_bytes()
+            descriptor, ranges = _prepared_remote_shard(expected['release_id'], entries, body, True)
+            if descriptor != shard_proof['descriptor']:
+                raise ValueError('source_offset_descriptor_mismatch')
+            for (lexeme_id, content_sha, _), entry in zip(rows, entries):
+                records.append((lexeme_id, lexeme_id + ':' + content_sha))
+                location = ranges[lexeme_id]
+                offset_records.append((lexeme_id, ':'.join(map(str, (lexeme_id, shard, location['offset'], location['length'], location['raw_bytes'], expected['release_id'])))))
+                senses.extend(s['sense_id'] for s in entry['senses'])
+                examples.extend(e['example_id'] for s in entry['senses'] for e in s['examples'])
+    finally:
+        con.close()
+    actual = {'entries': len(records), 'senses': len(senses), 'distinct_senses': len(set(senses)),
+              'examples': len(examples), 'distinct_examples': len(set(examples)),
+              'entry_inventory_sha256': digest('\n'.join(value for _, value in sorted(records)).encode()),
+              'offset_inventory_sha256': digest('\n'.join(value for _, value in sorted(offset_records)).encode()),
+              'sense_set_sha256': digest(json.dumps(sorted(senses), separators=(',', ':')).encode()),
+              'example_set_sha256': digest(json.dumps(sorted(examples), separators=(',', ':')).encode())}
+    if expected.get('invalid_storage_rows') != 0 or any(actual[key] != expected[key] for key in actual):
+        raise ValueError('fresh_database_source_projection_mismatch')
+    if len(records) != len({ident for ident, _ in records}) or len(senses) != len(set(senses)) or len(examples) != len(set(examples)):
+        raise ValueError('duplicate_source_identity')
+    return {'schema': 1, 'status': 'PASS', 'source_release': expected['release_id'],
+            'visibility': 'audit_only_not_dictionary_content', 'scope': 'complete_cached_source_and_fresh_readonly_database_identity_offsets',
+            'actual': actual, 'database_capture': expected, 'index_sha256': proof['index_sha256'],
+            'fresh_database_content_sha_comparison': 'PASS_full_cryptographic_inventory',
+            'storage_offsets_lengths_and_raw_sizes': 'PASS_full_cryptographic_inventory',
+            'elapsed_seconds': round(time.perf_counter() - started, 6),
+            'new_editorial_senses_certified': 0, 'full_linguistic_signoff': False,
+            'example_identity_only_not_editorial_review': True, 'production_mutation': False}
+
+
 def compact_context(packet):
     """Deduplicate frozen/unchanged fields and exclude examples from lexical work."""
     from app import dictionary_sense_curation as curation
@@ -178,16 +229,17 @@ def compact_context(packet):
             sid = old['sense_id']
             if sid not in record['requested_sense_ids']:
                 continue
-            now = current[sid]
-            changes = {key: now.get(key) for key in ('definition_en', 'definition_uz', 'translations', 'cefr') if old.get(key) != now.get(key)}
-            view = record['candidate_presentation']['senses'][sid]
+            now = current.get(sid)
+            changes = {key: now.get(key) for key in ('definition_en', 'definition_uz', 'translations', 'cefr') if old.get(key) != now.get(key)} if now is not None else {}
+            view = record['candidate_presentation']['senses'].get(sid, {})
             senses.append({'lexeme_id': original['lexeme_id'], 'sense_id': sid,
                            'lemma': original['display_lemma'], 'pos': original['part_of_speech'],
                            'meaning_sha': record['meaning_hashes'][sid],
+                           'candidate_present': now is not None,
                            'original': {'en': old['definition_en'], 'uz': old['definition_uz'],
                                         'translations': [t['text'] for t in old['translations']], 'cefr': old.get('cefr')},
                            'candidate_changes': changes,
-                           'candidate_links': {key: view[key] for key in ('synonyms', 'antonyms', 'collocations')}})
+                           'candidate_links': {key: view.get(key, []) for key in ('synonyms', 'antonyms', 'collocations')}})
         for proof in record['relation_structure_checks']:
             links.append(dict(proof, source_lexeme_id=original['lexeme_id']))
             target = targets.get(proof['target_lexeme_id'])
@@ -198,13 +250,14 @@ def compact_context(packet):
                             'pos': target['part_of_speech'], 'en': s['definition_en'], 'uz': s['definition_uz'],
                             'translations': [t['text'] for t in s['translations']],
                             'meaning_sha': curation.original_meaning_hash(target, s),
+                            'candidate_present': s['sense_id'] in current_targets[target['lexeme_id']],
                             'candidate_changes': {k: current_targets[target['lexeme_id']][s['sense_id']].get(k)
                                 for k in ('definition_en', 'definition_uz', 'translations', 'cefr')
-                                if s.get(k) != current_targets[target['lexeme_id']][s['sense_id']].get(k)}}
+                                if s.get(k) != current_targets[target['lexeme_id']][s['sense_id']].get(k)} if s['sense_id'] in current_targets[target['lexeme_id']] else {}}
     return dict({k: v for k, v in packet.items() if k not in ('entries', 'target_entries')},
                 format='compact_lexical_context_v1', senses=senses, relation_structure_checks=links,
                 exact_target_senses=target_context,
-                omission_note='Examples deferred. Full original entries, attribution and shard proofs remain in the checksum-bound audit-only SQLite index; unchanged candidate fields inherit original values.')
+                omission_note='Examples deferred. Full originals and provenance remain in the checksum-bound audit-only SQLite index. Unchanged fields inherit original values only when candidate_present is true; false records an existing curated removal and never substitutes another sense.')
 
 
 def export_pack(repo, database, index_receipt, source_receipt, out, limit=250, compact=False):
