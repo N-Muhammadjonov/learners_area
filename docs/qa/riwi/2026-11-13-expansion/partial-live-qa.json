@@ -1,0 +1,72 @@
+{
+  "project": "bpexpsugmuhwmztacbqd",
+  "readOnlyReceipt": true,
+  "actorRole": "owner",
+  "deployedCommit": "86cdce47564cd3d736e2b9ff663a5ae1f63a1040",
+  "note": "Historical partial QA before Railway correction; no further Vercel testing.",
+  "clickedQuestionUserMessageCount": 1,
+  "results": [
+    {
+      "sequence": 1,
+      "model": "riwi-material-resolution-v1",
+      "characters": 144,
+      "threeExamplesPresent": false,
+      "suggestionIds": [],
+      "publisherNamesExposed": false,
+      "excerpt": "Qaysi matn yoki mashqni nazarda tutyapsiz? Nomini aniqroq yoki undan bitta jumlani yozing — mos bo‘lmagan materialni taxmin qilib tanlamayma"
+    },
+    {
+      "sequence": 2,
+      "model": "riwi-dialogues-v1",
+      "id": "identity.02",
+      "characters": 134,
+      "threeExamplesPresent": false,
+      "suggestionIds": [],
+      "publisherNamesExposed": false,
+      "excerpt": "Men Learners Area platformasiga tegishli RIWI yordamchisiman. Bilimlarim va sozlamalarimni platformaning vakolatli Owner’i boshqaradi."
+    },
+    {
+      "sequence": 3,
+      "model": "riwi-dialogues-v1",
+      "id": "daily.01",
+      "characters": 92,
+      "threeExamplesPresent": false,
+      "suggestionIds": [],
+      "publisherNamesExposed": false,
+      "excerpt": "Shu yerdaman, sizning savolingizga yordam berishga tayyorman 🙂 O‘zingiz nima bilan bandsiz?"
+    },
+    {
+      "sequence": 4,
+      "model": "riwi-help-v1",
+      "characters": 150,
+      "threeExamplesPresent": false,
+      "suggestionIds": [
+        "RIWI-NEW-146",
+        "RIWI-NEW-158",
+        "RIWI-NEW-159"
+      ],
+      "publisherNamesExposed": false,
+      "excerpt": "Bilimlarim orasidan bu savolga ishonchli mos javob topa olmadim 🤔\n\nUzur savolingizni tushunmadim quyidagi 3 ta variantdan birini tanlashing"
+    },
+    {
+      "sequence": 5,
+      "model": "riwi-new-questions-v1",
+      "id": "RIWI-NEW-146",
+      "characters": 258,
+      "threeExamplesPresent": false,
+      "suggestionIds": [],
+      "publisherNamesExposed": false,
+      "excerpt": "Bank ma’nosini atrofidagi so‘zlardan tanlang: “deposit money at the bank” — moliyaviy tashkilot; “sit on the river bank” — qirg‘oq; “bank on"
+    },
+    {
+      "sequence": 6,
+      "model": "riwi-site-grammar-v1",
+      "id": "spk-64",
+      "characters": 1884,
+      "threeExamplesPresent": true,
+      "suggestionIds": [],
+      "publisherNamesExposed": false,
+      "excerpt": "Qoidani uchta namuna bilan ko‘ramiz 🙂\n\nLet me think...  /  That's a good question.\n\nTuzilma: Let me think...  /  That's a good question.\n\nJ"
+    }
+  ]
+}

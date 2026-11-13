@@ -2,8 +2,9 @@
 
 Work started from remote main `69c1b46e0a21976d21532b9a1ce991ea49a629d4`.
 The earlier RIWI checkpoint and remote QA branch are ancestors of this main.
-Implementation is on local main. Production release and database migration are
-outside this change. The existing QA Preview branch is used for deployment only.
+Implementation is on local main. Database migration is outside this change.
+The Owner clarified that Railway is the active host; Vercel is no longer the
+deployment target for this work.
 Remote main advanced during implementation; `3a1cef04bad066cf7002d99509b67a6928c34a56`
 was merged without conflicts before preparing the Preview.
 
@@ -43,7 +44,8 @@ was merged without conflicts before preparing the Preview.
 
 ## Automated evidence
 
-- 3,646 RIWI backend tests, plus 282 subtests, passed.
+- After the live material-resolution fix, 3,653 RIWI backend tests, plus 282
+  subtests, passed. The fix's affected help/material-search set has 150 passes.
 - 41 HTTP/SEO/native-build/static-asset core checks passed. The native build
   packages 1,010 files and 138 routes; Docker's build-only Rollup dependency was
   installed in the QA environment rather than changing application dependencies.
@@ -52,7 +54,8 @@ was merged without conflicts before preparing the Preview.
   `offline-semantic-holdout.json`. It includes multiple modules, spelling/dialect,
   unsupported intents, numeric differences, grammar units and role refusals. It
   uses no DB or external provider and is **not live/browser proof**.
-- Full frontend suite: 1,672 passed, 11 existing skips, 22 failures. Every one of
+- Full frontend suite before the last upstream-main integration: 1,672 passed,
+  11 existing skips, 22 failures. Every one of
   those 22 failures also reproduces on untouched baseline main under the same
   dependencies; there are no new-only failures in this comparison. See
   `frontend-baseline-comparison.json`. The full frontend suite is not green.
@@ -60,11 +63,36 @@ was merged without conflicts before preparing the Preview.
   main has 84. It now allows additive main migrations; existing RIWI filename/hash,
   FK and index assertions stay enforced. No SQL file or database was changed.
 
-## Live evidence
+## Historical partial live evidence
 
-Pending deployment and Owner-session verification. Safari can open a QA tab;
-the production session is preserved. Do not label live acceptance complete until
-the deployed commit, actual Owner session, question buttons and replies are observed.
+Safari connected to the existing QA Owner session on deployed commit
+`86cdce47564cd3d736e2b9ff663a5ae1f63a1040`. Owner role was visible in Profile;
+the same synthetic messages were independently read from QA project
+`bpexpsugmuhwmztacbqd`. Identity, dialect, three Vocabulary question buttons,
+one-click sending/answering and a Speaking grammar unit worked. The DB confirms
+three numbered examples in the grammar response. Screenshot and redacted
+read-only checks are in `safari-vocabulary-suggestions.jpg` and `partial-live-qa.json`.
+
+The first Reading unknown-question went through live material resolution and
+asked for a title without buttons. Commit `9f166725` fixes that path and preserves
+the assessment/role refusal without suggestions. Its tests pass; that fix has not
+been accepted live. A subsequent Vercel deployment was rate limited; after the
+Owner's Railway correction, no further Vercel testing or deployment is planned.
+The agent-created QA tab was closed and the user's prior Safari tab restored.
+
+## Railway target and approval boundary
+
+- Project: LEARNERS AREA (`7d1f50bb-3847-4d7c-b2c2-ef63f08a98dd`).
+- Service: learners_area (`c4cb2c24-6777-4b90-a04e-43bc88d69e1c`).
+- Only environment: production (`5255a4eb-401d-4fed-aec7-cd1433edc24f`).
+- Source: N-Muhammadjonov/learners_area, main; Dockerfile:
+  services/backend/Dockerfile. Public domain: learnersarea.uz.
+- Observed successful deployment: `c5ca75ce-8acf-4908-a4cd-07a682511a94`,
+  commit `3a1cef04bad066cf7002d99509b67a6928c34a56`.
+- No staged config changes, environment changes or Railway deploy were made.
+  Pushing remote main triggers production directly. The Owner explicitly approved
+  that main push and Railway production release on 2026-11-13 after reviewing the
+  concrete code/test result. Deployment acceptance is recorded separately below.
 
 ## Remaining practical limits
 
