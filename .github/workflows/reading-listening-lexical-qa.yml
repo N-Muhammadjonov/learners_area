@@ -51,6 +51,7 @@ jobs:
           node --check frontend/vanilla/modules/listening/script-v37.js
           node --check frontend/vanilla/modules/listening/authored-progressive.js
           node --check frontend/vanilla/tests/listening-context-script-coverage.test.mjs
+          node --check frontend/vanilla/tests/reading-contextual-source.test.mjs tests/reading-contextual-source.test.mjs
       - name: Run lexical and source layout regressions
         working-directory: frontend/vanilla
         run: node --test tests/reading-source-cd.test.mjs tests/reading-interactions-v70.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/dictionary-interactions-v70.test.mjs tests/listening-context-script-coverage.test.mjs
