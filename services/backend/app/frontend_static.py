@@ -16,7 +16,7 @@ from .security import add_security_headers, build_csp
 from .seo import robots_document, sitemap_document, public_document, private_document
 
 ROOT = Path(__file__).resolve().parents[3]
-PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery', '/study-plan/shared'))
+PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery', '/landing', '/study-plan/shared'))
 PREFIXES = ('/api', '/_frontend', '/.git', '/.env', '/services', '/src', '/drizzle', '/node_modules')
 
 
