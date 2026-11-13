@@ -24,7 +24,7 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
    if(at<0)continue;
    const item=clickableText(lexicalContext,{
     text:value,sourceType:'reading',sourceId,inline:true,
-    lexicalAssistance:true,doubleClickLookup:true,offsetBase:at
+    lexicalAssistance:true,doubleClickLookup:true,offsetBase:at,sourceOffsetExact:true
    });
    textNode.replaceWith(item.node);
    cursor=Math.max(cursor,at+value.length);
