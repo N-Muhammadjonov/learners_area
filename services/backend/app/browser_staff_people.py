@@ -121,11 +121,11 @@ async def read(req, user, kind, q):
             # Verified phone numbers and presence are visible to the owner only.
             phone = "CASE WHEN tc.phone_verified_at IS NOT NULL THEN tc.phone_number END" if user['role']=='owner' else 'NULL::text'
             if user['role']=='owner':
-                last_active='u.last_active_at';presence=f"{online} AS online,a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,(a.payload->>'totalSeconds')::bigint AS total_seconds";ordering=f"{online} DESC,coalesce(a.created_at,u.last_active_at) DESC,"
+                last_active='u.last_active_at';presence=f"{online} AS online,a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,(a.payload->>'totalSeconds')::bigint AS total_seconds";ordering="coalesce(a.created_at,u.last_active_at) DESC NULLS LAST,"
             else:
                 last_active='NULL::timestamptz AS last_active_at';presence='NULL::boolean AS online,NULL::timestamptz AS seen_at,NULL::int AS visit_seconds,NULL::bigint AS total_seconds';ordering=''
             rows = await con.fetch(f"""SELECT u.id,u.name,u.email,u.role,u.account_status,u.status_reason,u.created_at,{last_active},
-              u.telegram_id IS NOT NULL AS telegram_linked,tc.username,{phone} AS phone_number,{presence}"""+source+where+f" ORDER BY CASE u.role WHEN 'owner' THEN 0 WHEN 'teacher' THEN 1 WHEN 'admin' THEN 2 ELSE 3 END,{ordering}u.id DESC LIMIT 25 OFFSET {(page-1)*25}",*args)
+              u.telegram_id IS NOT NULL AS telegram_linked,tc.username,{phone} AS phone_number,{presence}"""+source+where+f" ORDER BY {ordering}u.last_active_at DESC NULLS LAST,u.created_at DESC,u.id DESC LIMIT 25 OFFSET {(page-1)*25}",*args)
             return {'people':[camel(r) for r in rows],'filters':{'q':query,'role':role or None,'status':status or None,'online':online_only},'page':page,'pageSize':25,'total':total,'totalPages':pages,'onlineCount':online_count,'actorId':str(user['id']),'actorRole':user['role'],'grantableRoles':['student','teacher','admin','owner'] if user['role']=='owner' else ['student','teacher']}
         if kind == 'roster':
             teachers = [camel(r) for r in await con.fetch("SELECT id,name FROM users WHERE role='teacher' ORDER BY name,id LIMIT 1000")]
