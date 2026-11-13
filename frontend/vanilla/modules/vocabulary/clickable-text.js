@@ -13,7 +13,7 @@ import {contextualWordPopover} from './contextual-popover.js';
 /** Reading and Retention places follow the current original contextual rules (see ./contextual-popover.js). */
 const CONTEXTUAL_SOURCES=new Set(['reading','retention','listening']);
 const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
-export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,highlights=[],onHighlightRange,onRemoveHighlight}){
+export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,highlights=[],onHighlightRange,onRemoveHighlight}){
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
  const host=el(tag,{class:className});if(!lexicalAssistance&&!onHighlightRange&&!highlights.length){host.className=`whitespace-pre-line ${className}`;host.setAttribute('data-plain-text','');host.textContent=text;return {node:host,stop:()=>own.abort()};}
@@ -35,7 +35,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
   const hits=occurrences.filter(r=>r.startChar<=selected.start&&r.endChar>=selected.end),occurrence=hits.length===1?hits[0]:undefined;
   return {word:occurrence?.surfaceForm??selected.clean,occurrence};
  }
- function open(i){if(!lexicalAssistance||signal.aborted||!wordNodes.has(i))return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??tokens[i].start,endChar:occurrence?.endChar??tokens[i].end,catalogueLookup,onSavedStatus:saved=>{anchor.dataset.lexicalSaved=saved?'true':'false';},onClose:()=>close(true)});}
+ function open(i){if(!lexicalAssistance||signal.aborted||!wordNodes.has(i))return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??offsetBase+tokens[i].start,endChar:occurrence?.endChar??offsetBase+tokens[i].end,catalogueLookup,onSavedStatus:saved=>{anchor.dataset.lexicalSaved=saved?'true':'false';},onClose:()=>close(true)});}
  function cancelHold(){clearTimeout(hold);hold=null;}
  listen(region,'pointerdown',e=>{clearTimeout(pending);cancelHold();close();gesture={x:e.clientX,y:e.clientY,started:Date.now(),cancelled:e.button!==0};
   const pressed=e.target instanceof Element?e.target.closest('[data-token]'):null;
