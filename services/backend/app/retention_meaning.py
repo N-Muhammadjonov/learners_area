@@ -56,6 +56,22 @@ def presentation(candidate,release):
       'dictionary':{'lexemeId':e['lexeme_id'],'senseId':s['sense_id'],'releaseId':release}}
 
 
+
+async def with_saved_sense(con,user,result):
+    """Attach only the requesting user's already-saved exact dictionary sense."""
+    contextual=result.get('contextual')
+    dictionary=contextual.get('dictionary') if isinstance(contextual,dict) else None
+    identifier=core.uuid_value(dictionary.get('senseId')) if isinstance(dictionary,dict) else None
+    if not identifier:
+        return result
+    owned=await con.fetchrow("""SELECT v.id,v.mastery
+       FROM dictionary_sense_mappings m JOIN user_vocabulary v
+       ON v.lexeme_id=m.app_sense_id
+       WHERE m.sense_id=$1 AND v.user_id=$2 LIMIT 1""",identifier,user['id'])
+    return {**result,'known':{'id':str(owned['id']),'mastery':owned['mastery']} if owned else None}
+
+
+
 async def lookup(con,user,attempt_id,word,start,end):
     from .step21_vocabulary_create import resolve_occurrence
     row=await con.fetchrow('''SELECT v.body_text,a.retention_text_version_id FROM retention_attempts a
@@ -76,7 +92,7 @@ async def lookup(con,user,attempt_id,word,start,end):
     key=(release,hashlib.sha256(row['body_text'].encode()).hexdigest(),start,end)
     cached=_cache.get(key)
     if cached and time.monotonic()-cached[0]<3600:
-        _cache.move_to_end(key);return cached[1]
+        _cache.move_to_end(key);return await with_saved_sense(con,user,cached[1])
     norm=normalize_search(word)
     index=await con.fetchrow("""SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->'EN:*',
       CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) directory
@@ -105,4 +121,103 @@ async def lookup(con,user,attempt_id,word,start,end):
       'contextual':None,'known':None,'alternatives':[presentation(c,release) for c in candidates[:12]]}
     _cache[key]=(time.monotonic(),result)
     while len(_cache)>1024:_cache.popitem(last=False)
-    return result
+    return await with_saved_sense(con,user,result)
+
+
+async def lookup_source_text(con, user, body, word, start, end, *,
+                             source_type=None, source_id=None, section=None):
+    """Prefer an exact editor-linked source occurrence, then dictionary context."""
+    if (not isinstance(body, str) or not isinstance(word, str) or
+            not 0 <= start < end <= length(body) or
+            normalize_search(js_slice(body, start, end)) != normalize_search(word)):
+        return None
+    if source_type in ('reading', 'listening') and source_id:
+        if source_type == 'reading':
+            rows = await con.fetch("""
+                SELECT o.id, o.lexeme_id, o.start_char, o.end_char, o.surface_form,
+                       l.term, l.definition_en, l.translation_uz, l.part_of_speech,
+                       l.provenance, l.verification_status
+                FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
+                WHERE o.source_type='reading' AND o.passage_id=$1
+                  AND o.resolution_status='resolved'
+                  AND o.start_char<=$2 AND o.end_char>=$3
+                ORDER BY o.end_char-o.start_char DESC LIMIT 4
+            """, source_id, start, end)
+        elif isinstance(section, int) and 1 <= section <= 4:
+            rows = await con.fetch("""
+                SELECT o.id, o.lexeme_id, o.start_char, o.end_char, o.surface_form,
+                       l.term, l.definition_en, l.translation_uz, l.part_of_speech,
+                       l.provenance, l.verification_status
+                FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
+                WHERE o.source_type='listening' AND o.listening_test_id=$1
+                  AND o.section_number=$4 AND o.segment_key=$5
+                  AND o.resolution_status='resolved'
+                  AND o.start_char<=$2 AND o.end_char>=$3
+                ORDER BY o.end_char-o.start_char DESC LIMIT 4
+            """, source_id, start, end, section, 's' + str(section))
+        else:
+            rows = []
+        exact = [row for row in rows if (
+            js_slice(body, row['start_char'], row['end_char']) == row['surface_form']
+            and normalize_search(js_slice(body, start, end)) ==
+                normalize_search(js_slice(row['surface_form'],
+                                          start-row['start_char'],
+                                          end-row['start_char']))
+        )]
+        if len(exact) == 1:
+            row = exact[0]
+            saved = await con.fetchrow(
+                """SELECT id, mastery FROM user_vocabulary
+                   WHERE user_id=$1 AND lexeme_id=$2 LIMIT 1""",
+                user['id'], row['lexeme_id'])
+            return {'known': {'id': str(saved['id']),
+                              'mastery': saved['mastery']} if saved else None,
+                    'contextual': {
+                'term': row['term'], 'definitionEn': row['definition_en'],
+                'translationUz': row['translation_uz'],
+                'partOfSpeech': row['part_of_speech'],
+                'provenance': row['provenance'],
+                'verificationStatus': row['verification_status']
+            }, 'occurrenceId': str(row['id'])}
+    release = (await active_release(con))['active_release_id']
+    key = (release, hashlib.sha256(body.encode()).hexdigest(), start, end)
+    cached = _cache.get(key)
+    if cached and time.monotonic() - cached[0] < 3600:
+        _cache.move_to_end(key)
+        return await with_saved_sense(con,user,cached[1])
+    norm = normalize_search(word)
+    if not norm:
+        return None
+    index = await con.fetchrow(
+        """SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->'EN:*',
+                  CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) directory
+           FROM dictionary_search_indexes WHERE release_id=$1""", release, 'EN:' + norm[0])
+    hits = []
+    if index and index['directory']:
+        result = await worker({'action': 'search', 'release': release, 'directory': index['directory'],
+                               'query': word, 'direction': 'EN'})
+        if result.get('release_id') != release:
+            raise ValueError('release_mismatch')
+        hits = [h for h in result.get('results', []) if h.get('match_type') in
+                ('exact_lemma', 'canonical_normalized', 'form')]
+    elif not index:
+        registry = await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1', release)
+        if registry and registry['state'] == 'validated' and registry['delivery'] == 'legacy':
+            hits = [dict(r) for r in await con.fetch(
+                """SELECT DISTINCT lexeme_id FROM dictionary_search_terms
+                   WHERE release_id=$1 AND direction='EN' AND term=$2 LIMIT 3""", release, norm)]
+    candidates = []
+    for hit in hits[:3]:
+        value = await entry(con, core.uuid_value(hit['lexeme_id']), release)
+        if value:
+            candidates.extend({'entry': value, 'sense': sense}
+                              for sense in value['senses'] if sense.get('definition_en'))
+    sentence = js_slice(body, max(0, start-240), start) + '[[' + word + ']]' + js_slice(body, end, min(length(body), end+240))
+    selected = await select_sense(sentence, word, candidates[:40], user_id=user['id']) if candidates else None
+    result = ({'contextual': presentation(selected, release), 'occurrenceId': None} if selected else
+              {'contextual': None, 'known': None,
+               'alternatives': [presentation(c, release) for c in candidates[:12]]})
+    _cache[key] = (time.monotonic(), result)
+    while len(_cache) > 1024:
+        _cache.popitem(last=False)
+    return await with_saved_sense(con,user,result)

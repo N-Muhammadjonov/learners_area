@@ -87,7 +87,88 @@ async def meaning(req:Request):
             if access!='allowed':return core.j({'error':'lexical_assistance_locked'},403,PRIVATE)
             if result is None:return core.j({'error':'source_not_found'},404,PRIVATE)
             return core.j({'status':'resolved' if result.get('contextual') else 'unresolved','known':None,**result},headers=PRIVATE)
-        return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
+        try:
+            start=int(req.query_params['startChar'])
+            end=int(req.query_params['endChar'])
+        except (KeyError,ValueError):
+            return core.j({'error':'invalid_input'},400,PRIVATE)
+        section=req.query_params.get('section')
+        async with db.acquire() as con:
+            if source=='reading':
+                passage=await con.fetchrow('SELECT body_text FROM reading_passages WHERE id=$1',core.uuid_value(id))
+                body=passage['body_text'] if passage else None
+            else:
+                import json
+                record=await con.fetchrow('SELECT payload FROM listening_packages WHERE test_id=$1',core.uuid_value(id))
+                package=record['payload'] if record else {}
+                if isinstance(package,str):package=json.loads(package)
+                parts=package.get('sections',[]) if isinstance(package,dict) else []
+                try:part=int(section or '0')
+                except ValueError:part=0
+                body=parts[part-1].get('transcript') if 1<=part<=len(parts) and isinstance(parts[part-1],dict) else None
+            if not isinstance(body,str):
+                return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
+            from .retention_meaning import lookup_source_text
+            result=await lookup_source_text(con,user,body,term,start,end,source_type=source,source_id=core.uuid_value(id),section=part if source=='listening' else None)
+            if result is None:return core.j({'status':'unresolved','contextual':None,'known':None},headers=PRIVATE)
+            return core.j({'status':'resolved' if result.get('contextual') else 'unresolved',
+                           'known':None,**result},headers=PRIVATE)
     except Exception:return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
+
+
+@router.get('/api/vocabulary/source-saved')
+async def source_saved(req:Request):
+    """Exact source-linked known senses only; never infer a saved sense from spelling."""
+    user=await core.current_user(req,active=True)
+    if not user:return core.j({'error':'unauthenticated'},401,PRIVATE)
+    source=req.query_params.get('sourceType')
+    source_id=core.uuid_value(req.query_params.get('sourceId',''))
+    if source not in ('reading','listening') or not source_id:
+        return core.j({'error':'invalid_input'},400,PRIVATE)
+    try:
+        db=await core.pool()
+        async with db.acquire() as con:
+            access=await text_access(con,user,source,source_id)
+            if access!='allowed':
+                return core.j({'error':'lexical_assistance_locked' if access=='locked' else 'source_not_found'},
+                              403 if access=='locked' else 404,PRIVATE)
+            if source=='reading':
+                body=await con.fetchval('SELECT body_text FROM reading_passages WHERE id=$1',source_id)
+                parts=[body if isinstance(body,str) else '']
+                query="""SELECT o.id,o.start_char,o.end_char,o.surface_form,o.section_number
+                   FROM lexical_occurrences o JOIN user_vocabulary v
+                   ON v.user_id=$1 AND v.lexeme_id=o.lexeme_id
+                   WHERE o.passage_id=$2 AND o.source_type='reading'
+                     AND o.resolution_status='resolved' ORDER BY o.start_char LIMIT 1500"""
+            else:
+                import json
+                payload=await con.fetchval('SELECT payload FROM listening_packages WHERE test_id=$1',source_id)
+                if isinstance(payload,str):payload=json.loads(payload)
+                sections=payload.get('sections',[]) if isinstance(payload,dict) else []
+                parts=[x.get('transcript','') if isinstance(x,dict) else '' for x in sections]
+                query="""SELECT o.id,o.start_char,o.end_char,o.surface_form,o.section_number
+                   FROM lexical_occurrences o JOIN user_vocabulary v
+                   ON v.user_id=$1 AND v.lexeme_id=o.lexeme_id
+                   WHERE o.listening_test_id=$2 AND o.source_type='listening'
+                     AND o.resolution_status='resolved' ORDER BY o.section_number,o.start_char LIMIT 1500"""
+            from .js_text import slice as js_slice, length
+            rows=await con.fetch(query,user['id'],source_id)
+            saved=[]
+            for row in rows:
+                section=row['section_number'] if source=='listening' else 1
+                if not isinstance(section,int) or not 1<=section<=len(parts):
+                    continue
+                body=parts[section-1]
+                start,end=row['start_char'],row['end_char']
+                if (not isinstance(body,str) or not isinstance(start,int) or not isinstance(end,int)
+                    or not 0<=start<end<=length(body)
+                    or js_slice(body,start,end)!=row['surface_form']):
+                    continue
+                saved.append({'occurrenceId':str(row['id']),'startChar':start,'endChar':end,
+                              'section':section})
+        return core.j({'savedOccurrences':saved},headers=PRIVATE)
+    except Exception:
+        return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
+
 
 def install():core.app.include_router(router)

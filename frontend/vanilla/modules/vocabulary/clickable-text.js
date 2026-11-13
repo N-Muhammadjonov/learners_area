@@ -1,4 +1,5 @@
 import {el,listen} from '../../js/dom.js';
+import {api} from '../../js/api-client.js';
 import {tokenise,splitByHighlights,offsetWithin} from '../../js/generated/lexical-text-helpers.js';
 import {phraseTarget} from '../../js/generated/reading-lib/phrase-target.js';
 import {wordPopover} from './word-popover.js';
@@ -11,21 +12,48 @@ import {contextualWordPopover} from './contextual-popover.js';
  *  - `doubleClickLookup`: a lookup opens on double-click, a 3-second press, or keyboard; a single click only selects.
  * Listening passes neither option, so its behaviour is unchanged. */
 /** Reading and Retention places follow the current original contextual rules (see ./contextual-popover.js). */
-const CONTEXTUAL_SOURCES=new Set(['reading','retention']);
-export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,highlights=[],onHighlightRange,onRemoveHighlight}){
+const CONTEXTUAL_SOURCES=new Set(['reading','retention','listening']);
+const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
+const savedSources=new WeakMap();
+function sourceSaved(context,sourceType,sourceId){
+ let cache=savedSources.get(context.signal);
+ if(!cache){cache=new Map();savedSources.set(context.signal,cache);}
+ const key=sourceType+':'+sourceId;
+ if(!cache.has(key)){
+  const url='/api/vocabulary/source-saved?sourceType='+encodeURIComponent(sourceType)+'&sourceId='+encodeURIComponent(sourceId);
+  cache.set(key,api.request(url,{signal:context.signal}).then(value=>Array.isArray(value?.savedOccurrences)?value.savedOccurrences:[]).catch(()=>[]));
+ }
+ return cache.get(key);
+}
+
+export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,sourceOffsetExact=false,highlights=[],onHighlightRange,onRemoveHighlight}){
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
  const host=el(tag,{class:className});if(!lexicalAssistance&&!onHighlightRange&&!highlights.length){host.className=`whitespace-pre-line ${className}`;host.setAttribute('data-plain-text','');host.textContent=text;return {node:host,stop:()=>own.abort()};}
- const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
+ const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
  let active=null,cursor=null,popup,gesture=null,pending=null,hold=null,selection,control;
  // Word spans by token index: a lookup or cursor move touches two nodes, never the whole passage.
  const wordNodes=new Map();let lit=new Set();
  const hint=el('span',{id:hintId,class:'sr-only'},doubleClickLookup?dict.vocabulary.textLookupDoubleHint:dict.vocabulary.textLookupHint),status=el('span',{id:cursorId,role:'status',class:'sr-only'}),region=el(tag,{class:'relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600',...(lexicalAssistance?{'data-clickable-text':'true','aria-describedby':hintId}:{'data-highlight-text':'true'}),...(onHighlightRange?{'data-highlight-surface':'true'}:{}),role:'group',...(words.length||onHighlightRange?{tabindex:0}:{}),'aria-label':lexicalAssistance?dict.vocabulary.textLookup:dict.listening.general.highlight});
  if(lexicalAssistance)host.append(hint);host.append(region,status);
  const fragment=document.createDocumentFragment();
- for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,class:'rounded-sm bg-signal-100 text-ink-900'}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord){const node=el('span',{'data-word':t.clean,'data-token':i},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
+ for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,class:'rounded-sm bg-signal-100 text-ink-900'}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word'},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
  region.append(fragment);
- function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i)){const n=wordNodes.get(i);if(n)n.className='';}for(const i of next){const n=wordNodes.get(i);if(n)n.className='rounded-sm bg-signal-50 text-ink-900';}lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
+ if(lexicalAssistance&&(sourceType==='reading'||sourceType==='listening')&&sourceId){
+  void sourceSaved(context,sourceType,sourceId).then(saved=>{
+   if(signal.aborted)return;
+   const ids=new Set(saved.map(row=>row.occurrenceId));
+   for(const [index,node] of wordNodes){
+    const row=target(index).occurrence,token=tokens[index],
+     start=offsetBase+token.start,end=offsetBase+token.end;
+    if(row&&ids.has(row.id)||
+       sourceOffsetExact&&saved.some(item=>item.startChar<=start&&item.endChar>=end)){
+      node.dataset.lexicalSaved='true';
+    }
+   }
+  });
+ }
+ function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i)){const n=wordNodes.get(i);if(n)n.classList.remove('rounded-sm','bg-signal-50','text-ink-900');}for(const i of next){const n=wordNodes.get(i);if(n)n.classList.add('rounded-sm','bg-signal-50','text-ink-900');}lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
  function close(focus=false){popup?.stop();popup=null;active=null;paint();if(focus&&!signal.aborted)region.focus({preventScroll:true});}
  /** The lookup target of one word token: the phrase (when phrase-aware) or the single contextual hit. */
  function target(i){
@@ -34,11 +62,11 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
   const hits=occurrences.filter(r=>r.startChar<=selected.start&&r.endChar>=selected.end),occurrence=hits.length===1?hits[0]:undefined;
   return {word:occurrence?.surfaceForm??selected.clean,occurrence};
  }
- function open(i){if(!lexicalAssistance||signal.aborted)return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??tokens[i].start,endChar:occurrence?.endChar??tokens[i].end,catalogueLookup,onClose:()=>close(true)});}
+ function open(i){if(!lexicalAssistance||signal.aborted||!wordNodes.has(i))return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??offsetBase+tokens[i].start,endChar:occurrence?.endChar??offsetBase+tokens[i].end,catalogueLookup,onSavedStatus:saved=>{anchor.dataset.lexicalSaved=saved?'true':'false';},onClose:()=>close(true)});}
  function cancelHold(){clearTimeout(hold);hold=null;}
  listen(region,'pointerdown',e=>{clearTimeout(pending);cancelHold();close();gesture={x:e.clientX,y:e.clientY,started:Date.now(),cancelled:e.button!==0};
   const pressed=e.target instanceof Element?e.target.closest('[data-token]'):null;
-  if(lexicalAssistance&&doubleClickLookup&&e.button===0&&pressed&&region.contains(pressed)){const index=Number(pressed.dataset.token);hold=setTimeout(()=>{hold=null;if(gesture?.cancelled||signal.aborted)return;hideControl();window.getSelection()?.removeAllRanges();open(index);},3000);}
+  if(lexicalAssistance&&doubleClickLookup&&e.button===0&&pressed&&wordNodes.has(Number(pressed.dataset.token))&&region.contains(pressed)){const index=Number(pressed.dataset.token);hold=setTimeout(()=>{hold=null;if(gesture?.cancelled||signal.aborted)return;hideControl();window.getSelection()?.removeAllRanges();open(index);},3000);}
  },signal);
  listen(region,'pointermove',e=>{if(gesture&&Math.hypot(e.clientX-gesture.x,e.clientY-gesture.y)>8){gesture.cancelled=true;cancelHold();}},signal);
  listen(region,'pointerup',cancelHold,signal);listen(region,'pointerleave',cancelHold,signal);

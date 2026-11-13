@@ -26,3 +26,6 @@
 /* Original ClickableText panel width (fixed w-[min(20rem,calc(100vw-24px))]); kept here so the global Tailwind CSS identity stays pinned. */
 .dictionary-context-panel { width: min(20rem, calc(100vw - 24px)); }
 .dictionary-context-panel ul { list-style-position: inside; }
+
+.lexical-dotted-word { text-decoration-line:underline; text-decoration-style:dotted; text-decoration-thickness:1px; text-underline-offset:.2em; text-decoration-color:#4cafff; cursor:help; }
+.lexical-dotted-word[data-lexical-saved="true"] { text-decoration-color:#f8ba36; }

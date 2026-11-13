@@ -98,4 +98,24 @@ async def finish_reading(req:Request,id:str):
             if obj is None:return problem('retention_attempt_not_found')
     return core.j({'idempotent':idempotent,**obj})
 
+@router.delete('/api/retention/attempts/{id}')
+async def abandon(req:Request,id:str):
+    """Discard only the caller's unfinished attempt; never touch finalized history."""
+    user=await core.current_user(req,active=True)
+    if not user:return core.auth_error()
+    identifier=core.uuid_value(id)
+    if not identifier:return problem('retention_attempt_not_found')
+    try:
+        db=await core.pool()
+        async with db.acquire() as con:
+            async with con.transaction():
+                removed=await con.fetchval("""DELETE FROM retention_attempts
+                  WHERE id=$1 AND user_id=$2 AND status IN ('reading','recall')
+                  RETURNING id""",identifier,user['id'])
+        return core.j({'ok':True,'discarded':bool(removed)},
+                      headers={'Cache-Control':'private, no-store'})
+    except Exception:
+        return problem('retention_unavailable')
+
+
 def install():core.app.include_router(router)

@@ -144,6 +144,19 @@ function retentionSession(context,initial,onTerminal){
  const state={payload:initial,selected:'A2',busy:false,error:null,unknown:false,rechecking:false,refreshFailed:false,skew:initial?Date.parse(initial.serverNow)-Date.now():0};
  let ticker=null,poll=null,inFlight=null;
  const alive=()=>!signal.aborted;
+ // Navigating away invalidates the unfinished attempt. The server owns the final-state check.
+ let discardSent=false;
+ function discardUnfinished(){
+  const p=state.payload;
+  if(discardSent||!p||!isActive(p))return;
+  discardSent=true;
+  try{void fetch('/api/retention/attempts/'+encodeURIComponent(p.attemptId),{
+   method:'DELETE',credentials:'same-origin',cache:'no-store',keepalive:true
+  }).catch(()=>{});}catch{}
+ }
+ signal.addEventListener('abort',discardUnfinished,{once:true});
+ window.addEventListener('pagehide',discardUnfinished);
+ signal.addEventListener('abort',()=>window.removeEventListener('pagehide',discardUnfinished),{once:true});
  signal.addEventListener('abort',()=>{clearInterval(ticker);clearInterval(poll);},{once:true});
  const errorText=code=>(code&&t.errors[code])||t.errors.retention_unavailable;
  const banner=msg=>el('p',{class:'panel border-signal-300 text-sm text-signal-700',role:'alert','data-retention-error':true},msg);
@@ -152,7 +165,7 @@ function retentionSession(context,initial,onTerminal){
  async function start(level){
   if(state.busy||state.unknown)return;state.busy=true;state.error=null;draw();
   const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),12000);
-  try{const body=await api.request('/api/retention/attempts',{method:'POST',body:{level},signal:ctl.signal});if(!alive())return;
+  try{const body=await api.request('/api/retention/attempts',{method:'POST',body:{level},signal:ctl.signal});if(!alive()){if(body?.attemptId)void fetch('/api/retention/attempts/'+encodeURIComponent(body.attemptId),{method:'DELETE',credentials:'same-origin',cache:'no-store',keepalive:true}).catch(()=>{});return;}
    if(body?.attemptId&&body?.phase){void navigate('/app/reading/retention/session');return;}
    state.error=t.startUnknownOutcome;}
   catch(e){if(!alive())return;if(e?.code&&e.status&&e.status<500){state.error=errorText(e.code);}else{state.unknown=true;state.error=t.startUnknownOutcome;void recheck();}}

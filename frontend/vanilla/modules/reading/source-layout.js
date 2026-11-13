@@ -1,14 +1,36 @@
 import {el} from '../../js/dom.js';
+import {clickableText} from '../vocabulary/clickable-text.js';
 const allowed=new Set('div p span strong b em i u sup sub br table thead tbody tfoot tr td th ul ol li h2 h3 h4 img label input select option fieldset legend'.split(' '));
 /** Source HTML supplies layout only. No script, event, URL grant or answer key executes here. */
-export function sourceDocument(html,{skipTitle=false}={}){
+export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceId=null,sourceBody=''}={}){
  const root=el('div',{'data-reading-source':''});const doc=new DOMParser().parseFromString(html,'text/html');
  for(const node of [...doc.body.querySelectorAll('*')]){
   if(!allowed.has(node.localName)){if(['script','style','iframe','object','embed','form','link'].includes(node.localName))node.remove();else node.replaceWith(...node.childNodes);continue;}
   for(const attr of [...node.attributes])if(!['class','type','value','placeholder','colspan','rowspan','alt','src','data-source-numbers'].includes(attr.name))node.removeAttribute(attr.name);
   if(node.localName==='img'&&!/^data:image\/(png|jpe?g|webp);base64,/i.test(node.getAttribute('src')||''))node.removeAttribute('src');
  }
- if(skipTitle)doc.body.querySelector('.pass-title')?.remove();root.append(...doc.body.childNodes);return root;
+ if(skipTitle)doc.body.querySelector('.pass-title')?.remove();
+ root.append(...doc.body.childNodes);
+ if(lexicalContext&&sourceId&&typeof sourceBody==='string'){
+  const walker=root.ownerDocument.createTreeWalker(root,root.ownerDocument.defaultView.NodeFilter.SHOW_TEXT);
+  const textNodes=[];let node;
+  while((node=walker.nextNode()))textNodes.push(node);
+  let cursor=0;
+  for(const textNode of textNodes){
+   const value=textNode.nodeValue??'',parent=textNode.parentElement;
+   if(!/[A-Za-z]{2}/.test(value)||!parent||parent.closest('input,select,option,button,label,[data-clickable-text]'))continue;
+   let at=sourceBody.indexOf(value,cursor);
+   if(at<0)at=sourceBody.indexOf(value.trim(),cursor);
+   if(at<0)continue;
+   const item=clickableText(lexicalContext,{
+    text:value,sourceType:'reading',sourceId,inline:true,
+    lexicalAssistance:true,doubleClickLookup:true,offsetBase:at,sourceOffsetExact:true
+   });
+   textNode.replaceWith(item.node);
+   cursor=Math.max(cursor,at+value.length);
+  }
+ }
+ return root;
 }
 export function sourceQuestions({group,questions,answers,onChange}){
  const root=sourceDocument(group.sourceHtml),byNumber=new Map(questions.map(q=>[q.sourceQuestionNo??q.questionNo,q]));
