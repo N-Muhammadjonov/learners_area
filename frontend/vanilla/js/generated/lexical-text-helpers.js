@@ -28,7 +28,7 @@ export function splitByHighlights(token, highlights) {
         const to = points[index + 1];
         if (from === to)
             continue;
-        parts.push({ value: token.value.slice(from - token.start, to - token.start), highlightId: covering(from)?.id ?? null });
+        parts.push({ value: token.value.slice(from - token.start, to - token.start), highlightId: covering(from)?.id ?? null, color: covering(from)?.color ?? 'blue' });
     }
     if (!parts.some((part) => part.highlightId))
         return null;
