@@ -1,9 +1,9 @@
 # Stability va SEO tekshiruvi — 2026-11-14
 
-Holat: to‘liq Definition of Done bajarilmagan. Mahalliy kod tayyor, lekin 1 backend va 8 frontend testi qizil. Ularning sabablari quyida ochiq ko‘rsatilgan. Productionga deploy qilinmadi, main’ga push/merge qilinmadi, real bazalar va production secretlari o‘qilmadi yoki o‘zgartirilmadi.
+Holat: to‘liq Definition of Done bajarilmagan. Mahalliy kod tayyor, lekin 1 backend va 5 frontend testi qizil. Ularning sabablari quyida ochiq ko‘rsatilgan. Productionga deploy qilinmadi, main’ga push/merge qilinmadi, real bazalar va production secretlari o‘qilmadi yoki o‘zgartirilmadi.
 
-Repo: `N-Muhammadjonov/learners_area`  
-Mahalliy branch: `fix/stability-seo-pass-20261114`  
+Repo: `N-Muhammadjonov/learners_area`
+Mahalliy branch: `fix/stability-seo-pass-20261114`
 Boshlang‘ich commit: `f57647f9e939336fe83ae1d379af0beff3ad47b6`
 
 ## Muhit va nashr holati
@@ -26,7 +26,7 @@ Boshlang‘ich commit: `f57647f9e939336fe83ae1d379af0beff3ad47b6`
 | C. Landing hajmi | fixed-untested, browser tarmog‘i bo‘yicha | `auth/public.js` faqat `/` va `/landing` ichida dynamic import qiladi; abort/nonce/source/origin/path tekshiruvlari saqlandi. 10 WebP asl bytes bilan `/brand/landing/`ga chiqarildi. Byte tengligi testi o‘tdi. Import xatosi static fallbackni saqlaydi. | `/login`dagi haqiqiy HTTP JS bytes va browser request count o‘lchanmagan; pastdagi gzip sonlari fayl bytes hisobidir. |
 | D. SEO | fixed | Python build fallbackni LANDING_HTML’ning ayni matni va dinamik feature/step/FAQ massivlaridan generatsiya qiladi. Bir h1, sectionlar, 17-savol tavsifi, 3 FAQ, login/register havolalari va mos FAQPage bor. WebSite/meta/canonical/robots siyosati o‘zgarmagan. `test_public_seo.py`: 22 pass. JSDOM iframe loadgacha fallback saqlanishini isbotladi. | Real browserda swap vizual tengligi tekshirilmagan. HTTP socket o‘rniga ASGI TestClient ishlatildi; curl muvaffaqiyati da’vo qilinmaydi. |
 | E. Landing natijasini ishlatish | fixed-untested, real Postgres bo‘yicha | Raw canonical answer indekslari saqlanadi. `score_public_hint()` client score/levelni authority deb olmaydi. Version/schema/4096-byte limit/24h TTL va 17 ta javob tarkibi tekshiriladi. Existing activity_events bilan idempotent consume, current_level va in-app natijaga ustuvorlik saqlandi. Hint transporti 401 holatida auth-failure event chiqarmaydi va login navigationini to‘xtatmaydi. | Haqiqiy DB tranzaksiya/integration tekshiruvi ishlamadi. Public bank 45, in-app bank 150: to‘liq tenglik hal qilinmagan. |
-| F. Test va CI | qisman fixed, qolganlari skipped emas — real fail | Eskirgan route sonlari o‘rniga method/path/name snapshoti va historic route preservation tekshiruvi qo‘shildi. Fixture va realm xatolari tuzatildi. Python 3.14 + Postgres 17:55439 + pytest-timeout + npm ci/test/build CI qo‘shildi. Deleted premium-landing workflow reference yangilandi. | Yakuniy 1 backend va 8 frontend fail quyida sanalgan. CI green deb ko‘rsatilmaydi. |
+| F. Test va CI | qisman fixed, qolganlari skipped emas — real fail | Eskirgan route sonlari o‘rniga method/path/name snapshoti va historic route preservation tekshiruvi qo‘shildi. Fixture va realm xatolari tuzatildi. Python 3.14 + Postgres 17:55439 + pytest-timeout + npm ci/test/build CI qo‘shildi. Deleted premium-landing workflow reference yangilandi. | Yakuniy 1 backend va 5 frontend fail quyida sanalgan. CI green deb ko‘rsatilmaydi. |
 | G. Proxy va rate identity | fixed | Telegram redirect va video embedOrigin `security.request_origin()`dan foydalanadi. Trusted/untrusted forwarded host/proto testlari o‘tdi. Productionda unverified peer IP uchun bir martalik startup WARNING va bounded operator override hujjati qo‘shildi. | `client_key` va `proxy_headers=False` saqlandi. Amaldagi request_origin PUBLIC_BASE_URL’ni output uchun ishlatmaydi; bu promptdagi taxmindan farq qiladi. Bu trust mantiqi kengaytirilmadi. |
 | H. Kichik security ishlari | fixed / skipped | AUTH_SECRET 16 belgilik minimumi va mavjud sessiyalar saqlandi; production/previewda 32 dan qisqa qiymat uchun bir martalik WARNING bor. HTTPS cookie Secure holati unit testda saqlandi. | Production secret uzunligi o‘qilmadi. is_https() o‘zgartirilmadi. Srcdoc postMessage target origin real browserda tekshirilmagani uchun `*` saqlandi; parent validatsiyasi saqlandi. |
 | I. Capacity | fixed-untested, real yuklama bo‘yicha | Bcrypt uchun alohida 1..8 slot va 0.5..10s kutish, default 3s. Boshqa blocking ishlar 2 slot/1s. Ordinary budjet 1..1024, default 64. Busy 503 va acquire >250ms uchun rate-limited WARNING. YouTube cache 512 + TTL + oldest eviction. Login POST uchun max 2 Retry-After+jitter retry. 32 ta focused backend va 5 ta focused frontend testi o‘tdi. | Bcrypt cost 12/decoy/rate reservation release/503 saqlandi. Before/after probe ishga tushdi, ammo barcha TCP ulanishlar rad etildi; throughput oshdi deb da’vo qilinmaydi. |
@@ -62,11 +62,11 @@ Static CSS diff faqat uchta motion blokining olib tashlanganini tasdiqladi. Bosh
 | To‘plam | Baseline | Yakuniy |
 |---|---|---|
 | Backend | 6175 pass, 22 fail, 20 error; 282 subtest pass | 6206 pass, 1 fail, 23 xfail; 282 subtest pass |
-| Frontend | 1669 pass, 22 fail, 11 skip | 1693 pass, 8 fail, 12 skip |
+| Frontend | 1669 pass, 22 fail, 11 skip | 1696 pass, 5 fail, 12 skip |
 | Public SEO | eski fallback assertioni fail | 22 pass, xfail emas |
 | Scope check | yaratildi | pass |
 
-Yakuniy backend full run: 57.59s. Yakuniy frontend full run: 71499.658875ms. Oldingi oraliq backend runidagi 6207 pass soni to‘liq bank tengligi qayta qat’iy tekshirilishidan oldingi holat edi. Yakuniy natijada ushbu nomuvofiqlik yashirilmagan.
+Yakuniy backend full run: 57.59s. Yakuniy frontend full run: 43009.520333ms. Oldingi oraliq backend runidagi 6207 pass soni to‘liq bank tengligi qayta qat’iy tekshirilishidan oldingi holat edi. Yakuniy natijada ushbu nomuvofiqlik yashirilmagan.
 
 ### Qolgan real fail testlari
 
@@ -75,9 +75,6 @@ Yakuniy backend full run: 57.59s. Yakuniy frontend full run: 71499.658875ms. Old
 | backend `test_study_plan_level::test_in_app_bank_stays_identical_to_landing_reference` | Public Q massivi 45, canonical bank 150. Umumiy 45 savolning matn/variant/javobi mos, ammo bu butun bank tengligini anglatmaydi. Test faqat umumiy qism bilan yumshatilmadi. Savol bankini kengaytirish landing mazmuni/behavior chegarasiga zid. |
 | frontend `hover-system::first-party site assets do not branch on the system motion preference` | Landing tuzatildi, lekin sequence.css media bloki CSS freeze ichida. Unmodified test fail. |
 | frontend `phase1-design` — student, teacher, admin, owner navigation testlari, 4 ta | `ModuleEmoji` uchun `leaderboard` mark yo‘q, `marks[kind] is not a function`. Glyph yoki boshqa renderer qo‘shish boshqa sahifa markupini o‘zgartiradi; D2 faqat headline font va no-JS fallbackni ruxsat qiladi. |
-| frontend `reference-layout-v72::Reading intro remains white and readable...` | Reading intro haqiqiy rang/readability nomuvofiqligi. Reading tizimi va CSS qat’iy muzlatilgan. Assertion yangilanmadi. |
-| frontend `staff-final30/slice1-people::people ... Admin does not open academic results` | Frontend admin uchun detail havola chiqaradi. Backend academic detail owner/assigned teacher bilan cheklangan. Ruxsat kengaytirilmadi; boshqa sahifa ko‘rinishi ham o‘zgartirilmadi. |
-| frontend `student-profile-consolidation::owner student detail ...` | Xuddi shu mismatch: frontend roles `admin,owner`, test/backend esa owner policyga bog‘langan. Server authorizationi yumshatilmadi. |
 
 ### Baseline’dagi har bir backend xatosi tasnifi
 
@@ -107,14 +104,20 @@ Yakuniy backend full run: 57.59s. Yakuniy frontend full run: 71499.658875ms. Old
 | navigation, 4 role | real | Missing leaderboard mark. D2 sabab qoldi. |
 | utilities focus | stale | Bir xil pathname’da query o‘zgarsa Focus saqlanadi, boshqa pathname’da reset tekshiriladi. |
 | InstantLink timers, 2 ta | stale | Yangi grammar warm timeri qo‘shilgan; idle timerlar soni 2. Cancel va no-import checks saqlangan. |
-| Reading intro palette | real | Frozen scope sabab qoldi. |
+| Reading intro palette | stale | Approved `3ef29c997` commit Day/Night palitrasini ataylab yoqqan. Oq rang assertioni site paper tokenini meros olish assertioniga almashtirildi; 4.5 contrast va barcha 4 theme/focus kombinatsiya tekshiruvlari saqlandi. |
 | ICE restart | harness | Signalling ready handshake fixtureda yo‘q edi. Socket ready xabari berilgach restart yuborilishi tekshiriladi. |
 | staff 38-route scope extras | stale | study-plans qo‘shilgan extra route ro‘yxatda aniq ko‘rsatiladi. |
 | study-plans V4 table missing | real bug | Allaqachon yozilgan route dispatch va static allow-listga ulanmagan edi; ikkala jadvalga ulandi. |
-| people admin detail | real policy mismatch | Yuqorida. |
+| people admin detail | stale | Admin havolasi academic detail emas, allaqachon authorized plan-only entry ekanligi tasdiqlandi. Staff account havolalari yopiq qoladi. |
 | staff 37/38 | stale | Actual 38 va uniqueness tekshiruvi. |
-| student detail roles | real policy mismatch | Yuqorida. |
+| student detail roles | stale | `6b74bbc61` ataylab admin plan-only wrapper qo‘shgan. Runtime test admin faqat bitta staff plan endpointini chaqirishi va full academic review ochmasligini isbotlaydi; owner/teacher full renderer delegation saqlandi. |
 | profile currentBand | stale | Amaldagi formda bu field yo‘q; mavjud PATCH kontrakti tekshiriladi. |
+
+Reading/admin testlari bo‘yicha tekshirilgan manbalar:
+
+- [Day/Night palitrasini ataylab yoqqan commit](https://github.com/N-Muhammadjonov/learners_area/commit/3ef29c9974d032bea9faa229292efe80bb06f669).
+- [Admin uchun plan-only entry commiti](https://github.com/N-Muhammadjonov/learners_area/commit/6b74bbc61a3d5f9cc438fb6aa621e5732e5a7ee3).
+- Ushbu uchta assertion yangilangach focused run: 38 pass. Reading frontend/backend kodi va CSS fayllari o‘zgarmadi. Admin faqat plan view olishi runtime testda, academic endpointlar esa mavjud server authorization testlarida tekshirildi.
 
 ## Har bir xfail va sababi
 
@@ -190,12 +193,14 @@ Qo‘shimcha source risk: `0086_study_plan_30_sequence.sql`da level-check correc
 3. Production AUTH_SECRET uzunligi: bu ish uni o‘qimadi. 16-char minimum saqlanadi; yangi sozlash uchun >=32 random chars. Rotatsiya sessiyalarni bekor qiladi va bu ishda bajarilmadi.
 4. Migration immutability: yuqoridagi main tarixidagi 0086/0092 modifikatsiyalarining release/DB holatini alohida tasdiqlash; kerak bo‘lsa alohida forward-only migration topshirig‘i. Hozirgi 15/17 constraint farqini ham shu scope’da tekshirish.
 5. Public/in-app bank: 45/150 farqini haqiqiy tenglikka keltirish uchun public savollar poolini kengaytirishga ruxsat berish yoki tenglik talabi aynan umumiy public subset ekanini aniqlashtirish. Hozirgi qat’iy test qizil saqlangan.
-6. CSS/Reading/UI freeze: sequence.css media bloki, Reading intro palette, missing leaderboard mark va admin academic detail policy mismatchni tuzatish uchun aniq scope istisnosi kerak. Server ruxsati o‘zboshimchalik bilan kengaytirilmaydi.
-7. Font: Latin va latin-extni qamrab oladigan Bricolage WOFF2 va OFL fayllarini olish imkonini yaratish. Shundan keyin self-host va haqiqiy browser font-load/CSP tekshiruvi.
+6. CSS/Reading/UI freeze: sequence.css media bloki va missing leaderboard markni tuzatish uchun aniq scope istisnosi kerak. Reading palitrasi hamda admin plan-only entry bo‘yicha testlar Git tarixi bilan tasdiqlangan amaldagi behaviorga moslandi; product kodi yoki server ruxsati o‘zgarmadi.
+7. Font: Latin va latin-extni qamrab oladigan Bricolage WOFF2 va OFL fayllarini olish imkonini yaratish. Shundan keyin self-host va haqiqiy browser font-load/CSP tekshiruvi. [Rasmiy font katalogi](https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque).
 8. Browser/TCP/Postgres cheklovi bo‘lmagan test muhiti: pixel equivalence, CTA origin, font load va real capacity dalillari. is_https()/postMessage o‘zgarishi shundan oldin qilinmaydi.
 9. Tayyor mahalliy kod va rasmlarni aynan `N-Muhammadjonov/learners_area` public reposidagi `fix/stability-seo-pass-20261114` branchiga yuklash uchun alohida tasdiq. Bu ehtiyoj avtomatik approval review rad javobidan kelgan; kod main’ga yuborilmaydi.
 
 ## Tekshiruv buyruqlari
+
+Load probe uchun dev dependency zarur bo‘lsa: `python3 -m pip install -r services/backend/requirements-dev.txt -r scripts/loadtest/requirements.txt`. Bu yangi runtime dependency emas. Quyidagi test/build buyruqlari hisobotdagi natijalar bilan real bajarilgan.
 
 ```sh
 bash scripts/scope_check.sh
