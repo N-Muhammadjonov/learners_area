@@ -121,11 +121,19 @@ async def authored(req:Request,id:str):
             name_spans={}
             for index, section in enumerate(sections,1):
                 transcript=section.get('transcript','') if isinstance(section,dict) else ''
+                named_entities=re.finditer(
+                    r'\b[A-Z][a-z]+(?:[ \t]+[A-Z][a-z]+)+\b',transcript
+                )
+                speaker_labels=re.finditer(
+                    r'(?m)^[ \t]*([A-Za-z][A-Za-z \t]{0,38}):',
+                    transcript
+                )
                 name_spans[index]=[
                     (js_length(transcript[:m.start()]),js_length(transcript[:m.end()]))
-                    for m in re.finditer(
-                        r'\b[A-Z][a-z]+(?:[ \t]+[A-Z][a-z]+)+\b',transcript
-                    )
+                    for m in named_entities
+                ]+[
+                    (js_length(transcript[:m.start(1)]),js_length(transcript[:m.end(1)]))
+                    for m in speaker_labels
                 ]
             spans=[]
             for row in entries:
