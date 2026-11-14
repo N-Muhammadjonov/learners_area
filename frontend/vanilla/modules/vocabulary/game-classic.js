@@ -46,7 +46,7 @@ export function classicGame(ctx,host,{id,words,answer,progress={},save=async()=>
  prepare();if(!Array.isArray(progress.deck)&&deck.length)void save({deck:deck.map(w=>w.id),index,correct});paint();
 }
 
-export function matchingGame(ctx,host,{words,answer,progress={},save=async()=>true}){
+export function matchingGame(ctx,host,{words,answer,progress={},save=async()=>true,onRetry}){
  const g=ctx.dict.vocabulary.games,timers=gameTimers(ctx);let left,right,selected=null,wrong=null,matched=new Set(),busy=false,error=false,epoch=0;
  function restart(){epoch++;timers.cancel();left=shuffle(eligibleWords(words,'match')).slice(0,6);right=shuffle(left);selected=null;wrong=null;matched=new Set();busy=false;error=false;void save({left:left.map(w=>w.id),right:right.map(w=>w.id),matched:[]});paint();}
  async function choose(word){
