@@ -1,6 +1,6 @@
 """Reading catalogue, owned attempts and explicit learning-check hydration."""
 from .reading_presentation import for_passage
-from .reading_lexical_policy import is_verified_reading_gloss
+from .reading_lexical_policy import reading_glosses, paragraph_offsets
 from .reading_draft import draft_hash
 import hashlib
 import math
@@ -71,6 +71,8 @@ async def section(con, passage_id, reveal=False, inline_glosses=False):
     groups = await con.fetch('SELECT * FROM reading_question_groups WHERE passage_id=$1 ORDER BY position,id',passage_id)
     paragraphs = await con.fetch('SELECT * FROM reading_passage_paragraphs WHERE passage_id=$1 ORDER BY position,id',passage_id)
     if inline_glosses:
+        paragraphs = paragraph_offsets(passage['body_text'], paragraphs)
+    if inline_glosses:
         occurrence_rows = await con.fetch('''SELECT o.id,o.start_char,o.end_char,o.surface_form,
            l.definition_en,l.translation_uz,l.part_of_speech
            FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
@@ -80,7 +82,7 @@ async def section(con, passage_id, reveal=False, inline_glosses=False):
             {'id':row['id'],'start_char':row['start_char'],'end_char':row['end_char'],
              'surface_form':row['surface_form'],'definition_en':row['definition_en'],
              'translation_uz':row['translation_uz'],'part_of_speech':row['part_of_speech']}
-            for row in occurrence_rows if is_verified_reading_gloss(passage['body_text'],row)
+            for row in reading_glosses(passage['body_text'], occurrence_rows)
         ]
     else:
         occurrences = await con.fetch('SELECT id,start_char,end_char,surface_form FROM lexical_occurrences WHERE passage_id=$1',passage_id)

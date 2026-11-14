@@ -123,7 +123,7 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
    passage.sourceHtml?sourceDocument(passage.sourceHtml,{skipTitle:true,lexicalContext:context,sourceId:passageId,sourceBody:passage.body,occurrences:passage.occurrences,highlightScope}):el('div',{class:'reading-passage-text','data-passage-body':true},
     passage.paragraphs.length?passage.paragraphs.map(paragraph=>el('div',{class:'reading-paragraph'},
      paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
-     readingHighlighted(context,{scope:highlightScope,textKey:paragraph.id,text:paragraph.text,lexicalAssistance:true,occurrences:occurrenceSpans(passage.body,paragraph.text,passage.occurrences),sourceId:passageId,verifiedOnly:true,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))):
+     readingHighlighted(context,{scope:highlightScope,textKey:paragraph.id,text:paragraph.text,lexicalAssistance:true,occurrences:occurrenceSpans(passage.body,paragraph.text,passage.occurrences,paragraph.startChar),sourceId:passageId,verifiedOnly:true,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))):
     readingHighlighted(context,{scope:highlightScope,textKey:passageId,text:passage.body,lexicalAssistance:true,occurrences:occurrenceSpans(passage.body,passage.body,passage.occurrences),sourceId:passageId,verifiedOnly:true,className:'academic-text'})));
  }
  function buildQuestions(){
