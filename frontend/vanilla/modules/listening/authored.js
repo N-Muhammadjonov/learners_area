@@ -176,6 +176,19 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  function cancelRetries(){for(const read of retryReads.values())read.abort();retryReads.clear();}
  async function readBlob(url,signal){if(!url.startsWith('/api/resources/'))throw Error('Invalid authored resource');const r=await fetch(url,{signal:anySignal([liveSignal,...(signal?[signal]:[]),AbortSignal.timeout(25000)]),credentials:'same-origin',cache:'no-store',redirect:'error'});if(r.status===401)window.dispatchEvent(new Event('learners-area:auth-failure'));if(!r.ok)throw Error('Resource unavailable');return r.blob();}
  function selectionClose(){reviewLexicalNotice.remove();reviewLexicalVersion++;reviewLexicalController?.abort();reviewLexicalController=null;popup?.stop();popup=null;dialog?.remove();dialog=null;anchor?.remove();anchor=null;}
+ // Word popovers live in the parent document, while transcript clicks occur
+ // in a sandboxed iframe. A parent pointer listener alone cannot see them.
+ // Closing on frame focus and all outside-parent clicks avoids stale dialogs.
+ document.addEventListener('pointerdown',event=>{
+  if(!popup)return;
+  const target=event.target instanceof Element?event.target:null;
+  if(target?.closest('[data-word-popover]'))return;
+  selectionClose();
+ },{capture:true,signal:liveSignal});
+ window.addEventListener('blur',()=>{
+  if(popup&&document.activeElement===frame)selectionClose();
+ },{signal:liveSignal});
+
  function paint(){if(liveSignal.aborted||!content||!path)return;documentVersion++;reviewAction=null;lastReviewAction=0;resetRecoveryReads();token=crypto.randomUUID();reviewEpoch++;reviewView=null;reviewAckVisible=false;reviewWriter.saved=null;selectionClose();vocabularyRead=null;vocabulary=[];invalidateDiscovery();for(const node of host.querySelectorAll('[data-review-recovery],[data-review-retained]'))node.remove();authorityBarrier.supersede();authorityBlocked=false;authorityFocus=false;navigationNotice.remove();rangeCache=content.nativePersistence?null:rangeMedia?.cachedRanges()??rangeCache;rangeMedia?.dispose();rangeMedia=null;media?.dispose();media=null;lastReviewIntent=0;navigationReady=false;navigationPending=0;clearTimeout(frameReadyTimer);frameReadyTimer=null;frameFailureShown=false;locationRequested=wantedLocation?.activity==='review';navigationAuthority=locationRequested;clearTimeout(navigationTimer);frameAbort?.abort();frameAbort=new AbortController();if(frame){cancelRetries();hubReady=false;stateReady=false;earlyMedia=[];void media?.command({mediaId:media.snapshot().mediaId,action:'pause'});}let html=content.runtime.files[path]??'';for(const [name,url]of Object.entries(assets)){html=html.replaceAll(`[embedded:${name}]`,url);html=html.replace(new RegExp(`(["'])${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\1`,'g'),`"${url}"`);}
  html=html.replace(/\b(src|href)=(['"])([^'"]+)\2/gi,(match,attr,quote,value)=>{const asset=assets[resolvePath(path,value)??''];return asset?`${attr}=${quote}${asset}${quote}`:match;});// All authored Listening tests share this one exam startup implementation.
  // Do not create a hidden second Start audio button in the IELTS toolbar on
