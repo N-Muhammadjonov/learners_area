@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fix/listening-retention-lexical-20261113
+      - fix/listening-first-three-tests-lexical-20261114
     paths:
       - '.github/workflows/reading-listening-lexical-qa.yml'
       - 'frontend/vanilla/**'
