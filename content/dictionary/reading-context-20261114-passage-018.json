@@ -629,10 +629,10 @@
     {
       "testNo": 6,
       "passageNo": 3,
-      "surface": "snap decisions",
+      "surface": "snap",
       "partOfSpeech": "noun phrase",
-      "translationUz": "tezkor qarorlar",
-      "definitionEn": "choices made almost instantly"
+      "translationUz": "bir lahzalik",
+      "definitionEn": "made almost instantly without extensive analysis"
     },
     {
       "testNo": 6,
@@ -1181,10 +1181,10 @@
     {
       "testNo": 6,
       "passageNo": 3,
-      "surface": "standard theory",
+      "surface": "political and managerial theory",
       "partOfSpeech": "noun phrase",
-      "translationUz": "an’anaviy nazariya",
-      "definitionEn": "a widely accepted explanatory framework"
+      "translationUz": "siyosiy va boshqaruv nazariyasi",
+      "definitionEn": "the established explanation of political and managerial decision making"
     },
     {
       "testNo": 6,
