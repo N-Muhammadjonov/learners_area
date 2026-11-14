@@ -8,8 +8,8 @@ import subprocess
 base = 'f57647f9e939336fe83ae1d379af0beff3ad47b6'
 def git(*args):
     return subprocess.check_output(['git', *args], text=True)
-paths = set(git('diff', '--name-only', base, 'HEAD').splitlines())
-paths.update(git('diff', '--name-only', base).splitlines())
+paths = set(git('diff', '--name-only', '--no-renames', base, 'HEAD').splitlines())
+paths.update(git('diff', '--name-only', '--no-renames', base).splitlines())
 paths.update(git('ls-files', '--others', '--exclude-standard').splitlines())
 errors = []
 for path in sorted(paths):

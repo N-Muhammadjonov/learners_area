@@ -20,7 +20,7 @@ def test_in_app_bank_stays_identical_to_landing_reference():
     content = json.JSONDecoder().raw_decode(re.split(r'export const LANDING_HTML\s*=', source.read_text(), maxsplit=1)[1].lstrip())[0]
     original = json.loads(re.search(r'const Q=(\[.*?\]);', content, re.S)[1])
     imported = read_bank()
-    assert len(imported) == 150 and len(original) == 45
+    assert len(original) == len(imported) == 150, 'Public landing bank has 45 questions; canonical in-app bank has 150. Complete bank equality is not satisfied.'
     skills = dict(g='grammar', v='vocabulary', r='reading', l='listening', u='use')
     counters = {}
     for question in original:
@@ -30,7 +30,7 @@ def test_in_app_bank_stays_identical_to_landing_reference():
         assert (canonical['q'], canonical['options'], canonical['answer']) == (question['q'], question['opts'], question['answer'])
         assert canonical.get('audio', canonical.get('passage', '')) == question['x']
     assert len(counters) == 30
-    assert all(count == (1 if LEVELS.index(level) < 3 else 2) for (level, skill), count in counters.items())
+    assert all(count == 5 for count in counters.values())
 
 
 @pytest.mark.parametrize("level", LEVELS)
