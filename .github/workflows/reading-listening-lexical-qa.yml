@@ -12,6 +12,7 @@ on:
       - 'frontend/vanilla/**'
       - 'services/backend/app/**'
       - 'services/backend/tests/**'
+      - 'services/backend/migrations/0093_listening_12_16_contextual_occurrences.sql'
   workflow_dispatch:
 permissions:
   contents: read
