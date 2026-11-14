@@ -43,7 +43,7 @@ export function classicGame(ctx,host,{id,words,answer,progress={},save=async()=>
   if(error)body.push(h('p',{role:'alert','data-game-verification-error':'',class:'text-sm text-band-warn'},g.answerUnverified));
   host.replaceChildren(gameFrame(ctx,id,counter,body));
  }
- prepare();paint();
+ prepare();if(!Array.isArray(progress.deck)&&deck.length)void save({deck:deck.map(w=>w.id),index,correct});paint();
 }
 
 export function matchingGame(ctx,host,{words,answer,progress={},save=async()=>true}){
