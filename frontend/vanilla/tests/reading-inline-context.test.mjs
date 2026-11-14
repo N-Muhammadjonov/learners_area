@@ -28,7 +28,8 @@ test('Reading uses its one authored inline meaning, not dictionary alternatives'
  assert.match(popup, /sourceType==='reading'&&occurrenceIdIsValid/);
  assert.match(popup, /contextual=inlineContext/);
  assert.match(popup, /if\(!inlineContext\)alternatives=/);
- assert.match(popup, /if\(!inlineContext&&data\?\.status==='unresolved'\)/);
+ assert.match(popup, /if\(inlineContext\)\{/);
+ assert.match(popup, /alternatives=\[\];unresolved=false/);
 });
 
 test('Reading folder defaults to the authenticated source passage title', () => {
