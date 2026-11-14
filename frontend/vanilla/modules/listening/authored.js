@@ -202,37 +202,38 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  // Native legacy modes share the SAME server gate: child mode cannot route around Review permission.
  async function exactScriptWord(d){
   if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;
-  const word=reviewTerm(d.word);
-  if(!word||typeof d.occurrenceId!=='string')return;
+  const clicked=reviewTerm(d.word);
+  if(!clicked||!Number.isInteger(d.part)||!Number.isSafeInteger(d.startChar)||
+     !Number.isSafeInteger(d.endChar)||typeof d.occurrenceId!=='string')return;
+  const row=content.contextualOccurrences?.find(item=>item.occurrenceId===d.occurrenceId&&
+   item.part===d.part&&item.start<=d.startChar&&item.end>=d.endChar&&
+   item.surface.slice(d.startChar-item.start,d.endChar-item.start).toLowerCase()===clicked.toLowerCase()&&
+   typeof item.definitionEn==='string'&&typeof item.translationUz==='string');
+  if(!row)return;
   selectionClose();
   const controller=new AbortController();reviewLexicalController=controller;
   const signal=anySignal([liveSignal,controller.signal]);
   anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
   host.append(anchor);
   popup=contextualWordPopover({...context,signal},{
-   anchor,dict,word,sourceType:'listening',sourceId:id,sourceTitle:content.testTitle,occurrenceId:d.occurrenceId,
-   section:d.part,startChar:d.startChar,endChar:d.endChar,
-   onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
+   anchor,dict,word:row.surface,sourceType:'listening',sourceId:id,
+   sourceTitle:content.testTitle,occurrenceId:row.occurrenceId,
+   section:row.part,startChar:row.start,endChar:row.end,
+   localMeaning:{term:row.surface,definitionEn:row.definitionEn,
+    translationUz:row.translationUz,partOfSpeech:row.partOfSpeech},
+   onSavedStatus:saved=>{post('learners-area-script-save-status',
+    {part:row.part,start:row.start,end:row.end,saved});if(saved)void refreshScriptSaved();},
    onClose:selectionClose
   });
  }
  async function contextualScriptWord(d){
-  if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;
-  const word=reviewTerm(d.word);
-  if(!word||!Number.isInteger(d.part)||d.part<1||d.part>4||
-     !Number.isSafeInteger(d.startChar)||!Number.isSafeInteger(d.endChar)||
-     d.startChar<0||d.endChar<=d.startChar||d.endChar-d.startChar>120)return;
-  selectionClose();
-  const controller=new AbortController();reviewLexicalController=controller;
-  const signal=anySignal([liveSignal,controller.signal]);
-  anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
-  host.append(anchor);
-  popup=contextualWordPopover({...context,signal},{
-   anchor,dict,word,sourceType:'listening',sourceId:id,sourceTitle:content.testTitle,
-   section:d.part,startChar:d.startChar,endChar:d.endChar,
-    onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
-    onClose:selectionClose
-  });
+  if(!Number.isInteger(d.part)||!Number.isSafeInteger(d.startChar)||
+     !Number.isSafeInteger(d.endChar))return;
+  const row=content?.contextualOccurrences?.find(item=>item.part===d.part&&
+   item.start<=d.startChar&&item.end>=d.endChar&&
+   item.surface.slice(d.startChar-item.start,d.endChar-item.start).toLowerCase()===
+    String(d.word||'').toLowerCase());
+  if(row)await exactScriptWord({...d,occurrenceId:row.occurrenceId});
  }
  async function guardedWord(d){if(!content?.nativePersistence)return word(d);if(navigationExpired||authorityBlocked||examLock||!stateReady)return;const term=reviewTerm(d.word);if(!term)return;selectionClose();const generation=reviewLexicalVersion,owner=frame,controller=new AbortController();reviewLexicalController=controller;const lexicalSignal=anySignal([liveSignal,controller.signal]);try{const access=await request(`/api/vocabulary/meaning?sourceId=${encodeURIComponent(id)}&q=${encodeURIComponent(term)}`,{signal:lexicalSignal});if(lexicalSignal.aborted||generation!==reviewLexicalVersion||owner!==frame||authorityBlocked||examLock||!stateReady)return;if(access?.status!=='unresolved'||access.contextual!==null)throw Error('Invalid spelling permission response');await word(d);}catch(cause){if(lexicalSignal.aborted||generation!==reviewLexicalVersion)return;reviewLexicalNotice.textContent=checkpointMessage(cause,document.documentElement.lang);if(!reviewLexicalNotice.isConnected)host.prepend(reviewLexicalNotice);if([401,403,404].includes(cause.status))checkpointFailure(cause);}}
  async function word(d){if(navigationExpired||authorityBlocked||examLock||!stateReady)return;const owner=frame,generation=reviewLexicalVersion;if(!vocabularyRead){const reading=request(`/api/listening/full/${id}/authored?vocabulary=1`,{signal:reviewLexicalController?.signal}).then(result=>{if(!liveSignal.aborted&&!authorityBlocked&&frame===owner&&generation===reviewLexicalVersion&&Array.isArray(result.vocabulary))vocabulary=result.vocabulary;}).catch(()=>{if(vocabularyRead===reading)vocabularyRead=null;});vocabularyRead=reading;}await vocabularyRead;if(liveSignal.aborted||authorityBlocked||!stateReady||frame!==owner||examLock||generation!==reviewLexicalVersion)return;selectionClose();const controller=new AbortController();reviewLexicalController=controller;const wordSignal=anySignal([liveSignal,controller.signal]),wordVersion=reviewLexicalVersion,wordCurrent=()=>!wordSignal.aborted&&!authorityBlocked&&!examLock&&stateReady&&frame===owner&&wordVersion===reviewLexicalVersion;const matches=vocabulary.filter(row=>row.term.toLowerCase()===d.word.trim().toLowerCase()&&(d.mode==='vocab'||(row.example&&typeof d.context==='string'&&d.context.includes(row.example)))),v=matches.length===1?matches[0]:null,x=Math.max(0,Math.min(d.x,frame?.clientWidth??0)),y=Math.max(0,Math.min(d.y,frame?.clientHeight??0));anchor=el('span',{class:'fixed h-px w-px',style:{left:'calc(100vw - 16px)',top:'128px'}});host.append(anchor);
