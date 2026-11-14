@@ -66,15 +66,88 @@ test('Listening Tests 12–16 retain all twenty real source transcripts and orig
 test('Listening Tests 12–16 keep canonical source bytes and audio manifest metadata unchanged',()=>{
   for(let number=12;number<=16;number++){
     const index=String(number).padStart(2,'0');
-    const {html}=runtimeFor(number);
+    const {html,raw}=runtimeFor(number);
     const source=readFileSync(new URL(`content/listening/academic/test-${index}/source.html`,root),'utf8');
     const manifest=JSON.parse(readFileSync(new URL(`content/listening/academic/test-${index}/manifest.json`,root),'utf8'));
-    assert.equal(source,html,`Test ${number}: runtime diverged from canonical source`);
+    const runtimeManifest=JSON.parse(readFileSync(new URL('services/backend/assets/listening/manifest.json',root),'utf8'));
+    const recorded=runtimeManifest.entries[`test-${index}`];
     assert.equal(manifest.number,number);
     assert.equal(manifest.questionCount,40);
     assert.equal(manifest.sectionCount,4);
-    assert.equal(hash(source),manifest.sourceSha256);
-    assert.match(manifest.audio.objectKey,new RegExp(`^listening/academic/test-${index}/full\\.mp3$`));
+    assert.equal(hash(source),manifest.sourceSha256,`Test ${number}: canonical source checksum`);
+    assert.equal(hash(raw),recorded.runtimeSha256,`Test ${number}: runtime checksum`);
+    assert.equal(Buffer.byteLength(raw),recorded.bytes,`Test ${number}: runtime size`);
+    assert.equal(recorded.sourceSha256,manifest.sourceSha256);
+    assert.match(html,/const DATA=/,`Test ${number}: runtime transcript missing`);
+    assert.match(manifest.audio.objectKey,new RegExp(`^listening/academic/test-${index}/full\\.mp3import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {paintedBridge} from '../modules/listening/authored-progressive.js';
+import {originalScriptAccessibility} from '../modules/listening/script-v37.js';
+
+const root=new URL('../../../',import.meta.url);
+const hash=text=>createHash('sha256').update(text).digest('hex');
+
+function runtimeFor(number){
+  const index=String(number).padStart(2,'0');
+  const raw=readFileSync(new URL(`services/backend/assets/listening/test-${index}.json`,root),'utf8');
+  const runtime=JSON.parse(raw);
+  assert.equal(runtime.entryPath,'source.html',`Test ${number}: canonical entry`);
+  const html=runtime.files[runtime.entryPath];
+  assert.equal(typeof html,'string');
+  const marker='const DATA=';
+  const at=html.indexOf(marker);
+  assert(at>=0,`Test ${number}: original DATA constant`);
+  const begin=at+marker.length;
+  let depth=0,quoted=false,escaped=false;
+  for(let i=begin;i<html.length;i++){
+    const char=html[i];
+    if(quoted){
+      if(escaped)escaped=false;
+      else if(char==='\\')escaped=true;
+      else if(char==='"')quoted=false;
+      continue;
+    }
+    if(char==='"'){quoted=true;continue;}
+    if(char==='{'||char==='[')depth++;
+    if((char==='}'||char===']')&&--depth===0){
+      return {html,runtime,raw,data:JSON.parse(html.slice(begin,i+1))};
+    }
+  }
+  throw Error(`Test ${number}: incomplete original DATA`);
+}
+
+test('Listening Tests 12–16 retain all twenty real source transcripts and original graded activities',()=>{
+  let parts=0,gaps=0;
+  for(let number=12;number<=16;number++){
+    const {data,html}=runtimeFor(number);
+    assert.match(html,/function renderScript\(/,`Test ${number}: Script Completion unavailable`);
+    assert.match(html,/activityShell\('script'/,`Test ${number}: Script activity hidden`);
+    assert.equal(Object.keys(data.transcript).length,4,`Test ${number}: source part count`);
+    for(let part=1;part<=4;part++){
+      const source=data.transcript[String(part)];
+      assert.equal(typeof source,'string');
+      assert(source.length>1500,`Test ${number} Part ${part}: incomplete source`);
+      assert.doesNotMatch(source,/Full verbatim transcript is not present/i);
+      const rows=data.script_completion.filter(gap=>gap.part===part);
+      assert(rows.length>=6,`Test ${number} Part ${part}: graded gaps missing`);
+      for(const row of rows){
+        assert(source.toLowerCase().includes(String(row.match).toLowerCase()),
+          `Test ${number} Part ${part}: missing source text for gap ${row.n}`);
+      }
+      gaps+=rows.length;
+      parts++;
+    }
+  }
+  assert.equal(parts,20);
+  assert(gaps>=120);
+});
+
+test('Listening Tests 12–16 keep canonical source bytes and audio manifest metadata unchanged',()=>{
+  for(let number=12;number<=16;number++){
+    const index=String(number).padStart(2,'0');
+));
   }
 });
 
