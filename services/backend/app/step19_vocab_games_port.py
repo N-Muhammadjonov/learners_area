@@ -66,7 +66,7 @@ async def get_games(req:Request):
     args=[user['id']];where=conditions(key,folder,topic,args)
     if saved_ids is not None:
         args.append(saved_ids)
-        where+=f' AND uv.id=ANY(${len(args)}::uuid[])'
+        where+=f' AND uv.id=ANY({len(args)}::uuid[])'
     db=await core.pool()
     async with db.acquire() as con:
         if game=='cards' and req.query_params.get('batches')=='1':
