@@ -189,6 +189,18 @@ async def _audit_refusal(*, actor_user_id, action, subject_type, subject_id=None
     })
 
 
+async def audit_event(conn, *, actor_user_id, action, subject_type, subject_id=None, period=None,
+                      amount_minor=None, reason=None, request_id=None, detail=None):
+    """Public entry point for the sensitive-action audit trail (FIN-11/FIN-12).
+
+    Same transaction as the money it describes, so an audit row can never outlive the change
+    it records.
+    """
+    await _audit(conn, actor_user_id=actor_user_id, action=action, subject_type=subject_type,
+                 subject_id=subject_id, period=period, amount_minor=amount_minor, reason=reason,
+                 request_id=request_id, detail=detail)
+
+
 async def _audit(conn, *, actor_user_id, action, subject_type, subject_id=None, period=None,
                  amount_minor=None, reason=None, request_id=None, detail=None):
     """Append an immutable audit record for a sensitive financial action.
@@ -386,8 +398,15 @@ async def add_discount(conn, *, actor_user_id, contract_id, period, amount_minor
 # ─────────────────────────────── charges ───────────────────────────────
 @transactional
 async def create_charge(conn, *, actor_user_id, student_user_id, period, due_date,
-                        gross_amount_minor, contract_id=None):
-    """Draft a receivable. An approved discount document reduces it exactly once."""
+                        gross_amount_minor, contract_id=None, adjustment_reason=None):
+    """Draft a receivable. An approved discount document reduces it exactly once.
+
+    FIN-11: when the charge belongs to a contract, the contract's approved monthly price is
+    the price. Billing something else is not a rounding matter - it is a change of commercial
+    terms - so it needs an explicit ``adjustment_reason``, and that reason is audited next to
+    the charge. A silent price difference between contract and invoice is how a centre ends up
+    unable to explain its own receivables.
+    """
     gross = _minor(gross_amount_minor)
     _require(gross >= 0, 'amount_must_be_non_negative')
     discount = 0
@@ -397,6 +416,15 @@ async def create_charge(conn, *, actor_user_id, student_user_id, period, due_dat
         _require(contract['student_user_id'] == student_user_id, 'contract_student_mismatch', 403)
         _require(contract['status'] in ('approved', 'active'), 'invalid_state', 409,
                  status=contract['status'])
+        if gross != contract['monthly_amount_minor']:
+            _require(bool(adjustment_reason and adjustment_reason.strip()),
+                     'charge_amount_conflicts_with_contract', 409,
+                     contractMinor=contract['monthly_amount_minor'], chargeMinor=gross)
+            await _audit(conn, actor_user_id=actor_user_id, action='contract_price_adjustment',
+                         subject_type='tuition_contract', subject_id=contract_id, period=period,
+                         amount_minor=gross, reason=adjustment_reason.strip()[:300],
+                         detail={'contractMinor': contract['monthly_amount_minor'],
+                                 'chargeMinor': gross})
         discount = await conn.fetchval(
             'SELECT coalesce(sum(amount_minor),0) FROM tuition_contract_discounts'
             ' WHERE contract_id=$1 AND period_key=$2', contract_id, period) or 0

@@ -26,6 +26,8 @@ from . import main as core
 from .admin_authoring_port import uuid_val
 from .rate_limit import RULES, async_counter as counter, too_many
 from . import payments_sandbox as sandbox
+from . import tuition_schemas as schemas
+from .tuition_schemas import ValidationError
 from . import tuition_ledger as ledger
 from .tuition_ledger import LedgerError
 
@@ -85,6 +87,19 @@ def failure(exc: LedgerError):
     return core.j({'error': exc.code, **exc.details}, exc.status, PRIVATE)
 
 
+def typed(model, body):
+    """Validate a request body against its typed contract (FIN-11).
+
+    Raises `ValidationError`, which callers turn into one 422 shape. Money is refused unless
+    it is a whole number of minor units, so `true` and `1.5` cannot become a charge.
+    """
+    return schemas.parse(model, body)
+
+
+def invalid(exc: ValidationError):
+    return core.j(exc.as_body(), 422, PRIVATE)
+
+
 async def _write_gate(req: Request, user, rule='finance_write'):
     RULES.setdefault(rule, (120, 60))
     delay = await counter(rule, 'u:' + str(user['id']), consume=True)
@@ -103,17 +118,10 @@ async def create_contract(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    if body is None:
-        return err('invalid_payload')
-    student_id = uuid_val(body.get('studentUserId'))
-    if not student_id:
-        return err('invalid_student')
-    if not isinstance(body.get('monthlyAmountMinor'), int):
-        return err('amount_must_be_integer_minor_units')
-    starts_on = as_date(body.get('startsOn'))
-    if not starts_on:
-        return err('invalid_start_date')
+    try:
+        body = typed(schemas.ContractCreate, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -121,10 +129,10 @@ async def create_contract(req: Request):
     async with db.acquire() as conn, conn.transaction():
         try:
             contract = await ledger.create_contract(
-                conn, actor_user_id=user['id'], student_user_id=student_id,
-                monthly_amount_minor=body['monthlyAmountMinor'], starts_on=starts_on,
-                term_months=body.get('termMonths', 1), course_id=uuid_val(body.get('courseId')),
-                ends_on=as_date(body.get('endsOn')), note=str(body.get('note') or '')[:MAX_NOTE] or None)
+                conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
+                monthly_amount_minor=body.monthlyAmountMinor, starts_on=body.startsOn,
+                term_months=body.termMonths, course_id=body.courseId, ends_on=body.endsOn,
+                note=body.note)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'contract': serialize(contract)}, headers=PRIVATE)
@@ -176,11 +184,12 @@ async def add_discount(req: Request, contractId: str):
     if denied:
         return denied
     ident = uuid_val(contractId)
-    body = await payload(req)
-    if not ident or body is None:
+    try:
+        body = typed(schemas.DiscountCreate, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    if not ident:
         return err('invalid_payload')
-    if not isinstance(body.get('amountMinor'), int):
-        return err('amount_must_be_integer_minor_units')
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -189,8 +198,7 @@ async def add_discount(req: Request, contractId: str):
         try:
             discount = await ledger.add_discount(
                 conn, actor_user_id=user['id'], contract_id=ident,
-                period=str(body.get('periodKey') or '')[:7], amount_minor=body['amountMinor'],
-                reason=str(body.get('reason') or ''))
+                period=body.periodKey, amount_minor=body.amountMinor, reason=body.reason)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'discount': serialize(discount)}, headers=PRIVATE)
@@ -202,13 +210,10 @@ async def create_charge(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    if body is None:
-        return err('invalid_payload')
-    student_id = uuid_val(body.get('studentUserId'))
-    due = as_date(body.get('dueDate'))
-    if not student_id or not due or not isinstance(body.get('grossAmountMinor'), int):
-        return err('invalid_payload')
+    try:
+        body = typed(schemas.ChargeCreate, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -216,10 +221,10 @@ async def create_charge(req: Request):
     async with db.acquire() as conn, conn.transaction():
         try:
             charge = await ledger.create_charge(
-                conn, actor_user_id=user['id'], student_user_id=student_id,
-                period=str(body.get('periodKey') or ledger.period_key(due))[:7], due_date=due,
-                gross_amount_minor=body['grossAmountMinor'],
-                contract_id=uuid_val(body.get('contractId')))
+                conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
+                period=body.periodKey, due_date=body.dueDate,
+                gross_amount_minor=body.grossAmountMinor, contract_id=body.contractId,
+                adjustment_reason=body.adjustmentReason)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'charge': serialize(charge)}, headers=PRIVATE)
@@ -239,15 +244,12 @@ async def generate_installment(req: Request, contractId: str):
     contract_id = uuid_val(contractId)
     if not contract_id:
         return err('contract_not_found', 404)
-    body = await payload(req)
-    if body is None:
-        return err('invalid_payload')
-    period = str(body.get('periodKey') or ledger.period_key(datetime.now(timezone.utc).date()))[:7]
-    if not PERIOD_PATTERN.fullmatch(period):
-        return err('invalid_period', expectedFormat='YYYY-MM', period=period)
-    due = as_date(body.get('dueDate'))
-    if not due:
-        return err('invalid_due_date')
+    try:
+        body = typed(schemas.InstallmentCreate, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    period = body.periodKey or ledger.period_key(datetime.now(timezone.utc).date())
+    due = body.dueDate
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -340,14 +342,11 @@ async def create_credit_note(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    if body is None:
-        return err('invalid_payload')
-    charge_id = uuid_val(body.get('chargeId'))
-    if not charge_id or not isinstance(body.get('amountMinor'), int):
-        return err('invalid_payload')
-    if not str(body.get('reason') or '').strip():
-        return err('reason_required')
+    try:
+        body = typed(schemas.CreditNoteCreate, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    charge_id = body.chargeId
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -356,7 +355,7 @@ async def create_credit_note(req: Request):
         try:
             note = await ledger.create_credit_note(
                 conn, actor_user_id=user['id'], charge_id=charge_id,
-                amount_minor=body['amountMinor'], reason=str(body['reason']))
+                amount_minor=body.amountMinor, reason=body.reason)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'creditNote': serialize(note)}, headers=PRIVATE)
@@ -411,38 +410,46 @@ async def record_payment(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    if body is None:
-        return err('invalid_payload')
-    student_id = uuid_val(body.get('studentUserId'))
-    if not student_id or not isinstance(body.get('amountMinor'), int):
-        return err('invalid_payload')
-    method = str(body.get('method') or 'cash')
-    if method == 'provider' and body.get('confirm'):
+    try:
+        body = typed(schemas.PaymentCreate, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    if body.method == 'provider' and body.confirm:
         # Provider money settles only through a verified provider callback. A staff session
         # asserting "the provider paid" would let a privileged caller invent a receipt.
         return core.j({'error': 'provider_confirmation_requires_provider_proof'}, 409, PRIVATE)
+    # FIN-11: a client may say WHEN money changed hands, but dating a receipt into the past
+    # rewrites which cash day and which accounting period it belongs to. Today and yesterday
+    # are normal till work; anything older needs an owner, and is audited either way.
+    backdated = schemas.backdate_days(body.occurredAt)
+    if backdated > schemas.BACKDATE_GRACE_DAYS and user['role'] not in OWNER_ONLY:
+        return core.j({'error': 'backdating_requires_owner',
+                       'graceDays': schemas.BACKDATE_GRACE_DAYS, 'backdatedDays': backdated},
+                      403, PRIVATE)
     limited = await _write_gate(req, user)
     if limited:
         return limited
-    occurred = body.get('occurredAt')
     db = await core.pool()
     async with db.acquire() as conn, conn.transaction():
         try:
             payment, allocations, duplicate = await ledger.record_payment(
-                conn, actor_user_id=user['id'], student_user_id=student_id,
-                amount_minor=body['amountMinor'], method=method,
-                provider=body.get('provider'), provider_transaction_id=body.get('providerTransactionId'),
-                idempotency_key=str(body['idempotencyKey'])[:120] if body.get('idempotencyKey') else None,
-                receipt_purpose=str(body.get('receiptPurpose') or '')[:120] or None,
-                payer_name=str(body.get('payerName') or '')[:160] or None,
-                occurred_at=datetime.fromisoformat(occurred) if occurred else None,
-                confirm=bool(body.get('confirm', True)))
+                conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
+                amount_minor=body.amountMinor, method=body.method, provider=body.provider,
+                provider_transaction_id=body.providerTransactionId,
+                idempotency_key=body.idempotencyKey, receipt_purpose=body.receiptPurpose,
+                payer_name=body.payerName, occurred_at=body.occurredAt, confirm=body.confirm)
+            if backdated > schemas.BACKDATE_GRACE_DAYS:
+                await ledger.audit_event(
+                    conn, actor_user_id=user['id'], action='backdated_payment',
+                    subject_type='tuition_payment', subject_id=payment['id'],
+                    period=ledger.period_key(body.occurredAt), amount_minor=body.amountMinor,
+                    reason=f'receipt dated {backdated} days in the past',
+                    request_id=getattr(req.state, 'request_id', None),
+                    detail={'occurredAt': body.occurredAt.isoformat(),
+                            'backdatedDays': backdated, 'method': body.method})
         except LedgerError as exc:
             return failure(exc)
-        except ValueError:
-            return err('invalid_occurred_at')
-        position = await ledger.student_position(conn, student_id)
+        position = await ledger.student_position(conn, body.studentUserId)
     return core.j({'ok': True, 'duplicate': duplicate, 'payment': serialize(payment),
                    'allocations': [serialize(row) for row in allocations],
                    'position': position}, headers=PRIVATE)
@@ -454,9 +461,12 @@ async def refund_payment(req: Request, paymentId: str):
     if denied:
         return denied
     ident = uuid_val(paymentId)
-    body = await payload(req)
-    if not ident or body is None or not isinstance(body.get('amountMinor'), int):
-        return err('invalid_payload')
+    try:
+        body = typed(schemas.RefundRequest, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    if not ident:
+        return err('payment_not_found', 404)
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -468,8 +478,8 @@ async def refund_payment(req: Request, paymentId: str):
             # the original receipt belongs to is never reopened or rewritten.
             refund, duplicate = await ledger.request_refund(
                 conn, actor_user_id=user['id'], payment_id=ident,
-                amount_minor=body['amountMinor'], reason=str(body.get('reason') or ''),
-                method=body.get('method'), provider_refund_id=body.get('providerRefundId'))
+                amount_minor=body.amountMinor, reason=body.reason, method=body.method,
+                provider_refund_id=body.providerRefundId)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'duplicate': duplicate, 'refund': serialize(refund)},
@@ -536,11 +546,12 @@ async def add_cash_adjustment(req: Request, businessDate: str):
     if denied:
         return denied
     day = as_date(businessDate)
-    body = await payload(req)
-    if not day or body is None or not isinstance(body.get('amountMinor'), int):
+    try:
+        body = typed(schemas.CashAdjustment, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    if not day:
         return err('invalid_payload')
-    if not str(body.get('reason') or '').strip():
-        return err('reason_required')
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -549,7 +560,7 @@ async def add_cash_adjustment(req: Request, businessDate: str):
         try:
             adjustment = await ledger.add_cash_adjustment(
                 conn, actor_user_id=user['id'], business_date=day,
-                amount_minor=body['amountMinor'], reason=str(body['reason']))
+                amount_minor=body.amountMinor, reason=body.reason)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'adjustment': serialize(adjustment)}, headers=PRIVATE)
@@ -587,12 +598,11 @@ async def close_day(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    business_date = as_date((body or {}).get('businessDate'))
-    opening = (body or {}).get('openingMinor', 0)
-    if not business_date or not isinstance((body or {}).get('countedMinor'), int) \
-            or not isinstance(opening, int):
-        return err('invalid_payload')
+    try:
+        body = typed(schemas.DayClose, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    business_date, opening = body.businessDate, body.openingMinor
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -601,9 +611,8 @@ async def close_day(req: Request):
         try:
             close = await ledger.close_day(conn, actor_user_id=user['id'],
                                            business_date=business_date,
-                                           counted_minor=body['countedMinor'],
-                                           reason=str(body.get('reason') or '')[:300] or None,
-                                           opening_minor=opening)
+                                           counted_minor=body.countedMinor,
+                                           reason=body.reason, opening_minor=opening)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'close': serialize(close)}, headers=PRIVATE)
@@ -614,10 +623,11 @@ async def close_period(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    period = str((body or {}).get('periodKey') or '')[:7]
-    if len(period) != 7:
-        return err('invalid_payload')
+    try:
+        body = typed(schemas.PeriodClose, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
+    period = body.periodKey
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -625,7 +635,7 @@ async def close_period(req: Request):
     async with db.acquire() as conn, conn.transaction():
         try:
             close = await ledger.close_period(conn, actor_user_id=user['id'], period=period,
-                                              reason=str(body.get('reason') or '')[:300] or None)
+                                              reason=body.reason)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'period': serialize(close)}, headers=PRIVATE)

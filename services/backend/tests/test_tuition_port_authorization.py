@@ -235,7 +235,11 @@ async def test_invalid_payloads_are_refused_without_touching_money(as_role):
     )
     for method, path, body in cases:
         response = await as_role('owner', method, path, body)
-        assert response.status_code == 400, f'{path} accepted {body!r}'
+        # FIN-11: a body that fails its typed contract is 422 with the offending field named;
+        # 400 is reserved for a request that is not a well-formed money command at all. Either
+        # way the point of this test holds - nothing reached the ledger.
+        assert response.status_code in (400, 422), f'{path} accepted {body!r}'
+        assert b'invalid_payload' in response.body, f'{path} gave no reason for {body!r}'
 
 
 @pytest.mark.asyncio

@@ -24,6 +24,7 @@ FINANCE_MIGRATIONS = (
     '1117_tuition_charge_approval.sql',
     '1118_refund_lifecycle_and_cash_day.sql',
     '1119_provider_clearing_account.sql',
+    '1120_freeze_contract_terms.sql',
 )
 
 BOOTSTRAP = (

@@ -1384,6 +1384,60 @@ async def test_owner_debt_and_student_debt_use_the_same_filter(database):
         position['overdueMinor'] for position in positions)
 
 
+# ─────── FIN-11: the contract price is the price, and approved terms do not move ───────
+@pytest.mark.asyncio
+async def test_a_charge_cannot_contradict_the_approved_contract_price(database):
+    """800,000 a month is the approved term; billing 900,000 needs an authorized adjustment."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_charge(con, actor_user_id=people['admin'],
+                                   student_user_id=people['student'], period=PERIOD,
+                                   due_date=TODAY, gross_amount_minor=900_000,
+                                   contract_id=contract['id'])
+    assert exc.value.code == 'charge_amount_conflicts_with_contract'
+    assert exc.value.status == 409
+    assert exc.value.details['contractMinor'] == 800_000
+    assert await con.fetchval('SELECT count(*) FROM tuition_charges') == 0
+
+    # With an explicit, recorded reason the adjustment is allowed and auditable.
+    charge = await ledger.create_charge(con, actor_user_id=people['admin'],
+                                        student_user_id=people['student'], period=PERIOD,
+                                        due_date=TODAY, gross_amount_minor=900_000,
+                                        contract_id=contract['id'],
+                                        adjustment_reason='Extra intensive module, agreed 12.11')
+    assert charge['gross_amount_minor'] == 900_000
+    audit = await con.fetchrow(
+        "SELECT action, reason FROM finance_audit_events"
+        " WHERE action='contract_price_adjustment'")
+    assert audit is not None, 'an off-contract price left no audit trail'
+    assert 'Extra intensive module' in audit['reason']
+
+
+@pytest.mark.asyncio
+async def test_approved_contract_terms_are_immutable(database):
+    """The database refuses a price change after approval; the application cannot opt out."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    for column, value in (('monthly_amount_minor', 1_000_000), ('term_months', 24),
+                          ('currency_code', 'USD')):
+        with pytest.raises(asyncpg.PostgresError):
+            await con.execute(f'UPDATE tuition_contracts SET {column}=$2 WHERE id=$1',
+                              contract['id'], value)
+    row = await con.fetchrow('SELECT monthly_amount_minor, term_months, currency_code'
+                             ' FROM tuition_contracts WHERE id=$1', contract['id'])
+    assert (row['monthly_amount_minor'], row['term_months'], row['currency_code']) == (
+        800_000, 1, 'UZS')
+    # A draft is still editable: the freeze starts at approval, not at creation.
+    draft = await ledger.create_contract(con, actor_user_id=people['owner'],
+                                         student_user_id=people['student'],
+                                         monthly_amount_minor=500_000, starts_on=TODAY)
+    await con.execute('UPDATE tuition_contracts SET monthly_amount_minor=$2 WHERE id=$1',
+                      draft['id'], 550_000)
+    assert await con.fetchval('SELECT monthly_amount_minor FROM tuition_contracts WHERE id=$1',
+                              draft['id']) == 550_000
+
+
 @pytest.mark.asyncio
 async def test_floats_are_rejected_for_money(database):
     con, schema, people = database

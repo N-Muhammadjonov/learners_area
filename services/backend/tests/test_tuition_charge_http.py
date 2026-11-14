@@ -245,3 +245,110 @@ async def test_owner_dashboard_splits_collection_by_method_over_http(http):
     assert payload['summary']['ok'] is True, payload['summary']['checks']
     broken = [c for c in payload['summary']['checks'] if not c['matches']]
     assert broken == []
+
+
+# ──────────── FIN-11: typed input, no silent coercion, controlled backdating ────────────
+@pytest.mark.asyncio
+@pytest.mark.parametrize('amount', [True, 1.5, '800000', None, [], 800_000.0])
+async def test_money_must_be_a_non_boolean_integer_over_http(http, amount):
+    """A boolean is an int in Python and a float rounds silently: both are refused."""
+    response = await staff(http, 'admin', 'POST', '/api/staff/finance/charges', json_body={
+        'studentUserId': str(http.people['student']), 'periodKey': PERIOD,
+        'dueDate': TODAY.isoformat(), 'grossAmountMinor': amount})
+    assert response.status_code == 422, response.text
+    body = response.json()
+    assert body['error'] == 'invalid_payload'
+    assert any('grossAmountMinor' in str(item) for item in body.get('fields', [])), body
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_charges') == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('period', ['2026-13', '2026-1', '2026/11', '11-2026', '2026-00', ''])
+async def test_period_key_must_be_yyyy_mm(http, period):
+    contract = await approved_contract(http)
+    response = await staff(http, 'admin', 'POST', '/api/staff/finance/charges', json_body={
+        'studentUserId': str(http.people['student']), 'periodKey': period,
+        'dueDate': TODAY.isoformat(), 'grossAmountMinor': 800_000,
+        'contractId': str(contract['id'])})
+    assert response.status_code == 422, response.text
+    assert response.json()['error'] == 'invalid_payload'
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_charges') == 0
+
+
+@pytest.mark.asyncio
+async def test_a_client_cannot_backdate_a_payment_without_permission(http):
+    old = (TODAY - timedelta(days=45)).isoformat()
+    refused = await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 100_000, 'method': 'cash',
+        'occurredAt': old})
+    assert refused.status_code == 403, refused.text
+    assert refused.json()['error'] == 'backdating_requires_owner'
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_payments') == 0
+
+    allowed = await staff(http, 'owner', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 100_000, 'method': 'cash',
+        'occurredAt': old})
+    assert allowed.status_code == 200, allowed.text
+    assert allowed.json()['payment']['occurred_at'].startswith(old)
+    # The backdated entry is on the audit trail with the actor who authorized it.
+    audit = await http.con.fetchrow(
+        "SELECT actor_user_id, action FROM finance_audit_events WHERE action='backdated_payment'")
+    assert audit is not None, 'a backdated entry left no audit trail'
+    assert str(audit['actor_user_id']) == str(http.people['owner'])
+
+
+@pytest.mark.asyncio
+async def test_a_future_dated_receipt_is_refused(http):
+    response = await staff(http, 'owner', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 100_000, 'method': 'cash',
+        'occurredAt': (TODAY + timedelta(days=3)).isoformat()})
+    assert response.status_code == 422
+    assert response.json()['error'] == 'invalid_payload'
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_payments') == 0
+
+
+# ─────── FIN-11: an off-contract price needs an authorized, audited adjustment ───────
+@pytest.mark.asyncio
+async def test_billing_above_the_contract_price_needs_a_recorded_adjustment(http):
+    contract = await approved_contract(http, monthly=800_000)
+    silent = await staff(http, 'admin', 'POST', '/api/staff/finance/charges', json_body={
+        'studentUserId': str(http.people['student']), 'periodKey': PERIOD,
+        'dueDate': TODAY.isoformat(), 'grossAmountMinor': 900_000,
+        'contractId': str(contract['id'])})
+    assert silent.status_code == 409, silent.text
+    assert silent.json()['error'] == 'charge_amount_conflicts_with_contract'
+    assert silent.json()['contractMinor'] == 800_000
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_charges') == 0
+
+    explained = await staff(http, 'admin', 'POST', '/api/staff/finance/charges', json_body={
+        'studentUserId': str(http.people['student']), 'periodKey': PERIOD,
+        'dueDate': TODAY.isoformat(), 'grossAmountMinor': 900_000,
+        'contractId': str(contract['id']),
+        'adjustmentReason': 'Extra intensive module agreed with the parent'})
+    assert explained.status_code == 200, explained.text
+    assert explained.json()['charge']['gross_amount_minor'] == 900_000
+    audit = await http.con.fetchrow(
+        "SELECT actor_user_id, reason FROM finance_audit_events"
+        " WHERE action='contract_price_adjustment'")
+    assert audit is not None, 'an off-contract price left no audit trail'
+    assert 'Extra intensive module' in audit['reason']
+
+
+@pytest.mark.asyncio
+async def test_approved_contract_terms_cannot_be_changed_through_the_api(http):
+    contract = await approved_contract(http, monthly=800_000)
+    # There is no route that edits commercial terms at all - the only mutations are the
+    # lifecycle ones. Assert the absence rather than trusting the route list by eye.
+    from app.main import app
+    editable = [(method, route.path)
+                for route in app.routes if route.path.startswith('/api/staff/finance/contracts')
+                for method in (getattr(route, 'methods', None) or ())
+                if method in ('PATCH', 'PUT', 'DELETE')]
+    assert editable == [], f'these routes would bypass the frozen terms: {editable}'
+    with pytest.raises(Exception):
+        await http.con.execute(
+            'UPDATE tuition_contracts SET monthly_amount_minor=$2 WHERE id=$1',
+            contract['id'], 1_000_000)
+    assert await http.con.fetchval(
+        'SELECT monthly_amount_minor FROM tuition_contracts WHERE id=$1',
+        contract['id']) == 800_000
