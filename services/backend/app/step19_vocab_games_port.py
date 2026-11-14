@@ -50,6 +50,8 @@ def size(raw):
 async def get_games(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
+    if req.query_params.get('attempt')=='1':
+        return await get_game_attempt(req)
     key=req.query_params.get('set','due')
     if key not in SETS:key='due'
     folder=req.query_params.get('folderId');topic=req.query_params.get('topicPack')
@@ -150,6 +152,8 @@ async def answer_game(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
     b=await core.payload(req)
+    if isinstance(b,dict) and b.get('action') in ('start','save'):
+        return await update_game_attempt(req,b)
     if not input_valid(b):return core.j({'error':'invalid_input'},400)
     db=await core.pool();now=datetime.now(timezone.utc)
     async with db.acquire() as con:
@@ -219,7 +223,6 @@ async def latest_attempt(con,user_id,scope):
         ORDER BY created_at DESC,id DESC LIMIT 1''',user_id,scope)
 
 
-@router.get('/api/vocabulary/games/attempt')
 async def get_game_attempt(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
@@ -240,11 +243,9 @@ async def get_game_attempt(req:Request):
     return core.j({'ok':True,'attempt':{**row['payload'],'attemptId':str(row['id'])} if row else None},headers=PRIVATE)
 
 
-@router.post('/api/vocabulary/games/attempt')
-async def update_game_attempt(req:Request):
+async def update_game_attempt(req:Request,body):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
-    body=await core.payload(req)
     if not isinstance(body,dict) or body.get('action') not in ('start','save'):
         return core.j({'error':'invalid_input'},400,PRIVATE)
     scope=attempt_scope(body)
