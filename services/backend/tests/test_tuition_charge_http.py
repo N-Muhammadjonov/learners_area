@@ -156,3 +156,27 @@ async def test_credit_note_flow_over_http_reduces_the_debt_once(http):
     assert (await ledger.student_position(http.con,
                                           http.people['student']))['balanceDueMinor'] == 600_000
     assert (await ledger.journal_is_balanced(http.con))['balanced'] is True
+
+
+# ─────────── FIN-07: a contract belongs to a student record, not any user ───────────
+@pytest.mark.asyncio
+@pytest.mark.parametrize('role', ['owner', 'admin', 'teacher'])
+async def test_staff_account_cannot_be_enrolled_over_http(http, role):
+    response = await staff(http, 'owner', 'POST', '/api/staff/finance/contracts', json_body={
+        'studentUserId': str(http.people[role]), 'monthlyAmountMinor': 800_000,
+        'startsOn': TODAY.isoformat()})
+    assert response.status_code == 404, response.text
+    assert response.json()['error'] == 'student_not_found'
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_contracts') == 0
+
+
+@pytest.mark.asyncio
+async def test_an_unknown_user_id_is_indistinguishable_from_a_staff_account(http):
+    unknown = await staff(http, 'owner', 'POST', '/api/staff/finance/contracts', json_body={
+        'studentUserId': str(uuid4()), 'monthlyAmountMinor': 800_000,
+        'startsOn': TODAY.isoformat()})
+    teacher = await staff(http, 'owner', 'POST', '/api/staff/finance/contracts', json_body={
+        'studentUserId': str(http.people['teacher']), 'monthlyAmountMinor': 800_000,
+        'startsOn': TODAY.isoformat()})
+    assert unknown.status_code == teacher.status_code == 404
+    assert unknown.json() == teacher.json()

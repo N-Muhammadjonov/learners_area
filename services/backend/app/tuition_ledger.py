@@ -174,8 +174,27 @@ async def _assert_day_open(conn, business_date: date):
 
 
 async def _student_exists(conn, student_user_id) -> None:
+    """The established student-record contract: the payer must BE a student.
+
+    Money movements use this and not the stricter check below: a suspended student may still
+    settle an existing debt, and refusing that would leave a receivable uncollectable.
+    """
     found = await conn.fetchval("SELECT 1 FROM users WHERE id=$1 AND role='student'", student_user_id)
     _require(bool(found), 'student_not_found', 404)
+
+
+async def _active_student(conn, student_user_id) -> None:
+    """An enrolment act additionally needs an ACTIVE student.
+
+    Billing a staff account would push a salary line into the receivable ledger, and billing
+    a suspended account would open a receivable against someone who is not enrolled. A
+    non-student is reported exactly like a missing id, so the endpoint cannot be probed to
+    discover which accounts exist.
+    """
+    row = await conn.fetchrow('SELECT role, account_status FROM users WHERE id=$1', student_user_id)
+    _require(row is not None and row['role'] == 'student', 'student_not_found', 404)
+    _require(row['account_status'] == 'active', 'student_not_active', 409,
+             accountStatus=row['account_status'])
 
 
 async def _next_receipt_no(conn, period: str) -> str:
@@ -192,8 +211,7 @@ async def _next_receipt_no(conn, period: str) -> str:
 @transactional
 async def create_contract(conn, *, actor_user_id, student_user_id, monthly_amount_minor,
                           starts_on, term_months=1, course_id=None, ends_on=None, note=None):
-    _student_exists_ok = await conn.fetchval('SELECT 1 FROM users WHERE id=$1', student_user_id)
-    _require(bool(_student_exists_ok), 'student_not_found', 404)
+    await _active_student(conn, student_user_id)
     amount = _minor(monthly_amount_minor)
     _require(amount >= 0, 'amount_must_be_non_negative')
     _require(isinstance(term_months, int) and 1 <= term_months <= 120, 'invalid_term')
@@ -536,8 +554,7 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
         # whether a provider was paid. Provider money only settles through
         # confirm_provider_payment() with an adapter-produced proof.
         confirm = False
-    _student_exists_ok = await conn.fetchval('SELECT 1 FROM users WHERE id=$1', student_user_id)
-    _require(bool(_student_exists_ok), 'student_not_found', 404)
+    await _student_exists(conn, student_user_id)
     moment = occurred_at or datetime.now(timezone.utc)
     if isinstance(moment, str):
         moment = datetime.fromisoformat(moment)

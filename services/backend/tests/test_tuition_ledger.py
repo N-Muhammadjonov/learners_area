@@ -978,6 +978,60 @@ async def test_the_full_draft_approve_post_chain_posts_exactly_once(database):
     assert (await ledger.journal_is_balanced(con))['balanced'] is True
 
 
+# ──────────── FIN-07: a contract belongs to a student record, not any user ────────────
+@pytest.mark.asyncio
+@pytest.mark.parametrize('role', ['owner', 'admin', 'teacher'])
+async def test_a_contract_cannot_be_created_for_a_non_student_user(database, role):
+    """Billing a staff account would put a salary line into the receivable ledger."""
+    con, schema, people = database
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_contract(con, actor_user_id=people['owner'],
+                                     student_user_id=people[role], monthly_amount_minor=800_000,
+                                     starts_on=TODAY)
+    assert exc.value.code == 'student_not_found'
+    assert exc.value.status == 404, 'a non-student must be indistinguishable from a missing one'
+    assert await con.fetchval('SELECT count(*) FROM tuition_contracts') == 0
+
+
+@pytest.mark.asyncio
+async def test_a_contract_cannot_be_created_for_a_suspended_student(database):
+    con, schema, people = database
+    await con.execute("UPDATE users SET account_status='suspended' WHERE id=$1",
+                      people['student'])
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_contract(con, actor_user_id=people['owner'],
+                                     student_user_id=people['student'],
+                                     monthly_amount_minor=800_000, starts_on=TODAY)
+    assert exc.value.code == 'student_not_active'
+    assert exc.value.status == 409
+
+
+@pytest.mark.asyncio
+async def test_a_suspended_student_may_still_pay_off_what_they_owe(database):
+    """Enrolment needs an active student; collecting an existing debt must never be blocked."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await con.execute("UPDATE users SET account_status='suspended' WHERE id=$1",
+                      people['student'])
+    payment, allocations, duplicate = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=800_000)
+    assert duplicate is False and payment['status'] == 'confirmed'
+    assert (await ledger.student_position(con, people['student']))['balanceDueMinor'] == 0
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
+
+
+@pytest.mark.asyncio
+async def test_a_payment_cannot_be_recorded_against_a_staff_account(database):
+    con, schema, people = database
+    with pytest.raises(LedgerError) as exc:
+        await ledger.record_payment(con, actor_user_id=people['admin'],
+                                    student_user_id=people['admin'], amount_minor=100_000)
+    assert exc.value.code == 'student_not_found'
+    assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 0
+
+
 @pytest.mark.asyncio
 async def test_floats_are_rejected_for_money(database):
     con, schema, people = database
