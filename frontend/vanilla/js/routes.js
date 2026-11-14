@@ -174,4 +174,5 @@ if(route.pattern==='/app/listening')return {...route,protected:true,redirectOnly
 export default [...mapped,
  {...staffRoutes.find(route=>route.pattern==='/app/management/study-plans'),protected:true},
  {...staffRoutes.find(route=>route.pattern==='/app/management/groups'),protected:true},
+ {pattern:'/app/management/finance',protected:true,roles:['admin','owner'],load:()=>import('../modules/staff-final30/academy-finance.js')},
  {pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')}];

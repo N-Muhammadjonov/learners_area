@@ -13,6 +13,7 @@ import pytest_asyncio
 from _finance_schema import DSN, create_disposable_schema
 from app import academy_groups as groups
 from app import main
+from app import tuition_schemas as finance_contracts
 
 MIGRATIONS = Path(__file__).resolve().parents[1] / 'migrations'
 MIGRATION = '1122_academy_groups.sql'
@@ -363,3 +364,15 @@ async def test_held_roster_bulk_marks_are_atomic_and_guardian_can_read_only_link
     assert response.json()['history'][0]['status'] == 'late'
     assert 'student_user_id' not in response.json()['history'][0]
     assert (await client.get(base + str(actors['second']) + '/attendance')).status_code == 403
+
+
+@pytest.mark.parametrize('invalid', [True, 1.0, 1.5, '100'])
+def test_finance_entry_contracts_do_not_coerce_unsigned_money(invalid):
+    payment = {'studentUserId': str(uuid4()), 'amountMinor': invalid}
+    other = {'amountMinor': invalid, 'reason': 'Fixture note'}
+    for model, body in ((finance_contracts.PaymentCreate, payment),
+                        (finance_contracts.RefundRequest, other),
+                        (finance_contracts.CashAdjustment, other)):
+        with pytest.raises(finance_contracts.ValidationError) as caught:
+            finance_contracts.parse(model, body)
+        assert caught.value.fields[0]['field'] == 'amountMinor'

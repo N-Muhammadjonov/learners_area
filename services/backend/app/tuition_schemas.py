@@ -154,7 +154,7 @@ class InstallmentCreate(_Strict):
 
 class CreditNoteCreate(_Strict):
     chargeId: UUID
-    amountMinor: int
+    amountMinor: MoneyMinor
     reason: str = Field(min_length=1, max_length=300)
 
     @field_validator('amountMinor')
@@ -167,7 +167,7 @@ class CreditNoteCreate(_Strict):
 
 class PaymentCreate(_Strict):
     studentUserId: UUID
-    amountMinor: int
+    amountMinor: MoneyMinor
     method: str = 'cash'
     provider: str | None = Field(default=None, max_length=20)
     providerTransactionId: str | None = Field(default=None, max_length=80)
@@ -206,7 +206,7 @@ class PaymentCreate(_Strict):
 
 class RevenueRecognize(_Strict):
     studentUserId: UUID
-    amountMinor: int
+    amountMinor: MoneyMinor
     periodKey: str | None = None
     memo: str | None = Field(default=None, max_length=300)
 
@@ -240,7 +240,7 @@ class DayClose(_Strict):
 
 
 class CashAdjustment(_Strict):
-    amountMinor: int
+    amountMinor: MoneyMinor
     reason: str = Field(min_length=1, max_length=300)
 
     @field_validator('amountMinor')
@@ -252,7 +252,7 @@ class CashAdjustment(_Strict):
 
 
 class RefundRequest(_Strict):
-    amountMinor: int
+    amountMinor: MoneyMinor
     reason: str = Field(min_length=1, max_length=200)
     method: str | None = None
     providerRefundId: str | None = Field(default=None, max_length=80)

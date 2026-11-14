@@ -3,6 +3,7 @@ import {studentPlanInline} from './student-plan-inline.js';
 import {BackLink} from './kit.js';
 import {studentGroupHistory} from './academy-groups.js';
 import {studentAttendance} from './academy-attendance.js';
+import {financeInProfile} from './academy-finance.js';
 
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -23,7 +24,7 @@ export async function mount(ctx){
   host.append(el('p',{role:'alert'},ctx.locale==='uz'?'Talaba topilmadi.':'Student not found.'));
  }else{
   host.append(studentPlanInline(ctx,id),studentGroupHistory(ctx,id),
-   studentAttendance(ctx,'/api/staff/academy/students/'+id+'/attendance'));
+   studentAttendance(ctx,'/api/staff/academy/students/'+id+'/attendance'),financeInProfile(ctx,id));
  }
  ctx.root.append(host);
 }

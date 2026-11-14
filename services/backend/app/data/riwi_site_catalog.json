@@ -1562,6 +1562,16 @@
       "redirect": false
     },
     {
+      "path": "/app/management/finance",
+      "roles": [
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/academy-finance.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
       "path": "/app/management/guardians",
       "roles": [
         "teacher",
@@ -1761,7 +1771,7 @@
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
-    "frontend/vanilla/js/routes.js": "9bca467baef73360272781e169341a2fb69f60eeeb97fa0215f23fcf683eb2fc",
+    "frontend/vanilla/js/routes.js": "991acaacd6b2eb7c8fc6751fa1e641d3d928b4470bb99bd9b9fe5514b80da256",
     "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
     "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
     "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
@@ -1904,7 +1914,7 @@
     "frontend/vanilla/modules/notes/lesson-notes.js": "f998ed650d1bd327a7e3db8af88a8862ba9841eccf6a8de0769395742514ceb5",
     "frontend/vanilla/modules/notifications/page.js": "b1236a7ee64152373e7ec43e8df027305cc3a25e55c3939a1d07a6b28600a3f5",
     "frontend/vanilla/modules/profile/level-select.js": "c6bf2ac29f98a0c27e294abc48301123b6b163ead63c982a56b7edfb8119c408",
-    "frontend/vanilla/modules/profile/page.js": "b21b058b095531ade05dcbf6e569305b5fedce26c136524d003f9267ea70db5a",
+    "frontend/vanilla/modules/profile/page.js": "17ba412cfc14f13033910e89d37f9034a09e655f8dc5a276757e6528199ade68",
     "frontend/vanilla/modules/profile/photo-image.js": "e696a21037ac1ba8c04997a08f0174c5ee01a6d6fc351fcc80aa9e37faf86856",
     "frontend/vanilla/modules/progress/mock-summary.js": "e431451c5926852a389d8f623c080779f6f89a2dcc8f3f7d9d015449ce8f2979",
     "frontend/vanilla/modules/progress/mocks.js": "5096d6c6e62b7a3ea4d7d4b680330f120ae620e1d020382122befd7ab168d3c5",
@@ -2009,6 +2019,7 @@
     "frontend/vanilla/modules/speaking/vocabulary-save.js": "f8e0c4899203d551a196bb0714ef4e530b4790ea89f5b7e26d19ef7a456be4d8",
     "frontend/vanilla/modules/speaking/voice-activity.js": "d617386b0f29f9389f7c52d8c284cc37c25690bc034a36cd0d11263e2240064c",
     "frontend/vanilla/modules/staff-final30/academy-attendance.js": "5b598947c6d9d584973653a03834d8d36288b279aba1579e643e9db76fee7387",
+    "frontend/vanilla/modules/staff-final30/academy-finance.js": "9d2c9861cce935af399bd6eab4edf04c536a364f5eadbf63ad207babca5cd032",
     "frontend/vanilla/modules/staff-final30/academy-groups.js": "58f9b7a9774c32c017dc5ba66cddbeffa397a0921ed6fb79f1753904a69fa801",
     "frontend/vanilla/modules/staff-final30/admissions.js": "5f9d5ab60d31952a891a085d0dba035091e4813574ef3f37331ab0fae8958b4d",
     "frontend/vanilla/modules/staff-final30/content-compat.js": "b0c12db781e3905250ede91e4da3d40d84ccff7dbbf24c6b0955195290bacfb0",
@@ -2022,7 +2033,7 @@
     "frontend/vanilla/modules/staff-final30/listening-import.js": "9cfbdde9f57bf6fe7182cd6a982cc5f0460251159b67337649f97349bc35b517",
     "frontend/vanilla/modules/staff-final30/listening-legacy-import.js": "0f107a2345b8ca17e377daad8bc5d6a410867babee32aa2a4324e30470fd4bdd",
     "frontend/vanilla/modules/staff-final30/listening.js": "064ffeb0b23dd69a0714084c69cfc519609346931c330a7e639e2e25e3905728",
-    "frontend/vanilla/modules/staff-final30/management-hub.js": "9d216153f9b83e9e22af0052ded27ba663698b022fbaf45194ddca11a2d1c53a",
+    "frontend/vanilla/modules/staff-final30/management-hub.js": "0ed9a82d7cf6e13c7f656e5fb05ba8418c4dee878e67f3368b5d57f854956aa9",
     "frontend/vanilla/modules/staff-final30/materials.js": "3b08d485b88028eca09b89c9d38dc50de9d5ca72b5afeb022cec1cfa32322c3d",
     "frontend/vanilla/modules/staff-final30/mock-create.js": "656f8ce5c3b772e65beece28539c9887d0eeb15a4e221b7bb9bde18803e30d36",
     "frontend/vanilla/modules/staff-final30/mock-grading.js": "86cd9ec7c2a22c2987ca7d3c62de5c93f5f185f9ffcd9bbbf598935ef16d5f16",
@@ -2045,13 +2056,13 @@
     "frontend/vanilla/modules/staff-final30/roster.js": "f3343cddc15099693a18fe8ed04b4b7a535bef01308e44e63a696705633cea5b",
     "frontend/vanilla/modules/staff-final30/routes.js": "f5649617de3254c7dcfa0b48808b5b5831dfd6c081387042b45c5066a78c0b2b",
     "frontend/vanilla/modules/staff-final30/speaking.js": "fd18a2dbe9230fddaad27b1699b904e67a6eaf8c5621f7276b44ab5deab1077c",
-    "frontend/vanilla/modules/staff-final30/staff-student-entry.js": "428237acdee09c47cb3d6be8b7f77a34870e9c2c6869d65df47f4ff83142910f",
+    "frontend/vanilla/modules/staff-final30/staff-student-entry.js": "45cc2f5b3cd8d88f728e87e5244158985bb8b912a97dddad0a94942173610c85",
     "frontend/vanilla/modules/staff-final30/statistics-strings.js": "4fb6aed2a7320d944b27e21db2c086d7916c1bd636176270654d37919e40c8ea",
     "frontend/vanilla/modules/staff-final30/statistics.js": "5449f3baf312e979200358d6417a6ca68b33b509cf9e32bdb7eff052f5053918",
     "frontend/vanilla/modules/staff-final30/student-plan-inline.js": "dda161a2ae8ff144718f8606a8bd38b857cedb9318dd0018dd4e089d76c0f4f8",
     "frontend/vanilla/modules/staff-final30/study-plans.js": "bb153bd213632b0cda7753853bda388b6e2f5cd94f78752394dc2d4f77c2506f",
     "frontend/vanilla/modules/staff-final30/teacher-live.js": "5a59c0185ce4bcf6e791ab63a959baf0b5445bfad5c28276bfabc62021fd5152",
-    "frontend/vanilla/modules/staff-final30/teacher.js": "404a861987cb02e9ce23a93054e8322b5ffcfd15c678b529eb6c1326b9643899",
+    "frontend/vanilla/modules/staff-final30/teacher.js": "f0dc521374322bf61ba8e5958738abad6c2e4f674a9cd52145271f07b7d6020f",
     "frontend/vanilla/modules/staff-final30/video-lessons.js": "ab76e274774ff97cbc7708bdc6401770a0136299c225d9ee3875dc14e4240c82",
     "frontend/vanilla/modules/staff-final30/writing.js": "5c259a06a8aab793023e046071eb254d0a47b35ba2e57972469fbe66c6db828d",
     "frontend/vanilla/modules/study-plan/coin-market.js": "20bcc13dbc50ea058a44aff5b608b90986b720dd76ca3be3dd6d31279c8ef446",

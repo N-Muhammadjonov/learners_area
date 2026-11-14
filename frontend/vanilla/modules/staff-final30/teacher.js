@@ -5,6 +5,7 @@ import {studentLearningPanel} from './learning-results.js';
 import {studentPlanInline} from './student-plan-inline.js';
 import {studentGroupHistory} from './academy-groups.js';
 import {studentAttendance} from './academy-attendance.js';
+import {financeInProfile} from './academy-finance.js';
 import {learningExtras} from '../shared/student-learning.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
@@ -135,6 +136,7 @@ export const studentMount=mountStaff({name:'management-student',roles:STAFF,notF
    studentPlanInline(ctx,d.student.id),
    ctx.session.user.role==='owner'?studentGroupHistory(ctx,d.student.id):null,
    studentAttendance(ctx,'/api/staff/academy/students/'+d.student.id+'/attendance'),
+   financeInProfile(ctx,d.student.id,d.student.name),
    renderResults(dict,d.results),
    weaknessPanel(ctx,d.weaknesses),
    studentLearningPanel(ctx,d.student.id,`/app/teacher/students/${d.student.id}`),
