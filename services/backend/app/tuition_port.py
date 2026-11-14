@@ -22,6 +22,7 @@ from fastapi import APIRouter, Request
 from . import main as core
 from .admin_authoring_port import uuid_val
 from .rate_limit import RULES, async_counter as counter, too_many
+from . import payments_sandbox as sandbox
 from . import tuition_ledger as ledger
 from .tuition_ledger import LedgerError
 
@@ -272,6 +273,11 @@ async def record_payment(req: Request):
     student_id = uuid_val(body.get('studentUserId'))
     if not student_id or not isinstance(body.get('amountMinor'), int):
         return err('invalid_payload')
+    method = str(body.get('method') or 'cash')
+    if method == 'provider' and body.get('confirm'):
+        # Provider money settles only through a verified provider callback. A staff session
+        # asserting "the provider paid" would let a privileged caller invent a receipt.
+        return core.j({'error': 'provider_confirmation_requires_provider_proof'}, 409, PRIVATE)
     limited = await _write_gate(req, user)
     if limited:
         return limited
@@ -281,7 +287,7 @@ async def record_payment(req: Request):
         try:
             payment, allocations, duplicate = await ledger.record_payment(
                 conn, actor_user_id=user['id'], student_user_id=student_id,
-                amount_minor=body['amountMinor'], method=str(body.get('method') or 'cash'),
+                amount_minor=body['amountMinor'], method=method,
                 provider=body.get('provider'), provider_transaction_id=body.get('providerTransactionId'),
                 idempotency_key=str(body['idempotencyKey'])[:120] if body.get('idempotencyKey') else None,
                 receipt_purpose=str(body.get('receiptPurpose') or '')[:120] or None,
@@ -456,6 +462,47 @@ async def my_billing(req: Request):
     async with db.acquire() as conn:
         position = await ledger.student_position(conn, user['id'])
     return core.j({'position': position}, headers=PRIVATE)
+
+
+@router.post('/api/internal/payments/sandbox/callback')
+async def sandbox_provider_callback(req: Request):
+    """Provider callback for the SANDBOX adapter only.
+
+    Disabled unless `TUITION_PROVIDER_SANDBOX=1`, in which case the route answers 404 so an
+    unconfigured deployment is indistinguishable from one that has no such route. The
+    signature is the authentication; the ledger still re-verifies amount, currency, customer
+    and order against the pending intent. See `app/payments_sandbox.py`.
+    """
+    if not sandbox.enabled():
+        return core.j({'error': 'not_found'}, 404, PRIVATE)
+    payload, reason = sandbox.validate_notification(req.headers, await req.body())
+    if payload is None:
+        return core.j({'error': 'invalid_provider_notification', 'reason': reason}, 401, PRIVATE)
+    provider = str(payload['provider'])[:20]
+    transaction_id = str(payload['transactionId'])[:80]
+    status = str(payload['status']).lower()
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            if status in ledger.PAID_PROOF_STATUSES:
+                proof = ledger.provider_proof(
+                    amount_minor=payload.get('amountMinor'),
+                    currency=payload.get('currency') or ledger.CURRENCY, status=status,
+                    order_ref=payload.get('orderRef'),
+                    student_user_id=uuid_val(payload.get('studentUserId')))
+                payment, _, duplicate = await ledger.confirm_provider_payment(
+                    conn, provider=provider, provider_transaction_id=transaction_id, proof=proof)
+            elif status in ledger.INTENT_CLOSED_STATES:
+                payment = await ledger.close_provider_intent(
+                    conn, provider=provider, provider_transaction_id=transaction_id,
+                    to_status=status, reason='provider callback')
+                duplicate = False
+            else:
+                return core.j({'error': 'unsupported_provider_status'}, 400, PRIVATE)
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'duplicate': duplicate, 'status': payment['status']},
+                  headers=PRIVATE)
 
 
 def install():

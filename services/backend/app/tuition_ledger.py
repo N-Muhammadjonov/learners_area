@@ -356,6 +356,11 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
     _require(amount > 0, 'amount_must_be_positive')
     _require(method in CASH_METHODS, 'unknown_method', method=method)
     _require(provider is None or provider_transaction_id, 'provider_transaction_id_required')
+    if method == 'provider':
+        # A staff session, a browser redirect and this function are all untrusted about
+        # whether a provider was paid. Provider money only settles through
+        # confirm_provider_payment() with an adapter-produced proof.
+        confirm = False
     _student_exists_ok = await conn.fetchval('SELECT 1 FROM users WHERE id=$1', student_user_id)
     _require(bool(_student_exists_ok), 'student_not_found', 404)
     moment = occurred_at or datetime.now(timezone.utc)
@@ -429,6 +434,85 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
         period=period_key(moment), lines=lines, occurred_at=moment)
     payment['allocations'] = [dict(row) for row in allocations]
     return payment, [dict(row) for row in allocations], False
+
+
+# Provider settlement. The proof is produced by a provider adapter that verified the
+# vendor's own authentication; the ledger re-checks every financial semantic key against
+# the pending intent, because a valid signature on a different order is still wrong.
+PAID_PROOF_STATUSES = ('paid', 'success', 'completed')
+INTENT_CLOSED_STATES = ('rejected', 'expired', 'cancelled')
+
+
+def provider_proof(*, amount_minor, currency, status, order_ref=None, student_user_id=None):
+    """Canonical settlement proof handed to the ledger by a provider adapter."""
+    return {'amountMinor': _minor(amount_minor), 'currency': currency, 'status': status,
+            'orderRef': order_ref, 'studentUserId': student_user_id}
+
+
+@transactional
+async def confirm_provider_payment(conn, *, provider, provider_transaction_id, proof,
+                                   actor_user_id=None):
+    """Settle a pending provider intent exactly once, on verified proof.
+
+    Returns ``(payment_row, allocations, duplicate)``. A repeated callback resolves to the
+    same row and writes nothing twice; a proof that disagrees with the intent about amount,
+    currency, customer, order or status settles nothing.
+    """
+    payment = await conn.fetchrow(
+        'SELECT * FROM tuition_payments WHERE provider=$1 AND provider_transaction_id=$2'
+        ' LIMIT 1 FOR UPDATE', provider, provider_transaction_id)
+    _require(payment is not None, 'provider_intent_not_found', 404)
+    if payment['status'] in SETTLED_PAYMENT_STATES:
+        return dict(payment), [], True
+    _require(payment['status'] == 'pending_provider', 'intent_not_settleable', 409,
+             status=payment['status'])
+    _require(str(proof.get('status') or '').lower() in PAID_PROOF_STATUSES, 'proof_not_paid',
+             409, status=proof.get('status'))
+    _require(proof.get('amountMinor') == payment['amount_minor'], 'proof_amount_mismatch', 409,
+             expectedMinor=payment['amount_minor'], proofMinor=proof.get('amountMinor'))
+    _require((proof.get('currency') or payment['currency_code']) == payment['currency_code'],
+             'proof_currency_mismatch', 409, expected=payment['currency_code'],
+             proof=proof.get('currency'))
+    if proof.get('studentUserId') is not None:
+        _require(str(proof['studentUserId']) == str(payment['student_user_id']),
+                 'proof_student_mismatch', 409)
+    if proof.get('orderRef') is not None and payment['idempotency_key'] is not None:
+        _require(str(proof['orderRef']) == str(payment['idempotency_key']),
+                 'proof_order_mismatch', 409)
+    settled = await conn.fetchrow(
+        "UPDATE tuition_payments SET status='confirmed', confirmed_at=coalesce(confirmed_at, now())"
+        ' WHERE id=$1 RETURNING *', payment['id'])
+    allocations = await _allocate(conn, settled)
+    allocated = sum(row['amount_minor'] for row in allocations)
+    surplus = settled['amount_minor'] - allocated
+    lines = [('bank_clearing', 'debit', settled['amount_minor'])]
+    if allocated:
+        lines.append(('accounts_receivable', 'credit', allocated))
+    if surplus:
+        lines.append(('customer_advance', 'credit', surplus))
+    await _post_journal(
+        conn, source_type='provider_payment', source_id=settled['id'],
+        student_user_id=settled['student_user_id'], actor_user_id=actor_user_id,
+        memo=f'{provider} settlement {provider_transaction_id}',
+        period=period_key(settled['confirmed_at']), lines=lines,
+        occurred_at=settled['confirmed_at'])
+    return dict(settled), [dict(row) for row in allocations], False
+
+
+@transactional
+async def close_provider_intent(conn, *, provider, provider_transaction_id, to_status,
+                                reason=None, actor_user_id=None):
+    """Move an unsettled provider intent to rejected/expired/cancelled. Never settles it."""
+    _require(to_status in INTENT_CLOSED_STATES, 'invalid_intent_state', to_status=to_status)
+    payment = await conn.fetchrow(
+        'SELECT * FROM tuition_payments WHERE provider=$1 AND provider_transaction_id=$2'
+        ' LIMIT 1 FOR UPDATE', provider, provider_transaction_id)
+    _require(payment is not None, 'provider_intent_not_found', 404)
+    _require(payment['status'] == 'pending_provider', 'intent_not_settleable', 409,
+             status=payment['status'])
+    closed = await conn.fetchrow(
+        'UPDATE tuition_payments SET status=$2 WHERE id=$1 RETURNING *', payment['id'], to_status)
+    return dict(closed)
 
 
 async def _allocate(conn, payment):

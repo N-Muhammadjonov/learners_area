@@ -329,22 +329,38 @@ async def test_unbalanced_journal_transaction_cannot_commit(database):
 
 @pytest.mark.asyncio
 async def test_duplicate_provider_callback_has_exactly_one_effect(database):
+    """100 identical provider events create one intent, and one settlement, and one posting."""
     con, schema, people = database
     contract = await approved_contract(con, people)
     await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
     created = 0
     for _ in range(100):
-        _, _, duplicate = await ledger.record_payment(
+        payment, _, duplicate = await ledger.record_payment(
             con, actor_user_id=people['admin'], student_user_id=people['student'],
             amount_minor=600_000, method='provider', provider='payme',
             provider_transaction_id='PAYME-77', idempotency_key='idem-77')
         created += 0 if duplicate else 1
     assert created == 1
+    assert payment['status'] == 'pending_provider'
+    assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+    # Nothing has moved yet: an intent is not money.
+    assert await con.fetchval('SELECT count(*) FROM tuition_payment_allocations') == 0
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 1
+
+    proof = ledger.provider_proof(amount_minor=600_000, currency='UZS', order_ref='idem-77',
+                                  student_user_id=people['student'], status='paid')
+    settled_count = 0
+    for _ in range(100):
+        _, _, duplicate = await ledger.confirm_provider_payment(
+            con, provider='payme', provider_transaction_id='PAYME-77', proof=proof)
+        settled_count += 0 if duplicate else 1
+    assert settled_count == 1
     assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 1
     assert await con.fetchval('SELECT count(*) FROM tuition_payment_allocations') == 1
     assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 2
     position = await ledger.student_position(con, people['student'])
     assert position['collectedMinor'] == 600_000 and position['balanceDueMinor'] == 0
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
 
 
 @pytest.mark.asyncio
@@ -354,15 +370,20 @@ async def test_parallel_duplicate_callbacks_create_one_payment(database):
     contract = await approved_contract(con, people)
     await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
 
+    proof = ledger.provider_proof(amount_minor=600_000, currency='UZS', order_ref='idem-race',
+                                  student_user_id=people['student'], status='paid')
+
     async def submit():
         other = await asyncpg.connect(DSN)
         try:
             await other.execute(f'SET search_path TO "{schema}", public')
             async with other.transaction():
-                _, _, duplicate = await ledger.record_payment(
+                await ledger.record_payment(
                     other, actor_user_id=people['admin'], student_user_id=people['student'],
                     amount_minor=600_000, method='provider', provider='payme',
                     provider_transaction_id='PAYME-RACE', idempotency_key='idem-race')
+                _, _, duplicate = await ledger.confirm_provider_payment(
+                    other, provider='payme', provider_transaction_id='PAYME-RACE', proof=proof)
                 return duplicate
         finally:
             await other.close()
@@ -537,6 +558,145 @@ async def test_pending_provider_intent_moves_no_money(database):
     position = await ledger.student_position(con, people['student'])
     assert position['balanceDueMinor'] == 600_000 and position['collectedMinor'] == 0
     assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 1
+
+
+@pytest.mark.asyncio
+async def test_a_caller_cannot_confirm_provider_money_by_asking(database):
+    """FIN-03: `confirm=True` from a staff/browser request must never settle provider money."""
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    payment, allocations, _ = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=600_000, method='provider', provider='payme',
+        provider_transaction_id='PAYME-ATTACK', confirm=True)
+    assert payment['status'] == 'pending_provider', 'a privileged caller forged a settlement'
+    assert allocations == []
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 1
+    assert (await ledger.student_position(con, people['student']))['collectedMinor'] == 0
+
+
+@pytest.mark.asyncio
+async def test_provider_proof_settles_a_pending_intent_exactly_once(database):
+    """FIN-02: pending -> confirmed is an atomic, exactly-once transition on real proof."""
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=600_000,
+                                method='provider', provider='payme',
+                                provider_transaction_id='PAYME-SETTLE')
+    proof = ledger.provider_proof(amount_minor=600_000, currency='UZS', order_ref=None,
+                                  student_user_id=people['student'], status='paid')
+    settled, allocations, duplicate = await ledger.confirm_provider_payment(
+        con, provider='payme', provider_transaction_id='PAYME-SETTLE', proof=proof)
+    assert not duplicate and settled['status'] == 'confirmed'
+    assert [row['amount_minor'] for row in allocations] == [600_000]
+    position = await ledger.student_position(con, people['student'])
+    assert position['collectedMinor'] == 600_000 and position['balanceDueMinor'] == 0
+
+    for _ in range(100):
+        _, _, again = await ledger.confirm_provider_payment(
+            con, provider='payme', provider_transaction_id='PAYME-SETTLE', proof=proof)
+        assert again is True
+    assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+    assert await con.fetchval('SELECT count(*) FROM tuition_payment_allocations') == 1
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 2
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
+
+
+@pytest.mark.asyncio
+async def test_concurrent_provider_confirmations_settle_once(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=600_000,
+                                method='provider', provider='payme',
+                                provider_transaction_id='PAYME-RACE2')
+    proof = ledger.provider_proof(amount_minor=600_000, currency='UZS', order_ref=None,
+                                  student_user_id=people['student'], status='paid')
+
+    async def settle():
+        other = await asyncpg.connect(DSN)
+        try:
+            await other.execute(f'SET search_path TO "{schema}", public')
+            async with other.transaction():
+                _, _, duplicate = await ledger.confirm_provider_payment(
+                    other, provider='payme', provider_transaction_id='PAYME-RACE2', proof=proof)
+                return duplicate
+        finally:
+            await other.close()
+
+    results = await asyncio.gather(*(settle() for _ in range(20)), return_exceptions=True)
+    assert [r for r in results if isinstance(r, Exception)] == []
+    assert results.count(False) == 1 and results.count(True) == 19
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 2
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('tamper,expected', [
+    ({'amount_minor': 599_999}, 'proof_amount_mismatch'),
+    ({'currency': 'USD'}, 'proof_currency_mismatch'),
+    ({'status': 'failed'}, 'proof_not_paid'),
+    ({'status': 'created'}, 'proof_not_paid'),
+])
+async def test_provider_proof_is_checked_against_the_pending_intent(database, tamper, expected):
+    """FIN-02: amount, currency, customer and status are all bound to the intent."""
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=600_000,
+                                method='provider', provider='payme',
+                                provider_transaction_id='PAYME-TAMPER')
+    kwargs = dict(amount_minor=600_000, currency='UZS', order_ref=None,
+                  student_user_id=people['student'], status='paid')
+    kwargs.update(tamper)
+    with pytest.raises(LedgerError) as refused:
+        await ledger.confirm_provider_payment(con, provider='payme',
+                                              provider_transaction_id='PAYME-TAMPER',
+                                              proof=ledger.provider_proof(**kwargs))
+    assert refused.value.code == expected
+    stored = await con.fetchrow("SELECT status FROM tuition_payments WHERE provider_transaction_id='PAYME-TAMPER'")
+    assert stored['status'] == 'pending_provider', 'a bad proof must not settle anything'
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 1
+
+
+@pytest.mark.asyncio
+async def test_provider_proof_for_another_student_is_refused(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=600_000,
+                                method='provider', provider='payme',
+                                provider_transaction_id='PAYME-WRONGUSER')
+    proof = ledger.provider_proof(amount_minor=600_000, currency='UZS', order_ref=None,
+                                  student_user_id=people['other_student'], status='paid')
+    with pytest.raises(LedgerError) as refused:
+        await ledger.confirm_provider_payment(con, provider='payme',
+                                              provider_transaction_id='PAYME-WRONGUSER',
+                                              proof=proof)
+    assert refused.value.code == 'proof_student_mismatch'
+
+
+@pytest.mark.asyncio
+async def test_cancelled_and_expired_intents_cannot_settle(database):
+    con, schema, people = database
+    for state, txn in (('cancelled', 'PAYME-CANCELLED'), ('expired', 'PAYME-EXPIRED')):
+        await ledger.record_payment(con, actor_user_id=people['admin'],
+                                    student_user_id=people['student'], amount_minor=600_000,
+                                    method='provider', provider='payme',
+                                    provider_transaction_id=txn)
+        await ledger.close_provider_intent(con, provider='payme', provider_transaction_id=txn,
+                                           to_status=state, reason='test')
+        proof = ledger.provider_proof(amount_minor=600_000, currency='UZS', order_ref=None,
+                                      student_user_id=people['student'], status='paid')
+        with pytest.raises(LedgerError) as refused:
+            await ledger.confirm_provider_payment(con, provider='payme',
+                                                  provider_transaction_id=txn, proof=proof)
+        assert refused.value.code == 'intent_not_settleable'
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 0
 
 
 @pytest.mark.asyncio
