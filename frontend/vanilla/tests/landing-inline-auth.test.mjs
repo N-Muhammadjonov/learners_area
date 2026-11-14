@@ -14,7 +14,8 @@ test('only landing routes dynamically load the landing document',()=>{
  assert.match(source,/frame\.srcdoc=LANDING_HTML/);
  assert.match(source,/frame\.setAttribute\('loading','eager'\)/);
  assert.match(routes,/pattern:"\/landing",load:\(\)=>import\('\.\.\/modules\/auth\/public\.js'\)/);
- assert.match(read('../index.html'),/Birinchi marta keldingizmi\? <a href="\/register"/);
+ assert.match(read('../index.html'),/data-public-landing-fallback/);
+ assert.match(read('../index.html'),/href="\/register"/);
 });
 
 test('landing is public and inline scripts inherit the server nonce',()=>{
