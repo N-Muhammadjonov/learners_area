@@ -188,9 +188,16 @@ def select_attempt_speaking_material(pool):
     import secrets
     if not _valid_auto_speaking_pool(pool):
         raise ValueError('invalid_speaking_pool')
-    topic=secrets.choice(pool['part1Pool'])
+    available_topics=list(pool['part1Pool'])
+    selected_topics=[]
+    while available_topics and len(selected_topics)<3:
+        topic=secrets.choice(available_topics)
+        selected_topics.append(topic)
+        available_topics=[item for item in available_topics if item['topic'].strip().casefold()!=topic['topic'].strip().casefold()]
     pair=secrets.choice(pool['part2Pairs'])
-    return {'speakingMode':'auto','parts':[*topic['parts'],pair['part2'],*pair['part3']]}
+    part1_questions=[{**question,'topic':topic['topic'],'topicIndex':index+1}
+                     for index,topic in enumerate(selected_topics) for question in topic['parts']]
+    return {'speakingMode':'auto','parts':[*part1_questions,pair['part2'],*pair['part3']]}
 
 
 async def _verify_section_material_integrity(
@@ -3236,3 +3243,4 @@ def install():
     core.app.include_router(authoring_router)
     from .mock_speaking_questions import router as question_capture_router
     core.app.include_router(question_capture_router)
+

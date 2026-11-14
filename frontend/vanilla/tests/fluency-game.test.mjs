@@ -67,9 +67,24 @@ test('suspended audio during opening offers an explicit Resume and cleans the fa
 test('late background notification pauses at the last trustworthy sample rather than penalizing throttling',async()=>{
  const h=game();try{await h.start();h.steps(12,100);const before=h.engine.snapshot().elapsedMs;h.deps.cancelFrame([...h.frames.keys()][0]);h.step(50000);h.hide();assert.equal(h.engine.snapshot().phase,'paused');assert.equal(h.engine.snapshot().elapsedMs,before);assert(h.inputs[0].disposed);}finally{h.dispose();}
 });
-test('question picker uses only authorized bounded GET data and avoids immediate repeats',async()=>{
- const h=setup();try{h.stub({'/api/speaking/practice/questions':{prompts:[{id:ID(601),part:'part3',promptText:'Why is this a synthetic test question?'},{id:ID(602),part:'part3',promptText:'How would you explain this synthetic case?'}]}});const p=createQuestionPicker(),first=await p.next(h.ctx.signal),second=await p.next(h.ctx.signal),third=await p.next(h.ctx.signal);assert.notEqual(first.id,second.id);assert.notEqual(second.id,third.id);assert.equal(h.calls.length,1);assert(h.calls.every(call=>call.method==='GET'));assert(h.calls[0].path.includes('channel=practice_alone'));}finally{h.dispose();}
+test('question picker keeps the ordered, level-filtered server session',async()=>{
+ const h=setup();try{h.stub({'/api/speaking/fluency/session':{level:'intermediate',questions:[601,602,603].map(n=>({id:ID(n),part:'part1',topic:'Home',difficulty:'intermediate',promptText:'Synthetic test question '+n}))}});const p=createQuestionPicker();assert.equal((await p.next(h.ctx.signal)).id,ID(601));assert.equal((await p.next(h.ctx.signal)).id,ID(602));assert.equal((await p.next(h.ctx.signal)).id,ID(603));assert.equal(h.calls.length,1);assert(h.calls[0].path.includes('level=intermediate'));}finally{h.dispose();}
 });
-test('empty or failed bank never invents a production question',async()=>{
- const h=setup();try{h.stub({'/api/speaking/practice/questions':{prompts:[]}});await assert.rejects(createQuestionPicker().next(h.ctx.signal),error=>error.code==='question_empty');assert.equal(h.calls.length,3);assert(h.calls.every(call=>call.method==='GET'));}finally{h.dispose();}
+test('empty or failed session never invents a production question',async()=>{
+ const h=setup();try{h.stub({'/api/speaking/fluency/session':{level:'intermediate',questions:[]}});await assert.rejects(createQuestionPicker().next(h.ctx.signal),error=>error.code==='question_empty');assert.equal(h.calls.length,1);}finally{h.dispose();}
+});
+test('each response can be played, deleted and re-recorded against exactly the same question',async()=>{
+ let chosen=0,recorded=0,spoken=[];const create=URL.createObjectURL,revoke=URL.revokeObjectURL;
+ URL.createObjectURL=()=>`blob:response-${++recorded}`;URL.revokeObjectURL=()=>{};
+ const h=game({dependencies:{questionPicker:{async next(_signal,options){chosen++;assert.equal(options.level,'intermediate');return {id:ID(990),part:'part1',topic:'Home',promptText:'Describe your hometown.'};}},recorderFactory:()=>({stop:async()=>new Blob(['original audio'])}),speech:{speaking:false,cancel(){},speak(utterance){spoken.push(utterance.text);}}}});
+ h.dom.window.SpeechSynthesisUtterance=class{constructor(text){this.text=text;}};
+ h.dom.window.HTMLMediaElement.prototype.pause=function(){};
+ try{
+  await h.start();h.setVolume(.08);for(let i=0;i<610&&h.engine.snapshot().phase==='running';i++)h.step(100);await tick();
+  assert(h.q('[data-fluency-recording] audio'));assert.equal(chosen,1);
+  h.click(h.q('[data-fluency-record-again]'));await tick();h.setVolume(.002);h.steps(315);
+  assert.equal(chosen,1);assert.deepEqual(spoken,['Describe your hometown.','Describe your hometown.']);assert.equal(h.q('.fluency-question h2').textContent,'Describe your hometown.');
+  h.setVolume(.08);for(let i=0;i<610&&h.engine.snapshot().phase==='running';i++)h.step(100);await tick();
+  h.click(h.q('[data-fluency-recording] button'));assert.equal(h.q('[data-fluency-recording]'),null);
+ }finally{h.dispose();URL.createObjectURL=create;URL.revokeObjectURL=revoke;}
 });
