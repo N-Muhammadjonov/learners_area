@@ -2,40 +2,53 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "ae7a045b4210ea8240246e0461822eb8bff2b7ab",
+  "code_sha": "475f2d3313eab0f0cdc88bdee4e0f2ee3e63d321",
   "latest_finished_full_ci": {
-    "sha": "ae7a045b4210ea8240246e0461822eb8bff2b7ab",
-    "run_id": 43630766224,
+    "sha": "475f2d3313eab0f0cdc88bdee4e0f2ee3e63d321",
+    "run_id": 43634900159,
     "backend": {
-      "passed": 7447,
+      "passed": 7462,
       "failed": 0,
       "xfailed": 1,
       "subtests_passed": 287,
-      "seconds": 108.37
+      "seconds": 90.73
     },
     "frontend": {
-      "passed": 1778,
+      "passed": 1789,
       "failed": 0,
       "skipped": 12,
-      "seconds": 91.77
-    },
-    "migration_contract": {
-      "passed": 4,
-      "failed": 0
+      "seconds": 78.67
     },
     "fresh_migration": {
-      "schema_migrations": 100,
+      "schema_migrations": 103,
       "content_deferred": 21,
-      "typed_tables": 171,
+      "typed_tables": 178,
       "asgi_checks": 9
     }
   },
   "code_ci": {
-    "run_id": 43630766224,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43630766224",
-    "status": "success"
+    "status": "success",
+    "run_id": 43634900159,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43634900159"
   },
   "tests": [
+    {
+      "area": "academy_and_finance",
+      "postgres_version": "18.6",
+      "command": "python -m pytest -q tests/test_academy_groups.py tests/test_tuition_ledger.py tests/test_tuition_refund_http.py tests/test_tuition_provider_http.py tests/test_tuition_charge_http.py tests/test_finance_outbox.py tests/test_tuition_database_policy.py tests/test_tuition_schema_parity.py",
+      "passed": 150,
+      "failed": 0,
+      "seconds": 21.77
+    },
+    {
+      "area": "academy_finance_ui_and_static_routes",
+      "paths": [
+        "frontend/vanilla/tests/academy-finance.test.mjs",
+        "frontend/vanilla/tests/python-build-v69.test.mjs"
+      ],
+      "passed": 6,
+      "failed": 0
+    },
     {
       "area": "finance",
       "paths": [
@@ -55,7 +68,7 @@
     }
   ],
   "migrations": {
-    "latest": "services/backend/migrations/1121_finance_outbox_dispatch.sql",
+    "latest": "services/backend/migrations/1124_academy_attendance.sql",
     "fresh": "verified",
     "content_bearing_upgrade": "pending",
     "staging": "pending",
@@ -70,15 +83,25 @@
       ]
     },
     "B": {
-      "status": "green_on_verified_commit",
+      "status": "green_at_code_commit",
       "remaining": [
-        "verify docs-only head checks",
-        "run the main-only Telegram and Parent Connect workflows after an authorized merge"
+        "Check the documentation-only head status.",
+        "Vercel automatic preview reported a deployment rate limit."
       ]
     },
     "C": {
-      "status": "pending",
-      "next": "Start C1 by reusing users, courses, enrollments and teacher_student_links. Implement a role-scoped group/enrollment vertical slice and a PostgreSQL simultaneous last-seat regression."
+      "status": "partial",
+      "implemented": [
+        "C1 groups, capacity, enrollment, transfer and staff profile history",
+        "C2 group timetable, recurrence, resource overlap, substitutions, holidays and rescheduling",
+        "C3 verified attendance, correction audit, staff and linked-child guardian views",
+        "C4 staff summary, reconciliation, statement, cash/bank entry, internal receipt and cash close, scoped student and teacher views"
+      ],
+      "next": "Complete C4 contract/discount, charge/credit note, refund, provider and GL export UI. Then implement CRM, payroll, branch authorization, and student/staff import.",
+      "remaining": [
+        "Direct student calendar, attendance aggregate reports and standalone branch/room/fee-plan entities",
+        "Live browser, integration demo and realistic sample data"
+      ]
     },
     "D": {
       "status": "pending",

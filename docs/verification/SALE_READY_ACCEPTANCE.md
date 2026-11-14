@@ -1,5 +1,32 @@
 # Sale-readiness acceptance receipt
 
+## Akademiya operatsiyalari davomi (2026-11-15, Toshkent)
+
+| Qism | Kod va dalil |
+|---|---|
+| C1 | `893b48d` — mavjud kurs va o‘quvchi bilan bog‘langan guruhlar, a’zolik, ko‘chirish, audit va profil tarixi. Ikki parallel oxirgi joy da’vosidan bittasi qabul qilindi. To‘la guruhga transfer avvalgi a’zolikni saqlaydi. |
+| C2 | `3a19553` — xona/guruh/o‘qituvchi bandligini tranzaksiyada tekshirish, haftalik darslar va nomlangan bayram istisnolari. Bekor qilish xona bandligini bo‘shatadi. Reschedule eski dars ID sini saqlab, yangi darsga bog‘laydi. |
+| C3 | `6c86b9b` — o‘tgan dars ro‘yxati dars sanasidan olinadi. Parallel tuzatishdan bittasi qabul qilinadi. Sabab, oldingi belgi, yangi belgi va actor auditda. Faqat bog‘langan farzandning ma’lumoti guardian sahifasida. |
+| C4 | `475f2d3` — `/app/management/finance` doirasida owner/admin hisobot, reconciliation, o‘quvchi hisoboti, naqd/bank to‘lovi, chop etiladigan ichki tasdiqnoma va kassa yopish. O‘quvchi o‘z balansini, o‘qituvchi tayinlangan o‘quvchining summa ko‘rsatilmagan holatini ko‘radi. |
+
+- [To‘liq GitHub Actions](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43634900159) — moliya UI commitida 7 462 backend (90.73 s), 1 789 frontend (78.67 s), 287 subtest o‘tdi. 0 fail, 1 mavjud backend xfail va 12 frontend skip. Coin Economy va Leaderboard tekshiruvlari ham o‘tdi.
+- Lokal Linux, Python 3.12.14, PostgreSQL 18.6 — academy va finance suite 150 o‘tdi, 0 fail, 21.77 s. Moliya UI va static route 6 o‘tdi, 0 fail (Node 24.22.1, JSDOM). Brauzerning real print dialogi tekshirilmagan.
+- CI fresh baza — 103 sxema migratsiyasi, 21 nomlangan kontent migratsiyasi keyinga qoldirilgan, 178 typed table, 9 ASGI so‘rovi. `1122_academy_groups.sql`, `1123_academy_sessions.sql`, `1124_academy_attendance.sql`.
+- Kontentli upgrade, staging va production tasdiqlanmagan. Vercel avtomatik preview rate limit statusini qaytardi. Deploy alohida ishga tushirilmadi.
+- Moliya formalarini ulashda payment, refund va adjustment miqdorlari bo‘yicha API turlari tekshirildi. Butun so‘mga yashirin aylanishga sabab bo‘lgan oddiy `int` maydonlari `MoneyMinor` ga almashtirildi. Bool, float va sonli string rad etilishi sinovdan o‘tdi.
+
+```bash
+cd services/backend
+python -m pytest -q tests/test_academy_groups.py tests/test_tuition_ledger.py tests/test_tuition_refund_http.py tests/test_tuition_provider_http.py tests/test_tuition_charge_http.py tests/test_finance_outbox.py tests/test_tuition_database_policy.py tests/test_tuition_schema_parity.py
+cd ../..
+node --test frontend/vanilla/tests/academy-finance.test.mjs frontend/vanilla/tests/python-build-v69.test.mjs
+npm run test:migrations
+```
+
+C4 kontrakt, charge, refund, provider va GL export interfeyslari qolgan. C5–C8 va D–F ochiq. Keyingi ishlar [checkpoint](ARENA_CONTINUATION_CHECKPOINT.json) da.
+
+---
+
 ## Arena davomi (2026-11-15, Toshkent)
 
 | Tekshiruv | Commit | Natija |
