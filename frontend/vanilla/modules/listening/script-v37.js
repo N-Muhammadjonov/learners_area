@@ -65,12 +65,18 @@ export function originalScriptAccessibility(token){return `(()=>{const token=${J
    if(typeof source!=='string'||!source)return originalTranscript(part);
    const rows=(DATA.script_completion||[]).filter(g=>g.part===part).sort((a,b)=>a.n-b.n);
    const lowered=source.toLowerCase(),positions=[];
+   let expectedCursor=0;
    for(const gap of rows){
     const needle=String(gap.match||'').toLowerCase();
     if(!needle)return originalTranscript(part);
-    const at=lowered.indexOf(needle);
-    if(at<0||lowered.indexOf(needle,at+1)>=0)return originalTranscript(part);
+    let at=lowered.indexOf(needle,expectedCursor);
+    if(at<0){
+     const unique=lowered.indexOf(needle);
+     if(unique<0||lowered.indexOf(needle,unique+1)>=0)return originalTranscript(part);
+     at=unique;
+    }
     positions.push({gap,start:at,end:at+needle.length});
+    expectedCursor=Math.max(expectedCursor,at+needle.length);
    }
    const ordered=[...positions].sort((a,b)=>a.start-b.start);
    if(ordered.some((item,i)=>i>0&&ordered[i-1].end>item.start))return originalTranscript(part);
