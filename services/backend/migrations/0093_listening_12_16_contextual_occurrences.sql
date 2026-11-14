@@ -23,18 +23,22 @@ BEGIN
   END IF;
 END $guard$;
 
--- Previous attempts created misplaced spans at the beginning of some Parts.
--- Remove only exact-offset-invalid spans and never a saved user context.
-DELETE FROM lexical_occurrences o
-USING listening_packages p
+-- Mark exact-offset-invalid spans as unavailable rather than deleting data.
+-- Saved user contexts are protected by the guard above.
+UPDATE lexical_occurrences o
+SET resolution_status='review', lexeme_id=NULL,
+    resolution_source='source_offset_mismatch'
+FROM listening_packages p
 WHERE p.test_id=o.listening_test_id
   AND p.source_id IN ('listening-test-12','listening-test-13','listening-test-14','listening-test-15','listening-test-16')
   AND o.source_type='listening' AND o.section_number BETWEEN 1 AND 4
   AND (o.start_char<0 OR o.end_char<=o.start_char
     OR o.end_char>length(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript')
     OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
-      from o.start_char+1 for greatest(0,o.end_char-o.start_char))<>o.surface_form)
-  AND NOT EXISTS (SELECT 1 FROM user_vocabulary_contexts c WHERE c.occurrence_id=o.id);
+      from o.start_char+1 for greatest(0,o.end_char-o.start_char)) IS DISTINCT FROM o.surface_form)
+  AND NOT EXISTS (SELECT 1 FROM user_vocabulary_contexts c WHERE c.occurrence_id=o.id)
+  AND (o.resolution_status IS DISTINCT FROM 'review' OR o.lexeme_id IS NOT NULL
+       OR o.resolution_source IS DISTINCT FROM 'source_offset_mismatch');
 
 -- Link only unambiguous lexemes with matching spelling, supplied definitions
 -- and translations. Do not choose a random sense when multiple lexemes match.
@@ -100,22 +104,32 @@ FROM checked_matches m
 WHERE o.id=m.occurrence_id AND m.candidates=1
   AND o.resolution_status='unresolved';
 
--- Never publish silently partially resolved or out-of-bounds source spans.
+-- Only the exact source-aligned resolved spans are published to learners.
+-- Invalid rows remain in review status and are excluded from lookup and saving.
 DO $verify$
 BEGIN
   IF EXISTS (
-    SELECT 1 FROM lexical_occurrences o
+    SELECT 1
+    FROM lexical_occurrences o
     JOIN listening_packages p ON p.test_id=o.listening_test_id
     WHERE p.source_id IN ('listening-test-12','listening-test-13','listening-test-14','listening-test-15','listening-test-16')
       AND o.source_type='listening'
-      AND (o.section_number NOT BETWEEN 1 AND 4
+      AND (
+        o.section_number NOT BETWEEN 1 AND 4
         OR o.segment_key IS DISTINCT FROM 's'||o.section_number::text
-        OR o.resolution_status<>'resolved' OR o.lexeme_id IS NULL
-        OR o.start_char<0 OR o.end_char<=o.start_char
-        OR o.end_char>length(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript')
-        OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
-          from o.start_char+1 for greatest(0,o.end_char-o.start_char))<>o.surface_form)
-  ) THEN RAISE EXCEPTION 'Listening Tests 12-16 lexical audit failed: unresolved or invalid spans remain';
+        OR (o.resolution_status='resolved' AND
+            (o.lexeme_id IS NULL
+             OR o.start_char<0 OR o.end_char<=o.start_char
+             OR o.end_char>length(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript')
+             OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
+                from o.start_char+1 for greatest(0,o.end_char-o.start_char)) IS DISTINCT FROM o.surface_form))
+        OR (o.resolution_status='unresolved' AND
+            substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
+                from o.start_char+1 for greatest(0,o.end_char-o.start_char))=o.surface_form)
+        OR (o.resolution_status='review' AND o.lexeme_id IS NOT NULL)
+      )
+  ) THEN
+    RAISE EXCEPTION 'Listening Tests 12-16 contain unsafe active or unresolved occurrences';
   END IF;
 END $verify$;
 COMMIT;
