@@ -221,10 +221,10 @@
     {
       "testNo": 5,
       "passageNo": 1,
-      "surface": "solitary life",
+      "surface": "solitary",
       "partOfSpeech": "noun phrase",
-      "translationUz": "yolg‘iz hayot",
-      "definitionEn": "living without other people"
+      "translationUz": "yolg‘iz",
+      "definitionEn": "living without company"
     },
     {
       "testNo": 5,
@@ -245,10 +245,10 @@
     {
       "testNo": 5,
       "passageNo": 1,
-      "surface": "admitted",
+      "surface": "admits",
       "partOfSpeech": "verb",
-      "translationUz": "tan oldi",
-      "definitionEn": "accepted that something is true"
+      "translationUz": "tan oladi",
+      "definitionEn": "acknowledges an opposing point as true"
     },
     {
       "testNo": 5,
