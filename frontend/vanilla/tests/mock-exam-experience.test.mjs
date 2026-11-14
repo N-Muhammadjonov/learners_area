@@ -4,6 +4,7 @@ import {JSDOM} from 'jsdom';
 import {api} from '../js/api-client.js';
 import {renderExamRunnerScreen} from '../modules/mocks/runner.js';
 import {renderObjectiveMaterial} from '../modules/mocks/objective-material.js';
+import {renderMockPreview} from '../modules/mocks/preview.js';
 import {MOCK_EXAM_CSS} from '../modules/mocks/exam-surface.js';
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
 const material={layout:'ielts-native-v1',audioUrl:'/private/audio',passages:[{passageNo:1,title:'Passage',bodyText:'Original passage.'}],questions:[{id:'1',part:1,questionText:'First question?'},{id:'2',part:2,questionText:'Second question?'}]};
@@ -61,5 +62,18 @@ test('Mock Speaking stays in its topic until its responses have been saved',asyn
  await renderExamRunnerScreen(h.context,h.root,'fixture');
  assert.equal(h.root.querySelectorAll('[data-mock-speaking-question]').length,1);assert(h.root.querySelector('[data-mock-speaking-question="home"]'));
  h.root.querySelector('[data-mock-next-topic]').click();assert(h.root.querySelector('[data-mock-speaking-question="home"]'));assert.match(h.root.querySelector('[data-mock-save-status]').textContent,/Record and save/);
+ }finally{h.close();}
+});
+
+test('staff preview shares the exam surface and preserves Writing answers between tasks',()=>{
+ const h=setup();try{
+ const preview=renderMockPreview({testId:'preview',title:'Mock 1',materials:{reading:material,writingTask1:{prompt:'Describe the chart.'},writingTask2:{prompt:'Discuss the issue.'}}},{signal:h.context.signal,locale:'en',onClose(){}});
+ h.root.append(preview);assert(preview.hasAttribute('data-mock-runner'));
+ preview.querySelector('[data-mock-preview-slot="writingTask1"]').click();
+ const editor=preview.querySelector('textarea');editor.value='A saved preview response';editor.dispatchEvent(new h.dom.window.Event('input'));
+ preview.querySelector('[data-mock-preview-slot="writingTask2"]').click();
+ preview.querySelector('[data-mock-preview-slot="writingTask1"]').click();
+ assert.equal(preview.querySelector('textarea').value,'A saved preview response');
+ assert(preview.querySelector('[data-cd-exam="writing"] [role="separator"]'));
  }finally{h.close();}
 });
