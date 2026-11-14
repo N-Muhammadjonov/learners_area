@@ -575,7 +575,7 @@ test("v2: answer-scoped claims apply denials per sentence too", () => {
 
 test("v2: evaluator version is bumped for newly graded attempts", () => {
   // v4: occurrence-complete matching + sentence boundaries in answer scope (N14 audit).
-  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v5");
+  assert.equal(RETENTION_EVALUATOR_VERSION, "retention-deterministic-v6");
 });
 
 const v4 = (scope: "answer" | "sentence") => structure({ schemaVersion: 1, maxScore: 100, claims: [{ id: "cheap", label: "Cheap flights replaced night trains", points: 100, scope, groups: [
@@ -641,4 +641,45 @@ test("v4: a decimal number is not split into two sentences", () => {
   assert.equal(evaluateRecall("About 1.27 million people died in 2019.", decimal).score, 100);
   assert.equal(evaluateRecall("About 1.28 million people died in 2019.", decimal).score, 40);
   assert.equal(evaluateRecall("It was 2019. 27 million died.", decimal).score, 40);
+});
+
+test("v6: 'not realistically offset' is a factual limitation, not a denial of the review", () => {
+  const rubric = structure({
+    schemaVersion: 1, maxScore: 100,
+    claims: [{
+      id: "habitat-limits",
+      label: "The review required quality-adjusted measures and recognition of losses that could not realistically be offset",
+      points: 100, scope: "sentence",
+      groups: [
+        { id: "measure", points: 50, kind: "concept", anyOf: ["required quality-adjusted measures"] },
+        { id: "losses", points: 50, kind: "concept", anyOf: ["losses that could not realistically be offset"] },
+      ],
+      acceptedPhrases: ["the review required quality-adjusted measures and recognition of losses that could not realistically be offset"],
+      rejectPhrases: ["the review did not require quality-adjusted measures"],
+    }],
+  });
+  const answer = "The review required quality-adjusted measures and recognition of losses that could not realistically be offset.";
+  assert.equal(evaluateRecall(answer, rubric).score, 100);
+  assert.equal(evaluateRecall("The review did not require quality-adjusted measures.", rubric).score, 0);
+});
+
+test("v6: Dr. honorific does not split a single sentence-scoped source claim", () => {
+  const rubric = structure({
+    schemaVersion: 1, maxScore: 100,
+    claims: [{
+      id: "researcher",
+      label: "Dr. Pavel Orlov launched a habitat review in 2020",
+      points: 100, scope: "sentence",
+      groups: [
+        { id: "researcher", points: 40, kind: "entity", anyOf: ["dr. pavel orlov"] },
+        { id: "action", points: 40, kind: "concept", anyOf: ["launched a habitat review"] },
+        { id: "year", points: 20, kind: "date", anyOf: ["2020"], critical: true },
+      ],
+      acceptedPhrases: ["dr. pavel orlov launched a habitat review in 2020"],
+      rejectPhrases: ["pavel orlov never launched a habitat review"],
+    }],
+  });
+  assert.equal(evaluateRecall("Dr. Pavel Orlov launched a habitat review in 2020.", rubric).score, 100);
+  assert.equal(evaluateRecall("Dr. Pavel Orlov launched a habitat review in 2021.", rubric).score, 80);
+  assert.equal(evaluateRecall("Dr. Pavel Orlov never launched a habitat review in 2020.", rubric).score, 0);
 });
