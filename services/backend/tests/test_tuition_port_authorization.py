@@ -108,6 +108,7 @@ WRITE_ROUTES = (
     ('POST', f'/api/staff/finance/contracts/{uuid4()}/discounts'),
     ('POST', '/api/staff/finance/charges'),
     ('POST', f'/api/staff/finance/contracts/{uuid4()}/installment'),
+    ('POST', f'/api/staff/finance/charges/{uuid4()}/approve'),
     ('POST', f'/api/staff/finance/charges/{uuid4()}/post'),
     ('POST', f'/api/staff/finance/charges/{uuid4()}/reverse'),
     ('POST', '/api/staff/finance/credit-notes'),
@@ -145,6 +146,7 @@ async def test_centre_wide_money_reports_are_owner_and_admin_only(as_role, metho
 
 
 APPROVAL_ROUTES = (
+    ('POST', f'/api/staff/finance/charges/{uuid4()}/approve'),
     ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/approve'),
 )
 

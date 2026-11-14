@@ -70,6 +70,8 @@ async def posted_charge(con, people, *, student=None, gross=800_000, discount=No
     charge = await ledger.create_charge(
         con, actor_user_id=people['admin'], student_user_id=student, period=PERIOD,
         due_date=due or TODAY, gross_amount_minor=gross, contract_id=contract['id'] if contract else None)
+    # FIN-06: the owner approves before the receivable can reach the journal.
+    await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
     return await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
 
 
@@ -92,6 +94,8 @@ async def test_worked_example_a_discount_partial_payment_and_recognition(databas
         con, actor_user_id=people['admin'], student_user_id=people['student'], period=PERIOD,
         due_date=TODAY, gross_amount_minor=800_000, contract_id=contract['id'])
     assert charge['discount_amount_minor'] == 200_000 and charge['net_amount_minor'] == 600_000
+    charge = await ledger.approve_charge(con, actor_user_id=people['owner'],
+                                         charge_id=charge['id'])
     charge = await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
 
     # Debit A/R 600,000; credit deferred tuition 600,000.
@@ -424,6 +428,9 @@ async def test_closed_period_rejects_new_postings(database):
                                         student_user_id=people['student'], period=PERIOD,
                                         due_date=TODAY, gross_amount_minor=800_000,
                                         contract_id=contract['id'])
+    # Approve first (FIN-06), so the refusal below is about the closed period and not about
+    # a missing approval.
+    await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
     await ledger.close_period(con, actor_user_id=people['owner'], period=PERIOD,
                               reason='Month closed by owner')
     with pytest.raises(LedgerError) as refused:
@@ -897,6 +904,78 @@ async def test_multiple_pre_post_discounts_are_still_one_document_per_period(dat
     assert exc.value.code == 'discount_already_approved_for_period'
     charge = await posted_charge(con, people, contract=contract)
     assert charge['net_amount_minor'] == 700_000
+
+
+# ───────── FIN-06: draft -> approved -> posted, and only an owner approves ─────────
+@pytest.mark.asyncio
+async def test_a_draft_charge_cannot_be_posted(database):
+    """The receivable reaches the journal only after a second person has approved it."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await ledger.create_charge(con, actor_user_id=people['admin'],
+                                        student_user_id=people['student'], period=PERIOD,
+                                        due_date=TODAY, gross_amount_minor=800_000,
+                                        contract_id=contract['id'])
+    assert charge['status'] == 'draft'
+    with pytest.raises(LedgerError) as exc:
+        await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
+    assert exc.value.code == 'charge_not_approved'
+    assert exc.value.status == 409
+    # Nothing reached the ledger: no receivable, no journal entry.
+    assert (await ledger.student_position(con, people['student']))['balanceDueMinor'] == 0
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 0
+
+
+@pytest.mark.asyncio
+async def test_charge_approval_requires_an_owner_who_is_not_the_drafter(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await ledger.create_charge(con, actor_user_id=people['admin'],
+                                        student_user_id=people['student'], period=PERIOD,
+                                        due_date=TODAY, gross_amount_minor=800_000,
+                                        contract_id=contract['id'])
+    for actor in ('admin', 'teacher'):
+        with pytest.raises(LedgerError) as exc:
+            await ledger.approve_charge(con, actor_user_id=people[actor], charge_id=charge['id'])
+        assert exc.value.code == 'approval_requires_owner', actor
+    approved = await ledger.approve_charge(con, actor_user_id=people['owner'],
+                                           charge_id=charge['id'])
+    assert approved['status'] == 'approved' and approved['approved_by'] == people['owner']
+    with pytest.raises(LedgerError) as exc:
+        await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
+    assert exc.value.code == 'invalid_state'
+
+
+@pytest.mark.asyncio
+async def test_a_drafter_owner_cannot_approve_their_own_charge(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await ledger.create_charge(con, actor_user_id=people['owner'],
+                                        student_user_id=people['student'], period=PERIOD,
+                                        due_date=TODAY, gross_amount_minor=800_000,
+                                        contract_id=contract['id'])
+    with pytest.raises(LedgerError) as exc:
+        await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
+    assert exc.value.code == 'approver_must_differ_from_drafter'
+
+
+@pytest.mark.asyncio
+async def test_the_full_draft_approve_post_chain_posts_exactly_once(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await ledger.create_charge(con, actor_user_id=people['admin'],
+                                        student_user_id=people['student'], period=PERIOD,
+                                        due_date=TODAY, gross_amount_minor=800_000,
+                                        contract_id=contract['id'])
+    await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
+    posted = await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
+    assert posted['status'] == 'posted' and posted['posted_at'] is not None
+    with pytest.raises(LedgerError) as exc:
+        await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
+    assert exc.value.code == 'invalid_state'
+    assert (await ledger.student_position(con, people['student']))['balanceDueMinor'] == 800_000
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 1
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
 
 
 @pytest.mark.asyncio

@@ -54,6 +54,7 @@ async def open_receivable(client, *, gross=800_000, discount=200_000):
                                         student_user_id=people['student'],
                                         period=ledger.period_key(TODAY), due_date=TODAY,
                                         gross_amount_minor=gross, contract_id=contract['id'])
+    await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
     await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
     return contract
 

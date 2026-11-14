@@ -261,6 +261,31 @@ async def generate_installment(req: Request, contractId: str):
     return core.j({'ok': True, 'created': created, 'charge': serialize(charge)}, headers=PRIVATE)
 
 
+@router.post('/api/staff/finance/charges/{chargeId}/approve')
+async def approve_charge(req: Request, chargeId: str):
+    """Owner approval of a drafted receivable (FIN-06).
+
+    Without it a receivable cannot be posted: `draft` is not a postable state. The ledger
+    also refuses a non-owner approver and self-approval by the drafter.
+    """
+    user, denied = await actor(req, OWNER_ONLY)
+    if denied:
+        return denied
+    ident = uuid_val(chargeId)
+    if not ident:
+        return err('charge_not_found', 404)
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            charge = await ledger.approve_charge(conn, actor_user_id=user['id'], charge_id=ident)
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'charge': serialize(charge)}, headers=PRIVATE)
+
+
 @router.post('/api/staff/finance/charges/{chargeId}/post')
 async def post_charge(req: Request, chargeId: str):
     user, denied = await actor(req, WRITE_ROLES)

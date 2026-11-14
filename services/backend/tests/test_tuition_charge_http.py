@@ -97,6 +97,8 @@ async def test_discount_after_posting_is_refused_over_http_and_points_to_a_credi
                           json_body=charge_payload(contract))
     assert created.status_code == 200, created.text
     charge_id = created.json()['charge']['id']
+    await staff(http, 'owner', 'POST', f'/api/staff/finance/charges/{charge_id}/approve',
+                json_body={})
     assert (await staff(http, 'admin', 'POST', f'/api/staff/finance/charges/{charge_id}/post',
                         json_body={})).status_code == 200
 
@@ -114,6 +116,8 @@ async def test_credit_note_flow_over_http_reduces_the_debt_once(http):
     created = await staff(http, 'admin', 'POST', '/api/staff/finance/charges',
                           json_body=charge_payload(contract))
     charge_id = created.json()['charge']['id']
+    await staff(http, 'owner', 'POST', f'/api/staff/finance/charges/{charge_id}/approve',
+                json_body={})
     await staff(http, 'admin', 'POST', f'/api/staff/finance/charges/{charge_id}/post',
                 json_body={})
 

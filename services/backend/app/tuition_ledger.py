@@ -337,12 +337,37 @@ async def generate_installment(conn, *, actor_user_id, contract_id, period, due_
 
 
 @transactional
+async def approve_charge(conn, *, actor_user_id, charge_id):
+    """Owner approval of a drafted receivable.
+
+    Two controls, both enforced here rather than only in the HTTP layer, because they have to
+    hold for a scheduler, an import job and a test just as much as for a browser: only an
+    owner may approve, and the drafter may not approve their own document.
+    """
+    charge = await conn.fetchrow('SELECT * FROM tuition_charges WHERE id=$1 FOR UPDATE', charge_id)
+    _require(charge is not None, 'charge_not_found', 404)
+    _require(charge['status'] == 'draft', 'invalid_state', 409, status=charge['status'])
+    _require(charge['is_reversal'] is False, 'reversal_charge_cannot_be_approved')
+    _require(await _actor_role(conn, actor_user_id) == 'owner', 'approval_requires_owner', 403)
+    _require(charge['created_by'] is None or str(actor_user_id) != str(charge['created_by']),
+             'approver_must_differ_from_drafter', 403)
+    updated = await conn.fetchrow(
+        "UPDATE tuition_charges SET status='approved', approved_by=$2, approved_at=now()"
+        ' WHERE id=$1 RETURNING *', charge_id, actor_user_id)
+    return dict(updated)
+
+
+@transactional
 async def post_charge(conn, *, actor_user_id, charge_id):
     """Post the receivable: debit A/R, credit deferred tuition revenue (net presentation)."""
     charge = await conn.fetchrow('SELECT * FROM tuition_charges WHERE id=$1 FOR UPDATE', charge_id)
     _require(charge is not None, 'charge_not_found', 404)
     _require(not charge['is_reversal'], 'reversal_charge_cannot_be_posted')
-    _require(charge['status'] in ('draft', 'approved'), 'invalid_state', 409,
+    # FIN-06: draft -> approved -> posted. A receivable may not reach the journal on the
+    # word of the person who drafted it, so 'draft' is not a postable state.
+    _require(charge['status'] != 'draft', 'charge_not_approved', 409, status=charge['status'])
+    _require(charge['status'] == 'approved', 'invalid_state', 409, status=charge['status'])
+    _require(charge['approved_at'] is not None, 'charge_not_approved', 409,
              status=charge['status'])
     await _assert_period_open(conn, charge['period_key'])
     net = charge['net_amount_minor']

@@ -21,6 +21,7 @@ MIGRATION_DIR = Path(__file__).resolve().parents[1] / 'migrations'
 FINANCE_MIGRATIONS = (
     '1115_tuition_finance.sql',
     '1116_tuition_finance_corrections.sql',
+    '1117_tuition_charge_approval.sql',
 )
 
 BOOTSTRAP = (

@@ -1531,6 +1531,11 @@
  },
  {
   "method": "POST",
+  "path": "/api/staff/finance/charges/{chargeId}/approve",
+  "name": "approve_charge"
+ },
+ {
+  "method": "POST",
   "path": "/api/staff/finance/charges/{chargeId}/post",
   "name": "post_charge"
  },
