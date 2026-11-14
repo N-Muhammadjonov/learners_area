@@ -1,0 +1,1326 @@
+{
+  "testNo": 6,
+  "passageNo": 2,
+  "terms": [
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "dependence",
+      "partOfSpeech": "noun",
+      "translationUz": "qaramlik",
+      "definitionEn": "reliance on something for survival or functioning"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "fossil fuels",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qazilma yoqilg‘ilar",
+      "definitionEn": "coal oil and gas used as energy sources"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "volume",
+      "partOfSpeech": "noun",
+      "translationUz": "hajm",
+      "definitionEn": "the total quantity of a substance"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "carbon dioxide",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "karbonat angidrid",
+      "definitionEn": "a greenhouse gas released by burning fuel"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "released",
+      "partOfSpeech": "verb",
+      "translationUz": "chiqargan",
+      "definitionEn": "sent or emitted into the atmosphere"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "atmosphere",
+      "partOfSpeech": "noun",
+      "translationUz": "atmosfera",
+      "definitionEn": "the layer of gases surrounding Earth"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "climate scientists",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "iqlimshunos olimlar",
+      "definitionEn": "scientists who study long-term climate patterns"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "significant",
+      "partOfSpeech": "adjective",
+      "translationUz": "jiddiy",
+      "definitionEn": "large or important in degree"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "global warming",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "global isish",
+      "definitionEn": "an increase in Earth's average temperature"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "inevitable",
+      "partOfSpeech": "adjective",
+      "translationUz": "muqarrar",
+      "definitionEn": "certain to happen"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "reasonable level",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mo‘tadil daraja",
+      "definitionEn": "a level regarded as acceptable"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "uphill task",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "nihoyatda qiyin vazifa",
+      "definitionEn": "something extremely difficult to achieve"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "at present",
+      "partOfSpeech": "phrase",
+      "translationUz": "hozirgi paytda",
+      "definitionEn": "at the current time"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "option on the table",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mavjud yechim yo‘li",
+      "definitionEn": "a course of action currently under consideration"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "cutting back",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "keskin qisqartirish",
+      "definitionEn": "reducing an amount"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "carbon emissions",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "karbonat angidrid chiqindilari",
+      "definitionEn": "carbon-based gases emitted into the atmosphere"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "major strides",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sezilarli yutuqlar",
+      "definitionEn": "substantial progress toward a goal"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "in this regard",
+      "partOfSpeech": "phrase",
+      "translationUz": "bu borada",
+      "definitionEn": "concerning this particular matter"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "majority",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘pchilik",
+      "definitionEn": "the greater part of a group"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "stemming",
+      "partOfSpeech": "verb",
+      "translationUz": "jilovlash",
+      "definitionEn": "slowing or stopping an increase"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "rate of increase",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "o‘sish sur’ati",
+      "definitionEn": "the speed at which an amount grows"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "let alone",
+      "partOfSpeech": "phrase",
+      "translationUz": "u yoqda tursin",
+      "definitionEn": "used to stress that a more difficult achievement is even less likely"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "reversing",
+      "partOfSpeech": "verb",
+      "translationUz": "orqaga qaytarish",
+      "definitionEn": "changing a trend to move in the opposite direction"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "consequently",
+      "partOfSpeech": "adverb",
+      "translationUz": "binobarin",
+      "definitionEn": "as a result"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "explore",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘rganmoq",
+      "definitionEn": "investigate possible options"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "alternatives",
+      "partOfSpeech": "noun",
+      "translationUz": "muqobil yo‘llar",
+      "definitionEn": "other available approaches"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "under the banner of",
+      "partOfSpeech": "phrase",
+      "translationUz": "umumiy nom ostida",
+      "definitionEn": "under a shared name or category"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "geoengineering",
+      "partOfSpeech": "noun",
+      "translationUz": "geo-muhandislik",
+      "definitionEn": "intentional large-scale intervention in the Earth's environment"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "intentional",
+      "partOfSpeech": "adjective",
+      "translationUz": "maqsadli",
+      "definitionEn": "done deliberately"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "large-scale manipulation",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "keng ko‘lamli sun’iy ta’sir",
+      "definitionEn": "deliberate intervention on a very large scale"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "environment",
+      "partOfSpeech": "noun",
+      "translationUz": "atrof-muhit",
+      "definitionEn": "the natural surroundings"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "localized scale",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mahalliy miqyos",
+      "definitionEn": "limited to a small geographic area"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "decades",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘n yilliklar",
+      "definitionEn": "periods of ten years"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "parades",
+      "partOfSpeech": "noun",
+      "translationUz": "paradlar",
+      "definitionEn": "organised public processions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "aircraft",
+      "partOfSpeech": "noun",
+      "translationUz": "samolyotlar",
+      "definitionEn": "powered flying vehicles"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "deposited",
+      "partOfSpeech": "verb",
+      "translationUz": "havoga sepgan",
+      "definitionEn": "released material into the air"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "dry ice",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "quruq muz",
+      "definitionEn": "solid carbon dioxide"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "silver iodide",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kumush yodid",
+      "definitionEn": "a chemical compound used in cloud seeding"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "cement powder",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sement kukuni",
+      "definitionEn": "finely ground cement"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "disperse",
+      "partOfSpeech": "verb",
+      "translationUz": "tarqatmoq",
+      "definitionEn": "scatter into separate areas"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "clouds",
+      "partOfSpeech": "noun",
+      "translationUz": "bulutlar",
+      "definitionEn": "visible masses of water droplets in the sky"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "schemes",
+      "partOfSpeech": "noun",
+      "translationUz": "loyihalar",
+      "definitionEn": "planned methods for achieving a result"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "opposite",
+      "partOfSpeech": "noun",
+      "translationUz": "aksi",
+      "definitionEn": "the reverse of another action"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "sunlight",
+      "partOfSpeech": "noun",
+      "translationUz": "quyosh nuri",
+      "definitionEn": "light emitted by the Sun"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "reaching",
+      "partOfSpeech": "verb",
+      "translationUz": "yetib kelayotgan",
+      "definitionEn": "arriving at a destination"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "planet",
+      "partOfSpeech": "noun",
+      "translationUz": "sayyora",
+      "definitionEn": "a large body orbiting a star"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "cooling",
+      "partOfSpeech": "noun",
+      "translationUz": "sovish",
+      "definitionEn": "the lowering of temperature"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "concept",
+      "partOfSpeech": "noun",
+      "translationUz": "g‘oya",
+      "definitionEn": "an abstract proposed plan"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "releasing",
+      "partOfSpeech": "verb",
+      "translationUz": "chiqarish",
+      "definitionEn": "allowing a substance to enter the air"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "aerosol sprays",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "aerozol purkagichlar",
+      "definitionEn": "devices that release a mist of tiny particles"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "stratosphere",
+      "partOfSpeech": "noun",
+      "translationUz": "stratosfera",
+      "definitionEn": "the atmospheric layer above the troposphere"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "Arctic",
+      "partOfSpeech": "noun",
+      "translationUz": "Arktika",
+      "definitionEn": "the northern polar region of Earth"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "sulphur dioxide",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "oltingugurt dioksidi",
+      "definitionEn": "a sulphur-containing gas that can form reflective particles"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "global dimming",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "global xiralashish",
+      "definitionEn": "a decrease in sunlight reaching Earth's surface"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "modelled on",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "andoza olgan",
+      "definitionEn": "designed by imitating a previous example"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "volcanic explosions",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "vulqon otilishlari",
+      "definitionEn": "violent releases of materials from volcanoes"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "short term",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "qisqa muddatli",
+      "definitionEn": "lasting for a relatively short period"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "global temperature",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "global harorat",
+      "definitionEn": "the average temperature of Earth's climate"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "aerosols",
+      "partOfSpeech": "noun",
+      "translationUz": "aerozollar",
+      "definitionEn": "small particles suspended in gas"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "delivered",
+      "partOfSpeech": "verb",
+      "translationUz": "yetkazilgan",
+      "definitionEn": "transported to a target location"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "artillery",
+      "partOfSpeech": "noun",
+      "translationUz": "artilleriya",
+      "definitionEn": "large military guns capable of launching projectiles"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "high-flying",
+      "partOfSpeech": "adjective",
+      "translationUz": "baland uchuvchi",
+      "definitionEn": "travelling at a great height"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "balloons",
+      "partOfSpeech": "noun",
+      "translationUz": "havo sharlari",
+      "definitionEn": "lighter-than-air flying devices"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "concentrating on",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "diqqatni qaratish",
+      "definitionEn": "focusing effort on a particular goal"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "specifically",
+      "partOfSpeech": "adverb",
+      "translationUz": "bevosita",
+      "definitionEn": "for a clearly specified purpose"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "melting",
+      "partOfSpeech": "noun",
+      "translationUz": "erish",
+      "definitionEn": "the change of ice into liquid water"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "poles",
+      "partOfSpeech": "noun",
+      "translationUz": "qutblar",
+      "definitionEn": "the northern and southern polar regions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "bolster",
+      "partOfSpeech": "verb",
+      "translationUz": "mustahkamlash",
+      "definitionEn": "make a structure stronger"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "ice cap",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muz qatlami",
+      "definitionEn": "a thick mass of ice covering a region"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "spraying",
+      "partOfSpeech": "verb",
+      "translationUz": "purkash",
+      "definitionEn": "distributing a liquid as fine drops"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "pumps",
+      "partOfSpeech": "noun",
+      "translationUz": "nasoslar",
+      "definitionEn": "machines that move liquids"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "sea ice",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "dengiz muzi",
+      "definitionEn": "frozen seawater floating on the ocean"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "particles",
+      "partOfSpeech": "noun",
+      "translationUz": "zarrachalar",
+      "definitionEn": "very small fragments of matter"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "thicker",
+      "partOfSpeech": "adjective",
+      "translationUz": "qalinroq",
+      "definitionEn": "having greater thickness"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "albedo",
+      "partOfSpeech": "noun",
+      "translationUz": "albedo ko‘rsatkichi",
+      "definitionEn": "the proportion of incoming sunlight reflected by a surface"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "ratio",
+      "partOfSpeech": "noun",
+      "translationUz": "nisbat",
+      "definitionEn": "a relationship between two quantities"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "reflected",
+      "partOfSpeech": "verb",
+      "translationUz": "aks ettirilgan",
+      "definitionEn": "sent back from a surface"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "summer radiation",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yozgi quyosh radiatsiyasi",
+      "definitionEn": "solar energy reaching a surface during summer"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "scrutinized",
+      "partOfSpeech": "verb",
+      "translationUz": "sinchiklab tekshirdilar",
+      "definitionEn": "examined carefully"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "icefjords",
+      "partOfSpeech": "noun",
+      "translationUz": "muz fyordlari",
+      "definitionEn": "narrow coastal inlets containing or transporting icebergs"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "reinforced",
+      "partOfSpeech": "adjective",
+      "translationUz": "mustahkamlangan",
+      "definitionEn": "made stronger through added support"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "icebergs",
+      "partOfSpeech": "noun",
+      "translationUz": "aysberglar",
+      "definitionEn": "large floating pieces of glacier ice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "impractical",
+      "partOfSpeech": "adjective",
+      "translationUz": "amalda bajarib bo‘lmaydigan",
+      "definitionEn": "not feasible in practice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "force",
+      "partOfSpeech": "noun",
+      "translationUz": "bosim kuchi",
+      "definitionEn": "physical pressure exerted by ice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "ultimately",
+      "partOfSpeech": "adverb",
+      "translationUz": "oxir-oqibat",
+      "definitionEn": "at the end of a process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "snap",
+      "partOfSpeech": "verb",
+      "translationUz": "uzib yubormoq",
+      "definitionEn": "break suddenly under force"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "rapidly",
+      "partOfSpeech": "adverb",
+      "translationUz": "tez sur’atda",
+      "definitionEn": "very quickly"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "quantity",
+      "partOfSpeech": "noun",
+      "translationUz": "miqdor",
+      "definitionEn": "an amount"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "frozen",
+      "partOfSpeech": "adjective",
+      "translationUz": "muzlagan",
+      "definitionEn": "converted into ice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "suspension bridges",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "osma ko‘priklar",
+      "definitionEn": "bridges supported by hanging cables"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "potentially",
+      "partOfSpeech": "adverb",
+      "translationUz": "ehtimol",
+      "definitionEn": "possibly in a future application"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "divert",
+      "partOfSpeech": "verb",
+      "translationUz": "yo‘nalishini o‘zgartirish",
+      "definitionEn": "redirect movement"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "rather than",
+      "partOfSpeech": "phrase",
+      "translationUz": "o‘rniga",
+      "definitionEn": "instead of"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "halt",
+      "partOfSpeech": "verb",
+      "translationUz": "butunlay to‘xtatish",
+      "definitionEn": "bring to a complete stop"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "southward",
+      "partOfSpeech": "adjective",
+      "translationUz": "janubga qarab",
+      "definitionEn": "moving toward the south"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "currents",
+      "partOfSpeech": "noun",
+      "translationUz": "suv oqimlari",
+      "definitionEn": "movements of water in a particular direction"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "float",
+      "partOfSpeech": "verb",
+      "translationUz": "suzib ketmoq",
+      "definitionEn": "move on the water surface"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "northwards",
+      "partOfSpeech": "adverb",
+      "translationUz": "shimolga qarab",
+      "definitionEn": "toward the north"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "currently",
+      "partOfSpeech": "adverb",
+      "translationUz": "hozirda",
+      "definitionEn": "at the present time"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "examined",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘rib chiqilmoqda",
+      "definitionEn": "considered carefully"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "birch trees",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qayin daraxtlari",
+      "definitionEn": "trees with often white bark"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "bark",
+      "partOfSpeech": "noun",
+      "translationUz": "daraxt po‘stlog‘i",
+      "definitionEn": "the protective outer layer of a tree trunk"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "leaves",
+      "partOfSpeech": "noun",
+      "translationUz": "barglar",
+      "definitionEn": "flat green parts of plants"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "winter",
+      "partOfSpeech": "noun",
+      "translationUz": "qish",
+      "definitionEn": "the cold season of the year"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "in contrast",
+      "partOfSpeech": "phrase",
+      "translationUz": "aksincha",
+      "definitionEn": "used to show an opposite fact"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "evergreen pines",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "doim yashil qarag‘aylar",
+      "definitionEn": "pine trees retaining foliage throughout the year"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "shade",
+      "partOfSpeech": "verb",
+      "translationUz": "soya soladi",
+      "definitionEn": "block sunlight from reaching an area"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "absorb",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘ziga yutadi",
+      "definitionEn": "take in energy or material"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "ice-breaking vessels",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muzqaymoq kemalar",
+      "definitionEn": "ships that break sea ice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "deliberately",
+      "partOfSpeech": "adverb",
+      "translationUz": "ataylab",
+      "definitionEn": "intentionally"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "break up",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "parchalash",
+      "definitionEn": "separate into smaller pieces"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "scatter",
+      "partOfSpeech": "verb",
+      "translationUz": "tarqatib yoyish",
+      "definitionEn": "spread over a wider area"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "coastal",
+      "partOfSpeech": "adjective",
+      "translationUz": "sohilbo‘yi",
+      "definitionEn": "located near the shore"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "respective autumns",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "har birining kuz fasli",
+      "definitionEn": "the autumn season in each hemisphere"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "cold-water flow",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sovuq suv oqimi",
+      "definitionEn": "movement of low-temperature water"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "ice-forming areas",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muz hosil bo‘ladigan hududlar",
+      "definitionEn": "regions where water freezes"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "slow down",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "sekinlashtirmoq",
+      "definitionEn": "reduce the speed of a process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "warming",
+      "partOfSpeech": "noun",
+      "translationUz": "isish",
+      "definitionEn": "an increase in temperature"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "conditions",
+      "partOfSpeech": "noun",
+      "translationUz": "sharoitlar",
+      "definitionEn": "circumstances affecting an outcome"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "enhance",
+      "partOfSpeech": "verb",
+      "translationUz": "kuchaytirish",
+      "definitionEn": "make a process more effective"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "ice growth",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muz qatlamining o‘sishi",
+      "definitionEn": "an increase in the amount of ice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "implemented",
+      "partOfSpeech": "verb",
+      "translationUz": "amalda qo‘llanilgan",
+      "definitionEn": "put into practical operation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "counterarguments",
+      "partOfSpeech": "noun",
+      "translationUz": "qarshi dalillar",
+      "definitionEn": "reasons presented against a proposal"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "cop-out",
+      "partOfSpeech": "noun",
+      "translationUz": "mas’uliyatdan qochish",
+      "definitionEn": "an excuse for avoiding necessary action"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "reducing",
+      "partOfSpeech": "verb",
+      "translationUz": "kamaytirish",
+      "definitionEn": "making a quantity smaller"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "side-effects",
+      "partOfSpeech": "noun",
+      "translationUz": "nojo‘ya ta’sirlar",
+      "definitionEn": "unintended negative effects"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "outweigh",
+      "partOfSpeech": "verb",
+      "translationUz": "ustun kelmoq",
+      "definitionEn": "be greater in importance or impact"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "advantages",
+      "partOfSpeech": "noun",
+      "translationUz": "foydalar",
+      "definitionEn": "positive results"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "daunting prospect",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "og‘ir mashaqqat",
+      "definitionEn": "an intimidating future difficulty"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "upkeep",
+      "partOfSpeech": "noun",
+      "translationUz": "doimiy texnik xizmat",
+      "definitionEn": "maintenance that keeps something operational"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "repair",
+      "partOfSpeech": "noun",
+      "translationUz": "ta’mirlash",
+      "definitionEn": "restoration of damaged equipment"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "technical failure",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "texnik nosozlik",
+      "definitionEn": "a breakdown of equipment or systems"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "pre-engineered condition",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sun’iy aralashuvdan oldingi holat",
+      "definitionEn": "the state of the planet before geoengineering"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "chief scientist",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "bosh olim",
+      "definitionEn": "the leading scientific expert"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "climate change",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "iqlim o‘zgarishi",
+      "definitionEn": "long-term change in weather patterns"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "worry about",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "xavotirga olmoq",
+      "definitionEn": "feel concerned about something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "strategy",
+      "partOfSpeech": "noun",
+      "translationUz": "strategiya",
+      "definitionEn": "a planned approach to reaching a goal"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "employ",
+      "partOfSpeech": "verb",
+      "translationUz": "qo‘llamoq",
+      "definitionEn": "put a method to use"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "conversion",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘tish jarayoni",
+      "definitionEn": "changing from one energy system to another"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "non-fossil fuel economy",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qazilma yoqilg‘isiz iqtisodiyot",
+      "definitionEn": "an economy not dependent on fossil fuels"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "risk",
+      "partOfSpeech": "noun",
+      "translationUz": "xavf",
+      "definitionEn": "the possibility of harm"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "overshoot",
+      "partOfSpeech": "verb",
+      "translationUz": "me’yordan oshib ketmoq",
+      "definitionEn": "exceed the intended level"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "pre-industrial levels",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sanoatgacha bo‘lgan darajalar",
+      "definitionEn": "conditions before industrialisation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "tropics",
+      "partOfSpeech": "noun",
+      "translationUz": "tropik o‘lkalar",
+      "definitionEn": "warm regions near the equator"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "industrialization",
+      "partOfSpeech": "noun",
+      "translationUz": "sanoatlashuv",
+      "definitionEn": "development of large-scale industrial production"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "countenanced",
+      "partOfSpeech": "verb",
+      "translationUz": "e’tiborga olinayotgan",
+      "definitionEn": "considered acceptable for serious discussion"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "mainstream scientific community",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "asosiy ilmiy hamjamiyat",
+      "definitionEn": "most scientists working in established fields"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "researchers",
+      "partOfSpeech": "noun",
+      "translationUz": "tadqiqotchilar",
+      "definitionEn": "people carrying out research"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "little faith",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "deyarli ishonch yo‘q",
+      "definitionEn": "very low confidence that something will happen"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "politicians",
+      "partOfSpeech": "noun",
+      "translationUz": "siyosatchilar",
+      "definitionEn": "people involved in government"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "bring in",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "hayotga tatbiq etmoq",
+      "definitionEn": "introduce a policy into operation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "necessary carbon cuts",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "zarur emissiya qisqartirishlari",
+      "definitionEn": "reductions in carbon emissions that are needed"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "conservation organisations",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tabiatni muhofaza qilish tashkilotlari",
+      "definitionEn": "organisations protecting the environment"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "worth exploring",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "o‘rganishga arziydigan",
+      "definitionEn": "deserving further investigation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "advisor",
+      "partOfSpeech": "noun",
+      "translationUz": "maslahatchi",
+      "definitionEn": "an expert who provides advice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "human-induced",
+      "partOfSpeech": "adjective",
+      "translationUz": "inson faoliyati sababli",
+      "definitionEn": "caused by human actions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "humanity",
+      "partOfSpeech": "noun",
+      "translationUz": "insoniyat",
+      "definitionEn": "all humans collectively"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "exclude",
+      "partOfSpeech": "verb",
+      "translationUz": "inkor etmoq",
+      "definitionEn": "rule out from consideration"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "thoroughly",
+      "partOfSpeech": "adverb",
+      "translationUz": "chuqur",
+      "definitionEn": "in a detailed and careful way"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "possibilities",
+      "partOfSpeech": "noun",
+      "translationUz": "imkoniyatlar",
+      "definitionEn": "potential courses of action"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "drawbacks",
+      "partOfSpeech": "noun",
+      "translationUz": "kamchiliklar",
+      "definitionEn": "disadvantages or problems"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "climate sensitivity",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "iqlim sezgirligi",
+      "definitionEn": "the extent of temperature response to atmospheric changes"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "unrealistic",
+      "partOfSpeech": "adjective",
+      "translationUz": "haqiqatdan yiroq",
+      "definitionEn": "unlikely to be practical or true"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "best served",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "eng yaxshi yechim bo‘ladi",
+      "definitionEn": "benefited most by a particular course of action"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 2,
+      "surface": "from scratch",
+      "partOfSpeech": "phrase",
+      "translationUz": "noldan",
+      "definitionEn": "starting anew without using earlier work"
+    }
+  ]
+}
