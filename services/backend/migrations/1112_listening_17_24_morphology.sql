@@ -77,7 +77,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -106,7 +106,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-17'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 17'; END IF;
@@ -192,7 +192,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -221,7 +221,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-18'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 18'; END IF;
@@ -307,7 +307,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -336,7 +336,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-19'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 19'; END IF;
@@ -422,7 +422,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -451,7 +451,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-20'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 20'; END IF;
@@ -537,7 +537,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -566,7 +566,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-21'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 21'; END IF;
@@ -652,7 +652,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -681,7 +681,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-22'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 22'; END IF;
@@ -767,7 +767,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -796,7 +796,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-23'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 23'; END IF;
@@ -882,7 +882,7 @@ INSERT INTO lexical_occurrences(
 SELECT 'listening',test_id,part,'s'||part::text,
  surface,start_utf16,start_utf16+length(surface),
  substring(body FROM greatest(1,cp_start-85) FOR length(surface)+170),
- 'word',true,lexeme_id,'resolved','unambiguous_inflection_20261114'
+ 'word',true,lexeme_id,'resolved','inflected_context'
 FROM eligible ON CONFLICT DO NOTHING;
 
 WITH embedded AS (
@@ -911,7 +911,7 @@ BEGIN
  IF EXISTS(SELECT 1 FROM lexical_occurrences o
  JOIN listening_packages p ON p.test_id=o.listening_test_id
  WHERE p.source_id='listening-test-24'
- AND o.resolution_source='unambiguous_inflection_20261114'
+ AND o.resolution_source='inflected_context'
  AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
  FROM o.start_char+1 FOR o.end_char-o.start_char) IS DISTINCT FROM o.surface_form)
  THEN RAISE EXCEPTION 'Lexical source offset did not match for Test 24'; END IF;
