@@ -3,6 +3,7 @@ import {students,studentDetail,sendFeedback,assignable,createAssignment,support,
 import {renderResults} from './people-detail.js';
 import {studentLearningPanel} from './learning-results.js';
 import {studentPlanInline} from './student-plan-inline.js';
+import {studentGroupHistory} from './academy-groups.js';
 import {learningExtras} from '../shared/student-learning.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
@@ -131,6 +132,7 @@ export const studentMount=mountStaff({name:'management-student',roles:STAFF,notF
   return el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-student-full-review':''},BackLink({fallbackHref:ctx.url.pathname.startsWith('/app/admin/people/')?'/app/admin/people':'/app/teacher/students',label:dict.common.back}),
    el('div',{class:'flex flex-wrap items-start justify-between gap-3'},el('div',{},el('h1',{class:'font-display text-2xl text-ink-900'},d.student.name),el('p',{class:'text-sm text-ink-500'},d.student.email??'Telegram account')),assignmentForm(ctx,d.student.id,d.prompts,view)),
    studentPlanInline(ctx,d.student.id),
+   ctx.session.user.role==='owner'?studentGroupHistory(ctx,d.student.id):null,
    renderResults(dict,d.results),
    weaknessPanel(ctx,d.weaknesses),
    studentLearningPanel(ctx,d.student.id,`/app/teacher/students/${d.student.id}`),

@@ -145,7 +145,9 @@ async def onboarding(req:Request):
     if strongest not in ('listening','reading','writing','speaking') or weakest not in ('listening','reading','writing','speaking'):
         return core.j({'error':'Invalid enum value'},400)
     db=await core.pool()
-    async with db.acquire() as conn:
+    async with db.acquire() as conn, conn.transaction():
+        # Serialize course grants with staff group enrolment for this learner.
+        await conn.fetchval('SELECT id FROM users WHERE id=$1 FOR UPDATE', u['id'])
         await conn.execute('''INSERT INTO onboarding_profiles(user_id,current_level,current_band,target_band,exam_date,
             daily_study_minutes,strongest_skill,weakest_skill) VALUES($1,$2,$3,$4,$5,$6,$7,$8)
             ON CONFLICT(user_id) DO UPDATE SET current_level=excluded.current_level,current_band=excluded.current_band,

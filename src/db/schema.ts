@@ -18,6 +18,7 @@ import {
   primaryKey,
   unique,
   check,
+  foreignKey,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
@@ -4171,3 +4172,65 @@ export const financeOutboxSandboxReceipts = pgTable("finance_outbox_sandbox_rece
   eventId: uuid("event_id").primaryKey().references(() => financeOutboxEvents.id),
   deliveredAt: timestamp("delivered_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const academyGroups = pgTable("academy_groups", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => courses.id),
+  name: varchar("name", { length: 120 }).notNull(),
+  branch: varchar("branch", { length: 120 }).notNull(),
+  room: varchar("room", { length: 120 }),
+  feePlanLabel: varchar("fee_plan_label", { length: 120 }),
+  capacity: integer("capacity").notNull(),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  status: varchar("status", { length: 12 }).notNull().default("active"),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  unique("academy_groups_id_course_id_key").on(t.id, t.courseId),
+  index("academy_groups_course_idx").on(t.courseId),
+  index("academy_groups_status_name_idx").on(t.status, sql`lower(${t.name})`, t.id),
+  check("academy_groups_name_check", sql`btrim(${t.name}) <> ''`),
+  check("academy_groups_branch_check", sql`btrim(${t.branch}) <> ''`),
+  check("academy_groups_capacity_check", sql`${t.capacity} BETWEEN 1 AND 1000`),
+  check("academy_groups_ends_on_check", sql`${t.endsOn} >= ${t.startsOn}`),
+  check("academy_groups_status_check", sql`${t.status} IN ('active','paused','completed','archived')`),
+  check("academy_groups_revision_check", sql`${t.revision} > 0`),
+]).enableRLS();
+
+export const academyGroupTeachers = pgTable("academy_group_teachers", {
+  groupId: uuid("group_id").notNull().references(() => academyGroups.id, { onDelete: "cascade" }),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+}, t => [
+  primaryKey({ name: "academy_group_teachers_pkey", columns: [t.groupId, t.teacherUserId] }),
+  index("academy_group_teachers_scope_idx").on(t.teacherUserId, t.groupId),
+]).enableRLS();
+
+export const academyGroupMemberships = pgTable("academy_group_memberships", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  groupId: uuid("group_id").notNull(),
+  courseId: uuid("course_id").notNull(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  status: varchar("status", { length: 12 }).notNull(),
+  transferredFromId: uuid("transferred_from_id").unique()
+    .references((): AnyPgColumn => academyGroupMemberships.id, { onDelete: "set null" }),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  foreignKey({
+    name: "academy_group_memberships_group_id_course_id_fkey",
+    columns: [t.groupId, t.courseId],
+    foreignColumns: [academyGroups.id, academyGroups.courseId],
+  }),
+  uniqueIndex("academy_group_memberships_current_idx").on(t.studentUserId, t.courseId)
+    .where(sql`${t.endsOn} IS NULL`),
+  index("academy_group_memberships_roster_idx").on(t.groupId, t.startsOn.desc(), t.id.desc()),
+  index("academy_group_memberships_seat_idx").on(t.groupId)
+    .where(sql`${t.status} IN ('active','paused')`),
+  check("academy_group_memberships_ends_on_check", sql`${t.endsOn} >= ${t.startsOn}`),
+  check("academy_group_memberships_status_check",
+    sql`${t.status} IN ('pending','active','paused','completed','withdrawn','transferred')`),
+  check("academy_group_memberships_revision_check", sql`${t.revision} > 0`),
+  check("academy_group_memberships_check",
+    sql`(${t.endsOn} IS NULL) = (${t.status} IN ('pending','active','paused'))`),
+]).enableRLS();

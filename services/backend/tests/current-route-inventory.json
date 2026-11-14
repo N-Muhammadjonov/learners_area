@@ -1525,6 +1525,51 @@
   "name": "topic_post"
  },
  {
+  "method": "GET",
+  "path": "/api/staff/academy/groups",
+  "name": "academy_groups_list"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/groups",
+  "name": "academy_group_create"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/groups/{group_id}",
+  "name": "academy_group_detail"
+ },
+ {
+  "method": "PUT",
+  "path": "/api/staff/academy/groups/{group_id}",
+  "name": "academy_group_update"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/groups/{group_id}/memberships",
+  "name": "academy_group_enrol"
+ },
+ {
+  "method": "PUT",
+  "path": "/api/staff/academy/groups/{group_id}/memberships/{member_id}",
+  "name": "academy_group_membership_update"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/groups/{group_id}/memberships/{member_id}/transfer",
+  "name": "academy_group_transfer"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/lookups/{kind}",
+  "name": "academy_group_lookup"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/students/{student_id}/groups",
+  "name": "academy_student_group_history"
+ },
+ {
   "method": "POST",
   "path": "/api/staff/finance/charges",
   "name": "create_charge"

@@ -2,6 +2,7 @@
   "version": 1,
   "routes": [
     "/app/management/study-plans",
+    "/app/management/groups",
     "/app/grammar/practice",
     "/app/plan/level-check",
     "/app/leaderboard",

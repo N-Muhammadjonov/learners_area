@@ -919,3 +919,5 @@ from .tuition_port import install as _install_tuition
 _install_tuition()
 from .study_plan_staff_port import install as _install_study_plan_staff
 _install_study_plan_staff()
+from .academy_groups_port import install as _install_academy_groups
+_install_academy_groups()

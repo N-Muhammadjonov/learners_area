@@ -20,6 +20,7 @@ const FINANCE_TABLES = [
   'tuition_credit_notes', 'finance_journal_entries', 'finance_journal_lines',
   'finance_audit_events', 'finance_outbox_events', 'cash_day_adjustments',
 ];
+const ACADEMY_TABLES = ['academy_groups', 'academy_group_teachers', 'academy_group_memberships'];
 
 async function tableExists(db, name) {
   const { rows } = await db.query(
@@ -28,7 +29,7 @@ async function tableExists(db, name) {
   return rows.length === 1;
 }
 
-test('the fresh-install path reaches the tuition finance schema', async () => {
+test('the fresh-install path reaches the tuition finance and academy schemas', async () => {
   const db = new PGlite();
   const report = await applyTestMigrations(db, root, { mode: 'fresh' });
   assert.equal(report.mode, 'fresh');
@@ -38,7 +39,7 @@ test('the fresh-install path reaches the tuition finance schema', async () => {
   for (const entry of report.deferred) {
     assert.ok(entry.file && entry.reason, `deferred entry is not explained: ${JSON.stringify(entry)}`);
   }
-  for (const table of FINANCE_TABLES) {
+  for (const table of [...FINANCE_TABLES, ...ACADEMY_TABLES]) {
     assert.ok(await tableExists(db, table), `${table} was not created on the fresh path`);
   }
   // The freeze on approved contract terms is a database trigger, not an application rule.
