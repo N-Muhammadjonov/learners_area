@@ -1,0 +1,24 @@
+name: Mock auto Speaking version loader
+
+on:
+  pull_request:
+    paths:
+      - services/backend/app/mock_system_port.py
+      - services/backend/tests/test_mock_auto_speaking_loader.py
+      - .github/workflows/mock-auto-speaking-loader.yml
+  push:
+    branches:
+      - fix/mock-auto-speaking-loader-20261114
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python services/backend/tests/test_mock_auto_speaking_loader.py
