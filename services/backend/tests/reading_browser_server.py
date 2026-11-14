@@ -42,4 +42,14 @@ async def current_authority(req):
 core.current_authority=current_authority
 original_layout=browser_reading.for_passage
 browser_reading.for_passage=lambda id: {'passageHtml':'<p>They fi<strong>nd <em>out</em></strong> a fact.</p>','groups':{}} if str(id)==str(PID) else original_layout(id)
-uvicorn.run(application,host='127.0.0.1',port=4199,log_level='warning',access_log=False,proxy_headers=False)
+# One embedded PostgreSQL connection is shared by this test fixture. Serialize
+# complete API requests so concurrent shell reads cannot replace its unnamed
+# prepared statement or interleave another request's transaction.
+api_lock=asyncio.Lock()
+async def fixture_application(scope,receive,send):
+    if scope['type']=='http' and scope['path'].startswith('/api/'):
+        async with api_lock:
+            await application(scope,receive,send)
+    else:
+        await application(scope,receive,send)
+uvicorn.run(fixture_application,host='127.0.0.1',port=4199,log_level='warning',access_log=False,proxy_headers=False)
