@@ -45,7 +45,7 @@ export function contextualWordPopover(context,props){
   const lookupRequest=async()=>{
    try{return await api.request(url,{signal:localSignal});}
    catch(e){
-    if(occurrenceId&&e?.status===404&&Number.isInteger(startChar)&&Number.isInteger(endChar))
+    if(!inlineContext&&occurrenceId&&e?.status===404&&Number.isInteger(startChar)&&Number.isInteger(endChar))
      return api.request(contextualUrl,{signal:localSignal});
     throw e;
    }
