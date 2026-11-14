@@ -13,7 +13,6 @@ on:
       - fix/listening-30-32-contextual-20261114
       - fix/listening-script-context-meaning-ui-20261114
       - fix/listening-503-authored-definition-shadow-20261114
-      - fix/listening-full-lexical-coverage-popover-20261114
     paths:
       - '.github/workflows/reading-listening-lexical-qa.yml'
       - 'frontend/vanilla/**'
@@ -30,10 +29,6 @@ on:
       - 'services/backend/migrations/0101_listening_1_32_vocabulary_examples.sql'
       - 'services/backend/migrations/0102_listening_test_local_meanings.sql'
       - 'services/backend/migrations/0103_listening_context_sense_corrections.sql'
-      - 'services/backend/migrations/104_listening_1_8_verified_words.sql'
-      - 'services/backend/migrations/105_listening_9_16_verified_words.sql'
-      - 'services/backend/migrations/106_listening_17_24_verified_words.sql'
-      - 'services/backend/migrations/107_listening_25_32_verified_words.sql'
   workflow_dispatch:
 permissions:
   contents: read
