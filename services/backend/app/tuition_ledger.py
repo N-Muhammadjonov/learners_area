@@ -55,6 +55,7 @@ ACCOUNT_CODES = (
     'salary_expense',
     'salary_payable',
     'payment_fees_expense',
+    'provider_clearing',
 )
 
 CONTRACT_STATES = ('draft', 'approved', 'active', 'completed', 'cancelled')
@@ -798,7 +799,7 @@ async def confirm_provider_payment(conn, *, provider, provider_transaction_id, p
     allocations = await _allocate(conn, settled)
     allocated = sum(row['amount_minor'] for row in allocations)
     surplus = settled['amount_minor'] - allocated
-    lines = [('bank_clearing', 'debit', settled['amount_minor'])]
+    lines = [('provider_clearing', 'debit', settled['amount_minor'])]
     if allocated:
         lines.append(('accounts_receivable', 'credit', allocated))
     if surplus:
@@ -1137,29 +1138,99 @@ async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
     }
 
 
+#: FIN-10: the calendar the owner reads reports in. Storage stays UTC; only the day boundary
+#: used to bucket a report moves, and it moves in exactly one place so every figure agrees.
+REPORT_TIMEZONE = 'Asia/Tashkent'
+_TZ_DAY = "(occurred_at AT TIME ZONE 'Asia/Tashkent')::date BETWEEN $1 AND $2"
+
+#: What each reported figure actually means. Reported next to the numbers because "invoiced"
+#: and "collected" and "recognized" are three different questions about three different dates.
+SUMMARY_SEMANTICS = {
+    'collectedCashMinor': 'settled cash receipts, by receipt date (Asia/Tashkent)',
+    'collectedBankMinor': 'settled bank transfers, by receipt date (Asia/Tashkent)',
+    'collectedProviderMinor': 'provider-settled money, by settlement date (Asia/Tashkent)',
+    'collectedTotalMinor': 'sum of the three method totals, gross of refunds',
+    'collectedNetMinor': 'collectedTotalMinor minus refunds settled in the same window',
+    'refundsMinor': 'refunds SETTLED with an effective date in the window',
+    'invoicedTuitionMinor': 'posted charges net of discount and relief, by DUE date',
+    'creditedTuitionMinor': 'posted credit notes, by posting date (Asia/Tashkent)',
+    'recognizedRevenueMinor': 'tuition revenue credited in the journal, by entry date',
+    'providerFeesMinor': 'provider commission expensed, by entry date',
+    'outstandingReceivableMinor': 'point-in-time balance, NOT windowed',
+    'overdueReceivableMinor': 'point-in-time balance, NOT windowed',
+    'customerAdvanceMinor': 'point-in-time balance, NOT windowed',
+}
+
+
+async def _collected_by_method(conn, start, end) -> dict[str, int]:
+    rows = await conn.fetch(
+        '''SELECT method, coalesce(sum(amount_minor),0) AS total FROM tuition_payments
+            WHERE status = ANY($3::varchar[]) AND ''' + _TZ_DAY + '''
+            GROUP BY method''', start, end, list(SETTLED_PAYMENT_STATES))
+    return {row['method']: int(row['total']) for row in rows}
+
+
+async def _journal_total(conn, account_code, direction, start, end) -> int:
+    return await conn.fetchval(
+        '''SELECT coalesce(sum(l.amount_minor),0) FROM finance_journal_lines l
+             JOIN finance_journal_entries e ON e.transaction_id = l.transaction_id
+            WHERE l.account_id = (SELECT id FROM finance_accounts WHERE code=$3)
+              AND l.direction = $4
+              AND (e.occurred_at AT TIME ZONE 'Asia/Tashkent')::date BETWEEN $1 AND $2''',
+        start, end, account_code, direction) or 0
+
+
+@transactional
+async def record_provider_fee(conn, *, actor_user_id, amount_minor, provider=None, memo=None):
+    """Expense a provider's commission against the money it cleared for us.
+
+    A fee is an expense, not a collection: it must never appear in `collected*` and it must
+    never reduce a student's payment. Posted as debit payment_fees_expense, credit
+    provider_clearing, so the net of what the provider owes us stays visible.
+    """
+    amount = _minor(amount_minor)
+    _require(amount > 0, 'amount_must_be_positive')
+    moment = datetime.now(timezone.utc)
+    await _assert_period_open(conn, period_key(moment))
+    entry = await _post_journal(
+        conn, source_type='provider_fee', source_id=uuid4(), actor_user_id=actor_user_id,
+        memo=memo or (f'{provider} commission' if provider else 'Payment provider commission'),
+        period=period_key(moment), occurred_at=moment,
+        lines=[('payment_fees_expense', 'debit', amount),
+               ('provider_clearing', 'credit', amount)])
+    return {'transactionId': str(entry), 'amountMinor': amount, 'provider': provider}
+
+
 #: Owner dashboard metrics. These are DIFFERENT numbers and must never be conflated.
 async def finance_summary(conn, *, start: date, end: date) -> dict:
-    collected = await conn.fetchval(
-        '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
-            WHERE status = ANY($3::varchar[]) AND occurred_at::date BETWEEN $1 AND $2''',
-        start, end, list(SETTLED_PAYMENT_STATES)) or 0
+    """Collection split by method, accrual, recognition and point-in-time balances.
+
+    Date semantics are stated in `SUMMARY_SEMANTICS` and returned with the payload, because
+    "how much did we invoice" (due date) and "how much did we collect" (receipt date) and
+    "how much did we earn" (journal entry date) answer three different questions. Day
+    boundaries follow Asia/Tashkent, which is the calendar the centre operates on.
+    """
+    by_method = await _collected_by_method(conn, start, end)
+    collected_cash = by_method.get('cash', 0)
+    collected_bank = by_method.get('bank', 0)
+    collected_provider = by_method.get('provider', 0)
+    collected_total = collected_cash + collected_bank + collected_provider
     # Net accrual in the window: a charge and its reversal cancel when both fall inside it,
     # and a reversal dated in a later window correctly moves the accrual there.
     invoiced = await conn.fetchval(
         f'''SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges
             WHERE {POSTED_EVENT} AND due_date BETWEEN $1 AND $2''', start, end) or 0
-    recognized = await conn.fetchval(
-        '''SELECT coalesce(sum(amount_minor),0) FROM finance_journal_lines l
-             JOIN finance_journal_entries e ON e.transaction_id = l.transaction_id
-            WHERE l.account_id = (SELECT id FROM finance_accounts WHERE code='tuition_revenue')
-              AND l.direction='credit' AND e.occurred_at::date BETWEEN $1 AND $2''',
-        start, end) or 0
+    recognized = await _journal_total(conn, 'tuition_revenue', 'credit', start, end)
+    fees = await _journal_total(conn, 'payment_fees_expense', 'debit', start, end)
+    # Only SETTLED refunds, matched by their effective date: a request that was refused or a
+    # provider that declined the reversal never took cash out of the drawer.
     refunds = await conn.fetchval(
-        'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds WHERE created_at::date BETWEEN $1 AND $2',
-        start, end) or 0
+        "SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds"
+        " WHERE status='settled' AND effective_on BETWEEN $1 AND $2", start, end) or 0
     credited = await conn.fetchval(
         "SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes"
-        " WHERE status='posted'", ) or 0
+        " WHERE status='posted' AND (posted_at AT TIME ZONE 'Asia/Tashkent')::date"
+        ' BETWEEN $1 AND $2', start, end) or 0
     outstanding = await conn.fetchval(
         f'''SELECT coalesce(sum(balance),0) FROM (
              SELECT c.student_user_id,
@@ -1199,24 +1270,103 @@ async def finance_summary(conn, *, start: date, end: date) -> dict:
                             FROM tuition_payment_allocations GROUP BY payment_id) a
                  ON a.payment_id = p.id
                LEFT JOIN (SELECT payment_id, sum(amount_minor) AS refunded
-                            FROM tuition_refunds GROUP BY payment_id) r
+                            FROM tuition_refunds WHERE status='settled' GROUP BY payment_id) r
                  ON r.payment_id = p.id
               WHERE p.status = ANY($1::varchar[])
               GROUP BY p.student_user_id) t WHERE balance > 0''',
         list(SETTLED_PAYMENT_STATES)) or 0
     return {
         'currency': CURRENCY,
+        'calendar': REPORT_TIMEZONE,
         'range': {'start': start.isoformat(), 'end': end.isoformat()},
-        'collectedCashMinor': int(collected),
+        'semantics': SUMMARY_SEMANTICS,
+        'collectedCashMinor': int(collected_cash),
+        'collectedBankMinor': int(collected_bank),
+        'collectedProviderMinor': int(collected_provider),
+        'collectedTotalMinor': int(collected_total),
+        'collectedNetMinor': int(collected_total - refunds),
         'invoicedTuitionMinor': int(invoiced),
         'creditedTuitionMinor': int(credited),
         'recognizedRevenueMinor': int(recognized),
+        'providerFeesMinor': int(fees),
         'outstandingReceivableMinor': int(outstanding),
         'overdueReceivableMinor': int(overdue),
         'customerAdvanceMinor': int(advances),
         'refundsMinor': int(refunds),
         'asOf': datetime.now(timezone.utc).isoformat(),
     }
+
+
+async def reconcile_summary(conn, *, start: date, end: date) -> dict:
+    """Check every reported figure against an INDEPENDENT source.
+
+    A dashboard that recomputes money from its own arithmetic can drift from the ledger and
+    nobody notices. Each check below compares the operational table against the journal (or
+    the other way round), so a figure that cannot be explained by both is reported as broken
+    rather than displayed.
+    """
+    summary = await finance_summary(conn, start=start, end=end)
+    checks = []
+
+    def check(field, reported, independent, source):
+        checks.append({'field': field, 'reported': int(reported),
+                       'independent': int(independent), 'source': source,
+                       'matches': int(reported) == int(independent)})
+
+    for method, account in (('cash', 'cash_on_hand'), ('bank', 'bank_clearing'),
+                            ('provider', 'provider_clearing')):
+        field = f'collected{method.capitalize()}Minor'
+        check(field, summary[field], await _journal_total(conn, account, 'debit', start, end),
+              f'journal {account} debits')
+    check('collectedTotalMinor', summary['collectedTotalMinor'],
+          summary['collectedCashMinor'] + summary['collectedBankMinor']
+          + summary['collectedProviderMinor'], 'sum of the method totals')
+    check('refundsMinor', summary['refundsMinor'],
+          await conn.fetchval(
+              '''SELECT coalesce(sum(l.amount_minor),0) FROM finance_journal_lines l
+                   JOIN finance_journal_entries e ON e.transaction_id = l.transaction_id
+                  WHERE e.source_type='refund' AND l.direction='credit'
+                    AND (e.occurred_at AT TIME ZONE 'Asia/Tashkent')::date BETWEEN $1 AND $2''',
+              start, end) or 0,
+          'journal refund credits')
+    check('invoicedTuitionMinor', summary['invoicedTuitionMinor'],
+          await conn.fetchval(
+              '''SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges
+                  WHERE posted_at IS NOT NULL AND due_date BETWEEN $1 AND $2''',
+              start, end) or 0,
+          'posted charge documents')
+    check('creditedTuitionMinor', summary['creditedTuitionMinor'],
+          await _journal_total(conn, 'scholarship_discounts', 'debit', start, end),
+          'journal scholarship_discounts debits')
+    check('recognizedRevenueMinor', summary['recognizedRevenueMinor'],
+          await conn.fetchval(
+              '''SELECT coalesce(sum(l.amount_minor),0) FROM finance_journal_lines l
+                   JOIN finance_journal_entries e ON e.transaction_id = l.transaction_id
+                  WHERE l.account_id=(SELECT id FROM finance_accounts
+                                       WHERE code='tuition_revenue')
+                    AND l.direction='credit'
+                    AND (e.occurred_at AT TIME ZONE 'Asia/Tashkent')::date BETWEEN $1 AND $2''',
+              start, end) or 0,
+          'journal tuition_revenue credits')
+    # Balances are point-in-time, so they reconcile against the sum of the per-student
+    # positions the same screen can drill into - the same filters, not a parallel formula.
+    # Every student who can hold a balance: one who was billed AND one who merely paid in
+    # advance. Deriving the list from charges alone would make an unallocated payment
+    # invisible to its own reconciliation.
+    students = [row['student_user_id'] for row in await conn.fetch(
+        'SELECT DISTINCT student_user_id FROM tuition_charges WHERE posted_at IS NOT NULL'
+        ' UNION SELECT DISTINCT student_user_id FROM tuition_payments'
+        ' WHERE status = ANY($1::varchar[])', list(SETTLED_PAYMENT_STATES))]
+    positions = [await student_position(conn, sid) for sid in students]
+    check('outstandingReceivableMinor', summary['outstandingReceivableMinor'],
+          sum(p['balanceDueMinor'] for p in positions), 'sum of per-student balances')
+    check('overdueReceivableMinor', summary['overdueReceivableMinor'],
+          sum(p['overdueMinor'] for p in positions), 'sum of per-student overdue')
+    check('customerAdvanceMinor', summary['customerAdvanceMinor'],
+          sum(max(p['advanceMinor'], 0) for p in positions), 'sum of per-student advances')
+    return {'ok': all(item['matches'] for item in checks), 'checks': checks,
+            'calendar': REPORT_TIMEZONE,
+            'range': {'start': start.isoformat(), 'end': end.isoformat()}}
 
 
 # ─────────────────────────────── cash controls ───────────────────────────────

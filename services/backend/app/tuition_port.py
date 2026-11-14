@@ -656,9 +656,19 @@ async def reconciliation(req: Request):
     user, denied = await actor(req, READ_ROLES)
     if denied or user['role'] == 'teacher':
         return denied or core.j({'error': 'forbidden'}, 403, PRIVATE)
+    today = datetime.now(timezone.utc).date()
+    start = as_date(req.query_params.get('start')) or today.replace(day=1)
+    end = as_date(req.query_params.get('end')) or today
+    if end < start:
+        return err('invalid_range')
     db = await core.pool()
     async with db.acquire() as conn:
-        return core.j(await ledger.journal_is_balanced(conn), headers=PRIVATE)
+        # FIN-10: "the dashboard agrees with the ledger" is a checkable statement, so it is
+        # checked - every reported figure against an independent source, plus the journal's
+        # own debit/credit balance.
+        return core.j({'journal': await ledger.journal_is_balanced(conn),
+                       'summary': await ledger.reconcile_summary(conn, start=start, end=end)},
+                      headers=PRIVATE)
 
 
 @router.get('/api/staff/finance/students/{studentId}/statement')

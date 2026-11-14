@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 import pytest
@@ -215,3 +215,33 @@ async def test_reusing_a_payment_key_for_a_different_amount_is_refused_and_audit
         'idempotencyKey': 'KEY-REUSE'})
     assert exact.status_code == 200 and exact.json()['duplicate'] is True
     assert await http.con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+
+
+# ────────── FIN-10: the dashboard reconciles to the ledger, and says which figures ──────────
+@pytest.mark.asyncio
+async def test_owner_dashboard_splits_collection_by_method_over_http(http):
+    await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 250_000, 'method': 'cash'})
+    await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 150_000, 'method': 'bank'})
+
+    summary = await staff(http, 'owner', 'GET', '/api/staff/finance/summary',
+                          params={'start': (TODAY - timedelta(days=60)).isoformat(),
+                                  'end': (TODAY + timedelta(days=60)).isoformat()})
+    assert summary.status_code == 200, summary.text
+    body = summary.json()
+    assert body['collectedCashMinor'] == 250_000, 'collectedCashMinor must mean cash only'
+    assert body['collectedBankMinor'] == 150_000
+    assert body['collectedTotalMinor'] == 400_000
+    assert body['calendar'] == 'Asia/Tashkent'
+    assert body['semantics']['collectedCashMinor']
+
+    recon = await staff(http, 'owner', 'GET', '/api/staff/finance/reconciliation',
+                        params={'start': (TODAY - timedelta(days=60)).isoformat(),
+                                'end': (TODAY + timedelta(days=60)).isoformat()})
+    assert recon.status_code == 200, recon.text
+    payload = recon.json()
+    assert payload['journal']['balanced'] is True
+    assert payload['summary']['ok'] is True, payload['summary']['checks']
+    broken = [c for c in payload['summary']['checks'] if not c['matches']]
+    assert broken == []

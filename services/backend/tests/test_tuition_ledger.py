@@ -1139,7 +1139,7 @@ async def test_a_failed_or_rejected_refund_leaves_the_cash_in_the_drawer(databas
         "SELECT count(*) FROM finance_journal_entries WHERE source_type='refund'") == 0
     # The only journal activity is the original receipt: two lines, cash in and advance up.
     assert await con.fetchval('SELECT count(*) FROM finance_journal_lines') == 2
-    assert await balances(con, 'bank_clearing') == 700_000
+    assert await balances(con, 'provider_clearing') == 700_000
 
 
 @pytest.mark.asyncio
@@ -1254,6 +1254,134 @@ async def test_a_replayed_provider_refund_id_with_a_different_amount_is_refused(
     assert exc.value.code == 'idempotency_conflict'
     assert 'amountMinor' in exc.value.details['mismatched']
     assert await con.fetchval('SELECT count(*) FROM tuition_refunds') == 1
+
+
+# ────────── FIN-10: every reported figure reconciles to its own source ──────────
+@pytest.mark.asyncio
+async def test_collection_is_reported_per_payment_method(database):
+    """`collectedCashMinor` means CASH. Bank and provider money are different numbers."""
+    con, schema, people = database
+    # A 400,000 obligation against 500,000 collected: 100,000 stays an advance so the refund
+    # half of this test has something legitimately refundable.
+    contract = await approved_contract(con, people, monthly=400_000)
+    await posted_charge(con, people, gross=400_000, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=250_000,
+                                method='cash')
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=150_000,
+                                method='bank')
+    provider = await advance_payment(con, people, amount=100_000, method='provider')
+
+    summary = await ledger.finance_summary(con, start=TODAY - timedelta(days=60),
+                                           end=TODAY + timedelta(days=60))
+    assert summary['collectedCashMinor'] == 250_000
+    assert summary['collectedBankMinor'] == 150_000
+    assert summary['collectedProviderMinor'] == 100_000
+    assert summary['collectedTotalMinor'] == 500_000
+    assert summary['collectedNetMinor'] == 500_000, 'no refunds yet'
+
+    # A settled refund reduces net settled, never the gross method totals.
+    refund, _ = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                            payment_id=provider['id'], amount_minor=100_000,
+                                            reason='Family withdrew')
+    await ledger.approve_refund(con, actor_user_id=people['owner'], refund_id=refund['id'])
+    await ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    summary = await ledger.finance_summary(con, start=TODAY - timedelta(days=60),
+                                           end=TODAY + timedelta(days=60))
+    assert summary['collectedTotalMinor'] == 500_000
+    assert summary['refundsMinor'] == 100_000
+    assert summary['collectedNetMinor'] == 400_000
+
+
+@pytest.mark.asyncio
+async def test_provider_fees_are_an_expense_not_a_collection(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await advance_payment(con, people, amount=500_000, method='provider')
+    await ledger.record_provider_fee(con, actor_user_id=people['owner'], amount_minor=7_500,
+                                     provider='payme', memo='Payme commission 1.5%')
+    summary = await ledger.finance_summary(con, start=TODAY - timedelta(days=60),
+                                           end=TODAY + timedelta(days=60))
+    assert summary['providerFeesMinor'] == 7_500
+    assert summary['collectedProviderMinor'] == 500_000, 'a fee is not a collection'
+    assert await balances(con, 'payment_fees_expense') == 7_500
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
+
+
+@pytest.mark.asyncio
+async def test_summary_day_boundaries_follow_asia_tashkent(database):
+    """23:30 UTC on the 13th is 04:30 on the 14th in Tashkent - it belongs to the 14th."""
+    con, schema, people = database
+    late_utc = datetime(2026, 11, 13, 23, 30, tzinfo=timezone.utc)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=120_000,
+                                occurred_at=late_utc)
+    tashkent_day = date(2026, 11, 14)
+    summary = await ledger.finance_summary(con, start=tashkent_day, end=tashkent_day)
+    assert summary['collectedCashMinor'] == 120_000, summary
+    previous = await ledger.finance_summary(con, start=date(2026, 11, 13),
+                                            end=date(2026, 11, 13))
+    assert previous['collectedCashMinor'] == 0
+    assert summary['calendar'] == 'Asia/Tashkent'
+
+
+@pytest.mark.asyncio
+async def test_every_reported_figure_reconciles_to_its_source(database):
+    """The dashboard must not be a parallel arithmetic of its own."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await posted_charge(con, people, student=people['other_student'], gross=500_000,
+                        due=TODAY - timedelta(days=40))
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=250_000)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=150_000,
+                                method='bank')
+    await ledger.recognize_revenue(con, actor_user_id=people['owner'],
+                                   student_user_id=people['student'], amount_minor=300_000)
+    start, end = TODAY - timedelta(days=60), TODAY + timedelta(days=60)
+    recon = await ledger.reconcile_summary(con, start=start, end=end)
+    assert recon['ok'] is True, recon
+    assert recon['checks'], 'nothing was actually reconciled'
+    assert all(item['matches'] for item in recon['checks']), recon['checks']
+    reconciled = {item['field'] for item in recon['checks']}
+    for field in ('collectedCashMinor', 'collectedBankMinor', 'collectedProviderMinor',
+                  'refundsMinor', 'invoicedTuitionMinor', 'creditedTuitionMinor',
+                  'recognizedRevenueMinor', 'outstandingReceivableMinor',
+                  'customerAdvanceMinor'):
+        assert field in reconciled, f'{field} is reported but never reconciled'
+
+
+@pytest.mark.asyncio
+async def test_owner_debt_and_student_debt_use_the_same_filter(database):
+    """The dashboard total must equal the sum of the per-student positions it summarises."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await posted_charge(con, people, student=people['other_student'], gross=500_000,
+                        due=TODAY - timedelta(days=40))
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=250_000)
+    note = await ledger.create_credit_note(con, actor_user_id=people['admin'],
+                                           charge_id=(await con.fetchval(
+                                               'SELECT id FROM tuition_charges LIMIT 1')),
+                                           amount_minor=50_000, reason='Goodwill')
+    await ledger.approve_credit_note(con, actor_user_id=people['owner'],
+                                     credit_note_id=note['id'])
+    await ledger.post_credit_note(conn=con, actor_user_id=people['owner'],
+                                  credit_note_id=note['id'])
+    summary = await ledger.finance_summary(con, start=TODAY - timedelta(days=60),
+                                           end=TODAY + timedelta(days=60))
+    positions = [await ledger.student_position(con, sid)
+                 for sid in (people['student'], people['other_student'])]
+    per_student = sum(position['balanceDueMinor'] for position in positions)
+    assert summary['outstandingReceivableMinor'] == per_student, (
+        summary['outstandingReceivableMinor'], per_student)
+    assert summary['overdueReceivableMinor'] == sum(
+        position['overdueMinor'] for position in positions)
 
 
 @pytest.mark.asyncio
