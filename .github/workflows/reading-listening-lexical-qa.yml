@@ -17,6 +17,7 @@ on:
       - 'services/backend/migrations/0093_listening_12_16_contextual_occurrences.sql'
       - 'services/backend/migrations/0094_listening_1_20_context_audit.sql'
       - 'services/backend/migrations/0095_listening_21_25_contextual.sql'
+      - 'services/backend/migrations/0096_listening_21_25_expanded_context.sql'
   workflow_dispatch:
 permissions:
   contents: read
