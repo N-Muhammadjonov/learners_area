@@ -10,6 +10,7 @@ from . import main as core
 from .db import PooledReads
 from .internal_bot_ready_port import verify_bot
 from .rate_limit import RULES,async_counter as counter,too_many
+from .security import request_origin
 router=APIRouter()
 RULES.setdefault('telegram_callback',(40,900))
 
@@ -33,7 +34,7 @@ def telegram_verified(p):
 @router.get('/api/auth/telegram/callback')
 async def telegram_callback(req:Request):
     params=dict(req.query_params)
-    root=str(req.base_url).rstrip('/')
+    root=request_origin(req)
     def redirect(path):return RedirectResponse(root+path,status_code=307)
     if not telegram_verified(params):return redirect('/login?error=telegram')
     delay=await counter('telegram_callback','tg:'+str(int(params['id'])),consume=True)
