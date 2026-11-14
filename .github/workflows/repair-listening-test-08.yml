@@ -2,7 +2,7 @@ name: Repair Listening 08 transcript source
 on:
   push:
     branches: [fix/listening-tests-7-11-lexical-20261114]
-    paths: [scripts/repair-listening-test-08.mjs]
+    paths: [scripts/repair-listening-test-08.mjs, .github/workflows/repair-listening-test-08.yml]
   workflow_dispatch:
 permissions:
   contents: write
@@ -36,7 +36,7 @@ jobs:
           data=json.loads(source.decode().split('const DATA=',1)[1].split(';\n',1)[0])
           assert len(data['script_completion'])==34
           assert all(len(data['transcript'][str(n)])>=2500 for n in range(1,5))
-          assert 'activity-script' in source.decode()
+          assert "activityShell('script'" in source.decode()
           print('Test 8 restored: four audio-derived transcripts, 34 contextual exercises')
           PY
       - name: Commit source and packaged runtime only
