@@ -67,7 +67,7 @@ test('Listening Script numbered source matches are actually present, including o
 
 test('Listening bridge safely forwards exact source offsets for a word without an authored occurrence',()=>{
   const script=paintedBridge('fixture',{},'Notes','test-storage',null,false,[]);
-  assert.match(script,/mode:'script-context'/);
+  assert.match(script,/mode:'script'/);
   assert.match(script,/startChar:begin,endChar:end/);
   new Function(script);
 });
@@ -79,7 +79,7 @@ test('Script annotator preserves readable text and excludes common grammatical w
     w.DATA={transcript:{"1":"He offered food to the visitor."},script_completion:[]};
     w.scriptPart=1;
     w.buildScriptTranscript=()=>'';w.renderScript=()=>null;
-    w.eval(originalScriptAccessibility('fixture'));
+    w.eval(originalScriptAccessibility('fixture',[{part:1,start:3,end:10,surface:'offered',occurrenceId:'word-1'},{part:1,start:11,end:15,surface:'food',occurrenceId:'word-2'},{part:1,start:23,end:30,surface:'visitor',occurrenceId:'word-3'}]));
     w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
     const words=[...w.document.querySelectorAll('.la-script-lexical-word')];
     assert.deepEqual(words.map(el=>el.textContent),['offered','food','visitor']);
