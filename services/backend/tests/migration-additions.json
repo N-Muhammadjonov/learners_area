@@ -44,5 +44,6 @@
   "1111_listening_9_16_morphology.sql": "db1ad6ec46273d0776715d8176fc2da7df33b573336899a2a1deebc3db37b6ff",
   "1112_listening_17_24_morphology.sql": "45d253c46d8603b86c773929cd43f7d77da2a7af02a71ffc35c7a44ef8d8b30b",
   "1113_listening_25_32_morphology.sql": "86d8371e9791856477d1334e5dfa10173fa6dc496a4bb1947408dfcfd9f1e959",
-  "1114_listening_grammar_and_once_context.sql": "7a17ad5b4cb98461b9ba6b5bd9f48be2aee544ec92f39a24459d932939df0bfd"
+  "1114_listening_grammar_and_once_context.sql": "7a17ad5b4cb98461b9ba6b5bd9f48be2aee544ec92f39a24459d932939df0bfd",
+  "1115_tuition_finance.sql": "3c72acc1a5fd2f1a03fa4eca5ccc4dc347e015983f5c79c55ed1b461515e9f76"
 }

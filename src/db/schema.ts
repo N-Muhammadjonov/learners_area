@@ -10,6 +10,8 @@ import {
   boolean,
   jsonb,
   real,
+  bigint,
+  date,
   index,
   uniqueIndex,
   smallint,
@@ -3875,3 +3877,193 @@ export const apiRateBuckets = pgTable("api_rate_buckets", {
 }, table => [index("api_rate_buckets_expiry_idx").on(table.resetAt),
   check("api_rate_buckets_used_check", sql`${table.used} >= 0`),
   check("api_rate_buckets_bucket_key_check", sql`${table.bucketKey} ~ '^[a-f0-9]{64}$'`)]);
+
+// ---------------------------------------------------------------------------
+// Tuition finance — the operational accounts-receivable subledger and the
+// append-only double-entry journal behind it (migration 1115).
+//
+// Every money column is `bigint` in the currency's smallest unit; for UZS that
+// unit is 1 som, so 800000 means 800,000 UZS. These tables are typed here so the
+// staff UI can read them safely, but all writes go through
+// `services/backend/app/tuition_ledger.py`, which owns the invariants:
+//   * journal lines are append-only (database trigger blocks UPDATE/DELETE);
+//   * every journal transaction balances (deferred constraint trigger at COMMIT);
+//   * a provider confirmation produces at most one payment (unique indexes).
+// ---------------------------------------------------------------------------
+
+/** Illustrative operating chart of accounts. `statutory_code` is filled only from a
+ *  buyer's own approved chart; no statutory number is invented here. */
+export const financeAccounts = pgTable("finance_accounts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  code: varchar("code", { length: 40 }).notNull().unique(),
+  name: varchar("name", { length: 120 }).notNull(),
+  kind: varchar("kind", { length: 20 }).notNull(),
+  normalSide: varchar("normal_side", { length: 6 }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  statutoryCode: varchar("statutory_code", { length: 40 }),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const financeJournalEntries = pgTable("finance_journal_entries", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  transactionId: uuid("transaction_id").notNull(),
+  sourceType: varchar("source_type", { length: 30 }).notNull(),
+  sourceId: uuid("source_id").notNull(),
+  studentUserId: uuid("student_user_id").references(() => users.id, { onDelete: "set null" }),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  memo: varchar("memo", { length: 200 }),
+  periodKey: varchar("period_key", { length: 7 }),
+  occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("finance_journal_entries_transaction_idx").on(table.transactionId),
+  index("finance_journal_entries_source_idx").on(table.sourceType, table.sourceId),
+  index("finance_journal_entries_period_idx").on(table.periodKey, table.occurredAt),
+]);
+
+export const financeJournalLines = pgTable("finance_journal_lines", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  transactionId: uuid("transaction_id").notNull(),
+  entryId: uuid("entry_id").notNull().references(() => financeJournalEntries.id, { onDelete: "restrict" }),
+  accountId: uuid("account_id").notNull().references(() => financeAccounts.id, { onDelete: "restrict" }),
+  direction: varchar("direction", { length: 6 }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("finance_journal_lines_transaction_idx").on(table.transactionId),
+  index("finance_journal_lines_account_idx").on(table.accountId, table.createdAt),
+  check("finance_journal_lines_amount_check", sql`${table.amountMinor} > 0`),
+]);
+
+export const tuitionContracts = pgTable("tuition_contracts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  courseId: uuid("course_id").references(() => courses.id, { onDelete: "set null" }),
+  status: varchar("status", { length: 12 }).notNull().default("draft"),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  monthlyAmountMinor: bigint("monthly_amount_minor", { mode: "number" }).notNull(),
+  termMonths: integer("term_months").notNull().default(1),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  version: integer("version").notNull().default(1),
+  supersedesContractId: uuid("supersedes_contract_id"),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  note: varchar("note", { length: 300 }),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [index("tuition_contracts_student_idx").on(table.studentUserId, table.status)]);
+
+export const tuitionContractDiscounts = pgTable("tuition_contract_discounts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  contractId: uuid("contract_id").notNull().references(() => tuitionContracts.id, { onDelete: "cascade" }),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  reason: varchar("reason", { length: 200 }).notNull(),
+  approvedBy: uuid("approved_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [uniqueIndex("tuition_contract_discounts_contract_period_uidx").on(table.contractId, table.periodKey)]);
+
+export const tuitionCharges = pgTable("tuition_charges", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  contractId: uuid("contract_id").references(() => tuitionContracts.id, { onDelete: "set null" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  grossAmountMinor: bigint("gross_amount_minor", { mode: "number" }).notNull(),
+  discountAmountMinor: bigint("discount_amount_minor", { mode: "number" }).notNull().default(0),
+  netAmountMinor: bigint("net_amount_minor", { mode: "number" }).notNull(),
+  status: varchar("status", { length: 10 }).notNull().default("draft"),
+  isReversal: boolean("is_reversal").notNull().default(false),
+  originalChargeId: uuid("original_charge_id"),
+  reversalReason: varchar("reversal_reason", { length: 200 }),
+  dueDate: date("due_date").notNull(),
+  postedAt: timestamp("posted_at", { withTimezone: true }),
+  postedBy: uuid("posted_by").references(() => users.id, { onDelete: "set null" }),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("tuition_charges_student_period_idx").on(table.studentUserId, table.periodKey),
+  index("tuition_charges_open_idx").on(table.studentUserId, table.dueDate),
+]);
+
+export const tuitionPayments = pgTable("tuition_payments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  method: varchar("method", { length: 12 }).notNull().default("cash"),
+  provider: varchar("provider", { length: 20 }),
+  providerTransactionId: varchar("provider_transaction_id", { length: 80 }),
+  idempotencyKey: varchar("idempotency_key", { length: 120 }),
+  status: varchar("status", { length: 18 }).notNull().default("initiated"),
+  receiptNo: varchar("receipt_no", { length: 24 }),
+  receiptPurpose: varchar("receipt_purpose", { length: 120 }),
+  operatorUserId: uuid("operator_user_id").references(() => users.id, { onDelete: "set null" }),
+  payerName: varchar("payer_name", { length: 160 }),
+  occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
+  confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("tuition_payments_provider_txn_uidx").on(table.provider, table.providerTransactionId),
+  uniqueIndex("tuition_payments_idempotency_uidx").on(table.idempotencyKey),
+  uniqueIndex("tuition_payments_receipt_uidx").on(table.receiptNo),
+  index("tuition_payments_student_idx").on(table.studentUserId, table.occurredAt),
+]);
+
+export const tuitionPaymentAllocations = pgTable("tuition_payment_allocations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  paymentId: uuid("payment_id").notNull().references(() => tuitionPayments.id, { onDelete: "restrict" }),
+  chargeId: uuid("charge_id").notNull().references(() => tuitionCharges.id, { onDelete: "restrict" }),
+  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  isReversal: boolean("is_reversal").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("tuition_payment_allocations_charge_idx").on(table.chargeId),
+  uniqueIndex("tuition_payment_allocations_uidx").on(table.paymentId, table.chargeId, table.isReversal),
+]);
+
+export const tuitionRefunds = pgTable("tuition_refunds", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  paymentId: uuid("payment_id").notNull().references(() => tuitionPayments.id, { onDelete: "restrict" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  method: varchar("method", { length: 12 }).notNull().default("cash"),
+  reason: varchar("reason", { length: 200 }).notNull(),
+  authorizedBy: uuid("authorized_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  providerRefundId: varchar("provider_refund_id", { length: 80 }),
+  providerRefundState: varchar("provider_refund_state", { length: 20 }).notNull().default("internal"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("tuition_refunds_provider_uidx").on(table.providerRefundId),
+  index("tuition_refunds_payment_idx").on(table.paymentId, table.createdAt),
+]);
+
+export const cashReceiptSequences = pgTable("cash_receipt_sequences", {
+  periodKey: varchar("period_key", { length: 7 }).primaryKey(),
+  nextValue: bigint("next_value", { mode: "number" }).notNull().default(1),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const cashDayCloses = pgTable("cash_day_closes", {
+  businessDate: date("business_date").primaryKey(),
+  expectedMinor: bigint("expected_minor", { mode: "number" }).notNull(),
+  countedMinor: bigint("counted_minor", { mode: "number" }).notNull(),
+  varianceMinor: bigint("variance_minor", { mode: "number" }).notNull(),
+  reason: varchar("reason", { length: 300 }),
+  closedBy: uuid("closed_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  closedAt: timestamp("closed_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const financeClosedPeriods = pgTable("finance_closed_periods", {
+  periodKey: varchar("period_key", { length: 7 }).primaryKey(),
+  closedBy: uuid("closed_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  closedAt: timestamp("closed_at", { withTimezone: true }).defaultNow().notNull(),
+  reason: varchar("reason", { length: 300 }),
+});

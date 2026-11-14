@@ -2128,5 +2128,85 @@
     "method": "POST",
     "path": "/api/writing/typing/start",
     "name": "start"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/contracts",
+    "name": "create_contract"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/contracts/{contractId}/approve",
+    "name": "approve_contract"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/contracts/{contractId}/activate",
+    "name": "activate_contract"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/contracts/{contractId}/discounts",
+    "name": "add_discount"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/charges",
+    "name": "create_charge"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/charges/{chargeId}/post",
+    "name": "post_charge"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/charges/{chargeId}/reverse",
+    "name": "reverse_charge"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/payments",
+    "name": "record_payment"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/payments/{paymentId}/refund",
+    "name": "refund_payment"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/revenue/recognize",
+    "name": "recognize_revenue"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/days/close",
+    "name": "close_day"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/periods/close",
+    "name": "close_period"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/summary",
+    "name": "finance_summary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/reconciliation",
+    "name": "reconciliation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/students/{studentId}/statement",
+    "name": "student_statement"
+  },
+  {
+    "method": "GET",
+    "path": "/api/finance/me",
+    "name": "my_billing"
   }
 ]

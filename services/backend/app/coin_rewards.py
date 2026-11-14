@@ -290,6 +290,10 @@ async def wallet(con, user_id) -> dict:
             refunded = await con.fetchval(
                 "SELECT coalesce(sum(coins),0)::int FROM coin_gift_refunds WHERE user_id=$1", user_id) or 0
     except Exception:
+        # Falling back to zeros keeps a wallet read from taking a page down, but it must not
+        # be silent: a zero balance shown for a schema/permission error is the same failure
+        # mode as a lost ledger. Log it so the condition is visible in production logs.
+        logging.getLogger(__name__).exception("coin wallet read failed")
         return empty
     balance = max(0, earned - spent + refunded)
     return {"earned": earned, "spent": spent, "refunded": refunded, "balance": balance, "lifetime": earned,
