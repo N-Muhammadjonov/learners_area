@@ -14,6 +14,7 @@ invariants hold no matter which client called.
 """
 from __future__ import annotations
 
+import json
 import re
 
 from datetime import date, datetime, timedelta, timezone
@@ -733,5 +734,26 @@ async def sandbox_provider_callback(req: Request):
                   headers=PRIVATE)
 
 
+async def _write_refusal_audit(event: dict) -> None:
+    """Persist a refused money action on its own connection.
+
+    The command that was refused is rolling back, so this must not share its transaction.
+    Failure to write the audit is logged but never turns a correct refusal into a 500.
+    """
+    try:
+        db = await core.pool()
+        async with db.acquire() as conn:
+            await conn.execute(
+                'INSERT INTO finance_audit_events (actor_user_id, action, subject_type,'
+                ' subject_id, period_key, amount_minor, currency_code, reason, request_id,'
+                ' detail) VALUES ($1::uuid,$2,$3,$4::uuid,$5,$6,$7,$8,$9,$10::jsonb)',
+                event['actorUserId'], event['action'], event['subjectType'], event['subjectId'],
+                event['periodKey'], event['amountMinor'], event['currency'], event['reason'],
+                event['requestId'], json.dumps(event['detail'], sort_keys=True, default=str))
+    except Exception:  # pragma: no cover - audit must never mask the refusal itself
+        core.LOG.exception('refusal_audit_write_failed')
+
+
 def install():
+    ledger.install_refusal_audit(_write_refusal_audit)
     core.app.include_router(router)

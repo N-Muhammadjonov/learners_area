@@ -180,3 +180,38 @@ async def test_an_unknown_user_id_is_indistinguishable_from_a_staff_account(http
         'startsOn': TODAY.isoformat()})
     assert unknown.status_code == teacher.status_code == 404
     assert unknown.json() == teacher.json()
+
+
+# ──── FIN-09: a replayed reference that is not the same event is refused and audited ────
+@pytest.mark.asyncio
+async def test_reusing_a_payment_key_for_a_different_amount_is_refused_and_audited(http):
+    first = await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 600_000, 'method': 'cash',
+        'idempotencyKey': 'KEY-REUSE'})
+    assert first.status_code == 200, first.text
+
+    # Same key, different money: a genuine retry, or an attempt to hide a smaller payment.
+    replay = await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 100_000, 'method': 'cash',
+        'idempotencyKey': 'KEY-REUSE'})
+    assert replay.status_code == 409, replay.text
+    assert replay.json()['error'] == 'idempotency_conflict'
+    assert replay.json()['mismatched'] == ['amountMinor']
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+
+    # The refusal itself is on the permanent record even though its transaction rolled back.
+    audit = await http.con.fetchrow(
+        "SELECT action, subject_type, detail FROM finance_audit_events"
+        " WHERE action='idempotency_conflict' ORDER BY occurred_at DESC LIMIT 1")
+    assert audit is not None, 'a refused replay left no audit trail'
+    assert audit['subject_type'] == 'tuition_payment'
+    detail = json.loads(audit['detail']) if isinstance(audit['detail'], str) else audit['detail']
+    assert detail['mismatched'] == ['amountMinor']
+    assert detail['idempotencyKey'] == 'KEY-REUSE'
+
+    # An exact retry is still a duplicate, not a conflict.
+    exact = await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
+        'studentUserId': str(http.people['student']), 'amountMinor': 600_000, 'method': 'cash',
+        'idempotencyKey': 'KEY-REUSE'})
+    assert exact.status_code == 200 and exact.json()['duplicate'] is True
+    assert await http.con.fetchval('SELECT count(*) FROM tuition_payments') == 1

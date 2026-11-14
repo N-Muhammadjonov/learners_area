@@ -29,6 +29,9 @@ configuration decision, not a silent behaviour change.
 """
 from __future__ import annotations
 
+import json
+from hashlib import sha256
+
 import asyncpg
 
 from datetime import date, datetime, timezone
@@ -99,6 +102,107 @@ def period_key(value: date | datetime | str) -> str:
 def _require(condition: bool, code: str, http_status: int = 400, **details):
     if not condition:
         raise LedgerError(code, http_status, **details)
+
+
+#: FIN-09: the financial semantic keys that decide whether a replayed reference is the same
+#: event. Anything outside this set is cosmetic and must not change the answer.
+IDENTITY_KEYS = ('studentUserId', 'amountMinor', 'currency', 'method', 'provider',
+                 'providerTransactionId', 'occurredAt')
+
+
+def identity_fingerprint(*, student_user_id, amount_minor, currency, method, provider=None,
+                         provider_transaction_id=None, occurred_at=None) -> str:
+    """Canonical hash of one financial event's identity.
+
+    Two calls with the same idempotency key are the same event only when every key here
+    matches. Comparing a stored hash rather than a handful of ad-hoc fields means a new
+    semantic key cannot be forgotten at one call site and silently swallowed at another.
+    """
+    moment = occurred_at
+    if isinstance(moment, datetime):
+        moment = moment.date().isoformat()
+    elif moment is not None:
+        moment = str(moment)[:10]
+    canonical = {
+        'studentUserId': str(student_user_id),
+        'amountMinor': int(amount_minor),
+        'currency': currency,
+        'method': method,
+        'provider': provider,
+        'providerTransactionId': provider_transaction_id,
+        'occurredAt': moment,
+    }
+    payload = json.dumps(canonical, sort_keys=True, separators=(',', ':')).encode()
+    return sha256(payload).hexdigest()
+
+
+def identity_mismatch(existing_row, *, student_user_id, amount_minor, method, provider=None,
+                      provider_transaction_id=None, occurred_at=None) -> list[str]:
+    """The semantic keys a replayed reference disagrees about. Empty means identical."""
+    moment = occurred_at
+    if isinstance(moment, datetime):
+        moment = moment.date()
+    checks = (
+        ('studentUserId', str(existing_row['student_user_id']) == str(student_user_id)),
+        ('amountMinor', int(existing_row['amount_minor']) == int(amount_minor)),
+        ('currency', existing_row['currency_code'] == CURRENCY),
+        ('method', existing_row['method'] == method),
+        ('provider', (existing_row['provider'] or None) == (provider or None)),
+        ('providerTransactionId',
+         (existing_row['provider_transaction_id'] or None) == (provider_transaction_id or None)),
+        ('occurredAt', moment is None or existing_row['occurred_at'].date() == moment),
+    )
+    return [name for name, matches in checks if not matches]
+
+
+#: Set by the application at startup. A refused money command must still leave a trace, but
+#: its own transaction is rolling back, so the record has to be written by someone else on
+#: another connection. Kept as an injectable sink so the ledger stays free of pool/HTTP
+#: concerns and a test can prove the behaviour without standing up the app.
+REFUSAL_AUDIT_SINK = None
+
+
+def install_refusal_audit(sink) -> None:
+    """Register the sink used for audit records that must survive a rolled-back command."""
+    global REFUSAL_AUDIT_SINK
+    REFUSAL_AUDIT_SINK = sink
+
+
+async def _audit_refusal(*, actor_user_id, action, subject_type, subject_id=None, period=None,
+                         amount_minor=None, reason=None, request_id=None, detail=None):
+    """Record a REFUSED sensitive action on a transaction that will not roll back.
+
+    Deliberately separate from `_audit`: a refusal raises, the caller's transaction unwinds,
+    and an audit row written inside it would vanish - which is exactly the evidence an owner
+    needs when someone replays a payment reference with a different amount.
+    """
+    if REFUSAL_AUDIT_SINK is None:
+        return
+    await REFUSAL_AUDIT_SINK({
+        'actorUserId': str(actor_user_id) if actor_user_id else None, 'action': action,
+        'subjectType': subject_type, 'subjectId': str(subject_id) if subject_id else None,
+        'periodKey': period, 'amountMinor': amount_minor, 'currency': CURRENCY,
+        'reason': (reason or '')[:300] or None,
+        'requestId': (str(request_id) if request_id else '')[:80] or None,
+        'detail': detail or {},
+    })
+
+
+async def _audit(conn, *, actor_user_id, action, subject_type, subject_id=None, period=None,
+                 amount_minor=None, reason=None, request_id=None, detail=None):
+    """Append an immutable audit record for a sensitive financial action.
+
+    Written inside the caller's transaction, so an audit row can never describe money that
+    rolled back, and money can never move without its audit row.
+    """
+    await conn.execute(
+        'INSERT INTO finance_audit_events (actor_user_id, action, subject_type, subject_id,'
+        ' period_key, amount_minor, currency_code, reason, request_id, detail)'
+        ' VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10::jsonb)',
+        actor_user_id, action, subject_type, subject_id, period, amount_minor, CURRENCY,
+        (reason or '')[:300] or None, (request_id or '')[:80] or None,
+        json.dumps(detail or {}, sort_keys=True, default=str))
+
 
 
 def transactional(command):
@@ -569,6 +673,23 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
               OR ($2::varchar IS NOT NULL AND provider = $2 AND provider_transaction_id = $3)
            LIMIT 1 FOR UPDATE''', idempotency_key, provider, provider_transaction_id)
     if existing is not None:
+        mismatched = identity_mismatch(
+            existing, student_user_id=student_user_id, amount_minor=amount, method=method,
+            provider=provider, provider_transaction_id=provider_transaction_id,
+            occurred_at=moment)
+        if mismatched:
+            # FIN-09: the same key describing a different event. Returning the old row here
+            # would silently swallow this one - the family pays and nothing is recorded.
+            await _audit_refusal(actor_user_id=actor_user_id, action='idempotency_conflict',
+                                 subject_type='tuition_payment', subject_id=existing['id'],
+                                 period=period_key(moment), amount_minor=amount,
+                                 reason='replayed reference with different financial semantic keys',
+                                 detail={'mismatched': mismatched,
+                                         'idempotencyKey': idempotency_key,
+                                         'provider': provider,
+                                         'providerTransactionId': provider_transaction_id})
+            raise LedgerError('idempotency_conflict', 409, mismatched=mismatched,
+                              existingPaymentId=str(existing['id']))
         return dict(existing), [], True
 
     payment = None
@@ -769,6 +890,24 @@ async def request_refund(conn, *, actor_user_id, payment_id, amount_minor, reaso
         existing = await conn.fetchrow(
             'SELECT * FROM tuition_refunds WHERE provider_refund_id=$1', provider_refund_id)
         if existing is not None:
+            mismatched = [name for name, matches in (
+                ('studentUserId', str(existing['student_user_id'])
+                 == str(payment['student_user_id'])),
+                ('amountMinor', int(existing['amount_minor']) == int(amount)),
+                ('currency', existing['currency_code'] == payment['currency_code']),
+                ('method', existing['method'] == (method or payment['method'])),
+                ('paymentId', str(existing['payment_id']) == str(payment['id'])),
+            ) if not matches]
+            if mismatched:
+                await _audit_refusal(actor_user_id=actor_user_id, action='idempotency_conflict',
+                                     subject_type='tuition_refund', subject_id=existing['id'],
+                                     amount_minor=amount,
+                                     reason='replayed provider refund id with different'
+                                            ' semantic keys',
+                                     detail={'mismatched': mismatched,
+                                             'providerRefundId': provider_refund_id})
+                raise LedgerError('idempotency_conflict', 409, mismatched=mismatched,
+                                  existingRefundId=str(existing['id']))
             return dict(existing), True
     moment = datetime.now(timezone.utc)
     _, _, available = await _refund_available(conn, payment_id)

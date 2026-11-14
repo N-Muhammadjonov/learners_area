@@ -1166,6 +1166,96 @@ async def test_cash_day_close_reconciles_opening_receipts_refunds_and_adjustment
     assert close['variance_minor'] == 0
 
 
+# ──── FIN-09: a replay is a replay only when every semantic key matches ────
+@pytest.mark.asyncio
+async def test_identical_retry_of_a_payment_is_a_duplicate(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    first, _, dup = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=600_000, idempotency_key='KEY-1')
+    assert dup is False
+    second, _, dup = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=600_000, idempotency_key='KEY-1')
+    assert dup is True and second['id'] == first['id']
+    assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('changed,expected', [
+    ({'amount_minor': 100_000}, 'amountMinor'),
+    ({'student': 'other_student'}, 'studentUserId'),
+    ({'method': 'bank'}, 'method'),
+    ({'occurred': 'other_period'}, 'occurredAt'),
+])
+async def test_reusing_an_idempotency_key_for_a_different_event_is_refused(database, changed,
+                                                                           expected):
+    """A retry that is not the same event must not be silently swallowed."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=600_000,
+                                idempotency_key='KEY-REUSE')
+    kwargs = {'student_user_id': people[changed['student']] if 'student' in changed
+              else people['student'],
+              'amount_minor': changed.get('amount_minor', 600_000),
+              'method': changed.get('method', 'cash')}
+    if changed.get('occurred') == 'other_period':
+        kwargs['occurred_at'] = datetime.now(timezone.utc) - timedelta(days=400)
+    with pytest.raises(LedgerError) as exc:
+        await ledger.record_payment(con, actor_user_id=people['admin'],
+                                    idempotency_key='KEY-REUSE', **kwargs)
+    assert exc.value.code == 'idempotency_conflict'
+    assert exc.value.status == 409
+    assert expected in exc.value.details['mismatched'], exc.value.details
+    # The original payment is untouched and no second row appeared.
+    assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+    assert await con.fetchval('SELECT count(*) FROM tuition_payment_allocations') == 1
+
+
+@pytest.mark.asyncio
+async def test_a_provider_reference_cannot_be_reused_for_a_different_amount(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=600_000,
+                                method='provider', provider='payme',
+                                provider_transaction_id='PAYME-DUP', idempotency_key='IDEM-DUP')
+    with pytest.raises(LedgerError) as exc:
+        await ledger.record_payment(con, actor_user_id=people['admin'],
+                                    student_user_id=people['student'], amount_minor=999_999,
+                                    method='provider', provider='payme',
+                                    provider_transaction_id='PAYME-DUP', idempotency_key='IDEM-DUP')
+    assert exc.value.code == 'idempotency_conflict'
+    assert 'amountMinor' in exc.value.details['mismatched']
+    assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+
+
+@pytest.mark.asyncio
+async def test_a_replayed_provider_refund_id_with_a_different_amount_is_refused(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people, amount=700_000)
+    first, duplicate = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'], amount_minor=100_000,
+        reason='Withdrawal', provider_refund_id='CLICK-R9')
+    assert duplicate is False
+    again, duplicate = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'], amount_minor=100_000,
+        reason='Withdrawal', provider_refund_id='CLICK-R9')
+    assert duplicate is True and again['id'] == first['id']
+    with pytest.raises(LedgerError) as exc:
+        await ledger.request_refund(con, actor_user_id=people['admin'],
+                                    payment_id=payment['id'], amount_minor=250_000,
+                                    reason='Withdrawal', provider_refund_id='CLICK-R9')
+    assert exc.value.code == 'idempotency_conflict'
+    assert 'amountMinor' in exc.value.details['mismatched']
+    assert await con.fetchval('SELECT count(*) FROM tuition_refunds') == 1
+
+
 @pytest.mark.asyncio
 async def test_floats_are_rejected_for_money(database):
     con, schema, people = database
