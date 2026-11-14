@@ -7,11 +7,11 @@ import {EmptyState} from '../js/generated/ui.js';
 for(const role of ['student','teacher','admin','owner'])test(role+': optional navigation lists the exact authorized Dock destinations',()=>{
  const h=setup({path:'/app/reading/lessons',role});try{const n=navigationList(h.ctx);h.ctx.root.append(n);assert(!n.open);assert(n.querySelector('summary'));assert.deepEqual([...n.querySelectorAll('a')].map(a=>[a.dataset.navigationListItem,a.getAttribute('href'),a.textContent]),dockItems(h.ctx.dict,role).map(i=>[i.key,i.href,i.label]));assert.equal(n.querySelector('[aria-current="page"]').dataset.navigationListItem,'reading');assert.equal(Boolean(n.querySelector('[data-navigation-list-item="management"]')),role!=='student');}finally{h.dispose();}
 });
-test('Dashboard hierarchy, actual target and all shortcuts preserve source values without nested interactive controls',()=>{
+test('Dashboard overview preserves actual target and learning destinations without nested controls',()=>{
  const h=setup({path:'/app/dashboard',role:'student'});try{const data=viewFixture('/app'),input=structuredClone(data);data.dashboard.profile={targetBand:8.5};data.dashboard.streak=0;data.mock.finishedCount=0;
  const n=dashboard({context:{refresh(){}},dict:h.ctx.dict,locale:'en',user:fixtureSession().session.user,...data});h.ctx.root.append(n);
  assert(n.textContent.includes('8.5'));assert.equal(n.querySelectorAll('a button,button a').length,0);
- const content=n.querySelector('[data-dashboard-content]');assert(content.querySelector('[data-my-tasks]'));assert.equal(content.children[1].hasAttribute('data-my-tasks'),true);assert.equal(content.children[2].hasAttribute('data-dashboard-skills'),true);
+ const content=n.querySelector('[data-dashboard-content]');assert(content.querySelector('[data-dashboard-stats]'));assert.equal(content.children[1].hasAttribute('data-dashboard-skills'),true);assert(content.querySelector('[data-retention-drill] a[href="/app/reading/retention"]'));
  assert.equal(content.querySelectorAll('[data-ui-skill]').length,4);assert.equal(n.lastElementChild.hasAttribute('data-dashboard-mock-overview'),true);assert.equal(data.dashboard.skillCounts.reading,input.dashboard.skillCounts.reading);
  }finally{h.dispose();}
 });

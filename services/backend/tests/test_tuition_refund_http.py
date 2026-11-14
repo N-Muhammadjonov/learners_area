@@ -6,7 +6,7 @@ still has to happen - without reopening or rewriting that closed day.
 """
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
@@ -14,7 +14,12 @@ from _finance_schema import http  # noqa: F401  (shared finance ASGI + Postgres 
 from _finance_schema import staff
 from app import tuition_ledger as ledger
 
-TODAY = datetime.now(timezone.utc).date()
+TODAY: date
+
+
+@pytest.fixture(autouse=True)
+def _business_day_at_test_start(monkeypatch):
+    monkeypatch.setitem(globals(), 'TODAY', ledger.business_date(datetime.now(timezone.utc)))
 
 
 async def old_advance(http, *, amount=700_000, days_ago=45):
@@ -23,7 +28,7 @@ async def old_advance(http, *, amount=700_000, days_ago=45):
     payment, _, _ = await ledger.record_payment(
         http.con, actor_user_id=http.people['admin'], student_user_id=http.people['student'],
         amount_minor=amount, occurred_at=moment)
-    old_day = payment['occurred_at'].date()
+    old_day = ledger.business_date(payment['occurred_at'])
     close = await ledger.close_day(http.con, actor_user_id=http.people['owner'],
                                    business_date=old_day, counted_minor=amount)
     return payment, old_day, close

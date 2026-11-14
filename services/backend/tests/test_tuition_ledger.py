@@ -21,8 +21,15 @@ from app import tuition_ledger as ledger
 from app.tuition_ledger import LedgerError
 
 DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
-TODAY = ledger.business_date(datetime.now(timezone.utc))
-PERIOD = ledger.period_key(TODAY)
+TODAY: date
+PERIOD: str
+
+
+@pytest.fixture(autouse=True)
+def _business_day_at_test_start(monkeypatch):
+    day = ledger.business_date(datetime.now(timezone.utc))
+    monkeypatch.setitem(globals(), 'TODAY', day)
+    monkeypatch.setitem(globals(), 'PERIOD', ledger.period_key(day))
 
 
 @pytest_asyncio.fixture

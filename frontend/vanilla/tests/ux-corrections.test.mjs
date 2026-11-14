@@ -49,7 +49,7 @@ test('Retention retains the normal workspace, blocks source copying and allows r
   mountRetentionSession(h.ctx);await tick(5);
   assert(h.q('[data-retention-session-back]'));
   assert.equal(document.documentElement.dataset.retentionFocus,undefined);assert.equal(document.documentElement.dataset.focus,'off');
-  assert(h.q('[data-retention-source]'));assert.equal(h.qa('[data-retention-source] [data-word]').length,4);
+  assert(h.q('[data-retention-source]'));assert.deepEqual([...h.qa('[data-retention-source] [data-word]')].map(word=>word.textContent),['read','book']);
   const copy=new h.dom.window.Event('copy',{bubbles:true,cancelable:true});h.q('[data-retention-source]').dispatchEvent(copy);assert(copy.defaultPrevented);
   h.click(h.q('[data-retention-finish-reading]'));await tick(5);
   assert(h.q('[data-retention-answer]'));assert.equal(h.q('[data-retention-source]'),null);
