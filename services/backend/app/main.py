@@ -47,6 +47,9 @@ async def lifespan(app):
     from .ai_runtime import control as ai_control
     ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.
     probes=[asyncio.create_task(_rejected_account_cleanup())]
+    if os.getenv('TUITION_PROVIDER_SANDBOX') == '1' and os.getenv('TUITION_SANDBOX_OUTBOX') == '1':
+        from .finance_outbox import run_sandbox_worker
+        probes.append(asyncio.create_task(run_sandbox_worker(pool)))
     if os.getenv('MEDIA_READINESS_CHECK')=='1':
         from .media_readiness import log_probe
         probes.append(asyncio.create_task(log_probe()))

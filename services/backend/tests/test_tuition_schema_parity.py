@@ -32,6 +32,7 @@ FINANCE_TABLES = (
     'tuition_payment_allocations', 'tuition_refunds', 'tuition_credit_notes',
     'cash_receipt_sequences', 'cash_day_closes', 'cash_day_adjustments',
     'finance_closed_periods', 'finance_audit_events', 'finance_outbox_events',
+    'finance_outbox_sandbox_receipts',
 )
 
 

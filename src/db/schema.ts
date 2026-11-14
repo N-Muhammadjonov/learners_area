@@ -4157,6 +4157,17 @@ export const financeOutboxEvents = pgTable("finance_outbox_events", {
   publishedAt: timestamp("published_at", { withTimezone: true }),
   attempts: integer("attempts").notNull().default(0),
   lastError: varchar("last_error", { length: 500 }),
+  nextAttemptAt: timestamp("next_attempt_at", { withTimezone: true }).defaultNow().notNull(),
+  leaseToken: uuid("lease_token"),
+  leaseExpiresAt: timestamp("lease_expires_at", { withTimezone: true }),
+  deadLetteredAt: timestamp("dead_lettered_at", { withTimezone: true }),
 }, table => [
   index("finance_outbox_events_unpublished_idx").on(table.createdAt),
+  index("finance_outbox_dispatch_idx").on(table.topic, table.nextAttemptAt, table.createdAt, table.id)
+    .where(sql`${table.publishedAt} IS NULL AND ${table.deadLetteredAt} IS NULL`),
 ]);
+
+export const financeOutboxSandboxReceipts = pgTable("finance_outbox_sandbox_receipts", {
+  eventId: uuid("event_id").primaryKey().references(() => financeOutboxEvents.id),
+  deliveredAt: timestamp("delivered_at", { withTimezone: true }).defaultNow().notNull(),
+});

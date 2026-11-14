@@ -50,5 +50,6 @@
  "1117_tuition_charge_approval.sql": "d90b21fe4e22e5dd46d059dfaa1d8eb29ee2b515802accb58aa4652237925916",
  "1118_refund_lifecycle_and_cash_day.sql": "76c0f00bc44eee4e2cc2635cbf5e200b9eba89d23c62350dbe1a4c2af52f29d3",
  "1119_provider_clearing_account.sql": "c5ff471a35bea2cff93a59920115415cbd60f1fa530754a7df52bc4700a73ac5",
- "1120_freeze_contract_terms.sql": "e5cbb74ddad6d09e174dd8fe8ebf2fb232c33ccceb3c9d70a702f9961622917e"
+ "1120_freeze_contract_terms.sql": "e5cbb74ddad6d09e174dd8fe8ebf2fb232c33ccceb3c9d70a702f9961622917e",
+ "1121_finance_outbox_dispatch.sql": "98ee97d027dd1288f772798dfa5d749b972fa5b22d099639f65a22014effee45"
 }

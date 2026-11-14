@@ -90,7 +90,7 @@ def test_no_finance_migration_is_deferred():
     manifest = json.loads(CONTRACT.read_text())
     deferred = set(manifest['contentMigrations'])
     finance = {name for name in deferred
-               if name.startswith(('1115', '1116', '1117', '1118', '1119', '1120'))}
+               if name.startswith(('1115', '1116', '1117', '1118', '1119', '1120', '1121'))}
     assert finance == set(), f'finance migrations must never be deferred: {sorted(finance)}'
 
 
@@ -107,7 +107,8 @@ def test_structural_migrations_cover_every_table_the_finance_schema_needs():
                                   '1117_tuition_charge_approval.sql',
                                   '1118_refund_lifecycle_and_cash_day.sql',
                                   '1119_provider_clearing_account.sql',
-                                  '1120_freeze_contract_terms.sql'])
+                                  '1120_freeze_contract_terms.sql',
+                                  '1121_finance_outbox_dispatch.sql'])
 def test_finance_migrations_are_idempotent_and_non_destructive(name):
     """Forward-only: re-running is safe, and nothing is dropped or truncated.
 
@@ -181,7 +182,8 @@ def test_no_finance_migration_guard_reads_a_database_wide_catalog_unqualified():
     """
     for name in ('1115_tuition_finance.sql', '1116_tuition_finance_corrections.sql',
                  '1117_tuition_charge_approval.sql', '1118_refund_lifecycle_and_cash_day.sql',
-                 '1119_provider_clearing_account.sql', '1120_freeze_contract_terms.sql'):
+                 '1119_provider_clearing_account.sql', '1120_freeze_contract_terms.sql',
+                 '1121_finance_outbox_dispatch.sql'):
         text = (MIGRATIONS / name).read_text()
         for match in re.finditer(r'information_schema\.(\w+)', text):
             statement_start = text.rfind('SELECT', 0, match.start())

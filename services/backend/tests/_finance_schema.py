@@ -25,6 +25,7 @@ FINANCE_MIGRATIONS = (
     '1118_refund_lifecycle_and_cash_day.sql',
     '1119_provider_clearing_account.sql',
     '1120_freeze_contract_terms.sql',
+    '1121_finance_outbox_dispatch.sql',
 )
 
 BOOTSTRAP = (
