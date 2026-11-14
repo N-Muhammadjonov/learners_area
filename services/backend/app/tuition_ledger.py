@@ -64,7 +64,7 @@ CHARGE_STATES = ('draft', 'approved', 'posted', 'reversed', 'credited')
 PAYMENT_STATES = ('initiated', 'pending_provider', 'confirmed', 'rejected', 'expired',
                   'cancelled', 'partially_refunded', 'refunded')
 SETTLED_PAYMENT_STATES = ('confirmed', 'partially_refunded', 'refunded')
-CASH_METHODS = {'cash': 'cash_on_hand', 'bank': 'bank_clearing', 'provider': 'bank_clearing'}
+CASH_METHODS = {'cash': 'cash_on_hand', 'bank': 'bank_clearing', 'provider': 'provider_clearing'}
 
 # ---------------------------------------------------------------------------
 # Two predicates decide which documents take part in money maths. They are
@@ -298,7 +298,14 @@ async def _assert_period_open(conn, period: str):
     _require(not closed, 'period_closed', 409, periodKey=period)
 
 
+async def _lock_cash_day(conn, day: date) -> None:
+    await conn.execute(
+        "SELECT pg_advisory_xact_lock(hashtext(current_schema() || ':finance-day'), $1::integer)",
+        day.toordinal())
+
+
 async def _assert_day_open(conn, business_date: date):
+    await _lock_cash_day(conn, business_date)
     closed = await conn.fetchval('SELECT 1 FROM cash_day_closes WHERE business_date=$1', business_date)
     _require(not closed, 'day_closed', 409, businessDate=business_date.isoformat())
 
@@ -659,10 +666,14 @@ async def post_credit_note(conn, *, actor_user_id, credit_note_id):
                                credit_note_id)
     _require(note is not None, 'credit_note_not_found', 404)
     _require(note['status'] == 'approved', 'credit_note_not_approved', 409, status=note['status'])
-    await _assert_period_open(conn, note['period_key'])
+    moment = datetime.now(timezone.utc)
+    posting_period = period_key(moment)
+    await _assert_period_open(conn, posting_period)
     # Serialize credit posting with payment allocation on the same charge.
     charge = await conn.fetchrow('SELECT * FROM tuition_charges WHERE id=$1 FOR UPDATE',
                                  note['charge_id'])
+    _require(charge is not None and charge['status'] == 'posted',
+             'credit_note_charge_not_open', 409)
     credited = await conn.fetchval(
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes'
         " WHERE charge_id=$1 AND status='posted'", note['charge_id'])
@@ -678,12 +689,16 @@ async def post_credit_note(conn, *, actor_user_id, credit_note_id):
     await _post_journal(
         conn, source_type='credit_note', source_id=note['id'],
         student_user_id=note['student_user_id'], actor_user_id=actor_user_id,
-        memo=note['reason'], period=note['period_key'],
+        memo=note['reason'], period=posting_period, occurred_at=moment,
         lines=[('scholarship_discounts', 'debit', note['amount_minor']),
                ('accounts_receivable', 'credit', note['amount_minor'])])
     updated = await conn.fetchrow(
-        "UPDATE tuition_credit_notes SET status='posted', posted_at=now() WHERE id=$1 RETURNING *",
-        credit_note_id)
+        "UPDATE tuition_credit_notes SET status='posted', posted_at=$2 WHERE id=$1 RETURNING *",
+        credit_note_id, moment)
+    await _audit(conn, actor_user_id=actor_user_id, action='credit_note_posted',
+                 subject_type='tuition_credit_note', subject_id=credit_note_id,
+                 period=posting_period, amount_minor=note['amount_minor'], reason=note['reason'],
+                 detail={'chargeId': str(charge['id']), 'chargePeriod': note['period_key']})
     return dict(updated)
 
 
@@ -699,7 +714,12 @@ async def reverse_charge(conn, *, actor_user_id, charge_id, reason):
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_payment_allocations WHERE charge_id=$1',
         charge_id) or 0
     _require(applied == 0, 'charge_has_allocations', 409, appliedMinor=applied)
+    credited = await conn.fetchval(
+        'SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes'
+        " WHERE charge_id=$1 AND status='posted'", charge_id) or 0
+    _require(credited == 0, 'charge_has_credit_notes', 409, creditedMinor=credited)
     today = business_date(datetime.now(timezone.utc))
+    await _assert_period_open(conn, period_key(today))
     # period_key is the accounting period of the correction (today); due_date is inherited
     # from the original so aging and overdue windows see the pair cancel wherever they look.
     reversing = await conn.fetchrow(
@@ -887,9 +907,11 @@ async def confirm_provider_payment(conn, *, provider, provider_transaction_id, p
     if proof.get('orderRef') is not None and payment['idempotency_key'] is not None:
         _require(str(proof['orderRef']) == str(payment['idempotency_key']),
                  'proof_order_mismatch', 409)
+    moment = datetime.now(timezone.utc)
+    await _assert_period_open(conn, period_key(moment))
     settled = await conn.fetchrow(
-        "UPDATE tuition_payments SET status='confirmed', confirmed_at=coalesce(confirmed_at, now())"
-        ' WHERE id=$1 RETURNING *', payment['id'])
+        "UPDATE tuition_payments SET status='confirmed', confirmed_at=$2"
+        ' WHERE id=$1 RETURNING *', payment['id'], moment)
     allocations = await _allocate(conn, settled)
     allocated = sum(row['amount_minor'] for row in allocations)
     surplus = settled['amount_minor'] - allocated
@@ -1006,8 +1028,6 @@ async def request_refund(conn, *, actor_user_id, payment_id, amount_minor, reaso
     _require(bool(reason and reason.strip()), 'reason_required')
     payment = await conn.fetchrow('SELECT * FROM tuition_payments WHERE id=$1 FOR UPDATE', payment_id)
     _require(payment is not None, 'payment_not_found', 404)
-    _require(payment['status'] in ('confirmed', 'partially_refunded'), 'invalid_state', 409,
-             status=payment['status'])
     if provider_refund_id:
         existing = await conn.fetchrow(
             'SELECT * FROM tuition_refunds WHERE provider_refund_id=$1', provider_refund_id)
@@ -1031,6 +1051,8 @@ async def request_refund(conn, *, actor_user_id, payment_id, amount_minor, reaso
                 raise LedgerError('idempotency_conflict', 409, mismatched=mismatched,
                                   existingRefundId=str(existing['id']))
             return dict(existing), True
+    _require(payment['status'] in ('confirmed', 'partially_refunded'), 'invalid_state', 409,
+             status=payment['status'])
     moment = datetime.now(timezone.utc)
     _, _, available = await _refund_available(conn, payment_id)
     _require(amount <= available, 'refund_exceeds_available_funds', 409, availableMinor=available,
@@ -1083,29 +1105,30 @@ async def settle_refund(conn, *, actor_user_id, refund_id):
     _require(row['status'] != 'settled', 'refund_already_settled', 409,
              settledAt=str(row['settled_at']))
     _require(row['status'] == 'approved', 'refund_not_approved', 409, status=row['status'])
-    await _assert_day_open(conn, row['effective_on'])
-    await _assert_period_open(conn, row['effective_period'])
+    moment = datetime.now(timezone.utc)
+    effective_day = business_date(moment)
+    effective_period = period_key(effective_day)
+    await _assert_day_open(conn, effective_day)
+    await _assert_period_open(conn, effective_period)
     payment = await conn.fetchrow(
         'SELECT amount_minor FROM tuition_payments WHERE id=$1 FOR UPDATE', row['payment_id'])
     allocated, _, available = await _refund_available(conn, row['payment_id'])
-    _require(row['amount_minor'] <= available + row['amount_minor'],
-             'refund_exceeds_available_funds', 409)
+    _require(available >= 0, 'refund_exceeds_available_funds', 409)
     await _post_journal(
         conn, source_type='refund', source_id=row['id'],
         student_user_id=row['student_user_id'], actor_user_id=actor_user_id,
-        memo=f'Refund {row["reason"][:120]}', period=row['effective_period'],
-        occurred_at=datetime.combine(row['effective_on'], datetime.min.time(),
-                                     tzinfo=timezone.utc),
+        memo=f'Refund {row["reason"][:120]}', period=effective_period, occurred_at=moment,
         lines=[('customer_advance', 'debit', row['amount_minor']),
                (CASH_METHODS[row['method']], 'credit', row['amount_minor'])])
     updated = await conn.fetchrow(
-        "UPDATE tuition_refunds SET status='settled', settled_at=now() WHERE id=$1 RETURNING *",
-        refund_id)
+        "UPDATE tuition_refunds SET status='settled', settled_at=$2,"
+        " effective_on=$3, effective_period=$4 WHERE id=$1 RETURNING *",
+        refund_id, moment, effective_day, effective_period)
     await _audit(conn, actor_user_id=actor_user_id, action='refund_settled',
                  subject_type='tuition_refund', subject_id=refund_id,
-                 period=row['effective_period'], amount_minor=row['amount_minor'],
+                 period=effective_period, amount_minor=row['amount_minor'],
                  reason=row['reason'], detail={'method': row['method'],
-                                               'effectiveOn': str(row['effective_on'])})
+                                               'effectiveOn': str(effective_day)})
     settled_total = await conn.fetchval(
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds'
         " WHERE payment_id=$1 AND status='settled'", row['payment_id']) or 0
@@ -1270,7 +1293,8 @@ async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
             WHERE p.student_user_id=$1
             GROUP BY p.id ORDER BY p.occurred_at DESC LIMIT $2''', student_user_id, limit)
     refunds = await conn.fetch(
-        '''SELECT id, amount_minor, reason, provider_refund_state, created_at
+        '''SELECT id, amount_minor, reason, status, provider_refund_state,
+                  created_at, settled_at, effective_on
              FROM tuition_refunds WHERE student_user_id=$1 ORDER BY created_at DESC LIMIT $2''',
         student_user_id, limit)
     return {
@@ -1284,7 +1308,6 @@ async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
 #: FIN-10: the calendar the owner reads reports in. Storage stays UTC; only the day boundary
 #: used to bucket a report moves, and it moves in exactly one place so every figure agrees.
 REPORT_TIMEZONE = 'Asia/Tashkent'
-_TZ_DAY = "(occurred_at AT TIME ZONE 'Asia/Tashkent')::date BETWEEN $1 AND $2"
 
 #: What each reported figure actually means. Reported next to the numbers because "invoiced"
 #: and "collected" and "recognized" are three different questions about three different dates.
@@ -1307,9 +1330,11 @@ SUMMARY_SEMANTICS = {
 
 async def _collected_by_method(conn, start, end) -> dict[str, int]:
     rows = await conn.fetch(
-        '''SELECT method, coalesce(sum(amount_minor),0) AS total FROM tuition_payments
-            WHERE status = ANY($3::varchar[]) AND ''' + _TZ_DAY + '''
-            GROUP BY method''', start, end, list(SETTLED_PAYMENT_STATES))
+        """SELECT method, coalesce(sum(amount_minor),0) AS total FROM tuition_payments
+            WHERE status = ANY($3::varchar[])
+              AND ((CASE WHEN method='provider' THEN confirmed_at ELSE occurred_at END)
+                   AT TIME ZONE 'Asia/Tashkent')::date BETWEEN $1 AND $2
+            GROUP BY method""", start, end, list(SETTLED_PAYMENT_STATES))
     return {row['method']: int(row['total']) for row in rows}
 
 
@@ -1521,9 +1546,13 @@ async def close_day(conn, *, actor_user_id, business_date, counted_minor, reason
     opening = _minor(opening_minor)
     _require(counted >= 0, 'amount_must_be_non_negative')
     _require(opening >= 0, 'amount_must_be_non_negative')
+    await _lock_cash_day(conn, business_date)
+    already = await conn.fetchval('SELECT 1 FROM cash_day_closes WHERE business_date=$1', business_date)
+    _require(not already, 'day_already_closed', 409)
     receipts = await conn.fetchval(
         '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
-            WHERE method='cash' AND status = ANY($2::varchar[]) AND (occurred_at AT TIME ZONE 'Asia/Tashkent')::date = $1''',
+            WHERE method='cash' AND status = ANY($2::varchar[])
+              AND (occurred_at AT TIME ZONE 'Asia/Tashkent')::date = $1''',
         business_date, list(SETTLED_PAYMENT_STATES)) or 0
     # FIN-08: a day closes against what the drawer should hold, not against gross receipts.
     # Refunds are matched by THEIR effective date, so a refund of last month's receipt lands
@@ -1535,8 +1564,6 @@ async def close_day(conn, *, actor_user_id, business_date, counted_minor, reason
         'SELECT coalesce(sum(amount_minor),0) FROM cash_day_adjustments'
         ' WHERE business_date=$1 AND approved_by IS NOT NULL', business_date) or 0
     expected = opening + receipts - refunds + adjustments
-    already = await conn.fetchval('SELECT 1 FROM cash_day_closes WHERE business_date=$1', business_date)
-    _require(not already, 'day_already_closed', 409)
     row = await conn.fetchrow(
         '''INSERT INTO cash_day_closes
              (business_date, expected_minor, counted_minor, variance_minor, reason, closed_by,

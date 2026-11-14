@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import re
 from datetime import date, datetime, timedelta, timezone
+
+from .tuition_ledger import business_date
 from typing import Annotated, Any
 from uuid import UUID
 
@@ -290,7 +292,5 @@ def backdate_days(moment: datetime | None) -> int:
     """How many days in the past a client-supplied timestamp is (0 for today or absent)."""
     if moment is None:
         return 0
-    if moment.tzinfo is None:
-        moment = moment.replace(tzinfo=timezone.utc)
-    delta = datetime.now(timezone.utc).date() - moment.astimezone(timezone.utc).date()
+    delta = business_date(datetime.now(timezone.utc)) - business_date(moment)
     return max(delta.days, 0)

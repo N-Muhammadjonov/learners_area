@@ -1061,7 +1061,7 @@ async def test_a_45_day_old_payment_can_be_refunded_after_its_cash_day_closed(da
     """The headline case: history is closed, the refund still happens - in TODAY's period."""
     con, schema, people = database
     payment = await advance_payment(con, people, amount=700_000, days_ago=45)
-    old_day = payment['occurred_at'].date()
+    old_day = ledger.business_date(payment['occurred_at'])
 
     # The cashier closed that day weeks ago. It must stay closed and unchanged.
     closed = await ledger.close_day(con, actor_user_id=people['owner'], business_date=old_day,
@@ -1782,3 +1782,114 @@ async def test_credit_note_and_payment_race_preserves_nonnegative_receivable(dat
         assert (await ledger.journal_is_balanced(con))['balanced']
     finally:
         await other.close()
+
+
+@pytest.mark.asyncio
+async def test_credit_note_posts_in_current_period_when_original_period_is_closed(database):
+    con, schema, people = database
+    old_day = TODAY.replace(day=1) - timedelta(days=1)
+    old_period = ledger.period_key(old_day)
+    charge = await ledger.create_charge(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        period=old_period, due_date=old_day, gross_amount_minor=600_000)
+    await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
+    await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
+    await ledger.close_period(con, actor_user_id=people['owner'], period=old_period)
+    note = await ledger.create_credit_note(
+        con, actor_user_id=people['admin'], charge_id=charge['id'],
+        amount_minor=100_000, reason='Correction after month close')
+    await ledger.approve_credit_note(
+        con, actor_user_id=people['owner'], credit_note_id=note['id'])
+    posted = await ledger.post_credit_note(
+        con, actor_user_id=people['admin'], credit_note_id=note['id'])
+
+    assert posted['period_key'] == old_period
+    assert await con.fetchval(
+        "SELECT period_key FROM finance_journal_entries WHERE source_type='credit_note'"
+        " AND source_id=$1", posted['id']) == PERIOD
+    with pytest.raises(LedgerError) as exc:
+        await ledger.reverse_charge(
+            con, actor_user_id=people['owner'], charge_id=charge['id'],
+            reason='Would double-count the correction')
+    assert exc.value.code == 'charge_has_credit_notes'
+    assert await balances(con, 'accounts_receivable') == 500_000
+
+
+@pytest.mark.asyncio
+async def test_refund_settlement_updates_business_date_and_statement(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people, days_ago=60)
+    refund, _ = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'],
+        amount_minor=100_000, reason='Settlement after review')
+    earlier = TODAY - timedelta(days=3)
+    await con.execute(
+        'UPDATE tuition_refunds SET effective_on=$2, effective_period=$3 WHERE id=$1',
+        refund['id'], earlier, ledger.period_key(earlier))
+    await ledger.close_day(
+        con, actor_user_id=people['owner'], business_date=earlier, counted_minor=0)
+    await ledger.approve_refund(
+        con, actor_user_id=people['owner'], refund_id=refund['id'])
+    settled = await ledger.settle_refund(
+        con, actor_user_id=people['admin'], refund_id=refund['id'])
+    assert settled['effective_on'] == TODAY
+    assert settled['effective_period'] == PERIOD
+    statement = await ledger.student_statement(con, people['student'])
+    assert statement['refunds'][0]['status'] == 'settled'
+    assert statement['refunds'][0]['effective_on'] == TODAY
+    summary = await ledger.finance_summary(con, start=TODAY, end=TODAY)
+    assert summary['refundsMinor'] == 100_000
+    assert (await ledger.reconcile_summary(con, start=TODAY, end=TODAY))['ok']
+
+
+@pytest.mark.asyncio
+async def test_refund_cash_close_race_keeps_closed_day_consistent(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people)
+    refund, _ = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'],
+        amount_minor=100_000, reason='Concurrent close')
+    await ledger.approve_refund(
+        con, actor_user_id=people['owner'], refund_id=refund['id'])
+    other = await asyncpg.connect(
+        DSN, server_settings={'search_path': f'"{schema}", public'})
+    try:
+        settled, close = await asyncio.gather(
+            ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id']),
+            ledger.close_day(
+                other, actor_user_id=people['owner'], business_date=TODAY,
+                counted_minor=600_000),
+            return_exceptions=True)
+        assert not isinstance(close, Exception), close
+        if isinstance(settled, Exception):
+            assert isinstance(settled, LedgerError)
+            assert settled.code == 'day_closed'
+            assert close['refunds_minor'] == 0
+            assert close['expected_minor'] == 700_000
+        else:
+            assert close['refunds_minor'] == 100_000
+            assert close['expected_minor'] == 600_000
+        assert await balances(con, 'cash_on_hand') == close['expected_minor']
+    finally:
+        await other.close()
+
+
+@pytest.mark.asyncio
+async def test_provider_collection_is_reported_on_confirmation_day(database):
+    con, schema, people = database
+    earlier = datetime.now(timezone.utc) - timedelta(days=3)
+    payment, _, _ = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=100_000, method='provider', provider='payme',
+        provider_transaction_id='REPORT-DATE', occurred_at=earlier)
+    await ledger.confirm_provider_payment(
+        con, provider='payme', provider_transaction_id='REPORT-DATE',
+        proof=ledger.provider_proof(
+            amount_minor=100_000, currency='UZS', status='paid',
+            student_user_id=payment['student_user_id']))
+    old_day = ledger.business_date(earlier)
+    old = await ledger.finance_summary(con, start=old_day, end=old_day)
+    current = await ledger.finance_summary(con, start=TODAY, end=TODAY)
+    assert old['collectedProviderMinor'] == 0
+    assert current['collectedProviderMinor'] == 100_000
+    assert (await ledger.reconcile_summary(con, start=TODAY, end=TODAY))['ok']

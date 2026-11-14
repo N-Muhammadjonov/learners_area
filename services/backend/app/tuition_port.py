@@ -251,7 +251,7 @@ async def generate_installment(req: Request, contractId: str):
         body = typed(schemas.InstallmentCreate, await payload(req))
     except ValidationError as exc:
         return invalid(exc)
-    period = body.periodKey or ledger.period_key(datetime.now(timezone.utc).date())
+    period = body.periodKey or ledger.period_key(ledger.business_date(datetime.now(timezone.utc)))
     due = body.dueDate
     limited = await _write_gate(req, user)
     if limited:
@@ -653,7 +653,7 @@ async def finance_summary(req: Request):
     if user['role'] == 'teacher':
         # A teacher does not see centre-wide money. Read-only per-student statements only.
         return core.j({'error': 'forbidden'}, 403, PRIVATE)
-    today = datetime.now(timezone.utc).date()
+    today = ledger.business_date(datetime.now(timezone.utc))
     start = as_date(req.query_params.get('start')) or today.replace(day=1)
     end = as_date(req.query_params.get('end')) or today
     if end < start:
@@ -669,7 +669,7 @@ async def reconciliation(req: Request):
     user, denied = await actor(req, READ_ROLES)
     if denied or user['role'] == 'teacher':
         return denied or core.j({'error': 'forbidden'}, 403, PRIVATE)
-    today = datetime.now(timezone.utc).date()
+    today = ledger.business_date(datetime.now(timezone.utc))
     start = as_date(req.query_params.get('start')) or today.replace(day=1)
     end = as_date(req.query_params.get('end')) or today
     if end < start:
