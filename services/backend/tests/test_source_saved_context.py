@@ -127,3 +127,52 @@ def test_source_meaning_rejects_spoofed_word_positions_before_lookup():
     assert asyncio.run(lookup_source_text(
         ExactMeaningConnection(),{'id':USER},'😀offered food','offered',1,8,
         source_type='reading',source_id=PASSAGE)) is None
+
+LISTENING_TEST=UUID('66666666-6666-4666-8666-666666666666')
+
+class ListeningSaveConnection:
+    async def fetchrow(self,query,*arguments):
+        if 'FROM lexical_occurrences WHERE id=' in query:
+            assert arguments==(MATCH,)
+            return {
+                'id':MATCH,'source_type':'listening','listening_test_id':LISTENING_TEST,
+                'section_number':2,'segment_key':'s2','lexeme_id':SENSE,
+                'resolution_status':'resolved','start_char':0,'end_char':7,
+                'surface_form':'offered','start_ms':None,'end_ms':None
+            }
+        if 'FROM listening_tests t JOIN listening_packages p' in query:
+            assert arguments==(LISTENING_TEST,)
+            return {'title':'Listening Test 2',
+                    'payload':{'sections':[{'transcript':'other'},
+                                             {'transcript':'offered food'},
+                                             {'transcript':'other'},
+                                             {'transcript':'other'}]}}
+        if 'SELECT * FROM lexemes WHERE id=' in query:
+            assert arguments==(SENSE,)
+            return {'id':SENSE,'term':'offer','definition_en':'to present for acceptance',
+                    'translation_uz':'taklif qilmoq','part_of_speech':'verb'}
+        raise AssertionError('Unexpected query: '+query[:180])
+
+
+def test_listening_source_occurrence_can_be_saved_with_canonical_dictionary_lexeme(monkeypatch):
+    from app import step21_vocabulary_create as writer
+    async def access(con,u,source,source_id):
+        assert source=='listening'
+        assert source_id==LISTENING_TEST
+        return 'allowed'
+    monkeypatch.setattr(writer,'text_access',access)
+    result=asyncio.run(writer.resolve_occurrence(
+        ListeningSaveConnection(),{'id':USER},'listening',str(LISTENING_TEST),str(MATCH)))
+    assert result['status']=='resolved'
+    assert result['lexeme']['id']==SENSE
+    assert result['lexeme']['translation_uz']=='taklif qilmoq'
+    assert result['snapshot']['sectionNumber']==2
+
+
+def test_listening_source_occurrence_rejects_wrong_test(monkeypatch):
+    from app import step21_vocabulary_create as writer
+    async def access(*args,**kwargs):return 'allowed'
+    monkeypatch.setattr(writer,'text_access',access)
+    result=asyncio.run(writer.resolve_occurrence(
+        ListeningSaveConnection(),{'id':USER},'listening',str(PASSAGE),str(MATCH)))
+    assert result['status']=='missing'

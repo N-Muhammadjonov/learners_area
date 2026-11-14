@@ -28,7 +28,11 @@ export function originalScriptAccessibility(token){return `(()=>{const token=${J
   for(const textNode of nodes){
    const raw=textNode.nodeValue||'';
    if(!/[A-Za-z]{2}/.test(raw))continue;
-   const at=source.indexOf(raw,cursor);if(at<0)continue;
+   const segment=textNode.parentElement?.closest('[data-script-source-start]');
+   const proposed=segment?Number(segment.dataset.scriptSourceStart):-1;
+   const at=Number.isSafeInteger(proposed)&&proposed>=0&&source.slice(proposed,proposed+raw.length)===raw
+    ?proposed:source.indexOf(raw,cursor);
+   if(at<0||source.slice(at,at+raw.length)!==raw)continue;
    const fragment=document.createDocumentFragment();let last=0,m;
    const word=/[A-Za-z]+(?:['\u2019-][A-Za-z]+)*/g;
    while((m=word.exec(raw))){
@@ -61,23 +65,29 @@ export function originalScriptAccessibility(token){return `(()=>{const token=${J
    if(typeof source!=='string'||!source)return originalTranscript(part);
    const rows=(DATA.script_completion||[]).filter(g=>g.part===part).sort((a,b)=>a.n-b.n);
    const lowered=source.toLowerCase(),positions=[];
+   let expectedCursor=0;
    for(const gap of rows){
     const needle=String(gap.match||'').toLowerCase();
     if(!needle)return originalTranscript(part);
-    const at=lowered.indexOf(needle);
-    if(at<0||lowered.indexOf(needle,at+1)>=0)return originalTranscript(part);
+    let at=lowered.indexOf(needle,expectedCursor);
+    if(at<0){
+     const unique=lowered.indexOf(needle);
+     if(unique<0||lowered.indexOf(needle,unique+1)>=0)return originalTranscript(part);
+     at=unique;
+    }
     positions.push({gap,start:at,end:at+needle.length});
+    expectedCursor=Math.max(expectedCursor,at+needle.length);
    }
    const ordered=[...positions].sort((a,b)=>a.start-b.start);
    if(ordered.some((item,i)=>i>0&&ordered[i-1].end>item.start))return originalTranscript(part);
-   if(positions.every((item,i)=>item===ordered[i]))return originalTranscript(part);
+
    let cursor=0,result='';
    for(const {gap,start,end} of ordered){
-    result+=escapeHtml(source.slice(cursor,start));
+    result+='<span data-script-source-start="'+cursor+'">'+escapeHtml(source.slice(cursor,start))+'</span>';
     result+='<span class="script-gap-wrap"><b class="script-gap-number">'+gap.n+'</b><input class="script-gap-input" data-gap="'+gap.q+'" autocomplete="off" aria-label="Part '+part+' gap '+gap.n+'" placeholder=""><span class="script-gap-answer" data-gapresult="'+gap.q+'"></span></span>';
     cursor=end;
    }
-   return result+escapeHtml(source.slice(cursor));
+   return result+'<span data-script-source-start="'+cursor+'">'+escapeHtml(source.slice(cursor))+'</span>';
   };
  }
  const render=renderScript;renderScript=function(){if(disposed)return;const value=render.apply(this,arguments);decorate();decorateLexical();return value;};
