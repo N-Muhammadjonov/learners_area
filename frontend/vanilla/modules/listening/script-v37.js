@@ -122,4 +122,12 @@ export function originalScriptAccessibility(token,occurrences=[]){return `(()=>{
   }
  };
  addEventListener('message',receive);
+ // A Script iframe cannot be observed by pointer listeners in its parent.
+ // Close the parent-side popover when the user clicks anywhere else in Script.
+ document.addEventListener('pointerdown',event=>{
+  if(!document.querySelector('#activity-script.active'))return;
+  const target=event.target instanceof Element?event.target:null;
+  if(target?.closest('.la-script-lexical-word'))return;
+  parent.postMessage({channel:'learners-area-authored-v1',token,op:'dismiss-word'},'*');
+ },true);
  tabs.addEventListener('keydown',key);decorate();decorateLexical();addEventListener('pagehide',()=>{disposed=true;removeEventListener('message',receive);tabs.removeEventListener('keydown',key);},{once:true});});})();`;}
