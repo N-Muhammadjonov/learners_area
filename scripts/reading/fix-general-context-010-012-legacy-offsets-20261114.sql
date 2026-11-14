@@ -12,11 +12,11 @@ DECLARE
 BEGIN
   PERFORM pg_advisory_xact_lock(11061401);
   FOR v_passage IN SELECT p.id,p.passage_no,p.body_text FROM reading_passages p WHERE p.test_no=4 LOOP
-    IF encode(extensions.digest(v_passage.body_text,'sha256'),'hex') <> CASE v_passage.passage_no
+    IF encode(extensions.digest(v_passage.body_text,'sha256'),'hex') <> (CASE v_passage.passage_no
        WHEN 1 THEN '5626d877355a0e2e0cc6ea8e52fb9b6b210470d00eb63b8525ff771661326c71'
        WHEN 2 THEN '33376b2a24d307970aee77859c3626abfd9b1903532c5f8499d6793139fc07c6'
        WHEN 3 THEN '0dea39927145308aa6989ce628a3547de74dbd2bd39b9ddb35c864a7bacc6925'
-       ELSE '' END THEN
+       ELSE '' END) THEN
       RAISE EXCEPTION 'Source checksum changed, aborting correction for Test 4 Passage %',v_passage.passage_no;
     END IF;
   END LOOP;
