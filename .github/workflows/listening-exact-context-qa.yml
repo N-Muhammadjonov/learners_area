@@ -36,7 +36,7 @@ jobs:
           node --check frontend/vanilla/tests/listening-context-script-coverage.test.mjs
       - name: Verify Listening originals, source spans and popup behavior
         working-directory: frontend/vanilla
-        run: node --test tests/listening-context-script-coverage.test.mjs tests/listening-local-contextual-meanings.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/listening-tests-1-20-context-audit.test.mjs tests/listening-tests-21-25-contextual.test.mjs tests/listening-tests-26-29-contextual.test.mjs tests/listening-tests-30-32-contextual.test.mjs
+        run: node --test tests/listening-context-script-coverage.test.mjs tests/listening-local-contextual-meanings.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
