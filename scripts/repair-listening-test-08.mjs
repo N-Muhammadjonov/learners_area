@@ -92,3 +92,4 @@ function repair(){
  writeFileSync(srcPath,text);writeFileSync(runPath,serialized);writeFileSync(manifestPath,JSON.stringify(manifest)+'\n');
 }
 repair();
+// Run only on the isolated repair branch; keep canonical Test 8 source checksum pinned.
