@@ -1,0 +1,38 @@
+name: Mock exam and Speaking experience
+on:
+  pull_request:
+    paths:
+      - 'frontend/vanilla/modules/mocks/**'
+      - 'frontend/vanilla/modules/speaking/**'
+      - 'frontend/vanilla/modules/shared/speaking-session.js'
+      - 'services/backend/app/fluency_sessions.py'
+      - 'services/backend/app/mock_system_port.py'
+      - 'services/backend/app/speaking_catalog_port.py'
+      - 'frontend/vanilla/tests/*fluency*'
+      - 'frontend/vanilla/tests/mock-exam-experience.test.mjs'
+      - '.github/workflows/mock-exam-experience.yml'
+  push:
+    branches: [fix/mock-exam-speaking-experience-20261114]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated DOM test dependency
+        run: |
+          npm install --prefix "$RUNNER_TEMP/mock-deps" --no-package-lock --ignore-scripts jsdom@30.1.1
+          ln -s "$RUNNER_TEMP/mock-deps/node_modules" node_modules
+      - name: Verify immutable question selection
+        run: |
+          python services/backend/tests/test_mock_auto_speaking_loader.py
+          python services/backend/tests/test_fluency_sessions.py
+      - name: Verify exam and recording lifecycles
+        run: node --test frontend/vanilla/tests/mock-critical-repairs.test.mjs frontend/vanilla/tests/mock-native-material.test.mjs frontend/vanilla/tests/mock-exam-experience.test.mjs frontend/vanilla/tests/fluency-engine.test.mjs frontend/vanilla/tests/fluency-game.test.mjs frontend/vanilla/tests/fluency-session-picker.test.mjs

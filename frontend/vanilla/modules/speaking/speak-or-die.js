@@ -4,6 +4,7 @@ import {createFluencyEngine,DIFFICULTIES} from './fluency-engine.js';
 import {createEnergyDetector,createVoiceInput} from './voice-activity.js';
 import {createQuestionPicker} from './fluency-questions.js';
 import {fluencyArena} from './fluency-art.js';
+import {createRoundRecording} from './round-recording.js';
 
 /** Dependencies are injectable for deterministic DOM/audio lifecycle tests. */
 export function mount(context,dependencies={}){
@@ -13,9 +14,12 @@ export function mount(context,dependencies={}){
  const now=dependencies.now??(()=>performance.now()),raf=dependencies.requestFrame??view.requestAnimationFrame.bind(view),cancel=dependencies.cancelFrame??view.cancelAnimationFrame.bind(view);
  const voiceFactory=dependencies.voiceFactory??createVoiceInput,picker=dependencies.questionPicker??createQuestionPicker(),engine=createFluencyEngine({now});
  let voice=null,detector=null,frame=null,epoch=0,roundController=null,question=null,lastFrame=null,pauseReason='',level='intermediate',presentation='',readingStartedAt=null,readingRemainingMs=5000;
+ const recordings=new Map();let roundCapture=null,captureQuestion=null,captureLevel=null,appendCapture=false;
+ const recorderFactory=dependencies.recorderFactory??createRoundRecording;
+ const speech=dependencies.speech??view.speechSynthesis;
  const host=el('section',{class:'fluency-game','data-route-usable':'speaking-fluency','data-fluency-state':'idle'});
- const intro=el('header',{class:'fluency-intro'},el('span',{class:'fluency-eyebrow'},t.eyebrow),el('h1',{},'Speak or Die'),el('p',{},t.intro),el('p',{class:'fluency-privacy'},t.privacy));
- const prompt=el('section',{class:'fluency-question',hidden:true},el('span',{class:'fluency-eyebrow'},t.question)),questionText=el('h2',{tabindex:'-1'}),cueCard=el('p',{class:'fluency-cue'});prompt.append(questionText,cueCard);
+ const intro=el('header',{class:'fluency-intro'},el('span',{class:'fluency-eyebrow'},t.eyebrow),el('h1',{},'Speak or Die'),el('p',{},t.intro),el('p',{class:'fluency-privacy'},context.locale==='uz'?'Javob yozuvlari shu sahifada saqlanadi. Ularni tinglash, o‘chirish yoki qayta yozish mumkin. Sahifadan chiqqanda yozuvlar o‘chadi.':'Your recordings stay on this page. Listen, delete or record again. Leaving the page clears them.'));
+ const prompt=el('section',{class:'fluency-question',hidden:true},el('span',{class:'fluency-eyebrow'},t.question)),questionText=el('h2',{tabindex:'-1'}),cueCard=el('p',{class:'fluency-cue'});const topicLabel=el('p',{class:'fluency-eyebrow','data-fluency-topic':''});prompt.prepend(topicLabel);prompt.append(questionText,cueCard);
  const timer=el('div',{class:'fluency-timer',role:'timer','aria-live':'off','aria-label':t.timer}),seconds=el('strong',{},'60'),progress=el('progress',{max:60,value:60,'aria-label':t.timer});timer.append(el('div',{},seconds,el('span',{},t.sec)),progress);timer.hidden=true;
  const preparation=el('section',{class:'fluency-preparation',role:'timer','aria-live':'off','data-fluency-preparation':'',hidden:true},el('strong',{'data-fluency-read-seconds':''},'5'),el('span',{},'READ THE QUESTION'));
  const arena=fluencyArena(t.arena),status=el('p',{class:'fluency-status',role:'status','aria-live':'polite'}),levelLabel=el('p',{class:'fluency-level-label'});
@@ -36,8 +40,9 @@ export function mount(context,dependencies={}){
  const resultTitle=el('h2',{tabindex:'-1'}),resultBody=el('p'),resultTime=el('p',{class:'fluency-result-time'}),result=el('section',{class:'fluency-result',hidden:true},resultTitle,resultBody,resultTime);
  const controls=el('div',{class:'fluency-controls'}),start=button(t.start,()=>void begin(),{class:'btn-primary fluency-start','data-fluency-start':''}),resume=button(t.resume,()=>void begin(),{class:'btn-primary','data-fluency-resume':''}),quit=button(t.quit,leaveRound,{'data-fluency-quit':''}),again=button(t.again,()=>void begin(),{class:'btn-primary','data-fluency-again':''}),change=button(t.changeLevel,leaveRound,{'data-fluency-change-level':''});
  controls.append(start,resume,quit,again,change);
+ const clipsHost=el('section',{class:'fluency-recordings','data-fluency-recordings':'','aria-label':context.locale==='uz'?'Javob yozuvlari':'Recorded responses'});
  const mic=el('p',{class:'fluency-mic'}),limitation=el('p',{class:'fluency-limitation'},t.limitation);
- host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),intro,prompt,preparation,timer,arena.node,status,levelLabel,result,levels,controls,mic,limitation);root.append(host);
+ host.append(BackLink({fallbackHref:'/app/speaking',label:dict.common.back}),intro,prompt,preparation,timer,arena.node,status,levelLabel,result,levels,controls,clipsHost,mic,limitation);root.append(host);
  const text=(node,value)=>{if(node.textContent!==value)node.textContent=value;};
  function paint(activity){
   if(signal.aborted)return;
@@ -48,7 +53,8 @@ export function mount(context,dependencies={}){
   const signature=JSON.stringify([phase,state.speaking,state.error,question?.id,level,pauseReason]);
   if(signature===presentation)return;presentation=signature;
   host.dataset.fluencyState=phase;intro.hidden=!selecting;levels.hidden=!selecting;prompt.hidden=!question;timer.hidden=selecting||preparing;preparation.hidden=!preparing;
-  if(question){text(questionText,question.promptText);text(cueCard,question.cueCard??'');cueCard.hidden=!question.cueCard;}
+  clipsHost.hidden=!['idle','error','won','lost','paused'].includes(phase);
+  if(question){text(topicLabel,`${String(question.part||'').replace('part','Part ')} · ${question.topic||''}`);text(questionText,question.promptText);text(cueCard,question.cueCard??'');cueCard.hidden=!question.cueCard;}
   levelButtons.forEach(b=>{const selected=b.dataset.fluencyLevel===level;b.setAttribute('aria-checked',String(selected));b.tabIndex=selected?0:-1;});
   text(levelLabel,t.levels[level].title);result.hidden=!ended;
   if(ended){text(resultTitle,phase==='won'?t.won:t.lost);text(resultBody,phase==='won'?t.wonBody:t.lostBody);text(resultTime,`${phase==='won'?60:Math.floor(state.elapsedMs/1000)} / 60 ${t.sec}`);}
@@ -58,7 +64,7 @@ export function mount(context,dependencies={}){
   text(status,message);status.setAttribute('role',phase==='error'?'alert':'status');
   text(mic,['running','calibrating','ready'].includes(phase)?t.micOn:phase==='requesting_permission'?t.micRequest:t.micOff);
  }
- function stopResources(){readingStartedAt=null;readingRemainingMs=5000;epoch++;if(frame!==null)cancel(frame);frame=null;lastFrame=null;voice?.dispose();voice=null;roundController?.abort();roundController=null;detector=null;}
+ function stopResources(){finishRecording(['won','lost','paused'].includes(engine.snapshot().phase));speech?.cancel();readingStartedAt=null;readingRemainingMs=5000;epoch++;if(frame!==null)cancel(frame);frame=null;lastFrame=null;voice?.dispose();voice=null;roundController?.abort();roundController=null;detector=null;}
  function leaveRound(){stopResources();engine.quit();engine.reset(level);question=null;pauseReason='';paint();start.focus();}
  function pause(code='',at=now()){
   if(!['running','requesting_permission','calibrating','ready'].includes(engine.snapshot().phase))return;
@@ -66,16 +72,55 @@ export function mount(context,dependencies={}){
   engine.pause(at);stopResources();pauseReason=code;paint();if(engine.snapshot().phase==='paused'&&document.visibilityState!=='hidden')resume.focus();
  }
  function fail(error){const code=error?.code??({NotAllowedError:'permission_denied',SecurityError:'permission_denied',NotFoundError:'no_microphone',NotReadableError:'device_interrupted'}[error?.name])??'unknown';if(['audio_suspended','device_interrupted'].includes(code)){pause(code);return;}engine.fail(t.errors[code]?code:'unknown');stopResources();paint();start.focus();}
- async function begin(){
+ function removeRecording(id){
+  const item=recordings.get(id);
+  if(item){for(const url of item.urls)URL.revokeObjectURL(url);recordings.delete(id);}
+  for(const audio of clipsHost.querySelectorAll('audio'))audio.pause();
+ }
+ function paintRecordings(){
+  if(signal.aborted)return;
+  clipsHost.replaceChildren();
+  for(const [id,item] of recordings){
+   const erase=button(context.locale==='uz'?'O‘chirish':'Delete',()=>{removeRecording(id);paintRecordings();});
+   const redo=button(context.locale==='uz'?'Qayta yozish':'Record again',()=>{
+    if(!['idle','error','won','lost','paused'].includes(engine.snapshot().phase))return;
+    stopResources();engine.reset(item.level);level=item.level;void begin(item.question);
+   },{'data-fluency-record-again':id});
+   clipsHost.append(el('article',{'data-fluency-recording':id},
+    el('strong',{},item.question.promptText),
+    ...item.urls.map(url=>el('audio',{controls:true,preload:'metadata',src:url,'aria-label':context.locale==='uz'?'Javobni tinglash':'Listen to your answer'})),
+    el('div',{},erase,redo)));
+  }
+ }
+ function finishRecording(save){
+  const capture=roundCapture;if(!capture)return;roundCapture=null;
+  const recordedQuestion=captureQuestion,recordedLevel=captureLevel,append=appendCapture;
+  void capture.stop().then(blob=>{
+   if(signal.aborted||!save||!blob?.size)return;
+   const id=recordedLevel+':'+recordedQuestion.id;
+   if(!append)removeRecording(id);
+   const previous=recordings.get(id);
+   recordings.set(id,{question:recordedQuestion,level:recordedLevel,urls:[...(previous?.urls||[]),URL.createObjectURL(blob)]});
+   paintRecordings();
+  }).catch(()=>{if(!signal.aborted)text(status,context.locale==='uz'?'Audio yozuvni saqlab bo‘lmadi. Shu savolga qayta urinib ko‘ring.':'Recording could not be saved. Retry this question.');});
+ }
+ function readQuestion(){
+  speech?.cancel();
+  const Utterance=view.SpeechSynthesisUtterance;
+  if(!speech||!Utterance||!question)return;
+  const utterance=new Utterance(question.promptText);utterance.lang='en-GB';utterance.rate=.95;
+  speech.speak(utterance);
+ }
+ async function begin(repeatQuestion=null){
   if(signal.aborted||!['idle','error','won','lost','paused'].includes(engine.snapshot().phase))return;
-  const continuing=engine.snapshot().phase==='paused';stopResources();if(!continuing)question=null;
+  const continuing=engine.snapshot().phase==='paused';stopResources();if(!continuing)question=repeatQuestion;appendCapture=continuing;
   if(!engine.request())return;
   const generation=epoch;roundController=new view.AbortController();
   paint();
   try{
    const input=voiceFactory({signal:roundController.signal,onInterrupted:code=>{if(generation===epoch)pause(code);}});voice=input;
    const opening=input.open();
-   const loaded=question?Promise.resolve(question):picker.next(roundController.signal).catch(error=>{throw Object.assign(Error('question_unavailable'),{code:error?.code==='question_empty'?'question_empty':'question_unavailable'});});
+   const loaded=question?Promise.resolve(question):picker.next(roundController.signal,{level}).catch(error=>{throw Object.assign(Error('question_unavailable'),{code:error?.code==='question_empty'?'question_empty':'question_unavailable'});});
    const [,nextQuestion]=await Promise.all([opening,loaded]);
    if(signal.aborted||generation!==epoch){input.dispose();return;}
    question=nextQuestion;engine.permissionGranted();detector=createEnergyDetector(DIFFICULTIES[level]);paint();
@@ -86,11 +131,15 @@ export function mount(context,dependencies={}){
     lastFrame=at;
     try{
      const sample=input.sample(),activity=detector.sample(sample.rms,at,sample.speech),state=engine.snapshot();
-     if(state.phase==='calibrating'&&activity.ready){engine.calibrated();readingStartedAt=at;readingRemainingMs=5000;questionText.focus();}
+     if(state.phase==='calibrating'&&activity.ready){engine.calibrated();readingStartedAt=at;readingRemainingMs=5000;readQuestion();questionText.focus();}
      else if(state.phase==='ready'){
       if(readingStartedAt===null)readingStartedAt=at;
       readingRemainingMs=Math.max(0,5000-(at-readingStartedAt));
-      if(readingRemainingMs===0){engine.start(at);readingStartedAt=null;}
+      if(readingRemainingMs===0&&!speech?.speaking){
+       const stream=input.recordingStream?.();roundCapture=recorderFactory(stream);
+       if(stream&&!roundCapture)throw Object.assign(Error('unsupported'),{code:'unsupported'});
+       captureQuestion={...question};captureLevel=level;engine.start(at);readingStartedAt=null;
+      }
      }
      else if(state.phase==='running')engine.advance(at,activity.speaking);
      paint({...activity,samples:sample.samples});
@@ -104,7 +153,8 @@ export function mount(context,dependencies={}){
  listen(document,'visibilitychange',()=>{if(document.visibilityState==='hidden')pause();},signal);
  listen(view,'blur',()=>{if(engine.snapshot().phase!=='requesting_permission')pause();},signal);
  listen(view,'pagehide',()=>{stopResources();engine.quit();engine.reset(level);question=null;paint();},signal);
- signal.addEventListener('abort',()=>{stopResources();engine.quit();},{once:true});
+ signal.addEventListener('abort',()=>{stopResources();for(const id of recordings.keys())removeRecording(id);engine.quit();},{once:true});
  paint();
  return {engine,host};
 }
+

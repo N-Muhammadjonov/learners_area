@@ -112,9 +112,26 @@ class MockAutoSpeakingLoaderTests(unittest.IsolatedAsyncioTestCase):
         loaded = await APP["_load_section_questions_from_version"](VersionConnection(snapshot), self.section(), reveal_keys=True)
         with patch("secrets.choice", side_effect=lambda values: values[-1]):
             selected = APP["select_attempt_speaking_material"](loaded)
-        self.assertEqual([question["questionId"] for question in selected["parts"]], ["work-1", "trip-2", "trip-3"])
+        self.assertEqual([question["questionId"] for question in selected["parts"]], ["work-1", "home-1", "trip-2", "trip-3"])
+        self.assertEqual(snapshot, original)
+
+    def test_part1_selects_three_distinct_complete_topics_before_part2(self) -> None:
+        snapshot = pool()
+        snapshot['part1Pool'] = [
+            {'topic': topic, 'parts': [
+                {'part': 'P1', 'questionId': f'{topic}-{n}', 'promptText': f'Question {n}'}
+                for n in (1, 2)
+            ]} for topic in ('Home', 'Work', 'Books', 'Travel')
+        ]
+        original = copy.deepcopy(snapshot)
+        with patch('secrets.choice', side_effect=lambda values: values[0]):
+            selected = APP['select_attempt_speaking_material'](snapshot)['parts']
+        self.assertEqual([q['topic'] for q in selected[:6]], ['Home', 'Home', 'Work', 'Work', 'Books', 'Books'])
+        self.assertEqual([q['part'] for q in selected], ['P1'] * 6 + ['P2', 'P3'])
+        self.assertEqual([q['questionId'] for q in selected[-2:]], ['book-2', 'book-3'])
         self.assertEqual(snapshot, original)
 
 
 if __name__ == "__main__":
     unittest.main()
+
