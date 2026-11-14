@@ -1,0 +1,105 @@
+{
+  "branch": "arena/c9f21950-learners-area",
+  "pr": 189,
+  "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
+  "code_sha": "ae7a045b4210ea8240246e0461822eb8bff2b7ab",
+  "latest_finished_full_ci": {
+    "sha": "ae7a045b4210ea8240246e0461822eb8bff2b7ab",
+    "run_id": 43630766224,
+    "backend": {
+      "passed": 7447,
+      "failed": 0,
+      "xfailed": 1,
+      "subtests_passed": 287,
+      "seconds": 108.37
+    },
+    "frontend": {
+      "passed": 1778,
+      "failed": 0,
+      "skipped": 12,
+      "seconds": 91.77
+    },
+    "migration_contract": {
+      "passed": 4,
+      "failed": 0
+    },
+    "fresh_migration": {
+      "schema_migrations": 100,
+      "content_deferred": 21,
+      "typed_tables": 171,
+      "asgi_checks": 9
+    }
+  },
+  "code_ci": {
+    "run_id": 43630766224,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43630766224",
+    "status": "success"
+  },
+  "tests": [
+    {
+      "area": "finance",
+      "paths": [
+        "services/backend/tests/test_tuition_ledger.py",
+        "services/backend/tests/test_finance_outbox.py",
+        "services/backend/tests/test_tuition_schema_parity.py"
+      ],
+      "postgres_version": "18.6",
+      "passed": 90,
+      "failed": 0
+    },
+    {
+      "area": "listening",
+      "path": "frontend/vanilla/tests/listening-resume-source-repairs.test.mjs",
+      "passed": 2,
+      "failed": 0
+    }
+  ],
+  "migrations": {
+    "latest": "services/backend/migrations/1121_finance_outbox_dispatch.sql",
+    "fresh": "verified",
+    "content_bearing_upgrade": "pending",
+    "staging": "pending",
+    "production": "pending"
+  },
+  "gates": {
+    "A": {
+      "status": "partial",
+      "remaining": [
+        "review remaining A6 probes",
+        "add live Click/Payme adapter receipts and production telemetry"
+      ]
+    },
+    "B": {
+      "status": "green_on_verified_commit",
+      "remaining": [
+        "verify docs-only head checks",
+        "run the main-only Telegram and Parent Connect workflows after an authorized merge"
+      ]
+    },
+    "C": {
+      "status": "pending",
+      "next": "Start C1 by reusing users, courses, enrollments and teacher_student_links. Implement a role-scoped group/enrollment vertical slice and a PostgreSQL simultaneous last-seat regression."
+    },
+    "D": {
+      "status": "pending",
+      "next": "Validate the integrated student–teacher–guardian flow before adding differentiators."
+    },
+    "E": {
+      "status": "pending",
+      "next": "Run isolated restore, authorization tests and a staged benchmark using 10000 synthetic learners."
+    },
+    "F": {
+      "status": "pending",
+      "next": "Run the integrated buyer demo and collect actual receipts."
+    }
+  },
+  "manual_actions": "docs/SALE_READY_MANUAL_ACTIONS.md",
+  "manual_action_count": {
+    "sale": 7,
+    "pilot": 3,
+    "handover": 1,
+    "optional": 1
+  },
+  "merge_authorized": false,
+  "production_rollout_authorized": false
+}

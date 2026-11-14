@@ -1,5 +1,50 @@
 # Sale-readiness acceptance receipt
 
+## Arena davomi (2026-11-15, Toshkent)
+
+| Tekshiruv | Commit | Natija |
+|---|---|---|
+| Main bazasi, GitHub Actions | `098d3ac8225e46054f8908b82a339d3ea5821a50` | Backend 7 247 o'tdi, 9 fail, 1 xfail, 287 subtest o'tdi. Frontend 1 758 o'tdi, 18 fail, 12 skip. [CI](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43629155107) |
+| Arena, sinxronlangan to'liq CI | `8a4f4ec87f6c6bb93d612725afd3eda6abf86882` | Backend 7 447 o'tdi, 0 fail, 1 mavjud xfail, 287 subtest o'tdi, 120.64 s. Frontend 1 776 o'tdi, 0 fail, 12 mavjud skip, 123.37 s. [CI](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43630359248) |
+| Listening resume, Script Completion va RIWI katalogi | `ae7a045b4210ea8240246e0461822eb8bff2b7ab` | Backend 7 447 o'tdi, 0 fail, 1 xfail, 287 subtest, 108.37 s. Frontend 1 778 o'tdi, 0 fail, 12 skip, 91.77 s. Listening JSDOM 2 o'tdi, 1.40 s (Node 24.22.1). [To'liq CI](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43630766224) |
+| Moliya va outbox | `8a4f4ec87f6c6bb93d612725afd3eda6abf86882` | Linux x86_64, Python 3.12.14, PostgreSQL 18.6. Quyidagi uch faylda 90 o'tdi, 0 fail, 13.14 s. Faqat ajratilgan test bazasi. |
+
+GitHub Actions ikkala branchda Ubuntu runner, Python 3.14.10, Node 22.23.4 va PostgreSQL 17 servisidan foydalandi. Yakuniy xfail `test_short_media_never_pays_before_five_minutes` bo'yicha mavjud egasi qarori. Browser va haqiqiy audio tekshiruvi egada.
+
+```bash
+cd services/backend
+python -m pytest -q tests/test_tuition_ledger.py tests/test_finance_outbox.py tests/test_tuition_schema_parity.py
+cd ../..
+npm run test:migrations
+npm run backend:test:postgres
+node --test frontend/vanilla/tests/listening-resume-source-repairs.test.mjs
+```
+
+### Sabab va dalil
+
+- `tuition_ledger.py` dagi to'lov taqsimoti tasdiqlangan credit noteni ayirmagan. Hisob endi charge qulfi ichida kamaytirilgan majburiyatdan boshlanadi. 600 000 qarz, 100 000 credit note va 550 000 to'lov sinovida 500 000 qarzga va 50 000 avansga yozildi. Qarama-qarshi tartib, qaytarish, qisman to'lov va parallel yozuvlar ham qamrab olindi.
+- Refund rezervi bilan amalda pul chiqishi bitta ko'rsatkichdagi summaga qo'shilgan. Talaba va egasi hisoblarida faqat yakunlangan refund qoladi. To'lov holati qolgan real mablag'dan hisoblanadi. 700 000 avans uchun 100 000 qisman, keyin 600 000 to'liq qaytarish va qayta yuborish sinovdan o'tdi.
+- Refund sanasi iltimos sanasidan qolib ketgan. Kassa yopilishi va pul chiqishi bitta Toshkent kun kalitini qulflaydi. Provider tushumi tasdiqlangan kunga, credit note esa asl davr yopiq bo'lsa ochiq davrga yoziladi. Parallel kassa/refund va turli sessiya vaqti sinovlari `test_tuition_ledger.py` da.
+- `finance_outbox.py` va `1121_finance_outbox_dispatch.sql` faqat `provider.settled` sandbox qabul qiluvchisini ulaydi. Cheklangan ishchilar, ijara, 100 qayta urinish, karantin va barqaror hodisa ID bilan takror yetkazishda bitta receipt. Jarayon yetkazgandan so'ng to'xtashi hamda ruxsatsiz mavzuni chetlab o'tish PostgreSQL'da sinovdan o'tdi.
+- Listening 08/10 transcript ta'miri runtime ko'prigini va exam resume kodini olib tashlagan. O'z testlarining tarixiy integratsiyasi, iframe tasdiqlashi va savol turi tanlash tiklandi. Amaldagi transcript va audio manzillari saqlandi. JSDOM qayta yuklash, javob, flag, pozitsiya va Script Completion hodisasini tekshirdi.
+- Landing bank 45 savolda qolgan. `landing-inline.js` dagi bank amaldagi 150 savoldan tiklandi, mavjud 17 savollik tanlov saqlandi. `navigation-list.js` Dock bilan bir xil piktogramma API'ini ishlatadi. Listening/Vocabulary/Retention fixture tekshiruvlari amaldagi kontrakt va ayni foydalanuvchi xatti-harakatlarini tekshiradi. Finance test sanasi endi test ishlashida olinadi. Startup warning sinovi Uvicorn log konfiguratsiyasi va platforma muhitini izolyatsiya qiladi.
+- RIWI katalogi `main`dagi Telegram handoff workflow'da eski bo'lgan. Ishlab chiqaruvchi skript chiqargan route va source diff, Arena'dagi ikki fayl xeshi bilan birga, katalogga kiritildi. Main-dagi oldingi natija 138 route va 558 source. [Telegram handoff bazasi](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43629155115)
+
+### Migratsiya va keyingi tekshiruvlar
+
+| Muhit | Holat |
+|---|---|
+| Yangi ajratilgan baza | Tasdiqlandi. 100 sxema migratsiyasi, 21 nomlangan kontent migratsiyasi keyinga qoldirildi, 171 typed table, 9 ASGI tekshiruvi. |
+| Kontentli bazani yangilash | Kontent import qilingan to'liq nusxada hali bajarilmadi. Upgrade kontrakti kontent yo'q bo'lganda `0094` da to'xtashini sinadi. |
+| Staging / production | Bajarilmadi. |
+| 10k yuk, tiklash, savdo demosi | Bu davomda bajarilmadi. |
+
+Gate A sandbox va ledger doirasida tekshirildi, moliya UI va haqiqiy provider integratsiyasi ochiq. Gate B oxirgi kod commitida 0 fail. Static build, to'rtta migratsiya kontrakt testi, Coin Economy va Leaderboard workflow'lari o'tdi. Main uchun Telegram handoff katalog tekshiruvi tarixan qizil va faqat main'da ishlaydi. Arena katalogi generator diff bilan yangilandi. Gate C–F uchun keyingi amallar [checkpoint](ARENA_CONTINUATION_CHECKPOINT.json) da. Tashqi tasdiqlar va egasining amallari [yagona ro'yxatda](../SALE_READY_MANUAL_ACTIONS.md).
+
+---
+
+## Tarixiy tekshiruv (Arena davomidan oldin)
+
 **Branch:** `arena/c9f21950-learners-area` · **Base commit:** `344e538c56a84fb6651e0cc5663a056663d5376a`
 **Executed:** 2026-11-14 · **Environment:** Linux sandbox, Python 3.11.2, Node 22.22.3, PostgreSQL **18.6** (embedded build from `@embedded-postgres/linux-x64`) on `127.0.0.1:55439`
 

@@ -3,6 +3,8 @@
 **Snapshot:** branch `arena/c9f21950-learners-area`, base commit `344e538c56a84fb6651e0cc5663a056663d5376a`
 **Audit date:** 2026-11-14 · **Auditor method:** live repository inspection + executed test receipts
 
+Arena davomi uchun backend va frontend natijalari [joriy dalil](SALE_READY_ACCEPTANCE.md#arena-davomi-2026-11-15-toshkent) da. Quyidagi inventar sonlari tarixiy auditga tegishli.
+
 > **Uzbek xulosasi (qisqa):** Quyidagi jadval har bir biznes imkoniyatni kod manbasi,
 > migratsiya, test va status bilan ko'rsatadi. Status so'zlari qat'iy: `VERIFIED_LOCALLY`
 > = shu yerda haqiqiy PostgreSQL'da test o'tgan; `IMPLEMENTED_UNVERIFIED` = kod bor, lekin
@@ -86,7 +88,7 @@
 | CAP-36 | **Provider settlement proof** | `/payments/sandbox/*` | `payments_sandbox.py` | **1115** | owner/admin | 7 provider tests pass; `confirm:true` without adapter proof → `409 provider_confirmation_requires_provider_proof`; forged signature → 401 | none | `VERIFIED_LOCALLY` | real Click/Payme adapter is CAP-22 | high | adapter | signature + order-match tests | merchant onboarding |
 | CAP-37 | **Per-method reconciliation + provider fees** | `/api/staff/finance/reconciliation` | same | **1119** | owner/admin | cash/bank/provider collected separately, refunds **settled-only**, buckets in `Asia/Tashkent`; summary re-derived independently with per-field `matches` | none | `VERIFIED_LOCALLY` | — | med | — | journal↔summary equality | — |
 | CAP-38 | **Strict money/period input contracts** | all finance writes | `tuition_schemas.py` | — | all | `amountMinor: true` no longer becomes a charge of 1; `2026-13` is refused; one `422` shape naming the field; backdating >1 day needs an owner | none | `VERIFIED_LOCALLY` | — | high | — | 422/409 receipts | — |
-| CAP-39 | **Finance audit trail + transactional outbox** | — | `finance_audit_events`, `finance_outbox_events` | **1115** | — | 15 money commands write an immutable audit row; a settled provider payment queues an outbox event in the **same** transaction; rollback leaves nothing | **no outbox publisher/dispatcher exists** | `PARTIAL` | events are written but never delivered | high | publisher + retry | replay publishes nothing | — |
+| CAP-39 | **Finance audit trail + transactional outbox** | FastAPI lifespan with two sandbox flags | `finance_outbox.py`, `finance_audit_events`, `finance_outbox_events`, `finance_outbox_sandbox_receipts` | **1115, 1121** | trusted application worker | two worker claims, expired lease after delivery, stable event ID, one receipt and 100-attempt quarantine verified | external delivery not configured | `VERIFIED_LOCALLY` | sandbox topic `provider.settled` only | high | external sink and operational metrics | `test_finance_outbox.py` | merchant onboarding |
 | CAP-40 | **Finance DB RLS/grant policy + BigInt parity** | — | `tests/test_tuition_database_policy.py`, `test_tuition_schema_parity.py` | **1115–1120** | — | 7 policy tests: all 16 finance tables deny read **and** write to `anon`/`authenticated`/`service_role`; 4 parity tests: every migrated finance column is declared in `src/db/schema.ts` and all 13 money columns are `mode:"bigint"` (2^53+1 round-trips) | none | `VERIFIED_LOCALLY` | not verified under the *staging* pool role | high | staging role check | `SET LOCAL ROLE` receipts | staging access |
 | CAP-41 | **Migration chain contract (fresh install vs upgrade)** | — | `scripts/apply-test-migrations.mjs`, `tests/migration-contract.json` | **all 118** | — | 13 contract tests + 4 Node tests; `npm run backend:test:postgres` → exit 0 (99 applied, 21 content migrations deferred **and named**); upgrade path still raises the listening assertion | rollback and production lock behaviour unmeasured | `VERIFIED_LOCALLY` | no staging database here | high | staging dry-run | apply-time + forward-fix receipts | DB access |
 
@@ -96,8 +98,7 @@
   **live-provider and live-infrastructure receipts**, not missing code.
 * The money spine (CAP-15…CAP-21, CAP-34…CAP-41) went from a dark stub to a **tested**
   subledger in this branch: FIN-01…FIN-13 are all implemented, and 177 finance tests pass
-  against real PostgreSQL over real HTTP. It has **no staff UI** and **no outbox publisher**,
-  so the Finance Gate's "complete GUI" criterion is not met and the subsystem stays
+  against real PostgreSQL over real HTTP. The staff UI is pending, and the new dispatcher uses a deterministic sandbox sink. The subsystem stays
   `PARTIAL / NOT SALE READY` regardless of the green suite.
 * The operational layer (CAP-23…CAP-25, CAP-29) is the largest honest gap between "very good
   IELTS site" and "academy operating system".

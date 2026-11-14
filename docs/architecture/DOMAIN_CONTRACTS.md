@@ -1,6 +1,6 @@
 # Domain contracts — tuition finance
 
-**Migration:** `services/backend/migrations/1115_tuition_finance.sql`
+**Migrations:** `services/backend/migrations/1115_tuition_finance.sql` through `1121_finance_outbox_dispatch.sql`
 **Commands:** `services/backend/app/tuition_ledger.py` · **HTTP:** `services/backend/app/tuition_port.py`
 
 > **Uzbek qisqacha:** Bu hujjat pul hisobining qat'iy qoidalarini yozadi: pul `bigint` da
@@ -147,3 +147,30 @@ handling and idempotency keys, treat an unknown state as unknown (never as paid)
 keys out of JavaScript, and prove in sandbox: success, duplicate callback, delayed callback,
 callback before browser return, bad signature, amount mismatch, refund, cancellation, lost
 network. See `docs/SALE_READY_MANUAL_ACTIONS.md` for the owner steps that gate this.
+
+## 9. Allocation, settlement and calendar
+
+Payment allocation holds the charge row lock before reading active posted credits and
+allocations. Available debt is charge net less those amounts. Any excess payment remains
+a customer advance. A refund request reserves available money, while only a settled refund
+reduces settled customer funds. Payment status is derived from the original receipt amount
+less settled refunds. The receipt identity and original payment amount remain immutable.
+
+Event timestamps are persisted as absolute instants. Asia/Tashkent determines the
+business date, receipt sequence period and finance report windows. A provider payment
+affects collections on confirmation, and a refund affects the cash day when paid out.
+Posting and closing a cash day use the same transaction lock. An approved credit note
+can post in a later open period without rewriting its charge's closed period.
+
+## 10. Finance outbox delivery
+
+A confirmed provider settlement commits its finance journal and outbox event together.
+FastAPI starts the sandbox worker when both `TUITION_PROVIDER_SANDBOX=1` and
+`TUITION_SANDBOX_OUTBOX=1`. The worker claims up to eight approved `provider.settled` events
+with `FOR UPDATE SKIP LOCKED` and a 60-second lease that another worker can reclaim after expiry. Bounded attempts
+use exponential backoff with jitter, and the hundredth failure moves the row to quarantine.
+Acknowledgement requires the matching lease token. A unique sandbox receipt keyed by event
+ID prevents duplicate effects if a worker exits after delivery and before acknowledgement.
+Topics without an approved handler remain pending. Only the event ID, topic and retry
+state enter worker failure logs. External provider deliveries and production telemetry
+require separate verification.
