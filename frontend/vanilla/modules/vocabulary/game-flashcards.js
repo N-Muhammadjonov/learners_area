@@ -26,6 +26,6 @@ export function flashcards(ctx,host,{words,source,marks:initial={},answer,batche
   flipButton=gameButton(g.flip,turn,{class:'flashcard-flip-button','data-flashcard-flip':'','aria-pressed':false});
   host.replaceChildren(h('div',{class:'flex flex-col gap-3','data-flashcard-workspace':''},h('header',{class:'flex flex-wrap items-end justify-between gap-3'},h('div',{class:'min-w-0'},h('h2',{class:'font-display text-xl text-ink-900','data-flashcard-source':''},source),h('p',{class:'text-xs text-ink-500','data-flashcard-progress':''},`${g.studyPass} · ${g.passLabel} ${pass} · ${g.progress} ${index+1} ${g.of} ${deck.length} · ${count('known')} ${g.learned} · ${count('notYet')} ${g.notYetLabel}`))),h('div',{class:'flashcard-layout grid min-w-0 items-start gap-4','data-flashcard-layout':''},groupPanel(),queue,h('section',{class:'min-w-0 flashcard-study-stage','aria-label':g.cards},saveError?h('p',{role:'alert','data-flashcard-save-error':''},saveError):null,announcement,h('div',{class:'flashcard-stage','data-flashcard-stage':''},h('div',{class:'flashcard-scene','data-flashcard-scene':''},article),h('div',{class:'flashcard-flip-row'},flipButton))))));syncFlip();
  }
- paint();
+ if(!Array.isArray(progress.deck)&&deck.length)void save({deck:deck.map(w=>w.id),index,pass});paint();
 }
 
