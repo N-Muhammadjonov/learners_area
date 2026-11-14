@@ -75,8 +75,13 @@ ALTER TABLE tuition_refunds
 -- the provider has not settled can never be reported as money out of the door.
 DO $refund_states$
 BEGIN
+    -- `information_schema` describes the whole database, so without a schema filter this
+    -- guard was answered by unrelated schemas: once any schema in the database had finished
+    -- the chain it became true, and the ALTER below then ran against the current schema,
+    -- where `status` does not exist until 1118 adds it. Scope it to the schema being migrated.
     IF EXISTS (SELECT 1 FROM information_schema.columns
-               WHERE table_name = 'tuition_refunds' AND column_name = 'status') THEN
+               WHERE table_schema = current_schema()
+                 AND table_name = 'tuition_refunds' AND column_name = 'status') THEN
         ALTER TABLE tuition_refunds DROP CONSTRAINT IF EXISTS tuition_refunds_status_check;
         ALTER TABLE tuition_refunds ADD CONSTRAINT tuition_refunds_status_check
             CHECK (status IN ('requested','approved','settled','failed','rejected'));

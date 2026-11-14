@@ -36,25 +36,39 @@ four real defects stayed invisible (see §5).
 
 | Command | Result |
 |---|---|
-| `cd services/backend && .venv/bin/python -m pytest -q --timeout=90 -ra` | **5 failed, 7,277 passed, 1 xfailed, 287 subtests passed in 98.69s** |
-| `.venv/bin/python -m pytest -q tests/test_tuition_ledger.py` | **18 passed** (real PostgreSQL) |
-| `.venv/bin/python -m pytest -q tests/test_tuition_port_authorization.py` | **26 passed** |
-| `.venv/bin/python -m pytest -q tests/test_coin_production_safety.py tests/test_coin_economy_integration.py` | **30 passed, 1 xfailed** |
-| `.venv/bin/python -m pytest -q tests/test_step31_release_invariants.py tests/test_step40_265_methods.py` | **71 passed** (migration-integrity gates) |
-| `cd frontend/vanilla && npm test` | **1,777 tests · 1,745 pass · 21 fail · 11 skipped** |
-| `node .tmp-pg/schema-parity-check.mjs` (PGlite) | **117 typed columns verified against migration 1115; 0 migrated-but-untyped** |
-| `node .tmp-pg/pglite-finance-check.mjs` (PGlite) | migration 1115 applies; both triggers present; append-only and balance guard both enforced |
+| `cd services/backend && .venv/bin/python -m pytest -q --timeout=300 -p no:randomly` | **5 failed, 7,410 passed, 1 xfailed, 287 subtests passed in 120.95s** (7,416 collected) |
+| finance subset (8 files: ledger, charge-HTTP, refund, provider, authorization, database-policy, schema-parity, migration-contract) | **177 passed** (real PostgreSQL, real HTTP over ASGI) |
+| `.venv/bin/python -m pytest -q tests/test_tuition_migration_contract.py` | **13 passed** |
+| `npm run test:migrations` | **4 tests · 4 pass · 0 fail** (PGlite; fresh path, upgrade path, contract drift) |
+| `npm run backend:test:postgres` | **exit 0, `result: passed`** — 99 schema migrations applied, 21 content migrations deferred and named, 170 typed tables, 9 HTTP checks |
+| `cd frontend/vanilla && npm test` | **1,777 tests · 1,745 pass · 21 fail · 11 skipped** — identical to the base run; the finance work touches no frontend code |
 
-### Baseline vs now (same machine, same database)
+### Baseline vs now (same machine, same database, same assets)
 
-| Run | Failed | Passed | xfailed |
-|---|---|---|---|
-| Base commit, **no** PostgreSQL, no asset build | 7 | 7,211 | 21 |
-| Base commit, **with** PostgreSQL — `test_coin_production_safety.py` alone | 4 | 26 | 1 |
-| This branch, **with** PostgreSQL | **5** | **7,277** | **1** |
+The base figures below were produced by checking the base commit out into a separate worktree
+and running it against the same PostgreSQL server and the same `node_modules`, so the
+comparison holds the environment constant. Comparing against a run that had no database or no
+built assets is not a comparison at all — it silently moves tests between `pass`, `fail` and
+`xfail`.
 
-Net effect of this branch: **+66 passing tests, −6 failures** (4 stale-fixture coin failures
-fixed, 2 migration-integrity failures that a new migration would otherwise cause, registered).
+| Run | Collected | Failed | Passed | xfailed |
+|---|---|---|---|---|
+| Base `344e538`, PostgreSQL reachable + assets built | 7,239 | 9 | 7,229 | 1 |
+| Base `344e538`, worktree **without** `node_modules` | 7,239 | 11 | 7,227 | 1 |
+| Base `344e538`, **no** PostgreSQL, no asset build | 7,239 | 7 | 7,211 | 21 |
+| **This branch**, PostgreSQL reachable + assets built | **7,416** | **5** | **7,410** | **1** |
+
+Net effect of this branch against the environment-matched base: **+177 tests, +181 passing,
+−4 failures**. The 4 failures that went away are the stale-fixture coin tests described in §5;
+the 5 that remain are listed in §3 and fail identically at the base commit.
+
+The `xfail` column moves for a reason worth stating, because it looks like a regression when it
+is the opposite: 20 tests in `test_coin_production_safety.py` and
+`test_coin_economy_integration.py` call `pytest.xfail()` when `127.0.0.1:55439` is
+unreachable, so with no database they report `xfailed` and prove nothing. With the database
+present they execute for real and pass. The one remaining `xfailed` is
+`test_short_media_never_pays_before_five_minutes`, a `strict=True` xfail that records an owner
+decision, not a missing capability.
 
 ## 3. The 5 remaining failures — all pre-existing, all reproduced at the base commit
 
@@ -126,11 +140,24 @@ assertions failed with `balance == 0` for a reason that was **not** the wallet. 
 
 ```bash
 cd services/backend
-.venv/bin/python -m pytest -q tests/test_tuition_ledger.py tests/test_tuition_port_authorization.py -v
+.venv/bin/python -m pytest -q tests/test_tuition_ledger.py tests/test_tuition_port_authorization.py
 ```
 
-Expected: 44 passed. If PostgreSQL is not reachable at `127.0.0.1:55439`, the 18 database tests
-report `xfail` with `Disposable Postgres … unavailable` — that is a skipped proof, **not** a pass.
+Expected: **115 passed** (73 ledger + 42 route-authorization). For the whole finance slice —
+ledger, charge/refund/provider HTTP, authorization, database RLS policy, TypeScript schema
+parity and the migration contract — run the eight files together; expected **177 passed**:
+
+```bash
+.venv/bin/python -m pytest -q tests/test_tuition_ledger.py tests/test_tuition_charge_http.py \
+  tests/test_tuition_refund_http.py tests/test_tuition_provider_http.py \
+  tests/test_tuition_port_authorization.py tests/test_tuition_database_policy.py \
+  tests/test_tuition_schema_parity.py tests/test_tuition_migration_contract.py
+```
+
+If PostgreSQL is not reachable at `127.0.0.1:55439`, the database-backed tests report `xfail`
+with `Disposable Postgres … unavailable` — that is a **skipped proof, not a pass**. In CI, where
+the database is part of the job, the same tests raise instead of xfail, so a missing database
+cannot masquerade as a green run.
 
 ## 8. CI state — red on `main` before this branch
 
@@ -162,3 +189,95 @@ not as a verified match.
 **Consequence for the merge gate:** `main` is red today. Fixing the five content/asset defects
 in §3 is the cheapest path to a green gate, and it is engineering work (not an owner action),
 so it belongs in the next slice rather than in `docs/SALE_READY_MANUAL_ACTIONS.md`.
+
+## 9. FIN-13 — migration safety (fresh install vs upgrade)
+
+`npm run backend:test:postgres` aborted at `0094_listening_1_20_context_audit.sql` with
+`Listening 1–20 must contain 80 transcript Parts` (SQLSTATE `P0001`), raised by that file's own
+`DO $verify$` block. It never reached `1115_tuition_finance.sql`, so the finance schema was
+never built by the real runner and the command was not an end-to-end signal at all.
+
+**Root cause.** The chain mixes two kinds of migration. A *schema* migration is valid on any
+database at the prior revision. A *content* migration repairs or enriches imported curriculum
+content, creates no table of its own, and in several cases asserts an absolute content count.
+`scripts/apply-test-migrations.mjs` applied every file in filename order to an **empty**
+database, so 0094 was asked to validate 80 transcript Parts in a database that has never had
+content imported into it. No migration inserts listening content —
+`grep -ln "INSERT INTO listening_packages\|INSERT INTO listening_tests" migrations/*.sql`
+returns nothing — so on a fresh database that assertion can never be satisfied. The listening
+validation itself is correct and was left untouched.
+
+**Fix — distinguish the two paths instead of skipping the file.**
+
+| | |
+|---|---|
+| Classification | `services/backend/tests/migration-contract.json`: 21 content migrations, derived as *references a content table AND declares no DDL of its own* |
+| Drift protection | `tests/test_tuition_migration_contract.py` re-derives the list from the migration bytes and fails if the manifest is edited independently, so it cannot become an ignore list |
+| Fresh path (default) | schema migrations applied, content migrations **deferred and named** in the runner's report — never silently dropped |
+| Upgrade path | `MIGRATION_MODE=upgrade` applies everything, content assertions included, and fails loudly |
+| Listening validation | intact: the Node test asserts the upgrade path **still raises** `Listening 1–20 must contain 80 transcript Parts` on a content-less database |
+| Finance chain | `test_no_finance_migration_is_deferred` pins 1115–1120 to always run on both paths |
+
+Receipts: `npm run backend:test:postgres` → exit 0, `{"result":"passed","migrationMode":"fresh",
+"migrations":99,"deferredMigrations":[21 entries],"typedTables":170,"httpChecks":9}`.
+`npm run test:migrations` → 4 pass, including the test that the upgrade path still fails.
+
+**Has any environment applied 1115/1116?** Probed every database on the reachable server:
+`learners_fin` and `learners_scale` contain 1115 only (they have `tuition_charges` and
+`finance_journal_entries` but **no** `tuition_refunds.status` and **no**
+`tuition_payments.identity_fingerprint`, which 1116 and 1118 add). No staging or production
+database is reachable from this sandbox, so the question cannot be answered for those from
+here — it is recorded as an open item, not assumed. `1115` was therefore treated as applied and
+never edited; every correction went forward into `1116`–`1120`.
+
+**A real defect found while measuring this.** Timing the chain into a fresh schema exposed a
+bug in `1116`:
+
+```sql
+IF EXISTS (SELECT 1 FROM information_schema.columns
+           WHERE table_name = 'tuition_refunds' AND column_name = 'status') THEN
+    ALTER TABLE tuition_refunds ADD CONSTRAINT tuition_refunds_status_check CHECK (status IN (...));
+```
+
+`information_schema` describes the **whole database**, so the guard was answered by unrelated
+schemas. Once any schema in the database had finished the chain, the guard became true and the
+`ALTER` ran against the *current* schema, where `status` does not exist until 1118 adds it —
+`column "status" does not exist`. The finance suite is built on disposable schemas, so this was
+not theoretical: with one migrated schema present, 8 finance tests failed. Reproduced, then
+fixed by scoping the guard to `table_schema = current_schema()`, and pinned by
+`test_the_chain_applies_into_a_second_schema_of_the_same_database` plus
+`test_no_finance_migration_guard_reads_a_database_wide_catalog_unqualified`, which asserts the
+cause on the SQL of all six finance migrations. Because `1116` had never been applied in any
+environment, it was corrected in place and its checksum re-registered in
+`tests/migration-additions.json` (`29734e43…` → `354ee79e…`, still 52 entries, one line changed).
+After the fix, the same 8 tests pass with the contaminating schema still present.
+
+**Apply time, forward-fix, old-code compatibility** (real PostgreSQL 18.6, disposable schema):
+
+| Migration | Fresh apply |
+|---|---|
+| `1115_tuition_finance.sql` | 42.3 ms |
+| `1116_tuition_finance_corrections.sql` | 19.9 ms |
+| `1117_tuition_charge_approval.sql` | 2.7 ms |
+| `1118_refund_lifecycle_and_cash_day.sql` | 7.4 ms |
+| `1119_provider_clearing_account.sql` | 0.9 ms |
+| `1120_freeze_contract_terms.sql` | 0.9 ms |
+| **Total** | **74.2 ms** (15 finance tables) |
+
+Re-running all six against the already-migrated schema: **20.6 ms, no error** — every
+`CREATE TABLE/INDEX` is `IF NOT EXISTS` and every function is `CREATE OR REPLACE`, asserted per
+file by `test_finance_migrations_are_idempotent_and_non_destructive`, which also fails on any
+`DROP TABLE`, `TRUNCATE`, `DELETE FROM` or `DROP COLUMN`. Old-code compatibility is structural
+rather than measured: the chain alters no pre-existing table, all 25 indexes are
+`IF NOT EXISTS` on finance-owned tables, and the only legacy tables referenced are `users` and
+`courses`, as foreign-key targets.
+
+**What this section does not prove.** There is no staging database here, so lock behaviour
+under concurrent production traffic, a rollback, and genuine old-code compatibility against a
+populated table are all unmeasured. The figures above are an empty-schema apply on a single
+idle server. They bound the DDL cost; they are not a production migration window.
+
+**CI wiring.** `ci.yml` never invoked `backend:test:postgres` — which is how a content-repair
+migration could abort the chain for so long without anyone seeing it. The `backend` job now
+runs `npm run test:migrations` and `npm run backend:test:postgres` before the full suite, both
+of which pass locally.

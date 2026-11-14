@@ -39,6 +39,14 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: python -m pip install -r services/backend/requirements-dev.txt pytest-timeout
       - run: python3 scripts/build_native_assets.py
+      # FIN-13: the migration chain was never exercised by CI, which is how a content-repair
+      # migration could abort it at 0094 without anyone noticing. Both paths run here:
+      # the contract distinguishes a fresh install from an upgrade, and the runner applies
+      # the real migrations against a real engine before any test does.
+      - name: Migration contract (fresh install vs upgrade)
+        run: npm run test:migrations
+      - name: Migration runner + ASGI probes (embedded PostgreSQL)
+        run: npm run backend:test:postgres
       - name: Full backend suite
         working-directory: services/backend
         run: python -m pytest -q --timeout=90 -ra

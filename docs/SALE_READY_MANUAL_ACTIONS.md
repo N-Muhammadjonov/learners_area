@@ -10,9 +10,10 @@ ko'chirilmagan — muhandislik ishi muhandislikda qoldi.
 | Tur | Soni | Izoh |
 |---|---:|---|
 | **Sale blockers** (sotuvni to'sadi) | **7** | MA-01 … MA-05, MA-07, MA-12 |
-| **Pilot blockers** (pilotni to'sadi) | **4** | MA-06, MA-09, MA-10, MA-13 |
+| **Pilot blockers** (pilotni to'sadi) | **3** | MA-06, MA-09, MA-10 |
+| **Handover blockers** (topshiriqda to'sadi) | **1** | MA-08 (domen/DNS/secret egaligi) |
 | **Optional / kelajak** | **1** | MA-11 (biometrik — hozircha **o'chiq** qolishi shart) |
-| Jami | **12** | |
+| Jami | **12** | MA-01 … MA-12, indeks bilan bir xil |
 
 **Umumiy xulosa:** platforma kod tomonidan sotuvga yaqin, lekin **hech bir qator
 production'da isbotlanmagan**. Quyidagi 7 ta sale blocker yopilmaguncha "EVERYTHING IS READY"

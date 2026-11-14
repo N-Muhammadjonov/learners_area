@@ -25,11 +25,11 @@
 
 | Fact | Value | How established |
 |---|---|---|
-| Backend API routes | **442** | Enumerated `app.routes` in `services/backend` |
-| Backend app modules | 286 | `ls services/backend/app/*.py` |
-| Authoritative migration chain | `services/backend/migrations/*.sql` = **113** files (…1114 + new **1115**) | `scripts/apply-test-migrations.mjs` applies this chain |
+| Backend API routes | **454** (27 finance) | `tests/current-route-inventory.json`, 454 entries |
+| Backend app modules | 288 | `ls services/backend/app/*.py` |
+| Authoritative migration chain | `services/backend/migrations/*.sql` = **118** files (…1114 + finance **1115–1120**) | `scripts/apply-test-migrations.mjs`; 99 are schema migrations, 21 are content migrations (see `tests/migration-contract.json`) |
 | Secondary chains | `drizzle/*.sql` = 84, `supabase/migrations` = 5 (+ `tests/platform-migrations.json`) | File listing |
-| Backend test files | 183 (`test_*.py`) | File listing |
+| Backend test files | 189 (`test_*.py`), 7,416 tests collected | File listing; `pytest --collect-only` |
 | Frontend test files | 187 (`*.test.mjs`) | File listing |
 | CI workflows | 15 in `.github/workflows/` | File listing |
 | Runtime | Python FastAPI modular monolith (`server.py` → `app.asgi.application`), asyncpg pool, native built assets | `server.py`, `services/backend/app/asgi.py` |
@@ -62,12 +62,12 @@
 | CAP-12 | Study plans (7/30-day, monthly, level) | `/study-plan/*` | `app/study_plan_*` | 0080, 0081, 0086, 0087 | student | suite passes except landing-bank equality | none | `PARTIAL` | in-app bank 150 vs landing 45 | low | reconcile banks | that test green | — |
 | CAP-13 | Content CMS, versioning, imports | `/api/admin/content/*` | `app/step38–40_*`, `content_*` | 0040, 0041, 0044, 0047 | owner/admin/teacher | suite passes | none | `IMPLEMENTED_UNVERIFIED` | course hierarchy incomplete per README | med | — | — | — |
 | CAP-14 | Private media on R2, signed access | media routes | `app/media_streaming.py`, `step19_storage.py` | 0000, 0064 | scoped | unit tests | none | `BLOCKED_EXTERNAL` | no R2 credentials here | high | owner R2 keys | signed URL receipt | R2 keys |
-| CAP-15 | **Tuition contracts + approved discounts** | `/api/staff/finance/contracts*` | `app/tuition_port.py`, `tuition_ledger.py` | **1115** | owner/admin | **18 DB tests pass** incl. "price change never rewrites an obligation" | none | `VERIFIED_LOCALLY` | UI not built yet | high | staff UI | API receipts (recorded) | — |
-| CAP-16 | **Charges, posting, reversal documents** | `/api/staff/finance/charges*` | same | **1115** | owner/admin | reversal + immutability tests pass | none | `VERIFIED_LOCALLY` | UI not built | high | staff UI | `UPDATE`/`DELETE` on journal raises | — |
-| CAP-17 | **Payments, allocation, receipts, duplicate-callback safety** | `/api/staff/finance/payments*` | same | **1115** | owner/admin | 100× duplicate = 1 effect; 20-way race = 1 payment | none | `VERIFIED_LOCALLY` | UI not built | high | staff UI | race test green | — |
-| CAP-18 | **Double-entry journal, balanced + append-only** | `/api/staff/finance/reconciliation` | same | **1115** | owner/admin | deferred trigger rejects unbalanced commit | none | `VERIFIED_LOCALLY` | GL export not built | med | CSV export | trigger receipt | — |
-| CAP-19 | **Debtors / advances / overdue position** | `/api/staff/finance/summary`, `/statement` | same | **1115** | owner/admin, teacher read-scoped, student own | reconciliation test ties statement↔summary↔ledger | none | `VERIFIED_LOCALLY` | — | high | — | exact equality assertions | — |
-| CAP-20 | **Cash day close with variance + period lock** | `/api/staff/finance/days/close`, `/periods/close` | same | **1115** | owner/admin | day-close blocks later postings | none | `VERIFIED_LOCALLY` | — | med | — | test green | — |
+| CAP-15 | **Tuition contracts + approved discounts** | `/api/staff/finance/contracts*` | `app/tuition_port.py`, `tuition_ledger.py` | **1115, 1120** | owner/admin | **73 ledger + 27 charge-HTTP pass**; `1120` trigger refuses a price change to an approved contract (`2F005`) | none | `VERIFIED_LOCALLY` | UI not built yet | high | staff UI | API receipts (recorded) | — |
+| CAP-16 | **Charges, posting, reversal documents** | `/api/staff/finance/charges*` | same | **1115, 1117** | owner/admin | reversal + immutability pass; posting a `draft` charge is refused `charge_not_approved`; owner-only approval, no self-approval | none | `VERIFIED_LOCALLY` | UI not built | high | staff UI | `UPDATE`/`DELETE` on journal raises | — |
+| CAP-17 | **Payments, allocation, receipts, duplicate-callback safety** | `/api/staff/finance/payments*` | same | **1115, 1116** | owner/admin | 100× duplicate = 1 effect; 20-way race = 1 payment; a reused idempotency key with a different payload is `409 idempotency_conflict` | none | `VERIFIED_LOCALLY` | UI not built | high | staff UI | race test green | — |
+| CAP-18 | **Double-entry journal, balanced + append-only** | `/api/staff/finance/reconciliation` | same | **1115** | owner/admin | deferred trigger rejects unbalanced commit; `journal_is_balanced()` checks **per currency**, so a USD debit + UZS credit that commits past the trigger is still refused | none | `VERIFIED_LOCALLY` | GL export not built | med | CSV export | trigger receipt | — |
+| CAP-19 | **Debtors / advances / overdue position** | `/api/staff/finance/summary`, `/statement` | same | **1115** | owner/admin only; teacher default-denied | teacher now gets `403` on `/statement` and only the amount-free `/tuition-status` indicator; reconciliation ties statement↔summary↔ledger | none | `VERIFIED_LOCALLY` | — | high | — | exact equality assertions | — |
+| CAP-20 | **Cash day close with variance + period lock** | `/api/staff/finance/days/close`, `/periods/close` | same | **1115, 1118** | owner/admin | day-close blocks later postings; close = opening + receipts − **settled** refunds ± adjustments | none | `VERIFIED_LOCALLY` | — | med | — | test green | — |
 | CAP-21 | **Revenue recognition (separate from collection)** | `/api/staff/finance/revenue/recognize` | same | **1115** | owner/admin | bounded by deferred balance; payment alone recognises nothing | none | `VERIFIED_LOCALLY` | policy per buyer | med | config | test green | accounting basis |
 | CAP-22 | Click/Payme provider adapter | — | — | — | — | — | none | `MISSING` | no merchant docs/keys | high | adapter behind flag | sandbox receipts | merchant onboarding |
 | CAP-23 | Groups / cohorts, capacity, transfer | — | — | — | — | searched: no operational group table | none | `MISSING` | biggest operational gap | high | groups + enrollment slice | concurrency test | — |
@@ -81,13 +81,24 @@
 | CAP-31 | 10,000-student capacity claim | — | — | — | — | **not load-tested in this pass** | none | `MISSING (evidence)` | no execution receipt | high | staged load run | latency/error receipt | infra budget |
 | CAP-32 | Passkeys / WebAuthn | — | — | — | — | none | none | `MISSING` | P2 | med | — | — | — |
 | CAP-33 | Camera face attendance | — | — | — | — | none | none | `MISSING (deliberately)` | biometric law + consent unresolved | high if attempted | keep off | privacy impact assessment | legal review |
+| CAP-34 | **Credit notes — relief after posting** | `/api/staff/finance/credit-notes*` | `tuition_ledger.py` | **1115** | owner approves, admin drafts | 27 charge-HTTP pass; a posted charge refuses a discount with `remedy='credit_note'`; Dr scholarship / Cr A/R; one live note per charge+period; capped at the charge | none | `VERIFIED_LOCALLY` | UI not built | high | staff UI | statement billed/relieved/due | — |
+| CAP-35 | **Refund lifecycle** | `/api/staff/finance/payments/{id}/refund` (202), `/refunds*` | same | **1118** | owner approves, admin settles | 4 refund tests pass; `requested→approved→settled`; a 45-day-old receipt refunds with **that day's** cash-day figures; replay → `refund_already_settled` | none | `VERIFIED_LOCALLY` | UI not built | high | staff UI | cash-day variance unchanged | — |
+| CAP-36 | **Provider settlement proof** | `/payments/sandbox/*` | `payments_sandbox.py` | **1115** | owner/admin | 7 provider tests pass; `confirm:true` without adapter proof → `409 provider_confirmation_requires_provider_proof`; forged signature → 401 | none | `VERIFIED_LOCALLY` | real Click/Payme adapter is CAP-22 | high | adapter | signature + order-match tests | merchant onboarding |
+| CAP-37 | **Per-method reconciliation + provider fees** | `/api/staff/finance/reconciliation` | same | **1119** | owner/admin | cash/bank/provider collected separately, refunds **settled-only**, buckets in `Asia/Tashkent`; summary re-derived independently with per-field `matches` | none | `VERIFIED_LOCALLY` | — | med | — | journal↔summary equality | — |
+| CAP-38 | **Strict money/period input contracts** | all finance writes | `tuition_schemas.py` | — | all | `amountMinor: true` no longer becomes a charge of 1; `2026-13` is refused; one `422` shape naming the field; backdating >1 day needs an owner | none | `VERIFIED_LOCALLY` | — | high | — | 422/409 receipts | — |
+| CAP-39 | **Finance audit trail + transactional outbox** | — | `finance_audit_events`, `finance_outbox_events` | **1115** | — | 15 money commands write an immutable audit row; a settled provider payment queues an outbox event in the **same** transaction; rollback leaves nothing | **no outbox publisher/dispatcher exists** | `PARTIAL` | events are written but never delivered | high | publisher + retry | replay publishes nothing | — |
+| CAP-40 | **Finance DB RLS/grant policy + BigInt parity** | — | `tests/test_tuition_database_policy.py`, `test_tuition_schema_parity.py` | **1115–1120** | — | 7 policy tests: all 16 finance tables deny read **and** write to `anon`/`authenticated`/`service_role`; 4 parity tests: every migrated finance column is declared in `src/db/schema.ts` and all 13 money columns are `mode:"bigint"` (2^53+1 round-trips) | none | `VERIFIED_LOCALLY` | not verified under the *staging* pool role | high | staging role check | `SET LOCAL ROLE` receipts | staging access |
+| CAP-41 | **Migration chain contract (fresh install vs upgrade)** | — | `scripts/apply-test-migrations.mjs`, `tests/migration-contract.json` | **all 118** | — | 13 contract tests + 4 Node tests; `npm run backend:test:postgres` → exit 0 (99 applied, 21 content migrations deferred **and named**); upgrade path still raises the listening assertion | rollback and production lock behaviour unmeasured | `VERIFIED_LOCALLY` | no staging database here | high | staging dry-run | apply-time + forward-fix receipts | DB access |
 
 ## What this means commercially
 
 * The learning product (CAP-05…CAP-14) is broad and mostly built; its blockers are
   **live-provider and live-infrastructure receipts**, not missing code.
-* The money spine (CAP-15…CAP-21) went from a dark stub to a **tested** subledger in this
-  branch. It has no staff UI yet — that is the next slice.
+* The money spine (CAP-15…CAP-21, CAP-34…CAP-41) went from a dark stub to a **tested**
+  subledger in this branch: FIN-01…FIN-13 are all implemented, and 177 finance tests pass
+  against real PostgreSQL over real HTTP. It has **no staff UI** and **no outbox publisher**,
+  so the Finance Gate's "complete GUI" criterion is not met and the subsystem stays
+  `PARTIAL / NOT SALE READY` regardless of the green suite.
 * The operational layer (CAP-23…CAP-25, CAP-29) is the largest honest gap between "very good
   IELTS site" and "academy operating system".
 * Nothing in this matrix may be quoted to a buyer as production-verified: no row carries
