@@ -179,6 +179,10 @@ async def lookup_source_text(con, user, body, word, start, end, *,
                 'provenance': row['provenance'],
                 'verificationStatus': row['verification_status']
             }, 'occurrenceId': str(row['id'])}
+    # A Listening transcript has one editor-linked sense or none. A generic
+    # spelling search must not create alternative meanings at this location.
+    if source_type == 'listening':
+        return {'contextual': None, 'known': None, 'alternatives': []}
     release = (await active_release(con))['active_release_id']
     key = (release, hashlib.sha256(body.encode()).hexdigest(), start, end)
     cached = _cache.get(key)
