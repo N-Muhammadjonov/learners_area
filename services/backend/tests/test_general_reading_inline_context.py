@@ -30,12 +30,20 @@ def test_rejects_unchecked_spelling_and_wrong_absolute_offset() -> None:
 def test_refuses_ambiguous_or_missing_passage_definition() -> None:
     assert not is_verified_reading_gloss(BODY, gloss("jars", 4, definition=""))
     assert not is_verified_reading_gloss(BODY, gloss("jars", 4, translation=""))
-    assert not is_verified_reading_gloss(BODY, gloss("jars", 4, pos="proper noun"))
     assert not is_verified_reading_gloss(BODY, gloss("jars", True))
 
 
-def test_person_and_place_names_are_not_vocabulary_targets() -> None:
-    assert not is_verified_reading_gloss("The Caral area is old.", gloss("Caral area", 4))
-    assert not is_verified_reading_gloss("The Roman Empire expanded", gloss("Roman Empire", 4))
-    assert not is_verified_reading_gloss("A city near the Mediterranean",
-        gloss("Mediterranean", 16))
+def test_pronouns_never_receive_reading_glosses() -> None:
+    for pronoun in ("he", "she", "it", "they", "we", "our", "his", "them"):
+        assert not is_verified_reading_gloss(
+            f"People saw {pronoun} there.", gloss(pronoun, 11)
+        )
+
+
+def test_source_verified_named_expression_can_be_linked() -> None:
+    assert is_verified_reading_gloss(
+        "The Roman Empire expanded", gloss("Roman Empire", 4, pos="proper noun")
+    )
+    assert not is_verified_reading_gloss(
+        "The Roman Empire expanded", gloss("Roman Empire", 5, pos="proper noun")
+    )
