@@ -26,7 +26,36 @@ export async function mount(context){
   // Reuse the nonce from the server-rendered module bootstrap.
   const nonce=document.querySelector('script[nonce]')?.nonce;
   if(!nonce)throw new Error('Missing CSP nonce for the public landing');
+  frame.setAttribute('allow','autoplay');
   frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
+  let entranceAudio=null;
+  frame.addEventListener('load',()=>{
+   if(signal.aborted||!frame.contentDocument?.body)return;
+   entranceAudio?.pause();
+   const doc=frame.contentDocument;
+   const audio=doc.createElement('audio');
+   audio.src='/brand/landing-next-level.m4a';
+   audio.preload='auto';
+   audio.autoplay=true;
+   audio.volume=1;
+   audio.setAttribute('playsinline','');
+   doc.body.append(audio);
+   entranceAudio=audio;
+   const start=()=>{
+    if(signal.aborted||entranceAudio!==audio||!audio.paused)return;
+    void audio.play().catch(()=>{});
+   };
+   start();
+   doc.addEventListener('pointerdown',start,{once:true});
+   doc.addEventListener('keydown',start,{once:true});
+  },{signal});
+  signal.addEventListener('abort',()=>{
+   if(!entranceAudio)return;
+   entranceAudio.pause();
+   entranceAudio.removeAttribute('src');
+   entranceAudio.load();
+   entranceAudio=null;
+  },{once:true});
   const allowed=new Set(['/login','/register']);
   const receive=event=>{
    if(event.source!==frame.contentWindow||event.origin!==window.location.origin)return;
