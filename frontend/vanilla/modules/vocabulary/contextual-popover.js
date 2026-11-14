@@ -12,10 +12,16 @@ import {privateScope} from '../../js/private-scope.js';
  *    are shown when the server projects them.
  * Listening keeps the shared popover in ./word-popover.js. */
 const enc=encodeURIComponent;
+function occurrenceIdIsValid(id,meaning){
+ return typeof id==='string'&&/^[0-9a-f-]{36}$/i.test(id)
+  &&typeof meaning?.definitionEn==='string'&&meaning.definitionEn.trim().length>0
+  &&typeof meaning?.translationUz==='string'&&meaning.translationUz.trim().length>0;
+}
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose}=props,t=dict.vocabulary;
- let occurrenceId=initialOccurrenceId,alternatives=[],contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose,inlineContext:authoredContext}=props,t=dict.vocabulary;
+ const inlineContext=sourceType==='reading'&&occurrenceIdIsValid(initialOccurrenceId,authoredContext)?authoredContext:null;
+ let occurrenceId=initialOccurrenceId,alternatives=[],contextual=inlineContext,unresolved=false,known=null,loading=!inlineContext,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
  let observer=null;
  function place(){if(!popup||stopped)return;position={left:null,top:null};popup.style.removeProperty('left');popup.style.removeProperty('top');popup.style.visibility='visible';}
@@ -31,7 +37,7 @@ export function contextualWordPopover(context,props){
   else if(!focused){focused=true;popup.focus({preventScroll:true});}
  }
  async function lookup(){
-  const current=++version;loading=true;error=null;unresolved=false;contextual=null;known=null;saved=false;draw();
+  const current=++version;loading=!inlineContext;error=null;unresolved=false;contextual=inlineContext;known=null;saved=false;draw();
   const contextualUrl=`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${Number.isInteger(startChar)&&Number.isInteger(endChar)?`&startChar=${startChar}&endChar=${endChar}`:''}${Number.isInteger(section)?`&section=${section}`:''}`;
   const url=occurrenceId
    ?`/api/vocabulary/lookup?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&occurrenceId=${enc(occurrenceId)}`
@@ -50,12 +56,18 @@ export function contextualWordPopover(context,props){
    if(lookupResult.status==='rejected')error=failure(lookupResult.reason,dict);
    else{
     let data=lookupResult.value;
-    if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
-    alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
-    if(data?.status==='unresolved')unresolved=true;
-    else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
-    else if(data?.contextual===null)unresolved=true;
-    else error=dict.auth.errorServer;
+    if(inlineContext){
+     // Reading word senses are source-authored; a lookup can only report saved
+     // state, not replace the passage's meaning with catalogue alternatives.
+     contextual=inlineContext;alternatives=[];unresolved=false;
+     if(data?.known)known={...data.known,...inlineContext};
+     onSavedStatus?.(Boolean(data?.known));
+    }else if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+    if(!inlineContext)alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
+    if(!inlineContext&&data?.status==='unresolved')unresolved=true;
+    else if(!inlineContext&&typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
+    else if(!inlineContext&&data?.contextual===null)unresolved=true;
+    else if(!inlineContext)error=dict.auth.errorServer;
    }
    if(folderResult.status==='fulfilled'&&Array.isArray(folderResult.value?.folders))folders=folderResult.value.folders.filter(f=>typeof f?.id==='string'&&typeof f.name==='string');
    else error=folderResult.status==='rejected'?failure(folderResult.reason,dict):dict.auth.errorServer;
@@ -96,7 +108,7 @@ export function contextualWordPopover(context,props){
    contextual.translationUz?[el('hr',{class:'dictionary-translation-divider'}),el('p',{},contextual.translationUz)]:null);
  }
  function folderAndSave(){
-  const select=el('select',{class:'input mt-1',value:folderId},el('option',{value:''},sourceType==='listening'?'Listening':sourceType==='reading'?'Reading':sourceType==='retention'?'Retention':t.folders.unassigned),...folders.map(f=>el('option',{value:f.id},f.name)));
+  const select=el('select',{class:'input mt-1',value:folderId},el('option',{value:''},sourceType==='listening'?'Listening':sourceType==='reading'?'Passage nomi bilan avtomatik':sourceType==='retention'?'Retention':t.folders.unassigned),...folders.map(f=>el('option',{value:f.id},f.name)));
   select.value=folderId;select.addEventListener('change',()=>{folderId=select.value;});
   return [el('label',{class:'text-xs text-ink-500'},t.games.set.folder,select),
    el('div',{class:'flex items-center gap-2'},button('btn-primary text-xs',{disabled:busy?true:null,'data-word-save':true},busy?dict.common.saving:t.add.button,()=>void save()))];
@@ -133,6 +145,12 @@ export function contextualWordPopover(context,props){
  observer=typeof ResizeObserver==='function'?new ResizeObserver(place):null;
  window.addEventListener('resize',place);window.addEventListener('scroll',place,true);
  signal.addEventListener('abort',stop,{once:true});
+ const closeOutside=e=>{
+  if(stopped||!popup||popup.contains(e.target)||anchor?.contains(e.target))return;
+  stop();onClose?.();
+ };
+ document.addEventListener('pointerdown',closeOutside,{signal:localSignal});
+ if(inlineContext)draw();
  void lookup();
  return {stop};
 }
