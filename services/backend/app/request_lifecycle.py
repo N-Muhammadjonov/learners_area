@@ -1,6 +1,9 @@
 """Per-worker admission and bounded blocking work; no user or database authority."""
 import asyncio
 import logging
+import math
+import os
+import time
 import weakref
 from dataclasses import dataclass, field
 
@@ -9,6 +12,25 @@ from starlette.datastructures import QueryParams
 from starlette.exceptions import HTTPException
 
 LOG = logging.getLogger('uvicorn.error')
+_busy_log_at: dict[str, tuple[float, int]] = {}
+
+
+def bounded_setting(name: str, default: float, minimum: float, maximum: float) -> float:
+    try:
+        value = float(os.getenv(name, str(default)))
+    except ValueError:
+        value = default
+    if not math.isfinite(value):
+        value = default
+    return max(minimum, min(maximum, value))
+
+
+def hash_concurrency() -> int:
+    return int(bounded_setting('AUTH_HASH_CONCURRENCY', max(2, os.cpu_count() or 1), 1, 8))
+
+
+def ordinary_budget() -> int:
+    return int(bounded_setting('REQUEST_BUDGET_ORDINARY', 64, 1, 1024))
 
 
 class WorkBusy(Exception):
@@ -16,6 +38,14 @@ class WorkBusy(Exception):
 
 
 def unavailable(reason='busy'):
+    if reason in {'busy', 'blocking_work_busy', 'auth_hash_busy', 'draining'}:
+        now = time.monotonic()
+        previous, suppressed = _busy_log_at.get(reason, (float('-inf'), 0))
+        if now - previous >= 60:
+            LOG.warning('Request admission returned 503: reason=%s suppressed=%s', reason, suppressed)
+            _busy_log_at[reason] = (now, 0)
+        else:
+            _busy_log_at[reason] = (previous, suppressed + 1)
     return JSONResponse({'error': 'service_unavailable', 'reason': reason}, 503,
                         headers={'Cache-Control': 'private, no-store', 'Retry-After': '1',
                                  'X-Content-Type-Options': 'nosniff'})
@@ -31,6 +61,7 @@ class WorkerState:
     probes: int = 0
     draining: bool = False
     work_slots: asyncio.Semaphore = field(default_factory=lambda: asyncio.Semaphore(2))
+    hash_slots: asyncio.Semaphore = field(default_factory=lambda: asyncio.Semaphore(hash_concurrency()))
     io_slots: asyncio.Semaphore = field(default_factory=lambda: asyncio.Semaphore(4))
     jobs: set = field(default_factory=set)
 
@@ -51,24 +82,30 @@ class WorkerControl:
     def start(self):
         state = self.state()
         state.draining = False
-        LOG.info('Request budgets ready: ordinary=64 bulk=4 streams=256 media=64 blocking=2 storage=4 workers=1')
+        LOG.info('Request budgets ready: ordinary=%s bulk=4 streams=256 media=64 blocking=2 storage=4 auth_hash=%s workers=1', ordinary_budget(), hash_concurrency())
         return state
 
     async def run_blocking(self, func, *args, **kwargs):
         state = self.state()
+        # All existing bcrypt call sites, including reset/admin re-authentication,
+        # share the password limiter without changing their reservation handling.
+        if getattr(func, '__module__', '') == 'bcrypt._bcrypt' and getattr(func, '__name__', '') in {'hashpw', 'checkpw'}:
+            return await self._run(state, state.hash_slots, func, args, kwargs,
+                                   wait=bounded_setting('AUTH_HASH_WAIT_SECONDS', 3, .5, 10),
+                                   busy='auth_hash_busy')
         return await self._run(state, state.work_slots, func, args, kwargs)
 
     async def run_io(self, func, *args, **kwargs):
         state = self.state()
         return await self._run(state, state.io_slots, func, args, kwargs)
 
-    async def _run(self, state, slots, func, args, kwargs):
+    async def _run(self, state, slots, func, args, kwargs, *, wait=1, busy='blocking_work_busy'):
         if state.draining:
             raise WorkBusy('worker_draining')
         try:
-            await asyncio.wait_for(slots.acquire(), timeout=1)
+            await asyncio.wait_for(slots.acquire(), timeout=wait)
         except TimeoutError:
-            raise WorkBusy('blocking_work_busy') from None
+            raise WorkBusy(busy) from None
         if state.draining:
             slots.release()
             raise WorkBusy('worker_draining')
@@ -101,11 +138,11 @@ run_io = control.run_io
 
 
 class RequestBudget:
-    def __init__(self, app, *, controller=control, ordinary=64, bulk=4, streams=256,media=64,
+    def __init__(self, app, *, controller=control, ordinary=None, bulk=4, streams=256,media=64,
                  read_timeout=30, body_timeout=30, probe_timeout=5):
         self.app = app
         self.control = controller
-        self.ordinary = ordinary
+        self.ordinary = ordinary_budget() if ordinary is None else ordinary
         self.bulk = bulk
         self.streams = streams
         self.media = media

@@ -4,13 +4,35 @@ import {affectsLearningData} from './cache-policy.js';
 export class ApiError extends Error {
  constructor(status,code){super(code);this.status=status;this.code=code;}
 }
-/** Same-origin transport only, no persistent cache or mutation retries. */
+function retryDelay(value){
+ if(!value)return null;
+ const seconds=/^\d+(?:\.\d+)?$/.test(value.trim())?Number(value):Math.max(0,(Date.parse(value)-Date.now())/1000);
+ return Number.isFinite(seconds)&&seconds>=0&&seconds<=10?seconds*1000+Math.random()*150:null;
+}
+function retryWait(delay,signal){
+ return new Promise((resolve,reject)=>{
+  if(signal?.aborted){reject(signal.reason??new DOMException('Aborted','AbortError'));return;}
+  const finish=()=>{signal?.removeEventListener('abort',abort);resolve();};
+  const timer=setTimeout(finish,delay);
+  const abort=()=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);reject(signal.reason??new DOMException('Aborted','AbortError'));};
+  signal?.addEventListener('abort',abort,{once:true});
+ });
+}
+/** Same-origin transport; only the login POST retries an explicit 503 Retry-After. */
 export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthorized=()=>{},onMutation=()=>{}){
  const pending=new Map();let epoch=0;
  async function execute(path,{method='GET',body,signal,maxBytes,keepalive=false}={}){
   if(!path.startsWith('/api/')||/[\\\u0000-\u001f]/.test(path))throw new TypeError('Only same-origin /api paths accepted');
   const multipart=typeof FormData!=='undefined'&&body instanceof FormData;
-  const response=await fetcher(path,{method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body===undefined||multipart?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:multipart?body:JSON.stringify(body),signal,...keepalive?{keepalive:true}:{}});
+  const options={method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body===undefined||multipart?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:multipart?body:JSON.stringify(body),signal,...keepalive?{keepalive:true}:{}};
+  let response;
+  for(let attempt=0;;attempt++){
+   response=await fetcher(path,options);
+   const delay=method==='POST'&&path==='/api/auth/login'&&response.status===503&&attempt<2?retryDelay(response.headers.get('retry-after')):null;
+   if(delay===null)break;
+   try{await response.body?.cancel();}catch{}
+   await retryWait(delay,signal);
+  }
   if(signal?.aborted)throw signal.reason??new DOMException('Aborted','AbortError');
   if(response.status===401)onUnauthorized(path);
   const type=response.headers.get('content-type')??'';

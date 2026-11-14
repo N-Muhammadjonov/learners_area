@@ -88,6 +88,20 @@ _chat_last_sent: dict[tuple[str, str], float] = {}
 _youtube_status_cache: dict[str, tuple[float, dict[str, Any]]] = {}
 
 
+def _prune_youtube_status_cache(now: float) -> None:
+    for key, (created, _) in list(_youtube_status_cache.items()):
+        if now - created >= YOUTUBE_API_CACHE_TTL_SECONDS:
+            _youtube_status_cache.pop(key, None)
+
+
+def _store_youtube_status(video_id: str, result: dict[str, Any], now: float) -> None:
+    _prune_youtube_status_cache(now)
+    _youtube_status_cache[video_id] = (now, result)
+    while len(_youtube_status_cache) > 512:
+        oldest = min(_youtube_status_cache, key=lambda key: _youtube_status_cache[key][0])
+        _youtube_status_cache.pop(oldest)
+
+
 def js_iso(dt: datetime | str | None) -> str | None:
     if dt is None:
         return None
@@ -1295,6 +1309,7 @@ async def verify_youtube_video_status(video_id: str) -> dict[str, Any]:
         }
 
     now_mono = time.monotonic()
+    _prune_youtube_status_cache(now_mono)
     cached = _youtube_status_cache.get(video_id)
     if cached and (now_mono - cached[0]) < YOUTUBE_API_CACHE_TTL_SECONDS:
         return cached[1]
@@ -1330,7 +1345,7 @@ async def verify_youtube_video_status(video_id: str) -> dict[str, Any]:
                 'videoId': video_id,
                 'reason': 'video_not_found_or_private',
             }
-            _youtube_status_cache[video_id] = (now_mono, result)
+            _store_youtube_status(video_id, result, now_mono)
             return result
 
         item = items[0]
@@ -1365,7 +1380,7 @@ async def verify_youtube_video_status(video_id: str) -> dict[str, Any]:
             'recordingReady': recording_ready,
             'durationSeconds': duration_sec,
         }
-        _youtube_status_cache[video_id] = (now_mono, result)
+        _store_youtube_status(video_id, result, now_mono)
         return result
     except Exception:
         return {
