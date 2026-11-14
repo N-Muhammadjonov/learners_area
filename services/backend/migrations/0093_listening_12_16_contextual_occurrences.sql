@@ -14,6 +14,7 @@ BEGIN
     WHERE p.source_id IN ('listening-test-12','listening-test-13','listening-test-14','listening-test-15','listening-test-16')
       AND o.source_type='listening'
       AND o.section_number BETWEEN 1 AND 4
+      AND o.segment_key='s'||o.section_number::text
       AND (o.start_char<0 OR o.end_char<=o.start_char
         OR o.end_char>length(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript')
         OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
@@ -32,6 +33,7 @@ FROM listening_packages p
 WHERE p.test_id=o.listening_test_id
   AND p.source_id IN ('listening-test-12','listening-test-13','listening-test-14','listening-test-15','listening-test-16')
   AND o.source_type='listening' AND o.section_number BETWEEN 1 AND 4
+  AND o.segment_key='s'||o.section_number::text
   AND (o.start_char<0 OR o.end_char<=o.start_char
     OR o.end_char>length(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript')
     OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
@@ -104,8 +106,9 @@ FROM checked_matches m
 WHERE o.id=m.occurrence_id AND m.candidates=1
   AND o.resolution_status='unresolved';
 
--- Only the exact source-aligned resolved spans are published to learners.
--- Invalid rows remain in review status and are excluded from lookup and saving.
+-- Audit only transcript segments. Question prompts, choice text, and vocabulary
+-- examples have independent segment-local offsets and must never be compared
+-- with the transcript text of the same Listening Part.
 DO $verify$
 BEGIN
   IF EXISTS (
@@ -114,22 +117,22 @@ BEGIN
     JOIN listening_packages p ON p.test_id=o.listening_test_id
     WHERE p.source_id IN ('listening-test-12','listening-test-13','listening-test-14','listening-test-15','listening-test-16')
       AND o.source_type='listening'
+      AND o.segment_key='s'||o.section_number::text
       AND (
         o.section_number NOT BETWEEN 1 AND 4
-        OR o.segment_key IS DISTINCT FROM 's'||o.section_number::text
         OR (o.resolution_status='resolved' AND
             (o.lexeme_id IS NULL
              OR o.start_char<0 OR o.end_char<=o.start_char
              OR o.end_char>length(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript')
              OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
                 from o.start_char+1 for greatest(0,o.end_char-o.start_char)) IS DISTINCT FROM o.surface_form))
-        OR (o.resolution_status='unresolved' AND
-            substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
+        OR (o.resolution_status='unresolved'
+            AND substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
                 from o.start_char+1 for greatest(0,o.end_char-o.start_char))=o.surface_form)
         OR (o.resolution_status='review' AND o.lexeme_id IS NOT NULL)
       )
   ) THEN
-    RAISE EXCEPTION 'Listening Tests 12-16 contain unsafe active or unresolved occurrences';
+    RAISE EXCEPTION 'Listening Tests 12-16 contain unsafe transcript occurrences';
   END IF;
 END $verify$;
 COMMIT;
