@@ -48,7 +48,7 @@ export function mountGames(ctx,host,id=null){
     if(roundSignal.aborted||current!==sequence)return;
     attempt=saved.attempt??null;
     if(attempt&&id!=='cards'){
-     data=await request('/api/vocabulary/games?'+setQuery(selected,folder,pack)+'&limit=24&game='+id+'&entryIds='+attempt.deck.join(','),{signal:roundSignal,timeoutMs:12000});
+     data=await request('/api/vocabulary/games?'+setQuery(selected,folder,pack)+'&limit=24&game='+id+'&entryIds='+encodeURIComponent(attempt.deck.join(',')),{signal:roundSignal,timeoutMs:12000});
     }
    }
    if(roundSignal.aborted||current!==sequence)return;
