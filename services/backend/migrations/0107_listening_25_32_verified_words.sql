@@ -11,10 +11,15 @@ WITH source AS (
  CROSS JOIN LATERAL jsonb_array_elements(p.payload::jsonb->'sections') WITH ORDINALITY j(value,ordinality)
  WHERE p.source_id IN ('listening-test-25','listening-test-26','listening-test-27','listening-test-28','listening-test-29','listening-test-30','listening-test-31','listening-test-32')
 ), tokens AS (
- SELECT s.*,m.arr[1] surface,lower(m.arr[1]) word,
- row_number() OVER (PARTITION BY s.test_id,s.part,lower(m.arr[1]) ORDER BY m.ordinality)::int word_n
+ SELECT s.*,m.arr[2] surface,lower(m.arr[2]) word,
+ (sum(length(m.arr[1])+length(m.arr[2])) OVER (
+   PARTITION BY s.test_id,s.part ORDER BY m.ordinality ROWS UNBOUNDED PRECEDING
+ )-length(m.arr[2]))::int cp_start,
+ (sum(length(m.arr[1])+length(m.arr[2])+regexp_count(m.arr[1]||m.arr[2],'[𐀀-􏿿]'))
+ OVER (PARTITION BY s.test_id,s.part ORDER BY m.ordinality ROWS UNBOUNDED PRECEDING)
+ -length(m.arr[2]))::int start_utf16
  FROM source s CROSS JOIN LATERAL regexp_matches(
- s.body,'([A-Za-z]+(?:[''’-][A-Za-z]+)*)','g'
+ s.body,'([^A-Za-z]*)([A-Za-z]+(?:[''’-][A-Za-z]+)*)','g'
  ) WITH ORDINALITY m(arr,ordinality)
 ), eligible AS (
  SELECT lower(l.term) term,min(l.id::text)::uuid lexeme_id
@@ -26,17 +31,14 @@ WITH source AS (
  AND l.definition_en NOT ILIKE '%important expression%'
  GROUP BY lower(l.term)
  HAVING count(DISTINCT lower(trim(l.translation_uz)))=1
+ AND count(DISTINCT lower(trim(l.definition_en)))=1
  AND count(DISTINCT lower(trim(l.part_of_speech)))=1
-), matches AS (
- SELECT t.*,e.lexeme_id,
- regexp_instr(t.body,'\m'||t.word||'\M',1,t.word_n,0,'i')-1 cp_start
- FROM tokens t JOIN eligible e ON e.term=t.word
+), offsets AS (
+ SELECT t.*,e.lexeme_id FROM tokens t JOIN eligible e ON e.term=t.word
  WHERE length(t.word)>=3
  AND t.word NOT IN ('a','an','the','and','or','but','nor','so','yet','of','to','in','on','at','by','for','from','with','into','onto','about','as','than','that','this','these','those','it','its','is','are','was','were','be','been','am','do','does','did','have','has','had','i','you','he','she','we','they','me','him','her','us','them','my','your','his','our','their','not','no','if','then','there','here','what','which','who','whom','whose','will','would','can','could','shall','should','may','might','must','cannot','january','february','march','april','june','july','august','september','october','november','december','monday','tuesday','wednesday','thursday','friday','saturday','sunday')
  AND t.surface !~ '^[A-Z]{2,}$'
-), offsets AS (
- SELECT m.*,m.cp_start+regexp_count(left(m.body,m.cp_start),'[𐀀-􏿿]') start_utf16
- FROM matches m WHERE m.cp_start>=0
+ AND t.cp_start>=0
 ), safe AS (
  SELECT o.* FROM offsets o
  WHERE substring(o.body FROM o.cp_start+1 FOR length(o.surface))=o.surface
